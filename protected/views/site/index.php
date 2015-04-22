@@ -72,27 +72,27 @@
             $('.sliderSnake .snake img').width(document.body.clientWidth*0.675);
             $('.sliderSnake .snake img').css('margin-left', (document.body.clientWidth*0.6/2-document.body.clientWidth*0.6)+'px');
             $('.sliderSnake .snake img').css('left', document.body.clientWidth/1.98+'px' );
-			
+
         }else {
             $('.sliderSnake .snake img').height('auto');
             $('.sliderSnake .snake img').width('1010px');
             $('.sliderSnake .snake img').css('margin-left', (1161/2-1161)+'px');
             $('.sliderSnake .snake img').css('left', document.body.clientWidth/1.98+130+'px' );
-		
+
         }
     }
     $(function() { marginLeft(); });
     $(window).resize(function() { marginLeft(); });
-    
-	function textSliderCentr() { /* Центрування тексту картинки слайдеру*/
+
+    function textSliderCentr() { /* Центрування тексту картинки слайдеру*/
         $('.slide p').width(document.body.clientWidth);
         $('.slide p').css('margin-left', (document.body.clientWidth/2-document.body.clientWidth)+'px');
-		$('.slide p').css('top', document.body.clientWidth/4.05+'px');
+        $('.slide p').css('top', document.body.clientWidth/4.05+'px');
     }
     $(function() { textSliderCentr(); });
     $(window).resize(function() { textSliderCentr(); });
-    
-	function sliderBoxCentr() { /* Центрування центрального боксу слайдера*/
+
+    function sliderBoxCentr() { /* Центрування центрального боксу слайдера*/
         if ( document.body.clientWidth <= 1440 ){
             $('#sliderCenterBox').css('margin-top', document.body.clientWidth/3/2+'px');
         } else {
@@ -101,8 +101,8 @@
     }
     $(function() { sliderBoxCentr(); });
     $(window).resize(function() { sliderBoxCentr(); });
-   
-   function sliderButtonSize() { /* Розмір кнопки на слайдері*/
+
+    function sliderButtonSize() { /* Розмір кнопки на слайдері*/
         if ( document.body.clientWidth <= 1440 ){
             $('.sliderSnake .button a').css('margin-left', (document.body.clientWidth*0.11/2-document.body.clientWidth*0.11)+'px');
             $('.sliderSnake .button a').css('width',document.body.clientWidth*0.12+'px');
@@ -115,7 +115,7 @@
     }
     $(function() { sliderButtonSize(); });
     $(window).resize(function() { sliderButtonSize(); });
-   
+
     function centrSliderButtons() { /* центрування кнопок прокрутки слайдеру*/
         if ( document.body.clientWidth <= 1000){
             $('.owl-controls').css('margin-left', '0')
@@ -157,29 +157,25 @@
 <div id="slider" class="owl-carousel">
     <div class="slide">
         <div>
-            <p><?php echo Yii::t('slider','0027<br>
-sliderText1'); ?></p>
+            <p><?php echo Yii::t('slider','0027'); ?></p>
             <img src="<?php echo $slider1 ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
-            <p><?php echo Yii::t('slider','0028<br>
-sliderText2'); ?></p>
+            <p><?php echo Yii::t('slider','0028'); ?></p>
             <img src="<?php echo $slider2 ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
-            <p><?php echo Yii::t('slider','0029<br>
-sliderText3'); ?></p>
+            <p><?php echo Yii::t('slider','0029'); ?></p>
             <img src="<?php echo $slider3 ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
-            <p><?php echo Yii::t('slider','0030<br>
-sliderText4'); ?></p>
+            <p><?php echo Yii::t('slider','0030'); ?></p>
             <img src="<?php echo $slider4 ?>" />
         </div>
     </div>
@@ -187,11 +183,6 @@ sliderText4'); ?></p>
 <div class="mouseLine">
     <a id="mouseLine" href="#form"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/slider_img/mouseLine.png"/></a>
 </div>
-
-
-
-
-
 
 <?php
 $mainpageModel = new Mainpage();
@@ -274,74 +265,42 @@ $stepsArray=array($step1,$step2,$step3,$step4,$step5);
                 <div class="line">
                 </div>
 
-                    <img class="hexagon" src="<?php echo $mainpage['hexagon']; ?>">
-					<div class="stepArticle">
-						<p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
-						<p class="stepName"><?php echo Yii::t('step','step'); ?></p>
-					</div>
-        			<div class="stepInfo" style="min-height:<?php echo $stepSize*0.23 . 'px';?> ">
-          				  <h2><?php echo $stepValue->stepTitle; ?></h2>
-              			  <p><?php echo $stepValue->stepText; ?></p>
-          			</div>
-         </div>
-		 <?php
-		 }
-		 else
-		 {
-		 ?>
-		 <div class="stepRight" style="width:<?php echo $stepSize; ?>" >
-					<div class="stepUrl">
-                        <img class="grid" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/grid.png">
-        		   		<img src="<?php echo $stepValue->stepImage; ?>">
-        		    </div>
-					<div class="line">
-                    </div>
-                     <img class="hexagon" src="<?php echo $mainpage['hexagon']; ?>">
-					<div class="stepArticle">
-						<p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
-						<p class="stepName"><?php echo Yii::t('step','0043'); ?></p>
-					</div>
-        			<div class="stepInfo">
-          				  <h2><?php echo $stepValue->stepTitle; ?></h2>
-              			  <p><?php echo $stepValue->stepText; ?></p>
-          			</div>
-         </div>
-<?php
-	    }
-	}
-?>
+                <img class="hexagon" src="<?php echo $mainpage['hexagon']; ?>">
+                <div class="stepArticle">
+                    <p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
+                    <p class="stepName"><?php echo Yii::t('step','step'); ?></p>
+                </div>
+                <div class="stepInfo" style="min-height:<?php echo $stepSize*0.23 . 'px';?> ">
+                    <h2><?php echo $stepValue->stepTitle; ?></h2>
+                    <p><?php echo $stepValue->stepText; ?></p>
+                </div>
+            </div>
+        <?php
+        }
+        else
+        {
+            ?>
+            <div class="stepRight" style="width:<?php echo $stepSize; ?>" >
+                <div class="stepUrl">
+                    <img class="grid" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/grid.png">
+                    <img src="<?php echo $stepValue->stepImage; ?>">
+                </div>
+                <div class="line">
+                </div>
+                <img class="hexagon" src="<?php echo $mainpage['hexagon']; ?>">
+                <div class="stepArticle">
+                    <p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
+                    <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>
+                </div>
+                <div class="stepInfo">
+                    <h2><?php echo $stepValue->stepTitle; ?></h2>
+                    <p><?php echo $stepValue->stepText; ?></p>
+                </div>
+            </div>
+        <?php
+        }
+    }
+    ?>
 </div>
 <?php $this->renderPartial('_form'); ?>
-
-<script type="text/javascript">
-    var width = 43; // ширина изображения
-    var count = 8; // количество изображений
-
-    var ul = document.getElementById('uLoginImages');
-    var imgs = ul.getElementsByTagName('li');
-
-    var position = 0; // текущий сдвиг влево
-
-    document.getElementById('prev').onclick = function() {
-        if (position >= 0) return false; // уже до упора
-
-        // последнее передвижение влево может быть не на 3, а на 2 или 1 элемент
-        position = Math.min(position + width*count, 0)
-        ul.style.marginLeft = position + 'px';
-        return false;
-    }
-
-    document.getElementById('next').onclick = function() {
-        if (position <= -width*(imgs.length-count)) return false; // уже до упора
-
-        // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
-        position = Math.max(position-width*count, -width*(imgs.length-count));
-        ul.style.marginLeft = position + 'px';
-        return false;
-    };
-</script>
-
 </body>
-
-
-

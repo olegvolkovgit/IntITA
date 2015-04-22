@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-10 18:50:04
+-- Date/time:                    2015-04-22 15:37:34
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,17 +21,15 @@ CREATE TABLE IF NOT EXISTS `header` (
   `item2Link` varchar(255) NOT NULL,
   `item3Link` varchar(255) NOT NULL,
   `item4Link` varchar(255) NOT NULL,
-  `enterButtonText` varchar(30) NOT NULL,
-  `logoutButtonText` varchar(30) NOT NULL,
   PRIMARY KEY (`headerID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.header: ~3 rows (approximately)
 /*!40000 ALTER TABLE `header` DISABLE KEYS */;
-INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`, `enterButtonText`, `logoutButtonText`) VALUES
-	(0, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail', 'Вхід', 'Вхід'),
-	(1, 'RU', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail', 'Вход', 'Выход'),
-	(3, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail', 'Вхід', 'Вхід');
+INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
+	(0, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail'),
+	(1, 'RU', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail'),
+	(3, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/index.php', '/site/aboutdetail');
 /*!40000 ALTER TABLE `header` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

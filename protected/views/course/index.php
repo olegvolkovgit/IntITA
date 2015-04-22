@@ -9,10 +9,8 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
 <!-- course style -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/readmore/readmore.js"></script>
-<!-- Spoiler -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>
-<!-- Spoiler -->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/readmore/readmore.js"></script>
 <!-- BD -))) -->
 <?php
 $post=Course::model()->findByPk(1);
@@ -37,13 +35,13 @@ $this->breadcrumbs=array(
                         </td>
                         <td class="courseLevel">
                             <?php
-                            for ($i=0; $i<1; $i++)
+                            for ($i=0; $i<3; $i++)
                             {
                                 ?>
                                 <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" >
                             <?php
                             }
-                            for ($j=0; $j<4; $j++)
+                            for ($j=0; $j<2; $j++)
                             {
                                 ?>
                                 <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" >
@@ -59,7 +57,7 @@ $this->breadcrumbs=array(
                         <span class="colorP">Тривалість курсу: </span>
                     </td>
                     <td>
-                        <span class="colorGrey"><b><?php echo $post->course_duration_hours;?></b><?php $post::getHoursTermination($post->course_duration_hours);?> (Орієнтовно 10 міс., 15 год/тиждень)</span>
+                        <span class="colorGrey"><b><?php echo $post->course_duration_hours;?> занять</b>, орієнтовно - <b><?php echo ceil($post->course_duration_hours/36);?> міс.</b> (3 год./день, 3 дні/тиждень)</span>
                     </td>
                 </tr>
                 <tr>
@@ -72,47 +70,57 @@ $this->breadcrumbs=array(
                 </tr>
                 <tr>
                     <td>
-                        <span class="colorP">Вартість курсу: </span>
+                        <span class="spoilerLinks"><span class="spoilerClick">Схеми проплат </span><span class="spoilerTriangle">&#9660;</span></span>
                     </td>
                     <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <span class="colorGrey"><b><?php echo number_format($post->course_price, 0, ',', ' ');?></b> грн</span>
-                                </td>
-                                <td>
-                                    <span class="spoilerLinks"><span class="spoilerClick">За весь курс </span><span class="spoilerTriangle">&#9660;</span></span>
-                                    <div class="spoilerBody">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <span>по місяцях:</span>
-                                                </td>
-                                                <td>
-                                                    <span><b>500</b> грн</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>кредит на 24 міс.: </span>
-                                                </td>
-                                                <td>
-                                                    <span><b>600</b> грн</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>кредит на 36 міс.: </span>
-                                                </td>
-                                                <td>
-                                                    <span><b>700</b> грн</span>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;за весь курс наперід:
+                    </td>
+                    <td>
+                        <span class="redStrike">21600.00 грн.</span> <b>16500.00 грн.</b> (знижка - 25%)
+                    </td>
+                </tr>
+                <tr class="spoilerRow">
+                    <td>
+                        &nbsp;2 проплати за курс:
+                    </td>
+                    <td>
+                        <span class="redStrike">21600.00 грн.</span> 9000.00 грн. х 2 проплати = <b>18000.00 грн.</b> (знижка - 8%)
+                    </td>
+                </tr>
+                <tr class="spoilerRow">
+                    <td>
+                        &nbsp;4 проплати за курс:
+                    </td>
+                    <td>
+                        <span class="redStrike">21600.00 грн.</span> 5000.00 грн. х 4 проплати = <b>20000.00 грн.</b> (знижка - 9%)
+                    </td>
+                </tr>
+                <tr class="spoilerRow">
+                    <td>
+                        &nbsp;помісячно:
+                    </td>
+                    <td>
+                        1800.00 грн.х 12 проплат = <b>21600.00 грн.</b>
+                    </td>
+                </tr>
+                <tr class="spoilerRow">
+                    <td>
+                        &nbsp;кредит на 2 роки:
+                    </td>
+                    <td>
+                        1000.00 грн./міс. х 24 проплати = <b>24000.00 грн.</b>
+                    </td>
+                </tr>
+                <tr class="spoilerRow">
+                    <td>
+                        &nbsp;кредит на 3 роки:
+                    </td>
+                    <td>
+                        800.00 грн./міс. х 36 проплат = <b>28800.00 грн.</b>
                     </td>
                 </tr>
                 <tr>
@@ -120,16 +128,14 @@ $this->breadcrumbs=array(
                         <span class="colorP">Середня оцінка: </span>
                     </td>
                     <td>
-                              <span class="colorGrey" style="display: block">програма: <b><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/></b></span>
-                              <span class="colorGrey">викладачі: <b>4,5/5</b></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="colorP">Знижка: </span>
-                    </td>
-                    <td>
-                        <span class="colorGrey"><b>10%</b></span>
+                        <?php
+                        for ($i=0; $i<10; $i++)
+                        {
+                            ?>
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
+                        <?php
+                        }
+                        ?>
                     </td>
                 </tr>
             </table>
@@ -180,12 +186,12 @@ $this->breadcrumbs=array(
         <article>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                      <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -207,12 +213,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                       <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -234,12 +240,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -261,12 +267,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -288,12 +294,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -315,12 +321,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -342,12 +348,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -369,12 +375,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
@@ -396,12 +402,12 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/teacherprofile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>

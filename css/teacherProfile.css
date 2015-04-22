@@ -67,7 +67,7 @@ div.aboutMore{
     font-size: 16px;
     color: #333333;
     padding-top: 5px;
-    padding-bottom: 5px;  
+    padding-bottom: 5px;
 }
 div.sm{
     font-weight: inherit;
@@ -76,7 +76,7 @@ div.sm{
     margin: 0 0 0px 0;
     line-height: 100%;
 }
-div.border{ 
+div.border{
     padding-bottom: 0px;
     border-bottom: 1px solid #4B75A4;
 }

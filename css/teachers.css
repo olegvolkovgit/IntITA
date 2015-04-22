@@ -15,7 +15,7 @@ div.subLinksTeachers{
 }
 div.ifYouTeachers{
     float:right;
-    width:460px;
+    width:584px;
     box-sizing:border-box;
     display:inline-block;
     margin-bottom: 90px;
@@ -28,6 +28,7 @@ div.ifYouTeachers label{
 }
 div.ifYouTeachers input{
     float: right;
+    width: 400px;
 }
 
 .subLinksTeachers a{
@@ -124,7 +125,7 @@ td.profileTeacher a{
 .formTeacher1 {
     border-radius: 5px;
     height: 30px;
-    width: 300px;
+    width: 400px;
     text-align: left;
     text-indent: 5px;
 }

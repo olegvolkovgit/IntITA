@@ -1,0 +1,544 @@
+.formStudProf
+{
+    margin: 0 auto;
+    width: 1200px;
+    margin-bottom: 20px;
+    clear: both;
+    overflow: hidden;
+}
+.formStudProf h1 {
+    color: #4b75a4;
+    margin: 0px;
+    font-size: xx-large;
+    font-weight: normal;
+    line-height: 100%;
+}
+span.colorP {
+    position: relative;
+    color: #4b75a4;
+}
+div.regLinks{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    display:inline-block;
+    margin-top: 40px;
+    margin-bottom: 28px;
+    float:left;
+    border: 1px solid;
+}
+.regLinks a{
+    color: #666666;
+}
+
+.profileActivity{
+    display:inline-block;
+    float: right;
+    width: 710px;
+}
+.studProfInf{
+    display:inline-block;
+    float:left;
+    width: 457px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+}
+table.titleProfile{
+    margin:20px 0 0 24px;
+    display:inline-block;
+    font-size: smaller;
+    line-height: 120%;
+}
+
+table.titleProfile td{
+    width:100%;
+}
+
+table.titleProfile td:last-child{
+    margin-right: 10px;
+}
+
+.titleProfile a:hover{
+    color:#666666;
+}
+.titleProfile h2{
+    color: #4b75a4;
+    font-weight: normal;
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 115px;
+}
+
+.studProfInf img.avatarimg{
+    width:220px;
+    margin-left: 24px;
+    display: block;
+}
+table.profileInfo {
+    margin: 10px 10px 100px 24px;
+}
+.profileInfo span{
+    display: block;
+}
+span.interestBG{
+    display: inline-block;
+    background-color: #edf1f6;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+/*TABS*/
+/* стили секций с содержанием */
+.profileActivity section {
+    display: none;
+    padding: 15px 15px 15px 30px;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 14px;
+    overflow: hidden;
+}
+.tabs > input {
+    display: none;
+}
+/* стили вкладок (табов) */
+.tabs > label {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    color: #666666;
+    width: 120px;
+    height: 35px;
+    margin: 16px -2px 0 -2px;
+    border: 1px solid #d8d8d8;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+}
+div.lineUnderTab{
+    border-bottom: 1px solid #d8d8d8;
+}
+label.tabsDown1,label.tabsDown {
+    width: 120px;
+}
+label.tabsUp1,label.tabsDown1{
+    margin-left: 22px;
+}
+/* изменения стиля заголовков вкладок при наведении */
+.tabs > label:hover {
+    background-color: #ededed;
+    cursor: pointer;
+}
+/* стили для активной вкладки */
+.tabs > input:checked + label {
+    color: #cccccc;
+    -webkit-transform:translateY(-3px) scaleY(1.2);
+    -moz-transform:translateY(-3px) scaleY(1.2);
+    -o-transform:translateY(-3px) scaleY(1.2);
+    -ms-transform:translateY(-3px) scaleY(1.2);
+    transform: translateY(-3px) scaleY(1.2);
+}
+/* активация секций с помощью переключателя :checked */
+#tab1:checked ~ #myCourse,
+#tab2:checked ~ #timetable,
+#tab3:checked ~ #consultation,
+#tab4:checked ~ #exams,
+#tab5:checked ~ #projects,
+#tab6:checked ~ #myRatting,
+#tab7:checked ~ #myDownload,
+#tab8:checked ~ #mylettersSend,
+#tab9:checked ~ #myMark,
+#tab10:checked ~ #finances{
+    display: block;
+}
+/*TABS*/
+p.tabHeader{
+    font-size: 30px;
+    color:#4b75a4;
+    margin: 0 0 10px 0;
+    font-weight: 500;
+}
+.profileCourse img{
+    margin-left: 20px;
+}
+.profileCourse td{
+    vertical-align: bottom;
+}
+/*My Course*/
+#myCourse div{
+     border-bottom:1px solid #d8d8d8;
+     margin: 0 10px 0 0;
+ }
+
+#myCourse a{
+    text-decoration: none;
+}
+
+.profileCourse div{
+    padding-bottom: 20px;
+}
+.profileCourse table{
+    margin-top: 20px;
+}
+.profileCourse p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+p.courseLevLang{
+    font-size: small;
+}
+#myCourse div.profileCoursePay{
+    border-bottom:none;
+    margin-bottom: 5px;
+}
+.profileCoursePay .studPay p{
+    margin: 0 0 5px 0;
+}
+.profileCoursePay p {
+    margin-bottom: 5px;
+}
+#myCourse .studPay p{
+    color: #e10000;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 100%;
+}
+#myCourse div.studPay {
+    border-bottom:none;
+}
+.profileModule {
+    padding-left: 20px;
+}
+.profileLesson {
+    padding-left: 30px;
+}
+.profileLesson p, .colorP p,.profileCoursePay > p,.profileModule p{
+    color: #666666;
+}
+/*My Course*/
+/*Form style*/
+#mylettersSend {
+    padding-top: 50px;
+}
+#mylettersSend label
+{
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    float:left;
+    text-align: right;
+    margin-right: 20px;
+    line-height: 40px;
+    color: #828282;
+}
+#mylettersSend textarea
+{
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    display: inline-block;
+    width: 352px;
+    height: 120px;
+    margin-bottom: -4px;
+}
+#mylettersSend input[type="text"]
+{
+    width: 356px;
+    height: 40px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+}
+#mylettersSend input[type="submit"] {
+    margin:16px 0px 32px 325px;
+}
+/*Form style*/
+/*Timetable*/
+table.exmCons{
+    margin-left: 35px;
+}
+table.exmCons img{
+    display: block;
+}
+table.exmCons span{
+    color: #4b75a4;
+    cursor:pointer;
+    display: block;
+    font-size: 12px;
+    vertical-align: bottom;
+}
+table.exmCons span{
+    border-right:1px solid #8b8b8b;
+    padding-right: 5px;
+}
+table.exmCons td:last-child span{
+    border-right: none;
+}
+table.exmCons span{
+    color: #8b8b8b;
+    display: block;
+    font-size: 12px;
+    vertical-align: bottom;
+}
+table.timeTable{
+    margin-top: 10px;
+    font-size: 14px;
+    border-spacing: 0 10px;
+}
+table.timeTable td{
+    color:#666666;
+    border-top: 1px solid #cccccc;
+    padding: 10px 0 0 0;
+}
+table.timeTable div{
+    border-right: 1px solid #cccccc;
+    padding: 0 7px 0 7px;
+    vertical-align: bottom;
+    line-height: 1;
+}
+table.timeTable tr:first-child td{
+    color:#999999;
+}
+.timeTable tr > td:last-child div {
+    border-right: none;
+}
+.timeTable tr > td:first-child{
+    white-space: nowrap;
+}
+.timeTable tr:first-child div {
+    border: none;
+}
+.timeTable tr:first-child td{
+    border-top: none;
+}
+#consultation img{
+    display: block;
+}
+.selectedTab {
+    text-decoration: none;
+    color: #999999;
+}
+
+.profileMyRatting {
+    border-bottom: 1px solid #d8d8d8;
+}
+.disabledModul {
+    border-bottom: 1px solid #d8d8d8;
+}
+.ButtonRatting {
+    width: 100px;
+    height: 55px;
+    color:#ffffff;
+    background:#4b70a3;
+    border-radius: 10px;
+    text-align: center;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+}
+
+.disabled1 {
+    pointer-events: none;
+    color: #666666;
+    cursor: default;
+}
+.linkFinances {
+    border-right: 1px solid gray;
+}
+.colorF {
+    color: #4b75a4;
+}
+.borderF {
+    border-bottom: 1px solid #d8d8d8;
+}
+.studPay p{
+    color: #e10000;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 100%;
+}
+.FinancesPay {
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 100%;
+}
+.ButtonFinances {
+    width: 110px;
+    height: 25px;
+    color:#ffffff;
+    background:#4b70a3;
+    border-radius: 7px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+}
+
+    /*Timetable*/
+/*consultation*/
+
+
+
+
+
+
+
+
+
+
+
+/*-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----*/
+.download_tabs {
+    width:100%;
+    display:inline-block;
+}
+.download_tab-links:after {
+    display:block;
+    clear:both;
+    content:'';
+}
+
+.download_tab-links li {
+    margin:0px 5px;
+    float:left;
+    list-style:none;
+}
+
+.download_tab-links a {
+    padding:9px 10px;
+    display:inline-block;
+    border-radius:3px 3px 0px 0px;
+    font-size:16px;
+    font-weight:600;
+    color:#4c4c4c;
+    transition:all linear 0.15s;
+}
+
+.download_tab-content {
+    padding:10px;
+    border-radius:3px;
+    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+    background:#fff;
+}
+
+.download_tab {
+    display:none;
+}
+
+.download_tab.active {
+    display:block;
+}
+li.active a, li.active a:hover {
+    background: white;
+    color: #4b70a3;
+}
+
+
+.downlT {
+    color: #4b70a3;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+.downlT1 {
+    color: #4b70a3;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+
+.downlT2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+
+.downlT3 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.downlT4 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 85px;
+}
+.downlT5 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: 85px;
+}
+.ModLess {
+    border-bottom: 1px solid #d8d8d8;
+}
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/***ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ***/
+.box_tabs {
+    width:100%;
+    display:inline-block;
+}
+
+.box_tab-links:after {
+    display:block;
+    clear:both;
+    content:'';
+}
+
+.box_tab-links li {
+    margin:0px 5px;
+    float:left;
+    list-style:none;
+}
+
+.box_tab-links a {
+    padding:9px 15px;
+    display:inline-block;
+    border-radius:1px 1px 1px 1px;
+    background:rgba(0,0,0,0.15);
+    font-size:16px;
+    font-weight:600;
+    color: grey;
+    transition:all linear 0.15s;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.15)
+}
+
+.box_tab-links a:hover {
+    color: #4b70a3;
+}
+
+li.active_box a, li.active_box a:hover {
+    background: white;
+    color: #4b70a3;
+    border-color: rgba(0,0,0,0.15);
+}
+
+.box_tab-content {
+    padding:15px;
+    border-radius:3px;
+    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+    background:#fff;
+}
+
+.box_tab {
+    display:none;
+}
+
+.box_tab.active_box {
+    display:block;
+}
+
+.Btn_Msg {
+    width: 150px;
+    height: 50px;
+    color:#ffffff;
+    background:#4b70a3;
+
+}
+/*------------------------------------------------------------------------------------------*/

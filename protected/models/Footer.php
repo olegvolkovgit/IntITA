@@ -84,11 +84,11 @@ class Footer extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('footer_id',$this->footer_id);
-		$criteria->compare('image_social',$this->image_social,true);
+		$criteria->compare('image_social',Yii::app()->request->baseUrl.$this->image_social,true);
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('mobile',$this->mobile,true);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('image_up',$this->image_up,true);
+		$criteria->compare('image_up',Yii::app()->request->baseUrl.$this->image_up,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -10,7 +10,7 @@ return array(
 	'name'=>'INTITA',
 
 	'sourceLanguage'=>'xs',
-	'language'=>'ua',
+	'language'=>'ru',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -24,6 +24,7 @@ return array(
 		'ext.autoadmin.models.field.*',
 		'ext.autoadmin.helpers.*',
 		'ext.autoadmin.controllers.*',
+        'ext.imperavi-redactor-widget.*',
 	),
 
 	'modules'=>array(
@@ -49,7 +50,7 @@ return array(
 
 	// application components
 	'components'=>array(
-		
+
 		'clientScript'   => array(
     		'class' => 'system.web.CClientScript'
     	),
@@ -59,9 +60,9 @@ return array(
 		),
 
         'messages'=>array(
-            'class'=>'MyCDbMessageSource',
+            'class'=>'CDbMessageSource',
             'sourceMessageTable'=>'sourcemessages',
-            'translatedMessageTable'=>'translatedmessagesua',
+            'translatedMessageTable'=>'messages',
         ),
 
 		'user' => array(
@@ -118,6 +119,11 @@ return array(
 		'config' => array(
 			'class' => 'application.extensions.EConfig',
 		),
+
+        'request' => array(
+            //'baseUrl' => 'http://intita.itatests.com/',
+            //'baseUrl' => 'http://localhost/IntITA/',
+        ),
 	),
 
 	// application-level parameters that can be accessed

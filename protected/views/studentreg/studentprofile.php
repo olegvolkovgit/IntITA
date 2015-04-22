@@ -1,5 +1,5 @@
 <!-- studprofile style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/profile.css" />
 <!-- studprofile style -->
 <?php
 /* @var $this StudentprofileController */
@@ -10,25 +10,22 @@
 $this->pageTitle = 'INTITA';
 $post=StudentReg::model()->findByPk(Yii::app()->user->id);
 ?>
-<div class="formStudProfNav">
-    <?php
-    $this->breadcrumbs=array(
-        Yii::t('breadcrumbs', 'Profile'),
-    );
-    ?>
-</div>
+<?php
+$this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
+);
+?>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2>Профіль студента</h2>
+                    <h2><?php echo Yii::t('profile', '0095'); ?></h2>
                 </td>
                 <td>
                     <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/profileedit.png"/>
                 </td>
                 <td>
-                    <a href="<?php echo Yii::app()->request->baseUrl; ?>/?r=studentreg/edit">Редагувати </br> профіль</a>
+                    <a href="<?php echo Yii::app()->request->baseUrl; ?>/studentreg/edit"><?php echo Yii::t('profile', '0096'); ?></a>
                 </td>
             </tr>
         </table>
@@ -55,42 +52,29 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Про себе:</span> </br><?php echo $post->aboutMy;?></p>
+                        <p><?php $post::getAboutMy($post->aboutMy);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Електрона пошта:</span> </br><?php echo $post->email;?></p>
+                        <p> <span class="colorP"><?php echo Yii::t('profile', '0101'); ?></span><?php echo $post->email;?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Телефон:</span> </br><?php echo $post->phone;?></p>
+                        <p><?php $post::getPhone($post->phone);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Освіта:</span> </br><?php echo $post->education;?></p>
+                        <p><?php $post::getEducation($post->education);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Інтереси:</span> </br>
-                            <?php
-                            $interestArray=explode(",", $post->interests);
-                            for ($i = 0; $i < count($interestArray); $i++)
-                            {
-                                ?>
-                                <span class="interestBG"><?php echo $interestArray[$i]." ";?></span>
-                            <?php
-                            }
-                            ?>
-                        </p>
+                        <p><?php $post::getInterests($post->interests);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Звідки дізнався про Вас:</span> </br><?php echo $post->aboutUs;?></p>
+                        <p><?php $post::getAboutUs($post->aboutUs);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Форма навчання:</span> </br><?php echo $post->educform;?></p>
+                        <p><?php $post::getEducform($post->educform);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP">Завершенні курси:</span> </br>Курси самогоних апаратів 6-го рівня</p>
+                        <p><?php $post::getCourses('Курси самогоних апаратів 6-го рівня');?></p>
                     </div>
-                    <?php if(Yii::app()->user->hasFlash('messageedit')):
-                        echo Yii::app()->user->getFlash('messageedit');
-                    endif; ?>
                 </td>
             </tr>
         </table>
@@ -98,74 +82,51 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
     <div class="profileActivity">
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
-            <label class="tabsUp1" for="tab1" title="Мої курси">Мої курси</label>
-            <input id="tab2" type="radio" name="tabs">
-            <label for="tab2" title="Розклад">Розклад</label>
-            <input id="tab3" type="radio" name="tabs">
-            <label for="tab3" title="Консультації">Консультації</label>
+            <label class="tabsUp1" for="tab1" title="<?php echo Yii::t('profile', '0108'); ?>"><?php echo Yii::t('profile', '0108'); ?></label>
+            <input id="tab2" type="radio" name="tabs" >
+            <label for="tab2" title="<?php echo Yii::t('profile', '0109'); ?>"><?php echo Yii::t('profile', '0109'); ?></label>
+            <input id="tab3" type="radio" name="tabs" >
+            <label for="tab3" title="<?php echo Yii::t('profile', '0110'); ?>"><?php echo Yii::t('profile', '0110'); ?></label>
             <input id="tab4" type="radio" name="tabs">
-            <label for="tab4" title="Екзамени">Екзамени</label>
-            <input id="tab5" type="radio" name="tabs">
-            <label for="tab5" title="Мій рейтинг">Мій рейтинг</label>
+            <label for="tab4" title="<?php echo Yii::t('profile', '0111'); ?>"><?php echo Yii::t('profile', '0111'); ?></label>
+            <input id="tab5" type="radio" name="tabs" >
+            <label for="tab5" title="<?php echo Yii::t('profile', '0112'); ?>"><?php echo Yii::t('profile', '0112'); ?></label>
             <div class="lineUnderTab"></div>
             <input id="tab6" type="radio" name="tabs">
-            <label class="tabsDown1" for="tab6" title="Завантаження">Завантаження</label>
+            <label class="tabsDown1" for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
             <input id="tab7" type="radio" name="tabs">
-            <label class="tabsDown" for="tab7" title="Листування">Листування</label>
+            <label for="tab7" title="<?php echo Yii::t('profile', '0114'); ?>"><?php echo Yii::t('profile', '0114'); ?></label>
             <input id="tab8" type="radio" name="tabs">
-            <label class="tabsDown" for="tab8" title="Мої оцінювання">Мої оцінювання</label>
+            <label class="tabsDown" for="tab8" title="<?php echo Yii::t('profile', '0115'); ?>"><?php echo Yii::t('profile', '0115'); ?></label>
             <input id="tab9" type="radio" name="tabs">
-            <label class="tabsDown" style="background-image:url(<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeico.png);background-repeat: no-repeat;background-position:10px 3px;" for="tab9" title="Фінанси">
-                Фінанси
-            </label>
+            <label class="tabsDown" for="tab9" title="<?php echo Yii::t('profile', '0116'); ?>"><?php echo Yii::t('profile', '0116'); ?></label>
+            <input id="tab10" type="radio" name="tabs">
+            <label class="tabsDown" style="background-image:url(<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeico.png);background-repeat: no-repeat;background-position:10px 3px;" for="tab10" title="<?php echo Yii::t('profile', '0117'); ?>"><?php echo Yii::t('profile', '0117'); ?></label>
             <div class="lineUnderTab"></div>
             <section id="myCourse">
-                <div class="profileCourse">
-                    <p>Курс:</br> <span class="colorP">"Апгрейд головного мозку"</span></p>
-                    <p class="courseLevLang">Рівень курсу: <span class="colorP">сильний початківець</span></p>
-                    <p class="courseLevLang">Мова курсу: <span class="colorP">українська</span></p>
-                </div>
-                <div class="profileModule">
-                    <p>Модуль:</br> <span class="colorP">Модуль 4. Модульне око, модульний ніс</span></p>
-                </div>
-                <div class="profileLesson">
-                    <p>Заняття:</br> <span class="colorP">Заняття 6. Повторіння мать учіння</span></p>
-                </div>
-                <div class="profileCoursePay">
-                    <p>Курс:</br> <span class="colorP">"Як прокачати ельфа до 81-го рівня"</span></p>
-                    <div class="studPay">
-                        <p>Необхідно здійснити наступну проплату до 30.12.2015</p>
-                        <p>Сума проплати: 1000грн</p>
-                    </div>
-                </div>
+                <?php $this->renderPartial('_mycourse'); ?>
             </section>
             <section id="timetable">
-                <p>
-                    Тут буде розклад
-                </p>
+                <?php $this->renderPartial('_timetable'); ?>
             </section>
-            <section id="advice">
-                <p>
-                    Консультації
-                </p>
+            <section id="consultation">
+                <?php $this->renderPartial('_consultation'); ?>
             </section>
             <section id="exams">
-                <p>
-                    Екзамени
-                </p>
+                <?php $this->renderPartial('_exams'); ?>
+            </section>
+            <section id="projects">
+                <?php $this->renderPartial('_projects'); ?>
             </section>
             <section id="myRatting">
-                <p>
-                    Мій рейтинг
-                </p>
+                <?php $this->renderPartial('_myRatting'); ?>
             </section>
             <section id="myDownload">
-                <p>
-                    Якісь завантаження
-                </p>
+                <?php $this->renderPartial('_myDownload'); ?>
             </section>
             <section id="mylettersSend">
-                <form method="post" action="<?php echo Yii::app()->request->baseUrl; ?>/?r=studentreg/sendletter">
+                <?php $this->renderPartial('_mylettersSend'); ?>
+                <form method="post" action="<?php echo Yii::app()->request->baseUrl; ?>/studentreg/sendletter">
                     <label for="letterTheme">Тема:</label>
                     <input type="text" id="letterTheme" name="letterTheme" /></br> </br>
                     <label for="send_letter">Повідомлення:</label>
@@ -177,14 +138,10 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                 endif; ?>
             </section>
             <section id="myMark">
-                <p>
-                    Як я оцінюю
-                </p>
+                <?php $this->renderPartial('_myMark'); ?>
             </section>
             <section id="finances">
-                <p>
-                    Фінанси
-                </p>
+                <?php $this->renderPartial('_finances'); ?>
             </section>
         </div>
     </div>

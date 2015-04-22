@@ -5,10 +5,10 @@
     function wrt(x)
     {
         document.getElementById("razv").innerHTML=x;
-        if (x!="")
-        {document.getElementById("sver").innerHTML="<u>приховати</u>";}
-        else
-        {document.getElementById("sver").innerHTML=""; document.getElementById("razv").innerHTML="<u>детальніше ...</u>";}
+//        if (x!="")
+//        {document.getElementById("sver").innerHTML="<u><?php //echo Yii::t('lecture', '0082'); ?>//</u>";}
+//        else
+//        {document.getElementById("sver").innerHTML=""; document.getElementById("razv").innerHTML="<br><u><?php //echo Yii::t('courses', '0146'); ?>//</u>";}
     }
 </script>
 <script>
@@ -21,7 +21,7 @@
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', 'Courses'),
+    Yii::t('breadcrumbs', '0050'),
 );
 class Course
 {
@@ -42,7 +42,7 @@ class Course
     public $coursesTextFooter2="<p><span id='courseText2'>Потім вивчаються основні принципи програмування на базі класичних комп'ютерних наук і методологій: алгоритмічна мова;
 		лементи вищої та дискретної математики і комбінаторики; структури даних, розробка і аналіз алгоритмів.</span>
 		<p><span id='courseText2'>
-		Після чого формується база для переходу до сучасних технологій програмування: об’єктно-орієнтоване програмування; проектування баз даних.</span>
+        Після чого формується база для переходу до сучасних технологій програмування: об’єктно-орієнтоване програмування; проектування баз даних.</span>
 		<p><span id='courseText2'>Завершення процесу підготовки шляхом конкретного застосування отриманих знань на реальних проектах із засвоєнням сучасних методів і технологій,
 		які використовуються в ІТ індустрії компаніями.</span>";
     function Course ( $courseImage,$courseName,$courseLevel,$courseNumberofModules,$courseReview)
@@ -62,11 +62,8 @@ $course4=new Course (Yii::app()->request->baseUrl.'/css/images/course4Image.png'
 $course5=new Course (Yii::app()->request->baseUrl.'/css/images/course5Image.png','Програміст (С++)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
 $course11=new Course (Yii::app()->request->baseUrl.'/css/images/course11Image.png','Тестувальник (QA) ','сильний початківець',3,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
 $coursesArray1=array($course1,$course2,$course3,$course4);
-
 $course7=new Course (Yii::app()->request->baseUrl.'/css/images/course7Image.png','Програміст (Objective С)','сильний початківець',3,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-//$course8=new Course (Yii::app()->request->baseUrl.'/css/images/course8Image.png','Основи нейролінгвістичного програмування','професійний',4,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-//$course9=new Course (Yii::app()->request->baseUrl.'/css/images/course9Image.png','Основи нейролінгвістичного програмування ','професійний',4,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-//$course10=new Course (Yii::app()->request->baseUrl.'/css/images/course10Image.png','Основи нейролінгвістичного програмування ','професійний',4,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
+
 
 $coursesArray2=array($course5,$course11,$course7);
 
@@ -77,15 +74,15 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
 
 <div id='coursesMainBox'>
 
-    <h1><?php echo $course1->coursesHeader; ?></h1>
+    <h1><?php echo Yii::t('courses', '0066'); ?></h1>
 
     <table>
         <tr>
 <!--            Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
-            <td  valign="top"> <div class='sourse'><a href="#">Для початківців</a>&nbsp;(6)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
-            <td  valign="top"> <div class='sourse'><a href="#">Для спеціалістів</a>&nbsp;(0)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
-            <td  valign="top"> <div class='sourse'><a href="#">Для експертів</a>&nbsp;(0)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
-            <td  valign="top"> <div class='sourse'><a href="#">Усі курси</a>&nbsp;(6)</div></td>
+            <td  valign="top"> <div class='sourse'><a href="#"><?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(6)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
+            <td  valign="top"> <div class='sourse'><a href="#"><?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(0)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
+            <td  valign="top"> <div class='sourse'><a href="#"><?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(0)</div></td>   <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
+            <td  valign="top"> <div class='sourse'><a href="#"><?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(6)</div></td>
         </tr>
     </table>
 
@@ -110,7 +107,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
 <!--Рівень курсу-->
                             <div class="courseLevelBox">
-                                <?php echo $val->courseLevelTitle; ?>
+                                <?php echo Yii::t('courses', '0068'); ?>
                                       <span class="courseLevel">
 			                            <?php echo $val->courseLevel; ?>
 			                          </span>
@@ -134,12 +131,12 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
 <!--Стан курсу-->
                             <div class="courseStatusBox">
-                                <?php echo $val->courseStatusTitle; ?>
+                                <?php echo Yii::t('courses', '0094'); ?>
                                 <span id="courseStatus1">доступний</span>
                             </div>
 <!--Мови курсу-->
                             <div class="courseLang">
-                                <?php echo $val->courseLang; ?>
+                                <?php echo Yii::t('courses', '0069'); ?>
                                 <div id="coursesLang" class="down">
                                     <form  action="" method="post" onsubmit="" name="fff">
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
@@ -152,14 +149,14 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
 <!--Вартість курсу-->
                             <div class="coursePriceBox">
-                                <?php echo $val->coursePrice; ?>
+                                <?php echo Yii::t('courses', '0147'); ?>
                                 <span id="coursePriceStatus1"> <?php echo "21600.00 грн. ";?> </span>
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. ";?> </span>
-                                <?php echo " (знижка - 25%)";?>
+                                <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
                             </div>
 <!--Оцінка курсу-->
                             <div class='starLevelIndex'>
-                                <?php echo "Оцінка курсу:"; ?>
+                                <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
                                     ?><span class="courseLevelImage">
@@ -189,7 +186,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 </td>
                                 <td>
                                     <div id='coursesHeader'>
-                                        <?php echo $course1->coursesTextHeader; ?>
+                                        <?php echo Yii::t('courses', '0067'); ?>
                                     </div>
 
                                 </td>
@@ -202,11 +199,13 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </tr>
                         </table>
                         <div class='courseBox2'>
-                            <?php echo $course1->coursesTextFooter; ?>
+                            <span id='courseText2'><?php echo Yii::t('courses', '0148'); ?></span>
                             <div id="razv"
-                                 onclick='wrt("<p><span> Потім вивчаються основні принципи програмування на базі класичних компютерних наук і методологій алгоритмічна мова; eлементи вищої та дискретної математики і комбінаторики; структури даних, розробка і аналіз алгоритмів.<p>Після чого формується база для переходу до сучасних технологій програмування об’єктно-орієнтоване програмування; проектування баз даних.<p>Завершення процесу підготовки шляхом конкретного застосування отриманих знань на реальних проектах із засвоєнням сучасних методів і технологій,які використовуються в ІТ індустрії компаніями.</san>p")'>
+                                 onclick='wrt("<p>Потім вивчаються основні принципи програмування на базі класичних комп&rsquo;ютерних наук і методологій: алгоритмічна мова;елементи вищої та дискретної математики і комбінаторики; структури даних, розробка і аналіз алгоритмів." +
+                                  "<p>Після чого формується база для переходу до сучасних технологій програмування: об’єктно-орієнтоване програмування; проектування баз даних." +
+                                   "<p>Завершення процесу підготовки шляхом конкретного застосування отриманих знань на реальних проектах із засвоєнням сучасних методів і технологій, які використовуються в ІТ індустрії компаніями.")'>
                                 <br>
-                                <u>детальніше ...</u>
+                                <u><?php echo Yii::t('courses', '0146'); ?></u>
                             </div>
                             <br>
 
@@ -225,7 +224,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
 <!--Рівень курсу-->
                             <div class="courseLevelBox">
-                                <?php echo $val->courseLevelTitle; ?>
+                                <?php echo Yii::t('courses', '0068');  ?>
                                 <span class="courseLevel">
 			                            <?php echo $val->courseLevel; ?>
 			                        </span>
@@ -247,12 +246,12 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
  <!--Стан курсу-->
                             <div class="courseStatusBox">
-                                <?php echo $val->courseStatusTitle; ?>
+                                <?php echo Yii::t('courses', '0094'); ?>
                                 <span id="courseStatus2">розробляється</span>
                             </div>
 <!--Мови курсу-->
                             <div class="courseLang">
-                                <?php echo $val->courseLang; ?>
+                                <?php echo Yii::t('courses', '0069'); ?>
                                 <div id="coursesLang" class="down">
                                     <form  action="" method="post" onsubmit="" name="fff">
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
@@ -265,13 +264,13 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
  <!--Вартість курсу-->
                             <div class="coursePriceBox">
-                                <?php echo $val->coursePrice; ?>
+                                <?php echo Yii::t('courses', '0147'); ?>
                                 <span id="coursePriceStatus1"> <?php echo "21600.00 грн. "; ?> </span>
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. "; ?> </span>
-                                <?php echo " (знижка - 25%)"; ?>
+                                <?php echo " (".Yii::t('courses', '0144')." - 25%)"; ?>
                             </div>
                             <div class='starLevelIndex'>
-                                <?php echo "Оцінка курсу:"; ?>
+                                <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
                                     ?><span class="courseLevelImage">

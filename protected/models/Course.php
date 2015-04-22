@@ -7,7 +7,7 @@
  *  @property string $alias
  * @property string $language
  * @property string $course_name
- * @property integer $course_duration_hours
+ * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
  * @property string $for_whom

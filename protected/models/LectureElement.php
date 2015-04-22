@@ -10,7 +10,7 @@
  * @property string $html_block
  *
  * The followings are the available model relations:
- * @property Lectures $idLecture
+ * @property Lecture $idLecture
  */
 class LectureElement extends CActiveRecord
 {
@@ -93,7 +93,10 @@ class LectureElement extends CActiveRecord
                 'defaultOrder'=>array(
                     'block_order'=>CSort::SORT_ASC,
                 )
-            )
+            ),
+            'pagination'=>array(
+                'pageSize'=>count($criteria),
+            ),
 		));
 	}
 
@@ -107,61 +110,4 @@ class LectureElement extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-
-    public function printElement($idLecture, $blockOrder){
-        $type = LectureElement::model()->findByPk(array('id_lecture'=>$idLecture, 'block_order'=>$blockOrder))->type;
-        switch($type){
-            case 'text':
-                $this->printText($idLecture, $blockOrder);
-                break;
-            case 'code':
-                $this->printCode($idLecture, $blockOrder);
-                break;
-            case 'video':
-                $this->printVideo($idLecture, $blockOrder);
-                break;
-            case 'label':
-                $this->printLabel($idLecture, $blockOrder);
-                break;
-            case 'example':
-                $this->printExample($idLecture, $blockOrder);
-                break;
-            case 'instruction':
-                $this->printInstruction($idLecture, $blockOrder);
-                break;
-            case 'final task':
-                $this->printFinalTask($idLecture, $blockOrder);
-                break;
-            default:
-        }
-    }
-
-    public function printText($idLecture, $blockOrder){
-
-    }
-
-    public function printCode($idLecture, $blockOrder){
-
-    }
-
-    public function printVideo($idLecture, $blockOrder){
-
-    }
-
-    public function printLabel($idLecture, $blockOrder){
-
-    }
-
-    public function printExample($idLecture, $blockOrder){
-
-    }
-
-    public function printInstruction($idLecture, $blockOrder){
-
-    }
-
-    public function printFinalTask($idLecture, $blockOrder){
-
-    }
 }
