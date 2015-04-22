@@ -290,21 +290,21 @@ $header = new Header();?>
                    </tr></table>
 
             </div>
-            <div id="footer2">
+            <div id="footer2" style="display: block;">
                 <div>
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
                         <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 0px;">
                     </a>
                 </div>
-                <div style="margin-left: 0px; padding-bottom: -10px;">
+                <div style="margin-left: 0px; ">
                     <p > <?php echo $footer->getTel();  ?><br/>
                         <?php echo $footer->getMobile();  ?><br/>
                         <?php echo $footer->getEmail(); ?><br/>
                         <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
-                <div>
-                    <ul>
+                <div style="width: 537px;">
+                    <ul style="float: right">
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0137');  ?></a></li>
