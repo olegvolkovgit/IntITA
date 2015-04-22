@@ -231,6 +231,7 @@ margin-left: 0px;
     color: #666666;
 }
 #footer p{
+    line-height: 14px;
     margin-top: 10px;
     font-size: 13px;
     color: #003399;

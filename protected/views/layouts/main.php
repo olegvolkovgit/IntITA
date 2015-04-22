@@ -297,7 +297,7 @@ $header = new Header();?>
                     </a>
                 </div>
                 <div style="margin-left: 0px; ">
-                    <p > <?php echo $footer->getTel();  ?><br/>
+                    <p> <?php echo $footer->getTel();  ?><br/>
                         <?php echo $footer->getMobile();  ?><br/>
                         <?php echo $footer->getEmail(); ?><br/>
                         <?php echo $footer->getSkype(); ?><br/>
