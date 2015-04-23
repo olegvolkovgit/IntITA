@@ -35,10 +35,10 @@ $this->breadcrumbs=array(
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
-
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
     <div class="lessonText">
-
+	
+	
         <!--start new block imperavi redactor-->
         <div class="imperaviSimple">
             <!--start toolbar for wysiwyg-->
@@ -46,26 +46,27 @@ $this->breadcrumbs=array(
                 <div class="wrapper-imperaviSemple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
                 <div class="btn-edit-ImperaviSimple"
                      style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                     onclick="pressEditRedactor();" <?$field = '.redactor'?>>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/edt_30px.png" width="26px" height="20px">
+                     onclick="pressEditRedactor('.redactor');" <?$field = '.redactor'?>>
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" width="26px" height="20px">
                 </div>
                 <div class="btn-cancel-ImperaviSimple"
-                     style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                     onclick="pressCancelRedactor()">
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/cls_30px.png" width="20px" height="20px">
+                     style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressCancelRedactor('.redactor')">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" width="20px" height="20px">
                 </div>
                 <div class="btn-save-ImperaviSimple"
-                     style="width:5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                     onclick="pressSaveRedactor();">
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/sv_30px.png" width="20px" height="20px">
+                     style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressSaveRedactor('.redactor');">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" width="20px" height="20px">
                 </div>
             </div>
             <!--end toolbar for wysiwyg-->
 
             <script type="text/javascript">
-                function pressEditRedactor()
+                function pressEditRedactor(className)
                 {
-                    $('.redactor').redactor({
+                    var selector = className;
+                    $(selector).redactor({
                         focus: true
                     });
                     $('.btn-edit-ImperaviSimple').hide();
@@ -73,22 +74,23 @@ $this->breadcrumbs=array(
                     $('.btn-cancel-ImperaviSimple').show();
                 }
 
-                function pressCancelRedactor()
+                function pressCancelRedactor(className)
                 {
-                    $('.redactor').redactor('core.destroy');
+                    var selector = className;
+                    $(selector).redactor('core.destroy');
                     $('.btn-edit-ImperaviSimple').show();
                     $('.btn-save-ImperaviSimple').hide();
                     $('.btn-cancel-ImperaviSimple').hide();
                 }
 
-                function pressSaveRedactor()
+                function pressSaveRedactor(className)
                 {
+                    var selector = className;
                     // save content if you need
-                    var text = $('.redactor').redactor('code.get');
-                    document.getElementsByClassName('redactor').value = text;
+                    var text = $(selector).redactor('code.get');
 
                     // destroy editor
-                    $('.redactor').redactor('core.destroy');
+                    $(selector).redactor('core.destroy');
                     $('.btn-edit-ImperaviSimple').show();
                     $('.btn-save-ImperaviSimple').hide();
                     $('.btn-cancel-ImperaviSimple').hide();
@@ -103,7 +105,7 @@ $this->breadcrumbs=array(
             <!--end include wysiwyg-->
         </div>
         <!--end new block imperavi redactor-->
-
+	
         <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 

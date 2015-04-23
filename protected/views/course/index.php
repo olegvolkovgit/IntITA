@@ -9,13 +9,13 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
 <!-- course style -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/readmore/readmore.js"></script>
 <!-- BD -))) -->
 <?php
 $post=Course::model()->findByPk(1);
 ?>
 <?php
+$this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Програмування для чайників',
 );
@@ -51,83 +51,20 @@ $this->breadcrumbs=array(
                         </td>
                     </tr>
             </table>
-            <table class="courseDetail">
-                <tr>
-                    <td>
-                        <span class="colorP">Тривалість курсу: </span>
-                    </td>
-                    <td>
-                        <span class="colorGrey"><b><?php echo $post->course_duration_hours;?> занять</b>, орієнтовно - <b><?php echo ceil($post->course_duration_hours/36);?> міс.</b> (3 год./день, 3 дні/тиждень)</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="colorP">Модулів: </span>
-                    </td>
-                    <td>
-                        <span class="colorGrey"><b><?php echo $post->modules_count;?></b><?php $post::getModulesTermination($post->modules_count);?></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="spoilerLinks"><span class="spoilerClick">Схеми проплат </span><span class="spoilerTriangle">&#9660;</span></span>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        &nbsp;за весь курс наперід:
-                    </td>
-                    <td>
-                        <span class="redStrike">21600.00 грн.</span> <b>16500.00 грн.</b> (знижка - 25%)
-                    </td>
-                </tr>
-                <tr class="spoilerRow">
-                    <td>
-                        &nbsp;2 проплати за курс:
-                    </td>
-                    <td>
-                        <span class="redStrike">21600.00 грн.</span> 9000.00 грн. х 2 проплати = <b>18000.00 грн.</b> (знижка - 8%)
-                    </td>
-                </tr>
-                <tr class="spoilerRow">
-                    <td>
-                        &nbsp;4 проплати за курс:
-                    </td>
-                    <td>
-                        <span class="redStrike">21600.00 грн.</span> 5000.00 грн. х 4 проплати = <b>20000.00 грн.</b> (знижка - 9%)
-                    </td>
-                </tr>
-                <tr class="spoilerRow">
-                    <td>
-                        &nbsp;помісячно:
-                    </td>
-                    <td>
-                        1800.00 грн.х 12 проплат = <b>21600.00 грн.</b>
-                    </td>
-                </tr>
-                <tr class="spoilerRow">
-                    <td>
-                        &nbsp;кредит на 2 роки:
-                    </td>
-                    <td>
-                        1000.00 грн./міс. х 24 проплати = <b>24000.00 грн.</b>
-                    </td>
-                </tr>
-                <tr class="spoilerRow">
-                    <td>
-                        &nbsp;кредит на 3 роки:
-                    </td>
-                    <td>
-                        800.00 грн./міс. х 36 проплат = <b>28800.00 грн.</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="colorP">Середня оцінка: </span>
-                    </td>
-                    <td>
+            <div class="courseDetail">
+                <div> <span class="colorP">Тривалість курсу: </span> <span class="colorGrey"><b><?php echo $post->course_duration_hours;?> занять</b>, орієнтовно - <b><?php echo ceil($post->course_duration_hours/36);?> міс.</b> (3 год./день, 3 дні/тиждень)</span></div>
+                <div> <span class="colorP">Модулів: </span> <span class="colorGrey"><b><?php echo $post->modules_count;?></b><?php $post::getModulesTermination($post->modules_count);?></span></div>
+                <div> <span class="colorP">Схеми проплат </span></div>
+                <div id="spoilerPay">
+                    <div> <span> &nbsp;за весь курс наперід: </span> <span class="redStrike">21600.00 грн.</span> <b>16500.00 грн.</b> (знижка - 25%)</div>
+                    <div> <span> &nbsp;2 проплати за курс: </span> <span class="redStrike">21600.00 грн.</span> 9000.00 грн. х 2 проплати = <b>18000.00 грн.</b> (знижка - 8%)</div>
+                    <div> <span> &nbsp;4 проплати за курс: </span>  <span class="redStrike">21600.00 грн.</span> 5000.00 грн. х 4 проплати = <b>20000.00 грн.</b> (знижка - 9%)</div>
+                    <div> <span> &nbsp;помісячно: </span> <span>1800.00 грн.х 12 проплат = <b>21600.00 грн.</b></span></div>
+                    <div> <span> &nbsp;кредит на 2 роки: </span> <span>1000.00 грн./міс. х 24 проплати = <b>24000.00 грн.</b></span></div>
+                    <div> <span> &nbsp;кредит на 3 роки: </span> <span>800.00 грн./міс. х 36 проплат = <b>28800.00 грн.</b>.</span></div>
+                </div>
+                <div> <span class="colorP">Середня оцінка: </span>
+                    <span>
                         <?php
                         for ($i=0; $i<10; $i++)
                         {
@@ -136,10 +73,9 @@ $this->breadcrumbs=array(
                         <?php
                         }
                         ?>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    </span>
+                </div>
+            </div>
     </div>
 
     <div class="courseInfo">
@@ -430,14 +366,6 @@ $this->breadcrumbs=array(
         </article>
     </div>
 
-    <script>
-        $('article').readmore({
-            maxHeight: 360,
-            moreLink: '<span><span class="spoiler">Всі викладачі</span> <span class="spoilerTriangle"> &#9660;</span></span>',
-            lessLink: '<span><span class="spoiler">Згорнути</span> <span class="spoilerTriangle"> &#9650;</span></span>'
-        });
-    </script>
-
     <div class="courseModules">
         <h2>Модулі</h2>
         <div class="cModule">
@@ -530,3 +458,4 @@ $this->breadcrumbs=array(
         </div>
     </div>
 </div>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>

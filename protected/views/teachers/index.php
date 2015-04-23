@@ -42,7 +42,7 @@ $post=Teacher::model()->findAll();
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
                                 <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
-                                <?php echo $teacherValue->profile_text ?>
+                                <?php echo $teacherValue->profile_text_short ?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
                                 </p>
@@ -53,7 +53,7 @@ $post=Teacher::model()->findAll();
                                         for ($j = 0; $j < count($coursesArray); $j++)
                                         {
                                             ?>
-                                            <li><a href="#"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
                                         <?php
                                         }
                                         ?>
@@ -95,31 +95,24 @@ $post=Teacher::model()->findAll();
                 </tr>
             </table>
             <form method="post" action="#">
-                <label id="formTeacher" for="name" style="margin-left: 50px"><?php echo Yii::t('teachers', '0174');?></label>
+                <label class="formFirstname" id="formTeacher" for="firstname"><?php echo Yii::t('teachers', '0174');?></label>
                 <input class="formTeacher1" required type="text" name="firstname">
                 <br>  <br>
-                <label id="formTeacher" for="name" style="margin-left: 8px"><?php echo Yii::t('teachers', '0175');?></label>
+                <label class="formLastname" id="formTeacher" for="lastname"><?php echo Yii::t('teachers', '0175');?></label>
                 <input class="formTeacher1" required type="text" name="lastname">
                 <br> <br>
-                <label id="formTeacher" for="name" style="margin-left: 52px"><?php echo Yii::t('teachers', '0176');?></label>
+                <label class="formYearname" id="formTeacher" for="yearname"><?php echo Yii::t('teachers', '0176');?></label>
                 <input class="formTeacher1" required type="text" name="yearname">
                 <br> <br>
-                <label id="formTeacher" for="name" style="margin-left: 30px"><?php echo Yii::t('teachers', '0177');?></label>
+                <label class="formEducationname" id="formTeacher" for="educationname"><?php echo Yii::t('teachers', '0177');?></label>
                 <input class="formTeacher1" required type="text" name="educationname">
                 <br> <br>
-                <label id="formTeacher" for="name" style="margin-left: 15px"><?php echo Yii::t('teachers', '0178');?></label>
+                <label class="formPhonename" id="formTeacher" for="phonename"><?php echo Yii::t('teachers', '0178');?></label>
                 <input class="formTeacher1" required type="text" name="phonename">
                 <br> <br>
-                <table>
-                    <tr>
-                        <td>
-                            <label id="formTeacher" for="text"><?php echo Yii::t('teachers', '0179');?></label>
-                        </td>
-                        <td>
-                            <textarea class="formTeacher1" id="formTeacher2" required type="text" name="textname"></textarea>
-                        </td>
-                    </tr>
-                </table>
+                <label class="formTextname" id="formTeacher" for="textname" style="width: 110px; text-align:left"><?php echo Yii::t('teachers', '0179');?></label>
+                <textarea class="formTeacher1" id="formTeacher2" required type="text" name="textname"></textarea>
+                <br> <br>
                 <ul class="actions">
                     <input id="send_btn" type="submit" value="<?php echo Yii::t('teachers', '0180');?>" />
                 </ul>
@@ -142,7 +135,7 @@ $post=Teacher::model()->findAll();
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
                                 <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
-                                <?php echo $teacherValue->profile_text ?>
+                                <?php echo $teacherValue->profile_text_short ?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
                                 </p>
@@ -153,7 +146,7 @@ $post=Teacher::model()->findAll();
                                         for ($j = 0; $j < count($coursesArray); $j++)
                                         {
                                             ?>
-                                            <li><a href="#"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
                                         <?php
                                         }
                                         ?>

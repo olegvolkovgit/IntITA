@@ -40,7 +40,7 @@ span.spoilerClick {
     text-decoration:underline;
     color:#4b75a4;
 }
-.courseDetail td, .spoilerBody {
+.courseDetail span {
     white-space: nowrap;
 }
 .spoilerRow{
@@ -81,7 +81,6 @@ div.courseShortInf table {
 }
 div.courseShortInfoTable{
     display: inline-block;
-    width: 450px;
 }
 .courseShortInfo table.courseLevelLine{
     width: 100%;
@@ -160,6 +159,13 @@ div.courseShortInfoTable{
     color: #4b75a4;
     cursor: pointer;
 }
+#spoilerPay + span{
+    text-align: right;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #4b75a4;
+    cursor: pointer;
+}
 .courseTeacher a{
     text-decoration: none;
 }
@@ -177,6 +183,23 @@ div.courseShortInfoTable{
 .courseInfo{
     font-size: small;
 }
+.courseDetail span.colorP{
+    display: inline-block;
+    width: 150px;
+}
+#spoilerPay {
+    width: 600px;
+}
+span.readmore-js-toggle{
+    margin-right: 100px;
+}
+#spoilerPay div span:first-child{
+    display: inline-block;
+    width: 150px;
+}
+#spoilerPay span{
+    white-space: nowrap;
+}
 .colorP{
     color: #4b75a4;
 }
@@ -190,10 +213,7 @@ div.courseShortInfoTable{
 .courseInfo table{
     border-spacing: 0;
 }
-.courseDetail td{
-    padding-right: 28px;
-    vertical-align: top;
-}
+
 .courseTeacherDetail td{
     padding-left: 0;
     vertical-align: top;

@@ -259,32 +259,52 @@ $header = new Header();?>
 
     <div class="clear"></div>
 
+
+
+
     <?php $footer = new Footer();?>
     <div id="footer">
-        <div class="main" style="margin-right: 30px">
-            <div style="height:auto; margin-right: 30px; margin-top: 25px;">
-                <a href="https://twitter.com/INTITA_EDU"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/twitter.png"/></a>
-                <a href="http://youtube.com"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/youtube.png"/></a>
-                <a href="https://plus.google.com/u/0/116490432477798418410/posts"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/googlePlus.png"/><br/></a>
-                <a href="https://www.facebook.com/pages/INTITA/320360351410183"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/facebook.png"/></a>
-                <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/odnoklasniki.png"/></a>
-                <a href="http://vk.com/intita"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/vkontakte.png"/></a>
+        <div class="main" >
+            <div id="footer1">
+
+                <table><tr><td style="padding: 0px;" >
+
+
+                <a href="https://twitter.com/INTITA_EDU">
+                    <img style="margin-top: 10px" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/twitter.png"/></a>
+                <a href="http://youtube.com">
+                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/youtube.png"/></a>
+                <a href="https://plus.google.com/u/0/116490432477798418410/posts">
+                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/googlePlus.png"/><br/></a>
+                        </td></tr>
+                   <tr> <td>
+                 <a href="https://www.facebook.com/pages/INTITA/320360351410183">
+                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/facebook.png"/></a>
+                <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym">
+                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/inl.png"/></a>
+                <a href="http://vk.com/intita">
+                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/vkontakte.png"/></a>
+
+
+                       </td>
+                   </tr></table>
+
             </div>
-            <div class="footer">
+            <div id="footer2" style="display: block;">
                 <div>
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                        <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 15px;">
+                        <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 0px;">
                     </a>
                 </div>
-                <div>
-                    <p> <?php echo $footer->getTel();  ?><br/>
+                <div style="margin-left: 0px; ">
+                    <p > <?php echo $footer->getTel();  ?><br/>
                         <?php echo $footer->getMobile();  ?><br/>
                         <?php echo $footer->getEmail(); ?><br/>
                         <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
-                <div>
-                    <ul>
+                <div style="width: 537px;">
+                    <ul style="float: right">
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0137');  ?></a></li>
@@ -293,10 +313,15 @@ $header = new Header();?>
                     </ul>
                 </div>
             </div>
-            <div class="footer">
-                <a href="#"><img src="<?php echo $this->imageUp; ?>" style=" padding-left: 10px; padding-right: 10px;  margin-top: 20px;"/></a>
+            <div id="footer3">
+                <a href="#"><img src="<?php echo $this->imageUp; ?>" ></a>
             </div>
-            <div class="footer"></div>
+            <div id="footer4"></div>
+
+
+
+
+
             <!--SingIn modal-->
             <?php
             $this->beginWidget('zii.widgets.jui.CJuiDialog', array(

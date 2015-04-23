@@ -23,11 +23,25 @@ class ProfileController extends Controller
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex()
+    public function actionIndex($id=1)
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+        $teacher = Teacher::model()->findByPk($id);
+        $sections = explode(';', $teacher->sections);
+
+        $permission = new Permissions();
+        if ($permission->checkPermission(Yii::app()->user->getId(), 2, array('edit'))) {
+            $editMode = 1;
+        } else {
+            $editMode = 0;
+        }
+
+        $this->render('index', array (
+            'model' => $teacher,
+            'sections' => $sections,
+            'editMode' => $editMode,
+        ));
     }
 
     public function actionAboutdetail()
