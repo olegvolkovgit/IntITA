@@ -321,7 +321,6 @@ $arrayCourseText=array(
     <?php
     // use editor WYSIWYG Imperavi
     $this->widget('ImperaviRedactorWidget', array(
-        // use editor to field .aboutStepBlock
         'selector' => '',
         'options' => array(
             'imageUpload' => $this->createUrl('files/upload'),
