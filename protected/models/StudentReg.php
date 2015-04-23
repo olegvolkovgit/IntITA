@@ -52,10 +52,22 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('firstName, email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
+            array('firstName, email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
             array('email, password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'repidreg,loginuser,sociallogin'),
             array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser'),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),
+//            array('avatar', 'file',
+//                'allowEmpty'  => true,
+//                'maxFiles'   => 1,
+//                'maxSize'   => 0.5,
+//                'types'   => 'jpg',
+//                'tooLarge' => 'Розмір файлу не має перевищувати 512кб',
+//                'tooMany' => 'Не можна завантажувати більше 1-го файла',
+//                'wrongType' => 'Невірний тип файла',
+//                'wrongMimeType' => 'Невірний MIME-тип файла',
+//                'on'=>'edit'),
             array('password', 'authenticate','on'=>'loginuser'),
+            array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
             array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>'Паролі не співпадають','on'=>'reguser'),
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
@@ -73,6 +85,13 @@ class StudentReg extends CActiveRecord
         $this->_identity=new UserIdentity($this->email,$this->password);
         if(!$this->_identity->authenticate())
             $this->addError('password',"Невірний email або пароль.");
+    }
+    public function passdiff($pass1,$pass2)
+    {
+        if (isset($this->password) || isset($this->password_repeat)){
+        if($this->password!==$this->password_repeat)
+            $this->addError('password','Паролі не співпадають');
+        }
     }
     /**
      * @return array relational rules.
@@ -92,26 +111,26 @@ class StudentReg extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'firstName' => 'Ім\'я',
+            'firstName' => Yii::t('regexp', '0160'),
             'middleName'=> 'По-батькові',
-            'secondName' => 'Прізвище',
-            'nickname' => 'Нік',
-            'birthday' => 'Дата народження',
+            'secondName' => Yii::t('regexp', '0162'),
+            'nickname' => Yii::t('regexp', '0163'),
+            'birthday' => Yii::t('regexp', '0164'),
             'email' => 'Email',
-            'password' => 'Пароль',
-            'password_repeat' => 'Повтор пароля',
-            'phone' => 'Телефон',
-            'address' => 'Адреса',
-            'education' => 'Освіта',
-            'educform' => 'Форма навчання',
-            'interests' => 'Захоплення',
+            'password' => Yii::t('regexp', '0171'),
+            'password_repeat' => Yii::t('regexp', '0172'),
+            'phone' => Yii::t('regexp', '0165'),
+            'address' => Yii::t('regexp', '0166'),
+            'education' => Yii::t('regexp', '0167'),
+            'educform' => Yii::t('regexp', '0168'),
+            'interests' => Yii::t('regexp', '0169'),
             'aboutUs' => 'Звідки про нас?',
             'send_letter'=> 'Повідомлення',
             'letterTheme'=> 'Тема',
-            'aboutMy'=> 'Про себе',
+            'aboutMy'=> Yii::t('regexp', '0170'),
             'avatar'=> 'Аватар',
             'upload'=> 'Up',
-            'role'=> 'Роль',
+            'role'=>  Yii::t('regexp', '0161'),
         );
     }
 
@@ -219,19 +238,73 @@ class StudentReg extends CActiveRecord
         //Тогда подставляем окончание "ЕВ"
         if($number > 10 and $number < 15)
         {
-            $term = " років";
+            $term = Yii::t('profile', '0097');
         }
         else
         {
 
             $number = substr($number, -1);
 
-            if($number == 0) {$term = " років";}
-            if($number == 1 ) {$term = " рік";}
-            if($number > 1 ) {$term = " роки";}
-            if($number > 4 ) {$term = " років";}
+            if($number == 0) {$term = Yii::t('profile', '0097');}
+            if($number == 1 ) {$term = Yii::t('profile', '0098');}
+            if($number > 1 ) {$term = Yii::t('profile', '0099');}
+            if($number > 4 ) {$term = Yii::t('profile', '0097');}
         }
-        echo  $term;
+        return  $term;
+    }
+    public function getYears ($birthday)
+    {
+        $myAge = $birthday;
+        $myAge = str_replace("/",".",$myAge);
+        $date_a = new DateTime($myAge);
+        $date_b = new DateTime();
+        $interval = $date_b->diff($date_a);
+        if($interval->format("%y")!=='0'){
+            echo $interval->format("%y").' '.StudentReg::getYearsTermination($interval->format("%Y"));
+        }
+    }
+    public function getAboutMy ($aboutMy)
+    {
+        if($aboutMy)
+            echo  '<span class="colorP">'.Yii::t('profile', '0100').'</span>'.$aboutMy;
+    }
+    public function getPhone ($phone)
+    {
+        if($phone)
+            echo  '<span class="colorP">'.Yii::t('profile', '0102').'</span>'.$phone;
+    }
+    public function getEducation ($education)
+    {
+        if($education)
+            echo  '<span class="colorP">'.Yii::t('profile', '0103').'</span>'.$education;
+    }
+    public function getInterests ($interests)
+    {
+        if($interests){
+            echo  '<span class="colorP">'.Yii::t('profile', '0104').'</span>';
+            $interestArray=explode(",", $interests);
+            if (!empty($interestArray[0])){
+                for ($i = 0; $i < count($interestArray); $i++)
+                {
+                    echo  '<span class="interestBG">'.$interestArray[$i].' '.'</span>';
+                }
+            }
+        }
+    }
+    public function getAboutUs ($aboutUs)
+    {
+        if($aboutUs)
+            echo  '<span class="colorP">'.Yii::t('profile', '0105').'</span>'.$aboutUs;
+    }
+    public function getEducform ($educform)
+    {
+        if($educform)
+            echo  '<span class="colorP">'.Yii::t('profile', '0106').'</span>'.$educform;
+    }
+    public function getCourses ($courses)
+    {
+        if($courses)
+            echo  '<span class="colorP">'.Yii::t('profile', '0107').'</span>'.$courses;
     }
     public function validatePassword($password)
     {

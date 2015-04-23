@@ -254,8 +254,8 @@ class Lecture extends CActiveRecord
         return array(
             'order' => $lecture->order,
             'title' =>  $lecture->title,
-            'typeImage' => $this->getTypeInfo($lecture->idType)[0],
-            'typeText' => $this->getTypeInfo($lecture->idType)[1],
+            'typeImage' => $this->getTypeInfo($lecture->idType),
+            'typeText' => $this->getTypeInfo($lecture->idType),
             'duration' => $lecture->durationInMinutes,
         );
     }

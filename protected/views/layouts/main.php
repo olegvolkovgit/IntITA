@@ -54,6 +54,7 @@ $header = new Header();?>
         <ul>
             <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
             <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a></li>
+            <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0137'); ?></a></li>
             <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a></li>
             <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a></li>
         </ul>
@@ -106,6 +107,9 @@ $header = new Header();?>
         <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout" class="down"><?php echo $header->getLogoutButton(); ?></a>
     <?php }?>
 </div>
+
+
+
 <! Hamburger menu>
 
 <div id="hamburgerNavigation">
@@ -257,8 +261,8 @@ $header = new Header();?>
 
     <?php $footer = new Footer();?>
     <div id="footer">
-        <div class="main">
-            <div style="height: auto; margin-top: 25px;">
+        <div class="main" style="margin-right: 30px">
+            <div style="height:auto; margin-right: 30px; margin-top: 25px;">
                 <a href="https://twitter.com/INTITA_EDU"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/twitter.png"/></a>
                 <a href="http://youtube.com"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/youtube.png"/></a>
                 <a href="https://plus.google.com/u/0/116490432477798418410/posts"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/googlePlus.png"/><br/></a>
@@ -269,7 +273,7 @@ $header = new Header();?>
             <div class="footer">
                 <div>
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                        <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px;">
+                        <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 15px;">
                     </a>
                 </div>
                 <div>
@@ -283,13 +287,14 @@ $header = new Header();?>
                     <ul>
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
+                        <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0137');  ?></a></li>
                         <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017');  ?></a></li>
                         <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018');  ?></a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer">
-                <a href="#"><img src="<?php echo $this->imageUp; ?>" style="margin-top: 20px;"/></a>
+                <a href="#"><img src="<?php echo $this->imageUp; ?>" style=" padding-left: 10px; padding-right: 10px;  margin-top: 20px;"/></a>
             </div>
             <div class="footer"></div>
             <!--SingIn modal-->

@@ -1,21 +1,21 @@
 .regFormBG{
     padding-bottom: 100px;
     background:url('images/formfon.jpg') repeat-x;
-    background-position: center center;
+    background-position: top center;
     margin-top: 0;
     height:100%;
     padding-top: 40px;
 }
 .regFormBox{
     margin:0 auto;
-    width:960px;
+    width:1200px;
     text-align: center;
 }
 .signInForm{
     background:#ffffff;
     margin:0 auto;
     width:540px;
-    min-height:440px;
+    min-height:420px;
     border-radius:10px;
     box-shadow: 0 2px 4px rgba(24, 37, 51, .5);
     text-align:center;
@@ -87,10 +87,9 @@ div.linesignInForm{
     margin-bottom:25px;
     position: relative;
 }
-.image{
+div.image{
     margin:0 auto;
-    width:410px;
-    height:50px;
+    width:444px;
 }
 /****************registration***********/
 /* Cначала обозначаем стили для IE8 и более старых версий
@@ -241,24 +240,24 @@ div.linesignInForm{
     font-size: smaller;
 }
 input[type="submit"]#signInButtonM    {
-    width:195px;
-    height:52px;
-    border-radius: 10px;
-    border:none;
-    border-top:1px solid #9fb5ce;
-    color:#ffffff;
-    background:#4b75a4;
-    box-shadow:0px 2px 0px #7f7f7f;
-    font: normal     400 28px/50px "MyriadPro";
-    font-size:       25px;
-    letter-spacing:1px;
-    text-shadow:1px 1px 1px black;
-    padding-right: 25px;
-    background-image: url('images/pointer.png');
-    text-shadow:1px 2px 1px rgba(0,0,0,.5);
-    background-repeat: no-repeat;
-    background-position: 145px 18px;
-}
+     width:195px;
+     height:52px;
+     border-radius: 10px;
+     border:none;
+     border-top:1px solid #9fb5ce;
+     color:#ffffff;
+     background:#4b75a4;
+     box-shadow:0px 2px 0px #7f7f7f;
+     font: normal     400 28px/50px "MyriadPro";
+     font-size:       25px;
+     letter-spacing:1px;
+     text-shadow:1px 1px 1px black;
+     padding-right: 25px;
+     background-image: url('images/pointer.png');
+     text-shadow:1px 2px 1px rgba(0,0,0,.5);
+     background-repeat: no-repeat;
+     background-position: 145px 18px;
+ }
 input#signInButtonM:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
@@ -294,8 +293,11 @@ select.error
     font:"MyriadPro";
 }
 #studentreg-form{
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     overflow: hidden;
+}
+#quick-form{
+    padding-bottom: 20px;
 }
 .signIn .image{
     margin-bottom: 20px;
@@ -311,86 +313,31 @@ select.error
     font:"MyriadPro";
 }/* PassEye */
 
-/* Slider Registration Form */
-#singInFormCarousel {
-    position: relative;
-    width: 344px;
-    padding: 8px 40px;
-    margin-left: -7px;
-    margin-top: -9px;
+ /*Slider Registration Form */
+#uLogin, #uReg {
+    margin: 0 auto;
+    width: 100%;
 }
-
-#singInFormCarousel #uLogin {
-    width: 500px;
-    overflow: hidden;
-    margin-left: -40px;
-}
-
-#singInFormCarousel #uLogin ul {
-    margin: 0;
+#uLogin ul,#uReg ul {
+    margin: 0 auto;
+    width: 390px;
     padding: 0;
     list-style: none;
+ }
+#uLogin ul li,#uReg ul li {
+	float: left;
+	margin-left: 1.5px;
+	margin-right: 1.5px;
 }
+#uLogin img,#uReg img {
+  width: 75px;
+  height: 75px;
+  filter: Alpha(Opacity=40);/*IE7 fix*/
+  opacity: 0.4;
+ }
+#uLogin img:hover,#uReg img:hover {
+	filter: Alpha(Opacity=100);/*IE7 fix*/
+	opacity: 1.0;
+ }
 
-#singInFormCarousel #uLogin ul li {
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-#singInFormCarousel #uLogin img {
-    width: 75px;
-    height: 75px;
-    display: block;
-    filter: Alpha(Opacity=30);/*IE7 fix*/
-    opacity: 0.3;
-}
-
-#singInFormCarousel #uLogin img:hover {
-    filter: Alpha(Opacity=100);/*IE7 fix*/
-    opacity: 1.0;
-}
-
-
-
-#uLoginImages .facebook {
-    background: url(images/iconsSingin/facebook.png);
-}
-
-#uLoginImages .facebook:hover {
-    background: url(images/iconsSingin/facebook2.png)
-}
-
-#uLoginImages .googleplus {
-    background: url(images/iconsSingin/googleplus.png);
-}
-
-#uLoginImages .googleplus:hover {
-    background: url(images/iconsSingin/googleplus2.png)
-}
-
-#uLoginImages .linkedin {
-    background: url(images/iconsSingin/linkedin.png);
-}
-
-#uLoginImages .linkedin:hover {
-    background: url(images/iconsSingin/linkedin2.png)
-}
-
-#uLoginImages .vkontakte {
-    background: url(images/iconsSingin/vkontakte.png);
-}
-
-#uLoginImages .vkontakte:hover {
-    background: url(images/iconsSingin/vkontakte2.png)
-}
-
-#uLoginImages .twitter {
-    background: url(images/iconsSingin/twitter.png);
-}
-
-#uLoginImages .twitter:hover {
-    background: url(images/iconsSingin/twitter2.png)
-}
-
-/* Slider Registration Form */
+ /*Slider Registration Form */

@@ -43,6 +43,9 @@ span.spoilerClick {
 .courseDetail td, .spoilerBody {
     white-space: nowrap;
 }
+.spoilerRow{
+    display: none;
+}
 .spoilerBody{
     width: 100%;
 }
@@ -180,6 +183,10 @@ div.courseShortInfoTable{
 .colorGrey{
     color: #666666;
 }
+.redStrike{
+    color: #ff0000;
+    text-decoration: line-through;
+}
 .courseInfo table{
     border-spacing: 0;
 }
@@ -226,3 +233,6 @@ p.subCourseInfo, p.courseAboutTeacher{
     white-space: nowrap
 }
 /*modules*/
+td{
+
+}

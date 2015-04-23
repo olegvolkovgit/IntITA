@@ -31,6 +31,7 @@ p {
     position: fixed;
 }
 #lang.down {
+    display: inline-block;
     margin-top: -40px;
     margin-left: 500px;
 }
@@ -66,15 +67,16 @@ p {
     z-index: 5;
 }
 #navigation.down {
-    height: 68px;
+    height: 60px;
 }
 
 #navigation ul {
     margin-left: 475px;
-    margin-top: 65px;
+    margin-top: 55px;
 }
 #navigation.down ul {
-    margin-top: 22px;
+    margin-top: 17px;
+    margin-left: 335px;
 }
 #navigation li {
     display:inline;
@@ -99,11 +101,12 @@ p {
     max-height: 75px;
 }
 #logo_img.down {
-    margin-top: 12px;
+    margin-top: 7px;
 }
 #logo_img.down img {
     max-height: 46px;
     max-width: 142px;
+    margin-left: 62px;
 }
 
 /******************enter button***************/
@@ -145,7 +148,7 @@ p {
     background: #363636;
 }
 #enter_button.down {
-    margin-top: 18px;
+    margin-top: 12px;
 }
 #enter_button.down:hover{
     background: #454545;
@@ -155,13 +158,14 @@ p {
 
 /************navigation-bottom***********/
 #footer{
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     overflow: hidden;
     border-bottom: 1px solid #33ccff;
 }
 #footer .main div {
-    margin-left: 15px;
+    margin-right: 15px;
+    margin-left: px;
     margin-top: 10px;
     float: left;
     height: 90px;
@@ -169,10 +173,12 @@ p {
 .footer {
     border-left: 1px solid #33ccff;
     padding-left: 15px;
-    color: #003399;
+    color: #4b75a4;
 }
 #footer ul {
     margin-top: 10px;
+    margin-left: px;
+    padding-left: 150px;
 }
 #footer li {
     display:inline;
@@ -182,7 +188,7 @@ p {
     text-decoration:none;
     font-family: "MyriadPro";
     font-size: 15px;
-    color: #003399;
+    color: #336699;
 }
 #footer li a:hover{
     color: #666666;

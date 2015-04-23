@@ -3,12 +3,12 @@
  */
 $(document).ready(function(){
     $('.spoilerLinks').click(function(){
-        if ($('.spoilerBody')[0].style.display=='block'){
+        if ($('.spoilerRow')[0].style.display=='table-row'){
             $('.spoilerTriangle').text("\u25BC");
         }else{
             $('.spoilerTriangle').text("\u25B2");
         }
-        $(this).next('.spoilerBody').toggle('normal');
+        $('.spoilerRow').toggle('normal');
         return false;
     });
 });

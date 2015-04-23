@@ -20,7 +20,7 @@
  * @property string $logoutButtonText
  *
  * The followings are the available model relations:
- * @property Headerlang[] $headerlangs
+ * @property Header[] $headers
  */
 class Header extends CActiveRecord
 {
@@ -105,8 +105,8 @@ class Header extends CActiveRecord
 
 		$criteria->compare('headerID',$this->headerID);
 		$criteria->compare('language',$this->language,true);
-		$criteria->compare('logoURL',$this->logoURL,true);
-		$criteria->compare('smallLogoURL',$this->smallLogoURL,true);
+		$criteria->compare('logoURL',Yii::app()->request->baseUrl.$this->logoURL,true);
+		$criteria->compare('smallLogoURL',Yii::app()->request->baseUrl.$this->smallLogoURL,true);
 		$criteria->compare('menuItem1',$this->menuItem1,true);
 		$criteria->compare('item1Link',$this->item1Link,true);
 		$criteria->compare('menuItem2',$this->menuItem2,true);

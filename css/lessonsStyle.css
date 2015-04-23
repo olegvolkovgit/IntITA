@@ -273,3 +273,45 @@ div.lessonButFinal
     margin-bottom: 10px;
     margin-left: 0;
 }
+.download {
+    display: block;
+}
+#do1{
+    margin-left: 83px;
+}
+.download a {
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #ffffff;
+    border-radius: 7px;
+    border: 1px solid #4B75A4;
+    vertical-align: middle;
+    font: 14px/30px "MyriadPro";
+    text-align: center;
+    text-decoration: none;
+color:#4b75a4 ;
+    bottom: 23px;
+}
+#do1 a{
+    background: #4b75a4;
+    color: #ffffff;
+}
+#do2 a{
+    top: 5px;
+    margin-left: 455px;
+}
+#do1 img{
+    position: relative; top: 7px; padding-right: 5px;
+}
+#do2 img{
+    position: relative; top: 4px; margin-right: 5px;
+}
+#do3 img{
+    position: relative; top: 7px; padding-right: 5px;
+}
+#do4 img{
+    position: relative; top: 8px; padding-right: 1px;
+}

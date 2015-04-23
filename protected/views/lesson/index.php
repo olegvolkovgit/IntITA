@@ -27,7 +27,6 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Модуль PHP'=>Yii::app()->request->baseUrl."/course",'Заняття 2: Змінні та типи данних в PHP',
 );
-$lecture = new Lecture();
 ?>
 
 <div class="lectureMainBlock" >
@@ -36,33 +35,102 @@ $lecture = new Lecture();
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
+
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
+    <div class="lessonText">
+
+        <!--start new block imperavi redactor-->
+        <div class="imperaviSimple">
+            <!--start toolbar for wysiwyg-->
+            <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
+                <div class="wrapper-imperaviSemple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
+                <div class="btn-edit-ImperaviSimple"
+                     style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
+                     onclick="pressEditRedactor();" <?$field = '.redactor'?>>
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/edt_30px.png" width="26px" height="20px">
+                </div>
+                <div class="btn-cancel-ImperaviSimple"
+                     style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressCancelRedactor()">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/cls_30px.png" width="20px" height="20px">
+                </div>
+                <div class="btn-save-ImperaviSimple"
+                     style="width:5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressSaveRedactor();">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/www/i/imperavi/sv_30px.png" width="20px" height="20px">
+                </div>
+            </div>
+            <!--end toolbar for wysiwyg-->
+
+            <script type="text/javascript">
+                function pressEditRedactor()
+                {
+                    $('.redactor').redactor({
+                        focus: true
+                    });
+                    $('.btn-edit-ImperaviSimple').hide();
+                    $('.btn-save-ImperaviSimple').show();
+                    $('.btn-cancel-ImperaviSimple').show();
+                }
+
+                function pressCancelRedactor()
+                {
+                    $('.redactor').redactor('core.destroy');
+                    $('.btn-edit-ImperaviSimple').show();
+                    $('.btn-save-ImperaviSimple').hide();
+                    $('.btn-cancel-ImperaviSimple').hide();
+                }
+
+                function pressSaveRedactor()
+                {
+                    // save content if you need
+                    var text = $('.redactor').redactor('code.get');
+                    document.getElementsByClassName('redactor').value = text;
+
+                    // destroy editor
+                    $('.redactor').redactor('core.destroy');
+                    $('.btn-edit-ImperaviSimple').show();
+                    $('.btn-save-ImperaviSimple').hide();
+                    $('.btn-cancel-ImperaviSimple').hide();
+                }
+            </script>
+
+            <!--start include wysiwyg-->
+
+            <div class="redactor">
+
+            </div>
+            <!--end include wysiwyg-->
+        </div>
+        <!--end new block imperavi redactor-->
+
+        <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
+        <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+
+        <div class="spoilerBody">
+            <p><a href="#Частина 1: Типи змінних та перемінних">Частина 1: Типи змінних та перемінних</a></p>
+            <p><a href="#Частина 7: Типи данних та математичний аналіз">Частина 7: Типи данних та математичний аналіз</a></p>
+        </div>
+        <!-- Lesson content-->
+        <?php
+
+        $this->widget('zii.widgets.CListView', array(
+            'dataProvider'=>$dataProvider,
+            'itemView'=>'_content',
+            'summaryText' => '',
+            'emptyText' => 'В данной лекции еще ничего нет (',
+        ));
+        ?>
+<table ><tr><td>
+        <div class="download" id="do4">  <a  href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-yrok.png">Завантажити урок</a></div>
+            </td><td>
+            <div class="download" id="do3"> <a  href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>
+            </td><td>
+                <div class="download" id="do1">  <a href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>
+</td></tr></table>
+</div>
+
+    <!-- lesson footer -->
+<?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 
 
-<div class="lessonText">
-    <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
-    <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
-
-    <div class="spoilerBody">
-        <p><a href="#Частина 1: Типи змінних та перемінних">Частина 1: Типи змінних та перемінних</a></p>
-        <p><a href="#Частина 7: Типи данних та математичний аналіз">Частина 7: Типи данних та математичний аналіз</a></p>
-    </div>
-
-<!-- Lesson content-->
-<?php
-$dataProvider = new CActiveDataProvider('LectureElement');
-$dataProvider->setPagination(array(
-    'pageSize' => 1000,
-    )
-);
-
-$this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_content',
-    'summaryText' => '',
-    'emptyText' => 'В данной лекции еще ничего нет (',
-));
-?>
-
-<!-- lesson footer -->
-<?php $this->renderPartial('_footer', array('lecture'=>$lecture));?>

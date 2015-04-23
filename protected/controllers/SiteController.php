@@ -43,17 +43,9 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index1.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$modelCarousel = new Carousel();
-
 		$mainpage = new Mainpage();
 		$mainpage->setValueById(0);
-//        if ($this->sourceMessages == null){
-//            $this->sourceMessages = new MyCDbMessageSource();
-//            $this->sourceMessages->changeTranslatedTable('translatedmessagesua');
-//        }
-        if (!(Yii::app()->session['translatedTable'])) {
-            $source = new MyCDbMessageSource();
-            $source->changeTranslatedTable('translatedmessagesua');
-        }
+
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
 		
@@ -156,7 +148,8 @@ class SiteController extends Controller
 
 	public function actionAboutdetail()
 	{
-		$mainpage = new Mainpage(0);
+		//$dataProvider = new CActiveDataProvider('Mainpage');
+        $mainpage = new Mainpage(0);
 		$mainpage->setValueById(0);
 		$arrayAboutUs = $this->initAboutus();
 		$this->render('aboutdetail', array(
@@ -189,37 +182,22 @@ class SiteController extends Controller
 
 	public function actionChangeLang($lg)
 	{
-       /* if ($this->sourceMessages == null){
-            $this->sourceMessages = new MyCDbMessageSource();
-            $this->sourceMessages->changeTranslatedTable('translatedmessagesua');
-        } else {
-            switch($_GET['lg']){
-                case 'ru':
-                    $this->sourceMessages->changeTranslatedTable('translatedmessagesru');
-                    break;
-                case 'en':
-                    $this->sourceMessages->changeTranslatedTable('translatedmessagesen');
-                    break;
-                case 'ua':
-                    $this->sourceMessages->changeTranslatedTable('translatedmessagesua');
-                    break;
-                default:
-                    $this->sourceMessages->changeTranslatedTable('translatedmessagesua');
-                    break;
-            }
-        }*/
-
         $app = Yii::app();
 		if (isset($_GET['lg'])) {
-			if($_GET['lg'] == 'ru') {
-                $app->session['translatedTable'] = 'translatedmessagesru';
-            }
-            if($_GET['lg'] == 'en') {
-                $app->session['translatedTable'] = 'translatedmessagesen';
-            }
-            if($_GET['lg'] == 'ua') {
-                $app->session['translatedTable'] = 'translatedmessagesua';
-            }
+//            switch($_GET['lg']){
+//                case 'ru':
+//                    $app->session['translatedTable'] = 'translatedmessagesru';
+//                    break;
+//                case 'en':
+//                    $app->session['translatedTable'] = 'translatedmessagesen';
+//                    break;
+//                case 'ua':
+//                    $app->session['translatedTable'] = 'translatedmessagesua';
+//                    break;
+//                default:
+//                    $app->session['translatedTable'] = 'translatedmessagesua';
+//                    break;
+//            }
 			$app->session['lg'] = $_GET['lg'];
 		}
         $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -306,9 +284,9 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-        $tmp = Yii::app()->session['translatedTable'];
+//        $tmp = Yii::app()->session['translatedTable'];
 		Yii::app()->user->logout();
-        Yii::app()->session['translatedTable'] = $tmp;
+//        Yii::app()->session['translatedTable'] = $tmp;
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
@@ -318,19 +296,14 @@ class SiteController extends Controller
 
         $s = file_get_contents('http://ulogin.ru/token.php?token=' .$_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
         $user = json_decode($s, true);
-        //$user['network']
-        //$user['identity']
-        //$user['first_name']
-        //$user['last_name']
-
         $model->email=$user['email'];
         $model->firstName=$user['first_name'];
         $model->secondName=$user['last_name'];
-        $model->nickname=$user['nickname'];
-        $model->birthday=$user['bdate'];
-        $model->phone=$user['phone'];
-        $model->avatar=$user['photo_big'];
-        $model->address=$user['city'];
+        //$model->nickname=$user['nickname'];
+        //$model->birthday=$user['bdate'];
+        //$model->phone=$user['phone'];
+        //$model->avatar=$user['photo_big'];
+        //$model->address=$user['city'];
 
         $model->password='1111';
         if($model->validate()) {

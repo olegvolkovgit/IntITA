@@ -11,7 +11,7 @@
 /* @var $form CActiveForm */
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', 'Register'),
+    Yii::t('breadcrumbs', '0056'),
 );
 ?>
 <!--Role-->
@@ -37,7 +37,7 @@ $this->breadcrumbs=array(
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2>Персональні дані</h2>
+                    <h2><?php echo Yii::t('regexp', '0150');?></h2>
                 </td>
             </tr>
         </table>
@@ -45,7 +45,7 @@ $this->breadcrumbs=array(
             <?php $model->role =0; ?>
             <?php echo $form->labelEx($model,'role'); ?>
             <div class="radiolabelRole">
-                <?php echo $form->radioButtonList($model,'role',array(0=>'Студент'), array('separator'=>' '));?>
+                <?php echo $form->radioButtonList($model,'role',array(0=>Yii::t('regexp', '0151')), array('separator'=>' '));?>
             </div>
         </div>
         <div class="row">
@@ -65,7 +65,7 @@ $this->breadcrumbs=array(
         </div>
         <div class="rowDate">
             <?php echo $form->label($model,'birthday'); ?>
-            <?php echo $form->textField($model,'birthday',array('maxlength'=>11, 'class'=>'date', 'placeholder'=>'введіть в форматі дд/мм/рррр'));?>
+            <?php echo $form->textField($model,'birthday',array('maxlength'=>11, 'class'=>'date', 'placeholder'=>Yii::t('regexp', '0152')));?>
             <span><?php echo $form->error($model,'birthday'); ?></span>
         </div>
         <div class="rowPhone">
@@ -99,11 +99,11 @@ $this->breadcrumbs=array(
         </div>
         <div class="row">
             <?php echo $form->label($model,'interests'); ?>
-            <?php echo $form->textField($model,'interests',array('maxlength'=>255, 'placeholder'=>'введіть Ваші інтереси через кому')); ?>
+            <?php echo $form->textField($model,'interests',array('maxlength'=>255, 'placeholder'=>Yii::t('regexp', '0153'))); ?>
             <span><?php echo $form->error($model,'interests'); ?></span>
         </div>
         <div class="row">
-            <?php echo $form->textField($model,'aboutUs',array('placeholder'=>'звідки Ви про нас дізналися?', 'id'=>'aboutUs')); ?>
+            <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
             <span><?php echo $form->error($model,'aboutUs'); ?></span>
         </div>
         <div class="row">
@@ -122,7 +122,7 @@ $this->breadcrumbs=array(
             <?php echo $form->error($model,'password_repeat'); ?>
         </div>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton('ВІДПРАВИТИ', array('id' => "submit")); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0155'), array('id' => "submit")); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');
@@ -132,18 +132,18 @@ $this->breadcrumbs=array(
         <table class="titleProfileAv">
             <tr>
                 <td>
-                    <h2>Завантажити фото профілю</h2>
+                    <h2><?php echo Yii::t('regexp', '0156');?></h2>
                 </td>
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/avatars/noname.png"/></br>
         <div class="fileform">
-            <input class="avatar" type="button" value="ВИБЕРІТЬ ФАЙЛ">
+            <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg/gif">
             <input tabindex="-1" class="uploadAvatar" type="submit">
         </div>
-        <div id="avatarHelp">Розмір фото до 512кб</div>
-        <div id="avatarInfo">Файл не вибрано...</div>
+        <div id="avatarHelp"><?php echo Yii::t('regexp', '0158');?></div>
+        <div id="avatarInfo"><?php echo Yii::t('regexp', '0159');?></div>
         <div class="avatarError">
             <?php if(Yii::app()->user->hasFlash('avatarmessage')):
                 echo Yii::app()->user->getFlash('avatarmessage');

@@ -48,6 +48,15 @@ table.titleProfile{
     font-size: smaller;
     line-height: 120%;
 }
+
+table.titleProfile td{
+    width:100%;
+}
+
+table.titleProfile td:last-child{
+    margin-right: 10px;
+}
+
 .titleProfile a:hover{
     color:#666666;
 }
@@ -59,6 +68,7 @@ table.titleProfile{
     margin-bottom: 0;
     margin-right: 115px;
 }
+
 .studProfInf img.avatarimg{
     width:220px;
     margin-left: 24px;
@@ -155,8 +165,12 @@ p.tabHeader{
 }
 /*My Course*/
 #myCourse div{
-    border-bottom:1px solid #d8d8d8;
-    margin: 0 10px 0 0;
+     border-bottom:1px solid #d8d8d8;
+     margin: 0 10px 0 0;
+ }
+
+#myCourse a{
+    text-decoration: none;
 }
 
 .profileCourse div{
@@ -302,7 +316,229 @@ table.timeTable tr:first-child td{
     text-decoration: none;
     color: #999999;
 }
-/*Timetable*/
+
+.profileMyRatting {
+    border-bottom: 1px solid #d8d8d8;
+}
+.disabledModul {
+    border-bottom: 1px solid #d8d8d8;
+}
+.ButtonRatting {
+    width: 100px;
+    height: 55px;
+    color:#ffffff;
+    background:#4b70a3;
+    border-radius: 10px;
+    text-align: center;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+}
+
+.disabled1 {
+    pointer-events: none;
+    color: #666666;
+    cursor: default;
+}
+.linkFinances {
+    border-right: 1px solid gray;
+}
+.colorF {
+    color: #4b75a4;
+}
+.borderF {
+    border-bottom: 1px solid #d8d8d8;
+}
+.studPay p{
+    color: #e10000;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 100%;
+}
+.FinancesPay {
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 100%;
+}
+.ButtonFinances {
+    width: 110px;
+    height: 25px;
+    color:#ffffff;
+    background:#4b70a3;
+    border-radius: 7px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+}
+
+    /*Timetable*/
 /*consultation*/
 
-/*consultation*/
+
+
+
+
+
+
+
+
+
+
+/*-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----*/
+.download_tabs {
+    width:100%;
+    display:inline-block;
+}
+.download_tab-links:after {
+    display:block;
+    clear:both;
+    content:'';
+}
+
+.download_tab-links li {
+    margin:0px 5px;
+    float:left;
+    list-style:none;
+}
+
+.download_tab-links a {
+    padding:9px 10px;
+    display:inline-block;
+    border-radius:3px 3px 0px 0px;
+    font-size:16px;
+    font-weight:600;
+    color:#4c4c4c;
+    transition:all linear 0.15s;
+}
+
+.download_tab-content {
+    padding:10px;
+    border-radius:3px;
+    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+    background:#fff;
+}
+
+.download_tab {
+    display:none;
+}
+
+.download_tab.active {
+    display:block;
+}
+li.active a, li.active a:hover {
+    background: white;
+    color: #4b70a3;
+}
+
+
+.downlT {
+    color: #4b70a3;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+.downlT1 {
+    color: #4b70a3;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+
+.downlT2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 40px;
+}
+
+.downlT3 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.downlT4 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 85px;
+}
+.downlT5 {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: 85px;
+}
+.ModLess {
+    border-bottom: 1px solid #d8d8d8;
+}
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/***ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ***/
+.box_tabs {
+    width:100%;
+    display:inline-block;
+}
+
+.box_tab-links:after {
+    display:block;
+    clear:both;
+    content:'';
+}
+
+.box_tab-links li {
+    margin:0px 5px;
+    float:left;
+    list-style:none;
+}
+
+.box_tab-links a {
+    padding:9px 15px;
+    display:inline-block;
+    border-radius:1px 1px 1px 1px;
+    background:rgba(0,0,0,0.15);
+    font-size:16px;
+    font-weight:600;
+    color: grey;
+    transition:all linear 0.15s;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.15)
+}
+
+.box_tab-links a:hover {
+    color: #4b70a3;
+}
+
+li.active_box a, li.active_box a:hover {
+    background: white;
+    color: #4b70a3;
+    border-color: rgba(0,0,0,0.15);
+}
+
+.box_tab-content {
+    padding:15px;
+    border-radius:3px;
+    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+    background:#fff;
+}
+
+.box_tab {
+    display:none;
+}
+
+.box_tab.active_box {
+    display:block;
+}
+
+.Btn_Msg {
+    width: 150px;
+    height: 50px;
+    color:#ffffff;
+    background:#4b70a3;
+
+}
+/*------------------------------------------------------------------------------------------*/

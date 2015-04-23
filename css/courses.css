@@ -6,25 +6,20 @@
     margin-left: -600px;
     font-family:MyriadPro;
 }
-
 #coursesHeader
 {
     width:230px;
     color: #ffffff;
     font-size:24px;
-    margin:20px;
+    padding-left: 90px;
+    padding-right: 90px;
 }
-
-
 #coursesPart1
 {
     display:inline-block;
     position:relative;
     width:570px;
-
 }
-
-
 #coursesPart2
 {
     width:570px;
@@ -33,7 +28,6 @@
     height: 1500px;
     margin-right: 50px;
 }
-
 .courseBox
 {
     display:inline-block;
@@ -46,35 +40,24 @@
     margin-top:20px;
     font-size: 14px;
 }
-
-
 .courseBox2
 {
     display:inline-block;
     position:relative;
     font-family:MyriadPro;
-    margin-left:5px;
-    margin-bottom:20px;
-    height: 120px;
-    width: 400px;
+    height: 50px;
+    width: 500px;
     font-size: 14px;
 }
-
-
 .courseBox img
 {
     position:absolute;
-    margin-left:0px;
-    margin-bottom:0px;
 }
-
 .courseName
 {
     position:relative;
     color:#4682B4;
     font-size:20px;
-    margin-top:0px;
-
     margin-left:150px;
 }
 .courseName a
@@ -83,28 +66,40 @@
     font-size:20px;
     text-decoration: none;
 }
-
+.courseStatusBox
+{
+    margin-left:150px;
+}
+.coursePriceBox
+{
+    margin-left: 150px;
+}
+#coursePriceStatus1 {
+    color: #ff0000;
+    text-decoration: line-through;
+}
+#coursePriceStatus2 {
+    color: #333333;
+    font-weight: bold;
+}
 .courseLevelBox
 {
-    margin-top:0px;
-    margin-bottom:0px;
     margin-left:150px;
 }
 .courseLevelBox2
 {
-    margin-top:0px;
-    margin-bottom:0px;
     margin-left:150px;
     color:#696969;
-
 }
-
 .courseLevelImage
 {
     margin-right:20px;
-
 }
-
+.starLevelIndex
+{
+    padding-left: 150px;
+    padding-top: 20px;
+}
 .courseLevelIndex
 {
     position:relative;
@@ -112,24 +107,17 @@
     float:right;
     height: 10px;
     top: 7px;
-
 }
-
 .courseLevel
 {
     position:relative;
     color:#4682B4;
-    left: px;
-
 }
 .courseLevel2
 {
     position:relative;
     color:#696969;
-    left: px;
 }
-
-
 .courseText
 {
     display:inline-block;
@@ -151,7 +139,6 @@
     margin-top:-0px;
     margin-bottom:-0px;
 }
-
 .coursesTextFooterBlock1
 {
     display:inline-block;
@@ -159,7 +146,6 @@
     width:450px;
     padding:20px;
 }
-
 .coursesTextFooterBlock2
 {
     width:450px;
@@ -167,31 +153,21 @@
     top:52px;
     padding:20px;
 }
-
 .courseLang
 {
     margin-left:150px;
-    color: #000000;
+    color: #333333;
 }
-.courseLang2
-{
-    margin-left:150px;
-    color: #696969;
-}
-
 #coursesLang{
     z-index: 6;
     position: relative;
-    float:right
+    float:right;
 }
 #coursesLang.down {
-    float: right;
-    position: relative;
     height: 20px;
-    buttom: 3px;
-
+    /*buttom: 3px;*/
 }
-#coursesLang #en {
+#coursesLang #ru {
     border-left: 1px solid #999999;
     border-right: 1px solid #999999;
     padding-left: 8px;
@@ -206,7 +182,7 @@
     font-family: "MyriadPro";
     text-decoration: underline;
     position: relative;
-    float: right;
+    float: left;
 }
 #coursesLang .selectedLang {
     text-decoration: none;
@@ -227,43 +203,32 @@
 #coursesHeader h1{
     font-weight: inherit;
     color: #ffffff;
-    margin: 0 0 0px 0;
     line-height: 100%;
 }
-
 #courseText2 {
     position: relative;
     left: 40px;
     right: 20px;
     color: #ffffff;
     display:inline-block;
-    width: 370px;
+    width: 500px;
     font-size: 14px;
 }
 .courseStatus p{
     margin-left: 150px;
-    margin-top: 0px;
-    margin-bottom: 0px;
     position: relative;
     color: #000000;
 }
 .courseStatus2 p{
     margin-left: 150px;
-    margin-top: 0px;
-    margin-bottom: 0px;
     position: relative;
     color: #696969;
 }
 #courseStatus1 {
     color: green;
-    float: right;
-    position: relative ;
-    padding-right: 6px;
 }
 #courseStatus2 {
     color: #ff0000;
-    float:right;
-    padding-right: 6px;
 }
 .sourse{
     color:gray;
@@ -285,15 +250,14 @@ table {
     background-color:#4B75A4;
     color: #ffffff;
     position: relative;
-    margin-bottom: 40px;
-    margin-top: 40px;
-    margin-left:0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     display:inline-block;
-    left: 150px;
-    width: 425px;
+    width: 570px;
 }
 .bgBlue img{
-    margin: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 #sver{
     margin-left: 40px;
@@ -306,17 +270,15 @@ table {
     cursor: pointer;
 }
 #disabled {
-    pointer-events: none;
     cursor: default;
     color: #696969;
 }
 #razv p{
-    height: px;
+    height: 10px;
     left: 40px;
     right: 20px;
     color: #ffffff;
     display:inline-block;
     width: 370px;
     font-size: 14px;
-
 }

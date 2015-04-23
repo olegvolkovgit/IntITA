@@ -1,37 +1,34 @@
+
+.TeacherProfiletitles
+{
+    position: relative;
+    color:#4B75A4;
+    font-size:16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .TeacherProfilemainBlock
 {
-    width:1200px;
-    position:relative;
-    left:50%;
-    margin-left:-600px;
-    font-family:MyriadPro;
-    text-align:  left;
+    margin: 0 auto;
+    width: 1200px;
+    overflow: hidden;
 }
 .TeacherProfileblock1
 {
-    position:relative;
+    float:left;
     width:583px;
-    left:0px;
 }
-
 .TeacherProfileblock1 img
 {
-    position:absolute;
+    display: block;
+    width: 140px;
+    height: 170px;
+    padding-right: 20px;
 }
-
 .TeacherProfileblock2
 {
-    position:absolute;
-    width:583px;
-    left:617px;
-    top:120px;
-}
-
-
-.TeacherProfiletextBlock
-{
-    margin-top:0px;
-    margin-left:168px;
+    float:right;
+    width:584px;
 }
 .TeacherProfilename
 {
@@ -39,53 +36,53 @@
     font-size:26px;
     margin-bottom:0px;
 }
-
-.TeacherProfilename p
-{
-    margin-top:0px;
-}
-
-.TeacherProfileseparator
-{
-    margin-top: -5px;
-}
-
-.TeacherProfiletitles
-{
-    display: inline-block;
-    position: relative;
-    color:#4B75A4;
-    font-size:16px;
-    margin-top: 10px;
-}
-
 .TeacherProfilesectionText
 {
     margin-top:-20px;
     margin-left:65px;
 }
-
 .TeacherProfilesectionText p
 {
     margin-top:-12px;
 }
-
 .TeacherProfilecourse
 {
     background-color:#D6EBE0;
     padding:1px;
     margin-bottom:10px;
 }
-
 a:link {font-size:16px; color:#4B75A4;}
 a:visited {font-size:16px;}
 a:hover {font-size:16px; color:#4b75fa}
-
-.TeacherProfiletitles span
-{
-    color:#4B75A4;
-    font-size:18px;
+div.aboutMore{
+    float:right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    color: #4B75A4;
 }
-
-
-
+/*-------------------------*/
+.txtMsg{
+    font-weight: inherit;
+    font-size: 16px;
+    color: #333333;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+div.sm{
+    font-weight: inherit;
+    font-size: 11px;
+    color: #4B75A4;
+    margin: 0 0 0px 0;
+    line-height: 100%;
+}
+div.border{
+    padding-bottom: 0px;
+    border-bottom: 1px solid #4B75A4;
+}
+/*----Response----*/
+div.responseBG {
+    border-top:3px solid #ffffff;
+    background-color: rgba(75,117,164,0.2);
+    overflow:hidden;
+}

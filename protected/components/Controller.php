@@ -25,24 +25,26 @@ class Controller extends CController
     public  $sourceMessages;
 
 	public function init(){
-		$this->logoURL = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->logoURL;
-        $this->smallLogoURL = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->smallLogoURL;
-		$this->link1 = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->item1Link;
-		$this->link2 = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->item2Link;
-		$this->link3 = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->item3Link;
-		$this->link4 = Yii::app()->request->baseUrl.Header::model()->findByPk(1)->item4Link;
-		$this->imageSotial = Yii::app()->request->baseUrl.Footer::model()->findByPk(1)->imageSotial;
-		$this->imageUp = Yii::app()->request->baseUrl.Footer::model()->findByPk(1)->imageUp;
+        $header = Header::model()->findByPk(1);
+        $footer = Footer::model()->findByPk(1);
+        $this->logoURL = Yii::app()->request->baseUrl.$header->logoURL;
+        $this->smallLogoURL = Yii::app()->request->baseUrl.$header->smallLogoURL;
+        $this->link1 = Yii::app()->request->baseUrl.$header->item1Link;
+        $this->link2 = Yii::app()->request->baseUrl.$header->item2Link;
+        $this->link3 = Yii::app()->request->baseUrl.$header->item3Link;
+        $this->link4 = Yii::app()->request->baseUrl.$header->item4Link;
+        $this->imageSotial = Yii::app()->request->baseUrl.$footer->imageSotial;
+        $this->imageUp = Yii::app()->request->baseUrl.$footer->imageUp;
 		$app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
 
-        if ($app->session['translatedTable'] == null) {
-            $app->session['translatedTable'] = 'translatedmessagesua';
-        } else {
-            $app->session['translatedTable'] = strtolower($app->session['translatedTable']);
-        }
+//        if ($app->session['translatedTable'] == null) {
+//            $app->session['translatedTable'] = 'translatedmessagesua';
+//        } else {
+//            $app->session['translatedTable'] = strtolower($app->session['translatedTable']);
+//        }
 	}
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',

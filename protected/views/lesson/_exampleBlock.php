@@ -6,3 +6,8 @@
  * Time: 18:39
  */
 echo $data;
+?>
+<!--<span class="subChapter">Зразок коду 1:</span>-->
+<!--<pre class="prettyprint linenums">-->
+<?php //echo $data;?>
+<!--</pre>-->

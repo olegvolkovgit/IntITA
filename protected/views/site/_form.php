@@ -26,7 +26,7 @@
 				// See class documentation of CActiveForm for details on this.
                 'enableClientValidation'=>true,
                 'enableAjaxValidation'=>true,
-                'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
+                'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>true),
             )); ?>
 			<div class="rowemail">
 				<?php $placeHolderEmail = Yii::t('regform','0014');?>
@@ -57,24 +57,22 @@
 				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton")); ?>
 			</div>
 
-            <div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
+			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
+			<div class="image" >
+                    <script src="//ulogin.ru/js/ulogin.js"></script>
+                    <div id="uReg" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo,city;
+								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/socialreg'?>">
+							<ul id="uLoginImages">
+								<li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/facebook2.png" x-ulogin-button = "facebook" title = "Facebook"/></li>
+                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/googleplus2.png" x-ulogin-button = "googleplus" title = "Google +"/></li>
+                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/linkedin2.png" x-ulogin-button = "linkedin" title = "LinkedIn"/></li>
+                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/vkontakte2.png" x-ulogin-button = "vkontakte" title = "Вконтакте"/></li>
+								<li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/twitter2.png" x-ulogin-button = "twitter" title = "Twitter"/></li>
+							</ul>
+					</div>
+			</div>
 
-            <div class="image" >
-                <div id="singInFormCarousel">
-                    <div id="uLogin" x-ulogin-params="display=buttons;fields=first_name,last_name;
-								redirect_uri=;callback=ucall">
-                        <ul id="uLoginImages">
-                            <li><img class="facebook" x-ulogin-button = "facebook"/></li>
-                            <li><img class="googleplus" x-ulogin-button = "googleplus"/></li>
-                            <li><img class="linkedin" x-ulogin-button = "linkedin"/></li>
-                            <li><img class="vkontakte" x-ulogin-button = "vkontakte"/></li>
-                            <li><img class="twitter" x-ulogin-button = "twitter"/></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <?php $this->endWidget(); ?>
+			<?php $this->endWidget(); ?>
 		</div><!-- form -->
 	</div>
 </div>

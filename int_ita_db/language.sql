@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-14 19:44:11
+-- Date/time:                    2015-04-22 09:15:00
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS `language` (
 -- Dumping data for table int_ita_db.language: ~3 rows (approximately)
 /*!40000 ALTER TABLE `language` DISABLE KEYS */;
 INSERT INTO `language` (`id`, `code`, `language`, `country`) VALUES
-	(1, 'RU', 'русский', 'Россия'),
-	(2, 'EN', 'english', 'Great Britain'),
-	(3, 'UA', 'українська', 'Україна');
+	(1, 'ru', 'русский', 'Россия'),
+	(2, 'en', 'english', 'Great Britain'),
+	(3, 'ua', 'українська', 'Україна');
 /*!40000 ALTER TABLE `language` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

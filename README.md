@@ -5,7 +5,7 @@ Back-end index page http://localhost/IntITA/www/_admin/
 ###Pages:
 1. [main](http://localhost/IntITA/) - http://localhost/IntITA/ <br/>
 2. [lecture](http://localhost/IntITA/lesson) - http://localhost/IntITA/lesson <br/>
-3. [teacher profile](http://localhost/IntITA/teacherprofile) - http://localhost/IntITA/teacherprofile <br/>
+3. [teacher profile](http://localhost/IntITA/profile) - http://localhost/IntITA/profile <br/>
 4. [extended registration](http://localhost/IntITA/studentreg) - http://localhost/IntITA/studentreg<br/>
 5. [teachers](http://localhost/IntITA/teachers) - http://localhost/IntITA/teachers <br/>
 6. [courses](http://localhost/IntITA/courses) - http://localhost/IntITA/courses <br/>
