@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-22 21:03:16
+-- Date/time:                    2015-04-23 16:11:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table int_ita_db.aa_authorizations: ~46 rows (approximately)
+-- Dumping data for table int_ita_db.aa_authorizations: ~50 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
 INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(1, 2, '2015-03-02 15:33:25', '::1'),
@@ -509,7 +509,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', '/css/images/line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', '/css/images/hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', '/css/images/networking.png', '/css/images/formFon.png');
@@ -1185,12 +1185,18 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: BIT (32) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~9 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 15),
 	(11, 1, 15),
-	(22, 1, 15);
+	(22, 1, 15),
+	(38, 2, 3),
+	(39, 2, 3),
+	(40, 2, 3),
+	(41, 2, 3),
+	(42, 2, 3),
+	(43, 2, 3);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 
@@ -1454,8 +1460,9 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `last_name` varchar(35) NOT NULL,
   `foto_url` varchar(100) NOT NULL,
   `subjects` varchar(100) NOT NULL,
-  `profile_text_big` text NOT NULL,
-  `profile_text` text NOT NULL,
+  `profile_text_first` text NOT NULL,
+  `profile_text_short` text NOT NULL,
+  `profile_text_last` text NOT NULL,
   `readMoreLink` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `tel` varchar(100) NOT NULL,
@@ -1463,18 +1470,23 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `title` varchar(50) NOT NULL,
   `linkName` varchar(50) NOT NULL,
   `smallImage` varchar(255) NOT NULL,
+  `rate_knowledge` int(2) NOT NULL,
+  `rate_efficiency` int(2) NOT NULL,
+  `rate_relations` int(2) NOT NULL,
+  `sections` text NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-INSERT INTO `teacher` (`teacher_id`, `lang`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_big`, `profile_text`, `readMoreLink`, `email`, `tel`, `skype`, `title`, `linkName`, `smallImage`) VALUES
-	(1, 'UA', 'Олександра', 'Василівна', 'Сіра', '/css/images/teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', 'Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала вкладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO). Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.\r\n\r\nМарина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження. Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років, дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те, що не подобалося її батькам і що вони їй забороняли.\r\n\r\nГлавный бухгалтер акционерного предприятия, специализирующегося на:\r\n\r\n    оказании полезных услуг горизонтального характера;\r\n    торговле, внешнеэкономической и внутреннеэкономической;\r\n    позитивное обучение швейного мастерства;\r\n\r\n Олександра Сіра виконала головну роль у фільмі оскароносного режисера Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really fit the typical mold of someone who goes into the adult film business. … I\'d never heard anybody talk about the business the way that she talked about it». Журналіст Скотт Маколей каже, що можливо Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар, Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.\r\n\r\nКоли Олександра готувалася до ролі у «Дівчині за викликом», Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29]. У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини, схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.\'; ', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png'),
-	(2, 'UA', 'Константин', 'Константинович', 'Константинопольский', '/css/images/teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png'),
-	(3, 'UA', 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', '/css/images/teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png'),
-	(4, 'UA', 'Василий', 'Васильевич', 'Меняетпроффесию', '/css/images/teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png'),
-	(5, 'UA', 'Ия', 'Тожевна', 'Воваяготова', '/css/images/teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png'),
-	(6, 'UA', 'Петросян', 'Петросянович', 'Забугорный', '/css/images/teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/teacherprofile', '', '', '', '', '', '/css/images/teacherImage.png');
+INSERT INTO `teacher` (`teacher_id`, `lang`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `title`, `linkName`, `smallImage`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `sections`, `user_id`) VALUES
+	(1, 'UA', 'Олександра', 'Василівна', 'Сіра', '/css/images/teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', ' Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала \r\n                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards \r\n                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO). \r\n                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.</br>\r\n                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.\r\n                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила \r\n                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років, \r\n                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого \r\n                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те, \r\n                    що не подобалося її батькам і що вони їй забороняли.</br>\r\n                    Главный бухгалтер акционерного предприятия, специализирующегося на:\r\n                    <ul>\r\n                    <li>оказании полезных услуг горизонтального характера;</li>\r\n                    <li>торговле, внешнеэкономической и внутреннеэкономической;</li>\r\n                    <li>позитивное обучение швейного мастерства;</li></ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '</br>Олександра Сіра виконала головну роль у фільмі оскароносного режисера \r\n                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає \r\n                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у \r\n                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really fit \r\n                        the typical mold of someone who goes into the adult film business. … I\'d never heard anybody talk \r\n                        about the business the way that she talked about it». Журналіст Скотт Маколей каже, що можливо \r\n                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар, \r\n                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.\r\n                        </br>Коли Олександра  готувалася до ролі у «Дівчині за викликом», \r\n                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29]. \r\n                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла \r\n                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини, \r\n                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 12, 12, 12, 'Програмування ПХП;\r\nJava для IOS;', 0),
+	(2, 'UA', 'Константин', 'Константинович', 'Константинопольский', '/css/images/teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 0),
+	(3, 'UA', 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', '/css/images/teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 0),
+	(4, 'UA', 'Василий', 'Васильевич', 'Меняетпроффесию', '/css/images/teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 9, 9, 9, 'Програмування ПХП;\r\nJava для IOS;', 0),
+	(5, 'UA', 'Ия', 'Тожевна', 'Воваяготова', '/css/images/teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 0),
+	(6, 'UA', 'Петросян', 'Петросянович', 'Забугорный', '/css/images/teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile', '', '', '', '', '', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 0);
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 
 
@@ -1545,7 +1557,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesen` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesen: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesen: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesen` DISABLE KEYS */;
 INSERT INTO `translatedmessagesen` (`id`, `language`, `translation`) VALUES
 	(1, 'en', 'INTITA'),
@@ -1711,7 +1723,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesru` (
   CONSTRAINT `FK_translatedMessagesRU_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesru: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesru: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesru` DISABLE KEYS */;
 INSERT INTO `translatedmessagesru` (`id`, `language`, `translation`) VALUES
 	(1, 'ru', 'INTITA'),
@@ -1877,7 +1889,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesua` (
   CONSTRAINT `FK_translatedmessages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COMMENT='Table for translation interface messages (see sourceMessages). UA';
 
--- Dumping data for table int_ita_db.translatedmessagesua: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesua: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesua` DISABLE KEYS */;
 INSERT INTO `translatedmessagesua` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -2057,46 +2069,22 @@ CREATE TABLE IF NOT EXISTS `user` (
   `aboutUs` text,
   `aboutMy` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT '/avatars/noname.png',
-  `role` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~30 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~9 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`) VALUES
-	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', ''),
-	(5, 't54wy6wy@ferwg.gtrf', '', '', 0, '', NULL, NULL, NULL, NULL, 't54wy6wy@ferwg.gtrf', 'egrwhjet6', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-	(6, 'dfesafhe@fjgr.gfrje', '', '', 0, '', NULL, NULL, NULL, NULL, 'dfesafhe@fjgr.gfrje', 'fkrjgfrklfjrlk', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-	(7, 'fhsdgfh@deyg.gdehj', '', '', 0, '', NULL, NULL, NULL, NULL, 'fhsdgfh@deyg.gdehj', 'vfdvdf', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, NULL, ''),
-	(8, 'admin@EHJBF.SNDFS', '', '', 0, '', NULL, NULL, NULL, NULL, 'admin@EHJBF.SNDFS', 'd6877098041a8a30bc8bd8f9faeeb8e62afd682f', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, NULL, ''),
-	(9, 'gfvzdrgfregt', '', '', 0, '', NULL, '', '', '', 'gfsGFea@EFSF.DEW', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', NULL, '0'),
-	(10, 'Wizlightdrago@gmail.com', '', '', 0, '', NULL, NULL, NULL, NULL, 'Wizlightdrago@gmail.com', '17ba0791499db908433b80f37c5fbc89b870084b', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', NULL, '', '', '', '/avatars/ivanna@yutr.rtr.jpg', ''),
-	(12, 'dawfawef@efew.rew', '', '', 0, '', NULL, NULL, NULL, NULL, 'dawfawef@efew.rew', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(13, 'gtsgrstg@fretf.gtr', '', '', 0, '', NULL, NULL, NULL, NULL, 'gtsgrstg@fretf.gtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(14, 'fsef@sg.tgf', '', '', 0, '', NULL, NULL, NULL, NULL, 'fsef@sg.tgf', '8eddb6bdf9a5139e587bd661994c33d59ab3320d', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(15, 'fsefsergfer', '', '', 0, '', NULL, '', '', '', 'rgdrgrtfg@fdr.uky', '12c6fc06c99a462375eeb3f43dfd832b08ca9e17', '', '', '', '', 'Онлайн', '', '', '', '/avatars/rgdrgrtfg@fdr.uky.jpg', '0'),
-	(16, 'bdkjfvh', '', '', 0, '', NULL, '', '', '', 'bbbbbgg@bb.bb', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2', '', '', '', '', '', '', '', '', NULL, '0'),
-	(17, 'fsdgdrhdh', '', '', 0, '', NULL, '', '', '', 'rgdrgjjrtfg@fdr.uky', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн/Офлайн', '', '', '', NULL, '0'),
-	(18, 'bdkjfvh', '', '', 0, '', NULL, '', '', '', 'bbbbhb@bb.bb', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', NULL, '0'),
-	(19, 'rsysryyu', '', '', 0, '', NULL, '', '', '', 'tesys45y@yt.uy', '12c6fc06c99a462375eeb3f43dfd832b08ca9e17', '', '', '', '', 'Не вибрано', '', '', '', NULL, '0'),
-	(20, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'hsvfhjs@dewj.few', '12c6fc06c99a462375eeb3f43dfd832b08ca9e17', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-	(21, 'kjhkohlnk', '', '', 0, '', NULL, '', '', '', 'hchh+5@opjuigbliy.gkyugf', '73bf9dfd2709e0dfc11bc4ce8cf259a347556dcb', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0'),
-	(22, 'tttttt', '', '', 0, '', NULL, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', 'Не вибрано', 'Не вибрано', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0'),
-	(24, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'vhfvyh@ft.huh', 'f2c42640c920871074aea6971d71d038f95e8cf6', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(25, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'bjhbi@fyh.ji', 'b4aa1b38a0c42a0854f1a39b3f47171d48bd7887', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(26, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'tttedtt@tttt.com', '70f615ab34448baae29eada2921932adf6eabdf0', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(27, 'Ivanna', '', '', 0, '', NULL, 'Bezpalko', NULL, NULL, 'vnnchkh@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(28, 'Иванна', '', '', 0, '', NULL, 'Безпалько', NULL, NULL, 'ivanna_sunny@ukr.net', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '/avatars/noname.png', ''),
-	(29, ' n,jb,bhj,b', '', '', 0, '', NULL, '', '', '', 'vhvghvh@rw.dw', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Офлайн', '', '', '', '/avatars/noname.png', '0'),
-	(30, 'dafse', '', '', 0, '', NULL, '', '', '', 'fsrgfe@rth.tr', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Офлайн', '', '', '', '/avatars/noname.png', '0'),
-	(31, 'уцуфуафукп', '', '', 0, '', NULL, '', '', '', 'vdrgf@ferw.dwe', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Офлайн', '', '', '', '/avatars/noname.png', '0'),
-	(32, 'ewerwrdw', '', '', 0, '', NULL, '', '', '', 'werfw@few.yjt', 'b6692ea5df920cad691c20319a6fffd7a4a766b8', '', '', '', '', 'Онлайн', '', '', '', '/avatars/noname.png', '0'),
-	(33, 'rw3trw34', '', '', 0, '', NULL, '', '', '', 'erq3r@rfe.uky', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0'),
-	(34, 'fdsfdrfvd', '', '', 0, '', NULL, '', '', '', 'fesrfre@gtr.fre', '98fbc42faedc02492397cb5962ea3a3ffc0a9243', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0'),
-	(35, 'вуацупацкп', '', '', 0, '', NULL, '', '', '', 'dnfj@fnek.fe', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0'),
-	(36, 'gerwggt', '', '', 0, '', NULL, '', '', '', 'fersrg@fe.yu', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0'),
-	(37, 'bdfwjednb', '', '', 0, '', NULL, '', '', '', 'dseafa@rew.ew', '17ba0791499db908433b80f37c5fbc89b870084b', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0');
+	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0'),
+	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', NULL, '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0'),
+	(22, 'tttttt', '', '', 0, '', NULL, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0'),
+	(38, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(39, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(43, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Не вибрано', NULL, NULL, NULL, '/avatars/noname.png', '0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
