@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-23 16:11:22
+-- Date/time:                    2015-04-23 16:40:58
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -1063,9 +1063,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(178, 'ua', 'Телефон'),
 	(178, 'ru', 'Телефон'),
 	(178, 'en', 'Phone'),
-	(179, 'ua', 'Які курси <br> Ви готові <br> викладати'),
-	(179, 'ru', 'Какие курсы <br> Вы готовы <br> преподавать'),
-	(179, 'en', 'What courses <br> you ready <br> to teach '),
+	(179, 'ua', 'Які курси Ви готові викладати'),
+	(179, 'ru', 'Какие курсы Вы готовы преподавать'),
+	(179, 'en', 'What courses you ready to teach '),
 	(180, 'ua', 'Відправити'),
 	(180, 'ru', 'Отправить'),
 	(180, 'en', 'Send'),
