@@ -183,6 +183,23 @@ div.courseShortInfoTable{
 .courseInfo{
     font-size: small;
 }
+.courseDetail span.colorP{
+    display: inline-block;
+    width: 150px;
+}
+#spoilerPay {
+    width: 600px;
+}
+span.readmore-js-toggle{
+    margin-right: 100px;
+}
+#spoilerPay div span:first-child{
+    display: inline-block;
+    width: 150px;
+}
+#spoilerPay span{
+    white-space: nowrap;
+}
 .colorP{
     color: #4b75a4;
 }
