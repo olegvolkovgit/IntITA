@@ -429,7 +429,7 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
 
 div.profileStatus{
     position: absolute;
-    top:65px;
+    top:66px;
     right:0;
     float:right;
     display:block;
