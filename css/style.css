@@ -7,7 +7,7 @@ body {
     width: 1200px;
     margin: 0 auto;
     overflow: hidden;
-    margin-bottom: -10px;
+
 }
 h1, h2, h3, h4, html{
     font-family: "MyriadPro";
@@ -32,9 +32,11 @@ p {
     position: fixed;
 }
 #lang.down {
+
     display: inline-block;
-    margin-top: -80px;
+    margin-top: -45px;
     margin-left: 500px;
+
 }
 #lang #en {
      border-left: 1px solid #999999;
@@ -167,13 +169,13 @@ p {
 
 
 
-.main div{
-    margin-right: 15px;
-    margin-left: 15px;
+#footer .main div{
+    margin-right: px;
+    margin-left: px;
     margin-top: 10px;
     float: left;
     height: 90px;
-
+    overflow: hidden;
 }
 
 #footer1 {
@@ -182,25 +184,32 @@ p {
     color: #4b75a4;
 margin-left: 0px;
     margin-right: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+
 }
 
 #footer2 {
+    position: relative;
     border-left: 1px solid #33ccff;
-    padding-left: 15px;
+    padding-left: 10px;
     color: #4b75a4;
     margin-left: 35px;
     margin-right: 15px;
+    margin-bottom: 0px;
+    bottom: 0px;
 }
 
 
 #footer3 {
+    position: relative;
     border-left: 1px solid #33ccff;
     padding-left: 25px;
     color: #4b75a4;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
+    buttom: 10px;
 }
 #footer3 img{
     position: relative;
@@ -211,7 +220,7 @@ margin-left: 0px;
     padding-left: 2px;
     margin-left: 25px;
     margin-right: 0px;
-
+margin-top: 0px;
 }
 #footer ul {
     margin-top: 10px;
@@ -232,7 +241,8 @@ margin-left: 0px;
 }
 #footer p{
     line-height: 14px;
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-left: 15px;
     font-size: 13px;
     color: #003399;
 }
@@ -419,7 +429,7 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
 
 div.profileStatus{
     position: absolute;
-    top:50px;
+    top:60px;
     right:0;
     float:right;
     display:block;
