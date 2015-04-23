@@ -16,6 +16,7 @@
 $post=Course::model()->findByPk(1);
 ?>
 <?php
+$this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Програмування для чайників',
 );

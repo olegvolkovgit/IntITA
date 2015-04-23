@@ -119,7 +119,7 @@ $this->breadcrumbs=array(
                                     <?php echo "Урок ",$i+1,"."; ?>
                                 </td>
                                 <td>
-                                    <span> <a href="#"><?php echo $arrayNameLessons[$i] ;?></a> </span>
+                                    <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $arrayNameLessons[$i] ;?></a> </span>
                                 </td>
                             </tr>
                         </table>
@@ -140,7 +140,7 @@ $this->breadcrumbs=array(
                     <tr>
                         <td class="teacherBoxLeft">
                             <img  src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher2.jpg"/>
-                            <a href="#"><?php echo "персональна сторінка"; ?> &#187;</a>
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/profile"><?php echo "персональна сторінка"; ?> &#187;</a>
                         </td>
                         <td  class="teacherBoxRight" ">
                         <h2><?php echo "Викладач:"?></h2>
@@ -150,8 +150,6 @@ $this->breadcrumbs=array(
                             <?php echo $teacherPhone1, $teacherPhone2;?>
                             <?php echo $teacherSkype;?>
                         </div>
-                        <h2><?php echo "Викладає:"?></h2>
-                        <?php echo "Урок 1, 4-9, 11,19."?>
                         </td>
                     </tr>
                 </table>

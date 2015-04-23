@@ -9,6 +9,7 @@
 #coursesHeader
 {
     width:230px;
+    white-space: nowrap;
     color: #ffffff;
     font-size:24px;
     padding-left: 90px;
@@ -25,7 +26,6 @@
     width:570px;
     position:relative;
     margin-left:60px;
-    height: 1500px;
     margin-right: 50px;
 }
 .courseBox

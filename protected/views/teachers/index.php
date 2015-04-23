@@ -42,7 +42,7 @@ $post=Teacher::model()->findAll();
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
                                 <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
-                                <?php echo $teacherValue->profile_text ?>
+                                <?php echo $teacherValue->profile_text_short ?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
                                 </p>
@@ -53,7 +53,7 @@ $post=Teacher::model()->findAll();
                                         for ($j = 0; $j < count($coursesArray); $j++)
                                         {
                                             ?>
-                                            <li><a href="#"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
                                         <?php
                                         }
                                         ?>
@@ -142,7 +142,7 @@ $post=Teacher::model()->findAll();
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
                                 <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
-                                <?php echo $teacherValue->profile_text ?>
+                                <?php echo $teacherValue->profile_text_short ?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
                                 </p>
@@ -153,7 +153,7 @@ $post=Teacher::model()->findAll();
                                         for ($j = 0; $j < count($coursesArray); $j++)
                                         {
                                             ?>
-                                            <li><a href="#"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
                                         <?php
                                         }
                                         ?>
