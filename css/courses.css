@@ -73,10 +73,12 @@
 .coursePriceBox
 {
     margin-left: 150px;
+    float: left;
 }
 #coursePriceStatus1 {
     color: #ff0000;
     text-decoration: line-through;
+
 }
 #coursePriceStatus2 {
     color: #333333;
@@ -155,13 +157,16 @@
 }
 .courseLang
 {
+    height: 20px;
     margin-left:150px;
     color: #333333;
+    float: left;
 }
 #coursesLang{
     z-index: 6;
     position: relative;
-    float:right;
+   left: 70px;
+    top:-22px;
 }
 #coursesLang.down {
     height: 20px;
@@ -283,30 +288,3 @@ table {
     font-size: 14px;
 }
 
-
-.download {
-    position: relative;
-    margin-top: px;
-
-    height: 33px;
-    width: 200px;
-    background: #ffffff;
-    border-radius:8px;
-    border: 1px solid #4B75A4;
-    color: white;
-    vertical-align: middle;
-    font: 16px/30px "MyriadPro";
-    text-align:      center;
-    text-decoration: none;
-}
-.download:hover {
-    background: #4B75A4;
-}
-.download:active {
-    background: #363636;
-}
-.download.down {
-    margin-top: 12px;
-}
-.download.down:hover{
-    background: #454545;

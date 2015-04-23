@@ -178,12 +178,6 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
             <td  >
                 <div id='coursesPart2'>
 
-
-
-                   <div class="download"> <a  href=""><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-se-vid.png">Завантажити це відео</a></div>
-
-
-
 <!--Синий блок-->
                     <div class="bgBlue" id="xex">
                         <table>
