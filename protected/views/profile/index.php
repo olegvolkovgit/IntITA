@@ -16,7 +16,7 @@
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0057'),);
 $tmp2 = Yii::t('teachers', '0061');
-
+$currentDiv = '';
 $arrayCourseText=array(
     ' •  кройка и шитье сроков давности;'=> Yii::app()->request->baseUrl.'/course',
     ' •  программування самоубийств;'=> Yii::app()->request->baseUrl.'/course'
@@ -28,9 +28,13 @@ $arrayCourseText=array(
         <table>
             <tr>
                 <td valign="top">
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1Image.png"/>
+<!--                    <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/images/edit.png" class="editIcon" />-->
+                    <a href="javascript:enableEdit()">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1Image.png"/>
+                    </a>
                 </td>
                 <td>
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
                     <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
                     <div class="TeacherProfilename"> <?php echo $model->first_name.' '.$model->middle_name; ?> </div>
 
@@ -39,6 +43,7 @@ $arrayCourseText=array(
                     </div>
 
                     <div class="TeacherProfilesectionText">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
                         <?php
                         foreach ($sections as $val) {
                             echo $val; ?><p></p><?php
@@ -50,11 +55,13 @@ $arrayCourseText=array(
                         <?php echo Yii::t('teacher', '0065') ?>
                     </div>
 
-                    <div class="txtMsg">
-                        echo $model->profile_text_first; ?>
+                    <div class="txtMsgFirst">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        <?php echo $model->profile_text_first; ?>
                     </div>
                     <?php echo Yii::t('teachers', '0061'); ?>
                     <div class="TeacherProfilecourse">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
                         <?php
                         foreach ($arrayCourseText as $linkText => $linkAdress) {
                             ?>
@@ -66,13 +73,16 @@ $arrayCourseText=array(
                         }
                         ?>
                     </div>
-                    <div class="txtMsg">
+                    <div class="txtMsgSecond">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
                         <?php echo $model->profile_text_last;?>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
+
+
     <!-- Block 2 -->
     <div class="TeacherProfileblock2">
         <div class="border">
@@ -307,3 +317,44 @@ $arrayCourseText=array(
         </div>
     </div>
     </div>
+
+    <?php
+    // use editor WYSIWYG Imperavi
+    $this->widget('ImperaviRedactorWidget', array(
+        // use editor to field .aboutStepBlock
+        'selector' => '',
+        'options' => array(
+            'imageUpload' => $this->createUrl('files/upload'),
+            'lang' => 'ua',
+            'toolbar' => true,
+            'iframe' => true,
+            'css' => 'wym.css',
+        ),
+        'plugins' => array(
+            'fullscreen' => array(
+                'js' => array('fullscreen.js',),
+            ),
+            'video' => array(
+                'js' => array('video.js',),
+            ),
+            'fontsize' => array(
+                'js' => array('fontsize.js',),
+            ),
+            'fontfamily' => array(
+                'js' => array('fontfamily.js',),
+            ),
+            'fontcolor' => array(
+                'js' => array('fontcolor.js',),
+            ),
+
+        ),
+    ));
+    ?>
+
+    <script type='text/javascript'>
+
+        function enableEdit(blockId)
+        {
+
+        }
+    </script>
