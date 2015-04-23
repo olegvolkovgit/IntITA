@@ -118,6 +118,7 @@ table.profileInfo {
     width: 20px;
     height: 36px;
     line-height: 40px;
+    border:none;
 }
 .radiolabel label, .radiolabelRole label
 {

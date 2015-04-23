@@ -306,6 +306,13 @@ class StudentReg extends CActiveRecord
         if($courses)
             echo  '<span class="colorP">'.Yii::t('profile', '0107').'</span>'.$courses;
     }
+    public function getEdForm ($edForm)
+    {
+        if ($edForm=='Офлайн') $val = array('Офлайн');
+        if ($edForm=='Онлайн/Офлайн') $val = array('Онлайн','Офлайн');
+        if ($edForm=='Онлайн') $val = array('Онлайн');
+        return  $val;
+    }
     public function validatePassword($password)
     {
         return CPasswordHelper::verifyPassword($password,$this->password);
