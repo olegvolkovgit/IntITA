@@ -159,17 +159,17 @@
     height: 20px;
     margin-left:150px;
     color: #333333;
-   float: left;
+    float: left;
 }
 #coursesLang{
     z-index: 6;
     position: relative;
    left: 70px;
-   top:-22px;
+    top:-22px;
 }
 #coursesLang.down {
     height: 20px;
-    font-size: 14px;
+    /*buttom: 3px;*/
 }
 #coursesLang #ru {
     border-left: 1px solid #999999;
@@ -286,3 +286,4 @@ table {
     width: 370px;
     font-size: 14px;
 }
+

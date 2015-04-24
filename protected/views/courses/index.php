@@ -5,10 +5,6 @@
     function wrt(x)
     {
         document.getElementById("razv").innerHTML=x;
-//        if (x!="")
-//        {document.getElementById("sver").innerHTML="<u><?php //echo Yii::t('lecture', '0082'); ?>//</u>";}
-//        else
-//        {document.getElementById("sver").innerHTML=""; document.getElementById("razv").innerHTML="<br><u><?php //echo Yii::t('courses', '0146'); ?>//</u>";}
     }
 </script>
 <script>
@@ -20,52 +16,11 @@
 
 <?php
 $this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(
+$this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
-class Course
-{
-    public $courseLang="Мови курсу:";
-    public $courseStatusTitle="Стан курсу:";
-    public $coursePrice="Вартість курсу:";
-    public $courseImage;
-    public $courseName;
-    public $courseLevel;
-    public $courseNumberofModules;
-    public $courseReview;
-    public $courseMaxNumberofModules=5;
-    public $coursesHeader='Наші курси';
-    public $courseLevelTitle='Рівень курсу:';
-    public $coursesTextHeader= 'Концепція підготовки';
-    public $coursesTextFooter="<span id='courseText2'>Спочатку навчання створюється стійкий фундамент для підготовки програмістів:
-		необхідні знання елементарної математики, будови комп’ютера і основ інформатики.</span>";
-    public $coursesTextFooter2="<p><span id='courseText2'>Потім вивчаються основні принципи програмування на базі класичних комп'ютерних наук і методологій: алгоритмічна мова;
-		лементи вищої та дискретної математики і комбінаторики; структури даних, розробка і аналіз алгоритмів.</span>
-		<p><span id='courseText2'>
-        Після чого формується база для переходу до сучасних технологій програмування: об’єктно-орієнтоване програмування; проектування баз даних.</span>
-		<p><span id='courseText2'>Завершення процесу підготовки шляхом конкретного застосування отриманих знань на реальних проектах із засвоєнням сучасних методів і технологій,
-		які використовуються в ІТ індустрії компаніями.</span>";
-    function Course ( $courseImage,$courseName,$courseLevel,$courseNumberofModules,$courseReview)
-    {
-        $this->courseImage=$courseImage;
-        $this->courseName=$courseName;
-        $this->courseLevel=$courseLevel;
-        $this->courseNumberofModules=$courseNumberofModules;
-        $this->courseReview=$courseReview;
-    }
-}
 
-$course1=new Course (Yii::app()->request->baseUrl.'/css/images/course1Image.png','Інтернет програміст (РНР)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$course2=new Course (Yii::app()->request->baseUrl.'/css/images/course2Image.png','Інтернет програміст (Java Script)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$course3=new Course (Yii::app()->request->baseUrl.'/css/images/course3Image.png','Програміст (Java)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$course4=new Course (Yii::app()->request->baseUrl.'/css/images/course4Image.png','Програміст (C#)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$course5=new Course (Yii::app()->request->baseUrl.'/css/images/course5Image.png','Програміст (С++)','сильний початківець',3,'Интерактивные веб-приложения разработка программного  for a for aобеспечения/ Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$course11=new Course (Yii::app()->request->baseUrl.'/css/images/course11Image.png','Тестувальник (QA) ','сильний початківець',3,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-$coursesArray1=array($course1,$course2,$course3,$course4);
-$course7=new Course (Yii::app()->request->baseUrl.'/css/images/course7Image.png','Програміст (Objective С)','сильний початківець',3,'Профессиональная разработка программного обеспечения for a for a Zombie Outlaws Completion Badge. Build faster and more secure web apps with Rails 4.');
-
-
-$coursesArray2=array($course5,$course11,$course7);
+$courseList = $dataProvider->getData();
 
 $courseDisableImage=Yii::app()->request->baseUrl.'/css/images/ratIco0.png';
 $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
@@ -86,41 +41,41 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
         </tr>
     </table>
 
-
-
     <div class="coursesline1">
         <a id="coursesline1" href="#form"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline1.png"/></a>
     </div>
 
     <table>
-        <tr><td  valign="top">
+        <tr>
+            <td  valign="top">
 
                 <div id='coursesPart1'>
                     <?php
-                    foreach ($coursesArray1 as $val)
+                    for ($k = 0; $k < 4; $k++)
                     {
-                        ?>
+                        $val = $courseList[$k];
+                         ?>
                         <div class='courseBox'>
-                            <img src='<?php echo $val->courseImage; ?>'>
+                            <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
                             <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
-                                    echo $val->courseName; ?></a>
+                                    echo $val->course_name; ?></a>
                             </div>
 <!--Рівень курсу-->
                             <div class="courseLevelBox">
                                 <?php echo Yii::t('courses', '0068'); ?>
                                       <span class="courseLevel">
-			                            <?php echo $val->courseLevel; ?>
+			                            <?php echo $val->level; ?>
 			                          </span>
 
                                 <div class='courseLevelIndex'>
                                     <?php
-                                    for ($i=0; $i<$val->courseNumberofModules; $i++)
+                                    for ($i=0; $i<Course::MAX_LEVEL; $i++)
                                     {
                                         ?><span class="courseLevelImage">
                                         <img src="<?php echo $courseEnableImage;?>">
                                         </span><?php
                                     }
-                                    for ($i=0; $i<($val->courseMaxNumberofModules-$val->courseNumberofModules); $i++)
+                                    for ($i=0; $i<(Course::MAX_LEVEL-3); $i++)
                                     {
                                         ?><span class="courseLevelImage">
                                         <img src="<?php echo $courseDisableImage;?>">
@@ -129,34 +84,31 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                     ?>
                                 </div>
                             </div>
-<!--Стан курсу-->
+                                                <!--Стан курсу-->
                             <div class="courseStatusBox">
                                 <?php echo Yii::t('courses', '0094'); ?>
                                 <span id="courseStatus1">доступний</span>
                             </div>
-<!--Мови курсу-->
+                                <!--Мови курсу-->
                             <div class="courseLang">
                                 <?php echo Yii::t('courses', '0069'); ?>
                                 <div id="coursesLang" class="down">
                                     <form  action="" method="post" onsubmit="" name="fff">
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'RU'));?>" id="ru" name="ru" onclick="changeLang(this)">ru</button>
-
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'EN'));?>" id="en" name="en" onclick="changeLang(this)">en</button>
                                     </form>
                                 </div>
                             </div>
-<!--Вартість курсу-->
+                                    <!--Вартість курсу-->
                             <div class="coursePriceBox">
                                 <?php echo Yii::t('courses', '0147'); ?>
                                 <span id="coursePriceStatus1"> <?php echo "21600.00 грн. ";?> </span>
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. ";?> </span>
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
                             </div>
-<!--Оцінка курсу-->
+                                <!--Оцінка курсу-->
                             <div class='starLevelIndex'>
-                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
@@ -171,14 +123,15 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 }
                                 ?>
                             </div>
-                            <!--<span class='courseText'>--><?php //echo $val->courseReview;?><!--</span>-->
                         </div>
-                    <?php } ?>
-                </div></td>
+                    <?php
+                   } ?>
+                </div>
+            </td>
 
             <td  >
                 <div id='coursesPart2'>
-<!--Синий блок-->
+                                                    <!--Синий блок-->
                     <div class="bgBlue" id="xex">
                         <table>
                             <tr>
@@ -209,35 +162,36 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <u><?php echo Yii::t('courses', '0146'); ?></u>
                             </div>
                             <br>
-
                             <div id="sver" onclick='wrt("");'></div>
                             <br>
                         </div>
                     </div>
+
                     <?php
-                    foreach ($coursesArray2 as $val)
+                    for ($j = $count1; $j < 7; $j++)
                     {
+                        $val = $courseList[$j];
                         ?>
                         <div class='courseBox'>
-                            <img src='<?php echo $val->courseImage; ?>'>
+                            <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
                             <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
-                                    echo $val->courseName; ?></a>
+                                    echo $val->course_name; ?></a>
                             </div>
-<!--Рівень курсу-->
+                                <!--Рівень курсу-->
                             <div class="courseLevelBox">
                                 <?php echo Yii::t('courses', '0068');  ?>
                                 <span class="courseLevel">
-			                            <?php echo $val->courseLevel; ?>
+			                            <?php echo $val->level; ?>
 			                        </span>
 
                                 <div class='courseLevelIndex'>
                                     <?php
-                                    for ($i = 0; $i < $val->courseNumberofModules; $i++) {
+                                    for ($i = 0; $i < Course::MAX_LEVEL; $i++) {
                                         ?><span class="courseLevelImage">
                                         <img src="<?php echo $courseEnableImage; ?>">
                                         </span><?php
                                     }
-                                    for ($i = 0; $i < ($val->courseMaxNumberofModules - $val->courseNumberofModules); $i++) {
+                                    for ($i = 0; $i < (Course::MAX_LEVEL - 4); $i++) {
                                         ?><span class="courseLevelImage">
                                         <img src="<?php echo $courseDisableImage; ?>">
                                         </span><?php
@@ -245,25 +199,23 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                     ?>
                                 </div>
                             </div>
- <!--Стан курсу-->
+                                <!--Стан курсу-->
                             <div class="courseStatusBox">
                                 <?php echo Yii::t('courses', '0094'); ?>
                                 <span id="courseStatus2">розробляється</span>
                             </div>
-<!--Мови курсу-->
+                                <!--Мови курсу-->
                             <div class="courseLang">
                                 <?php echo Yii::t('courses', '0069'); ?>
                                 <div id="coursesLang" class="down">
                                     <form  action="" method="post" onsubmit="" name="fff">
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'RU'));?>" id="ru" name="ru" onclick="changeLang(this)">ru</button>
-
                                         <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'EN'));?>" id="en" name="en" onclick="changeLang(this)">en</button>
                                     </form>
                                 </div>
                             </div>
- <!--Вартість курсу-->
+                                <!--Вартість курсу-->
                             <div class="coursePriceBox">
                                 <?php echo Yii::t('courses', '0147'); ?>
                                 <span id="coursePriceStatus1"> <?php echo "21600.00 грн. "; ?> </span>
@@ -271,7 +223,6 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)"; ?>
                             </div>
                             <div class='starLevelIndex'>
-                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
@@ -294,8 +245,6 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
         </tr>
     </table>
 </div>
-
-<! main box>
 
 <script>
     function changeLang(n){

@@ -21,7 +21,8 @@
  */
 class Course extends CActiveRecord
 {
-	/**
+	const MAX_LEVEL = 5;
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()

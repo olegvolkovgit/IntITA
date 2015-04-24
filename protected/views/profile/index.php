@@ -62,10 +62,25 @@ $arrayCourseText=array(
                         <?php echo Yii::t('teacher', '0065') ?>
                     </div>
 
+                    <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
+                        <div class="wrapper-imperaviSimple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
+                        <div class="btn-edit-ImperaviSimple"
+                             style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
+                             onclick="pressEditRedactor('.txtMsgFirst');" <?$field = '.redactor'?>
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" width="26px" height="20px" class="editIcon">
+                        </div>
+                        <div class="btn-cancel-ImperaviSimple"
+                             style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressCancelRedactor('.txtMsgFirst')">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" width="20px" height="20px" class="editIcon">
+                        </div>
+                        <div class="btn-save-ImperaviSimple"
+                             style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressSaveRedactor('.txtMsgFirst');">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" width="20px" height="20px" class="editIcon">
+                        </div>
+                    </div>
                     <div class="txtMsgFirst">
-                        <a href="http://localhost/IntITA/profile?&div=.txtMsgFirst">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
-                        </a>
                         <?php echo $model->profile_text_first; ?>
                     </div>
 
@@ -131,10 +146,7 @@ $arrayCourseText=array(
         </div>
         <div class="txtMsg">
             <?php
-            $aboutTxt = "Только слова благодарности и восхищения таким педагогом и вообще человеком!
-                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных 
-                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. 
-                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!";
+            $aboutTxt = "";
             echo $aboutTxt;
             ?>
         </div>
@@ -162,12 +174,7 @@ $arrayCourseText=array(
         </div>
         <div class="txtMsg">
             <?php
-            $aboutTxt = "Весьма важный этап, учитывая огромную конкуренцию на рынке.
-                       Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и проанализировать сайты компаний,
-                       с которыми предстоит конкурировать на рынке интернет-торговли будет очень кстати. 
-                       Так как мы говорим тут о проектировании, я не буду углубляться в сферу промышленного шпионажа, 
-                       а сосредоточусь на исследовании сайтов, то есть тех моментов, 
-                       которые нам нужны для последующего проектирования.!";
+            $aboutTxt = "";
             echo $aboutTxt;
             ?>
         </div>
@@ -200,9 +207,7 @@ $arrayCourseText=array(
         </div>
         <div class="txtMsg">
             <?php
-            $aboutTxt = "Только слова благодарности и восхищения таким педагогом и вообще человеком!
-                                 С Александрой  знакома через ее сайт <<Учитель мистецтва>>.  Столько высококлассных 
-                                 работ я в сети еще не встречала!";
+            $aboutTxt = "";
             echo $aboutTxt;
             ?>
         </div>
@@ -233,13 +238,7 @@ $arrayCourseText=array(
         </div>
         <div class="txtMsg">
             <?php
-            $aboutTxt = "Весьма важный этап, учитывая огромную конкуренцию на рынке.
-                                Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и
-                                проанализировать сайты компаний, с которыми предстоит конкурировать 
-                                на рынке интернет-торговли будет очень кстати. Так как мы говорим тут
-                                о проектировании, я не буду углубляться в сферу промышленного шпионажа, 
-                                а сосредоточусь на исследовании сайтов, то есть тех моментов, которые 
-                                нам нужны для последующего проектирования.!";
+            $aboutTxt = "";
             echo $aboutTxt;
             ?>
         </div>
@@ -366,3 +365,39 @@ $arrayCourseText=array(
         ),
     ));
     ?>
+
+
+    <script type="text/javascript">
+        function pressEditRedactor(className)
+        {
+            var selector = className;
+            $(selector).redactor({
+                focus: true
+            });
+            $('.btn-edit-ImperaviSimple').hide();
+            $('.btn-save-ImperaviSimple').show();
+            $('.btn-cancel-ImperaviSimple').show();
+        }
+
+        function pressCancelRedactor(className)
+        {
+            var selector = className;
+            $(selector).redactor('core.destroy');
+            $('.btn-edit-ImperaviSimple').show();
+            $('.btn-save-ImperaviSimple').hide();
+            $('.btn-cancel-ImperaviSimple').hide();
+        }
+
+        function pressSaveRedactor(className)
+        {
+            var selector = className;
+            // save content if you need
+            var text = $(selector).redactor('code.get');
+
+            // destroy editor
+            $(selector).redactor('core.destroy');
+            $('.btn-edit-ImperaviSimple').show();
+            $('.btn-save-ImperaviSimple').hide();
+            $('.btn-cancel-ImperaviSimple').hide();
+        }
+    </script>
