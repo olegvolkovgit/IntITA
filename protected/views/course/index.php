@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 15.03.2015
- * Time: 18:08
- */
-?>
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
 <!-- course style -->
@@ -186,26 +178,26 @@ $this->breadcrumbs=array(
         <article>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
-                     <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -213,26 +205,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                       <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -240,26 +232,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -267,26 +259,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -294,26 +286,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -321,26 +313,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -348,26 +340,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -375,26 +367,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher4.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сірий Олександр</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сірий Олександр</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -402,26 +394,26 @@ $this->breadcrumbs=array(
             </div>
             <div class="courseTeacher">
                 <div class="courseTeacherImg">
-                    <a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile');?>">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1.jpg" />
                     </a>
                 </div>
                 <div class="courseTeacherInfo">
-                    <h3><a href="<?php echo Yii::app()->request->baseUrl.'/profile'?>">Сіра Олександра</a></h3>
+                    <h3><a href="<?php echo Yii::app()->createUrl('profile');?>">Сіра Олександра</a></h3>
                     <table class="courseTeacherDetail">
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 1: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Ява скрипт та Суматра;</a></span>
+                                <span class="colorP">Модуль 2: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Ява скрипт та Суматра;</a></span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->request->baseUrl.'/module'?>">Програмування PHP;</a></span>
+                                <span class="colorP">Модуль 3: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>">Програмування PHP;</a></span>
                             </td>
                         </tr>
                     </table>
@@ -447,7 +439,8 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 1. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Основи PHP</span></a>
+<!--                        <a href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/module"><span class="colorP">Основи PHP</span></a>-->
+                            <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Основи PHP</span></a>
                     </td>
                 </tr>
             </table>
@@ -458,7 +451,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 2. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Семантичне ядро сайту</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Семантичне ядро сайту</span></a>
                     </td>
                 </tr>
             </table>
@@ -469,7 +462,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 3. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Зовнішні ресурси в просуванні</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Зовнішні ресурси в просуванні</span></a>
                     </td>
                 </tr>
             </table>
@@ -480,7 +473,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey"">Модуль 4. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Запити HTTP, URL параметри і форми HTML котрі допомагають справжньому програмісту</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Запити HTTP, URL параметри і форми HTML котрі допомагають справжньому програмісту</span></a>
                     </td>
                 </tr>
             </table>
@@ -491,7 +484,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 5. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Cookies Урок і сесії</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Cookies Урок і сесії</span></a>
                     </td>
                 </tr>
             </table>
@@ -502,7 +495,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 6. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Робота з файлами</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Робота з файлами</span></a>
                     </td>
                 </tr>
             </table>
@@ -513,7 +506,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 7. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Урок Робота з базою даних</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
                     </td>
                 </tr>
             </table>
@@ -523,7 +516,7 @@ $this->breadcrumbs=array(
                         <span class="colorGrey">Модуль 11. </span>
                     </td>
                     <td>
-                        <a href="<?php echo Yii::app()->request->baseUrl; ?>/module"><span class="colorP">Урок Робота з базою даних</span></a>
+                        <a href="<?php echo Yii::app()->createUrl('module'); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
                     </td>
                 </tr>
             </table>
