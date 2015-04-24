@@ -102,8 +102,8 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                         ?>
                         <div class='courseBox'>
                             <img src='<?php echo $val->courseImage; ?>'>
-                            <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
-                                    echo $val->courseName; ?></a>
+                            <div class='courseName'>
+                                <a href="<?php echo Yii::app()->createUrl('course');?>"><?php echo $val->courseName; ?></a>
                             </div>
 <!--Рівень курсу-->
                             <div class="courseLevelBox">
@@ -219,8 +219,8 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                         ?>
                         <div class='courseBox'>
                             <img src='<?php echo $val->courseImage; ?>'>
-                            <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
-                                    echo $val->courseName; ?></a>
+                            <div class='courseName'>
+                                <a href="<?php echo Yii::app()->createUrl('course');?>"><?php echo $val->courseName; ?></a>
                             </div>
 <!--Рівень курсу-->
                             <div class="courseLevelBox">
