@@ -36,7 +36,40 @@ $this->breadcrumbs=array(
 
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
-    <div class="lessonText">
+
+
+                function pressCancelRedactor(className)
+                {
+                    var selector = className;
+                    $(selector).redactor('core.destroy');
+                    $('.btn-edit-ImperaviSimple').show();
+                    $('.btn-save-ImperaviSimple').hide();
+                    $('.btn-cancel-ImperaviSimple').hide();
+                }
+
+                function pressSaveRedactor(className)
+                {
+                    var selector = className;
+                    // save content if you need
+                    var text = $(selector).redactor('code.get');
+
+                    // destroy editor
+                    $(selector).redactor('core.destroy');
+                    $('.btn-edit-ImperaviSimple').show();
+                    $('.btn-save-ImperaviSimple').hide();
+                    $('.btn-cancel-ImperaviSimple').hide();
+                }
+            </script>
+
+            <!--start include wysiwyg-->
+
+            <div class="redactor">
+
+            </div>
+            <!--end include wysiwyg-->
+        </div>
+        <!--end new block imperavi redactor-->
+	
         <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
