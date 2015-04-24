@@ -49,7 +49,7 @@ $app = Yii::app();
                            Вітаємо!
                             </p>
                             <p id="consInfText">
-                            у вас запланована консультація з біології у виклача Ореста Остаповича Лютого.
+                                у Вас запланована консультація з біології у викладача Ореста Остаповича Лютого.
                             </p>
                             <button id="consultationButton">Ок</button>
                         </div>
@@ -68,12 +68,10 @@ $app = Yii::app();
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js"></script>
 
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/parseTable.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showHideCalendarTabs.js"></script>
 
 <script type="text/javascript">
-    $('#consultationCalendar').click(function() {
-        $('#dateTimePicker').focus();
-    });
-
     $('#dateTimePicker').datetimepicker({
         format: "d MM yyyy",
         language: "<?php echo $app->session['lg']?>",
@@ -85,48 +83,7 @@ $app = Yii::app();
         minView: 2,
         forceParse: 0
     });
-
     $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
-
-    $('#consultationButton').click(function() {
-        document.getElementById('consultationInfo').style.display="none";
-        document.getElementById('consInfText').innerHTML=' у вас запланована консультація з біології у викладача Ореста Остаповича Лютого.';
-    });
-//    var pirduha = getElementById('content');
-//    pirduha.innerHTML = pirduha.innerHTML+'тут всякий бредовый текст';
-//    $(".ui-datepicker-calendar td[data-handler=selectDay]").click(function(){
-//        $("#tablcons").css('display', 'block');
-//
-//    $(".datetimepicker-minutes td").click(function (){
-//        var textinfo = document.getElementById('consInfText');
-//        setTimeout(function() {
-//            var dateinfo = document.getElementById('dateTimePicker').value;
-//            textinfo.innerHTML = dateinfo + textinfo.innerHTML;
-//            $("#consultationInfo").css('display', 'block');
-//        },1000);
-//
-//    });
-
-    $("#dateTimePicker").change(function (){
-        $("#timeConsultation").css('display', 'block');
-    });
-    $("#consultationBack").click(function (){
-        $("#timeConsultation").css('display', 'none');
-        $('#dateTimePicker').focus();
-    });
-    $("#timeDate").click(function (){
-        $("#timeConsultation").css('display', 'none');
-        $('#dateTimePicker').focus();
-    });
-    $("#consultationNext").click(function (){
-        $("#timeConsultation").css('display', 'none');
-        var textinfo = document.getElementById('consInfText');
-        var dateinfo = document.getElementById('dateTimePicker').value;
-        textinfo.innerHTML = dateinfo + textinfo.innerHTML;
-        $("#consultationInfo").css('display', 'block');
-    });
-
-
 </script>
 
 

@@ -33,7 +33,7 @@
 	top: 0;
 	left: 0;
 }
-
+/*
 [class*=" datetimepicker-dropdown"]:before {
 	content: '';
 	display: inline-block;
@@ -111,7 +111,7 @@
 	bottom: -6px;
 	left: 7px;
 }
-
+*/
 .datetimepicker > div {
 	display: none;
 }
