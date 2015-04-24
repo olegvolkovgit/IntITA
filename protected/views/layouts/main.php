@@ -45,7 +45,7 @@ $header = new Header();?>
 <body>
 
 <div id="navigation" class="down" >
-    <div class="main">
+    <div class="main" >
         <div id="logo_img" class="down">
             <a href="<?php echo Yii::app()->request->baseUrl;?>">
                 <img id="logo" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
@@ -290,20 +290,20 @@ $header = new Header();?>
                    </tr></table>
 
             </div>
-            <div id="footer2" style="display: block;">
+            <div id="footer2">
                 <div>
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
                         <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 0px;">
                     </a>
                 </div>
                 <div style="margin-left: 0px; ">
-                    <p > <?php echo $footer->getTel();  ?><br/>
+                    <p> <?php echo $footer->getTel();  ?><br/>
                         <?php echo $footer->getMobile();  ?><br/>
                         <?php echo $footer->getEmail(); ?><br/>
                         <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
-                <div style="width: 537px;">
+                <div style="width: 530px;">
                     <ul style="float: right">
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
