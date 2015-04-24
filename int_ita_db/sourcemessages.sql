@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-21 20:48:20
+-- Date/time:                    2015-04-23 16:41:01
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~173 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~210 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -194,7 +194,44 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(170, 'regexp', '0170'),
 	(171, 'regexp', '0171'),
 	(172, 'regexp', '0172'),
-	(173, 'regexp', '0173');
+	(173, 'regexp', '0173'),
+	(174, 'teachers', '0174'),
+	(175, 'teachers', '0175'),
+	(176, 'teachers', '0176'),
+	(177, 'teachers', '0177'),
+	(178, 'teachers', '0178'),
+	(179, 'teachers', '0179'),
+	(180, 'teachers', '0180'),
+	(181, 'teacher', '0181'),
+	(182, 'teacher', '0182'),
+	(183, 'teacher', '0183'),
+	(184, 'teacher', '0184'),
+	(185, 'teacher', '0185'),
+	(186, 'teacher', '0186'),
+	(187, 'teacher', '0187'),
+	(188, 'teacher', '0188'),
+	(189, 'teacher', '0189'),
+	(190, 'teacher', '0190'),
+	(191, 'teacher', '0191'),
+	(192, 'teacher', '0192'),
+	(193, 'course', '0193'),
+	(194, 'course', '0194'),
+	(195, 'course', '0195'),
+	(196, 'course', '0196'),
+	(197, 'course', '0197'),
+	(198, 'course', '0198'),
+	(199, 'course', '0199'),
+	(200, 'course', '0200'),
+	(201, 'course', '0201'),
+	(202, 'course', '0202'),
+	(203, 'course', '0203'),
+	(204, 'course', '0204'),
+	(205, 'course', '0205'),
+	(206, 'course', '0206'),
+	(207, 'course', '0207'),
+	(208, 'course', '0208'),
+	(209, 'course', '0209'),
+	(210, 'course', '0210');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

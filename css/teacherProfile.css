@@ -62,7 +62,7 @@ div.aboutMore{
     color: #4B75A4;
 }
 /*-------------------------*/
-.txtMsg{
+.txtMsgFirst, .txtMsgSecond{
     font-weight: inherit;
     font-size: 16px;
     color: #333333;
@@ -85,4 +85,11 @@ div.responseBG {
     border-top:3px solid #ffffff;
     background-color: rgba(75,117,164,0.2);
     overflow:hidden;
+}
+
+img.editIcon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    float:right;
 }

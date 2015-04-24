@@ -1,153 +1,99 @@
-/*header navigation*/
-div.subNavBlockModule {
-    margin: 0 auto;
-    width: 960px;
-    clear: both;
-    overflow: hidden;
-}
-div.subLinksModule{
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    display:inline-block;
-    margin-bottom: 28px;
-    float:left;
-}
-.subLinksModule a{
-    color: #666666;
-}
-/*Main Block*/
 .ModuleBlock
 {
     margin: 0 auto;
-    width: 960px;
-    border-top: 1px solid #d8d8d8;
+    width: 1200px;
     color: #666666;
+    font-size:18px;
     overflow: hidden;
+
 }
-.ModuleTitle h1{
+img.moduleImg{
+    width: 90px;
+    padding-right: 20px;
+    border-right: 1px solid #cccccc;
+}
+img.time{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#titleModule{
+    margin: 0 auto;
+    color:#4682B4;
     font-weight: inherit;
-    color: #4B75A4;
-    margin: 24px 0 0 176px;
-    line-height: 100%;
+    font-size:18px;
 }
-img.ModuleImg{
-    position: absolute;
-    width: 140px;
-    margin-top: 20px;
+.leftModule{
+    float:left;
+    width:740px;
 }
-.ModuleInfo {
-    display:inline-block;
-    margin-left: 18%;
-    margin-right: 2%;
-    width: 30%;
-    overflow: hidden;
-    vertical-align: top;
-}
-.ModuleModules {
-    display:inline-block;
-    width: 48%;
-    overflow: hidden;
-    vertical-align: top;
-}
-.ModuleInfo{
-    font-size: small;
-}
-.colorP{
-    color: #4b75a4;
-}
-.colorGrey{
-    color: #666666;
-}
-table.ModuleLevelLine{
-    width: 100%;
-}
-.ModuleInfo table{
-    border-spacing: 0;
-}
-td.ModuleLevel {
-    text-align: right;
-}
-.ModuleDetail td{
-    padding-right: 28px;
-    vertical-align: top;
-}
-.ModuleTeacherDetail td{
-    padding-right: 15px;
-    vertical-align: top;
-}
-p.subModuleInfo, p.ModuleAboutTeacher{
-    color: #4b75a4;
-    margin-bottom: 0;
-}
-.ModuleInfo ul{
-    margin-top: 0px;
-    margin-bottom: 10px;
-    padding-left: 20px;
-}
-/*teachers*/
-.ModuleInfo h2{
+/*.courseLevelImage*/
+/*{*/
+    /*margin-right:20px;*/
+/*}*/
+.lessonModule{
     border-top: 1px solid #cccccc;
+    padding-left: 115px;
+    font-size: 16px;
+}
+.lessonModule h2
+{
+    /*padding: 20px 0px;*/
+    color:#4682B4;
     font-weight: inherit;
-    color: #4B75A4;
+    font-size:24px;
 }
-.ModuleTeacherImg{
-    display:inline-block;
-    width: 70px;
-}
-.ModuleTeacherImg img{
-    width: 64px;
-}
-.ModuleTeacherInfo{
-    display:inline-block;
-    width: 210px;
-    margin-bottom: 20px;
+.lessonModule td {
+    padding-left: 0;
+    /*line-height: 1;*/
+    /*width: 60px;*/
     vertical-align: top;
 }
-.ModuleTeacherInfo h3{
+.leftModule a {
+    color: #4b75a4;
+    text-decoration:none;
+    }
+a:link {color:#4b75a4;} /* непосещенная ссылка */
+a:hover {color:#5b5b5b; text-decoration:underline;} /* ссылка, над которой находится курсор мыши */
+
+.rightModule{
+    float:right;
+    width:440px;
+}
+.teacherBox{
+
+}
+.teacherBox table{
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+.teacherBox td{
+    padding-right: 15px;
+}
+.teacherBox h2{
+    margin: 0 auto;
+    color:#4682B4;
     font-weight: inherit;
-    color: #4B75A4;
-    margin: 0 0 5px 0;
+    font-size:18px;
 }
-/*teachers*/
-/*modules*/
-.ModulesLessonNumber{
-    display:inline-block;
-    width: 74px;
+.teacherBox img {
+    width: 90px;
+    height: 90px;
+    border-radius: 100px; /* Радиус скругления */
+    border: 1px solid #4b75a4; /* Параметры рамки */
 }
-.ModulesLessonInfo{
-    display:inline-block;
-    width: 378px;
+.rightModule a {
+    color: #4b75a4;
+    font-size:14px;
     vertical-align: top;
 }
-.ModulesLessonInfo a{
-    display:inline-block;
-    width: 378px;
-    vertical-align: top;
-    text-decoration: none;
-}
-div.mLessonNumber{
-    float: right;
-    margin-right: 12px;
-}
-.mLessonNumber{
+a:link {color:#4b75a4;}
+a:hover {color:#5b5b5b; text-decoration:underline;}
+.teacherBoxLeft{
     text-align: center;
-    font-size: xx-large;
-    border: 1px solid;
-    width: 45px;
-    height: 45px;
-    border-radius: 150px;
+    line-height: 1;
 }
-.ModulesLessonInfo h2{
-    font-weight: inherit;
-    font-size: larger;
-    color: #4B75A4;
-    margin: 0 0 0 0;
-    line-height: 100%;
+.teacherBoxRight{
+    border-left: 1px solid #cccccc;
+    padding-left: 15px;
 }
-.mLessons{
-    margin: 15px 0 10px 0;
-}
-.mLessons p{
-    font-size: small;
-}
-/*modules*/

@@ -265,8 +265,8 @@ class StudentRegController extends Controller
     }
     public function actionEdit()
     {
-        $this->checkAccess(1, 'edit', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
-            'Ви не можете редагувати чужий профіль. Ввійдіть у свій аккаунт.');
+//        $this->checkAccess(1, 'edit', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
+//            'Ви не можете редагувати чужий профіль. Ввійдіть у свій аккаунт.');
         $model=new StudentReg();
 
         $this->render("studentprofileedit", array('model'=>$model));
@@ -319,8 +319,8 @@ class StudentRegController extends Controller
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                     $_FILES["upload"]["name"]=$_POST['StudentReg']['email'].'.'. $ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/css/images/avatars/".$_FILES['upload']['name']);
-                    $model->updateByPk($id, array('avatar' => "/css/images/avatars/".$_FILES["upload"]["name"]));
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
+                    $model->updateByPk($id, array('avatar' => "/avatars/".$_FILES["upload"]["name"]));
                     Yii::app()->user->setFlash('messageedit', 'Оновлено' );
                 }
             }
