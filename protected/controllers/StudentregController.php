@@ -163,8 +163,8 @@ class StudentRegController extends Controller
                     {
                         $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                         $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                        copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/css/images/avatars/".$_FILES['upload']['name']);
-                        $model->avatar="/css/images/avatars/".$_FILES["upload"]["name"];
+                        copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
+                        $model->avatar="/avatars/".$_FILES["upload"]["name"];
                     }
                     $model->save();
                     Yii::app()->user->setFlash('forminfo', 'Ви успішно зареєструвалися. Введіть дані для авторизації');
@@ -318,7 +318,7 @@ class StudentRegController extends Controller
                     $this->redirect(Yii::app()->request->baseUrl . '/studentreg/edit');
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
-                    $_FILES["upload"]["name"]=$_POST['StudentReg']['email'].'.'. $ext;
+                    $_FILES["upload"]["name"]=uniqid().'.'.$ext;
                     copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
                     $model->updateByPk($id, array('avatar' => "/avatars/".$_FILES["upload"]["name"]));
                     Yii::app()->user->setFlash('messageedit', 'Оновлено' );
