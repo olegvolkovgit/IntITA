@@ -156,6 +156,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             </div>
 <!--Оцінка курсу-->
                             <div class='starLevelIndex'>
+                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
@@ -270,6 +271,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)"; ?>
                             </div>
                             <div class='starLevelIndex'>
+                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {

@@ -16,7 +16,11 @@
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0057'),);
 $tmp2 = Yii::t('teachers', '0061');
-$currentDiv = '';
+if (isset($_GET['div'])){
+    $currentDiv = $_GET['div'];
+} else {
+    $currentDiv = '';
+}
 $arrayCourseText=array(
     ' •  кройка и шитье сроков давности;'=> Yii::app()->request->baseUrl.'/course',
     ' •  программування самоубийств;'=> Yii::app()->request->baseUrl.'/course'
@@ -28,13 +32,14 @@ $arrayCourseText=array(
         <table>
             <tr>
                 <td valign="top">
-<!--                    <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/images/edit.png" class="editIcon" />-->
-                    <a href="javascript:enableEdit()">
+                    <a href="http://localhost/IntITA/profile?&div=.txtMsgSecond">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1Image.png"/>
                     </a>
                 </td>
                 <td>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                    <a href="http://localhost/IntITA/profile?&div=.TeacherProfilename">
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                    </a>
                     <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
                     <div class="TeacherProfilename"> <?php echo $model->first_name.' '.$model->middle_name; ?> </div>
 
@@ -43,7 +48,9 @@ $arrayCourseText=array(
                     </div>
 
                     <div class="TeacherProfilesectionText">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        <a href="http://localhost/IntITA/profile?&div=.TeacherProfilesectionText">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        </a>
                         <?php
                         foreach ($sections as $val) {
                             echo $val; ?><p></p><?php
@@ -56,12 +63,17 @@ $arrayCourseText=array(
                     </div>
 
                     <div class="txtMsgFirst">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        <a href="http://localhost/IntITA/profile?&div=.txtMsgFirst">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        </a>
                         <?php echo $model->profile_text_first; ?>
                     </div>
+
                     <?php echo Yii::t('teachers', '0061'); ?>
                     <div class="TeacherProfilecourse">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        <a href="http://localhost/IntITA/profile?&div=.TeacherProfilecourse">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        </a>
                         <?php
                         foreach ($arrayCourseText as $linkText => $linkAdress) {
                             ?>
@@ -74,7 +86,9 @@ $arrayCourseText=array(
                         ?>
                     </div>
                     <div class="txtMsgSecond">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        <a href="http://localhost/IntITA/profile?&div=.txtMsgSecond">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
+                        </a>
                         <?php echo $model->profile_text_last;?>
                     </div>
                 </td>
@@ -321,9 +335,12 @@ $arrayCourseText=array(
     <?php
     // use editor WYSIWYG Imperavi
     $this->widget('ImperaviRedactorWidget', array(
-        'selector' => '',
+        'selector' => $currentDiv,
+//        'model' => $model,
+//        'attribute' =>'last_name',
+
         'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
+            'imageUpload' => $this->createUrl('images/upload'),
             'lang' => 'ua',
             'toolbar' => true,
             'iframe' => true,
@@ -349,11 +366,3 @@ $arrayCourseText=array(
         ),
     ));
     ?>
-
-    <script type='text/javascript'>
-
-        function enableEdit(blockId)
-        {
-
-        }
-    </script>
