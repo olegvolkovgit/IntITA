@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-23 16:40:58
+-- Date/time:                    2015-04-24 17:47:44
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -1198,6 +1198,32 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(42, 2, 3),
 	(43, 2, 3);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.response
+DROP TABLE IF EXISTS `response`;
+CREATE TABLE IF NOT EXISTS `response` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `who` int(11) NOT NULL,
+  `about` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `text` text NOT NULL,
+  `rate` int(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK__user` (`who`),
+  KEY `FK__user_2` (`about`),
+  CONSTRAINT `FK__user` FOREIGN KEY (`who`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Responses for taechers';
+
+-- Dumping data for table int_ita_db.response: ~4 rows (approximately)
+/*!40000 ALTER TABLE `response` DISABLE KEYS */;
+INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`) VALUES
+	(1, 1, 38, '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных \r\n                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. \r\n                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!', 10),
+	(2, 22, 38, '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                       Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и проанализировать сайты компаний,\r\n                       с которыми предстоит конкурировать на рынке интернет-торговли будет очень кстати. \r\n                       Так как мы говорим тут о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                       а сосредоточусь на исследовании сайтов, то есть тех моментов, \r\n                       которые нам нужны для последующего проектирования.!', 9),
+	(5, 22, 38, '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                                 С Александрой  знакома через ее сайт <<Учитель мистецтва>>.  Столько высококлассных \r\n                                 работ я в сети еще не встречала!', 9),
+	(6, 1, 38, '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                                Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и\r\n                                проанализировать сайты компаний, с которыми предстоит конкурировать \r\n                                на рынке интернет-торговли будет очень кстати. Так как мы говорим тут\r\n                                о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                                а сосредоточусь на исследовании сайтов, то есть тех моментов, которые \r\n                                нам нужны для последующего проектирования.!', 10);
+/*!40000 ALTER TABLE `response` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.sourcemessages

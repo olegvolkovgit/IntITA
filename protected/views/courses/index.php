@@ -103,12 +103,14 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                     <!--Вартість курсу-->
                             <div class="coursePriceBox">
                                 <?php echo Yii::t('courses', '0147'); ?>
+
                                 <span id="coursePriceStatus1"> <?php echo "21600.00 грн. ";?> </span>
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. ";?> </span>
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
                             </div>
                                 <!--Оцінка курсу-->
                             <div class='starLevelIndex'>
+                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
@@ -223,6 +225,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)"; ?>
                             </div>
                             <div class='starLevelIndex'>
+                                <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
