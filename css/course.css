@@ -84,7 +84,9 @@ div.courseShortInfoTable{
 }
 .courseShortInfo table.courseLevelLine{
     width: 100%;
+    border-collapse: collapse;
 }
+
 .courseShortInfo td.courseLevel {
     text-align: right;
 }

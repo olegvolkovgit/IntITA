@@ -52,7 +52,6 @@ $this->breadcrumbs=array(
             </table>
             <div class="courseDetail">
                 <div> <span class="colorP">Тривалість курсу: </span> <span class="colorGrey"><b><?php echo $post->course_duration_hours;?> занять</b>, орієнтовно - <b><?php echo ceil($post->course_duration_hours/36);?> міс.</b> (3 год./день, 3 дні/тиждень)</span></div>
-                <div> <span class="colorP">Модулів: </span> <span class="colorGrey"><b><?php echo $post->modules_count;?></b><?php $post::getModulesTermination($post->modules_count);?></span></div>
                 <div> <span class="colorP">Схеми проплат </span></div>
                 <div id="spoilerPay">
                     <div> <span> &nbsp;за весь курс наперід: </span> <span class="redStrike">21600.00 грн.</span> <b>16500.00 грн.</b> (знижка - 25%)</div>
