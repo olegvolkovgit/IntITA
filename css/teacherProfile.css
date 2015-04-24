@@ -69,6 +69,13 @@ div.aboutMore{
     padding-top: 5px;
     padding-bottom: 5px;
 }
+.edit_button{
+    height:30px;
+}
+img.edit_button {
+    width: 20px;
+    height: 20px;
+}
 div.sm{
     font-weight: inherit;
     font-size: 11px;

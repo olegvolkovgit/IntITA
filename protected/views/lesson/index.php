@@ -36,7 +36,43 @@ $this->breadcrumbs=array(
 
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
+    <div class="lessonText">
 
+
+        <!--start new block imperavi redactor-->
+        <div class="imperaviSimple">
+            <!--start toolbar for wysiwyg-->
+            <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
+                <div class="wrapper-imperaviSemple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
+                <div class="btn-edit-ImperaviSimple"
+                     style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
+                     onclick="pressEditRedactor('.redactor');" <?$field = '.redactor'?>
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" width="26px" height="20px">
+                </div>
+                <div class="btn-cancel-ImperaviSimple"
+                     style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressCancelRedactor('.redactor')">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" width="20px" height="20px">
+                </div>
+                <div class="btn-save-ImperaviSimple"
+                     style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
+                     onclick="pressSaveRedactor('.redactor');">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" width="20px" height="20px">
+                </div>
+            </div>
+            <!--end toolbar for wysiwyg-->
+
+            <script type="text/javascript">
+                function pressEditRedactor(className)
+                {
+                    var selector = className;
+                    $(selector).redactor({
+                        focus: true
+                    });
+                    $('.btn-edit-ImperaviSimple').hide();
+                    $('.btn-save-ImperaviSimple').show();
+                    $('.btn-cancel-ImperaviSimple').show();
+                }
 
                 function pressCancelRedactor(className)
                 {
