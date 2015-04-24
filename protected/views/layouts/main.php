@@ -263,11 +263,11 @@ $header = new Header();?>
 
 
     <?php $footer = new Footer();?>
-    <div id="footer">
-        <div class="main" >
-            <div id="footer1">
+    <div id="footer" >
+        <div class="main" style="" >
+            <div id="footer1" style="margin-left: 0px;">
 
-                <table><tr><td style="padding: 0px;" >
+                <table><tr><td style=" padding: 0px;" >
 
 
                 <a href="https://twitter.com/INTITA_EDU">
@@ -291,7 +291,7 @@ $header = new Header();?>
 
             </div>
             <div id="footer2">
-                <div>
+                <div style="margin-left: 15px;">
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
                         <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 0px;">
                     </a>
@@ -303,7 +303,7 @@ $header = new Header();?>
                         <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
-                <div style="width: 530px;">
+                <div style="width: 580px;margin-right: 0px;">
                     <ul style="float: right">
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
