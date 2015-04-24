@@ -1,5 +1,5 @@
 <p id="timeTitle">Виберіть годину</p>
-<p  id="timeDate">29 лютеня 2015 року</p>
+<p  id="timeDate"></p>
 <table id="timeGrid">
     <tr>
         <td class="disabledTime">09:00-09:20</td><td class="disabledTime">09:20-09:40</td><td class="disabledTime">09:40-10:00</td>
@@ -23,10 +23,10 @@
         <td>15:00-15:20</td><td>15:20-15:40</td><td>15:40-16:00</td>
     </tr>
     <tr>
-        <td>16:00-16:20</td><td>16:20-16:40</td><td>16:40-17:00</td>
+        <td class="disabledTime">16:00-16:20</td><td class="disabledTime">16:20-16:40</td><td class="disabledTime">16:40-17:00</td>
     </tr>
     <tr>
-        <td>17:00-17:20</td><td>17:20-17:40</td><td>17:40-18:00</td>
+        <td class="disabledTime">17:00-17:20</td><td>17:20-17:40</td><td>17:40-18:00</td>
     </tr>
     <tr>
         <td>18:00-18:20</td><td>18:20-18:40</td><td>18:40-19:00</td>

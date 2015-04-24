@@ -196,7 +196,7 @@ div.calendar{
 .datetimepicker .datetimepicker-days{
     font-family: SegoeUILight;
     width: 295px;
-    height:370px;
+    padding-bottom: 20px;
 }
 .datetimepicker table.table-condensed{
     margin: 0 auto;
@@ -297,8 +297,8 @@ div#consultationInfo{
     z-index: 3;
     font-family: SegoeUILight;
     width: 305px;
-    height:200px;
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    overflow: hidden;
 }
 #consultationInfo{
     display: none;
@@ -323,6 +323,7 @@ div#consultationInfo{
     background: #4b75a4;
     color: #ffffff;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 /*----Calendar----*/
 /*----TimeConsultation----*/
