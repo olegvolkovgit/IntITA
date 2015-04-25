@@ -92,9 +92,20 @@ $this->breadcrumbs=array(
                                 }
                                 ?>
                             </div>
+
                         </div>
-                        <a id="enter_button_2" href="#" ><?php echo "ПОЧАТИ МОДУЛЬ />"; ?></a>
-                        <a id="enter_button_2" href="#" ><?php echo "ПОЧАТИ КУРС />"; ?></a>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div id="enter_button_2" href="#" ><?php echo "Почати модуль"; ?></div>
+                                </td>
+                                <td style="padding-left: 100px;">
+                                    <div id="enter_button_2" href="#" ><?php echo "Почати курс"; ?></div>
+                                </td>
+                            </tr>
+                        </table>
+
+
                     </td>
                 </tr>
             </table>

@@ -93,18 +93,24 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 }
 #enter_button_2 {
     margin-top: 80px;
-    /*margin-left: 150px;*/
+    margin-left: 150px;
     z-index: 6;
-    height: 33px;
-    width: 70px;
+    height: 15px;
+    width: 150px;
     background: #4b70a3;
     border-radius:   10px;
-    border: 2px solid #ffffff;
     color: white;
-    vertical-align: middle;
     font: 16px/30px "MyriadPro";
-    text-align:      center;
     text-decoration: none;
+    vertical-align:middle;
+    display:table-cell;
+    text-align:center;
+}
+#enter_button_2:hover {
+    background: #454545;
+}
+#enter_button_2:active {
+    background: #363636;
 }
 
 
