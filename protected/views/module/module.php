@@ -45,47 +45,38 @@ $this->breadcrumbs=array(
                         <img class="moduleImg" src="<?php echo Yii::app()->request->baseUrl.$post->module_img ?>" />
                     </td>
                     <td style="padding-left: 15px;">
-
                         <span id="titleModule"><?php echo 'Модуль: '?></span>
                          <?php echo $moduleName;?>
-
                         <div>
-                            <span id="titleModule"><?php echo "Уроків: "?></span>
-                            <?php echo "<b>", $moduleNumber, "</b>"; ?>
-                            <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
-                            <span id="titleModule"><?php echo "Тривалість: "?></span>
-                            <?php echo "<b>", $moduleDuration, "</b>"; ?>
-                            <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
-                        </div>
-
-                        <div>
-                            <span id="titleModule"><?php echo "Рівень модуля: "?></span>
-                            <?php echo "сильний початківець"?>
-
+                            <span
+                                id="titleModule"><?php echo "Рівень модуля: " ?></span> <?php echo "сильний початківець" ?>
+                            <span style="padding-left: 20px;">
                             <?php
-                            for ($i=0; $i<3; $i++)
-                            {
-                                ?><span>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png"/>
-                                </span><?php
+                            for ($i = 0; $i < 3; $i++) {
+                                ?>
+                                <img style="padding-bottom: 3px;"
+                                     src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png"/>
+                            <?php
                             }
-                            for ($i=0; $i<2; $i++)
-                            {
-                                ?><span>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png"/>
-                                </span><?php
+                            for ($i = 0; $i < 2; $i++) {
+                                ?>
+                                <img style="padding-bottom: 3px;"
+                                     src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png"/>
+                            <?php
                             }
                             ?>
+                            </span>
                         </div>
                         <div>
-                            <span id="titleModule"><?php echo "Тривалість модуля: "?></span>
+                            <span id="titleModule"><?php echo "Тривалість: "?></span>
                             <?php echo "<b>25 занять</b>, орієнтовно - <b>1 міс.</b> (3 год./день, 3 дні/тиждень)"?>
                         </div>
                         <div>
                             <span id="titleModule"><?php echo "Вартість модуля: "?></span>
-                            <?php echo "3000.00 грн. 1500.00 грн. (в межах курсу)"?>
+                            <span id="oldPrice"><?php echo "3000.00 грн. "?></span>
+                            <?php echo "<b> 1500.00 грн.</b> (в межах курсу)"?>
                         </div>
-                        <div>
+                        <div style="padding: 20px 0px;">
                             <div >
                                 <span id="titleModule"><?php echo "Оцінка: "?></span>
                                 <?php
@@ -102,12 +93,14 @@ $this->breadcrumbs=array(
                                 ?>
                             </div>
                         </div>
+                        <a id="enter_button_2" href="#" ><?php echo "ПОЧАТИ МОДУЛЬ />"; ?></a>
+                        <a id="enter_button_2" href="#" ><?php echo "ПОЧАТИ КУРС />"; ?></a>
                     </td>
                 </tr>
             </table>
 
          <div class="lessonModule">
-                 <h2><?php echo "Уроки модуля"?></h2>
+                 <h2><?php echo "Заняття модуля"?></h2>
 
              <?php
              for ($i = 0; $i < $moduleNumber; $i++) {
@@ -115,8 +108,8 @@ $this->breadcrumbs=array(
                     <div>
                         <table>
                             <tr>
-                                <td style="width: 60px;">
-                                    <?php echo "Урок ",$i+1,"."; ?>
+                                <td style="width: 80px;">
+                                    <?php echo "Заняття ",$i+1,"."; ?>
                                 </td>
                                 <td>
                                     <span> <a href="#"><?php echo $arrayNameLessons[$i] ;?></a> </span>
