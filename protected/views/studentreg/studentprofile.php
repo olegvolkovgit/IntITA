@@ -126,16 +126,6 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             </section>
             <section id="mylettersSend">
                 <?php $this->renderPartial('_mylettersSend'); ?>
-                <form method="post" action="<?php echo Yii::app()->request->baseUrl; ?>/studentreg/sendletter">
-                    <label for="letterTheme">Тема:</label>
-                    <input type="text" id="letterTheme" name="letterTheme" /></br> </br>
-                    <label for="send_letter">Повідомлення:</label>
-                    <textarea id="send_letter" name="send_letter"></textarea></br>
-                    <input type="submit" value="ВІДПРАВИТИ />" name="submit" />
-                </form>
-                <?php if(Yii::app()->user->hasFlash('messagemail')):
-                    echo Yii::app()->user->getFlash('messagemail');
-                endif; ?>
             </section>
             <section id="myMark">
                 <?php $this->renderPartial('_myMark'); ?>

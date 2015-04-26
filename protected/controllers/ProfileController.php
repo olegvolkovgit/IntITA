@@ -47,6 +47,10 @@ class ProfileController extends Controller
         ));
     }
 
+    public function actionSave(){
+        $this->render('save');
+    }
+
     public function actionAboutdetail()
     {
         // renders the view file 'protected/views/site/index.php'
