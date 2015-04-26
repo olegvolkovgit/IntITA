@@ -19,6 +19,7 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+c
 
 $courseList = $dataProvider->getData();
 

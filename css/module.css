@@ -5,7 +5,6 @@
     color: #666666;
     font-size:18px;
     overflow: hidden;
-
 }
 img.moduleImg{
     width: 90px;
@@ -22,14 +21,14 @@ img.time{
     font-weight: inherit;
     font-size:18px;
 }
+#oldPrice {
+    color: #ff0000;
+    text-decoration: line-through;
+}
 .leftModule{
     float:left;
     width:740px;
 }
-/*.courseLevelImage*/
-/*{*/
-    /*margin-right:20px;*/
-/*}*/
 .lessonModule{
     border-top: 1px solid #cccccc;
     padding-left: 115px;
@@ -37,30 +36,25 @@ img.time{
 }
 .lessonModule h2
 {
-    /*padding: 20px 0px;*/
     color:#4682B4;
     font-weight: inherit;
     font-size:24px;
 }
 .lessonModule td {
     padding-left: 0;
-    /*line-height: 1;*/
-    /*width: 60px;*/
     vertical-align: top;
 }
 .leftModule a {
     color: #4b75a4;
     text-decoration:none;
     }
-a:link {color:#4b75a4;} /* непосещенная ссылка */
-a:hover {color:#5b5b5b; text-decoration:underline;} /* ссылка, над которой находится курсор мыши */
-
+a:link {color:#4b75a4;}
+a:hover {color:#5b5b5b; text-decoration:underline;}
 .rightModule{
     float:right;
     width:440px;
 }
 .teacherBox{
-
 }
 .teacherBox table{
     border-bottom: 1px solid #cccccc;
@@ -79,8 +73,8 @@ a:hover {color:#5b5b5b; text-decoration:underline;} /* ссылка, над ко
 .teacherBox img {
     width: 90px;
     height: 90px;
-    border-radius: 100px; /* Радиус скругления */
-    border: 1px solid #4b75a4; /* Параметры рамки */
+    border-radius: 100px;
+    border: 1px solid #4b75a4;
 }
 .rightModule a {
     color: #4b75a4;
@@ -97,3 +91,26 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     border-left: 1px solid #cccccc;
     padding-left: 15px;
 }
+#enter_button_2 {
+    margin-top: 80px;
+    margin-left: 150px;
+    z-index: 6;
+    height: 15px;
+    width: 150px;
+    background: #4b70a3;
+    border-radius:   10px;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-decoration: none;
+    vertical-align:middle;
+    display:table-cell;
+    text-align:center;
+}
+#enter_button_2:hover {
+    background: #454545;
+}
+#enter_button_2:active {
+    background: #363636;
+}
+
+
