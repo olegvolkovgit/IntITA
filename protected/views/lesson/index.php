@@ -126,7 +126,7 @@ $this->breadcrumbs=array(
 <table ><tr><td>
         <div class="download" id="do4">  <a  href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-yrok.png">Завантажити урок</a></div>
             </td><td>
-            <div class="download" id="do3"> <a  href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>
+            <div class="download" id="do3"> <a href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>
             </td><td>
                 <div class="download" id="do1">  <a href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>
 </td></tr></table>
@@ -134,5 +134,22 @@ $this->breadcrumbs=array(
 
     <!-- lesson footer -->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
-
+<!--SingIn modal-->
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'mydialog2',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui2.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('/lesson/_modalTask');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+<!--SignIn modal-->
 

@@ -1,0 +1,138 @@
+.happily p{
+    margin-bottom: 0px;
+
+    color: rgb( 130, 130, 130 );
+    text-align: left;
+    margin-left:0px;
+    font-size:18px;
+}
+#haa{
+    color: #349700;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.signIn2{
+    margin-left: 60px;
+    position: relative;
+    top: -15px;
+}
+#heedd h1{
+    margin-top: 15px;
+    color: #4b75a4;
+    font-size: x-large;
+    margin-buttom: 15px;
+    font-weight: normal;
+margin-left: 25px;
+}
+.image #uLogin2 img{
+    margin-right: 10px;
+    margin-top: 15px;
+    width: 45px;
+    height: 45px;
+}
+#signInButtonM2{
+    position: relative;
+    float: right;
+
+}
+
+
+input[type="submit"]#signInButton2    {
+    width:195px;
+    height:52px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-top: 25px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal     400 28px/50px "MyriadPro";
+    font-size:       25px;
+    letter-spacing:1px;
+    text-shadow:1px 1px 1px black;
+    padding-right: 25px;
+    background-image: url('images/pointer.png');
+    text-shadow:1px 2px 1px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: 145px 18px;
+}
+input#signInButton2:hover {
+    background: #454545;
+    box-shadow:0px 2px 0px #7f7f7f;
+    cursor: pointer;
+    background-image: url('images/pointer.png');
+    background-repeat: no-repeat;
+    background-position: 145px 18px;
+}
+input#signInButton2::-moz-focus-inner {
+    padding:0;
+    border:0;
+}
+input[type="submit"]#signInButton2, x:-moz-any-link {
+    background-position: 145px 17px;}
+#signInButtonM2{
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 0px;}
+
+input[type="submit"]#signInButtonM2    {
+    width:195px;
+    height:52px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal     400 28px/50px "MyriadPro";
+    font-size:       25px;
+    letter-spacing:1px;
+    text-shadow:1px 1px 1px black;
+    padding-right: 25px;
+    background-image: url('images/pointer.png');
+    text-shadow:1px 2px 1px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: 145px 18px;
+}
+input#signInButtonM2:hover {
+    background: #454545;
+    box-shadow:0px 2px 0px #7f7f7f;
+    cursor: pointer;
+    background-image: url('images/pointer.png');
+    background-repeat: no-repeat;
+    background-position: 145px 18px;
+}
+
+
+
+#uLogin2 {
+    margin: 0 auto;
+    width: 100%;
+    cursor: pointer;
+}
+#uLogin2 ul{
+    margin: 0 auto;
+    width: 390px;
+    padding: 0;
+    list-style: none;
+}
+#uLogin2 ul li{
+    float: left;
+    margin-left: 1.5px;
+    margin-right: 1.5px;
+}
+#uLogin2 img {
+    width: 75px;
+    height: 75px;
+
+}
+#uLogin2 li:hover{
+    filter: Alpha(Opacity=40);/*IE7 fix*/
+    opacity: 0.4;
+}
+
+
+.ui-widget-content {
+    border: 4px solid #339900;
+}
