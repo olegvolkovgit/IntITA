@@ -53,19 +53,22 @@
 
         // save content
         var text = $(selector).redactor('code.get');
-        //alert(text);
-        $(selector).redactor();
-        $.ajax({
-            url: '/IntITA/profile/save/',
-            type: 'post',
-            data: {content:text, id:teacherId, property:property}//'content=' + text
-        });
+        alert(text);
+        sendForm(text, teacherId, property);
 
         // destroy editor
         $(selector).redactor('core.destroy');
         $('.btn-edit-ImperaviSimple').show();
         $('.btn-save-ImperaviSimple').hide();
         $('.btn-cancel-ImperaviSimple').hide();
+    }
+
+    function sendForm(text, teacherId, property){
+        $.ajax({
+            url: '/IntITA/profile/save/',
+            type: 'post',
+            data: {content:text, id:teacherId, property:property},
+        });
     }
 </script>
 

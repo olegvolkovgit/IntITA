@@ -4,16 +4,10 @@
  * User: Ivanna
  * Date: 25.04.2015
  * Time: 2:01
- */?>
-    <script type="text/javascript">
-        console.log('profile/save');
-    </script>
-
-<?php
+ */
 
 if (true){
-
-    //$teacher = Teacher::model()->findByPk($_POST['teacherId']);
+    $teacher = Teacher::model()->findByPk($_POST['id']);
     switch ($_POST['property']) {
         case 'firstName':
             $teacher->first_name = $_POST['content'];
@@ -30,13 +24,12 @@ if (true){
         case 'profileTextFirst':
             $teacher->first_name = $_POST['content'];
             break;
-        case 'profileTextSecond':
-            $teacher->first_name = $_POST['content'];
+        case 'txtMsgFirst':
+            $teacher->profile_text_last = $_POST['content'];
             break;
         case 'subjects':
             $teacher->first_name = $_POST['content'];
             break;
     }
-
-   // $teacher->save();
+    $teacher->save();
 }

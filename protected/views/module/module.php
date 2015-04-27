@@ -27,8 +27,8 @@ $this->breadcrumbs=array(
         "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
         "Робота з базою даних","Робота з файлами","Робота з файлами", "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні",
     );
-    $teacherLastName="Орест Остапович"; $teacherFirstName="Бендер";
-    $teacherEmail="orest@intita.org, orest@gmail.com";
+    $teacherLastName="Орест Остапович";
+    $teacherFirstName="Бендер";
     $teacherEmail="orest@intita.org, orest@gmail.com";
     $teacherPhone1="/067/ 56-569-56"; $teacherPhone2="/093/ 123-45-67";
     $teacherSkype="orest.ostapovich";

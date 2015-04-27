@@ -268,7 +268,7 @@ $stepsArray=array($step1,$step2,$step3,$step4,$step5);
                 <img class="hexagon" src="<?php echo $mainpage['hexagon']; ?>">
                 <div class="stepArticle">
                     <p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
-                    <p class="stepName"><?php echo Yii::t('step','step'); ?></p>
+                    <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>
                 </div>
                 <div class="stepInfo" style="min-height:<?php echo $stepSize*0.23 . 'px';?> ">
                     <h2><?php echo $stepValue->stepTitle; ?></h2>

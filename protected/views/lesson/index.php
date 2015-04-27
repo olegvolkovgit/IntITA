@@ -145,7 +145,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'width'=>540,
         'autoOpen' => false,
         'modal' => true,
-        'resizable'=> false
+        'resizable'=> false,
     ),
 ));
 $this->renderPartial('/lesson/_modalTask');
