@@ -48,8 +48,7 @@
         $('.btn-cancel-ImperaviSimple').hide();
     }
 
-    function pressSaveRedactor(className, teacherId, property)
-    {
+    function pressSaveRedactor(className, teacherId, property) {
         var selector = className;
 
         // save content
@@ -57,7 +56,7 @@
         //alert(text);
         $(selector).redactor();
         $.ajax({
-            url: '/IntITA/protected/profile/save/',
+            url: '/IntITA/profile/save/',
             type: 'post',
             data: {content:text, id:teacherId, property:property}//'content=' + text
         });
@@ -69,3 +68,7 @@
         $('.btn-cancel-ImperaviSimple').hide();
     }
 </script>
+
+<form action="/IntITA/profile/save/" id="redactor" method="post">
+    <textarea id="content" name="content" hidden="hidden"></textarea>
+</form>

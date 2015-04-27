@@ -108,15 +108,6 @@ $arrayCourseText=array(
                     <div class="txtMsgSecond">
                         <?php echo $model->profile_text_last;?>
                     </div>
-                    <form action="<?php echo Yii::app()->createUrl('profile/save');?>" method="post" name="profileEdit">
-                        <input name="teacherId" value="<?php echo $model->teacher_id;?>" hidden="">
-                        <input name="property" value="<?php echo $currentDiv;?>"hidden="">
-                        <textarea id="content" name="content" hidden=""></textarea>
-                        <p>
-                            <input type="button" onclick="myFunction()" value="Submit form">
-                            <button onclick="sendForm();">SEND</button>
-                        </p>
-                    </form>
                 </td>
             </tr>
         </table>
