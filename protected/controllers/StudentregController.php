@@ -263,7 +263,7 @@ class StudentRegController extends Controller
     }
     public function actionEdit()
     {
-        $model=new StudentReg();
+        $model =  new StudentReg('edit');
 
         $this->render("studentprofileedit", array('model'=>$model));
 

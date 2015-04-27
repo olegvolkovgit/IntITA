@@ -161,11 +161,11 @@ function Window()
 
 function WindowShow(buttonNumber,anchor) 
 {
-	if (anchor==1)
+	if (anchor == 1)
 	{
 		$("body").animate({"scrollTop":440},"fast");
 	}
-	if (buttonNumber ==1)
+	if (buttonNumber == 1)
 		{
 			$('#dropTextLayer1').css('display', 'inline-block'); 
 			$('#dropTextLayer2').css('display', 'none');   
@@ -174,7 +174,7 @@ function WindowShow(buttonNumber,anchor)
 			$('#dropButton2').css('text-decoration','underline');
 			$('#dropButton3').css('text-decoration','underline');
 		}
-	if (buttonNumber ==2)
+	if (buttonNumber == 2)
 		{
 			$('#dropTextLayer2').css('display', 'inline-block');   
 			$('#dropTextLayer1').css('display', 'none');   
@@ -183,7 +183,7 @@ function WindowShow(buttonNumber,anchor)
 			$('#dropButton2').css('text-decoration','none');
 			$('#dropButton3').css('text-decoration','underline');
 		}	
-	if (buttonNumber ==3)
+	if (buttonNumber == 3)
 		{
 			$('#dropTextLayer3').css('display', 'inline-block');
 			$('#dropTextLayer2').css('display', 'none');   

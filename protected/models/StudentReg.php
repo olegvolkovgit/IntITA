@@ -311,7 +311,7 @@ class StudentReg extends CActiveRecord
         if ($edForm=='Офлайн') $val = array('Офлайн');
         if ($edForm=='Онлайн/Офлайн') $val = array('Онлайн','Офлайн');
         if ($edForm=='Онлайн') $val = array('Онлайн');
-        return  $val;
+        //return  $val;
     }
     public function validatePassword($password)
     {
