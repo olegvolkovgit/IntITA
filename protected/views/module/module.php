@@ -13,25 +13,25 @@ $this->breadcrumbs=array(
 );
 ?>
 <?php
-    $moduleName="<b>Мова програмування PhP</b>";
-    $moduleNumber=33;
-    $moduleDuration=313;
-    $arrayNameLessons = array(
-                        "Основи PHP",
-                        "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
-                        "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
-                        "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
-                        "Робота з базою даних","Робота з файлами","Робота з файлами", "Основи PHP",
-        "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
-        "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
-        "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
-        "Робота з базою даних","Робота з файлами","Робота з файлами", "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні",
-    );
-    $teacherLastName="Орест Остапович";
-    $teacherFirstName="Бендер";
-    $teacherEmail="orest@intita.org, orest@gmail.com";
-    $teacherPhone1="/067/ 56-569-56"; $teacherPhone2="/093/ 123-45-67";
-    $teacherSkype="orest.ostapovich";
+$moduleName="<b>Мова програмування PhP</b>";
+$moduleNumber=33;
+$moduleDuration=313;
+$arrayNameLessons = array(
+    "Основи PHP",
+    "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
+    "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
+    "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
+    "Робота з базою даних","Робота з файлами","Робота з файлами", "Основи PHP",
+    "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
+    "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
+    "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
+    "Робота з базою даних","Робота з файлами","Робота з файлами", "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні",
+);
+$teacherLastName="Орест Остапович"; $teacherFirstName="Бендер";
+$teacherEmail="orest@intita.org, orest@gmail.com";
+$teacherEmail="orest@intita.org, orest@gmail.com";
+$teacherPhone1="/067/ 56-569-56"; $teacherPhone2="/093/ 123-45-67";
+$teacherSkype="orest.ostapovich";
 ?>
 
 <div class="ModuleBlock">
@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
                     <td style="padding-left: 15px;">
 
                         <span id="titleModule"><?php echo Yii::t('module', '0211'); ?></span>
-                         <?php echo $moduleName;?>
+                        <?php echo $moduleName;?>
 
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0212'); ?></span>
@@ -78,12 +78,12 @@ $this->breadcrumbs=array(
                             ?>
                         </div>
                         <div>
-                            <span id="titleModule"><?php echo "Тривалість модуля: "?></span>
-                            <?php echo "<b>25 занять</b>, орієнтовно - <b>1 міс.</b> (3 год./день, 3 дні/тиждень)"?>
+                            <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
+                            <b>25 <?php echo Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('module', '0217'); ?> - <b>2 <?php echo Yii::t('module', '0218'); ?></b> (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
                         </div>
                         <div>
-                            <span id="titleModule"><?php echo "Вартість модуля: "?></span>
-                            <?php echo "3000.00 грн. 1500.00 грн. (в межах курсу)"?>
+                            <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
+                            3000.00 <?php echo Yii::t('module', '0222'); ?> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
                         </div>
                         <div>
                             <div >
@@ -106,17 +106,17 @@ $this->breadcrumbs=array(
                 </tr>
             </table>
 
-         <div class="lessonModule">
-                 <h2><?php echo "Уроки модуля"?></h2>
+            <div class="lessonModule">
+                <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
-             <?php
-             for ($i = 0; $i < $moduleNumber; $i++) {
-                 ?>
+                <?php
+                for ($i = 0; $i < $moduleNumber; $i++) {
+                    ?>
                     <div>
                         <table>
                             <tr>
                                 <td style="width: 60px;">
-                                    <?php echo "Урок ",$i+1,"."; ?>
+                                    <?php echo Yii::t('module', '0226')," ",$i+1,"."; ?>
                                 </td>
                                 <td>
                                     <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $arrayNameLessons[$i] ;?></a> </span>
@@ -124,10 +124,10 @@ $this->breadcrumbs=array(
                             </tr>
                         </table>
                     </div>
-             <?php
-             }
-             ?>
-         </div>
+                <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 
@@ -158,5 +158,4 @@ $this->breadcrumbs=array(
         }
         ?>
     </div>
-
 </div>

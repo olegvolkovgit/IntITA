@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-25 09:54:04
+-- Date/time:                    2015-04-27 16:42:36
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~609 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~685 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -605,9 +605,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(194, 'ua', 'Тривалість курсу: '),
 	(194, 'ru', 'Продолжительность курса:'),
 	(194, 'en', 'Course duration:'),
-	(195, 'ua', 'Модулів:'),
-	(195, 'ru', 'Модулей:'),
-	(195, 'en', 'Modules:'),
+	(195, 'ua', ''),
+	(195, 'ru', ''),
+	(195, 'en', ''),
 	(196, 'ua', 'Схеми проплат'),
 	(196, 'ru', 'Схемы оплаты'),
 	(196, 'en', 'Ways of pay'),
@@ -631,7 +631,83 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(202, 'en', 'credit for 3 years:'),
 	(203, 'ua', 'Середня оцінка: '),
 	(203, 'ru', 'Средняя оценка:'),
-	(203, 'en', 'Avarage rate:');
+	(203, 'en', 'Avarage rate:'),
+	(204, 'ua', 'Для кого:'),
+	(204, 'ru', 'Для кого:'),
+	(204, 'en', 'For whom:'),
+	(205, 'ua', 'Чому Ти навчишся?'),
+	(205, 'ru', 'Чему Ты научишься?'),
+	(205, 'en', 'Why do you learn ?'),
+	(206, 'ua', 'Що Ти отримаєш?'),
+	(206, 'ru', 'Что ты получишь?'),
+	(206, 'en', 'What you get?'),
+	(207, 'ua', 'Викладачі'),
+	(207, 'ru', 'Преподаватели'),
+	(207, 'en', 'Teachers'),
+	(208, 'ua', 'Модуль'),
+	(208, 'ru', 'Модуль'),
+	(208, 'en', 'Module'),
+	(209, 'ua', 'орієнтовно'),
+	(209, 'ru', 'около'),
+	(209, 'en', 'approximately'),
+	(210, 'ua', 'знижка'),
+	(210, 'ru', 'скидка'),
+	(210, 'en', 'discount'),
+	(211, 'ua', 'Модуль:'),
+	(211, 'ru', 'Модуль:'),
+	(211, 'en', 'Module:'),
+	(212, 'ua', 'Заняття:'),
+	(212, 'ru', 'Занятие:'),
+	(212, 'en', 'Lectures:'),
+	(213, 'ua', 'Тривалість:'),
+	(213, 'ru', 'Продолжительность:'),
+	(213, 'en', 'Duration:'),
+	(214, 'ua', 'Рівень модуля:'),
+	(214, 'ru', 'Уровень модуля:'),
+	(214, 'en', 'Level module:'),
+	(215, 'ua', 'Тривалість модуля:'),
+	(215, 'ru', 'Продолжительность модуля:'),
+	(215, 'en', 'Duration module:'),
+	(216, 'ua', 'занять'),
+	(216, 'ru', 'занятий'),
+	(216, 'en', 'lectures'),
+	(217, 'ua', 'орієнтовно'),
+	(217, 'ru', 'ориентировочно'),
+	(217, 'en', 'approximately'),
+	(218, 'ua', 'міс.'),
+	(218, 'ru', 'мес.'),
+	(218, 'en', 'months'),
+	(219, 'ua', 'год./день'),
+	(219, 'ru', 'ч. / день'),
+	(219, 'en', 'hr. / day'),
+	(220, 'ua', 'дні/тиждень'),
+	(220, 'ru', 'дня / неделю'),
+	(220, 'en', 'days / week'),
+	(221, 'ua', 'Вартість модуля:'),
+	(221, 'ru', 'Cтоимость модуля:'),
+	(221, 'en', 'Cost module:'),
+	(222, 'ua', 'грн.'),
+	(222, 'ru', 'грн.'),
+	(222, 'en', 'UAH'),
+	(223, 'ua', 'в межах курсу'),
+	(223, 'ru', 'в рамках курса'),
+	(223, 'en', 'within a year'),
+	(224, 'ua', 'Оцінка:'),
+	(224, 'ru', 'Оценка:'),
+	(224, 'en', 'Rating:'),
+	(225, 'ua', 'Заняття модуля'),
+	(225, 'ru', 'Занятия модуля'),
+	(225, 'en', 'Lectures module'),
+	(227, 'ua', 'Викладач:'),
+	(227, 'ru', 'Преподаватель:'),
+	(227, 'en', 'Teacher:'),
+	(227, 'ua', 'персональна сторінка'),
+	(228, 'ru', 'персональная страница'),
+	(228, 'en', 'personal page'),
+	(228, 'ua', 'персональна сторінка'),
+	(226, 'ru', 'Занятие'),
+	(226, 'en', 'Lecture'),
+	(226, 'ua', 'Заняття');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
