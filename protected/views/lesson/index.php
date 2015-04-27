@@ -35,7 +35,7 @@ $this->breadcrumbs=array(
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
-    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
+<!--    --><?php //$this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
     <div class="lessonText">
         <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
