@@ -32,14 +32,14 @@ $arrayCourseText=array(
         <table>
             <tr>
                 <td valign="top">
-                    <a href="http://localhost/IntITA/profile?&div=.txtMsgSecond">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1Image.png"/>
-                    </a>
                 </td>
                 <td>
-                    <a href="http://localhost/IntITA/profile?&div=.TeacherProfilename">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
-                    </a>
+                    <?php
+                    if ($editMode) {
+                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilename'));
+                    }
+                    ?>
                     <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
                     <div class="TeacherProfilename"> <?php echo $model->first_name.' '.$model->middle_name; ?> </div>
 
@@ -47,10 +47,12 @@ $arrayCourseText=array(
                         <?php echo Yii::t('teacher', '0064') ?>
                     </div>
 
+                    <?php
+                    if ($editMode) {
+                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilesectionText'));
+                    }
+                    ?>
                     <div class="TeacherProfilesectionText">
-                        <a href="http://localhost/IntITA/profile?&div=.TeacherProfilesectionText">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
-                        </a>
                         <?php
                         foreach ($sections as $val) {
                             echo $val; ?><p></p><?php
@@ -62,48 +64,42 @@ $arrayCourseText=array(
                         <?php echo Yii::t('teacher', '0065') ?>
                     </div>
 
-                    <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
-                        <div class="wrapper-imperaviSimple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
-                        <div class="btn-edit-ImperaviSimple"
-                             style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                             onclick="pressEditRedactor('.txtMsgFirst');" <?$field = '.redactor'?>
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" width="26px" height="20px" class="editIcon">
-                        </div>
-                        <div class="btn-cancel-ImperaviSimple"
-                             style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressCancelRedactor('.txtMsgFirst')">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" width="20px" height="20px" class="editIcon">
-                        </div>
-                        <div class="btn-save-ImperaviSimple"
-                             style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressSaveRedactor('.txtMsgFirst');">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" width="20px" height="20px" class="editIcon">
-                        </div>
-                    </div>
+                    <?php
+                    if ($editMode) {
+                        $this->renderPartial('_editorToolbar', array('div' => 'txtMsgFirst'));
+                    }
+                    ?>
+
                     <div class="txtMsgFirst">
                         <?php echo $model->profile_text_first; ?>
                     </div>
 
                     <?php echo Yii::t('teachers', '0061'); ?>
+
+                    <?php
+                    if ($editMode) {
+                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilecourse'));
+                    }
+                    ?>
                     <div class="TeacherProfilecourse">
-                        <a href="http://localhost/IntITA/profile?&div=.TeacherProfilecourse">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
-                        </a>
                         <?php
                         foreach ($arrayCourseText as $linkText => $linkAdress) {
                             ?>
-                            <a href="<?php echo $linkAdress; ?>">
+                            <p><a href="<?php echo $linkAdress; ?>">
                                 <?php echo $linkText; ?>
-                            </a>
-                            <br>
+                            </a></p>
+
                         <?php
                         }
                         ?>
                     </div>
+
+                    <?php
+                    if ($editMode) {
+                        $this->renderPartial('_editorToolbar', array('div' => 'txtMsgSecond'));
+                    }
+                    ?>
                     <div class="txtMsgSecond">
-                        <a href="http://localhost/IntITA/profile?&div=.txtMsgSecond">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/edit.png" class="editIcon" />
-                        </a>
                         <?php echo $model->profile_text_last;?>
                     </div>
                 </td>
@@ -124,9 +120,7 @@ $arrayCourseText=array(
                 </b>
             </div>
         </div>
-
         <div class="TeacherProfiletitles"><?php echo Yii::t('teacher', '0182'); ?></div>
-
         <div class="border">
             <div class="txtMsg">
                 <?php
@@ -136,211 +130,28 @@ $arrayCourseText=array(
                 ?>
             </div>
         </div>
-        <div class="TeacherProfiletitles">
-            <?php echo "Бевз Сергей"; ?>
-        </div>
-        <div class="sm">
-            <?php
-            echo "14.11.14 Всего 1 отзывов с IP:37.19.246.39";
-            ?>
-        </div>
-        <div class="txtMsg">
-            <?php
-            $aboutTxt = "";
-            echo $aboutTxt;
-            ?>
-        </div>
-        <div class="border">
-            <div class="TeacherProfiletitles">
-                <?php
-                echo Yii::t('teacher', '0186');
 
-                for ($k = 0; $k < 10; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
+        <?php
+        $responses = $dataProvider->getData();
+        $count = $dataProvider->totalItemCount;
+        for($i = 0; $i < $count; $i++){
+            $this->renderPartial('_responseBlock', array('model' => $responses[$i]));
+        }
+        ?>
 
-        <div class="TeacherProfiletitles">
-            <?php echo "Грицина Ольга"; ?>
-        </div>
-        <div class="sm">
-            <?php
-            echo "14.11.14 Всего 1 отзывов с IP:37.19.246.39";
-            ?>
-        </div>
-        <div class="txtMsg">
-            <?php
-            $aboutTxt = "";
-            echo $aboutTxt;
-            ?>
-        </div>
-        <div class="border">
-            <div class="TeacherProfiletitles">
-                <?php
-                echo Yii::t('teacher', '0186');
-
-                for ($k = 0; $k < 7; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
-                <?php
-                }
-                ?>
-                <?php
-                for ($k = 0; $k < 3; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                <?php
-                }
-                ?>
-            </div>
-
-        </div>
-
-
-        <div class="TeacherProfiletitles"> <?php echo "Бевзюковский Сергей"; ?></div>
-        <div class="sm">
-            <?php echo "14.11.14 Всего 1 отзывов с IP:37.19.246.39"; ?>
-        </div>
-        <div class="txtMsg">
-            <?php
-            $aboutTxt = "";
-            echo $aboutTxt;
-            ?>
-        </div>
-        <div class="border">
-            <div class="TeacherProfiletitles">
-                <?php
-                echo Yii::t('teacher', '0186');
-                for ($k = 0; $k < 4; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
-                <?php
-                }
-                ?>
-                <?php
-                for ($k = 0; $k < 6; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
-
-
-        <div class="TeacherProfiletitles"> <?php echo "Грицина Ольга"; ?></div>
-        <div class="sm">
-            <?php echo "14.11.14 Всего 1 отзывов с IP:37.19.246.39"; ?>
-        </div>
-        <div class="txtMsg">
-            <?php
-            $aboutTxt = "";
-            echo $aboutTxt;
-            ?>
-        </div>
-
-        <div class="border">
-            <div class="TeacherProfiletitles">
-                <?php
-                echo Yii::t('teacher', '0186');
-                for ($k = 0; $k < 5; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
-                <?php
-                }
-                ?>
-                <?php
-                for ($k = 0; $k < 5; $k++) {
-                    ?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
-
-
-        <div class="lessonTask">
-            <img class="lessonBut" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/lessButton.png">
-
-            <div class="lessonButName" unselectable="on"><?php echo Yii::t('teacher', '0187'); ?></div>
-            <div class="lessonLine"></div>
-            <div class="responseBG">
-            <div class="txtMsg">
-                <table style="padding-left: 35px; padding-top: 30px;">
-                    <tr>
-                        <td align="right">
-                            <b><?php echo  Yii::t('teacher', '0188'); ?></b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">
-                            <?php echo Yii::t('teacher', '0189'); ?>
-                        </td>
-                        <td>
-                            <?php
-                            for ($k = 0; $k < 10; $k++) {
-                                ?>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                            <?php
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">
-                            <?php echo Yii::t('teacher', '0190'); ?>
-                        </td>
-                        <td>
-                            <?php
-                            for ($k = 0; $k < 10; $k++) {
-                                ?>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                            <?php
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">
-                            <?php echo Yii::t('teacher', '0191'); ?>
-                        </td>
-                        <td>
-                            <?php
-                            for ($k = 0; $k < 10; $k++) {
-                                ?>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
-                            <?php
-                            }
-                            ?>
-                        </td>
-                    </tr>
-            </div>
-            </table>
-            <div class="BBCode">
-                <form action="" method="post">
-                    <textarea class="editor"></textarea>
-                    <input id="lessonTask1" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
-                </form>
-            </div>
-        </div>
-    </div>
+        <?php
+        $this->renderPartial('_yourResponse');
+        ?>
     </div>
 
     <?php
     // use editor WYSIWYG Imperavi
     $this->widget('ImperaviRedactorWidget', array(
         'selector' => $currentDiv,
-//        'model' => $model,
-//        'attribute' =>'last_name',
 
         'options' => array(
             'imageUpload' => $this->createUrl('images/upload'),
-            'lang' => 'ua',
+            'lang' => Yii::app()->language,
             'toolbar' => true,
             'iframe' => true,
             'css' => 'wym.css',
@@ -367,37 +178,3 @@ $arrayCourseText=array(
     ?>
 
 
-    <script type="text/javascript">
-        function pressEditRedactor(className)
-        {
-            var selector = className;
-            $(selector).redactor({
-                focus: true
-            });
-            $('.btn-edit-ImperaviSimple').hide();
-            $('.btn-save-ImperaviSimple').show();
-            $('.btn-cancel-ImperaviSimple').show();
-        }
-
-        function pressCancelRedactor(className)
-        {
-            var selector = className;
-            $(selector).redactor('core.destroy');
-            $('.btn-edit-ImperaviSimple').show();
-            $('.btn-save-ImperaviSimple').hide();
-            $('.btn-cancel-ImperaviSimple').hide();
-        }
-
-        function pressSaveRedactor(className)
-        {
-            var selector = className;
-            // save content if you need
-            var text = $(selector).redactor('code.get');
-
-            // destroy editor
-            $(selector).redactor('core.destroy');
-            $('.btn-edit-ImperaviSimple').show();
-            $('.btn-save-ImperaviSimple').hide();
-            $('.btn-cancel-ImperaviSimple').hide();
-        }
-    </script>

@@ -32,15 +32,18 @@ class ProfileController extends Controller
 
         $permission = new Permissions();
         if ($permission->checkPermission(Yii::app()->user->getId(), 2, array('edit'))) {
-            $editMode = 1;
+            $editMode = true;
         } else {
-            $editMode = 0;
+            $editMode = false;
         }
+
+        $dataProvider = new CActiveDataProvider('Response');
 
         $this->render('index', array (
             'model' => $teacher,
             'sections' => $sections,
             'editMode' => $editMode,
+            'dataProvider' => $dataProvider,
         ));
     }
 
