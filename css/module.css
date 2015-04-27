@@ -48,6 +48,9 @@ img.time{
     /*width: 60px;*/
     vertical-align: top;
 }
+.lessonModule table tr td:first-child {
+    white-space: nowrap;
+}
 .leftModule a {
     color: #4b75a4;
     text-decoration:none;

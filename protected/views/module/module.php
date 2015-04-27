@@ -46,20 +46,20 @@ $this->breadcrumbs=array(
                     </td>
                     <td style="padding-left: 15px;">
 
-                        <span id="titleModule"><?php echo 'Модуль: '?></span>
+                        <span id="titleModule"><?php echo Yii::t('module', '0211'); ?></span>
                          <?php echo $moduleName;?>
 
                         <div>
-                            <span id="titleModule"><?php echo "Уроків: "?></span>
+                            <span id="titleModule"><?php echo Yii::t('module', '0212'); ?></span>
                             <?php echo "<b>", $moduleNumber, "</b>"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
-                            <span id="titleModule"><?php echo "Тривалість: "?></span>
+                            <span id="titleModule"><?php echo Yii::t('module', '0213'); ?></span>
                             <?php echo "<b>", $moduleDuration, "</b>"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
                         </div>
 
                         <div>
-                            <span id="titleModule"><?php echo "Рівень модуля: "?></span>
+                            <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                             <?php echo "сильний початківець"?>
 
                             <?php
@@ -78,16 +78,16 @@ $this->breadcrumbs=array(
                             ?>
                         </div>
                         <div>
-                            <span id="titleModule"><?php echo "Тривалість модуля: "?></span>
-                            <?php echo "<b>25 занять</b>, орієнтовно - <b>1 міс.</b> (3 год./день, 3 дні/тиждень)"?>
+                            <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
+                            <b>25 <?php echo Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('module', '0217'); ?> - <b>2 <?php echo Yii::t('module', '0218'); ?></b> (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
                         </div>
                         <div>
-                            <span id="titleModule"><?php echo "Вартість модуля: "?></span>
-                            <?php echo "3000.00 грн. 1500.00 грн. (в межах курсу)"?>
+                            <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
+                            3000.00 <?php echo Yii::t('module', '0222'); ?> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
                         </div>
                         <div>
                             <div >
-                                <span id="titleModule"><?php echo "Оцінка: "?></span>
+                                <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
                                 <?php
                                 for ($i = 0; $i < 9; $i++) {
                                     ?><span>
@@ -107,7 +107,7 @@ $this->breadcrumbs=array(
             </table>
 
          <div class="lessonModule">
-                 <h2><?php echo "Уроки модуля"?></h2>
+                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
              <?php
              for ($i = 0; $i < $moduleNumber; $i++) {
@@ -116,7 +116,7 @@ $this->breadcrumbs=array(
                         <table>
                             <tr>
                                 <td style="width: 60px;">
-                                    <?php echo "Урок ",$i+1,"."; ?>
+                                    <?php echo Yii::t('module', '0226')," ",$i+1,"."; ?>
                                 </td>
                                 <td>
                                     <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $arrayNameLessons[$i] ;?></a> </span>
@@ -140,10 +140,10 @@ $this->breadcrumbs=array(
                     <tr>
                         <td class="teacherBoxLeft">
                             <img  src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher2.jpg"/>
-                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/profile"><?php echo "персональна сторінка"; ?> &#187;</a>
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/profile"><?php echo Yii::t('module', '0228'); ?> &#187;</a>
                         </td>
                         <td  class="teacherBoxRight" ">
-                        <h2><?php echo "Викладач:"?></h2>
+                        <h2><?php echo Yii::t('module', '0227'); ?></h2>
                         <div style="line-height: 1.2;">
                             <?php echo $teacherLastName,$teacherFirstName;?>
                             <?php echo $teacherEmail;?>

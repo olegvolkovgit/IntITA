@@ -26,7 +26,7 @@
     for (var i = 9; i < 23; i++) {
         document.write("<tr>");
         for (var j = 0; j < 3; j++) {
-            document.write("<td>");
+            document.write("<td class='<?php  echo '' ?>'>");
             document.write(timeInterval(i,j,20));
             document.write("</td>");
         }
