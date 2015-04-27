@@ -136,12 +136,9 @@ $block1->drop2Text='<div class="aboutStepBlock"><span class="detailTitle1">На�
                 </li>
             </ul>
         </div>
-
     <?php
     }
-    ?>
-
-	
+?>
 
 <! Script for Drop Down text>
 <script type="text/javascript">
@@ -216,38 +213,6 @@ function WindowShow(buttonNumber,anchor)
 
 <div id='aboutDetailMain'>
 
-    <?php
-    // use editor WYSIWYG Imperavi
-    $this->widget('ImperaviRedactorWidget', array(
-        // use editor to field .aboutStepBlock
-        'selector' => '.',
-        'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
-            'lang' => 'ua',
-            'toolbar' => true,
-            'iframe' => true,
-            'css' => 'wym.css',
-        ),
-        'plugins' => array(
-            'fullscreen' => array(
-                'js' => array('fullscreen.js',),
-            ),
-            'video' => array(
-                'js' => array('video.js',),
-            ),
-            'fontsize' => array(
-                'js' => array('fontsize.js',),
-            ),
-            'fontfamily' => array(
-                'js' => array('fontfamily.js',),
-            ),
-            'fontcolor' => array(
-                'js' => array('fontcolor.js',),
-            ),
-
-        ),
-    ));
-    ?>
 
 <div id="dropTextLayer1" >
     <div  class="textBox">
