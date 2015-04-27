@@ -237,8 +237,6 @@ class StudentRegController extends Controller
 
     public function actionProfile()
     {
-        $this->checkAccess(1, 'read', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
-            'Ви не можете переглядати чужий профіль. Ввійдіть у свій аккаунт.');
         $model=new StudentReg();
 
         $this->render("studentprofile", array('model'=>$model));
@@ -265,9 +263,7 @@ class StudentRegController extends Controller
     }
     public function actionEdit()
     {
-//        $this->checkAccess(1, 'edit', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
-//            'Ви не можете редагувати чужий профіль. Ввійдіть у свій аккаунт.');
-        $model=new StudentReg();
+        $model =  new StudentReg('edit');
 
         $this->render("studentprofileedit", array('model'=>$model));
 

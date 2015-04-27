@@ -20,6 +20,7 @@ $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
 
+
 $courseList = $dataProvider->getData();
 
 $courseDisableImage=Yii::app()->request->baseUrl.'/css/images/ratIco0.png';
@@ -60,7 +61,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                             <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
                                     echo $val->course_name; ?></a>
                             </div>
-<!--Рівень курсу-->
+                                <!--Рівень курсу-->
                             <div class="courseLevelBox">
                                 <?php echo Yii::t('courses', '0068'); ?>
                                       <span class="courseLevel">

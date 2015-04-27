@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teacherProfile.css" />
 <!-- steps style -->
 <?php
+/* @var $this ProfileController */
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0057'),);
 $tmp2 = Yii::t('teachers', '0061');
@@ -37,7 +38,8 @@ $arrayCourseText=array(
                 <td>
                     <?php
                     if ($editMode) {
-                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilename'));
+                        $currentDiv = 'TeacherProfilename';
+                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
                     }
                     ?>
                     <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
@@ -49,7 +51,8 @@ $arrayCourseText=array(
 
                     <?php
                     if ($editMode) {
-                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilesectionText'));
+                        $currentDiv = 'TeacherProfilesectionText';
+                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
                     }
                     ?>
                     <div class="TeacherProfilesectionText">
@@ -66,7 +69,8 @@ $arrayCourseText=array(
 
                     <?php
                     if ($editMode) {
-                        $this->renderPartial('_editorToolbar', array('div' => 'txtMsgFirst'));
+                        $currentDiv = 'txtMsgFirst';
+                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
                     }
                     ?>
 
@@ -78,7 +82,8 @@ $arrayCourseText=array(
 
                     <?php
                     if ($editMode) {
-                        $this->renderPartial('_editorToolbar', array('div' => 'TeacherProfilecourse'));
+                        $currentDiv = 'TeacherProfilecourse';
+                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
                     }
                     ?>
                     <div class="TeacherProfilecourse">
@@ -96,7 +101,8 @@ $arrayCourseText=array(
 
                     <?php
                     if ($editMode) {
-                        $this->renderPartial('_editorToolbar', array('div' => 'txtMsgSecond'));
+                        $currentDiv = 'txtMsgSecond';
+                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
                     }
                     ?>
                     <div class="txtMsgSecond">
@@ -176,5 +182,3 @@ $arrayCourseText=array(
         ),
     ));
     ?>
-
-

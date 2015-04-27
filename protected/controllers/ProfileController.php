@@ -32,9 +32,9 @@ class ProfileController extends Controller
 
         $permission = new Permissions();
         if ($permission->checkPermission(Yii::app()->user->getId(), 2, array('edit'))) {
-            $editMode = true;
+            $editMode = 1;
         } else {
-            $editMode = false;
+            $editMode = 0;
         }
 
         $dataProvider = new CActiveDataProvider('Response');
@@ -45,6 +45,10 @@ class ProfileController extends Controller
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
         ));
+    }
+
+    public function actionSave(){
+        $this->render('save');
     }
 
     public function actionAboutdetail()
