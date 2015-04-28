@@ -72,7 +72,7 @@ $post=Teacher::model()->findAll();
                         <?php
                         }
                         ?>
-                        <a href="#"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
+                        <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
                     </div>
                 </div>
             <?php
@@ -165,7 +165,7 @@ $post=Teacher::model()->findAll();
                         <?php
                         }
                         ?>
-                        <a href="#"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
+                        <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
                     </div>
                 </div>
             <?php

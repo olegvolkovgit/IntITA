@@ -15,7 +15,8 @@
 <?php
 /* @var $this ProfileController */
 $this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(Yii::t('breadcrumbs', '0057'),);
+$this->breadcrumbs=array(Yii::t('breadcrumbs', '0052')=>Yii::app()->createUrl('teachers'), Yii::t('breadcrumbs', '0057'));
+
 $tmp2 = Yii::t('teachers', '0061');
 if (isset($_GET['div'])){
     $currentDiv = $_GET['div'];
