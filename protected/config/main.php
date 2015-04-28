@@ -133,7 +133,7 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
+		// this is used in teacher profile page
 		'adminEmail'=>'Elfigo@mail.ru',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
 	),
