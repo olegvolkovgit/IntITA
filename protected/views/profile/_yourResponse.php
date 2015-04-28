@@ -64,9 +64,12 @@
         </div>
         </table>
         <div class="BBCode">
-            <form action="" method="post">
-                <textarea class="editor"></textarea>
-                <input id="lessonTask1" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
+            <form  action="<?php echo Yii::app()->createUrl('profile/response');?>" method="post">
+                <textarea class="editor" name="response"></textarea>
+                <input name="sendResponse" id="lessonTask1" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
+                <?php if(Yii::app()->user->hasFlash('messageResponse')):
+                    echo Yii::app()->user->getFlash('messageResponse');
+                endif; ?>
             </form>
         </div>
     </div>

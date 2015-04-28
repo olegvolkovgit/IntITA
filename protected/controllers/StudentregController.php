@@ -129,22 +129,10 @@ class StudentRegController extends Controller
         {
             if(is_null($_POST['StudentReg']['firstName']))
                 $this->redirect('courses');
-            //if user don't check education form, we write to db value 'don't choose'
-            if( !isset($_POST['StudentReg']['educform'][0]) ){
-                $_POST['StudentReg']['educform'] = 'Не вибрано';
-            }
-            if(isset($_POST['StudentReg']))
-            {
-                if(($_POST['StudentReg']['educform'][0]=='Онлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                    $_POST['StudentReg']['educform']='Онлайн';
-                }
-                if(($_POST['StudentReg']['educform'][0]=='Офлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                    $_POST['StudentReg']['educform']='Офлайн';
-                }
-                if(($_POST['StudentReg']['educform'][0]=='Онлайн') && ($_POST['StudentReg']['educform'][1]=='Офлайн')){
-                    $_POST['StudentReg']['educform']='Онлайн/Офлайн';
-                }
-            }
+
+            if(isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
+                $_POST['StudentReg']['educform']='Онлайн/Офлайн';
+            else $_POST['StudentReg']['educform']='Онлайн';
 
             $model->attributes=$_POST['StudentReg'];
             if($model->validate())
@@ -274,21 +262,9 @@ class StudentRegController extends Controller
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         $model->setScenario('edit');
 
-        if( !isset($_POST['StudentReg']['educform'][0]) ){
-            $_POST['StudentReg']['educform'] = 'Не вибрано';
-        }
-        if(isset($_POST['StudentReg']))
-        {
-            if(($_POST['StudentReg']['educform'][0]=='Онлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                $_POST['StudentReg']['educform']='Онлайн';
-            }
-            if(($_POST['StudentReg']['educform'][0]=='Офлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                $_POST['StudentReg']['educform']='Офлайн';
-            }
-            if(($_POST['StudentReg']['educform'][0]=='Онлайн') && ($_POST['StudentReg']['educform'][1]=='Офлайн')){
-                $_POST['StudentReg']['educform']='Онлайн/Офлайн';
-            }
-        }
+        if(isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
+            $_POST['StudentReg']['educform']='Онлайн/Офлайн';
+        else $_POST['StudentReg']['educform']='Онлайн';
 
         $model->attributes=$_POST['StudentReg'];
         if($model->validate()) {

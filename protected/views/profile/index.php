@@ -144,7 +144,7 @@ $arrayCourseText=array(
             $this->renderPartial('_responseBlock', array('model' => $responses[$i]));
         }
         ?>
-
+        <div style="position:relative;"><a name="resp" ></a></div>
         <?php
         $this->renderPartial('_yourResponse');
         ?>

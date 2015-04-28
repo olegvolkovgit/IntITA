@@ -54,7 +54,7 @@ $this->breadcrumbs=array(
                             <?php echo "<b>", $moduleNumber, "</b>"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
                             <span id="titleModule"><?php echo Yii::t('module', '0213'); ?></span>
-                            <?php echo "<b>", $moduleDuration, "</b>"; ?>
+                            <?php echo "<b>", $moduleDuration, "</b> год"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
                         </div>
 

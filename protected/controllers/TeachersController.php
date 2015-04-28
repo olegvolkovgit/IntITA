@@ -33,7 +33,7 @@ class TeachersController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','teacherletter'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -175,4 +175,30 @@ class TeachersController extends Controller
 			Yii::app()->end();
 		}
 	}
+    public function actionTeacherLetter()
+    {
+        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+
+        if($_POST['sendletter']) {
+            if(!empty($_POST['textname'])) {
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
+                $year = $_POST['yearname'];
+                $educ = $_POST['educationname'];
+                $phone = $_POST['phonename'];
+                $courses = $_POST['textname'];
+                $title = "Teacher_Work ".$firstname." ".$lastname;
+                $mess = "Ім'я: ".$firstname." ".$lastname."\r\n"."Дата народження: ".$year."\r\n"."Освіта: ".$educ."\r\n"."Телефон: ".$phone."\r\n"."Курси які готовий викладати: ".$courses;
+                // $to - кому отправляем
+                $to = Yii::app()->params['adminEmail'];
+                // $from - от кого
+                $from = $model->email;
+
+                // функция, которая отправляет наше письмо.
+                mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $from . "\r\n");
+                Yii::app()->user->setFlash('messagemail','Ваше повідомлення відправлено');
+            }
+            header('Location: '.$_SERVER['HTTP_REFERER']);
+        }
+    }
 }

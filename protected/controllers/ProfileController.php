@@ -125,4 +125,25 @@ class ProfileController extends Controller
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }
+
+    public function actionResponse($id=1){
+        $response = new Response();
+        $teacher = Teacher::model()->findByPk($id);;
+
+        if($_POST['sendResponse']) {
+            if(!empty($_POST['response'])) {
+                $response->who = Yii::app()->user->id;
+                $response->about = $teacher->teacher_id;
+                $response->date = date("Y-m-d");         ;
+                $response->text = $_POST['response'];
+                $response->rate = '10';
+                $response->who_ip =$_SERVER["REMOTE_ADDR"];
+
+                $response->save();
+
+                Yii::app()->user->setFlash('messageResponse','Ваш відгук відправлено. Зачекайте модерації.');
+            }
+            header('Location: '.$_SERVER['HTTP_REFERER']);
+        }
+    }
 }
