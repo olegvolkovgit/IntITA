@@ -19,6 +19,7 @@ class ProfileController extends Controller
             ),
         );
     }
+
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -31,7 +32,7 @@ class ProfileController extends Controller
         $sections = explode(';', $teacher->sections);
 
         $permission = new Permissions();
-        if ($permission->checkPermission(Yii::app()->user->getId(), 2, array('edit'))) {
+        if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
         } else {
             $editMode = 0;

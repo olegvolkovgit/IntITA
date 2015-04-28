@@ -33,14 +33,14 @@ $arrayCourseText=array(
         <table>
             <tr>
                 <td valign="top">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher1Image.png"/>
+                        <img src="<?php echo Yii::app()->request->baseUrl.$model->foto_url; ?>"/>
                 </td>
                 <td>
                     <?php
-                    if ($editMode) {
-                        $currentDiv = 'TeacherProfilename';
-                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
-                    }
+//                    if ($editMode) {
+//                        $currentDiv = 'TeacherProfilename';
+//                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 1));
+//                    }
                     ?>
                     <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
                     <div class="TeacherProfilename"> <?php echo $model->first_name.' '.$model->middle_name; ?> </div>
@@ -50,10 +50,10 @@ $arrayCourseText=array(
                     </div>
 
                     <?php
-                    if ($editMode) {
-                        $currentDiv = 'TeacherProfilesectionText';
-                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
-                    }
+//                    if ($editMode) {
+//                        $currentDiv = 'TeacherProfilesectionText';
+//                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 2));
+//                    }
                     ?>
                     <div class="TeacherProfilesectionText">
                         <?php
@@ -70,9 +70,31 @@ $arrayCourseText=array(
                     <?php
                     if ($editMode) {
                         $currentDiv = 'txtMsgFirst';
-                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
+                       // $this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 3));
+                    ?>
+                    <div class="imperaviSimple" id="3">
+                        <!--start toolbar for wysiwyg-->
+                        <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
+                            <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
+                            <div class="btn-edit-ImperaviSimple"
+                                 style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
+                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst');" <?$field = '.redactor'?>
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons">
+                        </div>
+                        <div class="btn-cancel-ImperaviSimple"
+                             style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst')">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons">
+                        </div>
+                        <div class="btn-save-ImperaviSimple"
+                             style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst');">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons">
+                        </div>
+                    </div><?php
                     }
                     ?>
+
 
                     <div class="txtMsgFirst">
                         <?php echo $model->profile_text_first; ?>
@@ -81,10 +103,10 @@ $arrayCourseText=array(
                     <?php echo Yii::t('teachers', '0061'); ?>
 
                     <?php
-                    if ($editMode) {
-                        $currentDiv = 'TeacherProfilecourse';
-                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
-                    }
+//                    if ($editMode) {
+//                        $currentDiv = 'TeacherProfilecourse';
+//                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 4));
+//                    }
                     ?>
                     <div class="TeacherProfilecourse">
                         <?php
@@ -102,12 +124,47 @@ $arrayCourseText=array(
                     <?php
                     if ($editMode) {
                         $currentDiv = 'txtMsgSecond';
-                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv));
+                        //$this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 5));
+
+                    ?>
+                    <div class="imperaviSimple" id="5">
+                        <!--start toolbar for wysiwyg-->
+                        <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
+                            <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
+                            <div class="btn-edit-ImperaviSimple"
+                                 style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
+                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond');" <?$field = '.redactor'?>
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons">
+                        </div>
+                        <div class="btn-cancel-ImperaviSimple"
+                             style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond')">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons">
+                        </div>
+                        <div class="btn-save-ImperaviSimple"
+                             style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
+                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond');">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons">
+                        </div>
+                    </div><?php
                     }
                     ?>
+
                     <div class="txtMsgSecond">
                         <?php echo $model->profile_text_last;?>
                     </div>
+                    <br>
+                    <form id="updateProfile" action="<?php echo Yii::app()->createUrl('profile/save');?>" method="post">
+                        <input name="id" value="<?php echo $model->teacher_id; ?>" hidden="hidden"/>
+                        <input name="firstText" value="" hidden="hidden" id="firstText"/>
+                        <input name="secondText" value="second" hidden="hidden" id="secondText"/>
+                        <textarea id="content" name="content"  hidden="hidden"></textarea>
+                        <p>
+                            <button onclick="javascript:getContent();" id="updateButton">
+                                UPDATE
+                            </button>
+                        </p>
+                    </form>
                 </td>
             </tr>
         </table>
@@ -182,3 +239,57 @@ $arrayCourseText=array(
         ),
     ));
     ?>
+
+    <script type="text/javascript">
+        var textFirst = '';
+        var textSecond = '';
+
+        function pressEditRedactor(className)
+        {
+            var selector = className;
+            $(selector).redactor({
+                focus: true
+            });
+            $('.btn-edit-ImperaviSimple').hide();
+            $('.btn-save-ImperaviSimple').show();
+            $('.btn-cancel-ImperaviSimple').show();
+        }
+
+        function pressCancelRedactor(className)
+        {
+            var selector = className;
+            $(selector).redactor('core.destroy');
+            $('.btn-edit-ImperaviSimple').show();
+            $('.btn-save-ImperaviSimple').hide();
+            $('.btn-cancel-ImperaviSimple').hide();
+        }
+
+        function pressSaveRedactor(className, property) {
+
+            var selector = className;
+
+            // save content
+            var text = $(selector).redactor('code.get');
+            if (property == 'txtMsgFirst'){
+                textFirst = text;
+            } else {
+                if (property == 'txtMsgSecond'){
+                    textSecond = text;
+                }
+            }
+
+            // destroy editor
+            $(selector).redactor('core.destroy');
+            $('.btn-edit-ImperaviSimple').show();
+            $('.btn-save-ImperaviSimple').hide();
+            $('.btn-cancel-ImperaviSimple').hide();
+        }
+
+        function getContent() {
+               var firstText = document.getElementById('firstText');
+               firstText.value = textFirst;
+               var secondText = document.getElementById('secondText');
+               secondText.value = textSecond;
+
+        }
+    </script>

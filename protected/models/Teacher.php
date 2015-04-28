@@ -26,6 +26,7 @@
  * @property integer $rate_relations
  * @property string $sections
  * @property integer $user_id
+ * @property string $courses
  */
 class Teacher extends CActiveRecord
 {
@@ -54,7 +55,7 @@ class Teacher extends CActiveRecord
 			array('email, skype, title, linkName', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'safe', 'on'=>'search'),
+			array('teacher_id, lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -140,9 +141,13 @@ class Teacher extends CActiveRecord
 		$criteria->compare('rate_relations',$this->rate_relations);
 		$criteria->compare('sections',$this->sections,true);
 		$criteria->compare('user_id',$this->user_id);
+        $criteria->compare('courses',$this->courses);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize' => 20,
+            ),
 		));
 	}
 
@@ -156,4 +161,12 @@ class Teacher extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function updateFirstText($id, $firstText){
+        return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
+    }
+
+    public static function updateSecondText($id, $secondText){
+        return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
+    }
 }
