@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2015-04-27 15:55:39
+Date: 2015-04-28 16:00:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -531,8 +531,8 @@ CREATE TABLE `lecture_element` (
   `html_block` text NOT NULL,
   PRIMARY KEY (`id_lecture`,`block_order`),
   KEY `FK_lecture_element_element_type` (`id_type`),
-  CONSTRAINT `FK__lectures` FOREIGN KEY (`id_lecture`) REFERENCES `lectures` (`id`),
-  CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
+  CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`),
+  CONSTRAINT `FK__lectures` FOREIGN KEY (`id_lecture`) REFERENCES `lectures` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
 -- ----------------------------
@@ -1498,20 +1498,21 @@ CREATE TABLE `response` (
   `date` date NOT NULL,
   `text` text NOT NULL,
   `rate` int(2) NOT NULL,
+  `who_ip` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__user` (`who`),
   KEY `FK__user_2` (`about`),
   CONSTRAINT `FK__user` FOREIGN KEY (`who`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Responses for taechers';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Responses for taechers';
 
 -- ----------------------------
 -- Records of response
 -- ----------------------------
-INSERT INTO `response` VALUES ('1', '1', '38', '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных \r\n                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. \r\n                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!', '10');
-INSERT INTO `response` VALUES ('2', '22', '38', '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                       Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и проанализировать сайты компаний,\r\n                       с которыми предстоит конкурировать на рынке интернет-торговли будет очень кстати. \r\n                       Так как мы говорим тут о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                       а сосредоточусь на исследовании сайтов, то есть тех моментов, \r\n                       которые нам нужны для последующего проектирования.!', '9');
-INSERT INTO `response` VALUES ('5', '22', '38', '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                                 С Александрой  знакома через ее сайт <<Учитель мистецтва>>.  Столько высококлассных \r\n                                 работ я в сети еще не встречала!', '9');
-INSERT INTO `response` VALUES ('6', '1', '38', '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                                Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и\r\n                                проанализировать сайты компаний, с которыми предстоит конкурировать \r\n                                на рынке интернет-торговли будет очень кстати. Так как мы говорим тут\r\n                                о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                                а сосредоточусь на исследовании сайтов, то есть тех моментов, которые \r\n                                нам нужны для последующего проектирования.!', '10');
+INSERT INTO `response` VALUES ('1', '1', '38', '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных \r\n                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. \r\n                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!', '10', '123.43.31.12');
+INSERT INTO `response` VALUES ('2', '22', '38', '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                       Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и проанализировать сайты компаний,\r\n                       с которыми предстоит конкурировать на рынке интернет-торговли будет очень кстати. \r\n                       Так как мы говорим тут о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                       а сосредоточусь на исследовании сайтов, то есть тех моментов, \r\n                       которые нам нужны для последующего проектирования.!', '9', '123.43.31.12');
+INSERT INTO `response` VALUES ('5', '22', '38', '2014-11-14', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                                 С Александрой  знакома через ее сайт <<Учитель мистецтва>>.  Столько высококлассных \r\n                                 работ я в сети еще не встречала!', '9', '123.44.31.12');
+INSERT INTO `response` VALUES ('6', '1', '38', '2014-11-14', 'Весьма важный этап, учитывая огромную конкуренцию на рынке.\r\n                                Тут, конечно, более важно узнать бизнес-процессы конкурентов, но и\r\n                                проанализировать сайты компаний, с которыми предстоит конкурировать \r\n                                на рынке интернет-торговли будет очень кстати. Так как мы говорим тут\r\n                                о проектировании, я не буду углубляться в сферу промышленного шпионажа, \r\n                                а сосредоточусь на исследовании сайтов, то есть тех моментов, которые \r\n                                нам нужны для последующего проектирования.!', '10', '123.43.31.12');
 
 -- ----------------------------
 -- Table structure for `settings`
@@ -2651,20 +2652,23 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT '/avatars/noname.png',
   `role` varchar(255) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'Вова', '', '', '0', '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0');
+INSERT INTO `user` VALUES ('1', 'Вова', '', '', '0', '', 'Джа', 'Марля', 'Wizlight', '13/12/1906', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '+38(911)_______', '', '', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0');
 INSERT INTO `user` VALUES ('11', 'ivanna@yutr.rtr', '', '', '0', '', null, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', null, '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0');
 INSERT INTO `user` VALUES ('22', 'tttttt', '', '', '0', '', null, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0');
 INSERT INTO `user` VALUES ('38', '', '', '', '0', '', null, null, null, null, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
 INSERT INTO `user` VALUES ('39', '', '', '', '0', '', null, null, null, null, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('40', '', '', '', '0', '', null, null, null, null, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('41', '', '', '', '0', '', null, null, null, null, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('42', '', '', '', '0', '', null, null, null, null, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('43', '', '', '', '0', '', null, null, null, null, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('40', 'HALA', '', '', '0', '', null, null, null, null, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('41', 'vOVA', '', '', '0', '', null, null, null, null, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('42', 'kOLA', '', '', '0', '', null, null, null, null, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('43', 'rOLA', '', '', '0', '', null, null, null, null, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('44', 'Игорок', '', '', '0', '', null, 'Колобок', '', '', 'Wizlight@rambler.ru', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Не вибрано', '', '', '', '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('45', 'Hello', '', '', '0', '', null, '', '', '', 'Gogo@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/553f3574f0915.jpg', '0');
+INSERT INTO `user` VALUES ('46', 'Hello', '', '', '0', '', null, '', '', '', 'Gogo1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн/Офлайн', '', '', '', '/avatars/noname.png', '0');
 
 -- ----------------------------
 -- Table structure for `videos`
