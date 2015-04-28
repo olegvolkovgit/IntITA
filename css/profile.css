@@ -47,6 +47,7 @@ table.titleProfile{
     display:inline-block;
     font-size: smaller;
     line-height: 120%;
+    width: 90%;
 }
 
 table.titleProfile td{
