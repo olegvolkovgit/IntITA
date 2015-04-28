@@ -94,7 +94,7 @@ $post=Teacher::model()->findAll();
                     </td>
                 </tr>
             </table>
-            <form method="post" action="#">
+            <form method="post" action="<?php echo Yii::app()->createUrl('teachers/teacherletter');?>">
                 <label class="formFirstname" id="formTeacher" for="firstname"><?php echo Yii::t('teachers', '0174');?></label>
                 <input class="formTeacher1" required type="text" name="firstname">
                 <br>  <br>
@@ -114,9 +114,14 @@ $post=Teacher::model()->findAll();
                 <textarea class="formTeacher1" id="formTeacher2" required type="text" name="textname"></textarea>
                 <br> <br>
                 <ul class="actions">
-                    <input id="send_btn" type="submit" value="<?php echo Yii::t('teachers', '0180');?>" />
+                    <input id="send_btn" name="sendletter" type="submit" value="<?php echo Yii::t('teachers', '0180');?>" />
                 </ul>
             </form>
+            <div style="margin-top: 75px">
+            <?php if(Yii::app()->user->hasFlash('messagemail')):
+                echo Yii::app()->user->getFlash('messagemail');
+            endif; ?>
+            </div>
         </div>
         <?php
         $i=0;

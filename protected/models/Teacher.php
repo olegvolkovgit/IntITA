@@ -169,4 +169,11 @@ class Teacher extends CActiveRecord
     public static function updateSecondText($id, $secondText){
         return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
     }
+
+    public function getHideIp ($ip)
+    {
+        $ip_mask = explode(".", $ip);
+        $ip_mask = $ip_mask[0].'.'.$ip_mask[1].'.*.*';
+        return $ip_mask;
+    }
 }

@@ -252,17 +252,22 @@ class StudentReg extends CActiveRecord
         }
         return  $term;
     }
-    public function getYears ($birthday)
+    public function getAdressYears ($birthday,$adress='')
     {
+        $brthAdr = $adress;
+        if(!empty($adress)&&!empty($birthday)) $brthAdr=$brthAdr.", ";
+
         $myAge = $birthday;
         $myAge = str_replace("/",".",$myAge);
         $date_a = new DateTime($myAge);
         $date_b = new DateTime();
         $interval = $date_b->diff($date_a);
-        if($interval->format("%y")!=='0'){
-            echo $interval->format("%y").' '.StudentReg::getYearsTermination($interval->format("%Y"));
+        if($interval->format("%y")!=='0' ){
+            $brthAdr=$brthAdr.$interval->format("%y").' '.StudentReg::getYearsTermination($interval->format("%Y"));
         }
+        echo $brthAdr;
     }
+
     public function getAboutMy ($aboutMy)
     {
         if($aboutMy)
@@ -308,10 +313,13 @@ class StudentReg extends CActiveRecord
     }
     public function getEdForm ($edForm)
     {
-        if ($edForm=='Офлайн') $val = array('Офлайн');
-        if ($edForm=='Онлайн/Офлайн') $val = array('Онлайн','Офлайн');
-        if ($edForm=='Онлайн') $val = array('Онлайн');
-        //return  $val;
+        if(isset($edForm) &&
+            $edForm == 'Онлайн/Офлайн') {
+            $val = 'checked';
+        } else{
+            $val = '';
+        }
+        return  $val;
     }
     public function validatePassword($password)
     {
