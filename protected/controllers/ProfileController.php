@@ -31,7 +31,6 @@ class ProfileController extends Controller
         $teacher = Teacher::model()->findByPk($idTeacher);
         $sections = explode(';', $teacher->sections);
 
-        $permission = new Permissions();
         if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
         } else {
@@ -144,14 +143,12 @@ class ProfileController extends Controller
                 $response->who = Yii::app()->user->id;
                 $response->about = $teacher->teacher_id;
                 $response->date = date("Y-m-d H:i:s");
-                $response->text = $_POST['response'];
+                $response->text = $response->bbcode_to_html($_POST['response']);
                 $response->knowledge =$_POST['material'];
                 $response->behavior =$_POST['behavior'];
                 $response->motivation =$_POST['motiv'];
                 $response->rate = round(($_POST['material']+$_POST['behavior']+$_POST['motiv'])/3);
                 $response->who_ip =$_SERVER["REMOTE_ADDR"];
-
-
                 $response->save();
 
                 Yii::app()->user->setFlash('messageResponse','Ваш відгук відправлено. Зачекайте модерації.');

@@ -5,7 +5,9 @@
  * Date: 24.04.2015
  * Time: 23:47
  */
+
 $user=StudentReg::model()->findByPk($data['who']);
+
 ?>
 <div class="TeacherProfiletitles">
     <?php echo $user->firstName." ".$user->secondName; ?>
@@ -13,9 +15,10 @@ $user=StudentReg::model()->findByPk($data['who']);
 <div class="sm">
     <?php
     $num = $data['who_ip'];
-    echo $data['date']." Всего ".$count = Response::model()->count('who_ip = :num', array(':num'=>$num))." отзывов с IP:".Teacher::getHideIp($data['who_ip']);
-    ?>
+    echo $data['date']." Всего ".$count = Response::model()->count('who_ip = :num', array(':num'=>$num))." отзывов с IP:".$data['who_ip'];
+?>
 </div>
+
 <div class="txtMsg">
     <?php
     echo $data['text'];
