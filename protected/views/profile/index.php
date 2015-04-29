@@ -158,7 +158,7 @@ $arrayCourseText=array(
                     <form id="updateProfile" action="<?php echo Yii::app()->createUrl('profile/save');?>" method="post">
                         <input name="id" value="<?php echo $model->teacher_id; ?>" hidden="hidden"/>
                         <input name="firstText" value="" hidden="hidden" id="firstText"/>
-                        <input name="secondText" value="second" hidden="hidden" id="secondText"/>
+                        <input name="secondText" value="" hidden="hidden" id="secondText"/>
                         <textarea id="content" name="content"  hidden="hidden"></textarea>
                         <p>
                             <button onclick="javascript:getContent();" id="updateButton">
