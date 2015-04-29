@@ -192,20 +192,6 @@ class SiteController extends Controller
 	{
         $app = Yii::app();
 		if (isset($_GET['lg'])) {
-//            switch($_GET['lg']){
-//                case 'ru':
-//                    $app->session['translatedTable'] = 'translatedmessagesru';
-//                    break;
-//                case 'en':
-//                    $app->session['translatedTable'] = 'translatedmessagesen';
-//                    break;
-//                case 'ua':
-//                    $app->session['translatedTable'] = 'translatedmessagesua';
-//                    break;
-//                default:
-//                    $app->session['translatedTable'] = 'translatedmessagesua';
-//                    break;
-//            }
 			$app->session['lg'] = $_GET['lg'];
 		}
         $this->redirect($_SERVER["HTTP_REFERER"]);

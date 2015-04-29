@@ -88,7 +88,14 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                                 <!--Стан курсу-->
                             <div class="courseStatusBox">
                                 <?php echo Yii::t('courses', '0094'); ?>
-                                <span id="courseStatus1">доступний</span>
+                                <span id="courseStatus<?php echo $val->status;?>">
+                                    <?php if($val->status == 0){
+                                        echo Yii::t('courses','0230');
+                                    } else {
+                                        echo Yii::t('courses','0231');
+                                    }
+                                    ?>
+                                </span>
                             </div>
                                 <!--Мови курсу-->
                             <div class="courseLang">
@@ -157,10 +164,9 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                         </table>
                         <div class='courseBox2'>
                             <span id='courseText2'><?php echo Yii::t('courses', '0148'); ?></span>
+                            <?php $tmp = Yii::t('courses', '0229');?>
                             <div id="razv"
-                                 onclick='wrt("<p>Потім вивчаються основні принципи програмування на базі класичних комп&rsquo;ютерних наук і методологій: алгоритмічна мова;елементи вищої та дискретної математики і комбінаторики; структури даних, розробка і аналіз алгоритмів." +
-                                  "<p>Після чого формується база для переходу до сучасних технологій програмування: об’єктно-орієнтоване програмування; проектування баз даних." +
-                                   "<p>Завершення процесу підготовки шляхом конкретного застосування отриманих знань на реальних проектах із засвоєнням сучасних методів і технологій, які використовуються в ІТ індустрії компаніями.")'>
+                                 onclick='wrt("<?php echo $tmp;?>")'>
                                 <br>
                                 <u><?php echo Yii::t('courses', '0146'); ?></u>
                             </div>
@@ -205,7 +211,14 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <!--Стан курсу-->
                             <div class="courseStatusBox">
                                 <?php echo Yii::t('courses', '0094'); ?>
-                                <span id="courseStatus2">розробляється</span>
+                                <span id="courseStatus<?php echo $val->status;?>">
+                                    <?php if($val->status == 0){
+                                        echo Yii::t('courses','0230');
+                                    } else {
+                                        echo Yii::t('courses','0231');
+                                    }
+                                    ?>
+                                </span>
                             </div>
                                 <!--Мови курсу-->
                             <div class="courseLang">
