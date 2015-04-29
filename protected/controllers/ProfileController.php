@@ -150,9 +150,6 @@ class ProfileController extends Controller
                 $response->rate = round(($_POST['material']+$_POST['behavior']+$_POST['motiv'])/3);
                 $response->who_ip =$_SERVER["REMOTE_ADDR"];
 
-                $teacher->updateByPk($id, array('rate_knowledge' => '5'));
-                $teacher->updateByPk($id, array('rate_efficiency' => '6'));
-                $teacher->updateByPk($id, array('rate_relations' => '7'));
 
                 $response->save();
 
