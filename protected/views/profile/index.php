@@ -1,5 +1,8 @@
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
+
+<script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
 <!-- Підключення BBCode WysiBB -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
@@ -138,11 +141,18 @@ $arrayCourseText=array(
         </div>
 
         <?php
-        $responses = $dataProvider->getData();
-        $count = $dataProvider->totalItemCount;
-        for($i = 0; $i < $count; $i++){
-            $this->renderPartial('_responseBlock', array('model' => $responses[$i]));
-        }
+
+        $this->widget('zii.widgets.CListView', array(
+            'dataProvider'=>$dataProvider,
+            'itemView'=>'_responseBlock',
+            'template'=>'{items}{pager}',
+            'pager' => array(
+                'firstPageLabel'=>'<<',
+                'lastPageLabel'=>'>>',
+                'header'=>'',
+            ),
+
+        ));
         ?>
         <div style="position:relative;"><a name="resp" ></a></div>
         <?php

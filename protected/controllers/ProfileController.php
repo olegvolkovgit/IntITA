@@ -23,11 +23,11 @@ class ProfileController extends Controller
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex($id=1)
+    public function actionIndex($idTeacher=1)
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $teacher = Teacher::model()->findByPk($id);
+        $teacher = Teacher::model()->findByPk($idTeacher);
         $sections = explode(';', $teacher->sections);
 
         $permission = new Permissions();
@@ -36,8 +36,15 @@ class ProfileController extends Controller
         } else {
             $editMode = 0;
         }
+        $criteria= new CDbCriteria;
+        $criteria->order = 'date DESC';
 
-        $dataProvider = new CActiveDataProvider('Response');
+        $dataProvider = new CActiveDataProvider('Response', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>4,
+            ),
+        ));
 
         $this->render('index', array (
             'model' => $teacher,
@@ -128,16 +135,24 @@ class ProfileController extends Controller
 
     public function actionResponse($id=1){
         $response = new Response();
-        $teacher = Teacher::model()->findByPk($id);;
+        $teacher = Teacher::model()->findByPk($id);
+
 
         if($_POST['sendResponse']) {
             if(!empty($_POST['response'])) {
                 $response->who = Yii::app()->user->id;
                 $response->about = $teacher->teacher_id;
-                $response->date = date("Y-m-d");         ;
+                $response->date = date("Y-m-d H:i:s");
                 $response->text = $_POST['response'];
-                $response->rate = '10';
+                $response->knowledge =$_POST['material'];
+                $response->behavior =$_POST['behavior'];
+                $response->motivation =$_POST['motiv'];
+                $response->rate = round(($_POST['material']+$_POST['behavior']+$_POST['motiv'])/3);
                 $response->who_ip =$_SERVER["REMOTE_ADDR"];
+
+                $teacher->updateByPk($id, array('rate_knowledge' => '5'));
+                $teacher->updateByPk($id, array('rate_efficiency' => '6'));
+                $teacher->updateByPk($id, array('rate_relations' => '7'));
 
                 $response->save();
 
