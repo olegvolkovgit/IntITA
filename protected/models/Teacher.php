@@ -173,7 +173,7 @@ class Teacher extends CActiveRecord
     public function getHideIp ($ip)
     {
         $ip_mask = explode(".", $ip);
-        $ip_mask = $ip_mask[0].'.'.$ip_mask[1].'.*.*';
+        $ip_mask = "*"."."."*".".".$ip_mask[2].'.'.$ip_mask[3];
         return $ip_mask;
     }
 }
