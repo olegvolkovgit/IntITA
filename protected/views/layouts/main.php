@@ -62,9 +62,9 @@ $header = new Header();?>
 
     <div id="lang" class="down">
         <form  method="" onsubmit="" name="fff">
-            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang','lg'=>'ua'),'id'=>"ua",'name'=>"ua")); ?>
-            <?php echo CHtml::button('en', array('submit' => array('site/changeLang','lg'=>'en'),'id'=>"en",'name'=>"en")); ?>
-            <?php echo CHtml::button('ru', array('submit' => array('site/changeLang','lg'=>'ru'),'id'=>"ru",'name'=>"ru")); ?>
+            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua")); ?>
+            <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
+            <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
         </form>
     </div>
     <?php
