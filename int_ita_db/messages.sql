@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-04-29 10:52:46
+-- Date/time:                    2015-04-29 19:49:11
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~694 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~709 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -603,7 +603,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(193, 'ru', 'Уровень курса:'),
 	(193, 'en', 'Course rate:'),
 	(194, 'ua', 'Тривалість курсу: '),
-	(194, 'ru', 'Продолжительность курса:'),
+	(194, 'ru', 'Длительность курса:'),
 	(194, 'en', 'Course duration:'),
 	(195, 'ua', ''),
 	(195, 'ru', ''),
@@ -660,13 +660,13 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(212, 'ru', 'Занятие:'),
 	(212, 'en', 'Lectures:'),
 	(213, 'ua', 'Тривалість:'),
-	(213, 'ru', 'Продолжительность:'),
+	(213, 'ru', 'Длительность:'),
 	(213, 'en', 'Duration:'),
 	(214, 'ua', 'Рівень модуля:'),
 	(214, 'ru', 'Уровень модуля:'),
 	(214, 'en', 'Level module:'),
 	(215, 'ua', 'Тривалість модуля:'),
-	(215, 'ru', 'Продолжительность модуля:'),
+	(215, 'ru', 'Длительность модуля:'),
 	(215, 'en', 'Duration module:'),
 	(216, 'ua', 'занять'),
 	(216, 'ru', 'занятий'),
@@ -716,7 +716,22 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(230, 'en', 'in develop'),
 	(231, 'ua', 'доступний'),
 	(231, 'ru', 'доступен'),
-	(231, 'en', 'available');
+	(231, 'en', 'available'),
+	(232, 'ua', 'стажер'),
+	(232, 'ru', 'стажер'),
+	(232, 'en', 'intern'),
+	(233, 'ua', 'початківець'),
+	(233, 'ru', 'начинающий'),
+	(233, 'en', 'junior'),
+	(234, 'ua', 'сильний початківець'),
+	(234, 'ru', 'начинающий сильный'),
+	(234, 'en', 'strong junior'),
+	(235, 'ua', 'середній'),
+	(235, 'ru', 'средний'),
+	(235, 'en', 'middle'),
+	(236, 'ua', 'високий'),
+	(236, 'ru', 'высокий'),
+	(236, 'en', 'senior');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
