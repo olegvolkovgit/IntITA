@@ -17,6 +17,10 @@
  */
 class Response extends CActiveRecord
 {
+    public $knowledge;
+    public $behavior;
+    public $motivation;
+    public $who_ip;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -35,6 +39,7 @@ class Response extends CActiveRecord
 		return array(
 			array('who, about, date, text, rate', 'required'),
 			array('who, about, rate', 'numerical', 'integerOnly'=>true),
+            array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, who, about, date, text, rate', 'safe', 'on'=>'search'),
