@@ -1,9 +1,9 @@
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
 
-<script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.min.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
 <script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
-<!-- Підключення BBCode WysiBB -->
+<!--<!-- Підключення BBCode WysiBB -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
@@ -80,20 +80,21 @@ $arrayCourseText=array(
                         <!--start toolbar for wysiwyg-->
                         <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
                             <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
-                            <div class="btn-edit-ImperaviSimple"
+                            <div class="btn-edit-ImperaviSimple" id="editIcon1"
                                  style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst');" <?$field = '.redactor'?>
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons">
+                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'editIcon1', 'cancelIcon1', 'saveIcon1');"
+                            <?$field = '.redactor'?>
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons" >
                         </div>
-                        <div class="btn-cancel-ImperaviSimple"
+                        <div class="btn-cancel-ImperaviSimple" id="cancelIcon1"
                              style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst')">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons">
+                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'editIcon1', 'cancelIcon1', 'saveIcon1')">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons" >
                         </div>
-                        <div class="btn-save-ImperaviSimple"
+                        <div class="btn-save-ImperaviSimple" id="saveIcon1"
                              style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst');">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons">
+                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst', 'editIcon1', 'cancelIcon1', 'saveIcon1');">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons" >
                         </div>
                     </div><?php
                     }
@@ -135,20 +136,20 @@ $arrayCourseText=array(
                         <!--start toolbar for wysiwyg-->
                         <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
                             <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
-                            <div class="btn-edit-ImperaviSimple"
+                            <div class="btn-edit-ImperaviSimple" id="editIcon2"
                                  style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond');" <?$field = '.redactor'?>
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons">
+                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'editIcon2', 'cancelIcon2', 'saveIcon2');" <?$field = '.redactor'?>
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons" >
                         </div>
-                        <div class="btn-cancel-ImperaviSimple"
+                        <div class="btn-cancel-ImperaviSimple"  id="cancelIcon2"
                              style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond')">
+                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'editIcon2', 'cancelIcon2', 'saveIcon2')">
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons">
                         </div>
-                        <div class="btn-save-ImperaviSimple"
+                        <div class="btn-save-ImperaviSimple" id="saveIcon2"
                              style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond');">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons">
+                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');">
+                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons" >
                         </div>
                     </div><?php
                     }
@@ -255,27 +256,27 @@ $arrayCourseText=array(
         var textFirst = '';
         var textSecond = '';
 
-        function pressEditRedactor(className)
+        function pressEditRedactor(className, edit, cancel, save)
         {
             var selector = className;
             $(selector).redactor({
                 focus: true
             });
-            $('.btn-edit-ImperaviSimple').hide();
-            $('.btn-save-ImperaviSimple').show();
-            $('.btn-cancel-ImperaviSimple').show();
+            $('#'+edit).hide();
+            $('#'+cancel).show();
+            $('#'+save).show();
         }
 
-        function pressCancelRedactor(className)
+        function pressCancelRedactor(className, edit, cancel, save)
         {
             var selector = className;
             $(selector).redactor('core.destroy');
-            $('.btn-edit-ImperaviSimple').show();
-            $('.btn-save-ImperaviSimple').hide();
-            $('.btn-cancel-ImperaviSimple').hide();
+            $('#'+edit).show();
+            $('#'+cancel).hide();
+            $('#'+save).hide();
         }
 
-        function pressSaveRedactor(className, property) {
+        function pressSaveRedactor(className, property, edit, cancel, save) {
 
             var selector = className;
 
@@ -291,9 +292,9 @@ $arrayCourseText=array(
 
             // destroy editor
             $(selector).redactor('core.destroy');
-            $('.btn-edit-ImperaviSimple').show();
-            $('.btn-save-ImperaviSimple').hide();
-            $('.btn-cancel-ImperaviSimple').hide();
+            $('#'+edit).show();
+            $('#'+cancel).hide();
+            $('#'+save).hide();
         }
 
         function getContent() {

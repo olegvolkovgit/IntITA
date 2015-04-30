@@ -108,6 +108,7 @@ $this->breadcrumbs=array(
 
             <div class="lessonModule">
                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
+                <div><img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png" hidden="hidden"/></div>
 
                 <?php
                 for ($i = 0; $i < $moduleNumber; $i++) {
