@@ -43,12 +43,12 @@ class Lecture extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('image, alias, language, idModule, order, title, idType, durationInMinutes, maxNumber, iconIsDone, preLecture, nextLecture, idTeacher, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'required'),
+            array('idModule, order, title', 'required'),
             array('idModule, order, idType, durationInMinutes, maxNumber, preLecture, nextLecture', 'numerical', 'integerOnly' => true),
             array('image, iconIsDone, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('language', 'length', 'max' => 6),
-            array('title', 'length', 'max' => 100),
+            array('title', 'length', 'max' => 255),
             array('idTeacher', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -300,5 +300,19 @@ class Lecture extends CActiveRecord
             return $contentList;
         }
 
+    }
+
+    public static function addNewLesson($module, $title, $order){
+        $lecture = new Lecture();
+        $lecture->title = $title;
+        $lecture->idModule = $module;
+        $lecture->order = $order;
+       // $lecture->language = $lang;
+
+//        if (!$lecture->isNewRecord) {
+            return $lecture->save();
+//        } else {
+//            throw new CHttpException(422, 'Така лекція вже існує.');
+//        }
     }
 }

@@ -47,7 +47,7 @@ class Database
      * Database host
      * @var string
      */
-    protected $dbHost = 'intita.itatests.com';
+    protected $dbHost = '';
 
     /**
      * Database port

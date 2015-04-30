@@ -4,10 +4,11 @@
 <!-- BD -))) -->
 <?php
 $this->pageTitle = 'INTITA';
-$post=Module::model()->findByPk(1);
+//$post = Module::model()->findByPk(1);
 ?>
 <!-- BD -))) -->
 <?php
+
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Програмування для чайників'=>Yii::app()->request->baseUrl."/course",'Основи PHP',
 );
@@ -105,10 +106,13 @@ $this->breadcrumbs=array(
                     </td>
                 </tr>
             </table>
-
             <div class="lessonModule">
+                <div onclick="showForm();">
+                    <a href="#lessonForm">
+                    <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png" id="addLessonButton"/>
+                    </a>
+                </div>
                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
-                <div><img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png" hidden="hidden"/></div>
 
                 <?php
                 for ($i = 0; $i < $moduleNumber; $i++) {
@@ -128,6 +132,23 @@ $this->breadcrumbs=array(
                 <?php
                 }
                 ?>
+
+                <div id="lessonForm">
+                <form id="addLessonForm" action="/IntITA/module/saveLesson" method="post">
+                    <br>
+                    <span id="formLabel">Нове заняття:</span>
+                    <br>
+                    <span><?php echo Yii::t('module', '0226')." ".($moduleNumber + 1)."."; ?></span>
+                    <input name="idModule" value="<?php echo $post->module_ID;?>" hidden="hidden">
+                    <input name="order" value="<?php echo ($moduleNumber + 1);?>" hidden="hidden">
+<!--                    <input name="lang" value="--><?php //echo "UA";?><!--" hidden="hidden">-->
+                    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[а-яА-ЯёЁa-zA-Z0-9 ]+$">
+                    <br><br>
+                    <input type="submit"  value="ADD LESSON">
+<!--                    onclick="sendForm();"-->
+                </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -160,3 +181,17 @@ $this->breadcrumbs=array(
         ?>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    function showForm(){
+        $form = document.getElementById('lessonForm');
+        $form.style.display = 'block';
+    }
+
+    function sendForm(){
+        $form = document.getElementById('lessonForm');
+        $form.style.display = 'none';
+    }
+
+</script>

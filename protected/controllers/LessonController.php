@@ -30,4 +30,6 @@ class LessonController extends Controller{
             'lecture' => $lecture,
         ));
     }
+
+
 }

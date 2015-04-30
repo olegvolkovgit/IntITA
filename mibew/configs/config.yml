@@ -6,9 +6,9 @@
 database:
     host: "intita.itatests.com"
     port: 3306
-    db: "int_ita_db"
+    db: "mibew"
     login: "root"
-    pass: "G2Qv6Gw2"
+    pass: ""
     tables_prefix: ""
     use_persistent_connection: false
 

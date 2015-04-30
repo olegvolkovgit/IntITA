@@ -115,5 +115,26 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 #enter_button_2:active {
     background: #363636;
 }
+#addLessonButton{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    /*width:48px;*/
+    /*height: 48px;*/
+}
+
+#lessonForm{
+    display: none;
+}
+
+#formLabel{
+    color:red;
+    font-size: 16px;
+}
+
+#newLectureName{
+    width: 530px;
+    height: 25px;
+}
 
 
