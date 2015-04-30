@@ -1,11 +1,14 @@
 <?php
 
 /**
- * This is the model class for table "modules".
+ * This is the model class for table "module".
  *
- * The followings are the available columns in table 'modules':
+ * The followings are the available columns in table 'module':
  * @property integer $module_ID
+ * @property integer $course
  * @property string $module_name
+ * @property string $alias
+ * @property string $language
  * @property integer $module_duration_hours
  * @property integer $module_duration_days
  * @property integer $lesson_count
@@ -15,9 +18,10 @@
  * @property string $what_you_get
  * @property string $module_img
  * @property string $about_module
+ * @property string $owners
  *
  * The followings are the available model relations:
- * @property Studentsaccess[] $studentsaccesses
+ * @property Course $course0
  */
 class Module extends CActiveRecord
 {
@@ -37,15 +41,16 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('module_name, module_duration_hours, module_duration_days', 'required'),
-			array('module_duration_hours, module_duration_days, lesson_count', 'numerical', 'integerOnly'=>true),
+			array('course, module_name, alias, language, module_duration_hours, module_duration_days', 'required'),
+			array('course, module_duration_hours, module_duration_days, lesson_count', 'numerical', 'integerOnly'=>true),
 			array('module_name', 'length', 'max'=>45),
-			array('module_price', 'length', 'max'=>10),
+			array('alias, module_price', 'length', 'max'=>10),
+			array('language', 'length', 'max'=>6),
 			array('module_img', 'length', 'max'=>255),
-			array('for_whom, what_you_learn, what_you_get, about_module', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, about_module, owners', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('module_ID, module_name, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module', 'safe', 'on'=>'search'),
+			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +61,9 @@ class Module extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-
+		return array(
+			'course0' => array(self::BELONGS_TO, 'Course', 'course'),
+		);
 	}
 
 	/**
@@ -66,7 +73,10 @@ class Module extends CActiveRecord
 	{
 		return array(
 			'module_ID' => 'Module',
+			'course' => 'Course',
 			'module_name' => 'Module Name',
+			'alias' => 'Alias',
+			'language' => 'Language',
 			'module_duration_hours' => 'Module Duration Hours',
 			'module_duration_days' => 'Module Duration Days',
 			'lesson_count' => 'Lesson Count',
@@ -76,6 +86,7 @@ class Module extends CActiveRecord
 			'what_you_get' => 'What You Get',
 			'module_img' => 'Module Img',
 			'about_module' => 'About Module',
+			'owners' => 'Owners',
 		);
 	}
 
@@ -98,7 +109,10 @@ class Module extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('module_ID',$this->module_ID);
+		$criteria->compare('course',$this->course);
 		$criteria->compare('module_name',$this->module_name,true);
+		$criteria->compare('alias',$this->alias,true);
+		$criteria->compare('language',$this->language,true);
 		$criteria->compare('module_duration_hours',$this->module_duration_hours);
 		$criteria->compare('module_duration_days',$this->module_duration_days);
 		$criteria->compare('lesson_count',$this->lesson_count);
@@ -108,6 +122,7 @@ class Module extends CActiveRecord
 		$criteria->compare('what_you_get',$this->what_you_get,true);
 		$criteria->compare('module_img',$this->module_img,true);
 		$criteria->compare('about_module',$this->about_module,true);
+		$criteria->compare('owners',$this->owners,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,13 +133,14 @@ class Module extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Modules the static model class
+	 * @return Module the static model class
 	 */
 	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-    public function getHoursTermination ($num)
+    {
+        return parent::model($className);
+    }
+
+        public function getHoursTermination ($num)
     {
         //Оставляем две последние цифры от $num
         $number = substr($num, -2);
@@ -148,7 +164,7 @@ class Module extends CActiveRecord
 
         echo  ' годин'.$term;
     }
-    public function getLessonsTermination ($num)
+        public function getLessonsTermination ($num)
     {
         //Оставляем две последние цифры от $num
         $number = substr($num, -2);
@@ -173,7 +189,7 @@ class Module extends CActiveRecord
         echo  ' занят'.$term;
     }
 
-	public function findModuleIDByAlias($alias){
-		return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
-	}
+        public function findModuleIDByAlias($alias){
+        return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
+    }
 }

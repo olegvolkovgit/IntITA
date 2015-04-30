@@ -46,6 +46,8 @@ img.time{
 }
 .lessonModule table tr td:first-child {
     white-space: nowrap;
+    text-align:right;
+    width: 60px;
 }
 .leftModule a {
     color: #4b75a4;
@@ -119,8 +121,6 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     float:right;
     margin-top: 20px;
     margin-right: 20px;
-    /*width:48px;*/
-    /*height: 48px;*/
 }
 
 #lessonForm{
@@ -136,5 +136,32 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     width: 530px;
     height: 25px;
 }
+
+.editToolbar{
+
+}
+
+.editToolbar img{
+    width: 25px;
+    height: 25px;
+}
+
+#submitButton{
+    width:165px;
+    height:45px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 0px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro";
+    font-size: 24px;
+    letter-spacing:1px;
+    text-shadow:1px 1px 1px black;
+}
+
+
 
 

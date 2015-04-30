@@ -97,22 +97,32 @@ class ModuleController extends Controller
 	 */
 	public function actionIndex()
 	{
-		/*$dataProvider=new CActiveDataProvider('Modules');
-		$this->render('module',array(
-			'dataProvider'=>$dataProvider,
-		));*/
+
         $model = Module::model()->findByPk(1);
-//        $editMode = 0;
-//        if (Yii::app()->user->getId() == 38) {
-//            $editMode = 1;
-//        } else {
-//            $editMode = 0;
-//        }
+        $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
+        $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
+        $editMode = 0; //init editMode flag
+        //find id teacher related to current user id
+        if (Yii::app()->user->isGuest){ //if user guest
+            $editMode = 0;
+        } else {
+            $teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id;
+            //check edit mode
+            if (in_array($teacherId, $owners)) {
+                $editMode = 1;
+            } else {
+                $editMode = 0;
+            }
+        }
 
         $this->render('index', array(
             'post' => $model,
+            'teachers' => $teachers,
+            'editMode' => $editMode,
+
         ));
 	}
+
 
 	/**
 	 * Manages all models.

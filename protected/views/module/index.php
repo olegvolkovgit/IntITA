@@ -1,5 +1,6 @@
 <!-- Module style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <!-- Module style -->
 <!-- BD -))) -->
 <?php
@@ -107,21 +108,44 @@ $this->breadcrumbs=array(
                 </tr>
             </table>
             <div class="lessonModule">
-                <div onclick="showForm();">
-                    <a href="#lessonForm">
-                    <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png" id="addLessonButton"/>
-                    </a>
-                </div>
+                <a name="list">
+                    <?php
+                    if ($editMode){
+                    ?>
+                        <div onclick="showForm();">
+                            <a href="#lessonForm">
+                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png"
+                                     id="addLessonButton"/>
+                            </a>
+                        </div>
+                    <?php
+                    }?>
                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
                 <?php
                 for ($i = 0; $i < $moduleNumber; $i++) {
                     ?>
-                    <div>
+                    <div id="<?php echo ($i+1);?>">
                         <table>
                             <tr>
-                                <td style="width: 60px;">
-                                    <?php echo Yii::t('module', '0226')," ",$i+1,"."; ?>
+                                <td <?php if ($editMode){echo 'style="width:155px;"';} ?>>
+                                    <?php
+                                    if ($editMode){
+                                    ?>
+                                    <span class="editToolbar" id="<?php echo ($i+1);?>.'toolbar'">
+                                        <a href="#list" onclick="unableLecture(<?php echo ($i+1);?>);">
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/delete.png"/>
+                                        </a>
+                                         <a href="#list" onclick="downLecture(<?php echo ($i+1);?>);">
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/down.png"/>
+                                        </a>
+                                         <a href="#list" onclick="upLecture(<?php echo ($i+1);?>);">
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/up.png"/>
+                                        </a>
+                                    </span>
+                                    <?php
+                                    }?>
+                                    <?php echo "  ".Yii::t('module', '0226')," ",$i+1,"."; ?>
                                 </td>
                                 <td>
                                     <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $arrayNameLessons[$i] ;?></a> </span>
@@ -132,7 +156,9 @@ $this->breadcrumbs=array(
                 <?php
                 }
                 ?>
-
+                    <?php
+                    if ($editMode){
+                    ?>
                 <div id="lessonForm">
                 <form id="addLessonForm" action="/IntITA/module/saveLesson" method="post">
                     <br>
@@ -144,33 +170,37 @@ $this->breadcrumbs=array(
 <!--                    <input name="lang" value="--><?php //echo "UA";?><!--" hidden="hidden">-->
                     <input type="text" name="newLectureName" id="newLectureName" required pattern="^[а-яА-ЯёЁa-zA-Z0-9 ]+$">
                     <br><br>
-                    <input type="submit"  value="ADD LESSON">
+                    <input type="submit"  value="ADD LESSON" id="submitButton">
 <!--                    onclick="sendForm();"-->
                 </form>
                 </div>
-
+                    <?php
+                    }?>
             </div>
         </div>
     </div>
 
     <div class="rightModule">
         <?php
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 0; $i < count($teachers); $i++) {
             ?>
             <div class="teacherBox">
                 <table>
                     <tr>
                         <td class="teacherBoxLeft">
-                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher2.jpg"/>
-                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/profile"><?php echo Yii::t('module', '0228'); ?> &#187;</a>
+                            <img  src="<?php echo Yii::app()->request->baseUrl.$teachers[$i]->foto_url; ?>"/>
+                            <a href="<?php echo Yii::app()->request->baseUrl.$teachers[$i]->readMoreLink; ?>"><?php echo Yii::t('module', '0228'); ?> &#187;</a>
                         </td>
                         <td  class="teacherBoxRight" ">
                         <h2><?php echo Yii::t('module', '0227'); ?></h2>
                         <div style="line-height: 1.2;">
-                            <?php echo $teacherLastName,$teacherFirstName;?>
-                            <?php echo $teacherEmail;?>
-                            <?php echo $teacherPhone1, $teacherPhone2;?>
-                            <?php echo $teacherSkype;?>
+                            <?php echo $teachers[$i]->last_name,$teachers[$i]->first_name;?>
+                            <br>
+                            <?php echo $teachers[$i]->email;?>
+
+                            <?php echo $teachers[$i]->tel;?>
+
+                            <?php echo $teachers[$i]->skype;?>
                         </div>
                         </td>
                     </tr>
@@ -183,7 +213,6 @@ $this->breadcrumbs=array(
 </div>
 
 <script type="text/javascript">
-
     function showForm(){
         $form = document.getElementById('lessonForm');
         $form.style.display = 'block';
@@ -194,4 +223,19 @@ $this->breadcrumbs=array(
         $form.style.display = 'none';
     }
 
+
+
+    function unableLecture(idLecture) {
+        alert("id = "+idLecture+" unable");
+    }
+
+    function downLecture(idLecture) {
+        alert("id = "+idLecture +" down");
+
+    }
+
+    function upLecture(idLecture) {
+        alert("id = "+idLecture + " up");
+
+    }
 </script>
