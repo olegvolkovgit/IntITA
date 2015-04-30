@@ -42,7 +42,7 @@ class ProfileController extends Controller
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,
             'pagination'=>array(
-                'pageSize'=>4,
+                'pageSize'=>5,
             ),
         ));
 
@@ -152,6 +152,10 @@ class ProfileController extends Controller
 
 
                 $response->save();
+
+                $teacher->updateByPk($id, array('rate_knowledge' =>$teacher->getAverageRateKnwl($id)));
+                $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($id)));
+                $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($id)));
 
                 Yii::app()->user->setFlash('messageResponse','Ваш відгук відправлено. Зачекайте модерації.');
             }
