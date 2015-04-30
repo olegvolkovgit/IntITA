@@ -44,8 +44,9 @@
                         <div id="motiv"></div>
                     </td>
                 </tr>
+            </table>
         </div>
-        </table>
+
         <div class="BBCode">
             <form  action="<?php echo Yii::app()->createUrl('profile/response');?>" method="post">
                 <textarea class="editor" name="response"></textarea>

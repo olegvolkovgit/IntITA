@@ -6,7 +6,7 @@
  * Time: 0:42
  */
 ?>
-<div class="imperaviSimple">
+<div class="imperaviSimple" id="<?php echo $order; ?>">
     <!--start toolbar for wysiwyg-->
     <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
         <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
@@ -48,18 +48,19 @@
         $('.btn-cancel-ImperaviSimple').hide();
     }
 
-    function pressSaveRedactor(className, teacherId, property) {
+    function pressSaveRedactor(className,property) {
+
         var selector = className;
 
         // save content
         var text = $(selector).redactor('code.get');
-        //alert(text);
-        $(selector).redactor();
-        $.ajax({
-            url: '/IntITA/profile/save/',
-            type: 'post',
-            data: {content:text, id:teacherId, property:property}//'content=' + text
-        });
+       if (property == 'txtMsgFirst'){
+           textFirst = text;
+       } else {
+           if (property == 'txtMsgSecond'){
+               textSecond = text;
+           }
+       }
 
         // destroy editor
         $(selector).redactor('core.destroy');
@@ -69,6 +70,3 @@
     }
 </script>
 
-<form action="/IntITA/profile/save/" id="redactor" method="post">
-    <textarea id="content" name="content" hidden="hidden"></textarea>
-</form>

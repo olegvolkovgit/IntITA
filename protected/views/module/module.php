@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
                     <td style="padding-left: 15px;">
 
                         <span id="titleModule"><?php echo Yii::t('module', '0211'); ?></span>
-                         <?php echo $moduleName;?>
+                        <?php echo $moduleName;?>
 
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0212'); ?></span>
@@ -106,12 +106,12 @@ $this->breadcrumbs=array(
                 </tr>
             </table>
 
-         <div class="lessonModule">
-                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
+            <div class="lessonModule">
+                <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
-             <?php
-             for ($i = 0; $i < $moduleNumber; $i++) {
-                 ?>
+                <?php
+                for ($i = 0; $i < $moduleNumber; $i++) {
+                    ?>
                     <div>
                         <table>
                             <tr>
@@ -124,10 +124,10 @@ $this->breadcrumbs=array(
                             </tr>
                         </table>
                     </div>
-             <?php
-             }
-             ?>
-         </div>
+                <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 
@@ -158,5 +158,4 @@ $this->breadcrumbs=array(
         }
         ?>
     </div>
-
 </div>

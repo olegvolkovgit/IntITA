@@ -372,6 +372,7 @@ table.timeTable tr:first-child td{
     border-top-width: 0px;
     border-left-width: 0px;
     border-bottom-width: 0px;
+    font-size: 11px;
 }
 
     /*Timetable*/

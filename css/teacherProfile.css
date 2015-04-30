@@ -42,6 +42,14 @@ td img.icons {
     font-size:26px;
     margin-bottom:0px;
 }
+
+.TeacherProfilename a
+{
+    color:red;
+    font-size:26px;
+    margin-bottom:0px;
+}
+
 .TeacherProfilesectionText
 {
     margin-top:-20px;
@@ -94,4 +102,23 @@ div.responseBG {
     overflow:hidden;
 }
 
+#updateButton{
+    width:165px;
+    height:52px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 0px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro";
+    font-size: 25px;
+    letter-spacing:1px;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    padding-right: 30px;
+    text-shadow:1px 1px 1px black;
 
+}

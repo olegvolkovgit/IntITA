@@ -223,7 +223,7 @@
     position: relative;
     color: #000000;
 }
-.courseStatus2 p{
+.courseStatus0 p{
     margin-left: 150px;
     position: relative;
     color: #696969;
@@ -231,7 +231,7 @@
 #courseStatus1 {
     color: green;
 }
-#courseStatus2 {
+#courseStatus0 {
     color: #ff0000;
 }
 .sourse{
