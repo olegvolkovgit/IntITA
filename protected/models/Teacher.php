@@ -159,8 +159,42 @@ class Teacher extends CActiveRecord
 
     public function getHideIp ($ip)
     {
-        $ip_mask = explode(".", $ip);
-        $ip_mask = "*"."."."*".".".$ip_mask[2].'.'.$ip_mask[3];
-        return $ip_mask;
+        $pos =  strripos($ip, '.');
+        $arr = str_split($ip);
+        for($i=0;$i<$pos;$i++){
+            if($arr[$i]!=='.') $arr[$i]='*';
+        }
+        return implode("", $arr);
+    }
+
+    public function getAverageRateKnwl ($id=1)
+    {
+        $b=0;
+        $a= Response::model()->findAll("knowledge>0 and about=$id");
+        $countKn = Response::model()->count("knowledge>0 and about=$id");
+        foreach ($a as $one){
+            $b=$b+$one->knowledge;
+        }
+        return round($b/$countKn);
+    }
+    public function getAverageRateBeh ($id=1)
+    {
+        $b=0;
+        $a= Response::model()->findAll("behavior>0 and about=$id");
+        $countBeh = Response::model()->count("behavior>0 and about=$id");
+        foreach ($a as $one){
+            $b=$b+$one->behavior;
+        }
+        return round($b/$countBeh);
+    }
+    public function getAverageRateMot ($id=1)
+    {
+        $b=0;
+        $a= Response::model()->findAll("motivation>0 and about=$id");
+        $countMot = Response::model()->count("motivation>0 and about=$id");
+        foreach ($a as $one){
+            $b=$b+$one->motivation;
+        }
+        return round($b/$countMot);
     }
 }
