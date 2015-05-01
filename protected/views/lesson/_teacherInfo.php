@@ -45,13 +45,20 @@ $app = Yii::app();
                            <?php $this->renderPartial('_timeConsult'); ?>
                         </div>
                         <div id="consultationInfo">
-                            <p class="consInfHeader">
-                           Вітаємо!
-                            </p>
-                            <p id="consInfText">
-                                у Вас запланована консультація з біології у викладача Ореста Остаповича Лютого.
-                            </p>
-                            <button id="consultationButton">Ок</button>
+                            <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">
+                                <p class="consInfHeader">
+                               Вітаємо!
+                                </p>
+                                <p id="consInfText">
+                                    у Вас запланована консультація з біології у викладача Ореста Остаповича Лютого.
+                                </p>
+                                <input type="hidden" id="datecons" name="datecons" />
+                                <input type="hidden" id="timecons" name="timecons" />
+                                <input type="hidden"  name="teacherid" value="<?php echo $teacher['id']; ?>" />
+                                <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
+                                <input type="hidden"  name="lectureid" value="<?php echo 1 ?>" />
+                                <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
+                            </form>
                         </div>
                         <a id="consultationCalendar">
                             <?php echo Yii::t('lecture','0079'); ?>
@@ -73,7 +80,7 @@ $app = Yii::app();
 
 <script type="text/javascript">
     $('#dateTimePicker').datetimepicker({
-        format: "d MM yyyy",
+        format: "yyyy-mm-dd",
         language: "<?php echo $app->session['lg']?>",
         weekStart: 1,
         todayBtn:  0,
