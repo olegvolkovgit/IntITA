@@ -1,6 +1,6 @@
 <!-- Module style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
 <!-- Module style -->
 <!-- BD -))) -->
 <?php
@@ -11,34 +11,11 @@ $this->pageTitle = 'INTITA';
 <?php
 
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Програмування для чайників'=>Yii::app()->request->baseUrl."/course",'Основи PHP',
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",Course::model()->findByPk($post->course)->course_name =>Yii::app()->request->baseUrl."/course",$post->module_name,
 );
-?>
-<?php
-    $moduleName="<b>Мова програмування PhP</b>";
-    $moduleNumber=33;
-    $moduleDuration=313;
-    $arrayNameLessons = array(
-                        "Основи PHP",
-                        "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
-                        "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
-                        "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
-                        "Робота з базою даних","Робота з файлами","Робота з файлами", "Основи PHP",
-        "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML котрі допомога ють справному програмісту","Cookies Урок і сесії",
-        "Робота з файлами","Робота з базою даних","Основи PHP","Семантичне ядро ​​сайту",
-        "Зовнішні ресурси в просуванні","Запити HTTP, URL параметри і форми HTML","Запити HTTP, URL параметри і форми HTML котрі допомо- гають справному програмісту","Робота з файлами",
-        "Робота з базою даних","Робота з файлами","Робота з файлами", "Семантичне ядро ​​сайту","Зовнішні ресурси в просуванні",
-    );
-    $teacherLastName="Орест Остапович"; $teacherFirstName="Бендер";
-    $teacherEmail="orest@intita.org, orest@gmail.com";
-    $teacherEmail="orest@intita.org, orest@gmail.com";
-    $teacherPhone1="/067/ 56-569-56"; $teacherPhone2="/093/ 123-45-67";
-    $teacherSkype="orest.ostapovich";
 ?>
 
 <div class="ModuleBlock">
-
-
     <div class="leftModule">
         <div class="headerLeftModule">
             <table>
@@ -49,14 +26,14 @@ $this->breadcrumbs=array(
                     <td style="padding-left: 15px;">
 
                         <span id="titleModule"><?php echo Yii::t('module', '0211'); ?></span>
-                        <?php echo $moduleName;?>
+                        <?php echo $post->module_name;?>
 
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0212'); ?></span>
-                            <?php echo "<b>", $moduleNumber, "</b>"; ?>
+                            <?php echo "<b>", $post->lesson_count, "</b>"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
                             <span id="titleModule"><?php echo Yii::t('module', '0213'); ?></span>
-                            <?php echo "<b>", $moduleDuration, "</b> год"; ?>
+                            <?php echo "<b>", $post->module_duration_hours, "</b> год"; ?>
                             <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
                         </div>
 
@@ -107,7 +84,7 @@ $this->breadcrumbs=array(
                     </td>
                 </tr>
             </table>
-            <div class="lessonModule">
+            <div class="lessonModule" id="lectures">
                 <a name="list">
                     <?php
                     if ($editMode){
@@ -115,7 +92,7 @@ $this->breadcrumbs=array(
                         <div onclick="showForm();">
                             <a href="#lessonForm">
                                 <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png"
-                                     id="addLessonButton"/>
+                                     id="addLessonButton" title="Додати заняття"/>
                             </a>
                         </div>
                     <?php
@@ -123,7 +100,7 @@ $this->breadcrumbs=array(
                 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
                 <?php
-                for ($i = 0; $i < $moduleNumber; $i++) {
+                for ($i = 0; $i < $post->lesson_count; $i++) {
                     ?>
                     <div id="<?php echo ($i+1);?>">
                         <table>
@@ -133,14 +110,14 @@ $this->breadcrumbs=array(
                                     if ($editMode){
                                     ?>
                                     <span class="editToolbar" id="<?php echo ($i+1);?>.'toolbar'">
-                                        <a href="#list" onclick="unableLecture(<?php echo ($i+1);?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/delete.png"/>
+                                        <a href="#list" onclick="unableLecture(<?php echo ($i+1);?>, <?php echo $post->module_ID;?>);">
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/delete.png" id="unable<?php echo ($i+1);?>"/>
                                         </a>
                                          <a href="#list" onclick="downLecture(<?php echo ($i+1);?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/down.png"/>
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/down.png" id="down<?php echo ($i+1);?>"/>
                                         </a>
                                          <a href="#list" onclick="upLecture(<?php echo ($i+1);?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/up.png"/>
+                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/up.png" id="up<?php echo ($i+1);?>"/>
                                         </a>
                                     </span>
                                     <?php
@@ -148,7 +125,7 @@ $this->breadcrumbs=array(
                                     <?php echo "  ".Yii::t('module', '0226')," ",$i+1,"."; ?>
                                 </td>
                                 <td>
-                                    <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $arrayNameLessons[$i] ;?></a> </span>
+                                    <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $lecturesTitles[$i] ;?></a> </span>
                                 </td>
                             </tr>
                         </table>
@@ -164,11 +141,11 @@ $this->breadcrumbs=array(
                     <br>
                     <span id="formLabel">Нове заняття:</span>
                     <br>
-                    <span><?php echo Yii::t('module', '0226')." ".($moduleNumber + 1)."."; ?></span>
+                    <span><?php echo Yii::t('module', '0226')." ".($post->lesson_count + 1)."."; ?></span>
                     <input name="idModule" value="<?php echo $post->module_ID;?>" hidden="hidden">
-                    <input name="order" value="<?php echo ($moduleNumber + 1);?>" hidden="hidden">
-<!--                    <input name="lang" value="--><?php //echo "UA";?><!--" hidden="hidden">-->
-                    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[а-яА-ЯёЁa-zA-Z0-9 ]+$">
+                    <input name="order" value="<?php echo ($post->lesson_count + 1);?>" hidden="hidden">
+                    <input name="lang" value="<?php echo $post->language;?>" hidden="hidden">
+                    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9 ()/+-]+$">
                     <br><br>
                     <input type="submit"  value="ADD LESSON" id="submitButton">
 <!--                    onclick="sendForm();"-->
@@ -194,7 +171,7 @@ $this->breadcrumbs=array(
                         <td  class="teacherBoxRight" ">
                         <h2><?php echo Yii::t('module', '0227'); ?></h2>
                         <div style="line-height: 1.2;">
-                            <?php echo $teachers[$i]->last_name,$teachers[$i]->first_name;?>
+                            <?php echo $teachers[$i]->last_name." ".$teachers[$i]->first_name;?>
                             <br>
                             <?php echo $teachers[$i]->email;?>
 
@@ -225,17 +202,39 @@ $this->breadcrumbs=array(
 
 
 
-    function unableLecture(idLecture) {
-        alert("id = "+idLecture+" unable");
+    function unableLecture(idLecture, idModule) {
+        var xmlhttp;
+        var id = 'unable' + idLecture;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                document.getElementById("lectures").innerHTML=xmlhttp.responseText;
+            }
+        }
+
+        xmlhttp.open("post","/IntITA/module/unableLecture/",true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        xmlhttp.send("order="+idLecture+"&idModule="+idModule);
     }
 
     function downLecture(idLecture) {
         alert("id = "+idLecture +" down");
+        var id = 'down' + idLecture;
 
     }
 
     function upLecture(idLecture) {
         alert("id = "+idLecture + " up");
+        var id = 'up' + idLecture;
 
     }
 </script>

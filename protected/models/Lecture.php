@@ -132,14 +132,19 @@ class Lecture extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ));
+            'sort' => array (
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            ),
+            ));
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Lecture3 the static model class
+     * @return Lecture the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -302,17 +307,32 @@ class Lecture extends CActiveRecord
 
     }
 
-    public static function addNewLesson($module, $title, $order){
+    public static function addNewLesson($module, $title, $order, $lang){
         $lecture = new Lecture();
         $lecture->title = $title;
         $lecture->idModule = $module;
         $lecture->order = $order;
-       // $lecture->language = $lang;
-
+        $lecture->language = $lang;
+        $lecture->alias = 'lecture'.$order;
 //        if (!$lecture->isNewRecord) {
             return $lecture->save();
 //        } else {
 //            throw new CHttpException(422, 'Така лекція вже існує.');
 //        }
+    }
+
+    public function getLecturesTitles($id)
+    {
+        $list = Lecture::model()->findAllByAttributes(array('idModule' => $id));
+        $titles = array();
+        foreach ($list as $item) {
+            array_push($titles, $item->title);
+        }
+        return $titles;
+    }
+
+    public static function unableLecture($idLecture){
+
+        Lecture::model()->updateByPk($idLecture, array('order' => 0));
     }
 }

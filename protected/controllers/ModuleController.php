@@ -95,10 +95,9 @@ class ModuleController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($idModule = 1)
 	{
-
-        $model = Module::model()->findByPk(1);
+        $model = Module::model()->findByPk($idModule);
         $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
         $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
         $editMode = 0; //init editMode flag
@@ -115,11 +114,13 @@ class ModuleController extends Controller
             }
         }
 
+        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
+
         $this->render('index', array(
             'post' => $model,
             'teachers' => $teachers,
             'editMode' => $editMode,
-
+            'lecturesTitles' => $lecturesTitles,
         ));
 	}
 
@@ -169,5 +170,28 @@ class ModuleController extends Controller
 
     public  function actionSaveLesson(){
         $this->render('saveLesson');
+    }
+
+    public function actionUnableLecture(){
+        $order = $_POST['order'];
+        $idModule =$_POST['idModule'];
+        $idLecture = Lecture::model()->findByAttributes(array('order'=>$order))->id;
+
+        Lecture::model()->updateByPk($idLecture, array('order' => 0));
+        Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
+
+        $count = Module::model()->findByPk($idModule)->lesson_count;
+        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
+        for ($i = $order + 1; $i <= $count; $i++){
+            $id = Lecture::model()->findByAttributes(array('order'=>$i))->id;
+            Lecture::model()->updateByPk($id, array('order' => $i-1));
+        }
+
+        $model = Module::model()->findByPk($idModule);
+        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
+        $this->renderPartial('unableLecture', array(
+            'post' => $model,
+            'lecturesTitles' => $lecturesTitles,
+        ));
     }
 }

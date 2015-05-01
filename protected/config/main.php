@@ -10,7 +10,7 @@ return array(
 	'name'=>'INTITA',
 
 	'sourceLanguage'=>'xs',
-	'language'=>'ru',
+	'language'=>'ua',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

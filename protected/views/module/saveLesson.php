@@ -5,8 +5,9 @@
  * Date: 30.04.2015
  * Time: 17:12
  */
-if (Lecture::model()->addNewLesson($_POST['idModule'], $_POST['newLectureName'], $_POST['order']))
+if (Lecture::model()->addNewLesson($_POST['idModule'], $_POST['newLectureName'], $_POST['order'], $_POST['lang']))
 {
+    Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
         ?>
         <br>
         <br>

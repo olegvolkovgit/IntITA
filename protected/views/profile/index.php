@@ -128,7 +128,7 @@ $arrayCourseText=array(
 
                     <?php
                     if ($editMode) {
-                        $currentDiv = 'txtMsgSecond';
+                                            $currentDiv = 'txtMsgSecond';
                         //$this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 5));
 
                     ?>
@@ -159,6 +159,9 @@ $arrayCourseText=array(
                         <?php echo $model->profile_text_last;?>
                     </div>
                     <br>
+                    <?php
+                    if ($editMode) {
+                    ?>
                     <form id="updateProfile" action="<?php echo Yii::app()->createUrl('profile/save');?>" method="post">
                         <input name="id" value="<?php echo $model->teacher_id; ?>" hidden="hidden"/>
                         <input name="firstText" value="" hidden="hidden" id="firstText"/>
@@ -170,6 +173,9 @@ $arrayCourseText=array(
                             </button>
                         </p>
                     </form>
+                    <?php
+                    }
+                    ?>
                 </td>
             </tr>
         </table>
