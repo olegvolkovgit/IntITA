@@ -42,7 +42,7 @@ $app = Yii::app();
                             <span class="add-on"><i class="icon-th"></i></span>
                         </div>
                         <div id="timeConsultation">
-                           <?php $this->renderPartial('_timeConsult'); ?>
+                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher['id'])); ?>
                         </div>
                         <div id="consultationInfo">
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">

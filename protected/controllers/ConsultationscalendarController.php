@@ -175,8 +175,9 @@ class ConsultationscalendarController extends Controller
         if($_POST['saveConsultation']) {
             $numcons = explode(",", $_POST['timecons']);
             for ($i=0; $i<count($numcons);$i++ ){
-                $calendar->start_cons = $_POST['datecons']." ".substr($numcons[$i], 0,5);
-                $calendar->end_cons = $_POST['datecons']." ".substr($numcons[$i], 6,5);
+                $calendar->start_cons =substr($numcons[$i], 0,5);
+                $calendar->end_cons =substr($numcons[$i], 6,5);
+                $calendar->date_cons =$_POST['datecons'];
                 $calendar->teacher_id = $_POST['teacherid'];
                 $calendar->user_id = $_POST['userid'];
                 $calendar->lecture_id = $_POST['lectureid'];

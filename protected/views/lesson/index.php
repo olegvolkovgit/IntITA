@@ -31,11 +31,11 @@ $this->breadcrumbs=array(
 
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('teacher'=>$lecture->getTeacherInfoById(1)));?>
+    <?php $this->renderPartial('_teacherInfo', array('teacher'=>$lecture->getTeacherInfoById(1), 'idLecture' => $lecture->id));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
-    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
+    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)));?>
     <div class="lessonText">
 
 

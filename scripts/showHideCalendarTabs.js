@@ -26,7 +26,7 @@ $("#consultationNext").click(function (){
     if(parseTable('timeGrid').length!== 0){
         $("#timeConsultation").css('display', 'none');
         var textinfo = document.getElementById('consInfText');
-        var dateinfo = document.getElementById('dateTimePicker').value +' року'+ parseTable('timeGrid');
+        var dateinfo = document.getElementById('dateTimePicker').value +' року '+ parseTable('timeGrid');
         textinfo.innerHTML = dateinfo + textinfo.innerHTML;
         document.getElementById('datecons').value =document.getElementById('dateTimePicker').value;
         document.getElementById('timecons').value =parseTable('timeGrid');

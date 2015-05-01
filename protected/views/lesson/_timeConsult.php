@@ -1,39 +1,25 @@
-<script language="javascript" type="text/javascript">
-    /*значення таблиці з интервалом 20хв в ширину 3*/
-    function timeInterval(a,b,c) {
-        var delta=60/c;
-
-        t1=a+parseInt(b/delta);
-        t2=b*c;
-        t3=a+parseInt((b+1)/delta);
-        t4=(b+1)*c;
-        if(t4==60) t4=0;
-
-        if(t1.toString().length==1) t1='0'+ t1;
-        if(t2.toString().length==1) t2='0'+ t2;
-        if(t3.toString().length==1) t3='0'+ t3;
-        if(t4.toString().length==1) t4='0'+ t4;
-
-        t=t1+':'+t2+'-'+t3+':'+t4;
-        return t;
-    }
-</script>
-
 <p id="timeTitle">Виберіть годину</p>
 <p  id="timeDate"></p>
-<script>
-    document.write("<table id='timeGrid'>");
-    for (var i = 9; i < 23; i++) {
-        document.write("<tr>");
-        for (var j = 0; j < 3; j++) {
-            document.write("<td class='<?php  echo '' ?>'>");
-            document.write(timeInterval(i,j,20));
-            document.write("</td>");
-        }
-        document.write("</tr>");
+
+<table id='timeGrid'>
+    <?php
+    for ($i = 9; $i < 23; $i++) {
+        ?>
+        <tr>
+            <?php
+            for ( $j = 0; $j < 3; $j++) {
+                ?>
+                <td class='<?php  echo '' ?>'>
+                    <?php  echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20)); ?>
+                </td>
+            <?php
+            }
+            ?>
+        </tr>
+    <?php
     }
-    document.write("</table>");
-</script>
+    ?>
+</table>
 
 <div id="timeInfo">
     Ви можете вибрать декілька консультацій.
@@ -42,3 +28,4 @@
 
 <button id="consultationBack">Назад</button>
 <button id="consultationNext">Далі</button>
+<!--parseInt(timeInterval(i,j,20).substr(0,2)*60)+parseInt(timeInterval(i,j,20).substr(3,2))-->
