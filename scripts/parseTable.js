@@ -35,7 +35,7 @@ function intervalConsultationArr($allTime) {
 /* 2)*/
     var arrI = [];
     for (var j=0; j<arrT.length; j++) {
-        arrI[j]=' з '+arrT[j].substr(0,5)+' по '+arrT[j].substr(arrT[j].lastIndexOf('-')+1,6);
+        arrI[j]=arrT[j].substr(0,5)+'-'+arrT[j].substr(arrT[j].lastIndexOf('-')+1,6);
     }
     return arrI;
 }

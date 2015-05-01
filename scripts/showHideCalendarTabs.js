@@ -7,6 +7,7 @@ $('#consultationCalendar').click(function() {
 });
 /*при выборе даты открывается блок с выбором время*/
 $("#dateTimePicker").change(function (){
+    //document.getElementById('datecons').value = document.getElementById('dateTimePicker').value;
     document.getElementById('timeDate').innerHTML= document.getElementById('dateTimePicker').value;
     $("#timeConsultation").css('display', 'block');
 });
@@ -27,6 +28,8 @@ $("#consultationNext").click(function (){
         var textinfo = document.getElementById('consInfText');
         var dateinfo = document.getElementById('dateTimePicker').value +' року'+ parseTable('timeGrid');
         textinfo.innerHTML = dateinfo + textinfo.innerHTML;
+        document.getElementById('datecons').value =document.getElementById('dateTimePicker').value;
+        document.getElementById('timecons').value =parseTable('timeGrid');
         $("#consultationInfo").css('display', 'block');
     }
 });
