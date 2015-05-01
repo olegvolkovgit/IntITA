@@ -56,7 +56,7 @@ $app = Yii::app();
                                 <input type="hidden" id="timecons" name="timecons" />
                                 <input type="hidden"  name="teacherid" value="<?php echo $teacher['id']; ?>" />
                                 <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
-                                <input type="hidden"  name="lectureid" value="<?php echo 1 ?>" />
+                                <input type="hidden"  name="lectureid" value="<?php echo $idLecture ?>" />
                                 <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
                             </form>
                         </div>

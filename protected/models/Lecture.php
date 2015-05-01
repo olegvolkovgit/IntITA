@@ -277,6 +277,7 @@ class Lecture extends CActiveRecord
             'skype' => $teacher->skype,
             'readMoreLink' => $teacher->readMoreLink,
             'photo' => $teacher->smallImage,
+            'id' => $teacher->teacher_id,
         );
     }
 
