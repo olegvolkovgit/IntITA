@@ -88,7 +88,8 @@ $app = Yii::app();
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        forceParse: 0
+        forceParse: 0,
+        startDate: new Date()
     });
     $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
 </script>
