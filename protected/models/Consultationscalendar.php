@@ -107,11 +107,20 @@ class Consultationscalendar extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function classTD ($id, $times=0)
+    public function classTD ($id, $times)
     {
-        $a = Consultationscalendar::model()->find("teacher_id=:id", array(':id' => $id));
+        $a = Consultationscalendar::model()->findAll("teacher_id=:id", array(':id' => $id));
 
-        return $times;
+        $startTime = substr($times, 0, 2)*60+substr($times, 3, 2);
+        foreach($a as $td){
+            $startCons = substr($td->start_cons, 0, 2)*60+substr($td->start_cons, 3, 2);
+            $endCons = substr($td->end_cons, 0, 2)*60+substr($td->end_cons, 3, 2);
+            if( $startTime>=$startCons && $startTime<$endCons){
+                $classTD='disabledTime';
+            }
+        }
+
+        return $classTD;
     }
     /*значення таблиці з интервалом 20хв в ширину 3*/
     public function timeInterval($a,$b,$c) {
