@@ -137,7 +137,7 @@ $this->breadcrumbs=array(
                     if ($editMode){
                     ?>
                 <div id="lessonForm">
-                <form id="addLessonForm" action="/IntITA/module/saveLesson" method="post">
+                <form id="addLessonForm" action="<?php echo Yii::app()->createUrl('module/saveLesson');?>" method="post">
                     <br>
                     <span id="formLabel">Нове заняття:</span>
                     <br>
@@ -221,8 +221,8 @@ $this->breadcrumbs=array(
             }
         }
 
-        xmlhttp.open("post","/IntITA/module/unableLecture/",true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        xmlhttp.open("post",<?php echo Yii::app()->createUrl('module/unableLesson');?>,true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send("order="+idLecture+"&idModule="+idModule);
     }
 
