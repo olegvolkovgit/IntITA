@@ -8,7 +8,7 @@ function parseTable($mytable) {
             // последовательный перебор всех ячеек
             var cls = tbl.rows[r].cells[c];
             if(cls.className=='pressedTime'){
-                arr.push(cls.innerHTML)
+                arr.push(nospace(cls.innerHTML))
             }
         }
     }
@@ -35,7 +35,13 @@ function intervalConsultationArr($allTime) {
 /* 2)*/
     var arrI = [];
     for (var j=0; j<arrT.length; j++) {
-        arrI[j]=' з '+arrT[j].substr(0,5)+' по '+arrT[j].substr(arrT[j].lastIndexOf('-')+1,6);
+        arrI[j]=arrT[j].substr(0,5)+'-'+arrT[j].substr(arrT[j].lastIndexOf('-')+1,5);
     }
     return arrI;
+}
+/*убираем пробелы*/
+function nospace(str) {
+    var VRegExp = new RegExp(/^(\s|\u00A0)+/g);
+    var VResult = str.replace(VRegExp, '');
+    return VResult;
 }
