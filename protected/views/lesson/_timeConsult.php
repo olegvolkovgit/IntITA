@@ -9,8 +9,8 @@
             <?php
             for ( $j = 0; $j < 3; $j++) {
                 ?>
-                <td class='<?php  echo '' ?>'>
-                    <?php  echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20)); ?>
+                <td class='<?php  echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20)); ?>'>
+                    <?php  echo Consultationscalendar::timeInterval($i,$j,20); ?>
                 </td>
             <?php
             }
@@ -28,4 +28,3 @@
 
 <button id="consultationBack">Назад</button>
 <button id="consultationNext">Далі</button>
-<!--parseInt(timeInterval(i,j,20).substr(0,2)*60)+parseInt(timeInterval(i,j,20).substr(3,2))-->
