@@ -5,7 +5,8 @@
  * Date: 01.05.2015
  * Time: 17:35
  */
-
+$model = Module::model()->findByPk($idModule);
+$lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
 ?>
 <div  id="lectures">
                 <a name="list">

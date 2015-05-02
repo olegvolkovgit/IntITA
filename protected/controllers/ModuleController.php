@@ -181,17 +181,17 @@ class ModuleController extends Controller
         Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
 
         $count = Module::model()->findByPk($idModule)->lesson_count;
-        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
         for ($i = $order + 1; $i <= $count; $i++){
             $id = Lecture::model()->findByAttributes(array('order'=>$i))->id;
             Lecture::model()->updateByPk($id, array('order' => $i-1));
         }
+        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
 
-        $model = Module::model()->findByPk($idModule);
-        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
+
+
         $this->renderPartial('unableLecture', array(
-            'post' => $model,
-            'lecturesTitles' => $lecturesTitles,
+            'idModule' => $idModule,
+            'idLecture' => $idLecture,
         ));
     }
 }
