@@ -48,6 +48,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'delete' => array(
                     'imageUrl'=> Yii::app()->request->baseUrl."/images/delete.png",
                     //'url' => '',
+                    'deleteConfirmation' => 'Вы уверены, что хотите удалить это занятие?',
                     'click'=>'js:unableLecture(23, 1)',
                     'label' => 'Дезактивировать занятие',
                     'visible'=> $editMode,

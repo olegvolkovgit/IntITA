@@ -24,8 +24,6 @@ class LessonController extends Controller{
             )
         );
 
-
-
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
