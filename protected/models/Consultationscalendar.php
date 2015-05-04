@@ -106,10 +106,10 @@ class Consultationscalendar extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    public function classTD ($id, $times)
+    /*Визначаєм клас комірки з інтервалом, натиснута чи не натиснута*/
+    public function classTD ($id, $times, $date)
     {
-        $a = Consultationscalendar::model()->findAll("teacher_id=:id", array(':id' => $id));
+        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date'=>$date, ':id' => $id));
 
         $startTime = substr($times, 0, 2)*60+substr($times, 3, 2);
         foreach($a as $td){
