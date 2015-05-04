@@ -172,15 +172,15 @@ class ConsultationscalendarController extends Controller
 	}
     public function actionSaveconsultation(){
         $calendar = new Consultationscalendar();
-        if($_POST['saveConsultation']) {
-            $numcons = explode(",", $_POST['timecons']);
+        if(Yii::app()->request->getPost('saveConsultation')) {
+            $numcons = explode(",", Yii::app()->request->getPost('timecons'));
             for ($i=0; $i<count($numcons);$i++ ){
                 $calendar->start_cons =substr($numcons[$i], 0,5);
                 $calendar->end_cons =substr($numcons[$i], 6,5);
-                $calendar->date_cons =$_POST['datecons'];
-                $calendar->teacher_id = $_POST['teacherid'];
-                $calendar->user_id = $_POST['userid'];
-                $calendar->lecture_id = $_POST['lectureid'];
+                $calendar->date_cons =Yii::app()->getRequest()->getPost('datecons');
+                $calendar->teacher_id = Yii::app()->request->getPost('teacherid');
+                $calendar->user_id = Yii::app()->request->getPost('userid');
+                $calendar->lecture_id = Yii::app()->request->getPost('lectureid');
                 $calendar->save();
                 $calendar = new Consultationscalendar();
             }
