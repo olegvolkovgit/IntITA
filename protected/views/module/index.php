@@ -27,16 +27,6 @@ $this->breadcrumbs=array(
 
                         <span id="titleModule"><?php echo Yii::t('module', '0211'); ?></span>
                         <?php echo $post->module_name;?>
-
-                        <div>
-                            <span id="titleModule"><?php echo Yii::t('module', '0212'); ?></span>
-                            <?php echo "<b>", $post->lesson_count, "</b>"; ?>
-                            <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
-                            <span id="titleModule"><?php echo Yii::t('module', '0213'); ?></span>
-                            <?php echo "<b>", $post->module_duration_hours, "</b> год"; ?>
-                            <img class="time" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png"/>
-                        </div>
-
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                             <?php echo "сильний початківець"?>
@@ -62,7 +52,7 @@ $this->breadcrumbs=array(
                         </div>
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                            3000.00 <?php echo Yii::t('module', '0222'); ?> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
+                           <span id="oldPrice"> <?php echo $post->module_price; ?> <?php echo Yii::t('module', '0222'); ?></span> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
                         </div>
                         <div>
                             <div >
@@ -84,76 +74,78 @@ $this->breadcrumbs=array(
                     </td>
                 </tr>
             </table>
-            <div class="lessonModule" id="lectures">
-                <a name="list">
-                    <?php
-                    if ($editMode){
-                    ?>
-                        <div onclick="showForm();">
-                            <a href="#lessonForm">
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png"
-                                     id="addLessonButton" title="Додати заняття"/>
-                            </a>
-                        </div>
-                    <?php
-                    }?>
-                <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
-                <?php
-                for ($i = 0; $i < $post->lesson_count; $i++) {
-                    ?>
-                    <div id="<?php echo ($i+1);?>">
-                        <table>
-                            <tr>
-                                <td <?php if ($editMode){echo 'style="width:155px;"';} ?>>
-                                    <?php
-                                    if ($editMode){
-                                    ?>
-                                    <span class="editToolbar" id="<?php echo ($i+1);?>.'toolbar'">
-                                        <a href="#list" onclick="unableLecture(<?php echo ($i+1);?>, <?php echo $post->module_ID;?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/delete.png" id="unable<?php echo ($i+1);?>"/>
-                                        </a>
-                                         <a href="#list" onclick="downLecture(<?php echo ($i+1);?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/down.png" id="down<?php echo ($i+1);?>"/>
-                                        </a>
-                                         <a href="#list" onclick="upLecture(<?php echo ($i+1);?>);">
-                                            <img  src="<?php echo Yii::app()->request->baseUrl; ?>/images/up.png" id="up<?php echo ($i+1);?>"/>
-                                        </a>
-                                    </span>
-                                    <?php
-                                    }?>
-                                    <?php echo "  ".Yii::t('module', '0226')," ",$i+1,"."; ?>
-                                </td>
-                                <td>
-                                    <span> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson"><?php echo $lecturesTitles[$i] ;?></a> </span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                <?php
-                }
-                ?>
-                    <?php
-                    if ($editMode){
-                    ?>
-                <div id="lessonForm">
-                <form id="addLessonForm" action="<?php echo Yii::app()->createUrl('module/saveLesson');?>" method="post">
-                    <br>
-                    <span id="formLabel">Нове заняття:</span>
-                    <br>
-                    <span><?php echo Yii::t('module', '0226')." ".($post->lesson_count + 1)."."; ?></span>
-                    <input name="idModule" value="<?php echo $post->module_ID;?>" hidden="hidden">
-                    <input name="order" value="<?php echo ($post->lesson_count + 1);?>" hidden="hidden">
-                    <input name="lang" value="<?php echo $post->language;?>" hidden="hidden">
-                    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9 ()/+-]+$">
-                    <br><br>
-                    <input type="submit"  value="ADD LESSON" id="submitButton">
-<!--                    onclick="sendForm();"-->
-                </form>
-                </div>
-                    <?php
-                    }?>
-            </div>
+            <?php $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post));?>
+<!--            <div class="lessonModule" id="lectures">-->
+<!--                <a name="list">-->
+<!--                    --><?php
+//                    if ($editMode){
+//                    ?>
+<!--                        <div onclick="showForm();">-->
+<!--                            <a href="#lessonForm">-->
+<!--                                <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/images/add_lesson.png"-->
+<!--                                     id="addLessonButton" title="Додати заняття"/>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    --><?php
+//                    }?>
+<!--                <h2>--><?php //echo Yii::t('module', '0225'); ?><!--</h2>-->
+<!---->
+<!--                --><?php
+//                for ($i = 0; $i < $post->lesson_count; $i++) {
+//                    ?>
+<!--                    <div id="--><?php //echo ($i+1);?><!--">-->
+<!--                        <table>-->
+<!--                            <tr>-->
+<!--                                <td --><?php //if ($editMode){echo 'style="width:155px;"';} ?><!-->
+<!--                                    --><?php
+//                                    if ($editMode){
+//                                    ?>
+<!--<!--                                    <span class="editToolbar" id="--><?php ////echo ($i+1);?><!--<!--.'toolbar'">-->
+<!--<!--                                        <a href="#list" onclick="unableLecture(--><?php ////echo ($i+1);?><!--//, --><?php ////echo $post->module_ID;?><!--//);">-->
+<!--//                                            <img  src="--><?php ////echo Yii::app()->request->baseUrl; ?><!--<!--/images/delete.png" id="unable--><?php ////echo ($i+1);?><!--<!--"/>-->
+<!--<!--                                        </a>-->
+<!--<!--                                         <a href="#list" onclick="downLecture(--><?php ////echo ($i+1);?><!--//);">-->
+<!--//                                            <img  src="--><?php ////echo Yii::app()->request->baseUrl; ?><!--<!--/images/down.png" id="down--><?php ////echo ($i+1);?><!--<!--"/>-->
+<!--<!--                                        </a>-->
+<!--<!--                                         <a href="#list" onclick="upLecture(--><?php ////echo ($i+1);?><!--//);">-->
+<!--//                                            <img  src="--><?php ////echo Yii::app()->request->baseUrl; ?><!--<!--/images/up.png" id="up--><?php ////echo ($i+1);?><!--<!--"/>-->
+<!--                                        </a>-->
+<!--                                    </span>-->
+<!--                                    --><?php
+//                                    }?>
+<!--                                    --><?php //echo "  ".Yii::t('module', '0226')," ",$i+1,"."; ?>
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <span> <a href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/lesson">--><?php //echo $lecturesTitles[$i] ;?><!--</a> </span>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                --><?php
+//                }
+//                ?>
+<!--                    --><?php
+//                    if ($editMode){
+//                    ?>
+<!--                <div id="lessonForm">-->
+<!--                <form id="addLessonForm" action="--><?php //echo Yii::app()->createUrl('module/saveLesson');?><!--" method="post">-->
+<!--                    <br>-->
+<!--                    <span id="formLabel">Нове заняття:</span>-->
+<!--                    <br>-->
+<!--                    <span>--><?php //echo Yii::t('module', '0226')." ".($post->lesson_count + 1)."."; ?><!--</span>-->
+<!--                    <input name="idModule" value="--><?php //echo $post->module_ID;?><!--" hidden="hidden">-->
+<!--                    <input name="order" value="--><?php //echo ($post->lesson_count + 1);?><!--" hidden="hidden">-->
+<!--                    <input name="lang" value="--><?php //echo $post->language;?><!--" hidden="hidden">-->
+<!--                    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9 ()/+-]+$">-->
+<!--                    <br><br>-->
+<!--                    <input type="submit"  value="ADD LESSON" id="submitButton">-->
+<!--<!--                    onclick="sendForm();"-->
+<!--                </form>-->
+<!--                </div>-->
+<!--                    --><?php
+//                    }?>
+
         </div>
     </div>
 
@@ -189,52 +181,4 @@ $this->breadcrumbs=array(
     </div>
 </div>
 
-<script type="text/javascript">
-    function showForm(){
-        $form = document.getElementById('lessonForm');
-        $form.style.display = 'block';
-    }
 
-    function sendForm(){
-        $form = document.getElementById('lessonForm');
-        $form.style.display = 'none';
-    }
-
-
-
-    function unableLecture(idLecture, idModule) {
-        var xmlhttp;
-        var id = 'unable' + idLecture;
-        if (window.XMLHttpRequest)
-        {// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp=new XMLHttpRequest();
-        }
-        else
-        {// code for IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange=function()
-        {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-                document.getElementById("lectures").innerHTML=xmlhttp.responseText;
-            }
-        }
-
-        xmlhttp.open("post",<?php echo Yii::app()->createUrl('module/unableLesson');?>,true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send("order="+idLecture+"&idModule="+idModule);
-    }
-
-    function downLecture(idLecture) {
-        alert("id = "+idLecture +" down");
-        var id = 'down' + idLecture;
-
-    }
-
-    function upLecture(idLecture) {
-        alert("id = "+idLecture + " up");
-        var id = 'up' + idLecture;
-
-    }
-</script>

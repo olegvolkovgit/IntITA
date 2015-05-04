@@ -65,7 +65,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                          ?>
                         <div class='courseBox'>
                             <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
-                            <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
+                            <div class='courseName'> <a href="<?php echo Yii::app()->createUrl('course/index', array('courseID'=>2) ); ?>"><?php
                                     echo $val->course_name; ?></a>
                             </div>
                                 <!--Рівень курсу-->

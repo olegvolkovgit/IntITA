@@ -82,10 +82,10 @@ return array(
 			'caseSensitive' => true,
 			'rules'=>array(
 
-				/*array(
-					'class' => 'application.components.CoursesRule',
-					'connectionID' => 'db',
-				),*/
+//				array(
+//					'class' => 'application.components.CoursesRule',
+//					'connectionID' => 'db',
+//				),
 
 				''=>array('site/index', 'urlSuffix' => ''),
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
@@ -99,6 +99,9 @@ return array(
 
 		),
 
+        'widgetFactory' => array(
+            'enableSkin' => true,
+        ),
 
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),

@@ -137,6 +137,7 @@ class Lecture extends CActiveRecord
                     'order'=>CSort::SORT_ASC,
                 )
             ),
+            //
             ));
     }
 

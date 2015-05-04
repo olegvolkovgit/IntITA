@@ -1,7 +1,7 @@
 
 /* stylesheet for lesson top */
 
-.lectureMainBlock { border-bottom:solid 2px #DCDCDC; left:50%; width: 960px;  display:inline-block;
+.lectureMainBlock { border-bottom:solid 2px #DCDCDC; left:50%; width: 1200px;  display:inline-block;
  position:relative;    margin-left: -480px; margin-top:0px; margin-bottom:5px;padding-bottom: 38px;}
  
 .lectureImageMain

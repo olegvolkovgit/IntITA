@@ -189,7 +189,7 @@ class Module extends CActiveRecord
         echo  ' занят'.$term;
     }
 
-        public function findModuleIDByAlias($alias){
+        public function getByAlias($alias){
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
     }
 }
