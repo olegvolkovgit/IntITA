@@ -34,21 +34,15 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
 
     <table>
         <tr>
-<!--            Для стажерів() | Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
-            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'intern'));?>">
-                        <?php echo 'Для стажерів'; ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'intern'));?>)</div></td>
-            <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
+<!--Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior'));?>">
-                        <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'junior'));?>)</div></td>
-            <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
-            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'strong junior'));?>">
-                        <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'strong junior'));?>)</div></td>
+                        <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(<?php echo count(Course::model()->findAllByAttributes(array('level' => array('junior','strong junior','intern')))); ?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle'));?>">
-                        <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'middle'));?>)</div></td>
+                        <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'middle'));?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior'));?>">
-                        <?php echo 'Для провідних розробників'; ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'senior'));?>)</div></td>
+                        <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'senior'));?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all'));?>">
                         <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo Course::model()->count('level');?>)</div></td>

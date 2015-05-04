@@ -32,8 +32,12 @@ class CoursesController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'course';
         if ($selector !== 'all'){
-            $criteria->condition = 'level=:level';
-            $criteria->params = array(':level'=>$selector);
+            if ($selector == 'junior'){
+                $criteria->addInCondition('level', array('intern','strong junior','junior'));
+            } else {
+                $criteria->condition = 'level=:level';
+                $criteria->params = array(':level'=>$selector);
+            }
         }
 
         $dataProvider = new CActiveDataProvider('Course'
