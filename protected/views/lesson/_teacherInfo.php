@@ -36,27 +36,41 @@ $app = Yii::app();
                         <?php echo 'skype: '?><div id="teacherSkype"><?php echo $teacher['skype']; ?>
                         </div>
                     </li>
+                    <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
                     <div class="calendar">
+                        <!--Календарь-->
                         <div class="input-append date form_datetime">
                             <input size="16" type="text" value="" readonly id="dateTimePicker">
                             <span class="add-on"><i class="icon-th"></i></span>
+                            <!--Скрита форма з Ajax кнопкою для передачі і виводу зайнятих інтервалів консультацій-->
+                            <?php $form=$this->beginWidget('CActiveForm', array(
+                                'id'=>'ajaxchange-form',
+                            )); ?>
+                            <input type="hidden" id="dateconsajax" name="dateconsajax" />
+                            <input type="hidden" name="teacherIdajax" value=<?php echo $idTeacher; ?> />
+                            <?php
+                            echo CHtml::ajaxSubmitButton('Updatedate', CController::createUrl('lesson/UpdateAjax'), array('update' => '#timeConsultation'), array('id' => 'hiddenAjaxButton'));
+                            ?>
+                            <?php $this->endWidget(); ?>
                         </div>
+                        <!--Інтервали консультацій-->
                         <div id="timeConsultation">
-                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher['id'])); ?>
+                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$idTeacher,'day'=>'')); ?>
                         </div>
+                        <!--Інформативна форма після вибору консультації-->
                         <div id="consultationInfo">
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">
                                 <p class="consInfHeader">
                                Вітаємо!
                                 </p>
                                 <p id="consInfText">
-                                    у Вас запланована консультація з біології у викладача Ореста Остаповича Лютого.
+                                    у Вас запланована консультація по темі <?php echo $titleLecture ?>, викладач <?php echo $teacher['full_name'];?>.
                                 </p>
                                 <input type="hidden" id="datecons" name="datecons" />
                                 <input type="hidden" id="timecons" name="timecons" />
-                                <input type="hidden"  name="teacherid" value="<?php echo $teacher['id']; ?>" />
+                                <input type="hidden"  name="teacherid" value="<?php echo $idTeacher; ?>" />
                                 <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
-                                <input type="hidden"  name="lectureid" value="<?php echo $idLecture ?>" />
+                                <input type="hidden"  name="lectureid" value="<?php echo $idLecture; ?>" />
                                 <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
                             </form>
                         </div>
@@ -64,6 +78,7 @@ $app = Yii::app();
                             <?php echo Yii::t('lecture','0079'); ?>
                         </a>
                     </div>
+
                 </ul>
         </span>
     </div>
@@ -74,9 +89,9 @@ $app = Yii::app();
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ua.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js"></script>
 
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>
+
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/parseTable.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showHideCalendarTabs.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showCalendar.js"></script>
 
 <script type="text/javascript">
     $('#dateTimePicker').datetimepicker({
