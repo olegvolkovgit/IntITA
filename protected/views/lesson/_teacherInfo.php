@@ -39,7 +39,7 @@ $app = Yii::app();
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
                     <div class="calendar">
                         <!--Календарь-->
-                        <div class="input-append date form_datetime">
+                        <div class="input-append date form_datetime" id="form_datetime">
                             <input size="16" type="text" value="" readonly id="dateTimePicker">
                             <span class="add-on"><i class="icon-th"></i></span>
                             <!--Скрита форма з Ajax кнопкою для передачі і виводу зайнятих інтервалів консультацій-->

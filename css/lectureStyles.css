@@ -186,6 +186,9 @@ div.calendar{
     padding: 0;
     cursor: none;
 }
+#form_datetime{
+    height: 0;
+}
 .datetimepicker{
     width: 305px;
 }
