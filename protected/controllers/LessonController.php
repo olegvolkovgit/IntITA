@@ -30,4 +30,14 @@ class LessonController extends Controller{
             'lecture' => $lecture,
         ));
     }
+
+    public function actionUpdateAjax()
+    {
+        $data = array();
+
+        $data["day"] = $_POST['dateconsajax'];
+        $data["teacherId"] = $_POST['teacherIdajax'];
+
+        $this->renderPartial('_timeConsult', $data, false, true);
+    }
 }
