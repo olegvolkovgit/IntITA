@@ -1,5 +1,7 @@
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showHideCalendarTabs.js"></script>
 <p id="timeTitle">Виберіть годину</p>
-<p  id="timeDate"></p>
+<p  id="timeDate"><?php echo $day ?></p>
 
 <table id='timeGrid'>
     <?php
@@ -9,8 +11,8 @@
             <?php
             for ( $j = 0; $j < 3; $j++) {
                 ?>
-                <td class='<?php  echo '' ?>'>
-                    <?php  echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20)); ?>
+                <td class='<?php  echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20),$day); ?>'>
+                    <?php  echo Consultationscalendar::timeInterval($i,$j,20); ?>
                 </td>
             <?php
             }
@@ -28,4 +30,3 @@
 
 <button id="consultationBack">Назад</button>
 <button id="consultationNext">Далі</button>
-<!--parseInt(timeInterval(i,j,20).substr(0,2)*60)+parseInt(timeInterval(i,j,20).substr(3,2))-->

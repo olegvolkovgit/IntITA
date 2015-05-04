@@ -28,15 +28,18 @@ class CoursesController extends Controller
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-//        $criteriaJunior = new CDbCriteria();
-//        $criteriaJunior->alias = 'course';
-//        $criteriaJunior->condition = 'level=:level';
-//        $criteriaJunior->params = array(':level' => 'middle');
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'course';
+        if ($selector !== 'all'){
+            $criteria->condition = 'level=:level';
+            $criteria->params = array(':level'=>$selector);
+        }
 
         $dataProvider = new CActiveDataProvider('Course'
-//            , array(
-//            'criteria' => $criteriaJunior,
-//        )
+            , array(
+            'criteria' => $criteria,
+        )
         );
 
         $total = $dataProvider->getTotalItemCount();
@@ -48,7 +51,6 @@ class CoursesController extends Controller
             'dataProvider' => $dataProvider,
             'count1' => $count1,
             'count2' => $count2,
-            'selector' => $selector,
         ));
     }
 

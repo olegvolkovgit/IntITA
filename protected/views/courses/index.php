@@ -34,18 +34,24 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
 
     <table>
         <tr>
-<!--            Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
+<!--            Для стажерів() | Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
+            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'intern'));?>">
+                        <?php echo 'Для стажерів'; ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'intern'));?>)</div></td>
+            <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior'));?>">
-                        <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(6)</div></td>
+                        <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'junior'));?>)</div></td>
+            <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
+            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'strong junior'));?>">
+                        <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'strong junior'));?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle'));?>">
-                        <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(0)</div></td>
+                        <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'middle'));?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
-            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'expert'));?>">
-                        <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(0)</div></td>
+            <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior'));?>">
+                        <?php echo 'Для провідних розробників'; ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'senior'));?>)</div></td>
             <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/coursesline2.png"/>&nbsp;&nbsp;</div></td>
             <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all'));?>">
-                        <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo $count1+$count2;?>)</div></td>
+                        <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo Course::model()->count('level');?>)</div></td>
         </tr>
     </table>
 
@@ -59,7 +65,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
 
                 <div id='coursesPart1'>
                     <?php
-                    for ($k = 0; $k < 4; $k++)
+                    for ($k = 0; $k < $count1; $k++)
                     {
                         $val = $courseList[$k];
                          ?>
@@ -204,7 +210,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                     </div>
 
                     <?php
-                    for ($j = $count1; $j < 7; $j++)
+                    for ($j = $count1; $j < $count1+$count2; $j++)
                     {
                         $val = $courseList[$j];
                         ?>

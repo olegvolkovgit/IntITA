@@ -1,20 +1,6 @@
 /**
  * Created by Wizlight on 22.04.2015.
  */
-//var timeThis;
-//timeGrid.onclick = function( e )
-//{
-//    if (e.target.tagName=='TD' && $(event.target).attr('class')!=='disabledTime'){
-//        window.timeThis=e.target.innerHTML;
-//        $(e.target).toggleClass("pressedTime");
-//    }
-//}
-//
-//$('#consultationButton').click(function() {
-//    document.getElementById('consultationInfo').style.display="none";
-//    document.getElementById('consInfText').innerHTML=' у вас запланована консультація з біології у виклача Ореста Остаповича Лютого.';
-//});
-
 var td = $('#timeGrid td:not(.disabledTime)'),
     selection = {
         single: function (el) {

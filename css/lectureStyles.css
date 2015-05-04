@@ -171,10 +171,20 @@ div.calendar{
     text-decoration: underline;
 }
 #dateTimePicker{
-    display: block;
-    height: 1px;
+    display: inline-block;
+    height: 0;
     opacity: 0;
     cursor: pointer;
+}
+#ajaxchange-form, #hiddenAjaxButton{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: none;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    cursor: none;
 }
 .datetimepicker{
     width: 305px;
@@ -211,7 +221,7 @@ div.calendar{
 .datetimepicker .table-condensed td{
     border-radius: 0;
 }
-.datetimepicker table.table-condensed tr td.day:hover,.datetimepicker table.table-condensed tr td.active.active:hover {
+.datetimepicker table.table-condensed tr td.day:hover,.datetimepicker table.table-condensed tr td.active.active:hover,.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled:hover {
     border-radius: 150px;
     background: #4b75a4;
     color:#ffffff;
@@ -290,6 +300,10 @@ div.datetimepicker-minutes{
 .datetimepicker table.table-condensed tr td.today{
     border: 1px solid #4b75a4;
     background: #ffffff;
+}
+.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled{
+    background: #003399;
+    color: #ffffff;
 }
 div#consultationInfo{
     background: #ffffff;

@@ -17,7 +17,6 @@ class LessonController extends Controller{
     }
 
     public function actionIndex($id = 1){
-
         $lecture = Lecture::model()->findByPk($id);
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->setPagination(array(
@@ -33,15 +32,4 @@ class LessonController extends Controller{
 
         ));
     }
-
-    public function actionDelete($id)
-    {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-    }
-
-
 }
