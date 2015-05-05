@@ -11,7 +11,7 @@ $footNavMaxMark='6'; // Шкала оцінювання - максимальна
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonFooter.css" />
 
-<div class="subViewLessons" id="subViewLessons"	style="width:<?php echo $footNavSize; ?>" >
+<div class="subViewLessons" id="subViewLessons"	>
     <?php
     if (  $lecture->getPre()=='True' )
     {

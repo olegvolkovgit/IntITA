@@ -1,8 +1,15 @@
 
 /* stylesheet for lesson top */
 
-.lectureMainBlock { border-bottom:solid 2px #DCDCDC; left:50%; width: 960px;  display:inline-block;
- position:relative;    margin-left: -480px; margin-top:0px; margin-bottom:5px;padding-bottom: 38px;}
+.lectureMainBlock {
+    border-bottom:solid 2px #DCDCDC;
+    width: 1200px;
+    margin: 0 auto;
+    display:block;
+    position:relative;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
  
 .lectureImageMain
 {
