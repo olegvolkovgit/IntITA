@@ -122,7 +122,9 @@ class ConsultationscalendarController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Consultationscalendar');
+
+        $dataProvider=new CActiveDataProvider('Consultationscalendar');
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -170,6 +172,8 @@ class ConsultationscalendarController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+
     public function actionSaveconsultation(){
         $calendar = new Consultationscalendar();
         if(Yii::app()->request->getPost('saveConsultation')) {

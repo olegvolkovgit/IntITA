@@ -107,23 +107,22 @@ class Consultationscalendar extends CActiveRecord
 		return parent::model($className);
 	}
     /*Визначаєм клас комірки з інтервалом, натиснута чи не натиснута*/
-    public function classTD ($id, $times, $date)
+    public static function classTD ($id, $times, $date)
     {
         $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date'=>$date, ':id' => $id));
-
-        $startTime = substr($times, 0, 2)*60+substr($times, 3, 2);
+        $classTD = '';
+        $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
         foreach($a as $td){
-            $startCons = substr($td->start_cons, 0, 2)*60+substr($td->start_cons, 3, 2);
-            $endCons = substr($td->end_cons, 0, 2)*60+substr($td->end_cons, 3, 2);
+            $startCons = intval(substr($td->start_cons, 0, 2))*60 + intval(substr($td->start_cons, 3, 2));
+            $endCons = intval(substr($td->end_cons, 0, 2))*60 + intval(substr($td->end_cons, 3, 2));
             if( $startTime>=$startCons && $startTime<$endCons){
                 $classTD='disabledTime';
             }
         }
-
         return $classTD;
-    }
+     }
     /*значення таблиці з интервалом 20хв в ширину 3*/
-    public function timeInterval($a,$b,$c) {
+    public static function timeInterval($a,$b,$c) {
         $delta=60/$c;
 
         $t1=$a+intval($b/$delta);

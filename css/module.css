@@ -186,6 +186,11 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 
 body .grid-view table.items td{
     font-size: 16px;
+
+}
+
+body .grid-view table.items td:first-child{
+    display:none;
 }
 
 
