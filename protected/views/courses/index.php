@@ -19,13 +19,9 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
-
-
 $courseList = $dataProvider->getData();
-
 $courseDisableImage=Yii::app()->request->baseUrl.'/css/images/ratIco0.png';
 $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
-
 ?>
 
 <div id='coursesMainBox'>
@@ -65,7 +61,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                          ?>
                         <div class='courseBox'>
                             <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
-                            <div class='courseName'> <a href="<?php echo Yii::app()->createUrl('course/index', array('courseID'=>2) ); ?>"><?php
+                            <div class='courseName'> <a href="<?php echo Yii::app()->createUrl('course/index', array('id'=>$val->course_ID)); ?>"><?php
                                     echo $val->course_name; ?></a>
                             </div>
                                 <!--Рівень курсу-->
@@ -210,7 +206,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                         ?>
                         <div class='courseBox'>
                             <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
-                            <div class='courseName'> <a href="<?php echo Yii::app()->request->baseUrl; ?>/course"><?php
+                            <div class='courseName'> <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php
                                     echo $val->course_name; ?></a>
                             </div>
                                 <!--Рівень курсу-->
@@ -317,7 +313,6 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
     function changeLang(n){
         for (var i=0; i< n.form.length; i++){
             if(n.form.elements[i].id !== n.id){
-                console.log(n.form.elements[i].id);
                 document.getElementById(n.form.elements[i].id).disabled = false;
                 document.getElementById(n.form.elements[i].id).className = "";
             }

@@ -1,5 +1,5 @@
 <p id="timeTitle">Виберіть годину</p>
-<p  id="timeDate"><?php echo Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)) ?></p>
+<p  id="timeDate"><?php echo (Yii::app()->language == 'ua')?$day:Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)); ?></p>
 <table id='timeGrid'>
     <?php
     for ($i = 9; $i < 23; $i++) {

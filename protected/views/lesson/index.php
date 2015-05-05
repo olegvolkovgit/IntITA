@@ -26,7 +26,7 @@
 
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Модуль PHP'=>Yii::app()->request->baseUrl."/course",'Заняття 2: Змінні та типи данних в PHP',
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Курс'=>Yii::app()->createUrl('course/index', array('id' => 1)),'Mодуль'=>Yii::app()->createUrl('module/index', array('idModule' => $lecture->idModule)),'Заняття 2: Змінні та типи данних в PHP',
 );
 ?>
 

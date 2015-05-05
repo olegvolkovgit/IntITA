@@ -45,27 +45,13 @@ img.time{
 }
 
 .titleColumn{
-    padding-left: 0;
-    vertical-align: top;
-    background-color: white;
+
 }
 
-.lessonModule table tr td:first-child {
-    white-space: nowrap;
-    text-align:right;
-    width: 60px;
-    background-color: white;
-}
-.aliasColumn{
-    white-space: nowrap;
-    text-align:right;
-    width: 60px;
-    background-color: white;
-}
 .titleColumn a {
     color: #4b75a4;
     text-decoration:none;
-
+    float:left;
     }
 
 a:link {color:#4b75a4;}
@@ -186,12 +172,29 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 
 body .grid-view table.items td{
     font-size: 16px;
-
+    background-color: white;
 }
 
-body .grid-view table.items td:first-child{
-    display:none;
+body .grid-view table.items td.button-column{
+    background-color: white;
+    width: 0px;
 }
+
+body .grid-view table.items td.aliasColumn{
+    white-space: nowrap;
+    background-color: white;
+    width:90px;
+    float:left;
+}
+
+body .grid-view table.items td.titleColumn{
+    vertical-align: top;
+    background-color: white;
+    padding-left: 0px;
+    float:left;
+}
+
+
 
 
 

@@ -61,7 +61,7 @@ $header = new Header();?>
     </div>
 
     <div id="lang" class="down">
-        <form  method="" onsubmit="" name="fff">
+        <form onsubmit="" name="fff">
             <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua")); ?>
             <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
             <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
@@ -130,9 +130,9 @@ $header = new Header();?>
         </div>
         <div id="hamburgerLang">
             <form action="" method="post" onsubmit="" name="fff">
-                <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>'ua'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-                <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>'en'));?>" id="en" name="en" onclick="changeLang(this)">en</button>
-                <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>'ru'));?>" id="ru" name="ru" onclick="changeLang(this)">ru</button>
+                <button id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
+                <button id="en" name="en" onclick="changeLang(this)">en</button>
+                <button id="ru" name="ru" onclick="changeLang(this)">ru</button>
             </form>
         </div>
     </div>
@@ -318,10 +318,6 @@ $header = new Header();?>
             </div>
             <div id="footer4"></div>
 
-
-
-
-
             <!--SingIn modal-->
             <?php
             $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -342,6 +338,7 @@ $header = new Header();?>
             <!--SignIn modal-->
         </div>
     </div><!-- footer -->
+
 </div>
 </body>
 </html>

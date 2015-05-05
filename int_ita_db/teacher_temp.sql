@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-05 15:05:43
+-- Date/time:                    2015-05-06 00:46:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `teacher_temp` (
   `linkName` varchar(50) NOT NULL,
   `smallImage` varchar(255) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher_temp: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher_temp` DISABLE KEYS */;

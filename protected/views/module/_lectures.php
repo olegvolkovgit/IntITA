@@ -6,7 +6,8 @@
  * Time: 17:28
  */
 $model = Lecture::model();
-$editMode = 'true';
+$editMode = ($canEdit)?'true':'';
+
 ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
 
@@ -36,20 +37,32 @@ $editMode = 'true';
 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'lectures-grid',
     'dataProvider' => $dataProvider,
+    'emptyText' => 'У даному модулі занять немає.',
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
-            'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
+            'headerHtmlOptions'=>array('style'=>'display:none'),
             'buttons'=>array
             (
-
+                'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
                     'imageUrl'=> Yii::app()->request->baseUrl."/images/delete.png",
-                    //'url' => '',
+                    'url' => 'Yii::app()->createUrl("module/unableLesson", array("idLecture"=>$data->primaryKey))',
                     'deleteConfirmation' => 'Вы уверены, что хотите удалить это занятие?',
-                    'click'=>'js:unableLecture(23, 1)',
+                    'click'=>"function(){
+                        $.fn.yiiGridView.update('lectures-grid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                            $.fn.yiiGridView.update('lectures-grid');
+                            }
+                        })
+                        return false;
+                    }
+                    ",
                     'label' => 'Дезактивировать занятие',
                     'visible'=> $editMode,
                 ),
@@ -57,10 +70,20 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
 
                 'label'=>'Поднять занятие вверх на 1 позицию',   //Text label of the button.
-                'url'=> '',       //A PHP expression for generating the URL of the button.
+                'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey))',
                 'imageUrl'=>Yii::app()->request->baseUrl."/images/up.png",  //Image URL of the button.
                 'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
-                //'click'=>'...',     //A JS function to be invoked when the button is clicked.
+                    'click'=>"function(){
+                        $.fn.yiiGridView.update('lectures-grid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                            $.fn.yiiGridView.update('lectures-grid');
+                            }
+                        })
+                        return false;
+                    }
+                    ",
                 'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
             ),
 
@@ -68,12 +91,21 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
 
                 'label'=>'Опустить занятие вниз на 1 позицию',    //Text label of the button.
-                //'url'=>'...',       //A PHP expression for generating the URL of the button.
+                'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey))',
                 'imageUrl'=>Yii::app()->request->baseUrl."/images/down.png",  //Image URL of the button.
                 'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
-                'url'=>'"#"',
                 'visible'=>$editMode,
-                'click'=>'function(){alert("Going down!");}',
+                'click'=>"function(){
+                        $.fn.yiiGridView.update('lectures-grid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                            $.fn.yiiGridView.update('lectures-grid');
+                            }
+                        })
+                        return false;
+                    }
+                    ",
             ),
             ),
         ),
@@ -81,7 +113,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' => '"Заняття {$data->order}"',
+            'value' =>'$data->order == 0 ? "Виключено":"Заняття {$data->order}."',
             'header'=>false,
             'htmlOptions'=>array('class'=>'aliasColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),

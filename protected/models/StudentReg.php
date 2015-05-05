@@ -51,8 +51,8 @@ class StudentReg extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('firstName, email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
-            array('firstName, email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
+            array('email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
+            array('email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
             array('email, password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'repidreg,loginuser,sociallogin'),
             array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
             array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),

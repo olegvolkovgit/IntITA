@@ -324,7 +324,7 @@ class Lecture extends CActiveRecord
 
     public function getLecturesTitles($id)
     {
-        $list = Lecture::model()->findAllByAttributes(array('idModule' => $id));
+        $list = Lecture::model()->findAllByAttributes(array('idModule' => 1));
         $titles = array();
         foreach ($list as $item) {
             array_push($titles, $item->title);

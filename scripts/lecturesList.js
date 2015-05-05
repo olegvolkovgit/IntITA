@@ -5,6 +5,8 @@
 function showForm(){
     $form = document.getElementById('lessonForm');
     $form.style.display = 'block';
+
+
 }
 
 function enableEdit(){
@@ -37,9 +39,9 @@ function unableLecture(idLecture, idModule) {
         }
     }
 
-    xmlhttp.open("post","/unableLesson.php",true);
+    xmlhttp.open("post","/IntITA/module/unableLesson",true);
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("order="+idLecture+"&idModule="+idModule);
+    xmlhttp.send("idLecture="+idLecture+"&idModule="+idModule);
 }
 
 function downLecture(idLecture) {
@@ -53,4 +55,6 @@ function upLecture(idLecture) {
     var id = 'up' + idLecture;
 
 }
+
+
 

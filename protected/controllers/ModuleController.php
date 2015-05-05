@@ -83,12 +83,22 @@ class ModuleController extends Controller
 	 */
 	public function actionIndex($idModule = 1)
 	{
-        $model = Module::model()->findByPk(1);
+        $model = Module::model()->findByPk($idModule);
         $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
         $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
 
+
+        $criteria=new CDbCriteria();
+        $criteria->addCondition('idModule>0');
+
         $dataProvider = new CActiveDataProvider('Lecture', array(
+            'criteria' =>$criteria,
             'pagination'=>false,
+            'sort'=>array(
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            )
         ));
 
         $editMode = 0; //init editMode flag
@@ -168,10 +178,11 @@ class ModuleController extends Controller
         $this->render('saveLesson');
     }
 
-    public function actionUnableLesson($idLecture){
-        $order = $_POST['order'];
-        $idModule =$_POST['idModule'];
-        $idLecture = Lecture::model()->findByAttributes(array('order'=>$order))->id;
+    public function actionUnableLesson(){
+        $idLecture = $_GET['idLecture'];
+
+        $idModule =Lecture::model()->findByPk($idLecture)->idModule;
+        $order = Lecture::model()->findByPk($idLecture)->order;
 
         Lecture::model()->updateByPk($idLecture, array('order' => 0));
         Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
@@ -183,11 +194,41 @@ class ModuleController extends Controller
         }
         Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
 
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
+    public function actionUpLesson(){
+        $idLecture = $_GET['idLecture'];
+        $order = Lecture::model()->findByPk($idLecture)->order;
 
-        $this->renderPartial('unableLecture', array(
-            'idModule' => $idModule,
-            'idLecture' => $idLecture,
-        ));
+        if($order > 1) {
+            $idPrev = Lecture::model()->findByAttributes(array('order' => $order - 1))->id;
+
+            Lecture::model()->updateByPk($idLecture, array('order' => $order - 1));
+            Lecture::model()->updateByPk($idPrev, array('order' => $order));
+        }
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDownLesson(){
+        $idLecture = $_GET['idLecture'];
+        $idModule =Lecture::model()->findByPk($idLecture)->idModule;
+        $count = Module::model()->findByPk($idModule)->lesson_count;
+        $order = Lecture::model()->findByPk($idLecture)->order;
+
+        if($order < $count) {
+            $idNext = Lecture::model()->findByAttributes(array('order' => $order + 1))->id;
+
+            Lecture::model()->updateByPk($idLecture, array('order' => $order + 1));
+            Lecture::model()->updateByPk($idNext, array('order' => $order));
+        }
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

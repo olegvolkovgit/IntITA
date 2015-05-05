@@ -38,4 +38,8 @@ class LessonController extends Controller{
         $data["teacherId"] = $_POST['teacherIdajax'];
         $this->renderPartial('_timeConsult', $data, false, true);
     }
+
+    public function actionUnableLesson(){
+        $this->render('unableLesson');
+    }
 }

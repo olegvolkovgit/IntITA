@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-05 15:05:39
+-- Date/time:                    2015-05-06 00:46:31
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   KEY `user_id` (`user_id`),
   KEY `when_enter` (`when_enter`),
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table int_ita_db.aa_authorizations: ~46 rows (approximately)
+-- Dumping data for table int_ita_db.aa_authorizations: ~52 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
 INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(1, 2, '2015-03-02 15:33:25', '::1'),
@@ -100,7 +100,9 @@ INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(47, 2, '2015-04-07 16:12:17', '::1'),
 	(48, 2, '2015-04-07 16:12:17', '::1'),
 	(49, 2, '2015-04-09 13:46:07', '::1'),
-	(50, 2, '2015-04-09 13:46:07', '::1');
+	(50, 2, '2015-04-09 13:46:07', '::1'),
+	(51, 2, '2015-05-05 23:41:47', '::1'),
+	(52, 2, '2015-05-05 23:41:47', '::1');
 /*!40000 ALTER TABLE `aa_authorizations` ENABLE KEYS */;
 
 
@@ -266,9 +268,9 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   `start_cons` time DEFAULT NULL,
   `end_cons` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~22 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
 INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
 	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),
@@ -288,7 +290,11 @@ INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`
 	(15, 2, 38, 1, '2015-05-13', '14:20:00', '14:40:00'),
 	(16, 2, 38, 1, '2015-05-13', '15:20:00', '15:40:00'),
 	(17, 2, 38, 1, '2015-05-13', '17:20:00', '19:40:00'),
-	(18, 2, 38, 1, '2015-05-12', '17:20:00', '17:40:00');
+	(18, 2, 38, 1, '2015-05-12', '17:20:00', '17:40:00'),
+	(19, 2, 1, 1, '2015-05-06', '11:20:00', '12:00:00'),
+	(20, 2, 1, 1, '2015-05-06', '14:20:00', '14:40:00'),
+	(21, 2, 1, 1, '2015-05-06', '15:20:00', '15:40:00'),
+	(22, 2, 1, 1, '2015-05-06', '16:20:00', '16:40:00');
 /*!40000 ALTER TABLE `consultationscalendar` ENABLE KEYS */;
 
 
@@ -318,12 +324,12 @@ CREATE TABLE IF NOT EXISTS `course` (
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `review`) VALUES
 	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 7, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
-	(2, 'courseJava', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 7, 120, 0, '', '', '', '/css/images/course1Image.png', NULL),
-	(3, 'courseJava', 'ua', 'Програміст (Java)', 'strong junior', '2015-10-30', 0, 7, 30, 0, '', '', '', '/css/images/course1Image.png', NULL),
-	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 7, 40, 0, '', '', '', '/css/images/course1Image.png', NULL),
-	(5, 'C++', 'ua', 'Програміст (С++)', 'intern', '2015-12-30', 0, 7, 36, 0, '', '', '', '/css/images/course1Image.png', NULL),
-	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 7, 130, 0, '', '', '', '/css/images/course1Image.png', NULL),
-	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 7, 64, 0, '', '', '', '/css/images/course1Image.png', NULL);
+	(2, 'courseJava', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 7, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
+	(3, 'courseJava', 'ua', 'Програміст (Java)', 'strong junior', '2015-10-30', 0, 7, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
+	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 7, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
+	(5, 'C++', 'ua', 'Програміст (С++)', 'intern', '2015-12-30', 0, 7, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
+	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 7, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
+	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 7, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -439,21 +445,21 @@ CREATE TABLE IF NOT EXISTS `lectures` (
 -- Dumping data for table int_ita_db.lectures: ~15 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `maxNumber`, `iconIsDone`, `preLecture`, `nextLecture`, `idTeacher`, `lectureUnwatchedImage`, `lectureOverlookedImage`, `lectureTimeImage`) VALUES
-	(1, '/css/images/lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, 6, '/css/images/medalIcoFalse.png', 2, 4, '2', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
-	(2, '/css/images/lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, 6, '/css/images/medalIcoFalse.png', 1, 3, '2', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
-	(3, '/css/images/lectureImage.png', 'lecture3', 'ua', 1, 3, 'Обробка запитів з допомогою PHP', 1, 60, 6, '/css/images/medalIcoFalse.png', 3, 5, '3', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
-	(5, '/css/images/lectureImage.png', 'lecture4', 'ua', 1, 4, 'Функції в PHP', 1, 60, NULL, NULL, NULL, NULL, NULL, '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
-	(14, '/css/images/lectureImage.png', 'lecture5', 'ua', 1, 5, 'Об\'єкти і класи PHP', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(15, '/css/images/lectureImage.png', 'lecture6', 'ua', 1, 6, 'Робота з масивами даних', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(16, '/css/images/lectureImage.png', 'lecture7', 'ua', 1, 7, 'Робота з стрічками', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(17, '/css/images/lectureImage.png', 'lecture8', 'ua', 1, 8, 'Робота з файловою системою', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(18, '/css/images/lectureImage.png', 'lecture9', 'ua', 1, 9, 'Бази даних і СУБД. Введення в SQL', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(1, '/css/images/lectureImage.png', 'lecture1', 'ua', 1, 2, 'Змінні та типи даних в PHP', 1, 40, 6, '/css/images/medalIcoFalse.png', 2, 4, '2', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
+	(2, '/css/images/lectureImage.png', 'lecture2', 'ua', 1, 6, 'Основи синтаксису', 1, 50, 6, '/css/images/medalIcoFalse.png', 1, 3, '2', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
+	(3, '/css/images/lectureImage.png', 'lecture3', 'ua', 1, 1, 'Обробка запитів з допомогою PHP', 1, 60, 6, '/css/images/medalIcoFalse.png', 3, 5, '3', '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
+	(5, '/css/images/lectureImage.png', 'lecture4', 'ua', 0, 0, 'Функції в PHP', 1, 60, NULL, NULL, NULL, NULL, NULL, '/css/images/ratIco0.png', '/css/images/ratIco1.png', '/css/images/timeIco.png'),
+	(14, '/css/images/lectureImage.png', 'lecture5', 'ua', 0, 0, 'Об\'єкти і класи PHP', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(15, '/css/images/lectureImage.png', 'lecture6', 'ua', 1, 3, 'Робота з масивами даних', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(16, '/css/images/lectureImage.png', 'lecture7', 'ua', 1, 4, 'Робота з стрічками', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(17, '/css/images/lectureImage.png', 'lecture8', 'ua', 1, 5, 'Робота з файловою системою', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(18, '/css/images/lectureImage.png', 'lecture9', 'ua', 1, 7, 'Бази даних і СУБД. Введення в SQL', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(19, '/css/images/lectureImage.png', 'lecture10', 'ua', 1, 10, 'Взаємодія PHP і MySQL', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(20, '/css/images/lectureImage.png', 'lecture11', 'ua', 1, 11, 'Авторизація доступу з допомогою сесій', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(21, '/css/images/lectureImage.png', 'lecture12', 'ua', 1, 12, 'Регулярні вирази', 1, 60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(22, NULL, 'lecture13', 'ua', 1, 13, 'Взаємодія PHP і XML', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(23, NULL, 'lecture14', 'ua', 1, 14, 'Приклади коду', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(24, NULL, 'lecture15', 'ua', 1, 15, 'Список літератури', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	(23, NULL, 'lecture14', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(24, NULL, 'lecture15', 'ua', 0, 0, 'Список літератури', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 
 
@@ -558,7 +564,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', '/css/images/line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', '/css/images/hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', '/css/images/networking.png', '/css/images/formFon.png');
@@ -575,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~680 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~711 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1319,22 +1325,22 @@ CREATE TABLE IF NOT EXISTS `module` (
 -- Dumping data for table int_ita_db.module: ~16 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`) VALUES
-	(1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 3000, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/courseimg1.png', NULL, '1;2;3;4;'),
-	(2, 1, 'Елементарна математика', 'module2', 'ua', 30, 15, 10, 3200, NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 1, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 8, 3500, NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 1, 'Елементи вищої математики', 'module4', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(7, 1, 'Комп\'ютерні мережі', 'module5', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 1, 'Розробка та аналіз алгоритмів. Комбінаторні а', 'module6', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(10, 1, 'Дискретна математика', 'module7', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(11, 1, 'Бази даних', 'module8', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(14, 1, 'Англійська мова', 'module9', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(16, 1, 'Програмування на PHP (Частина 1)', 'module10', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(17, 1, 'Програмування на PHP (Частина 2)', 'module11', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(18, 1, 'Верстка на HTML, CSS', 'module12', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(20, 1, 'Програмування на JavaScript', 'module13', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(22, 1, 'Сучасні технології розробки програм', 'module14', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(23, 1, 'Командний дипломний проект', 'module15', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(24, 1, 'Побудова індивідуального плану кар’єри. Ефект', 'module16', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	(1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 13, 3000, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/courseimg1.png', NULL, '1;2;3;4;'),
+	(2, 1, 'Елементарна математика', 'module2', 'ua', 30, 15, 10, 3200, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(3, 1, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 8, 3500, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(4, 1, 'Елементи вищої математики', 'module4', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(7, 1, 'Комп\'ютерні мережі', 'module5', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(9, 1, 'Розробка та аналіз алгоритмів. Комбінаторні а', 'module6', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(10, 1, 'Дискретна математика', 'module7', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(11, 1, 'Бази даних', 'module8', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(14, 1, 'Англійська мова', 'module9', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(16, 1, 'Програмування на PHP (Частина 1)', 'module10', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(17, 1, 'Програмування на PHP (Частина 2)', 'module11', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(18, 1, 'Верстка на HTML, CSS', 'module12', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(20, 1, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(22, 1, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(23, 1, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL),
+	(24, 1, 'Побудова індивідуального плану кар’єри. Ефект', 'module16', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, '/css/images/courseimg1.png', NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -1391,7 +1397,7 @@ CREATE TABLE IF NOT EXISTS `response` (
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Responses for taechers';
 
--- Dumping data for table int_ita_db.response: ~6 rows (approximately)
+-- Dumping data for table int_ita_db.response: ~7 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
 	(1, 1, 38, '2014-11-14 00:00:00', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных \r\n                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. \r\n                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!', 10, '123.44.31.12', 0, 0, 0),
@@ -1413,7 +1419,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~197 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~240 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -1745,7 +1751,7 @@ CREATE TABLE IF NOT EXISTS `teacher_temp` (
   `linkName` varchar(50) NOT NULL,
   `smallImage` varchar(255) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher_temp: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher_temp` DISABLE KEYS */;
@@ -1768,7 +1774,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesen` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesen: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesen: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesen` DISABLE KEYS */;
 INSERT INTO `translatedmessagesen` (`id`, `language`, `translation`) VALUES
 	(1, 'en', 'INTITA'),
@@ -1934,7 +1940,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesru` (
   CONSTRAINT `FK_translatedMessagesRU_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesru: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesru: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesru` DISABLE KEYS */;
 INSERT INTO `translatedmessagesru` (`id`, `language`, `translation`) VALUES
 	(1, 'ru', 'INTITA'),
@@ -2100,7 +2106,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesua` (
   CONSTRAINT `FK_translatedmessages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COMMENT='Table for translation interface messages (see sourceMessages). UA';
 
--- Dumping data for table int_ita_db.translatedmessagesua: ~136 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesua: ~150 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesua` DISABLE KEYS */;
 INSERT INTO `translatedmessagesua` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -2284,7 +2290,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~12 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~13 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`) VALUES
 	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0'),

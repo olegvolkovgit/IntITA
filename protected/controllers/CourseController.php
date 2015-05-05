@@ -120,25 +120,13 @@ class CourseController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($id)
 	{
-	/*	$dataProvider=new CActiveDataProvider('Course');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+        $model = Course::model()->findByPk($id);
 
-		$this->widget('zii.widgets.jui.CJuiSortable',array(
-			'items'=>array(
-				'id1'=>'Item 1',
-				'id2'=>'Item 2',
-				'id3'=>'Item 3',
-			),
-			// additional javascript options for the JUI Sortable plugin
-			'options'=>array(
-				'delay'=>'300',
-			),
-		));*/
-		$this->render('index');
+		$this->render('index',array(
+			'model'=>$model,
+		));
 	}
 
 	/**

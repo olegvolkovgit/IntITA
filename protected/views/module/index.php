@@ -1,16 +1,11 @@
 <!-- Module style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
-<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
-<!-- Module style -->
-<!-- BD -))) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
 <?php
 $this->pageTitle = 'INTITA';
-?>
-<!-- BD -))) -->
-<?php
-
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",Course::model()->findByPk($post->course)->course_name =>Yii::app()->request->baseUrl."/course",$post->module_name,
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",Course::model()->findByPk($post->course)->course_name =>Yii::app()->createUrl('course/index', array('id' => $post->course)),$post->module_name,
 );
 ?>
 
@@ -47,7 +42,7 @@ $this->breadcrumbs=array(
                         </div>
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
-                            <b>25 <?php echo Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('module', '0217'); ?> - <b>2 <?php echo Yii::t('module', '0218'); ?></b> (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
+                            <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('module', '0217'); ?> - <b>2 <?php echo Yii::t('module', '0218'); ?></b> (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
                         </div>
                         <div>
                             <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
@@ -94,9 +89,7 @@ $this->breadcrumbs=array(
                             <?php echo $teachers[$i]->last_name." ".$teachers[$i]->first_name;?>
                             <br>
                             <?php echo $teachers[$i]->email;?>
-                            <br>
                             <?php echo $teachers[$i]->tel;?>
-                            <br>
                             <?php echo $teachers[$i]->skype;?>
                         </div>
                         </td>
