@@ -273,8 +273,9 @@ div.lessonButFinal
     margin-bottom: 10px;
     margin-left: 0;
 }
-.download {
-    display: block;
+div.download {
+    /*display: block;*/
+    display: none;
 }
 #do1{
     margin-left: 83px;

@@ -1,8 +1,7 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showHideCalendarTabs.js"></script>
 <p id="timeTitle">Виберіть годину</p>
-<p  id="timeDate"><?php echo $day ?></p>
-
+<p  id="timeDate"><?php echo Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)) ?></p>
 <table id='timeGrid'>
     <?php
     for ($i = 9; $i < 23; $i++) {
