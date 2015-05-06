@@ -1,7 +1,7 @@
 /*header navigation*/
 .subNavBlock {
     margin: 0 auto;
-    width: 960px;
+    width: 1200px;
     clear: both;
     overflow: hidden;
 }
@@ -16,9 +16,13 @@ div.subLinks{
 /*header navigation*/
 .lessonBlock {
     margin: 0 auto;
-    width: 960px;
+    width: 1200px;
     margin-top: 20px;
     margin-bottom: 20px;
+    padding-left: 20px;
+}
+.lessonBlock p{
+    font-size: 16px;
 }
 .lessonBlock h3{
     margin-top: 20px;
@@ -39,22 +43,23 @@ div.subLinks{
 }
 h1.lessonTheme{
     color: #4b75a4;
-    font-size: xx-large;
+    font-size:36px;
     margin: 0px;
     font-weight: normal;
 }
 h1.lessonPart{
     color: #4b75a4;
-    font-size: x-large;
+    font-size: 28px;
     margin-top: 34px;
     font-weight: normal;
 }
 span.listTheme{
-    font-size: large;
+    font-size: 20px;
     font-weight: normal;
 }
 span.spoilerLinks,span.spoilerLinksHidden {
     cursor:pointer;
+    font-size: 14px;
 }
 span.spoilerClick:hover{
     cursor:pointer;
@@ -131,6 +136,7 @@ span.colorBP {
 }
 span.colorBlack {
     color: #000000;
+    font-size: 16px;
 }
 span.colorGreen {
     color: #45ad45;
@@ -151,6 +157,8 @@ span.colorGreen {
     display: inline-block;
     float:right;
     width: 89%;
+    font-size: 16px;
+    padding-right: 20px;
 }
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
@@ -242,7 +250,7 @@ div.lessonButFinal
     display: none;
     position: absolute;
     padding-top: 50px;
-    margin-left: 640px;
+    margin-left: 800px;
     z-index: 1;
     width: 480px;
 }
