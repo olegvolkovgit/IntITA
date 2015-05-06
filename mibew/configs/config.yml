@@ -4,11 +4,11 @@
 
 # MySQL Database parameters
 database:
-    host: "intita.itatests.com"
+    host: "localhost"
     port: 3306
     db: "mibew"
-    login: "root"
-    pass: ""
+    login: "mibew"
+    pass: "1234567"
     tables_prefix: ""
     use_persistent_connection: false
 
@@ -54,7 +54,7 @@ cache:
     # If "memcached" is used the cached data will be stored in Memcached
     # storage. Before using this kind of storage make sure PHP's memcached
     # extension is installed and enabled.
-    storage: file_system
+    storage: none
 
     # The lines below represents default Memcached server configurations. They
     # will be used only if the "storage" option is set to "memcached".
