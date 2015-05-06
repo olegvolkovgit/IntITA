@@ -21,8 +21,8 @@ class TeachersController  extends Controller
             array('foto_url_short', 'image', 'Фото', array('show', 'directoryPath'=>'/IntITA/css/images/')),
             array('subjects', 'text', 'Веде курси', array('show', 'directoryPath'=>'./')),
             array('profile_text_short', 'text', 'Профіль (коротко)', array('show', 'directoryPath'=>'./')),
-            array('profile_text_first', 'text', 'Профіль викладача(блок 1)', array('show', 'directoryPath'=>'./')),
-            array('profile_text_last', 'text', 'Профіль викладача(блок 2)', array('show', 'directoryPath'=>'./')),
+            array('profile_text_first', 'text', 'Профіль викладача (блок 1)', array('show', 'directoryPath'=>'./')),
+            array('profile_text_last', 'text', 'Профіль викладача (блок 2)', array('show', 'directoryPath'=>'./')),
         );
         $this->module->fieldsConf($fieldsConf);
         $this->module->sortDefault(array('last_name'));

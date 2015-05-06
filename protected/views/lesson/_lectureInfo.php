@@ -5,7 +5,6 @@
  * Date: 09.04.2015
  * Time: 15:27
  */
-
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
 
@@ -18,38 +17,38 @@
         <ul>
             <li>
                 <?php echo Yii::t('lecture','0070'); ?>
-<span>Програмування для чайників</span>(<?php echo Yii::t('lecture','0071'); ?>UA)
+<span><?php echo $lecture->getCourseInfoById()['courseTitle'];?></span>(<?php echo Yii::t('lecture','0071').strtoupper($lecture->getCourseInfoById()['courseLang']); ?>)
 </li>
 <li>
     <?php echo Yii::t('lecture','0072'); ?>
-    <span>Мова програмування PHP<?php //echo $lecture->lectureModule; ?></span>
+    <span><?php echo $lecture->getModuleInfoById()['moduleTitle']; ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0073').$lecture->order.': ';?>
     <span><?php echo $lecture->title; ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0074'); ?>
-    <div id="lectionTypeText">лекція<?php //echo $lecture->lectureTypeText; ?></div>
-    <div id="lectionTypeImage"><img src="<?php echo Yii::app()->request->baseUrl.'/css/images/lectureType.png'; ?>"></div>
+    <div id="lectionTypeText"><?php echo $lecture-> getTypeInfo()['text']; ?></div>
+    <div id="lectionTypeImage"><img src="<?php echo Yii::app()->request->baseUrl.$lecture-> getTypeInfo()['image'];; ?>"></div>
 </li>
 <li><div id="subTitle"><?php echo Yii::t('lecture','0075'); ?></div>
-    <div id="lectureTimeText">40<?php echo Yii::t('lecture','0076'); ?></div>
-    <div id="lectureTimeImage"><img src="<?php echo Yii::app()->request->baseUrl.$lecture->lectureTimeImage; ?>"></div>
+    <div id="lectureTimeText"><?php echo $lecture->durationInMinutes.Yii::t('lecture','0076'); ?></div>
+    <div id="lectureTimeImage"><img src="<?php echo Yii::app()->request->baseUrl.'/css/images/timeIco.png'; ?>"></div>
 </li>
 </br>
 <li>
-    <?php echo '('.$lecture->order.' з '.'6'.' занять)'; ?>
-    <div id="iconImage">
-        <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/medalIcoFalse.png';?>">
-    </div>
+    <?php echo '('.$lecture->order.' з '.$lecture->getModuleInfoById()['countLessons'].' занять)'; ?>
 </li>
 <div id="counter">
     <?php
-    for ($i=0; $i<$lecture->findByPk(1)->order;$i++){ ?>
-        <img src="<?php echo Yii::app()->request->baseUrl.$lecture->lectureOverlookedImage;?>">
+    for ($i=0; $i<$lecture->order;$i++){ ?>
+        <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/ratIco1.png';?>">
     <?php }
-    for ($i=0; $i<6-$lecture->findByPk(1)->order;$i++){ ?>
-        <img src="<?php echo Yii::app()->request->baseUrl.$lecture->lectureUnwatchedImage;?>">
+    for ($i=0; $i<$lecture->getModuleInfoById()['countLessons']-$lecture->order;$i++){ ?>
+        <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/ratIco0.png';?>">
     <?php } ?>
+    <div id="iconImage">
+        <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/medalIcoFalse.png';?>">
+    </div>
 </div>
 </ul>
 

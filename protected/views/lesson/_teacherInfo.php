@@ -5,35 +5,33 @@
  * Date: 09.04.2015
  * Time: 15:34
  */
-
-?>
-<?php
 $user = new StudentReg();
 $app = Yii::app();
+$teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 <div class="teacherBlock">
-    <img src="<?php echo Yii::app()->request->baseUrl.$teacher['photo']; ?>">
-    <a href="<?php echo Yii::app()->request->baseUrl.$teacher['readMoreLink']; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
+    <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/teacherImage.png';//$teacher->foto_url; ?>">
+    <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
         <span>
                 <ul>
                     <li> <div class="teacherTitle">
                             <?php echo Yii::t('lecture','0077'); ?></div>
                     </li>
                     <li>
-                        <?php echo $teacher['full_name'];?>
+                        <?php echo $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;?>
                     </li>
                     <li>
-                        <?php echo $teacher['email']; ?>
+                        <?php echo $teacher->email; ?>
                     </li>
                     <li>
-                        <?php echo $teacher['tel']; ?>
+                        <?php echo $teacher->tel; ?>
                     </li>
                     <li>
-                        <?php echo 'skype: '?><div id="teacherSkype"><?php echo $teacher['skype']; ?>
+                        <?php echo 'skype: '?><div id="teacherSkype"><?php echo $teacher->skype; ?>
                         </div>
                     </li>
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
@@ -47,7 +45,7 @@ $app = Yii::app();
                                 'id'=>'ajaxchange-form',
                             )); ?>
                             <input type="hidden" id="dateconsajax" name="dateconsajax" />
-                            <input type="hidden" name="teacherIdajax" value=<?php echo $idTeacher; ?> />
+                            <input type="hidden" name="teacherIdajax" value=<?php echo $teacher->teacher_id; ?> />
                             <?php
                             echo CHtml::ajaxSubmitButton('Updatedate', CController::createUrl('lesson/UpdateAjax'), array('update' => '#timeConsultation'), array('id' => 'hiddenAjaxButton'));
                             ?>
@@ -55,7 +53,7 @@ $app = Yii::app();
                         </div>
                         <!--Інтервали консультацій-->
                         <div id="timeConsultation">
-                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$idTeacher,'day'=>'')); ?>
+                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher->teacher_id,'day'=>'')); ?>
                         </div>
                         <!--Інформативна форма після вибору консультації-->
                         <div id="consultationInfo">
@@ -64,13 +62,13 @@ $app = Yii::app();
                                Вітаємо!
                                 </p>
                                 <p id="consInfText">
-                                    у Вас запланована консультація по темі <?php echo $titleLecture ?>, викладач <?php echo $teacher['full_name'];?>.
+                                    у Вас запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;?>.
                                 </p>
                                 <input type="hidden" id="datecons" name="datecons" />
                                 <input type="hidden" id="timecons" name="timecons" />
-                                <input type="hidden"  name="teacherid" value="<?php echo $idTeacher; ?>" />
+                                <input type="hidden"  name="teacherid" value="<?php echo $teacher->teacher_id; ?>" />
                                 <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
-                                <input type="hidden"  name="lectureid" value="<?php echo $idLecture; ?>" />
+                                <input type="hidden"  name="lectureid" value="<?php echo $lecture->id; ?>" />
                                 <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
                             </form>
                         </div>

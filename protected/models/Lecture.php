@@ -14,19 +14,16 @@
  * @property integer $idType
  * @property integer $durationInMinutes
  * @property integer $maxNumber
- * @property string $iconIsDone
  * @property integer $preLecture
  * @property integer $nextLecture
  * @property string $idTeacher
- * @property string $lectureUnwatchedImage
- * @property string $lectureOverlookedImage
- * @property string $lectureTimeImage
  *
  * The followings are the available model relations:
  * @property LectureElement[] $lectureElements
  */
 class Lecture extends CActiveRecord
 {
+    const MAX_RAIT = 6;
     /**
      * @return string the associated database table name
      */
@@ -45,14 +42,14 @@ class Lecture extends CActiveRecord
         return array(
             array('idModule, order, title', 'required'),
             array('idModule, order, idType, durationInMinutes, maxNumber, preLecture, nextLecture', 'numerical', 'integerOnly' => true),
-            array('image, iconIsDone, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'length', 'max' => 255),
+            array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('language', 'length', 'max' => 6),
             array('title', 'length', 'max' => 255),
             array('idTeacher', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, language, idModule, order, title, idType, durationInMinutes, maxNumber, iconIsDone, preLecture, nextLecture, idTeacher, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'safe', 'on' => 'search'),
+            array('id, image, alias, language, idModule, order, title, idType, durationInMinutes, maxNumber, preLecture, nextLecture, idTeacher', 'safe', 'on' => 'search'),
         );
     }
 
@@ -84,13 +81,9 @@ class Lecture extends CActiveRecord
             'idType' => 'Id Type',
             'durationInMinutes' => 'Duration In Minutes',
             'maxNumber' => 'Max Number',
-            'iconIsDone' => 'Icon Is Done',
             'preLecture' => 'Pre Lecture',
             'nextLecture' => 'Next Lecture',
             'idTeacher' => 'Id Teacher',
-            'lectureUnwatchedImage' => 'Lecture Unwatched Image',
-            'lectureOverlookedImage' => 'Lecture Overlooked Image',
-            'lectureTimeImage' => 'Lecture Time Image',
         );
     }
 
@@ -122,13 +115,9 @@ class Lecture extends CActiveRecord
         $criteria->compare('idType', $this->idType);
         $criteria->compare('durationInMinutes', $this->durationInMinutes);
         $criteria->compare('maxNumber', $this->maxNumber);
-        $criteria->compare('iconIsDone', $this->iconIsDone, true);
         $criteria->compare('preLecture', $this->preLecture);
         $criteria->compare('nextLecture', $this->nextLecture);
         $criteria->compare('idTeacher', $this->idTeacher, true);
-        $criteria->compare('lectureUnwatchedImage', $this->lectureUnwatchedImage, true);
-        $criteria->compare('lectureOverlookedImage', $this->lectureOverlookedImage, true);
-        $criteria->compare('lectureTimeImage', $this->lectureTimeImage, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -154,86 +143,79 @@ class Lecture extends CActiveRecord
 
     function getThisMedal()
     {
-        return 'Зараховано';//$this->thisLessonInfo[5]; // Медалька
+        return 'Зараховано';
     }
 
-    // Попередній урок
-
-    function getPreNumber()
-    {
-        return 2;//$this->preLessonInfo[0];  // Номер
+    function getPreId(){
+        return Lecture::model()->findByPk($this->id-1)->id;
     }
 
     function getPreName()
     {
-        return $this->title;//$this->preLessonInfo[1]; // Назва
+        return Lecture::model()->findByPk($this->id-1)->title;
     }
 
     function getPreType()
     {
-        return 'лекція';//$this->preLessonInfo[2]; // Тип
+        $typeId = Lecture::model()->findByPk($this->id-1)->idType;
+        $type = Lecturetype::model()->findByPk($typeId);
+        return array(
+            'text' => $type->text,
+            'image' => $type->image,
+        );
     }
 
     function getPreDur()
     {
-        return '40хв';//$this->preLessonInfo[3]; //	Тривалість
+        return Lecture::model()->findByPk($this->id-1)->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPreRait()
     {
-        return '4.5';//$this->preLessonInfo[4]; //	Рейтинг
+        return '4.5';
     }
 
     function getPreMedal()
     {
-        return 'Зараховано';//$this->preLessonInfo[5]; // Медалька
+        return 'Зараховано';
     }
 
-    // Наступний урок
-
-    function getPostNumber()
+     function getPostName()
     {
-        return '4';//$this->postLessonInfo[0];  // Номер
-    }
-
-    function getPostName()
-    {
-        return $this->title;//$this->postLessonInfo[1]; // Назва
+        return Lecture::model()->findByPk($this->id+1)->title;
     }
 
     function getPostType()
     {
-        return 'лекція';//$this->postLessonInfo[2]; // Тип
+        $typeId = Lecture::model()->findByPk($this->id+1)->idType;
+        $type = Lecturetype::model()->findByPk($typeId);
+        return array(
+            'text' => $type->text,
+            'image' => $type->image,
+        );
     }
 
     function getPostDur()
     {
-        return '40хв';//$this->postLessonInfo[3]; //	Тривалість
+        return Lecture::model()->findByPk($this->id+1)->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPostRait()
     {
-        return '4.5';//$this->postLessonInfo[4]; //	Рейтинг
+        return '4.5';
     }
 
     function getPostMedal()
     {
-        return 'Не зараховано';//$this->postLessonInfo[5]; // Медалька
+        return 'Не зараховано';
     }
 
-    function getPost()
-    {
-        return 'True';  // Існування елемента
+    function getPostId(){
+        return Lecture::model()->findByPk($this->id+1)->id;
     }
 
-    function getPre()
-    {
-        return 'True';  // Існування елемента
-    }
-
-    public function getModuleInfoById($id){
-        $module = new Module();
-        $module->findByPk($id);
+    public function getModuleInfoById(){
+        $module = Module::model()->findByPk($this->idModule);
         return array(
             'moduleTitle' => $module->module_name,
             'countLessons' =>  $module->lesson_count,
@@ -241,14 +223,9 @@ class Lecture extends CActiveRecord
         );
     }
 
-    public function getCountLessons(){
-       $tmp = new Module();
-        return $tmp->findByPk($this->idModule)->lesson_count;
-    }
-
-    public function getCourseInfoById($id){
-        $course = new Course;
-        $course->findByPk($id);
+    public function getCourseInfoById(){
+        $courseId = Module::model()->findByPk($this->idModule)->course;
+        $course = Course::model()->findByPk($courseId);
         return array(
             'courseTitle' => $course->course_name,
             'courseLang' =>  $course->language,
@@ -266,16 +243,16 @@ class Lecture extends CActiveRecord
         );
     }
 
-    public function getTypeInfo($id){
-        $type = Lecturetype::model()->findByPk($id);
+    public function getTypeInfo(){
+        $type = Lecturetype::model()->findByPk($this->idType);
         return array(
             'image' => $type->image,
             'text' => $type->text,
         );
     }
 
-    public function getTeacherInfoById($id){
-        $teacher = TeachersTemp::model()->findByPk($id);
+    public function getTeacherInfoById(){
+        $teacher = TeachersTemp::model()->findByPk($this->idTeacher);
         return array(
             'full_name' => $teacher->last_name.' '.$teacher->first_name.' '.$teacher->middle_name,
             'email' =>  $teacher->email,
@@ -335,5 +312,10 @@ class Lecture extends CActiveRecord
     public static function unableLecture($idLecture){
 
         Lecture::model()->updateByPk($idLecture, array('order' => 0));
+    }
+
+    public function getLectureTypeText(){
+        $type = Lecturetype::model()->findByPk($this->id);
+        return $type->text;
     }
 }

@@ -1,40 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 09.04.2015
- * Time: 15:45
- */
-//Загальні параметри блоку
+
 $footNavSize='960px'; // Ширина блоку
-$footNavMaxMark='6'; // Шкала оцінювання - максимальна кількість балів, поділок
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonFooter.css" />
 
 <div class="subViewLessons" id="subViewLessons"	>
     <?php
-    if (  $lecture->getPre()=='True' )
+    if (  $lecture->order > 1)
     {
         ?>
         <div class="preLessons">
-            <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo $lecture->getPreNumber() ?>: <b><?php echo $lecture->getPreName() ?></b></p>
+            <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo ($lecture->order - 1); ?>: <b><?php echo $lecture->getPreName(); ?></b></p>
             <table class="typeLesson">
                 <tr>
                     <td><p><?php echo Yii::t('lecture','0074'); ?></p></td>
-                    <td><span><?php echo $lecture->getPreType() ?></span></td>
-                    <td><img src="<?php
-                        switch ($lecture->getPreType())
-                        {
-                            case 'лекція':
-                                echo Yii::app()->request->baseUrl."/css/images/lectureIco.png";
-                                break;
-                            case 'практична робота':
-                                echo Yii::app()->request->baseUrl."/css/images/practicalIco.png";
-                                break;
-                        }
-                        ?> " style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
+                    <td><span><?php echo $lecture->getPreType()['text'] ?></span></td>
+                    <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPreType()['image']; ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
                     <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
-                    <td><span><?php echo $lecture->getPreDur() ?></span></td>
+                    <td><span><?php echo $lecture->getPreDur(); ?></span></td>
                     <td><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 </tr>
             </table>
@@ -47,7 +30,7 @@ $footNavMaxMark='6'; // Шкала оцінювання - максимальна
                         <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                     <?php
                     }
-                    for ($j=0; $j<$footNavMaxMark-$lecture->getPreRait(); $j++)
+                    for ($j=0; $j<Lecture::MAX_RAIT-$lecture->getPreRait(); $j++)
                     {
                         ?>
                         <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
@@ -65,32 +48,22 @@ $footNavMaxMark='6'; // Шкала оцінювання - максимальна
                 </tr>
             </table>
             <div class="preLesonLink">
-                <p><a href="#">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
+                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId()));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
             </div>
         </div>
     <?php
     }
 
-    if (  $lecture->getPost()=='True' )
+    if (  $lecture->order < $lecture->getModuleInfoById()['countLessons'])
     {
     ?>
     <div class="nextLessons">
-        <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo $lecture->getPostNumber() ?>: <b><?php echo $lecture->getPostName() ?></b></p>
+        <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo $lecture->order+1 ?>: <b><?php echo $lecture->getPostName() ?></b></p>
         <table class="typeLesson">
             <tr>
                 <td><p><?php echo Yii::t('lecture','0074'); ?></td>
-                <td><span><?php echo $lecture->getPostType() ?></span></td>
-                <td><img src="<?php
-                    switch ($lecture->getPostType())
-                    {
-                        case 'лекція':
-                            echo Yii::app()->request->baseUrl."/css/images/lectureIco.png";
-                            break;
-                        case 'практична робота':
-                            echo Yii::app()->request->baseUrl."/css/images/practicalIco.png";
-                            break;
-                    }
-                    ?> "style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
+                <td><span><?php echo $lecture->getPostType()['text']; ?></span></td>
+                <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPostType()['image']; ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
                 <td><span><?php echo $lecture->getPostDur() ?></span></td>
                 <td><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
@@ -105,7 +78,7 @@ $footNavMaxMark='6'; // Шкала оцінювання - максимальна
                     <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                 <?php
                 }
-                for ($j=0; $j<$footNavMaxMark-$lecture->getPostRait(); $j++)
+                for ($j=0; $j<Lecture::MAX_RAIT-$lecture->getPostRait(); $j++)
                 {
                     ?>
                     <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
@@ -124,7 +97,7 @@ $footNavMaxMark='6'; // Шкала оцінювання - максимальна
         </table>
         <?php if($lecture->getThisMedal()=='Зараховано') { ?>
             <div class="nextLesonLink">
-                <p><a href="#"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
+                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId()));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>
 
             <?php  }?>

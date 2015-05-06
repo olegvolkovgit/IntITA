@@ -3,7 +3,7 @@
 
 class LessonController extends Controller{
 
-    public function init($id=1)
+    public function initialize($id)
     {
         if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
@@ -16,18 +16,18 @@ class LessonController extends Controller{
         }
     }
 
-    public function actionIndex($id = 1){
+    public function actionIndex($id){
+        $this->initialize($id);
         $lecture = Lecture::model()->findByPk($id);
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->setPagination(array(
-                'pageSize' => 27,//Module::model()->findByPk($lecture->idModule)->lesson_count,
+                'pageSize' => count(LectureElement::model()->findAllByAttributes(array('id_lecture'=>$id))),
             )
         );
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
-
         ));
     }
 

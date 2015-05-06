@@ -26,17 +26,17 @@
 
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Курс'=>Yii::app()->createUrl('course/index', array('id' => 1)),'Mодуль'=>Yii::app()->createUrl('module/index', array('idModule' => $lecture->idModule)),'Заняття 2: Змінні та типи данних в PHP',
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",'Курс'=>Yii::app()->createUrl('course/index', array('id' => 1)),'Mодуль'=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),$lecture['title'],
 );
 ?>
 
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('teacher'=>$lecture->getTeacherInfoById(1), 'idLecture' => $lecture->id, 'idTeacher' =>  $lecture->idTeacher, 'titleLecture' => $lecture->title));?>
+    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
-    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'skype'=>$lecture->getTeacherInfoById(1)['skype']));?>
+    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
 
 
@@ -107,7 +107,7 @@ $this->breadcrumbs=array(
         </div>
         <!--end new block imperavi redactor-->
 	
-        <h1 class="lessonTheme">Змінні та типи даних в PHP </h1>
+        <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
         <div class="spoilerBody">
