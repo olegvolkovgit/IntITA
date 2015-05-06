@@ -1,15 +1,11 @@
 .formStudProf
 {
     margin: 0 auto;
-    width: 960px;
+    width: 1200px;
     margin-bottom: 20px;
     clear: both;
     overflow: hidden;
-}
-.formStudProfNav{
-    position: relative;
-    margin: 0 auto;
-    width: 960px;
+    font-size: 18px;
 }
 div.regLinks{
     box-sizing:border-box;
@@ -78,31 +74,33 @@ table.profileInfo {
 .studProf label
 {
     display: inline-block;
-    width: 140px;
-    height: 40px;
+    width: 200px;
+    height: 50px;
     float:left;
     text-align: right;
-    margin-right: 36px;
-    line-height: 40px;
+    margin-right: 20px;
+    margin-left: 10px;
+    line-height: 50px;
     color: #828282;
 }
 .studProf input
 {
     padding-left: 8px;
-    width: 348px;
-    height: 40px;
+    width: 445px;
+    height: 50px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
+    font-size: 14px;
 }
 #aboutUs{
-    margin-left: 176px;
+    margin-left: 230px;
 }
 .studProf textarea
 {
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     display: inline-block;
-    width: 344px;
+    width: 445px;
     height: 120px;
     padding-left: 8px;
     margin-bottom: -4px;
@@ -116,19 +114,19 @@ table.profileInfo {
 {
     float:left;
     width: 20px;
-    height: 36px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
     border:none;
 }
 .radiolabel label, .radiolabelRole label
 {
-    width: 100px;
+    width: 180px;
     text-align: left;
     margin-bottom: 8px;
 }
 .radiolabelRole label
 {
-    width: 200px;
+    width: 300px;
 }
 .rowRadioButton input[type="radio"]:hover,.rowRadioButton input[type="checkbox"]:hover
 {
@@ -160,9 +158,9 @@ table.profileInfo {
     width: 59%;
 }
 img.avatarimg {
-    display: inline-block;
-    width:176px;
-    margin: 0 0 0 0;
+    display: block;
+    width:220px;
+    margin: 0 auto;
 }
 table.titleProfile{
     margin:16px 0px 16px 22px;
@@ -189,16 +187,19 @@ table.titleProfileAv{
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 60px;
+    font-size: 24px;
 }
 .titleProfileAv h2{
+    display: block;
     color: #4b75a4;
     font-weight: normal;
     margin-top: 0;
     margin-bottom: 0;
+    font-size: 24px;
 }
 .formStudProf input[type="submit"],.formStudProf input[type="button"] {
-    width: 176px;
-    height:43px;
+    width: 235px;
+    height:50px;
     border-radius: 10px;
     border:none;
     color:#ffffff;
@@ -206,6 +207,7 @@ table.titleProfileAv{
     margin-bottom: 30px;
     box-shadow:0px 2px 0px #7f7f7f;
     font-size: medium;
+    font-family: MyriadPro2;
 }
 .formStudProf input[type="submit"]{
     font-size: 18px;
@@ -213,15 +215,9 @@ table.titleProfileAv{
     padding-right: 20px;
     text-shadow:1px 1px 1px rgba(0,0,0,.5);
     background:#4b75a4;
-    background-image: url('images/pointersmall.png');
-    background-repeat: no-repeat;
-    background-position: 145px 50%;
 }
 .formStudProf input[type="submit"]:hover {
     background: #454545;
-    background-image: url('images/pointersmall.png');
-    background-repeat: no-repeat;
-    background-position: 145px 50%;
     cursor: pointer;
 }
 #submitEdit {
@@ -233,7 +229,7 @@ table.titleProfileAv{
 }
 /*������ ��� �����*/
 .studProf input[type="submit"] {
-    margin:16px 0px 32px 358px;
+    margin:16px 0px 32px 450px;
 }
 /*������ ����� �����*/
 .studPhoto input[type="submit"], .profileActivity input[type="submit"] {
@@ -260,9 +256,9 @@ table.titleProfileAv{
     display: inline-block;
     overflow: hidden;
     position: relative;
-    width: 176px;
-    height:45px;
-    margin-top: 22px;
+    width: 235px;
+    height:52px;
+    margin-top: 34px;
     margin-bottom: -5px;
 }
 .fileform .uploadAvatar {
@@ -298,7 +294,7 @@ span.interestBG{
 }
 .formStudProf .errorMessage
 {
-    margin-left: 180px;
+    margin-left: 230px;
     color: red;
     font-size: 0.9em;
 }
@@ -494,3 +490,11 @@ p.courseLevLang{
     background-position:left bottom;
 }
 /* PassEye */
+#changepassword{
+    float: right;
+    margin-right: 25px;
+    color: #4b75a4;
+}
+#changepassword:hover{
+    color: #666666;
+}
