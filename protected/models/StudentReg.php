@@ -21,6 +21,12 @@
  * @property string $aboutMy
  * @property string $role
  * @property boolean $isExtended
+ * @property boolean $network
+ * @property boolean $facebook
+ * @property boolean $googleplus
+ * @property boolean $linkedin
+ * @property boolean $vkontakte
+ * @property boolean $twitter
  */
 class StudentReg extends CActiveRecord
 {
@@ -28,6 +34,9 @@ class StudentReg extends CActiveRecord
     public $send_letter;
     public $upload;
     public $letterTheme;
+    public $network;
+    public $new_password;
+    public $new_password_repeat;
 
     private $_identity;
 
@@ -51,21 +60,15 @@ class StudentReg extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('firstName, email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
-            array('firstName, email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
+            array('email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
+            array('password, new_password_repeat, new_password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'changepass'),
+            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>'Паролі не співпадають','on'=>'changepass'),
+            array('password', 'authenticatePass', 'on'=>'changepass'),
+            array('email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
             array('email, password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'repidreg,loginuser,sociallogin'),
+            array('email', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'socialreg'),
             array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),
-//            array('avatar', 'file',
-//                'allowEmpty'  => true,
-//                'maxFiles'   => 1,
-//                'maxSize'   => 0.5,
-//                'types'   => 'jpg',
-//                'tooLarge' => 'Розмір файлу не має перевищувати 512кб',
-//                'tooMany' => 'Не можна завантажувати більше 1-го файла',
-//                'wrongType' => 'Невірний тип файла',
-//                'wrongMimeType' => 'Невірний MIME-тип файла',
-//                'on'=>'edit'),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit,socialreg'),
             array('password', 'authenticate','on'=>'loginuser'),
             array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
@@ -74,7 +77,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar','safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role', 'safe', 'on'=>'search'),
@@ -86,7 +89,13 @@ class StudentReg extends CActiveRecord
         if(!$this->_identity->authenticate())
             $this->addError('password',"Невірний email або пароль.");
     }
-    public function passdiff($pass1,$pass2)
+    public function authenticatePass()
+    {
+        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+        if(sha1($this->password)!==$model->password)
+            $this->addError('password',"Невірний пароль.");
+    }
+    public function passdiff()
     {
         if (isset($this->password) || isset($this->password_repeat)){
         if($this->password!==$this->password_repeat)
@@ -131,6 +140,12 @@ class StudentReg extends CActiveRecord
             'avatar'=> 'Аватар',
             'upload'=> 'Up',
             'role'=>  Yii::t('regexp', '0161'),
+            'network' => 'Network',
+            'facebook' => 'http://www.facebook.com/',
+            'googleplus' => 'https://plus.google.com/',
+            'linkedin' => 'http://www.linkedin.com/',
+            'vkontakte' => 'http://vk.com/',
+            'twitter' => 'http://twitter.com/',
         );
     }
 
@@ -204,6 +219,12 @@ class StudentReg extends CActiveRecord
         $criteria->compare('avatar',$this->avatar,true);
         $criteria->compare('upload',$this->upload,true);
         $criteria->compare('role',$this->role,true);
+        $criteria->compare('network',$this->network,true);
+        $criteria->compare('facebook',$this->facebook,true);
+        $criteria->compare('googleplus',$this->googleplus,true);
+        $criteria->compare('linkedin',$this->linkedin,true);
+        $criteria->compare('vkontakte',$this->vkontakte,true);
+        $criteria->compare('twitter',$this->twitter,true);
         $criteria->compare('isExtended',$this->isExtended, true);
 
 
@@ -214,6 +235,7 @@ class StudentReg extends CActiveRecord
 
     protected function beforeSave()
     {
+        if($this->password!==Null)
         $this->password=sha1($this->password);
         return parent::beforeSave();
     }
@@ -229,7 +251,7 @@ class StudentReg extends CActiveRecord
         return parent::model($className);
     }
 
-    public function getYearsTermination ($num)
+    public static function getYearsTermination ($num)
     {
         //Оставляем две последние цифры от $num
         $number = substr($num, -2);
@@ -252,7 +274,7 @@ class StudentReg extends CActiveRecord
         }
         return  $term;
     }
-    public function getAdressYears ($birthday,$adress='')
+    public static function getAdressYears ($birthday,$adress='')
     {
         $brthAdr = $adress;
         if(!empty($adress)&&!empty($birthday)) $brthAdr=$brthAdr.", ";
@@ -268,22 +290,22 @@ class StudentReg extends CActiveRecord
         echo $brthAdr;
     }
 
-    public function getAboutMy ($aboutMy)
+    public static function getAboutMy ($aboutMy)
     {
         if($aboutMy)
             echo  '<span class="colorP">'.Yii::t('profile', '0100').'</span>'.$aboutMy;
     }
-    public function getPhone ($phone)
+    public static function getPhone ($phone)
     {
         if($phone)
             echo  '<span class="colorP">'.Yii::t('profile', '0102').'</span>'.$phone;
     }
-    public function getEducation ($education)
+    public static function getEducation ($education)
     {
         if($education)
             echo  '<span class="colorP">'.Yii::t('profile', '0103').'</span>'.$education;
     }
-    public function getInterests ($interests)
+    public static function getInterests ($interests)
     {
         if($interests){
             echo  '<span class="colorP">'.Yii::t('profile', '0104').'</span>';
@@ -296,22 +318,22 @@ class StudentReg extends CActiveRecord
             }
         }
     }
-    public function getAboutUs ($aboutUs)
+    public static function getAboutUs ($aboutUs)
     {
         if($aboutUs)
             echo  '<span class="colorP">'.Yii::t('profile', '0105').'</span>'.$aboutUs;
     }
-    public function getEducform ($educform)
+    public static function getEducform ($educform)
     {
         if($educform)
             echo  '<span class="colorP">'.Yii::t('profile', '0106').'</span>'.$educform;
     }
-    public function getCourses ($courses)
+    public static function getCourses ($courses)
     {
         if($courses)
             echo  '<span class="colorP">'.Yii::t('profile', '0107').'</span>'.$courses;
     }
-    public function getEdForm ($edForm)
+    public static function getEdForm ($edForm)
     {
         if(isset($edForm) &&
             $edForm == 'Онлайн/Офлайн') {
@@ -319,6 +341,81 @@ class StudentReg extends CActiveRecord
         } else{
             $val = '';
         }
+        return  $val;
+    }
+    public static function getNetwork ($post)
+    {
+        if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
+            echo  '<span class="colorP">'."Соціальні мережі:".'</span>';
+    }
+    public static function getFacebookLink ($link)
+    {
+        if($link)
+            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Facebook"."</a>"."</span>";
+    }
+    public static function getGoogleLink ($link)
+    {
+        if($link)
+            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Google"."</a>"."</span>";
+    }
+    public static function getLinkedinLink ($link)
+    {
+        if($link)
+            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Linkedin"."</a>"."</span>";
+    }
+    public static function getVkLink ($link)
+    {
+        if($link)
+            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Vkontakte"."</a>"."</span>";
+    }
+    public static function getTwitterLink ($link)
+    {
+        if($link)
+            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Twitter"."</a>"."</span>";
+    }
+    public static function getFacebooknameProfile ($facebook)
+    {
+        if($facebook){
+            $pos = strpos($facebook, 'facebook.com/');
+            $val = substr($facebook, $pos+13);
+        }
+        else $val='';
+        return  $val;
+    }
+    public static function getGooglenameProfile ($googlename)
+    {
+        if($googlename){
+            $pos = strpos($googlename, 'google.com/');
+            $val = substr($googlename, $pos+11);
+        }
+        else $val='';
+        return  $val;
+    }
+    public static function getLinkedinId ($linkedin)
+    {
+        if($linkedin){
+            $pos = strpos($linkedin, 'linkedin.com/');
+            $val = substr($linkedin, $pos+13);
+        }
+        else $val='';
+        return  $val;
+    }
+    public static function getVkId ($vk)
+    {
+        if($vk){
+            $pos = strpos($vk, 'vk.com/');
+            $val = substr($vk, $pos+7);
+        }
+        else $val='';
+        return  $val;
+    }
+    public static function getTwitternameProfile ($twitter)
+    {
+        if($twitter){
+            $pos = strpos($twitter, 'twitter.com/');
+            $val = substr($twitter, $pos+12);
+        }
+        else $val='';
         return  $val;
     }
     public function validatePassword($password)
