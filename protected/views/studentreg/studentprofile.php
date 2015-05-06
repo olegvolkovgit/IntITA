@@ -63,6 +63,24 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                         <p><?php $post::getEducform($post->educform);?></p>
                     </div>
                     <div class="aboutInfo">
+                        <?php $post::getNetwork($post);?>
+                    </div>
+                    <div class="aboutInfo">
+                        <?php $post::getFacebookLink($post->facebook);?>
+                    </div>
+                    <div class="aboutInfo">
+                        <?php $post::getGoogleLink($post->googleplus);?>
+                    </div>
+                    <div class="aboutInfo">
+                        <?php $post::getLinkedinLink($post->linkedin);?>
+                    </div>
+                    <div class="aboutInfo">
+                        <?php $post::getVkLink($post->vkontakte);?>
+                    </div>
+                    <div class="aboutInfo">
+                        <?php $post::getTwitterLink($post->twitter);?>
+                    </div>
+                    <div class="aboutInfo">
                         <p><?php $post::getCourses('Курси самогоних апаратів 6-го рівня');?></p>
                     </div>
                 </td>
