@@ -6,7 +6,7 @@
  * Time: 17:28
  */
 $model = Lecture::model();
-$editMode = 'true';
+$editMode = ($canEdit)?'true':'';
 
 ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
