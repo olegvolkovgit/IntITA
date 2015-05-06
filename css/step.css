@@ -84,7 +84,7 @@ html{
 	border:2px solid #4b75a4;
 }
 .stepInfo p {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 .stepUrl img {
 	display:block;

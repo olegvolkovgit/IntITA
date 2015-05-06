@@ -125,18 +125,18 @@ td.profileTeacher a{
 .formTeacher1 {
     border-radius: 5px;
     height: 30px;
-    width: 400px;
+    width: 380px;
     text-align: left;
     text-indent: 5px;
+    float: right;
 }
 #formTeacher2 {
     border-radius: 5px;
     height: 90px;
+    width: 400px;
     text-align: left;
     text-indent: 5px;
     float:right;
-    position: relative;
-    left: 37px;
 }
 #formTeacher3 {
     height: 110px;
@@ -150,4 +150,20 @@ td.profileTeacher a{
     color:#467c98;
     background-color:#EEEEEE;
     font-size: medium;
+    margin-top: 20px;
+}
+.formFirstname.style {
+    margin-left: 50px;
+}
+.formLastname.style {
+    margin-left: 8px;
+}
+.formYearname.style {
+    margin-left: 52px;
+}
+.formEducationname.style {
+    margin-left: 30px;
+}
+.formPhonename.style {
+    margin-left: 15px;
 }

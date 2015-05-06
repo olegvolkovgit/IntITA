@@ -24,11 +24,38 @@ class CoursesController extends Controller
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex()
+    public function actionIndex($selector = 'all')
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'course';
+        if ($selector !== 'all'){
+            if ($selector == 'junior'){
+                $criteria->addInCondition('level', array('intern','strong junior','junior'));
+            } else {
+                $criteria->condition = 'level=:level';
+                $criteria->params = array(':level'=>$selector);
+            }
+        }
+
+        $dataProvider = new CActiveDataProvider('Course'
+            , array(
+            'criteria' => $criteria,
+        )
+        );
+
+        $total = $dataProvider->getTotalItemCount();
+        $count1 =round($total/2);
+        $count2 = $total - $count1;
+
+        $this->render('index', array(
+
+            'dataProvider' => $dataProvider,
+            'count1' => $count1,
+            'count2' => $count2,
+        ));
     }
 
 }

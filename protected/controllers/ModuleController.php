@@ -19,31 +19,6 @@ class ModuleController extends Controller
 		);
 	}
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
 
 	/**
 	 * Displays a particular model.
@@ -104,30 +79,47 @@ class ModuleController extends Controller
 	}
 
 	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($idModule = 1)
 	{
-		/*$dataProvider=new CActiveDataProvider('Modules');
-		$this->render('module',array(
-			'dataProvider'=>$dataProvider,
-		));*/
-        $this->render('module');
+        $model = Module::model()->findByPk(1);
+        $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
+        $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
+
+        $dataProvider = new CActiveDataProvider('Lecture', array(
+            'pagination'=>false,
+        ));
+
+        $editMode = 0; //init editMode flag
+        //find id teacher related to current user id
+        if (Yii::app()->user->isGuest){ //if user guest
+            $editMode = 0;
+        } else {
+            $teacherId = 38;
+            //if($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
+                //var_dump($teachers); die();
+                //check edit mode
+                //if (in_array($teacherId, $owners)) {
+            if (Yii::app()->user->getId() == 38){
+                    $editMode = 1;
+                } else {
+                    $editMode = 0;
+                }
+
+        }
+
+        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
+
+        $this->render('index', array(
+            'post' => $model,
+            'teachers' => $teachers,
+            'editMode' => $editMode,
+            'lecturesTitles' => $lecturesTitles,
+            'dataProvider' => $dataProvider,
+        ));
 	}
+
 
 	/**
 	 * Manages all models.
@@ -171,4 +163,31 @@ class ModuleController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+    public  function actionSaveLesson(){
+        $this->render('saveLesson');
+    }
+
+    public function actionUnableLesson($idLecture){
+        $order = $_POST['order'];
+        $idModule =$_POST['idModule'];
+        $idLecture = Lecture::model()->findByAttributes(array('order'=>$order))->id;
+
+        Lecture::model()->updateByPk($idLecture, array('order' => 0));
+        Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
+
+        $count = Module::model()->findByPk($idModule)->lesson_count;
+        for ($i = $order + 1; $i <= $count; $i++){
+            $id = Lecture::model()->findByAttributes(array('order'=>$i))->id;
+            Lecture::model()->updateByPk($id, array('order' => $i-1));
+        }
+        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
+
+
+
+        $this->renderPartial('unableLecture', array(
+            'idModule' => $idModule,
+            'idLecture' => $idLecture,
+        ));
+    }
 }

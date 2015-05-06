@@ -59,19 +59,19 @@ class Database
      * Database user's login
      * @var string
      */
-    protected $dbLogin = '';
+    protected $dbLogin = 'intita';
 
     /**
      * Database user's password
      * @var string
      */
-    protected $dbPass = '';
+    protected $dbPass = '1234567';
 
     /**
      * Database name
      * @var string
      */
-    protected $dbName = '';
+    protected $dbName = 'int_ita_db';
 
     /**
      * Tables prefix

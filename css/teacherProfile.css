@@ -18,6 +18,12 @@
     float:left;
     width:583px;
 }
+
+td img.icons {
+    height: 20px;
+    width: 20px;
+}
+
 .TeacherProfileblock1 img
 {
     display: block;
@@ -36,6 +42,14 @@
     font-size:26px;
     margin-bottom:0px;
 }
+
+.TeacherProfilename a
+{
+    color:red;
+    font-size:26px;
+    margin-bottom:0px;
+}
+
 .TeacherProfilesectionText
 {
     margin-top:-20px;
@@ -62,13 +76,14 @@ div.aboutMore{
     color: #4B75A4;
 }
 /*-------------------------*/
-.txtMsg{
+.txtMsgFirst, .txtMsgSecond{
     font-weight: inherit;
     font-size: 16px;
     color: #333333;
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
 div.sm{
     font-weight: inherit;
     font-size: 11px;
@@ -85,4 +100,25 @@ div.responseBG {
     border-top:3px solid #ffffff;
     background-color: rgba(75,117,164,0.2);
     overflow:hidden;
+}
+
+#updateButton{
+    width:165px;
+    height:52px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 0px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro";
+    font-size: 25px;
+    letter-spacing:1px;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    padding-right: 30px;
+    text-shadow:1px 1px 1px black;
+
 }

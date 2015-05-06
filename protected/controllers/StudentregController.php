@@ -129,22 +129,10 @@ class StudentRegController extends Controller
         {
             if(is_null($_POST['StudentReg']['firstName']))
                 $this->redirect('courses');
-            //if user don't check education form, we write to db value 'don't choose'
-            if( !isset($_POST['StudentReg']['educform'][0]) ){
-                $_POST['StudentReg']['educform'] = 'Не вибрано';
-            }
-            if(isset($_POST['StudentReg']))
-            {
-                if(($_POST['StudentReg']['educform'][0]=='Онлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                    $_POST['StudentReg']['educform']='Онлайн';
-                }
-                if(($_POST['StudentReg']['educform'][0]=='Офлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                    $_POST['StudentReg']['educform']='Офлайн';
-                }
-                if(($_POST['StudentReg']['educform'][0]=='Онлайн') && ($_POST['StudentReg']['educform'][1]=='Офлайн')){
-                    $_POST['StudentReg']['educform']='Онлайн/Офлайн';
-                }
-            }
+
+            if(isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
+                $_POST['StudentReg']['educform']='Онлайн/Офлайн';
+            else $_POST['StudentReg']['educform']='Онлайн';
 
             $model->attributes=$_POST['StudentReg'];
             if($model->validate())
@@ -156,15 +144,15 @@ class StudentRegController extends Controller
                     $this->render("studentreg", array('model' => $model));
                 }else
                 {
-                    if($_FILES["upload"]["size"] > 1024*1024*0.5)
+                    if($_FILES["upload"]["size"] > 1024*1024*5)
                     {
-                        Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 512кб');
+                        Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 5Мб');
                     }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"]))
                     {
                         $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                         $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                        copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/css/images/avatars/".$_FILES['upload']['name']);
-                        $model->avatar="/css/images/avatars/".$_FILES["upload"]["name"];
+                        copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
+                        $model->avatar="/avatars/".$_FILES["upload"]["name"];
                     }
                     $model->save();
                     Yii::app()->user->setFlash('forminfo', 'Ви успішно зареєструвалися. Введіть дані для авторизації');
@@ -237,8 +225,6 @@ class StudentRegController extends Controller
 
     public function actionProfile()
     {
-        $this->checkAccess(1, 'read', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
-            'Ви не можете переглядати чужий профіль. Ввійдіть у свій аккаунт.');
         $model=new StudentReg();
 
         $this->render("studentprofile", array('model'=>$model));
@@ -265,9 +251,7 @@ class StudentRegController extends Controller
     }
     public function actionEdit()
     {
-//        $this->checkAccess(1, 'edit', 'Ви не можете переглядати цю сторінку. Будь-ласка, увійдіть у свій аккаунт.',
-//            'Ви не можете редагувати чужий профіль. Ввійдіть у свій аккаунт.');
-        $model=new StudentReg();
+        $model =  new StudentReg('edit');
 
         $this->render("studentprofileedit", array('model'=>$model));
 
@@ -278,21 +262,9 @@ class StudentRegController extends Controller
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         $model->setScenario('edit');
 
-        if( !isset($_POST['StudentReg']['educform'][0]) ){
-            $_POST['StudentReg']['educform'] = 'Не вибрано';
-        }
-        if(isset($_POST['StudentReg']))
-        {
-            if(($_POST['StudentReg']['educform'][0]=='Онлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                $_POST['StudentReg']['educform']='Онлайн';
-            }
-            if(($_POST['StudentReg']['educform'][0]=='Офлайн') && (!isset($_POST['StudentReg']['educform'][1]))){
-                $_POST['StudentReg']['educform']='Офлайн';
-            }
-            if(($_POST['StudentReg']['educform'][0]=='Онлайн') && ($_POST['StudentReg']['educform'][1]=='Офлайн')){
-                $_POST['StudentReg']['educform']='Онлайн/Офлайн';
-            }
-        }
+        if(isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
+            $_POST['StudentReg']['educform']='Онлайн/Офлайн';
+        else $_POST['StudentReg']['educform']='Онлайн';
 
         $model->attributes=$_POST['StudentReg'];
         if($model->validate()) {
@@ -305,22 +277,22 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
             $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
             $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
-            $model->updateByPk($id, array('education' => $_POST['StudentReg']['educform']));
+            $model->updateByPk($id, array('educform' => $_POST['StudentReg']['educform']));
             $model->updateByPk($id, array('interests' => $_POST['StudentReg']['interests']));
             $model->updateByPk($id, array('aboutUs' => $_POST['StudentReg']['aboutUs']));
             $model->updateByPk($id, array('aboutMy' => $_POST['StudentReg']['aboutMy']));
             if(!empty($_POST['StudentReg']['password'])&& sha1($_POST['StudentReg']['password'])==sha1($_POST['StudentReg']['password_repeat']))
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['password'])));
             if(!empty($_FILES["upload"])) {
-                if($_FILES["upload"]["size"] > 1024*1024*0.5)
+                if($_FILES["upload"]["size"] > 1024*1024*5)
                 {
-                    Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 512кб');
+                    Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 5Мб');
                     $this->redirect(Yii::app()->request->baseUrl . '/studentreg/edit');
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
-                    $_FILES["upload"]["name"]=$_POST['StudentReg']['email'].'.'. $ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/css/images/avatars/".$_FILES['upload']['name']);
-                    $model->updateByPk($id, array('avatar' => "/css/images/avatars/".$_FILES["upload"]["name"]));
+                    $_FILES["upload"]["name"]=uniqid().'.'.$ext;
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
+                    $model->updateByPk($id, array('avatar' => "/avatars/".$_FILES["upload"]["name"]));
                     Yii::app()->user->setFlash('messageedit', 'Оновлено' );
                 }
             }

@@ -37,18 +37,8 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <h1><?php echo $post->firstName;?></h1>
                     <h1><?php echo $post->secondName;?></h1>
                     <div class="aboutInfo">
-                        <p><?php echo $post->address;
-                            if(!empty($post->address)&&!empty($post->birthday)) echo ', ';
-                            $myAge = $post->birthday;
-                            $myAge = str_replace("/",".",$myAge);
-                            $date_a = new DateTime($myAge);
-                            $date_b = new DateTime();
-                            $interval = $date_b->diff($date_a);
-                            if($interval->format("%Y")!=='00'){
-                                echo $interval->format("%Y");
-                                $post::getYearsTermination($interval->format("%Y"));
-                            }
-                            ?>
+                        <p>
+                            <?php echo $post::getAdressYears($post->birthday,$post->address); ?>
                         </p>
                     </div>
                     <div class="aboutInfo">
@@ -126,16 +116,6 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             </section>
             <section id="mylettersSend">
                 <?php $this->renderPartial('_mylettersSend'); ?>
-                <form method="post" action="<?php echo Yii::app()->request->baseUrl; ?>/studentreg/sendletter">
-                    <label for="letterTheme">Тема:</label>
-                    <input type="text" id="letterTheme" name="letterTheme" /></br> </br>
-                    <label for="send_letter">Повідомлення:</label>
-                    <textarea id="send_letter" name="send_letter"></textarea></br>
-                    <input type="submit" value="ВІДПРАВИТИ />" name="submit" />
-                </form>
-                <?php if(Yii::app()->user->hasFlash('messagemail')):
-                    echo Yii::app()->user->getFlash('messagemail');
-                endif; ?>
             </section>
             <section id="myMark">
                 <?php $this->renderPartial('_myMark'); ?>

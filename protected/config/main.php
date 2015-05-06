@@ -82,19 +82,26 @@ return array(
 			'caseSensitive' => true,
 			'rules'=>array(
 
-				/*array(
-					'class' => 'application.components.CoursesRule',
-					'connectionID' => 'db',
-				),*/
+//				array(
+//					'class' => 'application.components.CoursesRule',
+//					'connectionID' => 'db',
+//				),
 
 				''=>array('site/index', 'urlSuffix' => ''),
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
-				'<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
-				'<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 			),
 
 		),
 
+        'widgetFactory' => array(
+            'enableSkin' => true,
+        ),
 
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),
@@ -129,8 +136,8 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		// this is used in teacher profile page
+		'adminEmail'=>'Elfigo@mail.ru',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
 	),
 );

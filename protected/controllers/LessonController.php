@@ -20,19 +20,22 @@ class LessonController extends Controller{
         $lecture = Lecture::model()->findByPk($id);
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->setPagination(array(
-                'pageSize' => Module::model()->findByPk($lecture->idModule)->lesson_count,
+                'pageSize' => 27,//Module::model()->findByPk($lecture->idModule)->lesson_count,
             )
         );
-
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
+
         ));
     }
 
-    public function actionLesson(){
-        $this->render('index');
+    public function actionUpdateAjax()
+    {
+        $data = array();
+        $data["day"] = $_POST['dateconsajax'];
+        $data["teacherId"] = $_POST['teacherIdajax'];
+        $this->renderPartial('_timeConsult', $data, false, true);
     }
-
 }

@@ -59,6 +59,7 @@
 
 <script>
     jQuery(document).ready(function() {
+        jQuery('.box_tabs ' + '#box_tab1').show().siblings().hide();
         jQuery('.box_tabs .box_tab-links a').on('click', function(e)  {
             var currentAttrValue = jQuery(this).attr('href');
 

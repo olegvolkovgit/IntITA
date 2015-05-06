@@ -136,12 +136,9 @@ $block1->drop2Text='<div class="aboutStepBlock"><span class="detailTitle1">На�
                 </li>
             </ul>
         </div>
-
     <?php
     }
-    ?>
-
-	
+?>
 
 <! Script for Drop Down text>
 <script type="text/javascript">
@@ -164,11 +161,11 @@ function Window()
 
 function WindowShow(buttonNumber,anchor) 
 {
-	if (anchor==1)
+	if (anchor == 1)
 	{
 		$("body").animate({"scrollTop":440},"fast");
 	}
-	if (buttonNumber ==1)
+	if (buttonNumber == 1)
 		{
 			$('#dropTextLayer1').css('display', 'inline-block'); 
 			$('#dropTextLayer2').css('display', 'none');   
@@ -177,7 +174,7 @@ function WindowShow(buttonNumber,anchor)
 			$('#dropButton2').css('text-decoration','underline');
 			$('#dropButton3').css('text-decoration','underline');
 		}
-	if (buttonNumber ==2)
+	if (buttonNumber == 2)
 		{
 			$('#dropTextLayer2').css('display', 'inline-block');   
 			$('#dropTextLayer1').css('display', 'none');   
@@ -186,7 +183,7 @@ function WindowShow(buttonNumber,anchor)
 			$('#dropButton2').css('text-decoration','none');
 			$('#dropButton3').css('text-decoration','underline');
 		}	
-	if (buttonNumber ==3)
+	if (buttonNumber == 3)
 		{
 			$('#dropTextLayer3').css('display', 'inline-block');
 			$('#dropTextLayer2').css('display', 'none');   
@@ -216,38 +213,6 @@ function WindowShow(buttonNumber,anchor)
 
 <div id='aboutDetailMain'>
 
-<!--    --><?php
-//    // use editor WYSIWYG Imperavi
-//    $this->widget('ImperaviRedactorWidget', array(
-//        // use editor to field .aboutStepBlock
-//        'selector' => '.aboutStepBlock',
-//        'options' => array(
-//            'imageUpload' => $this->createUrl('files/upload'),
-//            'lang' => 'ua',
-//            'toolbar' => true,
-//            'iframe' => true,
-//            'css' => 'wym.css',
-//        ),
-//        'plugins' => array(
-//            'fullscreen' => array(
-//                'js' => array('fullscreen.js',),
-//            ),
-//            'video' => array(
-//                'js' => array('video.js',),
-//            ),
-//            'fontsize' => array(
-//                'js' => array('fontsize.js',),
-//            ),
-//            'fontfamily' => array(
-//                'js' => array('fontfamily.js',),
-//            ),
-//            'fontcolor' => array(
-//                'js' => array('fontcolor.js',),
-//            ),
-//
-//        ),
-//    ));
-//    ?>
 
 <div id="dropTextLayer1" >
     <div  class="textBox">

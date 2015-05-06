@@ -38,13 +38,29 @@ img.time{
 {
     color:#4682B4;
     font-weight: inherit;
-    font-size:24px;
 }
 .lessonModule td {
     padding-left: 0;
     vertical-align: top;
 }
-.leftModule a {
+.titleColumn{
+    padding-left: 0;
+    vertical-align: top;
+    background-color: white;
+}
+.lessonModule table tr td:first-child {
+    white-space: nowrap;
+    text-align:right;
+    width: 60px;
+    background-color: white;
+}
+.aliasColumn{
+    white-space: nowrap;
+    text-align:right;
+    width: 60px;
+    background-color: white;
+}
+.titleColumn a {
     color: #4b75a4;
     text-decoration:none;
     }
@@ -58,8 +74,8 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 }
 .teacherBox table{
     border-bottom: 1px solid #cccccc;
-    padding-bottom: 10px;
-    margin-top: 40px;
+    padding-bottom: 20px;
+    margin-top: 20px;
 }
 .teacherBox td{
     padding-right: 15px;
@@ -79,7 +95,7 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 .rightModule a {
     color: #4b75a4;
     font-size:14px;
-    vertical-align: top;
+    text-align:center;
 }
 a:link {color:#4b75a4;}
 a:hover {color:#5b5b5b; text-decoration:underline;}
@@ -90,6 +106,8 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 .teacherBoxRight{
     border-left: 1px solid #cccccc;
     padding-left: 15px;
+    width: 250px;
+    height: 105px;
 }
 #enter_button_2 {
     margin-top: 80px;
@@ -112,5 +130,58 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 #enter_button_2:active {
     background: #363636;
 }
+#addLessonButton{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    display: none;
+}
+#editIco{
+    float:right;
+    margin-top: 20px;
+    margin-right: 40px;
+}
+#lessonForm{
+    display: none;
+}
+#formLabel{
+    color:red;
+    font-size: 16px;
+}
+#newLectureName{
+    width: 530px;
+    height: 25px;
+}
+.editToolbar img{
+    width: 25px;
+    height: 25px;
+}
+#submitButton{
+    width:165px;
+    height:45px;
+    border-radius: 10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 0px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro";
+    font-size: 24px;
+    letter-spacing:1px;
+    text-shadow:1px 1px 1px black;
+}
+.controlButtons{
+    width: 20px;
+    height: 20px;
+}
+body .grid-view table.items td{
+    font-size: 16px;
+
+}
+body .grid-view table.items td:first-child{
+    display:none;
+}
+
 
 

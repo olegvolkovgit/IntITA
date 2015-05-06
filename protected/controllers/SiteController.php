@@ -46,6 +46,14 @@ class SiteController extends Controller
 		$mainpage = new Mainpage();
 		$mainpage->setValueById(0);
 
+        $permission = new Permissions();
+        $permission->setPermission(38, 2, array('read', 'edit'));
+        $permission->setPermission(39, 2, array('read', 'edit'));
+        $permission->setPermission(40, 2, array('read', 'edit'));
+        $permission->setPermission(41, 2, array('read', 'edit'));
+        $permission->setPermission(42, 2, array('read', 'edit'));
+        $permission->setPermission(43, 2, array('read', 'edit'));
+
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
 		
@@ -184,20 +192,6 @@ class SiteController extends Controller
 	{
         $app = Yii::app();
 		if (isset($_GET['lg'])) {
-//            switch($_GET['lg']){
-//                case 'ru':
-//                    $app->session['translatedTable'] = 'translatedmessagesru';
-//                    break;
-//                case 'en':
-//                    $app->session['translatedTable'] = 'translatedmessagesen';
-//                    break;
-//                case 'ua':
-//                    $app->session['translatedTable'] = 'translatedmessagesua';
-//                    break;
-//                default:
-//                    $app->session['translatedTable'] = 'translatedmessagesua';
-//                    break;
-//            }
 			$app->session['lg'] = $_GET['lg'];
 		}
         $this->redirect($_SERVER["HTTP_REFERER"]);

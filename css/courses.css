@@ -9,6 +9,7 @@
 #coursesHeader
 {
     width:230px;
+    white-space: nowrap;
     color: #ffffff;
     font-size:24px;
     padding-left: 90px;
@@ -25,7 +26,6 @@
     width:570px;
     position:relative;
     margin-left:60px;
-    height: 1500px;
     margin-right: 50px;
 }
 .courseBox
@@ -73,6 +73,7 @@
 .coursePriceBox
 {
     margin-left: 150px;
+    float: left;
 }
 #coursePriceStatus1 {
     color: #ff0000;
@@ -155,13 +156,16 @@
 }
 .courseLang
 {
+    height: 20px;
     margin-left:150px;
     color: #333333;
+    float: left;
 }
 #coursesLang{
     z-index: 6;
     position: relative;
-    float:right;
+   left: 70px;
+    top:-22px;
 }
 #coursesLang.down {
     height: 20px;
@@ -217,7 +221,7 @@
     position: relative;
     color: #000000;
 }
-.courseStatus2 p{
+.courseStatus0 p{
     margin-left: 150px;
     position: relative;
     color: #696969;
@@ -225,7 +229,7 @@
 #courseStatus1 {
     color: green;
 }
-#courseStatus2 {
+#courseStatus0 {
     color: #ff0000;
 }
 .sourse{
@@ -280,3 +284,8 @@ table {
     width: 370px;
     font-size: 14px;
 }
+
+#coursesMainBox td{
+    vertical-align: top;
+}
+

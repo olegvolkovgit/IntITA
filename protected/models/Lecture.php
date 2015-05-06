@@ -43,12 +43,12 @@ class Lecture extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('image, alias, language, idModule, order, title, idType, durationInMinutes, maxNumber, iconIsDone, preLecture, nextLecture, idTeacher, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'required'),
+            array('idModule, order, title', 'required'),
             array('idModule, order, idType, durationInMinutes, maxNumber, preLecture, nextLecture', 'numerical', 'integerOnly' => true),
             array('image, iconIsDone, lectureUnwatchedImage, lectureOverlookedImage, lectureTimeImage', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('language', 'length', 'max' => 6),
-            array('title', 'length', 'max' => 100),
+            array('title', 'length', 'max' => 255),
             array('idTeacher', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -132,14 +132,20 @@ class Lecture extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ));
+            'sort' => array (
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            ),
+            //
+            ));
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Lecture3 the static model class
+     * @return Lecture the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -300,5 +306,34 @@ class Lecture extends CActiveRecord
             return $contentList;
         }
 
+    }
+
+    public static function addNewLesson($module, $title, $order, $lang){
+        $lecture = new Lecture();
+        $lecture->title = $title;
+        $lecture->idModule = $module;
+        $lecture->order = $order;
+        $lecture->language = $lang;
+        $lecture->alias = 'lecture'.$order;
+//        if (!$lecture->isNewRecord) {
+            return $lecture->save();
+//        } else {
+//            throw new CHttpException(422, 'Така лекція вже існує.');
+//        }
+    }
+
+    public function getLecturesTitles($id)
+    {
+        $list = Lecture::model()->findAllByAttributes(array('idModule' => $id));
+        $titles = array();
+        foreach ($list as $item) {
+            array_push($titles, $item->title);
+        }
+        return $titles;
+    }
+
+    public static function unableLecture($idLecture){
+
+        Lecture::model()->updateByPk($idLecture, array('order' => 0));
     }
 }

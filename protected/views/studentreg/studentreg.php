@@ -86,10 +86,10 @@ $this->breadcrumbs=array(
             <span><?php echo $form->error($model,'education'); ?></span>
         </div>
         <div class="rowRadioButton" id="rowEducForm">
-            <?php $model->educform ='Онлайн'; ?>
             <?php echo $form->labelEx($model,'educform'); ?>
             <div class="radiolabel">
-                <?php echo $form->checkBoxList($model,'educform',array('Онлайн'=>'online','Офлайн'=>'offline'), array('separator'=>' '));?>
+                <label><input type="checkbox" name="educformOn" checked disabled/>online</label>
+                <label><input type="checkbox" name="educformOff" value="1" />offline</label>
             </div>
         </div>
         <div class="row">
@@ -136,7 +136,7 @@ $this->breadcrumbs=array(
                 </td>
             </tr>
         </table>
-        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/avatars/noname.png"/></br>
+        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/avatars/noname.png"/></br>
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg/gif">

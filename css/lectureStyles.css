@@ -1,7 +1,7 @@
 
 /* stylesheet for lesson top */
 
-.lectureMainBlock { border-bottom:solid 2px #DCDCDC; left:50%; width: 960px;  display:inline-block;
+.lectureMainBlock { border-bottom:solid 2px #DCDCDC; left:50%; width: 1200px;  display:inline-block;
  position:relative;    margin-left: -480px; margin-top:0px; margin-bottom:5px;padding-bottom: 38px;}
  
 .lectureImageMain
@@ -171,10 +171,23 @@ div.calendar{
     text-decoration: underline;
 }
 #dateTimePicker{
-    display: block;
-    height: 1px;
+    display: inline-block;
+    height: 0;
     opacity: 0;
     cursor: pointer;
+}
+#ajaxchange-form, #hiddenAjaxButton{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: none;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    cursor: none;
+}
+#form_datetime{
+    height: 0;
 }
 .datetimepicker{
     width: 305px;
@@ -196,7 +209,7 @@ div.calendar{
 .datetimepicker .datetimepicker-days{
     font-family: SegoeUILight;
     width: 295px;
-    height:370px;
+    padding-bottom: 20px;
 }
 .datetimepicker table.table-condensed{
     margin: 0 auto;
@@ -211,7 +224,7 @@ div.calendar{
 .datetimepicker .table-condensed td{
     border-radius: 0;
 }
-.datetimepicker table.table-condensed tr td.day:hover,.datetimepicker table.table-condensed tr td.active.active:hover {
+.datetimepicker table.table-condensed tr td.day:hover,.datetimepicker table.table-condensed tr td.active.active:hover,.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled:hover {
     border-radius: 150px;
     background: #4b75a4;
     color:#ffffff;
@@ -291,14 +304,18 @@ div.datetimepicker-minutes{
     border: 1px solid #4b75a4;
     background: #ffffff;
 }
+.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled{
+    background: #003399;
+    color: #ffffff;
+}
 div#consultationInfo{
     background: #ffffff;
     position: absolute;
     z-index: 3;
     font-family: SegoeUILight;
     width: 305px;
-    height:200px;
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    overflow: hidden;
 }
 #consultationInfo{
     display: none;
@@ -323,5 +340,103 @@ div#consultationInfo{
     background: #4b75a4;
     color: #ffffff;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 /*----Calendar----*/
+/*----TimeConsultation----*/
+#timeConsultation{
+    display: none;
+    position: absolute;
+    margin:0 auto;
+    width:305px;
+    background:#ffffff;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    text-align:center;
+    padding-top:1px;
+    z-index: 3;
+}
+#timeConsultation p{
+    display: block;
+}
+#timeConsultation span{
+    border-left:none;
+    left:0;
+    top:0;
+    display: inline-block;
+    position: relative;
+    margin-left: 0;
+    padding-left:0;
+}
+#timeTitle{
+    color:#4b75a4;
+    font-size:18px;
+    margin-top:12px;
+    margin-bottom:5px;
+}
+#timeDate{
+    color:#828282;
+    font-size:12px;
+    margin-top:10px;
+    cursor: pointer;
+}
+table#timeGrid{
+    margin:0 auto;
+    text-align:center;
+    color:#787878;
+    border-collapse: separate;
+    border-spacing: 1px 2px;
+}
+#timeGrid td{
+    width:94px;
+    height:28px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor:pointer;
+    background:#b8ffb3;
+}
+#timeGrid td:hover{
+    background:#a2d99d;
+}
+#timeGrid td.disabledTime{
+    background:#ffffff;
+    color:#9f9f9f;
+}
+#timeGrid td.pressedTime{
+    background:#4b75a4;
+    color:#ffffff;
+}
+div#timeInfo{
+    margin: 0 auto;
+    font-size: 13px;
+    text-align: left;
+    width: 284px;
+    border-top: 1px solid #a2b7cf;
+    color:#9f9f9f;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-family: Segoe UI;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+.colorP {
+    color: #4b75a4;
+}
+#consultationBack, #consultationNext{
+    width: 110px;
+    height: 34px;
+    border-radius: 10px;
+    background: #4b75a4;
+    color: #ffffff;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+#consultationBack:hover, #consultationNext:hover{
+    background: #454545;
+}
+/*----TimeConsultation----*/

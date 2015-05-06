@@ -47,6 +47,7 @@ table.titleProfile{
     display:inline-block;
     font-size: smaller;
     line-height: 120%;
+    width: 90%;
 }
 
 table.titleProfile td{
@@ -66,7 +67,6 @@ table.titleProfile td:last-child{
     font-size: 24px;
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: 115px;
 }
 
 .studProfInf img.avatarimg{
@@ -372,6 +372,7 @@ table.timeTable tr:first-child td{
     border-top-width: 0px;
     border-left-width: 0px;
     border-bottom-width: 0px;
+    font-size: 11px;
 }
 
     /*Timetable*/
