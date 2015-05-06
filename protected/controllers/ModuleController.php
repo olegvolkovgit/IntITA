@@ -90,6 +90,7 @@ class ModuleController extends Controller
 
         $criteria=new CDbCriteria();
         $criteria->addCondition('idModule>0');
+        $criteria->addCondition('idModule='.$idModule);
 
         $dataProvider = new CActiveDataProvider('Lecture', array(
             'criteria' =>$criteria,
@@ -106,16 +107,18 @@ class ModuleController extends Controller
         if (Yii::app()->user->isGuest){ //if user guest
             $editMode = 0;
         } else {
-            $teacherId = 38;
-            //if($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
+            //$teacherId = 38;
+            if($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
                 //var_dump($teachers); die();
                 //check edit mode
-                //if (in_array($teacherId, $owners)) {
-            if (Yii::app()->user->getId() == 38){
-                    $editMode = 1;
-                } else {
-                    $editMode = 0;
+                if (in_array($teacherId, $owners)) {
+                    if (Yii::app()->user->getId() == 38) {
+                        $editMode = 1;
+                    } else {
+                        $editMode = 0;
+                    }
                 }
+            }
 
         }
 

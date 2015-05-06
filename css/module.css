@@ -150,21 +150,34 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     height: 25px;
 }
 
-#submitButton{
-    width:165px;
-    height:45px;
-    border-radius: 10px;
-    border:none;
-    border-top:1px solid #9fb5ce;
-    color:#ffffff;
-    background:#4b75a4;
-    margin-bottom: 0px;
-    box-shadow:0px 2px 0px #7f7f7f;
-    font: normal 400 28px/50px "MyriadPro";
-    font-size: 24px;
-    letter-spacing:1px;
-    text-shadow:1px 1px 1px black;
+#submitButton, #cancelButton{
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    float: left;
 }
+
+#cancelButton {
+    float: left;
+    margin-left: 20px;
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
 .controlButtons{
     width: 20px;
     height: 20px;

@@ -338,7 +338,6 @@ $header = new Header();?>
             <!--SignIn modal-->
         </div>
     </div><!-- footer -->
-
 </div>
 </body>
 </html>

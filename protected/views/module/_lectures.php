@@ -6,7 +6,7 @@
  * Time: 17:28
  */
 $model = Lecture::model();
-$editMode = ($canEdit)?'true':'';
+$editMode = 'true';
 
 ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
@@ -143,7 +143,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
         <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
         <br><br>
         <input type="submit"  value="Додати" id="submitButton">
+        <button id="cancelButton" value="">Скасувати</button>
     </form>
+
 </div>
 </div>
 

@@ -6,13 +6,11 @@ function showForm(){
     $form = document.getElementById('lessonForm');
     $form.style.display = 'block';
 
-
 }
 
 function enableEdit(){
     document.getElementById('editIco').style.display = 'none';
     document.getElementById('addLessonButton').style.display = 'inline-block';
-
 }
 
 function sendForm(){

@@ -12,27 +12,15 @@ $this->breadcrumbs=array(
 <ul>
 	<li><a href="./mainpage/mainpageGeneral/">Заголовки</a></li>
 	<li><a href="./mainpage/menu/">Меню сайта</a></li>
-	<li><a href="./mainpage/carousel/">Слайдер</a></li>
 	<li><a href="./aboutus/blocklist/">Блоки</a></li>
 	<li><a href="./steps/stepslist/">Кроки</a></li>
 	<li><a href="./mainpage/contacts/">Контакти</a></li>
 </ul>
 
-<h2>Про нас</h2>
+<h2>Контент</h2>
 <ul>
-	<li><a href="./aboutus/blockextended/">Блоки</a></li>
-</ul>
-
-<h2>Викладачі</h2>
-<ul>
-	<li><a href="./teachers/page/">Параметри сторінки <Наші викладачі></a></li>
-	<li><a href="./teachers/list/">Список викладачів</a></li>
-</ul>
-
-<h2>Реєстрація</h2>
-<ul>
-	<li><a href="./mainpage/form/">Форма швидкої реєстрації на головній</a></li>
-	<li><a href="./register/extended/">Розширена реєстрація</a></li>
+    <li><a href="./content/coursesList/">Редагувати список курсів</a></li>
+	<li><a href="./teachers/list/">Редагувати список викладачів</a></li>
 </ul>
 
 <br clear="both"/>
