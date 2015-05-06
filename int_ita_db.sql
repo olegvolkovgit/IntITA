@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2015-05-01 22:06:58
+Date: 2015-05-06 22:01:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -266,18 +266,21 @@ INSERT INTO `carousel` VALUES ('4', '4.jpg', '<p>Слайдер фото 4</p>',
 DROP TABLE IF EXISTS `consultationscalendar`;
 CREATE TABLE `consultationscalendar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` varchar(11) DEFAULT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `lecture_id` int(11) DEFAULT NULL,
   `date_cons` date DEFAULT NULL,
   `start_cons` time DEFAULT NULL,
   `end_cons` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of consultationscalendar
 -- ----------------------------
+INSERT INTO `consultationscalendar` VALUES ('1', '2', '1', '1', '2015-05-05', '09:00:00', '09:20:00');
+INSERT INTO `consultationscalendar` VALUES ('2', '2', '1', '1', '2015-05-05', '16:20:00', '16:40:00');
+INSERT INTO `consultationscalendar` VALUES ('3', '2', '1', '1', '2015-05-05', '21:00:00', '22:00:00');
 
 -- ----------------------------
 -- Table structure for `course`
@@ -560,7 +563,7 @@ CREATE TABLE `lecture_element` (
 INSERT INTO `lecture_element` VALUES ('1', '1', 'text', '1', '    <h1 class=\"lessonPart\">Вступ</h1>\r\n    <span class=\"colorBlack\">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:\r\n    \r\n   ');
 INSERT INTO `lecture_element` VALUES ('1', '2', 'code', '4', '<p><span class=\"colorGreen\">$</span>names=<span class=\"colorO\">\"Я інформація в памяті тчк\"</span>;</p>');
 INSERT INTO `lecture_element` VALUES ('1', '3', 'text', '1', ' <span class=\"colorBlack\">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>');
-INSERT INTO `lecture_element` VALUES ('1', '4', 'video', '2', '<iframe width=\"633\" height=\"390\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
+INSERT INTO `lecture_element` VALUES ('1', '4', 'video', '2', '<iframe width=\"778\" height=\"480\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
 INSERT INTO `lecture_element` VALUES ('1', '5', 'label', '8', '    <a name=\"Частина 1: Типи змінних та перемінних\"></a>');
 INSERT INTO `lecture_element` VALUES ('1', '6', 'text', '1', '    <h1 class=\"lessonPart\">Частина 1: Типи змінних та перемінних</h1>\r\n    <span class=\"colorBlack\">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:');
 INSERT INTO `lecture_element` VALUES ('1', '7', 'code', '4', '<p><span class=\"colorGreen\">$</span>names=<span class=\"colorO\">\"Я інформація в памяті тчк\"</span>;</p>');
@@ -569,7 +572,7 @@ INSERT INTO `lecture_element` VALUES ('1', '9', 'code', '4', '\r\n        <p>$na
 INSERT INTO `lecture_element` VALUES ('1', '10', 'text', '1', '    <p>Змінні в РНР представляються у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і символів.</p>');
 INSERT INTO `lecture_element` VALUES ('1', '11', 'example', '3', '<span class=\"subChapter\">Зразок коду 1:</span>\r\n<pre class=\"prettyprint linenums\">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>');
 INSERT INTO `lecture_element` VALUES ('1', '12', 'example', '3', '<span class=\"subChapter\">Зразок коду 2  </span><span class=\"spoilerLinks\"><span class=\"spoilerClick\">(показати)</span><span class=\"spoilerTriangle\"> &#9660;</span></span>');
-INSERT INTO `lecture_element` VALUES ('1', '13', 'video', '2', '<h3><span class=\"subChapter\">Відео 1.</span></h3>\r\n    <iframe width=\"633\" height=\"390\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
+INSERT INTO `lecture_element` VALUES ('1', '13', 'video', '2', '<h3><span class=\"subChapter\">Відео 1.</span></h3>\r\n    <iframe width=\"778\" height=\"480\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
 INSERT INTO `lecture_element` VALUES ('1', '14', 'instruction', '7', '<li>On line 7, set <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value\": TRUE or FALSE, text like thise:<span class=\"colorAlert\">You get a 10% discount!</span></li>');
 INSERT INTO `lecture_element` VALUES ('1', '15', 'task', '5', '<li>On line 7, set equal to a number greater than 5. Some expressions return a \"logical value\": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                    <a href=\"#\"> <span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                    <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span>, and a pair of curly braces <span class=\"colorBP\">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                    <a href=\"#\"><span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                    <li>Резиновая по ширине (изменяется с Some expressions return a \"logical value\": TRUE or FALSE, изменением окна <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span> браузера или с разрешением экрана)</li>');
 INSERT INTO `lecture_element` VALUES ('1', '16', 'label', '8', '    <a name=\"Частина 7: Типи данних та математичний аналіз\"></a>\r\n    <img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/borderLesson.png\">');
@@ -580,7 +583,7 @@ INSERT INTO `lecture_element` VALUES ('1', '20', 'code', '4', '        <p>$names
 INSERT INTO `lecture_element` VALUES ('1', '21', 'text', '1', '    <p>Змінні в РНР представляються у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і символів.</p>');
 INSERT INTO `lecture_element` VALUES ('1', '22', 'example', '3', '<span class=\"subChapter\">Зразок коду 1:</span>\r\n<pre class=\"prettyprint linenums\">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>');
 INSERT INTO `lecture_element` VALUES ('1', '23', 'example', '3', '    <span class=\"subChapter\"><?php echo Yii::t(\'lecture\',\'Code example\'); ?> 2  </span><span class=\"spoilerLinks\"><span class=\"spoilerClick\">(показати)</span><span class=\"spoilerTriangle\"> &#9660;</span></span>\r\n    <div class=\"spoilerBody\">\r\n<pre class=\"prettyprint linenums\">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>\r\n    </div>');
-INSERT INTO `lecture_element` VALUES ('1', '24', 'video', '2', '<h3><span class=\"subChapter\"><?php echo Yii::t(\'lecture\',\'0083\'); ?> 1.</span></h3>\r\n    <iframe width=\"633\" height=\"390\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
+INSERT INTO `lecture_element` VALUES ('1', '24', 'video', '2', '<h3><span class=\"subChapter\"><?php echo Yii::t(\'lecture\',\'0083\'); ?> 1.</span></h3>\r\n    <iframe width=\"778\" height=\"480\" src=\"https://www.youtube.com/embed/L3Mg6lk6yyA\" frameborder=\"0\" allowfullscreen></iframe>');
 INSERT INTO `lecture_element` VALUES ('1', '25', 'instruction', '7', '<li>On line 7, set <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value\": TRUE or FALSE, text like thise:<span class=\"colorAlert\">You get a 10% discount!</span></li>');
 INSERT INTO `lecture_element` VALUES ('1', '26', 'task', '5', '<li>On line 7, set equal to a number greater than 5. Some expressions return a \"logical value\": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                <a href=\"#\"> <span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span>, and a pair of curly braces <span class=\"colorBP\">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                <a href=\"#\"><span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                <li>Резиновая по ширине (изменяется с Some expressions return a \"logical value\": TRUE or FALSE, изменением окна <span class=\"colorBP\"><span class=\"colorGreen\">$</span>terms</span> браузера или с разрешением экрана)</li>');
 INSERT INTO `lecture_element` VALUES ('1', '27', 'final task', '6', ' <li>On line 7, set equal to a number greater than 5. Some expressions return a \"logical value\": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                <a href=\"#\"> <span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class=\"colorBP\">$terms</span>, and a pair of curly braces <span class=\"colorBP\">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                <a href=\"#\"><span class=\"colorP\"><img src=\"<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png\"> Відповісти</span></a>\r\n                <li>Резиновая по ширине (изменяется с Some expressions return a \"logical value\": TRUE or FALSE, изменением окна <span class=\"colorBP\">$terms</span> браузера или с разрешением экрана)</li>');
@@ -2645,7 +2648,6 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(255) NOT NULL,
   `identity` varchar(255) NOT NULL,
-  `network` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `middleName` varchar(255) DEFAULT NULL,
@@ -2653,7 +2655,7 @@ CREATE TABLE `user` (
   `nickname` varchar(255) DEFAULT NULL,
   `birthday` varchar(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `hash` varchar(20) NOT NULL,
   `address` text,
@@ -2664,24 +2666,29 @@ CREATE TABLE `user` (
   `aboutMy` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT '/avatars/noname.png',
   `role` varchar(255) NOT NULL DEFAULT '0',
+  `network` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `googleplus` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `vkontakte` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'Вова', '', '', '0', '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0');
-INSERT INTO `user` VALUES ('11', 'ivanna@yutr.rtr', '', '', '0', '', null, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0');
-INSERT INTO `user` VALUES ('22', 'tttttt', '', '', '0', '', null, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0');
-INSERT INTO `user` VALUES ('38', '', '', '', '0', '', null, null, null, null, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('39', '', '', '', '0', '', null, null, null, null, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('40', '', '', '', '0', '', null, null, null, null, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('41', '', '', '', '0', '', null, null, null, null, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('42', '', '', '', '0', '', null, null, null, null, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('43', '', '', '', '0', '', null, null, null, null, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('44', 'Vinnytsia', '', '', '0', '', null, 'IT-Academy', null, null, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('45', '', '', '', '0', '', null, null, null, null, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
-INSERT INTO `user` VALUES ('46', 'IT', '', '', '0', '', null, 'Academy', null, null, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Не вибрано', null, null, null, '/avatars/noname.png', '0');
+INSERT INTO `user` VALUES ('1', 'Вова', '', '0', '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragonf@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0', '', 'https://www.facebook.com/pupkin', '', '', 'http://vk.com/id1', '');
+INSERT INTO `user` VALUES ('11', 'ivanna@yutr.rtr', '', '0', '', null, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('22', 'tttttt', '', '0', '', null, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('38', '', '', '0', '', null, null, null, null, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('39', '', '', '0', '', null, null, null, null, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('40', '', '', '0', '', null, null, null, null, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('41', '', '', '0', '', null, null, null, null, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('42', '', '', '0', '', null, null, null, null, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('43', '', '', '0', '', null, null, null, null, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', '', null, null, null, null, null);
+INSERT INTO `user` VALUES ('74', '', '', '0', '', null, '', '', '', 'Wizlightdrn@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/noname.png', '0', null, 'https://www.facebook.com/', 'https://plus.google.com/', 'https://www.linkedin.com/', 'http://vk.com/wizlight', 'https://twitter.com/');
+INSERT INTO `user` VALUES ('99', 'Игорь', '', '0', '', null, 'Баранюк', null, null, 'Wizlight@rambler.ru', null, null, '', null, null, 'Онлайн', null, null, null, '/avatars/noname.png', '0', null, null, null, null, 'http://vk.com/id11724437', null);
 
 -- ----------------------------
 -- Table structure for `videos`
