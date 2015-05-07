@@ -156,7 +156,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         }
             ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton('ОТПРАВІТЬ />', array('id' => "submitEdit")); ?>
+            <?php echo CHtml::submitButton('ВІДПРАВИТИ />', array('id' => "submitEdit")); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');

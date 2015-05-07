@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-06 19:47:16
+-- Date/time:                    2015-05-07 15:18:56
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   KEY `user_id` (`user_id`),
   KEY `when_enter` (`when_enter`),
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table int_ita_db.aa_authorizations: ~54 rows (approximately)
+-- Dumping data for table int_ita_db.aa_authorizations: ~46 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
 INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(1, 2, '2015-03-02 15:33:25', '::1'),
@@ -104,7 +104,9 @@ INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(51, 2, '2015-05-05 23:41:47', '::1'),
 	(52, 2, '2015-05-05 23:41:47', '::1'),
 	(53, 2, '2015-05-06 14:29:21', '::1'),
-	(54, 2, '2015-05-06 14:29:21', '::1');
+	(54, 2, '2015-05-06 14:29:21', '::1'),
+	(55, 2, '2015-05-06 19:24:31', '::1'),
+	(56, 2, '2015-05-06 19:24:31', '::1');
 /*!40000 ALTER TABLE `aa_authorizations` ENABLE KEYS */;
 
 
@@ -272,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~23 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~22 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
 INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
 	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),
@@ -436,7 +438,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT NULL,
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.lectures: ~17 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
@@ -562,7 +564,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', '/css/images/line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', '/css/images/hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', '/css/images/networking.png', '/css/images/formFon.png');
@@ -579,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~711 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~677 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1318,7 +1320,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`),
   CONSTRAINT `FK_module_course` FOREIGN KEY (`course`) REFERENCES `course` (`course_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.module: ~16 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
@@ -1411,7 +1413,7 @@ CREATE TABLE IF NOT EXISTS `response` (
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Responses for taechers';
 
--- Dumping data for table int_ita_db.response: ~7 rows (approximately)
+-- Dumping data for table int_ita_db.response: ~6 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
 	(1, 1, 38, '2014-11-14 00:00:00', 'Только слова благодарности и восхищения таким педагогом и вообще человеком!\r\n                        С Александрой знакома через ее сайт Учитель мистецтва. Столько высококлассных \r\n                        работ я в сети еще не встречала! Она всегда отвечает на просьбы, решает проблемы пользователей. \r\n                        Очень отзывчивый человек. Спасибо Вам! Терпения, удачи и творческого вдохновения на много лет!', 10, '123.44.31.12', 0, 0, 0),
@@ -1433,7 +1435,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~240 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~193 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -1766,7 +1768,7 @@ CREATE TABLE IF NOT EXISTS `teacher_temp` (
   `linkName` varchar(50) NOT NULL,
   `smallImage` varchar(255) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher_temp: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher_temp` DISABLE KEYS */;
@@ -1789,7 +1791,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesen` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesen: ~150 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesen: ~136 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesen` DISABLE KEYS */;
 INSERT INTO `translatedmessagesen` (`id`, `language`, `translation`) VALUES
 	(1, 'en', 'INTITA'),
@@ -1955,7 +1957,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesru` (
   CONSTRAINT `FK_translatedMessagesRU_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.translatedmessagesru: ~150 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesru: ~136 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesru` DISABLE KEYS */;
 INSERT INTO `translatedmessagesru` (`id`, `language`, `translation`) VALUES
 	(1, 'ru', 'INTITA'),
@@ -2121,7 +2123,7 @@ CREATE TABLE IF NOT EXISTS `translatedmessagesua` (
   CONSTRAINT `FK_translatedmessages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COMMENT='Table for translation interface messages (see sourceMessages). UA';
 
--- Dumping data for table int_ita_db.translatedmessagesua: ~150 rows (approximately)
+-- Dumping data for table int_ita_db.translatedmessagesua: ~136 rows (approximately)
 /*!40000 ALTER TABLE `translatedmessagesua` DISABLE KEYS */;
 INSERT INTO `translatedmessagesua` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -2291,7 +2293,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   `nickname` varchar(255) DEFAULT NULL,
   `birthday` varchar(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `googleplus` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `vkontakte` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `hash` varchar(20) NOT NULL,
   `address` text,
@@ -2307,20 +2314,20 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Dumping data for table int_ita_db.user: ~13 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`) VALUES
-	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '911', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', 'Інтернет', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0'),
-	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0'),
-	(22, 'tttttt', '', '', 0, '', NULL, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0'),
-	(38, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(39, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(43, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
-	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', 'Онлайн', '', '', '', '/avatars/5541133ea993f.jpg', '0');
+INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`) VALUES
+	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '/css/images/1id.jpg', '0'),
+	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', '/avatars/ivanna@yutr.rtr.jpg', '0'),
+	(22, 'tttttt', '', '', 0, '', NULL, '', '', '', 'ttttt@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', '/avatars/ttttt@tttt.com.jpg', '0'),
+	(38, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(39, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(43, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', '0'),
+	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', '/avatars/5541133ea993f.jpg', '0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

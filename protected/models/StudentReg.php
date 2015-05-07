@@ -69,7 +69,7 @@ class StudentReg extends CActiveRecord
             array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
             array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),
             array('password', 'authenticate','on'=>'loginuser'),
-            array('password_repeat', 'passdiff','on'=>'edit'),
+            //array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
             array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>'Паролі не співпадають','on'=>'reguser'),
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
