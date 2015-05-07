@@ -270,7 +270,7 @@ class SiteController extends Controller
             $model->attributes=$_POST['StudentReg'];
             // validate user input and redirect to the previous page if valid
             if($model->login())
-                $this->redirect(Yii::app()->request->baseUrl.'/courses');
+                $this->redirect(Yii::app()->request->baseUrl.'/site');
         }
     }
 	/**

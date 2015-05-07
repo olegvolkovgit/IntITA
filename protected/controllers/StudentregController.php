@@ -331,13 +331,16 @@ class StudentRegController extends Controller
             echo CActiveForm::validate($modeltest);
             Yii::app()->end();
         }
-
         $id=Yii::app()->user->id;
         $model=StudentReg::model()->findByPk($id);
-        if(isset($_POST['StudentReg']))
-        {
-            $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
-            $this->redirect(Yii::app()->createUrl('studentreg/profile'));
+        $atr = Yii::app()->request->getPost('StudentReg');
+        $pass = $atr ['password'];
+        if($model->password==sha1($pass)) {
+            if(isset($_POST['StudentReg']))
+            {
+                $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
+                $this->redirect(Yii::app()->createUrl('studentreg/profile'));
+            }
         }
     }
 }

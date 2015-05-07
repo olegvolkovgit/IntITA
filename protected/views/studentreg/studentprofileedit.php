@@ -187,7 +187,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
     <?php $this->endWidget(); ?>
 </div><!-- form -->
 </div>
-<!--SingIn modal-->
+<!--Change modal-->
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'changePasswordDialog',
@@ -204,4 +204,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 $this->renderPartial('/studentreg/_changepassword');
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
-<!--SignIn modal-->
+<!--Change modal-->
