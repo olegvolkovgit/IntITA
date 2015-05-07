@@ -42,7 +42,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php echo Yii::t('profile', '0095'); ?></h2>
+                    <h2><?php $post::getProfileRole($post->id);?></h2>
                 </td>
             </tr>
         </table>
@@ -82,13 +82,19 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>255)); ?>
             <span><?php echo $form->error($model,'education'); ?></span>
         </div>
+        <?php if($post::getRole($post->id)==False){
+        ?>
         <div class="rowRadioButton" id="rowEducForm">
             <?php echo $form->labelEx($model,'educform'); ?>
+
             <div class="radiolabel">
                 <label><input type="checkbox" name="educformOn" checked disabled/>online</label>
                 <label><input type="checkbox" name="educformOff" value="1" <?php echo $post::getEdForm($post->educform)?> />offline</label>
             </div>
         </div>
+        <?php
+        }
+        ?>
         <div class="row">
             <?php echo $form->label($model,'aboutMy'); ?>
             <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy)); ?>

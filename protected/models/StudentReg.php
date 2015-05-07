@@ -417,6 +417,20 @@ class StudentReg extends CActiveRecord
         else $val='';
         return  $val;
     }
+    public static function getRole ($id)
+    {
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
+        if($user)
+            return true;
+        else return false;
+    }
+    public static function getProfileRole ($id)
+    {
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
+        if($user)
+            echo Yii::t('profile', '0241');
+        else  echo Yii::t('profile', '0095');
+    }
     public function validatePassword($password)
     {
         return CPasswordHelper::verifyPassword($password,$this->password);
