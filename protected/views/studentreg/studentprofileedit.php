@@ -108,6 +108,38 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255)); ?>
             <span><?php echo $form->error($model,'email'); ?></span>
         </div>
+<!--        <div class="row">-->
+<!--            --><?php //echo $form->label($model,'network'); ?>
+<!--            --><?php //echo $form->textField($model,'network',array('value'=>$post->network, 'maxlength'=>255)); ?>
+<!--            --><?php //echo $form->error($model,'network'); ?>
+<!--        </div>-->
+        <div class="row">
+            <?php echo $form->label($model,'facebook'); ?>
+            <?php echo $form->textField($model,'facebook',array('placeholder'=>"Ім'я користувача Facebook", 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'facebook'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'googleplus'); ?>
+            <?php echo $form->textField($model,'googleplus',array('placeholder'=>"Ім'я профіля Google+", 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'googleplus'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'linkedin'); ?>
+            <?php echo $form->textField($model,'linkedin',array('placeholder'=>"Id на LinkedIn (наприклад in/username)", 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'profile'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'vkontakte'); ?>
+            <?php echo $form->textField($model,'vkontakte',array('placeholder'=>"Id на Vkontakte", 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'vkontakte'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'twitter'); ?>
+            <?php echo $form->textField($model,'twitter',array('placeholder'=>"Ім'я користувача Twitter", 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'twitter'); ?>
+        </div>
+        <?php if(is_null($post->password)){
+            ?>
         <div class="rowPass">
             <?php echo $form->label($model,'password'); ?>
             <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>255)); ?></span>
@@ -118,8 +150,13 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>255)); ?></span>
             <?php echo $form->error($model,'password_repeat'); ?>
         </div>
+        <?php
+         } else {
+         echo CHtml::link('Змінити пароль', '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;',));
+        }
+            ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton(Yii::t('regexp', '0155'), array('id' => "submitEdit")); ?>
+            <?php echo CHtml::submitButton('ОТПРАВІТЬ />', array('id' => "submitEdit")); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');
@@ -133,7 +170,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                 </td>
             </tr>
         </table>
-        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl.$post->avatar; ?>"/></br>
+        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl.$post->avatar; ?>"/>
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg">
@@ -150,3 +187,21 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
     <?php $this->endWidget(); ?>
 </div><!-- form -->
 </div>
+<!--Change modal-->
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'changePasswordDialog',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('/studentreg/_changepassword');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+<!--Change modal-->

@@ -25,7 +25,7 @@
 </table>
 
 <div id="timeInfo">
-    Ви можете вибрать декілька консультацій.
+    Ви можете вибрати декілька консультацій.
     Використовуйте клавіші <span class="colorP">Ctrl</span> або <span class="colorP">Shift</span>.
 </div>
 

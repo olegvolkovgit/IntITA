@@ -6,6 +6,15 @@
     clear: both;
     overflow: hidden;
 }
+.formStudProf a span.colorP:hover{
+    color: #666666;
+}
+.formStudProf a{
+    color: #4b75a4;
+}
+.formStudProf a:hover,.formStudProf a:active{
+    color: #666666;
+}
 .formStudProf h1 {
     color: #4b75a4;
     margin: 0px;
@@ -16,6 +25,11 @@
 span.colorP {
     position: relative;
     color: #4b75a4;
+}
+span.networkLink {
+    position: relative;
+    color: #4b75a4;
+    margin-left: 10px;
 }
 div.regLinks{
     box-sizing:border-box;

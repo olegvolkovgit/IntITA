@@ -107,6 +107,31 @@ $this->breadcrumbs=array(
             <span><?php echo $form->error($model,'aboutUs'); ?></span>
         </div>
         <div class="row">
+            <?php echo $form->label($model,'facebook'); ?>
+            <?php echo $form->textField($model,'facebook',array('placeholder'=>"Ім'я користувача Facebook",'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'facebook'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'googleplus'); ?>
+            <?php echo $form->textField($model,'googleplus',array('placeholder'=>"Ім'я профіля Google+", 'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'googleplus'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'linkedin'); ?>
+            <?php echo $form->textField($model,'linkedin',array('placeholder'=>"Id на LinkedIn (наприклад in/username)",'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'profile'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'vkontakte'); ?>
+            <?php echo $form->textField($model,'vkontakte',array('placeholder'=>"Id на Vkontakte",'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'vkontakte'); ?>
+        </div>
+        <div class="row">
+            <?php echo $form->label($model,'twitter'); ?>
+            <?php echo $form->textField($model,'twitter',array('placeholder'=>"Ім'я користувача Twitter",'maxlength'=>255)); ?>
+            <?php echo $form->error($model,'twitter'); ?>
+        </div>
+        <div class="row">
             <?php echo $form->labelEx($model,'email'); ?>
             <?php echo $form->textField($model,'email',array('maxlength'=>255)); ?>
             <span><?php echo $form->error($model,'email'); ?></span>
@@ -136,7 +161,7 @@ $this->breadcrumbs=array(
                 </td>
             </tr>
         </table>
-        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/avatars/noname.png"/></br>
+        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/avatars/noname.png"/>
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg/gif">

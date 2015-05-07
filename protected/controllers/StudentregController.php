@@ -32,7 +32,7 @@ class StudentRegController extends Controller
                 'users'=>array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update'),
+                'actions'=>array('create','update','changepass'),
                 'users'=>array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -123,7 +123,6 @@ class StudentRegController extends Controller
 
     public function actionIndex()
     {
-
         $model=new StudentReg('reguser');
         if(isset($_POST['StudentReg']))
         {
@@ -137,6 +136,12 @@ class StudentRegController extends Controller
             $model->attributes=$_POST['StudentReg'];
             if($model->validate())
             {
+                if(!empty($_POST['StudentReg']['facebook'])) $model->facebook='https://www.facebook.com/'.$_POST['StudentReg']['facebook'];
+                if(!empty($_POST['StudentReg']['googleplus'])) $model->googleplus='https://plus.google.com/'.$_POST['StudentReg']['googleplus'];
+                if(!empty($_POST['StudentReg']['linkedin'])) $model->linkedin='https://www.linkedin.com/'.$_POST['StudentReg']['linkedin'];
+                if(!empty($_POST['StudentReg']['vkontakte'])) $model->vkontakte='http://vk.com/'.$_POST['StudentReg']['vkontakte'];
+                if(!empty($_POST['StudentReg']['twitter'])) $model->twitter='https://twitter.com/'.$_POST['StudentReg']['twitter'];
+
                 if ($model->model()->count("email = :email", array(':email' => $model->email)))
                 {
                     // Указанный email уже занят. Создаем ошибку и передаем в форму
@@ -155,8 +160,10 @@ class StudentRegController extends Controller
                         $model->avatar="/avatars/".$_FILES["upload"]["name"];
                     }
                     $model->save();
-                    Yii::app()->user->setFlash('forminfo', 'Ви успішно зареєструвалися. Введіть дані для авторизації');
-                    $this->redirect(Yii::app()->request->baseUrl . '/site#form');
+                    $modellogin = new StudentReg('loginuser');
+                    $modellogin->attributes=$_POST['StudentReg'];
+                    if($modellogin->login())
+                        $this->redirect(Yii::app()->request->baseUrl.'/site');
                 }
             } else {
                 $this->render("studentreg", array('model'=>$model));
@@ -281,6 +288,21 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('interests' => $_POST['StudentReg']['interests']));
             $model->updateByPk($id, array('aboutUs' => $_POST['StudentReg']['aboutUs']));
             $model->updateByPk($id, array('aboutMy' => $_POST['StudentReg']['aboutMy']));
+            if(!empty($_POST['StudentReg']['facebook']))
+                $model->updateByPk($id, array('facebook' => 'https://www.facebook.com/'.$_POST['StudentReg']['facebook']));
+            else  $model->updateByPk($id, array('facebook' => ''));
+            if(!empty($_POST['StudentReg']['googleplus']))
+                $model->updateByPk($id, array('googleplus' => 'https://plus.google.com/'.$_POST['StudentReg']['googleplus']));
+            else  $model->updateByPk($id, array('googleplus' => ''));
+            if(!empty($_POST['StudentReg']['linkedin']))
+                $model->updateByPk($id, array('linkedin' => 'https://www.linkedin.com/'.$_POST['StudentReg']['linkedin']));
+            else  $model->updateByPk($id, array('linkedin' => ''));
+            if(!empty($_POST['StudentReg']['vkontakte']))
+                $model->updateByPk($id, array('vkontakte' => 'http://vk.com/'.$_POST['StudentReg']['vkontakte']));
+            else  $model->updateByPk($id, array('vkontakte' => ''));
+            if(!empty($_POST['StudentReg']['twitter']))
+                $model->updateByPk($id, array('twitter' => 'https://twitter.com/'.$_POST['StudentReg']['twitter']));
+            else  $model->updateByPk($id, array('twitter' => ''));
             if(!empty($_POST['StudentReg']['password'])&& sha1($_POST['StudentReg']['password'])==sha1($_POST['StudentReg']['password_repeat']))
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['password'])));
             if(!empty($_FILES["upload"])) {
@@ -299,6 +321,26 @@ class StudentRegController extends Controller
             $this->redirect(Yii::app()->request->baseUrl . '/studentreg/profile');
         } else {
             $this->render("studentprofileedit", array('model'=>$model));
+        }
+    }
+    public function actionChangepass()
+    {
+        $modeltest = new StudentReg('changepass');
+        if(isset($_POST['ajax']) && $_POST['ajax']==='change-form')
+        {
+            echo CActiveForm::validate($modeltest);
+            Yii::app()->end();
+        }
+        $id=Yii::app()->user->id;
+        $model=StudentReg::model()->findByPk($id);
+        $atr = Yii::app()->request->getPost('StudentReg');
+        $pass = $atr ['password'];
+        if($model->password==sha1($pass)) {
+            if(isset($_POST['StudentReg']))
+            {
+                $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
+                $this->redirect(Yii::app()->createUrl('studentreg/profile'));
+            }
         }
     }
 }
