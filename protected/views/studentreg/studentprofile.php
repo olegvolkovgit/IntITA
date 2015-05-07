@@ -85,10 +85,10 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <input id="tab6" type="radio" name="tabs">
             <label class="tabsDown1" for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
             <input id="tab7" type="radio" name="tabs">
-            <label for="tab7" title="<?php echo Yii::t('profile', '0114'); ?>"><?php echo Yii::t('profile', '0114'); ?></label>
-            <input id="tab8" type="radio" name="tabs">
-            <label class="tabsDown" for="tab8" title="<?php echo Yii::t('profile', '0115'); ?>"><?php echo Yii::t('profile', '0115'); ?></label>
-            <input id="tab9" type="radio" name="tabs">
+<!--            <label for="tab7" title="--><?php //echo Yii::t('profile', '0114'); ?><!--">--><?php //echo Yii::t('profile', '0114'); ?><!--</label>-->
+<!--            <input id="tab8" type="radio" name="tabs">-->
+<!--            <label class="tabsDown" for="tab8" title="--><?php //echo Yii::t('profile', '0115'); ?><!--">--><?php //echo Yii::t('profile', '0115'); ?><!--</label>-->
+<!--            <input id="tab9" type="radio" name="tabs">-->
             <label class="tabsDown" for="tab9" title="<?php echo Yii::t('profile', '0116'); ?>"><?php echo Yii::t('profile', '0116'); ?></label>
             <input id="tab10" type="radio" name="tabs">
             <label class="tabsDown" style="background-image:url(<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeico.png);background-repeat: no-repeat;background-position:10px 3px;" for="tab10" title="<?php echo Yii::t('profile', '0117'); ?>"><?php echo Yii::t('profile', '0117'); ?></label>
@@ -114,9 +114,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <section id="myDownload">
                 <?php $this->renderPartial('_myDownload'); ?>
             </section>
-            <section id="mylettersSend">
-                <?php $this->renderPartial('_mylettersSend'); ?>
-            </section>
+<!--            <section id="mylettersSend">-->
+<!--                --><?php //$this->renderPartial('_mylettersSend'); ?>
+<!--            </section>-->
             <section id="myMark">
                 <?php $this->renderPartial('_myMark'); ?>
             </section>

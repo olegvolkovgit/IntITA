@@ -43,7 +43,6 @@ img.time{
     padding-left: 0;
     vertical-align: top;
 }
-
 .titleColumn{
 
 }
@@ -149,7 +148,6 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     width: 25px;
     height: 25px;
 }
-
 #submitButton, #cancelButton{
     height: 33px;
     width: 100px;
@@ -182,7 +180,6 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     width: 20px;
     height: 20px;
 }
-
 body .grid-view table.items td{
     font-size: 16px;
     background-color: white;
@@ -205,6 +202,14 @@ body .grid-view table.items td.titleColumn{
     background-color: white;
     padding-left: 0px;
     float:left;
+}
+
+.grid-view table.items tr.odd,.grid-view table.items tr.even{
+    background: #ffffff;
+}
+
+.grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
+    background: #ffffff;
 }
 
 
