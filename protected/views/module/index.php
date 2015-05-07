@@ -68,48 +68,14 @@ $this->breadcrumbs=array(
                     </td>
                 </tr>
             </table>
-            <table>
-                <tr>
-                    <td style="padding-left: 110px;">
-                        <div id="enter_button_2" href="#" ><?php echo "Почати модуль"; ?></div>
-                    </td>
-                    <td style="padding-left: 100px;">
-                        <div id="enter_button_2" href="#" ><?php echo "Почати курс"; ?></div>
-                    </td>
-                </tr>
-            </table>
             <?php $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post));?>
         </div>
     </div>
 
     <div class="rightModule">
-        <?php
-        for ($i = 0; $i < count($teachers); $i++) {
-            ?>
-            <div class="teacherBox">
-                <table>
-                    <tr>
-                        <td class="teacherBoxLeft">
-                            <img  src="<?php echo Yii::app()->request->baseUrl.$teachers[$i]->foto_url; ?>"/>
-                            <a href="<?php echo Yii::app()->request->baseUrl.$teachers[$i]->readMoreLink; ?>"><?php echo Yii::t('module', '0228'); ?> &#187;</a>
-                        </td>
-                        <td  class="teacherBoxRight" ">
-                        <h2><?php echo Yii::t('module', '0227'); ?></h2>
-                        <div style="line-height: 1.2;">
-                            <?php echo $teachers[$i]->last_name." ".$teachers[$i]->first_name;?>
-                            <br>
-                            <?php echo $teachers[$i]->email;?>
-                            <?php echo $teachers[$i]->tel;?>
-                            <?php echo $teachers[$i]->skype;?>
-                        </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        <?php
-        }
-        ?>
+         <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>
     </div>
+
 </div>
 
 
