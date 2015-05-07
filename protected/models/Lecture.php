@@ -147,17 +147,17 @@ class Lecture extends CActiveRecord
     }
 
     function getPreId(){
-        return Lecture::model()->findByPk($this->id-1)->id;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->id;
     }
 
     function getPreName()
     {
-        return Lecture::model()->findByPk($this->id-1)->title;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->title;
     }
 
     function getPreType()
     {
-        $typeId = Lecture::model()->findByPk($this->id-1)->idType;
+        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1))->idType;
         $type = Lecturetype::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
@@ -167,7 +167,7 @@ class Lecture extends CActiveRecord
 
     function getPreDur()
     {
-        return Lecture::model()->findByPk($this->id-1)->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPreRait()
@@ -182,12 +182,12 @@ class Lecture extends CActiveRecord
 
      function getPostName()
     {
-        return Lecture::model()->findByPk($this->id+1)->title;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->title;
     }
 
     function getPostType()
     {
-        $typeId = Lecture::model()->findByPk($this->id+1)->idType;
+        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1))->idType;
         $type = Lecturetype::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
@@ -197,7 +197,7 @@ class Lecture extends CActiveRecord
 
     function getPostDur()
     {
-        return Lecture::model()->findByPk($this->id+1)->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPostRait()
@@ -211,7 +211,7 @@ class Lecture extends CActiveRecord
     }
 
     function getPostId(){
-        return Lecture::model()->findByPk($this->id+1)->id;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->id;
     }
 
     public function getModuleInfoById(){

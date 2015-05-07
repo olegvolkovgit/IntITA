@@ -83,7 +83,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <label for="tab5" title="<?php echo Yii::t('profile', '0112'); ?>"><?php echo Yii::t('profile', '0112'); ?></label>
             <div class="lineUnderTab"></div>
             <input id="tab6" type="radio" name="tabs">
-            <label class="tabsDown1" for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
+            <label  for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
             <input id="tab7" type="radio" name="tabs">
 <!--            <label for="tab7" title="--><?php //echo Yii::t('profile', '0114'); ?><!--">--><?php //echo Yii::t('profile', '0114'); ?><!--</label>-->
 <!--            <input id="tab8" type="radio" name="tabs">-->
@@ -111,9 +111,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <section id="myRatting">
                 <?php $this->renderPartial('_myRatting'); ?>
             </section>
-            <section id="myDownload">
-                <?php $this->renderPartial('_myDownload'); ?>
-            </section>
+<!--            <section id="myDownload">-->
+<!--                --><?php //$this->renderPartial('_myDownload'); ?>
+<!--            </section>-->
 <!--            <section id="mylettersSend">-->
 <!--                --><?php //$this->renderPartial('_mylettersSend'); ?>
 <!--            </section>-->

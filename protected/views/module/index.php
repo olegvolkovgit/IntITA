@@ -68,6 +68,16 @@ $this->breadcrumbs=array(
                     </td>
                 </tr>
             </table>
+            <table>
+                <tr>
+                    <td style="padding-left: 110px;">
+                        <div id="enter_button_2" href="#" ><?php echo "Почати модуль"; ?></div>
+                    </td>
+                    <td style="padding-left: 100px;">
+                        <div id="enter_button_2" href="#" ><?php echo "Почати курс"; ?></div>
+                    </td>
+                </tr>
+            </table>
             <?php $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post));?>
         </div>
     </div>

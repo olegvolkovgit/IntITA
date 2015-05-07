@@ -139,7 +139,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. ";?> </span>
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
                             </div>
-                                <!--Оцінка курсу-->
+                                <br><!--Оцінка курсу-->
                             <div class='starLevelIndex'>
                                 <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
@@ -284,6 +284,7 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <span id="coursePriceStatus2"> <?php echo " 16500.00 грн. "; ?> </span>
                                 <?php echo " (".Yii::t('courses', '0144')." - 25%)"; ?>
                             </div>
+                            <br>
                             <div class='starLevelIndex'>
                                 <br>
                                 <?php echo Yii::t('courses', '0145'); ?>
