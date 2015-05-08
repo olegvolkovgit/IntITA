@@ -108,29 +108,11 @@ $arrayCourseText=array(
                     <?php echo Yii::t('teachers', '0061'); ?>
 
                     <?php
-//                    if ($editMode) {
-//                        $currentDiv = 'TeacherProfilecourse';
-//                        $this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 4));
-//                    }
+                    $this->renderPartial('_courses', array('courses' => $coursesID, 'titles' => $titles));
                     ?>
-                    <div class="TeacherProfilecourse">
-                        <?php
-                        foreach ($arrayCourseText as $linkText => $linkAdress) {
-                            ?>
-                            <p><a href="<?php echo $linkAdress; ?>">
-                                <?php echo $linkText; ?>
-                            </a></p>
-
-                        <?php
-                        }
-                        ?>
-                    </div>
 
                     <?php
                     if ($editMode) {
-                                            $currentDiv = 'txtMsgSecond';
-                        //$this->renderPartial('_editorToolbar', array('div' => $currentDiv, 'order' => 5));
-
                     ?>
                     <div class="imperaviSimple" id="5">
                         <!--start toolbar for wysiwyg-->
@@ -138,17 +120,17 @@ $arrayCourseText=array(
                             <div class="wrapper-imperaviSemple" style="border: solid 0px black; display: inline-block; float: left;"></div>
                             <div class="btn-edit-ImperaviSimple" id="editIcon2"
                                  style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                                 onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'editIcon2', 'cancelIcon2', 'saveIcon2');" <?$field = '.redactor'?>
+                                 onclick="pressEditRedactor('.txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');" <?$field = '.redactor'?>
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" class="icons" >
                         </div>
                         <div class="btn-cancel-ImperaviSimple"  id="cancelIcon2"
                              style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'editIcon2', 'cancelIcon2', 'saveIcon2')">
+                             onclick="pressCancelRedactor('.txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2')">
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" class="icons">
                         </div>
                         <div class="btn-save-ImperaviSimple" id="saveIcon2"
                              style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
-                             onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');">
+                             onclick="pressSaveRedactor('.txtMsgSecond', 'txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');">
                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" class="icons" >
                         </div>
                     </div><?php

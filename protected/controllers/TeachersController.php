@@ -125,8 +125,13 @@ class TeachersController extends Controller
 	{
 		$dataProvider=new CActiveDataProvider('TeachersTemp');
 
+        $coursesID = $this->getCourses();
+        $titles = $this->getTitles($coursesID);
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+            'coursesID' => $coursesID,
+            'titles' => $titles,
 		));
 	}
 
@@ -197,5 +202,26 @@ class TeachersController extends Controller
             }
             header('Location: '.$_SERVER['HTTP_REFERER']);
         }
+    }
+
+    public function getCourses(){
+        //$modules = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => $this->idTeacher));
+        $modules =[1,3, 7, 10];
+        $criteria = new CDbCriteria();
+        $criteria->select = 'course';
+        $criteria->distinct = true;
+        $criteria->addInCondition('course', $modules);
+        $criteria->toArray();
+        $courses = Module::model()->findAll($criteria);
+
+        return $courses;
+    }
+
+    public function getTitles($courses){
+        $titles =[];
+        for($i = 0; $i < count($courses); $i++ ){
+            $titles[$i]['title'] = Course::model()->findByPk($courses[$i]["course"])->course_name;
+        }
+        return $titles;
     }
 }

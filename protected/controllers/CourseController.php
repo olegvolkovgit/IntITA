@@ -123,6 +123,7 @@ class CourseController extends Controller
 	public function actionIndex($id)
 	{
         $model = Course::model()->findByPk($id);
+        $courses = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => 1));
 
 		$this->render('index',array(
 			'model'=>$model,

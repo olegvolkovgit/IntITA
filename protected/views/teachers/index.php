@@ -49,11 +49,11 @@ $post=Teacher::model()->findAll();
                                 <div class="teacherCourses">
                                     <ul>
                                         <?php
-                                        $coursesArray=explode(";", $teacherValue->subjects);
-                                        for ($j = 0; $j < count($coursesArray); $j++)
+                                        //$coursesArray=explode(";", $teacherValue->subjects);
+                                        for ($j = 0; $j < count($coursesID); $j++)
                                         {
                                             ?>
-                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesID[$j]['course']));?>"><?php echo $titles[$j]['title']; ?></a></li>
                                         <?php
                                         }
                                         ?>
@@ -147,11 +147,11 @@ $post=Teacher::model()->findAll();
                                 <div class="teacherCourses">
                                     <ul>
                                         <?php
-                                        $coursesArray=explode(";", $teacherValue->subjects);
-                                        for ($j = 0; $j < count($coursesArray); $j++)
+                                        //$coursesArray=explode(";", $teacherValue->subjects);
+                                        for ($j = 0; $j < count($coursesID); $j++)
                                         {
                                             ?>
-                                            <li><a href="<?php echo Yii::app()->request->baseUrl;?>/course"><?php echo $coursesArray[$j].";";?></a></li>
+                                            <li><a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesID[$j]['course']));?>"><?php echo $titles[$j]['title']; ?></a></li>
                                         <?php
                                         }
                                         ?>
