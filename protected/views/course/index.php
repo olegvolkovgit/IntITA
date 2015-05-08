@@ -355,7 +355,7 @@ $this->breadcrumbs=array(
         </article>
     </div>
 
-        <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider));?>
-
+        <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' =>$canEdit, 'model'=>$model));?>
 </div>
+
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>

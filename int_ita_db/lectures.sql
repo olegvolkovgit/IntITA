@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-08 18:15:24
+-- Date/time:                    2015-05-09 02:06:50
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT NULL,
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.lectures: ~20 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~26 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`) VALUES
 	(1, '/css/images/lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '2'),
@@ -35,20 +35,26 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(5, '/css/images/lectureImage.png', 'lecture4', 'ua', 1, 4, 'Функції в PHP', 1, 60, '2'),
 	(14, '/css/images/lectureImage.png', 'lecture5', 'ua', 1, 5, 'Об\'єкти і класи PHP', 1, 60, '2'),
 	(15, '/css/images/lectureImage.png', 'lecture6', 'ua', 1, 6, 'Робота з масивами даних', 1, 60, '2'),
-	(16, '/css/images/lectureImage.png', 'lecture7', 'ua', 1, 7, 'Робота з стрічками', 1, 60, '2'),
-	(17, '/css/images/lectureImage.png', 'lecture8', 'ua', 1, 8, 'Робота з файловою системою', 1, 60, '2'),
-	(18, '/css/images/lectureImage.png', 'lecture9', 'ua', 1, 9, 'Бази даних і СУБД. Введення в SQL', 1, 60, '2'),
-	(19, '/css/images/lectureImage.png', 'lecture10', 'ua', 1, 10, 'Взаємодія PHP і MySQL', 1, 60, '2'),
-	(20, '/css/images/lectureImage.png', 'lecture11', 'ua', 1, 11, 'Авторизація доступу з допомогою сесій', 1, 60, '2'),
-	(21, '/css/images/lectureImage.png', 'lecture12', 'ua', 1, 12, 'Регулярні вирази', 1, 60, '2'),
+	(16, '/css/images/lectureImage.png', 'lecture7', 'ua', 0, 0, 'Робота з стрічками', 1, 60, '2'),
+	(17, '/css/images/lectureImage.png', 'lecture8', 'ua', 1, 7, 'Робота з файловою системою', 1, 60, '2'),
+	(18, '/css/images/lectureImage.png', 'lecture9', 'ua', 1, 8, 'Бази даних і СУБД. Введення в SQL', 1, 60, '2'),
+	(19, '/css/images/lectureImage.png', 'lecture10', 'ua', 1, 9, 'Взаємодія PHP і MySQL', 1, 60, '2'),
+	(20, '/css/images/lectureImage.png', 'lecture11', 'ua', 1, 10, 'Авторизація доступу з допомогою сесій', 1, 60, '2'),
+	(21, '/css/images/lectureImage.png', 'lecture12', 'ua', 1, 11, 'Регулярні вирази', 1, 60, '2'),
 	(22, '/css/images/lectureImage.png', 'lecture1', 'ua', 2, 1, 'Взаємодія PHP і XML', 1, 60, '2'),
 	(23, '/css/images/lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2'),
 	(24, '/css/images/lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '2'),
-	(26, '/css/images/lectureImage.png', 'lecture14', 'ua', 1, 13, 'Фреймворк Yii', 1, 60, '2'),
+	(26, '/css/images/lectureImage.png', 'lecture14', 'ua', 1, 12, 'Фреймворк Yii', 1, 60, '2'),
 	(27, '/css/images/lectureImage.png', 'lecture15', 'ua', 1, 14, 'Фреймворк Lavarel', 1, 60, '2'),
 	(28, NULL, 'lecture15', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
 	(29, NULL, 'lecture16', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
-	(30, NULL, 'lecture15', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL);
+	(30, NULL, 'lecture15', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(31, NULL, 'lecture15', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
+	(32, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(33, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(34, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(35, NULL, 'lecture17', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
+	(36, NULL, 'lecture18', 'ua', 0, 0, 'Висновки', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

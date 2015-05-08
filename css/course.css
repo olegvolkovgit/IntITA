@@ -255,6 +255,16 @@ p.subCourseInfo, p.courseAboutTeacher{
     white-space: nowrap
 }
 /*modules*/
-td{
-
+#addModuleButton{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    display: none;
+}
+#newModuleName{
+    height: 25px;
+    width: 500px;
+}
+#moduleForm{
+    display: none;
 }

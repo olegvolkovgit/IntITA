@@ -17,7 +17,6 @@
  *
  * The followings are the available model relations:
  * @property Modules[] $modules
- * @property Studentsaccess[] $studentsaccesses
  */
 class Course extends CActiveRecord
 {
@@ -59,7 +58,6 @@ class Course extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-			'studentsaccesses' => array(self::HAS_MANY, 'Studentsaccess', 'courseID'),
 		);
 	}
 

@@ -19,7 +19,7 @@ if (isset($_POST['id'])) {
     }
 
     echo '<br><br>Your profile is successfully updated!<br>
-    Return to <a href="'.Yii::app()->createUrl('profile/index', array('id' => $_POST['id'])).'">your</a> profile.';
+    Return to <a href="'.Yii::app()->createUrl('profile/index', array('idTeacher' => $_POST['id'])).'">your</a> profile.';
 
     }
     else {

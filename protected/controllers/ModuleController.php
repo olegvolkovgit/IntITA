@@ -180,7 +180,27 @@ class ModuleController extends Controller
 	}
 
     public  function actionSaveLesson(){
-        $this->render('saveLesson');
+        Lecture::model()->addNewLesson($_POST['idModule'], $_POST['newLectureName'], $_POST['order'], $_POST['lang']);
+        Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
+        Yii::app()->user->setFlash('newLecture','Нова лекція №'.$_POST['order'].$_POST['newLectureName'] .'додана до цього модуля');
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+
+        $this->actionIndex($_POST['idModule']);
+        //$this->render('saveLesson');
+    }
+
+    public  function actionSaveModule(){
+        Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['order'], $_POST['lang']);
+        Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$_POST['order']));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+
+        $this->actionIndex($_POST['idModule']);
+        //$this->render('saveLesson');
     }
 
     public function actionUnableLesson(){
