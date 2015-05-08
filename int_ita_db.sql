@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2015-05-08 13:50:01
+Date: 2015-05-08 20:18:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -603,7 +603,7 @@ INSERT INTO `messages` VALUES ('9', 'ua', 'Реєстрація в один кл
 INSERT INTO `messages` VALUES ('10', 'ua', 'Введіть дані в форму нижче');
 INSERT INTO `messages` VALUES ('11', 'ua', 'розширена реєстрація');
 INSERT INTO `messages` VALUES ('12', 'ua', 'Зареєструватись через соцмережі');
-INSERT INTO `messages` VALUES ('13', 'ua', 'ПОЧАТИ');
+INSERT INTO `messages` VALUES ('13', 'ua', 'ПОЧАТИ />');
 INSERT INTO `messages` VALUES ('14', 'ua', 'Електронна пошта');
 INSERT INTO `messages` VALUES ('15', 'ua', 'Пароль');
 INSERT INTO `messages` VALUES ('16', 'ua', 'Курси');
@@ -683,7 +683,7 @@ INSERT INTO `messages` VALUES ('89', 'ua', 'Відповісти');
 INSERT INTO `messages` VALUES ('90', 'ua', 'Підсумкове завдання');
 INSERT INTO `messages` VALUES ('91', 'ua', 'Ви можете також увійти через соцмережі:');
 INSERT INTO `messages` VALUES ('92', 'ua', 'Забули пароль?');
-INSERT INTO `messages` VALUES ('93', 'ua', 'ВВІЙТИ');
+INSERT INTO `messages` VALUES ('93', 'ua', 'ВВІЙТИ />');
 INSERT INTO `messages` VALUES ('94', 'ua', 'Стан курсу: ');
 INSERT INTO `messages` VALUES ('95', 'ua', 'Профіль студента');
 INSERT INTO `messages` VALUES ('96', 'ua', 'Редагувати </br> профіль');
@@ -752,7 +752,7 @@ INSERT INTO `messages` VALUES ('9', 'en', 'Ready to get started?');
 INSERT INTO `messages` VALUES ('10', 'en', 'Enter data into the form below');
 INSERT INTO `messages` VALUES ('11', 'en', 'extended registration');
 INSERT INTO `messages` VALUES ('12', 'en', 'You can also register by social networks:');
-INSERT INTO `messages` VALUES ('13', 'en', 'START');
+INSERT INTO `messages` VALUES ('13', 'en', 'START />');
 INSERT INTO `messages` VALUES ('14', 'en', 'Email');
 INSERT INTO `messages` VALUES ('15', 'en', 'password');
 INSERT INTO `messages` VALUES ('16', 'en', 'Courses');
@@ -832,7 +832,7 @@ INSERT INTO `messages` VALUES ('89', 'en', 'Reply');
 INSERT INTO `messages` VALUES ('90', 'en', 'Final task');
 INSERT INTO `messages` VALUES ('91', 'en', 'You can also enter by social networks:');
 INSERT INTO `messages` VALUES ('92', 'en', 'Forget password?');
-INSERT INTO `messages` VALUES ('93', 'en', 'SIGN IN');
+INSERT INTO `messages` VALUES ('93', 'en', 'SIGN IN />');
 INSERT INTO `messages` VALUES ('94', 'en', 'Status:');
 INSERT INTO `messages` VALUES ('95', 'en', 'Student Profile');
 INSERT INTO `messages` VALUES ('96', 'en', 'Edit </br> profile');
@@ -901,7 +901,7 @@ INSERT INTO `messages` VALUES ('9', 'ru', 'Готовы начать?');
 INSERT INTO `messages` VALUES ('10', 'ru', 'Введите данные в форму ниже');
 INSERT INTO `messages` VALUES ('11', 'ru', 'расширенная регистрация');
 INSERT INTO `messages` VALUES ('12', 'ru', 'Вы также можете зарегистрироваться с помощью соцсетей:');
-INSERT INTO `messages` VALUES ('13', 'ru', 'НАЧАТЬ');
+INSERT INTO `messages` VALUES ('13', 'ru', 'НАЧАТЬ />');
 INSERT INTO `messages` VALUES ('14', 'ru', 'Электронная почта');
 INSERT INTO `messages` VALUES ('15', 'ru', 'Пароль');
 INSERT INTO `messages` VALUES ('16', 'ru', 'Курсы');
@@ -981,7 +981,7 @@ INSERT INTO `messages` VALUES ('89', 'ru', 'Ответить');
 INSERT INTO `messages` VALUES ('90', 'ru', 'Итоговое задание');
 INSERT INTO `messages` VALUES ('91', 'ru', 'Вы также можете ввойти с помощью соцсетей:');
 INSERT INTO `messages` VALUES ('92', 'ru', 'Забыли пароль?');
-INSERT INTO `messages` VALUES ('93', 'ru', 'ВОЙТИ');
+INSERT INTO `messages` VALUES ('93', 'ru', 'ВОЙТИ />');
 INSERT INTO `messages` VALUES ('94', 'ru', 'Статус курса: ');
 INSERT INTO `messages` VALUES ('95', 'ru', 'Профиль студента');
 INSERT INTO `messages` VALUES ('96', 'ru', 'Редактировать </br> профиль');
@@ -1368,6 +1368,18 @@ INSERT INTO `messages` VALUES ('263', 'en', 'Current password');
 INSERT INTO `messages` VALUES ('266', 'ua', 'Забули пароль?');
 INSERT INTO `messages` VALUES ('266', 'ru', 'Забыли пароль?');
 INSERT INTO `messages` VALUES ('266', 'en', 'Forgot your password?');
+INSERT INTO `messages` VALUES ('268', 'ua', 'Будь ласка заповніть поле');
+INSERT INTO `messages` VALUES ('268', 'ru', 'Пожалуйста заполните поле');
+INSERT INTO `messages` VALUES ('268', 'en', 'Please fill out the field');
+INSERT INTO `messages` VALUES ('269', 'ua', 'Паролі не співпадають');
+INSERT INTO `messages` VALUES ('269', 'ru', 'Пароли не совпадают');
+INSERT INTO `messages` VALUES ('269', 'en', 'Passwords do not match');
+INSERT INTO `messages` VALUES ('273', 'ua', 'Невірна електронна пошта або пароль');
+INSERT INTO `messages` VALUES ('273', 'ru', 'Неверная электронная почта или пароль');
+INSERT INTO `messages` VALUES ('273', 'en', 'Incorrect email or password');
+INSERT INTO `messages` VALUES ('274', 'ua', 'Невірний пароль');
+INSERT INTO `messages` VALUES ('274', 'ru', 'Неверный пароль');
+INSERT INTO `messages` VALUES ('274', 'en', 'Invalid password');
 INSERT INTO `messages` VALUES ('267', 'ua', 'ЗБЕРЕГТИ />');
 INSERT INTO `messages` VALUES ('267', 'ru', 'СОХРАНИТЬ />');
 INSERT INTO `messages` VALUES ('267', 'en', 'SAVE />');
@@ -1383,6 +1395,15 @@ INSERT INTO `messages` VALUES ('242', 'en', 'Email');
 INSERT INTO `messages` VALUES ('243', 'ua', 'Ім\'я користувача Facebook');
 INSERT INTO `messages` VALUES ('243', 'ru', 'Имя пользователя Facebook');
 INSERT INTO `messages` VALUES ('246', 'en', 'Username or Id Vkontakte');
+INSERT INTO `messages` VALUES ('270', 'ua', 'не може бути пустою');
+INSERT INTO `messages` VALUES ('270', 'ru', 'не может быть пустым');
+INSERT INTO `messages` VALUES ('270', 'en', 'can not be empty');
+INSERT INTO `messages` VALUES ('271', 'ua', 'Електронна пошта не являється правильною');
+INSERT INTO `messages` VALUES ('271', 'ru', 'Электронная почта не является правильной');
+INSERT INTO `messages` VALUES ('271', 'en', 'Email is incorrect');
+INSERT INTO `messages` VALUES ('272', 'ua', 'Електронна пошта уже зайнята');
+INSERT INTO `messages` VALUES ('272', 'ru', 'Электронная почта уже занята');
+INSERT INTO `messages` VALUES ('272', 'en', 'Email already occupied');
 
 -- ----------------------------
 -- Table structure for `module`
@@ -1521,7 +1542,7 @@ CREATE TABLE `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=294 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
 -- ----------------------------
 -- Records of sourcemessages
@@ -1793,6 +1814,17 @@ INSERT INTO `sourcemessages` VALUES ('264', 'regexp', '0264');
 INSERT INTO `sourcemessages` VALUES ('265', 'regexp', '0265');
 INSERT INTO `sourcemessages` VALUES ('266', 'regexp', '0266');
 INSERT INTO `sourcemessages` VALUES ('267', 'regexp', '0267');
+INSERT INTO `sourcemessages` VALUES ('268', 'error', '0268');
+INSERT INTO `sourcemessages` VALUES ('269', 'error', '0269');
+INSERT INTO `sourcemessages` VALUES ('270', 'error', '0270');
+INSERT INTO `sourcemessages` VALUES ('271', 'error', '0271');
+INSERT INTO `sourcemessages` VALUES ('272', 'error', '0272');
+INSERT INTO `sourcemessages` VALUES ('273', 'error', '0273');
+INSERT INTO `sourcemessages` VALUES ('274', 'error', '0274');
+INSERT INTO `sourcemessages` VALUES ('275', 'error', '0275');
+INSERT INTO `sourcemessages` VALUES ('276', 'error', '0276');
+INSERT INTO `sourcemessages` VALUES ('277', 'error', '0277');
+INSERT INTO `sourcemessages` VALUES ('278', 'error', '0278');
 
 -- ----------------------------
 -- Table structure for `step`

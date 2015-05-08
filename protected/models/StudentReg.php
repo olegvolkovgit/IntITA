@@ -60,18 +60,18 @@ class StudentReg extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('email, password, password_repeat', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'reguser'),
-            array('password, new_password_repeat, new_password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'changepass'),
-            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>'Паролі не співпадають','on'=>'changepass'),
+            array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
+            array('password, new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'changepass'),
+            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'changepass'),
             array('password', 'authenticatePass', 'on'=>'changepass'),
-            array('email', 'required', 'message'=>'{attribute} не може бути пустим.','on'=>'edit'),
-            array('email, password', 'required', 'message'=>'Будь ласка введіть {attribute}.','on'=>'repidreg,loginuser'),
-            array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),
+            array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
+            array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
+            array('email', 'email', 'message'=>Yii::t('error','0271')),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'repidreg,reguser,edit'),
             array('password', 'authenticate','on'=>'loginuser'),
             array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
-            array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>'Паролі не співпадають','on'=>'reguser'),
+            array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'reguser'),
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
@@ -86,13 +86,13 @@ class StudentReg extends CActiveRecord
     {
         $this->_identity=new UserIdentity($this->email,$this->password);
         if(!$this->_identity->authenticate())
-            $this->addError('password',"Невірний email або пароль.");
+            $this->addError('password',Yii::t('error','0273'));
     }
     public function authenticatePass()
     {
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         if(sha1($this->password)!==$model->password)
-            $this->addError('password',"Невірний пароль.");
+            $this->addError('password',Yii::t('error','0274'));
     }
     public function passdiff()
     {
@@ -102,7 +102,7 @@ class StudentReg extends CActiveRecord
         }
         if (isset($this->password) || isset($this->password_repeat)){
         if($this->password!==$this->password_repeat)
-            $this->addError('password','Паролі не співпадають');
+            $this->addError('password',Yii::t('error','0268'));
         }
     }
     /**
