@@ -21,6 +21,7 @@
 <!--Sidebar-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <?php
 /* @var $this LessonController */
 
@@ -40,73 +41,6 @@ $this->breadcrumbs=array(
     <div class="lessonText">
 
 
-        <!--start new block imperavi redactor-->
-        <div class="imperaviSimple">
-            <!--start toolbar for wysiwyg-->
-            <div class="btns-imperaviSimple" style="width: 100%; height: 30px; border: solid 0px black; margin-bottom: 10px;">
-                <div class="wrapper-imperaviSemple" style="width: 85%; height: 100%; border: solid 0px black; display: inline-block; float: left;"></div>
-                <div class="btn-edit-ImperaviSimple"
-                     style="width: 5%; height: 100%; border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
-                     onclick="pressEditRedactor('.redactor');" <?$field = '.redactor'?>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/edt_30px.png" width="26px" height="20px">
-                </div>
-                <div class="btn-cancel-ImperaviSimple"
-                     style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                     onclick="pressCancelRedactor('.redactor')">
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/cls_30px.png" width="20px" height="20px">
-                </div>
-                <div class="btn-save-ImperaviSimple"
-                     style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-top: 3px; cursor: pointer; display: none;"
-                     onclick="pressSaveRedactor('.redactor');">
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/sv_30px.png" width="20px" height="20px">
-                </div>
-            </div>
-            <!--end toolbar for wysiwyg-->
-
-            <script type="text/javascript">
-                function pressEditRedactor(className)
-                {
-                    var selector = className;
-                    $(selector).redactor({
-                        focus: true
-                    });
-                    $('.btn-edit-ImperaviSimple').hide();
-                    $('.btn-save-ImperaviSimple').show();
-                    $('.btn-cancel-ImperaviSimple').show();
-                }
-
-                function pressCancelRedactor(className)
-                {
-                    var selector = className;
-                    $(selector).redactor('core.destroy');
-                    $('.btn-edit-ImperaviSimple').show();
-                    $('.btn-save-ImperaviSimple').hide();
-                    $('.btn-cancel-ImperaviSimple').hide();
-                }
-
-                function pressSaveRedactor(className)
-                {
-                    var selector = className;
-                    // save content if you need
-                    var text = $(selector).redactor('code.get');
-
-                    // destroy editor
-                    $(selector).redactor('core.destroy');
-                    $('.btn-edit-ImperaviSimple').show();
-                    $('.btn-save-ImperaviSimple').hide();
-                    $('.btn-cancel-ImperaviSimple').hide();
-                }
-            </script>
-
-            <!--start include wysiwyg-->
-
-            <div class="redactor">
-
-            </div>
-            <!--end include wysiwyg-->
-        </div>
-        <!--end new block imperavi redactor-->
-	
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
@@ -125,55 +59,90 @@ $this->breadcrumbs=array(
             'pagerCssClass'=>'YiiPager',
         ));
         ?>
-<table ><tr><td>
-        <div class="download" id="do4">  <a  href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-yrok.png">Завантажити урок</a></div>
-            </td><td>
-            <div class="download" id="do3"> <a href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>
-            </td><td>
-                <div class="download" id="do1">  <a href="#"><img style="" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>
-</td></tr></table>
-</div>
+<!--<table ><tr><td>-->
+<!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
+<!--            </td><td>-->
+<!--            <div class="download" id="do3"> <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>-->
+<!--            </td><td>-->
+<!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
+<!--</td></tr></table>-->
+<!--</div>-->
 
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 <!--modal task -->
 <?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id' => 'mydialog2',
-    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-    'cssFile'=>'jquery-ui2.css',
-    'theme'=>'my',
-    'options' => array(
-        'width'=>540,
-        'autoOpen' => false,
-        'modal' => true,
-        'resizable'=> false,
-    ),
-));
-$this->renderPartial('/lesson/_modalTask');
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-?>
-<!--modal task ---congratulations-->
-
-
-
-
-
-<!--modal task ---error1--->
+//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+//    'id' => 'mydialog2',
+//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+//    'cssFile'=>'jquery-ui2.css',
+//    'theme'=>'my',
+//    'options' => array(
+//        'width'=>540,
+//        'autoOpen' => false,
+//        'modal' => true,
+//        'resizable'=> false,
+//    ),
+//));
+//$this->renderPartial('/lesson/_modalTask');
+//$this->endWidget('zii.widgets.jui.CJuiDialog');
+//?>
+<!--<!--modal task ---congratulations-->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!--<!--modal task ---error1--->
 <?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id' => 'mydialog3',
-    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-    'cssFile'=>'jquery-ui3.css',
-    'theme'=>'my',
-    'options' => array(
-        'width'=>540,
-        'autoOpen' => false,
-        'modal' => true,
-        'resizable'=> false
-    ),
-));
-$this->renderPartial('/lesson/_modalTask2');
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-?>
-<!--modal task ---error-->
+//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+//    'id' => 'mydialog3',
+//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+//    'cssFile'=>'jquery-ui3.css',
+//    'theme'=>'my',
+//    'options' => array(
+//        'width'=>540,
+//        'autoOpen' => false,
+//        'modal' => true,
+//        'resizable'=> false
+//    ),
+//));
+//$this->renderPartial('/lesson/_modalTask2');
+//$this->endWidget('zii.widgets.jui.CJuiDialog');
+//?>
+<!--<!--modal task ---error-->
+
+        <script type="text/javascript">
+            function pressEditRedactor(className)
+            {
+                var selector = className;
+                $(selector).redactor({
+                    focus: true
+                });
+                $('.btn-edit-ImperaviSimple').hide();
+                $('.btn-save-ImperaviSimple').show();
+                $('.btn-cancel-ImperaviSimple').show();
+            }
+
+            function pressCancelRedactor(className)
+            {
+                var selector = className;
+                $(selector).redactor('core.destroy');
+                $('.btn-edit-ImperaviSimple').show();
+                $('.btn-save-ImperaviSimple').hide();
+                $('.btn-cancel-ImperaviSimple').hide();
+            }
+
+            function pressSaveRedactor(className)
+            {
+                var selector = className;
+                // save content if you need
+                var text = $(selector).redactor('code.get');
+
+                // destroy editor
+                $(selector).redactor('core.destroy');
+                $('.btn-edit-ImperaviSimple').show();
+                $('.btn-save-ImperaviSimple').hide();
+                $('.btn-cancel-ImperaviSimple').hide();
+            }
+        </script>
