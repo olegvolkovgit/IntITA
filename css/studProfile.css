@@ -21,7 +21,7 @@ div.regLinks{
 }
 div.profileStatus{
     position: absolute;
-    top:-65px;
+    top:66px;
     right:0;
     float:right;
     display:block;
@@ -206,22 +206,17 @@ table.titleProfileAv{
     background:#4b75a4;
     margin-bottom: 30px;
     box-shadow:0px 2px 0px #7f7f7f;
-    font-size: medium;
+    font-size: 24px;
     font-family: MyriadPro2;
 }
 .formStudProf input[type="submit"]{
-    font-size: 18px;
     letter-spacing:1px;
-    padding-right: 20px;
     text-shadow:1px 1px 1px rgba(0,0,0,.5);
     background:#4b75a4;
 }
 .formStudProf input[type="submit"]:hover {
     background: #454545;
     cursor: pointer;
-}
-#submitEdit {
-    background-position: 135px 50%;
 }
 .formStudProf input[type="button"]:hover {
     background: #454545;

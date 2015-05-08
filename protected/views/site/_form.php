@@ -26,7 +26,7 @@
 				// See class documentation of CActiveForm for details on this.
                 'enableClientValidation'=>true,
                 'enableAjaxValidation'=>true,
-                'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>true),
+                'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
             )); ?>
 			<div class="rowemail">
 				<?php $placeHolderEmail = Yii::t('regform','0014');?>

@@ -1,6 +1,6 @@
-/*Парольне око*/
+///*Парольне око*/ title="Показати/сховати пароль"
 $(function(){
-    $(".passEye").append('<span class="eye" title="Показати/сховати пароль"></span>');
+    $(".passEye").append('<span class="eye" ></span>');
  
     $(".passEye .eye").click(function() {
         $(this).toggleClass('openEye');

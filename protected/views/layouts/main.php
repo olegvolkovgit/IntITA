@@ -47,7 +47,7 @@ $header = new Header();?>
 <div id="navigation" class="down" >
     <div class="main" >
         <div id="logo_img" class="down">
-            <a href="<?php echo Yii::app()->request->baseUrl;?>">
+            <a href="<?php echo Yii::app()->createUrl('site/index');?>">
                 <img id="logo" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
             </a>
         </div>

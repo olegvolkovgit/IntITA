@@ -1,6 +1,9 @@
 body {
     margin: 0 auto;
 }
+img {
+    border-style:none;
+}
 
 .main {
     position: relative;
@@ -436,14 +439,16 @@ div.profileStatus{
     overflow: hidden;
 }
 .profileStatus img {
-    width:56px;
-    height:56px;
+    width:70px;
+    height:70px;
     float: right;
     margin-right: 10px;
 }
 .profileStatus div {
     float: right;
-    font-size: smaller;
-    line-height: 110%;
     color:#4b75a4;
+    font-family: MyriadPro;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 100%;
 }

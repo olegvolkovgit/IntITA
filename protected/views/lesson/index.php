@@ -122,6 +122,7 @@ $this->breadcrumbs=array(
             'itemView'=>'_content',
             'summaryText' => '',
             'emptyText' => 'В данной лекции еще ничего нет (',
+            'pagerCssClass'=>'YiiPager',
         ));
         ?>
 <table ><tr><td>

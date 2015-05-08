@@ -82,13 +82,12 @@ div.courseShortInf table {
 div.courseShortInfoTable{
     display: inline-block;
 }
-.courseShortInfo table.courseLevelLine{
-    width: 100%;
-    border-collapse: collapse;
+.courseShortInfo div.courseLevelName {
+    display: inline-block;
+    margin-right: 80px;
 }
-
-.courseShortInfo td.courseLevel {
-    text-align: right;
+.courseShortInfo div.courseLevel{
+    display: inline-block;
 }
 /*Short Info*/
 

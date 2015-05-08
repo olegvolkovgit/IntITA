@@ -19,12 +19,29 @@
     var logo = document.getElementById('logo_img');
     var border = document.getElementById('button_border');
     var lang = document.getElementById('lang');
+    var logolang = "<?php
+    $app = Yii::app();
+    switch ($app->session['lg']){
+                    case 'ua':
+                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigUA.png';
+                        break;
+                    case 'en':
+                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigEN.png';
+                        break;
+                    case 'ru':
+                       echo Yii::app()->request->baseUrl.'/css/images/Logo_bigRU.png';
+                        break;
+                    default:
+                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigUA.png';
+                        break;
+                }
+                ?>";
     key.className = "";
     nav.className = "";
     logo.className = "";
     border.className = "";
     lang.className = "";
-    document.getElementById('logo').src="<?php echo $this->logoURL; ?>";
+    document.getElementById('logo').src=logolang;
     window.onscroll = function() {
         var pageY = window.pageYOffset || document.documentElement.scrollTop;
         if (pageY >= key.offsetHeight) {
@@ -35,7 +52,7 @@
             border.className = "down";
             lang.className = "down";
         } else {
-            document.getElementById('logo').src="<?php echo $this->logoURL; ?>";
+            document.getElementById('logo').src=logolang;
             border.className = "";
             key.className = "";
             logo.className = "";
