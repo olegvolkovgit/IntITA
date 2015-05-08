@@ -125,11 +125,9 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <!--Мови курсу-->
                             <div class="courseLang">
                                 <?php echo Yii::t('courses', '0069'); ?>
-                                <div id="coursesLang" class="down">
-                                    <form  action="" method="post" onsubmit="" name="fff">
-                                        <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-                                        <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'RU'));?>" id="ru" name="ru" onclick="changeLang(this)">ru</button>
-                                    </form>
+                                <div id="coursesLangs" class="down">
+                                        <button  disabled>ua</button>
+                                        <button id="ru" class="selectedLang" disabled>ru</button>
                                 </div>
                             </div>
                                     <!--Вартість курсу-->
@@ -270,11 +268,9 @@ $courseEnableImage= Yii::app()->request->baseUrl.'/css/images/ratIco1.png';
                                 <!--Мови курсу-->
                             <div class="courseLang">
                                 <?php echo Yii::t('courses', '0069'); ?>
-                                <div id="coursesLang" class="down">
-                                    <form  action="" method="post" onsubmit="" name="fff">
-                                        <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'UA'));?>" id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-                                        <button formaction="<?php echo Yii::app()->createUrl('site/changeLang', array('lang'=>'RU'));?>" id="ru" name="ru" onclick="changeLang(this)">ru</button>
-                                    </form>
+                                <div id="coursesLangs" class="down">
+                                    <button  disabled>ua</button>
+                                    <button id="ru" class="selectedLang" disabled>ru</button>
                                 </div>
                             </div>
                                 <!--Вартість курсу-->
