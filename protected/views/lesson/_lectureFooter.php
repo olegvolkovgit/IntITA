@@ -48,7 +48,7 @@ $footNavSize='960px'; // Ширина блоку
                 </tr>
             </table>
             <div class="preLesonLink">
-                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId()));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
+                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPreId()));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
             </div>
         </div>
     <?php

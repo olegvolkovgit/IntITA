@@ -9,7 +9,7 @@ $user = new StudentReg();
 $app = Yii::app();
 $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">
+<!--<link type="text/css" rel="stylesheet" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">-->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
