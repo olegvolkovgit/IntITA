@@ -121,27 +121,27 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
 <!--        </div>-->
         <div class="row">
             <?php echo $form->label($model,'facebook'); ?>
-            <?php echo $form->textField($model,'facebook',array('placeholder'=>"Ім'я користувача Facebook", 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
             <?php echo $form->error($model,'facebook'); ?>
         </div>
         <div class="row">
             <?php echo $form->label($model,'googleplus'); ?>
-            <?php echo $form->textField($model,'googleplus',array('placeholder'=>"Ім'я профіля Google+", 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
             <?php echo $form->error($model,'googleplus'); ?>
         </div>
         <div class="row">
             <?php echo $form->label($model,'linkedin'); ?>
-            <?php echo $form->textField($model,'linkedin',array('placeholder'=>"Id на LinkedIn (наприклад in/username)", 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
             <?php echo $form->error($model,'profile'); ?>
         </div>
         <div class="row">
             <?php echo $form->label($model,'vkontakte'); ?>
-            <?php echo $form->textField($model,'vkontakte',array('placeholder'=>"Id на Vkontakte", 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
             <?php echo $form->error($model,'vkontakte'); ?>
         </div>
         <div class="row">
             <?php echo $form->label($model,'twitter'); ?>
-            <?php echo $form->textField($model,'twitter',array('placeholder'=>"Ім'я користувача Twitter", 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
             <?php echo $form->error($model,'twitter'); ?>
         </div>
         <?php if(is_null($post->password)){
@@ -158,11 +158,11 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         </div>
         <?php
          } else {
-         echo CHtml::link('Змінити пароль', '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;',));
+         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;',));
         }
             ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton('ВІДПРАВИТИ />', array('id' => "submitEdit")); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit")); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');
@@ -211,3 +211,8 @@ $this->renderPartial('/studentreg/_changepassword');
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change modal-->
+<script>
+    jQuery(function() {
+    $(".date").inputmask("d/m/y", { "placeholder": "<?php echo Yii::t('regexp', '0262');?>" });
+    });
+</script>

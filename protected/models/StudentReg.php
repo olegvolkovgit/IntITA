@@ -69,7 +69,7 @@ class StudentReg extends CActiveRecord
             array('email', 'email', 'message'=>'Email не являється правильною {attribute} адресою'),
             array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>'Email уже зайнятий','on'=>'repidreg,reguser,edit'),
             array('password', 'authenticate','on'=>'loginuser'),
-            //array('password_repeat', 'passdiff','on'=>'edit'),
+            array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
             array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>'Паролі не співпадають','on'=>'reguser'),
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
@@ -96,6 +96,10 @@ class StudentReg extends CActiveRecord
     }
     public function passdiff()
     {
+        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+        if (!empty($model->password)){
+            return;
+        }
         if (isset($this->password) || isset($this->password_repeat)){
         if($this->password!==$this->password_repeat)
             $this->addError('password','Паролі не співпадають');
@@ -124,7 +128,7 @@ class StudentReg extends CActiveRecord
             'secondName' => Yii::t('regexp', '0162'),
             'nickname' => Yii::t('regexp', '0163'),
             'birthday' => Yii::t('regexp', '0164'),
-            'email' => 'Email',
+            'email' => Yii::t('regexp', '0242'),
             'password' => Yii::t('regexp', '0171'),
             'password_repeat' => Yii::t('regexp', '0172'),
             'phone' => Yii::t('regexp', '0165'),
@@ -324,7 +328,8 @@ class StudentReg extends CActiveRecord
     }
     public static function getEducform ($educform)
     {
-        if($educform)
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>Yii::app()->user->id));
+        if($educform && !$user)
             echo  '<span class="colorP">'.Yii::t('profile', '0106').'</span>'.$educform;
     }
     public static function getCourses ($courses)

@@ -38,7 +38,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="linesignInForm"><?php echo Yii::t('regform','0091'); ?></div>
     <div class="image" >
             <script src="//ulogin.ru/js/ulogin.js"></script>
-            <div id="uLogin" x-ulogin-params="display=buttons;fields=email;
+            <div id="uLogin" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo_big,city;
 								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/sociallogin'?>">
                 <ul id="uLoginImages">
                     <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/facebook2.png" x-ulogin-button = "facebook" title = "Facebook"/></li>

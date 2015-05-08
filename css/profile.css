@@ -158,10 +158,10 @@ label.tabsUp1,label.tabsDown1{
 #tab4:checked ~ #exams,
 #tab5:checked ~ #projects,
 #tab6:checked ~ #myRatting,
-/*#tab7:checked ~ #myDownload,*/
-/*#tab8:checked ~ #mylettersSend,*/
-#tab7:checked ~ #myMark,
-#tab8:checked ~ #finances{
+    /*#tab6:checked ~ #myDownload,*/
+    /*#tab7:checked ~ #mylettersSend,*/
+#tab9:checked ~ #myMark,
+#tab10:checked ~ #finances{
     display: block;
 }
 /*TABS*/

@@ -27,8 +27,8 @@ if (isset($_GET['div'])){
     $currentDiv = '';
 }
 $arrayCourseText=array(
-    ' •  кройка и шитье сроков давности;'=> Yii::app()->request->baseUrl.'/course',
-    ' •  программування самоубийств;'=> Yii::app()->request->baseUrl.'/course'
+    ' кройка и шитье сроков давности;'=> Yii::app()->request->baseUrl.'/course',
+    ' программування самоубийств;'=> Yii::app()->request->baseUrl.'/course'
 );
 ?>
 <div class="TeacherProfilemainBlock">
@@ -114,16 +114,15 @@ $arrayCourseText=array(
 //                    }
                     ?>
                     <div class="TeacherProfilecourse">
+                        <ul>
                         <?php
                         foreach ($arrayCourseText as $linkText => $linkAdress) {
                             ?>
-                            <p><a href="<?php echo $linkAdress; ?>">
-                                <?php echo $linkText; ?>
-                            </a></p>
-
+                            <li><a href="<?php echo $linkAdress; ?>"><?php echo $linkText; ?></a></li>
                         <?php
                         }
                         ?>
+                        </ul>
                     </div>
 
                     <?php

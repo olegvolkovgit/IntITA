@@ -177,3 +177,8 @@ $this->breadcrumbs=array(
     </div>
     <?php $this->endWidget(); ?>
 </div><!-- form -->
+<script>
+    jQuery(function() {
+        $(".date").inputmask("d/m/y", { "placeholder": "<?php echo Yii::t('regexp', '0262');?>" });
+    });
+</script>

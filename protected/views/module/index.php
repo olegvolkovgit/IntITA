@@ -48,22 +48,21 @@ $this->breadcrumbs=array(
                             <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
                            <span id="oldPrice"> <?php echo $post->module_price; ?> <?php echo Yii::t('module', '0222'); ?></span> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
                         </div>
+                        </br>
                         <div>
-                            <div >
-                                <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-                                <?php
-                                for ($i = 0; $i < 9; $i++) {
-                                    ?><span>
-                                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png">
-                                    </span><?php
-                                }
-                                for ($i = 0; $i < 1; $i++) {
-                                    ?><span>
-                                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png">
-                                    </span><?php
-                                }
-                                ?>
-                            </div>
+                            <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
+                            <?php
+                            for ($i = 0; $i < 9; $i++) {
+                                ?><span>
+                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png">
+                                </span><?php
+                            }
+                            for ($i = 0; $i < 1; $i++) {
+                                ?><span>
+                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png">
+                                </span><?php
+                            }
+                            ?>
                         </div>
                     </td>
                 </tr>

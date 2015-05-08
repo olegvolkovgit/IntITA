@@ -17,29 +17,27 @@ $this->breadcrumbs=array(
     <div class="courseShortInfo">
         <img class="courseImg" style="display: inline-block" src="<?php echo Yii::app()->request->baseUrl.$model->course_img ?>" />
         <div class="courseShortInfoTable">
-            <table class="courseLevelLine">
-                    <tr>
-                        <td>
-                            <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>сильний початківець</p>
-                        </td>
-                        <td class="courseLevel">
-                            <?php
-                            for ($i=0; $i<3; $i++)
-                            {
-                                ?>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" >
-                            <?php
-                            }
-                            for ($j=0; $j<2; $j++)
-                            {
-                                ?>
-                                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" >
-                            <?php
-                            }
-                            ?>
-                        </td>
-                    </tr>
-            </table>
+            <div class="courseLevelLine">
+                <p>
+                <div class="courseLevelName"><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>сильний початківець</div>
+                <div class="courseLevel">
+                    <?php
+                    for ($i=0; $i<3; $i++)
+                    {
+                        ?>
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" >
+                    <?php
+                    }
+                    for ($j=0; $j<2; $j++)
+                    {
+                        ?>
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" >
+                    <?php
+                    }
+                    ?>
+                </div>
+                </p>
+            </div>
             <div class="courseDetail">
                 <div> <span class="colorP"><?php echo Yii::t('course', '0194'); ?> </span> <span class="colorGrey"><b><?php echo $model->course_duration_hours;?> занять</b>, <?php echo Yii::t('course', '0209'); ?> - <b><?php echo ceil($model->course_duration_hours/36);?> міс.</b> (3 год./день, 3 дні/тиждень)</span></div>
                 <div> <span class="colorP"><?php echo Yii::t('course', '0196'); ?> </span></div>
@@ -63,6 +61,7 @@ $this->breadcrumbs=array(
                     </span>
                 </div>
             </div>
+        </div>
     </div>
 
     <div class="courseInfo">
@@ -430,16 +429,6 @@ $this->breadcrumbs=array(
                     </td>
                     <td>
                         <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 7)); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 11. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 8)); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
                     </td>
                 </tr>
             </table>
