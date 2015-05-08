@@ -1,6 +1,9 @@
 body {
     margin: 0 auto;
 }
+img {
+    border-style:none;
+}
 
 .main {
     position: relative;
