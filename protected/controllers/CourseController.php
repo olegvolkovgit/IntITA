@@ -122,11 +122,25 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
+
+        $criteria=new CDbCriteria();
+        $criteria->addCondition('course='.$id);
+
+        $dataProvider = new CActiveDataProvider('Module', array(
+            'criteria' =>$criteria,
+            'pagination'=>false,
+            'sort'=>array(
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            )
+        ));
+
         $model = Course::model()->findByPk($id);
-        $courses = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => 1));
 
 		$this->render('index',array(
 			'model'=>$model,
+            'dataProvider' => $dataProvider,
 		));
 	}
 

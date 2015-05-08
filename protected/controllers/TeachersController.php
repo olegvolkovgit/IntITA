@@ -123,7 +123,7 @@ class TeachersController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('TeachersTemp');
+		$dataProvider = new CActiveDataProvider('Teacher');
 
         $coursesID = $this->getCourses();
         $titles = $this->getTitles($coursesID);

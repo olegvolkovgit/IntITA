@@ -1,9 +1,11 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
 <!-- course style -->
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/readmore/readmore.js"></script>
 <!-- BD -))) -->
 <?php
+/* @var $this CourseController */
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$model->course_name,
@@ -353,97 +355,7 @@ $this->breadcrumbs=array(
         </article>
     </div>
 
-    <div class="courseModules">
-        <h2>Модулі</h2>
-        <div class="cModule">
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 1. </span>
-                    </td>
-                    <td>
-<!--                        <a href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/module"><span class="colorP">Основи PHP</span></a>-->
-                            <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 1)); ?>"><span class="colorP">Основи PHP</span></a>
-                    </td>
-                </tr>
-            </table>
+        <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider));?>
 
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 2. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 2)); ?>"><span class="colorP">Семантичне ядро сайту</span></a>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 3. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 3)); ?>"><span class="colorP">Зовнішні ресурси в просуванні</span></a>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey"">Модуль 4. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 4)); ?>"><span class="colorP">Запити HTTP, URL параметри і форми HTML котрі допомагають справжньому програмісту</span></a>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 5. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 5)); ?>"><span class="colorP">Cookies Урок і сесії</span></a>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 6. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 6)); ?>"><span class="colorP">Робота з файлами</span></a>
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 7. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 7)); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <td>
-                        <span class="colorGrey">Модуль 11. </span>
-                    </td>
-                    <td>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 8)); ?>"><span class="colorP">Урок Робота з базою даних</span></a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
 </div>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>

@@ -81,7 +81,7 @@ class ModuleController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($idModule = 1)
+	public function actionIndex($idModule)
 	{
         $model = Module::model()->findByPk($idModule);
         $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module

@@ -1,15 +1,9 @@
 <?php
-/* $this*/
 ?>
 <!-- teachers style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teachers.css" />
 <!-- teachers style -->
-<script>
-    function xexx()
-    {
-        document.getElementById('xex').style.display='none'
-    }
-</script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hideBlock.js"></script>
 <?php
 $this->pageTitle = 'INTITA';
 $post=Teacher::model()->findAll();
@@ -37,7 +31,7 @@ $post=Teacher::model()->findAll();
                         <tr>
                             <td class="profileTeacher" >
                                 <img class='teacherAvatar' src="<?php echo Yii::app()->request->baseUrl.$teacherValue->foto_url ?>"/>
-                                <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0059'); ?> &#187;</a>
+                                <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0059'); ?> &#187;</a>
                             </td>
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
@@ -49,7 +43,6 @@ $post=Teacher::model()->findAll();
                                 <div class="teacherCourses">
                                     <ul>
                                         <?php
-                                        //$coursesArray=explode(";", $teacherValue->subjects);
                                         for ($j = 0; $j < count($coursesID); $j++)
                                         {
                                             ?>
@@ -63,7 +56,7 @@ $post=Teacher::model()->findAll();
                         </tr>
                     </table>
                     <div class="aboutMore">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/readMore.png"/> <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a></br>
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/readMore.png"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a></br>
                         <?php
                         for ($k=0; $k<10; $k++)
                         {
@@ -72,7 +65,7 @@ $post=Teacher::model()->findAll();
                         <?php
                         }
                         ?>
-                        <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
+                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
                     </div>
                 </div>
             <?php
@@ -87,7 +80,7 @@ $post=Teacher::model()->findAll();
                     <td valign="top"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher123.png"/></td>
                     <td valign="center"><div id="formTeacher3"><?php echo Yii::t('teachers', '0060');?></div></td>
                     <td valign="top">
-                        <div id="xex" onclick='xexx("")' style="cursor: pointer;">
+                        <div id="xex" onclick='xexx()' style="cursor: pointer;">
                             <img
                                 src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/close_button.png">
                         </div>
@@ -135,7 +128,7 @@ $post=Teacher::model()->findAll();
                         <tr>
                             <td class="profileTeacher" >
                                 <img class='teacherAvatar' src="<?php echo Yii::app()->request->baseUrl.$teacherValue->foto_url ?>"/>
-                                <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0059'); ?> &#187;</a>
+                                <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0059'); ?> &#187;</a>
                             </td>
                             <td>
                                 <h2><?php echo $teacherValue->last_name ?></h2>
@@ -147,7 +140,6 @@ $post=Teacher::model()->findAll();
                                 <div class="teacherCourses">
                                     <ul>
                                         <?php
-                                        //$coursesArray=explode(";", $teacherValue->subjects);
                                         for ($j = 0; $j < count($coursesID); $j++)
                                         {
                                             ?>
@@ -161,7 +153,7 @@ $post=Teacher::model()->findAll();
                         </tr>
                     </table>
                     <div class="aboutMore">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/readMore.png"/> <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a></br>
+                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/readMore.png"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a></br>
                         <?php
                         for ($k=0; $k<10; $k++)
                         {
@@ -170,7 +162,7 @@ $post=Teacher::model()->findAll();
                         <?php
                         }
                         ?>
-                        <a href="<?php echo Yii::app()->request->baseUrl.$teacherValue->readMoreLink; ?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
+                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
                     </div>
                 </div>
             <?php
