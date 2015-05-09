@@ -145,6 +145,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
         <input type="submit"  value="Додати" id="submitButton">
         <button id="cancelButton" value="">Скасувати</button>
     </form>
+        <div style="margin-top: 75px">
+            <?php if(Yii::app()->user->hasFlash('newLecture')):
+                echo Yii::app()->user->getFlash('newLecture');
+            endif; ?>
+        </div>
 
 </div>
 </div>

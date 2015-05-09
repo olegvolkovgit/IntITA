@@ -4,11 +4,11 @@
 
 # MySQL Database parameters
 database:
-    host: "intita.itatests.com"
+    host: "localhost"
     port: 3306
     db: "mibew"
-    login: "root"
-    pass: ""
+    login: "mibew"
+    pass: "1234567"
     tables_prefix: ""
     use_persistent_connection: false
 

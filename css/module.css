@@ -43,9 +43,6 @@ img.time{
     padding-left: 0;
     vertical-align: top;
 }
-.titleColumn{
-
-}
 
 .titleColumn a {
     color: #4b75a4;
@@ -53,13 +50,9 @@ img.time{
     float:left;
     }
 
-a:link {color:#4b75a4;}
-a:hover {color:#5b5b5b; text-decoration:underline;}
 .rightModule{
     float:right;
     width:440px;
-}
-.teacherBox{
 }
 .teacherBox table{
     border-bottom: 1px solid #cccccc;
@@ -137,7 +130,7 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 }
 
 #formLabel{
-    color:red;
+    color:green;
     font-size: 16px;
 }
 
@@ -150,7 +143,7 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     width: 25px;
     height: 25px;
 }
-#submitButton, #cancelButton{
+#submitButton{
     height: 33px;
     width: 100px;
     background: #4b70a3;
@@ -195,8 +188,11 @@ body .grid-view table.items td.button-column{
 body .grid-view table.items td.aliasColumn{
     white-space: nowrap;
     background-color: white;
-    width:90px;
     float:left;
+    margin-left: 0px;!important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
 }
 
 body .grid-view table.items td.titleColumn{
@@ -204,6 +200,9 @@ body .grid-view table.items td.titleColumn{
     background-color: white;
     padding-left: 0px;
     float:left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;!important;
 }
 
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
@@ -212,6 +211,18 @@ body .grid-view table.items td.titleColumn{
 
 .grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
     background: #ffffff;
+}
+
+.grid-view table.items td:first-child {
+    display:none;
+}
+
+.grid-view table.items{
+    border:none;
+}
+
+.grid-view{
+    padding-top: 0px;
 }
 
 

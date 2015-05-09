@@ -5,6 +5,7 @@ class LessonController extends Controller{
 
     public function initialize($id)
     {
+        if ($id != 1){
         if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
@@ -13,6 +14,7 @@ class LessonController extends Controller{
             if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
                 throw new CHttpException(403, Yii::t('errors', '0139'));
             }
+        }
         }
     }
 

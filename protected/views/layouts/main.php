@@ -62,7 +62,7 @@ $header = new Header();?>
 
     <div id="lang" class="down">
         <form onsubmit="" name="fff">
-            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua")); ?>
+            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua", 'className'=>'selectedLang')); ?>
             <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
             <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
         </form>
@@ -81,6 +81,7 @@ $header = new Header();?>
     case 'en':
     ?>
         <script>
+            document.getElementById('ua').className = '';
             document.getElementById('en').disabled = true;
             document.getElementById('en').className = "selectedLang";
         </script>
@@ -89,6 +90,7 @@ $header = new Header();?>
     case 'ru':
     ?>
         <script>
+            document.getElementById('ua').className = '';
             document.getElementById('ru').disabled = true;
             document.getElementById('ru').className = "selectedLang";
         </script>

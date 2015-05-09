@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-07 15:19:00
+-- Date/time:                    2015-05-09 12:30:14
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~240 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~278 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -261,7 +261,45 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(237, 'course', '0237'),
 	(238, 'course', '0238'),
 	(239, 'course', '0239'),
-	(240, 'course', '0240');
+	(240, 'course', '0240'),
+	(241, 'profile', '0241'),
+	(242, 'regexp', '0242'),
+	(243, 'regexp', '0243'),
+	(244, 'regexp', '0244'),
+	(245, 'regexp', '0245'),
+	(246, 'regexp', '0246'),
+	(247, 'regexp', '0247'),
+	(248, 'regexp', '0248'),
+	(249, 'regexp', '0249'),
+	(250, 'profile', '0250'),
+	(251, 'profile', '0251'),
+	(252, 'profile', '0252'),
+	(253, 'profile', '0253'),
+	(254, 'profile', '0254'),
+	(255, 'profile', '0255'),
+	(256, 'profile', '0256'),
+	(257, 'profile', '0257'),
+	(258, 'profile', '0258'),
+	(259, 'profile', '0259'),
+	(260, 'profile', '0260'),
+	(261, 'profile', '0261'),
+	(262, 'regexp', '0262'),
+	(263, 'regexp', '0263'),
+	(264, 'regexp', '0264'),
+	(265, 'regexp', '0265'),
+	(266, 'regexp', '0266'),
+	(267, 'regexp', '0267'),
+	(268, 'error', '0268'),
+	(269, 'error', '0269'),
+	(270, 'error', '0270'),
+	(271, 'error', '0271'),
+	(272, 'error', '0272'),
+	(273, 'error', '0273'),
+	(274, 'error', '0274'),
+	(275, 'error', '0275'),
+	(276, 'error', '0276'),
+	(277, 'error', '0277'),
+	(278, 'error', '0278');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

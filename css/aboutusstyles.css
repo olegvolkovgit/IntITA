@@ -113,7 +113,7 @@
 #aboutDetailMain
 {
     width:100%;
-    background-color: #f3f3f3;
+
     position:relative;
     margin-top:20px;
 }
@@ -157,9 +157,9 @@
 {
     position:relative;
     display: none;
-    width:960px;
+    width:1200px;
     left:50%;
-    margin-left:-480px;
+    margin-left:-600px;
 }
 #dropTextLayer2
 {
@@ -183,10 +183,37 @@
     margin-bottom:0px;
     padding: 20px;
 }
+
 .detailTitle1{
-    color: #4682B4;
-    font-size:19px;
+    color: #5c5c5c;
+    font-size:16px;
 }
+.detailTitle12 {
+    color: #5c5c5c;
+    font-size: 30px;
+}
+.detailTitle13 {
+    color: #566d87;
+    font-size: 24px;
+}
+.detailTitle14 {
+    color: #5c5c5c;
+    font-size: 24px;
+}
+.detailTitle15 {
+    color: #566d87;
+    font-size: 16px;
+}
+.detailTitle16 {
+    color: #000000;
+    font-size: 16px;
+}
+
+
+
+
+
+
 .detailTitle2{
     font-weight:bold;
     font-size:16px;
@@ -215,20 +242,150 @@
     text-indent:0em;
 }
 .aboutStepBlock{
-    width:960px;
+    width:1200px;
     border: 2px solid #d9d9d9;
     box-sizing:border-box;
     position:relative;
     -moz-box-sizing:border-box;
     display:inline-block;
-    padding:15px;
-    background-color: #fff;
+    padding:20px;
+
     margin-bottom:20px;
     border-radius:3px;
+    background-color: #ebebeb;
 }
 
 #beginButtonCenter
 {
     position:absolute;
     margin-left:-60px
+}
+
+.detailavt{
+    position: relative;
+    bottom: 230px;
+    left:230px;
+
+}
+.oned {
+    display: inline-block;
+    height: 300px;
+}
+#spone{
+    margin-left: 20px;
+}
+.imgone{
+    display: inline-block;
+    position:static;
+}
+.ellipse{
+    display: inline-block;
+    position: relative;
+    left: 25px;
+    top: 160px;
+}
+.twod{
+    display: inline-block;position: relative; left: 15px; bottom: 40px;
+}
+#imtwo{
+    margin-left: 20px;
+}
+#imtwooo{
+    position: relative;
+    bottom: 45px;
+    right: 35px;
+}
+.detailkop {
+    position: relative;
+    left: 75px;
+    bottom: 35px;
+    display: inline-block;
+}
+#pig{
+    position:relative;
+    left: 35px;
+    bottom: 20px;
+}
+#money{
+    position:relative;
+    left: 55px;
+    bottom: 50px;
+}
+#kopp{
+    position:relative;
+    bottom: 30px;
+}
+#koppstr{
+    position:relative;
+    right: 25px;
+    bottom: 40px;
+}
+#four{
+    display: inline-block;
+    position: relative;
+    left: 130px;
+    bottom: 15px;
+}
+#fst1{
+    position: relative;
+    top: 65px;
+    right: 40px;
+}
+#fst2{
+    position: relative;
+    margin-right: 10px;
+}
+.five{
+    position:relative;
+    left: 385px;
+    margin-top: 30px;
+    width: 500px;
+}
+#fimouns{
+    margin-left: 297px;
+}
+.six{
+    position: relative;
+    width: 500px;
+    left: 520px;
+}
+.six img{
+    position: relative;
+    bottom: 85px;
+}
+.how{
+    font-size: 200px;
+    font-family: Segoe UI;
+    color: rgb( 232, 71, 18 );
+    font-style: italic;
+    position: relative;
+    left: 410px;
+    bottom: px;
+    width: 400px;
+}
+.jobfu{
+    position: relative;
+    left: 470px;
+    width: 500px;
+}
+#mashinn{
+    color: #ae282b
+}
+#theyy{
+    padding-left: 20px;
+}
+.sevenn{
+    margin-left: -100px;
+}
+#beginn{
+    position: relative;
+    left: 355px;
+    width: 500px;
+    margin-top: 40px;
+}
+.buutt{
+    position: relative;
+    left: 465px;
+    width: 400px;
+    margin-bottom: 50px;
 }
