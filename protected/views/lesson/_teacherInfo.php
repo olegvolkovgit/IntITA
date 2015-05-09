@@ -92,6 +92,9 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showCalendar.js"></script>
 
 <script type="text/javascript">
+var firstday = new Date();
+var lastday = new Date();
+lastday.setDate(firstday.getDate()+366);
     $('#dateTimePicker').datetimepicker({
         format: "yyyy-mm-dd",
         language: "<?php echo $app->session['lg']?>",
@@ -102,7 +105,8 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
         startView: 2,
         minView: 2,
         forceParse: 0,
-        startDate: new Date()
+        startDate:  firstday,
+        endDate:  lastday
     });
     $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
 </script>
