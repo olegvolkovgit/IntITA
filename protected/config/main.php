@@ -137,7 +137,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in teacher profile page
-		'adminEmail'=>'Elfigo@mail.ru',
+		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
 	),
 );
