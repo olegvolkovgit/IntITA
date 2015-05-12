@@ -23,7 +23,7 @@ class LessonController extends Controller{
         $lecture = Lecture::model()->findByPk($id);
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->setPagination(array(
-                'pageSize' => count(LectureElement::model()->findAllByAttributes(array('id_lecture'=>$id))),
+                'pageSize' => '200',
             )
         );
 
