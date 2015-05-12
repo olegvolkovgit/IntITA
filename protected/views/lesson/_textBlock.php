@@ -7,8 +7,8 @@
  */
 //echo $data;
 ?>
-<div class="text" id="<?php echo $order;?>">
-<!--     onclick="loadRedactor('--><?php //echo "#".$order?><!--')"-->
+<div class="text" id="<?php echo $order;?>" onclick="loadRedactor('<?php echo "#".$order?>')">
+
     <?php echo $data;?>
     <?php $idValue = "#" . $order?>
 </div>

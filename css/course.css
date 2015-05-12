@@ -260,6 +260,11 @@ p.subCourseInfo, p.courseAboutTeacher{
     margin-right: 20px;
     display: none;
 }
+#editIco{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+}
 #newModuleName{
     height: 25px;
     width: 500px;
@@ -267,3 +272,13 @@ p.subCourseInfo, p.courseAboutTeacher{
 #moduleForm{
     display: none;
 }
+.aliasColumn{
+    white-space: nowrap;
+background-color: white;
+float:left;
+margin-left: 0px;
+margin-top: 0px;
+margin-bottom: 0px;
+padding-left: 0px;
+}
+
