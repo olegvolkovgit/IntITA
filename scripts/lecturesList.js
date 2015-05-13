@@ -12,9 +12,10 @@ function enableEdit(){
     $('.grid-view table.items td:first-child').show();
 }
 
-function sendForm(){
-    $form = document.getElementById('lessonForm');
+function hideForm(id, title){
+    $form = document.getElementById(id);
     $form.style.display = 'none';
+    document.getElementById(title).innerText = '';
 }
 
 function unableLecture(idLecture, idModule) {

@@ -39,8 +39,6 @@ class ProfileController extends Controller
         $criteria= new CDbCriteria;
         $criteria->order = 'date DESC';
 
-
-
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,
             'pagination'=>array(

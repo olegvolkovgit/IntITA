@@ -81,16 +81,15 @@ return array(
 			'urlSuffix' => '/',
 			'caseSensitive' => true,
 			'rules'=>array(
-
 //				array(
 //					'class' => 'application.components.CoursesRule',
 //					'connectionID' => 'db',
 //				),
-
 				''=>array('site/index', 'urlSuffix' => ''),
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -126,11 +125,6 @@ return array(
 		'config' => array(
 			'class' => 'application.extensions.EConfig',
 		),
-
-        'request' => array(
-            //'baseUrl' => 'http://intita.itatests.com/',
-            //'baseUrl' => 'http://localhost/IntITA/',
-        ),
 	),
 
 	// application-level parameters that can be accessed
@@ -139,5 +133,11 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
+         'imagesPath'=>'http://localhost/IntITA/images',
+         'avatarsPath'=>'http://localhost/IntITA/avatars',
+         'commonPath' =>'http://localhost/IntITA/files',
+       // 'imagesPath'=>'http://intita.itatests.com/images',
+       // 'avatarsPath'=>'http://intita.itatests.com/avatars',
+       // 'commonPath' =>'http://intita.itatests.com/files',
 	),
 );

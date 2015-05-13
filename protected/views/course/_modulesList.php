@@ -7,7 +7,7 @@
  */
 $editMode = ($canEdit)?'true':'';
 ?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
+
 
 <div class="courseModules">
     <?php
@@ -15,7 +15,7 @@ $editMode = ($canEdit)?'true':'';
         ?>
         <div onclick="enableEdit();">
             <a href="#">
-                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/edt_30px.png"
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                      id="editIco" title="Редагувати список модулів"/>
             </a>
         </div>
@@ -26,7 +26,7 @@ $editMode = ($canEdit)?'true':'';
 
     <div onclick="showForm();">
         <a href="#moduleForm">
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/add_lesson.png"
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
                  id="addModuleButton" title="Додати модуль"/>
         </a>
     </div>
@@ -45,7 +45,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
-                    'imageUrl'=> Yii::app()->request->baseUrl."/images/delete.png",
+                    'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->primaryKey))',
                     'deleteConfirmation' => 'Вы уверены, что хотите удалить этот модуль?',
                     'click'=>"function(){
@@ -67,7 +67,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
                     'label'=>'Поднять модуль вверх на 1 позицию',   //Text label of the button.
                     'url' => 'Yii::app()->createUrl("course/upModule", array("idModule"=>$data->primaryKey))',
-                    'imageUrl'=>Yii::app()->request->baseUrl."/images/up.png",  //Image URL of the button.
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
                     'click'=>"function(){
                         $.fn.yiiGridView.update('modules-grid', {
@@ -88,7 +88,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
                     'label'=>'Опустить модуль вниз на 1 позицию',    //Text label of the button.
                     'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->primaryKey))',
-                    'imageUrl'=>Yii::app()->request->baseUrl."/images/down.png",  //Image URL of the button.
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                     'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
                     'visible'=>$editMode,
                     'click'=>"function(){
@@ -138,6 +138,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
             <br><br>
             <input type="submit"  value="Додати" id="submitButton">
-            <button id="cancelButton" value="">Скасувати</button>
         </form>
+        <button id="cancelButton" onclick="hideForm('moduleForm', 'newModuleName')">Скасувати</button>
     </div>
+<!---->
+<!--    <script type="text/javascript">-->
+<!--        function hideForm(id, title){-->
+<!--            $form = document.getElementById(id);-->
+<!--            $form.style.display = 'none';-->
+<!--            document.getElementById(title).innerText = '';-->
+<!--        }-->
+<!--    </script>-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>

@@ -155,6 +155,8 @@
     $(function() { centrMouseLine(); });
     $(window).resize(function() { centrMouseLine(); });
 </script>
+
+
 <div id="sliderCenterBox">
     <div class="sliderCenterBoxText">
         <p><?php echo Yii::t('slider','0005'); ?></p>

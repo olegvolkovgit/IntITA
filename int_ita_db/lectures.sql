@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-09 12:30:12
+-- Date/time:                    2015-05-12 18:43:23
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT NULL,
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.lectures: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~24 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`) VALUES
 	(1, '/css/images/lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '2'),
@@ -54,7 +54,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(33, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
 	(34, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
 	(35, NULL, 'lecture17', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
-	(36, NULL, 'lecture18', 'ua', 0, 0, 'Висновки', NULL, NULL, NULL);
+	(36, NULL, 'lecture18', 'ua', 0, 0, 'Висновки', NULL, NULL, NULL),
+	(37, NULL, 'lecture15', 'ua', 0, 0, 'dakwdjlkwe', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
