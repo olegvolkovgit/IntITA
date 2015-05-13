@@ -21,7 +21,12 @@
 <!--Sidebar-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
+<!--Font Awesome-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<!--Font Awesome-->
+<!--Load Redactor-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+<!--Load Redactor-->
 <?php
 /* @var $this LessonController */
 
@@ -39,41 +44,6 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
-
-        <?php
-        // use editor WYSIWYG Imperavi
-        $this->widget('ImperaviRedactorWidget', array(
-            // use editor to field .aboutStepBlock
-            'selector' => '#',
-            'options' => array(
-                'imageUpload' => $this->createUrl('files/upload'),
-                'lang' => 'ua',
-                'toolbar' => true,
-                'iframe' => true,
-                'css' => 'wym.css',
-            ),
-            'plugins' => array(
-                'fullscreen' => array(
-                    'js' => array('fullscreen.js',),
-                ),
-                'video' => array(
-                    'js' => array('video.js',),
-                ),
-                'fontsize' => array(
-                    'js' => array('fontsize.js',),
-                ),
-                'fontfamily' => array(
-                    'js' => array('fontfamily.js',),
-                ),
-                'fontcolor' => array(
-                    'js' => array('fontcolor.js',),
-                ),
-                'advanced' => array(
-                    'js' => array('advanced.js',),
-                ),
-            ),
-        ));
-        //    ?>
 
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>

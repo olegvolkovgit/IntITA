@@ -38,7 +38,6 @@ $header = new Header();?>
     <!-- passEye, jQuery -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
-
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
