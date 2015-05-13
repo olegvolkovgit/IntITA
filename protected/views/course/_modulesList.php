@@ -7,7 +7,7 @@
  */
 $editMode = ($canEdit)?'true':'';
 ?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
+
 
 <div class="courseModules">
     <?php
@@ -138,6 +138,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
             <br><br>
             <input type="submit"  value="Додати" id="submitButton">
-            <button id="cancelButton" onclick="hideForm('moduleForm')">Скасувати</button>
         </form>
+        <button id="cancelButton" onclick="hideForm('moduleForm', 'newModuleName')">Скасувати</button>
     </div>
+<!---->
+<!--    <script type="text/javascript">-->
+<!--        function hideForm(id, title){-->
+<!--            $form = document.getElementById(id);-->
+<!--            $form.style.display = 'none';-->
+<!--            document.getElementById(title).innerText = '';-->
+<!--        }-->
+<!--    </script>-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>

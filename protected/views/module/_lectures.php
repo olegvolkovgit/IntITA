@@ -143,8 +143,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
         <br><br>
         <input type="submit"  value="Додати" id="submitButton">
-        <button id="cancelButton" onclick="hideForm('lessonForm')">Скасувати</button>
     </form>
+        <button id="cancelButton" onclick="hideForm('lessonForm', 'newLectureName');">Скасувати</button>
         <div style="margin-top: 75px">
             <?php if(Yii::app()->user->hasFlash('newLecture')):
                 echo Yii::app()->user->getFlash('newLecture');
