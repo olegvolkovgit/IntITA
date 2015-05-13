@@ -111,14 +111,9 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         </div>
         <div class="row">
             <?php echo $form->label($model,'email'); ?>
-            <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255,"disabled"=>"disabled" )); ?>
             <span><?php echo $form->error($model,'email'); ?></span>
         </div>
-<!--        <div class="row">-->
-<!--            --><?php //echo $form->label($model,'network'); ?>
-<!--            --><?php //echo $form->textField($model,'network',array('value'=>$post->network, 'maxlength'=>255)); ?>
-<!--            --><?php //echo $form->error($model,'network'); ?>
-<!--        </div>-->
         <div class="row">
             <?php echo $form->label($model,'facebook'); ?>
             <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
@@ -158,9 +153,10 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         </div>
         <?php
          } else {
-         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;',));
+         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
         }
             ?>
+        <?php echo CHtml::link('Змінити email', '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
             <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit")); ?>
         </div>
@@ -211,6 +207,24 @@ $this->renderPartial('/studentreg/_changepassword');
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change modal-->
+<!--Change email modal-->
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'changeemail',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('_changeemail');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+<!--Change email modal-->
 <script>
     jQuery(function() {
     $(".date").inputmask("d/m/y", { "placeholder": "<?php echo Yii::t('regexp', '0262');?>" });
