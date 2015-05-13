@@ -320,3 +320,19 @@ select.error
  }
 
  /*Slider Registration Form */
+.modalHeader h1{
+    text-align: center;
+    color: #4b75a4;
+    margin-top: 0;
+    padding-top: 0;
+}
+#recovery-form p, #resetemail-form p{
+    text-align: justify;
+}
+#recovery-form div.rowRecovButt,#resetemail-form div.rowRecovButt {
+    margin: 0 auto;
+    margin-top: 10px;
+}
+#recovery-form .errorMessage, #resetemail-form .errorMessage{
+    margin-bottom: 0;
+}

@@ -29,7 +29,7 @@ $changeForm = $this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="forgotPass">
-        <?php echo CHtml::link(Yii::t('regexp', '0266'), '#', array('id'=>'forgotPass',)); ?>
+        <?php echo CHtml::link(Yii::t('regform','0092'), '#', array('id'=>'forgotPass','onclick' => '$("#forgotpass").dialog("open"); return false;')); ?>
     </div>
     <?php $labelButton = Yii::t('regexp', '0267');?>
     <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM")); ?>
