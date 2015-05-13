@@ -63,8 +63,8 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
-            array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery'),
-            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery'),
+            array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery,resetemail'),
+            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail'),
             array('email', 'authenticateEmail','on'=>'recovery'),
             array('password, new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'changepass'),
             array('new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recoverypass'),
