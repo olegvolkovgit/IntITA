@@ -331,4 +331,85 @@ class SiteController extends Controller
             }
         }
     }
+    public function getToken($token)
+    {
+        $time=date("Y-m-d H:i:s");
+        $model=StudentReg::model()->findByAttributes(array('token'=>$token));
+        if($model===null)
+            throw new CHttpException(404,'Запрошена сторінка не існує.');
+        elseif(strtotime($time)-strtotime($model->activkey_lifetime)>1800){
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('activkey_lifetime' => null));
+            throw new CHttpException(404,'Час дії посилання для відновлення паролю вичерпано.');
+        }
+        else
+        return $model;
+    }
+
+
+    public function actionVerToken($token)
+    {
+        $model=$this->getToken($token);
+        $model->setScenario('recoverypass');
+        if(isset($_POST['ajax']) && $_POST['ajax']==='changep-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        if(Yii::app()->request->getPost('StudentReg'))
+        {
+            $post=Yii::app()->request->getPost('StudentReg');
+            if($model->token==Yii::app()->request->getPost('tokenhid')){
+                $model->attributes=Yii::app()->request->getPost('StudentReg');
+                $model->password=$post['new_password'];
+                $model->token=null;
+                $model->activkey_lifetime=null;
+                if($model->validate()) {
+                    $model->save();
+                    $modellogin = new StudentReg('loginuser');
+                    $modellogin->password=$post['new_password'];
+                    $modellogin->email=$model->email;
+                    if(Yii::app()->user->isGuest && $modellogin->login())
+                        $this->redirect(Yii::app()->createUrl('site/index'));
+                    else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+                }
+            }
+        } else{
+            $this->render('resetpass',array(
+                'model'=>$model,
+            ));
+        }
+    }
+    public function actionRecoveryPass()
+    {
+        $model = new StudentReg('recovery');
+        // if it is ajax validation request
+        if(isset($_POST['ajax']) && $_POST['ajax']==='recovery-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        // collect user input data
+        $model->attributes=Yii::app()->request->getPost('StudentReg');
+        $getModel= StudentReg::model()->findByAttributes(array('email'=>$model->email));
+        if(Yii::app()->request->getPost('StudentReg'))
+            {
+                $getToken=rand(0, 99999);
+                $getTime=date("Y-m-d H:i:s");
+                $getModel->token=sha1($getToken.$getTime);
+            }
+        if($getModel->validate())
+        {
+            $subject='Відновлення паролю';
+            $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+            $text="Для відновлення паролю перейдіть по посиланню нижче:<br/>
+                    <a href='http://localhost/IntITA/index.php?r=site/vertoken/view&token=".$getModel->token."'>Нажміть тут для відновлення паролю</a>";
+            $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
+            Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
+            mail($getModel->email,$subject,$text,$headers);
+            if(Yii::app()->user->isGuest)
+                $this->redirect(Yii::app()->createUrl('site/index'));
+            else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+        }
+    }
 }
