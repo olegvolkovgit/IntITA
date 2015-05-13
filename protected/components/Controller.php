@@ -14,6 +14,7 @@ class Controller extends CController
 	public $link3;
 	public $menu4;
 	public $link4;
+    public $link5;
 	public $buttonText;
     public $smallLogoURL;
 
@@ -22,7 +23,6 @@ class Controller extends CController
 	public $mobile;
 	public $email;
 	public $imageSotial;
-    public  $sourceMessages;
 
 	public function init(){
         $header = Header::model()->findByPk(1);
@@ -33,18 +33,13 @@ class Controller extends CController
         $this->link2 = Yii::app()->request->baseUrl.$header->item2Link;
         $this->link3 = Yii::app()->request->baseUrl.$header->item3Link;
         $this->link4 = Yii::app()->request->baseUrl.$header->item4Link;
+        $this->link5 = Yii::app()->request->baseUrl.'/graduates';
         $this->imageSotial = Yii::app()->request->baseUrl.$footer->imageSotial;
         $this->imageUp = Yii::app()->request->baseUrl.$footer->imageUp;
 		$app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
-
-//        if ($app->session['translatedTable'] == null) {
-//            $app->session['translatedTable'] = 'translatedmessagesua';
-//        } else {
-//            $app->session['translatedTable'] = strtolower($app->session['translatedTable']);
-//        }
 	}
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',

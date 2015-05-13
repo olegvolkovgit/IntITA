@@ -98,20 +98,8 @@ table.ratingLeson{
     background-color:#4b75a4;
     box-shadow:0 2px 0 #7f7f7f;
     font-size: 20px;
-    background-image: url('images/pointersmall.png');
-    background-repeat: no-repeat;
-    background-position: 230px 21px;
-}
-.nextLesonLink input[type="submit"], x:-moz-any-link {
-    background-position: 192px 15px;
+    font-family: MyriadPro2;
 }
 .nextLesonLink input[type="submit"]:hover {
     background: #454545;
-    background-image: url('images/pointersmall.png');
-    background-repeat: no-repeat;
-    background-position: 192px 14px;
-    cursor: pointer;
-}
-.nextLesonLink input[type="submit"]:hover, x:-moz-any-link {
-    background-position: 192px 15px;
 }

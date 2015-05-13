@@ -19,6 +19,7 @@
  * @property string $module_img
  * @property string $about_module
  * @property string $owners
+ * @property integer $order
  *
  * The followings are the available model relations:
  * @property Course $course0
@@ -41,8 +42,8 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course, module_name, alias, language, module_duration_hours, module_duration_days', 'required'),
-			array('course, module_duration_hours, module_duration_days, lesson_count', 'numerical', 'integerOnly'=>true),
+			array('course, module_name, alias, language, order', 'required'),
+			array('course, module_duration_hours, module_duration_days, lesson_count, order', 'numerical', 'integerOnly'=>true),
 			array('module_name', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
@@ -50,7 +51,7 @@ class Module extends CActiveRecord
 			array('for_whom, what_you_learn, what_you_get, about_module, owners', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners', 'safe', 'on'=>'search'),
+			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, order, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,6 +124,7 @@ class Module extends CActiveRecord
 		$criteria->compare('module_img',$this->module_img,true);
 		$criteria->compare('about_module',$this->about_module,true);
 		$criteria->compare('owners',$this->owners,true);
+        $criteria->compare('order',$this->order,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -191,5 +193,17 @@ class Module extends CActiveRecord
 
         public function getByAlias($alias){
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
+    }
+
+    public function addNewModule($idCourse, $newModuleName, $order, $lang){
+        $module = new Module();
+        $module->course = $idCourse;
+        $module->alias = 'module'.$order;
+        $module->order = $order;
+        $module->language = $lang;
+        $module->module_name = $newModuleName;
+        if($module->validate()) {
+            $module->save();
+        }
     }
 }

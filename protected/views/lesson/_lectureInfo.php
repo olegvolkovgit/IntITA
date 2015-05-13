@@ -30,6 +30,7 @@
     <div id="lectionTypeText"><?php echo $lecture-> getTypeInfo()['text']; ?></div>
     <div id="lectionTypeImage"><img src="<?php echo Yii::app()->request->baseUrl.$lecture-> getTypeInfo()['image'];; ?>"></div>
 </li>
+<br>
 <li><div id="subTitle"><?php echo Yii::t('lecture','0075'); ?></div>
     <div id="lectureTimeText"><?php echo $lecture->durationInMinutes.Yii::t('lecture','0076'); ?></div>
     <div id="lectureTimeImage"><img src="<?php echo Yii::app()->request->baseUrl.'/css/images/timeIco.png'; ?>"></div>

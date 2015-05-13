@@ -82,13 +82,12 @@ div.courseShortInf table {
 div.courseShortInfoTable{
     display: inline-block;
 }
-.courseShortInfo table.courseLevelLine{
-    width: 100%;
-    border-collapse: collapse;
+.courseShortInfo div.courseLevelName {
+    display: inline-block;
+    margin-right: 80px;
 }
-
-.courseShortInfo td.courseLevel {
-    text-align: right;
+.courseShortInfo div.courseLevel{
+    display: inline-block;
 }
 /*Short Info*/
 
@@ -255,6 +254,31 @@ p.subCourseInfo, p.courseAboutTeacher{
     white-space: nowrap
 }
 /*modules*/
-td{
-
+#addModuleButton{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    display: none;
 }
+#editIco{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+#newModuleName{
+    height: 25px;
+    width: 500px;
+}
+#moduleForm{
+    display: none;
+}
+.aliasColumn{
+    white-space: nowrap;
+background-color: white;
+float:left;
+margin-left: 0px;
+margin-top: 0px;
+margin-bottom: 0px;
+padding-left: 0px;
+}
+

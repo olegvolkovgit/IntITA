@@ -18,33 +18,6 @@ class CourseController extends Controller
 			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
-
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -122,10 +95,30 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
+        $criteria=new CDbCriteria();
+        $criteria->addCondition('course='.$id);
+
+        $dataProvider = new CActiveDataProvider('Module', array(
+            'criteria' =>$criteria,
+            'pagination'=>false,
+            'sort'=>array(
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            )
+        ));
+
         $model = Course::model()->findByPk($id);
+        if ( Yii::app()->user->getId() == 38) {
+            $canEdit = true;
+        } else {
+            $canEdit = false;
+        }
 
 		$this->render('index',array(
 			'model'=>$model,
+            'dataProvider' => $dataProvider,
+            'canEdit' => $canEdit,
 		));
 	}
 
@@ -171,4 +164,75 @@ class CourseController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+    public function actionUnableModule(){
+        $idModule = $_GET['idModule'];
+
+        $idCourse =Module::model()->findByPk($idModule)->course;
+        $order = Module::model()->findByPk($idModule)->order;
+
+        Module::model()->updateByPk($idModule, array('order' => 0));
+        Module::model()->updateByPk($idModule, array('course' => 0));
+
+        $count = Course::model()->findByPk($idCourse)->modules_count;
+        for ($i = $order + 1; $i < $count; $i++){
+            $id = Module::model()->findByAttributes(array('order'=>$i))->module_ID;
+            Module::model()->updateByPk($id, array('order' => $i-1));
+        }
+        Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionUpModule(){
+        $idModule = $_GET['idModule'];
+        $order = Module::model()->findByPk($idModule)->order;
+
+        if($order > 1) {
+            $idPrev = Module::model()->findByAttributes(array('order' => $order - 1))->module_ID;
+
+            Module::model()->updateByPk($idModule, array('order' => $order - 1));
+            Module::model()->updateByPk($idPrev, array('order' => $order));
+        }
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDownModule(){
+        $idModule = $_GET['idModule'];
+        $idCourse =Module::model()->findByPk($idModule)->course;
+
+        $count = Course::model()->findByPk($idCourse)->modules_count;
+        $order = Module::model()->findByPk($idModule)->order;
+
+        if($order < $count) {
+            $idNext = Module::model()->findByAttributes(array('order' => $order + 1))->module_ID;
+
+            Module::model()->updateByPk($idModule, array('order' => $order + 1));
+            Module::model()->updateByPk($idNext, array('order' => $order));
+        }
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCourseUpdate(){
+        if(Yii::app()->request->isPostRequest) {
+            $model = new Course;
+            $model->attributes = $_POST;
+            if($model->save()) {
+                echo CJSON::encode(array('id' => $model->primaryKey));
+            } else {
+                $errors = array_map(function($v){ return join(', ', $v); }, $model->getErrors());
+                echo CJSON::encode(array('errors' => $errors));
+            }
+        } else {
+            throw new CHttpException(400, 'Invalid request');
+        }
+
+    }
 }

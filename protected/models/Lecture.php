@@ -13,7 +13,6 @@
  * @property string $title
  * @property integer $idType
  * @property integer $durationInMinutes
- * @property integer $maxNumber
  * @property integer $preLecture
  * @property integer $nextLecture
  * @property string $idTeacher
@@ -41,7 +40,7 @@ class Lecture extends CActiveRecord
         // will receive user inputs.
         return array(
             array('idModule, order, title', 'required'),
-            array('idModule, order, idType, durationInMinutes, maxNumber, preLecture, nextLecture', 'numerical', 'integerOnly' => true),
+            array('idModule, order, idType, durationInMinutes', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('language', 'length', 'max' => 6),
@@ -49,7 +48,7 @@ class Lecture extends CActiveRecord
             array('idTeacher', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, language, idModule, order, title, idType, durationInMinutes, maxNumber, preLecture, nextLecture, idTeacher', 'safe', 'on' => 'search'),
+            array('id, image, alias, language, idModule, order, title, idType, durationInMinutes, idTeacher', 'safe', 'on' => 'search'),
         );
     }
 
@@ -80,9 +79,6 @@ class Lecture extends CActiveRecord
             'title' => 'Title',
             'idType' => 'Id Type',
             'durationInMinutes' => 'Duration In Minutes',
-            'maxNumber' => 'Max Number',
-            'preLecture' => 'Pre Lecture',
-            'nextLecture' => 'Next Lecture',
             'idTeacher' => 'Id Teacher',
         );
     }
@@ -114,9 +110,6 @@ class Lecture extends CActiveRecord
         $criteria->compare('title', $this->title, true);
         $criteria->compare('idType', $this->idType);
         $criteria->compare('durationInMinutes', $this->durationInMinutes);
-        $criteria->compare('maxNumber', $this->maxNumber);
-        $criteria->compare('preLecture', $this->preLecture);
-        $criteria->compare('nextLecture', $this->nextLecture);
         $criteria->compare('idTeacher', $this->idTeacher, true);
 
         return new CActiveDataProvider($this, array(

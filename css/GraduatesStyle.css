@@ -1,0 +1,106 @@
+.subNavBlockGraduates {
+    position: relative;
+    margin: 0 auto;
+    width: 1200px;
+    clear: both;
+}
+
+
+.graduates {
+    color: #4B75A4;
+    border-bottom: 1px solid #d8d8d8;
+    margin-left: 200px;
+}
+.GraduatesBlock {
+    margin-left: 200px;
+    border-bottom: 1px solid #d8d8d8;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    display:inline-block;
+    margin-bottom: 28px;
+    float:left;
+    width: 30%;
+}
+
+.text {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #999999;
+}
+
+.text1 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.text2 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.span {
+    color: #4B75A4;
+}
+.colorP {
+    color: #4B75A4;
+    border-bottom: 1px solid #d8d8d8;
+
+}
+.profileMyRatting {
+    margin-top: 10px;
+}
+
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*----------------------ваоплрфжвадопфждуокпдорывлрпыдлвры-------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+.lessonBlock {
+    margin: 0 auto;
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.spoilerBody {
+    display:none;
+}
+.lessonText {
+    position: relative;
+    float: left;
+    width:60%;
+    z-index: 0;
+}
+.lessonBlock span {
+    font-weight: bold;
+}
+span.spoilerLinks,span.spoilerLinksHidden {
+    cursor:pointer;
+}
+span.spoilerClick:hover{
+    cursor:pointer;
+    color:#666666;
+}
+.spoilerLinksHidden{
+    margin-left: 44px;
+}
+span.spoilerClick {
+    text-decoration:underline;
+    color:#4b75a4;
+    font-size: small;
+    font-weight: normal;
+}
+span.spoilerTriangle {
+    font-size: xx-small;
+    color: #4b75a4;
+    margin-left: 3px;
+}
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*----------------------ваоплрфжвадопфждуокпдорывлрпыдлвры-------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/

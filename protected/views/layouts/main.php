@@ -47,14 +47,14 @@ $header = new Header();?>
 <div id="navigation" class="down" >
     <div class="main" >
         <div id="logo_img" class="down">
-            <a href="<?php echo Yii::app()->request->baseUrl;?>">
+            <a href="<?php echo Yii::app()->createUrl('site/index');?>">
                 <img id="logo" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
             </a>
         </div>
         <ul>
             <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
             <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a></li>
-            <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0137'); ?></a></li>
+            <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header','0137'); ?></a></li>
             <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a></li>
             <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a></li>
         </ul>
@@ -62,7 +62,7 @@ $header = new Header();?>
 
     <div id="lang" class="down">
         <form onsubmit="" name="fff">
-            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua")); ?>
+            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua", 'className'=>'selectedLang')); ?>
             <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
             <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
         </form>
@@ -81,6 +81,7 @@ $header = new Header();?>
     case 'en':
     ?>
         <script>
+            document.getElementById('ua').className = '';
             document.getElementById('en').disabled = true;
             document.getElementById('en').className = "selectedLang";
         </script>
@@ -89,6 +90,7 @@ $header = new Header();?>
     case 'ru':
     ?>
         <script>
+            document.getElementById('ua').className = '';
             document.getElementById('ru').disabled = true;
             document.getElementById('ru').className = "selectedLang";
         </script>
@@ -338,6 +340,24 @@ $header = new Header();?>
             <!--SignIn modal-->
         </div>
     </div><!-- footer -->
+    <!--forgot pass modal-->
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'forgotpass',
+        'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+        'cssFile'=>'jquery-ui.css',
+        'theme'=>'my',
+        'options' => array(
+            'width'=>540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable'=> false
+        ),
+    ));
+    $this->renderPartial('/site/_forgotpass');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+    <!--forgot pass modal-->
 </div>
 </body>
 </html>

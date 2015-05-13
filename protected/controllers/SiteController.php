@@ -46,14 +46,6 @@ class SiteController extends Controller
 		$mainpage = new Mainpage();
 		$mainpage->setValueById(0);
 
-        $permission = new Permissions();
-        $permission->setPermission(38, 2, array('read', 'edit'));
-        $permission->setPermission(39, 2, array('read', 'edit'));
-        $permission->setPermission(40, 2, array('read', 'edit'));
-        $permission->setPermission(41, 2, array('read', 'edit'));
-        $permission->setPermission(42, 2, array('read', 'edit'));
-        $permission->setPermission(43, 2, array('read', 'edit'));
-
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
 		
@@ -117,16 +109,11 @@ class SiteController extends Controller
 	}
 
 	public function initSteps(){
-		$step1=new Step();
-		$step1->setValueById(1);
-		$step2=new Step();
-		$step2->setValueById(2);
-		$step3=new Step();
-		$step3->setValueById(3);
-		$step4=new Step();
-		$step4->setValueById(4);
-		$step5=new Step();
-		$step5->setValueById(5);
+		$step1 = Step::model()->findByPk(1);
+		$step2 = Step::model()->findByPk(2);
+		$step3 = Step::model()->findByPk(3);
+		$step4 = Step::model()->findByPk(4);
+		$step5 = Step::model()->findByPk(5);
 
 		$step1->stepTitle =  Yii::t('step','0038');
 		$step2->stepTitle =  Yii::t('step','0039');
@@ -135,15 +122,11 @@ class SiteController extends Controller
 		$step5->stepTitle =  Yii::t('step','0042');
 
 		$step1->stepText =  Yii::t('step','0044');
-		//To access the list of courses, modules and classes and pass free modules and classes register on the site. Registering will allow you to assess the quality and usability of our product that you will become a reliable partner and advisor to professional fulfillment.');
 		$step2->stepText =  Yii::t('step','0045');
-		//To become a specialist in a certain direction and level (get professional specialization) choose to undergo appropriate course. If you are interested only deepen the knowledge in a particular area of IT, then choose the module to pass.');
 		$step3->stepText =  Yii::t('step','0046');
-		//To start a course or module choose payment scheme (the entire amount for the course, month, potrymestrovo etc) and make a payment convenient way to You (payment scheme or course module can be changed also possible monthly payment on credit).');
 		$step4->stepText =  Yii::t('step','0047');
-		//Learning material is possible by reading the text and / or viewing video for each session. During the development of the material classes perform intermediate tests. At the end of each session do the final test task. Each module ends with an individual project or exam. You can get individual counseling teacher or discuss the issue on the forum.');
 		$step5->stepText =  Yii::t('step','0048');
-		//The result of course is the command thesis project, performed together with other students (the team recommends that forms an independent or executive who approved topic and terms of reference of the project). Filing project involves peredzahyst and protection in the online mode of presentation design.');
+
 
 		return $arraySteps = array(
 			'step1'=>$step1,
@@ -294,8 +277,13 @@ class SiteController extends Controller
         if($model->socialLogin())
             $this->redirect(Yii::app()->request->baseUrl.'/site');
         else {
-            $model->firstName=$user['first_name'];
-            $model->secondName=$user['last_name'];
+            if(isset($user['first_name'])) $model->firstName=$user['first_name'];
+            if(isset($user['last_name'])) $model->secondName=$user['last_name'];
+            if(isset($user['nickname'])) $model->nickname=$user['nickname'];
+            if(isset($user['bdate'])) $model->birthday=$user['bdate'];
+            if(isset($user['phone'])) $model->phone=$user['phone'];
+//            if(isset($user['photo_big'])) $model->avatar=$user['photo_big'];
+            if(isset($user['city'])) $model->address=$user['city'];
             if(isset($user['network'])){
                 switch ($user['network']){
                     case 'facebook':
@@ -323,6 +311,139 @@ class SiteController extends Controller
                 $model->email=$user['email'];
                 if($model->socialLogin())
                     $this->redirect(Yii::app()->request->baseUrl.'/site');
+            }
+        }
+    }
+    public function getToken($token)
+    {
+        $time=date("Y-m-d H:i:s");
+        $model=StudentReg::model()->findByAttributes(array('token'=>$token));
+        if($model===null)
+            throw new CHttpException(404,Yii::t('exception','0237'));
+        elseif(strtotime($time)-strtotime($model->activkey_lifetime)>1800){
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('activkey_lifetime' => null));
+            throw new CHttpException(404,Yii::t('exception','0238'));
+        }
+        else
+        return $model;
+    }
+
+
+    public function actionVerToken($token)
+    {
+        $model=$this->getToken($token);
+        $model->setScenario('recoverypass');
+        if(isset($_POST['ajax']) && $_POST['ajax']==='changep-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        if(Yii::app()->request->getPost('StudentReg'))
+        {
+            $post=Yii::app()->request->getPost('StudentReg');
+            if($model->token==Yii::app()->request->getPost('tokenhid')){
+                $model->attributes=Yii::app()->request->getPost('StudentReg');
+                $model->password=$post['new_password'];
+                $model->token=null;
+                $model->activkey_lifetime=null;
+                if($model->validate()) {
+                    $model->save();
+                    $modellogin = new StudentReg('loginuser');
+                    $modellogin->password=$post['new_password'];
+                    $modellogin->email=$model->email;
+                    if(Yii::app()->user->isGuest && $modellogin->login())
+                        $this->redirect(Yii::app()->createUrl('site/index'));
+                    else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+                }
+            }
+        } else{
+            $this->render('resetpass',array(
+                'model'=>$model,
+            ));
+        }
+    }
+    public function actionVerEmail($token,$email)
+    {
+        $model=$this->getToken($token);
+        if($model)
+        {
+            $model->updateByPk($model->id, array('email' => $email));
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('activkey_lifetime' => null));
+            if(Yii::app()->user->isGuest && $model->login())
+                $this->render('resetemail');
+            else   $this->render('resetemail');
+        }
+        else{
+            $this->render('resetpass',array(
+                'model'=>$model,
+            ));
+        }
+    }
+    public function actionRecoveryPass()
+    {
+        $model = new StudentReg('recovery');
+        // if it is ajax validation request
+        if(isset($_POST['ajax']) && $_POST['ajax']==='recovery-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        // collect user input data
+        $model->attributes=Yii::app()->request->getPost('StudentReg');
+        $getModel= StudentReg::model()->findByAttributes(array('email'=>$model->email));
+        if(Yii::app()->request->getPost('StudentReg'))
+            {
+                $getToken=rand(0, 99999);
+                $getTime=date("Y-m-d H:i:s");
+                $getModel->token=sha1($getToken.$getTime);
+            }
+        if($getModel->validate())
+        {
+            $subject=Yii::t('recovery','0281');
+            $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+            $text=Yii::t('recovery','0239')."<br/>
+                    <a href='http://intita.itatests.com/index.php?r=site/vertoken/view&token=".$getModel->token."'>".Yii::t('recovery','0240')."</a>";
+            $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
+            Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
+            mail($getModel->email,$subject,$text,$headers);
+            if(Yii::app()->user->isGuest)
+                $this->redirect(Yii::app()->createUrl('site/index'));
+            else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+        }
+    }
+    public function actionResetEmail()
+    {
+        if(!Yii::app()->user->isGuest){
+            $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+            $modelReset = new StudentReg('resetemail');
+            // if it is ajax validation request
+            if(isset($_POST['ajax']) && $_POST['ajax']==='resetemail-form')
+            {
+                echo CActiveForm::validate($modelReset);
+                Yii::app()->end();
+            }
+            // collect user input data
+            $modelReset->attributes=Yii::app()->request->getPost('StudentReg');
+            if(Yii::app()->request->getPost('StudentReg'))
+            {
+                $getToken=rand(0, 99999);
+                $getTime=date("Y-m-d H:i:s");
+                $model->token=sha1($getToken.$getTime);
+            }
+            if($model->validate())
+            {
+                $subject=Yii::t('recovery','0282');
+                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text=Yii::t('recovery','0283')."<br/>
+                    <a href='http://intita.itatests.com/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>".Yii::t('recovery','0284')."</a>";
+                $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
+                Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
+                mail($modelReset->email,$subject,$text,$headers);
+                if(Yii::app()->user->isGuest)
+                    $this->redirect(Yii::app()->createUrl('site/index'));
+                else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
             }
         }
     }

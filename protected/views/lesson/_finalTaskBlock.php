@@ -22,9 +22,7 @@
             <div class="BBCode">
                 <form action="" method="post">
                     <textarea class="editor"></textarea>
-
-                    <input  onclick="$(&quot;#mydialog2&quot;).dialog(&quot;open&quot;); return false;" href="#" id="lessonTask3" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
-
+                    <input  href="#" id="lessonTask3" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
                 </form>
             </div>
         </div>

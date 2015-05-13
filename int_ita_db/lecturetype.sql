@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-07 15:18:59
+-- Date/time:                    2015-05-13 21:06:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `lecturetype` (
 -- Dumping data for table int_ita_db.lecturetype: ~4 rows (approximately)
 /*!40000 ALTER TABLE `lecturetype` DISABLE KEYS */;
 INSERT INTO `lecturetype` (`id`, `image`, `text`, `short`, `description`) VALUES
-	(1, '/css/images/lectureType.png', 'лекція', 'л/п', ''),
+	(1, '/css/images/lectureType.png', 'лекція/практика', 'л/п', ''),
 	(2, '/css/images/exam.png', 'екзамен', 'екз', ''),
 	(3, '/css/images/imp.png', 'індивідуальний модульний проект', 'ІМП', ''),
 	(4, '/css/images/kdp.png', 'командний дипломний проект', 'КДП', '');

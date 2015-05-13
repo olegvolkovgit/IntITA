@@ -53,30 +53,20 @@ input[type="submit"]#signInButton    {
     background:#4b75a4;
     margin-top: 25px;
     box-shadow:0px 2px 0px #7f7f7f;
-    font: normal     400 28px/50px "MyriadPro";
+    font: normal     400 28px/50px "MyriadPro2";
     font-size:       25px;
     letter-spacing:1px;
     text-shadow:1px 1px 1px black;
-    padding-right: 25px;
-    background-image: url('images/pointer.png');
     text-shadow:1px 2px 1px rgba(0,0,0,.5);
-    background-repeat: no-repeat;
-    background-position: 145px 18px;
 }
 input#signInButton:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;
-    background-image: url('images/pointer.png');
-    background-repeat: no-repeat;
-    background-position: 145px 18px;
 }
 input#signInButton::-moz-focus-inner {
     padding:0;
     border:0;
-}
-input[type="submit"]#signInButton, x:-moz-any-link {
-    background-position: 145px 17px;
 }
 div.linesignInForm{
     margin:0 auto;
@@ -145,13 +135,6 @@ div.image{
     border-radius: 10px;
     background: #FFF;
     border:1px solid #4B75A4;
-    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-    box-shadow: inset 1px -1px 1px rgba(0, 0, 0, .2);
-      box-shadow: 0 .1em .1em rgba(0,0,0,.2) inset,
-     0 .45em 0 .1em rgba(0,0,0,.05) inset;
-     box-shadow: 0 .1em .1em .1em hsla(0,0%,100%,.8) inset,
-     0 0 .5em rgba(0,0,0,.3);
-     box-shadow: inset 1px -1px 1px rgba(0, 0, 0, .2);*/
     transition: all .3s; /* анимация, чтобы чекбокс переключался плавно */
 }
 /* Меняем фон чекбокса, когда он включен. */
@@ -251,23 +234,16 @@ input[type="submit"]#signInButtonM    {
      color:#ffffff;
      background:#4b75a4;
      box-shadow:0px 2px 0px #7f7f7f;
-     font: normal     400 28px/50px "MyriadPro";
+     font: normal     400 28px/50px "MyriadPro2";
      font-size:       25px;
      letter-spacing:1px;
      text-shadow:1px 1px 1px black;
-     padding-right: 25px;
-     background-image: url('images/pointer.png');
      text-shadow:1px 2px 1px rgba(0,0,0,.5);
-     background-repeat: no-repeat;
-     background-position: 145px 18px;
  }
 input#signInButtonM:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;
-    background-image: url('images/pointer.png');
-    background-repeat: no-repeat;
-    background-position: 145px 18px;
 }
 
 div.error input,
@@ -344,3 +320,19 @@ select.error
  }
 
  /*Slider Registration Form */
+.modalHeader h1{
+    text-align: center;
+    color: #4b75a4;
+    margin-top: 0;
+    padding-top: 0;
+}
+#recovery-form p, #resetemail-form p{
+    text-align: justify;
+}
+#recovery-form div.rowRecovButt,#resetemail-form div.rowRecovButt {
+    margin: 0 auto;
+    margin-top: 10px;
+}
+#recovery-form .errorMessage, #resetemail-form .errorMessage{
+    margin-bottom: 0;
+}

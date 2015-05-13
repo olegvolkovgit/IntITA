@@ -19,7 +19,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php echo Yii::t('profile', '0095'); ?></h2>
+                    <h2><?php $post::getProfileRole($post->id);?></h2>
                 </td>
                 <td>
                     <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/profileedit.png"/>
@@ -101,12 +101,12 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <label for="tab5" title="<?php echo Yii::t('profile', '0112'); ?>"><?php echo Yii::t('profile', '0112'); ?></label>
             <div class="lineUnderTab"></div>
             <input id="tab6" type="radio" name="tabs">
-            <label  for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
-            <input id="tab7" type="radio" name="tabs">
+            <label  for="tab6" class="tabsDown1" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
+<!--            <input id="tab7" type="radio" name="tabs">-->
 <!--            <label for="tab7" title="--><?php //echo Yii::t('profile', '0114'); ?><!--">--><?php //echo Yii::t('profile', '0114'); ?><!--</label>-->
 <!--            <input id="tab8" type="radio" name="tabs">-->
 <!--            <label class="tabsDown" for="tab8" title="--><?php //echo Yii::t('profile', '0115'); ?><!--">--><?php //echo Yii::t('profile', '0115'); ?><!--</label>-->
-<!--            <input id="tab9" type="radio" name="tabs">-->
+            <input id="tab9" type="radio" name="tabs">
             <label class="tabsDown" for="tab9" title="<?php echo Yii::t('profile', '0116'); ?>"><?php echo Yii::t('profile', '0116'); ?></label>
             <input id="tab10" type="radio" name="tabs">
             <label class="tabsDown" style="background-image:url(<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeico.png);background-repeat: no-repeat;background-position:10px 3px;" for="tab10" title="<?php echo Yii::t('profile', '0117'); ?>"><?php echo Yii::t('profile', '0117'); ?></label>

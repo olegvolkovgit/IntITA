@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-07 15:18:59
+-- Date/time:                    2015-05-13 21:06:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT NULL,
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.lectures: ~17 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~27 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`) VALUES
 	(1, '/css/images/lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '2'),
@@ -45,7 +45,17 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(23, '/css/images/lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2'),
 	(24, '/css/images/lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '2'),
 	(26, '/css/images/lectureImage.png', 'lecture14', 'ua', 1, 13, 'Фреймворк Yii', 1, 60, '2'),
-	(27, '/css/images/lectureImage.png', 'lecture15', 'ua', 1, 14, 'Фреймворк Lavarel', 1, 60, '2');
+	(27, '/css/images/lectureImage.png', 'lecture15', 'ua', 1, 14, 'Фреймворк Lavarel', 1, 60, '2'),
+	(28, NULL, 'lecture15', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(29, NULL, 'lecture16', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
+	(30, NULL, 'lecture15', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(31, NULL, 'lecture15', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
+	(32, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(33, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(34, NULL, 'lecture16', 'ua', 0, 0, 'Примітки', NULL, NULL, NULL),
+	(35, NULL, 'lecture17', 'ua', 0, 0, 'Приклади коду', NULL, NULL, NULL),
+	(36, NULL, 'lecture18', 'ua', 0, 0, 'Висновки', NULL, NULL, NULL),
+	(37, NULL, 'lecture15', 'ua', 0, 0, 'dakwdjlkwe', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
