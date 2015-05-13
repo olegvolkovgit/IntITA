@@ -340,6 +340,24 @@ $header = new Header();?>
             <!--SignIn modal-->
         </div>
     </div><!-- footer -->
+    <!--forgot pass modal-->
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'forgotpass',
+        'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+        'cssFile'=>'jquery-ui.css',
+        'theme'=>'my',
+        'options' => array(
+            'width'=>540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable'=> false
+        ),
+    ));
+    $this->renderPartial('/site/_forgotpass');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+    <!--forgot pass modal-->
 </div>
 </body>
 </html>
