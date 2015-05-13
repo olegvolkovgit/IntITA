@@ -1,6 +1,3 @@
-<!-- regform -->
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/regform.css"/>
-<!-- regform -->
 <?php
 $rForm = new StudentReg;
 
