@@ -134,11 +134,11 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-         'imagesPath'=>'http://localhost/IntITA/images',
-         'avatarsPath'=>'http://localhost/IntITA/avatars',
-         'commonPath' =>'http://localhost/IntITA/files',
-       // 'imagesPath'=>'http://intita.itatests.com/images',
-       // 'avatarsPath'=>'http://intita.itatests.com/avatars',
-       // 'commonPath' =>'http://intita.itatests.com/files',
+//         'imagesPath'=>'http://localhost/IntITA/images',
+//         'avatarsPath'=>'http://localhost/IntITA/avatars',
+//         'commonPath' =>'http://localhost/IntITA/files',
+        'imagesPath'=>'http://intita.itatests.com/images',
+        'avatarsPath'=>'http://intita.itatests.com/avatars',
+        'commonPath' =>'http://intita.itatests.com/files',
 	),
 );

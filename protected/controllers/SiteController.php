@@ -404,7 +404,7 @@ class SiteController extends Controller
             $subject=Yii::t('recovery','0281');
             $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
             $text=Yii::t('recovery','0239')."<br/>
-                    <a href='http://localhost/IntITA/index.php?r=site/vertoken/view&token=".$getModel->token."'>".Yii::t('recovery','0240')."</a>";
+                    <a href='http://intita.itatests.com/index.php?r=site/vertoken/view&token=".$getModel->token."'>".Yii::t('recovery','0240')."</a>";
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
             Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
             mail($getModel->email,$subject,$text,$headers);
@@ -437,7 +437,7 @@ class SiteController extends Controller
                 $subject=Yii::t('recovery','0282');
                 $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
                 $text=Yii::t('recovery','0283')."<br/>
-                    <a href='http://localhost/IntITA/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>".Yii::t('recovery','0284')."</a>";
+                    <a href='http://intita.itatests.com/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>".Yii::t('recovery','0284')."</a>";
                 $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
                 Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
                 mail($modelReset->email,$subject,$text,$headers);
