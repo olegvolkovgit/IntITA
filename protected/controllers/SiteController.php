@@ -380,6 +380,24 @@ class SiteController extends Controller
             ));
         }
     }
+    public function actionVerEmail($token,$email)
+    {
+        $model=$this->getToken($token);
+        if($model)
+        {
+            $model->updateByPk($model->id, array('email' => $email));
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('activkey_lifetime' => null));
+            if(Yii::app()->user->isGuest && $model->login())
+                $this->render('resetemail');
+            else   $this->render('resetemail');
+        }
+        else{
+            $this->render('resetpass',array(
+                'model'=>$model,
+            ));
+        }
+    }
     public function actionRecoveryPass()
     {
         $model = new StudentReg('recovery');
@@ -410,6 +428,40 @@ class SiteController extends Controller
             if(Yii::app()->user->isGuest)
                 $this->redirect(Yii::app()->createUrl('site/index'));
             else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+        }
+    }
+    public function actionResetEmail()
+    {
+        if(!Yii::app()->user->isGuest){
+            $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+            $modelReset = new StudentReg('resetemail');
+            // if it is ajax validation request
+            if(isset($_POST['ajax']) && $_POST['ajax']==='resetemail-form')
+            {
+                echo CActiveForm::validate($modelReset);
+                Yii::app()->end();
+            }
+            // collect user input data
+            $modelReset->attributes=Yii::app()->request->getPost('StudentReg');
+            if(Yii::app()->request->getPost('StudentReg'))
+            {
+                $getToken=rand(0, 99999);
+                $getTime=date("Y-m-d H:i:s");
+                $model->token=sha1($getToken.$getTime);
+            }
+            if($model->validate())
+            {
+                $subject='Підтвердження email';
+                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text="Для підтвердження email перейдіть по посиланню нижче:<br/>
+                    <a href='http://localhost/IntITA/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>Нажміть тут для підтвердження email</a>";
+                $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
+                Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
+                mail($modelReset->email,$subject,$text,$headers);
+                if(Yii::app()->user->isGuest)
+                    $this->redirect(Yii::app()->createUrl('site/index'));
+                else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+            }
         }
     }
 }
