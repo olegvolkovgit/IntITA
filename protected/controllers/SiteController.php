@@ -336,11 +336,11 @@ class SiteController extends Controller
         $time=date("Y-m-d H:i:s");
         $model=StudentReg::model()->findByAttributes(array('token'=>$token));
         if($model===null)
-            throw new CHttpException(404,'Запрошена сторінка не існує.');
+            throw new CHttpException(404,Yii::t('exception','0237'));
         elseif(strtotime($time)-strtotime($model->activkey_lifetime)>1800){
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
-            throw new CHttpException(404,'Час дії посилання для відновлення паролю вичерпано.');
+            throw new CHttpException(404,Yii::t('exception','0238'));
         }
         else
         return $model;
@@ -418,10 +418,10 @@ class SiteController extends Controller
             }
         if($getModel->validate())
         {
-            $subject='Відновлення паролю';
+            $subject=Yii::t('recovery','0281');
             $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-            $text="Для відновлення паролю перейдіть по посиланню нижче:<br/>
-                    <a href='http://localhost/IntITA/index.php?r=site/vertoken/view&token=".$getModel->token."'>Нажміть тут для відновлення паролю</a>";
+            $text=Yii::t('recovery','0239')."<br/>
+                    <a href='http://localhost/IntITA/index.php?r=site/vertoken/view&token=".$getModel->token."'>".Yii::t('recovery','0240')."</a>";
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
             Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
             mail($getModel->email,$subject,$text,$headers);
@@ -451,10 +451,10 @@ class SiteController extends Controller
             }
             if($model->validate())
             {
-                $subject='Підтвердження email';
+                $subject=Yii::t('recovery','0282');
                 $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-                $text="Для підтвердження email перейдіть по посиланню нижче:<br/>
-                    <a href='http://localhost/IntITA/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>Нажміть тут для підтвердження email</a>";
+                $text=Yii::t('recovery','0283')."<br/>
+                    <a href='http://localhost/IntITA/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>".Yii::t('recovery','0284')."</a>";
                 $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
                 Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
                 mail($modelReset->email,$subject,$text,$headers);

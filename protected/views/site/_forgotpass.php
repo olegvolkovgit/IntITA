@@ -10,11 +10,10 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 ?>
 <div class="modalHeader">
-    <h1><?php echo 'Відновлення паролю' ?></h1>
+    <h1><?php echo Yii::t('forgotpass','0289')?></h1>
 </div>
 <p>
-    Щоб відновити пароль, введіть свою адресу електронної пошти нижче.
-    На данну електронну пошту буде відправлено посиланням для відновлення паролю. Термін дії посилання 30 хв.
+    <?php echo  Yii::t('forgotpass','0290')?>
 </p>
 <div class="signIn">
     <div class="rowemail">
@@ -24,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     </br>
     <div class="rowRecovButt">
-        <?php $labelButton = 'ВІДПРАВИТИ />'?>
+        <?php $labelButton = Yii::t('forgotpass','0291')?>
         <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM")); ?>
     </div>
 

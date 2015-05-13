@@ -156,7 +156,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
          echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
         }
             ?>
-        <?php echo CHtml::link('Змінити email', '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
+        <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
             <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit")); ?>
         </div>

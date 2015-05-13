@@ -5,7 +5,7 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Відновлення паролю');
+$this->breadcrumbs=array(Yii::t('resetpass','0285'));
 ?>
 <?php
 $chForm = new StudentReg;
@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 <div class="recoveryForm">
     <div class="recoveryHeader">
-        <h1><?php echo 'Відновлення паролю' ?></h1>
+        <h1><?php echo Yii::t('resetpass','0285') ?></h1>
     </div>
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regexp', '0264');?>

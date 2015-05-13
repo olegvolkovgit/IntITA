@@ -10,11 +10,10 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 ?>
 <div class="modalHeader">
-    <h1><?php echo 'Зміна email' ?></h1>
+    <h1><?php echo Yii::t('changeemail','0292')?></h1>
 </div>
 <p>
-    Введіть нову електронну пошту в поле нижче.
-    На данну електронну пошту буде відправлено посиланням для підтвердження дійсності адреси. Термін дії посилання 30 хв.
+    <?php echo Yii::t('changeemail','0293')?>
 </p>
 <div class="signIn">
     <div class="rowemail">
@@ -24,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     </br>
     <div class="rowRecovButt">
-        <?php $labelButton = 'ВІДПРАВИТИ />'?>
+        <?php $labelButton = Yii::t('changeemail','0294')?>
         <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM")); ?>
     </div>
 
