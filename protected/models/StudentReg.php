@@ -20,13 +20,15 @@
  * @property string $aboutUs
  * @property string $aboutMy
  * @property string $role
- * @property boolean $isExtended
- * @property boolean $network
- * @property boolean $facebook
- * @property boolean $googleplus
- * @property boolean $linkedin
- * @property boolean $vkontakte
- * @property boolean $twitter
+ * @property string $isExtended
+ * @property string $network
+ * @property string $facebook
+ * @property string $googleplus
+ * @property string $linkedin
+ * @property string $vkontakte
+ * @property string $twitter
+ * @property string $token
+ * @property string $activkey_lifetime
  */
 class StudentReg extends CActiveRecord
 {
@@ -61,8 +63,12 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
+            array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery'),
+            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery'),
+            array('email', 'authenticateEmail','on'=>'recovery'),
             array('password, new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'changepass'),
-            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'changepass'),
+            array('new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recoverypass'),
+            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'changepass,recoverypass'),
             array('password', 'authenticatePass', 'on'=>'changepass'),
             array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
             array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
@@ -76,7 +82,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter','safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role', 'safe', 'on'=>'search'),
@@ -93,6 +99,12 @@ class StudentReg extends CActiveRecord
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         if(sha1($this->password)!==$model->password)
             $this->addError('password',Yii::t('error','0274'));
+    }
+    public function authenticateEmail()
+    {
+        $model=StudentReg::model()->find("email=:e", array('e'=>$this->email));
+        if(!$model)
+            $this->addError('email','Ви ввели не дійсну електронну адресу');
     }
     public function passdiff()
     {
@@ -228,6 +240,8 @@ class StudentReg extends CActiveRecord
         $criteria->compare('linkedin',$this->linkedin,true);
         $criteria->compare('vkontakte',$this->vkontakte,true);
         $criteria->compare('twitter',$this->twitter,true);
+        $criteria->compare('token',$this->token,true);
+        $criteria->compare('activkey_lifetime',$this->activkey_lifetime,true);
         $criteria->compare('isExtended',$this->isExtended, true);
 
 
