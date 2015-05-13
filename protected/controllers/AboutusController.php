@@ -10,8 +10,7 @@ class AboutusController extends Controller{
 
     public function actionIndex()
     {
-        $mainpage = new Mainpage(0);
-        $mainpage->setValueById(0);
+        $mainpage = Mainpage::model()->findByPk(0);
         $arrayAboutUs = $this->initAboutus();
         $this->render('index', array(
             'mainpage'=>array(

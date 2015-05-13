@@ -46,14 +46,6 @@ class SiteController extends Controller
 		$mainpage = new Mainpage();
 		$mainpage->setValueById(0);
 
-        $permission = new Permissions();
-        $permission->setPermission(38, 2, array('read', 'edit'));
-        $permission->setPermission(39, 2, array('read', 'edit'));
-        $permission->setPermission(40, 2, array('read', 'edit'));
-        $permission->setPermission(41, 2, array('read', 'edit'));
-        $permission->setPermission(42, 2, array('read', 'edit'));
-        $permission->setPermission(43, 2, array('read', 'edit'));
-
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
 		
@@ -117,16 +109,11 @@ class SiteController extends Controller
 	}
 
 	public function initSteps(){
-		$step1=new Step();
-		$step1->setValueById(1);
-		$step2=new Step();
-		$step2->setValueById(2);
-		$step3=new Step();
-		$step3->setValueById(3);
-		$step4=new Step();
-		$step4->setValueById(4);
-		$step5=new Step();
-		$step5->setValueById(5);
+		$step1 = Step::model()->findByPk(1);
+		$step2 = Step::model()->findByPk(2);
+		$step3 = Step::model()->findByPk(3);
+		$step4 = Step::model()->findByPk(4);
+		$step5 = Step::model()->findByPk(5);
 
 		$step1->stepTitle =  Yii::t('step','0038');
 		$step2->stepTitle =  Yii::t('step','0039');
@@ -135,15 +122,11 @@ class SiteController extends Controller
 		$step5->stepTitle =  Yii::t('step','0042');
 
 		$step1->stepText =  Yii::t('step','0044');
-		//To access the list of courses, modules and classes and pass free modules and classes register on the site. Registering will allow you to assess the quality and usability of our product that you will become a reliable partner and advisor to professional fulfillment.');
 		$step2->stepText =  Yii::t('step','0045');
-		//To become a specialist in a certain direction and level (get professional specialization) choose to undergo appropriate course. If you are interested only deepen the knowledge in a particular area of IT, then choose the module to pass.');
 		$step3->stepText =  Yii::t('step','0046');
-		//To start a course or module choose payment scheme (the entire amount for the course, month, potrymestrovo etc) and make a payment convenient way to You (payment scheme or course module can be changed also possible monthly payment on credit).');
 		$step4->stepText =  Yii::t('step','0047');
-		//Learning material is possible by reading the text and / or viewing video for each session. During the development of the material classes perform intermediate tests. At the end of each session do the final test task. Each module ends with an individual project or exam. You can get individual counseling teacher or discuss the issue on the forum.');
 		$step5->stepText =  Yii::t('step','0048');
-		//The result of course is the command thesis project, performed together with other students (the team recommends that forms an independent or executive who approved topic and terms of reference of the project). Filing project involves peredzahyst and protection in the online mode of presentation design.');
+
 
 		return $arraySteps = array(
 			'step1'=>$step1,

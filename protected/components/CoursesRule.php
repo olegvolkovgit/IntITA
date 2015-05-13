@@ -25,7 +25,7 @@ class CoursesRule extends CBaseUrlRule
         if ($route==='course/index')
         {
            if (isset($params['id']))
-               return $params['id'];
+               return  Course::model()->findByAttributes(array('course_ID' => $params['id']))->alias;
         }
         return false;  // не применяем правило
     }

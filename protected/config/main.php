@@ -81,10 +81,7 @@ return array(
 			'urlSuffix' => '/',
 			'caseSensitive' => true,
 			'rules'=>array(
-//				array(
-//					'class' => 'application.components.CoursesRule',
-//					'connectionID' => 'db',
-//				),
+
 				''=>array('site/index', 'urlSuffix' => ''),
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
@@ -94,6 +91,10 @@ return array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+//                array(
+//                    'class' => 'application.components.CoursesRule',
+//                    'connectionID' => 'db',
+//                ),
 			),
 
 		),

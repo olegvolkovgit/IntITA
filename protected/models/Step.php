@@ -29,15 +29,6 @@ class Step extends CActiveRecord
 		return 'step';
 	}
 
-
-	public function setValueById($id)
-	{
-		$this->stepImage=Yii::app()->request->baseUrl.$this->findByPk($id)->stepImagePath.$this->findByPk($id)->stepImage;
-		//$this->stepTitle=$this->findByPk($id)->stepTitle;
-		//$this->stepText=$this->findByPk($id)->stepText;
-		$this->stepNumber=$this->findByPk($id)->stepNumber;
-		//$this->stepName=$this->findByPk($id)->stepName;
-	}
 	/**
 	 * @return array validation rules for model attributes.
 	 */

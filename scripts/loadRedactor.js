@@ -15,12 +15,13 @@ function loadRedactor(order)
         initCallback: function()
         {
             this.selection.restore();
-            $(order).off('click', loadRedactor);
+            $(order).off('click', loadRedactor(order));
         },
         destroyCallback: function()
         {
             console.log('destroy');
-            $(order).on('click', loadRedactor);
+            $(order).on('click', loadRedactor(order));
         }
     });
+
 }
