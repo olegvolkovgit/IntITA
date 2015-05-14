@@ -452,3 +452,14 @@ div.profileStatus{
     font-size: 18px;
     line-height: 100%;
 }
+.infoblock{
+    margin:0 auto;
+    margin-bottom: 200px;
+    width: 540px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    padding: 20px 20px 20px 20px;
+}
+.infoblock h2{
+    text-align: center;
+}

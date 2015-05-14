@@ -134,6 +134,9 @@ class StudentRegController extends Controller
             else $_POST['StudentReg']['educform']='Онлайн';
 
             $model->attributes=$_POST['StudentReg'];
+            $getToken=rand(0, 99999);
+            $getTime=date("Y-m-d H:i:s");
+            $model->token=sha1($getToken.$getTime);
             if($model->validate())
             {
                 if(!empty($_POST['StudentReg']['facebook'])) $model->facebook='https://www.facebook.com/'.$_POST['StudentReg']['facebook'];
@@ -147,8 +150,7 @@ class StudentRegController extends Controller
                     // Указанный email уже занят. Создаем ошибку и передаем в форму
                     $model->addError('email', 'Email уже зайнятий');
                     $this->render("studentreg", array('model' => $model));
-                }else
-                {
+                }else {
                     if($_FILES["upload"]["size"] > 1024*1024*5)
                     {
                         Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 5Мб');
@@ -160,10 +162,14 @@ class StudentRegController extends Controller
                         $model->avatar="/avatars/".$_FILES["upload"]["name"];
                     }
                     $model->save();
-                    $modellogin = new StudentReg('loginuser');
-                    $modellogin->attributes=$_POST['StudentReg'];
-                    if($modellogin->login())
-                        $this->redirect(Yii::app()->request->baseUrl.'/site');
+                    $subject='Дякуємо за реєстрацію!';
+                    $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                    $text="Дякуємо за реєстрацію на сайті! Для активації Вашого облікового запису, будь ласка перейдіть за посиланням: ".
+                        " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                    mail($model->email,$subject,$text,$headers);
+                    $this->render('/site/activationinfo',array(
+                        'model'=>$model,
+                    ));
                 }
             } else {
                 $this->render("studentreg", array('model'=>$model));

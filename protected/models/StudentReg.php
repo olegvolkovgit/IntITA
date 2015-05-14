@@ -29,6 +29,7 @@
  * @property string $twitter
  * @property string $token
  * @property string $activkey_lifetime
+ * @property string $status
  */
 class StudentReg extends CActiveRecord
 {
@@ -82,7 +83,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime','safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role', 'safe', 'on'=>'search'),
@@ -242,6 +243,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('twitter',$this->twitter,true);
         $criteria->compare('token',$this->token,true);
         $criteria->compare('activkey_lifetime',$this->activkey_lifetime,true);
+        $criteria->compare('status',$this->status,true);
         $criteria->compare('isExtended',$this->isExtended, true);
 
 
