@@ -20,21 +20,22 @@
                     <div>
                         <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                         <?php echo "сильний початківець"?>
-
-                        <?php
-                        for ($i=0; $i<3; $i++)
-                        {
-                            ?><span>
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>"/>
-                            </span><?php
-                        }
-                        for ($i=0; $i<2; $i++)
-                        {
-                            ?><span>
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>"/>
-                            </span><?php
-                        }
-                        ?>
+                        <div class="ratico">
+                            <?php
+                            for ($i=0; $i<3; $i++)
+                            {
+                                ?><span>
+                                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>"/>
+                                </span><?php
+                            }
+                            for ($i=0; $i<2; $i++)
+                            {
+                                ?><span>
+                                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>"/>
+                                </span><?php
+                            }
+                            ?>
+                        </div>
                     </div>
                     <div>
                         <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
