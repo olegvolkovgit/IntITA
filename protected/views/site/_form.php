@@ -54,7 +54,7 @@
 
 			<div class="rowButtons">
 				<?php $labelButton = $mainpage->getButtonStart();?>
-				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton")); ?>
+				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'onclick' => 'trimUpEmail()')); ?>
 			</div>
 
 			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>

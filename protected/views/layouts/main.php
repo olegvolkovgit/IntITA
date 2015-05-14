@@ -38,6 +38,9 @@ $header = new Header();?>
     <!-- passEye, jQuery -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
+    <!-- trimEmail-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimEmail.js"></script>
+    <!-- trimEmail -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>

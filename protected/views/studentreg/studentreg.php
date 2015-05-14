@@ -133,7 +133,7 @@ $this->breadcrumbs=array(
         </div>
         <div class="row">
             <?php echo $form->labelEx($model,'email'); ?>
-            <?php echo $form->textField($model,'email',array('maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'email',array('id'=>'trimEm','maxlength'=>255)); ?>
             <span><?php echo $form->error($model,'email'); ?></span>
         </div>
         <div class="rowPass">
@@ -147,7 +147,7 @@ $this->breadcrumbs=array(
             <?php echo $form->error($model,'password_repeat'); ?>
         </div>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton(Yii::t('regexp', '0155'), array('id' => "submit")); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0155'), array('id' => "submit", 'onclick' => 'trimExpEmail()')); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');
