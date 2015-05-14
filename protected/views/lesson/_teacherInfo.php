@@ -9,12 +9,11 @@ $user = new StudentReg();
 $app = Yii::app();
 $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
-<!--<link type="text/css" rel="stylesheet" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">-->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 <div class="teacherBlock">
-    <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/teacherImage.png';//$teacher->foto_url; ?>">
+    <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'teacherImage.png');//$teacher->foto_url; ?>">
     <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
         <span>
                 <ul>

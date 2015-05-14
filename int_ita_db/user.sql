@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-13 21:06:26
+-- Date/time:                    2015-05-14 18:55:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,7 +14,7 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) NOT NULL DEFAULT 'Анонім',
+  `firstName` varchar(255) NOT NULL,
   `identity` varchar(255) NOT NULL,
   `network` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL,

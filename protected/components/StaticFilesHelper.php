@@ -34,6 +34,9 @@ class StaticFilesHelper {
             case "editor":
                 $path = $path.'/editor/'.$name;
                 break;
+            case "avatars":
+                $path = $path.'/avatars/'.$name;
+                break;
             case 'mainpage':
                 $path = $path.'/mainpage/'.$name;
                 break;
@@ -53,7 +56,7 @@ class StaticFilesHelper {
                 $path = $path.'/aboutus/'.$name;
                 break;
             case 'profile':
-                $path = $path.'/profile/'.$name;
+                $path = $path.'/student/'.$name;
                 break;
             case 'teachers':
                 $path = $path.'/teachers/'.$name;
@@ -66,6 +69,15 @@ class StaticFilesHelper {
                 break;
             case 'common':
                 $path = $path.'/common/'.$name;
+                break;
+            case 'icons':
+                $path = $path.'/icons/'.$name;
+                break;
+            case 'rating':
+                $path = $path.'/rating/'.$name;
+                break;
+            case 'signin':
+                $path = $path.'/signin/'.$name;
                 break;
             default:
                 break;

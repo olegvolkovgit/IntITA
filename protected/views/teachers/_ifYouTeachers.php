@@ -9,12 +9,12 @@
 <div class="ifYouTeachers" id="xex">
     <table>
         <tr>
-            <td valign="top"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher123.png"/></td>
+            <td valign="top"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'teacher123.png');?>"/></td>
             <td valign="center"><div id="formTeacher3"><?php echo Yii::t('teachers', '0060');?></div></td>
             <td valign="top">
                 <div id="xex" onclick='xexx()' style="cursor: pointer;">
                     <img
-                        src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/close_button.png">
+                        src="<?php echo StaticFilesHelper::createPath('image', 'common', 'close_button.png');?>">
                 </div>
             </td>
         </tr>

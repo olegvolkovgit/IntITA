@@ -5,13 +5,14 @@
  * Date: 13.05.2015
  * Time: 15:37
  */
+$imagesPath = StaticFilesHelper::createPath('image', 'aboutus', '');
 $block1->drop1Text='<div  class="aboutStepBlock">
 <div style=" " class="oned">
     <span id="spone" style="" class="detailTitle1"> Спробуємо вгадати: </span>
     <table>
     <tr>
     <td>
-   <img src="/IntITA/css/images/000pronas1.png">
+   <img src="/images/aboutus/000pronas1.png">
     </td>
     <td>
   <div>
@@ -23,7 +24,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     </tr>
     </table>
   <div class="imgone"  style="">
-     <img src="/IntITA/css/images/000pronas2.png">
+     <img src="/images/aboutus/000pronas2.png">
   </div>
   <div class="detailavt">
     <table>
@@ -36,13 +37,13 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     </tr>
     <tr>
     <td>
-   <img src="/IntITA/css/images/000pronas3.png">
+   <img src="/images/aboutus/000pronas3.png">
     </td>
     </tr>
     </table>
   </div>
 </div>
- <img class="ellipse" style="" src="/IntITA/css/images/000pronas10.png">
+ <img class="ellipse" style="" src="/images/aboutus/000pronas10.png">
 <div class="twod" style=" ">
     <table>
         <tr>
@@ -56,12 +57,12 @@ $block1->drop1Text='<div  class="aboutStepBlock">
                 <span class="detailTitle14"> ДО ЕКЗОТИЧНИХ КРАЇН?</span>
             </td>
             <td>
-                <img id="imtwo"  style="" src="/IntITA/css/images/000pronas8.png">
+                <img id="imtwo"  style="" src="/images/aboutus/000pronas8.png">
             </td>
         </tr>
     </table>
     <div>
-        <img id="imtwooo" style="" src="/IntITA/css/images/000pronas9.png">
+        <img id="imtwooo" style="" src="/images/aboutus/000pronas9.png">
     </div>
 </div>
 <div >
@@ -79,20 +80,20 @@ $block1->drop1Text='<div  class="aboutStepBlock">
                 <br>
                 <span class="detailTitle15">гроші?</span>
                 <br>
-                <img id="pig" style="" src="/IntITA/css/images/000pronas5.png">
-                <img id="money" style="" src="/IntITA/css/images/000pronas4.png">
+                <img id="pig" style="" src="/images/aboutus/000pronas5.png">
+                <img id="money" style="" src="/images/aboutus/000pronas4.png">
             </td>
             <td>
-                <img id="kopp" style="" src="/IntITA/css/images/000pronas6.png">
-                 <img id="koppstr" style="" src="/IntITA/css/images/000pronas7.png">
+                <img id="kopp" style="" src="/images/aboutus/000pronas6.png">
+                 <img id="koppstr" style="" src="/images/aboutus/000pronas7.png">
             </td>
         </tr>
     </table>
 </div>
 <div  class="detailTitle14" id="four">
     <table><tr><td>
-    <img id="fst1" style="" src="/IntITA/css/images/000pronas12.png">
-     <img id="fst2" style="" src="/IntITA/css/images/000pronas11.png">
+    <img id="fst1" style="" src="/images/aboutus/000pronas12.png">
+     <img id="fst2" style="" src="/images/aboutus/000pronas11.png">
             </td><td>
 <span>А, може, це свобода жити своїм <br>життям? Самостійно керувати <br> власним часом з можливістю <br>працювати за <span>зручним <br>графіком</span> без необхідності <br>щодня їздити на роботу, але<br> при цьому мати стабільно<br> високий дохід?
             </td></tr></table>
@@ -106,7 +107,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
         <tr>
             <td>
-                <img style="" src="/IntITA/css/images/000pronas13.png">
+                <img style="" src="/images/aboutus/000pronas13.png">
             </td>
             <td>
 <span class="detailTitle1">
@@ -122,13 +123,13 @@ $block1->drop1Text='<div  class="aboutStepBlock">
         </tr>
     </table>
 </div>
-<div class="how" >
+<div class="how">
     Як?
 </div>
 <div class="jobfu" style="">
     <h1>Професія майбутнього</h1>
     <table><tr><td>
-                <img src="/IntITA/css/images/000pronas14.png">
+                <img src="/images/aboutus/000pronas14.png">
             </td> <td>
 <span class="detailTitle1">   Сьогодні у тебе є реальна можливість <br>
  поєднати хороший заробіток, гнучкий<br>
