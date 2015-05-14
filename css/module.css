@@ -224,8 +224,10 @@ body .grid-view table.items td.titleColumn{
 .grid-view{
     padding-top: 0px;
 }
-
-
-
+div.ratico{
+    display: inline-block;
+    float: right;
+    /*margin-right: 100px;*/
+}
 
 

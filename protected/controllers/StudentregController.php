@@ -280,7 +280,6 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));
             $model->updateByPk($id, array('birthday' => $_POST['StudentReg']['birthday']));
             $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
-            $model->updateByPk($id, array('email' => $_POST['StudentReg']['email']));
             $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
             $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
             $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
