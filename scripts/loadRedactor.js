@@ -42,6 +42,7 @@ function getIdName() {
             $(order).redactor({
                 preSpaces: true,
                 cleanOnPaste: false,
+                autoclear: false,
                 plugins: ['fontfamily',
                           'fontsize',
                           'fontcolor',
