@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-14 18:55:24
+-- Date/time:                    2015-05-15 17:16:26
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=298 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~282 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~297 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -258,10 +258,10 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(234, 'courses', '0234'),
 	(235, 'courses', '0235'),
 	(236, 'courses', '0236'),
-	(237, 'course', '0237'),
-	(238, 'course', '0238'),
-	(239, 'course', '0239'),
-	(240, 'course', '0240'),
+	(237, 'exception', '0237'),
+	(238, 'exception', '0238'),
+	(239, 'recovery', '0239'),
+	(240, 'recovery', '0240'),
 	(241, 'profile', '0241'),
 	(242, 'regexp', '0242'),
 	(243, 'regexp', '0243'),

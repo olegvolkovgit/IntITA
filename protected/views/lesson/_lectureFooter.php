@@ -15,7 +15,7 @@ $footNavSize='960px'; // Ширина блоку
                 <tr>
                     <td><p><?php echo Yii::t('lecture','0074'); ?></p></td>
                     <td><span><?php echo $lecture->getPreType()['text'] ?></span></td>
-                    <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPreType()['image']; ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
+                    <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPreType()['image']); ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
                     <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
                     <td><span><?php echo $lecture->getPreDur(); ?></span></td>
                     <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
@@ -63,7 +63,7 @@ $footNavSize='960px'; // Ширина блоку
             <tr>
                 <td><p><?php echo Yii::t('lecture','0074'); ?></td>
                 <td><span><?php echo $lecture->getPostType()['text']; ?></span></td>
-                <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPostType()['image']; ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
+                <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPostType()['image']); ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
                 <td><span><?php echo $lecture->getPostDur() ?></span></td>
                 <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>

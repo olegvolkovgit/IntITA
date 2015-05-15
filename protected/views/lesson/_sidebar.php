@@ -12,7 +12,7 @@
                 <?php echo Yii::t('lecture','0072'); ?>
                 <span><?php echo $lecture->getModuleInfoById()['moduleTitle']; ?></span>
             </li>
-            <li><?php echo Yii::t('lecture','0073').$lecture->order.': ';?>
+            <li><?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';?>
                 <span><?php echo $lecture->title; ?></span>
             </li>
             <li><?php echo Yii::t('lecture','0074'); ?>
