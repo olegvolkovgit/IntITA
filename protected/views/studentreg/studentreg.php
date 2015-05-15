@@ -178,7 +178,9 @@ $this->breadcrumbs=array(
     <?php $this->endWidget(); ?>
 </div><!-- form -->
 <script>
-    jQuery(function() {
-        $(".date").inputmask("d/m/y", { "placeholder": "<?php echo Yii::t('regexp', '0262');?>" });
+    $(document).ready(function(){
+        var today = new Date();
+        var yr = today.getFullYear();
+        $(".date").inputmask("dd/mm/yyyy", {yearrange: { minyear: 1900, maxyear: yr-3 }, "placeholder": "<?php echo Yii::t('regexp', '0262');?>"}); //specify year range
     });
 </script>
