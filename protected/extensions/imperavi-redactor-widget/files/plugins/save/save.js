@@ -14,9 +14,10 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 	 
 				this.button.addCallback(button, this.save.testButton);
 			},
-			testButton: function(buttonName)
+			testButton: function()
 			{
-				this.core.destroy();
+				var html = this.code.get();
+				console.log(html);
 			}
 		};
 	};
