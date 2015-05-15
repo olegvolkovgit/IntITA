@@ -446,9 +446,9 @@ class SiteController extends Controller
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
             Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
             mail($getModel->email,$subject,$text,$headers);
-            if(Yii::app()->user->isGuest)
-                $this->redirect(Yii::app()->createUrl('site/index'));
-            else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+            $this->render('resetpassinfo',array(
+                'model'=>$model,
+            ));
         }
     }
     public function actionResetEmail()
@@ -479,9 +479,9 @@ class SiteController extends Controller
                 $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
                 Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
                 mail($modelReset->email,$subject,$text,$headers);
-                if(Yii::app()->user->isGuest)
-                    $this->redirect(Yii::app()->createUrl('site/index'));
-                else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+                $this->render('/site/changeemailinfo',array(
+                    'model'=>$modelReset,
+                ));
             }
         }
     }
