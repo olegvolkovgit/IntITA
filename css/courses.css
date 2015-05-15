@@ -194,8 +194,9 @@
     z-index: 6;
     position: relative;
     left: 70px;
-    top:-22px;
+    top:-20px;
     height: 20px;
+    margin-left: 10px;
 }
 #coursesLangs button{
     background:none!important;
