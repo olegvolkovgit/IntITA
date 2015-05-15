@@ -44,7 +44,13 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
-
+        <div class="imperaviSimple">
+            <div class="btn-save-ImperaviSimple" id="saveButton"
+                 style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; "
+                 onclick="pressSaveRedactor();">
+                <img src="/IntITA/css/images/icons/sv_30px.png">
+            </div>
+        </div>
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
@@ -59,6 +65,7 @@ $this->breadcrumbs=array(
             'dataProvider'=>$dataProvider,
             'itemView'=>'_content',
             'summaryText' => '',
+            'viewData' => array('editMode' => $editMode),
             'emptyText' => 'В данной лекции еще ничего нет (',
             'pagerCssClass'=>'YiiPager',
         ));

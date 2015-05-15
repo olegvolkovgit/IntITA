@@ -6,6 +6,7 @@
  * Time: 18:40
  */
 ?>
+<div class="video" id="<?php echo "t" . $order;?>">
 <h3><span class="subChapter">Відео 1.</span></h3>
 <iframe width="778" height="480" src="<?php echo $data;  ?>" frameborder="0" allowfullscreen></iframe>
 
@@ -15,4 +16,4 @@
         Завантажити це відео
     </a>
 </div>
-
+</div>

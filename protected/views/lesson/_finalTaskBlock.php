@@ -15,10 +15,12 @@
         <div class="instrTaskImg">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
         </div>
-        <div class="instrTaskText">
-            <ol>
-                <?php echo $data;?>
-            </ol>
+        <div class="content">
+            <div class="instrTaskText" id="<?php echo "t" . $order;?>">
+                <ol>
+                    <?php echo $data;?>
+                </ol>
+            </div>
             <div class="BBCode">
                 <form action="" method="post">
                     <textarea class="editor"></textarea>

@@ -6,6 +6,6 @@
  * Time: 18:37
  */
 ?>
-<div class="lessonCode">
+<div class="code" id="<?php echo "t" . $order;?>">
     <?php echo $data;?>
 </div>

@@ -2,17 +2,17 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 
 (function($)
 {
-	RedactorPlugins.advanced = function()
+	RedactorPlugins.close = function()
 	{
 		return {
 			init: function()
 			{
-				var button = this.button.add('advanced', 'Advanced');
+				var button = this.button.add('close', 'Close');
 	 
 				// make your added button as Font Awesome's icon
-				this.button.setAwesome('advanced', 'fa-times');
+				this.button.setAwesome('close', 'fa-times');
 	 
-				this.button.addCallback(button, this.advanced.testButton);
+				this.button.addCallback(button, this.close.testButton);
 			},
 			testButton: function(buttonName)
 			{

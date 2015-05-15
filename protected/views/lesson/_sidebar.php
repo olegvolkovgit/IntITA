@@ -26,7 +26,7 @@
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>">
                 </div>
             </li>
-            </br>
+            <br>
             <li>
                 <?php echo '('.$lecture->order.' з '.$lecture->getModuleInfoById()['countLessons'].' занять)'; ?>
             </li>
