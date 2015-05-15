@@ -5,9 +5,9 @@
  * Date: 13.05.2015
  * Time: 16:36
  */
-$headerText = $mainpageModel->getHeader1();
-$subheaderText = $mainpageModel->getSubheader1();
-$linkName = $mainpageModel->getLinkName();
+$headerText = $mainpage->getHeader1();
+$subheaderText = $mainpage->getSubheader1();
+$linkName = $mainpage->getLinkName();
 ?>
 <div class="mainAboutBlock">
     <div class="mainAbout">

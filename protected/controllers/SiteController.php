@@ -3,7 +3,6 @@
 class SiteController extends Controller
 {
 	/* @var $mainpage Mainpage*/
-	/* @var $modelCarousel Carousel */
 	/* @var $step1 Step*/
 	/* @var $step2 Step*/
 	/* @var $step3 Step*/
@@ -12,7 +11,6 @@ class SiteController extends Controller
 	/* @var $objAbout1 AboutUs*/
 	/* @var $objAbout2 AboutUs*/
 	/* @var $objAbout3 AboutUs*/
-	/* @var $sourceMessages MyCDbMessageSource*/
     /*
 	 * Declares class-based actions.
 	 */
@@ -42,40 +40,15 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index1.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$modelCarousel = new Carousel();
-		$mainpage = new Mainpage();
-		$mainpage->setValueById(0);
+		$mainpage = Mainpage::model()->findByPk(0);
 
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
-		
-		$sliderPictures = array(
-			'slider1'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(1)->imagesPath.$modelCarousel->findByPk(1)->pictureURL,
-			'slider2'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(2)->imagesPath.$modelCarousel->findByPk(2)->pictureURL,
-			'slider3'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(3)->imagesPath.$modelCarousel->findByPk(3)->pictureURL,
-			'slider4'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(4)->imagesPath.$modelCarousel->findByPk(4)->pictureURL,
-		);
-		
+
 		$this->render('index', array(
-			'slider1'=>$sliderPictures['slider1'],
-			'slider2'=>$sliderPictures['slider2'],
-			'slider3'=>$sliderPictures['slider3'],
-			'slider4'=>$sliderPictures['slider4'],
             'mainpageModel'=>$mainpage,
 			'mainpage'=>array(
-				'sliderLine'=> $mainpage->sliderLineURL,
-				'sliderTexture'=> $mainpage->sliderTextureURL,
-				'buttonStart'=>$mainpage->sliderButtonText,
-				'sliderHeader'=>$mainpage->sliderHeader,
-				'sliderText'=>$mainpage->sliderText,
-				'title'=>$mainpage->title,
-				'header1'=>$mainpage->header1,
-				'header2'=>$mainpage->header2,
-				'hexagon'=>$mainpage->hexagon,
-				'subLineImage'=>$mainpage->subLineImage,
 				'stepSize'=>$mainpage->stepSize,
-				'imageNetwork'=>$mainpage->imageNetwork,
-				'formFon'=>$mainpage->formFon,
 			),
 			'block1'=>$arrayAboutUs['objAbout1'],
 			'block2'=>$arrayAboutUs['objAbout2'],
@@ -135,26 +108,6 @@ class SiteController extends Controller
 			'step4'=>$step4,
 			'step5'=>$step5,
 		);
-	}
-
-	public function actionAboutdetail()
-	{
-		//$dataProvider = new CActiveDataProvider('Mainpage');
-        $mainpage = new Mainpage(0);
-		$mainpage->setValueById(0);
-		$arrayAboutUs = $this->initAboutus();
-		$this->render('aboutdetail', array(
-			'mainpage'=>array(
-				'title'=>$mainpage->title,
-				'header1'=>$mainpage->header1,
-				'linkName'=>$mainpage->linkName,
-				'subLineImage'=>$mainpage->subLineImage,
-				'subheader1'=>$mainpage->subheader1,
-			),
-			'block1'=>$arrayAboutUs['objAbout1'],
-			'block2'=>$arrayAboutUs['objAbout2'],
-			'block3'=>$arrayAboutUs['objAbout3'],
-		));
 	}
 
 	/**
