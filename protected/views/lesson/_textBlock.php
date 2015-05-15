@@ -3,11 +3,11 @@
  * Created by PhpStorm.
  * User: Ivanna
  * Date: 14.04.2015
- * Time: 18:36                      onclick="loadRedactor('<?php echo "#".$order?>')"
+ * Time: 18:36
  */
 //echo $data;
 ?>
-<div class="text" id="<?php echo "t" . $order;?>" >
+<div class="text" id="<?php echo "t" . $order;?>">
 
     <?php echo $data;?>
     <?php $idValue = "#" . $order?>
@@ -41,8 +41,11 @@ $this->widget('ImperaviRedactorWidget', array(
         'fontcolor' => array(
             'js' => array('fontcolor.js',),
         ),
-        'advanced' => array(
-            'js' => array('advanced.js',),
+        'save' => array(
+            'js' => array('save.js',),
+        ),
+        'close' => array(
+            'js' => array('close.js',),
         ),
     ),
 ));

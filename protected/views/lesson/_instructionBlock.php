@@ -15,7 +15,8 @@
         <div class="instrTaskImg">
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/instr.png">
         </div>
-        <div class="instrTaskText">
+        <div class="content">
+        <div class="instrTaskText" id="<?php echo "t" . $order;?>">
             <ol>
                 <?php echo $data;?>
             </ol>
