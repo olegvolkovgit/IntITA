@@ -25,7 +25,7 @@
                     <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/timeIco.png'; ?>">
                 </div>
             </li>
-            </br>
+            <br>
             <li>
                 <?php echo '('.$lecture->order.' з '.$lecture->getModuleInfoById()['countLessons'].' занять)'; ?>
             </li>

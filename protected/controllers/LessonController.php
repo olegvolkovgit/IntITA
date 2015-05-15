@@ -20,6 +20,11 @@ class LessonController extends Controller{
 
     public function actionIndex($id){
         $this->initialize($id);
+        if (Yii::app()->user->getId() == 38){
+            $editMode = true;
+        } else{
+            $editMode = false;
+        }
         $lecture = Lecture::model()->findByPk($id);
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->setPagination(array(
@@ -30,6 +35,7 @@ class LessonController extends Controller{
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
+            'editMode' => $editMode,
         ));
     }
 
