@@ -36,11 +36,13 @@ class LessonController extends Controller{
                 'pageSize' => '200',
             )
         );
+        $countBlocks = LectureElement::model()->findBySql('select block_order from lecture_element where id_lecture=:id order by block_order desc limit 1;', array('id' => $id))->block_order;
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
+            'countBlocks' => $countBlocks,
         ));
     }
 
@@ -70,6 +72,17 @@ class LessonController extends Controller{
         $model->html_block = Yii::app()->request->getPost('content');
         var_dump($order);
         $model->save();
+    }
+
+    public function actionCreateNewBlock(){
+        $model = new LectureElement();
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = Yii::app()->request->getPost('order');
+        $model->html_block = Yii::app()->request->getPost('newTextBlock');
+        $model->id_type = 1;
+        $model->type = 'text';
+        $model->save();
+        $this->actionIndex(Yii::app()->request->getPost('idLecture'));
     }
 
 }

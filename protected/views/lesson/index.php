@@ -75,7 +75,24 @@ $this->breadcrumbs=array(
 <!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
 <!--</td></tr></table>-->
 <!--</div>-->
-
+<?php if($editMode){?>
+        <div id="textBlockForm">
+            <form id="addTextBlock" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock');?>" method="post">
+                <br>
+                <span id="formLabel">Новий текстовий блок:</span>
+                <br>
+                <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
+                <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
+                <textarea name="newTextBlock" id="newTextBlock" cols="108"
+                          placeholder="Введіть текст нового блока" required form="addTextBlock" rows="10">
+                </textarea>
+                <br><br>
+                <input type="submit"  value="Додати" id="submitButton">
+            </form>
+        </div>
+    <br>
+    <br>
+<?php }?>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 <!--modal task -->
