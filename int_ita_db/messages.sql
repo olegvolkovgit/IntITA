@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-15 17:16:24
+-- Date/time:                    2015-05-16 15:03:43
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~948 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~903 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -115,7 +115,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(90, 'ua', 'Підсумкове завдання'),
 	(91, 'ua', 'Ви можете також увійти через соцмережі:'),
 	(92, 'ua', 'Забули пароль?'),
-	(93, 'ua', 'ВВІЙТИ'),
+	(93, 'ua', 'ВВІЙТИ />'),
 	(94, 'ua', 'Стан курсу: '),
 	(95, 'ua', 'Профіль студента'),
 	(96, 'ua', 'Редагувати </br> профіль'),
@@ -264,7 +264,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(90, 'en', 'Final task'),
 	(91, 'en', 'You can also enter by social networks:'),
 	(92, 'en', 'Forget password?'),
-	(93, 'en', 'SIGN IN'),
+	(93, 'en', 'SIGN IN />'),
 	(94, 'en', 'Status:'),
 	(95, 'en', 'Student Profile'),
 	(96, 'en', 'Edit </br> profile'),
@@ -413,7 +413,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(90, 'ru', 'Итоговое задание'),
 	(91, 'ru', 'Вы также можете ввойти с помощью соцсетей:'),
 	(92, 'ru', 'Забыли пароль?'),
-	(93, 'ru', 'ВОЙТИ'),
+	(93, 'ru', 'ВОЙТИ />'),
 	(94, 'ru', 'Статус курса: '),
 	(95, 'ru', 'Профиль студента'),
 	(96, 'ru', 'Редактировать </br> профиль'),
@@ -485,9 +485,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(154, 'ua', 'звідки Ви про нас дізналися?'),
 	(154, 'en', 'where you hear about us?'),
 	(154, 'ru', 'откуда Вы о нас узнали?'),
-	(155, 'ua', 'ВІДПРАВИТИ'),
-	(155, 'ru', 'ОТПРАВИТЬ'),
-	(155, 'en', 'SEND'),
+	(155, 'ua', 'ВІДПРАВИТИ />'),
+	(155, 'ru', 'ОТПРАВИТЬ />'),
+	(155, 'en', 'SEND />'),
 	(156, 'ua', 'Завантажити фото профілю'),
 	(156, 'ru', 'Загрузить фото профиля'),
 	(156, 'en', 'Download your profile avatar'),

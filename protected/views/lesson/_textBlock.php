@@ -7,11 +7,9 @@
  */
 ?>
 
-
-
-<div class="text" id="<?php echo "t" . $order;?>" onclick="document.getElementById('saveButton').display = block;">
+<div class="text" id="<?php echo "t" . $order;?>" onclick="function(){order = this.id;}">
     <?php echo $data;?>
-    <?php $idValue = "#" . $order?>
+    <?php $idValue = "#" . $order;?>
 </div>
 
 <?php
@@ -51,20 +49,5 @@ $this->widget('ImperaviRedactorWidget', array(
 ),
 ));
 }
-//    ?>
-
-<script type="text/javascript">
-   function pressSaveRedactor() {
-
-        var selector = '#<?php echo "t" . $order;?>';
-
-        // save content
-        var text = $(selector).redactor('code.get');
-        alert(text);
-
-        // destroy editor
-        $(selector).redactor('core.destroy');
-        $('.btn-save-ImperaviSimple').hide();
-    }
-</script>
+?>
 

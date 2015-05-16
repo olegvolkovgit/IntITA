@@ -32,6 +32,7 @@ window.onload = function () {
 function getIdName() {
     var idName = this.getAttribute('id');
     order = '#'+ idName;
+
     var edit = this.hasAttribute("contenteditable");
     if(edit == false){
         loadTextRedactor();

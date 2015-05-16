@@ -27,6 +27,10 @@
 <!--Load Redactor-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
+<script type="text/javascript">
+    idLecture = <?php echo $lecture->id;?>;
+    order = 1;
+</script>
 <?php
 /* @var $this LessonController */
 
@@ -44,13 +48,6 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
-        <div class="imperaviSimple">
-            <div class="btn-save-ImperaviSimple" id="saveButton"
-                 style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; "
-                 onclick="pressSaveRedactor();">
-                <img src="/IntITA/css/images/icons/sv_30px.png">
-            </div>
-        </div>
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
@@ -66,7 +63,7 @@ $this->breadcrumbs=array(
             'itemView'=>'_content',
             'summaryText' => '',
             'viewData' => array('editMode' => $editMode),
-            'emptyText' => 'В данной лекции еще ничего нет (',
+            'emptyText' => 'В данной лекции еще ничего нет (<br><br><br><br><br>',
             'pagerCssClass'=>'YiiPager',
         ));
         ?>
@@ -123,37 +120,4 @@ $this->breadcrumbs=array(
 //?>
 <!--<!--modal task ---error-->
 
-        <script type="text/javascript">
-            function pressEditRedactor(className)
-            {
-                var selector = className;
-                $(selector).redactor({
-                    focus: true
-                });
-                $('.btn-edit-ImperaviSimple').hide();
-                $('.btn-save-ImperaviSimple').show();
-                $('.btn-cancel-ImperaviSimple').show();
-            }
 
-            function pressCancelRedactor(className)
-            {
-                var selector = className;
-                $(selector).redactor('core.destroy');
-                $('.btn-edit-ImperaviSimple').show();
-                $('.btn-save-ImperaviSimple').hide();
-                $('.btn-cancel-ImperaviSimple').hide();
-            }
-
-            function pressSaveRedactor(className)
-            {
-                var selector = className;
-                // save content if you need
-                var text = $(selector).redactor('code.get');
-
-                // destroy editor
-                $(selector).redactor('core.destroy');
-                $('.btn-edit-ImperaviSimple').show();
-                $('.btn-save-ImperaviSimple').hide();
-                $('.btn-cancel-ImperaviSimple').hide();
-            }
-        </script>

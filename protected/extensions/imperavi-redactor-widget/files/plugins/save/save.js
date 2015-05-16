@@ -12,12 +12,20 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 				// make your added button as Font Awesome's icon
 				this.button.setAwesome('save', 'fa-save');
 	 
-				this.button.addCallback(button, this.save.testButton);
+				this.button.addCallback(button, this.save.sendContent);
+
 			},
-			testButton: function()
+			sendContent: function()
 			{
 				var html = this.code.get();
 				console.log(html);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: 'http://localhost/IntITA/lesson/save',
+                    data: {'content':html,'idLecture':idLecture,'order':order}
+                });
 			}
 		};
 	};

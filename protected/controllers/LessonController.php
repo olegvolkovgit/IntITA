@@ -26,7 +26,12 @@ class LessonController extends Controller{
             $editMode = false;
         }
         $lecture = Lecture::model()->findByPk($id);
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_lecture='.$id);
+
         $dataProvider = new CActiveDataProvider('LectureElement');
+        $dataProvider->criteria = $criteria;
         $dataProvider->setPagination(array(
                 'pageSize' => '200',
             )
@@ -50,4 +55,21 @@ class LessonController extends Controller{
     public function actionUnableLesson(){
         $this->render('unableLesson');
     }
+
+    public function filters()
+    {
+        return array(
+            'ajaxOnly + save',
+        );
+    }
+
+    public function actionSave(){
+        $order = substr(Yii::app()->request->getPost('order'), 2);
+        $id = Yii::app()->request->getPost('idLecture');
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
+        $model->html_block = Yii::app()->request->getPost('content');
+        var_dump($order);
+        $model->save();
+    }
+
 }
