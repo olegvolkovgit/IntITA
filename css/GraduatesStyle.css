@@ -1,25 +1,19 @@
-.subNavBlockGraduates {
-    position: relative;
-    margin: 0 auto;
+.graduateBlock{
     width: 1200px;
-    clear: both;
+    margin: 0 auto;
 }
-
-
 .graduates {
+    position: relative;
+    width: 1200px;
+    margin: 0 auto;
     color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
-    margin-left: 200px;
 }
 .GraduatesBlock {
-    margin-left: 200px;
+    position: relative;
     border-bottom: 1px solid #d8d8d8;
     box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    display:inline-block;
     margin-bottom: 28px;
-    float:left;
-    width: 30%;
 }
 
 .text {
@@ -59,7 +53,6 @@
 
 .lessonBlock {
     margin: 0 auto;
-    width: 500px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -68,8 +61,7 @@
 }
 .lessonText {
     position: relative;
-    float: left;
-    width:60%;
+    width:45%;
     z-index: 0;
 }
 .lessonBlock span {
@@ -104,3 +96,11 @@ span.spoilerTriangle {
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
+.one{
+    width:45%;
+    float:left;
+}
+.two{
+    width:45%;
+    float:right;
+}

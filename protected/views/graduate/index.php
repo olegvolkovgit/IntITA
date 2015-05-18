@@ -13,11 +13,11 @@ $this->breadcrumbs=array(
 <div class="graduateBlock">
 <h1 class="graduates"><?php echo Yii::t('graduates', '0297')?></h1>
     <?php
-    $this->widget('zii.widgets.CListView', array(
+    $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_graduateBlock',
         'summaryText' => '',
-        'emptyText' => '',
+        'columns'=>array("one","two"),
     ));
     ?>
 </div>
