@@ -295,6 +295,7 @@ class SiteController extends Controller
                         break;
                 }
             }
+            $model->status = 1;
             if($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
