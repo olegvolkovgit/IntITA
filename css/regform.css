@@ -163,6 +163,7 @@ div.image{
     position: relative;
     text-align: left;
     float: left;
+    padding-bottom: 5px;
 }
 .regCheckbox  label{
     color:#4B75A4;

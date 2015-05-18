@@ -151,7 +151,12 @@
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmptyYellow.png"/>
         </td>
         <td>
-        <button class="ButtonRatting" style="margin-left: 200px"><?php echo Yii::t('profile', '0253'); ?></button>
+            <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
+                ?>
+                <button class="ButtonRatting" style="margin-left: 200px"><?php echo Yii::t('profile', '0253'); ?></button>
+            <?php
+            }
+            ?>
         </td>
         </tr>
     </table>
