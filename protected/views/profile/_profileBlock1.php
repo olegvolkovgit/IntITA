@@ -10,7 +10,7 @@
     <table>
         <tr>
             <td valign="top">
-                <img src="<?php echo Yii::app()->request->baseUrl.$model->foto_url; ?>"/>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
             </td>
             <td>
                 <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
@@ -45,17 +45,17 @@
                              style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
                              onclick="pressEditRedactor('.<?php echo $currentDiv;?>', 'editIcon1', 'cancelIcon1', 'saveIcon1');"
                         <?$field = '.redactor'?>
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/edt_30px.png" class="icons" >
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'edt_30px.png');?>" class="icons" >
                     </div>
                     <div class="btn-cancel-ImperaviSimple" id="cancelIcon1"
                          style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
                          onclick="pressCancelRedactor('.<?php echo $currentDiv;?>', 'editIcon1', 'cancelIcon1', 'saveIcon1')">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/cls_30px.png" class="icons" >
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'cls_30px.png');?>" class="icons" >
                     </div>
                     <div class="btn-save-ImperaviSimple" id="saveIcon1"
                          style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
                          onclick="pressSaveRedactor('.<?php echo $currentDiv;?>', 'txtMsgFirst', 'editIcon1', 'cancelIcon1', 'saveIcon1');">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/sv_30px.png" class="icons" >
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'sv_30px.png');?>" class="icons" >
                     </div>
                     </div><?php
                 }
@@ -82,17 +82,17 @@
                         <div class="btn-edit-ImperaviSimple" id="editIcon2"
                              style="border: solid 0px black; display: inline-block; float: right; text-align: center; padding-top: 3px; cursor: pointer;"
                              onclick="pressEditRedactor('.txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');" <?$field = '.redactor'?>
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/edt_30px.png" class="icons" >
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'edt_30px.png');?>" class="icons" >
                     </div>
                     <div class="btn-cancel-ImperaviSimple"  id="cancelIcon2"
                          style="width: 5%; height: 100%; border: solid 0px black; float: right; text-align: center;  padding-top: 3px; cursor: pointer; display: none;"
                          onclick="pressCancelRedactor('.txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2')">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/cls_30px.png" class="icons">
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'cls_30px.png');?>" class="icons">
                     </div>
                     <div class="btn-save-ImperaviSimple" id="saveIcon2"
                          style="width:5%; height: 100%; border: solid 0px black; float: right; text-align: center; padding-right: 10px; padding-top: 3px; cursor: pointer; display: none;"
                          onclick="pressSaveRedactor('.txtMsgSecond', 'txtMsgSecond', 'editIcon2', 'cancelIcon2', 'saveIcon2');">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/icons/sv_30px.png" class="icons" >
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'icons', 'sv_30px.png');?>" class="icons" >
                     </div>
                     </div><?php
                 }

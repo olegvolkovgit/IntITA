@@ -6,6 +6,7 @@ $teachers = Teacher::model()->findAll($criteria);
 $criteria1 = new CDbCriteria();
 $criteria1->addInCondition('owners', [3]);
 $modules = Module::model()->findAll($criteria1);
+
 ?>
     <!-- course style -->
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
@@ -17,7 +18,7 @@ for($i = 0; $i < count($teachers); $i++){
         <div class="courseTeacher">
             <div class="courseTeacherImg">
                 <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id));?>">
-                    <img src="<?php echo Yii::app()->request->baseUrl . $teachers[$i]->foto_url; ?>" />
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teachers[$i]->foto_url);?>" />
                 </a>
             </div>
             <div class="courseTeacherInfo">

@@ -2,9 +2,8 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Зміна паролю');
+$this->breadcrumbs=array(Yii::t('resetpass','0314'));
 ?>
 <div class='infoblock' ">
-    На адресу <?php echo $model->email ?> було відправлено листа з інструкціями процедури зміни паролю.
-    Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб змінити пароль.
+<?php echo Yii::t('activeemail','0307').' '.$model->email.' '.Yii::t('resetpass','0315') ?>
 </div>

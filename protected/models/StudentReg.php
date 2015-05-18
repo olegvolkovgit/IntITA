@@ -105,7 +105,7 @@ class StudentReg extends CActiveRecord
     {
         $model=StudentReg::model()->find("email=:e", array('e'=>$this->email));
         if(!$model)
-            $this->addError('email','Ви ввели не дійсну електронну адресу');
+            $this->addError('email',Yii::t('error','0301'));
     }
     public function passdiff()
     {

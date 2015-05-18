@@ -99,6 +99,13 @@ $header = new Header();?>
         </script>
         <?php
         break;
+    default:
+    ?>
+        <script>
+            document.getElementById('ua').disabled = true;
+            document.getElementById('ua').className = "selectedLang";
+        </script>
+    <?php
     }
     ?>
 </div>
@@ -130,7 +137,7 @@ $header = new Header();?>
         </div>
         <div id="logo2" class="down">
             <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                <img  src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
+                <img  src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
             </a>
         </div>
         <div id="hamburgerLang">
@@ -259,36 +266,26 @@ $header = new Header();?>
 </div>
 <div id="contentBoxMain">
     <?php echo $content; ?>
-
-
-
     <div class="clear"></div>
-
-
-
-
     <?php $footer = new Footer();?>
     <div id="footer" >
         <div class="main" style="" >
             <div id="footer1" style="margin-left: 0px;">
-
                 <table><tr><td style=" padding: 0px;" >
-
-
                 <a href="https://twitter.com/INTITA_EDU">
-                    <img style="margin-top: 10px" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/twitter.png"/></a>
+                    <img style="margin-top: 10px" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'twitter.png');?>"/></a>
                 <a href="http://youtube.com">
                     <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/youtube.png"/></a>
                 <a href="https://plus.google.com/u/0/116490432477798418410/posts">
-                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/googlePlus.png"/><br/></a>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'googlePlus.png');?>"/><br/></a>
                         </td></tr>
                    <tr> <td>
                  <a href="https://www.facebook.com/pages/INTITA/320360351410183">
-                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/facebook.png"/></a>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'facebook.png');?>"/></a>
                 <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym">
-                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/inl.png"/></a>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'inl.png');?>"/></a>
                 <a href="http://vk.com/intita">
-                    <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/vkontakte.png"/></a>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'vkontakte.png');?>"/></a>
 
 
                        </td>
@@ -298,7 +295,7 @@ $header = new Header();?>
             <div id="footer2">
                 <div style="margin-left: 15px;">
                     <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                        <img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png" style="max-width: 140px; padding-left: 0px;">
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>" style="max-width: 140px; padding-left: 0px;">
                     </a>
                 </div>
                 <div style="margin-left: 0px; ">
@@ -312,7 +309,7 @@ $header = new Header();?>
                     <ul style="float: right">
                         <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
                         <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021');  ?></a></li>
-                        <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0137');  ?></a></li>
+                        <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header','0137');  ?></a></li>
                         <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017');  ?></a></li>
                         <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018');  ?></a></li>
                     </ul>

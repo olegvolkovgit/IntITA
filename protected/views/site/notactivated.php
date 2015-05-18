@@ -2,9 +2,9 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Обліковий запис не активовано');
+$this->breadcrumbs=array(Yii::t('activeemail','0311'));
 ?>
 <div class='infoblock' ">
-    <h2 style="color: #4b75a4;">Спочатку активуйте обліковий запис</h2>
-Перед тим як увійти на сайт, активуйте Ваш обліковий запис. Лист з активацією був відправлений на електронну пошту: <?php echo $model->email; ?>
+<h2><?php echo Yii::t('activeemail','0312') ?></h2>
+<?php echo Yii::t('activeemail','0313').' '.$model->email; ?>
 </div>

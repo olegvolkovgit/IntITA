@@ -108,6 +108,12 @@ class CourseController extends Controller
             )
         ));
 
+        $dataProvider1 = new CActiveDataProvider('Teacher', array(
+
+        ));
+
+
+
         $model = Course::model()->findByPk($id);
         if ( Yii::app()->user->getId() == 38) {
             $canEdit = true;
@@ -119,6 +125,7 @@ class CourseController extends Controller
 			'model'=>$model,
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
+            'dataProvider1' => $dataProvider1,
 		));
 	}
 

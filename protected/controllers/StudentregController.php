@@ -144,33 +144,25 @@ class StudentRegController extends Controller
                 if(!empty($_POST['StudentReg']['linkedin'])) $model->linkedin='https://www.linkedin.com/'.$_POST['StudentReg']['linkedin'];
                 if(!empty($_POST['StudentReg']['vkontakte'])) $model->vkontakte='http://vk.com/'.$_POST['StudentReg']['vkontakte'];
                 if(!empty($_POST['StudentReg']['twitter'])) $model->twitter='https://twitter.com/'.$_POST['StudentReg']['twitter'];
-
-                if ($model->model()->count("email = :email", array(':email' => $model->email)))
+                if($_FILES["upload"]["size"] > 1024*1024*5)
                 {
-                    // Указанный email уже занят. Создаем ошибку и передаем в форму
-                    $model->addError('email', 'Email уже зайнятий');
-                    $this->render("studentreg", array('model' => $model));
-                }else {
-                    if($_FILES["upload"]["size"] > 1024*1024*5)
-                    {
-                        Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 5Мб');
-                    }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"]))
-                    {
-                        $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
-                        $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                        copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
-                        $model->avatar="/avatars/".$_FILES["upload"]["name"];
-                    }
-                    $model->save();
-                    $subject='Дякуємо за реєстрацію!';
-                    $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-                    $text="Дякуємо за реєстрацію на сайті! Для активації Вашого облікового запису, будь ласка перейдіть за посиланням: ".
-                        " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
-                    mail($model->email,$subject,$text,$headers);
-                    $this->render('/site/activationinfo',array(
-                        'model'=>$model,
-                    ));
+                    Yii::app()->user->setFlash('avatarmessage',Yii::t('error','0302'));
+                }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"]))
+                {
+                    $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
+                    $_FILES["upload"]["name"]=uniqid().'.'.$ext;
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
+                    $model->avatar="/avatars/".$_FILES["upload"]["name"];
                 }
+                $model->save();
+                $subject=Yii::t('activeemail','0298');
+                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text=Yii::t('activeemail','0299').
+                    " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                mail($model->email,$subject,$text,$headers);
+                $this->render('/site/activationinfo',array(
+                    'model'=>$model,
+                ));
             } else {
                 $this->render("studentreg", array('model'=>$model));
             }
@@ -313,7 +305,7 @@ class StudentRegController extends Controller
             if(!empty($_FILES["upload"])) {
                 if($_FILES["upload"]["size"] > 1024*1024*5)
                 {
-                    Yii::app()->user->setFlash('avatarmessage','Розмір файла перевищує 5Мб');
+                    Yii::app()->user->setFlash('avatarmessage',Yii::t('error','0302'));
                     $this->redirect(Yii::app()->request->baseUrl . '/studentreg/edit');
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);

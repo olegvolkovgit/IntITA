@@ -2,9 +2,8 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Зміна email');
+$this->breadcrumbs=array(Yii::t('changeemail','0309'));
 ?>
 <div class='infoblock' ">
-    На адресу <?php echo $model->email ?> було відправлено листа з інструкціями процедури зміни email.
-    Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб зміна email прошла успішно.
+<?php echo Yii::t('activeemail','0307').' '.$model->email.' '.Yii::t('changeemail','0310') ?>
 </div>

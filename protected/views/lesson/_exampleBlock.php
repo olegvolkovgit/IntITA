@@ -5,9 +5,8 @@
  * Date: 14.04.2015
  * Time: 18:39
  */
-echo $data;
+//echo $data;
 ?>
-<!--<span class="subChapter">Зразок коду 1:</span>-->
-<!--<pre class="prettyprint linenums">-->
-<?php //echo $data;?>
-<!--</pre>-->
+<div class="codeExample" id="<?php echo "t" . $order;?>">
+    <?php echo $data;?>
+</div>
