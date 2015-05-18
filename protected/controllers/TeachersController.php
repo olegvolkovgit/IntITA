@@ -205,7 +205,7 @@ class TeachersController extends Controller
     }
 
     public function getCourses(){
-        //$modules = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => $this->idTeacher));
+//        $modules = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => $this->idTeacher));
         $modules =[1,3, 7, 10];
         $criteria = new CDbCriteria();
         $criteria->select = 'course';
