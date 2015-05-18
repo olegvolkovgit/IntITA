@@ -15,10 +15,10 @@ $footNavSize='960px'; // Ширина блоку
                 <tr>
                     <td><p><?php echo Yii::t('lecture','0074'); ?></p></td>
                     <td><span><?php echo $lecture->getPreType()['text'] ?></span></td>
-                    <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPreType()['image']; ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
+                    <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPreType()['image']); ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
                     <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
                     <td><span><?php echo $lecture->getPreDur(); ?></span></td>
-                    <td><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
+                    <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 </tr>
             </table>
             <table class="ratingLeson">
@@ -27,22 +27,22 @@ $footNavSize='960px'; // Ширина блоку
                     for ($i=0; $i<$lecture->getPreRait(); $i++)
                     {
                         ?>
-                        <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
+                        <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                     <?php
                     }
                     for ($j=0; $j<Lecture::MAX_RAIT-$lecture->getPreRait(); $j++)
                     {
                         ?>
-                        <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
+                        <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                     <?php
                     }
                     ?>
                     <td><img src="<?php
                         if ($lecture->getPreMedal()=='Зараховано')
                         {
-                            echo Yii::app()->request->baseUrl."/css/images/medalIco.png";
+                            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                         } else {
-                            echo Yii::app()->request->baseUrl."/css/images/medalIcoFalse.png";
+                            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
                         }
                         ?> " style="width:<?php echo $footNavSize*0.035 . 'px'; ?>"></td>
                 </tr>
@@ -63,10 +63,10 @@ $footNavSize='960px'; // Ширина блоку
             <tr>
                 <td><p><?php echo Yii::t('lecture','0074'); ?></td>
                 <td><span><?php echo $lecture->getPostType()['text']; ?></span></td>
-                <td><img src="<?php echo Yii::app()->request->baseUrl.$lecture->getPostType()['image']; ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
+                <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPostType()['image']); ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
                 <td><span><?php echo $lecture->getPostDur() ?></span></td>
-                <td><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/timeIco.png" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
+                <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
             </tr>
         </table>
         <table class="ratingLeson">
@@ -75,22 +75,22 @@ $footNavSize='960px'; // Ширина блоку
                 for ($i=0; $i<$lecture->getPostRait(); $i++)
                 {
                     ?>
-                    <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco1.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
+                    <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                 <?php
                 }
                 for ($j=0; $j<Lecture::MAX_RAIT-$lecture->getPostRait(); $j++)
                 {
                     ?>
-                    <td>	<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/ratIco0.png" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
+                    <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
                 <?php
                 }
                 ?>
                 <td><img src="<?php
                     if ($lecture->getPostMedal()=='Зараховано')
                     {
-                        echo Yii::app()->request->baseUrl."/css/images/medalIco.png";
+                        echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                     } else {
-                        echo Yii::app()->request->baseUrl."/css/images/medalIcoFalse.png";
+                        echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
                     }
                     ?> " style="width:<?php echo $footNavSize*0.035 . 'px';?>"></td>
             </tr>

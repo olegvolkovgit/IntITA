@@ -54,7 +54,7 @@
 
 			<div class="rowButtons">
 				<?php $labelButton = $mainpage->getButtonStart();?>
-				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton")); ?>
+				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'onclick' => 'trimUpEmail()')); ?>
 			</div>
 
 			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
@@ -63,11 +63,11 @@
                     <div id="uReg" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo,city;
 								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/sociallogin'?>">
 							<ul id="uLoginImages">
-								<li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/facebook2.png" x-ulogin-button = "facebook" title = "Facebook"/></li>
-                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/googleplus2.png" x-ulogin-button = "googleplus" title = "Google +"/></li>
-                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/linkedin2.png" x-ulogin-button = "linkedin" title = "LinkedIn"/></li>
-                                <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/vkontakte2.png" x-ulogin-button = "vkontakte" title = "Вконтакте"/></li>
-								<li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/iconsSingin/twitter2.png" x-ulogin-button = "twitter" title = "Twitter"/></li>
+								<li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>" x-ulogin-button = "facebook" title = "Facebook"/></li>
+                                <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'googleplus2.png'); ?>" x-ulogin-button = "googleplus" title = "Google +"/></li>
+                                <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'linkedin2.png'); ?>" x-ulogin-button = "linkedin" title = "LinkedIn"/></li>
+                                <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'vkontakte2.png'); ?>" x-ulogin-button = "vkontakte" title = "Вконтакте"/></li>
+								<li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'twitter2.png'); ?>" x-ulogin-button = "twitter" title = "Twitter"/></li>
 							</ul>
 					</div>
 			</div>

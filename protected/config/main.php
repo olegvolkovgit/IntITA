@@ -2,6 +2,7 @@
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
+Yii::setPathOfAlias('editable', dirname(__FILE__).'/../extensions/x-editable');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
@@ -25,6 +26,7 @@ return array(
 		'ext.autoadmin.helpers.*',
 		'ext.autoadmin.controllers.*',
         'ext.imperavi-redactor-widget.*',
+        'editable.*' //easy include of editable classes
 	),
 
 	'modules'=>array(
@@ -52,7 +54,7 @@ return array(
 	'components'=>array(
 
 		'clientScript'   => array(
-    		'class' => 'system.web.CClientScript'
+    		'class' => 'system.web.CClientScript',
     	),
 
 		'cache'=>array(
@@ -126,7 +128,17 @@ return array(
 		'config' => array(
 			'class' => 'application.extensions.EConfig',
 		),
-	),
+
+        //X-editable config
+        'editable' => array(
+            'class'     => 'editable.EditableConfig',
+            'form'      => 'plain',        //form style: 'bootstrap', 'jqueryui', 'plain'
+            'mode'      => 'popup',            //mode: 'popup' or 'inline'
+            'defaults'  => array(              //default settings for all editable elements
+                'emptytext' => 'Натисніть для редагування'
+            )
+        ),
+    ),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
@@ -134,11 +146,11 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-         'imagesPath'=>'http://localhost/IntITA/images',
-         'avatarsPath'=>'http://localhost/IntITA/avatars',
-         'commonPath' =>'http://localhost/IntITA/files',
-       // 'imagesPath'=>'http://intita.itatests.com/images',
-       // 'avatarsPath'=>'http://intita.itatests.com/avatars',
-       // 'commonPath' =>'http://intita.itatests.com/files',
+       //  'imagesPath'=>'http://localhost/IntITA/images',
+//         'avatarsPath'=>'http://localhost/IntITA/avatars',
+//         'commonPath' =>'http://localhost/IntITA/files',
+        'imagesPath'=>'http://intita.itatests.com/images',
+        'avatarsPath'=>'http://intita.itatests.com/avatars',
+        'commonPath' =>'http://intita.itatests.com/files',
 	),
 );

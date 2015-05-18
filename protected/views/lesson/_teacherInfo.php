@@ -9,12 +9,15 @@ $user = new StudentReg();
 $app = Yii::app();
 $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
-<!--<link type="text/css" rel="stylesheet" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">-->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 <div class="teacherBlock">
-    <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/teacherImage.png';//$teacher->foto_url; ?>">
+<!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url);//$teacher->foto_url; ?><!--">-->
+    <div
+        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
+        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+    </div>
     <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
         <span>
                 <ul>
@@ -92,6 +95,9 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showCalendar.js"></script>
 
 <script type="text/javascript">
+var firstday = new Date();
+var lastday = new Date();
+lastday.setDate(firstday.getDate()+366);
     $('#dateTimePicker').datetimepicker({
         format: "yyyy-mm-dd",
         language: "<?php echo $app->session['lg']?>",
@@ -102,7 +108,8 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
         startView: 2,
         minView: 2,
         forceParse: 0,
-        startDate: new Date()
+        startDate:  firstday,
+        endDate:  lastday
     });
     $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
 </script>

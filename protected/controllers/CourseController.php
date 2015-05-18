@@ -95,7 +95,6 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
-
         $criteria=new CDbCriteria();
         $criteria->addCondition('course='.$id);
 
@@ -109,6 +108,12 @@ class CourseController extends Controller
             )
         ));
 
+        $dataProvider1 = new CActiveDataProvider('Teacher', array(
+
+        ));
+
+
+
         $model = Course::model()->findByPk($id);
         if ( Yii::app()->user->getId() == 38) {
             $canEdit = true;
@@ -120,6 +125,7 @@ class CourseController extends Controller
 			'model'=>$model,
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
+            'dataProvider1' => $dataProvider1,
 		));
 	}
 
@@ -219,5 +225,21 @@ class CourseController extends Controller
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCourseUpdate(){
+        if(Yii::app()->request->isPostRequest) {
+            $model = new Course;
+            $model->attributes = $_POST;
+            if($model->save()) {
+                echo CJSON::encode(array('id' => $model->primaryKey));
+            } else {
+                $errors = array_map(function($v){ return join(', ', $v); }, $model->getErrors());
+                echo CJSON::encode(array('errors' => $errors));
+            }
+        } else {
+            throw new CHttpException(400, 'Invalid request');
+        }
+
     }
 }

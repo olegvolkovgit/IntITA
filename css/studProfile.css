@@ -104,6 +104,7 @@ table.profileInfo {
     height: 120px;
     padding-left: 8px;
     margin-bottom: -4px;
+    resize: none;
 }
 .studProf input:hover,
 .studProf textarea:hover{
@@ -487,6 +488,7 @@ p.courseLevLang{
 /* PassEye */
 #changepassword{
     float: right;
+    clear: both;
     margin-right: 25px;
     color: #4b75a4;
 }

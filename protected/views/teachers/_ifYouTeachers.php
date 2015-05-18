@@ -9,12 +9,12 @@
 <div class="ifYouTeachers" id="xex">
     <table>
         <tr>
-            <td valign="top"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/teacher123.png"/></td>
+            <td valign="top"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'teacher123.png');?>"/></td>
             <td valign="center"><div id="formTeacher3"><?php echo Yii::t('teachers', '0060');?></div></td>
             <td valign="top">
                 <div id="xex" onclick='xexx()' style="cursor: pointer;">
                     <img
-                        src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/close_button.png">
+                        src="<?php echo StaticFilesHelper::createPath('image', 'common', 'close_button.png');?>">
                 </div>
             </td>
         </tr>
@@ -27,13 +27,13 @@
         <input class="formTeacher1" required type="text" name="lastname">
         <br> <br>
         <label class="formYearname" id="formTeacher" for="yearname"><?php echo Yii::t('teachers', '0176');?></label>
-        <input class="formTeacher1" required type="text" name="yearname">
+        <input class="formTeacher1" id="bdate" required type="text" name="yearname">
         <br> <br>
         <label class="formEducationname" id="formTeacher" for="educationname"><?php echo Yii::t('teachers', '0177');?></label>
         <input class="formTeacher1" required type="text" name="educationname">
         <br> <br>
         <label class="formPhonename" id="formTeacher" for="phonename"><?php echo Yii::t('teachers', '0178');?></label>
-        <input class="formTeacher1" required type="text" name="phonename">
+        <input class="formTeacher1" id="phone" required type="text" name="phonename">
         <br> <br>
         <label class="formTextname" id="formTeacher" for="textname" style="width: 110px; text-align:left"><?php echo Yii::t('teachers', '0179');?></label>
         <textarea class="formTeacher1" id="formTeacher2" required type="text" name="textname"></textarea>
@@ -48,3 +48,10 @@
         endif; ?>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        var today = new Date();
+        var yr = today.getFullYear();
+        $("#bdate").inputmask("dd/mm/yyyy", {yearrange: { minyear: 1900, maxyear: yr-3 }, "placeholder": "<?php echo Yii::t('regexp', '0262');?>"}); //specify year range
+    });
+</script>

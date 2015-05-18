@@ -89,6 +89,9 @@ div.courseShortInfoTable{
 .courseShortInfo div.courseLevel{
     display: inline-block;
 }
+.courseLevelLine {
+    width: 100%;
+}
 /*Short Info*/
 
 /*Course Info*/

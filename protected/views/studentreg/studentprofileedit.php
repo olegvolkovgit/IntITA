@@ -16,8 +16,9 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.date.extensions.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.phone.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.numeric.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.custom.extensions.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.regex.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
 <div class="formStudProfNav">
     <?php
@@ -111,14 +112,9 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         </div>
         <div class="row">
             <?php echo $form->label($model,'email'); ?>
-            <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255)); ?>
+            <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255,"disabled"=>"disabled" )); ?>
             <span><?php echo $form->error($model,'email'); ?></span>
         </div>
-<!--        <div class="row">-->
-<!--            --><?php //echo $form->label($model,'network'); ?>
-<!--            --><?php //echo $form->textField($model,'network',array('value'=>$post->network, 'maxlength'=>255)); ?>
-<!--            --><?php //echo $form->error($model,'network'); ?>
-<!--        </div>-->
         <div class="row">
             <?php echo $form->label($model,'facebook'); ?>
             <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
@@ -158,9 +154,10 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         </div>
         <?php
          } else {
-         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;',));
+         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
         }
             ?>
+        <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
             <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit")); ?>
         </div>
@@ -211,8 +208,28 @@ $this->renderPartial('/studentreg/_changepassword');
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change modal-->
+<!--Change email modal-->
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'changeemail',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('_changeemail');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+<!--Change email modal-->
 <script>
-    jQuery(function() {
-    $(".date").inputmask("d/m/y", { "placeholder": "<?php echo Yii::t('regexp', '0262');?>" });
-    });
+$(document).ready(function(){
+    var today = new Date();
+    var yr = today.getFullYear();
+    $(".date").inputmask("dd/mm/yyyy", {yearrange: { minyear: 1900, maxyear: yr-3 }, "placeholder": "<?php echo Yii::t('regexp', '0262');?>"}); //specify year range
+});
 </script>

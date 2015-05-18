@@ -91,6 +91,10 @@ table.titleProfile td:last-child{
 table.profileInfo {
     margin: 10px 10px 100px 24px;
 }
+table.profileInfo div {
+    word-wrap: break-word;
+    width: 420px;
+}
 .profileInfo span{
     display: block;
 }

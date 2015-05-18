@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-12 18:43:26
+-- Date/time:                    2015-05-18 15:35:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=316 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
 -- Dumping data for table int_ita_db.sourcemessages: ~265 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
@@ -258,10 +258,10 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(234, 'courses', '0234'),
 	(235, 'courses', '0235'),
 	(236, 'courses', '0236'),
-	(237, 'course', '0237'),
-	(238, 'course', '0238'),
-	(239, 'course', '0239'),
-	(240, 'course', '0240'),
+	(237, 'exception', '0237'),
+	(238, 'exception', '0238'),
+	(239, 'recovery', '0239'),
+	(240, 'recovery', '0240'),
 	(241, 'profile', '0241'),
 	(242, 'regexp', '0242'),
 	(243, 'regexp', '0243'),
@@ -301,7 +301,42 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(277, 'error', '0277'),
 	(278, 'error', '0278'),
 	(279, 'module', '0279'),
-	(280, 'module', '0280');
+	(280, 'module', '0280'),
+	(281, 'recovery', '0281'),
+	(282, 'recovery', '0282'),
+	(283, 'recovery', '0283'),
+	(284, 'recovery', '0284'),
+	(285, 'resetpass', '0285'),
+	(286, 'resetemail', '0286'),
+	(287, 'resetemail', '0287'),
+	(288, 'resetemail', '0288'),
+	(289, 'forgotpass', '0289'),
+	(290, 'forgotpass', '0290'),
+	(291, 'forgotpass', '0291'),
+	(292, 'changeemail', '0292'),
+	(293, 'changeemail', '0293'),
+	(294, 'changeemail', '0294'),
+	(295, 'regexp', '0295'),
+	(296, 'breadcrumbs', '0296'),
+	(297, 'graduates', '0297'),
+	(298, 'activeemail', '0298'),
+	(299, 'activeemail', '0299'),
+	(300, 'error', '0300'),
+	(301, 'error', '0301'),
+	(302, 'error', '0302'),
+	(303, 'activeemail', '0303'),
+	(304, 'activeemail', '0304'),
+	(305, 'activeemail', '0305'),
+	(306, 'activeemail', '0306'),
+	(307, 'activeemail', '0307'),
+	(308, 'activeemail', '0308'),
+	(309, 'changeemail', '0309'),
+	(310, 'changeemail', '0310'),
+	(311, 'activeemail', '0311'),
+	(312, 'activeemail', '0312'),
+	(313, 'activeemail', '0313'),
+	(314, 'resetpass', '0314'),
+	(315, 'resetpass', '0315');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

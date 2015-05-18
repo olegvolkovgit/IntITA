@@ -13,7 +13,18 @@ $this->breadcrumbs=array(
 
 <div class="courseBlock">
     <div class="courseTitle">
-        <h1><?php echo $model->course_name;?></h1>
+        <h1><?php echo $model->course_name?>
+<!--            --><?php
+//            $this->widget('editable.Editable', array(
+//                'type'      => 'text',
+//                'name'      => 'course_name',
+//                'text'      => $model->course_name,
+//                'url'       => $this->createUrl('course/updateCourse'),
+//                'title'     => 'Введіть назву курса',
+//                'placement' => 'right'
+//            ));
+//            ?>
+        </h1>
     </div>
     <div class="courseShortInfo">
         <?php $this->renderPartial('_courseShortInfo', array('model'=>$model));?>
@@ -29,3 +40,4 @@ $this->breadcrumbs=array(
 </div>
 </div>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPrice.js"></script>
+
