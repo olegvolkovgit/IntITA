@@ -2,10 +2,9 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Активація облікового запису');
+$this->breadcrumbs=array(Yii::t('activeemail','0303'));
 ?>
 <div class='infoblock' ">
-    <h2 style="color: #4b75a4;">Дякуємо за реєстрацію</h2>
-    На адресу <?php echo $model->email ?> було відправлено листа з інструкціями щодо активації облікового запису.
-    Після отримання листа по електронній пошті, ви ПОВИННІ відвідати URL, вказаний у листі, щоб активувати ваш аккаунт.
+<h2><?php echo Yii::t('activeemail','0306') ?></h2>
+<?php echo Yii::t('activeemail','0307').' '.$model->email.' '.Yii::t('activeemail','0308') ?>
 </div>

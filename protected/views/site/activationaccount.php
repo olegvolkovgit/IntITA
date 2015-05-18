@@ -2,10 +2,9 @@
 $this->pageTitle = 'INTITA';
 ?>
 <?php
-$this->breadcrumbs=array('Активація облікового запису');
+$this->breadcrumbs=array(Yii::t('activeemail','0303'));
 ?>
 <div class='infoblock' ">
-    <h2 style="color: #4b75a4;">Ви успішно активували обліковий запис</h2>
-Спасибі, тепер ваша реєстрація завершена.
-Щоб увійти на сайт під Вашим обліковим записом, введіть електронну пошту та пароль в формі Вхід.
+<h2><?php echo Yii::t('activeemail','0304') ?></h2>
+<?php echo Yii::t('activeemail','0305') ?>
 </div>
