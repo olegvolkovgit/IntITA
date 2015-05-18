@@ -5,6 +5,7 @@
  * Date: 18.05.2015
  * Time: 17:28
  */
+/*CListView в несколько колонок*/
 Yii::import('zii.widgets.CListView');
 
 class ColumnListView extends CListView {
