@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-16 15:56:43
+-- Date/time:                    2015-05-18 15:35:20
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,17 +24,17 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~33 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
-	(1, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p><em><del>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</del></em>\n</p>'),
+	(1, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(1, 2, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
 	(1, 3, 'text', 1, '<p><span class="colorBlack">Імена змінних<strong><em><del></del></em></strong></span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(1, 4, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(1, 5, 'label', 8, '    <a name="Частина 1: Типи змінних та перемінних"></a>'),
 	(1, 6, 'text', 1, '    <h1 class="lessonPart">Частина 1: Типи змінних та перемінних</h1>\r\n    <span class="colorBlack">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:'),
 	(1, 7, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
-	(1, 8, 'text', 1, '    <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування \r\n        імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим,\r\n        що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. \r\n        Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>'),
+	(1, 8, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-<em><strong><del>яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування \n        імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим,\n        що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. \n        Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n	</del></strong></em>\n</p>'),
 	(1, 9, 'code', 4, '\r\n        <p>$names="value";</p>\r\n        <p>$names=5;</p>\r\n        <p>echo $$name;</p>\r\n'),
 	(1, 10, 'text', 1, '    <p>Змінні в РНР представляються у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і символів.</p>'),
 	(1, 11, 'example', 3, '<span class="subChapter">Зразок коду 1:</span>\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>'),
