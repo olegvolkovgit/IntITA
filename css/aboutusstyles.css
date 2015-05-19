@@ -112,8 +112,8 @@
 }
 #aboutDetailMain
 {
-    width:100%;
-
+    width:1200px;
+    margin: 0 auto;
     position:relative;
     margin-top:20px;
 }
@@ -158,30 +158,27 @@
     position:relative;
     display: none;
     width:1200px;
-    left:50%;
-    margin-left:-600px;
+    margin: 0 auto;
 }
 #dropTextLayer2
 {
     position:relative;
     display: none;
-    width:960px;
-    left:50%;
-    margin-left:-480px;
+    width:1200px;
+    margin: 0 auto;
 }
 #dropTextLayer3
 {
     position:relative;
     display: none;
-    width:960px;
-    left:50%;
-    margin-left:-480px;
+    width:1200px;
+    margin: 0 auto;
 }
 .textBox {
     position:relative;
     font-size:14px;
     margin-bottom:0px;
-    padding: 20px;
+
 }
 
 .detailTitle1{
@@ -242,6 +239,7 @@
     text-indent:0em;
 }
 .aboutStepBlock{
+    margin: 0 auto;
     width:1200px;
     border: 2px solid #d9d9d9;
     box-sizing:border-box;
@@ -385,7 +383,41 @@
 }
 .buutt{
     position: relative;
-    left: 465px;
-    width: 400px;
+    margin: 0 auto;
+    width: 195px;
     margin-bottom: 50px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.buutt a.butstart
+{
+    display: inline-block;
+    width:195px;
+    height:52px;
+    letter-spacing:1px;
+    text-shadow: 0.1em 0.1em 0.1em black;
+    color: white;
+    font: normal 400 0.54em/2.16em "MyriadPro2";
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    font-size:       25px;
+    border-top: 0.05em solid #007cbf;
+    background: #4b70a3;
+    border-radius: 0.3em;
+    box-shadow: 0em 0.1em 0em black;
+    z-index: 4;
+}
+.buutt a:hover
+{
+    border-top-color: #454545;
+    background: #454545;
+    color: #fcfcfc;
+    cursor: pointer;
+}
+.buutt a:active
+{
+    border-top-color: #363636;
+    background: #363636;
 }

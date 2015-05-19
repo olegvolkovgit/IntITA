@@ -6,6 +6,11 @@
  * Time: 15:37
  */
 $imagesPath = StaticFilesHelper::createPath('image', 'aboutus', '');
+
+if(Yii::app()->user->isGuest)
+    $buttonStart='<div class="buutt" style=""><a class="butstart" href="site#form">'.Yii::t('slider', '0008').'</a></div>';
+else $buttonStart='';
+
 $block1->drop1Text='<div  class="aboutStepBlock">
 <div style=" " class="oned">
     <span id="spone" style="" class="detailTitle1"> Спробуємо вгадати: </span>
@@ -163,14 +168,10 @@ $block1->drop1Text='<div  class="aboutStepBlock">
 даних.</span>
     </div>
 </div>
-<div">
+<div>
     <div id="beginn" style="" class="detailTitle12">
         Розпочинай вчитися вже зараз!
-    </div>
-    <div class="buutt" style="">
-        <input id="signInButton" type="submit" name="yt0" value="ПОЧАТИ">
-    </div>
-</div>
+    </div>'.$buttonStart.'</div>
 </div>';
 $block1->drop2Text='<div class="aboutStepBlock"><span class="detailTitle1">Навчання майбутнього сьогодні</span>
 <p>Коли мова йде про навчальний заклад, можемо побитися об заклад, що до думки тобі приходять велика будівля з десятками навчальних приміщень, лекційна аудиторія, парти, записники, конспекти, викладачі, лекції, семінари. Така система освіти сформувалася ще у Стародавній Греції, і за кілька тисяч років майже не змінилася. Але зараз світ стоїть на порозі великої революції в освіті, яка назавжди змінить те, як ми навчаємося. Сьогодні технології зробили доступним те, що раніше могли дозволити собі лише одиниці, наймаючи персональних вчителів та репетиторів: персоналізоване навчання.

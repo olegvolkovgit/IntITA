@@ -22,8 +22,8 @@
 	border: 1px solid #08C;
 }
 .jq-checkbox.disabled {
-	opacity: 0.55;
-	filter: alpha(opacity=55);
+	/*opacity: 0.55;*/
+	/*filter: alpha(opacity=55);*/
 }
 
 
