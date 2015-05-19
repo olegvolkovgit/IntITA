@@ -67,6 +67,7 @@ $this->breadcrumbs=array(
             'pagerCssClass'=>'YiiPager',
         ));
         ?>
+    </div>
 <!--<table ><tr><td>-->
 <!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
 <!--            </td><td>-->
@@ -136,5 +137,5 @@ $this->breadcrumbs=array(
 //$this->endWidget('zii.widgets.jui.CJuiDialog');
 //?>
 <!--<!--modal task ---error-->
-
+</div>
 
