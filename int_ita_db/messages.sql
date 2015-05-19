@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-16 15:56:43
+-- Date/time:                    2015-05-18 15:35:20
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~948 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~903 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -494,9 +494,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(157, 'ua', 'ВИБЕРІТЬ ФАЙЛ'),
 	(157, 'ru', 'ВЫБЕРИТЕ ФАЙЛ'),
 	(157, 'en', 'CHOOSE FILE'),
-	(158, 'ua', 'Розмір фото до 512Kб'),
-	(158, 'ru', 'Размер фото до 512Kб'),
-	(158, 'en', 'Photo size to 512Kb'),
+	(158, 'ua', 'Розмір фото до 5 Mб'),
+	(158, 'ru', 'Размер фото до 5 Mб'),
+	(158, 'en', 'Photo size to 5 Mб'),
 	(159, 'ua', 'Файл не вибрано...'),
 	(159, 'ru', 'Файл не выбран...'),
 	(159, 'en', 'The file is not selected'),
@@ -970,7 +970,61 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(296, 'en', 'Graduates'),
 	(297, 'ua', 'Наші випускники'),
 	(297, 'ru', 'Наши выпускники'),
-	(297, 'en', 'Our graduates');
+	(297, 'en', 'Our graduates'),
+	(298, 'ua', 'Дякуємо за реєстрацію!'),
+	(298, 'ru', 'Спасибо за регистрацию!'),
+	(298, 'en', 'Thanks for signing up!'),
+	(299, 'ua', 'Дякуємо за реєстрацію на сайті! Для активації Вашого облікового запису, будь ласка перейдіть за посиланням: '),
+	(299, 'ru', 'Thank you for registering on the site! To activate your account, please go to: '),
+	(299, 'en', 'Спасибо за регистрацию на сайте! Для активации учетной записи, пожалуйста перейдите по ссылке: '),
+	(300, 'ua', 'Ви ввели невірні дані.'),
+	(300, 'ru', 'Вы ввели неверные данные.'),
+	(300, 'en', 'You entered incorrect data.'),
+	(301, 'ua', 'Ви ввели не дійсну електронну адресу'),
+	(301, 'ru', 'You entered is not a valid email address'),
+	(301, 'en', 'Вы ввели недействительными электронный адрес'),
+	(302, 'ua', 'Розмір файла перевищує 5 Мб'),
+	(302, 'ru', 'Размер файла превышает 5 Мб'),
+	(302, 'en', 'File size exceeds 5 MB'),
+	(303, 'ua', 'Активація облікового запису'),
+	(303, 'ru', 'Активация учетной записи'),
+	(303, 'en', 'Account Activation'),
+	(304, 'ua', 'Ви успішно активували обліковий запис'),
+	(304, 'ru', 'Вы успешно активировали аккаунт'),
+	(304, 'en', 'You have successfully activated your account'),
+	(305, 'ua', 'Спасибі, тепер ваша реєстрація завершена. Щоб увійти на сайт під Вашим обліковим записом, введіть електронну пошту та пароль в формі Вхід.'),
+	(305, 'ru', 'Спасибо, теперь ваша регистрация завершена. Чтобы войти на сайт под вашей учетной записью, введите адрес электронной почты и пароль в форме Вход.'),
+	(305, 'en', 'Thank you, now your registration is complete. To enter the site under your account, enter your email and password in the login form.'),
+	(306, 'ua', 'Дякуємо за реєстрацію!'),
+	(306, 'ru', 'Спасибо за регистрацию!'),
+	(306, 'en', 'Thanks for signing up!'),
+	(307, 'ua', 'На адресу'),
+	(307, 'ru', 'На адрес'),
+	(307, 'en', 'Addressed'),
+	(308, 'ua', 'було відправлено листа з інструкціями щодо активації облікового запису. Після отримання листа по електронній пошті, ви ПОВИННІ відвідати URL, вказаний у листі, щоб активувати ваш аккаунт.'),
+	(308, 'ru', 'было отправлено письмо с инструкциями по активации аккаунта. После получения письма по электронной почте, вы ДОЛЖНЫ посетить URL, указанный в письме, чтобы активировать ваш аккаунт.'),
+	(308, 'en', 'was sent a letter with instructions to activate your account. After receiving an e-mail, you should visit URL, specified in the email to activate your account.'),
+	(309, 'ua', 'Зміна email'),
+	(309, 'ru', 'Изменение email'),
+	(309, 'en', 'Changing email'),
+	(310, 'ua', 'було відправлено листа з інструкціями процедури зміни email. Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб зміна email прошла успішно.'),
+	(310, 'ru', 'было отправлено письмо с инструкциями процедуры изменения email. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменение email прошла успешно.'),
+	(310, 'en', 'sent a letter to the instructions procedures change email. After receiving an e-mail, you must visit the URL, specified in the letter to change email passed successfully.'),
+	(311, 'ua', 'Обліковий запис не активовано'),
+	(311, 'ru', 'Аккаунт не активирован'),
+	(311, 'en', 'Your account is not activated'),
+	(312, 'ua', 'Спочатку активуйте обліковий запис'),
+	(312, 'ru', 'Сначала активируйте аккаунт'),
+	(312, 'en', 'First activate account'),
+	(313, 'ua', 'Перед тим як увійти на сайт, активуйте Ваш обліковий запис. Лист з активацією був відправлений на електронну пошту:'),
+	(313, 'ru', 'Перед тем как войти на сайт, активируйте Ваш аккаунт. Письмо с активацией был отправлен на электронную почту:'),
+	(313, 'en', 'Before you sign activate your account. The letter was sent with the activation e-mail:'),
+	(314, 'ua', 'Зміна паролю'),
+	(314, 'ru', 'Изменение пароля'),
+	(314, 'en', 'Password Reset'),
+	(315, 'ua', 'було відправлено листа з інструкціями процедури зміни паролю. Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб змінити пароль.'),
+	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
+	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
