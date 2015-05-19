@@ -16,10 +16,11 @@
             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
         </div>
         <div class="content">
-        <div class="instrTaskText" id="<?php echo "t" . $order;?>">
-            <ol>
-                <?php echo $data;?>
-            </ol>
+            <div class="instrTaskText" id="<?php echo "t" . $order;?>">
+                <ol>
+                    <?php echo $data;?>
+                </ol>
+            </div>
         </div>
     </div>
 </div>

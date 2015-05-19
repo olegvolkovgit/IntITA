@@ -20,10 +20,10 @@ p {
     font-family: "MyriadPro";
     color: #666666;
 }
-.clear {
-    width: 100%;
-    clear: both;
-}
+/*.clear {*/
+    /*width: 100%;*/
+    /*clear: both;*/
+/*}*/
 
 /*************languages buttons*************/
 #lang {
@@ -163,91 +163,122 @@ p {
 /************************************/
 
 /************navigation-bottom***********/
-#footer{
-    margin-top: 5px;
-    margin-bottom: 10px;
+#mainfooter{
+    margin-top: 20px;
+    margin-bottom: 13px;
     overflow: hidden;
-    border-bottom: 1px solid #33ccff;
+    border-bottom: 1px solid #44bdf6;
+    clear: both;
+    box-sizing: content-box;
 }
-
-
-
-#footer .main div{
-    margin-right: px;
-    margin-left: px;
-    margin-top: 10px;
-    float: left;
+.footercontent{
+    display: block;
+    position: relative;
+    width: 1200px;
     height: 90px;
-    overflow: hidden;
-}
-
-#footer1 {
+    margin: 0 auto;
+    /*overflow: hidden;*/
+    vertical-align: top;
     border-left: 1px solid #33ccff;
-    padding-left: 35px;
-    color: #4b75a4;
-margin-left: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-top: 0px;
-
+    border-right: 1px solid #33ccff;
 }
-
-#footer2 {
+.leftfooter{
+    vertical-align: top;
     position: relative;
-    border-left: 1px solid #33ccff;
-    padding-left: 10px;
-    color: #4b75a4;
-    margin-left: 35px;
-    margin-right: 15px;
-    margin-bottom: 0px;
-    bottom: 0px;
+    display: inline-block;
+    float: left;
+    width: 14%;
+    height: 90px;
 }
-
-
-#footer3 {
-    position: relative;
-    border-left: 1px solid #33ccff;
-    padding-left: 25px;
-    color: #4b75a4;
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-left: 0px;
-    buttom: 10px;
-}
-#footer3 img{
-    position: relative;
-    top: 23px;
-}
-#footer4 {
-    border-left: 1px solid #33ccff;
-    padding-left: 2px;
-    margin-left: 25px;
-    margin-right: 0px;
-margin-top: 0px;
-}
-#footer ul {
+#mainfooter .leftfooter table{
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 2px 2px;
     margin-top: 10px;
-
 }
-#footer li {
+#mainfooter .leftfooter table img{
+    vertical-align: middle;
+}
+.centerfooter{
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    width: 74%;
+    height: 90px;
+    padding-left: 10px;
+    padding-right: 18px;
+    color: #4b75a4;
+    border-left: 1px solid #33ccff;
+}
+#mainfooter .centerfooter div{
+    display: inline-block;
+    position: relative;
+    height: 80px;
+}
+#mainfooter .footerlogo img{
+    width: 140px;
+    display: block;
+    margin-top: 12px;
+}
+#mainfooter div.footerlogo {
+    margin-left: 20px;
+}
+#mainfooter div.footercontact {
+    position: relative;
+    width: 200px;
+}
+#mainfooter .footercontact p{
+    position: absolute;
+    left:0;
+    bottom:0;
+    line-height: 14px;
+    margin: 0;
+    margin-left: 15px;
+    font-size: 14px;
+    color: #114988;
+}
+.footermenu{
+    display: inline-block;
+    position: relative;
+    width: 400px;
+    float: right;
+    font-size: 16px;
+    margin-top: 5px;
+}
+#mainfooter .footermenu ul {
+    margin-top: 10px;
+    margin-left: 0;
+    padding-left: 0;
+}
+#mainfooter .footermenu li {
     display:inline;
     padding: 8px;
 }
-#footer li a {
+#mainfooter .footermenu li a {
     text-decoration:none;
     font-family: "MyriadPro";
     font-size: 15px;
     color: #336699;
 }
-#footer li a:hover{
+#mainfooter .footermenu li a:hover{
     color: #666666;
 }
-#footer p{
-    line-height: 14px;
-    margin-top: 15px;
-    margin-left: 15px;
-    font-size: 13px;
-    color: #003399;
+.rightfooter{
+    float: right;
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    width: 8%;
+    height: 90px;
+    border-left: 1px solid #33ccff;
+}
+#mainfooter .rightfooter img{
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    top: 23px;
 }
 /****************************************/
 
