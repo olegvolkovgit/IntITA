@@ -1,11 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 14.05.2015
- * Time: 18:51
- */
-?>
+
 <div class="profileMyRatting">
     <p><?php echo $moduleTitle;?>:
         <?php
