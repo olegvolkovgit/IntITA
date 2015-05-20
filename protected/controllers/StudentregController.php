@@ -32,7 +32,7 @@ class StudentRegController extends Controller
                 'users'=>array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update','changepass'),
+                'actions'=>array('create','update','changepass', 'deleteavatar'),
                 'users'=>array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -343,4 +343,18 @@ class StudentRegController extends Controller
             }
         }
     }
+    public function actionDeleteavatar()
+    {
+        $id=Yii::app()->user->id;
+        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+        if($model->avatar!=='/avatars/noname.png'){
+            unlink(Yii::getpathOfAlias('webroot').$model->avatar);
+            $model->updateByPk($id, array('avatar' => "/avatars/".'noname.png'));
+            $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+        } else {
+            $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+        }
+
+    }
+
 }

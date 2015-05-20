@@ -425,28 +425,28 @@
 <script>
     function changeTabs(n){
         if (n.innerHTML=="<?php echo Yii::t('profile', '0111'); ?>"){
-            $('.exm').toggle('fast');
+            $('#timetable .exm').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0110'); ?>"){
-            $('.consult').toggle('fast');
+            $('#timetable .consult').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0124'); ?>"){
-            $('.imp').toggle('fast');
+            $('#timetable .imp').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0125'); ?>"){
-            $('.kdp').toggle('fast');
+            $('#timetable .kdp').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';

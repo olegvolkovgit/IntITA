@@ -78,9 +78,14 @@
         <div class="snake">
             <img src="<?php echo $mainpage['sliderLine']; ?>">
         </div>
+        <?php if(Yii::app()->user->isGuest) {
+            ?>
         <div class="button">
             <a class="sliderButton" href="#form"><?php echo Yii::t('slider', '0008'); ?></a>
         </div>
+        <?php
+        }
+        ?>
     </div>
 </div>
 <div id="slider" class="owl-carousel">

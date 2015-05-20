@@ -21,7 +21,16 @@
 <!--Sidebar-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
+<!--Font Awesome-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<!--Font Awesome-->
+<!--Load Redactor-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+<!--Load Redactor-->
+<script type="text/javascript">
+    idLecture = <?php echo $lecture->id;?>;
+    order = 1;
+</script>
 <?php
 /* @var $this LessonController */
 
@@ -39,49 +48,32 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
+        <div onclick="enableLessonEdit();">
+            <a href="#">
+                <img src="<?php echo  '/IntITA/images/editor/edt_30px.png';//StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                    id="editIco" title="Редагувати заняття"/>
+            </a>
+        </div>
+        <div onclick="showForm();">
+            <a href="#newBlockForm">
+                <img src="<?php echo '/IntITA/images/editor/add_lesson.png';//StaticFilesHelper::createPath('image', 'editor', 'add.png');?>"
+                     id="addTextBlock" title="Додати новий блок"/>
+            </a>
+        </div>
 
-        <?php
-        // use editor WYSIWYG Imperavi
-        $this->widget('ImperaviRedactorWidget', array(
-            // use editor to field .aboutStepBlock
-            'selector' => '#',
-            'options' => array(
-                'imageUpload' => $this->createUrl('files/upload'),
-                'lang' => 'ua',
-                'toolbar' => true,
-                'iframe' => true,
-                'css' => 'wym.css',
-            ),
-            'plugins' => array(
-                'fullscreen' => array(
-                    'js' => array('fullscreen.js',),
-                ),
-                'video' => array(
-                    'js' => array('video.js',),
-                ),
-                'fontsize' => array(
-                    'js' => array('fontsize.js',),
-                ),
-                'fontfamily' => array(
-                    'js' => array('fontfamily.js',),
-                ),
-                'fontcolor' => array(
-                    'js' => array('fontcolor.js',),
-                ),
-                'advanced' => array(
-                    'js' => array('advanced.js',),
-                ),
-            ),
-        ));
-        //    ?>
 
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
-        <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+        <br>
+        <?php if($countBlocks){?>
+        <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
         <div class="spoilerBody">
             <p><a href="#Частина 1: Типи змінних та перемінних">Частина 1: Типи змінних та перемінних</a></p>
             <p><a href="#Частина 7: Типи данних та математичний аналіз">Частина 7: Типи данних та математичний аналіз</a></p>
+            <br>
         </div>
+        <?php }?>
+
         <!-- Lesson content-->
         <?php
 
@@ -89,10 +81,14 @@ $this->breadcrumbs=array(
             'dataProvider'=>$dataProvider,
             'itemView'=>'_content',
             'summaryText' => '',
-            'emptyText' => 'В данной лекции еще ничего нет (',
+            'viewData' => array('editMode' => $editMode),
+            'emptyText' => Yii::t('lecture', '0316').'<br><br><br><br><br>',
             'pagerCssClass'=>'YiiPager',
+            'ajaxUpdate' => true,
+            'id'=>"blocks_list",
         ));
         ?>
+
 <!--<table ><tr><td>-->
 <!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
 <!--            </td><td>-->
@@ -101,7 +97,8 @@ $this->breadcrumbs=array(
 <!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
 <!--</td></tr></table>-->
 <!--</div>-->
-
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 <!--modal task -->
@@ -146,37 +143,16 @@ $this->breadcrumbs=array(
 //?>
 <!--<!--modal task ---error-->
 
-        <script type="text/javascript">
-            function pressEditRedactor(className)
-            {
-                var selector = className;
-                $(selector).redactor({
-                    focus: true
-                });
-                $('.btn-edit-ImperaviSimple').hide();
-                $('.btn-save-ImperaviSimple').show();
-                $('.btn-cancel-ImperaviSimple').show();
-            }
 
-            function pressCancelRedactor(className)
-            {
-                var selector = className;
-                $(selector).redactor('core.destroy');
-                $('.btn-edit-ImperaviSimple').show();
-                $('.btn-save-ImperaviSimple').hide();
-                $('.btn-cancel-ImperaviSimple').hide();
-            }
+<script type="text/javascript">
+    function enableLessonEdit(){
+        document.getElementById('editIco').style.display = 'none';
+        document.getElementById('addTextBlock').style.display = 'inline-block';
+    }
 
-            function pressSaveRedactor(className)
-            {
-                var selector = className;
-                // save content if you need
-                var text = $(selector).redactor('code.get');
+    function showForm(){
+        document.getElementById('textBlockForm').style.display = 'block';
+    }
+</script>
+</div>
 
-                // destroy editor
-                $(selector).redactor('core.destroy');
-                $('.btn-edit-ImperaviSimple').show();
-                $('.btn-save-ImperaviSimple').hide();
-                $('.btn-cancel-ImperaviSimple').hide();
-            }
-        </script>

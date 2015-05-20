@@ -6,13 +6,13 @@
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/exam.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0124'); ?></span>
+            <span class='selectedTab' onclick="changeProject(this)"><?php echo Yii::t('profile', '0124'); ?></span>
         </td>
         <td>
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/consultation.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0125'); ?></span>
+            <span class='selectedTab' onclick="changeProject(this)"><?php echo Yii::t('profile', '0125'); ?></span>
         </td>
     </tr>
 </table>
@@ -161,3 +161,21 @@
         </td>
     </tr>
 </table>
+
+<script>
+    function changeProject(p){
+        if (p.innerHTML=="<?php echo Yii::t('profile', '0124'); ?>"){
+            $('#projects .imp').toggle('fast');
+            if(p.className=='selectedTab')
+                p.className='unselectedTab';
+            else p.className='selectedTab';
+        }
+
+        if (p.innerHTML=="<?php echo Yii::t('profile', '0125'); ?>"){
+            $('#projects .kdp').toggle('fast');
+            if(p.className=='selectedTab')
+                p.className='unselectedTab';
+            else p.className='selectedTab';
+        }
+    }
+</script>

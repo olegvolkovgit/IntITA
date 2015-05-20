@@ -19,6 +19,11 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.numeric.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.custom.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
+<!--StyleForm Check and radio box-->
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.css" rel="stylesheet" />
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/inputstyler.js"></script>
+<!--StyleForm Check and radio box-->
 <div class="formStudProfNav">
     <?php
     $this->breadcrumbs=array(
@@ -173,6 +178,14 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl.$post->avatar; ?>"/>
+        <?php if($post->avatar!=='/avatars/noname.png') {
+        ?>
+        <a style="display: block" href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
+            Видалити аватар
+        </a>
+        <?php
+        }
+        ?>
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg">

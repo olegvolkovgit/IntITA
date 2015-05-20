@@ -1,5 +1,6 @@
 .regFormBG{
     padding-bottom: 100px;
+    min-width: 1200px;
     background:url('images/formfon.jpg') repeat-x;
     background-position: top center;
     margin-top: 0;

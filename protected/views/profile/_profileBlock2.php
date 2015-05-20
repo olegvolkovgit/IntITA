@@ -10,6 +10,7 @@
     <?php $this->renderPartial('_teacherRate', array('model' => $model)); ?>
 
     <?php
+/**   ljhkhjgjhgkjhgj */
     $this->widget('zii.widgets.CListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_responseBlock',

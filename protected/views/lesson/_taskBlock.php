@@ -6,18 +6,23 @@
  * Time: 18:43
  */
 ?>
+<div class="element">
+    <?php $this->renderPartial('_editToolbar', array('idLecture' => $data['id_lecture'], 'order' =>  $data['block_order']));?>
+
 <div class="lessonTask">
-    <img class="lessonBut" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/lessButton.png">
+    <img class="lessonBut" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?>">
     <div class="lessonButName" unselectable = "on"><?php echo Yii::t('lecture','0086'); ?> 1</div>
     <div class="lessonLine"></div>
     <div class="lessonBG">
         <div class="instrTaskImg">
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/task.png">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
         </div>
-        <div class="instrTaskText">
+        <div class="content">
+        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>">
             <ol>
-                <?php echo $data;?>
+                <?php echo $data['block_order'];?>
             </ol>
+            </div>
             <div class="BBCode">
                 <form action="" method="post">
                     <textarea class="editor"></textarea>
@@ -26,4 +31,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

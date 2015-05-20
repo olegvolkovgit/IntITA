@@ -5,9 +5,12 @@
  * Date: 14.04.2015
  * Time: 18:39
  */
-echo $data;
+//echo $data;
 ?>
-<!--<span class="subChapter">Зразок коду 1:</span>-->
-<!--<pre class="prettyprint linenums">-->
-<?php //echo $data;?>
-<!--</pre>-->
+<div class="element">
+    <?php $this->renderPartial('_editToolbar', array('idLecture' => $data['id_lecture'], 'order' =>  $data['block_order']));?>
+
+<div class="codeExample" id="<?php echo "t" .  $data['block_order'];?>">
+    <?php echo $data['html_block'];?>
+</div>
+</div>
