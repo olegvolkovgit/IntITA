@@ -1,8 +1,4 @@
 <?php
-$criteria = new CDbCriteria();
-$criteria->addInCondition('teacher_id', [1,2,3,4]);
-$teachers = Teacher::model()->findAll($criteria);
-
 $criteria1 = new CDbCriteria();
 $criteria1->addInCondition('owners', [3]);
 $modules = Module::model()->findAll($criteria1);
@@ -10,17 +6,14 @@ $modules = Module::model()->findAll($criteria1);
     <!-- course style -->
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
     <!-- course style -->
-<?php
-    for ($i = 1; $i < count($data); $i++){
-?>
 <div class="courseTeacher">
     <div class="courseTeacherImg">
         <a href="<?php echo Yii::app()->createUrl('profile');?>">
-            <img src="<?php echo Yii::app()->request->baseUrl . $data[$i]->foto_url; ?>" />
-        </a>
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $data['foto_url']);?>" />
+         </a>
     </div>
     <div class="courseTeacherInfo">
-        <h3><a href="<?php echo Yii::app()->createUrl('profile');?>"><?php echo $data[$i]->last_name . " " . $data[$i]->first_name; ?></a></h3>
+        <h3><a href="<?php echo Yii::app()->createUrl('profile');?>"><?php echo $data['last_name'] . " " . $data['first_name']; ?></a></h3>
         <table class="courseTeacherDetail">
             <?php
             for($k = 0; $k < count($modules); $k++){
@@ -36,6 +29,4 @@ $modules = Module::model()->findAll($criteria1);
         </table>
     </div>
 </div>
-<?php
-    }
-?>
+
