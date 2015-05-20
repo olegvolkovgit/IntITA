@@ -179,6 +179,14 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl.$post->avatar; ?>"/>
+        <?php if($post->avatar!=='/avatars/noname.png') {
+        ?>
+        <a style="display: block" href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
+            Видалити аватар
+        </a>
+        <?php
+        }
+        ?>
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
             <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg">
