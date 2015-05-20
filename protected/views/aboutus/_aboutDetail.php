@@ -167,8 +167,8 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <div id="beginn" style="" class="detailTitle12">
         Розпочинай вчитися вже зараз!
     </div>
-    <div class="buutt" style="">
-        <input id="signInButton" type="submit" name="yt0" value="ПОЧАТИ">
+    <div class="buutt" style="" onclick="">
+        <a href="/index.php?#form"><input id="signInButton" type="submit" name="yt0" value="ПОЧАТИ"></a>
     </div>
 </div>
 </div>';

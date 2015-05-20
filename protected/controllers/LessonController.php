@@ -20,11 +20,13 @@ class LessonController extends Controller{
 
     public function actionIndex($id){
         $this->initialize($id);
-        if (Yii::app()->user->getId() == 38){
+        $permission = new Permissions();
+        if ($permission->checkPermission(Yii::app()->user->getId(), $id, array('edit'))) {
             $editMode = true;
-        } else{
+        } else {
             $editMode = false;
         }
+
         $lecture = Lecture::model()->findByPk($id);
 
         $criteria = new CDbCriteria();
@@ -36,7 +38,7 @@ class LessonController extends Controller{
                 'pageSize' => '200',
             )
         );
-        $countBlocks = LectureElement::model()->findBySql('select block_order from lecture_element where id_lecture=:id order by block_order desc limit 1;', array('id' => $id))->block_order;
+        $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -76,13 +78,65 @@ class LessonController extends Controller{
 
     public function actionCreateNewBlock(){
         $model = new LectureElement();
+
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = Yii::app()->request->getPost('order');
         $model->html_block = Yii::app()->request->getPost('newTextBlock');
-        $model->id_type = 1;
+        $model->id_type = '1';
         $model->type = 'text';
+
         $model->save();
-        $this->actionIndex(Yii::app()->request->getPost('idLecture'));
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionUpElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+//        if($order > 1) {
+//            $command = Yii::app()->db->createCommand('');
+//            $block1 = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+//            $block1->block_order = 1000;
+//            $block1->save();
+//            $block1->block_order = $order - 1;
+//
+//            $block2 = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order - 1));
+//            $block2->block_order = $order;
+//
+//            $block2->save();
+//            $block1->save();
+//        }
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDownElement(){
+        var_dump($_POST);
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDeleteElement(){
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+        LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+
+        $this->reorderBlocks($idLecture, $order);
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public  function reorderBlocks($idLecture, $order){
+        $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        for ($i = $order+1; $i < $countBlocks; $i++){
+//            $tmp = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i));
+//            $tmp->block_order -= 1;
+//            $tmp->update();
+        }
+    }
 }
