@@ -166,7 +166,6 @@ p {
 #mainfooter{
     margin-top: 20px;
     margin-bottom: 13px;
-    overflow: hidden;
     border-bottom: 1px solid #44bdf6;
     clear: both;
     box-sizing: content-box;
@@ -177,10 +176,10 @@ p {
     width: 1200px;
     height: 90px;
     margin: 0 auto;
-    /*overflow: hidden;*/
     vertical-align: top;
     border-left: 1px solid #33ccff;
     border-right: 1px solid #33ccff;
+    border-bottom: 1px solid #44bdf6;
 }
 .leftfooter{
     vertical-align: top;
@@ -206,7 +205,6 @@ p {
     width: 74%;
     height: 90px;
     padding-left: 10px;
-    padding-right: 18px;
     color: #4b75a4;
     border-left: 1px solid #33ccff;
 }
@@ -234,14 +232,15 @@ p {
     line-height: 14px;
     margin: 0;
     margin-left: 15px;
-    font-size: 14px;
+    font-size: 0.8em;
     color: #114988;
 }
 .footermenu{
     display: inline-block;
     position: relative;
     float: right;
-    font-size: 16px;
+    max-width: 450px;
+    font-size: 1em;
     margin-top: 5px;
 }
 #mainfooter .footermenu ul {
