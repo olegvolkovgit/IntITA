@@ -94,26 +94,43 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
-//        if($order > 1) {
-//            $command = Yii::app()->db->createCommand('');
-//            $block1 = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
-//            $block1->block_order = 1000;
-//            $block1->save();
-//            $block1->block_order = $order - 1;
-//
-//            $block2 = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order - 1));
-//            $block2->block_order = $order;
-//
-//            $block2->save();
-//            $block1->save();
-//        }
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => -1, ':idLecture' => $idLecture, ':blockOrder' => $order))
+            ->execute();
+
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => $order, ':idLecture' => $idLecture, ':blockOrder' => $order-1))
+            ->execute();
+
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => $order-1, ':idLecture' => $idLecture, ':blockOrder' => -1))
+            ->execute();
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionDownElement(){
-        var_dump($_POST);
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => -1, ':idLecture' => $idLecture, ':blockOrder' => $order))
+            ->execute();
+
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => $order, ':idLecture' => $idLecture, ':blockOrder' => $order+1))
+            ->execute();
+
+        Yii::app()->db
+            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+            ->bindValues(array(':newOrder' => $order+1, ':idLecture' => $idLecture, ':blockOrder' => -1))
+            ->execute();
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -134,7 +151,7 @@ class LessonController extends Controller{
 
     public  function reorderBlocks($idLecture, $order){
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
-        for ($i = $order+1; $i < $countBlocks; $i++){
+        for ($i = $order+1; $i <= $countBlocks; $i++){
             Yii::app()->db
                 ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
                 ->bindValues(array(':newOrder' => $i-1, ':idLecture' => $idLecture, ':blockOrder' => $i))
