@@ -240,7 +240,6 @@ p {
 .footermenu{
     display: inline-block;
     position: relative;
-    width: 400px;
     float: right;
     font-size: 16px;
     margin-top: 5px;
