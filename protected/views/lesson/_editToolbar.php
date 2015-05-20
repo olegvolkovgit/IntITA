@@ -19,7 +19,7 @@
     function upBlock(idLecture, order){
         $.ajax({
             type: "POST",
-            url: "http://intita.itatests.com/lesson/upElement",
+            url: "http://localhost/IntITA/lesson/upElement",
             data: {'idLecture':idLecture, 'order':order},
             success: function(){
                 $.fn.yiiListView.update('blocks_list');
@@ -31,7 +31,7 @@
     function downBlock(idLecture, order){
         $.ajax({
             type: "POST",
-            url: "http://intita.itatests.com/lesson/downElement",
+            url: "http://localhost/IntITA/lesson/downElement",
             data: {'idLecture':idLecture, 'order':order},
             success: function(){
                 $.fn.yiiListView.update('blocks_list');
@@ -43,7 +43,7 @@
     function deleteBlock(idLecture, order){
         $.ajax({
             type: "POST",
-            url: "http://intita.itatests.com/lesson/deleteElement",
+            url: "http://localhost/IntITA/lesson/deleteElement",
             data: {'idLecture':idLecture, 'order':order},
             success: function(){
                 $.fn.yiiListView.update('blocks_list');

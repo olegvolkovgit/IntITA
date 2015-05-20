@@ -117,16 +117,19 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
+        //delete order of called block
         Yii::app()->db
             ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
             ->bindValues(array(':newOrder' => -1, ':idLecture' => $idLecture, ':blockOrder' => $order))
             ->execute();
 
+        //update next block order
         Yii::app()->db
             ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
             ->bindValues(array(':newOrder' => $order, ':idLecture' => $idLecture, ':blockOrder' => $order+1))
             ->execute();
 
+        //update called block order
         Yii::app()->db
             ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
             ->bindValues(array(':newOrder' => $order+1, ':idLecture' => $idLecture, ':blockOrder' => -1))
@@ -151,6 +154,7 @@ class LessonController extends Controller{
 
     public  function reorderBlocks($idLecture, $order){
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $countBlocks++;
         for ($i = $order+1; $i <= $countBlocks; $i++){
             Yii::app()->db
                 ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
