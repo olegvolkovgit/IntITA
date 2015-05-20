@@ -6,7 +6,7 @@ return array(
     'class' => 'CDbConnection',
 	'connectionString' => 'mysql:host=localhost;dbname=int_ita_db',
 	'emulatePrepare' => true,
-	'username' => 'intita',
-	'password' => '1234567',
+	'username' => 'root',
+	'password' => '',
 	'charset' => 'utf8',
 );

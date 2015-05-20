@@ -1,34 +1,42 @@
-.graduateBlock{
-    width: 1200px;
+.subNavBlockGraduates {
+    position: relative;
     margin: 0 auto;
+    width: 1200px;
+    clear: both;
 }
 .graduates {
-    position: relative;
-    width: 1200px;
-    margin: 0 auto;
     color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
+    margin-left: 200px;
 }
 .GraduatesBlock {
-    position: relative;
+    margin-left: 200px;
     border-bottom: 1px solid #d8d8d8;
     box-sizing:border-box;
+    display:inline-block;
     margin-bottom: 28px;
+    float:left;
+    width: 30%;
 }
-
 .text {
+    padding-left: 10px;
+    vertical-align:top;
+    font-size: 16px;
     margin-top: 0px;
     margin-bottom: 0px;
     color: #999999;
 }
 
 .text1 {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    padding-left: 10px;
+    font-size: 24px;
+    color: #666666;
 }
 .text2 {
+    font-size: 18px;
+    color: #666666;
+    padding-left: 10px;
     margin-top: 10px;
-    margin-bottom: 0px;
 }
 .span {
     color: #4B75A4;
@@ -41,27 +49,17 @@
 .profileMyRatting {
     margin-top: 10px;
 }
-
-
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*----------------------ваоплрфжвадопфждуокпдорывлрпыдлвры-------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
 .lessonBlock {
     margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 500px;
 }
 .spoilerBody {
     display:none;
 }
 .lessonText {
     position: relative;
-    width:45%;
+    float: left;
+    width:60%;
     z-index: 0;
 }
 .lessonBlock span {
@@ -80,27 +78,12 @@ span.spoilerClick:hover{
 span.spoilerClick {
     text-decoration:underline;
     color:#4b75a4;
-    font-size: small;
+    font-size: 14px;
     font-weight: normal;
+    padding-left: 20px;
 }
 span.spoilerTriangle {
     font-size: xx-small;
     color: #4b75a4;
     margin-left: 3px;
-}
-
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*----------------------ваоплрфжвадопфждуокпдорывлрпыдлвры-------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-.one{
-    width:45%;
-    float:left;
-}
-.two{
-    width:45%;
-    float:right;
 }
