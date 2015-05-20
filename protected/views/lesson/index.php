@@ -88,7 +88,7 @@ $this->breadcrumbs=array(
             'id'=>"blocks_list",
         ));
         ?>
-    </div>
+
 <!--<table ><tr><td>-->
 <!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
 <!--            </td><td>-->
@@ -97,9 +97,8 @@ $this->breadcrumbs=array(
 <!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
 <!--</td></tr></table>-->
 <!--</div>-->
-
-        <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
-
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 <!--modal task -->
@@ -144,14 +143,16 @@ $this->breadcrumbs=array(
 //?>
 <!--<!--modal task ---error-->
 
+
 <script type="text/javascript">
     function enableLessonEdit(){
         document.getElementById('editIco').style.display = 'none';
         document.getElementById('addTextBlock').style.display = 'inline-block';
     }
-</div>
 
     function showForm(){
         document.getElementById('textBlockForm').style.display = 'block';
     }
 </script>
+</div>
+

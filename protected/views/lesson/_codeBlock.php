@@ -11,5 +11,5 @@
 
     <div class="code" id="<?php echo "t" . $data['block_order'];?>">
     <?php echo $data['html_block'];?>
-</div>
+    </div>
 </div>

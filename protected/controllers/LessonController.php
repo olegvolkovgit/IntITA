@@ -126,6 +126,7 @@ class LessonController extends Controller{
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
 
         $this->reorderBlocks($idLecture, $order);
+        var_dump($order);
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -134,9 +135,10 @@ class LessonController extends Controller{
     public  function reorderBlocks($idLecture, $order){
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
         for ($i = $order+1; $i < $countBlocks; $i++){
-//            $tmp = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i));
-//            $tmp->block_order -= 1;
-//            $tmp->update();
+            Yii::app()->db
+                ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
+                ->bindValues(array(':newOrder' => $i-1, ':idLecture' => $idLecture, ':blockOrder' => $i))
+                ->execute();
         }
     }
 }
