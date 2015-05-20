@@ -216,6 +216,7 @@ div.calendar{
     font-family: SegoeUILight;
     width: 295px;
     padding-bottom: 20px;
+    font-size: 13px;
 }
 .datetimepicker table.table-condensed{
     margin: 0 auto;
@@ -235,6 +236,12 @@ div.calendar{
     background: #4b75a4;
     color:#ffffff;
 }
+.datetimepicker table.table-condensed td, .datetimepicker table.table-condensed td:before, .datetimepicker table.table-condensed td:after {
+     -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+     box-sizing: border-box;
+}
+
 .datetimepicker table.table-condensed tr td.active.active{
     background: #4b75a4;
     color:#ffffff;

@@ -76,6 +76,7 @@ $this->breadcrumbs=array(
 
         <!-- Lesson content-->
         <?php
+
         $this->widget('zii.widgets.CListView', array(
             'dataProvider'=>$dataProvider,
             'itemView'=>'_content',
@@ -87,6 +88,7 @@ $this->breadcrumbs=array(
             'id'=>"blocks_list",
         ));
         ?>
+    </div>
 <!--<table ><tr><td>-->
 <!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
 <!--            </td><td>-->
@@ -147,6 +149,7 @@ $this->breadcrumbs=array(
         document.getElementById('editIco').style.display = 'none';
         document.getElementById('addTextBlock').style.display = 'inline-block';
     }
+</div>
 
     function showForm(){
         document.getElementById('textBlockForm').style.display = 'block';

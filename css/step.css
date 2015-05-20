@@ -36,6 +36,7 @@ html{
 	margin-bottom:10px;
 }
 .steps {
+    min-width: 1200px;
 	background-color: #f3f3f3;
 	padding-top:60px;
 	margin-top: 20px;

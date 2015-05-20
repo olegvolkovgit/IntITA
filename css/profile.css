@@ -277,13 +277,6 @@ table.exmCons img{
     display: block;
 }
 table.exmCons span{
-    color: #4b75a4;
-    cursor:pointer;
-    display: block;
-    font-size: 12px;
-    vertical-align: bottom;
-}
-table.exmCons span{
     border-right:1px solid #8b8b8b;
     padding-right: 5px;
 }
@@ -291,10 +284,9 @@ table.exmCons td:last-child span{
     border-right: none;
 }
 table.exmCons span{
-    color: #8b8b8b;
-    display: block;
     font-size: 12px;
     vertical-align: bottom;
+    cursor:pointer;
 }
 table.timeTable{
     margin-top: 10px;
@@ -334,7 +326,10 @@ table.timeTable tr:first-child td{
     text-decoration: none;
     color: #999999;
 }
-
+.unselectedTab {
+    text-decoration: underline;
+    color: #4b75a4;
+}
 .profileMyRatting {
     border-bottom: 1px solid #d8d8d8;
 }

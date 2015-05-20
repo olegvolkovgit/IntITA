@@ -21,12 +21,12 @@
     <div class="profileMyRatting1">
         <p>Рейтинг загальний:
             <?php
-            for ($i = 0; $i < 9; $i++) {
+            for ($i = 0; $i < $data['rate']; $i++) {
                 ?>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>">
             <?php
             }
-            for ($i = 0; $i < 1; $i++) {
+            for ($i = 0; $i < 10-$data['rate']; $i++) {
                 ?>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>">
             <?php
