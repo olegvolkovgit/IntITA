@@ -48,6 +48,8 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
+
+        <?php if($editMode){?>
         <div onclick="enableLessonEdit();">
             <a href="#">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
@@ -60,6 +62,7 @@ $this->breadcrumbs=array(
                      id="addTextBlock" title="Додати новий блок"/>
             </a>
         </div>
+        <?php }?>
 
 
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>

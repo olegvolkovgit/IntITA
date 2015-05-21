@@ -17,7 +17,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
     <tr>
     <td>
-   <img src="/images/aboutus/000pronas1.png">
+   <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas1.png').'">
     </td>
     <td>
   <div>
