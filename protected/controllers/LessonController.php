@@ -34,6 +34,7 @@ class LessonController extends Controller{
 
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->criteria = $criteria;
+        $criteria->order = 'block_order ASC';
         $dataProvider->setPagination(array(
                 'pageSize' => '200',
             )
@@ -94,20 +95,10 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => -1, ':idLecture' => $idLecture, ':blockOrder' => $order))
-            ->execute();
+        if($order > 1) {
+            $this->swapBlocks($idLecture, $order - 1, $order);
+        }
 
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => $order, ':idLecture' => $idLecture, ':blockOrder' => $order-1))
-            ->execute();
-
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => $order-1, ':idLecture' => $idLecture, ':blockOrder' => -1))
-            ->execute();
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -117,23 +108,9 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
-        //delete order of called block
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => -1, ':idLecture' => $idLecture, ':blockOrder' => $order))
-            ->execute();
-
-        //update next block order
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => $order, ':idLecture' => $idLecture, ':blockOrder' => $order+1))
-            ->execute();
-
-        //update called block order
-        Yii::app()->db
-            ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-            ->bindValues(array(':newOrder' => $order+1, ':idLecture' => $idLecture, ':blockOrder' => -1))
-            ->execute();
+        if($order < LectureElement::model()->count('id_lecture='.$idLecture)) {
+            $this->swapBlocks($idLecture, $order, $order + 1);
+        }
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -161,5 +138,18 @@ class LessonController extends Controller{
                 ->bindValues(array(':newOrder' => $i-1, ':idLecture' => $idLecture, ':blockOrder' => $i))
                 ->execute();
         }
+    }
+
+    public function swapBlocks($idLecture, $first, $second)
+    {
+        $firstId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $first))->id_block;
+        $secondId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $second))->id_block;
+
+        var_dump($firstId);
+        var_dump($secondId);
+
+        LectureElement::model()->updateByPk($secondId, array('block_order' => $first));
+        LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
+        return true;
     }
 }

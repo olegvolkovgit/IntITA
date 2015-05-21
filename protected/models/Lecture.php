@@ -17,8 +17,6 @@
  * @property integer $nextLecture
  * @property string $idTeacher
  *
- * The followings are the available model relations:
- * @property LectureElement[] $lectureElements
  */
 class Lecture extends CActiveRecord
 {
@@ -60,7 +58,7 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
         );
     }
 
