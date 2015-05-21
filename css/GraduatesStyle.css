@@ -1,42 +1,36 @@
-.subNavBlockGraduates {
-    position: relative;
-    margin: 0 auto;
+.graduateBlock{
     width: 1200px;
-    clear: both;
+    margin: 0 auto;
 }
 .graduates {
+    position: relative;
+    width: 1200px;
+    margin: 0 auto;
     color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
-    margin-left: 200px;
 }
 .GraduatesBlock {
-    margin-left: 200px;
+    position: relative;
     border-bottom: 1px solid #d8d8d8;
     box-sizing:border-box;
-    display:inline-block;
     margin-bottom: 28px;
-    float:left;
-    width: 30%;
 }
 .text {
-    padding-left: 10px;
-    vertical-align:top;
-    font-size: 16px;
     margin-top: 0px;
     margin-bottom: 0px;
     color: #999999;
 }
-
 .text1 {
-    padding-left: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     font-size: 24px;
     color: #666666;
 }
 .text2 {
+    margin-top: 10px;
+    margin-bottom: 0px;
     font-size: 18px;
     color: #666666;
-    padding-left: 10px;
-    margin-top: 10px;
 }
 .span {
     color: #4B75A4;
@@ -49,17 +43,16 @@
 .profileMyRatting {
     margin-top: 10px;
 }
+
 .lessonBlock {
     margin: 0 auto;
-    width: 500px;
 }
 .spoilerBody {
     display:none;
 }
 .lessonText {
     position: relative;
-    float: left;
-    width:60%;
+    width:45%;
     z-index: 0;
 }
 .lessonBlock span {
@@ -76,14 +69,22 @@ span.spoilerClick:hover{
     margin-left: 44px;
 }
 span.spoilerClick {
+    padding-left: 10px;
     text-decoration:underline;
     color:#4b75a4;
-    font-size: 14px;
+    font-size: small;
     font-weight: normal;
-    padding-left: 20px;
 }
 span.spoilerTriangle {
     font-size: xx-small;
     color: #4b75a4;
     margin-left: 3px;
+}
+.one{
+    width:45%;
+    float:left;
+}
+.two{
+    width:45%;
+    float:right;
 }

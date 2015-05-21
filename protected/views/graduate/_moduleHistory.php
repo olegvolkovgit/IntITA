@@ -1,4 +1,3 @@
-
 <div class="profileMyRatting">
     <p><?php echo $moduleTitle;?>:
         <?php
