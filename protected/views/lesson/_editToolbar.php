@@ -16,39 +16,5 @@
 </div>
 
 <script type="text/javascript">
-    function upBlock(idLecture, order){
-        $.ajax({
-            type: "POST",
-            url: "http://intita.itatests.com/lesson/upElement",
-            data: {'idLecture':idLecture, 'order':order},
-            success: function(){
-                $.fn.yiiListView.update('blocks_list');
-                return false;
-            }
-        });
-    }
 
-    function downBlock(idLecture, order){
-        $.ajax({
-            type: "POST",
-            url: "http://intita.itatests.com/lesson/downElement",
-            data: {'idLecture':idLecture, 'order':order},
-            success: function(){
-                $.fn.yiiListView.update('blocks_list');
-                return false;
-            }
-        });
-    }
-
-    function deleteBlock(idLecture, order){
-        $.ajax({
-            type: "POST",
-            url: "http://intita.itatests.com/lesson/deleteElement",
-            data: {'idLecture':idLecture, 'order':order},
-            success: function(){
-                $.fn.yiiListView.update('blocks_list');
-                return false;
-            }
-        });
-    }
 </script>

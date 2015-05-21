@@ -50,13 +50,13 @@ $this->breadcrumbs=array(
     <div class="lessonText">
         <div onclick="enableLessonEdit();">
             <a href="#">
-                <img src="<?php echo  '/IntITA/images/editor/edt_30px.png';//StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="Редагувати заняття"/>
             </a>
         </div>
         <div onclick="showForm();">
             <a href="#newBlockForm">
-                <img src="<?php echo '/IntITA/images/editor/add_lesson.png';//StaticFilesHelper::createPath('image', 'editor', 'add.png');?>"
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
                      id="addTextBlock" title="Додати новий блок"/>
             </a>
         </div>
