@@ -90,11 +90,12 @@ class LessonController extends Controller{
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    //reorder blocks on lesson page - up block
     public function actionUpElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-
+        //if exists prev element, reorder current and prev elements
         if($order > 1) {
             $this->swapBlocks($idLecture, $order - 1, $order);
         }
@@ -104,10 +105,11 @@ class LessonController extends Controller{
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    //reorder blocks on lesson page - down block
     public function actionDownElement(){
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-
+        //if exists next element, reorder current and next elements
         if($order < LectureElement::model()->count('id_lecture='.$idLecture)) {
             $this->swapBlocks($idLecture, $order, $order + 1);
         }
@@ -116,40 +118,39 @@ class LessonController extends Controller{
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    //delete block on lesson page
     public function actionDeleteElement(){
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
+        //delete current block
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
 
+        //reorder elements after deleted block
         $this->reorderBlocks($idLecture, $order);
-        var_dump($order);
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public  function reorderBlocks($idLecture, $order){
+        //count number of blocks in lecture and increment(because we delete one record in actionDeleteElement)
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
         $countBlocks++;
+        //change orders in blocks of lesson after deleted record(block)
         for ($i = $order+1; $i <= $countBlocks; $i++){
-            Yii::app()->db
-                ->createCommand("UPDATE lecture_element SET block_order =:newOrder WHERE id_lecture=:idLecture AND block_order=:blockOrder")
-                ->bindValues(array(':newOrder' => $i-1, ':idLecture' => $idLecture, ':blockOrder' => $i))
-                ->execute();
+            $id = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i))->id_block;
+            LectureElement::model()->updateByPk($id, array('block_order' => $i-1));
         }
     }
 
     public function swapBlocks($idLecture, $first, $second)
     {
+        //find blocks id's for first and second elements
         $firstId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $first))->id_block;
         $secondId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $second))->id_block;
-
-        var_dump($firstId);
-        var_dump($secondId);
-
+        //swap blocks - rewrite block order in DB
         LectureElement::model()->updateByPk($secondId, array('block_order' => $first));
         LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
-        return true;
     }
 }
