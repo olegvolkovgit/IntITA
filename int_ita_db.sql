@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-18 15:35:25
+-- Date/time:                    2015-05-20 18:36:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -310,7 +310,7 @@ INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE IF NOT EXISTS `course` (
   `course_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `alias` varchar(10) NOT NULL,
+  `alias` varchar(20) NOT NULL,
   `language` varchar(6) NOT NULL,
   `course_name` varchar(45) NOT NULL,
   `level` enum('intern','junior','strong junior','middle','senior') NOT NULL,
@@ -332,12 +332,12 @@ CREATE TABLE IF NOT EXISTS `course` (
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `review`) VALUES
 	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course1Image.png', NULL),
-	(2, 'courseJava', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course9Image.png', NULL),
+	(2, 'courseJavaScript', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course9Image.png', NULL),
 	(3, 'courseJava', 'ua', 'Програміст (Java)', 'strong junior', '2015-10-30', 0, 0, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course3Image.png', NULL),
 	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course4Image.png', NULL),
 	(5, 'C++', 'ua', 'Програміст (С++)', 'intern', '2015-12-30', 0, 0, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course2Image.png', NULL),
 	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course8Image.png', NULL),
-	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course7Image.png', NULL);
+	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 2, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', '/css/images/course7Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -522,38 +522,37 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~28 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(1, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(1, 2, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
 	(1, 3, 'text', 1, '<p><span class="colorBlack">Імена змінних<strong><em><del></del></em></strong></span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(1, 4, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
-	(1, 5, 'label', 8, '    <a name="Частина 1: Типи змінних та перемінних"></a>'),
+	(1, 5, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
 	(1, 6, 'text', 1, '    <h1 class="lessonPart">Частина 1: Типи змінних та перемінних</h1>\r\n    <span class="colorBlack">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:'),
 	(1, 7, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
-	(1, 8, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-<em><strong><del>яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування \n        імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим,\n        що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. \n        Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n	</del></strong></em>\n</p>'),
-	(1, 9, 'code', 4, '\r\n        <p>$names="value";</p>\r\n        <p>$names=5;</p>\r\n        <p>echo $$name;</p>\r\n'),
-	(1, 10, 'text', 1, '    <p>Змінні в РНР представляються у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і символів.</p>'),
-	(1, 11, 'example', 3, '<span class="subChapter">Зразок коду 1:</span>\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>'),
-	(1, 12, 'example', 3, '<span class="subChapter">Зразок коду 2  </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>'),
-	(1, 13, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
-	(1, 14, 'instruction', 7, '<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>'),
-	(1, 15, 'task', 5, '<li>On line 7, set equal to a number greater than 5. Some expressions return a "logical value": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                    <a href="#"> <span class="colorP"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png"> Відповісти</span></a>\r\n                    <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class="colorBP"><span class="colorGreen">$</span>terms</span>, and a pair of curly braces <span class="colorBP">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                    <a href="#"><span class="colorP"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png"> Відповісти</span></a>\r\n                    <li>Резиновая по ширине (изменяется с Some expressions return a "logical value": TRUE or FALSE, изменением окна <span class="colorBP"><span class="colorGreen">$</span>terms</span> браузера или с разрешением экрана)</li>'),
-	(1, 16, 'label', 8, '    <a name="Частина 7: Типи данних та математичний аналіз"></a>\r\n'),
-	(1, 17, 'text', 1, '<span class="colorBlack">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:'),
-	(1, 18, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
-	(1, 19, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p><strong><em><del>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</del></em></strong>\n</p>'),
-	(1, 20, 'code', 4, '        <p>$names="value";</p>\r\n        <p>$names=5;</p>\r\n        <p>echo $$name;</p>\r\n'),
-	(1, 21, 'text', 1, '<p>Змінні в РНР представляються<del> у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і симво</del>лів.\n</p>'),
-	(1, 22, 'example', 3, '<span class="subChapter">Зразок коду 1:</span>\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>'),
-	(1, 23, 'example', 3, '    <span class="subChapter"><?php echo Yii::t(\'lecture\',\'Code example\'); ?> 2  </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>\r\n    <div class="spoilerBody">\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>\r\n    </div>'),
-	(1, 24, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
-	(1, 25, 'instruction', 7, '<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>'),
+	(1, 8, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування \n        імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим,\n        що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. \n        Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
+	(1, 9, 'example', 3, '<span class="subChapter">Зразок коду 2  </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>'),
+	(1, 10, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
+	(1, 11, 'instruction', 7, '<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>'),
+	(1, 12, 'task', 5, '<li>On line 7, set equal to a number greater than 5. Some expressions return a "logical value": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                    <a href="#"> <span class="colorP"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png"> Відповісти</span></a>\r\n                    <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class="colorBP"><span class="colorGreen">$</span>terms</span>, and a pair of curly braces <span class="colorBP">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                    <a href="#"><span class="colorP"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/arrow.png"> Відповісти</span></a>\r\n                    <li>Резиновая по ширине (изменяется с Some expressions return a "logical value": TRUE or FALSE, изменением окна <span class="colorBP"><span class="colorGreen">$</span>terms</span> браузера или с разрешением экрана)</li>'),
+	(1, 13, 'text', 1, '<span class="colorBlack">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:'),
+	(1, 14, 'text', 1, '<span class="colorBlack">Змінна</span> - це літерно-символьне подання частини інформації, яка перебуває в памяті Web-сервера. В php змінна виглядає ось так:'),
+	(1, 15, 'code', 4, '<p><span class="colorGreen">$</span>names=<span class="colorO">"Я інформація в памяті тчк"</span>;</p>'),
+	(1, 16, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
+	(1, 17, 'code', 4, '        <p>$names="value";</p>\r\n        <p>$names=5;</p>\r\n        <p>echo $$name;</p>\r\n'),
+	(1, 18, 'text', 1, '<p>Змінні в РНР представляються у вигляді рядка, що починається знаком долара, а за ним слідує ім\'я змінної. Ім\'я змінної може складатися з латинських літер, звичайних цифр і деяких символів або комбінацій літер, цифр і символів.\n</p>'),
+	(1, 19, 'example', 3, '<span class="subChapter">Зразок коду 1:</span>\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>'),
+	(1, 20, 'example', 3, '    <span class="subChapter"><?php echo Yii::t(\'lecture\',\'Code example\'); ?> 2  </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>\r\n    <div class="spoilerBody">\r\n<pre class="prettyprint linenums">\r\n&lt;html&gt;\r\n  &lt;head&gt;\r\n  &lt;/head&gt;\r\n  &lt;body&gt;\r\n    &lt;p&gt;\r\n      &lt;?php\r\n      $items= //Set this to a number greater than 5! Type the string &quot;Arr, matey!&quot;\r\n\r\n      if ($items&lt;5) {\r\n      echo &quot;You get a 10% discount!&quot;;\r\n      }\r\n    ?&gt;\r\n    &lt;/p&gt;\r\n &lt;/body&gt;\r\n&lt;/html&gt;\r\n</pre>\r\n    </div>'),
+	(1, 21, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
+	(1, 22, 'instruction', 7, '<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>terms</span> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</li>\r\n                <li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>'),
 	(1, 26, 'task', 5, '<li>On line 7, set equal to a number greater than 5. Some expressions return a "logical value": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                <a href="#"> <span class="colorP"><img src="/css/images/arrow.png"> Відповісти</span></a>\r\n                <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class="colorBP"><span class="colorGreen">$</span>terms</span>, and a pair of curly braces <span class="colorBP">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                <a href="#"><span class="colorP"><img src="/css/images/arrow.png"> Відповісти</span></a>\r\n                <li>Резиновая по ширине (изменяется с Some expressions return a "logical value": TRUE or FALSE, изменением окна <span class="colorBP"><span class="colorGreen">$</span>terms</span> браузера или с разрешением экрана)</li>'),
 	(1, 27, 'final task', 6, ' <li>On line 7, set equal to a number greater than 5. Some expressions return a "logical value": TRUE or FALSE. Make sure to put a semicolon at the end of the line.</li>\r\n                <a href="#"> <span class="colorP"><img src="/css/images/arrow.png"> Відповісти</span></a>\r\n                <li>An if statement is made up of the if keyword, a condition like we\'ve seen before <span class="colorBP">$terms</span>, and a pair of curly braces <span class="colorBP">{}</span>. If the answer to the condition is yes, the code inside the curly will run.</li>\r\n                <a href="#"><span class="colorP"><img src="/css/images/arrow.png"> Відповісти</span></a>\r\n                <li>Резиновая по ширине (изменяется с Some expressions return a "logical value": TRUE or FALSE, изменением окна <span class="colorBP">$terms</span> браузера или с разрешением экрана)</li>'),
 	(2, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних<em></em></span>\n	<strong><del><em></em></del></strong>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
-	(3, 1, 'text', 1, ' <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>');
+	(3, 1, 'text', 1, ' <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>'),
+	(24, 1, 'text', 1, '<p>New text block!</p>'),
+	(24, 2, 'text', 1, '<p><iframe width="420" height="315" src="https://www.youtube.com/embed/7KAhgrBDl3A" frameborder="0" allowfullscreen=""></iframe></p>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -607,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 002 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 010 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -697,7 +696,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'ua', 'Інструкція'),
 	(86, 'ua', 'Завдання'),
 	(87, 'ua', 'переглянути знову попередній урок'),
-	(88, 'ua', 'НАСТУПНИЙ УРОК'),
+	(88, 'ua', 'НАСТУПНЕ ЗАНЯТТЯ />'),
 	(89, 'ua', 'Відповісти'),
 	(90, 'ua', 'Підсумкове завдання'),
 	(91, 'ua', 'Ви можете також увійти через соцмережі:'),
@@ -846,7 +845,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'en', 'User'),
 	(86, 'en', 'Task'),
 	(87, 'en', 'review the previous lesson'),
-	(88, 'en', 'NEXT LECTURE'),
+	(88, 'en', 'NEXT LECTURE />'),
 	(89, 'en', 'Reply'),
 	(90, 'en', 'Final task'),
 	(91, 'en', 'You can also enter by social networks:'),
@@ -995,7 +994,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'ru', 'Инструкция'),
 	(86, 'ru', 'Задание'),
 	(87, 'ru', 'просмотреть снова предыдущий урок'),
-	(88, 'ru', 'НАСТУПНИЙ УРОК'),
+	(88, 'ru', 'СЛЕДУЮЩЕЕ ЗАНЯТИЕ />'),
 	(89, 'ru', 'Ответить'),
 	(90, 'ru', 'Итоговое задание'),
 	(91, 'ru', 'Вы также можете ввойти с помощью соцсетей:'),
@@ -1611,7 +1610,15 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(314, 'en', 'Password Reset'),
 	(315, 'ua', 'було відправлено листа з інструкціями процедури зміни паролю. Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб змінити пароль.'),
 	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
-	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.');
+	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
+	(316, 'ua', 'У цій лекції ще нічого немає ('),
+	(316, 'ru', 'В данной лекции еще ничего нет ('),
+	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
+	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
+	(316, 'en', 'There are not any content in this lecture ('),
+	(317, 'ua', 'Зміст'),
+	(317, 'ru', 'Содержание'),
+	(317, 'en', 'Contents');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -1625,19 +1632,19 @@ CREATE TABLE IF NOT EXISTS `module` (
   `alias` varchar(10) NOT NULL,
   `language` varchar(6) NOT NULL,
   `module_duration_hours` int(11) NOT NULL,
-  `module_duration_days` int(11) NOT NULL,
+  `module_duration_days` int(11) NOT NULL DEFAULT '0',
   `lesson_count` int(11) DEFAULT NULL,
   `module_price` decimal(10,0) DEFAULT NULL,
   `for_whom` text,
   `what_you_learn` text,
   `what_you_get` text,
-  `module_img` varchar(255) DEFAULT NULL,
+  `module_img` varchar(255) DEFAULT 'courseimg1.png',
   `about_module` text,
   `owners` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.module: ~18 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
@@ -1658,8 +1665,8 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;'),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;'),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;'),
-	(26, 0, 0, 'Ефективне працевлаштування', 'module17', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(27, 0, 0, 'vhjguik....', 'module17', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
+	(28, 7, 1, 'Архітектура клієнт-серверних додатків.', 'module1', 'ua', 60, 0, NULL, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(29, 7, 2, 'HTTP протокол і його основні методи.', 'module2', 'ua', 0, 0, NULL, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -5083,9 +5090,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=316 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~315 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~317 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -5402,7 +5409,9 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(312, 'activeemail', '0312'),
 	(313, 'activeemail', '0313'),
 	(314, 'resetpass', '0314'),
-	(315, 'resetpass', '0315');
+	(315, 'resetpass', '0315'),
+	(316, 'lecture', '0316'),
+	(317, 'lecture', '0317');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 
@@ -6073,7 +6082,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activkey_lifetime` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.user: ~14 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;

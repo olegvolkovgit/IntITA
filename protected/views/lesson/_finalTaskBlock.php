@@ -6,6 +6,8 @@
  * Time: 19:04
  */?>
 <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'borderLesson.png');?>">
+<div class="element">
+    <?php $this->renderPartial('_editToolbar', array('idLecture' => $data['id_lecture'], 'order' =>  $data['block_order']));?>
 
 <div class="lessonTask">
     <img class="lessonButFinal" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButtonFinale.png'); ?>">
@@ -16,9 +18,9 @@
             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
         </div>
         <div class="content">
-            <div class="instrTaskText" id="<?php echo "t" . $order;?>">
+            <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>">
                 <ol>
-                    <?php echo $data;?>
+                    <?php echo $data['html_block'];?>
                 </ol>
             </div>
             <div class="BBCode">
@@ -29,5 +31,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 

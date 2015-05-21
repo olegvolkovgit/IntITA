@@ -48,13 +48,32 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
+        <div onclick="enableLessonEdit();">
+            <a href="#">
+                <img src="<?php echo  '/IntITA/images/editor/edt_30px.png';//StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                    id="editIco" title="Редагувати заняття"/>
+            </a>
+        </div>
+        <div onclick="showForm();">
+            <a href="#newBlockForm">
+                <img src="<?php echo '/IntITA/images/editor/add_lesson.png';//StaticFilesHelper::createPath('image', 'editor', 'add.png');?>"
+                     id="addTextBlock" title="Додати новий блок"/>
+            </a>
+        </div>
+
+
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
-        <span class="listTheme">Зміст </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+        <br>
+        <?php if($countBlocks){?>
+        <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
         <div class="spoilerBody">
             <p><a href="#Частина 1: Типи змінних та перемінних">Частина 1: Типи змінних та перемінних</a></p>
             <p><a href="#Частина 7: Типи данних та математичний аналіз">Частина 7: Типи данних та математичний аналіз</a></p>
+            <br>
         </div>
+        <?php }?>
+
         <!-- Lesson content-->
         <?php
 
@@ -63,11 +82,13 @@ $this->breadcrumbs=array(
             'itemView'=>'_content',
             'summaryText' => '',
             'viewData' => array('editMode' => $editMode),
-            'emptyText' => 'В данной лекции еще ничего нет (<br><br><br><br><br>',
+            'emptyText' => Yii::t('lecture', '0316').'<br><br><br><br><br>',
             'pagerCssClass'=>'YiiPager',
+            'ajaxUpdate' => true,
+            'id'=>"blocks_list",
         ));
         ?>
-    </div>
+
 <!--<table ><tr><td>-->
 <!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
 <!--            </td><td>-->
@@ -76,24 +97,8 @@ $this->breadcrumbs=array(
 <!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
 <!--</td></tr></table>-->
 <!--</div>-->
-<?php if($editMode){?>
-        <div id="textBlockForm">
-            <form id="addTextBlock" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock');?>" method="post">
-                <br>
-                <span id="formLabel">Новий текстовий блок:</span>
-                <br>
-                <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
-                <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
-                <textarea name="newTextBlock" id="newTextBlock" cols="108"
-                          placeholder="Введіть текст нового блока" required form="addTextBlock" rows="10">
-                </textarea>
-                <br><br>
-                <input type="submit"  value="Додати" id="submitButton">
-            </form>
-        </div>
-    <br>
-    <br>
-<?php }?>
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
 <!--modal task -->
@@ -137,5 +142,17 @@ $this->breadcrumbs=array(
 //$this->endWidget('zii.widgets.jui.CJuiDialog');
 //?>
 <!--<!--modal task ---error-->
+
+
+<script type="text/javascript">
+    function enableLessonEdit(){
+        document.getElementById('editIco').style.display = 'none';
+        document.getElementById('addTextBlock').style.display = 'inline-block';
+    }
+
+    function showForm(){
+        document.getElementById('textBlockForm').style.display = 'block';
+    }
+</script>
 </div>
 

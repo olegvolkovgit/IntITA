@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-18 15:35:20
+-- Date/time:                    2015-05-20 18:36:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -110,7 +110,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'ua', 'Інструкція'),
 	(86, 'ua', 'Завдання'),
 	(87, 'ua', 'переглянути знову попередній урок'),
-	(88, 'ua', 'НАСТУПНИЙ УРОК'),
+	(88, 'ua', 'НАСТУПНЕ ЗАНЯТТЯ />'),
 	(89, 'ua', 'Відповісти'),
 	(90, 'ua', 'Підсумкове завдання'),
 	(91, 'ua', 'Ви можете також увійти через соцмережі:'),
@@ -259,7 +259,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'en', 'User'),
 	(86, 'en', 'Task'),
 	(87, 'en', 'review the previous lesson'),
-	(88, 'en', 'NEXT LECTURE'),
+	(88, 'en', 'NEXT LECTURE />'),
 	(89, 'en', 'Reply'),
 	(90, 'en', 'Final task'),
 	(91, 'en', 'You can also enter by social networks:'),
@@ -408,7 +408,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(85, 'ru', 'Инструкция'),
 	(86, 'ru', 'Задание'),
 	(87, 'ru', 'просмотреть снова предыдущий урок'),
-	(88, 'ru', 'НАСТУПНИЙ УРОК'),
+	(88, 'ru', 'СЛЕДУЮЩЕЕ ЗАНЯТИЕ />'),
 	(89, 'ru', 'Ответить'),
 	(90, 'ru', 'Итоговое задание'),
 	(91, 'ru', 'Вы также можете ввойти с помощью соцсетей:'),
@@ -1024,7 +1024,15 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(314, 'en', 'Password Reset'),
 	(315, 'ua', 'було відправлено листа з інструкціями процедури зміни паролю. Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб змінити пароль.'),
 	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
-	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.');
+	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
+	(316, 'ua', 'У цій лекції ще нічого немає ('),
+	(316, 'ru', 'В данной лекции еще ничего нет ('),
+	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
+	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
+	(316, 'en', 'There are not any content in this lecture ('),
+	(317, 'ua', 'Зміст'),
+	(317, 'ru', 'Содержание'),
+	(317, 'en', 'Contents');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

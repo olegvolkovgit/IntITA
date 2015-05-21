@@ -6,6 +6,10 @@
  * Time: 18:37
  */
 ?>
-<div class="code" id="<?php echo "t" . $order;?>">
-    <?php echo $data;?>
+<div class="element">
+    <?php $this->renderPartial('_editToolbar', array('idLecture' => $data['id_lecture'], 'order' =>  $data['block_order']));?>
+
+    <div class="code" id="<?php echo "t" . $data['block_order'];?>">
+    <?php echo $data['html_block'];?>
+    </div>
 </div>
