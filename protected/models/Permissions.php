@@ -101,7 +101,7 @@ class Permissions extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model();
+		return self::model();
 	}
 
     /*
@@ -152,6 +152,16 @@ class Permissions extends CActiveRecord
             }
         }
         return $flag;
+    }
+
+    public static function getFlags($rights){
+        $rightsString = [];
+        for ($i = 0; $i < count($rights); $i++) {
+            if ($rights[$i] == 1){
+                array_push($rightsString, Permissions::model()->stringRight([$i]));
+            }
+        }
+        return $rightsString;
     }
 
 

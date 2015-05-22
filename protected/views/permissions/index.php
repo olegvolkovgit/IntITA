@@ -1,0 +1,109 @@
+<?php
+/* @var $this PermissionsController */
+
+$this->breadcrumbs=array(
+	'Permissions',
+);
+$alert = 'Are you sure you want to delete this Category?';
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'access_grid',
+    'dataProvider' => $dataProvider,
+    //'filter' => $model,
+    'columns' => array(
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{delete}{edit}',
+            'buttons'=>array
+            (
+                'delete' => array
+                (
+                    'label'=>'Delete',
+                    'url'=>'"#"',
+                    'click'=>'function(){alert("Delete!");}',
+                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                    'options' => array(// this is the 'html' array but we specify the 'ajax' element
+                        'confirm' => $alert,
+                        'class'=>'deleteButton',
+                        'ajax' => array(
+                            'type' => 'POST',
+                            'url' => "js:$(this).attr('href')", // ajax post will use 'url' specified above
+                            'success' => 'function(data){
+                                if(data == "true"){
+
+                                                $.fn.yiiGridView.update("access_grid");
+                                                return false;
+                                }else{
+
+                                                window.location="admin?del=exist";
+                                                return false;
+                                }
+                            }',
+                        ),
+                    ),
+                ),
+                'edit' => array
+                (
+                    'label'=>'Edit',
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'edt_20px.png'),
+                    'url' => 'Yii::app()->createUrl("permissions/edit", array("user"=>$data->id_user, "resource" => $data->id_resource))',
+                    'click'=>"function(){
+                            $.fn.yiiGridView.update('access_grid', {
+                                type:'POST',
+                                url:$(this).attr('href'),
+                                success:function(data) {
+                            $.fn.yiiGridView.update('access_grid');
+                            }
+                        })
+                        return false;
+                    }
+                    ",
+                    'options' => array(
+                        'class'=>'editButton',
+                    ),
+                ),
+            ),
+        ),
+        array(
+            'name' => 'User',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getUserName($data->id_user)',
+        ),
+        array(
+            'name' => 'Email',
+            'type' => 'raw',
+            'value' => 'StudentReg::model()->findByPk($data->id_user)->email',
+        ),
+        array(
+            'name' => 'Role',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getRole($data->id_user)',
+        ),
+        array(
+            'name' => 'Resource',
+            'type' => 'raw',
+            'value' => '"Module"." ".Lecture::model()->findByPk($data->id_resource)->idModule.". "."Lecture ".Lecture::model()->findByPk($data->id_resource)->order.". ".Lecture::model()->findByPk($data->id_resource)->title',
+        ),
+        array(
+            'name' => 'READ',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "read")',
+        ),
+        array(
+            'name' => 'EDIT',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "edit")',
+        ),
+        array(
+            'name' => 'CREATE',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "create")',
+        ),
+        array(
+            'name' => 'DELETE',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "delete")',
+        ),
+    ),
+));
+?>

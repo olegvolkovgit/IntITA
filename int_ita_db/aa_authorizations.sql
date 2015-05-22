@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-21 16:36:48
+-- Date/time:                    2015-05-22 17:58:50
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table int_ita_db.aa_authorizations: ~46 rows (approximately)
+-- Dumping data for table int_ita_db.aa_authorizations: ~60 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
 INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(1, 2, '2015-03-02 15:33:25', '::1'),
@@ -83,7 +83,9 @@ INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(55, 2, '2015-05-06 19:24:31', '::1'),
 	(56, 2, '2015-05-06 19:24:31', '::1'),
 	(57, 2, '2015-05-10 22:46:16', '::1'),
-	(58, 2, '2015-05-10 22:46:16', '::1');
+	(58, 2, '2015-05-10 22:46:16', '::1'),
+	(59, 2, '2015-05-21 16:59:55', '::1'),
+	(60, 2, '2015-05-21 16:59:56', '::1');
 /*!40000 ALTER TABLE `aa_authorizations` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

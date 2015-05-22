@@ -13,9 +13,8 @@ $this->breadcrumbs=array(
 	<li><a href="./mainpage/mainpageGeneral/">Заголовки</a></li>
 </ul>
 
-<h2>Контент</h2>
+<h2>Викладачі</h2>
 <ul>
-    <li><a href="./content/coursesList/">Редагувати список курсів</a></li>
 	<li><a href="./teachers/list/">Редагувати список викладачів</a></li>
 </ul>
 
