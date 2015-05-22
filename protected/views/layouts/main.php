@@ -41,85 +41,87 @@ $header = new Header();?>
     <!-- trimEmail-->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimEmail.js"></script>
     <!-- trimEmail -->
+    <!-- Horizontal header Scroll-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/horizontalscroll.js"></script>
+    <!-- Horizontal header Scroll -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
-
-<div id="navigation" class="down" >
-    <div class="main" >
-        <div id="logo_img" class="down">
-            <a href="<?php echo Yii::app()->createUrl('site/index');?>">
-                <img id="logo" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
-            </a>
+<div id="mainheader">
+    <div id="navigation" class="down" >
+        <div class="main" >
+            <div id="logo_img" class="down">
+                <a href="<?php echo Yii::app()->createUrl('site/index');?>">
+                    <img id="logo" src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/>
+                </a>
+            </div>
+            <div id="lang" class="down">
+                <form onsubmit="" name="fff">
+                    <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua", 'className'=>'selectedLang')); ?>
+                    <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
+                    <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
+                </form>
+            </div>
+            <?php
+            $app = Yii::app();
+            switch ($app->session['lg']) {
+            case 'ua':
+                ?>
+                <script>
+                    document.getElementById('ua').disabled = true;
+                    document.getElementById('ua').className = "selectedLang";
+                </script>
+            <?php
+            break;
+            case 'en':
+            ?>
+                <script>
+                    document.getElementById('ua').className = '';
+                    document.getElementById('en').disabled = true;
+                    document.getElementById('en').className = "selectedLang";
+                </script>
+            <?php
+            break;
+            case 'ru':
+            ?>
+                <script>
+                    document.getElementById('ua').className = '';
+                    document.getElementById('ru').disabled = true;
+                    document.getElementById('ru').className = "selectedLang";
+                </script>
+            <?php
+            break;
+            default:
+            ?>
+                <script>
+                    document.getElementById('ua').disabled = true;
+                    document.getElementById('ua').className = "selectedLang";
+                </script>
+            <?php
+            }
+            ?>
+            <div id="enterButton">
+                <div id="button_border" class="down">
+                </div>
+                <?php if(Yii::app()->user->isGuest) {
+                    echo CHtml::link($header->getEnterButton(), '#', array('id'=>'enter_button','class'=>'down','onclick' => '$("#mydialog").dialog("open"); return false;',));
+                } else {?>
+                    <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout" class="down"><?php echo $header->getLogoutButton(); ?></a>
+                <?php }?>
+            </div>
+            <ul>
+                <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
+                <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a></li>
+                <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header','0137'); ?></a></li>
+                <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a></li>
+                <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a></li>
+            </ul>
         </div>
-        <ul>
-            <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>
-            <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a></li>
-            <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header','0137'); ?></a></li>
-            <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a></li>
-            <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a></li>
-        </ul>
     </div>
-
-    <div id="lang" class="down">
-        <form onsubmit="" name="fff">
-            <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'),'id'=>"ua",'name'=>"ua", 'className'=>'selectedLang')); ?>
-            <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'),'id'=>"en",'name'=>"en")); ?>
-            <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'),'id'=>"ru",'name'=>"ru")); ?>
-        </form>
-    </div>
-    <?php
-    $app = Yii::app();
-    switch ($app->session['lg']) {
-    case 'ua':
-        ?>
-        <script>
-            document.getElementById('ua').disabled = true;
-            document.getElementById('ua').className = "selectedLang";
-        </script>
-    <?php
-    break;
-    case 'en':
-    ?>
-        <script>
-            document.getElementById('ua').className = '';
-            document.getElementById('en').disabled = true;
-            document.getElementById('en').className = "selectedLang";
-        </script>
-    <?php
-    break;
-    case 'ru':
-    ?>
-        <script>
-            document.getElementById('ua').className = '';
-            document.getElementById('ru').disabled = true;
-            document.getElementById('ru').className = "selectedLang";
-        </script>
-        <?php
-        break;
-    default:
-    ?>
-        <script>
-            document.getElementById('ua').disabled = true;
-            document.getElementById('ua').className = "selectedLang";
-        </script>
-    <?php
-    }
-    ?>
 </div>
-
-<div id="centerEnterButton">
-    <div id="button_border" class="down">
-    </div>
-    <?php if(Yii::app()->user->isGuest) {
-        echo CHtml::link($header->getEnterButton(), '#', array('id'=>'enter_button','class'=>'down','onclick' => '$("#mydialog").dialog("open"); return false;',));
-    } else {?>
-        <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout" class="down"><?php echo $header->getLogoutButton(); ?></a>
-    <?php }?>
-</div>
-
+<div id='headerUnderline' class="down"></div>
 
 
 <! Hamburger menu>
@@ -233,9 +235,7 @@ $header = new Header();?>
 
 
 <div class="main">
-
-    <div style="height: 55px; width: auto"></div>
-
+    <div style="height: 65px; width: auto"></div>
     <?php if(isset($this->breadcrumbs)):?>
         <?php $this->widget('zii.widgets.CBreadcrumbs', array(
             'links'=>$this->breadcrumbs,
@@ -246,7 +246,8 @@ $header = new Header();?>
         )); ?><!-- breadcrumbs -->
     <?php endif?>
 
-    <?php if(!Yii::app()->user->isGuest) {
+    <?php if(!Yii::app()->user->isGuest && !(Yii::app()->controller->id=='site'
+        && Yii::app()->controller->action->id=='index')) {
         $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         ?>
         <div class="profileStatus">
@@ -266,7 +267,6 @@ $header = new Header();?>
 </div>
 <div id="contentBoxMain">
     <?php echo $content; ?>
-<!--    <div class="clear"></div>-->
     <?php $footer = new Footer();?>
     <div id="mainfooter" >
         <div style="height: 90px;display: block">
