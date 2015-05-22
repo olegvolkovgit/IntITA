@@ -208,8 +208,19 @@
     color: #000000;
     font-size: 16px;
 }
+.detailTitle17 {
+    color: #de3d21;
+    font-size: 48px;
+}
 
-
+.detailTitle18 {
+    color: #4b75a4;
+    font-size: 48px;
+}
+.detailTitle19 {
+    color: #5c5c5c;
+    font-size: 48px;
+}
 
 
 
@@ -337,12 +348,12 @@
 }
 .five{
     position:relative;
-    left: 385px;
+    left: 250px;
     margin-top: 30px;
-    width: 500px;
+    width: 600px;
 }
 #fimouns{
-    margin-left: 297px;
+    margin-left: 390px;
 }
 .six{
     position: relative;
