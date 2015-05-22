@@ -68,13 +68,22 @@ $this->breadcrumbs=array(
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <br>
         <?php if($countBlocks){?>
-        <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+            <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
-        <div class="spoilerBody">
-            <p><a href="#Частина 1: Типи змінних та перемінних">Частина 1: Типи змінних та перемінних</a></p>
-            <p><a href="#Частина 7: Типи данних та математичний аналіз">Частина 7: Типи данних та математичний аналіз</a></p>
-            <br>
-        </div>
+            <div class="spoilerBody">
+                <?php
+                $summary =  Lecture::getLessonCont($lecture->id);
+                for($i=0; $i<count($summary);$i++){
+                ?>
+                <p>
+                    <a href="#<?php echo $summary[$i];?>">
+                        <?php echo $summary[$i];?>
+                    </a>
+                </p>
+                <?php
+                }
+                ?>
+            </div>
         <?php }?>
 
         <!-- Lesson content-->

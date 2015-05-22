@@ -24,6 +24,7 @@
     var logo = document.getElementById('logo_img');
     var border = document.getElementById('button_border');
     var lang = document.getElementById('lang');
+    var underline = document.getElementById('headerUnderline');
     var logolang = "<?php
     $app = Yii::app();
     switch ($app->session['lg']){
@@ -46,6 +47,7 @@
     logo.className = "";
     border.className = "";
     lang.className = "";
+    underline.className = "";
     document.getElementById('logo').src=logolang;
     window.onscroll = function() {
         var pageY = window.pageYOffset || document.documentElement.scrollTop;
@@ -56,6 +58,7 @@
             nav.className = "down";
             border.className = "down";
             lang.className = "down";
+            underline.className = "down";
         } else {
             document.getElementById('logo').src=logolang;
             border.className = "";
@@ -63,6 +66,7 @@
             logo.className = "";
             nav.className = "";
             lang.className = "";
+            underline.className = "";
         }
     }
 </script>

@@ -21,23 +21,25 @@ div.regLinks{
 }
 div.profileStatus{
     position: absolute;
-    top:66px;
+    top:70px;
     right:0;
     float:right;
     display:block;
     overflow: hidden;
 }
 .profileStatus img {
-    width:56px;
-    height:56px;
+    width:70px;
+    height:70px;
     float: right;
     margin-right: 10px;
 }
 .profileStatus div {
     float: right;
-    font-size: smaller;
-    line-height: 110%;
     color:#4b75a4;
+    font-family: MyriadPro;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 100%;
 }
 /* ˳�� �����*/
 .studProf{

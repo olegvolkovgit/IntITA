@@ -124,7 +124,7 @@ $this->breadcrumbs=array(
         <div class="row">
             <?php echo $form->label($model,'linkedin'); ?>
             <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'),'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'profile'); ?>
+            <?php echo $form->error($model,'linkedin'); ?>
         </div>
         <div class="row">
             <?php echo $form->label($model,'vkontakte'); ?>

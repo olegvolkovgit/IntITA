@@ -3,14 +3,6 @@
     position:relative;
     display:inline-block;
 }
-#centerEnterButton
-{
-    position:absolute;
-    display:inline-block;
-    margin-left:-631px;
-    left:50%;
-    width:1200px;
-}
 .mainAboutBlock {
     margin: 0 auto;
     width: 960px;

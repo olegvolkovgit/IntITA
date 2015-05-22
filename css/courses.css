@@ -109,6 +109,17 @@
     height: 10px;
     top: 7px;
 }
+.courseLevelIndex img{
+    position: relative;
+    vertical-align: top;
+}
+.courseLevelImage{
+    margin: 0;
+}
+.starLevelIndex img{
+    position: relative;
+    vertical-align: top;
+}
 .courseLevel
 {
     position:relative;
