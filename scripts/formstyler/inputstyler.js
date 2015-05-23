@@ -3,6 +3,6 @@
  */
 (function($) {
     $(function() {
-        $('input').styler();
+        $('.checkstyle').styler();
     });
 })(jQuery);
