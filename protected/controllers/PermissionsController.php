@@ -4,6 +4,7 @@ class PermissionsController extends Controller
 {
 	public function actionIndex()
 	{
+
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
@@ -44,13 +45,17 @@ class PermissionsController extends Controller
     }
 
     public function actionEdit(){
-        if (Yii::app()->user->getId() != 38) {
+        if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
-        // if AJAX request, we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+
 
         $this->render('edit');
+    }
+
+    public function actionAdd(){
+        $dataProvider = new CActiveDataProvider('Permissions');
+
+        $this->render('add');
     }
 }

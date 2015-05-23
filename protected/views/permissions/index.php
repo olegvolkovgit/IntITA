@@ -5,7 +5,14 @@ $this->breadcrumbs=array(
 	'Permissions',
 );
 $alert = 'Are you sure you want to delete this Category?';
+?>
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
+<a href="<?php echo Yii::app()->createUrl('permissions/add');?>">
+    <div id="enter_button_2">Додати запис</div>
+</a>
+
+<?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
@@ -46,14 +53,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 (
                     'label'=>'Edit',
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'edt_20px.png'),
-                    'url' => 'Yii::app()->createUrl("permissions/edit", array("user"=>$data->id_user, "resource" => $data->id_resource))',
+                    'url' => 'Yii::app()->createUrl("permissions/edit", array("user"=>$data->id_user, "resource"=>$data->id_resource))',
                     'click'=>"function(){
-                            $.fn.yiiGridView.update('access_grid', {
-                                type:'POST',
-                                url:$(this).attr('href'),
-                                success:function(data) {
-                            $.fn.yiiGridView.update('access_grid');
-                            }
+                        $.fn.yiiGridView.update('access_grid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                        $.fn.yiiGridView.update('access_grid');
+                        }
                         })
                         return false;
                     }
@@ -82,7 +89,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'Resource',
             'type' => 'raw',
-            'value' => '"Module"." ".Lecture::model()->findByPk($data->id_resource)->idModule.". "."Lecture ".Lecture::model()->findByPk($data->id_resource)->order.". ".Lecture::model()->findByPk($data->id_resource)->title',
+            'value' => 'AccessHelper::getResourceDescription($data->id_resource)',
         ),
         array(
             'name' => 'READ',
@@ -107,3 +114,4 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 ));
 ?>
+

@@ -59,4 +59,13 @@ class AccessHelper
         }
         return $role;
     }
+
+    public static function getResourceDescription($id){
+        $lecture = "Lecture ".Lecture::model()->findByPk($id)->order.". ".Lecture::model()->findByPk($id)->title;
+        $idModule = Lecture::model()->findByPk($id)->idModule;
+        $module = "Module"." ".$idModule.". ";
+        $idCourse = Module::model()->findByPk($idModule)->course;
+        $course = Course::model()->findByPk($idCourse)->course_name.". ";
+        return $course.$module.$lecture;
+    }
 }

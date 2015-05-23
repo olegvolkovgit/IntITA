@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-22 17:58:54
+-- Date/time:                    2015-05-23 14:00:28
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   KEY `user_id` (`user_id`),
   KEY `when_enter` (`when_enter`),
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table int_ita_db.aa_authorizations: ~60 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
@@ -529,7 +529,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
 -- Dumping data for table int_ita_db.lecture_element: ~9 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
@@ -6071,7 +6071,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activkey_lifetime` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.user: ~15 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
