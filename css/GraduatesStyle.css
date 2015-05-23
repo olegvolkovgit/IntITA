@@ -88,3 +88,15 @@ span.spoilerTriangle {
     width:45%;
     float:right;
 }
+.view-source{
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.hide{
+    display: none;
+    border: 1px #666666 solid;
+    border-radius: 15px;
+    padding: 25px 10px 10px 35px;
+    font-size: 14px;
+    color: #666666;
+}

@@ -1,6 +1,4 @@
-/**
- Спойлер змісту і іншого контента
- */
+/**-------Спойлер змісту і іншого контента--------*/
 $(document).ready(function(){
     $('.spoilerLinks').click(function(){
         var nameSpoiler = $(this).children("span:first").text();
@@ -13,5 +11,18 @@ $(document).ready(function(){
         }
         $(this).next('.spoilerBody').toggle('normal');
         return false;
+    });
+});
+
+/**------------------recall-------------------------*/
+
+$(function () {
+    $('.view-source .hide').hide();
+    $a = $('.view-source a');
+
+    $a.on('click', function (event) {
+        event.preventDefault();
+        $a.not(this).next().slideUp(500);
+        $(this).next().slideToggle(500);
     });
 });
