@@ -76,7 +76,7 @@ table.profileInfo {
 .studProf label
 {
     display: inline-block;
-    width: 200px;
+    width: 185px;
     height: 50px;
     float:left;
     text-align: right;
@@ -95,14 +95,14 @@ table.profileInfo {
     font-size: 14px;
 }
 #aboutUs{
-    margin-left: 230px;
+    margin-left: 215px;
 }
 .studProf textarea
 {
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     display: inline-block;
-    width: 445px;
+    width: 443px;
     height: 120px;
     padding-left: 8px;
     margin-bottom: -4px;
@@ -321,12 +321,10 @@ span.colorP {
 }
 /*TABS*/
 /* стили секций с содержанием */
-.profileActivity section {
+.formStudProf section {
     display: none;
     padding: 15px;
-    border: 1px solid #d8d8d8;
     background: #fff;
-    border-radius: 5px;
     margin-top: 14px;
     overflow: hidden;
 }
@@ -341,11 +339,12 @@ span.colorP {
     text-align: center;
     color: #666666;
     width: 100px;
-    height: 30px;
+    height: 40px;
     margin: 14px -2px 0 -2px;
     border: 1px solid #d8d8d8;
     border-bottom: none;
     border-radius: 5px 5px 0 0;
+    float: none;
 }
 div.lineUnderTab{
     border-bottom: 1px solid #d8d8d8;
@@ -371,15 +370,8 @@ label.tabsUp1,label.tabsDown1{
     transform: translateY(-3px) scaleY(1.2);
 }
 /* активация секций с помощью переключателя :checked */
-#tab1:checked ~ #myCourse,
-#tab2:checked ~ #timetable,
-#tab3:checked ~ #advice,
-#tab4:checked ~ #exams,
-#tab5:checked ~ #myRatting,
-#tab6:checked ~ #myDownload,
-#tab7:checked ~ #mylettersSend,
-#tab8:checked ~ #myMark,
-#tab9:checked ~ #finances{
+#tab1:checked ~ #mainreg,
+#tab2:checked ~ #addreg{
     display: block;
 }
 /*TABS*/

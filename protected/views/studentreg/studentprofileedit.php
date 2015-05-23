@@ -52,113 +52,126 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                 </td>
             </tr>
         </table>
+        <div class="tabs">
 
-        <div class="row">
-            <?php echo $form->label($model,'firstName'); ?>
-            <?php echo $form->textField($model,'firstName',array('value'=>$post->firstName,'maxlength'=>255)); ?>
-            <span><?php echo $form->error($model,'firstName'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'secondName'); ?>
-            <?php echo $form->textField($model,'secondName',array('value'=>$post->secondName,'maxlength'=>255)); ?>
-            <span><?php echo $form->error($model,'secondName'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'nickname'); ?>
-            <?php echo $form->textField($model,'nickname',array('value'=>$post->nickname,'maxlength'=>255)); ?>
-            <span><?php echo $form->error($model,'nickname'); ?></span>
-        </div>
-        <div class="rowDate">
-            <?php echo $form->label($model,'birthday'); ?>
-            <?php echo $form->textField($model,'birthday',array('value'=>$post->birthday, 'class'=>'date','maxlength'=>11, 'placeholder'=>Yii::t('regexp', '0152'))); ?>
-            <span><?php echo $form->error($model,'birthday'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->labelEx($model,'phone'); ?>
-            <?php echo $form->textField($model,'phone',array('value'=>$post->phone,'class'=>'phone','maxlength'=>15)); ?>
-            <span><?php echo $form->error($model,'phone'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'address'); ?>
-            <?php echo $form->textField($model,'address',array('value'=>$post->address,'maxlength'=>255)); ?>
-            <span><?php echo $form->error($model,'address'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'education'); ?>
-            <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>255)); ?>
-            <span><?php echo $form->error($model,'education'); ?></span>
-        </div>
-        <?php if($post::getRole($post->id)==False){
-        ?>
-        <div class="rowRadioButton" id="rowEducForm">
-            <?php echo $form->labelEx($model,'educform'); ?>
+            <input id="tab1" type="radio" name="tabs" checked>
+            <label class="tabsUp1" for="tab1" title="Основне">Основне</label>
+            <input id="tab2" type="radio" name="tabs" >
+            <label for="tab2" title="Додаткове">Додаткове</label>
+            <div class="lineUnderTab"></div>
+            <section id="mainreg">
+                <div class="row">
+                    <?php echo $form->label($model,'firstName'); ?>
+                    <?php echo $form->textField($model,'firstName',array('value'=>$post->firstName,'maxlength'=>255)); ?>
+                    <span><?php echo $form->error($model,'firstName'); ?></span>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'secondName'); ?>
+                    <?php echo $form->textField($model,'secondName',array('value'=>$post->secondName,'maxlength'=>255)); ?>
+                    <span><?php echo $form->error($model,'secondName'); ?></span>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'nickname'); ?>
+                    <?php echo $form->textField($model,'nickname',array('value'=>$post->nickname,'maxlength'=>255)); ?>
+                    <span><?php echo $form->error($model,'nickname'); ?></span>
+                </div>
+                <div class="rowDate">
+                    <?php echo $form->label($model,'birthday'); ?>
+                    <?php echo $form->textField($model,'birthday',array('value'=>$post->birthday, 'class'=>'date','maxlength'=>11, 'placeholder'=>Yii::t('regexp', '0152'))); ?>
+                    <span><?php echo $form->error($model,'birthday'); ?></span>
+                </div>
+                <div class="row">
+                    <?php echo $form->labelEx($model,'phone'); ?>
+                    <?php echo $form->textField($model,'phone',array('value'=>$post->phone,'class'=>'phone','maxlength'=>15)); ?>
+                    <span><?php echo $form->error($model,'phone'); ?></span>
+                </div>
+                <?php if($post::getRole($post->id)==False){
+                    ?>
+                    <div class="rowRadioButton" id="rowEducForm">
+                        <?php echo $form->labelEx($model,'educform'); ?>
 
-            <div class="radiolabel">
-                <label><input type="checkbox" name="educformOn" checked disabled/>online</label>
-                <label><input type="checkbox" name="educformOff" value="1" <?php echo $post::getEdForm($post->educform)?> />offline</label>
-            </div>
+                        <div class="radiolabel">
+                            <label><input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>online</label>
+                            <label><input class="checkstyle" type="checkbox" name="educformOff" value="1" <?php echo $post::getEdForm($post->educform)?> />offline</label>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+                <div class="row">
+                    <?php echo $form->label($model,'email'); ?>
+                    <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255,"disabled"=>"disabled" )); ?>
+                    <span><?php echo $form->error($model,'email'); ?></span>
+                </div>
+                <?php if(is_null($post->password)){
+                ?>
+                <div class="rowPass">
+                    <?php echo $form->label($model,'password'); ?>
+                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>255)); ?></span>
+                    <?php echo $form->error($model,'password'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'password_repeat'); ?>
+                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>255)); ?></span>
+                    <?php echo $form->error($model,'password_repeat'); ?>
+                </div>
+                <?php }?>
+            </section>
+            <section id="addreg">
+                <div class="row">
+                    <?php echo $form->label($model,'address'); ?>
+                    <?php echo $form->textField($model,'address',array('value'=>$post->address,'maxlength'=>255)); ?>
+                    <span><?php echo $form->error($model,'address'); ?></span>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'education'); ?>
+                    <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>255)); ?>
+                    <span><?php echo $form->error($model,'education'); ?></span>
+                </div>
+
+                <div class="row">
+                    <?php echo $form->label($model,'aboutMy'); ?>
+                    <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy)); ?>
+                    <?php echo $form->error($model,'aboutMy'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'interests'); ?>
+                    <?php echo $form->textField($model,'interests',array('value'=>$post->interests,'maxlength'=>255, 'placeholder'=>Yii::t('regexp', '0153'))); ?>
+                    <span><?php echo $form->error($model,'interests'); ?></span>
+                </div>
+                <div class="row">
+                    <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
+                    <span><?php echo $form->error($model,'aboutUs'); ?></span>
+                </div>
+
+                <div class="row">
+                    <?php echo $form->label($model,'facebook'); ?>
+                    <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
+                    <?php echo $form->error($model,'facebook'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'googleplus'); ?>
+                    <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
+                    <?php echo $form->error($model,'googleplus'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'linkedin'); ?>
+                    <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
+                    <?php echo $form->error($model,'linkedin'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'vkontakte'); ?>
+                    <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
+                    <?php echo $form->error($model,'vkontakte'); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->label($model,'twitter'); ?>
+                    <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
+                    <?php echo $form->error($model,'twitter'); ?>
+                </div>
+            </section>
         </div>
-        <?php
-        }
-        ?>
-        <div class="row">
-            <?php echo $form->label($model,'aboutMy'); ?>
-            <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy)); ?>
-            <?php echo $form->error($model,'aboutMy'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'interests'); ?>
-            <?php echo $form->textField($model,'interests',array('value'=>$post->interests,'maxlength'=>255, 'placeholder'=>Yii::t('regexp', '0153'))); ?>
-            <span><?php echo $form->error($model,'interests'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
-            <span><?php echo $form->error($model,'aboutUs'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'email'); ?>
-            <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255,"disabled"=>"disabled" )); ?>
-            <span><?php echo $form->error($model,'email'); ?></span>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'facebook'); ?>
-            <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'facebook'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'googleplus'); ?>
-            <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'googleplus'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'linkedin'); ?>
-            <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'linkedin'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'vkontakte'); ?>
-            <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'vkontakte'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'twitter'); ?>
-            <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'twitter'); ?>
-        </div>
-        <?php if(is_null($post->password)){
-            ?>
-        <div class="rowPass">
-            <?php echo $form->label($model,'password'); ?>
-            <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>255)); ?></span>
-            <?php echo $form->error($model,'password'); ?>
-        </div>
-        <div class="row">
-            <?php echo $form->label($model,'password_repeat'); ?>
-            <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>255)); ?></span>
-            <?php echo $form->error($model,'password_repeat'); ?>
-        </div>
-        <?php
-         } else {
+        <?php if(!is_null($post->password)){
          echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
         }
             ?>
