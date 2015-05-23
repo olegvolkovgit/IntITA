@@ -23,7 +23,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: 'http://intita.itatests.com/lesson/save',
+                    url: 'http://localhost/IntITA/lesson/save',
                     data: {'content':html,'idLecture':idLecture,'order':order}
                 });
 			}
