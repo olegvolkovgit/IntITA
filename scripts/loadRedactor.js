@@ -42,8 +42,14 @@ function getIdName() {
         {
             $(order).redactor({
                 preSpaces: true,
-                cleanOnPaste: false,
+                cleanStyleOnEnter: false,
+                replaceDivs: false,
                 autoclear: false,
+                pastePlainText: false,
+                convertVideoLinks: true,
+                convertImageLinks: true,
+                convertUrlLinks: true,
+                convertLinks: true,
                 plugins: ['fontfamily',
                           'fontsize',
                           'fontcolor',
@@ -55,11 +61,11 @@ function getIdName() {
                 {
 
                     var marker = this.selection.getMarker();
-                    this.insert.node(marker);
+                    //this.insert.node(marker);
                 },
                 initCallback: function()
                 {
-                    this.selection.restore();
+                    //this.selection.restore();
                     $(order).off('click', loadTextRedactor);
                 },
                 destroyCallback: function()
