@@ -48,14 +48,6 @@ class PermissionsController extends Controller
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
-
-
         $this->render('edit');
-    }
-
-    public function actionAdd(){
-        $dataProvider = new CActiveDataProvider('Permissions');
-
-        $this->render('add');
     }
 }

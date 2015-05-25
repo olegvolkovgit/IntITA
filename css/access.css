@@ -30,6 +30,14 @@ body .grid-view table.items td.deleteButton{
 #enter_button_2:active {
     background: #363636;
 }
+/*---------------Add new record (permissions/add)-------------------*/
 #add{
     margin-top: 100px;
 }
+#idUser, #idResource{
+    float:left;
+}
+#addAccess{
+    display: none;
+}
+/*---------------Add new record (permissions/add)-------------------*/

@@ -6,10 +6,11 @@ $this->breadcrumbs=array(
 );
 $alert = 'Are you sure you want to delete this Category?';
 ?>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
-<a href="<?php echo Yii::app()->createUrl('permissions/add');?>">
-    <div id="enter_button_2">Додати запис</div>
+<a href="#form">
+    <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
 </a>
 
 <?php
@@ -114,4 +115,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 ));
 ?>
+
+<?php $this->renderPartial('_add', array('model' => $model));?>
 
