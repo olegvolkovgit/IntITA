@@ -18,7 +18,7 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
         style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
         <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
     </div>
-    <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
+    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)); ?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
         <span>
                 <ul>
                     <li> <div class="teacherTitle">
