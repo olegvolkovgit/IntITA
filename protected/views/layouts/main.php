@@ -251,7 +251,7 @@ $header = new Header();?>
         $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         ?>
         <div class="profileStatus">
-            <a href="<?php echo Yii::app()->request->baseUrl.'/studentreg/profile'; ?>">
+            <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id));?>">
                 <div>
                     <?php echo $post->firstName;?></br>
                     <?php echo $post->secondName;?></br>

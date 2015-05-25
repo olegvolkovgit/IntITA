@@ -11,39 +11,11 @@ class StudentRegController extends Controller
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules()
-    {
-        return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view','edit','profile','sendletter','rewrite'),
-                'users'=>array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update','changepass', 'deleteavatar'),
-                'users'=>array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','delete'),
-                'users'=>array('admin'),
-            ),
-            array('deny',  // deny all users
-                'users'=>array('*'),
-            ),
-        );
-    }
 
     /**
      * Displays a particular model.
@@ -267,11 +239,23 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile()
+    public function actionProfile($idUser)
     {
-        $model=new StudentReg();
+        $model=StudentReg::model()->findByPk($idUser);
 
-        $this->render("studentprofile", array('model'=>$model));
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'consultationscalendar';
+        $criteria->addCondition('user_id='.$idUser);
+        $criteria->order = 'date_cons ASC';
+
+        $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+            ),
+        ));
+
+        $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
 
     }
     public function actionSendletter()
