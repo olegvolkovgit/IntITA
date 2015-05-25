@@ -28,7 +28,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
 <div class="formStudProfNav">
     <?php
     $this->breadcrumbs=array(
-        Yii::t('breadcrumbs', '0054')=>Yii::app()->request->baseUrl.'/studentreg/profile',Yii::t('breadcrumbs', '0055')
+        Yii::t('breadcrumbs', '0054')=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)),Yii::t('breadcrumbs', '0055')
     );
     ?>
 
