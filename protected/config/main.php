@@ -61,6 +61,19 @@ return array(
 			'class'=>'system.caching.CFileCache',
 		),
 
+        'autoadmin'=>array(
+            'class'=>'ext.autoadmin.AutoAdmin',
+            'basePath' => dirname(__FILE__).'/../modules/autoadmin',
+            'layout' => 'main',
+            'wwwDirName' => 'www',
+            'dbConnection' => 'db',
+            'dbAdminTablePrefix' => 'aa_',
+            'dbAdminSchema' => 'admin',
+            'authMode' => true,
+            'openMode' => false,
+            'logMode' => true,
+        ),
+
         'messages'=>array(
             'class'=>'CDbMessageSource',
             'sourceMessageTable'=>'sourcemessages',
@@ -93,12 +106,13 @@ return array(
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
-
-
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
+                '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
+                '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
+                '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
 			),
 
 		),
@@ -148,7 +162,7 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-       //  'imagesPath'=>'http://localhost/IntITA/images',
+         //'imagesPath'=>'http://localhost/IntITA/images',
 //         'avatarsPath'=>'http://localhost/IntITA/avatars',
 //         'commonPath' =>'http://localhost/IntITA/files',
         'imagesPath'=>'http://intita.itatests.com/images',

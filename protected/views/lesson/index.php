@@ -48,18 +48,21 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
     <div class="lessonText">
+
+        <?php if($editMode){?>
         <div onclick="enableLessonEdit();">
             <a href="#">
-                <img src="<?php echo  '/IntITA/images/editor/edt_30px.png';//StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="Редагувати заняття"/>
             </a>
         </div>
         <div onclick="showForm();">
             <a href="#newBlockForm">
-                <img src="<?php echo '/IntITA/images/editor/add_lesson.png';//StaticFilesHelper::createPath('image', 'editor', 'add.png');?>"
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
                      id="addTextBlock" title="Додати новий блок"/>
             </a>
         </div>
+        <?php }?>
 
 
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-20 18:36:24
+-- Date/time:                    2015-05-25 14:12:35
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~903 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 010 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -230,7 +230,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(56, 'en', 'Registration'),
 	(57, 'en', 'Teacher profile'),
 	(58, 'en', 'Our teachers'),
-	(59, 'en', 'personal page'),
+	(59, 'en', 'personal <br>page'),
 	(60, 'en', 'If you\'re a professional IT specialist and want to teach some courses or modules IT and cooperate with us in the field of training programmers write us a letter.'),
 	(61, 'en', 'Conducts courses'),
 	(62, 'en', 'Read more'),

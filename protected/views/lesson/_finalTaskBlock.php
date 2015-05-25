@@ -7,7 +7,11 @@
  */?>
 <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'borderLesson.png');?>">
 <div class="element">
-    <?php $this->renderPartial('_editToolbar', array('idLecture' => $data['id_lecture'], 'order' =>  $data['block_order']));?>
+    <?php $this->renderPartial('_editToolbar',array(
+        'idLecture' => $data['id_lecture'],
+        'order' =>  $data['block_order'],
+        'editMode' => $editMode,
+    ));?>
 
 <div class="lessonTask">
     <img class="lessonButFinal" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButtonFinale.png'); ?>">
