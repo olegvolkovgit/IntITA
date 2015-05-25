@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-25 14:53:13
+-- Date/time:                    2015-05-25 18:15:53
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~22 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~24 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
 INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
 	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),

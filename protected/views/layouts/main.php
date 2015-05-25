@@ -17,7 +17,7 @@ $header = new Header();?>
     <!-- layouts style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/style.css" />
     <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/hamburgerMenu.css" />
+<!--    <link rel="stylesheet" type="text/css" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/hamburgerMenu.css" />-->
     <!-- aboutUs style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/aboutusstyles.css" />
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/step.css" />
@@ -123,113 +123,113 @@ $header = new Header();?>
 </div>
 <div id='headerUnderline' class="down"></div>
 
-
-<! Hamburger menu>
-
-<div id="hamburgerNavigation">
-    <div id="hamburgerSenterNavigation">
-        <div id="burgerShadow">
-        </div>
-        <div id="hamburgerButton2" onclick="ShowHamburger()">
-            <ul>
-                <li><div class="hamburgerButtonLine2"></div></li>
-                <li><div class="hamburgerButtonLine2"></div></li>
-                <li><div class="hamburgerButtonLine2"></div></li>
-            </ul>
-        </div>
-        <div id="logo2" class="down">
-            <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                <img  src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
-            </a>
-        </div>
-        <div id="hamburgerLang">
-            <form action="" method="post" onsubmit="" name="fff">
-                <button id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>
-                <button id="en" name="en" onclick="changeLang(this)">en</button>
-                <button id="ru" name="ru" onclick="changeLang(this)">ru</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="hamburgerMainBox">
-    <div id="hamburgerSubBox">
-        <div class="hamburgerBox">
-            <a class="hamburgerLink" href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a>
-        </div>
-        <div class="hamburgerLine"></div>
-        <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a>
-        </div>
-        <div class="hamburgerLine"></div>
-        <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a>
-        </div>
-        <div class="hamburgerLine"></div>
-        <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a>
-        </div>
-        <div class="hamburgerLine"></div>
-        <div class="hamburgerBox2">
-            <a id="hamburgerEnterButton" href="<?php echo Yii::app()->request->baseUrl;?>#form"><?php echo $header->getEnterButton(); ?></a>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    var width=0;
-    if (self.screen)
-    {
-        width = screen.width
-    }
-    if (width>80)
-    {
-        $('#hamburgerNavigation').css('display', 'none');
-        $('#contentBoxMain').css('margin-top', '-1000px');
-        $('#navigation').css('display', 'block');
-        $('#centerEnterButton').css('display', 'block');
-        var key = document.getElementById('enter_button');
-        var nav = document.getElementById('navigation');
-        var logo = document.getElementById('logo_img');
-        var border = document.getElementById('button_border');
-    }
-    else
-    {
-        var  isShow=0;
-        $('#hamburgerNavigation').css('display', 'inline-block');
-        $('#navigation').css('display', 'none');
-        $('#centerEnterButton').css('display', 'none');
-        $('body').css('margin-top', '-23px');
-        $('#hamburgerSenterNavigation').css('width', width);
-        $('#hamburgerSenterNavigation').css('margin-left', -(width/2));
-        $('#hamburgerLang').css('left', width-130);
-        function ShowHamburger()
-        {
-            if (isShow==0)
-            {
-                isShow=1;
-                $('#hamburgerButton').css('display','none');
-                $('.hamburgerButtonLine2').css('background-color',' #535353');
-                $('#contentBoxMain').animate({left:'+=25%'},'fast');
-                $('#hamburgerNavigation').animate({left:'+=25%'},'fast');
-                $('#hamburgerMainBox').fadeIn('middle');
-                $('#hamburgerLang').animate({left:'-=0px'},'fast');
-            }
-            else
-            {
-                isShow=0;
-                $('#hamburgerButton').css('display','block');
-                $('.hamburgerButtonLine2').css('background-color','#4682B4');
-                $('#hamburgerMainBox').css('display','none');
-                $('#contentBoxMain').animate({left:'-=25%'});
-                $('#hamburgerNavigation').animate({left:'-=25%'});
-                $('#contentBoxMain').css('margin-left', '0%');
-                $('#hamburgerLang').animate({left:'+=0px'});
-            }
-        }
-    }
-</script>
+<!---->
+<!--<! Hamburger menu>-->
+<!---->
+<!--<div id="hamburgerNavigation">-->
+<!--    <div id="hamburgerSenterNavigation">-->
+<!--        <div id="burgerShadow">-->
+<!--        </div>-->
+<!--        <div id="hamburgerButton2" onclick="ShowHamburger()">-->
+<!--            <ul>-->
+<!--                <li><div class="hamburgerButtonLine2"></div></li>-->
+<!--                <li><div class="hamburgerButtonLine2"></div></li>-->
+<!--                <li><div class="hamburgerButtonLine2"></div></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--        <div id="logo2" class="down">-->
+<!--            <a href="--><?php //echo Yii::app()->request->baseUrl;?><!--">-->
+<!--                <img  src="--><?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?><!--"/>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <div id="hamburgerLang">-->
+<!--            <form action="" method="post" onsubmit="" name="fff">-->
+<!--                <button id="ua" name="ua" onclick="changeLang(this)" class="selectedLang" disabled>ua</button>-->
+<!--                <button id="en" name="en" onclick="changeLang(this)">en</button>-->
+<!--                <button id="ru" name="ru" onclick="changeLang(this)">ru</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!---->
+<!--<div id="hamburgerMainBox">-->
+<!--    <div id="hamburgerSubBox">-->
+<!--        <div class="hamburgerBox">-->
+<!--            <a class="hamburgerLink" href="--><?php //echo $this->link1; ?><!--">--><?php //echo Yii::t('header','0016'); ?><!--</a>-->
+<!--        </div>-->
+<!--        <div class="hamburgerLine"></div>-->
+<!--        <div class="hamburgerBox">-->
+<!--            <a  class="hamburgerLink" href="--><?php //echo $this->link2; ?><!--">--><?php //echo Yii::t('header','0021'); ?><!--</a>-->
+<!--        </div>-->
+<!--        <div class="hamburgerLine"></div>-->
+<!--        <div class="hamburgerBox">-->
+<!--            <a  class="hamburgerLink" href="--><?php //echo $this->link3; ?><!--">--><?php //echo Yii::t('header','0017'); ?><!--</a>-->
+<!--        </div>-->
+<!--        <div class="hamburgerLine"></div>-->
+<!--        <div class="hamburgerBox">-->
+<!--            <a  class="hamburgerLink" href="--><?php //echo $this->link4; ?><!--">--><?php //echo Yii::t('header','0018'); ?><!--</a>-->
+<!--        </div>-->
+<!--        <div class="hamburgerLine"></div>-->
+<!--        <div class="hamburgerBox2">-->
+<!--            <a id="hamburgerEnterButton" href="--><?php //echo Yii::app()->request->baseUrl;?><!--#form">--><?php //echo $header->getEnterButton(); ?><!--</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!---->
+<!---->
+<!--<script>-->
+<!--    var width=0;-->
+<!--    if (self.screen)-->
+<!--    {-->
+<!--        width = screen.width-->
+<!--    }-->
+<!--    if (width>80)-->
+<!--    {-->
+<!--        $('#hamburgerNavigation').css('display', 'none');-->
+<!--        $('#contentBoxMain').css('margin-top', '-1000px');-->
+<!--        $('#navigation').css('display', 'block');-->
+<!--        $('#centerEnterButton').css('display', 'block');-->
+<!--        var key = document.getElementById('enter_button');-->
+<!--        var nav = document.getElementById('navigation');-->
+<!--        var logo = document.getElementById('logo_img');-->
+<!--        var border = document.getElementById('button_border');-->
+<!--    }-->
+<!--    else-->
+<!--    {-->
+<!--        var  isShow=0;-->
+<!--        $('#hamburgerNavigation').css('display', 'inline-block');-->
+<!--        $('#navigation').css('display', 'none');-->
+<!--        $('#centerEnterButton').css('display', 'none');-->
+<!--        $('body').css('margin-top', '-23px');-->
+<!--        $('#hamburgerSenterNavigation').css('width', width);-->
+<!--        $('#hamburgerSenterNavigation').css('margin-left', -(width/2));-->
+<!--        $('#hamburgerLang').css('left', width-130);-->
+<!--        function ShowHamburger()-->
+<!--        {-->
+<!--            if (isShow==0)-->
+<!--            {-->
+<!--                isShow=1;-->
+<!--                $('#hamburgerButton').css('display','none');-->
+<!--                $('.hamburgerButtonLine2').css('background-color',' #535353');-->
+<!--                $('#contentBoxMain').animate({left:'+=25%'},'fast');-->
+<!--                $('#hamburgerNavigation').animate({left:'+=25%'},'fast');-->
+<!--                $('#hamburgerMainBox').fadeIn('middle');-->
+<!--                $('#hamburgerLang').animate({left:'-=0px'},'fast');-->
+<!--            }-->
+<!--            else-->
+<!--            {-->
+<!--                isShow=0;-->
+<!--                $('#hamburgerButton').css('display','block');-->
+<!--                $('.hamburgerButtonLine2').css('background-color','#4682B4');-->
+<!--                $('#hamburgerMainBox').css('display','none');-->
+<!--                $('#contentBoxMain').animate({left:'-=25%'});-->
+<!--                $('#hamburgerNavigation').animate({left:'-=25%'});-->
+<!--                $('#contentBoxMain').css('margin-left', '0%');-->
+<!--                $('#hamburgerLang').animate({left:'+=0px'});-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
 <div class="clear"></div>
 

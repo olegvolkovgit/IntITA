@@ -43,7 +43,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                                                 return false;
                                 }else{
 
-                                                window.location="admin?del=exist";
+                                                window.location="/IntITA/permissions/delete";
                                                 return false;
                                 }
                             }',

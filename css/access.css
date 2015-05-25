@@ -40,4 +40,17 @@ body .grid-view table.items td.deleteButton{
 #addAccess{
     display: none;
 }
+#submitButton{
+    background: #4b70a3;
+    border-radius:   10px;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-decoration: none;
+    vertical-align:middle;
+    display:table-cell;
+    text-align:center;
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+}
 /*---------------Add new record (permissions/add)-------------------*/

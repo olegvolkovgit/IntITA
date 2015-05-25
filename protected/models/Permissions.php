@@ -101,7 +101,7 @@ class Permissions extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return self::model();
+		return parent::model();
 	}
 
     /*
@@ -187,7 +187,9 @@ class Permissions extends CActiveRecord
         }
     }
 
-    public function deletePermission($idUser, $idResource, $rights){
 
+    public function primaryKey()
+    {
+        return array('id_user', 'id_resource');
     }
 }

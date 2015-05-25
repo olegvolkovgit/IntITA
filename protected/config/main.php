@@ -11,7 +11,7 @@ return array(
 	'name'=>'INTITA',
 
 	'sourceLanguage'=>'xs',
-	'language'=>'ua',
+	'language'=>'uk_UA',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -98,10 +98,7 @@ return array(
 			'rules'=>array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
-//                array(
-//                    'class' => 'application.components.CoursesRule',
-//                    'connectionID' => 'db',
-//                ),
+
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
@@ -113,6 +110,10 @@ return array(
                 '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
+//                array(
+//                    'class' => 'application.components.CoursesRule',
+//                    'connectionID' => 'db',
+//                ),
 			),
 
 		),

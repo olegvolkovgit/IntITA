@@ -50,4 +50,27 @@ class PermissionsController extends Controller
         }
         $this->render('edit');
     }
+
+    public function actionNewPermission(){
+        if (Yii::app()->user->getId() != 49) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
+        $this->actionIndex();
+    }
+
+    public function actionDelete(){
+        if (Yii::app()->user->getId() != 49) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
+        $id = 1;//$_GET['id_user'];
+        $resource = 26;//$_GET['id_resource'];
+
+        $command = Yii::app()->db->createCommand();
+        $result = $command->delete('permissions', 'id_user=:id_user AND id_resource=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
+
+        $this->actionIndex();
+    }
+
 }

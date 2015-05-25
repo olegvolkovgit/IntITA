@@ -12,12 +12,13 @@
     <a name="form">Додати новий запис</a>
 <?php $form=$this->beginWidget('CActiveForm', [
     'id'=>'add-access',
+    'action'=>Yii::app()->createUrl('permissions/newPermission'),
     'enableAjaxValidation'=>true,
     'clientOptions'=>[
         'validateOnSubmit'=>true
     ]
 ]); ?>
-<p class="note">Fields with <span class="required">*</span> are required.</p>
+<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 <?php echo $form->errorSummary($model); ?>
 
 <div class="row">
@@ -60,6 +61,8 @@
         <?php echo $form->error($model,'rights'); ?>
     </div>
 <br />
-<?php echo CHtml::submitButton('Save Changes'); ?>
+<!--<div id="enter_button_2">-->
+    <?php echo CHtml::submitButton('Додати запис', array('id'=>'submitButton')); ?>
+<!--</div>-->
 <?php $this->endWidget(); ?>
 </div>
