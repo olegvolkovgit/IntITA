@@ -34,32 +34,43 @@
         'id'=>'consultation-grid',
         'dataProvider'=>$dataProvider,
 //        'filter'=>$model,
+        'summaryText' => '',
         'columns'=>array(
             array(
-                'header'=>'Тип',
-                'value'=>'"К"',
+                'header'=>Yii::t('profile', '0126'),
+                'value'=>'Yii::t(\'profile\', \'0132\')',
             ),
             array(
                 'name'=>'date_cons',
-                'header'=>'Дата',
+                'header'=>Yii::t('profile', '0127'),
             ),
             array(
                 'name'=>'start_cons',
-                'header'=>'Час',
-                'value'=>'$data->start_cons."-".$data->end_cons',
+                'header'=>Yii::t('profile', '0128'),
+                'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
             ),
-//            array(
-//                'header'=>'Викладач',
-//                'value'=>'Teacher::model()->findByPk($data->teacher_id)->first_name." ".Teacher::model()->findByPk($data->teacher_id)->last_name',
-//            ),
-//            array(
-//                'header'=>'Тема',
-//                'value'=>'Lecture::model()->findByPk($data->lecture_id)->title',
-//            ),
+            array(
+                'header'=>Yii::t('profile', '0129'),
+                'value'=>'Teacher::model()->findByPk($data->teacher_id)->first_name." ".Teacher::model()->findByPk($data->teacher_id)->last_name',
+            ),
+            array(
+                'header'=>Yii::t('profile', '0130'),
+                'value'=>'Lecture::model()->findByPk($data->lecture_id)->title',
+            ),
             array(
                 'class'=>'CButtonColumn',
+                'buttons'=>array
+                (
+                    'htmlOptions'=>array('display' => 'none'),
+                    'delete' => array(
+                        'url' => 'Yii::app()->createUrl("studentreg/deleteconsultation", array("id"=>$data->id))',
+                        'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                        'label' => 'Відмінити консультацію',
+                    ),
+                ),
                 'updateButtonOptions'=> array('style'=>'display:none'),
                 'viewButtonOptions'=> array('style'=>'display:none'),
+//                'deleteButtonOptions'=> array('style'=>'text-align:center;margin:0'),
             ),
         ),
     )); ?>

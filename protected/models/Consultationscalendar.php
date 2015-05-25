@@ -89,7 +89,7 @@ class Consultationscalendar extends CActiveRecord
 		$criteria->compare('lecture_id',$this->lecture_id);
 		$criteria->compare('start_cons',$this->start_cons,true);
 		$criteria->compare('end_cons',$this->end_cons,true);
-        $criteria->compare('end_cons',$this->date_cons,true);
+        $criteria->compare('date_cons',$this->date_cons,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

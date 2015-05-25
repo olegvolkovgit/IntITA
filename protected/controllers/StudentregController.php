@@ -246,13 +246,22 @@ class StudentRegController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
         $criteria->addCondition('user_id='.$idUser);
-        $criteria->order = 'date_cons ASC';
+//        $criteria->order = 'date_cons ASC';
+
+        $sort =new CSort;
+        $sort->attributes = array(
+            'date_cons'=> array(
+                'asc'=>'date_cons',
+                'desc'=>'date_cons desc'
+            )
+        );
 
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria'=>$criteria,
             'pagination'=>array(
                 'pageSize'=>100,
             ),
+            'sort'=> $sort,
         ));
 
         $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
@@ -405,6 +414,19 @@ class StudentRegController extends Controller
         } else {
             $this->redirect(Yii::app()->createUrl('studentreg/edit'));
         }
+
+    }
+
+    public function actionDeleteconsultation($id)
+    {
+        Consultationscalendar::model()->deleteByPk($id);
+
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+//
+//        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//        if(!isset($_GET['ajax']))
+//            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 
     }
 
