@@ -1,3 +1,9 @@
+#contentBoxMain
+{
+    position:relative;
+    width: 1200px;
+    margin: 0 auto;
+}
 #coursesMainBox
 {
     position:relative;
@@ -45,7 +51,6 @@
     display:inline-block;
     position:relative;
     font-family:MyriadPro;
-    height: 50px;
     width: 500px;
     font-size: 14px;
 }
@@ -277,8 +282,8 @@
     position: relative;
     top: 4px;
 }
-table {
-    margin-top: 0px;
+.bgBlue table {
+    margin-top: 0;
 }
 .bgBlue{
     background-color:#4B75A4;
@@ -308,7 +313,6 @@ table {
     color: #696969;
 }
 #razv p{
-    height: 10px;
     left: 40px;
     right: 20px;
     color: #ffffff;
