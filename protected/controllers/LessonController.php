@@ -71,9 +71,11 @@ class LessonController extends Controller{
     public function actionSave(){
         $order = substr(Yii::app()->request->getPost('order'), 2);
         $id = Yii::app()->request->getPost('idLecture');
+        var_dump($order);
+
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
-        var_dump($order);
+
         $model->save();
     }
 
