@@ -246,22 +246,16 @@ class StudentRegController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
         $criteria->addCondition('user_id='.$idUser);
-//        $criteria->order = 'date_cons ASC';
-
-        $sort =new CSort;
-        $sort->attributes = array(
-            'date_cons'=> array(
-                'asc'=>'date_cons',
-                'desc'=>'date_cons desc'
-            )
-        );
 
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria'=>$criteria,
             'pagination'=>array(
                 'pageSize'=>100,
             ),
-            'sort'=> $sort,
+            'sort'=> array(
+                'defaultOrder' => 'date_cons DESC',
+                'attributes'=>array('date_cons'),
+            ),
         ));
 
         $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
