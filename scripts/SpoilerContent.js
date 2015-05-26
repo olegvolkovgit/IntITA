@@ -16,13 +16,18 @@ $(document).ready(function(){
 
 /**------------------recall-------------------------*/
 
-$(function () {
-    $('.view-source .hide').hide();
-    $a = $('.view-source a');
 
+$(document).ready(function() {
+    $('.view-source .hide').hide();
+
+    $a = $('.view-source a');
     $a.on('click', function (event) {
         event.preventDefault();
         $a.not(this).next().slideUp(500);
+        $a.not(this).html('Развернуть текст');
         $(this).next().slideToggle(500);
+        $(this).html('Свернуть текст');
+
     });
 });
+
