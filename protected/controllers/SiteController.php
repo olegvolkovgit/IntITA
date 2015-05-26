@@ -162,7 +162,9 @@ class SiteController extends Controller
     /* Express registration, check-sending on email adresses token to activate your account */
 	public function actionRapidReg()
 	{
-		$model = new StudentReg('repidreg');
+        if(isset($_POST['isExtended']))
+            $model = new StudentReg('fromraptoext');
+        else $model = new StudentReg('repidreg');
 // if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='studentreg-form')
 		{
