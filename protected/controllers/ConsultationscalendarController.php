@@ -165,4 +165,11 @@ class ConsultationscalendarController extends Controller
         }
             header('Location: '.$_SERVER['HTTP_REFERER']);
     }
+    public function actionDeleteconsultation($id)
+    {
+        Consultationscalendar::model()->deleteByPk($id);
+
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

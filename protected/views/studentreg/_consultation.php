@@ -37,7 +37,7 @@ $alert = 'Ви впевнені, що хочите відмінити консу
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
-                    'url' => 'Yii::app()->createUrl("studentreg/deleteconsultation", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'label' => 'Відмінити консультацію',
                 ),
