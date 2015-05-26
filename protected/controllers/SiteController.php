@@ -171,7 +171,7 @@ class SiteController extends Controller
 		}
         if(isset($_POST['isExtended']))
         {
-            $this->redirect(array('studentreg/index'));
+            $this->redirect( Yii::app()->createUrl('studentreg/index',array('tempEmail'=>$_POST['StudentReg']['email'],'tempPass'=>$_POST['StudentReg']['password'])));
         }
 // collect user input data
 		if(isset($_POST['StudentReg']))
