@@ -1,16 +1,8 @@
-#contentBoxMain
-{
-    position:relative;
-    width: 1200px;
-    margin: 0 auto;
-}
 #coursesMainBox
 {
-    position:relative;
-    width:1200px;
-    left:50%;
-    margin-left: -600px;
-    font-family:MyriadPro;
+    margin: 0 auto;
+    width: 1200px;
+    overflow: hidden;
 }
 #coursesHeader
 {
