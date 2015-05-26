@@ -11,7 +11,7 @@ return array(
 	'name'=>'INTITA',
 
 	'sourceLanguage'=>'xs',
-	'language'=>'uk_UA',
+	'language'=>'ua',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

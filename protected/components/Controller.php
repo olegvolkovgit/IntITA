@@ -34,9 +34,10 @@ class Controller extends CController
         $this->link3 = Yii::app()->request->baseUrl.$header->item3Link;
         $this->link4 = Yii::app()->request->baseUrl.$header->item4Link;
         $this->link5 = Yii::app()->request->baseUrl.'/graduate';
-        $this->imageSotial = Yii::app()->request->baseUrl.$footer->imageSotial;
+        //$this->imageSotial = Yii::app()->request->baseUrl.$footer->imageSotial;
         $this->imageUp = Yii::app()->request->baseUrl.$footer->imageUp;
-		$app = Yii::app();
+
+        $app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
