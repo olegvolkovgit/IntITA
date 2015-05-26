@@ -13,10 +13,10 @@ class ConsultationsHelper
 
         return $result;
     }
-    public static function getUserName($dp)
+    public static function getUserName($id,$dp)
     {
 
-        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>Yii::app()->user->id));
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
 
         if($teacher){
             $result=StudentReg::model()->findByPk($dp->user_id)->firstName." ".StudentReg::model()->findByPk($dp->user_id)->secondName;

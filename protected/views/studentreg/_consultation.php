@@ -23,7 +23,7 @@ $alert = 'Ви впевнені, що хочите відмінити консу
         ),
         array(
             'header'=>ConsultationsHelper::getUserTitle($user->id),
-            'value'=>'ConsultationsHelper::getUserName($data)',
+            'value'=>'ConsultationsHelper::getUserName(' . $user->id . ',$data)',
         ),
         array(
             'header'=>Yii::t('profile', '0130'),
