@@ -117,7 +117,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                 <?php $this->renderPartial('_timetable'); ?>
             </section>
             <section id="consultation">
-                <?php $this->renderPartial('_consultation', array('dataProvider' => $dataProvider)); ?>
+                <?php $this->renderPartial('_consultation', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
             </section>
             <section id="exams">
                 <?php $this->renderPartial('_exams'); ?>

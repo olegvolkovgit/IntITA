@@ -242,10 +242,14 @@ class StudentRegController extends Controller
     public function actionProfile($idUser)
     {
         $model=StudentReg::model()->findByPk($idUser);
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
         $criteria= new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
-        $criteria->addCondition('user_id='.$idUser);
+        if($teacher)
+            $criteria->addCondition('teacher_id='.$teacher->teacher_id);
+        else
+            $criteria->addCondition('user_id='.$idUser);
 
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria'=>$criteria,

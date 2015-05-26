@@ -22,12 +22,12 @@ $alert = 'Ви впевнені, що хочите відмінити консу
             'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
         ),
         array(
-            'header'=>Yii::t('profile', '0129'),
-            'value'=>'Teacher::model()->findByPk($data->teacher_id)->first_name." ".Teacher::model()->findByPk($data->teacher_id)->last_name',
+            'header'=>ConsultationsHelper::getUserTitle($user->id),
+            'value'=>'ConsultationsHelper::getUserName($data)',
         ),
         array(
             'header'=>Yii::t('profile', '0130'),
-            'value'=>'Lecture::model()->findByPk($data->lecture_id)->title',
+            'value'=>'ConsultationsHelper::getTheme($data)',
         ),
         array(
             'class'=>'CButtonColumn',
