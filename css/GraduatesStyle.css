@@ -88,15 +88,24 @@ span.spoilerTriangle {
     width:45%;
     float:right;
 }
-.view-source{
-    padding-left: 10px;
-    margin-bottom: 10px;
-}
-.hide{
-    display: none;
+.spoiler-body {
+    display:none;
     border: 1px #666666 solid;
     border-radius: 15px;
     padding: 25px 10px 10px 35px;
     font-size: 14px;
     color: #666666;
+}
+.spoiler-title{
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    cursor:pointer;
+    text-decoration:underline;
+    color:#4b75a4;
+    }
+.opened {
+    color: #666666;
+}
+.closed {
 }
