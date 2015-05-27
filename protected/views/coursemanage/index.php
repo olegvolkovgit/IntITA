@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Course', 'url'=>array('create')),
-	array('label'=>'Manage Course', 'url'=>array('admin')),
+	array('label'=>'Створити курс', 'url'=>array('create')),
+	array('label'=>'Управління курсами', 'url'=>array('admin')),
 );
 ?>
 
@@ -16,8 +16,6 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$dataProvider,
-    'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
-    'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText'=>'Показано курсів {start} - {end} з {count}',
 	'columns'=>array(
         array(
