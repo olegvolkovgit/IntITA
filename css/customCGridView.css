@@ -1,6 +1,7 @@
 .custom table
 {
     border-collapse: collapse;
+    margin: 0 auto;
 }
 .custom td
 {
