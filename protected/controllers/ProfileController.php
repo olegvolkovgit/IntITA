@@ -60,7 +60,17 @@ class ProfileController extends Controller
     }
 
     public function actionSave(){
-        $this->render('save');
+        if (isset($_POST['id'])) {
+            if ($_POST['block'] == 1) {
+                Teacher::updateFirstText($_POST['id'], $_POST['content']);
+            }
+            if ($_POST['block'] == 2) {
+                Teacher::updateSecondText($_POST['id'], $_POST['content']);
+            }
+        }
+        Yii::app()->user->setFlash('success', "Ваш профіль оновлено!");
+
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionAboutdetail()
@@ -165,10 +175,6 @@ class ProfileController extends Controller
             }
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
-
-
-
-
     }
 
     public function getCourses(){

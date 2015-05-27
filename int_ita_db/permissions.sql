@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-27 17:53:38
+-- Date/time:                    2015-05-27 19:50:57
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 1),
-	(1, 2, 1),
 	(1, 3, 1),
 	(1, 5, 1),
 	(1, 14, 1),

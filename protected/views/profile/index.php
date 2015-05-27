@@ -15,6 +15,8 @@
 <!-- teacherProfile style -->
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teacherProfile.css" />
 <!-- steps style -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 
 <?php
 /* @var $this ProfileController */
@@ -32,37 +34,4 @@ if (isset($_GET['div'])){
     <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'sections' => $sections, 'editMode' => $editMode, 'coursesID' => $coursesID, 'titles' => $titles)); ?>
     <!-- Block 2 -->
     <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider)); ?>
-
-    <?php
-    // use editor WYSIWYG Imperavi
-    $this->widget('ImperaviRedactorWidget', array(
-        'selector' => $currentDiv,
-
-        'options' => array(
-            'imageUpload' => $this->createUrl('images/upload'),
-            'lang' => Yii::app()->language,
-            'toolbar' => true,
-            'iframe' => true,
-            'css' => 'wym.css',
-        ),
-        'plugins' => array(
-            'fullscreen' => array(
-                'js' => array('fullscreen.js',),
-            ),
-            'video' => array(
-                'js' => array('video.js',),
-            ),
-            'fontsize' => array(
-                'js' => array('fontsize.js',),
-            ),
-            'fontfamily' => array(
-                'js' => array('fontfamily.js',),
-            ),
-            'fontcolor' => array(
-                'js' => array('fontcolor.js',),
-            ),
-
-        ),
-    ));
-    ?>
 

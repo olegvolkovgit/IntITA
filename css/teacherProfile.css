@@ -127,5 +127,7 @@ div.responseBG {
     padding-top: 0px;
     padding-right: 30px;
     text-shadow:1px 1px 1px black;
-
+}
+.info{
+    color:red;
 }
