@@ -13,21 +13,7 @@
     <table class="courseLevelLine">
         <tr>
             <td>
-<!--                <p><span class="colorP"><b>--><?php //echo Yii::t('course', '0193'); ?><!--</b></span>&nbsp;--><?php //echo Yii::t('courses', '0234'); ?><!--</p>-->
-                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
-                    <?php
-                    $this->widget('editable.EditableField', array(
-                        'type'      => 'select',
-                        'model'     => $model,
-                        'attribute' => 'level',
-                        'url'       => $this->createUrl('site/updateUser'),
-//                        'source'    => Editable::source(Course::model()->findAll(), 'level'),
-                        //or you can use plain arrays:
-                        'source'    => array('strong junior' => 'Status1', 'intern' => 'Status2'),
-                        'placement' => 'right',
-                    ));
-                    ?>
-                </p>
+                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;<?php echo Yii::t('courses', '0234'); ?></p>
             </td>
             <td class="courseLevel">
                 <?php
