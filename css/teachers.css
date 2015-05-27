@@ -31,6 +31,7 @@ div.ifYouTeachers label{
 div.ifYouTeachers input{
     float: right;
     width: 400px;
+    box-shadow: none;
 }
 
 .subLinksTeachers a{

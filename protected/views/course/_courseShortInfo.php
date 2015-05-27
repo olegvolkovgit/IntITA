@@ -6,12 +6,28 @@
  * Time: 15:20
  */
 ?>
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <img class="courseImg" style="display: inline-block" src="<?php echo Yii::app()->request->baseUrl.$model->course_img ?>" />
 <div class="courseShortInfoTable">
     <table class="courseLevelLine">
         <tr>
             <td>
-                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;<?php echo Yii::t('courses', '0234'); ?></p>
+<!--                <p><span class="colorP"><b>--><?php //echo Yii::t('course', '0193'); ?><!--</b></span>&nbsp;--><?php //echo Yii::t('courses', '0234'); ?><!--</p>-->
+                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
+                    <?php
+                    $this->widget('editable.EditableField', array(
+                        'type'      => 'select',
+                        'model'     => $model,
+                        'attribute' => 'level',
+                        'url'       => $this->createUrl('site/updateUser'),
+//                        'source'    => Editable::source(Course::model()->findAll(), 'level'),
+                        //or you can use plain arrays:
+                        'source'    => array('strong junior' => 'Status1', 'intern' => 'Status2'),
+                        'placement' => 'right',
+                    ));
+                    ?>
+                </p>
             </td>
             <td class="courseLevel">
                 <?php
