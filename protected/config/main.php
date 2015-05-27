@@ -26,6 +26,7 @@ return array(
 		'ext.autoadmin.helpers.*',
 		'ext.autoadmin.controllers.*',
         'ext.imperavi-redactor-widget.*',
+        'application.helpers.*',
         'editable.*' //easy include of editable classes
 	),
 
