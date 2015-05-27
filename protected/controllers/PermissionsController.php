@@ -92,9 +92,6 @@ class PermissionsController extends Controller
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
-//        $id = 1;//$_POST["Permissions"]['id_user'];
-//        $resource = 26;//$_POST["Permissions"]['id_resource'];
-//        var_dump($_GET);
         $result = Yii::app()->db->createCommand()->delete('permissions', 'id_user=:id_user AND id_resource=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
 
         $this->actionIndex();
