@@ -214,7 +214,7 @@ class ModuleController extends Controller
 
         $count = Module::model()->findByPk($idModule)->lesson_count;
         for ($i = $order + 1; $i <= $count; $i++){
-            $id = Lecture::model()->findByAttributes(array('order'=>$i))->id;
+            $id = Lecture::model()->findByAttributes(array('idModule'=>$idModule,'order'=>$i))->id;
             Lecture::model()->updateByPk($id, array('order' => $i-1));
         }
         Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
@@ -226,10 +226,12 @@ class ModuleController extends Controller
 
     public function actionUpLesson(){
         $idLecture = $_GET['idLecture'];
+
+        $idModule =Lecture::model()->findByPk($idLecture)->idModule;
         $order = Lecture::model()->findByPk($idLecture)->order;
 
         if($order > 1) {
-            $idPrev = Lecture::model()->findByAttributes(array('order' => $order - 1))->id;
+            $idPrev = Lecture::model()->findByAttributes(array('idModule'=>$idModule, 'order' => $order - 1))->id;
 
             Lecture::model()->updateByPk($idLecture, array('order' => $order - 1));
             Lecture::model()->updateByPk($idPrev, array('order' => $order));
@@ -247,7 +249,7 @@ class ModuleController extends Controller
         $order = Lecture::model()->findByPk($idLecture)->order;
 
         if($order < $count) {
-            $idNext = Lecture::model()->findByAttributes(array('order' => $order + 1))->id;
+            $idNext = Lecture::model()->findByAttributes(array('idModule'=>$idModule, 'order' => $order + 1))->id;
 
             Lecture::model()->updateByPk($idLecture, array('order' => $order + 1));
             Lecture::model()->updateByPk($idNext, array('order' => $order));

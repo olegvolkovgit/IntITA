@@ -93,7 +93,7 @@ class StudentRegController extends Controller
      * Lists all models.
      */
 
-    public function actionIndex()
+    public function actionIndex($tempEmail='',$tempPass='')
     {
         $model=new StudentReg('reguser');
         if(isset($_POST['StudentReg']))
@@ -179,7 +179,7 @@ class StudentRegController extends Controller
             }
         }else {
             $model->addError('empty', 'Дані не введені');
-            $this->render("studentreg", array('model'=>$model));
+            $this->render("studentreg", array('model'=>$model, 'temail'=>$tempEmail, 'tpass'=>$tempPass));
         }
     }
 
@@ -242,26 +242,24 @@ class StudentRegController extends Controller
     public function actionProfile($idUser)
     {
         $model=StudentReg::model()->findByPk($idUser);
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
         $criteria= new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
-        $criteria->addCondition('user_id='.$idUser);
-//        $criteria->order = 'date_cons ASC';
-
-        $sort =new CSort;
-        $sort->attributes = array(
-            'date_cons'=> array(
-                'asc'=>'date_cons',
-                'desc'=>'date_cons desc'
-            )
-        );
+        if($teacher)
+            $criteria->addCondition('teacher_id='.$teacher->teacher_id);
+        else
+            $criteria->addCondition('user_id='.$idUser);
 
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria'=>$criteria,
             'pagination'=>array(
                 'pageSize'=>100,
             ),
-            'sort'=> $sort,
+            'sort'=> array(
+                'defaultOrder' => 'date_cons DESC',
+                'attributes'=>array('date_cons'),
+            ),
         ));
 
         $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
@@ -380,7 +378,7 @@ class StudentRegController extends Controller
             if ($model->hasErrors()) {
                 $this->render("studentprofileedit", array('model'=>$model));
             } else
-                $this->redirect(Yii::app()->request->baseUrl . '/studentreg/profile');
+                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
         }
     }
     public function actionChangepass()
@@ -416,18 +414,4 @@ class StudentRegController extends Controller
         }
 
     }
-
-    public function actionDeleteconsultation($id)
-    {
-        Consultationscalendar::model()->deleteByPk($id);
-
-        if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-//
-//        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//        if(!isset($_GET['ajax']))
-//            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-
-    }
-
 }

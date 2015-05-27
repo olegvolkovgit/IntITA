@@ -139,7 +139,9 @@ class SiteController extends Controller
     /* Express registration, check-sending on email adresses token to activate your account */
 	public function actionRapidReg()
 	{
-		$model = new StudentReg('repidreg');
+        if(isset($_POST['isExtended']))
+            $model = new StudentReg('fromraptoext');
+        else $model = new StudentReg('repidreg');
 // if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='studentreg-form')
 		{
@@ -148,7 +150,7 @@ class SiteController extends Controller
 		}
         if(isset($_POST['isExtended']))
         {
-            $this->redirect(array('studentreg/index'));
+            $this->redirect( Yii::app()->createUrl('studentreg/index',array('tempEmail'=>$_POST['StudentReg']['email'],'tempPass'=>$_POST['StudentReg']['password'])));
         }
 // collect user input data
 		if(isset($_POST['StudentReg']))

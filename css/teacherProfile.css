@@ -18,6 +18,9 @@
     float:left;
     width:583px;
 }
+.TeacherProfileblock1 table td:last-child{
+    width: 100%;
+}
 
 td img.icons {
     height: 20px;

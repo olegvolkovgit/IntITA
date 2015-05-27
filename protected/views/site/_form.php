@@ -5,9 +5,6 @@
 
 <script src="//ulogin.ru/js/ulogin.js"></script>
 
-<!-- checkbox validation -->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/checkValid.js"></script>
-<!-- checkbox validation -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/regform.css" />
 <div style="position:relative;"><a name="form" style="position:absolute; top:-60px;"></a></div>
 <div class="regFormBG" >
@@ -47,7 +44,7 @@
 
             <div class="regCheckboxW">
                 <div class="regCheckbox">
-                    <input type="checkbox" id="regCheckbox" value="" name="isExtended" onchange="extReg()"/>
+                    <input type="checkbox" id="regCheckbox" value="" name="isExtended" />
                     <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
                 </div>
             </div>

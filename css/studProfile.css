@@ -85,7 +85,7 @@ table.profileInfo {
     line-height: 50px;
     color: #828282;
 }
-.studProf input
+.studProf input, .studProf .rowPass input
 {
     padding-left: 8px;
     width: 445px;
