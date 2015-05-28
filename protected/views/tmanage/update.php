@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Teacher <?php echo $model->teacher_id; ?></h1>
+<h1>Оновлення <?php echo "{$model->last_name} {$model->first_name} {$model->middle_name}"; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

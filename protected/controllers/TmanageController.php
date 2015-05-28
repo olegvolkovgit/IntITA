@@ -55,7 +55,6 @@ class TmanageController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Teacher']))
 		{
 			$model->attributes=$_POST['Teacher'];

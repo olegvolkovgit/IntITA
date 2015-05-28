@@ -4,10 +4,15 @@
 /* @var $form CActiveForm */
 ?>
 
+<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'teacher-form',
+    'htmlOptions'=>array(
+        'class'=>'formatted-form',
+    ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.

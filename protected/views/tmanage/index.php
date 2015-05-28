@@ -26,13 +26,14 @@ $this->menu=array(
             'value'=>'StaticFilesHelper::createPath("image", "teachers",$data->foto_url)',
             'type'=>'image',
         ),
-        'first_name',
-        'middle_name',
-        'last_name',
+        array(
+            'header'=>'ПІБ',
+            'value'=>'"{$data->last_name} {$data->first_name} {$data->middle_name}"',
+        ),
         'subjects',
         array(
             'name'=>'profile_text_short',
-            'type'=>'raw'
+            'type'=>'raw',
         ),
         'user_id',
         'email',
