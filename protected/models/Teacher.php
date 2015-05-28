@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'teacher':
  * @property integer $teacher_id
- * @property string $lang
  * @property string $first_name
  * @property string $middle_name
  * @property string $last_name
@@ -18,8 +17,6 @@
  * @property string $email
  * @property string $tel
  * @property string $skype
- * @property string $title
- * @property string $linkName
  * @property string $smallImage
  * @property integer $rate_knowledge
  * @property integer $rate_efficiency
@@ -46,16 +43,15 @@ class Teacher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'required'),
+			array('first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'required'),
 			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
-			array('lang', 'length', 'max'=>6),
 			array('first_name, middle_name, last_name', 'length', 'max'=>35),
 			array('foto_url, subjects, tel', 'length', 'max'=>100),
 			array('readMoreLink, smallImage', 'length', 'max'=>255),
-			array('email, skype, title, linkName', 'length', 'max'=>50),
+			array('email, skype', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
+			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,7 +73,6 @@ class Teacher extends CActiveRecord
 	{
 		return array(
 			'teacher_id' => 'Teacher',
-			'lang' => 'Lang',
 			'first_name' => 'First Name',
 			'middle_name' => 'Middle Name',
 			'last_name' => 'Last Name',
@@ -90,8 +85,6 @@ class Teacher extends CActiveRecord
 			'email' => 'Email',
 			'tel' => 'Tel',
 			'skype' => 'Skype',
-			'title' => 'Title',
-			'linkName' => 'Link Name',
 			'smallImage' => 'Small Image',
 			'rate_knowledge' => 'Rate Knowledge',
 			'rate_efficiency' => 'Rate Efficiency',
@@ -120,7 +113,6 @@ class Teacher extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('teacher_id',$this->teacher_id);
-		$criteria->compare('lang',$this->lang,true);
 		$criteria->compare('first_name',$this->first_name,true);
 		$criteria->compare('middle_name',$this->middle_name,true);
 		$criteria->compare('last_name',$this->last_name,true);
@@ -133,8 +125,6 @@ class Teacher extends CActiveRecord
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('skype',$this->skype,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('linkName',$this->linkName,true);
 		$criteria->compare('smallImage',$this->smallImage,true);
 		$criteria->compare('rate_knowledge',$this->rate_knowledge);
 		$criteria->compare('rate_efficiency',$this->rate_efficiency);

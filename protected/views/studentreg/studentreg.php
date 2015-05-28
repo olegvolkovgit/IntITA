@@ -97,17 +97,17 @@ $this->breadcrumbs=array(
                 </div>
                 <div class="row">
                     <?php echo $form->labelEx($model,'email'); ?>
-                    <?php echo $form->textField($model,'email',array('id'=>'trimEm','maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'email',array('value'=>$temail, 'id'=>'trimEm','maxlength'=>255)); ?>
                     <span><?php echo $form->error($model,'email'); ?></span>
                 </div>
                 <div class="rowPass">
                     <?php echo $form->labelEx($model,'password'); ?>
-                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>255)); ?></span>
+                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('value'=>$tpass, 'maxlength'=>255)); ?></span>
                     <?php echo $form->error($model,'password'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->labelEx($model,'password_repeat'); ?>
-                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>255)); ?></span>
+                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('value'=>$tpass, 'maxlength'=>255)); ?></span>
                     <?php echo $form->error($model,'password_repeat'); ?>
                 </div>
             </section>

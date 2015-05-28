@@ -12,6 +12,7 @@
         <tr>
             <td>
                 <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;<?php echo Yii::t('courses', '0234'); ?></p>
+
             </td>
             <td class="courseLevel">
                 <?php

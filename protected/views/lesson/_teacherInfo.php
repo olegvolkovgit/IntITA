@@ -38,6 +38,8 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                         </div>
                     </li>
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
+                    <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
+                        ?>
                     <div class="calendar">
                         <!--Календарь-->
                         <div class="input-append date form_datetime" id="form_datetime">
@@ -79,7 +81,9 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                             <?php echo Yii::t('lecture','0079'); ?>
                         </a>
                     </div>
-
+                    <?php
+                    }
+                    ?>
                 </ul>
         </span>
     </div>

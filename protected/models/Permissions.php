@@ -18,7 +18,7 @@ define ('U_ALL', U_READ | U_CREATE | U_EDIT | U_DELETE); // 1111 all permissions
 class Permissions extends CActiveRecord
 {
 
-
+    public $User;
     /**
 	 * @return string the associated database table name
 	 */
@@ -27,6 +27,10 @@ class Permissions extends CActiveRecord
 		return 'permissions';
 	}
 
+
+    public function _construct(){
+        $this->User = 1;
+    }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -86,7 +90,7 @@ class Permissions extends CActiveRecord
 
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('id_resource',$this->id_resource);
-		$criteria->compare('rights',$this->rigths);
+		$criteria->compare('rights',$this->rights);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,27 +108,7 @@ class Permissions extends CActiveRecord
 		return parent::model();
 	}
 
-    /*
-     * Set permission for one user to do defined operations with one resource.
-     * @param integer $idUser unique user - getting access
-     * @param integer $idResource
-     * @param array $rights array of rights for user (allowed read, edit, create, delete)
-     * */
-    public function setPermission($idUser, $idResource, $rights){
-        // find record in permission table by user id and resource id !!!
-        $record = $this->findByAttributes(array('id_user' => $idUser,
-            'id_resource' => $idResource));
-        // if record not found, create new record
-        if (!$record){
-            $record = new Permissions();
-            $record->id_user = $idUser;
-            $record->id_resource = $idResource;
-        }
-        // set right in bit mask with logic operation OR and bit's flag
-        $record->rights |= $this->setFlags($rights);
-        $record->save(); //write record in db
-        return true;
-    }
+    
 
     /*
      * Returns bit mask for change user permissions
@@ -187,9 +171,35 @@ class Permissions extends CActiveRecord
         }
     }
 
-
     public function primaryKey()
     {
         return array('id_user', 'id_resource');
+    }
+
+    /*
+ * Set permission for one user to do defined operations with one resource.
+ * @param integer $idUser unique user - getting access
+ * @param integer $idResource
+ * @param array $rights array of rights for user (allowed read, edit, create, delete)
+ * */
+    public function setPermission($idUser, $idResource, $rights){
+        // find record in permission table by user id and resource id
+        $record = $this->findByAttributes(array('id_user' => $idUser,
+            'id_resource' => $idResource));
+        // if record not found, create new record
+        if (!$record){
+            $record = new Permissions();
+            $record->id_user = $idUser;
+            $record->id_resource = $idResource;
+        }
+        // set right in bit mask with logic operation OR and bit's flag
+        $record->rights |= $this->setFlags($rights);
+
+         //write record in db
+        if($record->save()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

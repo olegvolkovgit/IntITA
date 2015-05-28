@@ -40,7 +40,6 @@ p {
 #navigation ul {
     display: inline-block;
     float: right;
-    margin-left: 200px;
     margin-top: 60px;
     margin-bottom: 0;
 }
@@ -497,7 +496,7 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
 
 div.profileStatus{
     position: absolute;
-    top:70px;
+    top:73px;
     right:0;
     float:right;
     display:block;

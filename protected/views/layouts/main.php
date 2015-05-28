@@ -45,6 +45,8 @@ $header = new Header();?>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/horizontalscroll.js"></script>
     <!-- Horizontal header Scroll -->
 
+
+
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 

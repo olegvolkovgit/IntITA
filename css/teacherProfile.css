@@ -18,6 +18,9 @@
     float:left;
     width:583px;
 }
+.TeacherProfileblock1 table td:last-child{
+    width: 100%;
+}
 
 td img.icons {
     height: 20px;
@@ -120,5 +123,7 @@ div.responseBG {
     padding-top: 0px;
     padding-right: 30px;
     text-shadow:1px 1px 1px black;
-
+}
+.info{
+    color:red;
 }

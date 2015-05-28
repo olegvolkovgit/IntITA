@@ -124,14 +124,7 @@ class CourseController extends Controller
             )
         ));
 
-        $dataProvider2 = new CActiveDataProvider('Module', array(
-            'pagination'=>false,
-            'sort'=>array(
-                'defaultOrder'=>array(
-                    'order'=>CSort::SORT_ASC,
-                )
-            )
-        ));
+
 
         $model = Course::model()->findByPk($id);
         if ( Yii::app()->user->getId() == 38) {
@@ -201,8 +194,8 @@ class CourseController extends Controller
         Module::model()->updateByPk($idModule, array('course' => 0));
 
         $count = Course::model()->findByPk($idCourse)->modules_count;
-        for ($i = $order + 1; $i < $count; $i++){
-            $id = Module::model()->findByAttributes(array('order'=>$i))->module_ID;
+        for ($i = $order + 1; $i <= $count; $i++){
+            $id = Module::model()->findByAttributes(array('course'=>$idCourse,'order'=>$i))->module_ID;
             Module::model()->updateByPk($id, array('order' => $i-1));
         }
         Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
@@ -214,10 +207,12 @@ class CourseController extends Controller
 
     public function actionUpModule(){
         $idModule = $_GET['idModule'];
+
+        $idCourse =Module::model()->findByPk($idModule)->course;
         $order = Module::model()->findByPk($idModule)->order;
 
         if($order > 1) {
-            $idPrev = Module::model()->findByAttributes(array('order' => $order - 1))->module_ID;
+            $idPrev = Module::model()->findByAttributes(array('course'=>$idCourse,'order' => $order - 1))->module_ID;
 
             Module::model()->updateByPk($idModule, array('order' => $order - 1));
             Module::model()->updateByPk($idPrev, array('order' => $order));
@@ -236,7 +231,7 @@ class CourseController extends Controller
         $order = Module::model()->findByPk($idModule)->order;
 
         if($order < $count) {
-            $idNext = Module::model()->findByAttributes(array('order' => $order + 1))->module_ID;
+            $idNext = Module::model()->findByAttributes(array('course'=>$idCourse,'order' => $order + 1))->module_ID;
 
             Module::model()->updateByPk($idModule, array('order' => $order + 1));
             Module::model()->updateByPk($idNext, array('order' => $order));

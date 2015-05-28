@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-26 14:50:18
+-- Date/time:                    2015-05-28 19:23:01
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,19 +14,19 @@
 DROP TABLE IF EXISTS `lectures`;
 CREATE TABLE IF NOT EXISTS `lectures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT 'lectureImage.png',
   `alias` varchar(10) NOT NULL,
   `language` varchar(6) DEFAULT NULL,
   `idModule` int(11) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
-  `idType` int(11) DEFAULT NULL,
-  `durationInMinutes` int(11) DEFAULT NULL,
+  `idType` int(11) DEFAULT '1',
+  `durationInMinutes` int(11) DEFAULT '60',
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.lectures: ~17 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~23 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1'),
@@ -45,7 +45,13 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(23, 'lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2'),
 	(24, 'lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '4'),
 	(26, 'lectureImage.png', 'lecture14', 'ua', 1, 13, 'Фреймворк Yii', 1, 60, '1'),
-	(27, 'lectureImage.png', 'lecture15', 'ua', 1, 14, 'Фреймворк Lavarel', 1, 60, '3');
+	(27, 'lectureImage.png', 'lecture15', 'ua', 1, 14, 'Фреймворк Lavarel', 1, 60, '3'),
+	(31, 'lectureImage.png', 'lecture1', 'ua', 3, 1, 'Вступ', 1, 60, '1'),
+	(34, 'lectureImage.png', 'lecture2', 'ua', 3, 2, 'Початок', 1, 60, '1'),
+	(35, 'lectureImage.png', 'lecture1', 'ua', 3, 1, 'Висновки', 1, 60, '1'),
+	(48, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'еврыкноын', 1, 60, '1'),
+	(49, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'оневовено', 1, 60, '1'),
+	(50, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'цаак4уа', 1, 60, '1');
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

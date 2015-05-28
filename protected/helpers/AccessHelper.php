@@ -55,7 +55,6 @@ class AccessHelper
             case '3':
                 $role = 'адмін';
                 break;
-
         }
         return $role;
     }
@@ -67,5 +66,48 @@ class AccessHelper
         $idCourse = Module::model()->findByPk($idModule)->course;
         $course = Course::model()->findByPk($idCourse)->course_name.". ";
         return $course.$module.$lecture;
+    }
+
+    public static function getTitles(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('id', 'title');
+        $criteria->toArray();
+        $count = Lecture::model()->count();
+        $titles = Lecture::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+
+            $result[$titles[$i]["id"]] = $titles[$i]["title"];
+        }
+        return $result;
+    }
+
+    public static function getUserInfo(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('id','firstName', 'secondName', 'email');
+        $criteria->toArray();
+        $count = StudentReg::model()->count();
+        $info = Studentreg::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$info[$i]["id"]] = $info[$i]["email"]."; ".$info[$i]["firstName"]." ".$info[$i]["secondName"];
+        }
+        return $result;
+    }
+
+    public static function setModuleAccess($idUser, $idModule, $rights){
+        if (!empty($rights)){
+            $criteria = new CDbCriteria();
+            $criteria->select = 'id';
+            $criteria->addCondition('idModule='.$idModule);
+            $criteria->toArray();
+
+            $lectures = Lecture::model()->findAll($criteria);
+            $count = count($lectures);
+            $model = new Permissions();
+            for($i = 0; $i < $count; $i++){
+                $model->setPermission($idUser, $lectures[$i]['id'], $rights);
+            }
+        }
     }
 }

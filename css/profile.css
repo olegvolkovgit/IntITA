@@ -361,7 +361,12 @@ table.timeTable tr:first-child td{
 #consultation-grid table.items tr:first-child td{
     border-top: none;
 }
-
+#consultation-grid table.items img{
+    display: block;
+}
+#consultation-grid table.items a.delete{
+    display: inline-block;
+}
 #consultation img{
     display: block;
 }

@@ -19,7 +19,7 @@
  * @property string $interests
  * @property string $aboutUs
  * @property string $aboutMy
- * @property string $role
+ * @property integer $role
  * @property string $isExtended
  * @property string $network
  * @property string $facebook
@@ -64,7 +64,7 @@ class StudentReg extends CActiveRecord
         return array(
             array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
             array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery,resetemail'),
-            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail'),
+            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail,fromraptoext'),
             array('email', 'authenticateEmail','on'=>'recovery'),
             array('password, new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'changepass'),
             array('new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recoverypass'),
@@ -73,7 +73,7 @@ class StudentReg extends CActiveRecord
             array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
             array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
             array('email', 'email', 'message'=>Yii::t('error','0271')),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'repidreg,reguser,edit'),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'repidreg,reguser,edit,fromraptoext'),
             array('password', 'authenticate','on'=>'loginuser'),
             array('password_repeat', 'passdiff','on'=>'edit'),
             //array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>'Введіть дату народження в форматі дд.мм.рррр'),
