@@ -276,18 +276,26 @@ class Lecture extends CActiveRecord
 
     }
 
-    public static function addNewLesson($module, $title, $order, $lang){
+    public static function addNewLesson($module, $title, $lang, $teacher){
         $lecture = new Lecture();
         $lecture->title = $title;
         $lecture->idModule = $module;
+        $order = Yii::app()->db->createCommand()
+            ->select('order')
+            ->from('lectures')
+            ->order('order DESC')
+            ->limit('1')
+            ->queryRow()["order"];
         $lecture->order = $order;
         $lecture->language = $lang;
+        $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture'.$order;
 //        if (!$lecture->isNewRecord) {
-            return $lecture->save();
+            $lecture->save();
 //        } else {
 //            throw new CHttpException(422, 'Така лекція вже існує.');
 //        }
+        return $order;
     }
 
     public function getLecturesTitles($id)

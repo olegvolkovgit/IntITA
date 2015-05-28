@@ -2,9 +2,9 @@
 
 class PermissionsController extends Controller
 {
-	public function actionIndex()
-	{
 
+    public function actionIndex()
+	{
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }

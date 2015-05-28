@@ -17,11 +17,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'lang'); ?>
-		<?php echo $form->textField($model,'lang',array('size'=>6,'maxlength'=>6)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'first_name'); ?>
 		<?php echo $form->textField($model,'first_name',array('size'=>35,'maxlength'=>35)); ?>
 	</div>
@@ -79,16 +74,6 @@
 	<div class="row">
 		<?php echo $form->label($model,'skype'); ?>
 		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>50,'maxlength'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'linkName'); ?>
-		<?php echo $form->textField($model,'linkName',array('size'=>50,'maxlength'=>50)); ?>
 	</div>
 
 	<div class="row">

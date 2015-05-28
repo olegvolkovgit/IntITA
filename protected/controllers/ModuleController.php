@@ -180,15 +180,29 @@ class ModuleController extends Controller
 	}
 
     public  function actionSaveLesson(){
-        Lecture::model()->addNewLesson($_POST['idModule'], $_POST['newLectureName'], $_POST['order'], $_POST['lang']);
+        $teacher = Yii::app()->user->getId();
+
+        $newOrder = Lecture::model()->addNewLesson(
+            $_POST['idModule'],
+            $_POST['newLectureName'],
+            $_POST['lang'],
+            Teacher::model()->find('user_id=:user', array(':user' => $teacher))->teacher_id
+        );
+
         Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
-        Yii::app()->user->setFlash('newLecture','Нова лекція №'.$_POST['order'].$_POST['newLectureName'] .'додана до цього модуля');
+        Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['newLectureName'] .'додана до цього модуля');
         // if AJAX request, we should not redirect the browser
+        $permission = new Permissions();
+        var_dump($permission->setPermission(
+            $teacher,
+            Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $_POST['order']))->id,
+            array('read', 'edit', 'create', 'delete'))
+        );
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
         $this->actionIndex($_POST['idModule']);
-        //$this->render('saveLesson');
+
     }
 
     public  function actionSaveModule(){

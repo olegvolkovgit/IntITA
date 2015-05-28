@@ -20,12 +20,6 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'lang'); ?>
-		<?php echo $form->textField($model,'lang',array('size'=>6,'maxlength'=>6)); ?>
-		<?php echo $form->error($model,'lang'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'first_name'); ?>
 		<?php echo $form->textField($model,'first_name',array('size'=>35,'maxlength'=>35)); ?>
 		<?php echo $form->error($model,'first_name'); ?>
@@ -95,18 +89,6 @@
 		<?php echo $form->labelEx($model,'skype'); ?>
 		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'skype'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'linkName'); ?>
-		<?php echo $form->textField($model,'linkName',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'linkName'); ?>
 	</div>
 
 	<div class="row">

@@ -55,7 +55,6 @@ class AccessHelper
             case '3':
                 $role = 'адмін';
                 break;
-
         }
         return $role;
     }
@@ -94,5 +93,21 @@ class AccessHelper
             $result[$info[$i]["id"]] = $info[$i]["email"]."; ".$info[$i]["firstName"]." ".$info[$i]["secondName"];
         }
         return $result;
+    }
+
+    public static function setModuleAccess($idUser, $idModule, $rights){
+        if (!empty($rights)){
+            $criteria = new CDbCriteria();
+            $criteria->select = 'id';
+            $criteria->addCondition('idModule='.$idModule);
+            $criteria->toArray();
+
+            $lectures = Lecture::model()->findAll($criteria);
+            $count = count($lectures);
+            $model = new Permissions();
+            for($i = 0; $i < $count; $i++){
+                $model->setPermission($idUser, $lectures[$i]['id'], $rights);
+            }
+        }
     }
 }

@@ -21,10 +21,6 @@ $this->menu=array(
     'summaryText' => 'Показано вчителів {start} - {end} з {count}',
 	'columns'=>array(
         array(
-            'name'=>'teacher_id',
-            'header'=>'ID'
-        ),
-        array(
             'header'=>'Фото',
             'value'=>'CHtml::image(StaticFilesHelper::createPath("image", "teachers",$data->foto_url),$data->first_name)',
             'type'=>'raw'
@@ -49,10 +45,6 @@ $this->menu=array(
             'name'=>'profile_text_short',
             'header'=>'Характеристика',
             'type'=>'raw'
-        ),
-        array(
-            'name'=>'user_id',
-            'header'=>'ID користувача'
         ),
         array(
             'name'=>'email',
