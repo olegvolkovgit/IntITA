@@ -9,13 +9,16 @@ $user = new StudentReg();
 $app = Yii::app();
 $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
-<!--<link type="text/css" rel="stylesheet" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css">-->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 <div class="teacherBlock">
-    <img src="<?php echo Yii::app()->request->baseUrl.'/css/images/teacherImage.png';//$teacher->foto_url; ?>">
-    <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
+<!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url);//$teacher->foto_url; ?><!--">-->
+    <div
+        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
+        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+    </div>
+    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
         <span>
                 <ul>
                     <li> <div class="teacherTitle">

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-20 18:36:24
+-- Date/time:                    2015-05-26 14:50:18
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -42,8 +42,6 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 24, 1),
 	(1, 26, 1),
 	(1, 27, 1),
-	(11, 1, 15),
-	(22, 1, 15),
 	(38, 1, 15),
 	(38, 2, 15),
 	(38, 3, 15),
@@ -70,7 +68,8 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(42, 1, 15),
 	(42, 2, 15),
 	(43, 1, 15),
-	(43, 2, 15);
+	(43, 2, 15),
+	(49, 1, 15);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

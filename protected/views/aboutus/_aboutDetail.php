@@ -17,7 +17,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
     <tr>
     <td>
-   <img src="/images/aboutus/000pronas1.png">
+      <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas1.png').'">
     </td>
     <td>
   <div>
@@ -28,9 +28,9 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     </td>
     </tr>
     </table>
-  <div class="imgone"  style="">
-     <img src="/images/aboutus/000pronas2.png">
-  </div>
+    <div class="imgone"  style="">
+       <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas2.png').'">
+    </div>
   <div class="detailavt">
     <table>
     <tr>
@@ -41,14 +41,14 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     </td>
     </tr>
     <tr>
-    <td>
-   <img src="/images/aboutus/000pronas3.png">
-    </td>
+        <td>
+            <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas3.png').'">
+        </td>
     </tr>
     </table>
   </div>
 </div>
- <img class="ellipse" style="" src="/images/aboutus/000pronas10.png">
+   <img class="ellipse" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas10.png').'">
 <div class="twod" style=" ">
     <table>
         <tr>
@@ -62,12 +62,12 @@ $block1->drop1Text='<div  class="aboutStepBlock">
                 <span class="detailTitle14"> ДО ЕКЗОТИЧНИХ КРАЇН?</span>
             </td>
             <td>
-                <img id="imtwo"  style="" src="/images/aboutus/000pronas8.png">
+                <img id="imtwo" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas8.png').'">
             </td>
         </tr>
     </table>
     <div>
-        <img id="imtwooo" style="" src="/images/aboutus/000pronas9.png">
+        <img id="imtwooo" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas9.png').'">
     </div>
 </div>
 <div >
@@ -76,8 +76,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
         <tr>
             <td>
                 <span class="detailTitle13">Забезпечене </span>
-     <span class="detailTitle1">життя
-      </span>
+                <span class="detailTitle1">життя</span>
                 <br>
                 <span class="detailTitle14"> для себе і близьких,</span>
                 <br>
@@ -85,34 +84,37 @@ $block1->drop1Text='<div  class="aboutStepBlock">
                 <br>
                 <span class="detailTitle15">гроші?</span>
                 <br>
-                <img id="pig" style="" src="/images/aboutus/000pronas5.png">
-                <img id="money" style="" src="/images/aboutus/000pronas4.png">
+                <img id="pig" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas5.png').'">
+                <img id="money" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas4.png').'">
             </td>
             <td>
-                <img id="kopp" style="" src="/images/aboutus/000pronas6.png">
-                 <img id="koppstr" style="" src="/images/aboutus/000pronas7.png">
+                <img id="kopp" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas6.png').'">
+                <img id="koppstr" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas7.png').'">
             </td>
         </tr>
     </table>
 </div>
 <div  class="detailTitle14" id="four">
-    <table><tr><td>
-    <img id="fst1" style="" src="/images/aboutus/000pronas12.png">
-     <img id="fst2" style="" src="/images/aboutus/000pronas11.png">
-            </td><td>
+    <table>
+        <tr>
+            <td>
+                <img id="fst1" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas12.png').'">
+                <img id="fst2" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas11.png').'">
+            </td>
+            <td>
 <span>А, може, це свобода жити своїм <br>життям? Самостійно керувати <br> власним часом з можливістю <br>працювати за <span>зручним <br>графіком</span> без необхідності <br>щодня їздити на роботу, але<br> при цьому мати стабільно<br> високий дохід?
             </td></tr></table>
 </div>
 </div>
 <div class="five" style="">
-                <span class="detailTitle12">Як щодо </span> <span class="detailTitle12">40 000 - 60 000 </span><span class="detailTitle12">грн </span><br>
+                <span class="detailTitle18">Як щодо </span> <span class="detailTitle17">40 000 - 60 000 </span><span class="detailTitle19">грн </span><br>
                 <span id="fimouns" style="" class="detailTitle12">/в місяць?</span>
 </div>
 <div class="six" style="">
     <table>
         <tr>
             <td>
-                <img style="" src="/images/aboutus/000pronas13.png">
+                <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas13.png').'">
             </td>
             <td>
 <span class="detailTitle1">
@@ -134,7 +136,7 @@ $block1->drop1Text='<div  class="aboutStepBlock">
 <div class="jobfu" style="">
     <h1>Професія майбутнього</h1>
     <table><tr><td>
-                <img src="/images/aboutus/000pronas14.png">
+                <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas14.png').'">
             </td> <td>
 <span class="detailTitle1">   Сьогодні у тебе є реальна можливість <br>
  поєднати хороший заробіток, гнучкий<br>

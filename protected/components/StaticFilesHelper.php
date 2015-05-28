@@ -17,7 +17,7 @@ class StaticFilesHelper {
                 return StaticFilesHelper::createAvatarsPath($name);
                 break;
             case 'common':
-                return taticFilesHelper::createCommonPath($subcategory, $name);
+                return StaticFilesHelper::createCommonPath($subcategory, $name);
                 break;
             case 'txt':
                 return StaticFilesHelper::createTxtPath($subcategory, $name);
@@ -87,4 +87,13 @@ class StaticFilesHelper {
         return Yii::app()->params['commonPath'].'/'.$name;
     }
 
+    public static function setTeachersModules($id){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'module';
+        $criteria->join='JOIN teacher_module ON teacher_module.idModule = module.module_ID';
+        $criteria->condition='teacher_module.idTeacher='.$id;
+        $criteria->distinct = true;
+        $modules = Module::model()->findAll($criteria);
+        return $modules;
+    }
 }

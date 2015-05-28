@@ -1,7 +1,5 @@
 <?php
-$criteria1 = new CDbCriteria();
-$criteria1->addInCondition('owners', [3]);
-$modules = Module::model()->findAll($criteria1);
+$modules = StaticFilesHelper::setTeachersModules($data['teacher_id']);
 ?>
     <!-- course style -->
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
@@ -20,7 +18,7 @@ $modules = Module::model()->findAll($criteria1);
                 ?>
                 <tr>
                     <td>
-                        <span class="colorP"><?php echo Yii::t('course', '0208');  echo $k+1;?> :</span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>"><?php echo $modules[$k]->module_name; ?></a></span>
+                        <span class="colorP"><?php echo Yii::t('course', '0208')."\t"; echo $modules[$k]->order;?>: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module');?>"><?php echo $modules[$k]->module_name; ?></a></span>
                     </td>
                 </tr>
             <?php

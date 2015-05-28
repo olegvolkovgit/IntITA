@@ -154,6 +154,16 @@ class Permissions extends CActiveRecord
         return $flag;
     }
 
+    public static function getFlags($rights){
+        $rightsString = [];
+        for ($i = 0; $i < count($rights); $i++) {
+            if ($rights[$i] == 1){
+                array_push($rightsString, Permissions::model()->stringRight([$i]));
+            }
+        }
+        return $rightsString;
+    }
+
 
     /*
      * Returns true if user has permission to do requested operations with resource
@@ -177,7 +187,9 @@ class Permissions extends CActiveRecord
         }
     }
 
-    public function deletePermission($idUser, $idResource, $rights){
 
+    public function primaryKey()
+    {
+        return array('id_user', 'id_resource');
     }
 }

@@ -47,14 +47,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'delete' => array(
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->primaryKey))',
-                    'deleteConfirmation' => 'Вы уверены, что хотите удалить этот модуль?',
                     'click'=>"function(){
-                        $.fn.yiiGridView.update('modules-grid', {
+    $.fn.yiiGridView.update('modules-grid', {
                             type:'POST',
                             url:$(this).attr('href'),
                             success:function(data) {
-                            $.fn.yiiGridView.update('modules-grid');
-                            }
+        $.fn.yiiGridView.update('modules-grid');
+    }
                         })
                         return false;
                     }

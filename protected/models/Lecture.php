@@ -17,8 +17,6 @@
  * @property integer $nextLecture
  * @property string $idTeacher
  *
- * The followings are the available model relations:
- * @property LectureElement[] $lectureElements
  */
 class Lecture extends CActiveRecord
 {
@@ -60,7 +58,7 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
         );
     }
 
@@ -310,5 +308,15 @@ class Lecture extends CActiveRecord
     public function getLectureTypeText(){
         $type = Lecturetype::model()->findByPk($this->id);
         return $type->text;
+    }
+    public static function getLessonCont($id){
+        $summary=[];
+        $cont =  LectureElement::model()->findAll("id_lecture=:id and id_type=:type", array(':type'=>'8', ':id'=>$id));
+        $i=0;
+        foreach($cont as $type){
+            $summary[$i] =$type->html_block;
+            $i++;
+        }
+        return $summary;
     }
 }

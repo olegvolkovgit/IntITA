@@ -1,10 +1,4 @@
 /*********Hamburger Menu************/
-#contentBoxMain
-{
-	position:relative;
-	width:100%;
-}
-
 #hamburgerNavigation
 {
 	display:none;

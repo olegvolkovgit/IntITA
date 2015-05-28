@@ -8,7 +8,6 @@
 ?>
 <?php
 $this->pageTitle = 'INTITA';
-$post=StudentReg::model()->findByPk(Yii::app()->user->id);
 ?>
 <?php
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
@@ -118,7 +117,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                 <?php $this->renderPartial('_timetable'); ?>
             </section>
             <section id="consultation">
-                <?php $this->renderPartial('_consultation'); ?>
+                <?php $this->renderPartial('_consultation', array('dataProvider' => $dataProvider)); ?>
             </section>
             <section id="exams">
                 <?php $this->renderPartial('_exams'); ?>

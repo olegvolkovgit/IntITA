@@ -11,16 +11,15 @@ class CoursesRule extends CBaseUrlRule
 
     public $connectionID = 'db';
 
-    public function createUrl($manager,$route,$params,$ampersand)
+    public function createUrl($manager,$route,$params=array(),$ampersand)
     {
-        if ($route==='/course/index')
-        {
-            $alias='';
-//            if (isset($params['manufact'], $params['model']))
-//                return $params['manufacturer'] . '/' . $params['model'];
-            if (isset($params['id']))
+        if ($route==='course/index') {
+            if (isset($params['id'])) {
                 $alias = Course::model()->findByPk($params['id'])->alias;
+                $params['id'] = $alias;
                 return $alias;
+            }
+            return parent::createUrl($manager,$route, $params, $ampersand);
         }
         return false;  // не применяем правило
     }

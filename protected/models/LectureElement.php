@@ -4,13 +4,15 @@
  * This is the model class for table "lecture_element".
  *
  * The followings are the available columns in table 'lecture_element':
+ * @property integer $id_block
  * @property integer $id_lecture
  * @property integer $block_order
  * @property string $type
+ * @property integer $id_type
  * @property string $html_block
  *
  * The followings are the available model relations:
- * @property Lecture $idLecture
+ * @property ElementType $idType
  */
 class LectureElement extends CActiveRecord
 {
@@ -30,12 +32,12 @@ class LectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lecture, block_order, type, html_block', 'required'),
-			array('id_lecture, block_order', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>10),
+			array('id_lecture, block_order, type, id_type, html_block', 'required'),
+			array('id_lecture, block_order, id_type', 'numerical', 'integerOnly'=>true),
+			array('type', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_lecture, block_order, type, html_block', 'safe', 'on'=>'search'),
+			array('id_block, id_lecture, block_order, type, id_type, html_block', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +49,7 @@ class LectureElement extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idLecture' => array(self::BELONGS_TO, 'Lectures', 'id_lecture'),
+			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
 		);
 	}
 
@@ -57,9 +59,11 @@ class LectureElement extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id_block' => 'Id Block',
 			'id_lecture' => 'Id Lecture',
 			'block_order' => 'Block Order',
 			'type' => 'Type',
+			'id_type' => 'Id Type',
 			'html_block' => 'Html Block',
 		);
 	}
@@ -82,20 +86,19 @@ class LectureElement extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('id_block',$this->id_block);
 		$criteria->compare('id_lecture',$this->id_lecture);
-		$criteria->compare('block_order',$this->block_order, true);
+		$criteria->compare('block_order',$this->block_order);
 		$criteria->compare('type',$this->type,true);
+		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('html_block',$this->html_block,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'sort' => array (
+            'sort' => array(
                 'defaultOrder'=>array(
                     'block_order'=>CSort::SORT_ASC,
                 )
-            ),
-            'pagination'=>array(
-                'pageSize'=>count($criteria),
             ),
 		));
 	}

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-20 18:36:24
+-- Date/time:                    2015-05-26 14:50:18
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -230,7 +230,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(56, 'en', 'Registration'),
 	(57, 'en', 'Teacher profile'),
 	(58, 'en', 'Our teachers'),
-	(59, 'en', 'personal page'),
+	(59, 'en', 'personal <br>page'),
 	(60, 'en', 'If you\'re a professional IT specialist and want to teach some courses or modules IT and cooperate with us in the field of training programmers write us a letter.'),
 	(61, 'en', 'Conducts courses'),
 	(62, 'en', 'Read more'),
@@ -839,13 +839,11 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(280, 'ua', 'Почати курс'),
 	(280, 'ru', 'Начать курс'),
 	(280, 'en', 'Start course'),
-	(237, 'ua', 'Запрошена сторінка не існує.'),
 	(237, 'ru', 'Запрашиваемая страница не существует.'),
 	(237, 'en', 'The requested page does not exist.'),
 	(237, 'ua', 'Запрошена сторінка не існує.'),
 	(237, 'ru', 'Запрашиваемая страница не существует.'),
 	(237, 'en', 'The requested page does not exist.'),
-	(237, 'ua', 'Запрошена сторінка не існує.'),
 	(237, 'ru', 'Запрашиваемая страница не существует.'),
 	(237, 'en', 'The requested page does not exist.'),
 	(238, 'ua', 'Час дії посилання для відновлення паролю вичерпано.'),

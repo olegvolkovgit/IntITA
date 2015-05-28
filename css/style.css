@@ -9,8 +9,6 @@ img {
     position: relative;
     width: 1200px;
     margin: 0 auto;
-    overflow: hidden;
-
 }
 h1, h2, h3, h4, html{
     font-family: "MyriadPro";
@@ -20,69 +18,38 @@ p {
     font-family: "MyriadPro";
     color: #666666;
 }
-/*.clear {*/
-    /*width: 100%;*/
-    /*clear: both;*/
-/*}*/
-
-/*************languages buttons*************/
-#lang {
-    width:150px;
-    z-index: 6;
-    left:50%;
-    margin-left: 402px;
-    margin-top: -84px;
-    position: fixed;
-}
-#lang.down {
-
-    display: inline-block;
-    margin-top: -45px;
-    margin-left: 500px;
-
-}
-#lang #en {
-     border-left: 1px solid #999999;
-     border-right: 1px solid #999999;
-     padding-left: 8px;
-     padding-right: 8px;
- }
-#lang input[type="button"]{
-    background:none!important;
-    border:none;
-    cursor: pointer;
-    color: #4b70a3;
-    font-size: 18px;
-    font-family: "MyriadPro";
-    text-decoration: underline;
-}
-#lang input[type="button"].selectedLang {
-    text-decoration: none;
-    color: #999999;
-}
-/*************languages buttons*************/
-
 /*******navigations-top******/
-#navigation {
-    display: block;
-    height: 100px;
-    border-bottom: 2px solid #336699;
-    background-color: white;
+#mainheader {
+    position:fixed;
     width: 100%;
-    position: fixed;
+    background-color: white;
+    z-index: 5;
+    top:0;
+}
+#navigation {
+    position:relative;
+    width: 1200px;
+    height: 120px;
+    margin: 0 auto;
+    background-color: white;
     z-index: 5;
 }
 #navigation.down {
-    height: 60px;
+    height: 65px;
 }
-
 #navigation ul {
-    margin-left: 475px;
-    margin-top: 55px;
+    display: inline-block;
+    float: right;
+    margin-left: 200px;
+    margin-top: 60px;
+    margin-bottom: 0;
 }
 #navigation.down ul {
-    margin-top: 17px;
-    margin-left: 335px;
+    display: inline-block;
+    margin-top: 20px;
+    float: right;
+    margin-right: 75px;
+    margin-bottom: 0;
 }
 #navigation li {
     display:inline;
@@ -102,27 +69,34 @@ p {
     float: left;
     margin-top: 13px;
 }
-#navigation img {
+#logo_img img {
     max-width: 232px;
     max-height: 75px;
 }
-#logo_img.down {
+#logo_img.down{
     margin-top: 7px;
 }
 #logo_img.down img {
     max-height: 46px;
     max-width: 142px;
-    margin-left: 62px;
+    margin-left: 40px;
 }
 
 /******************enter button***************/
-
+#enterButton{
+    display: inline-block;
+    position: relative;
+    float: right;
+    height: 33px;
+    width: 70px;
+    margin-right: 35px;
+}
 #button_border {
+    position: absolute;
     border: 2px solid #4b70a3;
     border-radius: 10px 10px 0 0;
-    position: fixed;
-    margin-top: 78px;
-    margin-left: 1048px;
+    margin-left: 118px;
+    margin-top: 98px;
     z-index: 6;
     height: 20px;
     width: 74px;
@@ -132,9 +106,31 @@ p {
     display: none;
 }
 #enter_button {
-    position: fixed;
-    margin-top: 80px;
-    margin-left: 1050px;
+    position: absolute;
+    margin-left: 120px;
+    margin-top: 100px;
+    height: 33px;
+    width: 70px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    vertical-align: middle;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    z-index: 6;
+}
+#enter_button:hover {
+    background: #454545;
+}
+#enter_button:active {
+    background: #363636;
+}
+#enter_button.down {
+    display: inline-block;
+    margin-left: 0;
+    margin-top: 0;
     z-index: 6;
     height: 33px;
     width: 70px;
@@ -146,20 +142,60 @@ p {
     font: 16px/30px "MyriadPro";
     text-align:      center;
     text-decoration: none;
-}
-#enter_button:hover {
-    background: #454545;
-}
-#enter_button:active {
-    background: #363636;
-}
-#enter_button.down {
-    margin-top: 12px;
+    margin-top: 18px;
 }
 #enter_button.down:hover{
     background: #454545;
 }
 /*********************enter button end****************/
+/*************languages buttons*************/
+#lang {
+    display: inline-block;
+    position: relative;
+    float: right;
+    margin-top: 25px;
+    margin-right: 5px;
+    z-index: 6;
+}
+#lang.down {
+    display: inline-block;
+    position: relative;
+    float: right;
+    margin-top: 20px;
+    margin-right: 5px;
+    z-index: 6;
+}
+#lang #en {
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+#lang input[type="button"]{
+    background:none!important;
+    border:none;
+    cursor: pointer;
+    color: #4b70a3;
+    font-size: 18px;
+    font-family: "MyriadPro";
+    text-decoration: underline;
+}
+#lang input[type="button"].selectedLang {
+    text-decoration: none;
+    color: #999999;
+}
+#headerUnderline{
+    display:inline-block;
+    width:100%;
+    border-bottom: 2px solid #4b75a4;
+    position: fixed;
+    top:120px;
+    z-index: 4;
+}
+#headerUnderline.down{
+    top:65px;
+}
+/*************languages buttons*************/
 /************************************/
 
 /************navigation-bottom***********/
@@ -461,11 +497,12 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
 
 div.profileStatus{
     position: absolute;
-    top:66px;
+    top:70px;
     right:0;
     float:right;
     display:block;
     overflow: hidden;
+    z-index: 0;
 }
 .profileStatus img {
     width:70px;

@@ -457,7 +457,7 @@ div#timeInfo{
 /*----Edit toolbar----*/
 .editToolbar{
     margin-left: -70px;
-    margin-top: 5px;
+    /*//margin-top: 5px;*/
     float:left;
 }
 .editIco{
