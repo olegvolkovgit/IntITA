@@ -50,13 +50,56 @@ function getIdName() {
                 convertImageLinks: true,
                 convertUrlLinks: true,
                 convertLinks: true,
-                plugins: ['fontfamily',
+                imageUpload: 'http://localhost/IntITA/upload/images/picUpload.php',
+                plugins: ['table',
+                          'fontfamily',
                           'fontsize',
                           'fontcolor',
                           'video',
+                          'imagemanager',
                           'fullscreen',
                           'save',
                           'close'],
+                formattingAdd: [
+                    {
+                        tag: 'pre',
+                        title: 'Code php',
+                        class: 'brush:php'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code js',
+                        class: 'brush:js'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code css',
+                        class: 'brush:css'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code sql',
+                        class: 'brush:sql'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code html',
+                        class: 'brush:html'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code C++',
+                        class: 'brush:c'
+                    },
+                    {
+                        tag: 'pre',
+                        title: 'Code C#',
+                        class: 'brush:c#'
+                    },
+                    {
+                        title: 'Clear Format',
+                        func: 'inline.removeFormat'
+                    }],
                 startCallback: function()
                 {
 

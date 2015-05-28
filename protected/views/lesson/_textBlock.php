@@ -25,7 +25,6 @@ if ($editMode) {
 $this->widget('ImperaviRedactorWidget', array(
 'selector' => "#",
 'options' => array(
-'imageUpload' => $this->createUrl('files/upload'),
 'lang' => 'ua',
 'toolbar' => true,
 'iframe' => true,
@@ -37,6 +36,12 @@ $this->widget('ImperaviRedactorWidget', array(
 ),
 'video' => array(
 'js' => array('video.js',),
+),
+'imagemanager' => array(
+    'js' => array('imagemanager.js',),
+),
+'table' => array(
+    'js' => array('table.js',),
 ),
 'fontsize' => array(
 'js' => array('fontsize.js',),
