@@ -4,7 +4,7 @@
 $this->breadcrumbs=array(
 	'Permissions',
 );
-$alert = 'Are you sure you want to delete this Category?';
+$alert = 'Ви впевнені, що хочете видалити цей запис?';
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
@@ -27,8 +27,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'delete' => array
                 (
                     'label'=>'Delete',
-                    'url'=>'"#"',
-                    'click'=>'function(){alert("Delete!");}',
+                    'url'=>'Yii::app()->createUrl("permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_resource))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'options' => array(// this is the 'html' array but we specify the 'ajax' element
                         'confirm' => $alert,
@@ -38,13 +37,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
                             'url' => "js:$(this).attr('href')", // ajax post will use 'url' specified above
                             'success' => 'function(data){
                                 if(data == "true"){
-
-                                                $.fn.yiiGridView.update("access_grid");
-                                                return false;
+                                    $.fn.yiiGridView.update("access_grid");
+                                    return false;
                                 }else{
-
-                                                window.location="/permissions/delete";
-                                                return false;
+                                    window.location="/IntITA/permissions/delete";
+                                    return false;
                                 }
                             }',
                         ),

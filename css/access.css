@@ -53,4 +53,16 @@ body .grid-view table.items td.deleteButton{
     height: 35px;
     width: 150px;
 }
+.row{
+    margin-left: 50px;
+    display:inline-block;
+}
+#label{
+    margin-left: 50px;
+    color: green;
+    font: 16px/30px "MyriadPro";
+}
+#listCheckBox{
+    margin-left: 0px;
+}
 /*---------------Add new record (permissions/add)-------------------*/

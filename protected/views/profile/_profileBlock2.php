@@ -23,6 +23,7 @@
     ));
     ?>
 
+
     <div style="position:relative;"><a name="resp" ></a></div>
     <?php $this->renderPartial('_yourResponse');?>
 </div>
