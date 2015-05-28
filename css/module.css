@@ -247,4 +247,8 @@ div.ratico{
 #ajaxaddmodule-form input[type="submit"], #ajaxaddlecture-form input[type="submit"]{
     background-image: url('../images/editor/add_lesson.png');
 }
+td.button-column{
+    display: table-cell;
+    white-space: nowrap;
+}
 
