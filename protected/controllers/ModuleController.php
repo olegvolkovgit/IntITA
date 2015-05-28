@@ -107,21 +107,21 @@ class ModuleController extends Controller
         if (Yii::app()->user->isGuest){ //if user guest
             $editMode = 0;
         } else {
+
             if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->getId()))) {
                 if ($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
                     //check edit mode
-                    if (in_array($teacherId, $owners)) {
-                        if (Yii::app()->user->getId() == 38) {
-                            $editMode = 1;
-                        } else {
-                            $editMode = 0;
-                        }
+                    if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(':teacher' => $teacherId, ':module' => $idModule))){
+                        $editMode = 1;
+                    } else {
+                        $editMode = 0;
                     }
+                } else{
+                    $editMode = 0;
                 }
             } else {
                 $editMode = 0;
             }
-
         }
 
         $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
@@ -195,7 +195,7 @@ class ModuleController extends Controller
         $permission = new Permissions();
         var_dump($permission->setPermission(
             $teacher,
-            Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $_POST['order']))->id,
+            Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id,
             array('read', 'edit', 'create', 'delete'))
         );
         if(!isset($_GET['ajax']))
@@ -206,8 +206,12 @@ class ModuleController extends Controller
     }
 
     public  function actionSaveModule(){
-        Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['order'], $_POST['lang']);
-        Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$_POST['order']));
+        $newOrder = Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['lang']);
+        Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$newOrder));
+
+        $model = new TeacherModule();
+        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder));
+        $model->idTeacher = Yii::app()->user->getId();
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

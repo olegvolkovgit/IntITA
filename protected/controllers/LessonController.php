@@ -82,11 +82,12 @@ class LessonController extends Controller{
     public function actionCreateNewBlock(){
         $model = new LectureElement();
 
+        $idType = Yii::app()->request->getPost('type');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = Yii::app()->request->getPost('order');
         $model->html_block = Yii::app()->request->getPost('newTextBlock');
-        $model->id_type = '1';
-        $model->type = 'text';
+        $model->id_type = $idType;
+        $model->type = ElementType::model()->findByPk($idType);
 
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);

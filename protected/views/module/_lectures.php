@@ -130,7 +130,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'summaryText' => '',
 ));
 ?>
-
+    <div style="margin-top: 75px">
+        <?php if(Yii::app()->user->hasFlash('newLecture')):
+            echo Yii::app()->user->getFlash('newLecture');
+        endif; ?>
+    </div>
     <div id="lessonForm">
     <form id="addLessonForm" action="<?php echo Yii::app()->createUrl('module/saveLesson');?>" method="post">
         <br>
@@ -140,17 +144,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
         <input name="idModule" value="<?php echo $module->module_ID;?>" hidden="hidden">
         <input name="order" value="<?php echo ($module->lesson_count + 1);?>" hidden="hidden">
         <input name="lang" value="<?php echo $module->language;?>" hidden="hidden">
-        <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
+        <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ().+-]+$">
         <br><br>
         <input type="submit"  value="Додати" id="submitButton">
     </form>
         <button id="cancelButton" onclick="hideForm('lessonForm', 'newLectureName');">Скасувати</button>
-        <div style="margin-top: 75px">
-            <?php if(Yii::app()->user->hasFlash('newLecture')):
-                echo Yii::app()->user->getFlash('newLecture');
-            endif; ?>
-        </div>
-
-</div>
+    </div>
 </div>
 

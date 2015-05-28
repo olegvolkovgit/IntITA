@@ -286,7 +286,7 @@ class Lecture extends CActiveRecord
             ->order('order DESC')
             ->limit('1')
             ->queryRow()["order"];
-        $lecture->order = $order;
+        $lecture->order = ++$order;
         $lecture->language = $lang;
         $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture'.$order;
