@@ -15,15 +15,9 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'lang'); ?>
-		<?php echo $form->textField($model,'lang',array('size'=>6,'maxlength'=>6)); ?>
-		<?php echo $form->error($model,'lang'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'first_name'); ?>
@@ -98,18 +92,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'linkName'); ?>
-		<?php echo $form->textField($model,'linkName',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'linkName'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'smallImage'); ?>
 		<?php echo $form->textField($model,'smallImage',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'smallImage'); ?>
@@ -145,20 +127,8 @@
 		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'courses'); ?>
-		<?php echo $form->textField($model,'courses',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'courses'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'foto_url_short'); ?>
-		<?php echo $form->textField($model,'foto_url_short',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'foto_url_short'); ?>
-	</div>
-
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

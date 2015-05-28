@@ -3,16 +3,16 @@
 /* @var $model Course */
 
 $this->breadcrumbs=array(
-	'Courses'=>array('index'),
-	'Create',
+	'Курси'=>array('index'),
+	'Створити',
 );
 
 $this->menu=array(
-	array('label'=>'List Course', 'url'=>array('index')),
-	array('label'=>'Manage Course', 'url'=>array('admin')),
+	array('label'=>'Список курсів', 'url'=>array('index')),
+	array('label'=>'Управління курсами', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Course</h1>
+<h1>Створити курс</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

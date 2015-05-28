@@ -3,11 +3,11 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Управління вчителями',
+	'Викладачі',
 );
 
 $this->menu=array(
-	array('label'=>'Додати вчителя', 'url'=>array('create')),
+	array('label'=>'Додати викладача', 'url'=>array('create')),
 	array('label'=>'Управління', 'url'=>array('admin')),
 );
 ?>
@@ -18,53 +18,25 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
     'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
     'htmlOptions'=>array('class'=>'grid-view custom'),
-    'summaryText' => 'Показано вчителів {start} - {end} з {count}',
+    'summaryText' => 'Показано викладачів {start} - {end} з {count}',
 	'columns'=>array(
-        array(
-            'name'=>'teacher_id',
-            'header'=>'ID'
-        ),
+        'teacher_id',
         array(
             'header'=>'Фото',
-            'value'=>'CHtml::image(StaticFilesHelper::createPath("image", "teachers",$data->foto_url),$data->first_name)',
-            'type'=>'raw'
+            'value'=>'StaticFilesHelper::createPath("image", "teachers",$data->foto_url)',
+            'type'=>'image',
         ),
-        array(
-            'name'=>'first_name',
-            'header'=>'Ім&#8217;я'
-        ),
-        array(
-            'name'=>'middle_name',
-            'header'=>'По батькові'
-        ),
-        array(
-            'name'=>'last_name',
-            'header'=>'Прізвище'
-        ),
-        array(
-            'name'=>'subjects',
-            'header'=>'Предмети'
-        ),
+        'first_name',
+        'middle_name',
+        'last_name',
+        'subjects',
         array(
             'name'=>'profile_text_short',
-            'header'=>'Характеристика',
             'type'=>'raw'
         ),
-        array(
-            'name'=>'user_id',
-            'header'=>'ID користувача'
-        ),
-        array(
-            'name'=>'email',
-            'header'=>'Email'
-        ),
-        array(
-            'name'=>'tel',
-            'header'=>'Телефон'
-        ),
-        array(
-            'name'=>'skype',
-            'header'=>'Skype'
-        ),
+        'user_id',
+        'email',
+        'tel',
+        'skype'
     ),
 )); ?>
