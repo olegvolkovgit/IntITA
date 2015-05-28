@@ -33,7 +33,6 @@ $editMode = ($canEdit)?'true':'';
             ?>
         </a>
         <?php $this->endWidget(); ?>
-
     </div>
 <h2>Модулі</h2>
 <?php $this->widget('zii.widgets.grid.CGridView', array(

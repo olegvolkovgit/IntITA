@@ -226,7 +226,7 @@ div.ratico{
     float: right;
     /*margin-right: 100px;*/
 }
-#addModule{
+#addModule,#addLecture{
     float:right;
     margin-top: 20px;
     margin-right: 20px;
@@ -237,14 +237,14 @@ div.ratico{
     display: none;
     border-style: none;
 }
-#addModule:hover{
+#addModule:hover,#addLecture:hover{
     cursor: pointer;
     border-style: none;
 }
-#addModule:focus,#addModule:active{
+#addModule:focus,#addModule:active,#addLecture:focus,#addLecture:active{
     border-style: none;
 }
-#ajaxaddmodule-form input[type="submit"]{
+#ajaxaddmodule-form input[type="submit"], #ajaxaddlecture-form input[type="submit"]{
     background-image: url('../images/editor/add_lesson.png');
 }
 

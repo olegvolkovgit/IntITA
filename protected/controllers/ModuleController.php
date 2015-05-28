@@ -203,9 +203,7 @@ class ModuleController extends Controller
         //$this->render('saveLesson');
     }
 
-    public function actionUnableLesson(){
-        $idLecture = $_GET['idLecture'];
-
+    public function actionUnableLesson($idLecture){
         $idModule =Lecture::model()->findByPk($idLecture)->idModule;
         $order = Lecture::model()->findByPk($idLecture)->order;
 
@@ -224,8 +222,7 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionUpLesson(){
-        $idLecture = $_GET['idLecture'];
+    public function actionUpLesson($idLecture){
 
         $idModule =Lecture::model()->findByPk($idLecture)->idModule;
         $order = Lecture::model()->findByPk($idLecture)->order;
@@ -242,8 +239,7 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionDownLesson(){
-        $idLecture = $_GET['idLecture'];
+    public function actionDownLesson($idLecture){
         $idModule =Lecture::model()->findByPk($idLecture)->idModule;
         $count = Module::model()->findByPk($idModule)->lesson_count;
         $order = Lecture::model()->findByPk($idLecture)->order;
@@ -257,5 +253,9 @@ class ModuleController extends Controller
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionLecturesUpdate(){
+        $model = Module::model()->findByPk($_POST['idmodule']);
+        $this->renderPartial('_addLessonForm',array('newmodel'=>$model), false, true);
     }
 }
