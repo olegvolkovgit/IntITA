@@ -10,7 +10,7 @@ class PermissionsController extends Controller
         }
 
 		$dataProvider = new CActiveDataProvider('Permissions');
-        $dataProvider->setPagination(array(
+        $dataProvider->pagination(array(
                 'pageSize' => '50',
             )
         );

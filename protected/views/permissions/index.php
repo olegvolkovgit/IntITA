@@ -19,7 +19,7 @@ $dataProvider = $model->search();
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
-    'filter' => $model,
+    //'filter' => $model,
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
@@ -76,41 +76,41 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type' => 'raw',
             'value' => 'AccessHelper::getUserName($data->id_user)',
         ),
-//        array(
-//            'name' => 'Email',
-//            'type' => 'raw',
-//            'value' => 'StudentReg::model()->findByPk($data->id_user)->email',
-//        ),
+        array(
+            'name' => 'Email',
+            'type' => 'raw',
+            'value' => 'StudentReg::model()->findByPk($data->id_user)->email',
+        ),
         array(
             'name' => 'Role',
             'type' => 'raw',
             'value' => 'AccessHelper::getRole($data->id_user)',
         ),
-//        array(
-//            'name' => 'Resource',
-//            'type' => 'raw',
-//            'value' => 'AccessHelper::getResourceDescription($data->id_resource)',
-//        ),
-//        array(
-//            'name' => 'READ',
-//            'type' => 'raw',
-//            'value' => 'AccessHelper::getFlag($data->rights, "read")',
-//        ),
-//        array(
-//            'name' => 'EDIT',
-//            'type' => 'raw',
-//            'value' => 'AccessHelper::getFlag($data->rights, "edit")',
-//        ),
-//        array(
-//            'name' => 'CREATE',
-//            'type' => 'raw',
-//            'value' => 'AccessHelper::getFlag($data->rights, "create")',
-//        ),
-//        array(
-//            'name' => 'DELETE',
-//            'type' => 'raw',
-//            'value' => 'AccessHelper::getFlag($data->rights, "delete")',
-//        ),
+        array(
+            'name' => 'Resource',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getResourceDescription($data->id_resource)',
+        ),
+        array(
+            'name' => 'READ',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "read")',
+        ),
+        array(
+            'name' => 'EDIT',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "edit")',
+        ),
+        array(
+            'name' => 'CREATE',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "create")',
+        ),
+        array(
+            'name' => 'DELETE',
+            'type' => 'raw',
+            'value' => 'AccessHelper::getFlag($data->rights, "delete")',
+        ),
     ),
 ));
 ?>
