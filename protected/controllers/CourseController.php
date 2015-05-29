@@ -211,8 +211,7 @@ class CourseController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionUpModule(){
-        $idModule = $_GET['idModule'];
+    public function actionUpModule($idModule){
 
         $idCourse =Module::model()->findByPk($idModule)->course;
         $order = Module::model()->findByPk($idModule)->order;
@@ -223,8 +222,7 @@ class CourseController extends Controller
             Module::model()->updateByPk($idModule, array('order' => $order - 1));
             Module::model()->updateByPk($idPrev, array('order' => $order));
         }
-
-        // if AJAX request, we should not redirect the browser
+//        // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -245,6 +243,10 @@ class CourseController extends Controller
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionModulesUpdate(){
+        $model = Course::model()->findByPk($_POST['idcourse']);
+        $this->renderPartial('_addLessonForm',array('newmodel'=>$model), false, true);
     }
 
     public function actionCourseUpdate(){

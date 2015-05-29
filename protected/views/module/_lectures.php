@@ -9,7 +9,6 @@ $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
 
 ?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
 
 <div class="lessonModule" id="lectures">
     <?php
@@ -23,17 +22,21 @@ $editMode = ($canEdit)?'true':'';
         </div>
     <?php
     }?>
-                <a name="list">
-                </a>
+    <a name="list">
+    </a>
 
-                        <div onclick="javascript:showForm();">
-                            <a href="#lessonForm">
-                                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
-                                     id="addLessonButton" title="Додати заняття"/>
-                            </a>
-                        </div>
-
-
+    <div onclick="showForm();">
+        <?php $form=$this->beginWidget('CActiveForm', array(
+            'id'=>'ajaxaddlecture-form',
+        )); ?>
+        <a href="#lessonForm">
+            <?php echo CHtml::hiddenField('idmodule', $module->module_ID); ?>
+            <?php
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'), array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>'Додати заняття'));
+            ?>
+        </a>
+        <?php $this->endWidget(); ?>
+    </div>
 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
@@ -45,6 +48,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
+            'deleteConfirmation'=>'Вы уверены что хотите удалить данный урок?',
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
@@ -52,39 +56,25 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("module/unableLesson", array("idLecture"=>$data->primaryKey))',
                     'deleteConfirmation' => 'Вы уверены, что хотите удалить это занятие?',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('lectures-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                            $.fn.yiiGridView.update('lectures-grid');
-                            }
-                        })
-                        return false;
-                    }
-                    ",
                     'label' => 'Дезактивировать занятие',
                     'visible'=> $editMode,
                 ),
                 'up' => array
             (
-
-                'label'=>'Поднять занятие вверх на 1 позицию',   //Text label of the button.
-                'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey))',
-                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('lectures-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                            $.fn.yiiGridView.update('lectures-grid');
-                            }
-                        })
-                        return false;
-                    }
-                    ",
-                'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
+                    'label'=>'Поднять занятие вверх на 1 позицию',   //Text label of the button.
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                    'options'=>array(
+                        'class'=>'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(response) {
+                            $.fn.yiiGridView.update("lectures-grid");
+                            }'
+                        )
+                    ), //HTML options for the button tag.
+                    'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey))',
+                    'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
             ),
 
             'down' => array
@@ -93,19 +83,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'label'=>'Опустить занятие вниз на 1 позицию',    //Text label of the button.
                 'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey))',
                 'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
-                'options'=>array('class'=>'controlButtons;'), //HTML options for the button tag.
+                'options'=>array(
+                    'class'=>'controlButtons;',
+                    'ajax'=>array(
+                        'type'=>'get',
+                        'url'=>'js:$(this).attr("href")',
+                        'success'=>'js:function(response) {
+                            $.fn.yiiGridView.update("lectures-grid");
+                            }'
+                    )
+                ), //HTML options for the button tag.
                 'visible'=>$editMode,
-                'click'=>"function(){
-                        $.fn.yiiGridView.update('lectures-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                            $.fn.yiiGridView.update('lectures-grid');
-                            }
-                        })
-                        return false;
-                    }
-                    ",
             ),
             ),
         ),
@@ -130,25 +118,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'summaryText' => '',
 ));
 ?>
-    <div style="margin-top: 75px">
-        <?php if(Yii::app()->user->hasFlash('newLecture')):
-            echo Yii::app()->user->getFlash('newLecture');
-        endif; ?>
-    </div>
     <div id="lessonForm">
-    <form id="addLessonForm" action="<?php echo Yii::app()->createUrl('module/saveLesson');?>" method="post">
-        <br>
-        <span id="formLabel">Нове заняття:</span>
-        <br>
-        <span><?php echo Yii::t('module', '0226')." ".($module->lesson_count + 1)."."; ?></span>
-        <input name="idModule" value="<?php echo $module->module_ID;?>" hidden="hidden">
-        <input name="order" value="<?php echo ($module->lesson_count + 1);?>" hidden="hidden">
-        <input name="lang" value="<?php echo $module->language;?>" hidden="hidden">
-        <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ().+-]+$">
-        <br><br>
-        <input type="submit"  value="Додати" id="submitButton">
-    </form>
-        <button id="cancelButton" onclick="hideForm('lessonForm', 'newLectureName');">Скасувати</button>
+        <?php $this->renderPartial('_addLessonForm', array('newmodel'=>$module)); ?>
     </div>
 </div>
-
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>

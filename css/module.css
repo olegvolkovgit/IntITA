@@ -213,10 +213,6 @@ body .grid-view table.items td.titleColumn{
     background: #ffffff;
 }
 
-.grid-view table.items td:first-child {
-    display:none;
-}
-
 .grid-view table.items{
     border:none;
 }
@@ -224,8 +220,34 @@ body .grid-view table.items td.titleColumn{
 .grid-view{
     padding-top: 0px;
 }
-
-
-
-
+div.ratico{
+    display: inline-block;
+    float: right;
+    /*margin-right: 100px;*/
+}
+#addModule,#addLecture{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    background: #0080c2;
+    display: none;
+    border-style: none;
+}
+#addModule:hover,#addLecture:hover{
+    cursor: pointer;
+    border-style: none;
+}
+#addModule:focus,#addModule:active,#addLecture:focus,#addLecture:active{
+    border-style: none;
+}
+#ajaxaddmodule-form input[type="submit"], #ajaxaddlecture-form input[type="submit"]{
+    background-image: url('../images/editor/add_lesson.png');
+}
+td.button-column{
+    display: table-cell;
+    white-space: nowrap;
+}
 
