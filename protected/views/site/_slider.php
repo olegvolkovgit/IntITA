@@ -25,6 +25,7 @@
     var border = document.getElementById('button_border');
     var lang = document.getElementById('lang');
     var underline = document.getElementById('headerUnderline');
+    var but = document.getElementById('enterButton');
     var logolang = "<?php
     $app = Yii::app();
     switch ($app->session['lg']){
@@ -48,17 +49,19 @@
     border.className = "";
     lang.className = "";
     underline.className = "";
+    but.className = "";
     document.getElementById('logo').src=logolang;
     window.onscroll = function() {
         var pageY = window.pageYOffset || document.documentElement.scrollTop;
         if (pageY >= key.offsetHeight) {
             document.getElementById('logo').src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>";
-            key.className = "down";
-            logo.className = "down";
-            nav.className = "down";
-            border.className = "down";
-            lang.className = "down";
-            underline.className = "down";
+            key.className = "downmain";
+            logo.className = "downmain";
+            nav.className = "downmain";
+            border.className = "downmain";
+            lang.className = "downmain";
+            underline.className = "downmain";
+            but.className = "downmain";
         } else {
             document.getElementById('logo').src=logolang;
             border.className = "";
@@ -67,6 +70,7 @@
             nav.className = "";
             lang.className = "";
             underline.className = "";
+            but.className = "";
         }
     }
 </script>
