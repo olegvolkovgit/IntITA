@@ -20,7 +20,6 @@ $this->menu=array(
     'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
 	'columns'=>array(
-        'teacher_id',
         array(
             'header'=>'Фото',
             'value'=>'StaticFilesHelper::createPath("image", "teachers",$data->foto_url)',
@@ -35,7 +34,6 @@ $this->menu=array(
             'name'=>'profile_text_short',
             'type'=>'raw',
         ),
-        'user_id',
         'email',
         'tel',
         'skype'

@@ -63,7 +63,7 @@ class Module extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'course0' => array(self::BELONGS_TO, 'Course', 'course'),
+            'teacherModules' => array(self::HAS_MANY, 'TeacherModule', 'idModule'),
 		);
 	}
 

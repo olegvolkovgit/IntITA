@@ -38,6 +38,7 @@ class ProfileController extends Controller
         }
         $criteria= new CDbCriteria;
         $criteria->order = 'date DESC';
+        $criteria->condition = 'about='.$teacher->user_id;
 
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,

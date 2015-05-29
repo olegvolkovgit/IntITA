@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-28 19:23:01
+-- Date/time:                    2015-05-29 17:18:17
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS `module` (
   `language` varchar(6) NOT NULL,
   `module_duration_hours` int(11) NOT NULL,
   `module_duration_days` int(11) NOT NULL DEFAULT '0',
-  `lesson_count` int(11) DEFAULT NULL,
-  `module_price` decimal(10,0) DEFAULT NULL,
+  `lesson_count` int(11) DEFAULT '0',
+  `module_price` decimal(10,0) DEFAULT '0',
   `for_whom` text,
   `what_you_learn` text,
   `what_you_get` text,
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~18 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~20 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 3000, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;'),
@@ -53,8 +53,10 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;'),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;'),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;'),
-	(28, 7, 1, 'Архітектура клієнт-серверних додатків.', 'module1', 'ua', 60, 0, 0, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(29, 7, 2, 'HTTP протокол і його основні методи.', 'module2', 'ua', 60, 0, 0, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
+	(28, 7, 1, 'Архітектура клієнт-серверних додатків.', 'module1', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(29, 7, 2, 'HTTP протокол і його основні методи.', 'module2', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(40, 0, 0, 'fsbdzet', 'module24', 'ua', 0, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(41, 0, 0, 'dsGreagherg', 'module17', 'ua', 0, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-28 19:22:54
+-- Date/time:                    2015-05-29 17:18:10
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -383,9 +383,9 @@ CREATE TABLE IF NOT EXISTS `footer` (
 -- Dumping data for table int_ita_db.footer: ~3 rows (approximately)
 /*!40000 ALTER TABLE `footer` DISABLE KEYS */;
 INSERT INTO `footer` (`footerID`, `language`, `imageSotial`, `phone`, `mobile`, `email`, `imageUp`) VALUES
-	(1, 'RU', '/css/images/sotial.gif', 'телефон: +38 0432 52 82 67 ', 'тел. моб. +38 067 432 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png'),
-	(2, 'EN', '/css/images/sotial.gif', 'tel.: +38 0432 52 82 67', 'mobile +38 067 432 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png'),
-	(3, 'UA', '/css/images/sotial.gif', 'телефон: +38 0432 52 82 67', 'тел. моб. +38 067 432 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png');
+	(1, 'RU', '/css/images/sotial.gif', 'телефон: +38 0432 52 82 67 ', 'тел. моб. +38 067 431 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png'),
+	(2, 'EN', '/css/images/sotial.gif', 'tel.: +38 0432 52 82 67', 'mobile +38 067 431 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png'),
+	(3, 'UA', '/css/images/sotial.gif', 'телефон: +38 0432 52 82 67', 'тел. моб. +38 067 431 20 10', 'e-mail: intita.hr@gmail.com', '/css/images/go_up.png');
 /*!40000 ALTER TABLE `footer` ENABLE KEYS */;
 
 
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.lectures: ~30 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~23 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1'),
@@ -539,7 +539,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~14 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~17 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -637,9 +637,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(20, 'ua', 'Вихід'),
 	(21, 'ua', 'Викладачі'),
 	(22, 'ua', 'Вихід'),
-	(23, 'ua', 'телефон: +38 0432 52 82 67 '),
-	(24, 'ua', 'тел. моб. +38 067 432 20 10'),
-	(25, 'ua', 'e-mail: intita.hr@gmail.com'),
+	(23, 'ua', 'телефон:  +38 0432 52 82 67'),
+	(24, 'ua', 'тел. моб. +38 067 431 20 10'),
+	(25, 'ua', 'ел. пошта: intita.hr@gmail.com'),
 	(26, 'ua', 'скайп: int.ita'),
 	(27, 'ua', 'Ми гарантуємо тобі отримання пропозиції працевлаштування<br>\r\nпісля успішного завершення навчання!'),
 	(28, 'ua', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту<br>\r\nі стань класним спеціалістом!'),
@@ -787,7 +787,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(21, 'en', 'Teachers'),
 	(22, 'en', 'Exit'),
 	(23, 'en', 'phone: +38 0432 52 82 67'),
-	(24, 'en', 'mobile: +38 067 432 50 20'),
+	(24, 'en', 'mobile: +38 067 431 20 10'),
 	(25, 'en', 'e-mail: intita.hr@gmail.com'),
 	(26, 'en', 'skype: int.ita'),
 	(27, 'en', 'We guarantee you an offer of employment<br>\r\nafter successful completion of training!'),
@@ -936,8 +936,8 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(21, 'ru', 'Преподаватели'),
 	(22, 'ru', 'Выход'),
 	(23, 'ru', 'телефон: +38 0432 52 82 67 '),
-	(24, 'ru', 'тел. моб. +38 067 432 20 10'),
-	(25, 'ru', 'e-mail: intita.hr@gmail.com'),
+	(24, 'ru', 'тел. моб. +38 067 431 20 10'),
+	(25, 'ru', 'эл. почта: intita.hr@gmail.com'),
 	(26, 'ru', 'скайп: int.ita'),
 	(27, 'ru', 'Мы гарантируем получение предложения работы<br>\r\nпосле успешного завершения обучения!'),
 	(28, 'ru', 'Хочешь стать классным специалистом?<br>\r\nпринимай правильное решение - поступай в IТ Академию  ИНТИТА!'),
@@ -1637,8 +1637,8 @@ CREATE TABLE IF NOT EXISTS `module` (
   `language` varchar(6) NOT NULL,
   `module_duration_hours` int(11) NOT NULL,
   `module_duration_days` int(11) NOT NULL DEFAULT '0',
-  `lesson_count` int(11) DEFAULT NULL,
-  `module_price` decimal(10,0) DEFAULT NULL,
+  `lesson_count` int(11) DEFAULT '0',
+  `module_price` decimal(10,0) DEFAULT '0',
   `for_whom` text,
   `what_you_learn` text,
   `what_you_get` text,
@@ -1648,9 +1648,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~17 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~20 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 3000, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;'),
@@ -1669,8 +1669,10 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;'),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;'),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;'),
-	(28, 7, 1, 'Архітектура клієнт-серверних додатків.', 'module1', 'ua', 60, 0, 0, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(29, 7, 2, 'HTTP протокол і його основні методи.', 'module2', 'ua', 60, 0, 0, NULL, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
+	(28, 7, 1, 'Архітектура клієнт-серверних додатків.', 'module1', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(29, 7, 2, 'HTTP протокол і його основні методи.', 'module2', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(40, 0, 0, 'fsbdzet', 'module24', 'ua', 0, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
+	(41, 0, 0, 'dsGreagherg', 'module17', 'ua', 0, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -5498,7 +5500,7 @@ INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `
 	(2, 'Константин', 'Константинович', 'Константинопольский', 'teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>Hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h2>Hello!</h2>', '/profile/index/?idTeacher=1', 'teacher2@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher2', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 39, '', 'teacher2.jpg'),
 	(3, 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', 'teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile/index/?idTeacher=5', 'teacher3@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher3', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 40, '', 'teacher3.jpg'),
 	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', '/css/images/teacherImage.png', 9, 9, 9, 'Програмування ПХП;\r\nJava для IOS;', 41, '', 'teacher4.jpg'),
-	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 42, '', 'teacher1image.png'),
+	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 42, '', 'teacher5.png'),
 	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 43, '', 'teacher6.jpg');
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 
@@ -5514,9 +5516,9 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   KEY `FK_teacher_module_module` (`idModule`),
   CONSTRAINT `FK_teacher_module_module` FOREIGN KEY (`idModule`) REFERENCES `module` (`module_ID`),
   CONSTRAINT `FK_teacher_module_teacher` FOREIGN KEY (`idTeacher`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~14 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~20 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -5529,12 +5531,16 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(9, 4, 3),
 	(10, 5, 3),
 	(11, 4, 4),
-	(12, 1, 7),
-	(13, 2, 7),
+	(12, 1, 28),
+	(13, 2, 29),
 	(14, 3, 9),
 	(15, 4, 9),
 	(17, 1, 10),
-	(18, 4, 10);
+	(18, 4, 10),
+	(19, 1, 7),
+	(20, 5, 7),
+	(21, 1, 40),
+	(22, 1, 41);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
 

@@ -103,7 +103,8 @@ class CourseController extends Controller
         $criteria1->alias = 'teacher';
         $criteria1->join='JOIN teacher_module ON teacher_module.idTeacher=teacher.teacher_id 
         				  JOIN module ON module.module_id=teacher_module.idModule';
-        $criteria1->condition='module.course='.$id;
+        $criteria->with = 'teacherModules';
+        $criteria1->condition = 'module.course='.$id;
         $criteria1->distinct = true;
 
         $dataProvider = new CActiveDataProvider('Module', array(

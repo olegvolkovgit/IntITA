@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-28 19:23:01
+-- Date/time:                    2015-05-29 17:18:17
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,9 +45,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(20, 'ua', 'Вихід'),
 	(21, 'ua', 'Викладачі'),
 	(22, 'ua', 'Вихід'),
-	(23, 'ua', 'телефон: +38 0432 52 82 67 '),
-	(24, 'ua', 'тел. моб. +38 067 432 20 10'),
-	(25, 'ua', 'e-mail: intita.hr@gmail.com'),
+	(23, 'ua', 'телефон:  +38 0432 52 82 67'),
+	(24, 'ua', 'тел. моб. +38 067 431 20 10'),
+	(25, 'ua', 'ел. пошта: intita.hr@gmail.com'),
 	(26, 'ua', 'скайп: int.ita'),
 	(27, 'ua', 'Ми гарантуємо тобі отримання пропозиції працевлаштування<br>\r\nпісля успішного завершення навчання!'),
 	(28, 'ua', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту<br>\r\nі стань класним спеціалістом!'),
@@ -195,7 +195,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(21, 'en', 'Teachers'),
 	(22, 'en', 'Exit'),
 	(23, 'en', 'phone: +38 0432 52 82 67'),
-	(24, 'en', 'mobile: +38 067 432 50 20'),
+	(24, 'en', 'mobile: +38 067 431 20 10'),
 	(25, 'en', 'e-mail: intita.hr@gmail.com'),
 	(26, 'en', 'skype: int.ita'),
 	(27, 'en', 'We guarantee you an offer of employment<br>\r\nafter successful completion of training!'),
@@ -344,8 +344,8 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(21, 'ru', 'Преподаватели'),
 	(22, 'ru', 'Выход'),
 	(23, 'ru', 'телефон: +38 0432 52 82 67 '),
-	(24, 'ru', 'тел. моб. +38 067 432 20 10'),
-	(25, 'ru', 'e-mail: intita.hr@gmail.com'),
+	(24, 'ru', 'тел. моб. +38 067 431 20 10'),
+	(25, 'ru', 'эл. почта: intita.hr@gmail.com'),
 	(26, 'ru', 'скайп: int.ita'),
 	(27, 'ru', 'Мы гарантируем получение предложения работы<br>\r\nпосле успешного завершения обучения!'),
 	(28, 'ru', 'Хочешь стать классным специалистом?<br>\r\nпринимай правильное решение - поступай в IТ Академию  ИНТИТА!'),
