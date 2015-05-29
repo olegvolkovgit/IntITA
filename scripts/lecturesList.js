@@ -20,5 +20,11 @@ function hideForm(id, title){
     document.getElementById(title).innerText = '';
 }
 
+$(document).mouseup(function (e) {
+    var container = $('#lessonForm');
+    if (container.has(e.target).length === 0){
+        container.hide();
+    }
+});
 
 

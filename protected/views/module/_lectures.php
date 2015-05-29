@@ -48,6 +48,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
+            'deleteConfirmation'=>'Вы уверены что хотите удалить данный урок?',
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
@@ -55,15 +56,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("module/unableLesson", array("idLecture"=>$data->primaryKey))',
                     'deleteConfirmation' => 'Вы уверены, что хотите удалить это занятие?',
-                    'options'=>array(
-                        'ajax'=>array(
-                            'type'=>'get',
-                            'url'=>'js:$(this).attr("href")',
-                            'success'=>'js:function(response) {
-                            $.fn.yiiGridView.update("lectures-grid");
-                            }'
-                        )
-                    ), //HTML options for the button tag.
                     'label' => 'Дезактивировать занятие',
                     'visible'=> $editMode,
                 ),

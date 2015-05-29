@@ -44,20 +44,12 @@ $editMode = ($canEdit)?'true':'';
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
+            'deleteConfirmation'=>'Вы уверены что хотите удалить модуль?',
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'options'=>array(
-                        'ajax'=>array(
-                            'type'=>'get',
-                            'url'=>'js:$(this).attr("href")',
-                            'success'=>'js:function(response) {
-                            $.fn.yiiGridView.update("modules-grid");
-                            }'
-                        )
-                    ), //HTML options for the button tag.
                     'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->primaryKey))',
                     'label' => 'Дезактивировать модуль',
                     'visible'=> $editMode,
