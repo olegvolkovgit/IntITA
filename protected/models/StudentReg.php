@@ -452,6 +452,23 @@ class StudentReg extends CActiveRecord
             echo Yii::t('profile', '0241');
         else  echo Yii::t('profile', '0095');
     }
+    # Функция для проверки существования страницы
+    public static function getCorrectURl ($url)
+    {
+        # Устанавливаем данные для запроса
+        stream_context_set_default(array(
+            'http' => array(
+                'header' => 'User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:37.0) Gecko/20100101 Firefox/37.0'
+            )
+        ));
+
+        # Получаем заголовки
+        $headers = get_headers($url);
+
+        # Возвращаем результат
+        return
+            !substr_count($headers[0], '404');
+    }
     public function validatePassword($password)
     {
         return CPasswordHelper::verifyPassword($password,$this->password);
