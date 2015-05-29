@@ -1,6 +1,6 @@
 <?php
 $criteria = new CDbCriteria();
-$criteria->addInCondition('teacher_id', [1,2,3,4]);
+$criteria->addInCondition('teacher_id', [1, 2, 3, 4]);
 $teachers = Teacher::model()->findAll($criteria);
 
 $criteria1 = new CDbCriteria();

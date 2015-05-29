@@ -33,7 +33,7 @@ $this->breadcrumbs=array(
         <div class="courseTeachers">
             <h2><?php echo Yii::t('course', '0207'); ?></h2>
             <article>
-                <?php $this->renderPartial('_courseTeacher', array('course'=>$model));?>
+                <?php $this->renderPartial('_courseTeacher', array('course'=>$model, 'teachers' =>$teachers));?>
             </article>
         </div>
         <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' =>$canEdit, 'model'=>$model));?>

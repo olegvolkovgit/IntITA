@@ -200,4 +200,22 @@ class Teacher extends CActiveRecord
         }
         return round($b/$countMot);
     }
+
+    public static function isTeacher($user){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
+
+            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
+        }
+
+        return false;
+
+    }
+
+    public static function isTeacherCanEdit($user, $modules){
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('idModule', $modules);
+        $criteria->addCondition('idTeacher='.$user);
+
+        return TeacherModule::model()->exists($criteria);
+    }
 }

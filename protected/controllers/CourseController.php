@@ -95,6 +95,7 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
+
         $criteria=new CDbCriteria();
         $criteria->addCondition('course='.$id);
 
@@ -111,11 +112,15 @@ class CourseController extends Controller
         $dataProvider1 = new CActiveDataProvider('Teacher', array(
         ));
 
+        $canEdit = false;
         $model = Course::model()->findByPk($id);
-        if ( Yii::app()->user->getId() == 38) {
-            $canEdit = true;
-        } else {
-            $canEdit = false;
+        $modules = Module::getModules($id);
+        $teachers = TeacherModule::getCourseTeachers($modules);
+        $user = Yii::app()->user->getId();
+        if ($user = Teacher::isTeacher($user)) {
+            if(Teacher::isTeacherCanEdit($user, $modules)){
+                $canEdit = true;
+            }
         }
 
 		$this->render('index',array(
@@ -123,6 +128,7 @@ class CourseController extends Controller
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
             'dataProvider1' => $dataProvider1,
+            'teachers' => $teachers,
 		));
 	}
 
@@ -239,6 +245,5 @@ class CourseController extends Controller
         } else {
             throw new CHttpException(400, 'Invalid request');
         }
-
     }
 }

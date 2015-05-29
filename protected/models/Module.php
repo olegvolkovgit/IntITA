@@ -215,4 +215,20 @@ class Module extends CActiveRecord
         }
         return $order;
     }
+
+
+
+    public static function getModules($id){
+        $modules = Yii::app()->db->createCommand()
+            ->select('module_ID')
+            ->from('module')
+            ->order('module_ID DESC')
+            ->where('course='.$id)
+            ->queryAll();
+        $result = [];
+        for($i = count($modules)-1; $i > 0; $i--){
+            array_push($result, $modules[$i]["module_ID"]);
+        }
+        return $result;
+    }
 }

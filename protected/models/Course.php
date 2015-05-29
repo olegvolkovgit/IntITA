@@ -187,4 +187,5 @@ class Course extends CActiveRecord
 	public function findCourseIDByAlias($alias){
 		return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
 	}
+
 }

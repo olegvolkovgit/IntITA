@@ -100,4 +100,20 @@ class TeacherModule extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getCourseTeachers($modules){
+        $criteria = new CDbCriteria();
+        $criteria->select =  'idTeacher';
+        $criteria->order = 'idTeacher';
+        $criteria->addInCondition('idModule', $modules);
+        $criteria->distinct = true;
+        $criteria->toArray();
+
+        $teachers = TeacherModule::model()->findAll($criteria);
+        $result = [];
+        for ($i = count($teachers)-1;$i > 0; $i--){
+            array_push($result, $teachers[$i]["idTeacher"]);
+        }
+        return $result;
+    }
 }
