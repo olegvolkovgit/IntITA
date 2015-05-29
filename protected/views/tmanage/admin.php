@@ -3,8 +3,8 @@
 /* @var $model Teacher */
 
 $this->breadcrumbs=array(
-	'Teachers'=>array('index'),
-	'Manage',
+	'Викладачі'=>array('index'),
+	'Управління',
 );
 
 $this->menu=array(
@@ -29,11 +29,11 @@ $('.search-form form').submit(function(){
 <h1>Управління вчителями</h1>
 
 <p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+Ви також можете використовувати вирази (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+або <b>=</b>)
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -44,6 +44,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'id'=>'teacher-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+    'summaryText' => 'Показано викладачів {start} - {end} з {count}',
 	'columns'=>array(
 		'first_name',
 		'middle_name',
@@ -67,6 +68,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		*/
 		array(
 			'class'=>'CButtonColumn',
+            'deleteConfirmation'=>'Ви впевнені?',
 		),
 	),
 )); ?>

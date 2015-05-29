@@ -3,21 +3,19 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Courses',
+	'Курси',
 );
 
 $this->menu=array(
-	array('label'=>'Create Course', 'url'=>array('create')),
-	array('label'=>'Manage Course', 'url'=>array('admin')),
+	array('label'=>'Створити курс', 'url'=>array('create')),
+	array('label'=>'Управління курсами', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Courses</h1>
+<h1>Курси</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$dataProvider,
-    'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
-    'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText'=>'Показано курсів {start} - {end} з {count}',
 	'columns'=>array(
         array(

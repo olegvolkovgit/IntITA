@@ -3,20 +3,20 @@
 /* @var $model Course */
 
 $this->breadcrumbs=array(
-	'Courses'=>array('index'),
+	'Курси'=>array('index'),
 	$model->course_ID,
 );
 
 $this->menu=array(
-	array('label'=>'List Course', 'url'=>array('index')),
-	array('label'=>'Create Course', 'url'=>array('create')),
-	array('label'=>'Update Course', 'url'=>array('update', 'id'=>$model->course_ID)),
-	array('label'=>'Delete Course', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->course_ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Course', 'url'=>array('admin')),
+	array('label'=>'Список курсів', 'url'=>array('index')),
+	array('label'=>'Створити курс', 'url'=>array('create')),
+	array('label'=>'Оновити курс', 'url'=>array('update', 'id'=>$model->course_ID)),
+	array('label'=>'Видалити курс', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->course_ID),'confirm'=>'Ви впевнені?')),
+	array('label'=>'Управління курсами', 'url'=>array('admin')),
 );
 ?>
 
-<h1>View Course #<?php echo $model->course_ID; ?></h1>
+<h1>Курс <?php echo $model->course_name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

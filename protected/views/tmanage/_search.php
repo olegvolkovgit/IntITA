@@ -106,16 +106,6 @@
 		<?php echo $form->textField($model,'user_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'courses'); ?>
-		<?php echo $form->textField($model,'courses',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'foto_url_short'); ?>
-		<?php echo $form->textField($model,'foto_url_short',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>

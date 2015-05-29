@@ -23,7 +23,6 @@
  * @property integer $rate_relations
  * @property string $sections
  * @property integer $user_id
- * @property string $courses
  */
 class Teacher extends CActiveRecord
 {
@@ -72,25 +71,25 @@ class Teacher extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'teacher_id' => 'Teacher',
-			'first_name' => 'First Name',
-			'middle_name' => 'Middle Name',
-			'last_name' => 'Last Name',
-			'foto_url' => 'Foto Url',
-			'subjects' => 'Subjects',
-			'profile_text_first' => 'Profile Text First',
-			'profile_text_short' => 'Profile Text Short',
-			'profile_text_last' => 'Profile Text Last',
-			'readMoreLink' => 'Read More Link',
+			'teacher_id' => 'ID',
+			'first_name' => 'Ім&#8217;я',
+			'middle_name' => 'По батькові',
+			'last_name' => 'Прізвище',
+			'foto_url' => 'Фото URL',
+			'subjects' => 'Предмети',
+			'profile_text_first' => 'Опис перший',
+			'profile_text_short' => 'Характеристика',
+			'profile_text_last' => 'Опис останній',
+			'readMoreLink' => 'Детальніше',
 			'email' => 'Email',
-			'tel' => 'Tel',
+			'tel' => 'Телефон',
 			'skype' => 'Skype',
 			'smallImage' => 'Small Image',
-			'rate_knowledge' => 'Rate Knowledge',
-			'rate_efficiency' => 'Rate Efficiency',
-			'rate_relations' => 'Rate Relations',
-			'sections' => 'Sections',
-			'user_id' => 'User',
+			'rate_knowledge' => 'Рівень знань',
+			'rate_efficiency' => 'Рівень ефективності',
+			'rate_relations' => 'Рівень відношення',
+			'sections' => 'Секції',
+			'user_id' => 'ID користувача',
 		);
 	}
 
@@ -131,7 +130,6 @@ class Teacher extends CActiveRecord
 		$criteria->compare('rate_relations',$this->rate_relations);
 		$criteria->compare('sections',$this->sections,true);
 		$criteria->compare('user_id',$this->user_id);
-        $criteria->compare('courses',$this->courses);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -4,10 +4,15 @@
 /* @var $form CActiveForm */
 ?>
 
+<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'teacher-form',
+    'htmlOptions'=>array(
+        'class'=>'formatted-form',
+    ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -15,7 +20,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -127,20 +132,8 @@
 		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'courses'); ?>
-		<?php echo $form->textField($model,'courses',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'courses'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'foto_url_short'); ?>
-		<?php echo $form->textField($model,'foto_url_short',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'foto_url_short'); ?>
-	</div>
-
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
