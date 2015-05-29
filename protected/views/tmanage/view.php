@@ -3,20 +3,20 @@
 /* @var $model Teacher */
 
 $this->breadcrumbs=array(
-	'Teachers'=>array('index'),
-	$model->title,
+	'Викладачі'=>array('index'),
+	"{$model->last_name} {$model->first_name} {$model->middle_name}",
 );
 
 $this->menu=array(
-	array('label'=>'Список вчителів', 'url'=>array('index')),
-	array('label'=>'Додати вчителя', 'url'=>array('create')),
+	array('label'=>'Список викладачів', 'url'=>array('index')),
+	array('label'=>'Додати викладача', 'url'=>array('create')),
 	array('label'=>'Оновити', 'url'=>array('update', 'id'=>$model->teacher_id)),
-	array('label'=>'Видалити', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->teacher_id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Управління вчителями', 'url'=>array('admin')),
+	array('label'=>'Видалити', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->teacher_id),'confirm'=>'Ви впевнені?')),
+	array('label'=>'Управління викладачами', 'url'=>array('admin')),
 );
 ?>
 
-<h1>View Teacher #<?php echo $model->teacher_id; ?></h1>
+<h1>Викладач <?php print "{$model->last_name} {$model->first_name} {$model->middle_name}"; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -25,11 +25,24 @@ $this->menu=array(
 		'first_name',
 		'middle_name',
 		'last_name',
-		'foto_url',
+		array(
+            'name'=>'Фото',
+            'value'=>StaticFilesHelper::createPath("image", "teachers",$model->foto_url),
+            'type'=>'image',
+        ),
 		'subjects',
-		'profile_text_first',
-		'profile_text_short',
-		'profile_text_last',
+		array(
+            'name'=>'profile_text_first',
+            'type'=>'raw',
+        ),
+		array(
+            'name'=>'profile_text_short',
+            'type'=>'raw',
+        ),
+		array(
+            'name'=>'profile_text_last',
+            'type'=>'raw',
+        ),
 		'readMoreLink',
 		'email',
 		'tel',
