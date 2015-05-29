@@ -13,16 +13,18 @@ $(document).ready(function(){
         return false;
     });
 });
-
 /**------------------recall-------------------------*/
-
-$(function () {
-    $('.view-source .hide').hide();
-    $a = $('.view-source a');
-
-    $a.on('click', function (event) {
-        event.preventDefault();
-        $a.not(this).next().slideUp(500);
-        $(this).next().slideToggle(500);
+$(document).ready(function() {
+    $('.spoiler-body').hide();
+    $('.spoiler-title').click(function(){
+        $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
+        if($(this).hasClass('opened')) {
+            $(this).html('Згорнути відгук \u25B2');
+        }
+        else {
+            $(this).html('Розкрити відгук про навчання \u25BC');
+        }
     });
 });
+
+
