@@ -110,4 +110,15 @@ class AccessHelper
             }
         }
     }
+
+    public static function isStudent(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $id = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($id)->role == 0){
+            return true;
+        }
+        return false;
+    }
 }

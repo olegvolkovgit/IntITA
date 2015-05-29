@@ -33,7 +33,7 @@ class Controller extends CController
         $this->link2 = Yii::app()->request->baseUrl.$header->item2Link;
         $this->link3 = Yii::app()->request->baseUrl.$header->item3Link;
         $this->link4 = Yii::app()->request->baseUrl.$header->item4Link;
-        $this->link5 = Yii::app()->request->baseUrl.'/graduate';
+        $this->link5 = Yii::app()->request->baseUrl.'/graduate/';
         //$this->imageSotial = Yii::app()->request->baseUrl.$footer->imageSotial;
         $this->imageUp = Yii::app()->request->baseUrl.$footer->imageUp;
 

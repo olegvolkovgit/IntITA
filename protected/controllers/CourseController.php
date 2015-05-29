@@ -95,7 +95,6 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
-
         $criteria=new CDbCriteria();
         $criteria->addCondition('course='.$id);
 
@@ -125,8 +124,6 @@ class CourseController extends Controller
                 )
             )
         ));
-
-
 
         $canEdit = false;
         $model = Course::model()->findByPk($id);

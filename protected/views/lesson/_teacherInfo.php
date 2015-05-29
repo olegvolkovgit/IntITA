@@ -13,12 +13,12 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 <div class="teacherBlock">
-<!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url);//$teacher->foto_url; ?><!--">-->
+    <!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url);//$teacher->foto_url; ?><!--">-->
     <div
         style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
         <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
     </div>
-    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
+    <a href="<?php echo Yii::app()->request->baseUrl.$teacher->readMoreLink; ?>"><?php echo Yii::t('teachers','0059'); ?> &#187;</a>
         <span>
                 <ul>
                     <li> <div class="teacherTitle">
@@ -38,8 +38,6 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                         </div>
                     </li>
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-                    <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
-                        ?>
                     <div class="calendar">
                         <!--Календарь-->
                         <div class="input-append date form_datetime" id="form_datetime">
@@ -58,13 +56,13 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                         </div>
                         <!--Інтервали консультацій-->
                         <div id="timeConsultation">
-                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher->teacher_id,'day'=>'')); ?>
+                            <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher->teacher_id,'day'=>'')); ?>
                         </div>
                         <!--Інформативна форма після вибору консультації-->
                         <div id="consultationInfo">
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">
                                 <p class="consInfHeader">
-                               Вітаємо!
+                                    Вітаємо!
                                 </p>
                                 <p id="consInfText">
                                     у Вас запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;?>.
@@ -81,12 +79,10 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                             <?php echo Yii::t('lecture','0079'); ?>
                         </a>
                     </div>
-                    <?php
-                    }
-                    ?>
+
                 </ul>
         </span>
-    </div>
+</div>
 </div>
 
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/js/bootstrap.min.js"></script>
@@ -99,9 +95,9 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showCalendar.js"></script>
 
 <script type="text/javascript">
-var firstday = new Date();
-var lastday = new Date();
-lastday.setDate(firstday.getDate()+366);
+    var firstday = new Date();
+    var lastday = new Date();
+    lastday.setDate(firstday.getDate()+366);
     $('#dateTimePicker').datetimepicker({
         format: "yyyy-mm-dd",
         language: "<?php echo $app->session['lg']?>",
@@ -117,5 +113,3 @@ lastday.setDate(firstday.getDate()+366);
     });
     $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
 </script>
-
-

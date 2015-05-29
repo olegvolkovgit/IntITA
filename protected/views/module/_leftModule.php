@@ -11,7 +11,7 @@
         <table>
             <tr>
                 <td>
-                    <img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'course', $post->module_img);?>" />
+                    <img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'course', $post->module_img); ?>" />
                 </td>
                 <td style="padding-left: 15px;">
 

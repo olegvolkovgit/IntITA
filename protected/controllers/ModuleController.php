@@ -206,12 +206,15 @@ class ModuleController extends Controller
     }
 
     public  function actionSaveModule(){
+
         $newOrder = Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['lang']);
+
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$newOrder));
 
         $model = new TeacherModule();
-        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder));
-        $model->idTeacher = Yii::app()->user->getId();
+        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder))->module_ID;
+        $model->idTeacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
+        $model->save();
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
