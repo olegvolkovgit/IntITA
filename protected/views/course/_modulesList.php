@@ -134,7 +134,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             <input name="idCourse" value="<?php echo $model->course_ID;?>" hidden="hidden">
             <input name="order" value="<?php echo ($model->modules_count + 1);?>" hidden="hidden">
             <input name="lang" value="<?php echo $model->language;?>" hidden="hidden">
-            <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі. ()/+-]+$">
+            <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі ()/+-]+$">
             <br><br>
             <input type="submit"  value="Додати" id="submitButton">
         </form>

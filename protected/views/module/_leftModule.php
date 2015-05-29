@@ -11,7 +11,7 @@
         <table>
             <tr>
                 <td>
-                    <img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'module', $post->module_img);?>" />
+                    <img class="moduleImg" src="<?php echo Yii::app()->request->baseUrl.$post->module_img ?>" />
                 </td>
                 <td style="padding-left: 15px;">
 
@@ -20,22 +20,21 @@
                     <div>
                         <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                         <?php echo "сильний початківець"?>
-                        <div class="ratico">
-                            <?php
-                            for ($i=0; $i<3; $i++)
-                            {
-                                ?><span>
-                                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>"/>
-                                </span><?php
-                            }
-                            for ($i=0; $i<2; $i++)
-                            {
-                                ?><span>
-                                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>"/>
-                                </span><?php
-                            }
-                            ?>
-                        </div>
+
+                        <?php
+                        for ($i=0; $i<3; $i++)
+                        {
+                            ?><span>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>"/>
+                            </span><?php
+                        }
+                        for ($i=0; $i<2; $i++)
+                        {
+                            ?><span>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>"/>
+                            </span><?php
+                        }
+                        ?>
                     </div>
                     <div>
                         <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>

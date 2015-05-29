@@ -5,10 +5,10 @@ for ($i = 0; $i < count($teachers); $i++) {
         <table>
             <tr>
                 <td class="teacherBoxLeft">
-                    <div
-                        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teachers[$i]->foto_url); ?>) no-repeat; background-size: 90px; margin-left: 50px;">
-                        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
-                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id)); ?>"><?php echo Yii::t('module', '0228'); ?>&#187;</a>
+                    <img src="<?php echo Yii::app()->request->baseUrl . $teachers[$i]->foto_url; ?>"/>
+
+                    <div style="height: 20px;">
+                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id));?>"><?php echo Yii::t('module', '0228'); ?>&#187;</a>
                     </div>
                 </td>
                 <td class="teacherBoxRight"

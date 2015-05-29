@@ -69,10 +69,10 @@ img.time{
     font-size:18px;
 }
 .teacherBox img {
-    /*width: 90px;*/
-    /*height: 90px;*/
-    /*border-radius: 50%;*/
-    /*border: 1px solid #4b75a4;*/
+    width: 90px;
+    height: 90px;
+    border-radius: 100px;
+    border: 1px solid #4b75a4;
 }
 .rightModule a {
     color: #4b75a4;
@@ -84,8 +84,7 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 .teacherBoxLeft{
     text-align: center;
     line-height: 1;
-
-   }
+}
 .teacherBoxRight{
     border-left: 1px solid #cccccc;
     padding-left: 15px;
@@ -225,10 +224,8 @@ body .grid-view table.items td.titleColumn{
 .grid-view{
     padding-top: 0px;
 }
-div.ratico{
-    display: inline-block;
-    float: right;
-    /*margin-right: 100px;*/
-}
+
+
+
 
 

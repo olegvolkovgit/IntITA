@@ -5,9 +5,9 @@
  * Date: 13.05.2015
  * Time: 16:36
  */
-$headerText = Yii::t('mainpage','0002');
-$subheaderText = Yii::t('mainpage', '0006');
-$linkName = Yii::t('mainpage', '0004');
+$headerText = $mainpageModel->getHeader1();
+$subheaderText = $mainpageModel->getSubheader1();
+$linkName = $mainpageModel->getLinkName();
 ?>
 <div class="mainAboutBlock">
     <div class="mainAbout">

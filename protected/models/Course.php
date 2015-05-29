@@ -180,9 +180,9 @@ class Course extends CActiveRecord
 		return $this->findByPk($id)->alias;
 	}
 
-/*	public function exists($alias){
+	public function exists($alias){
 		return $this->findCourseIDByAlias($alias);
-	}*/
+	}
 
 	public function findCourseIDByAlias($alias){
 		return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
