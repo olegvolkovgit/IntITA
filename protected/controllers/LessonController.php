@@ -87,7 +87,7 @@ class LessonController extends Controller{
         $model->block_order = Yii::app()->request->getPost('order');
         $model->html_block = Yii::app()->request->getPost('newTextBlock');
         $model->id_type = $idType;
-        $model->type = ElementType::model()->findByPk($idType);
+        $model->type = ElementType::model()->findByPk($idType)->type;
 
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);
