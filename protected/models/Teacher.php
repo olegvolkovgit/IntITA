@@ -201,10 +201,8 @@ class Teacher extends CActiveRecord
 
     public static function isTeacher($user){
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
-
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         }
-
         return false;
 
     }

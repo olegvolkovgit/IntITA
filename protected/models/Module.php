@@ -207,8 +207,7 @@ class Module extends CActiveRecord
         $module->order = ++$order;
         $module->alias = 'module'.$order;
         $module->language = $lang;
-        $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
-        $module->owners = array($teacher);
+        //$teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
         $module->module_name = $newModuleName;
         if($module->validate()) {
             $module->save();

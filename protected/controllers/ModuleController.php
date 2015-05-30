@@ -87,7 +87,6 @@ class ModuleController extends Controller
         $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
         $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
 
-
         $criteria=new CDbCriteria();
         $criteria->addCondition('idModule>0');
         $criteria->addCondition('idModule='.$idModule);
@@ -107,7 +106,6 @@ class ModuleController extends Controller
         if (Yii::app()->user->isGuest){ //if user guest
             $editMode = 0;
         } else {
-
             if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->getId()))) {
                 if ($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
                     //check edit mode
@@ -210,8 +208,9 @@ class ModuleController extends Controller
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$newOrder));
 
         $model = new TeacherModule();
-        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder));
-        $model->idTeacher = Yii::app()->user->getId();
+        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder))->module_ID;
+        $model->idTeacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
+        $model->save();
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

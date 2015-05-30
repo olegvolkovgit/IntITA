@@ -110,4 +110,42 @@ class AccessHelper
             }
         }
     }
+
+    public static function getCourses(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'course_ID';
+        return Course::model()->findAll($criteria);
+    }
+
+    public static function getCourseTitles(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('course_ID', 'course_name');
+        $criteria->toArray();
+        $count = Lecture::model()->count();
+        $titles = Lecture::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$titles[$i]["course_ID"]] = $titles[$i]["course_name"];
+        }
+        return $result;
+    }
+
+    public static function getModules(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'module_ID';
+        return Module::model()->findAll($criteria);
+    }
+
+    public static function getModuleTitles(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('module_ID', 'module_name');
+        $criteria->toArray();
+        $count = Module::model()->count();
+        $titles = Module::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$titles[$i]["module_ID"]] = $titles[$i]["module_name"];
+        }
+        return $result;
+    }
 }

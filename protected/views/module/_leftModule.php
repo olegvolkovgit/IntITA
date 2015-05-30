@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                        <span id="oldPrice"> <?php echo $post->module_price; ?> <?php echo Yii::t('module', '0222'); ?></span> 1500.00 <?php echo Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
+                        <span id="oldPrice"> <?php echo $post->module_price; ?> <?php echo Yii::t('module', '0222'); ?></span> <?php echo ModuleHelper::getDiscountedPrice($post->module_price, 50).Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
                     </div>
                     </br>
                     <div>

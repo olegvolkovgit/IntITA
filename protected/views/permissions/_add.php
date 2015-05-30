@@ -31,6 +31,20 @@
     );
     ?>
     <?php echo $form->error($model,'id_user'); ?>
+</div>
+
+<!--    <div class="row">-->
+<!--        --><?php //echo $form->labelEx($model,'Модуль '); ?>
+<!--        --><?php
+//        echo $form->dropDownList(
+//            $model,
+//            'idModule',
+//            AccessHelper::getModuleTitles(),
+//            array('empty' => '(Виберіть модуль)')
+//        );
+//        ?>
+<!--        --><?php //echo $form->error($model,'idModule'); ?>
+<!--    </div>-->
 
 <div class="row">
     <?php echo $form->labelEx($model,'Лекція '); ?>

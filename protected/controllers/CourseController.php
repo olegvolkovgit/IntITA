@@ -95,7 +95,6 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
-
         $criteria=new CDbCriteria();
         $criteria->addCondition('course='.$id);
 
@@ -115,16 +114,21 @@ class CourseController extends Controller
         $canEdit = false;
         $model = Course::model()->findByPk($id);
         $modules = Module::getModules($id);
+
         $teachers = TeacherModule::getCourseTeachers($modules);
         $user = Yii::app()->user->getId();
         if ($user = Teacher::isTeacher($user)) {
             if(Teacher::isTeacherCanEdit($user, $modules)){
                 $canEdit = true;
             }
+            if(count($modules) <= 3){
+                $canEdit = true;
+            }
         }
 
 		$this->render('index',array(
 			'model'=>$model,
+            'modules' => $modules,
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
             'dataProvider1' => $dataProvider1,
@@ -181,8 +185,10 @@ class CourseController extends Controller
         $idCourse =Module::model()->findByPk($idModule)->course;
         $order = Module::model()->findByPk($idModule)->order;
 
-        Module::model()->updateByPk($idModule, array('order' => 0));
-        Module::model()->updateByPk($idModule, array('course' => 0));
+        Module::model()->deleteByPk($idModule);
+        TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
+        //Module::model()->updateByPk($idModule, array('order' => 0));
+        //Module::model()->updateByPk($idModule, array('course' => 0));
 
         $count = Course::model()->findByPk($idCourse)->modules_count;
         for ($i = $order + 1; $i <= $count; $i++){

@@ -111,7 +111,7 @@ class TeacherModule extends CActiveRecord
 
         $teachers = TeacherModule::model()->findAll($criteria);
         $result = [];
-        for ($i = count($teachers)-1;$i > 0; $i--){
+        for ($i = 0; $i < count($teachers); $i++){
             array_push($result, $teachers[$i]["idTeacher"]);
         }
         return $result;
