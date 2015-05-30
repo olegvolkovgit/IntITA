@@ -8,16 +8,6 @@ class TmanageController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
 
 	/**
 	 * Displays a particular model.
@@ -25,7 +15,7 @@ class TmanageController extends Controller
 	 */
 	public function actionView($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -40,7 +30,7 @@ class TmanageController extends Controller
 	 */
 	public function actionCreate()
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -67,7 +57,7 @@ class TmanageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 		$model=$this->loadModel($id);
@@ -94,7 +84,7 @@ class TmanageController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -110,7 +100,7 @@ class TmanageController extends Controller
 	 */
 	public function actionIndex()
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -125,7 +115,7 @@ class TmanageController extends Controller
 	 */
 	public function actionAdmin()
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
