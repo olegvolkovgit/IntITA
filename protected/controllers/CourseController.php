@@ -111,20 +111,20 @@ class CourseController extends Controller
         $dataProvider1 = new CActiveDataProvider('Teacher', array(
         ));
 
-        $canEdit = false;
+        $canEdit = AccessHelper::isAdmin();
         $model = Course::model()->findByPk($id);
         $modules = Module::getModules($id);
 
         $teachers = TeacherModule::getCourseTeachers($modules);
-        $user = Yii::app()->user->getId();
-        if ($user = Teacher::isTeacher($user)) {
-            if(Teacher::isTeacherCanEdit($user, $modules)){
-                $canEdit = true;
-            }
-            if(count($modules) <= 3){
-                $canEdit = true;
-            }
-        }
+//        $user = Yii::app()->user->getId();
+//        if ($user = Teacher::isTeacher($user)) {
+//            if(Teacher::isTeacherCanEdit($user, $modules)){
+//                $canEdit = true;
+//            }
+//            if(count($modules) <= 3){
+//                $canEdit = true;
+//            }
+//        }
 
 		$this->render('index',array(
 			'model'=>$model,

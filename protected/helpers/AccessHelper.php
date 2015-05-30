@@ -159,4 +159,16 @@ class AccessHelper
         }
         return false;
     }
+
+    public static function isAdmin(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 3){
+            return true;
+        }
+        return false;
+    }
+
 }
