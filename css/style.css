@@ -29,26 +29,41 @@ p {
 #navigation {
     position:relative;
     width: 1200px;
-    height: 120px;
+    height: 100px;
     margin: 0 auto;
     background-color: white;
     z-index: 5;
 }
 #navigation.down {
-    height: 65px;
+    height: 60px;
+}
+#navigation.downmain {
+    height: 60px;
+}
+#navigation.downmain div#menulist{
+    width: 940px;
+    margin: 0 auto;
+    text-align: center;
 }
 #navigation ul {
     display: inline-block;
     float: right;
     margin-top: 60px;
     margin-bottom: 0;
+    padding: 0;
 }
 #navigation.down ul {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 16px;
     float: right;
     margin-right: 75px;
     margin-bottom: 0;
+}
+#navigation.downmain ul {
+    float: none;
+    display: inline-block;
+    margin: 0 auto;
+    margin-top: 16px;
 }
 #navigation li {
     display:inline;
@@ -75,12 +90,25 @@ p {
 #logo_img.down{
     margin-top: 7px;
 }
+#logo_img.downmain{
+    margin-top: 7px;
+    max-height: 46px;
+    max-width: 142px;
+}
 #logo_img.down img {
     max-height: 46px;
     max-width: 142px;
     margin-left: 40px;
 }
-
+#logo_img.downmain img {
+    max-height: 46px;
+    max-width: 142px;
+    margin-left: 40px;
+}
+#logo_img.downmain a {
+    display: inline-block;
+    height: 0;
+}
 /******************enter button***************/
 #enterButton{
     display: inline-block;
@@ -90,24 +118,30 @@ p {
     width: 70px;
     margin-right: 35px;
 }
+#enterButton.downmain{
+    margin-right: 23px;
+}
 #button_border {
     position: absolute;
     border: 2px solid #4b70a3;
     border-radius: 10px 10px 0 0;
     margin-left: 118px;
-    margin-top: 98px;
+    margin-top: 78px;
     z-index: 6;
     height: 20px;
     width: 74px;
 
 }
 #button_border.down{
+     display: none;
+ }
+#button_border.downmain{
     display: none;
 }
 #enter_button {
     position: absolute;
     margin-left: 120px;
-    margin-top: 100px;
+    margin-top: 80px;
     height: 33px;
     width: 70px;
     background: #4b70a3;
@@ -129,7 +163,6 @@ p {
 #enter_button.down {
     display: inline-block;
     margin-left: 0;
-    margin-top: 0;
     z-index: 6;
     height: 33px;
     width: 70px;
@@ -141,9 +174,29 @@ p {
     font: 16px/30px "MyriadPro";
     text-align:      center;
     text-decoration: none;
-    margin-top: 18px;
+    margin-top: 12px;
+}
+#enter_button.downmain {
+    position: absolute;
+    float:right;
+    margin-left:0;
+    margin-top: 14px;
+    height: 33px;
+    width: 70px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    vertical-align: middle;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    z-index: 6;
 }
 #enter_button.down:hover{
+    background: #454545;
+}
+#enter_button.downmain:hover{
     background: #454545;
 }
 /*********************enter button end****************/
@@ -152,7 +205,7 @@ p {
     display: inline-block;
     position: relative;
     float: right;
-    margin-top: 25px;
+    margin-top: 13px;
     margin-right: 5px;
     z-index: 6;
 }
@@ -160,9 +213,12 @@ p {
     display: inline-block;
     position: relative;
     float: right;
-    margin-top: 20px;
+    margin-top: 16px;
     margin-right: 5px;
     z-index: 6;
+}
+#lang.downmain {
+    display: none;
 }
 #lang #en {
     border-left: 1px solid #999999;
@@ -188,11 +244,14 @@ p {
     width:100%;
     border-bottom: 2px solid #4b75a4;
     position: fixed;
-    top:120px;
+    top:100px;
     z-index: 4;
 }
 #headerUnderline.down{
-    top:65px;
+    top:60px;
+}
+#headerUnderline.downmain{
+    top:60px;
 }
 /*************languages buttons*************/
 /************************************/
