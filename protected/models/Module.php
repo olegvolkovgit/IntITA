@@ -195,15 +195,40 @@ class Module extends CActiveRecord
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
     }
 
-    public function addNewModule($idCourse, $newModuleName, $order, $lang){
+    public function addNewModule($idCourse, $newModuleName, $lang){
         $module = new Module();
         $module->course = $idCourse;
+//        $order = Yii::app()->db->createCommand()
+//            ->select('order')
+//            ->from('module')
+//            ->order('order DESC')
+//            ->limit('1')
+//            ->queryRow()["order"];
+        $order = Module::model()->count("course=$idCourse and `order`>0");
+        $module->order = ++$order;
         $module->alias = 'module'.$order;
-        $module->order = $order;
         $module->language = $lang;
+        //$teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
         $module->module_name = $newModuleName;
         if($module->validate()) {
             $module->save();
         }
+        return $order;
+    }
+
+
+
+    public static function getModules($id){
+        $modules = Yii::app()->db->createCommand()
+            ->select('module_ID')
+            ->from('module')
+            ->order('module_ID DESC')
+            ->where('course='.$id)
+            ->queryAll();
+        $result = [];
+        for($i = count($modules)-1; $i > 0; $i--){
+            array_push($result, $modules[$i]["module_ID"]);
+        }
+        return $result;
     }
 }

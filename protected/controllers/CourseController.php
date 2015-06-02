@@ -109,23 +109,30 @@ class CourseController extends Controller
         ));
 
         $dataProvider1 = new CActiveDataProvider('Teacher', array(
-
         ));
 
-
-
+        $canEdit = AccessHelper::isAdmin();
         $model = Course::model()->findByPk($id);
-        if ( Yii::app()->user->getId() == 38) {
-            $canEdit = true;
-        } else {
-            $canEdit = false;
-        }
+        $modules = Module::getModules($id);
+
+        $teachers = TeacherModule::getCourseTeachers($modules);
+//        $user = Yii::app()->user->getId();
+//        if ($user = Teacher::isTeacher($user)) {
+//            if(Teacher::isTeacherCanEdit($user, $modules)){
+//                $canEdit = true;
+//            }
+//            if(count($modules) <= 3){
+//                $canEdit = true;
+//        }
+//        }
 
 		$this->render('index',array(
 			'model'=>$model,
+            'modules' => $modules,
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
             'dataProvider1' => $dataProvider1,
+            'teachers' => $teachers,
 		));
 	}
 
@@ -178,6 +185,8 @@ class CourseController extends Controller
         $idCourse =Module::model()->findByPk($idModule)->course;
         $order = Module::model()->findByPk($idModule)->order;
 
+        Module::model()->deleteByPk($idModule);
+        TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
         Module::model()->updateByPk($idModule, array('order' => 0));
         Module::model()->updateByPk($idModule, array('course' => 0));
 
@@ -244,6 +253,5 @@ class CourseController extends Controller
         } else {
             throw new CHttpException(400, 'Invalid request');
         }
-
     }
 }

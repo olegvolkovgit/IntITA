@@ -11,14 +11,29 @@
     <div id="textBlockForm">
         <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock');?>" method="post">
             <br>
-            <span id="formLabel">Новий текстовий блок:</span>
+            <br>
+            <span class="formLabel">Новий блок:</span>
             <br>
             <br>
             <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
             <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"
-                          placeholder="Введіть текст нового блока" required form="addBlockForm" rows="10">
+                          placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
                 </textarea>
+            <br>
+            <span class="formLabel">Тип блоку:</span>
+            <select name="type">
+                <option value="1" selected>Текст
+                <option value="2" >Відео
+                <option value="3" >Код
+                <option value="4" >Приклад
+                <option value="5" >Завдання
+                <option value="6" >Підсумкове завдання
+                <option value="7" >Інструкція
+                <option value="8" >Заголовок (для змісту)
+            </select>
+            <br>
+            <br>
             <input type="submit" value="Додати" onclick="saveNewBlock();">
         </form>
     </div>

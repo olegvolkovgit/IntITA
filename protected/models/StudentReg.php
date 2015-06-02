@@ -19,7 +19,7 @@
  * @property string $interests
  * @property string $aboutUs
  * @property string $aboutMy
- * @property string $role
+ * @property integer $role
  * @property string $isExtended
  * @property string $network
  * @property string $facebook

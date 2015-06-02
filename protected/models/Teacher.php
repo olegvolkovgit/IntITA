@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'teacher':
  * @property integer $teacher_id
- * @property string $lang
  * @property string $first_name
  * @property string $middle_name
  * @property string $last_name
@@ -18,15 +17,12 @@
  * @property string $email
  * @property string $tel
  * @property string $skype
- * @property string $title
- * @property string $linkName
  * @property string $smallImage
  * @property integer $rate_knowledge
  * @property integer $rate_efficiency
  * @property integer $rate_relations
  * @property string $sections
  * @property integer $user_id
- * @property string $courses
  */
 class Teacher extends CActiveRecord
 {
@@ -46,16 +42,15 @@ class Teacher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'required'),
+			array('first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'required'),
 			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
-			array('lang', 'length', 'max'=>6),
 			array('first_name, middle_name, last_name', 'length', 'max'=>35),
 			array('foto_url, subjects, tel', 'length', 'max'=>100),
 			array('readMoreLink, smallImage', 'length', 'max'=>255),
-			array('email, skype, title, linkName', 'length', 'max'=>50),
+			array('email, skype', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, lang, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, title, linkName, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
+			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,28 +71,25 @@ class Teacher extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'teacher_id' => 'Teacher',
-			'lang' => 'Lang',
-			'first_name' => 'First Name',
-			'middle_name' => 'Middle Name',
-			'last_name' => 'Last Name',
-			'foto_url' => 'Foto Url',
-			'subjects' => 'Subjects',
-			'profile_text_first' => 'Profile Text First',
-			'profile_text_short' => 'Profile Text Short',
-			'profile_text_last' => 'Profile Text Last',
-			'readMoreLink' => 'Read More Link',
+			'teacher_id' => 'ID',
+			'first_name' => 'Ім&#8217;я',
+			'middle_name' => 'По батькові',
+			'last_name' => 'Прізвище',
+			'foto_url' => 'Фото URL',
+			'subjects' => 'Предмети',
+			'profile_text_first' => 'Опис перший',
+			'profile_text_short' => 'Характеристика',
+			'profile_text_last' => 'Опис останній',
+			'readMoreLink' => 'Детальніше',
 			'email' => 'Email',
-			'tel' => 'Tel',
+			'tel' => 'Телефон',
 			'skype' => 'Skype',
-			'title' => 'Title',
-			'linkName' => 'Link Name',
 			'smallImage' => 'Small Image',
-			'rate_knowledge' => 'Rate Knowledge',
-			'rate_efficiency' => 'Rate Efficiency',
-			'rate_relations' => 'Rate Relations',
-			'sections' => 'Sections',
-			'user_id' => 'User',
+			'rate_knowledge' => 'Рівень знань',
+			'rate_efficiency' => 'Рівень ефективності',
+			'rate_relations' => 'Рівень відношення',
+			'sections' => 'Секції',
+			'user_id' => 'ID користувача',
 		);
 	}
 
@@ -120,7 +112,6 @@ class Teacher extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('teacher_id',$this->teacher_id);
-		$criteria->compare('lang',$this->lang,true);
 		$criteria->compare('first_name',$this->first_name,true);
 		$criteria->compare('middle_name',$this->middle_name,true);
 		$criteria->compare('last_name',$this->last_name,true);
@@ -133,15 +124,12 @@ class Teacher extends CActiveRecord
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('skype',$this->skype,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('linkName',$this->linkName,true);
 		$criteria->compare('smallImage',$this->smallImage,true);
 		$criteria->compare('rate_knowledge',$this->rate_knowledge);
 		$criteria->compare('rate_efficiency',$this->rate_efficiency);
 		$criteria->compare('rate_relations',$this->rate_relations);
 		$criteria->compare('sections',$this->sections,true);
 		$criteria->compare('user_id',$this->user_id);
-        $criteria->compare('courses',$this->courses);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -209,5 +197,21 @@ class Teacher extends CActiveRecord
             $b=$b+$one->motivation;
         }
         return round($b/$countMot);
+    }
+
+    public static function isTeacher($user){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
+            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
+        }
+        return false;
+
+    }
+
+    public static function isTeacherCanEdit($user, $modules){
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('idModule', $modules);
+        $criteria->addCondition('idTeacher='.$user);
+
+        return TeacherModule::model()->exists($criteria);
     }
 }

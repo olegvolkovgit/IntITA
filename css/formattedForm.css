@@ -1,0 +1,13 @@
+.formatted-form
+{
+    width: 75%;
+    margin: 0 auto;
+}
+.formatted-form label
+{
+    display: block;
+}
+.formatted-form .required
+{
+    color: #229922;
+}

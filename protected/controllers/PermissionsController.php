@@ -2,22 +2,23 @@
 
 class PermissionsController extends Controller
 {
-	public function actionIndex()
-	{
 
+    public function actionIndex()
+	{
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
+        $model = new Permissions;
+        if(isset($_GET['Permissions']))
+            $model->attributes=$_GET['Permissions'];
 
 		$dataProvider = new CActiveDataProvider('Permissions');
+
         $dataProvider->setPagination(array(
                 'pageSize' => '50',
             )
         );
 
-        $model= new Permissions;
-        if(isset($_GET['Permissions']))
-            $model->attributes=$_GET['Permissions'];
 
         if(!isset($_GET['ajax'])) $this->render('index', array(
             'dataProvider' => $dataProvider,

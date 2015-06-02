@@ -55,7 +55,6 @@ class AccessHelper
             case '3':
                 $role = 'адмін';
                 break;
-
         }
         return $role;
     }
@@ -95,4 +94,81 @@ class AccessHelper
         }
         return $result;
     }
+
+    public static function setModuleAccess($idUser, $idModule, $rights){
+        if (!empty($rights)){
+            $criteria = new CDbCriteria();
+            $criteria->select = 'id';
+            $criteria->addCondition('idModule='.$idModule);
+            $criteria->toArray();
+
+            $lectures = Lecture::model()->findAll($criteria);
+            $count = count($lectures);
+            $model = new Permissions();
+            for($i = 0; $i < $count; $i++){
+                $model->setPermission($idUser, $lectures[$i]['id'], $rights);
+            }
+        }
+    }
+
+    public static function getCourses(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'course_ID';
+        return Course::model()->findAll($criteria);
+    }
+
+    public static function getCourseTitles(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('course_ID', 'course_name');
+        $criteria->toArray();
+        $count = Lecture::model()->count();
+        $titles = Lecture::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$titles[$i]["course_ID"]] = $titles[$i]["course_name"];
+        }
+        return $result;
+    }
+
+    public static function getModules(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'module_ID';
+        return Module::model()->findAll($criteria);
+    }
+
+    public static function getModuleTitles(){
+        $criteria =new CDbCriteria();
+        $criteria->select = array('module_ID', 'module_name');
+        $criteria->toArray();
+        $count = Module::model()->count();
+        $titles = Module::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$titles[$i]["module_ID"]] = $titles[$i]["module_name"];
+        }
+        return $result;
+    }
+
+    public static function canAddResponse(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static function isAdmin(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 3){
+            return true;
+        }
+        return false;
+    }
+
 }

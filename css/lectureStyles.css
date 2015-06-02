@@ -480,3 +480,7 @@ div#timeInfo{
 #textBlockForm{
     display:none;
 }
+
+.formLabel{
+    text-decoration: none;
+}

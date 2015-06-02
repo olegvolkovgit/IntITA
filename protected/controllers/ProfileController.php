@@ -38,6 +38,7 @@ class ProfileController extends Controller
         }
         $criteria= new CDbCriteria;
         $criteria->order = 'date DESC';
+        $criteria->condition = 'about='.$teacher->user_id;
 
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,
@@ -148,11 +149,10 @@ class ProfileController extends Controller
         $this->redirect(Yii::app()->homeUrl);
     }
 
-    public function actionResponse($id=1)
+    public function actionResponse($id)
     {
         $response = new Response();
         $teacher = Teacher::model()->findByPk($id);
-
 
         if ($_POST['sendResponse']) {
             if (!empty($_POST['response'])) {

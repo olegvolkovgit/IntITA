@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-27 19:50:57
+-- Date/time:                    2015-05-30 03:43:04
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,11 +18,10 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `rights` tinyint(10) NOT NULL,
   PRIMARY KEY (`id_user`,`id_resource`),
   KEY `FK_permissions_lectures` (`id_resource`),
-  CONSTRAINT `FK_permissions_lectures` FOREIGN KEY (`id_resource`) REFERENCES `lectures` (`id`),
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~46 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~55 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 1),
@@ -55,8 +54,20 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(38, 24, 15),
 	(38, 26, 15),
 	(38, 27, 15),
+	(38, 31, 15),
+	(38, 32, 15),
+	(38, 36, 15),
+	(38, 39, 15),
+	(38, 43, 15),
+	(38, 44, 15),
+	(38, 45, 15),
+	(38, 47, 15),
+	(38, 48, 15),
+	(38, 49, 15),
+	(38, 50, 15),
 	(39, 1, 15),
 	(39, 2, 15),
+	(39, 51, 15),
 	(40, 26, 6),
 	(41, 1, 15),
 	(41, 2, 15),
@@ -65,11 +76,21 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(42, 5, 7),
 	(43, 1, 15),
 	(43, 2, 15),
+	(48, 23, 7),
 	(49, 1, 15),
+	(49, 2, 9),
+	(49, 3, 9),
+	(49, 5, 9),
 	(49, 14, 15),
-	(49, 17, 1),
-	(49, 20, 2),
-	(49, 21, 1);
+	(49, 15, 9),
+	(49, 16, 9),
+	(49, 17, 9),
+	(49, 18, 9),
+	(49, 19, 9),
+	(49, 20, 11),
+	(49, 21, 9),
+	(49, 26, 9),
+	(49, 27, 9);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,11 +1,11 @@
 <?php
 $criteria = new CDbCriteria();
-$criteria->addInCondition('teacher_id', [1,2,3,4]);
+$criteria->addInCondition('teacher_id', $teachers);
 $teachers = Teacher::model()->findAll($criteria);
 
-$criteria1 = new CDbCriteria();
-$criteria1->addInCondition('owners', [3]);
-$modules = Module::model()->findAll($criteria1);
+//$criteria1 = new CDbCriteria();
+//$criteria1->addInCondition('owners', [3]);
+//$modules = Module::model()->findAll($criteria1);
 
 ?>
     <!-- course style -->
@@ -25,11 +25,14 @@ for($i = 0; $i < count($teachers); $i++){
                 <h3><a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id));?>"><?php echo $teachers[$i]->last_name . " " . $teachers[$i]->first_name; ?></a></h3>
                 <table class="courseTeacherDetail">
                     <?php
-                    for($k = 0; $k < count($modules); $k++){
+
+                    $teacherModules = ModuleHelper::getTeacherModules($teachers[$i]->teacher_id, $modules);
+                    //var_dump($teachers[0]);die();
+                    for($k = 0; $k < count($teacherModules); $k++){
                         ?>
                         <tr>
                             <td>
-                                <span class="colorP"><?php echo Yii::t('course', '0208');  echo ' '.($k+1);?>: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $modules[$k]->module_ID));?>"><?php echo $modules[$k]->module_name; ?></a></span>
+                                <span class="colorP"><?php echo Yii::t('course', '0208');  echo ' '.ModuleHelper::getModuleOrder($teacherModules[$k]);?>: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $teacherModules[$k]));?>"><?php echo ModuleHelper::getModuleName($teacherModules[$k]); ?></a></span>
                             </td>
                         </tr>
                     <?php

@@ -67,7 +67,7 @@ class Course extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'course_ID' => 'Course',
+			/*'course_ID' => 'Course',
 			'alias' => 'Alias',
 			'language' => 'Language',
 			'course_name' => 'Course Name',
@@ -77,7 +77,18 @@ class Course extends CActiveRecord
 			'for_whom' => 'For Whom',
 			'what_you_learn' => 'What You Learn',
 			'what_you_get' => 'What You Get',
-			'course_img' => 'Course Img',
+			'course_img' => 'Course Img',*/
+            'course_ID' => 'ID',
+            'alias' => 'Псевдонім',
+            'language' => 'Мова',
+            'course_name' => 'Назва',
+            'course_duration_hours' => 'Тривалість в годинах',
+            'modules_count' => 'Кількість модулів',
+            'course_price' => 'Вартість',
+            'for_whom' => 'Для кого',
+            'what_you_learn' => 'Що навчитеся',
+            'what_you_get' => 'Що отримаєте',
+            'course_img' => 'Зображення',
 		);
 	}
 
@@ -187,4 +198,5 @@ class Course extends CActiveRecord
 	public function findCourseIDByAlias($alias){
 		return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
 	}
+
 }

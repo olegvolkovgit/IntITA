@@ -1,0 +1,31 @@
+.custom table
+{
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+.custom td
+{
+    border-bottom: 1px solid black;
+    margin: 0;
+    padding: 0 0 0 5px;
+}
+.custom th
+{
+    background: #0044cc;
+}
+.custom th a
+{
+    color: #ffffff;
+    text-decoration: none;
+}
+.custom th a:hover
+{
+    text-decoration: underline;
+}
+.custom td p, .custom td ul
+{
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
