@@ -171,4 +171,47 @@ class AccessHelper
         return false;
     }
 
+    public static function generateUsersList(){
+        $users = StudentReg::model()->findAll();
+        $count = count($users);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $users[$i]->id;
+            $result[$i]['alias'] = $users[$i]->firstName." ".$users[$i]->secondName.", ".$users[$i]->email;
+        }
+        return $result;
+    }
+
+    public static function generateCoursesList(){
+        $courses = Course::model()->findAll();
+        $count = count($courses);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $courses[$i]->course_ID;
+            $result[$i]['alias'] = $courses[$i]->course_name;
+        }
+        return $result;
+    }
+
+    public static function generateModulesList($course=1){
+        $modules = Module::model()->findAllByAttributes(array('course' => $course));
+        $count = count($modules);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $modules[$i]->module_ID;
+            $result[$i]['alias'] = $modules[$i]->module_name;
+        }
+        return $result;
+    }
+
+    public static function generateLecturesList($module=1){
+        $lectures = Lecture::model()->findAllByAttributes(array('idModule' => $module));
+        $count = count($lectures);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $lectures[$i]->id;
+            $result[$i]['alias'] = $lectures[$i]->title;
+        }
+        return $result;
+    }
 }
