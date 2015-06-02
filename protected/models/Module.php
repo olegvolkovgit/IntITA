@@ -198,12 +198,13 @@ class Module extends CActiveRecord
     public function addNewModule($idCourse, $newModuleName, $lang){
         $module = new Module();
         $module->course = $idCourse;
-        $order = Yii::app()->db->createCommand()
-            ->select('order')
-            ->from('module')
-            ->order('order DESC')
-            ->limit('1')
-            ->queryRow()["order"];
+//        $order = Yii::app()->db->createCommand()
+//            ->select('order')
+//            ->from('module')
+//            ->order('order DESC')
+//            ->limit('1')
+//            ->queryRow()["order"];
+        $order = Module::model()->count("course=$idCourse and `order`>0");
         $module->order = ++$order;
         $module->alias = 'module'.$order;
         $module->language = $lang;

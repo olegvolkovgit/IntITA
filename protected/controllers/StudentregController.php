@@ -174,7 +174,7 @@ class StudentRegController extends Controller
             }
         }else {
             $model->addError('empty', 'Дані не введені');
-            $this->render("studentreg", array('model'=>$model, 'temail'=>$tempEmail, 'tpass'=>$tempPass));
+            $this->render("studentreg", array('model'=>$model, 'tempEmail'=>$tempEmail, 'tempPass'=>$tempPass));
         }
     }
 

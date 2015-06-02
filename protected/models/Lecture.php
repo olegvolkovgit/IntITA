@@ -138,17 +138,17 @@ class Lecture extends CActiveRecord
     }
 
     function getPreId(){
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->id;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->id;
     }
 
     function getPreName()
     {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->title;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->title;
     }
 
     function getPreType()
     {
-        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1))->idType;
+        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->idType;
         $type = Lecturetype::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
@@ -158,7 +158,7 @@ class Lecture extends CActiveRecord
 
     function getPreDur()
     {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1))->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPreRait()
@@ -173,12 +173,12 @@ class Lecture extends CActiveRecord
 
      function getPostName()
     {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->title;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->title;
     }
 
     function getPostType()
     {
-        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1))->idType;
+        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->idType;
         $type = Lecturetype::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
@@ -188,7 +188,7 @@ class Lecture extends CActiveRecord
 
     function getPostDur()
     {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->durationInMinutes.Yii::t('lecture','0076');
     }
 
     function getPostRait()
@@ -202,7 +202,7 @@ class Lecture extends CActiveRecord
     }
 
     function getPostId(){
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1))->id;
+        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->id;
     }
 
     public function getModuleInfoById(){
@@ -280,12 +280,13 @@ class Lecture extends CActiveRecord
         $lecture = new Lecture();
         $lecture->title = $title;
         $lecture->idModule = $module;
-        $order = Yii::app()->db->createCommand()
-            ->select('order')
-            ->from('lectures')
-            ->order('order DESC')
-            ->limit('1')
-            ->queryRow()["order"];
+//        $order = Yii::app()->db->createCommand()
+//            ->select('order')
+//            ->from('lectures')
+//            ->order('order DESC')
+//            ->limit('1')
+//            ->queryRow()["order"];
+        $order = Lecture::model()->count("idModule=$module and `order`>0");
         $lecture->order = ++$order;
         $lecture->language = $lang;
         $lecture->idTeacher = $teacher;

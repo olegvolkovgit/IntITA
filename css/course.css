@@ -82,15 +82,15 @@ div.courseShortInf table {
 div.courseShortInfoTable{
     display: inline-block;
 }
+.courseShortInfoTable table{
+    width: 100%;
+}
 .courseShortInfo div.courseLevelName {
     display: inline-block;
     margin-right: 80px;
 }
-.courseShortInfo div.courseLevel{
-    display: inline-block;
-}
-.courseLevelLine {
-    width: 100%;
+.courseLevel{
+    text-align: right;
 }
 /*Short Info*/
 
@@ -191,8 +191,8 @@ div.courseShortInfoTable{
     display: inline-block;
     width: 150px;
 }
-#spoilerPay {
-    width: 600px;
+.courseDetail .numbers{
+    margin-left: 10px;
 }
 span.readmore-js-toggle{
     margin-right: 100px;
@@ -283,6 +283,38 @@ margin-left: 0px;
 margin-top: 0px;
 margin-bottom: 0px;
 padding-left: 0px;
+}
+.markCourse{
+    display: inline-block;
+    position: relative;
+}
+.startCourse{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+}
+.startCourse a    {
+    display: inline-block;
+    position: relative;
+    width:195px;
+    height:36px;
+    border-radius: 7px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    color:#ffffff;
+    background:#4b75a4;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font: normal     400 28px/50px "MyriadPro2";
+    font-size:       20px;
+    letter-spacing:1px;
+    line-height: 36px;
+    text-decoration: none;
+}
+.startCourse a:hover {
+    background: #454545;
+    box-shadow:0px 2px 0px #7f7f7f;
+    cursor: pointer;
 }
 
 

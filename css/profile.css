@@ -95,6 +95,10 @@ table.profileInfo div {
     word-wrap: break-word;
     width: 420px;
 }
+table.profileInfo div span.interestBG{
+    word-wrap: break-word;
+    max-width: 420px;
+}
 .profileInfo span{
     display: block;
 }

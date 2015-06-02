@@ -123,7 +123,7 @@ class CourseController extends Controller
 //            }
 //            if(count($modules) <= 3){
 //                $canEdit = true;
-//            }
+//        }
 //        }
 
 		$this->render('index',array(
@@ -187,8 +187,8 @@ class CourseController extends Controller
 
         Module::model()->deleteByPk($idModule);
         TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
-        //Module::model()->updateByPk($idModule, array('order' => 0));
-        //Module::model()->updateByPk($idModule, array('course' => 0));
+        Module::model()->updateByPk($idModule, array('order' => 0));
+        Module::model()->updateByPk($idModule, array('course' => 0));
 
         $count = Course::model()->findByPk($idCourse)->modules_count;
         for ($i = $order + 1; $i <= $count; $i++){
