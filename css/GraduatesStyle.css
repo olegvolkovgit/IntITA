@@ -38,7 +38,6 @@
 .colorP {
     color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
-
 }
 .profileMyRatting {
     margin-top: 10px;
@@ -72,30 +71,36 @@ span.spoilerClick {
     padding-left: 10px;
     text-decoration:underline;
     color:#4b75a4;
-    font-size: small;
+    font-size: 14px;
     font-weight: normal;
 }
 span.spoilerTriangle {
-    font-size: xx-small;
+    font-size: 14px;
     color: #4b75a4;
     margin-left: 3px;
 }
 .one{
-    width:45%;
+    width:49%;
     float:left;
 }
 .two{
-    width:45%;
+    width:49%;
     float:right;
 }
 .spoiler-body {
     display:none;
     border: 1px #666666 solid;
     border-radius: 15px;
-    padding: 25px 10px 10px 35px;
+    padding: 0px 10px 10px 25px;
     font-size: 14px;
     color: #666666;
+    margin-bottom: 5px;
 }
+.spoiler-body img{
+    padding-left: 450px;
+    padding-top: 5px;
+}
+
 .spoiler-title{
     padding-left: 10px;
     padding-bottom: 5px;
@@ -104,8 +109,10 @@ span.spoilerTriangle {
     text-decoration:underline;
     color:#4b75a4;
     }
-.opened {
+.spoiler-title:hover{
     color: #666666;
+}
+.opened {
 }
 .closed {
 }
