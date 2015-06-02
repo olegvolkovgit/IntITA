@@ -12,6 +12,8 @@
 	'id'=>'teacher-form',
     'htmlOptions'=>array(
         'class'=>'formatted-form',
+        'enctype'=>'multipart/form-data',
+        'method'=>'POST',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -44,7 +46,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'foto_url'); ?>
-		<?php echo $form->textField($model,'foto_url',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->fileField($model,'foto_url'); ?>
 		<?php echo $form->error($model,'foto_url'); ?>
 	</div>
 
@@ -73,12 +75,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'readMoreLink'); ?>
-		<?php echo $form->textField($model,'readMoreLink',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'readMoreLink'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'email'); ?>
 		<?php echo $form->textField($model,'email',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'email'); ?>
@@ -94,42 +90,6 @@
 		<?php echo $form->labelEx($model,'skype'); ?>
 		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'skype'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'smallImage'); ?>
-		<?php echo $form->textField($model,'smallImage',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'smallImage'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'rate_knowledge'); ?>
-		<?php echo $form->textField($model,'rate_knowledge'); ?>
-		<?php echo $form->error($model,'rate_knowledge'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'rate_efficiency'); ?>
-		<?php echo $form->textField($model,'rate_efficiency'); ?>
-		<?php echo $form->error($model,'rate_efficiency'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'rate_relations'); ?>
-		<?php echo $form->textField($model,'rate_relations'); ?>
-		<?php echo $form->error($model,'rate_relations'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'sections'); ?>
-		<?php echo $form->textArea($model,'sections',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'sections'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
-		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
 	<div class="row buttons">

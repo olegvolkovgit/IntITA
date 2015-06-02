@@ -50,7 +50,9 @@ class TmanageController extends Controller
 		// $this->performAjaxValidation($model);
 		if(isset($_POST['Teacher']))
 		{
+            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
 			$model->attributes=$_POST['Teacher'];
+            $model->avatar=$_FILES['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
@@ -77,7 +79,9 @@ class TmanageController extends Controller
 
 		if(isset($_POST['Teacher']))
 		{
-			$model->attributes=$_POST['Teacher'];
+            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
+            $model->attributes=$_POST['Teacher'];
+            $model->avatar=$_FILES['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
@@ -109,7 +113,7 @@ class TmanageController extends Controller
 	 * Lists all models.
 	 */
 	public function actionIndex()
-	{
+    {
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }

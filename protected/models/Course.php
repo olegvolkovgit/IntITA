@@ -42,7 +42,8 @@ class Course extends CActiveRecord
 			array('alias, course_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
-			array('course_img', 'length', 'max'=>255),
+			array('course_img', 'file','types'=>'jpg, gif, png'),
+            array('start','date'),
 			array('for_whom, what_you_learn, what_you_get', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
