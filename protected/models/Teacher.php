@@ -50,7 +50,7 @@ class Teacher extends CActiveRecord
 			array('email, skype', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'safe', 'on'=>'search'),
+			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -201,10 +201,8 @@ class Teacher extends CActiveRecord
 
     public static function isTeacher($user){
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
-
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         }
-
         return false;
 
     }

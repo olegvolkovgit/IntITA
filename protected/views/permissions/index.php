@@ -1,5 +1,6 @@
 <?php
 /* @var $this PermissionsController */
+/* @var $dataProvider CActiveDataProvider*/
 
 $this->breadcrumbs=array(
 	'Permissions',
@@ -115,5 +116,5 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 ?>
 
-<?php //$this->renderPartial('_add', array('model' => $model));?>
+<?php $this->renderPartial('_add', array('model' => $model));?>
 

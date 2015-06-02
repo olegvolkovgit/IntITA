@@ -84,9 +84,17 @@ class ModuleController extends Controller
 	public function actionIndex($idModule)
 	{
         $model = Module::model()->findByPk($idModule);
-        $owners = explode(';',$model->owners); //array of teacher's ids that cna edit this module
-        $teachers = Teacher::model()->findAllByAttributes(array('teacher_id'=>$owners)); //info about owners
+        $owners = [];
 
+        $criteria1 = new CDbCriteria();
+        $criteria1->select = 'idTeacher';
+        $criteria1->addCondition('idModule='.$idModule);
+        $criteria1->toArray();
+        $temp = TeacherModule::model()->findAll($criteria1); //info about owners
+        for($i = 0; $i < count($temp);$i++){
+            array_push($owners, $temp[$i]->idTeacher);
+        }
+        $teachers = Teacher::model()->findAllByPk($owners);
 
         $criteria=new CDbCriteria();
         $criteria->addCondition('idModule>0');
@@ -107,7 +115,6 @@ class ModuleController extends Controller
         if (Yii::app()->user->isGuest){ //if user guest
             $editMode = 0;
         } else {
-
             if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->getId()))) {
                 if ($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
                     //check edit mode
