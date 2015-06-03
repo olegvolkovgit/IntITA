@@ -26,7 +26,7 @@
  */
 class Teacher extends CActiveRecord
 {
-    public $avatar=array();
+    public $avatar=array(),$oldAvatar;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -220,11 +220,24 @@ class Teacher extends CActiveRecord
 
     protected function beforeSave()
     {
+        if ($this->scenario=="update")
+        {
+            $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->oldAvatar;
+            if (is_file($src))
+                unlink($src);
+        }
         if ($this->scenario=="insert" || $this->scenario=="update")
         {
             if(!copy($this->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/teachers/".$this->avatar['name']['foto_url']))
                 throw new CHttpException(500);
         }
+        return true;
+    }
+    protected function beforeDelete()
+    {
+        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
+        if (is_file($src))
+            unlink($src);
         return true;
     }
 }
