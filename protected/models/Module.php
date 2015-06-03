@@ -20,6 +20,9 @@
  * @property string $about_module
  * @property string $owners
  * @property integer $order
+ * @property integer $hours_in_day
+ * @property integer $days_in_week
+ * @property integer $level
  *
  * The followings are the available model relations:
  * @property Course $course0
@@ -42,13 +45,16 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course, module_name, alias, language, order', 'required'),
-			array('course, module_duration_hours, module_duration_days, lesson_count, order', 'numerical', 'integerOnly'=>true),
-			array('module_name', 'length', 'max'=>45),
-			array('alias, module_price', 'length', 'max'=>10),
+			array('course, alias, language, order', 'required'),
+            array('hours_in_day, days_in_week, level, module_name', 'required','on'=>'canedit'),
+			array('course, module_duration_hours, module_duration_days, lesson_count, order', 'numerical', 'integerOnly'=>true,'min' => '1'),
+            array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true,'min' => '1','on'=>'canedit'),
+			array('module_name', 'length', 'max'=>45,'on'=>'canedit'),
+			array('alias, module_price', 'length', 'max'=>10,'on'=>'canedit'),
 			array('language', 'length', 'max'=>6),
 			array('module_img', 'length', 'max'=>255),
 			array('for_whom, what_you_learn, what_you_get, about_module, owners', 'safe'),
+            array('days_in_week, hours_in_day, level', 'safe','on'=>'canedit'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, order, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners', 'safe', 'on'=>'search'),
@@ -125,6 +131,9 @@ class Module extends CActiveRecord
 		$criteria->compare('about_module',$this->about_module,true);
 		$criteria->compare('owners',$this->owners,true);
         $criteria->compare('order',$this->order,true);
+        $criteria->compare('days_in_week',$this->days_in_week,true);
+        $criteria->compare('hours_in_day',$this->hours_in_day,true);
+        $criteria->compare('level',$this->level,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -13,6 +13,7 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0056'),
 );
+if (!isset($tab)) $tab='';
 ?>
 <!--Role-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rolesReg.js"></script>
@@ -64,7 +65,7 @@ $this->breadcrumbs=array(
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
             <label class="tabsUp1" for="tab1" title="Основне">Основне</label>
-            <input id="tab2" type="radio" name="tabs" >
+            <input id="tab2" type="radio" name="tabs" <?php echo $tab?>>
             <label for="tab2" title="Додаткове">Додаткове</label>
             <div class="lineUnderTab"></div>
             <section id="mainreg">
