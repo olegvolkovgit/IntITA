@@ -61,17 +61,17 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             <section id="mainreg">
                 <div class="row">
                     <?php echo $form->label($model,'firstName'); ?>
-                    <?php echo $form->textField($model,'firstName',array('value'=>$post->firstName,'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'firstName',array('value'=>$post->firstName,'maxlength'=>20)); ?>
                     <span><?php echo $form->error($model,'firstName'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'secondName'); ?>
-                    <?php echo $form->textField($model,'secondName',array('value'=>$post->secondName,'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'secondName',array('value'=>$post->secondName,'maxlength'=>20)); ?>
                     <span><?php echo $form->error($model,'secondName'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'nickname'); ?>
-                    <?php echo $form->textField($model,'nickname',array('value'=>$post->nickname,'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'nickname',array('value'=>$post->nickname,'maxlength'=>20)); ?>
                     <span><?php echo $form->error($model,'nickname'); ?></span>
                 </div>
                 <div class="rowDate">
@@ -99,19 +99,19 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                 ?>
                 <div class="row">
                     <?php echo $form->label($model,'email'); ?>
-                    <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>255,"disabled"=>"disabled" )); ?>
+                    <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>40,"disabled"=>"disabled" )); ?>
                     <span><?php echo $form->error($model,'email'); ?></span>
                 </div>
                 <?php if(is_null($post->password)){
                 ?>
                 <div class="rowPass">
                     <?php echo $form->label($model,'password'); ?>
-                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>255)); ?></span>
+                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>20)); ?></span>
                     <?php echo $form->error($model,'password'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'password_repeat'); ?>
-                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>255)); ?></span>
+                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>20)); ?></span>
                     <?php echo $form->error($model,'password_repeat'); ?>
                 </div>
                 <?php }?>
@@ -119,18 +119,18 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             <section id="addreg">
                 <div class="row">
                     <?php echo $form->label($model,'address'); ?>
-                    <?php echo $form->textField($model,'address',array('value'=>$post->address,'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'address',array('value'=>$post->address,'maxlength'=>100)); ?>
                     <span><?php echo $form->error($model,'address'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'education'); ?>
-                    <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>100)); ?>
                     <span><?php echo $form->error($model,'education'); ?></span>
                 </div>
 
                 <div class="row">
                     <?php echo $form->label($model,'aboutMy'); ?>
-                    <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy)); ?>
+                    <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy,'maxlength'=>500)); ?>
                     <?php echo $form->error($model,'aboutMy'); ?>
                 </div>
                 <div class="row">
@@ -139,33 +139,33 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
                     <span><?php echo $form->error($model,'interests'); ?></span>
                 </div>
                 <div class="row">
-                    <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
+                    <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs','maxlength'=>100)); ?>
                     <span><?php echo $form->error($model,'aboutUs'); ?></span>
                 </div>
 
                 <div class="row">
                     <?php echo $form->label($model,'facebook'); ?>
-                    <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>30,'id'=>'trimF')); ?>
                     <?php echo $form->error($model,'facebook'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'googleplus'); ?>
-                    <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>30,'id'=>'trimG')); ?>
                     <?php echo $form->error($model,'googleplus'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'linkedin'); ?>
-                    <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>30,'id'=>'trimL')); ?>
                     <?php echo $form->error($model,'linkedin'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'vkontakte'); ?>
-                    <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>30,'id'=>'trimV')); ?>
                     <?php echo $form->error($model,'vkontakte'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'twitter'); ?>
-                    <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>30,'id'=>'trimT')); ?>
                     <?php echo $form->error($model,'twitter'); ?>
                 </div>
             </section>
@@ -176,7 +176,7 @@ $post=StudentReg::model()->findByPk(Yii::app()->user->id);
             ?>
         <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit")); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()')); ?>
         </div>
         <?php if(Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');

@@ -20,21 +20,6 @@ class CoursemanageController extends Controller
 	}
 
 	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','delete'),
-				'users'=>array('*'),
-			),
-		);
-	}
-
-	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
@@ -111,6 +96,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionIndex()
 	{
+        if (!AccessHelper::isAdmin()){
+            throw new CHttpException(403, 'У Вас немає права перегляду та редагування цієї сторінки.');
+        }
+
 		$dataProvider=new CActiveDataProvider('Course');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

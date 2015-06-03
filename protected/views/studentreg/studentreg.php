@@ -38,6 +38,13 @@ $this->breadcrumbs=array(
         'enableAjaxValidation'=>false,
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     )); ?>
+    <?php
+    if(!isset($tempEmail)) $tempEmail=$_POST['StudentReg']['email'];
+    if(!isset($tempPass)) {
+        $tempPass=$_POST['StudentReg']['password'];
+        $tempPass2=$_POST['StudentReg']['password_repeat'];
+    } else $tempPass2=$tempPass;
+    ?>
     <div class="studProf">
         <table class="titleProfile">
             <tr>
@@ -63,17 +70,17 @@ $this->breadcrumbs=array(
             <section id="mainreg">
                 <div class="row">
                     <?php echo $form->labelEx($model,'firstName'); ?>
-                    <?php echo $form->textField($model,'firstName',array('maxlength'=>255, 'autofocus'=>'true')); ?>
+                    <?php echo $form->textField($model,'firstName',array('maxlength'=>20, 'autofocus'=>'true')); ?>
                     <span><?php echo $form->error($model,'firstName'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'secondName'); ?>
-                    <?php echo $form->textField($model,'secondName',array('maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'secondName',array('maxlength'=>20)); ?>
                     <span><?php echo $form->error($model,'secondName'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'nickname'); ?>
-                    <?php echo $form->textField($model,'nickname',array('maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'nickname',array('maxlength'=>20)); ?>
                     <span><?php echo $form->error($model,'nickname'); ?></span>
                 </div>
                 <div class="rowDate">
@@ -97,34 +104,34 @@ $this->breadcrumbs=array(
                 </div>
                 <div class="row">
                     <?php echo $form->labelEx($model,'email'); ?>
-                    <?php echo $form->textField($model,'email',array('value'=>$temail, 'id'=>'trimEm','maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'email',array('value'=>$tempEmail, 'id'=>'trimEm','maxlength'=>40)); ?>
                     <span><?php echo $form->error($model,'email'); ?></span>
                 </div>
                 <div class="rowPass">
                     <?php echo $form->labelEx($model,'password'); ?>
-                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('value'=>$tpass, 'maxlength'=>255)); ?></span>
+                    <span class="passEye"><?php echo $form->passwordField($model,'password',array('value'=>$tempPass, 'maxlength'=>20)); ?></span>
                     <?php echo $form->error($model,'password'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->labelEx($model,'password_repeat'); ?>
-                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('value'=>$tpass, 'maxlength'=>255)); ?></span>
+                    <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('value'=>$tempPass2, 'maxlength'=>20)); ?></span>
                     <?php echo $form->error($model,'password_repeat'); ?>
                 </div>
             </section>
             <section id="addreg">
                 <div class="row">
                     <?php echo $form->label($model,'address'); ?>
-                    <?php echo $form->textField($model,'address',array('maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'address',array('maxlength'=>100)); ?>
                     <span><?php echo $form->error($model,'address'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'education'); ?>
-                    <?php echo $form->textField($model,'education',array('maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'education',array('maxlength'=>100)); ?>
                     <span><?php echo $form->error($model,'education'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'aboutMy'); ?>
-                    <?php echo $form->textArea($model,'aboutMy'); ?>
+                    <?php echo $form->textArea($model,'aboutMy',array('maxlength'=>500)); ?>
                     <?php echo $form->error($model,'aboutMy'); ?>
                 </div>
                 <div class="row">
@@ -133,32 +140,32 @@ $this->breadcrumbs=array(
                     <span><?php echo $form->error($model,'interests'); ?></span>
                 </div>
                 <div class="row">
-                    <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
+                    <?php echo $form->textField($model,'aboutUs',array('maxlength'=>100, 'placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs')); ?>
                     <span><?php echo $form->error($model,'aboutUs'); ?></span>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'facebook'); ?>
-                    <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'),'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'),'maxlength'=>30,'id'=>'trimF')); ?>
                     <?php echo $form->error($model,'facebook'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'googleplus'); ?>
-                    <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'maxlength'=>30,'id'=>'trimG')); ?>
                     <?php echo $form->error($model,'googleplus'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'linkedin'); ?>
-                    <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'),'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'),'maxlength'=>30,'id'=>'trimL')); ?>
                     <?php echo $form->error($model,'linkedin'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'vkontakte'); ?>
-                    <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'),'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'),'maxlength'=>30,'id'=>'trimV')); ?>
                     <?php echo $form->error($model,'vkontakte'); ?>
                 </div>
                 <div class="row">
                     <?php echo $form->label($model,'twitter'); ?>
-                    <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'),'maxlength'=>255)); ?>
+                    <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'),'maxlength'=>30,'id'=>'trimT')); ?>
                     <?php echo $form->error($model,'twitter'); ?>
                 </div>
             </section>

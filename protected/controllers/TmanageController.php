@@ -8,16 +8,6 @@ class TmanageController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
 
 	/**
 	 * Displays a particular model.
@@ -25,7 +15,7 @@ class TmanageController extends Controller
 	 */
 	public function actionView($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -40,7 +30,7 @@ class TmanageController extends Controller
 	 */
 	public function actionCreate()
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -50,9 +40,7 @@ class TmanageController extends Controller
 		// $this->performAjaxValidation($model);
 		if(isset($_POST['Teacher']))
 		{
-            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
 			$model->attributes=$_POST['Teacher'];
-            $model->avatar=$_FILES['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
@@ -69,7 +57,7 @@ class TmanageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 		$model=$this->loadModel($id);
@@ -79,10 +67,7 @@ class TmanageController extends Controller
 
 		if(isset($_POST['Teacher']))
 		{
-            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
-            $model->oldAvatar=$model->foto_url;
-            $model->attributes=$_POST['Teacher'];
-            $model->avatar=$_FILES['Teacher'];
+			$model->attributes=$_POST['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
@@ -99,7 +84,7 @@ class TmanageController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -114,8 +99,8 @@ class TmanageController extends Controller
 	 * Lists all models.
 	 */
 	public function actionIndex()
-    {
-        if (Yii::app()->user->getId() != 49) {
+	{
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 
@@ -130,7 +115,7 @@ class TmanageController extends Controller
 	 */
 	public function actionAdmin()
 	{
-        if (Yii::app()->user->getId() != 49) {
+        if (!AccessHelper::isAdmin()) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
 

@@ -10,69 +10,61 @@
 
 <div id="addAccess">
     <br>
-    <a name="form" id="label">Додати новий запис</a>
-<?php $form=$this->beginWidget('CActiveForm', [
-    'id'=>'add-access',
-    'action'=>Yii::app()->createUrl('permissions/newPermission'),
-    'clientOptions'=>[
-        'validateOnSubmit'=>true
-    ]
-]); ?>
-<?php echo $form->errorSummary($model); ?>
-
-<div class="row">
-    <?php echo $form->labelEx($model,'Користувач '); ?>
-    <?php
-    echo $form->dropDownList(
-        $model,
-        'id_user',
-        AccessHelper::getUserInfo(),
-        array('empty' => '(Виберіть користувача)')
-    );
-    ?>
-    <?php echo $form->error($model,'id_user'); ?>
-</div>
-
-<!--    <div class="row">-->
-<!--        --><?php //echo $form->labelEx($model,'Модуль '); ?>
-<!--        --><?php
-//        echo $form->dropDownList(
-//            $model,
-//            'idModule',
-//            AccessHelper::getModuleTitles(),
-//            array('empty' => '(Виберіть модуль)')
-//        );
-//        ?>
-<!--        --><?php //echo $form->error($model,'idModule'); ?>
-<!--    </div>-->
-
-<div class="row">
-    <?php echo $form->labelEx($model,'Лекція '); ?>
-    <?php
-    echo $form->dropDownList(
-        $model,
-        'id_resource',
-        AccessHelper::getTitles(),
-        array('empty' => '(Виберіть лекцію)')
-    );
-    ?>
-    <?php echo $form->error($model,'id_user'); ?>
-</div>
-    <br />
-    <br />
-    <div class="row" id="listCheckBox">
-        <?php echo $form->labelEx($model,'rights'); ?>
-        <?php echo $form->checkBoxList($model,'rights',
-            array(
-            1=>'READ',
-            2=>'UPDATE',
-            3=>'CREATE',
-            4=>'DELETE'
-        )); ?>
-        <?php echo $form->error($model,'rights'); ?>
-    </div>
-<br />
-    <br />
-    <?php echo CHtml::submitButton('Додати запис', array('id'=>'submitButton')); ?>
-<?php $this->endWidget(); ?>
+    <a name="form"></a>
+    <form action="<?php echo Yii::app()->createUrl('permissions/newPermission');?>" method="POST" name="add-access">
+        <fieldset>
+            <legend id="label">Додати новий запис:</legend>
+        Користувач:<br>
+        <select name="user" placeholder="(Виберіть користувача)" autofocus>
+            <?php $users = AccessHelper::generateUsersList();
+                $count = count($users);
+            for($i = 0; $i < $count; $i++){
+                ?>
+                <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
+                 <?php
+                }
+            ?>
+        </select>
+        <br>
+        <br>
+        Курс:<br>
+        <select name="course" placeholder="(Виберіть курс)">
+            <?php $courses = AccessHelper::generateCoursesList();
+            $count = count($courses);
+            for($i = 0; $i < $count; $i++){
+                ?>
+                <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+            <?php
+            }
+            ?>
+        </select>
+        <br>
+        <br>
+        Модуль:<br>
+            <select name="module" placeholder="(Виберіть модуль)">
+                <?php $modules = AccessHelper::generateModulesList();
+                $count = count($modules);
+                for($i = 0; $i < $count; $i++){
+                    ?>
+                    <option value="<?php echo $modules[$i]['id'];?>"><?php echo $modules[$i]['alias'];?></option>
+                <?php
+                }
+                ?>
+            </select>
+            <br>
+            <br>
+        Лекція:<br>
+            <select name="lecture" placeholder="(Виберіть лекцію)">
+                <?php $lectures = AccessHelper::generateLecturesList();
+                $count = count($lectures);
+                for($i = 0; $i < $count; $i++){
+                    ?>
+                    <option value="<?php echo $lectures[$i]['id'];?>"><?php echo $lectures[$i]['alias'];?></option>
+                <?php
+                }
+                ?>
+            </select>
+        <br><br>
+        <input type="submit" value="Додати">
+    </form>
 </div>

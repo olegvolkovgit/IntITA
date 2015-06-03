@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-05-30 03:43:04
+-- Date/time:                    2015-06-02 15:42:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~903 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 008 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -109,7 +109,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(84, 'ua', 'Зразок коду'),
 	(85, 'ua', 'Інструкція'),
 	(86, 'ua', 'Завдання'),
-	(87, 'ua', 'переглянути знову попередній урок'),
+	(87, 'ua', 'переглянути знову попереднє заняття'),
 	(88, 'ua', 'НАСТУПНЕ ЗАНЯТТЯ />'),
 	(89, 'ua', 'Відповісти'),
 	(90, 'ua', 'Підсумкове завдання'),

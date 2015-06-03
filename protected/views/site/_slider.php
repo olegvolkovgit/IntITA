@@ -25,20 +25,21 @@
     var border = document.getElementById('button_border');
     var lang = document.getElementById('lang');
     var underline = document.getElementById('headerUnderline');
+    var but = document.getElementById('enterButton');
     var logolang = "<?php
     $app = Yii::app();
     switch ($app->session['lg']){
                     case 'ua':
-                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigUA.png';
+                        echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigUA.png');
                         break;
                     case 'en':
-                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigEN.png';
+                        echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigEN.png');
                         break;
                     case 'ru':
-                       echo Yii::app()->request->baseUrl.'/css/images/Logo_bigRU.png';
+                       echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigRU.png');
                         break;
                     default:
-                        echo Yii::app()->request->baseUrl.'/css/images/Logo_bigUA.png';
+                        echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigUA.png');
                         break;
                 }
                 ?>";
@@ -48,17 +49,19 @@
     border.className = "";
     lang.className = "";
     underline.className = "";
+    but.className = "";
     document.getElementById('logo').src=logolang;
     window.onscroll = function() {
         var pageY = window.pageYOffset || document.documentElement.scrollTop;
         if (pageY >= key.offsetHeight) {
-            document.getElementById('logo').src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png";
-            key.className = "down";
-            logo.className = "down";
-            nav.className = "down";
-            border.className = "down";
-            lang.className = "down";
-            underline.className = "down";
+            document.getElementById('logo').src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>";
+            key.className = "downmain";
+            logo.className = "downmain";
+            nav.className = "downmain";
+            border.className = "downmain";
+            lang.className = "downmain";
+            underline.className = "downmain";
+            but.className = "downmain";
         } else {
             document.getElementById('logo').src=logolang;
             border.className = "";
@@ -67,6 +70,7 @@
             nav.className = "";
             lang.className = "";
             underline.className = "";
+            but.className = "";
         }
     }
 </script>
@@ -80,7 +84,7 @@
     </div>
     <div class="sliderSnake">
         <div class="snake">
-            <img src="<?php echo $mainpage['sliderLine']; ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line.png'); ?>">
         </div>
         <?php if(Yii::app()->user->isGuest) {
             ?>
@@ -96,28 +100,28 @@
     <div class="slide">
         <div>
             <p><?php echo Yii::t('slider','0027'); ?></p>
-            <img src="<?php echo $slider1 ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '1.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p><?php echo Yii::t('slider','0028'); ?></p>
-            <img src="<?php echo $slider2 ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '2.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p><?php echo Yii::t('slider','0029'); ?></p>
-            <img src="<?php echo $slider3 ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '3.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p><?php echo Yii::t('slider','0030'); ?></p>
-            <img src="<?php echo $slider4 ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '4.jpg'); ?>" />
         </div>
     </div>
 </div>
 <div class="mouseLine">
-    <a id="mouseLine" href="#form"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/slider_img/mouseLine.png"/></a>
+    <a id="mouseLine" href="#form"><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>
 </div>
