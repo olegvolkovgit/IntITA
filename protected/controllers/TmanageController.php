@@ -40,7 +40,9 @@ class TmanageController extends Controller
 		// $this->performAjaxValidation($model);
 		if(isset($_POST['Teacher']))
 		{
+            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
 			$model->attributes=$_POST['Teacher'];
+            $model->avatar=$_FILES['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
@@ -67,7 +69,10 @@ class TmanageController extends Controller
 
 		if(isset($_POST['Teacher']))
 		{
-			$model->attributes=$_POST['Teacher'];
+            $model->oldAvatar=$model->foto_url;
+            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
+            $model->attributes=$_POST['Teacher'];
+            $model->avatar=$_FILES['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
