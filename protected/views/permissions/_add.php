@@ -28,7 +28,9 @@
         <br>
         <br>
         Курс:<br>
-        <select name="course" placeholder="(Виберіть курс)">
+        <select name="course" placeholder="(Виберіть курс)" onchange="javascript:selectModule();">
+            <option value="">Всі курси</option>
+            <optgroup label="Виберіть курс">
             <?php $courses = AccessHelper::generateCoursesList();
             $count = count($courses);
             for($i = 0; $i < $count; $i++){
@@ -40,31 +42,55 @@
         </select>
         <br>
         <br>
+
         Модуль:<br>
-            <select name="module" placeholder="(Виберіть модуль)">
-                <?php $modules = AccessHelper::generateModulesList();
-                $count = count($modules);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $modules[$i]['id'];?>"><?php echo $modules[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
+            <div name="selectModule" style="float:left;"></div>
             <br>
             <br>
+
         Лекція:<br>
-            <select name="lecture" placeholder="(Виберіть лекцію)">
-                <?php $lectures = AccessHelper::generateLecturesList();
-                $count = count($lectures);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $lectures[$i]['id'];?>"><?php echo $lectures[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
-        <br><br>
+            <div name="selectLecture" style="float:left;"></div>
+        <br>
+        <br>
+            <fieldset id="rights">
+                <legend>Права</legend>
+                <input type="checkbox" name="read" value="1" />READ<br />
+                <input type="checkbox" name="edit" value="2" />EDIT<br />
+                <input type="checkbox" name="create" value="3" />CREATE<br />
+                <input type="checkbox" name="delete" value="4" />DELETE<br/>
+                </fieldset>
         <input type="submit" value="Додати">
     </form>
 </div>
+
+
+
+
+<script type="text/javascript">
+    function selectModule(){
+        var course = $('select[name="course"]').val();
+        if(!course){
+            $('div[name="selectModule"]').html('');
+            $('div[name="selectLecture"]').html('');
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/IntITA/permissions/showModules",
+                data: {course: course},
+                cache: false,
+                success: function(response){ $('div[name="selectModule"]').html(response); }
+            });
+        }
+    }
+
+    function selectLecture(){
+        var module = $('select[name="module"]').val();
+        $.ajax({
+            type: "POST",
+            url: "/IntITA/permissions/showLectures",
+            data: {module: module},
+            cache: false,
+            success: function(response){ $('div[name="selectLecture"]').html(response); }
+        });
+    }
+</script>

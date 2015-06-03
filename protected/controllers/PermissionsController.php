@@ -57,31 +57,25 @@ class PermissionsController extends Controller
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
-
         $rights = [];
-        $count = count($_POST["Permissions"]['rights']);
-        for($i=0; $i < $count; $i++) {
-            switch($_POST["Permissions"]['rights'][$i]) {
-                case '1':
-                    array_push($rights, 'read');
-                    break;
-                case '2':
-                    array_push($rights, 'edit');
-                    break;
-                case '3':
-                    array_push($rights, 'create');
-                    break;
-                case '4':
-                    array_push($rights, 'delete');
-                    break;
-            }
+        if (isset($_POST['read'])) {
+            array_push($rights, 'read');
+        }
+        if (isset($_POST['edit'])) {
+            array_push($rights, 'edit');
+        }
+        if (isset($_POST['create'])) {
+            array_push($rights, 'create');
+        }
+        if (isset($_POST['delete'])) {
+            array_push($rights, 'delete');
         }
 
-        if (!empty($rights)) {
-            $user=Yii::app()->db->createCommand()->insert('permissions', array(
-                'id_user'=>$_POST["Permissions"]['id_user'],
-                'id_resource'=>$_POST["Permissions"]['id_resource'],
-                'rights'=> Permissions::setFlags($rights),
+        if(isset($_POST['lecture'])) {
+            $user = Yii::app()->db->createCommand()->insert('permissions', array(
+                'id_user' => $_POST['user'],
+                'id_resource' => $_POST['lecture'],
+                'rights' => Permissions::setFlags($rights),
             ));
         }
 
@@ -98,4 +92,37 @@ class PermissionsController extends Controller
         $this->actionIndex();
     }
 
+    public function actionShowLectures(){
+        $first = '<select size="1" name="lecture">';
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, title';
+        $criteria->order = 'id ASC';
+        $criteria->addCondition('idModule='.$_POST['module']);
+        $rows = Lecture::model()->findAll($criteria);
+        $result = $first.'<option value="">Всі лекції</option>
+                   <optgroup label="Виберіть лекцію">';
+        if(!empty($rows)) {
+            foreach ($rows as $numRow => $row) {
+                $result = $result . '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
+            };
+        }
+        $last = '</select>';
+        echo $result.$last;
+    }
+
+    public function actionShowModules(){
+        $first = '<select name="module" onchange="javascript:selectLecture();">';
+        $criteria = new CDbCriteria();
+        $criteria->select = 'module_ID, module_name';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('course='.$_POST['course']);
+        $rows = Module::model()->findAll($criteria);
+        $result = $first.'<option value="">Всі модулі</option>
+                   <optgroup label="Виберіть модуль">';
+        foreach ($rows as $numRow => $row) {
+            $result = $result.'<option value="'.$row['module_ID'].'">'.$row['module_name'].'</option>';
+        };
+        $last = '</select>';
+        echo $result.$last;
+    }
 }

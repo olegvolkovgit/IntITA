@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-02 15:42:32
+-- Date/time:                    2015-06-03 18:29:16
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -406,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `graduate` (
   `rate` tinyint(4) DEFAULT NULL,
   `recall` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.graduate: ~6 rows (approximately)
 /*!40000 ALTER TABLE `graduate` DISABLE KEYS */;
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT '60',
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.lectures: ~20 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
@@ -536,9 +536,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~19 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~20 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -1574,7 +1574,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(300, 'en', 'You entered incorrect data.'),
 	(301, 'ua', 'Ви ввели не дійсну електронну адресу'),
 	(301, 'ru', 'You entered is not a valid email address'),
-	(301, 'en', 'Вы ввели недействительными электронный адрес'),
+	(301, 'en', 'Вы ввели недействительный электронный адрес'),
 	(302, 'ua', 'Розмір файла перевищує 5 Мб'),
 	(302, 'ru', 'Размер файла превышает 5 Мб'),
 	(302, 'en', 'File size exceeds 5 MB'),
@@ -1650,9 +1650,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~20 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~17 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 3000, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;'),
@@ -1671,10 +1671,7 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;'),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;'),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;'),
-	(49, 1, 17, 'Ефективне працевлаштування.', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(50, 0, 0, 'Module 18', 'module18', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(51, 0, 0, 'Module 19', 'module19', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL),
-	(52, 0, 0, 'Module 20', 'module20', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
+	(49, 1, 17, 'Ефективне працевлаштування.', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -1689,11 +1686,10 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~68 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~57 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 1),
-	(1, 3, 1),
 	(1, 5, 1),
 	(1, 14, 1),
 	(1, 15, 1),
@@ -1706,6 +1702,8 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 22, 1),
 	(1, 23, 1),
 	(1, 24, 1),
+	(1, 31, 1),
+	(1, 33, 14),
 	(38, 1, 15),
 	(38, 2, 15),
 	(38, 3, 15),
@@ -1714,6 +1712,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(38, 15, 15),
 	(38, 16, 15),
 	(38, 17, 15),
+	(38, 18, 15),
 	(38, 19, 15),
 	(38, 20, 15),
 	(38, 21, 15),
@@ -1725,6 +1724,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(38, 31, 15),
 	(38, 32, 15),
 	(38, 33, 15),
+	(38, 34, 15),
 	(38, 36, 15),
 	(38, 39, 15),
 	(38, 43, 15),
@@ -1745,21 +1745,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(42, 5, 7),
 	(43, 1, 15),
 	(43, 2, 15),
-	(48, 23, 7),
-	(49, 1, 15),
-	(49, 2, 9),
-	(49, 3, 9),
-	(49, 5, 9),
-	(49, 14, 15),
-	(49, 15, 9),
-	(49, 16, 9),
-	(49, 17, 9),
-	(49, 18, 9),
-	(49, 19, 9),
-	(49, 20, 11),
-	(49, 21, 9),
-	(49, 26, 9),
-	(49, 27, 9);
+	(49, 1, 15);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 
@@ -6138,7 +6124,8 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', 0, NULL, NULL, 1),
 	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', '/avatars/5541133ea993f.jpg', 0, NULL, NULL, 1),
 	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', 0, NULL, NULL, 1),
-	(49, 'Admin', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', 3, NULL, NULL, 1);
+	(49, 'Admin', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', 3, NULL, NULL, 1),
+	(50, 'Serhiy', '', '', 0, '', NULL, 'Kalinovsky', NULL, '19.11.1978', 'serhiy.kalinovsky@gmail.com', NULL, 'https://www.facebook.com/serhiy.kalinovsky', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '/avatars/noname.png', 0, NULL, NULL, 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
