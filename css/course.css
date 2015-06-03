@@ -81,6 +81,7 @@ div.courseShortInf table {
 }
 div.courseShortInfoTable{
     display: inline-block;
+    width: 500px;
 }
 .courseShortInfoTable table{
     width: 100%;
@@ -189,7 +190,6 @@ div.courseShortInfoTable{
 }
 .courseDetail span.colorP{
     display: inline-block;
-    width: 150px;
 }
 .courseDetail .numbers{
     margin-left: 10px;
@@ -287,18 +287,24 @@ padding-left: 0px;
 .markCourse{
     display: inline-block;
     position: relative;
+    width: 350px;
+    vertical-align: middle;
+    line-height: 40px;
+    float: left;
 }
 .startCourse{
     display: inline-block;
     position: relative;
     vertical-align: top;
     text-align: center;
+    line-height: 32px;
+    float: right;
 }
 .startCourse a    {
     display: inline-block;
     position: relative;
-    width:195px;
-    height:36px;
+    width:140px;
+    height:32px;
     border-radius: 7px;
     border:none;
     border-top:1px solid #9fb5ce;
@@ -306,15 +312,22 @@ padding-left: 0px;
     background:#4b75a4;
     box-shadow:0px 2px 0px #7f7f7f;
     font: normal     400 28px/50px "MyriadPro2";
-    font-size:       20px;
+    font-size:       14px;
     letter-spacing:1px;
-    line-height: 36px;
+    line-height: 32px;
     text-decoration: none;
 }
 .startCourse a:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;
+}
+.markAndButton{
+    vertical-align: middle;
+    height: 40px;
+}
+.italic{
+    font-style: italic;
 }
 
 
