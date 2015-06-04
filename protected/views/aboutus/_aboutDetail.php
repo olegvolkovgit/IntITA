@@ -75,14 +75,14 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
         <tr>
             <td>
-                <span class="detailTitle13">Забезпечене </span>
-                <span class="detailTitle1">життя</span>
+                <span class="detailTitle13">'.Yii::t("aboutus","0346").' </span>
+                <span class="detailTitle1">'.Yii::t("aboutus","0347").'</span>
                 <br>
-                <span class="detailTitle14"> для себе і близьких,</span>
+                <span class="detailTitle14"> '.Yii::t("aboutus","0348").'</span>
                 <br>
-                <span class="detailTitle1"> коли не доводиться думати про</span>
+                <span class="detailTitle1"> '.Yii::t("aboutus","0349").'</span>
                 <br>
-                <span class="detailTitle15">гроші?</span>
+                <span class="detailTitle15">'.Yii::t("aboutus","0350").'</span>
                 <br>
                 <img id="pig" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas5.png').'">
                 <img id="money" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas4.png').'">
@@ -102,13 +102,13 @@ $block1->drop1Text='<div  class="aboutStepBlock">
                 <img id="fst2" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas11.png').'">
             </td>
             <td>
-<span>А, може, це свобода жити своїм <br>життям? Самостійно керувати <br> власним часом з можливістю <br>працювати за <span>зручним <br>графіком</span> без необхідності <br>щодня їздити на роботу, але<br> при цьому мати стабільно<br> високий дохід?
+<span>'.Yii::t("aboutus","0351").'</span>
             </td></tr></table>
 </div>
 </div>
 <div class="five" style="">
-                <span class="detailTitle18">Як щодо </span> <span class="detailTitle17">40 000 - 60 000 </span><span class="detailTitle19">грн </span><br>
-                <span id="fimouns" style="" class="detailTitle12">/в місяць?</span>
+                <span class="detailTitle18">'.Yii::t("aboutus","0352").' </span> <span class="detailTitle17">40 000 - 60 000 </span><span class="detailTitle19">'.Yii::t("profile","0259").' </span><br>
+                <span id="fimouns" style="" class="detailTitle12">'.Yii::t("aboutus","0353").'</span>
 </div>
 <div class="six" style="">
     <table>
@@ -118,61 +118,34 @@ $block1->drop1Text='<div  class="aboutStepBlock">
             </td>
             <td>
 <span class="detailTitle1">
-      з можливістю працювати за гнучким<br>
-      графіком та дистанційно? Ти думаєш, що в<br>
-      нашій країні такі умови лише у керівників<br>
-      та власників бізнесу?<br><br>
-У нас хороша новина:<br> </span>
-<span class="detailTitle16">вже через рік-два-три так зможеш<br>
-заробляти і<br><br>
-ТИ . . . </span>
+      '.Yii::t("aboutus","0354").'</span>
+<span class="detailTitle16">'.Yii::t("aboutus","0355").'</span>
             </td>
         </tr>
     </table>
 </div>
 <div class="how">
-    Як?
-</div>
+    '.Yii::t("aboutus","0360").'
+    </div>
 <div class="jobfu" style="">
-    <h1>Професія майбутнього</h1>
+    <h1>'.Yii::t("aboutus","0356").'</h1>
     <table><tr><td>
                 <img src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas14.png').'">
             </td> <td>
-<span class="detailTitle1">   Сьогодні у тебе є реальна можливість <br>
- поєднати хороший заробіток, гнучкий<br>
-графік роботи та зручність<br>
-дистанційної роботи. І це не<br>
-“заработок в интернете”, про який<br>
-кричить банерна реклама на багатьох<br>
-сайтах. Ми віримо у те, що високого <br>
-стабільного доходу можна досягти <br>
-лише за допомогою власних зусиль.</span>
+<span class="detailTitle1">   '.Yii::t("aboutus","0357").'</span>
             </td></tr></table>
-    <span class="detailTitle1">Ми живемо в епоху, коли</span>
-    <h1 id="mashinn" style="">ГОЛОВНИМ ДВИГУНОМ РОЗВИТКУ <br>
-        СВІТОВОЇ ЕКОНОМІКИ Є ІНФОРМАЦІЙНІ   <br>
-        ТЕХНОЛОГІЇ    </h1>
+    <span class="detailTitle1">'.Yii::t("aboutus","0358").'</span>
+    <h1 id="mashinn" style="">'.Yii::t("aboutus","0359").'    </h1>
     <ul id="theyy" style="" class="detailTitle1">
-        <li>Вони дозволяють досягти нових проривних результатів у   <br>
-            традиційних галузях: виробництві та послугах.</li>
-        <li>саме інформаційні технології повністю змінили і <br>
-            продовжують трансформувати індустрії звязку,   <br>
-            розваг (книги, музика, фільми), банківських послуг;</li>
-        <li>також такі традиційні бізнеси, як послуги таксі (Uber);</li>
-        <li>  готелів (Airbnb);</li>
-        <li>навчання (Coursera).</li>
+        '.Yii::t("aboutus","0361").'
     </ul>
     <div class="sevenn" style="">
-<span class="detailTitle1"> Герої інформаційної епохи - це спеціалісти з інформаційних технологій.<br>
-Вони знаходяться на передовій змін, вони придумали та<br>
-продовжують розвивати Windows, iOS, Android, а також мільйони<br>
-додатків до них, вони створюють соціальні мережі, сайти та бази<br>
-даних.</span>
+<span class="detailTitle1"> '.Yii::t("aboutus","0362").'</span>
     </div>
 </div>
 <div>
     <div id="beginn" style="" class="detailTitle12">
-        Розпочинай вчитися вже зараз!
+        '.Yii::t("aboutus","0363").'
     </div>'.$buttonStart.'</div>
 </div>';
 $block1->drop2Text='<div class="aboutStepBlock"><span class="detailTitle1">Навчання майбутнього сьогодні</span>
