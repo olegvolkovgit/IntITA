@@ -72,13 +72,28 @@ class PermissionsController extends Controller
         }
 
         if(isset($_POST['lecture'])) {
-            $user = Yii::app()->db->createCommand()->insert('permissions', array(
-                'id_user' => $_POST['user'],
-                'id_resource' => $_POST['lecture'],
-                'rights' => Permissions::setFlags($rights),
-            ));
+            if (Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['lecture']))) {
+//                $permissionToBeChanged = Permissions::model()->findByPk(array('id_user'=>$_POST['user'],
+//                                                                            'id_resource'=>$_POST['lecture']));
+//                $permissionToBeChanged->rights = Permissions::setFlags($rights);
+//                var_dump($permissionToBeChanged);
+//                if($permissionToBeChanged->save(false))
+//                {
+//                    var_dump("True");
+//                }
+//                else
+//                {
+//                    var_dump($permissionToBeChanged->getErrors());
+//                }
+                Permissions::model()->updateByPk(array('id_user' => $_POST['user'], 'id_resource' => $_POST['lecture']), array('rights' => Permissions::setFlags($rights)));
+            } else {
+                $user = Yii::app()->db->createCommand()->insert('permissions', array(
+                    'id_user' => $_POST['user'],
+                    'id_resource' => $_POST['lecture'],
+                    'rights' => Permissions::setFlags($rights),
+                ));
+            }
         }
-
         $this->actionIndex();
     }
 

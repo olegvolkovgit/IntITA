@@ -6,7 +6,7 @@
  * Time: 15:20
  */
 ?>
-<img class="courseImg" style="display: inline-block" src="<?php echo Yii::app()->request->baseUrl.$model->course_img ?>" />
+<img class="courseImg" style="display: inline-block" src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img);?>" />
 <div class="courseShortInfoTable">
     <table>
         <tr>

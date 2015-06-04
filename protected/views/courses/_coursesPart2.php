@@ -16,7 +16,7 @@
             $val = $courseList[$j];
             ?>
             <div class='courseBox'>
-                <img src='<?php echo Yii::app()->request->baseUrl.$val->course_img; ?>'>
+                <img src='<?php echo StaticFilesHelper::createPath('image', 'course', $val->course_img);?>'>
                 <div class='courseName'> <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php
                         echo $val->course_name; ?></a>
                 </div>
