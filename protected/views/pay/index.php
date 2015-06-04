@@ -18,20 +18,7 @@ $this->breadcrumbs=array(
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('pay/payNow');?>" method="POST" name="add-access">
         <fieldset>
-            <legend id="label">Додати новий запис:</legend>
-            Користувач:<br>
-            <select name="user" placeholder="(Виберіть користувача)" autofocus>
-                <?php $users = AccessHelper::generateUsersList();
-                $count = count($users);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
-            <br>
-            <br>
+            <legend id="label">Оплатити модуль:</legend>
             Курс:<br>
             <select name="course" placeholder="(Виберіть курс)" onchange="javascript:selectModule();">
                 <option value="">Всі курси</option>
@@ -53,10 +40,6 @@ $this->breadcrumbs=array(
             <br>
             <br>
 
-            Лекція:<br>
-            <div name="selectLecture" style="float:left;"></div>
-            <br>
-            <br>
             <fieldset id="rights">
                 <legend>Права</legend>
                 <input type="checkbox" name="read" value="1" />READ<br />
@@ -86,16 +69,5 @@ $this->breadcrumbs=array(
                 success: function(response){ $('div[name="selectModule"]').html(response); }
             });
         }
-    }
-
-    function selectLecture(){
-        var module = $('select[name="module"]').val();
-        $.ajax({
-            type: "POST",
-            url: "/IntITA/permissions/showLectures",
-            data: {module: module},
-            cache: false,
-            success: function(response){ $('div[name="selectLecture"]').html(response); }
-        });
     }
 </script>

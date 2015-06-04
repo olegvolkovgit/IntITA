@@ -28,7 +28,7 @@ class PayController extends Controller{
             array_push($rights, 'delete');
         }
 
-        if(isset($_POST['lecture'])) {
+        if(isset($_POST['module'])) {
             if (Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['lecture']))) {
                 Permissions::model()->updateByPk(array('id_user' => $_POST['user'], 'id_resource' => $_POST['lecture']), array('rights' => Permissions::setFlags($rights)));
             } else {
@@ -39,8 +39,6 @@ class PayController extends Controller{
                 ));
             }
         }
-       // $this->actionIndex();
-
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

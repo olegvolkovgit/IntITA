@@ -200,11 +200,10 @@ class ModuleController extends Controller
         Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['newLectureName'] .'додана до цього модуля');
         // if AJAX request, we should not redirect the browser
         $permission = new Permissions();
-        var_dump($permission->setPermission(
+        $permission->setPermission(
             $teacher,
             Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id,
-            array('read', 'edit', 'create', 'delete'))
-        );
+            array('read', 'edit', 'create', 'delete'));
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
