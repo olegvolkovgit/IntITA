@@ -13,7 +13,7 @@ else $buttonStart='';
 
 $block1->drop1Text='<div  class="aboutStepBlock">
 <div style=" " class="oned">
-    <span id="spone" style="" class="detailTitle1"> Спробуємо вгадати: </span>
+    <span id="spone" style="" class="detailTitle1">'.Yii::t("aboutus","0337").'</span>
     <table>
     <tr>
     <td>
@@ -21,9 +21,9 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     </td>
     <td>
   <div>
-    <span class="detailTitle12"> власна квартира </span>
+    <span class="detailTitle12">'.Yii::t("aboutus","0338").'</span>
     <br>
-    <span class="detailTitle1"> чи навіть будинок? </span>
+    <span class="detailTitle1">'.Yii::t("aboutus","0339").'</span>
   </div>
     </td>
     </tr>
@@ -35,9 +35,9 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
     <tr>
     <td>
-    <span class="detailTitle1">ГАРНИЙ</span>
+    <span class="detailTitle1">'.Yii::t("aboutus","0340").'</span>
     <br>
-    <span class="detailTitle12">автомобіль</span>
+    <span class="detailTitle12">'.Yii::t("aboutus","0341").'</span>
     </td>
     </tr>
     <tr>
@@ -53,13 +53,13 @@ $block1->drop1Text='<div  class="aboutStepBlock">
     <table>
         <tr>
             <td>
-                <span class="detailTitle1">закордонні</span>
+                <span class="detailTitle1">'.Yii::t("aboutus","0342").'</span>
                 <br>
-                <span class="detailTitle13"> подорожі,</span>
+                <span class="detailTitle13"> '.Yii::t("aboutus","0343").'</span>
                 <br>
-                <span class="detailTitle1"> можливо,</span>
+                <span class="detailTitle1"> '.Yii::t("aboutus","0344").'</span>
                 <br>
-                <span class="detailTitle14"> ДО ЕКЗОТИЧНИХ КРАЇН?</span>
+                <span class="detailTitle14"> '.Yii::t("aboutus","0345").'</span>
             </td>
             <td>
                 <img id="imtwo" style="" src="'.StaticFilesHelper::createPath('image', 'aboutus', '000pronas8.png').'">
