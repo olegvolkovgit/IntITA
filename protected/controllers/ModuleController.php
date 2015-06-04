@@ -11,13 +11,13 @@ class ModuleController extends Controller
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
 
 
 	/**
@@ -285,5 +285,9 @@ class ModuleController extends Controller
     public function actionLecturesUpdate(){
         $model = Module::model()->findByPk($_POST['idmodule']);
         $this->renderPartial('_addLessonForm',array('newmodel'=>$model), false, true);
+    }
+    public function actionUpdateModuleAttribute(){
+        $up = new EditableSaver('Module');
+        $up->update();
     }
 }
