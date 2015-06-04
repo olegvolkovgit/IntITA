@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-04 15:59:20
+-- Date/time:                    2015-06-04 18:09:46
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -335,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `course` (
 -- Dumping data for table int_ita_db.course: ~7 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `review`) VALUES
-	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 18, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course1Image.png', NULL),
+	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 17, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course1Image.png', NULL),
 	(2, 'courseJavaScript', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course9Image.png', NULL),
 	(3, 'courseJava', 'ua', 'Програміст (Java)', 'strong junior', '2015-10-30', 0, 0, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course3Image.png', NULL),
 	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course4Image.png', NULL),
@@ -1686,7 +1686,10 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3),
-	(49, 1, 17, 'Ефективне працевлаштування.', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'junior', 3, 3);
+	(49, 1, 17, 'Ефективне працевлаштування.', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'junior', 3, 3),
+	(50, 0, 0, 'twrtg4w5', 'module18', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL),
+	(51, 0, 0, 'e5t35', 'module19', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL),
+	(52, 0, 0, 'y45hu4677u', 'module20', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -1704,7 +1707,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 -- Dumping data for table int_ita_db.permissions: ~57 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
-	(1, 1, 3),
+	(1, 1, 12),
 	(1, 3, 7),
 	(1, 5, 1),
 	(1, 14, 6),
@@ -1718,7 +1721,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 22, 1),
 	(1, 23, 1),
 	(1, 24, 1),
-	(1, 31, 1),
+	(1, 31, 4),
 	(1, 33, 14),
 	(38, 1, 15),
 	(38, 2, 15),
@@ -2621,7 +2624,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1433248697', 1),
+	('cache_last_gc', '1433429448', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -2642,7 +2645,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_enable', '0', 0),
 	('coppa_fax', '', 0),
 	('coppa_mail', '', 0),
-	('cron_lock', '0', 1),
+	('cron_lock', '1433429454 df5a10bb1d2744d8', 1),
 	('database_gc', '604800', 0),
 	('database_last_gc', '1431077130', 1),
 	('dbms_version', '5.5.41-log', 0),
@@ -2780,13 +2783,13 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('min_search_author_chars', '3', 0),
 	('new_member_group_default', '0', 0),
 	('new_member_post_limit', '3', 0),
-	('newest_user_colour', 'AA0000', 1),
-	('newest_user_id', '2', 1),
-	('newest_username', 'intita', 1),
+	('newest_user_colour', '', 1),
+	('newest_user_id', '48', 1),
+	('newest_username', 'Ivanna', 1),
 	('num_files', '0', 1),
-	('num_posts', '2', 1),
-	('num_topics', '2', 1),
-	('num_users', '1', 1),
+	('num_posts', '3', 1),
+	('num_topics', '3', 1),
+	('num_users', '2', 1),
 	('override_user_style', '0', 0),
 	('pass_complex', 'PASS_TYPE_ANY', 0),
 	('plupload_last_gc', '0', 1),
@@ -2799,8 +2802,8 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '8084e2b0de1d6ac7ee6b3b7aeee294a3', 1),
-	('rand_seed_last_update', '1433248695', 1),
+	('rand_seed', 'fce68ba2ee9d64544d834574610d0931', 1),
+	('rand_seed_last_update', '1433430279', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
@@ -2888,7 +2891,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
 -- Dumping data for table int_ita_db.phpbb_confirm: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
 INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('2d1a7a021e037ff5af01e0864d8867d3', '560a1b42c729bbe96a34f5c2603da1f1', 1, '6FYV5J', 420831711, 0);
+	('2d1a7a021e037ff5af01e0864d8867d3', '560a1b42c729bbe96a34f5c2603da1f1', 1, '6FYV5J', 420831711, 0),
+	('532508a29f9a165b7c886f55e8ce85b5', 'cd2f1509ecfaae31d6aab37c0aca96f7', 1, '646RK6A', 1777825899, 0),
+	('1b165063bd8dc1863409c71f7c0f6045', 'fb598984019bddbe0987715fbaa4b688', 1, '4IF79S', 1563347645, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 
 
@@ -3110,7 +3115,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums` (
 /*!40000 ALTER TABLE `phpbb_forums` DISABLE KEYS */;
 INSERT INTO `phpbb_forums` (`forum_id`, `parent_id`, `left_id`, `right_id`, `forum_parents`, `forum_name`, `forum_desc`, `forum_desc_bitfield`, `forum_desc_options`, `forum_desc_uid`, `forum_link`, `forum_password`, `forum_style`, `forum_image`, `forum_rules`, `forum_rules_link`, `forum_rules_bitfield`, `forum_rules_options`, `forum_rules_uid`, `forum_topics_per_page`, `forum_type`, `forum_status`, `forum_last_post_id`, `forum_last_poster_id`, `forum_last_post_subject`, `forum_last_post_time`, `forum_last_poster_name`, `forum_last_poster_colour`, `forum_flags`, `display_on_index`, `enable_indexing`, `enable_icons`, `enable_prune`, `prune_next`, `prune_days`, `prune_viewed`, `prune_freq`, `display_subforum_list`, `forum_options`, `enable_shadow_prune`, `prune_shadow_days`, `prune_shadow_freq`, `prune_shadow_next`, `forum_posts_approved`, `forum_posts_unapproved`, `forum_posts_softdeleted`, `forum_topics_approved`, `forum_topics_unapproved`, `forum_topics_softdeleted`) VALUES
 	(1, 0, 1, 4, '', 'Ваша перша категорія', '', '', 7, '', '', '', 0, '', '', '', '', 7, '', 0, 0, 0, 1, 2, '', 1431076924, 'intita', 'AA0000', 32, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 7, 1, 0, 0, 0, 0, 0, 0, 0),
-	(2, 1, 2, 3, 'a:1:{i:1;a:2:{i:0;s:38:"Ваша перша категорія";i:1;i:0;}}', 'Ваш перший форум', 'Опис вашого першого форуму.', '', 7, '', '', '', 0, '', '', '', '', 7, '', 0, 1, 0, 2, 2, '8 травня', 1431082457, 'intita', 'AA0000', 48, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 7, 1, 0, 2, 0, 0, 2, 0, 0);
+	(2, 1, 2, 3, 'a:1:{i:1;a:2:{i:0;s:38:"Ваша перша категорія";i:1;i:0;}}', 'Ваш перший форум', 'Опис вашого першого форуму.', '', 7, '', '', '', 0, '', '', '', '', 7, '', 0, 1, 0, 4, 48, 'Re: 4 червня', 1433430237, 'Ivanna', '', 48, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 7, 1, 0, 4, 0, 0, 3, 0, 0);
 /*!40000 ALTER TABLE `phpbb_forums` ENABLE KEYS */;
 
 
@@ -3140,7 +3145,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums_track` (
 -- Dumping data for table int_ita_db.phpbb_forums_track: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_forums_track` DISABLE KEYS */;
 INSERT INTO `phpbb_forums_track` (`user_id`, `forum_id`, `mark_time`) VALUES
-	(2, 2, 1431082457);
+	(2, 2, 1433430287);
 /*!40000 ALTER TABLE `phpbb_forums_track` ENABLE KEYS */;
 
 
@@ -3276,7 +3281,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_log` (
 /*!40000 ALTER TABLE `phpbb_log` DISABLE KEYS */;
 INSERT INTO `phpbb_log` (`log_id`, `log_type`, `user_id`, `forum_id`, `topic_id`, `reportee_id`, `log_ip`, `log_time`, `log_operation`, `log_data`) VALUES
 	(1, 0, 2, 0, 0, 0, '127.0.0.1', 1431076934, 'LOG_INSTALL_INSTALLED', 'a:1:{i:0;s:5:"3.1.4";}'),
-	(2, 2, 1, 0, 0, 0, '::1', 1431693780, 'LOG_GENERAL_ERROR', 'a:2:{i:0;s:13:"General Error";i:1;s:1513:"SQL ERROR [ mysqli ]<br /><br />Table \'int_ita_db.phpbb_acl_groups\' doesn\'t exist [1146]<br /><br />SQL<br /><br />DELETE FROM phpbb_acl_groups\r\n		WHERE forum_id NOT IN (0, \'1\', \'2\')<br /><br />BACKTRACE<br /><div style="font-family: monospace;"><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> msg_handler()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/driver.php<br /><b>LINE:</b> 855<br /><b>CALL:</b> trigger_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/mysqli.php<br /><b>LINE:</b> 193<br /><b>CALL:</b> phpbb\\db\\driver\\driver-&gt;sql_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/factory.php<br /><b>LINE:</b> 329<br /><b>CALL:</b> phpbb\\db\\driver\\mysqli-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/includes/functions_admin.php<br /><b>LINE:</b> 3113<br /><b>CALL:</b> phpbb\\db\\driver\\factory-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/core/tidy_database.php<br /><b>LINE:</b> 50<br /><b>CALL:</b> tidy_database()<br /><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> phpbb\\cron\\task\\core\\tidy_database-&gt;run()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/wrapper.php<br /><b>LINE:</b> 104<br /><b>CALL:</b> call_user_func_array()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;__call()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;run()<br /></div>";}');
+	(2, 2, 1, 0, 0, 0, '::1', 1431693780, 'LOG_GENERAL_ERROR', 'a:2:{i:0;s:13:"General Error";i:1;s:1513:"SQL ERROR [ mysqli ]<br /><br />Table \'int_ita_db.phpbb_acl_groups\' doesn\'t exist [1146]<br /><br />SQL<br /><br />DELETE FROM phpbb_acl_groups\r\n		WHERE forum_id NOT IN (0, \'1\', \'2\')<br /><br />BACKTRACE<br /><div style="font-family: monospace;"><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> msg_handler()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/driver.php<br /><b>LINE:</b> 855<br /><b>CALL:</b> trigger_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/mysqli.php<br /><b>LINE:</b> 193<br /><b>CALL:</b> phpbb\\db\\driver\\driver-&gt;sql_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/factory.php<br /><b>LINE:</b> 329<br /><b>CALL:</b> phpbb\\db\\driver\\mysqli-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/includes/functions_admin.php<br /><b>LINE:</b> 3113<br /><b>CALL:</b> phpbb\\db\\driver\\factory-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/core/tidy_database.php<br /><b>LINE:</b> 50<br /><b>CALL:</b> tidy_database()<br /><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> phpbb\\cron\\task\\core\\tidy_database-&gt;run()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/wrapper.php<br /><b>LINE:</b> 104<br /><b>CALL:</b> call_user_func_array()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;__call()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;run()<br /></div>";}'),
+	(3, 2, 1, 0, 0, 0, '::1', 1433429455, 'LOG_GENERAL_ERROR', 'a:2:{i:0;s:13:"General Error";i:1;s:1513:"SQL ERROR [ mysqli ]<br /><br />Table \'int_ita_db.phpbb_acl_groups\' doesn\'t exist [1146]<br /><br />SQL<br /><br />DELETE FROM phpbb_acl_groups\r\n		WHERE forum_id NOT IN (0, \'1\', \'2\')<br /><br />BACKTRACE<br /><div style="font-family: monospace;"><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> msg_handler()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/driver.php<br /><b>LINE:</b> 855<br /><b>CALL:</b> trigger_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/mysqli.php<br /><b>LINE:</b> 193<br /><b>CALL:</b> phpbb\\db\\driver\\driver-&gt;sql_error()<br /><br /><b>FILE:</b> [ROOT]/phpbb/db/driver/factory.php<br /><b>LINE:</b> 329<br /><b>CALL:</b> phpbb\\db\\driver\\mysqli-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/includes/functions_admin.php<br /><b>LINE:</b> 3113<br /><b>CALL:</b> phpbb\\db\\driver\\factory-&gt;sql_query()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/core/tidy_database.php<br /><b>LINE:</b> 50<br /><b>CALL:</b> tidy_database()<br /><br /><b>FILE:</b> (not given by php)<br /><b>LINE:</b> (not given by php)<br /><b>CALL:</b> phpbb\\cron\\task\\core\\tidy_database-&gt;run()<br /><br /><b>FILE:</b> [ROOT]/phpbb/cron/task/wrapper.php<br /><b>LINE:</b> 104<br /><b>CALL:</b> call_user_func_array()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;__call()<br /><br /><b>FILE:</b> [ROOT]/cron.php<br /><b>LINE:</b> 64<br /><b>CALL:</b> phpbb\\cron\\task\\wrapper-&gt;run()<br /></div>";}'),
+	(4, 1, 2, 2, 3, 0, '::1', 1433430282, 'LOG_POST_APPROVED', 'a:1:{i:0;s:18:"Re: 4 червня";}');
 /*!40000 ALTER TABLE `phpbb_log` ENABLE KEYS */;
 
 
@@ -3745,6 +3752,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_notifications` (
 
 -- Dumping data for table int_ita_db.phpbb_notifications: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_notifications` DISABLE KEYS */;
+INSERT INTO `phpbb_notifications` (`notification_id`, `notification_type_id`, `item_id`, `item_parent_id`, `user_id`, `notification_read`, `notification_time`, `notification_data`) VALUES
+	(2, 6, 4, 3, 48, 0, 1433430282, 'a:6:{s:12:"post_subject";s:18:"Re: 4 червня";s:9:"poster_id";s:2:"48";s:11:"topic_title";s:14:"4 червня";s:13:"post_username";s:0:"";s:8:"forum_id";s:1:"2";s:10:"forum_name";s:30:"Ваш перший форум";}');
 /*!40000 ALTER TABLE `phpbb_notifications` ENABLE KEYS */;
 
 
@@ -3766,7 +3775,9 @@ INSERT INTO `phpbb_notification_types` (`notification_type_id`, `notification_ty
 	(3, 'notification.type.quote', 1),
 	(4, 'notification.type.bookmark', 1),
 	(5, 'notification.type.post', 1),
-	(6, 'notification.type.approve_post', 1);
+	(6, 'notification.type.approve_post', 1),
+	(7, 'notification.type.group_request', 1),
+	(8, 'notification.type.post_in_queue', 1);
 /*!40000 ALTER TABLE `phpbb_notification_types` ENABLE KEYS */;
 
 
@@ -3879,7 +3890,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_posts` (
 /*!40000 ALTER TABLE `phpbb_posts` DISABLE KEYS */;
 INSERT INTO `phpbb_posts` (`post_id`, `topic_id`, `forum_id`, `poster_id`, `icon_id`, `poster_ip`, `post_time`, `post_reported`, `enable_bbcode`, `enable_smilies`, `enable_magic_url`, `enable_sig`, `post_username`, `post_subject`, `post_text`, `post_checksum`, `post_attachment`, `bbcode_bitfield`, `bbcode_uid`, `post_postcount`, `post_edit_time`, `post_edit_reason`, `post_edit_user`, `post_edit_count`, `post_edit_locked`, `post_visibility`, `post_delete_time`, `post_delete_reason`, `post_delete_user`) VALUES
 	(1, 1, 2, 2, 0, '127.0.0.1', 1431076924, 0, 1, 1, 1, 1, '', 'Ласкаво просимо до phpBB3', 'Це приклад повідомлення вашого phpBB3 форуму. Здається ніби все нормально працює. Ви можете при бажанні видалити це повідомлення та продовжити налаштування вашого форуму. В процесі встановлення вашій першій категорії та вашому першому форуму було встановлено відповідні права доступу для передвстановлених груп - адміністраторів, ботів, супермодераторів, гостей, зареєстрованих користувачів та зареєстрованих користувачів COPPA. Якщо ви видалите вашу першу категорію та ваш перший форум, не забудьте надати права доступу усім цих групам до нових категорій та форумів, які ви створите. Рекомендується перейменувати вашу першу категорію та ваш перший форум та скопіювати права з них при створенні нових категорій та форумів. Успіхів!', '5dd683b17f641daf84c040bfefc58ce9', 0, '', '', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
-	(2, 2, 2, 2, 0, '127.0.0.1', 1431082457, 0, 1, 1, 1, 1, '', '8 травня', 'День пам\'яті і примирення', 'c98397723d1ed5555c63cffa2f083bf8', 0, '', 'cyjx8e6c', 1, 0, '', 0, 0, 0, 1, 0, '', 0);
+	(2, 2, 2, 2, 0, '127.0.0.1', 1431082457, 0, 1, 1, 1, 1, '', '8 травня', 'День пам\'яті і примирення', 'c98397723d1ed5555c63cffa2f083bf8', 0, '', 'cyjx8e6c', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
+	(3, 3, 2, 2, 0, '::1', 1433429758, 0, 1, 1, 1, 1, '', '4 червня', 'Привіт1 Сьогодні 4 червня 2015 року.', '8a3520be1f494e43dee3430c8e07369e', 0, '', '19741k45', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
+	(4, 3, 2, 48, 0, '::1', 1433430237, 0, 1, 1, 1, 1, '', 'Re: 4 червня', 'Ку-ку!', '2c0eff1f74b255317b1996467f3b00dd', 0, '', 'l1pykfhr', 1, 0, '', 0, 0, 0, 1, 1433430282, '', 2);
 /*!40000 ALTER TABLE `phpbb_posts` ENABLE KEYS */;
 
 
@@ -4279,7 +4292,12 @@ INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `wor
 	(66, 'пам', 0, 1),
 	(67, 'яті', 0, 1),
 	(68, 'примирення', 0, 1),
-	(69, 'травня', 0, 1);
+	(69, 'травня', 0, 1),
+	(70, 'привіт1', 0, 1),
+	(71, 'сьогодні', 0, 1),
+	(72, 'червня', 0, 3),
+	(73, '2015', 0, 1),
+	(74, 'року', 0, 1);
 /*!40000 ALTER TABLE `phpbb_search_wordlist` ENABLE KEYS */;
 
 
@@ -4366,7 +4384,14 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(2, 66, 0),
 	(2, 67, 0),
 	(2, 68, 0),
-	(2, 69, 1);
+	(2, 69, 1),
+	(3, 70, 0),
+	(3, 71, 0),
+	(3, 72, 0),
+	(3, 72, 1),
+	(4, 72, 1),
+	(3, 73, 0),
+	(3, 74, 0);
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` ENABLE KEYS */;
 
 
@@ -4395,7 +4420,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
 -- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('560a1b42c729bbe96a34f5c2603da1f1', 1, 1433248645, 1433248645, 1433248697, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'ucp.php?confirm_id=2d1a7a021e037ff5af01e0864d8867d3&mode=confirm&type=1', 1, 0, 0, 0);
+	('aa36442de314f8e0f7a088a37cce2289', 2, 1433430118, 1433430267, 1433430287, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'viewtopic.php?f=2&p=4&t=3', 1, 0, 0, 2);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -4588,7 +4613,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics` (
 /*!40000 ALTER TABLE `phpbb_topics` DISABLE KEYS */;
 INSERT INTO `phpbb_topics` (`topic_id`, `forum_id`, `icon_id`, `topic_attachment`, `topic_reported`, `topic_title`, `topic_poster`, `topic_time`, `topic_time_limit`, `topic_views`, `topic_status`, `topic_type`, `topic_first_post_id`, `topic_first_poster_name`, `topic_first_poster_colour`, `topic_last_post_id`, `topic_last_poster_id`, `topic_last_poster_name`, `topic_last_poster_colour`, `topic_last_post_subject`, `topic_last_post_time`, `topic_last_view_time`, `topic_moved_id`, `topic_bumped`, `topic_bumper`, `poll_title`, `poll_start`, `poll_length`, `poll_max_options`, `poll_last_vote`, `poll_vote_change`, `topic_visibility`, `topic_delete_time`, `topic_delete_reason`, `topic_delete_user`, `topic_posts_approved`, `topic_posts_unapproved`, `topic_posts_softdeleted`) VALUES
 	(1, 2, 0, 0, 0, 'Ласкаво просимо до phpBB3', 2, 1431076924, 0, 1, 0, 0, 1, 'intita', 'AA0000', 1, 2, 'intita', 'AA0000', 'Ласкаво просимо до phpBB3', 1431076924, 1431077129, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
-	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 3, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1431082648, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0);
+	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 3, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1431082648, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
+	(3, 2, 0, 0, 0, '4 червня', 2, 1433429758, 0, 4, 0, 0, 3, 'intita', 'AA0000', 4, 48, 'Ivanna', '', 'Re: 4 червня', 1433430237, 1433430287, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0);
 /*!40000 ALTER TABLE `phpbb_topics` ENABLE KEYS */;
 
 
@@ -4605,7 +4631,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_posted` (
 /*!40000 ALTER TABLE `phpbb_topics_posted` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_posted` (`user_id`, `topic_id`, `topic_posted`) VALUES
 	(2, 1, 1),
-	(2, 2, 1);
+	(2, 2, 1),
+	(2, 3, 1),
+	(48, 3, 1);
 /*!40000 ALTER TABLE `phpbb_topics_posted` ENABLE KEYS */;
 
 
@@ -4624,7 +4652,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_track` (
 -- Dumping data for table int_ita_db.phpbb_topics_track: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_track` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_track` (`user_id`, `topic_id`, `forum_id`, `mark_time`) VALUES
-	(2, 2, 2, 1431082457);
+	(48, 3, 2, 1433430237);
 /*!40000 ALTER TABLE `phpbb_topics_track` ENABLE KEYS */;
 
 
@@ -4723,8 +4751,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~47 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '48b37c9cd13428f8', 1, 0, 0),
-	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1431084018, 0, 1431082457, 'index.php', '', 0, 0, 0, 0, 0, 0, 2, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', 'ed3b359fb386d1d6', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '992212ce6c12af55', 1, 0, 0),
+	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430118, 0, 1433429758, 'index.php', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(3, 2, 6, '', 0, '', 1431076932, 'AdsBot [Google]', 'adsbot [google]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8fb1961bea68d3af', 0, 0, 0),
 	(4, 2, 6, '', 0, '', 1431076932, 'Alexa [Bot]', 'alexa [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b0ce7ddbe26f78e5', 0, 0, 0),
 	(5, 2, 6, '', 0, '', 1431076932, 'Alta Vista [Bot]', 'alta vista [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'aa44fb14e9ba2611', 0, 0, 0),
@@ -4769,7 +4797,8 @@ INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions
 	(44, 2, 6, '', 0, '', 1431076933, 'Yahoo MMCrawler [Bot]', 'yahoo mmcrawler [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8b4d4e5b829312c3', 0, 0, 0),
 	(45, 2, 6, '', 0, '', 1431076933, 'Yahoo Slurp [Bot]', 'yahoo slurp [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '40bdfa398100dabe', 0, 0, 0),
 	(46, 2, 6, '', 0, '', 1431076933, 'Yahoo [Bot]', 'yahoo [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '5ef718e8d194dd82', 0, 0, 0),
-	(47, 2, 6, '', 0, '', 1431076933, 'YahooSeeker [Bot]', 'yahooseeker [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'cd7ba34f5b0082fd', 0, 0, 0);
+	(47, 2, 6, '', 0, '', 1431076933, 'YahooSeeker [Bot]', 'yahooseeker [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'cd7ba34f5b0082fd', 0, 0, 0),
+	(48, 0, 2, '00000000001qccftm0\ni1cjyo000000\nqlaq53000000', 0, '::1', 1433430175, 'Ivanna', 'ivanna', '$2y$10$YrMGyqi8ZQ6BN1cf0UzfZ.LgX1Na4vdzIBLYspxUgo6BcdiW715fa', 1433430175, 'vnnchkh@gmail.com', 328510056717, '', 1433430246, 1433430175, 1433430237, '', '', 0, 0, 0, 0, 0, 0, 1, 'uk', 'Europe/Kiev', 'D M d, Y g:i a', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '02c7d053ef52557c', 1, 0, 0);
 /*!40000 ALTER TABLE `phpbb_users` ENABLE KEYS */;
 
 
@@ -4836,7 +4865,9 @@ INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pen
 	(6, 44, 0, 0),
 	(6, 45, 0, 0),
 	(6, 46, 0, 0),
-	(6, 47, 0, 0);
+	(6, 47, 0, 0),
+	(2, 48, 0, 0),
+	(7, 48, 0, 0);
 /*!40000 ALTER TABLE `phpbb_user_group` ENABLE KEYS */;
 
 
@@ -5036,7 +5067,11 @@ INSERT INTO `phpbb_user_notifications` (`item_type`, `item_id`, `user_id`, `meth
 	('notification.type.post', 0, 47, '', 1),
 	('notification.type.post', 0, 47, 'notification.method.email', 1),
 	('notification.type.topic', 0, 47, '', 1),
-	('notification.type.topic', 0, 47, 'notification.method.email', 1);
+	('notification.type.topic', 0, 47, 'notification.method.email', 1),
+	('notification.type.post', 0, 48, '', 1),
+	('notification.type.post', 0, 48, 'notification.method.email', 1),
+	('notification.type.topic', 0, 48, '', 1),
+	('notification.type.topic', 0, 48, 'notification.method.email', 1);
 /*!40000 ALTER TABLE `phpbb_user_notifications` ENABLE KEYS */;
 
 

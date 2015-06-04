@@ -194,7 +194,18 @@ class Permissions extends CActiveRecord
                 'id_resource' => $idResource,
                 'rights' => Permissions::setFlags($rights),
             ));
-            // var_dump($idUser);die();
+        }
+}
+    public function setRead($idUser, $idResource){
+        if(Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $idUser, ':resource' => $idResource))) {
+            $model = Permissions::model()->findByAttributes(array('id_user' => $idUser, 'id_resource' => $idResource));
+
+            var_dump($model);
+            $rights = $model->rights | U_READ;
+            var_dump($model);
+            $model->updateByPk(array('id_user' => $idUser, 'id_resource' => $idResource), array('rights' => Permissions::setFlags($rights)));
+        } else {
+
         }
     }
 }
