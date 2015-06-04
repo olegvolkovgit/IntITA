@@ -156,4 +156,5 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
         </table>
         <?php $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post));?>
     </div>
+//comment
 </div>
