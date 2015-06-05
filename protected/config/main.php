@@ -165,8 +165,6 @@ return array(
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
 //         'imagesPath'=>'http://localhost/ITA/images',
-//         'avatarsPath'=>'http://localhost/IntITA/avatars',
-//         'commonPath' =>'http://localhost/IntITA/files',
         'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
