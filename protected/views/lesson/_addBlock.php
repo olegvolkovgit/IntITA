@@ -78,11 +78,6 @@ if ($editMode) {
 }
 ?>
 <script type="text/javascript">
-//    $(function()
-//    {
-//        $('#newTextBlock').redactor();
-//    });
-
     function saveNewBlock(){
         source = $('#newTextBlock').code.get;
         document.getElementById('newTextBlock').innerHTML = source;

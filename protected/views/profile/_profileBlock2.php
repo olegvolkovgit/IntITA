@@ -15,6 +15,7 @@
         'dataProvider'=>$dataProvider,
         'itemView'=>'_responseBlock',
         'template'=>'{items}{pager}',
+        'emptyText'=>Yii::t('profile', '0195'),
         'pager' => array(
             'firstPageLabel'=>'<<',
             'lastPageLabel'=>'>>',

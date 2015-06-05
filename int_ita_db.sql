@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-04 18:09:46
+-- Date/time:                    2015-06-05 16:01:42
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT '60',
   `idTeacher` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.lectures: ~32 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
@@ -626,7 +626,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 008 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 023 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1205,15 +1205,15 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(192, 'ua', 'Відправити'),
 	(192, 'ru', 'Отправить'),
 	(192, 'en', 'Send'),
-	(193, 'ua', 'Рівень курсу: '),
-	(193, 'ru', 'Уровень курса:'),
-	(193, 'en', 'Course rate:'),
-	(194, 'ua', 'Тривалість курсу: '),
-	(194, 'ru', 'Длительность курса:'),
+	(193, 'ua', 'Рівень: '),
+	(193, 'ru', 'Уровень:'),
+	(193, 'en', 'Course:'),
+	(194, 'ua', 'Тривалість: '),
+	(194, 'ru', 'Длительность:'),
 	(194, 'en', 'Course duration:'),
-	(195, 'ua', ''),
-	(195, 'ru', ''),
-	(195, 'en', ''),
+	(195, 'ua', 'Відгуків немає.'),
+	(195, 'ru', 'Отзывов нет.'),
+	(195, 'en', 'There are not any reviews.'),
 	(196, 'ua', 'Схеми проплат'),
 	(196, 'ru', 'Схемы оплаты'),
 	(196, 'en', 'Ways of pay'),
@@ -1235,9 +1235,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(202, 'ua', 'кредит на 3 роки:'),
 	(202, 'ru', 'кредит на 3 года:'),
 	(202, 'en', 'credit for 3 years:'),
-	(203, 'ua', 'Середня оцінка: '),
-	(203, 'ru', 'Средняя оценка:'),
-	(203, 'en', 'Avarage rate:'),
+	(203, 'ua', 'Оцінка: '),
+	(203, 'ru', 'Оценка:'),
+	(203, 'en', 'Rate:'),
 	(204, 'ua', 'Для кого:'),
 	(204, 'ru', 'Для кого:'),
 	(204, 'en', 'For whom:'),
@@ -1268,12 +1268,12 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(213, 'ua', 'Тривалість:'),
 	(213, 'ru', 'Длительность:'),
 	(213, 'en', 'Duration:'),
-	(214, 'ua', 'Рівень модуля:'),
-	(214, 'ru', 'Уровень модуля:'),
-	(214, 'en', 'Level module:'),
-	(215, 'ua', 'Тривалість модуля:'),
-	(215, 'ru', 'Длительность модуля:'),
-	(215, 'en', 'Duration module:'),
+	(214, 'ua', 'Рівень:'),
+	(214, 'ru', 'Уровень:'),
+	(214, 'en', 'Level:'),
+	(215, 'ua', 'Тривалість:'),
+	(215, 'ru', 'Длительность:'),
+	(215, 'en', 'Duration:'),
 	(216, 'ua', 'занять'),
 	(216, 'ru', 'занятий'),
 	(216, 'en', 'lectures'),
@@ -1289,9 +1289,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(220, 'ua', 'дні/тиждень'),
 	(220, 'ru', 'дня / неделю'),
 	(220, 'en', 'days / week'),
-	(221, 'ua', 'Вартість модуля:'),
-	(221, 'ru', 'Cтоимость модуля:'),
-	(221, 'en', 'Cost module:'),
+	(221, 'ua', 'Вартість:'),
+	(221, 'ru', 'Cтоимость:'),
+	(221, 'en', 'Cost:'),
 	(222, 'ua', 'грн.'),
 	(222, 'ru', 'грн.'),
 	(222, 'en', 'UAH'),
@@ -1439,12 +1439,12 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(272, 'ua', 'Електронна пошта уже зайнята'),
 	(272, 'ru', 'Электронная почта уже занята'),
 	(272, 'en', 'Email already occupied'),
-	(279, 'ua', 'Почати модуль'),
-	(279, 'ru', 'Начать модуль'),
-	(279, 'en', 'Start module'),
-	(280, 'ua', 'Почати курс'),
-	(280, 'ru', 'Начать курс'),
-	(280, 'en', 'Start course'),
+	(279, 'ua', 'ПОЧАТИ МОДУЛЬ />'),
+	(279, 'ru', 'НАЧАТЬ МОДУЛЬ />'),
+	(279, 'en', 'START MODULE />'),
+	(280, 'ua', 'ПОЧАТИ КУРС />'),
+	(280, 'ru', 'НАЧАТЬ КУРС />'),
+	(280, 'en', 'START COURSE />'),
 	(237, 'ru', 'Запрашиваемая страница не существует.'),
 	(237, 'en', 'The requested page does not exist.'),
 	(237, 'ua', 'Запрошена сторінка не існує.'),
@@ -1636,7 +1636,22 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(316, 'en', 'There are not any content in this lecture ('),
 	(317, 'ua', 'Зміст'),
 	(317, 'ru', 'Содержание'),
-	(317, 'en', 'Contents');
+	(317, 'en', 'Contents'),
+	(316, 'en', 'Position:'),
+	(316, 'ua', 'Посада:'),
+	(316, 'ru', 'Должность:'),
+	(317, 'en', 'Place of work:'),
+	(317, 'ua', 'Місце роботи:'),
+	(317, 'ru', 'Место работы:'),
+	(318, 'en', 'The course is finished:'),
+	(318, 'ua', 'Курс закінчив:'),
+	(318, 'ru', 'Курс закончил:'),
+	(319, 'en', 'User Rating:'),
+	(319, 'ua', 'Рейтинг:'),
+	(319, 'ru', 'Рейтинг:'),
+	(320, 'en', 'Issue:'),
+	(320, 'ua', 'Випуск:'),
+	(320, 'ru', 'Выпуск:');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -1665,9 +1680,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~17 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~20 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 5700, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 3, 3),
@@ -1765,6 +1780,47 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(43, 1, 15),
 	(43, 2, 15);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.phpbb_acl_groups
+DROP TABLE IF EXISTS `phpbb_acl_groups`;
+CREATE TABLE IF NOT EXISTS `phpbb_acl_groups` (
+  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `auth_option_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `auth_role_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `auth_setting` tinyint(2) NOT NULL DEFAULT '0',
+  KEY `group_id` (`group_id`),
+  KEY `auth_opt_id` (`auth_option_id`),
+  KEY `auth_role_id` (`auth_role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table int_ita_db.phpbb_acl_groups: ~22 rows (approximately)
+/*!40000 ALTER TABLE `phpbb_acl_groups` DISABLE KEYS */;
+INSERT INTO `phpbb_acl_groups` (`group_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
+	(1, 0, 88, 0, 1),
+	(1, 0, 97, 0, 1),
+	(1, 0, 115, 0, 1),
+	(5, 0, 0, 5, 0),
+	(5, 0, 0, 1, 0),
+	(2, 0, 0, 6, 0),
+	(3, 0, 0, 6, 0),
+	(4, 0, 0, 5, 0),
+	(4, 0, 0, 10, 0),
+	(1, 1, 0, 17, 0),
+	(2, 1, 0, 17, 0),
+	(3, 1, 0, 17, 0),
+	(6, 1, 0, 17, 0),
+	(1, 2, 0, 17, 0),
+	(2, 2, 0, 15, 0),
+	(3, 2, 0, 15, 0),
+	(4, 2, 0, 21, 0),
+	(5, 2, 0, 14, 0),
+	(5, 2, 0, 10, 0),
+	(6, 2, 0, 19, 0),
+	(7, 0, 0, 23, 0),
+	(7, 2, 0, 24, 0);
+/*!40000 ALTER TABLE `phpbb_acl_groups` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.phpbb_acl_options
@@ -2888,7 +2944,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
 INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
 	('2d1a7a021e037ff5af01e0864d8867d3', '560a1b42c729bbe96a34f5c2603da1f1', 1, '6FYV5J', 420831711, 0),
@@ -3275,9 +3331,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_log` (
   KEY `topic_id` (`topic_id`),
   KEY `reportee_id` (`reportee_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_log: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_log: ~4 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_log` DISABLE KEYS */;
 INSERT INTO `phpbb_log` (`log_id`, `log_type`, `user_id`, `forum_id`, `topic_id`, `reportee_id`, `log_ip`, `log_time`, `log_operation`, `log_data`) VALUES
 	(1, 0, 2, 0, 0, 0, '127.0.0.1', 1431076934, 'LOG_INSTALL_INSTALLED', 'a:1:{i:0;s:5:"3.1.4";}'),
@@ -3748,9 +3804,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_notifications` (
   PRIMARY KEY (`notification_id`),
   KEY `item_ident` (`notification_type_id`,`item_id`),
   KEY `user` (`user_id`,`notification_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_notifications: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_notifications: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_notifications` (`notification_id`, `notification_type_id`, `item_id`, `item_parent_id`, `user_id`, `notification_read`, `notification_time`, `notification_data`) VALUES
 	(2, 6, 4, 3, 48, 0, 1433430282, 'a:6:{s:12:"post_subject";s:18:"Re: 4 червня";s:9:"poster_id";s:2:"48";s:11:"topic_title";s:14:"4 червня";s:13:"post_username";s:0:"";s:8:"forum_id";s:1:"2";s:10:"forum_name";s:30:"Ваш перший форум";}');
@@ -3765,9 +3821,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_notification_types` (
   `notification_type_enabled` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`notification_type_id`),
   UNIQUE KEY `type` (`notification_type_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_notification_types: ~6 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_notification_types: ~8 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_notification_types` DISABLE KEYS */;
 INSERT INTO `phpbb_notification_types` (`notification_type_id`, `notification_type_name`, `notification_type_enabled`) VALUES
 	(1, 'notification.type.topic', 1),
@@ -3884,9 +3940,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_posts` (
   KEY `tid_post_time` (`topic_id`,`post_time`),
   KEY `post_username` (`post_username`),
   KEY `post_visibility` (`post_visibility`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_posts: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_posts: ~4 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_posts` DISABLE KEYS */;
 INSERT INTO `phpbb_posts` (`post_id`, `topic_id`, `forum_id`, `poster_id`, `icon_id`, `poster_ip`, `post_time`, `post_reported`, `enable_bbcode`, `enable_smilies`, `enable_magic_url`, `enable_sig`, `post_username`, `post_subject`, `post_text`, `post_checksum`, `post_attachment`, `bbcode_bitfield`, `bbcode_uid`, `post_postcount`, `post_edit_time`, `post_edit_reason`, `post_edit_user`, `post_edit_count`, `post_edit_locked`, `post_visibility`, `post_delete_time`, `post_delete_reason`, `post_delete_user`) VALUES
 	(1, 1, 2, 2, 0, '127.0.0.1', 1431076924, 0, 1, 1, 1, 1, '', 'Ласкаво просимо до phpBB3', 'Це приклад повідомлення вашого phpBB3 форуму. Здається ніби все нормально працює. Ви можете при бажанні видалити це повідомлення та продовжити налаштування вашого форуму. В процесі встановлення вашій першій категорії та вашому першому форуму було встановлено відповідні права доступу для передвстановлених груп - адміністраторів, ботів, супермодераторів, гостей, зареєстрованих користувачів та зареєстрованих користувачів COPPA. Якщо ви видалите вашу першу категорію та ваш перший форум, не забудьте надати права доступу усім цих групам до нових категорій та форумів, які ви створите. Рекомендується перейменувати вашу першу категорію та ваш перший форум та скопіювати права з них при створенні нових категорій та форумів. Успіхів!', '5dd683b17f641daf84c040bfefc58ce9', 0, '', '', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
@@ -4219,9 +4275,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordlist` (
   PRIMARY KEY (`word_id`),
   UNIQUE KEY `wrd_txt` (`word_text`),
   KEY `wrd_cnt` (`word_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordlist: ~69 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordlist: ~74 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordlist` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `word_count`) VALUES
 	(1, 'приклад', 0, 1),
@@ -4312,7 +4368,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordmatch` (
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~70 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~77 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUES
 	(1, 1, 0),
@@ -4607,9 +4663,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics` (
   KEY `fid_time_moved` (`forum_id`,`topic_last_post_time`,`topic_moved_id`),
   KEY `topic_visibility` (`topic_visibility`),
   KEY `forum_vis_last` (`forum_id`,`topic_visibility`,`topic_last_post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics` DISABLE KEYS */;
 INSERT INTO `phpbb_topics` (`topic_id`, `forum_id`, `icon_id`, `topic_attachment`, `topic_reported`, `topic_title`, `topic_poster`, `topic_time`, `topic_time_limit`, `topic_views`, `topic_status`, `topic_type`, `topic_first_post_id`, `topic_first_poster_name`, `topic_first_poster_colour`, `topic_last_post_id`, `topic_last_poster_id`, `topic_last_poster_name`, `topic_last_poster_colour`, `topic_last_post_subject`, `topic_last_post_time`, `topic_last_view_time`, `topic_moved_id`, `topic_bumped`, `topic_bumper`, `poll_title`, `poll_start`, `poll_length`, `poll_max_options`, `poll_last_vote`, `poll_vote_change`, `topic_visibility`, `topic_delete_time`, `topic_delete_reason`, `topic_delete_user`, `topic_posts_approved`, `topic_posts_unapproved`, `topic_posts_softdeleted`) VALUES
 	(1, 2, 0, 0, 0, 'Ласкаво просимо до phpBB3', 2, 1431076924, 0, 1, 0, 0, 1, 'intita', 'AA0000', 1, 2, 'intita', 'AA0000', 'Ласкаво просимо до phpBB3', 1431076924, 1431077129, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
@@ -4627,7 +4683,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_posted` (
   PRIMARY KEY (`user_id`,`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics_posted: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics_posted: ~4 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_posted` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_posted` (`user_id`, `topic_id`, `topic_posted`) VALUES
 	(2, 1, 1),
@@ -4746,9 +4802,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
   KEY `user_birthday` (`user_birthday`),
   KEY `user_email_hash` (`user_email_hash`),
   KEY `user_type` (`user_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_users: ~47 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_users: ~48 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
 	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '992212ce6c12af55', 1, 0, 0),
@@ -4814,7 +4870,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_group` (
   KEY `group_leader` (`group_leader`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_group: ~49 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_group: ~51 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_group` DISABLE KEYS */;
 INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pending`) VALUES
 	(1, 1, 0, 0),
@@ -4881,7 +4937,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_notifications` (
   `notify` tinyint(1) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_notifications: ~184 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_notifications: ~188 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_user_notifications` (`item_type`, `item_id`, `user_id`, `method`, `notify`) VALUES
 	('notification.type.post', 0, 2, '', 1),
@@ -5157,9 +5213,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~317 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~320 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -5356,7 +5412,7 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(192, 'teacher', '0192'),
 	(193, 'course', '0193'),
 	(194, 'course', '0194'),
-	(195, 'course', '0195'),
+	(195, 'profile', '0195'),
 	(196, 'course', '0196'),
 	(197, 'course', '0197'),
 	(198, 'course', '0198'),
@@ -5477,8 +5533,11 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(313, 'activeemail', '0313'),
 	(314, 'resetpass', '0314'),
 	(315, 'resetpass', '0315'),
-	(316, 'lecture', '0316'),
-	(317, 'lecture', '0317');
+	(316, 'graduates', '0316'),
+	(317, 'graduates', '0317'),
+	(318, 'graduates', '0318'),
+	(319, 'graduates', '0319'),
+	(320, 'graduates', '0320');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 

@@ -46,7 +46,9 @@
     <p><?php echo Yii::t('profile', '0122'); ?> 1000 <?php echo Yii::t('profile', '0123'); ?></p>
             </td>
             <td>
-    <button class="ButtonFinances" style="margin-left: 150px"><?php echo Yii::t('profile', '0261'); ?></button>
+    <a href="<?php echo Yii::app()->createUrl('pay/index');?>">
+        <button class="ButtonFinances" style="margin-left: 150px"><?php echo Yii::t('profile', '0261'); ?></button>
+        </a>
             </td>
         </tr>
     </table>

@@ -6,7 +6,7 @@
     <input name="idModule" value="<?php echo $newmodel->module_ID;?>" hidden="hidden">
     <input name="order" value="<?php echo ($newmodel->lesson_count + 1);?>" hidden="hidden">
     <input name="lang" value="<?php echo $newmodel->language;?>" hidden="hidden">
-    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі., ()/+-]+$">
+    <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі.,;: ()/+-]+$">
     <br><br>
     <input type="submit"  value="Додати" id="submitButton">
 </form>

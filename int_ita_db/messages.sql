@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-04 18:09:52
+-- Date/time:                    2015-06-05 16:01:36
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 008 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~903 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -599,15 +599,15 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(192, 'ua', 'Відправити'),
 	(192, 'ru', 'Отправить'),
 	(192, 'en', 'Send'),
-	(193, 'ua', 'Рівень курсу: '),
-	(193, 'ru', 'Уровень курса:'),
-	(193, 'en', 'Course rate:'),
-	(194, 'ua', 'Тривалість курсу: '),
-	(194, 'ru', 'Длительность курса:'),
+	(193, 'ua', 'Рівень: '),
+	(193, 'ru', 'Уровень:'),
+	(193, 'en', 'Course:'),
+	(194, 'ua', 'Тривалість: '),
+	(194, 'ru', 'Длительность:'),
 	(194, 'en', 'Course duration:'),
-	(195, 'ua', ''),
-	(195, 'ru', ''),
-	(195, 'en', ''),
+	(195, 'ua', 'Відгуків немає.'),
+	(195, 'ru', 'Отзывов нет.'),
+	(195, 'en', 'There are not any reviews.'),
 	(196, 'ua', 'Схеми проплат'),
 	(196, 'ru', 'Схемы оплаты'),
 	(196, 'en', 'Ways of pay'),
@@ -629,9 +629,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(202, 'ua', 'кредит на 3 роки:'),
 	(202, 'ru', 'кредит на 3 года:'),
 	(202, 'en', 'credit for 3 years:'),
-	(203, 'ua', 'Середня оцінка: '),
-	(203, 'ru', 'Средняя оценка:'),
-	(203, 'en', 'Avarage rate:'),
+	(203, 'ua', 'Оцінка: '),
+	(203, 'ru', 'Оценка:'),
+	(203, 'en', 'Rate:'),
 	(204, 'ua', 'Для кого:'),
 	(204, 'ru', 'Для кого:'),
 	(204, 'en', 'For whom:'),
@@ -662,12 +662,12 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(213, 'ua', 'Тривалість:'),
 	(213, 'ru', 'Длительность:'),
 	(213, 'en', 'Duration:'),
-	(214, 'ua', 'Рівень модуля:'),
-	(214, 'ru', 'Уровень модуля:'),
-	(214, 'en', 'Level module:'),
-	(215, 'ua', 'Тривалість модуля:'),
-	(215, 'ru', 'Длительность модуля:'),
-	(215, 'en', 'Duration module:'),
+	(214, 'ua', 'Рівень:'),
+	(214, 'ru', 'Уровень:'),
+	(214, 'en', 'Level:'),
+	(215, 'ua', 'Тривалість:'),
+	(215, 'ru', 'Длительность:'),
+	(215, 'en', 'Duration:'),
 	(216, 'ua', 'занять'),
 	(216, 'ru', 'занятий'),
 	(216, 'en', 'lectures'),
@@ -683,9 +683,9 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(220, 'ua', 'дні/тиждень'),
 	(220, 'ru', 'дня / неделю'),
 	(220, 'en', 'days / week'),
-	(221, 'ua', 'Вартість модуля:'),
-	(221, 'ru', 'Cтоимость модуля:'),
-	(221, 'en', 'Cost module:'),
+	(221, 'ua', 'Вартість:'),
+	(221, 'ru', 'Cтоимость:'),
+	(221, 'en', 'Cost:'),
 	(222, 'ua', 'грн.'),
 	(222, 'ru', 'грн.'),
 	(222, 'en', 'UAH'),
@@ -833,12 +833,12 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(272, 'ua', 'Електронна пошта уже зайнята'),
 	(272, 'ru', 'Электронная почта уже занята'),
 	(272, 'en', 'Email already occupied'),
-	(279, 'ua', 'Почати модуль'),
-	(279, 'ru', 'Начать модуль'),
-	(279, 'en', 'Start module'),
-	(280, 'ua', 'Почати курс'),
-	(280, 'ru', 'Начать курс'),
-	(280, 'en', 'Start course'),
+	(279, 'ua', 'ПОЧАТИ МОДУЛЬ />'),
+	(279, 'ru', 'НАЧАТЬ МОДУЛЬ />'),
+	(279, 'en', 'START MODULE />'),
+	(280, 'ua', 'ПОЧАТИ КУРС />'),
+	(280, 'ru', 'НАЧАТЬ КУРС />'),
+	(280, 'en', 'START COURSE />'),
 	(237, 'ru', 'Запрашиваемая страница не существует.'),
 	(237, 'en', 'The requested page does not exist.'),
 	(237, 'ua', 'Запрошена сторінка не існує.'),
@@ -1030,7 +1030,22 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(316, 'en', 'There are not any content in this lecture ('),
 	(317, 'ua', 'Зміст'),
 	(317, 'ru', 'Содержание'),
-	(317, 'en', 'Contents');
+	(317, 'en', 'Contents'),
+	(316, 'en', 'Position:'),
+	(316, 'ua', 'Посада:'),
+	(316, 'ru', 'Должность:'),
+	(317, 'en', 'Place of work:'),
+	(317, 'ua', 'Місце роботи:'),
+	(317, 'ru', 'Место работы:'),
+	(318, 'en', 'The course is finished:'),
+	(318, 'ua', 'Курс закінчив:'),
+	(318, 'ru', 'Курс закончил:'),
+	(319, 'en', 'User Rating:'),
+	(319, 'ua', 'Рейтинг:'),
+	(319, 'ru', 'Рейтинг:'),
+	(320, 'en', 'Issue:'),
+	(320, 'ua', 'Випуск:'),
+	(320, 'ru', 'Выпуск:');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
