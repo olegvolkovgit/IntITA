@@ -224,7 +224,7 @@ body .grid-view table.items td.titleColumn{
 div.ratico{
     display: inline-block;
     float: right;
-    /*margin-right: 100px;*/
+    margin-left: 20px;
 }
 #addModule,#addLecture{
     float:right;
