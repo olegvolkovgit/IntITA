@@ -235,6 +235,9 @@ p {
     font-family: "MyriadPro";
     text-decoration: underline;
 }
+#lang input[type="button"]:hover{
+    color: #666666;
+}
 #lang input[type="button"].selectedLang {
     text-decoration: none;
     color: #999999;

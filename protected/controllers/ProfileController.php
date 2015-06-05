@@ -157,7 +157,7 @@ class ProfileController extends Controller
         if ($_POST['sendResponse']) {
             if (!empty($_POST['response'])) {
                 $response->who = Yii::app()->user->id;
-                $response->about = $teacher->teacher_id;
+                $response->about = $teacher->user_id;
                 $response->date = date("Y-m-d H:i:s");
                 $response->text = $response->bbcode_to_html($_POST['response']);
                 $response->knowledge = $_POST['material'];
