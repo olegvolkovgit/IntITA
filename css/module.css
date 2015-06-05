@@ -33,6 +33,7 @@ img.time{
     border-top: 1px solid #cccccc;
     padding-left: 115px;
     font-size: 16px;
+    margin-top: 10px;
 }
 .lessonModule h2
 {
@@ -271,7 +272,7 @@ div.startCourse{
 .startCourse a, .startModule a    {
     display: inline-block;
     position: relative;
-    width:140px;
+    width:160px;
     height:30px;
     border-radius: 7px;
     border:none;
