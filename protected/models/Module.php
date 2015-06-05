@@ -45,13 +45,15 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('course, order', 'required'),
-			array('course, module_duration_hours, module_duration_days, lesson_count, order, days_in_week, hours_in_day, level', 'numerical', 'integerOnly'=>true),
-			array('module_name', 'length', 'max'=>45),
+			array('course, order, language', 'required'),
+			array('course, module_duration_hours, module_duration_days, lesson_count, order, hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true),
+			array('module_name,level', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
 			array('module_img', 'length', 'max'=>255),
-			array('for_whom, what_you_learn, what_you_get, about_module, owners, days_in_week, hours_in_day, level', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level', 'safe'),
+            array('module_name, level,hours_in_day, days_in_week', 'required','on'=>'canedit'),
+            array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1, 'on'=>'canedit'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, order, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners, days_in_week, hours_in_day, level', 'safe', 'on'=>'search'),

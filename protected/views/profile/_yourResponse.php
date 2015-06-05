@@ -48,7 +48,7 @@
         </div>
 
         <div class="BBCode">
-            <form  action="<?php echo Yii::app()->createUrl('profile/response');?>" method="post">
+            <form  action="<?php echo Yii::app()->createUrl('profile/response', array('id' => $model->teacher_id));?>" method="post">
                 <textarea class="editor" name="response"></textarea>
                 <input type="hidden" id="rat1" name="material" />
                 <input type="hidden" id="rat2" name="behavior" />
