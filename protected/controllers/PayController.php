@@ -14,10 +14,23 @@ class PayController extends Controller{
     }
 
     public function actionPayNow(){
+
         $permission = new Permissions();
-        $permission->setRead($_POST['user'], $_POST['module']);
 
-
+        $lectures = Yii::app()->db->createCommand(array(
+            'select' => array('id'),
+            'from' => 'lectures',
+            'where' => 'idModule=:id',
+            'params' => array(':id'=>$_POST["module"]),
+        ))->queryAll();
+        $count = count($lectures);
+        for($i = 0; $i < $count; $i++){
+            $permission->setRead($_POST['user'], $lectures[$i]["id"]);
+        }
+        Yii::app()->user->setFlash('pay', '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
+            Module::model()->findByPk($_POST["module"])->module_name.'</strong> курса <strong>'.
+            Course::model()->findByPk($_POST['course'])->course_name.'</strong> оплачено.
+            <br />Тепер у Вас є доступ до усіх лекцій цього модуля. <h4>Enjoy it!</h4>');
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

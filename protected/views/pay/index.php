@@ -53,15 +53,13 @@ $this->breadcrumbs=array(
             <br>
             <br>
 
-            <fieldset id="rights">
-                <legend>Права</legend>
-                <input type="checkbox" name="read" value="1" />READ<br />
-                <input type="checkbox" name="edit" value="2" />EDIT<br />
-                <input type="checkbox" name="create" value="3" />CREATE<br />
-                <input type="checkbox" name="delete" value="4" />DELETE<br/>
-            </fieldset>
             <input type="submit" value="Сплатити зараз">
     </form>
+    <?php if(Yii::app()->user->hasFlash('pay')){?>
+        <div style="color: green">
+            <?php echo Yii::app()->user->getFlash('pay'); ?>
+        </div>
+    <?php } ?>
 </div>
 
 
