@@ -27,7 +27,7 @@ class ConsultationsHelper
             }else $result='unknown';
         }
         else{
-            $user=Teacher::model()->findByPk($dp->teacher_id)->first_name." ".Teacher::model()->findByPk($dp->teacher_id)->last_name;
+            $user=Teacher::model()->findByPk($dp->teacher_id);
             if($user){
                 $result=$user->first_name." ".$user->last_name;
                 if($result==' ')
