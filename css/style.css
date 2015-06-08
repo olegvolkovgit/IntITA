@@ -581,13 +581,30 @@ div.profileStatus{
 }
 .infoblock{
     margin:0 auto;
-    margin-bottom: 200px;
+    margin-bottom: 40vh;
     width: 540px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     padding: 20px 20px 20px 20px;
+    text-align: center;
 }
 .infoblock h2{
     text-align: center;
     color: #4b75a4;
 }
+/*error page*/
+.errorblock{
+    margin:0 auto;
+    margin-bottom: 37vh;
+    width: 540px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    padding: 20px 20px 40px 20px;
+    text-align: center;
+}
+.errorblock h1{
+    text-align: center;
+    text-transform: uppercase;
+    color: #4b75a4;
+}
+/*error page*/
