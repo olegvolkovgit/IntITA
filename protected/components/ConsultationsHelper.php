@@ -19,13 +19,21 @@ class ConsultationsHelper
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
 
         if($teacher){
-            $result=StudentReg::model()->findByPk($dp->user_id)->firstName." ".StudentReg::model()->findByPk($dp->user_id)->secondName;
-            if($result==' ')
-                $result=StudentReg::model()->findByPk($dp->user_id)->email;
+            $user=StudentReg::model()->findByPk($dp->user_id);
+            if($user){
+                $result=$user->firstName." ".$user->secondName;
+                if($result==' ')
+                    $result=$user->email;
+            }else $result='unknown';
         }
-        else
-            $result=Teacher::model()->findByPk($dp->teacher_id)->first_name." ".Teacher::model()->findByPk($dp->teacher_id)->last_name;
-
+        else{
+            $user=Teacher::model()->findByPk($dp->teacher_id)->first_name." ".Teacher::model()->findByPk($dp->teacher_id)->last_name;
+            if($user){
+                $result=$user->first_name." ".$user->last_name;
+                if($result==' ')
+                    $result=$user->email;
+            }else $result='unknown';
+        }
         return $result;
     }
     public static function getTheme($dp)
