@@ -263,10 +263,10 @@ td.button-column{
     line-height: 32px;
     float: right;
 }
-div.startModule{
+.headerLeftModule div.startModule{
     margin-left: 110px;
 }
-div.startCourse{
+.headerLeftModule div.startCourse{
     margin-left: 100px;
 }
 .startCourse a, .startModule a    {
