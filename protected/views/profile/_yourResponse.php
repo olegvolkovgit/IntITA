@@ -6,23 +6,24 @@
  * Time: 0:58
  */
 ?>
-<?php if(AccessHelper::canAddResponse()){
-    if($teacherRat){
-        $knowldg= $teacherRat->knowledge;
-        $behvr=$teacherRat->behavior;
-        $motivtn=$teacherRat->motivation;
-        $knowval=$knowldg;
-        $behval=$behvr;
-        $motivval=$motivtn;
-    } else{
-        $knowldg='0';
-        $behvr='0';
-        $motivtn='0';
-        $knowval=Null;
-        $behval=Null;
-        $motivval=Null;
-    }
-    ?>
+<?php
+if($teacherRat){
+    $knowldg= $teacherRat->knowledge;
+    $behvr=$teacherRat->behavior;
+    $motivtn=$teacherRat->motivation;
+    $knowval=$knowldg;
+    $behval=$behvr;
+    $motivval=$motivtn;
+} else{
+    $knowldg='0';
+    $behvr='0';
+    $motivtn='0';
+    $knowval=Null;
+    $behval=Null;
+    $motivval=Null;
+}
+?>
+<?php if(AccessHelper::canAddResponse()){?>
 <div class="lessonTask">
     <img class="lessonBut" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'lessButton.png');?>">
     <div class="lessonButName" unselectable="on"><?php echo Yii::t('teacher', '0187'); ?></div>
