@@ -40,11 +40,10 @@ class CoursesController extends Controller
             }
         }
 
-        $dataProvider = new CActiveDataProvider('Course'
-            , array(
+        $dataProvider = new CActiveDataProvider('Course', array(
             'criteria' => $criteria,
-        )
-        );
+            'Pagination'=>false,
+        ));
 
         $total = $dataProvider->getTotalItemCount();
         $count1 =round($total/2);

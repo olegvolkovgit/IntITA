@@ -37,13 +37,15 @@ class Course extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alias, language, course_name, course_duration_hours', 'required'),
-			array('course_duration_hours, modules_count', 'numerical', 'integerOnly'=>true),
-			array('alias, course_price', 'length', 'max'=>10),
+			array('alias, language, course_name, course_duration_hours', 'required', 'message'=>'Поле обовязкове для заповнення'),
+			array('course_duration_hours, modules_count, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => "Введіть ціле невід'ємне число"),
+			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
 			array('course_img', 'length', 'max'=>255),
-			array('for_whom, what_you_learn, what_you_get', 'safe'),
+            array('course_img', 'file','types'=>'jpg, gif, png'),
+            array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>'Введіть дату в форматі РРРР-ММ-ДД'),
+			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('course_ID,alias, language, course_name, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),
@@ -198,5 +200,28 @@ class Course extends CActiveRecord
 	public function findCourseIDByAlias($alias){
 		return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
 	}
+
+    protected function beforeSave()
+    {
+        if ($this->scenario=="update")
+        {
+            $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->oldLogo;
+            if (is_file($src))
+                unlink($src);
+        }
+        if ($this->scenario=="insert" || $this->scenario=="update")
+        {
+            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
+                throw new CHttpException(500);
+        }
+        return true;
+    }
+    protected function beforeDelete()
+    {
+        $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->course_img;
+        if (is_file($src))
+            unlink($src);
+        return true;
+    }
 
 }
