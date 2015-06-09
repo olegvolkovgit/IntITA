@@ -7,16 +7,24 @@
  */
 
 ?>
+<?php $coursesID = TeacherHelper::getCoursesByTeacher($id);
+if (!empty($coursesID)){?>
 <div class="TeacherProfilecourse">
-    <ul>
-    <?php
-        for ($i = count($courses)-1; $i >= 0; $i--) {
-            ?>
-        <li>
-            <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $courses[$i]['course'])); ?>"><?php echo $titles[$i]['title']; ?></a>
-        </li>
-        <?php
-        }
-    ?>
-    </ul>
+        <p>
+            <?php echo Yii::t('teachers', '0061'); ?>
+        </p>
+        <div class="teacherCourses">
+            <ul>
+                <?php
+                foreach ($coursesID as $key => $value) {
+                    ?>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $key));?>"><?php echo $value; ?></a>
+                    </li>
+                <?php
+                }
+                ?>
+            </ul>
+        </div>
 </div>
+<?php }?>

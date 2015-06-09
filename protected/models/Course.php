@@ -43,7 +43,7 @@ class Course extends CActiveRecord
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
 			array('course_img', 'length', 'max'=>255),
-            array('course_img', 'file','types'=>'jpg, gif, png'),
+            array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>'Введіть дату в форматі РРРР-ММ-ДД'),
 			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review', 'safe'),
 			// The following rule is used by search().
@@ -211,8 +211,8 @@ class Course extends CActiveRecord
         }
         if ($this->scenario=="insert" || $this->scenario=="update")
         {
-            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
-                throw new CHttpException(500);
+//            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
+//                throw new CHttpException(500);
         }
         return true;
     }

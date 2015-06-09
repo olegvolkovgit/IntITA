@@ -214,4 +214,13 @@ class Teacher extends CActiveRecord
 
         return TeacherModule::model()->exists($criteria);
     }
+
+    public static function getAllTeachersId(){
+        $teachers = Teacher::model()->findAllBySql('select teacher_id from teacher order by teacher_id');
+        $result = [];
+        for($i = 0; $i < count($teachers); $i++){
+            array_push($result, $teachers[$i]['teacher_id']);
+        }
+        return $result;
+    }
 }

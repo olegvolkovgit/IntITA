@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-05 18:11:40
+-- Date/time:                    2015-06-09 16:56:15
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~139 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~136 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
-	(1, 1, 1),
+	(1, 1, 15),
 	(1, 2, 1),
 	(1, 3, 7),
 	(1, 5, 1),
@@ -44,6 +44,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 31, 5),
 	(1, 32, 1),
 	(1, 33, 15),
+	(11, 1, 0),
 	(11, 31, 1),
 	(11, 32, 1),
 	(11, 33, 1),
@@ -122,12 +123,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(45, 14, 1),
 	(45, 15, 1),
 	(45, 16, 1),
-	(45, 17, 1),
-	(45, 18, 1),
 	(45, 19, 1),
-	(45, 20, 1),
-	(45, 21, 1),
-	(45, 26, 1),
 	(45, 27, 1),
 	(49, 1, 1),
 	(49, 2, 1),
@@ -146,7 +142,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(49, 31, 1),
 	(49, 32, 1),
 	(49, 33, 1),
-	(50, 1, 1),
+	(50, 1, 15),
 	(50, 2, 1),
 	(50, 3, 1),
 	(50, 5, 1),
@@ -158,11 +154,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(50, 19, 1),
 	(50, 20, 1),
 	(50, 21, 1),
-	(50, 26, 1),
-	(50, 27, 1),
-	(50, 31, 1),
-	(50, 32, 1),
-	(50, 33, 1);
+	(50, 26, 1);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

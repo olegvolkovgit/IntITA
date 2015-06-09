@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-05 18:11:34
+-- Date/time:                    2015-06-09 16:56:21
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -326,13 +326,13 @@ CREATE TABLE IF NOT EXISTS `course` (
   `for_whom` text,
   `what_you_learn` text,
   `what_you_get` text,
-  `course_img` varchar(255) DEFAULT NULL,
+  `course_img` varchar(255) DEFAULT 'courseimg1.png',
   `review` text,
   PRIMARY KEY (`course_ID`),
   UNIQUE KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
--- Dumping data for table int_ita_db.course: ~7 rows (approximately)
+-- Dumping data for table int_ita_db.course: ~8 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `review`) VALUES
 	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 17, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course1Image.png', NULL),
@@ -341,7 +341,8 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course4Image.png', NULL),
 	(5, 'C++', 'ua', 'Програміст (С++)', 'intern', '2015-12-30', 0, 0, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course2Image.png', NULL),
 	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course8Image.png', NULL),
-	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course7Image.png', NULL);
+	(7, 'QA', 'ua', 'Тестувальник (QA)', 'junior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'course7Image.png', NULL),
+	(8, 'Course1', 'ua', 'Course1', 'intern', '0000-00-00', 0, 2, 0, 0, '', '', '', 'course4Image.png', '');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -626,7 +627,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 023 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 189 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -729,13 +730,13 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(98, 'ua', ' рік'),
 	(99, 'ua', ' роки'),
 	(100, 'ua', 'Про себе:'),
-	(101, 'ua', 'Електрона пошта:'),
+	(101, 'ua', 'Електронна пошта:'),
 	(102, 'ua', 'Телефон:'),
 	(103, 'ua', 'Освіта:'),
 	(104, 'ua', 'Інтереси:'),
 	(105, 'ua', 'Звідки дізнався про Вас:'),
 	(106, 'ua', 'Форма навчання:'),
-	(107, 'ua', 'Завершенні курси:'),
+	(107, 'ua', 'Завершені курси:'),
 	(108, 'ua', 'Мої курси'),
 	(109, 'ua', 'Розклад'),
 	(110, 'ua', 'Консультації'),
@@ -1651,7 +1652,173 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(319, 'ru', 'Рейтинг:'),
 	(320, 'en', 'Issue:'),
 	(320, 'ua', 'Випуск:'),
-	(320, 'ru', 'Выпуск:');
+	(320, 'ru', 'Выпуск:'),
+	(317, 'en', 'Contents'),
+	(337, 'ua', 'Спробуємо вгадати:'),
+	(337, 'en', 'Try to guess:'),
+	(337, 'ru', 'Попробуем угадать:'),
+	(338, 'ua', 'власна квартира'),
+	(338, 'en', 'own apartment'),
+	(338, 'ru', 'собственная квартира'),
+	(339, 'ua', 'чи навіть будинок?'),
+	(339, 'en', 'or even house?'),
+	(339, 'ru', 'или даже дом?'),
+	(340, 'ua', 'ГАРНИЙ'),
+	(340, 'en', 'GOOD'),
+	(340, 'ru', 'ХОРОШИЙ'),
+	(341, 'ua', 'автомобіль'),
+	(341, 'en', 'car'),
+	(341, 'ru', 'автомобиль'),
+	(342, 'ua', 'закордонні'),
+	(342, 'en', 'foreign'),
+	(342, 'ru', 'заграничные'),
+	(343, 'ua', 'подорожі,'),
+	(343, 'en', 'trips'),
+	(343, 'ru', 'путешествия'),
+	(344, 'ua', 'можливо'),
+	(344, 'en', 'perhaps'),
+	(344, 'ru', 'возможно'),
+	(345, 'ua', 'ДО ЕКЗОТИЧНИХ КРАЇН?'),
+	(345, 'en', 'TO EXOTIC COUNTRIES?'),
+	(345, 'ru', 'В ЭКЗОТИЧЕСКИЕ СТРАНЫ?'),
+	(346, 'ua', 'Забезпечене'),
+	(346, 'en', 'Rich'),
+	(346, 'ru', 'Обеспеченная'),
+	(347, 'ua', 'життя'),
+	(347, 'en', 'life'),
+	(347, 'ru', 'жизнь'),
+	(348, 'ua', 'для себе і близьких,'),
+	(348, 'en', 'for themselves and loved once'),
+	(348, 'ru', 'для себя и близких'),
+	(349, 'ua', 'коли не доводиться думати про'),
+	(349, 'en', 'when you have not think about'),
+	(349, 'ru', 'когда не приходится думать о'),
+	(350, 'ua', 'гроші?'),
+	(350, 'en', 'money?'),
+	(350, 'ru', 'деньгах?'),
+	(351, 'ua', 'А, може, це свобода жити своїм <br>життям? Самостійно керувати <br> власним часом з можливістю <br>працювати за <span>зручним <br>графіком</span> без необхідності <br>щодня їздити на роботу, але<br> при цьому мати стабільно<br> високий дохід?'),
+	(351, 'en', 'And, perhaps, is the freedom to live<br> their lives? Independently manage <br> own time with the ability to work on <br> <span>convenient schedule </ span> without the need <br> daily commute to work, but still have <br> <br> stable high income?'),
+	(351, 'ru', 'А, может, это свобода жить своей <br> жизнью? Самостоятельно управлять <br> собственным временем с возможностью <br> работать по <span> удобному <br> графику </ span> без необходимости <br> ежедневно ездить на работу, но <br> при этом иметь стабильно <br> высокий доход?'),
+	(352, 'ua', 'Як щодо'),
+	(352, 'en', 'What about'),
+	(352, 'ru', 'Что насчёт'),
+	(353, 'ua', '/в місяць?'),
+	(353, 'en', ' per month?'),
+	(353, 'ru', '/в месяц?'),
+	(354, 'ua', 'з можливістю працювати за гнучким<br>графіком та дистанційно? Ти думаєш, що в<br>нашій країні такі умови лише у керівників<br>та власників бізнесу?<br><br>У нас хороша новина:<br>'),
+	(354, 'en', 'with the ability to work flexible schedule and <br> remotely? You think that in our country <br> conditions only <br> managers and business owners? <br> <br> We have good news:<br>'),
+	(354, 'ru', 'с возможностью работать по гибкому <br> графику и дистанционно? Ты думаешь, что в <br> нашей стране такие условия только у руководителей <br> и владельцев бизнеса? <br> <br> У нас хорошая новость: <br>'),
+	(355, 'ua', 'вже через рік-два-три так зможеш<br>заробляти і<br><br>ТИ . . . '),
+	(355, 'en', 'in a year or two or three so <br> able to earn and <br> <br> you. . .'),
+	(355, 'ru', 'уже через год-два-три так сможешь <br> зарабатывать и <br> <br> ТЫ. . .'),
+	(356, 'ua', 'Професія майбутнього'),
+	(356, 'en', 'Occupation future'),
+	(356, 'ru', 'Профессия будущего'),
+	(357, 'ua', 'Сьогодні у тебе є реальна можливість <br>\r\n																				 поєднати хороший заробіток, гнучкий<br>\r\n																				 графік роботи та зручність<br>\r\n																				 дистанційної роботи. І це не<br>\r\n																				 “заработок в интернете”, про який<br>\r\n																				 кричить банерна реклама на багатьох<br>\r\n																				 сайтах. Ми віримо у те, що високого <br>\r\n																				 стабільного доходу можна досягти <br>\r\n																				 лише за допомогою власних зусиль.'),
+	(357, 'en', 'Today you have a real opportunity <br>\r\n																				 combine the good salary, flexible <br>\r\n																				 schedule and convenience <br>\r\n																				 teleworking. This is not <br>\r\n																				 "Earnings on the Internet", which <br>\r\n																				 screaming banner ads on many <br>\r\n																				 sites. We believe that high <br>\r\n																				 stable income can be achieved <br>\r\n																				 only through their own efforts.'),
+	(357, 'ru', 'Сегодня у тебя есть реальная возможность <br>\r\n																				 совместить хороший заработок, гибкий <br>\r\n																				 график работы и удобство <br>\r\n																				 дистанционной работы. И это не <br>\r\n																				 "Заработок в интернете", о котором <br>\r\n																				 кричит баннерная реклама на многих <br>\r\n																				 сайтах. Мы верим в то, что высокого <br>\r\n																				 стабильного дохода можно достичь <br>\r\n																				 только с помощью собственных усилий.'),
+	(358, 'ua', 'Ми живемо в епоху, коли'),
+	(358, 'en', 'We live in an era when'),
+	(358, 'ru', 'Мы живем в эпоху, когда'),
+	(359, 'ua', 'ГОЛОВНИМ ДВИГУНОМ РОЗВИТКУ СВІТОВОЇ ЕКОНОМІКИ Є ІНФОРМАЦІЙНІ   <br>ТЕХНОЛОГІЇ'),
+	(359, 'en', 'THE MAIN ENGINE OF THE GLOBAL ECONOMY ARE <br> INFORMATION TECHNOLOGY'),
+	(359, 'ru', 'ГЛАВНЫМ ДВИГАТЕЛЕМ РАЗВИТИЯ МИРОВОЙ ЭКОНОМИКИ ЕСТЬ ИНФОРМАЦИОННЫЕ <br> ТЕХНОЛОГИИ'),
+	(360, 'ua', 'Як?'),
+	(360, 'en', 'How?'),
+	(360, 'ru', 'Как?'),
+	(361, 'ua', '<li>Вони дозволяють досягти нових проривних результатів у   <br>\r\n																						 традиційних галузях: виробництві та послугах.</li>\r\n																				 <li>саме інформаційні технології повністю змінили і <br>\r\n																						 продовжують трансформувати індустрії звязку,   <br>\r\n																						 розваг (книги, музика, фільми), банківських послуг;</li>\r\n																				 <li>також такі традиційні бізнеси, як послуги таксі (Uber);</li>\r\n																				 <li>  готелів (Airbnb);</li>\r\n																				 <li>навчання (Coursera).</li>'),
+	(361, 'en', '<li> They can achieve new breakthrough results in <br>\r\n																							traditional industries, manufacturing and services. </ li>\r\n																							<li> information technology is completely changed and <br>\r\n																							communication industry continues to transform, <br>\r\n																							entertainment (books, music, movies), banking services; </ li>\r\n																							<li> as traditional businesses such as taxi services (Uber); </ li>\r\n																							<li> hotels (Airbnb); </ li>\r\n																							<li> Learning (Coursera). </ li>'),
+	(361, 'ru', '<li> Они позволяют достичь новых прорывных результатов в <br>\r\n																							традиционных отраслях: производстве и услугах. </ li>\r\n																							<li> именно информационные технологии полностью изменили и <br>\r\n																							продолжают трансформировать индустрии связи, <br>\r\n																							развлечений (книги, музыка, фильмы), банковских услуг; </ li>\r\n																							<li> также такие традиционные бизнесы, как услуги такси (Uber); </ li>\r\n																							<li> гостиниц (Airbnb); </ li>\r\n																							<li> обучения (Coursera). </ li>'),
+	(362, 'ua', 'Герої інформаційної епохи - це спеціалісти з інформаційних технологій.<br>\r\n																				 Вони знаходяться на передовій змін, вони придумали та<br>\r\n																				 продовжують розвивати Windows, iOS, Android, а також мільйони<br>\r\n																				 додатків до них, вони створюють соціальні мережі, сайти та бази<br>\r\n																				 даних.'),
+	(362, 'en', 'Heroes of the information age - the specialists in information technologies. <br>\r\n																				 They are at the forefront of change, they came up and <br>\r\n																				 continue to develop Windows, iOS, Android, and millions <br>\r\n																				 annexes, they create social networks, websites and database <br>\r\n																				 data.'),
+	(362, 'ru', 'Герои информационной эпохи - это специалисты по информационным технологиям. <br>\r\n																				 Они находятся на передовой изменений, они придумали и <br>\r\n																				 продолжают развивать Windows, iOS, Android, а также миллионы <br>\r\n																				 приложений к ним, они создают социальные сети, сайты и базы <br>\r\n																				 данных.'),
+	(363, 'ua', 'Розпочинай вчитися вже зараз!'),
+	(363, 'en', 'Starts learn now!'),
+	(363, 'ru', 'Начинай учиться уже сейчас!'),
+	(337, 'ua', 'Спробуємо вгадати:'),
+	(337, 'en', 'Try to guess:'),
+	(337, 'ru', 'Попробуем угадать:'),
+	(338, 'ua', 'власна квартира'),
+	(338, 'en', 'own apartment'),
+	(338, 'ru', 'собственная квартира'),
+	(339, 'ua', 'чи навіть будинок?'),
+	(339, 'en', 'or even house?'),
+	(339, 'ru', 'или даже дом?'),
+	(340, 'ua', 'ГАРНИЙ'),
+	(340, 'en', 'GOOD'),
+	(340, 'ru', 'ХОРОШИЙ'),
+	(341, 'ua', 'автомобіль'),
+	(341, 'en', 'car'),
+	(341, 'ru', 'автомобиль'),
+	(342, 'ua', 'закордонні'),
+	(342, 'en', 'foreign'),
+	(342, 'ru', 'заграничные'),
+	(343, 'ua', 'подорожі,'),
+	(343, 'en', 'trips'),
+	(343, 'ru', 'путешествия'),
+	(344, 'ua', 'можливо'),
+	(344, 'en', 'perhaps'),
+	(344, 'ru', 'возможно'),
+	(345, 'ua', 'ДО ЕКЗОТИЧНИХ КРАЇН?'),
+	(345, 'en', 'TO EXOTIC COUNTRIES?'),
+	(345, 'ru', 'В ЭКЗОТИЧЕСКИЕ СТРАНЫ?'),
+	(346, 'ua', 'Забезпечене'),
+	(346, 'en', 'Rich'),
+	(346, 'ru', 'Обеспеченная'),
+	(347, 'ua', 'життя'),
+	(347, 'en', 'life'),
+	(347, 'ru', 'жизнь'),
+	(348, 'ua', 'для себе і близьких,'),
+	(348, 'en', 'for themselves and loved once'),
+	(348, 'ru', 'для себя и близких'),
+	(349, 'ua', 'коли не доводиться думати про'),
+	(349, 'en', 'when you have not think about'),
+	(349, 'ru', 'когда не приходится думать о'),
+	(350, 'ua', 'гроші?'),
+	(350, 'en', 'money?'),
+	(350, 'ru', 'деньгах?'),
+	(351, 'ua', 'А, може, це свобода жити своїм <br>життям? Самостійно керувати <br> власним часом з можливістю <br>працювати за <span>зручним <br>графіком</span> без необхідності <br>щодня їздити на роботу, але<br> при цьому мати стабільно<br> високий дохід?'),
+	(351, 'en', 'And, perhaps, is the freedom to live<br> their lives? Independently manage <br> own time with the ability to work on <br> <span>convenient schedule </ span> without the need <br> daily commute to work, but still have <br> <br> stable high income?'),
+	(351, 'ru', 'А, может, это свобода жить своей <br> жизнью? Самостоятельно управлять <br> собственным временем с возможностью <br> работать по <span> удобному <br> графику </ span> без необходимости <br> ежедневно ездить на работу, но <br> при этом иметь стабильно <br> высокий доход?'),
+	(352, 'ua', 'Як щодо'),
+	(352, 'en', 'What about'),
+	(352, 'ru', 'Что насчёт'),
+	(353, 'ua', '/в місяць?'),
+	(353, 'en', ' per month?'),
+	(353, 'ru', '/в месяц?'),
+	(354, 'ua', 'з можливістю працювати за гнучким<br>графіком та дистанційно? Ти думаєш, що в<br>нашій країні такі умови лише у керівників<br>та власників бізнесу?<br><br>У нас хороша новина:<br>'),
+	(354, 'en', 'with the ability to work flexible schedule and <br> remotely? You think that in our country <br> conditions only <br> managers and business owners? <br> <br> We have good news:<br>'),
+	(354, 'ru', 'с возможностью работать по гибкому <br> графику и дистанционно? Ты думаешь, что в <br> нашей стране такие условия только у руководителей <br> и владельцев бизнеса? <br> <br> У нас хорошая новость: <br>'),
+	(355, 'ua', 'вже через рік-два-три так зможеш<br>заробляти і<br><br>ТИ . . . '),
+	(355, 'en', 'in a year or two or three so <br> able to earn and <br> <br> you. . .'),
+	(355, 'ru', 'уже через год-два-три так сможешь <br> зарабатывать и <br> <br> ТЫ. . .'),
+	(356, 'ua', 'Професія майбутнього'),
+	(356, 'en', 'Occupation future'),
+	(356, 'ru', 'Профессия будущего'),
+	(357, 'ua', 'Сьогодні у тебе є реальна можливість <br>\r\n																				 поєднати хороший заробіток, гнучкий<br>\r\n																				 графік роботи та зручність<br>\r\n																				 дистанційної роботи. І це не<br>\r\n																				 “заработок в интернете”, про який<br>\r\n																				 кричить банерна реклама на багатьох<br>\r\n																				 сайтах. Ми віримо у те, що високого <br>\r\n																				 стабільного доходу можна досягти <br>\r\n																				 лише за допомогою власних зусиль.'),
+	(357, 'en', 'Today you have a real opportunity <br>\r\n																				 combine the good salary, flexible <br>\r\n																				 schedule and convenience <br>\r\n																				 teleworking. This is not <br>\r\n																				 "Earnings on the Internet", which <br>\r\n																				 screaming banner ads on many <br>\r\n																				 sites. We believe that high <br>\r\n																				 stable income can be achieved <br>\r\n																				 only through their own efforts.'),
+	(357, 'ru', 'Сегодня у тебя есть реальная возможность <br>\r\n																				 совместить хороший заработок, гибкий <br>\r\n																				 график работы и удобство <br>\r\n																				 дистанционной работы. И это не <br>\r\n																				 "Заработок в интернете", о котором <br>\r\n																				 кричит баннерная реклама на многих <br>\r\n																				 сайтах. Мы верим в то, что высокого <br>\r\n																				 стабильного дохода можно достичь <br>\r\n																				 только с помощью собственных усилий.'),
+	(358, 'ua', 'Ми живемо в епоху, коли'),
+	(358, 'en', 'We live in an era when'),
+	(358, 'ru', 'Мы живем в эпоху, когда'),
+	(359, 'ua', 'ГОЛОВНИМ ДВИГУНОМ РОЗВИТКУ СВІТОВОЇ ЕКОНОМІКИ Є ІНФОРМАЦІЙНІ   <br>ТЕХНОЛОГІЇ'),
+	(359, 'en', 'THE MAIN ENGINE OF THE GLOBAL ECONOMY ARE <br> INFORMATION TECHNOLOGY'),
+	(359, 'ru', 'ГЛАВНЫМ ДВИГАТЕЛЕМ РАЗВИТИЯ МИРОВОЙ ЭКОНОМИКИ ЕСТЬ ИНФОРМАЦИОННЫЕ <br> ТЕХНОЛОГИИ'),
+	(360, 'ua', 'Як?'),
+	(360, 'en', 'How?'),
+	(360, 'ru', 'Как?'),
+	(361, 'ua', '<li>Вони дозволяють досягти нових проривних результатів у   <br>\r\n																						 традиційних галузях: виробництві та послугах.</li>\r\n																				 <li>саме інформаційні технології повністю змінили і <br>\r\n																						 продовжують трансформувати індустрії звязку,   <br>\r\n																						 розваг (книги, музика, фільми), банківських послуг;</li>\r\n																				 <li>також такі традиційні бізнеси, як послуги таксі (Uber);</li>\r\n																				 <li>  готелів (Airbnb);</li>\r\n																				 <li>навчання (Coursera).</li>'),
+	(361, 'en', '<li> They can achieve new breakthrough results in <br>\r\n																							traditional industries, manufacturing and services. </ li>\r\n																							<li> information technology is completely changed and <br>\r\n																							communication industry continues to transform, <br>\r\n																							entertainment (books, music, movies), banking services; </ li>\r\n																							<li> as traditional businesses such as taxi services (Uber); </ li>\r\n																							<li> hotels (Airbnb); </ li>\r\n																							<li> Learning (Coursera). </ li>'),
+	(361, 'ru', '<li> Они позволяют достичь новых прорывных результатов в <br>\r\n																							традиционных отраслях: производстве и услугах. </ li>\r\n																							<li> именно информационные технологии полностью изменили и <br>\r\n																							продолжают трансформировать индустрии связи, <br>\r\n																							развлечений (книги, музыка, фильмы), банковских услуг; </ li>\r\n																							<li> также такие традиционные бизнесы, как услуги такси (Uber); </ li>\r\n																							<li> гостиниц (Airbnb); </ li>\r\n																							<li> обучения (Coursera). </ li>'),
+	(362, 'ua', 'Герої інформаційної епохи - це спеціалісти з інформаційних технологій.<br>\r\n																				 Вони знаходяться на передовій змін, вони придумали та<br>\r\n																				 продовжують розвивати Windows, iOS, Android, а також мільйони<br>\r\n																				 додатків до них, вони створюють соціальні мережі, сайти та бази<br>\r\n																				 даних.'),
+	(362, 'en', 'Heroes of the information age - the specialists in information technologies. <br>\r\n																				 They are at the forefront of change, they came up and <br>\r\n																				 continue to develop Windows, iOS, Android, and millions <br>\r\n																				 annexes, they create social networks, websites and database <br>\r\n																				 data.'),
+	(362, 'ru', 'Герои информационной эпохи - это специалисты по информационным технологиям. <br>\r\n																				 Они находятся на передовой изменений, они придумали и <br>\r\n																				 продолжают развивать Windows, iOS, Android, а также миллионы <br>\r\n																				 приложений к ним, они создают социальные сети, сайты и базы <br>\r\n																				 данных.'),
+	(363, 'ua', 'Розпочинай вчитися вже зараз!'),
+	(363, 'en', 'Starts learn now!'),
+	(363, 'ru', 'Начинай учиться уже сейчас!'),
+	(321, 'en', 'Contents:'),
+	(321, 'ua', 'Зміст:'),
+	(321, 'ru', 'Содержание:');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -1675,17 +1842,17 @@ CREATE TABLE IF NOT EXISTS `module` (
   `about_module` text,
   `owners` varchar(100) DEFAULT NULL,
   `level` enum('intern','junior','strong junior','middle','senior') DEFAULT NULL,
-  `hours_in_day` int(11) DEFAULT NULL,
-  `days_in_week` int(11) DEFAULT NULL,
+  `hours_in_day` int(11) DEFAULT '3',
+  `days_in_week` int(11) DEFAULT '3',
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`),
   KEY `course` (`course`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~20 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~21 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`) VALUES
-	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'middle', 3, 3),
+	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 14, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6),
 	(2, 1, 4, 'Елементарна математика', 'module2', 'ua', 30, 15, 3, 3200, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3),
 	(3, 1, 2, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 3, 3500, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;5;', 'junior', 3, 3),
 	(4, 1, 3, 'Елементи вищої математики', 'module4', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;', 'junior', 3, 3),
@@ -1702,10 +1869,10 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3),
 	(24, 1, 16, 'Побудова індивідуального плану кар’єри.\r\n\r\n\r\n', 'module16', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3),
 	(49, 1, 17, 'Ефективне працевлаштування.', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'junior', 3, 3),
-	(50, 0, 0, 'twrtg4w5', 'module18', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL),
-	(51, 0, 0, 'e5t35', 'module19', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL),
-	(52, 0, 0, 'y45hu4677u', 'module20', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL),
-	(53, 0, 0, './flg;rlkg;r/.;\'*/-+', 'module18', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, NULL, NULL);
+	(50, 8, 1, 'Module 1.', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3),
+	(51, 8, 2, 'Module 2.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3),
+	(52, 0, 0, 'ывПППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППППП', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3),
+	(53, 0, 0, 'цуапшггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггггушгуцапаукпукркереноенонеоеноеноеоеоенонеоенпукпукпеупкупукп', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -1720,10 +1887,10 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~57 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~131 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
-	(1, 1, 1),
+	(1, 1, 15),
 	(1, 2, 1),
 	(1, 3, 7),
 	(1, 5, 1),
@@ -1743,6 +1910,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 31, 5),
 	(1, 32, 1),
 	(1, 33, 15),
+	(11, 1, 0),
 	(11, 31, 1),
 	(11, 32, 1),
 	(11, 33, 1),
@@ -1821,12 +1989,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(45, 14, 1),
 	(45, 15, 1),
 	(45, 16, 1),
-	(45, 17, 1),
-	(45, 18, 1),
 	(45, 19, 1),
-	(45, 20, 1),
-	(45, 21, 1),
-	(45, 26, 1),
 	(45, 27, 1),
 	(49, 1, 1),
 	(49, 2, 1),
@@ -1845,7 +2008,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(49, 31, 1),
 	(49, 32, 1),
 	(49, 33, 1),
-	(50, 1, 1),
+	(50, 1, 15),
 	(50, 2, 1),
 	(50, 3, 1),
 	(50, 5, 1),
@@ -1857,11 +2020,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(50, 19, 1),
 	(50, 20, 1),
 	(50, 21, 1),
-	(50, 26, 1),
-	(50, 27, 1),
-	(50, 31, 1),
-	(50, 32, 1),
-	(50, 33, 1);
+	(50, 26, 1);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 
@@ -2784,7 +2943,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_enable', '0', 0),
 	('coppa_fax', '', 0),
 	('coppa_mail', '', 0),
-	('cron_lock', '1433429454 df5a10bb1d2744d8', 1),
+	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
 	('database_last_gc', '1431077130', 1),
 	('dbms_version', '5.5.41-log', 0),
@@ -2941,12 +3100,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'fce68ba2ee9d64544d834574610d0931', 1),
-	('rand_seed_last_update', '1433430279', 1),
+	('rand_seed', '365bd42cea09ff28ea31865584c95802', 1),
+	('rand_seed_last_update', '1433715227', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1433248647', 1),
+	('read_notification_last_gc', '1433715229', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),
@@ -4556,9 +4715,10 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~2 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
+	('4c0e364a87cc4e3fbf967c7bacb907f3', 1, 1433715227, 1433715227, 1433715227, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'index.php', 1, 0, 0, 0),
 	('aa36442de314f8e0f7a088a37cce2289', 2, 1433430118, 1433430267, 1433430287, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'viewtopic.php?f=2&p=4&t=3', 1, 0, 0, 2);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
@@ -4890,7 +5050,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~48 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '992212ce6c12af55', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b2442f04d8dae6d3', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430118, 0, 1433429758, 'index.php', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(3, 2, 6, '', 0, '', 1431076932, 'AdsBot [Google]', 'adsbot [google]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8fb1961bea68d3af', 0, 0, 0),
 	(4, 2, 6, '', 0, '', 1431076932, 'Alexa [Bot]', 'alexa [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b0ce7ddbe26f78e5', 0, 0, 0),
@@ -5296,9 +5456,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~320 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~348 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -5620,7 +5780,35 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(317, 'graduates', '0317'),
 	(318, 'graduates', '0318'),
 	(319, 'graduates', '0319'),
-	(320, 'graduates', '0320');
+	(320, 'graduates', '0320'),
+	(321, 'lecture', '0321'),
+	(337, 'aboutus', '0337'),
+	(338, 'aboutus', '0338'),
+	(339, 'aboutus', '0339'),
+	(340, 'aboutus', '0340'),
+	(341, 'aboutus', '0341'),
+	(342, 'aboutus', '0342'),
+	(343, 'aboutus', '0343'),
+	(344, 'aboutus', '0344'),
+	(345, 'aboutus', '0345'),
+	(346, 'aboutus', '0346'),
+	(347, 'aboutus', '0347'),
+	(348, 'aboutus', '0348'),
+	(349, 'aboutus', '0349'),
+	(350, 'aboutus', '0350'),
+	(351, 'aboutus', '0351'),
+	(352, 'aboutus', '0352'),
+	(353, 'aboutus', '0353'),
+	(354, 'aboutus', '0354'),
+	(355, 'aboutus', '0355'),
+	(356, 'aboutus', '0356'),
+	(357, 'aboutus', '0357'),
+	(358, 'aboutus', '0358'),
+	(359, 'aboutus', '0359'),
+	(360, 'aboutus', '0360'),
+	(361, 'aboutus', '0361'),
+	(362, 'aboutus', '0362'),
+	(363, 'aboutus', '0363');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 
@@ -5671,20 +5859,19 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `rate_relations` int(2) NOT NULL,
   `sections` text NOT NULL,
   `user_id` int(11) NOT NULL,
-  `courses` varchar(255) NOT NULL,
   `foto_url_short` varchar(255) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `smallImage`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `sections`, `user_id`, `courses`, `foto_url_short`) VALUES
-	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала</p><p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards</p><p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).</p><p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br></p><p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.</p><p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила</p><p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,</p><p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого</p><p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,</p><p>                    що не подобалося її батькам і що вони їй забороняли.<br></p><p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:</p><ul>	<li>оказании полезных услуг горизонтального характера;</li>	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>	<li>позитивное обучение швейного мастерства;</li></ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', '/css/images/teacherImage.png', 4, 4, 5, 'Програмування ПХП;\r\nJava для IOS;', 38, '', 'teacher1.jpg'),
-	(2, 'Константин', 'Константинович', 'Константинопольский', 'teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>Hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h2>Hello!</h2>', '/profile/index/?idTeacher=1', 'teacher2@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher2', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 39, '', 'teacher2.jpg'),
-	(3, 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', 'teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile/index/?idTeacher=5', 'teacher3@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher3', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 40, '', 'teacher3.jpg'),
-	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', '/css/images/teacherImage.png', 9, 9, 9, 'Програмування ПХП;\r\nJava для IOS;', 41, '', 'teacher4.jpg'),
-	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 42, '', 'teacher5.png'),
-	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 43, '', 'teacher6.jpg');
+INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `smallImage`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `sections`, `user_id`, `foto_url_short`) VALUES
+	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала</p><p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards</p><p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).</p><p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br></p><p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.</p><p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила</p><p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,</p><p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого</p><p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,</p><p>                    що не подобалося її батькам і що вони їй забороняли.<br></p><p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:</p><ul>	<li>оказании полезных услуг горизонтального характера;</li>	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>	<li>позитивное обучение швейного мастерства;</li></ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', '/css/images/teacherImage.png', 4, 4, 5, 'Програмування ПХП;\r\nJava для IOS;', 38, 'teacher1.jpg'),
+	(2, 'Константин', 'Константинович', 'Константинопольский', 'teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>Hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h2>Hello!</h2>', '/profile/index/?idTeacher=1', 'teacher2@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher2', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 39, 'teacher2.jpg'),
+	(3, 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', 'teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile/index/?idTeacher=5', 'teacher3@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher3', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 40, 'teacher3.jpg'),
+	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', '/css/images/teacherImage.png', 9, 9, 9, 'Програмування ПХП;\r\nJava для IOS;', 41, 'teacher4.jpg'),
+	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', '/css/images/teacherImage.png', 10, 10, 10, 'Програмування ПХП;\r\nJava для IOS;', 42, 'teacher5.png'),
+	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', '/css/images/teacherImage.png', 11, 11, 11, 'Програмування ПХП;\r\nJava для IOS;', 43, 'teacher6.jpg');
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 
 
@@ -5696,11 +5883,10 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   `idModule` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_teacher_module_teacher` (`idTeacher`),
-  KEY `FK_teacher_module_module` (`idModule`),
-  CONSTRAINT `FK_teacher_module_teacher` FOREIGN KEY (`idTeacher`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+  KEY `FK_teacher_module_module` (`idModule`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~28 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -5728,7 +5914,9 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(40, 4, 22),
 	(41, 2, 23),
 	(42, 2, 24),
-	(43, 1, 49);
+	(43, 1, 49),
+	(45, 5, 3),
+	(50, 5, 3);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
 

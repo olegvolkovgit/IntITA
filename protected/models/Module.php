@@ -47,10 +47,10 @@ class Module extends CActiveRecord
 		return array(
 			array('course, order, language', 'required'),
 			array('course, module_duration_hours, module_duration_days, lesson_count, order, hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true),
-			array('module_name,level', 'length', 'max'=>45),
+			array('level', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
-			array('module_img', 'length', 'max'=>255),
+			array('module_img, module_name', 'length', 'max'=>255),
 			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level', 'safe'),
             array('module_name, level,hours_in_day, days_in_week', 'required','on'=>'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1, 'on'=>'canedit'),

@@ -63,34 +63,22 @@
     </form>
 </div>
 
-
-
-
-<script type="text/javascript">
-    function selectModule(){
-        var course = $('select[name="course"]').val();
-        if(!course){
-            $('div[name="selectModule"]').html('');
-            $('div[name="selectLecture"]').html('');
-        }else{
-            $.ajax({
-                type: "POST",
-                url: "/IntITA/permissions/showModules",
-                data: {course: course},
-                cache: false,
-                success: function(response){ $('div[name="selectModule"]').html(response); }
-            });
-        }
-    }
-
-    function selectLecture(){
-        var module = $('select[name="module"]').val();
-        $.ajax({
-            type: "POST",
-            url: "/IntITA/permissions/showLectures",
-            data: {module: module},
-            cache: false,
-            success: function(response){ $('div[name="selectLecture"]').html(response); }
-        });
-    }
-</script>
+<!--<script type="text/javascript">-->
+<!--    function selectModule(){-->
+<!--        var course = $('select[name="course"]').val();-->
+<!--        if(!course){-->
+<!--            $('div[name="selectModule"]').html('');-->
+<!--            $('div[name="selectLecture"]').html('');-->
+<!--        }else{-->
+<!--            $.ajax({-->
+<!--                type: "POST",-->
+<!--                url: "/IntITA/permissions/showModules",-->
+<!--                data: {course: course},-->
+<!--                cache: false,-->
+<!--                success: function(response){ $('div[name="selectModule"]').html(response); }-->
+<!--            });-->
+<!--        }-->
+<!--    }-->
+<!---->
+<!--    -->
+<!--</script>-->

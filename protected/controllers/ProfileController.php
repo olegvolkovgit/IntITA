@@ -47,16 +47,11 @@ class ProfileController extends Controller
             ),
         ));
 
-        $coursesID = $this->getCourses();
-        $titles = $this->getTitles($coursesID);
-
         $this->render('index', array (
             'model' => $teacher,
             'sections' => $sections,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
-            'coursesID' => $coursesID,
-            'titles' => $titles,
         ));
     }
 

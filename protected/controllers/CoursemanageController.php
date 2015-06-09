@@ -8,16 +8,6 @@ class CoursemanageController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
 
 	/**
 	 * Displays a particular model.
@@ -42,8 +32,11 @@ class CoursemanageController extends Controller
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Course']))
-		{
-			$model->attributes=$_POST['Course'];
+        {
+
+            //$_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+            $model->attributes=$_POST['Course'];
+            //$model->logo=$_FILES['Course'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
@@ -67,7 +60,10 @@ class CoursemanageController extends Controller
 
 		if(isset($_POST['Course']))
 		{
-			$model->attributes=$_POST['Course'];
+            $model->oldLogo=$model->course_img;
+            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+            $model->attributes=$_POST['Course'];
+            $model->logo=$_FILES['Course'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
