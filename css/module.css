@@ -33,6 +33,7 @@ img.time{
     border-top: 1px solid #cccccc;
     padding-left: 115px;
     font-size: 16px;
+    margin-top: 10px;
 }
 .lessonModule h2
 {
@@ -262,16 +263,16 @@ td.button-column{
     line-height: 32px;
     float: right;
 }
-div.startModule{
+.headerLeftModule div.startModule{
     margin-left: 110px;
 }
-div.startCourse{
+.headerLeftModule div.startCourse{
     margin-left: 100px;
 }
 .startCourse a, .startModule a    {
     display: inline-block;
     position: relative;
-    width:140px;
+    width:160px;
     height:30px;
     border-radius: 7px;
     border:none;

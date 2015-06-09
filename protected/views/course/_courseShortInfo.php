@@ -11,18 +11,46 @@
     <table>
         <tr>
             <td>
-                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;<?php echo Yii::t('courses', '0234'); ?></p>
+                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
+                 <span class="courseLevel">
+                    <?php
+                    $rate = 0;
+                    switch ($model->level){
+                        case 'intern':
+                            echo Yii::t('courses', '0232');
+                            $rate = 1;
+                            break;
+                        case 'junior':
+                            echo Yii::t('courses', '0233');
+                            $rate = 2;
+                            break;
+                        case 'strong junior':
+                            echo Yii::t('courses', '0234');
+                            $rate = 3;
+                            break;
+                        case 'middle':
+                            echo Yii::t('courses', '0235');
+                            $rate = 4;
+                            break;
+                        case 'senior':
+                            echo Yii::t('courses', '0236');
+                            $rate = 5;
+                            break;
+                    }
+                    ?>
+                 </span>
+                </p>
             </td>
             <td class="courseLevel">
                 <div>
                 <?php
-                for ($i=0; $i<3; $i++)
+                for ($i=0; $i<$rate; $i++)
                 {
                     ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>" >
                 <?php
                 }
-                for ($j=0; $j<2; $j++)
+                for ($j=$rate; $j<5; $j++)
                 {
                     ?>
                     <img src="<?php echo  StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>" >

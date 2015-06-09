@@ -32,7 +32,7 @@ for($i = 0; $i < count($teachers); $i++){
                         ?>
                         <tr>
                             <td>
-                                <span class="colorP"><?php echo Yii::t('course', '0208');  echo ' '.ModuleHelper::getModuleOrder($teacherModules[$k]);?>: </span><span class="colorGrey"><a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $teacherModules[$k]));?>"><?php echo ModuleHelper::getModuleName($teacherModules[$k]); ?></a></span>
+                                <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $teacherModules[$k]));?>"><span class="colorGrey"><?php echo Yii::t('course', '0208');  echo ' '.ModuleHelper::getModuleOrder($teacherModules[$k]);?>: </span><span class="colorP"><?php echo ModuleHelper::getModuleName($teacherModules[$k]); ?></a></span>
                             </td>
                         </tr>
                     <?php

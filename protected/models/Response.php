@@ -37,7 +37,7 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('who, about, date, text, rate', 'required'),
+			array('who, about, date, text', 'required'),
 			array('who, about, rate', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().

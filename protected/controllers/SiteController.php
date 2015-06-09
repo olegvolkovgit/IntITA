@@ -251,7 +251,17 @@ class SiteController extends Controller
             if(isset($user['nickname'])) $model->nickname=$user['nickname'];
             if(isset($user['bdate'])) $model->birthday=$user['bdate'];
             if(isset($user['phone'])) $model->phone=$user['phone'];
-//            if(isset($user['photo_big'])) $model->avatar=$user['photo_big'];
+            if(isset($user['photo_big'])) {
+                $arrContextOptions=array(
+                    "ssl"=>array(
+                        "verify_peer"=>false,
+                        "verify_peer_name"=>false,
+                    ),
+                );
+                $filesName=uniqid().'.jpg';
+                file_put_contents(Yii::getpathOfAlias('webroot')."/avatars/".$filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
+                $model->avatar="/avatars/".$filesName;
+            }
             if(isset($user['city'])) $model->address=$user['city'];
             if(isset($user['network'])){
                 switch ($user['network']){

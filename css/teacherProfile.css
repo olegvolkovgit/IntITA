@@ -131,3 +131,7 @@ div.responseBG {
 .info{
     color:red;
 }
+.responseError{
+    color:red;
+    text-align: center;
+}
