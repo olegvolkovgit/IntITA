@@ -32,11 +32,11 @@ $user=StudentReg::model()->findByPk($data['who']);
 
         for ($k = 1; $k <= $data['rate']; $k++) {
             ?>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starFull.png"/>
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/>
         <?php
         }
         for($j = $data['rate']+1; $j <= 10; $j++){?>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/starEmpty.png"/>
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/>
         <?php
         }
         }

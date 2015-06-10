@@ -140,4 +140,12 @@ class PermissionsController extends Controller
         $last = '</select>';
         echo $result.$last;
     }
+
+    public function actionNewTeacherPermission(){
+        var_dump($_POST);
+        $teacher = Yii::app()->request->getPost('user');
+        $module = Yii::app()->request->getPost('module');
+        TeacherModule::addTeacherAccess($teacher, $module);
+        $this->actionIndex();
+    }
 }

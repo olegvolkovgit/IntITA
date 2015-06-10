@@ -15,10 +15,16 @@
     box-sizing:border-box;
     margin-bottom: 28px;
 }
+.GraduatesBlock a{
+    color: #4B75A4;
+}
 .text {
     margin-top: 0px;
     margin-bottom: 0px;
     color: #999999;
+}
+.text span{
+    color: #4B75A4;
 }
 .text1 {
     margin-top: 0px;
@@ -108,7 +114,7 @@ span.spoilerTriangle {
     cursor:pointer;
     text-decoration:underline;
     color:#4b75a4;
-    }
+}
 .spoiler-title:hover{
     color: #666666;
 }

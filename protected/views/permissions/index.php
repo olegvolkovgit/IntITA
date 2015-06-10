@@ -13,6 +13,9 @@ $alert = 'Ви впевнені, що хочете видалити цей за�
 <a href="#form">
     <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
 </a>
+<a href="#formTeacher">
+    <div id="addTeacherPermissions" onclick="addTeacherAccess()">Надати права викладача</div>
+</a>
 
 <?php
 $dataProvider = $model->search();
@@ -20,11 +23,10 @@ $dataProvider = $model->search();
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
-    //'filter' => $model,
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
-            'template'=>'{delete}{edit}',
+            'template'=>'{delete}',
             'deleteConfirmation'=>"js:'Запись с ID '+$(this).parent().parent().children(':first-child').text()+' будет удалена! Продолжить?'",
             'buttons'=>array
             (
@@ -44,26 +46,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
                         return false;
                     }
                     ",
-                ),
-                'edit' => array
-                (
-                    'label'=>'Edit',
-                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'edt_20px.png'),
-                    'url' => 'Yii::app()->createUrl("permissions/edit", array("user"=>$data->id_user, "resource"=>$data->id_resource))',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('access_grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                        $.fn.yiiGridView.update('access_grid');
-                        }
-                        })
-                        return false;
-                    }
-                    ",
-                    'options' => array(
-                        'class'=>'editButton',
-                    ),
                 ),
             ),
         ),
@@ -112,4 +94,5 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ?>
 
 <?php $this->renderPartial('_add', array('model' => $model));?>
+<?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
 

@@ -42,6 +42,7 @@ $('.search-form form').submit(function(){
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'course-grid',
+    'summaryText'=>'Показано курсів {start} - {end} з {count}',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(

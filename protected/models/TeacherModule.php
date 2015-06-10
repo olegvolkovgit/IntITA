@@ -46,8 +46,7 @@ class TeacherModule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idModule0' => array(self::BELONGS_TO, 'Module', 'idModule'),
-			'idTeacher0' => array(self::BELONGS_TO, 'Teacher', 'idTeacher'),
+		
 		);
 	}
 
@@ -115,5 +114,14 @@ class TeacherModule extends CActiveRecord
             array_push($result, $teachers[$i]["idTeacher"]);
         }
         return $result;
+    }
+
+    public static function addTeacherAccess($teacher, $module){
+        $model = new TeacherModule();
+        $model->idTeacher = $teacher;
+        $model->idModule = $module;
+        if ($model->validate()){
+            $model->save();
+        }
     }
 }

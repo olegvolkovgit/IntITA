@@ -47,16 +47,11 @@ class ProfileController extends Controller
             ),
         ));
 
-        $coursesID = $this->getCourses();
-        $titles = $this->getTitles($coursesID);
-
         $this->render('index', array (
             'model' => $teacher,
             'sections' => $sections,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
-            'coursesID' => $coursesID,
-            'titles' => $titles,
         ));
     }
 
@@ -153,25 +148,41 @@ class ProfileController extends Controller
     {
         $response = new Response();
         $teacher = Teacher::model()->findByPk($id);
+        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
 
         if ($_POST['sendResponse']) {
             if (!empty($_POST['response'])) {
                 $response->who = Yii::app()->user->id;
-                $response->about = $teacher->teacher_id;
+                $response->about = $teacher->user_id;
                 $response->date = date("Y-m-d H:i:s");
                 $response->text = $response->bbcode_to_html($_POST['response']);
-                $response->knowledge = $_POST['material'];
-                $response->behavior = $_POST['behavior'];
-                $response->motivation = $_POST['motiv'];
-                $response->rate = round(($_POST['material'] + $_POST['behavior'] + $_POST['motiv']) / 3);
+                if($teacherRat && $teacherRat->knowledge==$_POST['material'] && $teacherRat->behavior==$_POST['behavior'] && $response->motivation==$_POST['motiv']){
+                    $response->knowledge = Null;
+                    $response->behavior = Null;
+                    $response->motivation = Null;
+                    $response->rate = Null;
+                } if($teacherRat && ($teacherRat->knowledge!==$_POST['material'] || $teacherRat->behavior!==$_POST['behavior'] || $response->motivation!==$_POST['motiv'])){
+                    $teacherRat->knowledge = $_POST['material'];
+                    $teacherRat->behavior = $_POST['behavior'];
+                    $teacherRat->motivation = $_POST['motiv'];
+                    $teacherRat->rate = round(($_POST['material'] + $_POST['behavior'] + $_POST['motiv']) / 3);
+                    $teacherRat->save();
+                }else{
+                    $response->knowledge = $_POST['material'];
+                    $response->behavior = $_POST['behavior'];
+                    $response->motivation = $_POST['motiv'];
+                    $response->rate = round(($_POST['material'] + $_POST['behavior'] + $_POST['motiv']) / 3);
+                }
                 $response->who_ip = $_SERVER["REMOTE_ADDR"];
-                $response->save();
-
-                $teacher->updateByPk($id, array('rate_knowledge' => $teacher->getAverageRateKnwl($id)));
-                $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($id)));
-                $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($id)));
-
-                Yii::app()->user->setFlash('messageResponse', 'Ваш відгук відправлено. Зачекайте модерації.');
+                if($_POST['material']!=='' && $_POST['behavior']!=='' && $_POST['motiv']!==''){
+                    $response->save();
+                    $teacher->updateByPk($id, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
+                    $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
+                    $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
+                    Yii::app()->user->setFlash('messageResponse', 'Ваш відгук відправлено. Зачекайте модерації.');
+                } else {
+                    Yii::app()->user->setFlash('responseError', 'Спочатку оцініть викладача по трьох критеріях');
+                }
             }
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }

@@ -24,21 +24,27 @@
                             <h2><?php echo $teacherValue->last_name ?></h2>
                             <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
-                            <p>
-                                <?php echo Yii::t('teachers', '0061'); ?>
-                            </p>
-                            <div class="teacherCourses">
-                                <ul>
-                                    <?php
-                                    for ($j = 0; $j < count($coursesID); $j++)
-                                    {
+                            <?php $coursesID = TeacherHelper::getCoursesByTeacher($teacherValue->teacher_id);
+                            if (!empty($coursesID)){?>
+                                <p>
+                                    <?php echo Yii::t('teachers', '0061'); ?>
+                                </p>
+                                <div class="teacherCourses">
+                                    <ul>
+                                        <?php
+
+                                        foreach ($coursesID as $key => $value) {
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $key));?>"><?php echo $value; ?></a>
+                                            </li>
+                                        <?php
+                                        }
+
                                         ?>
-                                        <li><a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesID[$j]['course']));?>"><?php echo $titles[$j]['title']; ?></a></li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </div>
+                                    </ul>
+                                </div>
+                            <?php }?>
                         </td>
                     </tr>
                 </table>

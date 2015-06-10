@@ -72,7 +72,7 @@ $this->breadcrumbs=array(
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <br>
         <?php if($countBlocks){?>
-            <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+            <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
             <div class="spoilerBody">
                 <?php

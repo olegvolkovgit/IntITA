@@ -214,4 +214,25 @@ class AccessHelper
         }
         return $result;
     }
+    public static function canAddConsultation(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static function generateTeachersList(){
+        $teachers = Teacher::model()->findAll();
+        $count = count($teachers);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $teachers[$i]->teacher_id;
+            $result[$i]['alias'] = $teachers[$i]->first_name." ".$teachers[$i]->last_name.", ".$teachers[$i]->email;
+        }
+        return $result;
+    }
 }

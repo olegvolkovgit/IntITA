@@ -6,11 +6,9 @@
  * Time: 15:37
  */
 $imagesPath = StaticFilesHelper::createPath('image', 'aboutus', '');
-
 if(Yii::app()->user->isGuest)
     $buttonStart='<div class="buutt" style=""><a class="butstart" href="site#form">'.Yii::t('slider', '0008').'</a></div>';
 else $buttonStart='';
-
 $block1->drop1Text='<div  class="aboutStepBlock">
 <div style=" " class="oned">
     <span id="spone" style="" class="detailTitle1">'.Yii::t("aboutus","0337").'</span>

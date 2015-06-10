@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-04 15:59:17
+-- Date/time:                    2015-06-09 16:56:18
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,11 +18,10 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   `idModule` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_teacher_module_teacher` (`idTeacher`),
-  KEY `FK_teacher_module_module` (`idModule`),
-  CONSTRAINT `FK_teacher_module_teacher` FOREIGN KEY (`idTeacher`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+  KEY `FK_teacher_module_module` (`idModule`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~32 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -50,7 +49,9 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(40, 4, 22),
 	(41, 2, 23),
 	(42, 2, 24),
-	(43, 1, 49);
+	(43, 1, 49),
+	(45, 5, 3),
+	(50, 5, 3);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

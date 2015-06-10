@@ -11,3 +11,15 @@
 {
     color: #229922;
 }
+.formatted-form textarea
+{
+    resize: none;
+}
+.formatted-form input,.formatted-form textarea
+{
+    width: 350px;
+}
+.formatted-form input[type="submit"]
+{
+    width: 150px;
+}

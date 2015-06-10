@@ -62,11 +62,15 @@ td img.icons {
 {
     margin-top:-12px;
 }
-.TeacherProfilecourse
-{
-    background-color:#D6EBE0;
-    padding:1px;
-    margin-bottom:10px;
+.TeacherProfilecourse {
+    padding-top:1px;
+    padding-bottom:1px;
+    padding-left: 20px;
+    background-color: rgba(75,117,164,0.2);
+    color:#467c98;
+}
+.TeacherProfilecourse a {
+    color:#467c98;
 }
 a:link {font-size:16px; color:#4B75A4;}
 a:visited {font-size:16px;}

@@ -53,9 +53,6 @@ span.spoilerClick {
 {
     color: #4b75a4;
 }
-.courseTeacherDetail a{
-    color: #666666;
-}
 .courseTitle h1{
     font-weight: inherit;
     font-size: 36px;
@@ -73,7 +70,7 @@ div.courseShortInfo{
     width: 100%;
     overflow: hidden;
     vertical-align: top;
-    font-size: 14px;
+    font-size: 18px;
 }
 div.courseShortInf table {
     border-spacing: 0;
@@ -81,7 +78,7 @@ div.courseShortInf table {
 }
 div.courseShortInfoTable{
     display: inline-block;
-    width: 500px;
+    width: 600px;
 }
 .courseShortInfoTable table{
     width: 100%;
@@ -239,9 +236,12 @@ p.subCourseInfo, p.courseAboutTeacher{
 
 /*modules*/
 .courseModules {
-    width: 590px;
+    width: 700px;
     display: inline-block;
     vertical-align: top;
+}
+.courseModules .grid-view table.items td {
+    font-size: 18px;
 }
 .cModule {
     margin: -7px 0 10px -3px;

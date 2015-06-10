@@ -80,8 +80,8 @@
             <div class="courseLang">
                 <?php echo Yii::t('courses', '0069'); ?>
                 <div id="coursesLangs" class="down">
-                    <button  disabled>ua</button>
-                    <button id="ru" class="selectedLang" disabled>ru</button>
+                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id'=>$val->course_ID)); ?>">ua</a>
+                    <a id="ru" class="selectedLang" disabled>ru</a>
                 </div>
             </div>
             <!--Вартість курсу-->

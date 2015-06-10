@@ -10,7 +10,6 @@
 	'id'=>'course-form',
     'htmlOptions'=>array(
         'class'=>'formatted-form',
-        'enctype'=>'multipart/form-data',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -31,9 +30,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'language'); ?>
-        <?php echo $form->dropDownList($model,'language',array(
-                'uk'=>'Українська','en'=>'English','ru'=>'Русский'),
-                array('options'=>array('uk'=>array('selected'=>true)))); ?>
+		<?php echo $form->textField($model,'language',array('size'=>6,'maxlength'=>6)); ?>
 		<?php echo $form->error($model,'language'); ?>
 	</div>
 
@@ -45,25 +42,26 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'level'); ?>
-        <?php echo $form->dropDownList($model,'level',array(
-                'intern'=>'Стажер','junior'=>'Початківець','strong junior'=>'Сильний початківець',
-                'middle'=>'Середній','senior'=>'Високий'),
-            array('options'=>array('intern'=>array('selected'=>true)))); ?>
+		<?php echo $form->textField($model,'level',array('size'=>13,'maxlength'=>13)); ?>
 		<?php echo $form->error($model,'level'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'start'); ?>
-		<?php echo $form->dateField($model,'start'); ?>
+		<?php echo $form->textField($model,'start'); ?>
 		<?php echo $form->error($model,'start'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->dropDownList($model,'status',array(
-                '0'=>'В розробці','1'=>'Готовий'),
-                array('options'=>array('0'=>array('selected'=>true)))); ?>
+		<?php echo $form->textField($model,'status'); ?>
 		<?php echo $form->error($model,'status'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'modules_count'); ?>
+		<?php echo $form->textField($model,'modules_count'); ?>
+		<?php echo $form->error($model,'modules_count'); ?>
 	</div>
 
 	<div class="row">
@@ -98,7 +96,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'course_img'); ?>
-		<?php echo $form->fileField($model,'course_img'); ?>
+		<?php echo $form->textField($model,'course_img',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'course_img'); ?>
 	</div>
 

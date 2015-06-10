@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-04 15:59:17
+-- Date/time:                    2015-06-09 16:56:18
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~317 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~265 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -216,7 +216,7 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(192, 'teacher', '0192'),
 	(193, 'course', '0193'),
 	(194, 'course', '0194'),
-	(195, 'course', '0195'),
+	(195, 'profile', '0195'),
 	(196, 'course', '0196'),
 	(197, 'course', '0197'),
 	(198, 'course', '0198'),
@@ -337,8 +337,39 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(313, 'activeemail', '0313'),
 	(314, 'resetpass', '0314'),
 	(315, 'resetpass', '0315'),
-	(316, 'lecture', '0316'),
-	(317, 'lecture', '0317');
+	(316, 'graduates', '0316'),
+	(317, 'graduates', '0317'),
+	(318, 'graduates', '0318'),
+	(319, 'graduates', '0319'),
+	(320, 'graduates', '0320'),
+	(321, 'lecture', '0321'),
+	(337, 'aboutus', '0337'),
+	(338, 'aboutus', '0338'),
+	(339, 'aboutus', '0339'),
+	(340, 'aboutus', '0340'),
+	(341, 'aboutus', '0341'),
+	(342, 'aboutus', '0342'),
+	(343, 'aboutus', '0343'),
+	(344, 'aboutus', '0344'),
+	(345, 'aboutus', '0345'),
+	(346, 'aboutus', '0346'),
+	(347, 'aboutus', '0347'),
+	(348, 'aboutus', '0348'),
+	(349, 'aboutus', '0349'),
+	(350, 'aboutus', '0350'),
+	(351, 'aboutus', '0351'),
+	(352, 'aboutus', '0352'),
+	(353, 'aboutus', '0353'),
+	(354, 'aboutus', '0354'),
+	(355, 'aboutus', '0355'),
+	(356, 'aboutus', '0356'),
+	(357, 'aboutus', '0357'),
+	(358, 'aboutus', '0358'),
+	(359, 'aboutus', '0359'),
+	(360, 'aboutus', '0360'),
+	(361, 'aboutus', '0361'),
+	(362, 'aboutus', '0362'),
+	(363, 'aboutus', '0363');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
