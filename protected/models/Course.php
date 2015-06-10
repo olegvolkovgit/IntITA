@@ -224,5 +224,4 @@ class Course extends CActiveRecord
             unlink($src);
         return true;
     }
-
 }
