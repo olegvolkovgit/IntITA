@@ -35,9 +35,6 @@
                 <div class="editable"  onclick="function(){block = 1;}">
                     <?php echo $model->profile_text_first; ?>
                 </div>
-
-                <?php echo Yii::t('teachers', '0061'); ?>
-
                 <?php
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>

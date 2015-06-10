@@ -7,19 +7,21 @@
  */
 
 ?>
-<?php $coursesID = TeacherHelper::getCoursesByTeacher($id);
-if (!empty($coursesID)){?>
+<?php $modules = TeacherHelper::getModulesByTeacher($id);
+if (!empty($modules)){?>
+    <p>
+        <?php echo Yii::t('teachers', '0061'); ?>
+    </p>
 <div class="TeacherProfilecourse">
-        <p>
-            <?php echo Yii::t('teachers', '0061'); ?>
-        </p>
+
         <div class="teacherCourses">
             <ul>
                 <?php
-                foreach ($coursesID as $key => $value) {
+                $count = count($modules);
+                for ($i = 0; $i < $count; $i++) {
                     ?>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $key));?>"><?php echo $value; ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>$modules[$i]["idModule"]));?>"><?php echo $modules[$i]["title"]; ?></a>
                     </li>
                 <?php
                 }

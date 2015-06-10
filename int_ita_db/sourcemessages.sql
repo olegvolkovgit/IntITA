@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-09 16:56:18
+-- Date/time:                    2015-06-10 18:00:47
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~265 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~403 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -343,6 +343,11 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(319, 'graduates', '0319'),
 	(320, 'graduates', '0320'),
 	(321, 'lecture', '0321'),
+	(322, 'courses', '0322'),
+	(323, 'course', '0323'),
+	(324, 'course', '0324'),
+	(325, 'course', '0325'),
+	(326, 'course', '0326'),
 	(337, 'aboutus', '0337'),
 	(338, 'aboutus', '0338'),
 	(339, 'aboutus', '0339'),
@@ -369,7 +374,57 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(360, 'aboutus', '0360'),
 	(361, 'aboutus', '0361'),
 	(362, 'aboutus', '0362'),
-	(363, 'aboutus', '0363');
+	(363, 'aboutus', '0363'),
+	(364, 'course', '0364'),
+	(365, 'course', '0365'),
+	(366, 'course', '0366'),
+	(367, 'course', '0367'),
+	(368, 'course', '0368'),
+	(369, 'module', '0369'),
+	(370, 'module', '0370'),
+	(371, 'module', '0371'),
+	(372, 'module', '0372'),
+	(373, 'module', '0373'),
+	(374, 'module', '0374'),
+	(375, 'module', '0375'),
+	(376, 'module', '0376'),
+	(377, 'module', '0377'),
+	(378, 'module', '0378'),
+	(379, 'module', '0379'),
+	(380, 'module', '0380'),
+	(381, 'module', '0381'),
+	(382, 'module', '0382'),
+	(383, 'module', '0383'),
+	(384, 'module', '0384'),
+	(385, 'response', '0385'),
+	(386, 'response', '0386'),
+	(387, 'coursemanage', '0387'),
+	(388, 'coursemanage', '0388'),
+	(389, 'coursemanage', '0389'),
+	(390, 'coursemanage', '0390'),
+	(391, 'coursemanage', '0391'),
+	(392, 'coursemanage', '0392'),
+	(393, 'coursemanage', '0393'),
+	(394, 'coursemanage', '0394'),
+	(395, 'coursemanage', '0395'),
+	(396, 'coursemanage', '0396'),
+	(397, 'coursemanage', '0397'),
+	(398, 'coursemanage', '0398'),
+	(399, 'coursemanage', '0399'),
+	(400, 'course', '0400'),
+	(401, 'course', '0401'),
+	(402, 'course', '0402'),
+	(403, 'course', '0403'),
+	(404, 'course', '0404'),
+	(405, 'course', '0405'),
+	(406, 'course', '0406'),
+	(407, 'course', '0407'),
+	(408, 'course', '0408'),
+	(409, 'course', '0409'),
+	(410, 'course', '0410'),
+	(411, 'course', '0411'),
+	(412, 'module', '0412'),
+	(413, 'module', '0413');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

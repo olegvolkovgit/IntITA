@@ -27,27 +27,29 @@
                             <h2><?php echo $teacherValue->last_name ?></h2>
                             <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
-                            <?php $coursesID = TeacherHelper::getCoursesByTeacher($teacherValue->teacher_id);
-                            if (!empty($coursesID)){?>
+                            <?php $modules = TeacherHelper::getModulesByTeacher($teacherValue->teacher_id);
+                            if (!empty($modules)){?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
                                 </p>
-                            <div class="teacherCourses">
-                                <ul>
-                                    <?php
+                                <div class="TeacherProfilecourse">
 
-                                        foreach ($coursesID as $key => $value) {
+                                    <div class="teacherCourses">
+                                        <ul>
+                                            <?php
+                                            $count = count($modules);
+                                            for ($i = 0; $i < $count; $i++) {
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>$modules[$i]["idModule"]));?>"><?php echo $modules[$i]["title"]; ?></a>
+                                                </li>
+                                            <?php
+                                            }
                                             ?>
-                                            <li>
-                                                <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $key));?>"><?php echo $value; ?></a>
-                                            </li>
-                                        <?php
-                                        }
-
-                                    ?>
-                                </ul>
-                            </div>
-                                <?php }?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php }?>
                         </td>
                     </tr>
                 </table>

@@ -13,8 +13,13 @@ $alert = 'Ви впевнені, що хочете видалити цей за�
 <a href="#form">
     <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
 </a>
+
 <a href="#formTeacher">
     <div id="addTeacherPermissions" onclick="addTeacherAccess()">Надати права викладача</div>
+</a>
+
+<a href="#formNewTeacher">
+    <div id="addNewTeacher" onclick="addTeacher()">Зробити викладачем</div>
 </a>
 
 <?php
@@ -23,6 +28,7 @@ $dataProvider = $model->search();
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
+    'summaryText'=>'',
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
@@ -95,4 +101,5 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
 <?php $this->renderPartial('_add', array('model' => $model));?>
 <?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
+<?php $this->renderPartial('_addTeacher', array('model' => $model));?>
 
