@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-10 18:00:44
+-- Date/time:                    2015-06-10 18:13:00
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 354 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 402 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1376,7 +1376,55 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(325, 'en', 'credit for 3 years, month:'),
 	(326, 'ua', 'кредит на 4 роки, помісячно:'),
 	(326, 'ru', 'кредит на 4 года, помесячно:'),
-	(326, 'en', 'credit for 4 years, month:');
+	(326, 'en', 'credit for 4 years, month:'),
+	(322, 'ua', 'грн.'),
+	(322, 'ru', 'грн.'),
+	(322, 'en', 'UAH'),
+	(323, 'ua', 'проплати'),
+	(323, 'ru', 'проплаты'),
+	(323, 'en', 'payments'),
+	(324, 'ua', 'проплат'),
+	(324, 'ru', 'проплат'),
+	(324, 'en', 'payments'),
+	(325, 'ua', 'кредит на 3 роки, помісячно:'),
+	(325, 'ru', 'кредит на 3 года, помесячно:'),
+	(325, 'en', 'credit for 3 years, month:'),
+	(326, 'ua', 'кредит на 4 роки, помісячно:'),
+	(326, 'ru', 'кредит на 4 года, помесячно:'),
+	(326, 'en', 'credit for 4 years, month:'),
+	(326, 'ua', 'кредит на 4 роки, помісячно:'),
+	(326, 'ru', 'кредит на 4 года, помесячно:'),
+	(326, 'en', 'credit for 4 years, month:'),
+	(327, 'ua', 'кредит на 5 роки, помісячно:'),
+	(327, 'ru', 'кредит на 5 года, помесячно:'),
+	(327, 'en', 'credit for 5 years, month:'),
+	(328, 'ua', 'ПОЧАТИ КУРС />'),
+	(328, 'ru', 'НАЧАТЬ КУРС />'),
+	(328, 'en', 'COURSE START />'),
+	(329, 'ua', 'Редагувати список модулів'),
+	(329, 'ru', 'Редактировать список модулей'),
+	(329, 'en', 'Edit the list of modules'),
+	(330, 'ua', 'Модулі'),
+	(330, 'ru', 'Модули'),
+	(330, 'en', 'Modules'),
+	(331, 'ua', 'У даному курсі модулів немає.'),
+	(331, 'ru', 'В данном курсе модулей нет.'),
+	(331, 'en', 'In this course modules there.'),
+	(332, 'ua', 'Ви впевнені що хочете видалити модуль?'),
+	(332, 'ru', 'Вы уверены что хотите удалить модуль?'),
+	(332, 'en', 'Are you sure you want to delete the module?'),
+	(333, 'ua', 'Дезактивувати модуль'),
+	(333, 'ru', 'Дезактивировать модуль'),
+	(333, 'en', 'Deactivate module'),
+	(334, 'ua', 'Підняти модуль вгору на 1 позицію'),
+	(334, 'ru', 'Поднять модуль вверх на 1 позицию'),
+	(334, 'en', 'Lift the module up to the 1 position'),
+	(335, 'ua', 'Опустити модуль вниз на 1 позицію'),
+	(335, 'ru', 'Опустить модуль вниз на 1 позицию'),
+	(335, 'en', 'Lower the module down to the 1 position'),
+	(336, 'ua', 'Додати модуль'),
+	(336, 'ru', 'Добавить модуль'),
+	(336, 'en', 'Add your module');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
