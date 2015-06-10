@@ -10,6 +10,7 @@
 	'id'=>'course-form',
     'htmlOptions'=>array(
         'class'=>'formatted-form',
+        'enctype'=>'multipart/form-data',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -21,12 +22,6 @@
 	<p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'alias'); ?>
-		<?php echo $form->textField($model,'alias',array('maxlength'=>20)); ?>
-		<?php echo $form->error($model,'alias'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'language'); ?>
@@ -60,18 +55,6 @@
                 '0'=>'В розробці','1'=>'Готовий'),
             array('options'=>array('0'=>array('selected'=>true)))); ?>
 		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'modules_count'); ?>
-		<?php echo $form->textField($model,'modules_count'); ?>
-		<?php echo $form->error($model,'modules_count'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'course_duration_hours'); ?>
-		<?php echo $form->textField($model,'course_duration_hours'); ?>
-		<?php echo $form->error($model,'course_duration_hours'); ?>
 	</div>
 
 	<div class="row">

@@ -34,9 +34,9 @@ class CoursemanageController extends Controller
 		if(isset($_POST['Course']))
         {
 
-            //$_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $model->attributes=$_POST['Course'];
-            //$model->logo=$_FILES['Course'];
+            $model->logo=$_FILES['Course'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}

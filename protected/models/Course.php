@@ -21,6 +21,7 @@
 class Course extends CActiveRecord
 {
 	const MAX_LEVEL = 5;
+    public $logo=array(),$oldLogo;
     /**
 	 * @return string the associated database table name
 	 */
@@ -37,8 +38,8 @@ class Course extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alias, language, course_name, course_duration_hours', 'required', 'message'=>'Поле обовязкове для заповнення'),
-			array('course_duration_hours, modules_count, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => "Введіть ціле невід'ємне число"),
+			array('language, course_name', 'required', 'message'=>'Поле обовязкове для заповнення'),
+			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => "Введіть ціле невід'ємне число"),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
@@ -211,8 +212,8 @@ class Course extends CActiveRecord
         }
         if ($this->scenario=="insert" || $this->scenario=="update")
         {
-//            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
-//                throw new CHttpException(500);
+            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
+                throw new CHttpException(500);
         }
         return true;
     }

@@ -49,6 +49,12 @@
 {
     position:absolute;
 }
+.courseBox > img
+{
+    position:absolute;
+    width: 108px;
+    height: 108px;
+}
 .courseName
 {
     position:relative;
