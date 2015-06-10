@@ -48,20 +48,20 @@
         <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>33000.00 <?php echo Yii::t('module', '0222'); ?></b> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 25%)</span></div>
         <div class="spoilerBody">
             <div><?php echo Yii::t('course', '0198'); ?></div>
-            <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>36000.00 <?php echo Yii::t('module', '0222'); ?>  =</b> 18000.00 х 2 проплати <?php echo Yii::t('module', '0222'); ?> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 8%)</span></div>
+            <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>36000.00 <?php echo Yii::t('module', '0222'); ?>  =</b> 18000.00 х 2 <?php echo Yii::t('course', '0323'); ?> <?php echo Yii::t('module', '0222'); ?> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 8%)</span></div>
             <div><?php echo Yii::t('course', '0199'); ?></div>
-            <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>40000.00 <?php echo Yii::t('module', '0222'); ?>  =</b> 10000.00 х 4 проплати <?php echo Yii::t('module', '0222'); ?> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 9%)</span></div>
+            <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>40000.00 <?php echo Yii::t('module', '0222'); ?>  =</b> 10000.00 х 4 <?php echo Yii::t('course', '0323'); ?> <?php echo Yii::t('module', '0222'); ?> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 9%)</span></div>
             <div><?php echo Yii::t('course', '0200'); ?></div>
-            <div class="numbers"><span>3600.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 12 проплати <b>=  43200.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
+            <div class="numbers"><span>3600.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 12 <?php echo Yii::t('course', '0323'); ?> <b>=  43200.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
             <div class="italic">
                 <div><?php echo Yii::t('course', '0201'); ?></div>
-                <div class="numbers"><span>2000.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 24 проплат <b>= 48000.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
-                <div><?php echo 'кредит на 3 роки, помісячно:' ?></div>
-                <div class="numbers"><span>1600.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 36 проплат <b>= 57600.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
-                <div><?php echo 'кредит на 4 роки, помісячно:' ?></div>
-                <div class="numbers"><span>1300.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 48 проплат <b>= 62400.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
-                <div><?php echo 'кредит на 5 років, помісячно:' ?></div>
-                <div class="numbers"><span>1150.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 60 проплат <b>= 69000.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
+                <div class="numbers"><span>2000.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 24 <?php echo Yii::t('course', '0324'); ?> <b>= 48000.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
+                <div><?php echo Yii::t('course', '0325') ?></div>
+                <div class="numbers"><span>1600.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 36 <?php echo Yii::t('course', '0324'); ?> <b>= 57600.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
+                <div><?php echo Yii::t('course', '0326') ?></div>
+                <div class="numbers"><span>1300.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 48 <?php echo Yii::t('course', '0324'); ?> <b>= 62400.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
+                <div><?php echo Yii::t('course', '0327') ?></div>
+                <div class="numbers"><span>1150.00 <?php echo Yii::t('module', '0222'); ?>/<?php echo Yii::t('module', '0218'); ?> х 60 <?php echo Yii::t('course', '0324'); ?> <b>= 69000.00 <?php echo Yii::t('module', '0222'); ?></b></span></div>
             </div>
         </div>
         </br>
@@ -80,8 +80,7 @@
                 </span>
             </div>
             <div class="startCourse">
-                <?php $labelButton = 'ПОЧАТИ КУРС />'?>
-                <?php echo CHtml::link($labelButton, '#'); ?>
+                <?php echo CHtml::link(Yii::t('course', '0328'), '#'); ?>
             </div>
         </div>
     </div>

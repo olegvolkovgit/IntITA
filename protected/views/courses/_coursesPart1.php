@@ -86,8 +86,8 @@
             <!--Вартість курсу-->
             <div class="coursePriceBox">
                 <?php echo Yii::t('courses', '0147'); ?>
-                <span id="coursePriceStatus1"> <?php echo $val->course_price;?> грн.</span>
-                <span id="coursePriceStatus2"> <?php echo ModuleHelper::getDiscountedPrice($val->course_price, 25);?> грн.</span>
+                <span id="coursePriceStatus1"> <?php echo $val->course_price." ".Yii::t('courses', '0322');?>&nbsp</span>
+                <span id="coursePriceStatus2"> <?php echo ModuleHelper::getDiscountedPrice($val->course_price, 25)." ".Yii::t('courses', '0322');?> </span>
                 <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
             </div>
             <br><!--Оцінка курсу-->

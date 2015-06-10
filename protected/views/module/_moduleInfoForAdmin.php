@@ -14,7 +14,7 @@
             'model'     => $post,
             'attribute' => 'module_name',
             'url'       => $this->createUrl('module/updateModuleAttribute'),
-            'title'     => 'Введіть назву модуля',
+            'title'     => Yii::t('module', '0369'),
             'placement' => 'right',
         ));
         ?>
@@ -59,7 +59,7 @@
                     'url'       => $this->createUrl('module/updateModuleAttribute'),
                     //    'source'    => Editable::source(Status::model()->findAll(), 'status_id', 'status_text'),
                     //or you can use plain arrays:
-                    'source'    => Editable::source(array('intern'=> 'Стажер', 'junior' => 'Початківець','strong junior' => 'Сильний початківець', 'middle' => 'Середній', 'senior' => 'Високий')),
+                    'source'    => Editable::source(array('intern'=> Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'),'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236'))),
                     'placement' => 'right',
                 ));
                 ?>
@@ -91,7 +91,7 @@
                         'model'     => $post,
                         'attribute' => 'hours_in_day',
                         'url'       => $this->createUrl('module/updateModuleAttribute'),
-                        'title'     => 'Введіть кількість годин в день',
+                        'title'     => Yii::t('module', '0370'),
                         'placement' => 'right',
                     ));
                     echo " ".Yii::t('module', '0219').", ";
@@ -100,7 +100,7 @@
                         'model'     => $post,
                         'attribute' => 'days_in_week',
                         'url'       => $this->createUrl('module/updateModuleAttribute'),
-                        'title'     => 'Введіть кількість днів на тиждень',
+                        'title'     => Yii::t('module', '0371'),
                         'placement' => 'right',
                     ));
                     echo " ".Yii::t('module', '0220').")";
@@ -116,7 +116,7 @@
                         'model'     => $post,
                         'attribute' => 'module_price',
                         'url'       => $this->createUrl('module/updateModuleAttribute'),
-                        'title'     => 'Введіть ціну модуля',
+                        'title'     => Yii::t('module', '0372'),
                         'placement' => 'right',
                     ));
                     ?>

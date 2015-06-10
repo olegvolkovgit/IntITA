@@ -19,7 +19,7 @@ if($teacherRat){
 <div class="sm">
     <?php
     $num = $data['who_ip'];
-    echo $data['date']." Всего ".$count = Response::model()->count('who_ip = :num', array(':num'=>$num))." отзывов с IP:".Teacher::getHideIp($data['who_ip']);
+    echo $data['date']." IP:".Teacher::getHideIp($data['who_ip']);
 ?>
 </div>
 

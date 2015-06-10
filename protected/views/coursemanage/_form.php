@@ -10,6 +10,7 @@
 	'id'=>'course-form',
     'htmlOptions'=>array(
         'class'=>'formatted-form',
+        'enctype'=>'multipart/form-data',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -18,15 +19,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
-
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'alias'); ?>
-		<?php echo $form->textField($model,'alias',array('maxlength'=>20)); ?>
-		<?php echo $form->error($model,'alias'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'language'); ?>
@@ -44,34 +37,22 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'level'); ?>
-        <?php echo $form->dropDownList($model, 'level', array('intern'=> 'Стажер', 'junior' => 'Початківець','strong junior' => 'Сильний початківець', 'middle' => 'Середній', 'senior' => 'Високий'),array('options'=>array('intern'=>array('selected'=>true))));?>
+        <?php echo $form->dropDownList($model, 'level', array('intern'=> Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'),'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236')),array('options'=>array('intern'=>array('selected'=>true))));?>
         <?php echo $form->error($model,'level'); ?>
     </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'start'); ?>
-		<?php echo $form->textField($model,'start',array('placeholder'=>'РРРР-ММ-ДД')); ?>
+		<?php echo $form->textField($model,'start',array('placeholder'=>Yii::t('coursemanage', '0395'))); ?>
 		<?php echo $form->error($model,'start'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
         <?php echo $form->dropDownList($model,'status',array(
-                '0'=>'В розробці','1'=>'Готовий'),
+                '0'=>Yii::t('coursemanage', '0396'),'1'=>Yii::t('coursemanage', '0397')),
             array('options'=>array('0'=>array('selected'=>true)))); ?>
 		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'modules_count'); ?>
-		<?php echo $form->textField($model,'modules_count'); ?>
-		<?php echo $form->error($model,'modules_count'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'course_duration_hours'); ?>
-		<?php echo $form->textField($model,'course_duration_hours'); ?>
-		<?php echo $form->error($model,'course_duration_hours'); ?>
 	</div>
 
 	<div class="row">
@@ -104,14 +85,8 @@
 		<?php echo $form->error($model,'course_img'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'review'); ?>
-		<?php echo $form->textArea($model,'review',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'review'); ?>
-	</div>
-
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
