@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 14:30:57
+-- Date/time:                    2015-06-11 18:03:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -439,7 +439,9 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(415, 'course', '0415'),
 	(416, 'error', '0416'),
 	(417, 'coursemanage', '0417'),
-	(418, 'teachers', '0418');
+	(418, 'teachers', '0418'),
+	(419, 'coursemanage', '0419'),
+	(420, 'lecture', '0420');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

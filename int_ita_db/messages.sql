@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 14:30:55
+-- Date/time:                    2015-06-11 18:03:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -256,7 +256,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(82, 'en', 'hide'),
 	(83, 'en', 'Videos'),
 	(84, 'en', 'Sample code'),
-	(85, 'en', 'User'),
+	(85, 'en', 'Instruction'),
 	(86, 'en', 'Task'),
 	(87, 'en', 'review the previous lesson'),
 	(88, 'en', 'NEXT LECTURE />'),
@@ -1439,7 +1439,13 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(417, 'en', 'To display as a not numbered list, separate the items with \';\''),
 	(418, 'ua', 'Email'),
 	(418, 'ru', 'Email'),
-	(418, 'en', 'Email');
+	(418, 'en', 'Email'),
+	(420, 'ua', 'Відео'),
+	(420, 'ru', 'Видео'),
+	(420, 'en', 'Video'),
+	(419, 'ua', 'Введіть ціле невід\'ємне число'),
+	(419, 'ru', 'Введите целое неотрицательное число'),
+	(419, 'en', 'Enter a non-negative integer');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

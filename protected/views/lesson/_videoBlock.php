@@ -14,7 +14,7 @@
     ));?>
 
 <div class="video" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
-<h3><span class="subChapter">Відео 1.</span></h3>
+<h3><span class="subChapter"><?php echo Yii::t('lecture', '0420');?></span></h3>
 <iframe width="778" height="480" src="<?php echo $data['html_block'];?>" frameborder="0" allowfullscreen></iframe>
 
 <!--<div class="download" id="do2">-->
