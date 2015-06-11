@@ -9,7 +9,7 @@
     <input name="lang" value="<?php echo $newmodel->language;?>" hidden="hidden">
     <input type="text" name="newLectureName" id="newLectureName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІі.,;: ()/+-]+$">
     <br><br>
-    <input type="submit"  value=<?php echo Yii::t('module', '0383'); ?> id="submitButton">
+    <input type="submit"  value=<?php echo Yii::t('module', '0383'); ?> id="submitButton" onclick="trimLectureName()">
 </form>
 <button id="cancelButton" onclick="hideForm('lessonForm', 'newLectureName');"><?php echo Yii::t('module', '0384'); ?></button>
 <div style="margin-top: 75px">

@@ -299,3 +299,6 @@ td.button-column{
     line-height: 100%;
     word-wrap: break-word;
 }
+.colorGreen{
+    color: green;
+}
