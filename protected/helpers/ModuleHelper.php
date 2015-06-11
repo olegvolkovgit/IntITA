@@ -43,7 +43,7 @@ class ModuleHelper {
     }
     public static function getModulePrice($price){
         if ($price == 0){
-            return '<span class="colorGreen">Безкоштовно<span>';
+            return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
         return '<span id="oldPrice">'.$price.' '.Yii::t('module', '0222').'</span> '.ModuleHelper::getDiscountedPrice($price, 50).Yii::t('module', '0222').'('.Yii::t('module', '0223').')';
     }

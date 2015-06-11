@@ -89,7 +89,6 @@
                     <?php echo Yii::t('courses', '0147'); ?>
                     <?php echo CourseHelper::getCoursePrice($val->course_price) ?>
                 </div>
-                <br>
                 <div class='starLevelIndex'>
                     <br>
                     <?php echo Yii::t('courses', '0145'); ?>
