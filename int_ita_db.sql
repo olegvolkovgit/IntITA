@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 14:30:49
+-- Date/time:                    2015-06-11 18:03:43
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -552,7 +552,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~24 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -575,7 +575,10 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(36, 1, 14, 'label', 8, '<p>Глава 3.</p>'),
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
 	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
-	(39, 1, 17, 'text', 1, '<p>124578235689</p>');
+	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
+	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/bVssxumkHI4"'),
+	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
+	(42, 1, 20, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -629,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 417 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 423 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -865,7 +868,7 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(82, 'en', 'hide'),
 	(83, 'en', 'Videos'),
 	(84, 'en', 'Sample code'),
-	(85, 'en', 'User'),
+	(85, 'en', 'Instruction'),
 	(86, 'en', 'Task'),
 	(87, 'en', 'review the previous lesson'),
 	(88, 'en', 'NEXT LECTURE />'),
@@ -2048,7 +2051,13 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(417, 'en', 'To display as a not numbered list, separate the items with \';\''),
 	(418, 'ua', 'Email'),
 	(418, 'ru', 'Email'),
-	(418, 'en', 'Email');
+	(418, 'en', 'Email'),
+	(420, 'ua', 'Відео'),
+	(420, 'ru', 'Видео'),
+	(420, 'en', 'Video'),
+	(419, 'ua', 'Введіть ціле невід\'ємне число'),
+	(419, 'ru', 'Введите целое неотрицательное число'),
+	(419, 'en', 'Enter a non-negative integer');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -5688,7 +5697,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~418 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~420 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6108,7 +6117,9 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(415, 'course', '0415'),
 	(416, 'error', '0416'),
 	(417, 'coursemanage', '0417'),
-	(418, 'teachers', '0418');
+	(418, 'teachers', '0418'),
+	(419, 'coursemanage', '0419'),
+	(420, 'lecture', '0420');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 

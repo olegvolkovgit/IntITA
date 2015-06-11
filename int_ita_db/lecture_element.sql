@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 14:30:55
+-- Date/time:                    2015-06-11 18:03:37
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -47,7 +47,10 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(36, 1, 14, 'label', 8, '<p>Глава 3.</p>'),
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
 	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
-	(39, 1, 17, 'text', 1, '<p>124578235689</p>');
+	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
+	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/bVssxumkHI4"'),
+	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
+	(42, 1, 20, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

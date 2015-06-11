@@ -6,9 +6,9 @@ for ($i = 0; $i < count($teachers); $i++) {
             <tr>
                 <td class="teacherBoxLeft">
                     <div
-                        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teachers[$i]->foto_url); ?>) no-repeat; background-size: 90px; margin-left: 50px;">
+                        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teachers[$i]->foto_url); ?>) no-repeat; background-size: 90px;  margin-left: 50px;">
                         <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
-                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id)); ?>"><?php echo Yii::t('module', '0228'); ?>&#187;</a>
+                        <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teachers[$i]->teacher_id)); ?>"> <?php echo Yii::t('module', '0228'); ?>&#187;</a>
                     </div>
                 </td>
                 <td class="teacherBoxRight"
@@ -19,8 +19,8 @@ for ($i = 0; $i < count($teachers); $i++) {
                     <?php echo $teachers[$i]->last_name . " " . $teachers[$i]->first_name; ?>
                     <br>
                     <?php echo $teachers[$i]->email; ?>
-                    <br>
-                    <?php echo $teachers[$i]->tel; ?>
+<!--                    <br>-->
+<!--                    --><?php //echo $teachers[$i]->tel; ?>
                     <br>
                     <?php echo "Skype: ", $teachers[$i]->skype; ?>
                 </div>
