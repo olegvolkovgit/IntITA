@@ -43,7 +43,7 @@
         <div class="colorP"><?php echo Yii::t('course', '0194'); ?></div>
         <div><b><?php echo $model->course_duration_hours;?> <?php echo Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?> - <b><?php echo ceil($model->course_duration_hours/36);?> <?php echo Yii::t('module', '0218'); ?></b> (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)</div>
 
-        </span><span class="spoilerLinks"><span class="spoilerClick">Розгорнути схеми проплат</span><span class="spoilerTriangle"> &#9660;</span></span>
+        <span class="spoilerLinks" onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span id="spoilerClick"><?php echo Yii::t('course', '0414'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
         <div><?php echo Yii::t('course', '0197'); ?></div>
         <div class="numbers"><span class="redStrike">43200.00 <?php echo Yii::t('module', '0222'); ?></span> <b>33000.00 <?php echo Yii::t('module', '0222'); ?></b> <span class="colorP">(<?php echo Yii::t('course', '0210'); ?> - 25%)</span></div>
         <div class="spoilerBody">

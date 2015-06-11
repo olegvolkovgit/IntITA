@@ -32,11 +32,11 @@ div.subLinksCourse{
 span.spoilerLinks {
     cursor:pointer;
 }
-span.spoilerClick:hover{
+span#spoilerClick:hover{
     cursor:pointer;
     color:#666666;
 }
-span.spoilerClick {
+span#spoilerClick {
     text-decoration:underline;
     color:#4b75a4;
 }
@@ -171,7 +171,7 @@ div.courseShortInfoTable{
 .courseTeacher a{
     text-decoration: none;
 }
-.spoilerTriangle{
+#spoilerTriangle{
     font-size: xx-small;
     color: #4b75a4;
     margin-left: 3px;

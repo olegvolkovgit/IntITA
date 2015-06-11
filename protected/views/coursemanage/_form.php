@@ -63,19 +63,19 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'for_whom'); ?>
-		<?php echo $form->textArea($model,'for_whom',array('placeholder'=>"Для коректного відображення розділяйте пункти знаком ';'", 'rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'for_whom',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'for_whom'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'what_you_learn'); ?>
-		<?php echo $form->textArea($model,'what_you_learn',array('placeholder'=>"Для коректного відображення розділяйте пункти знаком ';'",'rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'what_you_learn',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'what_you_learn'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'what_you_get'); ?>
-		<?php echo $form->textArea($model,'what_you_get',array('placeholder'=>"Для коректного відображення розділяйте пункти знаком ';'",'rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'what_you_get',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'what_you_get'); ?>
 	</div>
 

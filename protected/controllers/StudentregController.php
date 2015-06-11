@@ -401,7 +401,8 @@ class StudentRegController extends Controller
                 $this->render("studentprofileedit", array('model'=>$model,'tab'=>$tab));
             } else
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-        }
+        } else
+            $this->render("studentprofileedit", array('model'=>$model));
     }
     public function actionChangepass()
     {

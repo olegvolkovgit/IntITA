@@ -196,6 +196,7 @@ class Course extends CActiveRecord
 
     protected function beforeSave()
     {
+        if($this->start=='') $this->start=null;
         if ($this->scenario=="update")
         {
             $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->oldLogo;

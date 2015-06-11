@@ -35,6 +35,9 @@
         <label class="formPhonename" id="formTeacher" for="phonename"><?php echo Yii::t('teachers', '0178');?></label>
         <input class="formTeacher1" id="phone" required type="text" name="phonename">
         <br> <br>
+        <label class="formEmail" id="formTeacher" for="email"><?php echo Yii::t('teachers', '0418');?></label>
+        <input class="formTeacher1" id="phone" required type="email" name="email">
+        <br> <br>
         <label class="formTextname" id="formTeacher" for="textname" style="width: 110px; text-align:left"><?php echo Yii::t('teachers', '0179');?></label>
         <textarea class="formTeacher1" id="formTeacher2" required type="text" name="textname"></textarea>
         <br> <br>

@@ -8,11 +8,12 @@
 ?>
 <div class="courseInfo">
     <ul>
+
         <?php if($model->for_whom != '') { ?>
             <p class="subCourseInfo"><b><?php echo Yii::t('course', '0204'); ?></b></p>
             <?php
             $forWhomArray = explode(";", $model->for_whom);
-            for ($k = 0; $k < count($forWhomArray) - 1; $k++) {
+            for ($k = 0; $k <count($forWhomArray); $k++) {
                 ?>
                 <li><?php echo $forWhomArray[$k] . ";";?></li>
             <?php
@@ -25,7 +26,7 @@
             <p class="subCourseInfo"><b><?php echo Yii::t('course', '0205'); ?></b></p>
             <?php
             $whatYouLearnArray = explode(";", $model->what_you_learn);
-            for ($l = 0; $l < count($whatYouLearnArray) - 1; $l++) {
+            for ($l = 0; $l < count($whatYouLearnArray); $l++) {
                 ?>
                 <li><?php echo $whatYouLearnArray[$l] . ";";?></li>
             <?php
@@ -38,7 +39,7 @@
             <p class="subCourseInfo"><b><?php echo Yii::t('course', '0206'); ?></b></p>
             <?php
             $whatYouLearnArray = explode(";", $model->what_you_get);
-            for ($r = 0; $r < count($whatYouLearnArray) - 1; $r++) {
+            for ($r = 0; $r < count($whatYouLearnArray); $r++) {
                 ?>
                 <li><?php echo $whatYouLearnArray[$r] . ";";?></li>
             <?php

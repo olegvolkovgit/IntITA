@@ -186,13 +186,12 @@ class TeachersController extends Controller
                 $year = $_POST['yearname'];
                 $educ = $_POST['educationname'];
                 $phone = $_POST['phonename'];
+                $from = $_POST['email'];
                 $courses = $_POST['textname'];
                 $title = "Teacher_Work ".$firstname." ".$lastname;
                 $mess = "Ім'я: ".$firstname." ".$lastname."\r\n"."Дата народження: ".$year."\r\n"."Освіта: ".$educ."\r\n"."Телефон: ".$phone."\r\n"."Курси які готовий викладати: ".$courses;
                 // $to - кому отправляем
                 $to = Yii::app()->params['adminEmail'];
-                // $from - от кого
-                $from = $model->email;
 
                 // функция, которая отправляет наше письмо.
                 mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $from . "\r\n");
