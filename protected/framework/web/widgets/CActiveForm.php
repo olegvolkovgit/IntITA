@@ -555,7 +555,7 @@ class CActiveForm extends CWidget
 		if($html==='')
 		{
 			if($header===null)
-				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
+				$header='<p>'.Yii::t('yii','Please fill in the following fields:').'</p>';
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=CHtml::$errorSummaryCss;
 			$htmlOptions['style']=isset($htmlOptions['style']) ? rtrim($htmlOptions['style'],';').';display:none' : 'display:none';

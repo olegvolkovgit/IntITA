@@ -26,6 +26,7 @@
  */
 class Teacher extends CActiveRecord
 {
+    public $avatar=array(),$oldAvatar;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -42,12 +43,14 @@ class Teacher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id', 'required'),
+			array('first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, email, tel, skype', 'required'),
 			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
 			array('first_name, middle_name, last_name', 'length', 'max'=>35),
+            array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s]+$/u','message'=>'Недопустимі символи!'),
 			array('foto_url, subjects, tel', 'length', 'max'=>100),
 			array('readMoreLink, smallImage', 'length', 'max'=>255),
 			array('email, skype', 'length', 'max'=>50),
+            array('email','email'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
@@ -213,5 +216,28 @@ class Teacher extends CActiveRecord
         $criteria->addCondition('idTeacher='.$user);
 
         return TeacherModule::model()->exists($criteria);
+    }
+
+    protected function beforeSave()
+    {
+        if ($this->scenario=="update")
+        {
+            $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->oldAvatar;
+            if (is_file($src))
+                unlink($src);
+        }
+        if ($this->scenario=="insert" || $this->scenario=="update")
+        {
+            if(!copy($this->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/teachers/".$this->avatar['name']['foto_url']))
+                throw new CHttpException(500);
+        }
+        return true;
+    }
+    protected function beforeDelete()
+    {
+        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
+        if (is_file($src))
+            unlink($src);
+        return true;
     }
 }

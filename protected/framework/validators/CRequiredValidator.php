@@ -60,14 +60,14 @@ class CRequiredValidator extends CValidator
 		{
 			if(!$this->strict && $value!=$this->requiredValue || $this->strict && $value!==$this->requiredValue)
 			{
-				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be {value}.',
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} '.Yii::t('validate','0365').' {value}.',
 					array('{value}'=>$this->requiredValue));
 				$this->addError($object,$attribute,$message);
 			}
 		}
 		elseif($this->isEmpty($value,$this->trim))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} '.Yii::t('validate','0364'));
 			$this->addError($object,$attribute,$message);
 		}
 	}
