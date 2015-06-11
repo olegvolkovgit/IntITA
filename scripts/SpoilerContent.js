@@ -22,9 +22,11 @@ $(document).ready(function() {
             $(this).html('Згорнути відгук  про навчання \u25B2');
         }
         else {
+            var a=document.formName.id1.value;
+            //var a=1111111;
+            alert("a ="+ a); //для проверки
             $(this).html('Розгорнути відгук про навчання \u25BC');
         }
+
     });
 });
-
-
