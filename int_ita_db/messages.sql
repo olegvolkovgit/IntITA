@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-10 18:13:00
+-- Date/time:                    2015-06-11 14:30:55
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 402 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 417 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1424,7 +1424,22 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(335, 'en', 'Lower the module down to the 1 position'),
 	(336, 'ua', 'Додати модуль'),
 	(336, 'ru', 'Добавить модуль'),
-	(336, 'en', 'Add your module');
+	(336, 'en', 'Add your module'),
+	(414, 'ua', 'Розгорнути схеми проплат'),
+	(414, 'ru', 'Развернуть схемы проплат'),
+	(414, 'en', 'Expand payment plan'),
+	(415, 'ua', 'Згорнути схеми проплат'),
+	(415, 'ru', 'Свернуть схемы проплат'),
+	(415, 'en', 'Close payment plan'),
+	(416, 'ua', 'Недопустимі символи!'),
+	(416, 'ru', 'Недопустимые символы!'),
+	(416, 'en', 'Invalid characters!'),
+	(417, 'ua', 'Для відображення у вигляді не нумерованого списку, розділяйте пункти символом \';\''),
+	(417, 'ru', 'Для отражения в виде не нумерованного списка, разделяйте пункты символом \';\''),
+	(417, 'en', 'To display as a not numbered list, separate the items with \';\''),
+	(418, 'ua', 'Email'),
+	(418, 'ru', 'Email'),
+	(418, 'en', 'Email');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
