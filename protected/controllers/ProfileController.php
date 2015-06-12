@@ -29,7 +29,6 @@ class ProfileController extends Controller
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         $teacher = Teacher::model()->findByPk($idTeacher);
-        $sections = explode(';', $teacher->sections);
 
         if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
@@ -49,7 +48,6 @@ class ProfileController extends Controller
 
         $this->render('index', array (
             'model' => $teacher,
-            'sections' => $sections,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
         ));

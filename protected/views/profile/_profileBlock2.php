@@ -11,7 +11,6 @@
     <?php $this->renderPartial('_teacherRate', array('model' => $model)); ?>
 
     <?php
-/**   ljhkhjgjhgkjhgj */
     $this->widget('zii.widgets.CListView', array(
         'dataProvider'=>$dataProvider,
         'viewData' => array('teacher'=>$model),

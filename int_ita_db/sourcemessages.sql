@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 18:03:40
+-- Date/time:                    2015-06-12 14:16:54
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=423 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~418 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~422 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -441,7 +441,9 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(417, 'coursemanage', '0417'),
 	(418, 'teachers', '0418'),
 	(419, 'coursemanage', '0419'),
-	(420, 'lecture', '0420');
+	(420, 'lecture', '0420'),
+	(421, 'module', '0421'),
+	(422, 'lecture', '0422');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

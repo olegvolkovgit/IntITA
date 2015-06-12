@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 18:03:38
+-- Date/time:                    2015-06-12 14:16:53
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 417 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 426 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -1023,11 +1023,11 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(315, 'ua', 'було відправлено листа з інструкціями процедури зміни паролю. Після отримання листа по електронній пошті, ВИ ПОВИННІ відвідати URL, вказаний у листі, щоб змінити пароль.'),
 	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
 	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
-	(316, 'ua', 'У цій лекції ще нічого немає ('),
-	(316, 'ru', 'В данной лекции еще ничего нет ('),
+	(422, 'ua', 'У цій лекції ще нічого немає ('),
+	(422, 'ru', 'В данной лекции еще ничего нет ('),
 	(315, 'ru', 'было отправлено письмо с инструкциями процедуры смены пароля. После получения письма по электронной почте, ВЫ ДОЛЖНЫ посетить URL, указанный в письме, чтобы изменить пароль.'),
 	(315, 'en', 'sent a letter with procedure instructions to reset your password. After receiving an e-mail, you must visit the URL, specified in the email to reset your password.'),
-	(316, 'en', 'There are not any content in this lecture ('),
+	(422, 'en', 'There are not any content in this lecture ('),
 	(317, 'ua', 'Зміст'),
 	(317, 'ru', 'Содержание'),
 	(317, 'en', 'Contents'),
@@ -1445,7 +1445,10 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(420, 'en', 'Video'),
 	(419, 'ua', 'Введіть ціле невід\'ємне число'),
 	(419, 'ru', 'Введите целое неотрицательное число'),
-	(419, 'en', 'Enter a non-negative integer');
+	(419, 'en', 'Enter a non-negative integer'),
+	(421, 'ua', 'безкоштовно'),
+	(421, 'ru', 'бесплатно'),
+	(421, 'en', 'free');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

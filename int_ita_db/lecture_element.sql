@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-11 18:03:37
+-- Date/time:                    2015-06-12 14:16:53
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~24 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),

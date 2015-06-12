@@ -17,11 +17,9 @@
  * @property string $email
  * @property string $tel
  * @property string $skype
- * @property string $smallImage
  * @property integer $rate_knowledge
  * @property integer $rate_efficiency
  * @property integer $rate_relations
- * @property string $sections
  * @property integer $user_id
  */
 class Teacher extends CActiveRecord
@@ -46,11 +44,11 @@ class Teacher extends CActiveRecord
 			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
 			array('first_name, middle_name, last_name', 'length', 'max'=>35),
 			array('foto_url, subjects, tel', 'length', 'max'=>100),
-			array('readMoreLink, smallImage', 'length', 'max'=>255),
+			array('readMoreLink', 'length', 'max'=>255),
 			array('email, skype', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, smallImage, rate_knowledge, rate_efficiency, rate_relations, sections, user_id, courses', 'safe', 'on'=>'search'),
+			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,11 +82,9 @@ class Teacher extends CActiveRecord
 			'email' => 'Email',
 			'tel' => 'Телефон',
 			'skype' => 'Skype',
-			'smallImage' => 'Small Image',
 			'rate_knowledge' => 'Рівень знань',
 			'rate_efficiency' => 'Рівень ефективності',
 			'rate_relations' => 'Рівень відношення',
-			'sections' => 'Секції',
 			'user_id' => 'ID користувача',
 		);
 	}
@@ -124,11 +120,9 @@ class Teacher extends CActiveRecord
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('skype',$this->skype,true);
-		$criteria->compare('smallImage',$this->smallImage,true);
 		$criteria->compare('rate_knowledge',$this->rate_knowledge);
 		$criteria->compare('rate_efficiency',$this->rate_efficiency);
 		$criteria->compare('rate_relations',$this->rate_relations);
-		$criteria->compare('sections',$this->sections,true);
 		$criteria->compare('user_id',$this->user_id);
 
 		return new CActiveDataProvider($this, array(
