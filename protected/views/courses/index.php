@@ -14,8 +14,8 @@ $courseList = $dataProvider->getData();
     <?php $this->renderPartial('_menuLine');?>
     <table>
         <tr>
-            <?php $this->renderPartial('_coursesPart1', array('count1' => $count1, 'courseList' => $courseList));?>
-            <?php $this->renderPartial('_coursesPart2', array('count1' => $count1, 'courseList' => $courseList, 'count2' => $count2));?>
+            <?php $this->renderPartial('_coursesPart1', array('courseList' => $courseList));?>
+            <?php $this->renderPartial('_coursesPart2', array('courseList' => $courseList));?>
         </tr>
     </table>
 </div>
