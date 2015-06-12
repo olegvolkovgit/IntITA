@@ -9,9 +9,6 @@ function addTeacherAccess(){
     document.getElementById('addTeacherAccess').style.display = 'block';
 }
 
-function addTeacher(){
-    document.getElementById('addTeacher').style.display = 'block';
-}
 
 function selectModule(){
     var course = $('select[name="course"]').val();

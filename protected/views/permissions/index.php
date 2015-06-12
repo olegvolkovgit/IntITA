@@ -18,10 +18,6 @@ $alert = 'Ви впевнені, що хочете видалити цей за�
     <div id="addTeacherPermissions" onclick="addTeacherAccess()">Надати права викладача</div>
 </a>
 
-<a href="#formNewTeacher">
-    <div id="addNewTeacher" onclick="addTeacher()">Зробити викладачем</div>
-</a>
-
 <?php
 $dataProvider = $model->search();
 
@@ -101,5 +97,5 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
 <?php $this->renderPartial('_add', array('model' => $model));?>
 <?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
-<?php $this->renderPartial('_addTeacher', array('model' => $model));?>
+
 
