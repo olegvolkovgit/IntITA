@@ -13,7 +13,7 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
 <?php
 $this->pageTitle = 'INTITA';
-$post=Teacher::model()->findAll();
+$post=$dataProvider->getData();
 ?>
 <!-- BD -))) -->
 <div class="subNavBlockTeachers">

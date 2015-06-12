@@ -75,7 +75,6 @@
 .coursePriceBox
 {
     margin-left: 150px;
-    float: left;
 }
 #coursePriceStatus1 {
     color: #ff0000;
@@ -101,7 +100,6 @@
 .starLevelIndex
 {
     padding-left: 150px;
-    padding-top: 20px;
 }
 .courseLevelIndex
 {
@@ -172,7 +170,6 @@
     height: 20px;
     margin-left:150px;
     color: #333333;
-    float: left;
 }
 #coursesLang{
     z-index: 6;
@@ -180,35 +177,24 @@
     left: 70px;
     top:-22px;
 }
-#coursesLang.down {
-    /*height: 20px;*/
-}
 #coursesLang #ru {
     border-left: 1px solid #999999;
     padding-left: 8px;
 }
-#coursesLangs a{
+a#coursesLangs {
     background:none!important;
     border:none;
     cursor: pointer;
-    color: #4b70a3;
+    color: #4b70a4;
     font-size: 14px;
-    margin-left:8px;
+    margin-left:6px;
     font-family: "MyriadPro";
     text-decoration: none; !important;
-    position: relative;
-    float: left;
+    position:relative;
 }
 #coursesLang .selectedLang,#coursesLangs .selectedLang {
     text-decoration: none;
     color: #999999;
-}
-#coursesLangs{
-    z-index: 0;
-    position: relative;
-    left: 70px;
-    top:-20px;
-    height: 20px;
 }
 #coursesLangs button{
     background:none!important;
@@ -261,6 +247,9 @@
     color: #696969;
 }
 #courseStatus1 {
+    color: green;
+}
+.colorGreen{
     color: green;
 }
 #courseStatus0 {

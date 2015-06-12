@@ -14,6 +14,7 @@
  * @property string $what_you_learn
  * @property string $what_you_get
  * @property string $course_img
+ * @property integer $rating
  *
  * The followings are the available model relations:
  * @property Modules[] $modules
@@ -39,14 +40,14 @@ class Course extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('language, course_name', 'required', 'message'=>Yii::t('coursemanage', '0387')),
-			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388')),
+			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
 			array('course_img', 'length', 'max'=>255),
             array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
-			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('course_ID,alias, language, course_name, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),

@@ -57,7 +57,7 @@ span#spoilerClick {
     font-weight: inherit;
     font-size: 36px;
     color: #4B75A4;
-    margin: 24px 0 0 0;
+    margin: 24px 0 20px 0;
     line-height: 100%;
 }
 img.courseImg{
@@ -100,11 +100,10 @@ div.courseShortInfoTable{
     vertical-align: top;
 }
 .courseInfo ul {
-    font-size: 14px;
     vertical-align: top;
-    display: inline-block;
     margin-right: 35px;
     width: 270px;
+    font-size: 16px;
 }
 .courseInfo p {
     margin-left: -15px;

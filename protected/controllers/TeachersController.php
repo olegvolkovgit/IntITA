@@ -123,7 +123,13 @@ class TeachersController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('Teacher');
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'teacher';
+        $criteria->order = 'rating DESC';
+		$dataProvider = new CActiveDataProvider('Teacher', array(
+            'criteria' => $criteria,
+            'Pagination'=>false,
+        ));
 
         $teachers = Teacher::getAllTeachersId();
 

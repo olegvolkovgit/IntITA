@@ -79,28 +79,24 @@
             <!--Мови курсу-->
             <div class="courseLang">
                 <?php echo Yii::t('courses', '0069'); ?>
-                <div id="coursesLangs" class="down">
-                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id'=>$val->course_ID)); ?>"><?php echo $val->language;?></a>
-                </div>
+                <a id="coursesLangs" href="<?php echo Yii::app()->createUrl('course/index', array('id'=>$val->course_ID)); ?>"><?php echo $val->language;?></a>
             </div>
             <!--Вартість курсу-->
             <div class="coursePriceBox">
                 <?php echo Yii::t('courses', '0147'); ?>
-                <span id="coursePriceStatus1"> <?php echo $val->course_price." ".Yii::t('courses', '0322');?>&nbsp</span>
-                <span id="coursePriceStatus2"> <?php echo ModuleHelper::getDiscountedPrice($val->course_price, 25)." ".Yii::t('courses', '0322');?> </span>
-                <?php echo " (".Yii::t('courses', '0144')." - 25%)";?>
+                <?php echo CourseHelper::getCoursePrice($val->course_price) ?>
             </div>
-            <br><!--Оцінка курсу-->
+            <!--Оцінка курсу-->
             <div class='starLevelIndex'>
                 <br>
                 <?php echo Yii::t('courses', '0145'); ?>
                 <?php
-                for ($i = 0; $i < 9; $i++) {
+                for ($i = 0; $i < $val->rating; $i++) {
                     ?><span class="courseLevelImage">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>">
                     </span><?php
                 }
-                for ($i = 0; $i < 1; $i++) {
+                for ($i = $val->rating; $i < 10; $i++) {
                     ?><span class="courseLevelImage">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>">
                     </span><?php

@@ -39,7 +39,7 @@ $header = new Header();?>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
     <!-- trimEmail-->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimEmail.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
     <!-- Horizontal header Scroll-->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/horizontalscroll.js"></script>

@@ -261,13 +261,13 @@ td.button-column{
     vertical-align: top;
     text-align: center;
     line-height: 32px;
-    float: right;
 }
 .headerLeftModule div.startModule{
     margin-left: 110px;
+    float: left;
 }
 .headerLeftModule div.startCourse{
-    margin-left: 100px;
+    float:right;
 }
 .startCourse a, .startModule a    {
     display: inline-block;
@@ -298,4 +298,15 @@ td.button-column{
     margin: 24px 0 20px 0;
     line-height: 100%;
     word-wrap: break-word;
+}
+.colorGreen{
+    color: green;
+}
+.headerLeftModule table{
+    table-layout: auto;
+    width: 100%;
+}
+.headerLeftModule table td:first-child {
+    width: 1%;
+    white-space: nowrap;
 }

@@ -20,6 +20,7 @@
  * @property integer $rate_efficiency
  * @property integer $rate_relations
  * @property integer $user_id
+ * @property integer $rating
  */
 class Teacher extends CActiveRecord
 {

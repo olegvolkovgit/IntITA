@@ -11,12 +11,10 @@
     <table>
         <tr>
             <td>
-                <p><span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
-                 <span class="courseLevel">
-                    <?php echo CourseHelper::translateLevel($model->level);
-                    ?>
-                 </span>
-                </p>
+                <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
+                <span class="courseLevel">
+                    <?php echo CourseHelper::translateLevel($model->level);?>
+                </span>
             </td>
             <td class="courseLevel">
                 <div>
