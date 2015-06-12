@@ -21,6 +21,8 @@
         'pager' => array(
             'firstPageLabel'=>'<<',
             'lastPageLabel'=>'>>',
+            'prevPageLabel'=>'<',
+            'nextPageLabel'=>'>',
             'header'=>'',
         ),
     ));

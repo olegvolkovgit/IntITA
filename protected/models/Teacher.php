@@ -23,6 +23,7 @@
  * @property integer $rate_relations
  * @property string $sections
  * @property integer $user_id
+ * @property integer $rating
  */
 class Teacher extends CActiveRecord
 {
@@ -43,7 +44,7 @@ class Teacher extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email, user_id', 'required'),
-			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
+			array('rate_knowledge, rate_efficiency, rate_relations, user_id, rating', 'numerical', 'integerOnly'=>true),
 			array('first_name, middle_name, last_name', 'length', 'max'=>35),
 			array('foto_url, subjects, tel', 'length', 'max'=>100),
 			array('readMoreLink, smallImage', 'length', 'max'=>255),

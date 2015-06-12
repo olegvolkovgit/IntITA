@@ -93,13 +93,13 @@
                     <br>
                     <?php echo Yii::t('courses', '0145'); ?>
                     <?php
-                    for ($i = 0; $i < 9; $i++) {
-                        ?><span class="courseLevelImage">
+                    for ($i = 0; $i < $val->rating; $i++) {?>
+                        <span class="courseLevelImage">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>">
                         </span><?php
                     }
-                    for ($i = 0; $i < 1; $i++) {
-                        ?><span class="courseLevelImage">
+                    for ($i = $val->rating; $i < 10; $i++) {?>
+                        <span class="courseLevelImage">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>">
                         </span><?php
                     }

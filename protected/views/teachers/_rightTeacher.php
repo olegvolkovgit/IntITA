@@ -56,11 +56,11 @@
                 <div class="aboutMore">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'readMore.png');?>"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a><br>
                     <?php
-                    for ($k=0; $k<10; $k++)
-                    {
-                        ?>
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/>
-                    <?php
+                    for ($k=0; $k<$teacherValue->rating; $k++) {?>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
+                    }
+                    for ($k=$teacherValue->rating; $k<10; $k++) {?>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
                     }
                     ?>
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
