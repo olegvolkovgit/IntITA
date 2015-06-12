@@ -19,6 +19,7 @@ position:absolute;
 { 
  border-left:solid 2px #DCDCDC; float:left; left:0px;  display:inline-block;   position:relative; 
    margin-left: 102px; margin-top:0px; padding-left: 15px;
+    width: 500px;
 }
  
 .titlesBlock ul
