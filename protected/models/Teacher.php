@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "teacher".
  *
@@ -24,132 +23,119 @@
  */
 class Teacher extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'teacher';
-	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('email, user_id', 'required'),
-			array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
-			array('first_name, middle_name, last_name', 'length', 'max'=>35),
-			array('foto_url, subjects, tel', 'length', 'max'=>100),
-			array('readMoreLink', 'length', 'max'=>255),
-			array('email, skype', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'teacher_id' => 'ID',
-			'first_name' => 'Ім&#8217;я',
-			'middle_name' => 'По батькові',
-			'last_name' => 'Прізвище',
-			'foto_url' => 'Фото URL',
-			'subjects' => 'Предмети',
-			'profile_text_first' => 'Опис перший',
-			'profile_text_short' => 'Характеристика',
-			'profile_text_last' => 'Опис останній',
-			'readMoreLink' => 'Детальніше',
-			'email' => 'Email',
-			'tel' => 'Телефон',
-			'skype' => 'Skype',
-			'rate_knowledge' => 'Рівень знань',
-			'rate_efficiency' => 'Рівень ефективності',
-			'rate_relations' => 'Рівень відношення',
-			'user_id' => 'ID користувача',
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('teacher_id',$this->teacher_id);
-		$criteria->compare('first_name',$this->first_name,true);
-		$criteria->compare('middle_name',$this->middle_name,true);
-		$criteria->compare('last_name',$this->last_name,true);
-		$criteria->compare('foto_url',$this->foto_url,true);
-		$criteria->compare('subjects',$this->subjects,true);
-		$criteria->compare('profile_text_first',$this->profile_text_first,true);
-		$criteria->compare('profile_text_short',$this->profile_text_short,true);
-		$criteria->compare('profile_text_last',$this->profile_text_last,true);
-		$criteria->compare('readMoreLink',$this->readMoreLink,true);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('tel',$this->tel,true);
-		$criteria->compare('skype',$this->skype,true);
-		$criteria->compare('rate_knowledge',$this->rate_knowledge);
-		$criteria->compare('rate_efficiency',$this->rate_efficiency);
-		$criteria->compare('rate_relations',$this->rate_relations);
-		$criteria->compare('user_id',$this->user_id);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+    public $avatar=array(),$oldAvatar;
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'teacher';
+    }
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('first_name, middle_name, last_name, email, user_id', 'required'),
+            array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
+            array('first_name, middle_name, last_name', 'length', 'max'=>35),
+            array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>'Недопустимі символи!'),
+            array('foto_url, subjects, tel', 'length', 'max'=>100),
+            array('readMoreLink', 'length', 'max'=>255),
+            array('email, skype', 'length', 'max'=>50),
+            array('email','email'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id', 'safe', 'on'=>'search'),
+        );
+    }
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+        );
+    }
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'teacher_id' => 'ID',
+            'first_name' => 'Ім&#8217;я',
+            'middle_name' => 'По батькові',
+            'last_name' => 'Прізвище',
+            'foto_url' => 'Фото URL',
+            'subjects' => 'Предмети',
+            'profile_text_first' => 'Опис перший',
+            'profile_text_short' => 'Характеристика',
+            'profile_text_last' => 'Опис останній',
+            'readMoreLink' => 'Детальніше',
+            'email' => 'Email',
+            'tel' => 'Телефон',
+            'skype' => 'Skype',
+            'rate_knowledge' => 'Рівень знань',
+            'rate_efficiency' => 'Рівень ефективності',
+            'rate_relations' => 'Рівень відношення',
+            'user_id' => 'ID користувача',
+        );
+    }
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+        $criteria=new CDbCriteria;
+        $criteria->compare('teacher_id',$this->teacher_id);
+        $criteria->compare('first_name',$this->first_name,true);
+        $criteria->compare('middle_name',$this->middle_name,true);
+        $criteria->compare('last_name',$this->last_name,true);
+        $criteria->compare('foto_url',$this->foto_url,true);
+        $criteria->compare('subjects',$this->subjects,true);
+        $criteria->compare('profile_text_first',$this->profile_text_first,true);
+        $criteria->compare('profile_text_short',$this->profile_text_short,true);
+        $criteria->compare('profile_text_last',$this->profile_text_last,true);
+        $criteria->compare('readMoreLink',$this->readMoreLink,true);
+        $criteria->compare('email',$this->email,true);
+        $criteria->compare('tel',$this->tel,true);
+        $criteria->compare('skype',$this->skype,true);
+        $criteria->compare('rate_knowledge',$this->rate_knowledge);
+        $criteria->compare('rate_efficiency',$this->rate_efficiency);
+        $criteria->compare('rate_relations',$this->rate_relations);
+        $criteria->compare('user_id',$this->user_id);
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
             'pagination'=>array(
                 'pageSize' => 20,
             ),
-		));
-	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Teacher the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-    public static function updateFirstText($id, $firstText){
-        return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
+        ));
     }
-
-    public static function updateSecondText($id, $secondText){
-        return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Teacher the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
     }
 
     public function getHideIp ($ip)
@@ -161,53 +147,80 @@ class Teacher extends CActiveRecord
         }
         return implode("", $arr);
     }
-
-    public function getAverageRateKnwl ($id)
+    public function getAverageRateKnwl ($id=1)
     {
+        $b=0;
+        $a= Response::model()->findAll("knowledge>0 and about=$id");
         $countKn = Response::model()->count("knowledge>0 and about=$id");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(knowledge)')
-            ->from('response')
-            ->where('about=:id', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(knowledge)']/$countKn);
+        foreach ($a as $one){
+            $b=$b+$one->knowledge;
+        }
+        return round($b/$countKn);
     }
-    public function getAverageRateBeh ($id)
+    public function getAverageRateBeh ($id=1)
     {
+        $b=0;
+        $a= Response::model()->findAll("behavior>0 and about=$id");
         $countBeh = Response::model()->count("behavior>0 and about=$id");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(behavior)')
-            ->from('response')
-            ->where('about=:id', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(behavior)']/$countBeh);
+        foreach ($a as $one){
+            $b=$b+$one->behavior;
+        }
+        return round($b/$countBeh);
     }
-    public function getAverageRateMot ($id)
+    public function getAverageRateMot ($id=1)
     {
+        $b=0;
+        $a= Response::model()->findAll("motivation>0 and about=$id");
         $countMot = Response::model()->count("motivation>0 and about=$id");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(motivation)')
-            ->from('response')
-            ->where('about=:id', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(motivation)']/$countMot);
+        foreach ($a as $one){
+            $b=$b+$one->motivation;
+        }
+        return round($b/$countMot);
     }
-
     public static function isTeacher($user){
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         }
         return false;
-
     }
-
     public static function isTeacherCanEdit($user, $modules){
         $criteria = new CDbCriteria();
         $criteria->addInCondition('idModule', $modules);
         $criteria->addCondition('idTeacher='.$user);
-
         return TeacherModule::model()->exists($criteria);
     }
+    protected function beforeSave()
+    {
+        if ($this->scenario=="update")
+        {
+            $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->oldAvatar;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($this->scenario=="insert" || $this->scenario=="update")&& !empty($this->avatar['tmp_name']['foto_url']))
+        {
+            if(!copy($this->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/teachers/".$this->avatar['name']['foto_url']))
+                throw new CHttpException(500);
+        }
+        return true;
+    }
+    protected function beforeDelete()
+    {
+        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
+        if (is_file($src))
+            unlink($src);
+        return true;
+    }
+
+
+    public static function updateFirstText($id, $firstText){
+        return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
+    }
+
+    public static function updateSecondText($id, $secondText){
+        return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
+    }
+
 
     public static function getAllTeachersId(){
         $teachers = Teacher::model()->findAllBySql('select teacher_id from teacher order by teacher_id');
