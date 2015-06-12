@@ -258,6 +258,7 @@ div.lessonButFinal
     margin-left: 800px;
     z-index: 1;
     width: 480px;
+    border:solid 1px #000000;
 }
 #sidebarLesson p{
     margin-left: 100px;

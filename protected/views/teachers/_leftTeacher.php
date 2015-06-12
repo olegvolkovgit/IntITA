@@ -8,10 +8,10 @@
 ?>
 <div class="leftTeacher">
     <?php
-    $i=0;
+    $j=0;
     foreach ($post as $teacherValue) {
-        $i++;
-        if ($i % 2 <> 0) {
+        $j++;
+        if ($j % 2 <> 0) {
             ?>
             <div class="teacherBlock">
                 <table>

@@ -130,7 +130,7 @@ class TeachersController extends Controller
             'criteria' => $criteria,
             'Pagination'=>false,
         ));
-
+//var_dump($dataProvider);die;
         $teachers = Teacher::getAllTeachersId();
 
 		$this->render('index',array(
