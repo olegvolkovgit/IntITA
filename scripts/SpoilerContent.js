@@ -19,13 +19,12 @@ $(document).ready(function() {
     $('.spoiler-title').click(function(){
         $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
         if($(this).hasClass('opened')) {
-            $(this).html('Згорнути відгук  про навчання \u25B2');
+            var a=document.getElementById('id1').value;
+            $(this).html(a + "\u25B2");
         }
         else {
-            var a=document.formName.id1.value;
-            //var a=1111111;
-            alert("a ="+ a); //для проверки
-            $(this).html('Розгорнути відгук про навчання \u25BC');
+            var b=document.getElementById('id2').value;
+            $(this).html(b + "\u25BC");
         }
 
     });
