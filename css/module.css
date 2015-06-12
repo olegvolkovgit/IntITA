@@ -261,13 +261,13 @@ td.button-column{
     vertical-align: top;
     text-align: center;
     line-height: 32px;
-    float: right;
 }
 .headerLeftModule div.startModule{
     margin-left: 110px;
+    float: left;
 }
 .headerLeftModule div.startCourse{
-    margin-left: 100px;
+    float:right;
 }
 .startCourse a, .startModule a    {
     display: inline-block;
@@ -301,4 +301,7 @@ td.button-column{
 }
 .colorGreen{
     color: green;
+}
+.headerLeftModule table{
+    width: 100%;
 }
