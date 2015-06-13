@@ -5,7 +5,6 @@
  * Date: 23.05.2015
  * Time: 13:32
  */
-
 ?>
 
 <div id="addTeacherAccess">

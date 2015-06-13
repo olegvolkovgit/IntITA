@@ -94,7 +94,8 @@ class PermissionsController extends Controller
                 ));
             }
         }
-        $this->actionIndex();
+        $this->redirect(Yii::app()->request->urlReferrer);
+        //$this->actionIndex();
     }
 
     public function actionDelete($id, $resource){
@@ -142,10 +143,34 @@ class PermissionsController extends Controller
     }
 
     public function actionNewTeacherPermission(){
-        var_dump($_POST);
         $teacher = Yii::app()->request->getPost('user');
         $module = Yii::app()->request->getPost('module');
         TeacherModule::addTeacherAccess($teacher, $module);
-        $this->actionIndex();
+        //$this->actionIndex();
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionAddTeacher(){
+        $user = Yii::app()->request->getPost('user');
+        $role = StudentReg::model()->findByPk($user)->role;
+        switch($role){
+            case '0':
+                StudentReg::model()->updateByPk($user, array('role' => 1));
+                break;
+            case '1':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
+                break;
+            case '2':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є модератором.");
+                break;
+            case '3':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є адміністратором.");
+                break;
+            default:
+                StudentReg::model()->updateByPk($user, array('role' => 1));
+                break;
+            }
+        $this->redirect(Yii::app()->request->urlReferrer);
+        //$this->actionIndex();
     }
 }

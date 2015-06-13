@@ -70,10 +70,10 @@ img.time{
     font-size:18px;
 }
 .teacherBox img {
-    width: 90px;
-    height: 90px;
-    border-radius: 100px;
-    border: 1px solid #4b75a4;
+    /*width: 90px;*/
+    /*height: 90px;*/
+    /*border-radius: 50%;*/
+    /*border: 1px solid #4b75a4;*/
 }
 .rightModule a {
     color: #4b75a4;
@@ -85,7 +85,8 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
 .teacherBoxLeft{
     text-align: center;
     line-height: 1;
-}
+
+   }
 .teacherBoxRight{
     border-left: 1px solid #cccccc;
     padding-left: 15px;
@@ -260,13 +261,13 @@ td.button-column{
     vertical-align: top;
     text-align: center;
     line-height: 32px;
-    float: right;
 }
 .headerLeftModule div.startModule{
     margin-left: 110px;
+    float: left;
 }
 .headerLeftModule div.startCourse{
-    margin-left: 100px;
+    float:right;
 }
 .startCourse a, .startModule a    {
     display: inline-block;
@@ -297,4 +298,15 @@ td.button-column{
     margin: 24px 0 20px 0;
     line-height: 100%;
     word-wrap: break-word;
+}
+.colorGreen{
+    color: green;
+}
+.headerLeftModule table{
+    table-layout: auto;
+    width: 100%;
+}
+.headerLeftModule table td:first-child {
+    width: 1%;
+    white-space: nowrap;
 }

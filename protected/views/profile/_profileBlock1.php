@@ -13,21 +13,7 @@
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
             </td>
             <td>
-                <div class="TeacherProfilename"> <?php echo $model->last_name;?></div>
-                <div class="TeacherProfilename"> <?php echo $model->first_name.' '.$model->middle_name; ?> </div>
-
-                <div class="TeacherProfiletitles">
-                    <?php echo Yii::t('teacher', '0064') ?>
-                </div>
-
-                <div class="TeacherProfilesectionText">
-                    <?php
-                    foreach ($sections as $val) {
-                        echo $val; ?><p></p><?php
-                    }
-                    ?>
-                </div>
-
+                <div class="TeacherProfilename"> <?php echo $model->first_name." ".$model->last_name;?></div>
                 <div class="TeacherProfiletitles">
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>
@@ -35,9 +21,6 @@
                 <div class="editable"  onclick="function(){block = 1;}">
                     <?php echo $model->profile_text_first; ?>
                 </div>
-
-                <?php echo Yii::t('teachers', '0061'); ?>
-
                 <?php
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>

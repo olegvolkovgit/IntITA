@@ -69,21 +69,18 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <span id="oldPrice"> <?php echo $post->module_price; ?>
-                    <?php echo Yii::t('module', '0222'); ?>
-                </span>
-                <?php echo ModuleHelper::getDiscountedPrice($post->module_price, 50).Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
+                <?php echo ModuleHelper::getModulePrice($post->module_price) ?>
             </div>
             </br>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
                 <?php
-                for ($i = 0; $i < 9; $i++) {
+                for ($j = 0; $j < $post->rating; $j++) {
                     ?><span>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>">
                     </span><?php
                 }
-                for ($i = 0; $i < 1; $i++) {
+                for ($j = $post->rating; $j < 10; $j++) {
                     ?><span>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>">
                     </span><?php

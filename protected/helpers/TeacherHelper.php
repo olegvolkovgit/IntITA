@@ -9,19 +9,20 @@
 
 class TeacherHelper
 {
-    public static function getCoursesByTeacher($id){
+    public static function getModulesByTeacher($id){
         $modules = Yii::app()->db->createCommand(array(
             'select' => array('idModule'),
             'from' => 'teacher_module',
             'where' => 'idTeacher=:id',
+            'order' => 'idModule',
             'params' => array(':id' => $id),
         ))->queryAll();
         $count = count($modules);
-        $courses = [];
+
         for($i = 0;$i < $count;$i++){
-            $courseId = Module::model()->findByPk($modules[$i])->course;
-            $courses[$courseId] = Course::model()->findByPk($courseId)->course_name;
+             $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
         }
-        return (!empty($courses))?$courses:[];
+
+        return (!empty($modules))?$modules:[];
     }
 }

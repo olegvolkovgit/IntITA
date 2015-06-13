@@ -14,6 +14,7 @@
  * @property string $what_you_learn
  * @property string $what_you_get
  * @property string $course_img
+ * @property integer $rating
  *
  * The followings are the available model relations:
  * @property Modules[] $modules
@@ -38,14 +39,15 @@ class Course extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alias, language, course_name, course_duration_hours', 'required'),
-			array('course_duration_hours, modules_count', 'numerical', 'integerOnly'=>true),
-			array('alias, course_price', 'length', 'max'=>10),
+			array('language, course_name', 'required', 'message'=>Yii::t('coursemanage', '0387')),
+			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
+			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('course_name', 'length', 'max'=>45),
 			array('course_img', 'length', 'max'=>255),
-            array('course_img','allowEmpty'=>true),
-			array('for_whom, what_you_learn, what_you_get', 'safe'),
+            array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
+            array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
+			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('course_ID,alias, language, course_name, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),
@@ -69,28 +71,20 @@ class Course extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			/*'course_ID' => 'Course',
-			'alias' => 'Alias',
-			'language' => 'Language',
-			'course_name' => 'Course Name',
-			'course_duration_hours' => 'Course Duration Hours',
-			'modules_count' => 'Modules Count',
-			'course_price' => 'Course Price',
-			'for_whom' => 'For Whom',
-			'what_you_learn' => 'What You Learn',
-			'what_you_get' => 'What You Get',
-			'course_img' => 'Course Img',*/
             'course_ID' => 'ID',
             'alias' => 'Псевдонім',
-            'language' => 'Мова',
-            'course_name' => 'Назва',
-            'course_duration_hours' => 'Тривалість в годинах',
-            'modules_count' => 'Кількість модулів',
-            'course_price' => 'Вартість',
-            'for_whom' => 'Для кого',
-            'what_you_learn' => 'Що навчитеся',
-            'what_you_get' => 'Що отримаєте',
-            'course_img' => 'Зображення',
+            'language' => Yii::t('course', '0400'),
+            'course_name' => Yii::t('course', '0401'),
+            'course_duration_hours' => Yii::t('course', '0402'),
+            'modules_count' => Yii::t('course', '0403'),
+            'course_price' => Yii::t('course', '0404'),
+            'for_whom' => Yii::t('course', '0405'),
+            'what_you_learn' => Yii::t('course', '0406'),
+            'what_you_get' => Yii::t('course', '0407'),
+            'course_img' => Yii::t('course', '0408'),
+            'level' => Yii::t('course', '0409'),
+            'start' => Yii::t('course', '0410'),
+            'status' => Yii::t('course', '0411'),
 		);
 	}
 
@@ -203,13 +197,14 @@ class Course extends CActiveRecord
 
     protected function beforeSave()
     {
+        if($this->start=='') $this->start=null;
         if ($this->scenario=="update")
         {
             $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->oldLogo;
             if (is_file($src))
                 unlink($src);
         }
-        if ($this->scenario=="insert" || $this->scenario=="update")
+        if (($this->scenario=="insert" || $this->scenario=="update") && !empty($this->logo['tmp_name']['course_img']))
         {
             if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
                 throw new CHttpException(500);
@@ -223,5 +218,4 @@ class Course extends CActiveRecord
             unlink($src);
         return true;
     }
-
 }

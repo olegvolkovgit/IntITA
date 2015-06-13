@@ -7,7 +7,7 @@
  */
 ?>
 <?php
-if($teacherRat){
+if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null && $teacherRat->motivation!==null){
     $knowldg= $teacherRat->knowledge;
     $behvr=$teacherRat->behavior;
     $motivtn=$teacherRat->motivation;

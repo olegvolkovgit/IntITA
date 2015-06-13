@@ -17,7 +17,7 @@ $editMode = ($canEdit)?'true':'';
         <div onclick="enableEdit();">
             <a href="#">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                     id="editIco" title="Редагувати список занять"/>
+                     id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
             </a>
         </div>
     <?php
@@ -32,7 +32,7 @@ $editMode = ($canEdit)?'true':'';
         <a href="#lessonForm">
             <?php echo CHtml::hiddenField('idmodule', $module->module_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'), array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>'Додати заняття'));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'), array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>Yii::t('module', '0374')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
@@ -42,26 +42,26 @@ $editMode = ($canEdit)?'true':'';
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'lectures-grid',
     'dataProvider' => $dataProvider,
-    'emptyText' => 'У даному модулі занять немає.',
+    'emptyText' => Yii::t('module', '0375'),
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
-            'deleteConfirmation'=>'Вы уверены что хотите удалить данный урок?',
+            'deleteConfirmation'=>Yii::t('module', '0376'),
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("module/unableLesson", array("idLecture"=>$data->primaryKey))',
-                    'deleteConfirmation' => 'Вы уверены, что хотите удалить это занятие?',
-                    'label' => 'Дезактивировать занятие',
+                    'deleteConfirmation' => Yii::t('module', '0377'),
+                    'label' => Yii::t('module', '0378'),
                     'visible'=> $editMode,
                 ),
                 'up' => array
             (
-                    'label'=>'Поднять занятие вверх на 1 позицию',   //Text label of the button.
+                    'label'=>Yii::t('module', '0379'),   //Text label of the button.
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'options'=>array(
                         'class'=>'controlButtons;',
@@ -80,7 +80,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'down' => array
             (
 
-                'label'=>'Опустить занятие вниз на 1 позицию',    //Text label of the button.
+                'label'=>Yii::t('module', '0380'),    //Text label of the button.
                 'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey))',
                 'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                 'options'=>array(
@@ -101,7 +101,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>'$data->order == 0 ? "Виключено":"Заняття {$data->order}."',
+            'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('module', '0381').' {$data->order}."',
             'header'=>false,
             'htmlOptions'=>array('class'=>'aliasColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),

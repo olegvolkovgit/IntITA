@@ -10,6 +10,7 @@
 	'id'=>'course-form',
     'htmlOptions'=>array(
         'class'=>'formatted-form',
+        'enctype'=>'multipart/form-data',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -17,20 +18,11 @@
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
-
-	<p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'alias'); ?>
-		<?php echo $form->textField($model,'alias',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'alias'); ?>
-	</div>
-
 	<div class="row">
 		<?php echo $form->labelEx($model,'language'); ?>
-		<?php echo $form->textField($model,'language',array('size'=>6,'maxlength'=>6)); ?>
+        <?php echo $form->dropDownList($model,'language',array(
+                'ua'=>'Українська','en'=>'English','ru'=>'Русский'),
+            array('options'=>array('ua'=>array('selected'=>true)))); ?>
 		<?php echo $form->error($model,'language'); ?>
 	</div>
 
@@ -40,34 +32,24 @@
 		<?php echo $form->error($model,'course_name'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'level'); ?>
-		<?php echo $form->textField($model,'level',array('size'=>13,'maxlength'=>13)); ?>
-		<?php echo $form->error($model,'level'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'level'); ?>
+        <?php echo $form->dropDownList($model, 'level', array('intern'=> Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'),'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236')),array('options'=>array('intern'=>array('selected'=>true))));?>
+        <?php echo $form->error($model,'level'); ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'start'); ?>
-		<?php echo $form->textField($model,'start'); ?>
+		<?php echo $form->textField($model,'start',array('placeholder'=>Yii::t('coursemanage', '0395'))); ?>
 		<?php echo $form->error($model,'start'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
+        <?php echo $form->dropDownList($model,'status',array(
+                '0'=>Yii::t('coursemanage', '0396'),'1'=>Yii::t('coursemanage', '0397')),
+            array('options'=>array('0'=>array('selected'=>true)))); ?>
 		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'modules_count'); ?>
-		<?php echo $form->textField($model,'modules_count'); ?>
-		<?php echo $form->error($model,'modules_count'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'course_duration_hours'); ?>
-		<?php echo $form->textField($model,'course_duration_hours'); ?>
-		<?php echo $form->error($model,'course_duration_hours'); ?>
 	</div>
 
 	<div class="row">
@@ -78,36 +60,30 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'for_whom'); ?>
-		<?php echo $form->textArea($model,'for_whom',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'for_whom',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'for_whom'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'what_you_learn'); ?>
-		<?php echo $form->textArea($model,'what_you_learn',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'what_you_learn',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'what_you_learn'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'what_you_get'); ?>
-		<?php echo $form->textArea($model,'what_you_get',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'what_you_get',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'what_you_get'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'course_img'); ?>
-		<?php echo $form->textField($model,'course_img',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->fileField($model,'course_img'); ?>
 		<?php echo $form->error($model,'course_img'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'review'); ?>
-		<?php echo $form->textArea($model,'review',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'review'); ?>
-	</div>
-
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

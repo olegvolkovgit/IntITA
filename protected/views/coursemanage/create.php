@@ -3,16 +3,16 @@
 /* @var $model Course */
 
 $this->breadcrumbs=array(
-	'Курси'=>array('index'),
-	'Створити',
+    Yii::t('coursemanage', '0390')=>array('index'),
+    Yii::t('coursemanage', '0391'),
 );
 
 $this->menu=array(
-	array('label'=>'Список курсів', 'url'=>array('index')),
-	array('label'=>'Управління курсами', 'url'=>array('admin')),
+	array('label'=>Yii::t('coursemanage', '0392'), 'url'=>array('index')),
+	array('label'=>Yii::t('coursemanage', '0393'), 'url'=>array('admin')),
 );
 ?>
 
-<h1>Створити курс</h1>
+<h1><?php echo Yii::t('coursemanage', '0394'); ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

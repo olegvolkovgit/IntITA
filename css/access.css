@@ -38,6 +38,20 @@ body .grid-view table.items td.deleteButton{
     float: left;
     margin-top: -30px;
 }
+#addNewTeacher{
+    width: 200px;
+    background: #4b70a3;
+    border-radius: 10px;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-decoration: none;
+    display:table-cell;
+    text-align:center;
+    cursor: pointer;
+    margin-left: 450px;
+    float: left;
+    margin-top: -30px;
+}
 
 #enter_button_2:hover {
     background: #454545;
@@ -55,8 +69,10 @@ body .grid-view table.items td.deleteButton{
 #addAccess{
     display: none;
 }
-
 #addTeacherAccess{
+    display: none;
+}
+#addTeacher{
     display: none;
 }
 #submitButton{

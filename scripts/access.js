@@ -9,6 +9,7 @@ function addTeacherAccess(){
     document.getElementById('addTeacherAccess').style.display = 'block';
 }
 
+
 function selectModule(){
     var course = $('select[name="course"]').val();
     if(!course){
@@ -32,7 +33,7 @@ function selectModule1(){
     }else{
         $.ajax({
             type: "POST",
-            url: "/IntITA/permissions/showModules",
+            url: "/permissions/showModules",
             data: {course: course},
             cache: false,
             success: function(response){ $('div[name="selectModule1"]').html(response); }
@@ -44,7 +45,7 @@ function selectLecture(){
     var module = $('select[name="module"]').val();
     $.ajax({
         type: "POST",
-        url: "/IntITA/permissions/showLectures",
+        url: "/permissions/showLectures",
         data: {module: module},
         cache: false,
         success: function(response){ $('div[name="selectLecture"]').html(response); }

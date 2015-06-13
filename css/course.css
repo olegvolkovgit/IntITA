@@ -32,11 +32,11 @@ div.subLinksCourse{
 span.spoilerLinks {
     cursor:pointer;
 }
-span.spoilerClick:hover{
+span#spoilerClick:hover{
     cursor:pointer;
     color:#666666;
 }
-span.spoilerClick {
+span#spoilerClick {
     text-decoration:underline;
     color:#4b75a4;
 }
@@ -57,7 +57,7 @@ span.spoilerClick {
     font-weight: inherit;
     font-size: 36px;
     color: #4B75A4;
-    margin: 24px 0 0 0;
+    margin: 24px 0 20px 0;
     line-height: 100%;
 }
 img.courseImg{
@@ -100,11 +100,10 @@ div.courseShortInfoTable{
     vertical-align: top;
 }
 .courseInfo ul {
-    font-size: 14px;
     vertical-align: top;
-    display: inline-block;
     margin-right: 35px;
     width: 270px;
+    font-size: 16px;
 }
 .courseInfo p {
     margin-left: -15px;
@@ -171,7 +170,7 @@ div.courseShortInfoTable{
 .courseTeacher a{
     text-decoration: none;
 }
-.spoilerTriangle{
+#spoilerTriangle{
     font-size: xx-small;
     color: #4b75a4;
     margin-left: 3px;
@@ -325,9 +324,25 @@ padding-left: 0px;
 .markAndButton{
     vertical-align: middle;
     height: 40px;
+    margin-top: 10px;
 }
 .italic{
     font-style: italic;
 }
+.colorGreen{
+    color: green;
+}
+#coursePriceStatus1 {
+    color: #ff0000;
+    text-decoration: line-through;
+}
+#coursePriceStatus2 {
+    color: #666666;
+    font-weight: bold;
+}
+#discount{
+    color: #4b75a4;
+}
+
 
 

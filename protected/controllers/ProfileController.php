@@ -29,7 +29,6 @@ class ProfileController extends Controller
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         $teacher = Teacher::model()->findByPk($idTeacher);
-        $sections = explode(';', $teacher->sections);
 
         if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
@@ -49,7 +48,6 @@ class ProfileController extends Controller
 
         $this->render('index', array (
             'model' => $teacher,
-            'sections' => $sections,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
         ));
@@ -179,9 +177,10 @@ class ProfileController extends Controller
                     $teacher->updateByPk($id, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
                     $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
                     $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
-                    Yii::app()->user->setFlash('messageResponse', 'Ваш відгук відправлено. Зачекайте модерації.');
+                    $teacher->updateByPk($id, array('rating' => $teacher->getAverageRate($teacher->user_id)));
+                    Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
                 } else {
-                    Yii::app()->user->setFlash('responseError', 'Спочатку оцініть викладача по трьох критеріях');
+                    Yii::app()->user->setFlash('responseError', Yii::t('response', '0385'));
                 }
             }
             header('Location: ' . $_SERVER['HTTP_REFERER']);
