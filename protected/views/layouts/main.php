@@ -81,11 +81,11 @@ $header = new Header();?>
         </div>
     </div>
     <script>
-        if ($(window).width()>=768) $("#hambNav").css({display: "none"});
+        if ($(window).width()>=1024) $("#hambNav").css({display: "none"});
         if ($(window).scrollTop()==0) $("#hambNav").css({ marginTop: "2.5%" });
         $(window).resize(function()
         {
-            if ($(window).width()<768) $("#hambNav").css({display: "block"});
+            if ($(window).width()<1024) $("#hambNav").css({display: "block"});
             else $("#hambNav").css({display: "none"});
         });
         $(window).scroll(function()
