@@ -48,6 +48,7 @@ class Teacher extends CActiveRecord
             array('readMoreLink', 'length', 'max'=>255),
             array('email, skype', 'length', 'max'=>50),
             array('email','email'),
+            array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id', 'safe', 'on'=>'search'),
@@ -148,36 +149,41 @@ class Teacher extends CActiveRecord
         }
         return implode("", $arr);
     }
-    public function getAverageRateKnwl ($id=1)
+    public function getAverageRateKnwl ($id)
     {
-        $b=0;
-        $a= Response::model()->findAll("knowledge>0 and about=$id");
         $countKn = Response::model()->count("knowledge>0 and about=$id");
-        foreach ($a as $one){
-            $b=$b+$one->knowledge;
-        }
-        return round($b/$countKn);
+        $sum = Yii::app()->db->createCommand()
+            ->select('sum(knowledge)')
+            ->from('response')
+            ->where('about=:id', array(':id'=>$id))
+            ->queryRow();
+        return round($sum['sum(knowledge)']/$countKn);
     }
-    public function getAverageRateBeh ($id=1)
+    public function getAverageRateBeh ($id)
     {
-        $b=0;
-        $a= Response::model()->findAll("behavior>0 and about=$id");
         $countBeh = Response::model()->count("behavior>0 and about=$id");
-        foreach ($a as $one){
-            $b=$b+$one->behavior;
-        }
-        return round($b/$countBeh);
+        $sum = Yii::app()->db->createCommand()
+            ->select('sum(behavior)')
+            ->from('response')
+            ->where('about=:id', array(':id'=>$id))
+            ->queryRow();
+        return round($sum['sum(behavior)']/$countBeh);
     }
-    public function getAverageRateMot ($id=1)
+    public function getAverageRateMot ($id)
     {
-        $b=0;
-        $a= Response::model()->findAll("motivation>0 and about=$id");
         $countMot = Response::model()->count("motivation>0 and about=$id");
-        foreach ($a as $one){
-            $b=$b+$one->motivation;
-        }
-        return round($b/$countMot);
+        $sum = Yii::app()->db->createCommand()
+            ->select('sum(motivation)')
+            ->from('response')
+            ->where('about=:id', array(':id'=>$id))
+            ->queryRow();
+        return round($sum['sum(motivation)']/$countMot);
     }
+    public function getAverageRate ($id)
+    {
+        return round(($this->getAverageRateBeh($id)+$this->getAverageRateMot($id)+$this->getAverageRateKnwl($id))/3);
+    }
+
     public static function isTeacher($user){
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;

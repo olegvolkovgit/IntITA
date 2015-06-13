@@ -23,6 +23,7 @@
  * @property integer $hours_in_day
  * @property integer $days_in_week
  * @property integer $level
+ * @property integer $rating
  *
  * The followings are the available model relations:
  * @property Course $course0
@@ -51,7 +52,7 @@ class Module extends CActiveRecord
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
 			array('module_img, module_name', 'length', 'max'=>255),
-			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('module_name, level,hours_in_day, days_in_week', 'required','message'=>Yii::t('module', '0412'),'on'=>'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
             array('module_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
@@ -134,6 +135,7 @@ class Module extends CActiveRecord
         $criteria->compare('days_in_week',$this->days_in_week,true);
         $criteria->compare('hours_in_day',$this->hours_in_day,true);
         $criteria->compare('level',$this->level,true);
+        $criteria->compare('rating',$this->rating,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

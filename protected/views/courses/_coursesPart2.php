@@ -92,7 +92,7 @@
 
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147'); ?>
-                        <?php echo CourseHelper::getCoursePrice($val->course_price) ?>
+                        <?php echo CourseHelper::getCoursePrice($val->course_price,25) ?>
                     </div>
                     <div class='starLevelIndex'>
                         <br>

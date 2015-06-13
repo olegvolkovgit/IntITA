@@ -17,6 +17,13 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$dataProvider,
     'summaryText'=>'Показано курсів {start} - {end} з {count}',
+    'pager' => array(
+        'firstPageLabel'=>'<<',
+        'lastPageLabel'=>'>>',
+        'prevPageLabel'=>'<',
+        'nextPageLabel'=>'>',
+        'header'=>'',
+    ),
 	'columns'=>array(
         array(
             'name'=>'course_ID',

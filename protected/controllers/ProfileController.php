@@ -177,6 +177,7 @@ class ProfileController extends Controller
                     $teacher->updateByPk($id, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
                     $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
                     $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
+                    $teacher->updateByPk($id, array('rating' => $teacher->getAverageRate($teacher->user_id)));
                     Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
                 } else {
                     Yii::app()->user->setFlash('responseError', Yii::t('response', '0385'));
