@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-12 18:18:34
+-- Date/time:                    2015-06-13 10:50:16
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 432 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 438 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(1, 'ua', 'INTITA'),
@@ -614,12 +614,12 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(197, 'ua', 'за весь курс наперед:'),
 	(197, 'ru', 'за весь курс наперед:'),
 	(197, 'en', 'for the entire course:'),
-	(198, 'ua', '2 проплати за курс:'),
-	(198, 'ru', '2 оплаты за курс:'),
-	(198, 'en', '2 pays for course:'),
-	(199, 'ua', '4 проплати за курс:'),
-	(199, 'ru', '4 оплаты за курс:'),
-	(199, 'en', '4 pays for course:'),
+	(198, 'ua', 'проплати за курс:'),
+	(198, 'ru', 'оплаты за курс:'),
+	(198, 'en', 'pays for course:'),
+	(199, 'ua', 'проплати за курс:'),
+	(199, 'ru', 'оплаты за курс:'),
+	(199, 'en', 'pays for course:'),
 	(200, 'ua', 'помісячно:'),
 	(200, 'ru', 'ежемесячно:'),
 	(200, 'en', 'every month:'),
@@ -1454,7 +1454,13 @@ INSERT INTO `messages` (`id`, `language`, `translation`) VALUES
 	(424, 'en', 'Open training review'),
 	(423, 'ua', 'Згорнути відгук про навчання'),
 	(423, 'ru', 'Свернуть отзыв об обучении'),
-	(423, 'en', 'Close review of training');
+	(423, 'en', 'Close review of training'),
+	(425, 'ua', 'кредит на '),
+	(425, 'ru', 'кредит на'),
+	(425, 'en', 'credit for'),
+	(426, 'ua', 'роки:'),
+	(426, 'ru', 'года:'),
+	(426, 'en', 'years:');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

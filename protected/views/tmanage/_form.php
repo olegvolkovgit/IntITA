@@ -3,7 +3,7 @@
 /* @var $form CActiveForm */
 // retrieve the models from db
 $models = StudentReg::model()->findAll(
-    array('order' => 'id'));
+    array('condition'=>'role<>1', 'order' => 'id'));
 
 // format models as $key=>$value with listData
 $list = CHtml::listData($models,
