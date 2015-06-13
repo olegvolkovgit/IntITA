@@ -233,3 +233,111 @@
     border:solid 2px #111;
     z-index:50;
 }
+
+
+#hambNav
+{
+    width: 3%;
+    margin: 1% 0 0 1%;
+    overflow: hidden;
+    float: left;
+}
+
+#hambNav hr
+{
+    width: 100%;
+    margin: 0;
+    color: #4b75a4;
+    clear: both;
+}
+
+#hambButton
+{
+    overflow: hidden;
+    width: 100%;
+    clear: both;
+    margin: 3% 0 0 0;
+}
+#hambButton:hover
+{
+    cursor: pointer;
+}
+#hambButton img
+{
+    display: block;
+    width: 75%;
+    margin: 0 auto;
+}
+
+#hambMenu
+{
+    display: none;
+    position: absolute;
+    left: inherit;
+    background: #ffffff;
+    z-index: 99999;
+    width: 12%;
+    padding: 0.8% 3% 1%;
+}
+
+#hambMenu a.logo
+{
+    width: 65%;
+    display: block;
+    overflow: hidden;
+}
+
+#hambMenu a.logo img
+{
+    width: 100%;
+    display: block;
+}
+
+#hambMenu .lang
+{
+    display: block;
+    float: left;
+    clear: both;
+    margin: 0;
+    padding: 0;
+    z-index: 6;
+}
+#hambMenu .lang *
+{
+    margin: 0;
+    padding: 0;
+}
+#hambMenu .lang a
+{
+    color: #4b70a3;
+}
+#hambMenu .lang a:visited
+{
+    color: #4b70a3;
+}
+#hambMenu .lang a.selectedLang
+{
+    color: #999999;
+    text-decoration: none;
+}
+#hambMenu .menulist
+{
+    list-style: none;
+    width: 100%;
+    clear: both;
+    margin: 25% 0 12% 0;
+    padding: 0;
+}
+#hambMenu .menulist a
+{
+    color: #333333;
+    text-decoration: none;
+}
+#hambMenu .menulist a:hover
+{
+    text-decoration: underline;
+}
+#hambMenu .menulist li
+{
+    display: block;
+}

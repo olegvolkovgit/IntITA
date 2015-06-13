@@ -201,7 +201,7 @@ p {
 }
 /*********************enter button end****************/
 /*************languages buttons*************/
-#lang {
+#lang, .lang {
     display: inline-block;
     position: relative;
     float: right;
@@ -226,7 +226,7 @@ p {
     padding-left: 8px;
     padding-right: 8px;
 }
-#lang input[type="button"]{
+#lang input[type="button"], .lang input[type="button"]{
     background:none!important;
     border:none;
     cursor: pointer;
