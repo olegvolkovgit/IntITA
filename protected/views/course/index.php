@@ -1,7 +1,7 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />
 <!-- course style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
+<!--<link type="text/css" rel="stylesheet" href="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/module.css" />-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/readmore/readmore.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPay.js"></script>
 <!-- BD -))) -->
