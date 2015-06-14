@@ -90,7 +90,9 @@ div.aboutMore{
     padding-top: 5px;
     padding-bottom: 5px;
 }
-
+.txtMsg{
+    white-space: pre-wrap;
+}
 div.sm{
     font-weight: inherit;
     font-size: 11px;

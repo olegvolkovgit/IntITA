@@ -30,7 +30,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
     <div class="lessonLine"></div>
     <div class="responseBG">
 
-        <div class="txtMsg">
+        <div>
             <table style="padding-left: 35px; padding-top: 30px;">
                 <tr>
                     <td align="right">
