@@ -156,6 +156,7 @@ class Response extends CActiveRecord
             '[code]' => '<code>','[/code]' => '</code>',
             '[preformatted]' => '<pre>','[/preformatted]' => '</pre>',
             '[pre]' => '<pre>','[/pre]' => '</pre>',
+            '[list=1]'=>'<ul>'
         );
 
         $bbtext = str_ireplace(array_keys($bbtags), array_values($bbtags), $bbtext);

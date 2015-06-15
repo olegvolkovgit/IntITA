@@ -93,6 +93,9 @@ div.aboutMore{
 .txtMsg{
     white-space: pre-wrap;
 }
+.txtMsg ul{
+    margin-top: 0;
+}
 div.sm{
     font-weight: inherit;
     font-size: 11px;
