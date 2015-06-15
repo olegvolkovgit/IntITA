@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 $this->menu=array(
     array('label'=>'Додати викладача', 'url'=>array('create')),
-    array('label'=>'Управління', 'url'=>array('admin')),
+    array('label'=>'Управління викладачами', 'url'=>array('admin')),
 );
 ?>
 
-    <h1>Вчителі</h1>
+    <h1>Викладачі</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,

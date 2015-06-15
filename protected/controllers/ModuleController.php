@@ -203,7 +203,7 @@ class ModuleController extends Controller
         $permission->setPermission(
             $teacher,
             Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id,
-            array('read', 'edit', 'create', 'delete'));
+            array('read', 'edit'));
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 

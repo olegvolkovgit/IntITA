@@ -36,9 +36,11 @@ class TmanageController extends Controller
             $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
             $model->attributes=$_POST['Teacher'];
             $model->avatar=$_FILES['Teacher'];
-            StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role'=>1));
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->teacher_id));
+
+            if($model->save()) {
+                StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role'=>1));
+                $this->redirect(array('view', 'id' => $model->teacher_id));
+            }
         }
         $this->render('create',array(
             'model'=>$model,

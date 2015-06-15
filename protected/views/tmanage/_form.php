@@ -92,6 +92,7 @@ $list = CHtml::listData($models,
         <?php echo $form->error($model,'skype'); ?>
     </div>
 
+    <?php if($scenario == "create"){?>
     <div class="row">
         <?php echo $form->labelEx($model,'user_id'); ?>
         <?php echo $form->dropDownList($model, 'user_id',
@@ -99,6 +100,7 @@ $list = CHtml::listData($models,
             array('empty' => '(Виберіть користувача)'));?>
         <?php echo $form->error($model,'user_id'); ?>
     </div>
+    <?php }?>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
