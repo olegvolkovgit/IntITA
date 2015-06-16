@@ -100,19 +100,6 @@ class RoleAttribute extends CActiveRecord
 		return parent::model($className);
 	}
 
-    /** scope
-     * @param $type_id
-     * @return RoleAttribute
-     */
-    public function type($type)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 't.type=:type',
-            'params'=>array(':type'=>$type),
-        ));
-        return $this;
-    }
-
     protected function beforeDelete()
     {
         if (parent::beforeDelete())

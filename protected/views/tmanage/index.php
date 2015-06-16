@@ -6,6 +6,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
     array('label'=>'Додати викладача', 'url'=>array('create')),
     array('label'=>'Управління викладачами', 'url'=>array('admin')),
+    array('label'=>'Ролі викладачів', 'url'=>array('roles')),
 );
 ?>
 
@@ -13,7 +14,7 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
-    'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
+    //'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
     'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
     'columns'=>array(
@@ -30,8 +31,10 @@ $this->menu=array(
             'name'=>'profile_text_short',
             'type'=>'raw',
         ),
+        array(
+            'header'=>'Ролі',
+            'value'=>'TeacherHelper::getTeachersRoles($data->teacher_id)',
+        ),
         'email',
-        'tel',
-        'skype'
     ),
 )); ?>

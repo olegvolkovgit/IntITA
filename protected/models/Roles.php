@@ -65,8 +65,8 @@ class Roles extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'description' => 'Description',
+			'title' => 'Назва',
+			'description' => 'Короткий опис',
 		);
 	}
 

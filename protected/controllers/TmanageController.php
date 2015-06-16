@@ -142,4 +142,46 @@ class TmanageController extends Controller
             Yii::app()->end();
         }
     }
+
+
+    public function actionRoles()
+    {
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+        $dataProvider=new CActiveDataProvider('TeacherRoles', array(
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+        ));
+        $this->render('roles', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
+
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreateRole()
+    {
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+        $model=new Roles;
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+        if(isset($_POST['Roles']))
+        {
+            $model->attributes=$_POST['Roles'];
+
+            if($model->save()) {
+               $this->redirect(array('view', 'id' => $model->id));
+            }
+        }
+        $this->render('createRole',array(
+            'model'=>$model,
+        ));
+    }
+
 }
