@@ -23,11 +23,7 @@ if($teacherRat){
 ?>
 </div>
 
-<div class="txtMsg">
-    <?php
-    echo $data['text'];
-    ?>
-</div>
+<div class="txtMsg"><?php echo $data['text'];?></div>
 <div class="border">
     <div class="TeacherProfiletitles">
         <?php
