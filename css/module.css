@@ -184,6 +184,7 @@ body .grid-view table.items td{
 
 body .grid-view table.items td.button-column{
     background-color: white;
+    min-width: 70px;
 }
 
 body .grid-view table.items td.aliasColumn{
