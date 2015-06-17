@@ -1,0 +1,367 @@
+.consultationsMainBlock{
+    width: 1200px;
+    margin: 0 auto;
+    display:block;
+    position:relative;
+}
+.one{
+    width:48%;
+    float:left;
+}
+.two{
+    width:48%;
+    float:right;
+}
+.teacherBlock{
+    padding: 20px 20px 20px 20px;
+    margin: 20px 0 20px 0;
+    border-bottom: 1px solid #d8d8d8;
+}
+.teacherBlock .leftBlock, .teacherBlock .rightBlock{
+     display: inline-block;
+    vertical-align: top;
+ }
+.teacherBlock .rightBlock{
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left:1px solid #d8d8d8;
+    font-size: 18px;
+    line-height: 20px;
+}
+.teacherBlock img{
+    /*display: block;*/
+}
+.teacherBlock .leftBlock > a{
+    display: inline-block;
+    width: 88px;
+    text-align: center;
+    font-size: small;
+    line-height: 100%;
+}
+.teacherBlock ul
+{
+    display:inline-block;
+    padding:0px;
+    margin-top:0px;
+    list-style: none;
+    margin-bottom:-20px;
+    margin-left:0px;}
+
+.teacherBlock ul li
+{
+    margin-left:0px;
+    text-align: left ;
+    color:#363636;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:16px;
+}
+.consultations{
+    position: relative;
+    width: 1200px;
+    margin: 0 auto;
+    color: #4B75A4;
+    border-bottom: 1px solid #d8d8d8;
+}
+.teacherTitle{
+    color: #4B75A4;
+}
+/*----Calendar----*/
+div.calendar{
+    margin-top: 20px;
+    overflow: hidden;
+    display: block;
+}
+#consultationCalendar{
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+}
+#form_datetime > input{
+    display: inline-block;
+    height: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+#ajaxchange-form, #hiddenAjaxButton{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: none;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    cursor: none;
+}
+#form_datetime{
+    height: 0;
+}
+.datetimepicker{
+    width: 305px;
+}
+.datetimepicker table.table-condensed tr td.disabled{
+    color: #ff7272;
+}
+.datetimepicker table thead tr:last-child{
+    border-bottom: 1px solid #007070;
+    font-size: 10px;
+    color: #7b7b7b;
+    text-transform: uppercase;
+}
+.datetimepicker table tbody td{
+    font-size: 13px;
+    width: 35px;
+    height: 35px;
+}
+.datetimepicker .datetimepicker-days{
+    font-family: SegoeUILight;
+    width: 295px;
+    padding-bottom: 20px;
+    font-size: 13px;
+}
+.datetimepicker table.table-condensed{
+    margin: 0 auto;
+}
+.datetimepicker .switch{
+    font-size: 28px;
+    font-weight: 100;
+}
+.datetimepicker .table-condensed tr:first-child{
+    color: #4B75A4;
+}
+.datetimepicker .table-condensed td{
+    border-radius: 0;
+}
+.datetimepicker table.table-condensed tr td.day:hover,.datetimepicker table.table-condensed tr td.active.active:hover,.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled:hover {
+    border-radius: 150px;
+    background: #4b75a4;
+    color:#ffffff;
+}
+.datetimepicker table.table-condensed td, .datetimepicker table.table-condensed td:before, .datetimepicker table.table-condensed td:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.datetimepicker table.table-condensed tr td.active.active{
+    background: #4b75a4;
+    color:#ffffff;
+}
+.datetimepicker .day{
+    color: #00701d;
+}
+.datetimepicker .icon-arrow-left{
+    width: 14px;
+    height: 38px;
+    display: inline-block;
+    background-image: url("images/leftarrow.png");
+    background-position: 0 16px; /* Положение фона */
+    background-repeat: no-repeat; /* Отменяем повторение фона */
+}
+.datetimepicker .icon-arrow-right{
+    width: 14px;
+    height: 38px;
+    display: inline-block;
+    background-image: url("images/rightarrow.png");
+    background-position: 100% 16px; /* Положение фона */
+    background-repeat: no-repeat; /* Отменяем повторение фона */
+}
+.datetimepicker .datetimepicker-hours .icon-arrow-left, .datetimepicker .datetimepicker-minutes .icon-arrow-left{
+    background-position: 0 12px; /* Положение фона */
+}
+.datetimepicker .datetimepicker-hours .icon-arrow-right, .datetimepicker .datetimepicker-minutes .icon-arrow-right{
+    background-position: 100% 12px; /* Положение фона */
+}
+.datetimepicker table.table-condensed th.prev:hover,.datetimepicker table.table-condensed th.next:hover,.datetimepicker table.table-condensed th.switch:hover {
+    background: #ffffff;
+}
+.datetimepicker-hours .switch, .datetimepicker-minutes .switch{
+    font-size: 14px;
+    font-weight: 100;
+    color: #666666;
+    text-transform: lowercase;
+    line-height: 28px;
+}
+.datetimepicker-hours table thead tr:last-child, .datetimepicker-minutes table thead tr:last-child{
+    border-bottom: none;
+}
+div.datetimepicker-hours{
+    width: 295px;
+}
+div.datetimepicker-minutes{
+    width: 295px;
+}
+.datetimepicker-hours table.table-condensed,.datetimepicker-minutes table.table-condensed{
+    width: 100%;
+}
+.datetimepicker-hours td span.hour,.datetimepicker-minutes td span.minute{
+    border-radius: 0;
+    margin: 1px 2px 1px 2px;
+    color: #9f9f9f;
+    width: 90px;
+    height: 25px;
+}
+.datetimepicker-hours td span.hour:hover, .datetimepicker-minutes td span.minute:hover{
+    background: #4b75a4;
+    color: #ffffff;
+}
+.datetimepicker .datetimepicker-days table.table-condensed tr td.today:hover{
+    background: #4b75a4;
+    color: #ffffff;
+    border: none;
+}
+.datetimepicker-hours table.table-condensed td span.active.active, .datetimepicker-minutes table.table-condensed td span.active.active{
+    background: #4b75a4;
+    color: #ffffff;
+}
+.datetimepicker table.table-condensed tr td.today{
+    border: 1px solid #4b75a4;
+    background: #ffffff;
+}
+.datetimepicker .datetimepicker-days table.table-condensed tr td.today.disabled{
+    background: #003399;
+    color: #ffffff;
+}
+.consinf > div{
+    background: #ffffff;
+    position: absolute;
+    z-index: 3;
+    font-family: SegoeUILight;
+    width: 305px;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    overflow: hidden;
+}
+.consinf > div{
+    display: none;
+    text-align: center;
+    font-size: 15px;
+    color: #9f9f9f;
+}
+.consinf > div p{
+    margin: 10px 15px 10px 15px;
+}
+.consinf > div .consInfHeader{
+    font-size: 18px;
+    color: #4b75a4;
+}
+.consinf > div .consInfText{
+    text-align: left;
+}
+#consultationButton{
+    width: 130px;
+    height: 34px;
+    border-radius: 10px;
+    background: #4b75a4;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/*----Calendar----*/
+/*----TimeConsultation----*/
+.timeBlock > div{
+    display: none;
+    position: absolute;
+    margin:0 auto;
+    width:305px;
+    background:#ffffff;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    text-align:center;
+    padding-top:1px;
+    z-index: 3;
+}
+.timeBlock > div p{
+    display: block;
+}
+.timeBlock > div span{
+    border-left:none;
+    left:0;
+    top:0;
+    display: inline-block;
+    position: relative;
+    margin-left: 0;
+    padding-left:0;
+}
+#timeTitle{
+    display: inline-block;
+    color:#4b75a4;
+    font-size:18px;
+    margin-top:12px;
+    margin-bottom:5px;
+    /*margin-left: 20px;*/
+}
+#timeDate{
+    color:#828282;
+    font-size:12px;
+    margin-top:10px;
+    cursor: pointer;
+}
+table.timeGrid{
+    margin:0 auto;
+    text-align:center;
+    color:#787878;
+    border-collapse: separate;
+    border-spacing: 1px 2px;
+}
+.timeGrid td{
+    width:94px;
+    height:28px;
+    font-size: 14px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor:pointer;
+    background:#b8ffb3;
+    font-family: Segoe UI;
+}
+.timeGrid td:hover{
+    background:#a2d99d;
+}
+.timeGrid td.disabledTime{
+    background:#ffffff;
+    color:#9f9f9f;
+}
+.timeGrid td.pressedTime{
+    background:#4b75a4;
+    color:#ffffff;
+}
+div#timeInfo{
+    margin: 0 auto;
+    font-size: 13px;
+    text-align: left;
+    width: 284px;
+    border-top: 1px solid #a2b7cf;
+    color:#9f9f9f;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-family: Segoe UI;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+.colorP {
+    color: #4b75a4;
+}
+#consultationBack, #consultationNext{
+    width: 110px;
+    height: 34px;
+    border-radius: 10px;
+    background: #4b75a4;
+    color: #ffffff;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+#consultationBack:hover, #consultationNext:hover{
+    background: #454545;
+}
+#exitButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ffffff;
+    border: none;
+    color: #4b75a4;
+}
+/*----TimeConsultation----*/
