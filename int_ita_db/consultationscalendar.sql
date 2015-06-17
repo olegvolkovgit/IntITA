@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-13 10:50:16
+-- Date/time:                    2015-06-16 18:31:07
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   `start_cons` time DEFAULT NULL,
   `end_cons` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~22 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
 INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
 	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),
@@ -51,7 +51,10 @@ INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`
 	(23, 2, 1, 1, '2015-05-13', '21:00:00', '21:20:00'),
 	(24, 2, 38, 1, '2015-05-14', '11:20:00', '11:40:00'),
 	(25, 1, 49, 1, '2015-05-26', '11:20:00', '11:40:00'),
-	(26, 1, 49, 1, '2015-05-27', '11:20:00', '11:40:00');
+	(26, 1, 49, 1, '2015-05-27', '11:20:00', '11:40:00'),
+	(27, 1, 22, 1, '2015-06-23', '11:20:00', '11:40:00'),
+	(28, 1, 22, 1, '2015-06-23', '14:20:00', '14:40:00'),
+	(29, 1, 22, 1, '2015-06-18', '10:00:00', '10:20:00');
 /*!40000 ALTER TABLE `consultationscalendar` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

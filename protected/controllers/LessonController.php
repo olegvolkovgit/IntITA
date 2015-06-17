@@ -20,12 +20,7 @@ class LessonController extends Controller{
 
     public function actionIndex($id){
         $this->initialize($id);
-
-        if (Yii::app()->user->getId() == 38) {
-            $editMode = true;
-        } else {
-            $editMode = false;
-        }
+        $editMode = $this->checkEditMode($id, Yii::app()->user->getId());
 
         $lecture = Lecture::model()->findByPk($id);
 
@@ -173,4 +168,14 @@ class LessonController extends Controller{
         LectureElement::model()->updateByPk($secondId, array('block_order' => $first));
         LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
     }
+
+    public function checkEditMode($idLecture, $idUser){
+        $permission = new Permissions();
+        if ($permission->checkPermission($idUser, $idLecture, array('edit'))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

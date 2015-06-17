@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
     'Управління',
 );
 $this->menu=array(
-    array('label'=>'Список вчителів', 'url'=>array('index')),
-    array('label'=>'Додати вчителя', 'url'=>array('create')),
+    array('label'=>'Список викладачів', 'url'=>array('index')),
+    array('label'=>'Додати викладача', 'url'=>array('create')),
 );
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -22,7 +22,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-    <h1>Управління вчителями</h1>
+    <h1>Управління викладачами</h1>
 
     <p>
         Ви також можете використовувати вирази (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>

@@ -18,15 +18,20 @@
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>
 
+
                 <div class="editable"  onclick="function(){block = 1;}">
+                    <p>
                     <?php echo $model->profile_text_first; ?>
+                    </p>
                 </div>
                 <?php
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>
 
                 <div class="editable" onclick="function(){block = 2;}">
+                    <p>
                     <?php echo $model->profile_text_last;?>
+                    </p>
                 </div>
                 <br>
 <!--                --><?php

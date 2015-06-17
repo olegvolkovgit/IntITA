@@ -8,17 +8,17 @@
 
 
 
-class FileController extends Controller
+class FilesController extends Controller
 {
     /** Upload and Save file */
     public function actionUpload()
     {
-        $directory = realpath(Yii::app()->basePath.'/../file/upload/').'/';
+        $directory = realpath(Yii::app()->basePath.'/../files/upload/').'/';
         $file = md5(date('YmdHis')).'.'.pathinfo(@$_FILES['file']['name'], PATHINFO_EXTENSION);
 
         if (move_uploaded_file(@$_FILES['file']['tmp_name'], $directory.$file)) {
             $array = array(
-                'filelink' => '/file/upload/'.$file
+                'filelink' => '/files/upload/'.$file
             );
         }
 
