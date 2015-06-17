@@ -1,7 +1,7 @@
 /**
  * Created by Wizlight on 22.04.2015.
  */
-var td = $('#timeGrid td:not(.disabledTime)'),
+var td = $('.timeGrid td:not(.disabledTime)'),
     selection = {
         single: function (el) {
             td.not(el).removeClass(this.cl);
@@ -19,7 +19,7 @@ var td = $('#timeGrid td:not(.disabledTime)'),
             $(el).toggleClass(this.cl);
             this.last = $(el).index(this.slcr);
         },
-        slcr: "#timeGrid td:not(.disabledTime)",
+        slcr: ".timeGrid td:not(.disabledTime)",
         cl: 'pressedTime',
         last: false
     };

@@ -1,6 +1,6 @@
-<p id="timeTitle">Виберіть годину</p>
-<p  id="timeDate"><?php echo (Yii::app()->language == 'ua')?$day:Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)); ?></p>
-<table id='timeGrid'>
+<p id="timeTitle">Виберіть годину</p><button id="exitButton" onclick="goOut('<?php echo $teacherId; ?>')">x</button>
+<p  id="timeDate" onclick="chooseDate('<?php echo $teacherId; ?>')"><?php echo (Yii::app()->language == 'ua')?$day:Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)); ?></p>
+<table class='timeGrid' id='<?php echo 'timeGrid'.$teacherId?>'>
     <?php
     for ($i = 9; $i < 23; $i++) {
         ?>
@@ -29,8 +29,7 @@
     Використовуйте клавіші <span class="colorP">Ctrl</span> або <span class="colorP">Shift</span>.
 </div>
 
-<button id="consultationBack">Назад</button>
-<button id="consultationNext">Далі</button>
+<button id="consultationBack" onclick="goBack('<?php echo $teacherId; ?>')">Назад</button>
+<button id="consultationNext" onclick="goNext('<?php echo $teacherId; ?>')">Далі</button>
 
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showHideCalendarTabs.js"></script>

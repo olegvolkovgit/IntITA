@@ -94,13 +94,32 @@ class ConsultationscalendarController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($lectureId)
 	{
+        $lecture = Lecture::model()->findByPk($lectureId);
+        $teachersconsult = [];
 
-        $dataProvider=new CActiveDataProvider('Consultationscalendar');
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'attribute_value';
+        $criteria->select = 'teacher';
+        $criteria->addCondition('attribute=5 and value='.$lectureId);
+        $temp = AttributeValue::model()->findAll($criteria);
+        for($i = 0; $i < count($temp);$i++){
+            array_push($teachersconsult, $temp[$i]->teacher);
+        }
+
+        $criteriaData= new CDbCriteria;
+        $criteriaData->alias = 'teacher';
+        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'OR');
+
+        $dataProvider=new CActiveDataProvider('Teacher', array(
+            'criteria' =>$criteriaData,
+            'pagination'=>false,
+    ));
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+            'lecture'=>$lecture
 		));
 	}
 
@@ -149,18 +168,25 @@ class ConsultationscalendarController extends Controller
 
 
     public function actionSaveconsultation(){
+        $date=Yii::app()->getRequest()->getPost('datecons');
+        $idteacher=Yii::app()->request->getPost('teacherid');
+        $idlecture=Yii::app()->request->getPost('lectureid');
         $calendar = new Consultationscalendar();
         if(Yii::app()->request->getPost('saveConsultation')) {
             $numcons = explode(",", Yii::app()->request->getPost('timecons'));
             for ($i=0; $i<count($numcons);$i++ ){
-                $calendar->start_cons =substr($numcons[$i], 0,5);
-                $calendar->end_cons =substr($numcons[$i], 6,5);
-                $calendar->date_cons =Yii::app()->getRequest()->getPost('datecons');
-                $calendar->teacher_id = Yii::app()->request->getPost('teacherid');
-                $calendar->user_id = Yii::app()->request->getPost('userid');
-                $calendar->lecture_id = Yii::app()->request->getPost('lectureid');
-                $calendar->save();
-                $calendar = new Consultationscalendar();
+                if(Consultationscalendar::consultationFree($idteacher,$numcons[$i],$date)){
+                    $calendar->start_cons =substr($numcons[$i], 0,5);
+                    $calendar->end_cons =substr($numcons[$i], 6,5);
+                    $calendar->date_cons =$date;
+                    $calendar->teacher_id = $idteacher;
+                    $calendar->user_id = Yii::app()->request->getPost('userid');
+                    $calendar->lecture_id = $idlecture;
+                    $calendar->save();
+                    $calendar = new Consultationscalendar();
+                } else {
+                    $this->redirect( array('consultationerror','lecture'=>$idlecture));
+                }
             }
         }
             header('Location: '.$_SERVER['HTTP_REFERER']);
@@ -171,5 +197,11 @@ class ConsultationscalendarController extends Controller
 
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionConsultationError($lecture)
+    {
+        $this->render('consultationerror',array(
+            'lecture'=>$lecture,
+        ));
     }
 }

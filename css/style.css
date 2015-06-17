@@ -608,3 +608,6 @@ div.profileStatus{
     color: #4b75a4;
 }
 /*error page*/
+#teacher-view img{
+    width: 150px;
+}
