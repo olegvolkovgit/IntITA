@@ -16,6 +16,7 @@ $this->menu=array(
     <h1>Викладач <?php print "{$model->last_name} {$model->first_name} {$model->middle_name}"; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
+    'id'=>'teacher-view',
     'data'=>$model,
     'attributes'=>array(
         'teacher_id',
