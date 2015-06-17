@@ -241,6 +241,7 @@ p.subCourseInfo, p.courseAboutTeacher{
 }
 .courseModules .grid-view table.items td {
     font-size: 18px;
+    line-height: 18px;
 }
 .cModule {
     margin: -7px 0 10px -3px;
@@ -277,7 +278,6 @@ p.subCourseInfo, p.courseAboutTeacher{
 .aliasColumn{
     white-space: nowrap;
 background-color: white;
-float:left;
 margin-left: 0px;
 margin-top: 0px;
 margin-bottom: 0px;
@@ -343,6 +343,131 @@ padding-left: 0px;
 #discount{
     color: #4b75a4;
 }
+#addModule{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    background: #0080c2;
+    display: none;
+    border-style: none;
+}
+#addModule:hover{
+    cursor: pointer;
+    border-style: none;
+}
+#addModule:focus,#addModule:active{
+    border-style: none;
+}
+#ajaxaddmodule-form input[type="submit"]{
+    background-image: url('../images/editor/add_lesson.png');
+}
+body .grid-view table.items td{
+    font-size: 16px;
+    background-color: white;
+}
 
+body .grid-view table.items td.button-column{
+    background-color: white;
+    min-width: 70px;
+}
 
+body .grid-view table.items td.aliasColumn{
+    white-space: nowrap;
+    background-color: white;
+    width: 1%;
+    margin-left: 0px;!important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
 
+body .grid-view table.items td.titleColumn{
+    vertical-align: top;
+    background-color: white;
+    padding-left: 0px;
+    float:left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;!important;
+}
+
+.grid-view table.items tr.odd,.grid-view table.items tr.even{
+    background: #ffffff;
+}
+
+.grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
+    background: #ffffff;
+}
+
+.grid-view table.items{
+    border:none;
+}
+
+.grid-view{
+    padding-top: 0px;
+}
+#addLessonButton{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    display: none;
+}
+
+#editIco{
+    float:right;
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
+#lessonForm{
+    display: none;
+}
+
+#formLabel{
+    color:green;
+    font-size: 16px;
+}
+#submitButton{
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    float: left;
+}
+
+#cancelButton {
+    float: left;
+    margin-left: 20px;
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.controlButtons{
+    width: 20px;
+    height: 20px;
+}
+.titleColumn a {
+    color: #4b75a4;
+    text-decoration:none;
+    float:left;
+}
+.grid-view table.items tr td{
+    /*padding: 0;*/
+    vertical-align: top;
+}

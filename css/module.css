@@ -184,13 +184,13 @@ body .grid-view table.items td{
 
 body .grid-view table.items td.button-column{
     background-color: white;
-    width: 0px;
+    min-width: 70px;
 }
 
 body .grid-view table.items td.aliasColumn{
     white-space: nowrap;
     background-color: white;
-    float:left;
+    width: 1%;
     margin-left: 0px;!important;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -227,7 +227,7 @@ div.ratico{
     float: right;
     margin-left: 20px;
 }
-#addModule,#addLecture{
+#addLecture{
     float:right;
     margin-top: 20px;
     margin-right: 20px;
@@ -238,14 +238,14 @@ div.ratico{
     display: none;
     border-style: none;
 }
-#addModule:hover,#addLecture:hover{
+#addLecture:hover{
     cursor: pointer;
     border-style: none;
 }
-#addModule:focus,#addModule:active,#addLecture:focus,#addLecture:active{
+#addLecture:focus,#addLecture:active{
     border-style: none;
 }
-#ajaxaddmodule-form input[type="submit"], #ajaxaddlecture-form input[type="submit"]{
+#ajaxaddlecture-form input[type="submit"]{
     background-image: url('../images/editor/add_lesson.png');
 }
 td.button-column{
@@ -254,6 +254,7 @@ td.button-column{
 }
 .lessonModule .grid-view table.items td {
     font-size: 18px;
+    line-height: 18px;
 }
 .startCourse, .startModule{
     display: inline-block;

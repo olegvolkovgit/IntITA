@@ -46,6 +46,7 @@ $this->menu=array(
         'rate_knowledge',
         'rate_efficiency',
         'rate_relations',
-        'user_id',
     ),
+
+
 )); ?>

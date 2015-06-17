@@ -30,7 +30,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
     <div class="lessonLine"></div>
     <div class="responseBG">
 
-        <div class="txtMsg">
+        <div>
             <table style="padding-left: 35px; padding-top: 30px;">
                 <tr>
                     <td align="right">
@@ -70,7 +70,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
         </div>
         <div class="BBCode">
             <form  action="<?php echo Yii::app()->createUrl('profile/response', array('id' => $model->teacher_id));?>" method="post">
-                <textarea class="editor" name="response"></textarea>
+                <textarea class="editor" name="response" ><?php echo $respval; ?></textarea>
                 <input type="hidden" id="rat1" name="material" value="<?php echo $knowval; ?>"/>
                 <input type="hidden" id="rat2" name="behavior" value="<?php echo $behval; ?>"/>
                 <input type="hidden" id="rat3" name="motiv" value="<?php echo $motivval; ?>"/>

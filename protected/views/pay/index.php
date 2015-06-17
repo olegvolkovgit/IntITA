@@ -1,3 +1,4 @@
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 <?php
 /**
  * Created by PhpStorm.
@@ -12,8 +13,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-
-<div id="addAccess">
+<div id="addAccessModule">
     <br>
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('pay/payNow');?>" method="POST" name="add-access">

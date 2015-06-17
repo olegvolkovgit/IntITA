@@ -29,9 +29,10 @@ if (isset($_GET['div'])){
 } else {
     $currentDiv = '';
 }
+if (!isset($respval)) $respval='';
 ?>
 <div class="TeacherProfilemainBlock">
     <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'editMode' => $editMode)); ?>
     <!-- Block 2 -->
-    <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider)); ?>
+    <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider,'respval'=>$respval)); ?>
 

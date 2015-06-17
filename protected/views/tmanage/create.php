@@ -12,4 +12,4 @@ $this->menu=array(
 
     <h1>Додати викладача</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'scenario' => 'create')); ?>

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-13 10:50:16
+-- Date/time:                    2015-06-16 18:31:08
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~131 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~128 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 15),
@@ -44,10 +44,6 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 31, 5),
 	(1, 32, 1),
 	(1, 33, 15),
-	(11, 1, 0),
-	(11, 31, 1),
-	(11, 32, 1),
-	(11, 33, 1),
 	(38, 1, 15),
 	(38, 2, 15),
 	(38, 3, 15),
@@ -80,26 +76,32 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(38, 50, 15),
 	(39, 1, 15),
 	(39, 2, 15),
-	(39, 31, 1),
-	(39, 32, 1),
-	(39, 33, 1),
-	(39, 51, 15),
-	(40, 1, 1),
-	(40, 2, 1),
+	(39, 14, 15),
+	(39, 16, 15),
+	(39, 18, 3),
+	(39, 21, 3),
+	(40, 2, 3),
 	(40, 3, 1),
 	(40, 5, 1),
 	(40, 14, 1),
-	(40, 15, 1),
-	(40, 16, 1),
+	(40, 15, 15),
+	(40, 16, 3),
 	(40, 17, 1),
 	(40, 18, 1),
 	(40, 19, 1),
-	(40, 20, 1),
+	(40, 20, 3),
 	(40, 21, 1),
 	(40, 26, 7),
-	(40, 27, 1),
-	(41, 1, 15),
-	(41, 2, 15),
+	(40, 27, 3),
+	(40, 47, 3),
+	(40, 51, 3),
+	(40, 52, 3),
+	(40, 53, 3),
+	(40, 54, 3),
+	(40, 55, 3),
+	(40, 56, 3),
+	(40, 57, 3),
+	(41, 3, 15),
 	(42, 1, 15),
 	(42, 2, 15),
 	(42, 3, 1),
@@ -107,7 +109,7 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(42, 14, 1),
 	(42, 15, 1),
 	(42, 16, 1),
-	(42, 17, 1),
+	(42, 17, 3),
 	(42, 18, 1),
 	(42, 19, 1),
 	(42, 20, 1),

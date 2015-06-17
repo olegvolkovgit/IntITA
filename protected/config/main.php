@@ -39,6 +39,7 @@ return array(
             'generatorPaths' => array(
                 'ext.giix-core', // giix generators
             ),
+            'password'=>'admin',
         ),
 		'autoadmin'=>array(
 			'class'=>'ext.autoadmin.AutoAdmin',

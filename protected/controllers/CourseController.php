@@ -191,7 +191,7 @@ class CourseController extends Controller
         $order = Module::model()->findByPk($idModule)->order;
 
         //Module::model()->deleteByPk($idModule);
-        //TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
+        TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
         Module::model()->updateByPk($idModule, array('order' => 0));
         Module::model()->updateByPk($idModule, array('course' => 0));
 
