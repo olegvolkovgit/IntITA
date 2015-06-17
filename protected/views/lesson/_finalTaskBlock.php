@@ -5,7 +5,7 @@
  * Date: 14.04.2015
  * Time: 19:04
  */?>
-<img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'borderLesson.png');?>">
+<!--<img src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'borderLesson.png');?><!--">-->
 <div class="element">
     <?php $this->renderPartial('_editToolbar',array(
         'idLecture' => $data['id_lecture'],
