@@ -97,7 +97,25 @@ class ConsultationscalendarController extends Controller
 	public function actionIndex($lectureId)
 	{
         $lecture = Lecture::model()->findByPk($lectureId);
-        $dataProvider=new CActiveDataProvider('Teacher');
+        $teachersconsult = [];
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'attribute_value';
+        $criteria->select = 'teacher';
+        $criteria->addCondition('attribute=5 and value='.$lectureId);
+        $temp = AttributeValue::model()->findAll($criteria);
+        for($i = 0; $i < count($temp);$i++){
+            array_push($teachersconsult, $temp[$i]->teacher);
+        }
+
+        $criteriaData= new CDbCriteria;
+        $criteriaData->alias = 'teacher';
+        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'OR');
+
+        $dataProvider=new CActiveDataProvider('Teacher', array(
+            'criteria' =>$criteriaData,
+            'pagination'=>false,
+    ));
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
