@@ -5,10 +5,6 @@
  * Date: 16.06.2015
  * Time: 15:45
  */
-//$atts = AttributeValue::model()->findAllByAttributes(array('attribute'=>2));
-//for ($i = 0; $i < count($atts);$i++){
-//    echo $atts[$i]->teacher." - ".Roles::model()->findByPk($atts[$i]->attribute)->title." - ".StudentReg::model()->findByPk($atts[$i]->value)->firstName.'<br>';
-//}
 /* @var $dataProvider CActiveDataProvider */
 $this->breadcrumbs=array(
     'Викладачі','Ролі викладачів'
@@ -29,16 +25,8 @@ $this->menu=array(
             'value'=>'TeacherHelper::getTeacherName($data->teacher)',
         ),
         array(
-            'header'=>'Роль',
+            'header'=>'Тренер',
             'value'=>'TeacherHelper::getRoleTitle($data->role)',
-        ),
-        array(
-            'header'=>'Початок',
-            'value'=>'$data->start_date',
-        ),
-        array(
-            'header'=>'Кінець',
-            'value'=>'$data->end_date',
         ),
     ),
 )); ?>

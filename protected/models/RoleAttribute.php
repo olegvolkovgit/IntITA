@@ -112,4 +112,18 @@ class RoleAttribute extends CActiveRecord
 
         return false;
     }
+
+
+    /** scope
+     * @param $type_id
+     * @return RoleAttribute
+     */
+    public function type($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 't.id=:type',
+            'params'=>array(':type'=>$id),
+        ));
+        return $this;
+    }
 }

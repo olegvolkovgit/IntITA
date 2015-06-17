@@ -15,6 +15,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionView($id)
 	{
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -26,6 +30,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionCreate()
 	{
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
 		$model=new Course;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -53,6 +61,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -80,6 +92,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -107,6 +123,10 @@ class CoursemanageController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+
 		$model=new Course('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Course']))

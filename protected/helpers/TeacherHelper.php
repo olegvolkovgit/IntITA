@@ -49,4 +49,8 @@ class TeacherHelper
         return Roles::model()->findByPk($id)->title;
     }
 
+    public static function getTeacherAttributeValue($teacher, $attribute){
+        return AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+
+    }
 }

@@ -8,7 +8,7 @@ class PermissionsController extends Controller
         if (Yii::app()->user->getId() != 49) {
             throw new CHttpException(403, 'У вас немає права редагування цього документа.');
         }
-        $model = new Permissions;
+        $model = new Permissions('search');
         if(isset($_GET['Permissions']))
             $model->attributes=$_GET['Permissions'];
 
@@ -18,7 +18,6 @@ class PermissionsController extends Controller
                 'pageSize' => '50',
             )
         );
-
 
         if(!isset($_GET['ajax'])) $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -171,6 +170,5 @@ class PermissionsController extends Controller
                 break;
             }
         $this->redirect(Yii::app()->request->urlReferrer);
-        //$this->actionIndex();
     }
 }

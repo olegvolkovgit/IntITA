@@ -184,4 +184,18 @@ class TmanageController extends Controller
         ));
     }
 
+    public function actionShowRoles($id){
+        if (!AccessHelper::isAdmin()) {
+            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
+        }
+        $roles = TeacherRoles::model()->findAllByAttributes(array('teacher' => $id));
+
+        $name = Teacher::getFullName($id);
+        $this->render('showRoles',array(
+            'roles'=>$roles,
+            'name'=>$name,
+            'teacherId'=>$id,
+        ));
+    }
+
 }

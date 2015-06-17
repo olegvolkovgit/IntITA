@@ -237,4 +237,9 @@ class Teacher extends CActiveRecord
         }
         return $result;
     }
+
+    public static function getFullName($id){
+        $teacher = Teacher::model()->findByPk($id);
+        return $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;
+    }
 }
