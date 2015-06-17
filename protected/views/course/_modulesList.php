@@ -7,6 +7,7 @@
  */
 $editMode = ($canEdit)?'true':'';
 ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
 <div class="courseModules">
     <?php
     if ($canEdit){
