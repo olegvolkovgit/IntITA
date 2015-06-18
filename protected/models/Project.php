@@ -114,4 +114,22 @@ class Project extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getProjectsByLeader($leader){
+        $projects = Yii::app()->db->createCommand(array(
+            'select' => array('id, title'),
+            'from' => 'project',
+            'where' => 'id_leader=:id',
+            'order' => 'id',
+            'params' => array(':id' => $leader),
+        ))->queryAll();
+        $count = count($projects);
+
+        for($i = 0;$i < $count;$i++){
+            $projects[$i]['id'] = $projects[$i]["id"];
+            $projects[$i]['title'] = $projects[$i]["title"];
+        }
+
+        return (!empty($projects))?$projects:[];
+    }
 }

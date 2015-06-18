@@ -5,10 +5,10 @@
  *
  * The followings are the available columns in table 'leader_modules':
  * @property integer $leader
- * @property integer $modules
+ * @property integer $module
  *
  * The followings are the available model relations:
- * @property Module $modules0
+ * @property Module $module0
  * @property Teacher $leader0
  */
 class LeaderModules extends CActiveRecord
@@ -29,11 +29,11 @@ class LeaderModules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('leader, modules', 'required'),
-			array('leader, modules', 'numerical', 'integerOnly'=>true),
+			array('leader, module', 'required'),
+			array('leader, module', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('leader, modules', 'safe', 'on'=>'search'),
+			array('leader, module', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +45,7 @@ class LeaderModules extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'modules0' => array(self::BELONGS_TO, 'Module', 'modules'),
+			'module0' => array(self::BELONGS_TO, 'Module', 'module'),
 			'leader0' => array(self::BELONGS_TO, 'Teacher', 'leader'),
 		);
 	}
@@ -57,7 +57,7 @@ class LeaderModules extends CActiveRecord
 	{
 		return array(
 			'leader' => 'Leader',
-			'modules' => 'Modules',
+			'module' => 'Module',
 		);
 	}
 
@@ -80,7 +80,7 @@ class LeaderModules extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('leader',$this->leader);
-		$criteria->compare('modules',$this->modules);
+		$criteria->compare('module',$this->module);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,4 +97,22 @@ class LeaderModules extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getModulesByLeader($leader){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('module'),
+            'from' => 'leader_modules',
+            'where' => 'leader=:id',
+            'order' => 'module',
+            'params' => array(':id' => $leader),
+        ))->queryAll();
+        $count = count($modules);
+
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["module"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->module_name;
+        }
+
+        return (!empty($modules))?$modules:[];
+    }
 }

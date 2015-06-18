@@ -45,6 +45,7 @@ $('.search-form form').submit(function(){
     'summaryText'=>'Показано курсів {start} - {end} з {count}',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+    'emptyText'=>'Такого курса немає (',
 	'columns'=>array(
 		'course_ID',
 		'alias',

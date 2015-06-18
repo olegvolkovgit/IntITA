@@ -97,4 +97,23 @@ class TrainerStudent extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getStudentsByTrainer($trainer){
+        $students = Yii::app()->db->createCommand(array(
+            'select' => array('student'),
+            'from' => 'trainer_student',
+            'where' => 'trainer=:id',
+            'order' => 'student',
+            'params' => array(':id' => $trainer),
+        ))->queryAll();
+        $count = count($students);
+
+        for($i = 0;$i < $count;$i++){
+            $students[$i]['id'] = $students[$i]["id"];
+            $students[$i]['title'] = StudentReg::model()->findByPk($students[$i]["id"])->firstName." ".
+                StudentReg::model()->findByPk($students[$i]["id"])->secondName;
+        }
+
+        return (!empty($students))?$students:[];
+    }
 }

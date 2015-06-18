@@ -30,7 +30,7 @@ $this->menu=array(
         array(
             'class'=>'CLinkColumn',
             'label'=>'Ролі викладача',
-            'urlExpression'=>'"tmanage/showRoles?id=".$data->teacher_id',
+            'urlExpression'=>'"/IntITA/tmanage/showRoles?id=".$data->teacher_id',
             'header'=>'Author'
         ),
         array(
