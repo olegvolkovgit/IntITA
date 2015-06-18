@@ -82,7 +82,7 @@ $list = CHtml::listData($models,
 
     <div class="row">
         <?php echo $form->labelEx($model,'tel'); ?>
-        <?php echo $form->textField($model,'tel',array('size'=>60,'maxlength'=>100)); ?>
+        <?php echo $form->textField($model,'tel',array('size'=>60,'maxlength'=>13)); ?>
         <?php echo $form->error($model,'tel'); ?>
     </div>
 

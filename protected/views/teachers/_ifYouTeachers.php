@@ -20,11 +20,11 @@
         </tr>
     </table>
     <form method="post" action="<?php echo Yii::app()->createUrl('teachers/teacherletter');?>">
-        <label class="formFirstname" id="formTeacher" for="firstname"><?php echo Yii::t('teachers', '0174');?></label>
-        <input class="formTeacher1" required type="text" name="firstname">
+        <label class="formFirstname" id="formTeacher" for="firstname" ><?php echo Yii::t('teachers', '0174');?></label>
+        <input class="formTeacher1" required type="text" name="firstname" pattern="^[а-яА-ЯёЁa-zA-Z]+$">
         <br>  <br>
         <label class="formLastname" id="formTeacher" for="lastname"><?php echo Yii::t('teachers', '0175');?></label>
-        <input class="formTeacher1" required type="text" name="lastname">
+        <input class="formTeacher1" required type="text" name="lastname" pattern="^[а-яА-ЯёЁa-zA-Z]+$">
         <br> <br>
         <label class="formYearname" id="formTeacher" for="yearname"><?php echo Yii::t('teachers', '0176');?></label>
         <input class="formTeacher1" required type="text" name="yearname">

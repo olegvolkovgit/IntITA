@@ -11,7 +11,6 @@ $this->menu=array(
 	array('label'=>'Управління курсами', 'url'=>array('admin')),
 );
 ?>
-
 <h1>Курси</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(

@@ -44,11 +44,13 @@ class Teacher extends CActiveRecord
             array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
             array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>'Недопустимі символи!'),
+            array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!'),
+            array('tel', 'length', 'max'=>13),
             array('foto_url, subjects, tel', 'length', 'max'=>100),
             array('readMoreLink', 'length', 'max'=>255),
             array('email, skype', 'length', 'max'=>50),
             array('email','email'),
-            array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
+            array('profile_text_first,profile_text_short,profile_text_last,tel', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id', 'safe', 'on'=>'search'),
