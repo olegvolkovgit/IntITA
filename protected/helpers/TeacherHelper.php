@@ -50,7 +50,28 @@ class TeacherHelper
     }
 
     public static function getTeacherAttributeValue($teacher, $attribute){
-        return AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+        $result = '';
+        switch($attribute){
+            case '1': //capacity
+                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                break;
+            case '2': //trainer's students
+                $result = TrainerStudent::model()->findAllByAttributes(array('trainer'=>$teacher))->student;
+                break;
+            case '3': //leader_modules
+                $result = LeaderModules::model()->findAllByAttributes(array('leader'=>$teacher))->modules;
+                break;
+            case '4':// leader's projects
+                $result = Project::model()->findAllByAttributes(array('id_leader'=>$teacher))->id;
+                break;
+            case '5'://consultant's modules
+                $result = ConsultantModules::model()->findAllByAttributes(array('consultant'=>$teacher))->module;
+                break;
+            default:
+                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+        }
+        var_dump($result);die();
+        return $result;
 
     }
 }
