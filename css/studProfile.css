@@ -106,7 +106,6 @@ table.profileInfo {
     height: 120px;
     padding-left: 8px;
     margin-bottom: -4px;
-    resize: none;
 }
 .studProf input:hover,
 .studProf textarea:hover{

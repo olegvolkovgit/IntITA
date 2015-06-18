@@ -7,7 +7,7 @@ database:
     host: "localhost"
     port: 3306
     db: "mibew"
-    login: "mibew"
+    login: "intita"
     pass: "1234567"
     tables_prefix: ""
     use_persistent_connection: false

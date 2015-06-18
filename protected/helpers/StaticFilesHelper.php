@@ -17,7 +17,7 @@ class StaticFilesHelper {
                 return StaticFilesHelper::createAvatarsPath($name);
                 break;
             case 'common':
-                return taticFilesHelper::createCommonPath($subcategory, $name);
+                return StaticFilesHelper::createCommonPath($subcategory, $name);
                 break;
             case 'txt':
                 return StaticFilesHelper::createTxtPath($subcategory, $name);
@@ -33,9 +33,6 @@ class StaticFilesHelper {
         switch($subcategory){
             case "editor":
                 $path = $path.'/editor/'.$name;
-                break;
-            case "avatars":
-                $path = $path.'/avatars/'.$name;
                 break;
             case 'mainpage':
                 $path = $path.'/mainpage/'.$name;
@@ -56,7 +53,7 @@ class StaticFilesHelper {
                 $path = $path.'/aboutus/'.$name;
                 break;
             case 'profile':
-                $path = $path.'/student/'.$name;
+                $path = $path.'/profile/'.$name;
                 break;
             case 'teachers':
                 $path = $path.'/teachers/'.$name;
@@ -69,15 +66,6 @@ class StaticFilesHelper {
                 break;
             case 'common':
                 $path = $path.'/common/'.$name;
-                break;
-            case 'icons':
-                $path = $path.'/icons/'.$name;
-                break;
-            case 'rating':
-                $path = $path.'/rating/'.$name;
-                break;
-            case 'signin':
-                $path = $path.'/signin/'.$name;
                 break;
             default:
                 break;
@@ -99,4 +87,13 @@ class StaticFilesHelper {
         return Yii::app()->params['commonPath'].'/'.$name;
     }
 
+    public static function setTeachersModules($id){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'module';
+        $criteria->join='JOIN teacher_module ON teacher_module.idModule = module.module_ID';
+        $criteria->condition='teacher_module.idTeacher='.$id;
+        $criteria->distinct = true;
+        $modules = Module::model()->findAll($criteria);
+        return $modules;
+    }
 }

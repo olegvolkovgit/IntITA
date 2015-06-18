@@ -28,7 +28,7 @@ p {
 }
 #navigation {
     position:relative;
-    width: 1200px;
+    width: 90%; /*1200px;*/
     height: 100px;
     margin: 0 auto;
     background-color: white;
@@ -201,7 +201,7 @@ p {
 }
 /*********************enter button end****************/
 /*************languages buttons*************/
-#lang {
+#lang, .lang {
     display: inline-block;
     position: relative;
     float: right;
@@ -226,7 +226,7 @@ p {
     padding-left: 8px;
     padding-right: 8px;
 }
-#lang input[type="button"]{
+#lang input[type="button"], .lang input[type="button"]{
     background:none!important;
     border:none;
     cursor: pointer;
@@ -234,9 +234,6 @@ p {
     font-size: 18px;
     font-family: "MyriadPro";
     text-decoration: underline;
-}
-#lang input[type="button"]:hover{
-    color: #666666;
 }
 #lang input[type="button"].selectedLang {
     text-decoration: none;
@@ -581,33 +578,13 @@ div.profileStatus{
 }
 .infoblock{
     margin:0 auto;
-    margin-bottom: 40vh;
+    margin-bottom: 200px;
     width: 540px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     padding: 20px 20px 20px 20px;
-    text-align: center;
 }
 .infoblock h2{
     text-align: center;
     color: #4b75a4;
-}
-/*error page*/
-.errorblock{
-    margin:0 auto;
-    margin-bottom: 37vh;
-    width: 540px;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    padding: 20px 20px 40px 20px;
-    text-align: center;
-}
-.errorblock h1{
-    text-align: center;
-    text-transform: uppercase;
-    color: #4b75a4;
-}
-/*error page*/
-#teacher-view img{
-    width: 150px;
 }

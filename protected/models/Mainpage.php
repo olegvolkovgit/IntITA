@@ -50,12 +50,13 @@ class Mainpage extends CActiveRecord
 	public function setValueById($id)
 	{
 
-		$this->sliderTextureURL=$this->findByPk($id)->sliderTextureURL;
+		$this->sliderTextureURL=Yii::app()->request->baseUrl.$this->findByPk($id)->sliderTextureURL;
 		$this->stepSize=$this->findByPk($id)->stepSize;
-		$this->subLineImage=$this->findByPk($id)->subLineImage;
-		$this->hexagon=$this->findByPk($id)->hexagon;
-		$this->sliderLineURL=$this->findByPk($id)->sliderLineURL;
-		$this->formFon = $this->findByPk($id)->formFon;
+		$this->subLineImage=Yii::app()->request->baseUrl.$this->findByPk($id)->subLineImage;
+		$this->hexagon=Yii::app()->request->baseUrl.$this->findByPk($id)->hexagon;
+		$this->sliderLineURL=Yii::app()->request->baseUrl.$this->findByPk($id)->sliderLineURL;
+		$this->imageNetwork = Yii::app()->request->baseUrl.$this->findByPk($id)->imageNetwork;
+		$this->formFon = Yii::app()->request->baseUrl.$this->findByPk($id)->formFon;
 		return $this;
 	}
 

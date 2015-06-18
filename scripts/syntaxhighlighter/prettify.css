@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 .com { color: #ffffff; }
 .lit { color: #d28061; }
 .pun, .opn, .clo { color: #ffffff; }
+=======
 .com { color: #aaaaaa; } 
 .lit { color: #ff9966; }
 .pun, .opn, .clo { color: #aaaaaa; }
+>>>>>>> 9c09ab966b738ee596d017bfe76b9f6e72582976
 .fun { color: #dc322f; }
 .str, .atv { color: #99cc33; }
 .kwd, .prettyprint .tag { color: #de5940; }  

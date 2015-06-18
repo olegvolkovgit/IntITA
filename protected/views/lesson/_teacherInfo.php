@@ -34,7 +34,7 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                         </div>
                     </li>
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-                    <?php if(AccessHelper::canAddConsultation()){
+                    <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
                         ?>
                     <div class="calendar">
                         <?php

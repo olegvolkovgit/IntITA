@@ -5,9 +5,9 @@
  * Date: 13.05.2015
  * Time: 16:36
  */
-$headerText = Yii::t('mainpage','0002');
-$subheaderText = Yii::t('mainpage', '0006');
-$linkName = Yii::t('mainpage', '0004');
+$headerText = $mainpageModel->getHeader1();
+$subheaderText = $mainpageModel->getSubheader1();
+$linkName = $mainpageModel->getLinkName();
 ?>
 <div class="mainAboutBlock">
     <div class="mainAbout">
@@ -19,7 +19,7 @@ $linkName = Yii::t('mainpage', '0004');
         </div>
 
         <div class="line1">
-            <img src="<?php echo $subLineImage;?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line1.png');?>">
         </div>
 
         <?php
