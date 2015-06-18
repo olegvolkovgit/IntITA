@@ -155,7 +155,7 @@ function get_default_locale()
             && locale_pattern_check($configs['default_locale'])
             && locale_is_available($configs['default_locale']);
 
-        $default_locale = $is_correct ? $configs['default_locale'] : 'en';
+        $default_locale = $is_correct ? $configs['default_locale'] : 'en'; //$configs['default_locale'] : 'en'
     }
 
     return $default_locale;
@@ -725,7 +725,6 @@ function get_locale_info($locale)
 function load_messages($locale)
 {
     static $messages = array();
-
     if (!isset($messages[$locale])) {
         $messages[$locale] = array();
 
