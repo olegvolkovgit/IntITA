@@ -9,6 +9,7 @@
     <?php $form=$this->beginWidget('CActiveForm', array(
         'action'=>Yii::app()->createUrl($this->route),
         'method'=>'get',
+        'id'=>'extteacherseach'
     )); ?>
 
     <div class="row">
@@ -32,33 +33,8 @@
     </div>
 
     <div class="row">
-        <?php echo $form->label($model,'foto_url'); ?>
-        <?php echo $form->textField($model,'foto_url',array('size'=>60,'maxlength'=>100)); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->label($model,'subjects'); ?>
         <?php echo $form->textField($model,'subjects',array('size'=>60,'maxlength'=>100)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model,'profile_text_first'); ?>
-        <?php echo $form->textArea($model,'profile_text_first',array('rows'=>6, 'cols'=>50)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model,'profile_text_short'); ?>
-        <?php echo $form->textArea($model,'profile_text_short',array('rows'=>6, 'cols'=>50)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model,'profile_text_last'); ?>
-        <?php echo $form->textArea($model,'profile_text_last',array('rows'=>6, 'cols'=>50)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model,'readMoreLink'); ?>
-        <?php echo $form->textField($model,'readMoreLink',array('size'=>60,'maxlength'=>255)); ?>
     </div>
 
     <div class="row">
