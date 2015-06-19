@@ -17,7 +17,7 @@
         <ul>
             <li>
                 <div class="teacherTitle">
-                    <?php echo Yii::t('lecture','0077'); ?>
+                    <?php echo 'Консультант' ?>
                 </div>
             </li>
             <li>
@@ -31,8 +31,7 @@
             </li>
             <li>
                 <?php echo 'skype: '?>
-                <div id="teacherSkype"><?php echo $data['skype']?>
-                </div>
+                <span class="teacherSkype"><?php echo $data['skype']?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
             <?php if(AccessHelper::canAddConsultation()){
