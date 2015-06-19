@@ -45,7 +45,7 @@ if ($editMode) {
     $this->widget('ImperaviRedactorWidget', array(
         'selector' => "#newTextBlock",
         'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
+            'imageUpload' => Yii::app()->createUrl('/lesson/uploadImage'),
             'lang' => 'ua',
             'toolbar' => true,
             'iframe' => true,

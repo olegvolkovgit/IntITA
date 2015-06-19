@@ -58,25 +58,30 @@ class TeacherHelper
             case '2': //trainer's students
                 $result = TeacherHelper::getTrainerStudents($teacher);
                 break;
-            case '3': //leader_modules
-                $result = TeacherHelper::getLeaderModules($teacher);
+            case '3': //consultant_modules
+                $result = TeacherHelper::getConsultantModules($teacher);
                 break;
             case '4':// leader's projects
                 $result = TeacherHelper::getLeaderProjects($teacher);
                 break;
-            case '5'://consultant's modules
-                //$result = ConsultantModules::model()->findAllByAttributes(array('consultant'=>$teacher))->module;
+            case '6'://leader's modules
+                $result = TeacherHelper::getLeaderModules($teacher);
+                break;
+            case '7'://author's modules
+                $result = TeacherHelper::getLeaderModules($teacher);
+                break;
+            case '8'://leader's capacity
+                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
                 break;
             default:
                 $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
         }
         return $result;
-
     }
 
     public static function getLeaderModules($teacher){
         $modules = LeaderModules::getModulesByLeader($teacher);
-        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule');
+        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }
 
@@ -84,7 +89,7 @@ class TeacherHelper
      * @param $values  - values array as $array['id']['title']
      * @param route - route for link to course, module etc.
      */
-    public static function formatAttributeList($values, $route, $param, $isLink=false){
+    public static function formatAttributeList($values, $route, $param, $isLink){
         $result = '<br>';
         $count = count($values);
         if ($isLink) {
@@ -102,13 +107,19 @@ class TeacherHelper
 
     public static function getLeaderProjects($teacher){
         $projects = Project::getProjectsByLeader($teacher);
-        $result = TeacherHelper::formatAttributeList($projects, 'project/index', 'id', true);
+        $result = TeacherHelper::formatAttributeList($projects, 'project/index', 'id', false);
         return $result;
     }
 
     public static function getTrainerStudents($teacher){
         $students = TrainerStudent::getStudentsByTrainer($teacher);
-        $result = TeacherHelper::formatAttributeList($students, 'project/index', 'id', true);
+        $result = TeacherHelper::formatAttributeList($students, 'project/index', 'id', false);
+        return $result;
+    }
+
+    public static function getConsultantModules($teacher){
+        $modules = ConsultantModules::getModulesByConsultant($teacher);
+        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }
 }

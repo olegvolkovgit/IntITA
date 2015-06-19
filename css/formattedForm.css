@@ -3,11 +3,7 @@
     width: 75%;
     margin: 0 auto;
 }
-#extseach-form, #extteacherseach
-{
-    margin-left: 20px;
-}
-.formatted-form label,#extseach-form label, #extteacherseach label
+.formatted-form label
 {
     display: block;
 }
@@ -15,16 +11,15 @@
 {
     color: #229922;
 }
-.formatted-form textarea, #extseach-form textarea, #extteacherseach textarea
+.formatted-form textarea
 {
-    width: 350px;
     resize: none;
 }
-.formatted-form input, #extseach-form input, #extteacherseach input
+.formatted-form input,.formatted-form textarea
 {
     width: 350px;
 }
-.formatted-form input[type="submit"], #extseach-form input[type="submit"], #extteacherseach input[type="submit"]
+.formatted-form input[type="submit"]
 {
     width: 150px;
     margin-top: 20px;

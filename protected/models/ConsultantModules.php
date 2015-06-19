@@ -100,4 +100,22 @@ class ConsultantModules extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getModulesByConsultant($consultant){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('module'),
+            'from' => 'consultant_modules',
+            'where' => 'consultant=:id',
+            'order' => 'module',
+            'params' => array(':id' => $consultant),
+        ))->queryAll();
+        $count = count($modules);
+
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["module"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->module_name;
+        }
+
+        return (!empty($modules))?$modules:[];
+    }
 }

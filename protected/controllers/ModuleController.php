@@ -212,9 +212,7 @@ class ModuleController extends Controller
     }
 
     public  function actionSaveModule(){
-
         $newOrder = Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['lang']);
-
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$newOrder));
 
 //        $model = new TeacherModule();

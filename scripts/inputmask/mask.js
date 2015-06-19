@@ -4,3 +4,6 @@
 jQuery(function() {
     $(".phone").inputmask("+38(999)9999999");
     });
+jQuery(function() {
+    $("#phone").inputmask("+38(999)9999999");
+});

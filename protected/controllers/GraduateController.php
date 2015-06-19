@@ -1,4 +1,5 @@
 <?php
+
 class GraduateController extends Controller
 {
     public function actionIndex()

@@ -109,8 +109,8 @@ class TrainerStudent extends CActiveRecord
         $count = count($students);
 
         for($i = 0;$i < $count;$i++){
-            $students[$i]['id'] = $students[$i]["id"];
-            $students[$i]['title'] = StudentReg::model()->findByPk($students[$i]["id"])->firstName." ".
+            $students[$i]['id'] = $students[$i]["student"];
+            $students[$i]['title'] = StudentReg::model()->findByPk($students[$i]["student"])->firstName." ".
                 StudentReg::model()->findByPk($students[$i]["id"])->secondName;
         }
 

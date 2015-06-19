@@ -1,27 +1,24 @@
-/**
- * Created by Ivanna on 29.05.2015.
- */
 if (!RedactorPlugins) var RedactorPlugins = {};
 
 (function($)
 {
-    RedactorPlugins.save = function()
-    {
-        return {
-            init: function()
-            {
-                var button = this.button.add('save', 'Save');
+	RedactorPlugins.save = function()
+	{
+		return {
+			init: function()
+			{
+				var button = this.button.add('save', 'Save');
 
-                // make your added button as Font Awesome's icon
-                this.button.setAwesome('save', 'fa-save');
+				// make your added button as Font Awesome's icon
+				this.button.setAwesome('save', 'fa-save');
 
-                this.button.addCallback(button, this.save.sendContent);
+				this.button.addCallback(button, this.save.sendContent);
 
-            },
-            sendContent: function()
-            {
-                var html = this.code.get();
-                console.log(html);
+			},
+			sendContent: function()
+			{
+				var html = this.code.get();
+				console.log(html);
 
                 $.ajax({
                     cache: false,
@@ -29,7 +26,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                     url: 'http://intita.itatests.com/lesson/save',
                     data: {'content':html,'idLecture':idLecture,'order':order}
                 });
-            }
-        };
-    };
+			}
+		};
+	};
 })(jQuery);

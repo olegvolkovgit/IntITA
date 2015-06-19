@@ -137,10 +137,11 @@ td.profileTeacher a{
 #formTeacher2 {
     border-radius: 5px;
     height: 90px;
-    width: 400px;
+    width: 398px;
     text-align: left;
     text-indent: 5px;
     float:right;
+    resize: none;
 }
 #formTeacher3 {
     height: 110px;
@@ -155,6 +156,7 @@ td.profileTeacher a{
     background-color:#EEEEEE;
     font-size: medium;
     margin-top: 20px;
+    clear: both;
 }
 .formFirstname.style {
     margin-left: 50px;

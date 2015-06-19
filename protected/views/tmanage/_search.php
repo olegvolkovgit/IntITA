@@ -1,5 +1,4 @@
 <?php
-/* @var $this MytestController */
 /* @var $model Teacher */
 /* @var $form CActiveForm */
 ?>

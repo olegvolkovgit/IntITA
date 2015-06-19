@@ -13,7 +13,7 @@ for ($i = count($roles)-1; $i > 0; $i--){
     echo '<div class="atts">'.TeacherHelper::getRoleTitle($roles[$i]['role']).'</div>';
     $atts = RoleAttribute::model()->type($roles[$i]['role'])->findAll();
     for($j=0;$j<count($atts);$j++){
-        echo '<div class="params">'.($j+1).". ".$atts[$j]->name." => ".TeacherHelper::getTeacherAttributeValue($teacherId,$atts[$j]->id).'</div>';
+        echo '<div class="params">'.($j+1).". ".$atts[$j]->name.' = '.TeacherHelper::getTeacherAttributeValue($teacherId,$atts[$j]->id).'</div>';
     }
 }
 

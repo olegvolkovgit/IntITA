@@ -20,9 +20,11 @@ function hideForm(id, title){
     document.getElementById(title).innerText = '';
 }
 
-$("a").click(function (){
+$(document).mouseup(function (e) {
     var container = $('#lessonForm');
-    container.hide();
+    if (container.has(e.target).length === 0){
+        container.hide();
+    }
 });
 
 

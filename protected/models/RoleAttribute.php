@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'role_attribute':
  * @property integer $id
  * @property string $name
+ * @property integer $role
  * @property string $type
  *
  * The followings are the available model relations:
  * @property AttributeValue[] $attributeValues
+ * @property Roles $role0
  */
 class RoleAttribute extends CActiveRecord
 {
@@ -29,12 +31,13 @@ class RoleAttribute extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type', 'required'),
+			array('name, role, type', 'required'),
+			array('role', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
 			array('type', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type', 'safe', 'on'=>'search'),
+			array('id, name, role, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +50,7 @@ class RoleAttribute extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'attributeValues' => array(self::HAS_MANY, 'AttributeValue', 'attribute'),
+			'role0' => array(self::BELONGS_TO, 'Roles', 'role'),
 		);
 	}
 
@@ -58,6 +62,7 @@ class RoleAttribute extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
+			'role' => 'Role',
 			'type' => 'Type',
 		);
 	}
@@ -82,12 +87,26 @@ class RoleAttribute extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('role',$this->role);
 		$criteria->compare('type',$this->type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    /** scope
+     * @param $role
+     * @return RoleAttribute
+     */
+    public function type($role)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 't.role=:type',
+            'params'=>array(':type'=>$role),
+        ));
+        return $this;
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -99,31 +118,4 @@ class RoleAttribute extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    protected function beforeDelete()
-    {
-        if (parent::beforeDelete())
-        {
-            foreach ($this->attribute_value as $value)
-                $value->delete();
-
-            return true;
-        }
-
-        return false;
-    }
-
-
-    /** scope
-     * @param $type_id
-     * @return RoleAttribute
-     */
-    public function type($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 't.id=:type',
-            'params'=>array(':type'=>$id),
-        ));
-        return $this;
-    }
 }
