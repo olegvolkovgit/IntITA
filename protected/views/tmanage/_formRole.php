@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
 <div class="form">
-
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'role-form',
         'htmlOptions'=>array(
@@ -25,9 +24,21 @@
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'title'); ?>
-        <?php echo $form->textField($model,'title',array('size'=>35,'maxlength'=>35)); ?>
-        <?php echo $form->error($model,'title'); ?>
+        <?php echo $form->labelEx($model,'title_en'); ?>
+        <?php echo $form->textField($model,'title_en',array('size'=>35,'maxlength'=>35)); ?>
+        <?php echo $form->error($model,'title_en'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'title_ua'); ?>
+        <?php echo $form->textField($model,'title_ua',array('size'=>35,'maxlength'=>35)); ?>
+        <?php echo $form->error($model,'title_ua'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'title_ru'); ?>
+        <?php echo $form->textField($model,'title_ru',array('size'=>35,'maxlength'=>35)); ?>
+        <?php echo $form->error($model,'title_ru'); ?>
     </div>
 
     <div class="row">

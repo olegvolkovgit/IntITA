@@ -6,6 +6,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
     array('label'=>'Додати викладача', 'url'=>array('create')),
     array('label'=>'Управління викладачами', 'url'=>array('admin')),
+    array('label'=>'Управління ролями викладачів', 'url'=>array('roles')),
 );
 ?>
 
@@ -30,7 +31,7 @@ $this->menu=array(
         array(
             'class'=>'CLinkColumn',
             'label'=>'Ролі викладача',
-            'urlExpression'=>'"tmanage/showRoles?id=".$data->teacher_id',
+            'urlExpression'=>'"/IntITA/tmanage/showRoles?id=".$data->teacher_id',
             'header'=>'Author'
         ),
         array(

@@ -46,7 +46,8 @@ class TeacherHelper
     }
 
     public static function getRoleTitle($id){
-        return Roles::model()->findByPk($id)->title;
+        $title = 'title_ua';
+        return Roles::model()->findByPk($id)->$title;
     }
 
     public static function getTeacherAttributeValue($teacher, $attribute){

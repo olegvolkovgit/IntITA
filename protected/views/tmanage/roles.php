@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 );
 $this->menu=array(
     array('label'=>'Додати роль', 'url'=>array('createRole')),
-    array('label'=>'Показати ролі викладача', 'url'=>array('viewRoles')),
+    array('label'=>'Додати атрибут ролі', 'url'=>array('addRoleAttribute')),
 );
 ?>
     <h2>Ролі викладачів</h2>

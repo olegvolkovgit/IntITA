@@ -198,4 +198,17 @@ class TmanageController extends Controller
         ));
     }
 
+    public function actionAddRoleAttribute(){
+        $model=new RoleAttribute;
+        if(isset($_POST['RoleAttribute']))
+        {
+            $model->attributes=$_POST['RoleAttribute'];
+            if($model->save())
+                $this->redirect(array('viewRoleAttribute','id'=>$model->id));
+        }
+
+        $this->render('addRoleAttribute',array(
+            'model'=>$model,
+        ));
+    }
 }

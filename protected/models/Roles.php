@@ -5,7 +5,9 @@
  *
  * The followings are the available columns in table 'roles':
  * @property integer $id
- * @property string $title
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
  * @property string $description
  *
  * The followings are the available model relations:
@@ -30,12 +32,12 @@ class Roles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, description', 'required'),
-			array('title', 'length', 'max'=>20),
+			array('title_ua, title_ru, title_en, description', 'required'),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>20),
 			array('description', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, description', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,10 +49,9 @@ class Roles extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'attributeValues' => array(self::HAS_MANY, 'AttributeValue', 'role'),
+			'roleAttributes' => array(self::HAS_MANY, 'RoleAttribute', 'role'),
 			'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'role'),
-            'type' => array(self::BELONGS_TO, 'ShopType', 'type_id'),
-            'category' => array(self::BELONGS_TO, 'ShopCategory', 'category_id'),
+            'attributeValues' => array(self::HAS_MANY, 'AttributeValue', 'role'),
             'attribute_values' => array(self::HAS_MANY, 'AttributeValue', 'id',
                 'order'=>'attribute.sort ASC',
                 'with'=>'attribute',
@@ -65,7 +66,9 @@ class Roles extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Назва',
+			'title_ua' => 'Назва українською',
+			'title_ru' => 'Назва російською',
+			'title_en' => 'Назва англійською',
 			'description' => 'Короткий опис',
 		);
 	}
@@ -89,7 +92,9 @@ class Roles extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('title_ua',$this->title_ua,true);
+		$criteria->compare('title_ru',$this->title_ru,true);
+		$criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
