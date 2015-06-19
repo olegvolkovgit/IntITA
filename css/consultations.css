@@ -364,4 +364,7 @@ div#timeInfo{
     border: none;
     color: #4b75a4;
 }
+.teacherSkype{
+    font-weight:bold;
+}
 /*----TimeConsultation----*/
