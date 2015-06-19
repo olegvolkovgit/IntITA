@@ -167,7 +167,7 @@ label.tabsUp1,label.tabsDown1{
 #tab5:checked ~ #projects,
 #tab6:checked ~ #myRatting,
     /*#tab6:checked ~ #myDownload,*/
-    /*#tab7:checked ~ #mylettersSend,*/
+#tab8:checked ~ #mylettersSend,
 #tab9:checked ~ #myMark,
 #tab10:checked ~ #finances{
     display: block;
@@ -238,41 +238,6 @@ p.courseLevLang{
     color: #666666;
 }
 /*My Course*/
-/*Form style*/
-#mylettersSend {
-    padding-top: 50px;
-}
-#mylettersSend label
-{
-    display: inline-block;
-    width: 120px;
-    height: 40px;
-    float:left;
-    text-align: right;
-    margin-right: 20px;
-    line-height: 40px;
-    color: #828282;
-}
-#mylettersSend textarea
-{
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    display: inline-block;
-    width: 352px;
-    height: 120px;
-    margin-bottom: -4px;
-}
-#mylettersSend input[type="text"]
-{
-    width: 356px;
-    height: 40px;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-}
-#mylettersSend input[type="submit"] {
-    margin:16px 0px 32px 325px;
-}
-/*Form style*/
 /*Timetable*/
 table.exmCons{
     margin-left: 35px;
@@ -446,17 +411,6 @@ table.timeTable tr:first-child td{
 
     /*Timetable*/
 /*consultation*/
-
-
-
-
-
-
-
-
-
-
-
 /*-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----*/
 .download_tabs {
     width:100%;
@@ -548,11 +502,42 @@ li.active a, li.active a:hover {
 
 
 /***ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ***/
+#mylettersSend {
+    padding-top: 50px;
+}
+#mylettersSend label
+{
+    display: inline-block;
+    width: 60px;
+    height: 40px;
+    float:left;
+    text-align: right;
+    line-height: 40px;
+    color: #999999;
+    margin: 10px 20px 10px 5px;
+}
+#mylettersSend input[type="submit"].sendletter {
+    width: 180px;
+    height:50px;
+    border:none;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 30px;
+    font-size: 18px;
+    margin-left: 425px;
+    margin-top: 20px;
+}
+#mylettersSend input[type="submit"].sendletter:hover {
+    background: #454545;
+    cursor: pointer;
+}
 .box_tabs {
     width:100%;
     display:inline-block;
 }
+ul.box_tab-links{
 
+}
 .box_tab-links:after {
     display:block;
     clear:both;
@@ -582,17 +567,38 @@ li.active a, li.active a:hover {
 .box_tab-links a:hover {
     color: #4b70a3;
 }
+.box_tab-links a.createLetter:hover {
+    color: white;
+}
 
 li.active_box a, li.active_box a:hover {
     background: white;
     color: #4b70a3;
     border-color: rgba(0,0,0,0.15);
 }
-
+li.active_box a {
+    background: white;
+    color: #4b70a3;
+    border-color: rgba(0,0,0,0.15);
+    -webkit-transform:translateY(-3px) scaleY(1.2);
+    -moz-transform:translateY(-3px) scaleY(1.2);
+    -o-transform:translateY(-3px) scaleY(1.2);
+    -ms-transform:translateY(-3px) scaleY(1.2);
+    transform: translateY(-3px) scaleY(1.2);
+}
+li.active_box a.createLetter{
+    color: white;
+    border-color: rgba(0,0,0,0.15);
+    background: #4b70a3;
+    -webkit-transform:translateY(-3px) scaleY(1.2);
+    -moz-transform:translateY(-3px) scaleY(1.2);
+    -o-transform:translateY(-3px) scaleY(1.2);
+    -ms-transform:translateY(-3px) scaleY(1.2);
+    transform: translateY(-3px) scaleY(1.2);
+}
 .box_tab-content {
     padding:15px;
-    border-radius:3px;
-    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+    border-bottom: 1px solid #d8d8d8;
     background:#fff;
 }
 
@@ -612,3 +618,114 @@ li.active_box a, li.active_box a:hover {
 
 }
 /*------------------------------------------------------------------------------------------*/
+/*send letter*/
+.box_tab-links li{
+    margin-right: 0px;
+    margin-left: 0px;
+    height: 40px;
+}
+.box_tab-links a{
+    width: 160px;
+    text-align: center;
+}
+.createLetter{
+    width: 110px; text-align:center; background: #4b70a3; color: white;
+}
+.createLetter img{
+    display: inline-block;
+    vertical-align: top;
+    height: 18px;
+    margin-right: 10px;
+}
+a.createLetter{
+    width: 160px; text-align:center; background: #4b70a3; color: white;
+}
+.flashinfo{
+    color: red;
+    text-align: center;
+}
+.spoilerBody {
+    display:none;
+    word-wrap: break-word;
+}
+.letter{
+    padding: 5px 5px 5px 5px;
+    border-bottom: 1px solid #d8d8d8;
+}
+.letter div{
+    color: #000000;
+}
+span.addressee {
+    display: inline-block;
+    width: 20%;
+    overflow: hidden;
+}
+.addressee{
+    width: 30%;
+    text-align: center;
+    overflow: hidden;
+}
+.theme{
+    display: inline-block;
+    width: 40%;
+    margin-left: 10px;
+    padding-left: 10px;
+    overflow: hidden;
+    border-left:1px solid #d8d8d8;
+}
+.timeletter{
+    display: inline-block;
+    width: 30%;
+    float: right;
+    text-align: center;
+    overflow: hidden;
+    border-left:1px solid #d8d8d8;
+}
+.spoilerLinks:hover{
+    cursor: pointer;
+}
+.letter div.completed{
+    color: #c2bcbc;
+}
+.letterrow{
+    border-bottom: 1px solid #d8d8d8;
+}
+#mylettersSend textarea
+{
+    width: 80%;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    display: inline-block;
+    height: 120px;
+    margin: 10px 0 10px 5px;
+    resize: none;
+    padding-left: 5px;
+}
+#mylettersSend input[type="text"]
+{
+    width: 80%;
+    height: 40px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    margin: 10px 0 10px 5px;
+    padding-left: 5px;
+}
+#mylettersSend select {
+    width: 81%;
+    height: 40px;
+    margin: 10px 0 10px 5px;
+}
+.spoilerBody img{
+    width: 60px;
+    height: 60px;
+    vertical-align: top;
+}
+table.letterinfo{
+    display: inline-block;
+    vertical-align: top;
+    line-height: 16px;
+}
+div.letterbody{
+    margin: 10px 10px 10px 10px;
+}
+/*send letter*/
