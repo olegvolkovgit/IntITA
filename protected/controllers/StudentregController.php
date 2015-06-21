@@ -250,8 +250,9 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser)
+    public function actionProfile($idUser,$tab='')
     {
+        $letter = new Letters();
         $model=StudentReg::model()->findByPk($idUser);
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
@@ -273,7 +274,37 @@ class StudentRegController extends Controller
             ),
         ));
 
-        $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
+        $sentLettersCriteria= new CDbCriteria;
+        $sentLettersCriteria->alias = 'letters';
+        $sentLettersCriteria->addCondition('sender_id='.$idUser);
+
+        $sentLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria'=>$sentLettersCriteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+            ),
+            'sort'=> array(
+                'defaultOrder' => 'date DESC',
+                'attributes'=>array('date'),
+            ),
+        ));
+
+        $receivedLettersCriteria= new CDbCriteria;
+        $receivedLettersCriteria->alias = 'letters';
+        $receivedLettersCriteria->addCondition('addressee_id='.$idUser);
+
+        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria'=>$receivedLettersCriteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+            ),
+            'sort'=> array(
+                'defaultOrder' => 'date DESC',
+                'attributes'=>array('date'),
+            ),
+        ));
+
+        $this->render("studentprofile", array('dataProvider' => $dataProvider,'post' => $model,'letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider, 'tab'=>$tab));
 
     }
     public function actionSendletter()
