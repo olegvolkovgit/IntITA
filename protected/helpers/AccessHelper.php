@@ -166,6 +166,7 @@ class AccessHelper
         }
         $user = Yii::app()->user->getId();
         if (StudentReg::model()->findByPk($user)->role == 3){
+
             return true;
         }
         return false;

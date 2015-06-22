@@ -1,18 +1,39 @@
 <?php
+/* @var $this MessagesController */
+/* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
-	'Інтерфейс сайту',
+$this->breadcrumbs=array(
+	'Messages',
 );
 
-$this->menu = array(
-	array('label'=>Yii::t('app', 'Create') . ' повідомлення', 'url' => array('create')),
-	array('label'=>Yii::t('app', 'Manage') . ' повідомленнями', 'url' => array('admin')),
+$this->menu=array(
+	array('label'=>'Create Messages', 'url'=>array('create')),
+	array('label'=>'Manage Messages', 'url'=>array('admin')),
 );
 ?>
 
-<h1><?php //echo GxHtml::encode(Messages::label(2)); ?></h1>
+<h1>Messages</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); 
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'dataProvider'=>$dataProvider,
+    'htmlOptions'=>array('class'=>'grid-view custom'),
+    'summaryText' => '',
+    'columns'=>array(
+        array(
+            'header'=>'ID',
+            'value'=>'$data->id',
+        ),
+        array(
+            'header'=>'Language',
+            'value'=>'"{$data->language}"',
+        ),
+        array(
+            'header'=>'Category',
+            'value'=> 'MessagesHelper::getMessageCategory($data->id)',
+        ),
+        array(
+            'header'=>'Translation',
+            'value'=>'$data->translation',
+        ),
+    ),
+)); ?>

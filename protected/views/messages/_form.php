@@ -1,37 +1,46 @@
-<div class="form">
-
-
-<?php $form = $this->beginWidget('CActiveForm', array(
-	'id' => 'messages-form',
-	'enableAjaxValidation' => false,
-));
+<?php
+/* @var $this MessagesController */
+/* @var $model Messages */
+/* @var $form CActiveForm */
 ?>
 
-	<p class="note">
-		<?php echo Yii::t('app', 'Fields with'); ?> <span class="required">*</span> <?php echo Yii::t('app', 'are required'); ?>.
-	</p>
+<div class="form">
+
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'messages-form',
+	// Please note: When you enable ajax validation, make sure the corresponding
+	// controller action is handling ajax validation correctly.
+	// There is a call to performAjaxValidation() commented in generated controller code.
+	// See class documentation of CActiveForm for details on this.
+	'enableAjaxValidation'=>false,
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-		<div class="row">
+	<div class="row">
 		<?php echo $form->labelEx($model,'id'); ?>
-		<?php echo $form->dropDownList($model, 'id');//CHtml::listData(Sourcemessages::model()->findAllByAttributes())); ?>
+		<?php echo $form->textField($model,'id'); ?>
 		<?php echo $form->error($model,'id'); ?>
-		</div><!-- row -->
-		<div class="row">
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'language'); ?>
-		<?php echo $form->textField($model, 'language', array('maxlength' => 16)); ?>
+		<?php echo $form->textField($model,'language',array('size'=>16,'maxlength'=>16)); ?>
 		<?php echo $form->error($model,'language'); ?>
-		</div><!-- row -->
-		<div class="row">
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'translation'); ?>
-		<?php echo $form->textArea($model, 'translation'); ?>
+		<?php echo $form->textArea($model,'translation',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'translation'); ?>
-		</div><!-- row -->
+	</div>
 
+	<div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+	</div>
 
-<?php
-echo GxHtml::submitButton(Yii::t('app', 'Save'));
-$this->endWidget();
-?>
+<?php $this->endWidget(); ?>
+
 </div><!-- form -->

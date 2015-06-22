@@ -2,12 +2,45 @@
 
 class PermissionsController extends Controller
 {
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+                    'showModules', 'newTeacherPermission', 'addTeacher'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+                    'showModules', 'newTeacherPermission', 'addTeacher'),
+                'users'=>array('*'),
+            ),
+        );
+    }
+
+    function isAdministrator()
+    {
+        if(AccessHelper::isAdmin())
+            return true;
+        else
+            return false;
+    }
 
     public function actionIndex()
 	{
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
         $model = new Permissions('search');
         if(isset($_GET['Permissions']))
             $model->attributes=$_GET['Permissions'];
@@ -46,16 +79,10 @@ class PermissionsController extends Controller
     }
 
     public function actionEdit(){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
         $this->render('edit');
     }
 
     public function actionNewPermission(){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
         $rights = [];
         if (isset($_POST['read'])) {
             array_push($rights, 'read');
@@ -98,10 +125,6 @@ class PermissionsController extends Controller
     }
 
     public function actionDelete($id, $resource){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
-
         $result = Yii::app()->db->createCommand()->delete('permissions', 'id_user=:id_user AND id_resource=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
 
         $this->actionIndex();

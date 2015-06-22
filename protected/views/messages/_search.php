@@ -1,27 +1,38 @@
+<?php
+/* @var $this MessagesController */
+/* @var $model Messages */
+/* @var $form CActiveForm */
+?>
+
 <div class="wide form">
 
-<?php $form = $this->beginWidget('GxActiveForm', array(
-	'action' => Yii::app()->createUrl($this->route),
-	'method' => 'get',
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'action'=>Yii::app()->createUrl($this->route),
+	'method'=>'get',
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model, 'id'); ?>
-		<?php echo $form->dropDownList($model, 'id', GxHtml::listDataEx(Sourcemessages::model()->findAllAttributes(null, true)), array('prompt' => Yii::t('app', 'All'))); ?>
+		<?php echo $form->label($model,'id_record'); ?>
+		<?php echo $form->textField($model,'id_record'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'language'); ?>
-		<?php echo $form->textField($model, 'language', array('maxlength' => 16)); ?>
+		<?php echo $form->label($model,'id'); ?>
+		<?php echo $form->textField($model,'id'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model, 'translation'); ?>
-		<?php echo $form->textArea($model, 'translation'); ?>
+		<?php echo $form->label($model,'language'); ?>
+		<?php echo $form->textField($model,'language',array('size'=>16,'maxlength'=>16)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'translation'); ?>
+		<?php echo $form->textArea($model,'translation',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo GxHtml::submitButton(Yii::t('app', 'Search')); ?>
+		<?php echo CHtml::submitButton('Search'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

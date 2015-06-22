@@ -4,6 +4,7 @@
  * This is the model class for table "messages".
  *
  * The followings are the available columns in table 'messages':
+ * @property integer $id_record
  * @property integer $id
  * @property string $language
  * @property string $translation
@@ -34,7 +35,7 @@ class Messages extends CActiveRecord
 			array('language', 'length', 'max'=>16),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, language, translation', 'safe', 'on'=>'search'),
+			array('id_record, id, language, translation', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,16 +57,12 @@ class Messages extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id_record' => 'Id Record',
 			'id' => 'ID',
 			'language' => 'Language',
 			'translation' => 'Translation',
 		);
 	}
-
-    public function primaryKey()
-    {
-        return array('id', 'language');
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -85,12 +82,14 @@ class Messages extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('id_record',$this->id_record);
 		$criteria->compare('id',$this->id);
 		$criteria->compare('language',$this->language,true);
 		$criteria->compare('translation',$this->translation,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+
 		));
 	}
 

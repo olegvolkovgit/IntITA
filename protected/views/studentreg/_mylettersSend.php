@@ -23,7 +23,7 @@
                 'dataProvider'=>$receivedLettersProvider,
                 'itemView'=>'/letters/_receivedLetters',
                 'template'=>'{items}{pager}',
-                'emptyText'=>'Прийнятих листів нема',
+                'emptyText'=>'Прийнятих листів немає',
                 'pager' => array(
                     'firstPageLabel'=>'<<',
                     'lastPageLabel'=>'>>',
@@ -41,7 +41,7 @@
                 'dataProvider'=>$sentLettersProvider,
                 'itemView'=>'/letters/_sentLetters',
                 'template'=>'{items}{pager}',
-                'emptyText'=>'відправлених листів нема',
+                'emptyText'=>'відправлених листів немає',
                 'pager' => array(
                     'firstPageLabel'=>'<<',
                     'lastPageLabel'=>'>>',

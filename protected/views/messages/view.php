@@ -1,31 +1,29 @@
 <?php
+/* @var $this MessagesController */
+/* @var $model Messages */
 
-$this->breadcrumbs = array(
-	$model->label(2) => array('index'),
-	GxHtml::valueEx($model),
+$this->breadcrumbs=array(
+	'Messages'=>array('index'),
+	$model->id_record,
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('app', 'List') . ' ' . $model->label(2), 'url'=>array('index')),
-	array('label'=>Yii::t('app', 'Create') . ' ' . $model->label(), 'url'=>array('create')),
-	array('label'=>Yii::t('app', 'Update') . ' ' . $model->label(), 'url'=>array('update', 'id' => $model->translation)),
-	array('label'=>Yii::t('app', 'Delete') . ' ' . $model->label(), 'url'=>'#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->translation), 'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url'=>array('admin')),
+	array('label'=>'List Messages', 'url'=>array('index')),
+	array('label'=>'Create Messages', 'url'=>array('create')),
+	array('label'=>'Update Messages', 'url'=>array('update', 'id'=>$model->id_record)),
+	array('label'=>'Delete Messages', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id_record),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Manage Messages', 'url'=>array('admin')),
 );
 ?>
 
-<h1><?php echo Yii::t('app', 'View') . ' ' . GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
+<h1>View Messages #<?php echo $model->id_record; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data' => $model,
-	'attributes' => array(
-array(
-			'name' => 'id0',
-			'type' => 'raw',
-			'value' => $model->id0 !== null ? GxHtml::link(GxHtml::encode(GxHtml::valueEx($model->id0)), array('sourcemessages/view', 'id' => GxActiveRecord::extractPkValue($model->id0, true))) : null,
-			),
-'language',
-'translation',
+	'data'=>$model,
+	'attributes'=>array(
+		'id_record',
+		'id',
+		'language',
+		'translation',
 	),
 )); ?>
-

@@ -80,9 +80,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <div class="aboutInfo">
                         <?php $post::getTwitterLink($post->twitter);?>
                     </div>
-                    <div class="aboutInfo">
-                        <p><?php $post::getCourses('Курси самогоних апаратів 6-го рівня');?></p>
-                    </div>
+<!--                    <div class="aboutInfo">-->
+<!--                        <p>--><?php //$post::getCourses('Курси самогоних апаратів 6-го рівня');?><!--</p>-->
+<!--                    </div>-->
                 </td>
             </tr>
         </table>

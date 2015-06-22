@@ -1,14 +1,25 @@
+<?php
+/* @var $this MessagesController */
+/* @var $data Messages */
+?>
+
 <div class="view">
 
-	<?php echo GxHtml::encode($data->getAttributeLabel('translation')); ?>:
-	<?php echo GxHtml::link(GxHtml::encode($data->translation), array('view', 'id' => $data->translation)); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('id_record')); ?>:</b>
+	<?php echo CHtml::link(CHtml::encode($data->id_record), array('view', 'id'=>$data->id_record)); ?>
 	<br />
 
-	<?php echo GxHtml::encode($data->getAttributeLabel('id')); ?>:
-		<?php echo GxHtml::encode(GxHtml::valueEx($data->id0)); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
+	<?php echo CHtml::encode($data->id); ?>
 	<br />
-	<?php echo GxHtml::encode($data->getAttributeLabel('language')); ?>:
-	<?php echo GxHtml::encode($data->language); ?>
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('language')); ?>:</b>
+	<?php echo CHtml::encode($data->language); ?>
 	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('translation')); ?>:</b>
+	<?php echo CHtml::encode($data->translation); ?>
+	<br />
+
 
 </div>
