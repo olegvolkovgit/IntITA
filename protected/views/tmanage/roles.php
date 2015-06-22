@@ -21,12 +21,49 @@ $this->menu=array(
     'summaryText' => '',
     'columns'=>array(
         array(
-            'header'=>'Викладач',
-            'value'=>'TeacherHelper::getTeacherName($data->teacher)',
+            'header'=>'ID',
+            'value'=>'$data->id',
         ),
         array(
-            'header'=>'Тренер',
-            'value'=>'TeacherHelper::getRoleTitle($data->role)',
+            'header'=>'Назва українською',
+            'value'=>'$data->title_ua',
+        ),
+        array(
+            'header'=>'Назва російською',
+            'value'=>'$data->title_ru',
+        ),
+        array(
+            'header'=>'Назва англійською',
+            'value'=>'$data->title_en',
+        ),
+        array(
+            'header'=>'Опис',
+            'value'=>'$data->description',
+        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{view}{update}{delete}',
+            'buttons'=>array
+            (
+                'view' => array(
+                    //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                    'url' => 'Yii::app()->createUrl("tmanage/showAttributes", array("role"=>$data->primaryKey))',
+                    'label' => 'Атрибути ролі',
+                ),
+                'update' => array
+                (
+                    'label'=>'Редагувати',
+                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                    'url' => 'Yii::app()->createUrl("tmanage/updateRole", array("id"=>$data->primaryKey))',
+                ),
+
+                'delete' => array
+                (
+                    'label'=>'Видалити',
+                    'url' => 'Yii::app()->createUrl("roles/delete", array("id"=>$data->primaryKey))',
+                    'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                ),
+            ),
         ),
     ),
 )); ?>

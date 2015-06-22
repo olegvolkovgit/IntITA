@@ -3,8 +3,8 @@
 /* @var $model RoleAttribute */
 
 $this->breadcrumbs=array(
-    'Role Attributes'=>array('index'),
-    'Create',
+    'Ролі викладачів'=>array('roles'),
+    'Додати роль',
 );
 
 $this->menu=array(
@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-    <h1>Create RoleAttribute</h1>
+    <h1>Додати атрибут ролі</h1>
 
 <?php $this->renderPartial('_formRoleAttribute', array('model'=>$model)); ?>

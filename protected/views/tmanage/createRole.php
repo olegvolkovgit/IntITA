@@ -9,7 +9,7 @@
 $this->breadcrumbs=array(
     'Викладачі'=>array('index'),
     'Роль'=>array('roles'),
-    'Додати викладача',
+    'Додати роль',
 );
 ?>
 

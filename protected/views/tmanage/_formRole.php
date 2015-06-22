@@ -1,6 +1,7 @@
 <?php
 /* @var $model Roles */
 /* @var $form CActiveForm */
+/* $this RolesController */
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
@@ -8,8 +9,10 @@
 <div class="form">
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'role-form',
+        'action'=>Yii::app()->createUrl('roles/create'),
         'htmlOptions'=>array(
             'class'=>'formatted-form',
+            'enctype'=>'multipart/form-data',
             'method'=>'POST',
         ),
         // Please note: When you enable ajax validation, make sure the corresponding
