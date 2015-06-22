@@ -166,11 +166,7 @@ class TmanageController extends Controller
 
     public function actionRoles()
     {
-        $dataProvider=new CActiveDataProvider('TeacherRoles', array(
-            'pagination' => array(
-                'pageSize' => 30,
-            ),
-        ));
+        $dataProvider=new CActiveDataProvider('Roles');
         $this->render('roles', array(
             'dataProvider' => $dataProvider,
         ));
@@ -223,4 +219,34 @@ class TmanageController extends Controller
             'model'=>$model,
         ));
     }
+
+    public function actionShowAttributes($role)
+    {
+        $model= Roles::model()->findByPk($role);
+
+        $this->render('showRoleAttributes',array(
+            'model'=>$model,
+        ));
+    }
+
+    public function actionUpdateRole($id)
+    {
+        $model=$this->loadModel($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if(isset($_POST['Roles']))
+        {
+            $model->attributes=$_POST['Roles'];
+            if($model->save())
+                $this->redirect(array('roles'));
+        }
+
+        $this->render('updateRole',array(
+            'model'=>$model,
+        ));
+    }
+
+
 }
