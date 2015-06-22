@@ -732,4 +732,9 @@ div.letterbody{
     margin: 10px 10px 10px 10px;
     white-space: pre-wrap;
 }
+div.errorMessage{
+    color: #c72929;
+    margin-left: 90px;
+    margin-bottom: 5px;
+}
 /*send letter*/
