@@ -46,7 +46,7 @@ class Teacher extends CActiveRecord
             array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>'Недопустимі символи!'),
             array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!'),
             array('tel', 'length', 'max'=>13),
-            array('foto_url, subjects, tel', 'length', 'max'=>100),
+            array('foto_url, subjects', 'length', 'max'=>100),
             array('readMoreLink', 'length', 'max'=>255),
             array('email, skype', 'length', 'max'=>50),
             array('email','email'),

@@ -28,8 +28,10 @@
             </ol>
             </div>
             <div class="BBCode">
-                <form action="" method="post">
-                    <textarea class="editor"></textarea>
+                <form action="http://ii.itatests.com" method="post">
+                    <input type="hidden" name="task" value="1">
+                    <input type="hidden" name="lang" value="c">
+                    <textarea name="code" > </textarea>
                     <input href="#" id="lessonTask2" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
                 </form>
             </div>
