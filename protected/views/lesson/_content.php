@@ -43,6 +43,9 @@
             case 8:
                 $this->renderPartial('_labelBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
+            case 9:
+                $this->renderPartial('_imageBlock', array('data'=>$data, 'editMode' => $editMode));
+                break;
             default:
                 echo $data['html_block'];
         }

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 16:52:27
+-- Date/time:                    2015-06-22 18:00:23
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,7 +28,8 @@ INSERT INTO `element_type` (`id`, `type`) VALUES
 	(5, 'task'),
 	(6, 'final task'),
 	(7, 'instruction'),
-	(8, 'label');
+	(8, 'label'),
+	(9, 'image');
 /*!40000 ALTER TABLE `element_type` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

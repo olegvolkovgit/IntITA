@@ -10,7 +10,11 @@
     padding-bottom: 20px;
     height: 200px;
 }
- 
+
+img {
+    max-width: 790px;
+}
+
 .lectureImageMain
 {
 position:absolute;

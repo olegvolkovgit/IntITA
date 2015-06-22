@@ -82,16 +82,28 @@ class LessonController extends Controller{
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = Yii::app()->request->getPost('order');
 
-        if ($idType == '2'){ //if we want to load video, we finding video link
-            $tempArray = explode(" ", $htmlBlock);
-            for ($i = count($tempArray)-1; $i > 0; $i--) {
-                if ($this->startsWith($tempArray[$i], 'src="')) {
-                    $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
-                    $model->html_block = $link;
+        switch ($idType){
+            case '2':
+                 //if we want to load video, we finding video link
+                $tempArray = explode(" ", $htmlBlock);
+                for ($i = count($tempArray)-1; $i > 0; $i--) {
+                    if ($this->startsWith($tempArray[$i], 'src="')) {
+                        $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
+                        $model->html_block = $link;
+                    }
                 }
-            }
-        } else {
-            $model->html_block = $htmlBlock;
+                break;
+            case '9':
+                $tempArray = explode(" ", $htmlBlock);
+                for ($i = count($tempArray)-1; $i > 0; $i--) {
+                    if ($this->startsWith($tempArray[$i], 'src="')) {
+                        $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 6);
+                        $model->html_block = $link;
+                    }
+                }
+                break;
+            default:
+                $model->html_block = $htmlBlock;
         }
 
         $model->id_type = $idType;

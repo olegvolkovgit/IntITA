@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 16:50:18
+-- Date/time:                    2015-06-22 18:00:28
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -446,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~9 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -456,7 +456,8 @@ INSERT INTO `element_type` (`id`, `type`) VALUES
 	(5, 'task'),
 	(6, 'final task'),
 	(7, 'instruction'),
-	(8, 'label');
+	(8, 'label'),
+	(9, 'image');
 /*!40000 ALTER TABLE `element_type` ENABLE KEYS */;
 
 
@@ -668,7 +669,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~30 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -696,7 +697,11 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
 	(42, 1, 20, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
 	(43, 1, 21, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
-	(45, 1, 22, 'text', 1, '<p>y6</p>');
+	(45, 1, 22, 'text', 1, '<p>y6</p>'),
+	(46, 1, 23, 'text', 1, '<iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/9eiRmWLcASw" frameborder="0" allowfullscreen=""></iframe>'),
+	(47, 1, 24, 'video', 2, '//www.youtube.com/embed/9eiRmWLcASw"'),
+	(56, 2, 2, 'text', 1, '<p><img src="/IntITA/images/lecture/2139e6cb5c89529517e7c5ae47c49763.jpg" style="font-family: Arial, Helvetica, Verdana, Tahoma, sans-serif; font-size: 14px; line-height: 1.6em; color: rgb(51, 51, 51);"></p>'),
+	(57, 2, 3, 'image', 9, '/IntITA/images/lecture/29ce2affb5bdaa6c330f9ed52d0cf64a.jpg"></p');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 

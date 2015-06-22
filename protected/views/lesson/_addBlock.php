@@ -31,6 +31,7 @@
                 <option value="6" >Підсумкове завдання
                 <option value="7" >Інструкція
                 <option value="8" >Заголовок (для змісту)
+                <option value="9" >Зображення
             </select>
             <br>
             <br>
