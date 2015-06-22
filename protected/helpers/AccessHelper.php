@@ -246,13 +246,15 @@ class AccessHelper
         }
         return true;
     }
-    public static function accesLecture($order){
+    public static function accesLecture($id){
         if (Yii::app()->user->isGuest){
             return false;
         }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 0 && $order>2){
-            return false;
+        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
+            $permission = new Permissions();
+            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
+                return false;
+            }
         }
         return true;
     }

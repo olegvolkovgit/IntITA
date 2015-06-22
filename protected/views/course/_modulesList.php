@@ -113,7 +113,7 @@ $editMode = ($canEdit)?'true':'';
                 if (AccessHelper::accesModule($data->order))
                     return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)));
                 else
-                    return $data->module_name;
+                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)),array('class'=>'disableModule'));
             }
         ),
     ),

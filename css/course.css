@@ -471,3 +471,6 @@ body .grid-view table.items td.titleColumn{
     /*padding: 0;*/
     vertical-align: top;
 }
+a.disableModule{
+    color:#666666;
+}
