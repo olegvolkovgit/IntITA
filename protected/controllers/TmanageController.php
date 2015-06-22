@@ -228,25 +228,4 @@ class TmanageController extends Controller
             'model'=>$model,
         ));
     }
-
-    public function actionUpdateRole($id)
-    {
-        $model=$this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if(isset($_POST['Roles']))
-        {
-            $model->attributes=$_POST['Roles'];
-            if($model->save())
-                $this->redirect(array('roles'));
-        }
-
-        $this->render('updateRole',array(
-            'model'=>$model,
-        ));
-    }
-
-
 }

@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 );
 $this->menu=array(
     array('label'=>'Додати роль', 'url'=>array('createRole')),
-    array('label'=>'Додати атрибут ролі', 'url'=>array('addRoleAttribute')),
+    //array('label'=>'Додати атрибут ролі', 'url'=>array('addRoleAttribute')),
 );
 ?>
     <h2>Ролі викладачів</h2>
@@ -47,14 +47,14 @@ $this->menu=array(
             (
                 'view' => array(
                     //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("tmanage/showAttributes", array("role"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("roles/view", array("id"=>$data->primaryKey))',
                     'label' => 'Атрибути ролі',
                 ),
                 'update' => array
                 (
                     'label'=>'Редагувати',
                     //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                    'url' => 'Yii::app()->createUrl("tmanage/updateRole", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("roles/update", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array

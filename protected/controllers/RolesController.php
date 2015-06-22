@@ -60,7 +60,32 @@ class RolesController extends Controller
 		));
 	}
 
-	/**
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        $model=$this->loadModel($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if(isset($_POST['Roles']))
+        {
+            $model->attributes=$_POST['Roles'];
+            if($model->save())
+                $this->redirect(array('tmanage/roles'));
+        }
+
+        $this->render('update',array(
+            'model'=>$model,
+        ));
+    }
+
+
+    /**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
@@ -75,7 +100,7 @@ class RolesController extends Controller
 		{
 			$model->attributes=$_POST['Roles'];
 			if($model->save())
-				$this->redirect('/IntITA/tmanage/roles');
+				$this->redirect('/tmanage/roles');
 		}
 
 		$this->render('create',array(

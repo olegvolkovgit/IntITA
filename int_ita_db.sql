@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 18:00:28
+-- Date/time:                    2015-06-22 18:57:03
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -5930,7 +5930,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 -- Dumping data for table int_ita_db.roles: ~7 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `title_en`, `title_ru`, `title_ua`, `description`) VALUES
-	(1, 'Trainer', 'Тренер', 'Тренер', ''),
+	(1, 'Trainer', 'Тренер', 'Тренер', 'Trainer. Help student with simple and common problems.'),
 	(2, 'Consultant', 'Консультант', 'Консультант', 'Online consultations'),
 	(3, 'Leader', 'Руководитель проекта', 'Керівник проекта', 'Leader for single and team students projects'),
 	(4, 'Author', 'Автор модуля', 'Автор модуля', 'Module owner'),
@@ -6508,7 +6508,8 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(39, 3, 20),
 	(40, 4, 22),
 	(41, 2, 23),
-	(44, 1, 20);
+	(44, 1, 20),
+	(45, 2, 2);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
 
