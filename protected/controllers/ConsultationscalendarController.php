@@ -100,12 +100,12 @@ class ConsultationscalendarController extends Controller
         $teachersconsult = [];
 
         $criteria= new CDbCriteria;
-        $criteria->alias = 'attribute_value';
-        $criteria->select = 'teacher';
-        $criteria->addCondition('attribute=5 and value='.$lectureId);
-        $temp = AttributeValue::model()->findAll($criteria);
+        $criteria->alias = 'consultant_modules';
+        $criteria->select = 'consultant';
+        $criteria->addCondition('module='.$lecture->idModule);
+        $temp = ConsultantModules::model()->findAll($criteria);
         for($i = 0; $i < count($temp);$i++){
-            array_push($teachersconsult, $temp[$i]->teacher);
+            array_push($teachersconsult, $temp[$i]->consultant);
         }
 
         $criteriaData= new CDbCriteria;
