@@ -5,7 +5,7 @@ class LessonController extends Controller{
 
     public function initialize($id)
     {
-        if ($id != 1){
+        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
         if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
