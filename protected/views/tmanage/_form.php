@@ -28,10 +28,6 @@ $list = CHtml::listData($models,
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Поля з <span class="required">*</span> обов&#8217;язкові.</p>
-
-    <?php echo $form->errorSummary($model); ?>
-
     <div class="row">
         <?php echo $form->labelEx($model,'first_name'); ?>
         <?php echo $form->textField($model,'first_name',array('size'=>35,'maxlength'=>35)); ?>
@@ -82,7 +78,7 @@ $list = CHtml::listData($models,
 
     <div class="row">
         <?php echo $form->labelEx($model,'tel'); ?>
-        <?php echo $form->textField($model,'tel',array('size'=>60,'maxlength'=>100)); ?>
+        <?php echo $form->textField($model,'tel',array('size'=>60,'maxlength'=>13)); ?>
         <?php echo $form->error($model,'tel'); ?>
     </div>
 
@@ -93,13 +89,13 @@ $list = CHtml::listData($models,
     </div>
 
     <?php if($scenario == "create"){?>
-    <div class="row">
-        <?php echo $form->labelEx($model,'user_id'); ?>
-        <?php echo $form->dropDownList($model, 'user_id',
-            $list,
-            array('empty' => '(Виберіть користувача)'));?>
-        <?php echo $form->error($model,'user_id'); ?>
-    </div>
+        <div class="row">
+            <?php echo $form->labelEx($model,'user_id'); ?>
+            <?php echo $form->dropDownList($model, 'user_id',
+                $list,
+                array('empty' => '(Виберіть користувача)'));?>
+            <?php echo $form->error($model,'user_id'); ?>
+        </div>
     <?php }?>
 
     <div class="row buttons">
