@@ -451,7 +451,7 @@ class StudentRegController extends Controller
             if(isset($_POST['StudentReg']))
             {
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
-                $this->redirect(Yii::app()->createUrl('studentreg/profile'));
+                $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId())));
             }
         }
     }
