@@ -236,4 +236,24 @@ class AccessHelper
         }
         return $result;
     }
+    public static function accesModule($order){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0 && $order>2){
+            return false;
+        }
+        return true;
+    }
+    public static function accesLecture($order){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0 && $order>2){
+            return false;
+        }
+        return true;
+    }
 }

@@ -652,6 +652,9 @@ a.createLetter{
     padding: 5px 5px 5px 5px;
     border-bottom: 1px solid #d8d8d8;
 }
+.letter a div:hover{
+    cursor: pointer;
+}
 .letter div{
     color: #000000;
 }
@@ -727,5 +730,11 @@ table.letterinfo{
 }
 div.letterbody{
     margin: 10px 10px 10px 10px;
+    white-space: pre-wrap;
+}
+div.errorMessage{
+    color: #c72929;
+    margin-left: 90px;
+    margin-bottom: 5px;
 }
 /*send letter*/

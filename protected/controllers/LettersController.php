@@ -138,6 +138,11 @@ class LettersController extends Controller
     {
         $tab='checked';
         $model= new Letters();
+        if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
         if(isset($_POST['Letters']))
         {
             $model->attributes=$_POST['Letters'];

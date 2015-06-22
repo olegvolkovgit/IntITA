@@ -30,7 +30,7 @@ class Letters extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sender_id, addressee_id, text_letter,theme, date', 'required'),
+			array('sender_id, addressee_id, text_letter,theme, date', 'required', 'message'=>Yii::t('error','0268')),
 			array('sender_id, addressee_id, status', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
