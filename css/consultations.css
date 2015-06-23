@@ -247,6 +247,7 @@ div.datetimepicker-minutes{
     text-align: left;
 }
 #consultationButton{
+    float:left;
     width: 130px;
     height: 34px;
     border-radius: 10px;
@@ -254,6 +255,18 @@ div.datetimepicker-minutes{
     color: #ffffff;
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 15px;
+}
+#cancelButton{
+    float:left;
+    width: 130px;
+    height: 34px;
+    border-radius: 10px;
+    background: #4b75a4;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15px;
 }
 /*----Calendar----*/
 /*----TimeConsultation----*/

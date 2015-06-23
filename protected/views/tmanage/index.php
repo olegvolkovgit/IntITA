@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 <?php
 /* @var $dataProvider CActiveDataProvider */
 $this->breadcrumbs=array(

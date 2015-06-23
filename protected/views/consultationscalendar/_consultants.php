@@ -66,7 +66,7 @@
                                     Вітаємо!
                                 </p>
                                 <p class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>">
-                                    у Вас буде запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $data['last_name']." ".$data['first_name']." ".$data['middle_name'];?>.
+                                    у Вас буде запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $data['last_name']." ".$data['first_name']." ".$data['middle_name'];?>. Для підтвердження натисніть "Добре".
                                 </p>
                                 <input type="hidden" id="<?php echo 'datecons'.$data['teacher_id']?>" name="datecons" />
                                 <input type="hidden" id="<?php echo 'timecons'.$data['teacher_id']?>" name="timecons" />
@@ -75,6 +75,7 @@
                                 <input type="hidden"  name="lectureid" value="<?php echo $lecture->id; ?>" />
                                 <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
                             </form>
+                            <button id="cancelButton" onclick="exit()" >Скасувати</button>
                         </div>
                     </div>
                     <a id="consultationCalendar" onclick="showCalendar('<?php echo $data['teacher_id']; ?>')">
