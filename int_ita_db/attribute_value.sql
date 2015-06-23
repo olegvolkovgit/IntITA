@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 16:52:27
+-- Date/time:                    2015-06-23 16:44:21
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `attribute_value` (
   CONSTRAINT `FK_attribute_value_roles` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.attribute_value: ~43 rows (approximately)
+-- Dumping data for table int_ita_db.attribute_value: ~38 rows (approximately)
 /*!40000 ALTER TABLE `attribute_value` DISABLE KEYS */;
 INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
 	(2, 1, 1, '10'),

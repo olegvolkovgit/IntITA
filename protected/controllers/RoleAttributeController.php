@@ -93,7 +93,7 @@ class RoleAttributeController extends Controller
 		{
 			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('tmanage/showAttributes','role'=>$model->role));
 		}
 
 		$this->render('update',array(

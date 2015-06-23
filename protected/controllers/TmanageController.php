@@ -206,7 +206,7 @@ class TmanageController extends Controller
         ));
     }
 
-    public function actionAddRoleAttribute(){
+    public function actionAddRoleAttribute($role){
         $model=new RoleAttribute;
         if(isset($_POST['RoleAttribute']))
         {
@@ -214,7 +214,7 @@ class TmanageController extends Controller
             if($model->save())
                 $this->redirect(array('viewRoleAttribute','id'=>$model->id));
         }
-
+        $model->role = $role;
         $this->render('addRoleAttribute',array(
             'model'=>$model,
         ));
@@ -222,31 +222,17 @@ class TmanageController extends Controller
 
     public function actionShowAttributes($role)
     {
-        $model= Roles::model()->findByPk($role);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'role='.$role;
+        $dataProvider = new CActiveDataProvider('RoleAttribute', array(
+            'criteria'=>$criteria,
+        ));
+
+        $model = Roles::model()->findByPk($role);
 
         $this->render('showRoleAttributes',array(
             'model'=>$model,
+            'dataProvider'=>$dataProvider,
         ));
     }
-
-    public function actionUpdateRole($id)
-    {
-        $model=$this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if(isset($_POST['Roles']))
-        {
-            $model->attributes=$_POST['Roles'];
-            if($model->save())
-                $this->redirect(array('roles'));
-        }
-
-        $this->render('updateRole',array(
-            'model'=>$model,
-        ));
-    }
-
-
 }

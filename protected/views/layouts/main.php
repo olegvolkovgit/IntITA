@@ -65,7 +65,7 @@ $header = new Header();?>
                     foreach (["ua","en","ru"] as $val)
                     {
                 ?>
-                        <a href="site/changeLang/lg/<?=$val?>" <?=(Yii::app()->session['lg']==$val)?'class="selectedLang"':''?>><?=$val?></a>
+                        <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>$val));?>" <?=(Yii::app()->session['lg']==$val)?'class="selectedLang"':''?>><?=$val?></a>
                 <?php
                     }
                 ?>

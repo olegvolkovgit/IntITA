@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Messages', 'url'=>array('create')),
+	//array('label'=>'Create Messages', 'url'=>array('create')),
 	array('label'=>'Manage Messages', 'url'=>array('admin')),
 );
 ?>

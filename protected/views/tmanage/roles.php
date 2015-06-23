@@ -7,11 +7,11 @@
  */
 /* @var $dataProvider CActiveDataProvider */
 $this->breadcrumbs=array(
-    'Викладачі','Ролі викладачів'
+    'Викладачі'=>array('index'),
+    'Ролі викладачів'
 );
 $this->menu=array(
     array('label'=>'Додати роль', 'url'=>array('createRole')),
-    array('label'=>'Додати атрибут ролі', 'url'=>array('addRoleAttribute')),
 );
 ?>
     <h2>Ролі викладачів</h2>
@@ -54,7 +54,7 @@ $this->menu=array(
                 (
                     'label'=>'Редагувати',
                     //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                    'url' => 'Yii::app()->createUrl("tmanage/updateRole", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("roles/update", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array

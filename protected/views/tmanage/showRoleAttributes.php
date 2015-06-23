@@ -1,9 +1,64 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 22.06.2015
- * Time: 16:24
- */
+/* @var $this RolesController */
+/* @var $model Roles */
+
+$this->breadcrumbs=array(
+    'Ролі викладачів'=>array('index'),
+    'Атрибути ролі '.$model->title_ua,
+);
+
+$this->menu=array(
+    array('label'=>'Додати атрибут ролі', 'url'=>array('tmanage/addRoleAttribute/role/'.$model->id)),
+    array('label'=>'Список ролей', 'url'=>array('tmanage/roles')),
+);
 ?>
-Hello world!
+
+<h1>Атрибути ролі <?php echo $model->title_ua; ?></h1>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'dataProvider'=>$dataProvider,
+    'htmlOptions'=>array('class'=>'grid-view custom'),
+    'summaryText' => '',
+    'columns'=>array(
+        array(
+            'header'=>'Роль',
+            'value'=>'TeacherHelper::getRoleTitle($data->role)',
+        ),
+        array(
+            'header'=>'Тип',
+            'value'=>'$data->type',
+        ),
+        array(
+            'header'=>'Назва українською',
+            'value'=>'$data->name_ua',
+        ),
+        array(
+            'header'=>'Назва російською',
+            'value'=>'$data->name_ru',
+        ),
+        array(
+            'header'=>'Назва англійською',
+            'value'=>'$data->name',
+        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{update}{delete}',
+            'buttons'=>array
+            (
+                'update' => array
+                (
+                    'label'=>'Редагувати',
+                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                    'url' => 'Yii::app()->createUrl("roleAttribute/update", array("id"=>$data->primaryKey))',
+                ),
+
+                'delete' => array
+                (
+                    'label'=>'Видалити',
+                    'url' => 'Yii::app()->createUrl("roleAttribute/delete", array("id"=>$data->primaryKey))',
+                    'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                ),
+            ),
+        ),
+    ),
+)); ?>

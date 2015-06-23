@@ -18,14 +18,14 @@ class PermissionsController extends Controller
         return array(
             array('allow',
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'showModules', 'newTeacherPermission', 'addTeacher'),
+                    'newTeacherPermission', 'addTeacher'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'showModules', 'newTeacherPermission', 'addTeacher'),
+                    'newTeacherPermission', 'addTeacher'),
                 'users'=>array('*'),
             ),
         );

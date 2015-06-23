@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 <?php
 /* @var $dataProvider CActiveDataProvider */
 $this->breadcrumbs=array(
@@ -32,7 +31,7 @@ $this->menu=array(
         array(
             'class'=>'CLinkColumn',
             'label'=>'Ролі викладача',
-            'urlExpression'=>'"/IntITA/tmanage/showRoles?id=".$data->teacher_id',
+            'urlExpression'=>'Yii::app()->createUrl("tmanage/showRoles", array("id"=>$data->teacher_id))',
             'header'=>'Author'
         ),
         array(
