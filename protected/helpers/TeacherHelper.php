@@ -46,8 +46,7 @@ class TeacherHelper
     }
 
     public static function getRoleTitle($id){
-        $title = 'title_ua';
-        return Roles::model()->findByPk($id)->$title;
+        return Roles::model()->findByPk($id)->title_ua;
     }
 
     public static function getTeacherAttributeValue($teacher, $attribute){
@@ -121,6 +120,20 @@ class TeacherHelper
     public static function getConsultantModules($teacher){
         $modules = ConsultantModules::getModulesByConsultant($teacher);
         $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+    public static function getRoleTitlesList(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, title_ua';
+        $criteria->distinct = true;
+        $criteria->toArray();
+
+        $result = '';
+        $titles = Roles::model()->findAll($criteria);
+        for($i = 0; $i < count($titles); $i++){
+            $result[$i][$titles[$i]['id']] = $titles[$i]['title_ua'];
+        }
         return $result;
     }
 }

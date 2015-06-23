@@ -33,7 +33,7 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->textField($model,'role'); ?>
+        <?php echo $form->dropDownList($model,'role', TeacherHelper::getRoleTitlesList()); ?>
         <?php echo $form->error($model,'role'); ?>
     </div>
 
@@ -56,7 +56,7 @@
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
 
     <?php $this->endWidget(); ?>

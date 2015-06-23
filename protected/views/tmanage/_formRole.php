@@ -10,7 +10,7 @@
 
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'role-form',
-        'action'=>Yii::app()->createUrl('roles/create'),
+        'action'=>Yii::app()->createUrl('/roles/create'),
         'htmlOptions'=>array(
             'class'=>'formatted-form',
             'enctype'=>'multipart/form-data',

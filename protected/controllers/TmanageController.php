@@ -222,10 +222,17 @@ class TmanageController extends Controller
 
     public function actionShowAttributes($role)
     {
-        $model= Roles::model()->findByPk($role);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'role='.$role;
+        $dataProvider = new CActiveDataProvider('RoleAttribute', array(
+            'criteria'=>$criteria,
+        ));
+
+        $model = Roles::model()->findByPk($role);
 
         $this->render('showRoleAttributes',array(
             'model'=>$model,
+            'dataProvider'=>$dataProvider,
         ));
     }
 }
