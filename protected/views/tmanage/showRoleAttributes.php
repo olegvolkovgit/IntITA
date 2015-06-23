@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-    array('label'=>'Додати атрибут ролі', 'url'=>array('tmanage/addRoleAttribute/model/'.$model->id)),
+    array('label'=>'Додати атрибут ролі', 'url'=>array('tmanage/addRoleAttribute/role/'.$model->id)),
     array('label'=>'Список ролей', 'url'=>array('tmanage/roles')),
 );
 ?>
