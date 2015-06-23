@@ -14,7 +14,8 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
-    'htmlOptions'=>array('class'=>'grid-view custom'),
+    //'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
+    'htmlOptions'=>array('class'=>'grid-view custom','id'=>'adminTeacherList'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
     'columns'=>array(
 

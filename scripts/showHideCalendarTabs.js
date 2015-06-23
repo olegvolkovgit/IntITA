@@ -5,6 +5,8 @@
 function showCalendar(teacherId){
     var container=$(".timeBlock").children("div");
     container.hide();
+    var infblock=$(".consinf").children("div");
+    infblock.hide();
     var calendarId='#dateTimePicker'+teacherId;
         $(calendarId).focus();
 }
@@ -58,8 +60,14 @@ function goNext(teacherId) {
 $('#consultationButton').click(function() {
     document.getElementById('consultationInfo').style.display="none";
 });
+/*закрываем окно*/
 function goOut(teacherId) {
     var timeId='#timeConsultation'+teacherId;
     var container = $(timeId);
     container.hide();
+}
+/*закрываем окно*/
+function exit() {
+    var infblock=$(".consinf").children("div");
+    infblock.hide();
 }

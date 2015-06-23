@@ -169,8 +169,8 @@ class StudentRegController extends Controller
                 {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                     $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
-                    $model->avatar="/avatars/".$_FILES["upload"]["name"];
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/images/avatars/".$_FILES['upload']['name']);
+                    $model->avatar=$_FILES["upload"]["name"];
                 }
                 if ($model->hasErrors()) {
                     $this->render("studentreg", array('model'=>$model,'tab'=>$tab));
@@ -423,8 +423,8 @@ class StudentRegController extends Controller
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                     $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
-                    $model->updateByPk($id, array('avatar' => "/avatars/".$_FILES["upload"]["name"]));
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/images/avatars/".$_FILES['upload']['name']);
+                    $model->updateByPk($id, array('avatar' => $_FILES["upload"]["name"]));
                     Yii::app()->user->setFlash('messageedit', 'Оновлено' );
                 }
             }
@@ -459,9 +459,9 @@ class StudentRegController extends Controller
     {
         $id=Yii::app()->user->id;
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
-        if($model->avatar!=='/avatars/noname.png'){
-            unlink(Yii::getpathOfAlias('webroot').$model->avatar);
-            $model->updateByPk($id, array('avatar' => "/avatars/".'noname.png'));
+        if($model->avatar!=='noname.png'){
+            unlink(Yii::getpathOfAlias('webroot').'/images/avatars/'.$model->avatar);
+            $model->updateByPk($id, array('avatar' => 'noname.png'));
             $this->redirect(Yii::app()->createUrl('studentreg/edit'));
         } else {
             $this->redirect(Yii::app()->createUrl('studentreg/edit'));

@@ -7,7 +7,7 @@
  */
 $user = new StudentReg();
 $app = Yii::app();
-$teacher = Teacher::model()->findByPk($lecture->idTeacher);
+$teacher = $teachers[0];
 ?>
 <div class="teacherBlock">
     <div

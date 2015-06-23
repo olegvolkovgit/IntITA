@@ -110,7 +110,7 @@ $editMode = ($canEdit)?'true':'';
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) {
-                if (AccessHelper::accesModule($data->order))
+                if (AccessHelper::accesModule($data->module_ID))
                     return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)));
                 else
                     return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)),array('class'=>'disableModule'));

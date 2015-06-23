@@ -43,7 +43,7 @@ class Teacher extends CActiveRecord
             array('first_name, middle_name, last_name, email, user_id', 'required'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
-            array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>'Недопустимі символи!'),
+            array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
             array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!'),
             array('tel', 'length', 'max'=>13),
             array('foto_url, subjects', 'length', 'max'=>100),
