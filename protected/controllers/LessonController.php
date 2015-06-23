@@ -34,6 +34,20 @@ class LessonController extends Controller{
                 'pageSize' => '200',
             )
         );
+
+        $owners = [];
+
+        $criteria1 = new CDbCriteria();
+        $criteria1->alias='teacher_module';
+        $criteria1->select = 'idTeacher';
+        $criteria1->addCondition('idModule='.$lecture->idModule);
+        $criteria1->toArray();
+        $temp = TeacherModule::model()->findAll($criteria1); //info about owners
+        for($i = 0; $i < count($temp);$i++){
+            array_push($owners, $temp[$i]->idTeacher);
+        }
+        $teachers = Teacher::model()->findAllByPk($owners);
+
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
         $this->render('index', array(
@@ -41,6 +55,7 @@ class LessonController extends Controller{
             'lecture' => $lecture,
             'editMode' => $editMode,
             'countBlocks' => $countBlocks,
+            'teachers' => $teachers,
         ));
     }
 
