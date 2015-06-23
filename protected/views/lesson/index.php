@@ -46,7 +46,7 @@ $this->breadcrumbs=array(
 
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teachers'=>$teachers));?>
+    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
