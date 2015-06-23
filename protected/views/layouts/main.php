@@ -59,13 +59,13 @@ $header = new Header();?>
             <?=CHtml::image(Yii::app()->request->baseUrl."/images/hamburger.jpg","Menu")?>
         </div>
         <div id="hambMenu">
-            <a href="<?=Yii::app()->request->baseUrl?>" class="logo"><img src="<?php echo Yii::app()->request->baseUrl;?>/css/images/Logo_small.png"/></a>
+            <a href="<?php echo Yii::app()->request->baseUrl; ?>" class="logo"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Logo_small.png"/></a>
             <div class="lang downmain">
                 <?php
                     foreach (["ua","en","ru"] as $val)
                     {
                 ?>
-                        <a href="site/changeLang/lg/<?=$val?>" <?=(Yii::app()->session['lg']==$val)?'class="selectedLang"':''?>><?=$val?></a>
+                        <a href="/site/changeLang/lg/<?php echo $val; ?>" <?php echo (Yii::app()->session['lg']==$val)?'class="selectedLang"':''; ?>><?php echo $val; ?></a>
                 <?php
                     }
                 ?>
@@ -91,6 +91,7 @@ $header = new Header();?>
         $(window).scroll(function()
         {
             $("#hambNav").css({ marginTop: $(this).scrollTop()>0?"1%":"2.5%" });
+            $("#hambMenu").hide();
         });
         $(document).click(function() { $("#hambMenu").hide(); });
         $("#hambMenu").click(function(e) { e.stopPropagation(); });
@@ -163,6 +164,15 @@ $header = new Header();?>
                     <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout" class="down"><?php echo $header->getLogoutButton(); ?></a>
                 <?php }?>
             </div>
+            <!--div class="enterButton">
+                <div class="button_border down">
+                </div>
+                <?php if(Yii::app()->user->isGuest) {
+                    echo CHtml::link($header->getEnterButton(), '#', array('class'=>'enter_button down','onclick' => '$("#mydialog").dialog("open"); return false;',));
+                } else {?>
+                    <a class="enter_button down" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout"><?php echo $header->getLogoutButton(); ?></a>
+                <?php }?>
+            </div-->
             <div id="menulist">
                 <ul>
                     <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a></li>

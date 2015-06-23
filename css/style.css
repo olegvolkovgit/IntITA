@@ -110,7 +110,7 @@ p {
     height: 0;
 }
 /******************enter button***************/
-#enterButton{
+#enterButton, .enterButton{
     display: inline-block;
     position: relative;
     float: right;
@@ -118,10 +118,10 @@ p {
     width: 70px;
     margin-right: 35px;
 }
-#enterButton.downmain{
+#enterButton.downmain, .enterButton.downmain{
     margin-right: 23px;
 }
-#button_border {
+#button_border, .button_border {
     position: absolute;
     border: 2px solid #4b70a3;
     border-radius: 10px 10px 0 0;
@@ -132,13 +132,13 @@ p {
     width: 74px;
 
 }
-#button_border.down{
+#button_border.down, .button_border.down{
      display: none;
  }
-#button_border.downmain{
+#button_border.downmain, .button_border.downmain{
     display: none;
 }
-#enter_button {
+#enter_button, .enter_button {
     position: absolute;
     margin-left: 120px;
     margin-top: 80px;
@@ -154,13 +154,13 @@ p {
     text-decoration: none;
     z-index: 6;
 }
-#enter_button:hover {
+#enter_button:hover, .enter_button:hover {
     background: #454545;
 }
-#enter_button:active {
+#enter_button:active, .enter_button:active {
     background: #363636;
 }
-#enter_button.down {
+#enter_button.down, .enter_button.down {
     display: inline-block;
     margin-left: 0;
     z-index: 6;
@@ -176,7 +176,7 @@ p {
     text-decoration: none;
     margin-top: 12px;
 }
-#enter_button.downmain {
+#enter_button.downmain, .enter_button.downmain {
     position: absolute;
     float:right;
     margin-left:0;
@@ -193,10 +193,10 @@ p {
     text-decoration: none;
     z-index: 6;
 }
-#enter_button.down:hover{
+#enter_button.down:hover, .enter_button.down:hover{
     background: #454545;
 }
-#enter_button.downmain:hover{
+#enter_button.downmain:hover, .enter_button.downmain:hover{
     background: #454545;
 }
 /*********************enter button end****************/
