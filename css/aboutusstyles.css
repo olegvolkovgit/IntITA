@@ -302,6 +302,10 @@
     bottom: 35px;
     display: inline-block;
 }
+.detailkop td:first-child
+{
+    width: 225px;
+}
 #pig{
     position:relative;
     left: 35px;
@@ -341,6 +345,7 @@
     left: 250px;
     margin-top: 30px;
     width: 600px;
+    white-space: nowrap;
 }
 #fimouns{
     margin-left: 390px;
@@ -380,8 +385,7 @@
 }
 #beginn{
     position: relative;
-    left: 355px;
-    width: 500px;
+    text-align: center;
     margin-top: 40px;
 }
 .buutt{

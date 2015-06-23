@@ -164,6 +164,7 @@ div.image{
     position: relative;
     text-align: left;
     float: left;
+    padding-bottom: 5px;
 }
 .regCheckbox  label{
     color:#4B75A4;
@@ -254,7 +255,6 @@ input.error,
 textarea.error,
 select.error
 {
-    border-color: #c72929;
     box-shadow: 0 0 4px #c72929;
 }
 .rowPass div.error input,.rowPass input.error{

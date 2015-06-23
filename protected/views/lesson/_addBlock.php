@@ -31,6 +31,7 @@
                 <option value="6" >Підсумкове завдання
                 <option value="7" >Інструкція
                 <option value="8" >Заголовок (для змісту)
+                <option value="9" >Зображення
             </select>
             <br>
             <br>
@@ -45,7 +46,7 @@ if ($editMode) {
     $this->widget('ImperaviRedactorWidget', array(
         'selector' => "#newTextBlock",
         'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
+            'imageUpload' => Yii::app()->createUrl('/lesson/uploadImage'),
             'lang' => 'ua',
             'toolbar' => true,
             'iframe' => true,

@@ -26,13 +26,13 @@ $stepSize = $mainpage['stepSize'];
             ?>
             <div class="stepLeft" 	style="width:<?php echo $stepSize; ?>" >
                 <div class="stepUrl">
-                    <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png');?>">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $stepValue->stepImage);?>">
+                    <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png'); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $stepValue->stepImage); ?>">
                 </div>
                 <div class="line">
                 </div>
 
-                <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png');?>">
+                <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png'); ?>">
                 <div class="stepArticle">
                     <p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
                     <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>
@@ -49,12 +49,12 @@ $stepSize = $mainpage['stepSize'];
             ?>
             <div class="stepRight" style="width:<?php echo $stepSize; ?>" >
                 <div class="stepUrl">
-                    <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png');?>">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $stepValue->stepImage);?>">
+                    <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png'); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $stepValue->stepImage); ?>">
                 </div>
                 <div class="line">
                 </div>
-                <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png');?>">
+                <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png'); ?>">
                 <div class="stepArticle">
                     <p class="stepNumber"><?php echo $stepValue->stepNumber; ?></p>
                     <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>

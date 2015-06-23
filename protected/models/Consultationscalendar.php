@@ -109,7 +109,7 @@ class Consultationscalendar extends CActiveRecord
     /*Визначаєм клас комірки з інтервалом, натиснута чи не натиснута*/
     public static function classTD ($id, $times, $date)
     {
-        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date'=>$date, ':id' => $id));
+        $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id) or (date_cons=:date and user_id=:idu)", array(':date'=>$date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
         $classTD = '';
         $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
         foreach($a as $td){
@@ -121,6 +121,22 @@ class Consultationscalendar extends CActiveRecord
         }
         return $classTD;
      }
+    /*Визначаєм чи зайнятий час консультації перед збереженням*/
+    public static function consultationFree ($id, $times, $date)
+    {
+        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date'=>$date, ':id' => $id));
+        $result = true;
+        $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
+        $endTime = intval(substr($times, 6, 2))*60 + intval(substr($times, 9, 2));
+        foreach($a as $td){
+            $startCons = intval(substr($td->start_cons, 0, 2))*60 + intval(substr($td->start_cons, 3, 2));
+            $endCons = intval(substr($td->end_cons, 0, 2))*60 + intval(substr($td->end_cons, 3, 2));
+            if( ($startTime>=$startCons && $startTime<$endCons) || ($startCons>=$startTime && $startCons<$endTime)|| ($endCons>$startTime && $endCons<=$endTime)){
+                $result = false;
+            }
+        }
+        return $result;
+    }
     /*значення таблиці з интервалом 20хв в ширину 3*/
     public static function timeInterval($a,$b,$c) {
         $delta=60/$c;

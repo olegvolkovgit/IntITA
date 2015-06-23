@@ -22,11 +22,9 @@ function hideForm(id, title){
     document.getElementById(title).innerHTML = '';
 }
 
-$(document).mouseup(function (e) {
+$("a").click(function (){
     var container = $('#moduleForm');
-    if (container.has(e.target).length === 0){
-        container.hide();
-    }
+    container.hide();
 });
 
 

@@ -38,9 +38,6 @@ div.subLinks{
     width:66%;
     z-index: 0;
 }
-.lessonBlock span {
-    font-weight: bold;
-}
 h1.lessonTheme{
     color: #4b75a4;
     font-size:36px;
@@ -91,16 +88,21 @@ span.subChapter{
     text-decoration: none;
     color: #666666;
 }
-div.lessonCode {
+div.code {
     background-color: #d6ebe0;
     color: #114988;
     padding: 7px 0px 7px 20px;
     font-weight:bold;
 }
-.lessonCode p{
+.code p{
     color:#114988;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.content {
+    display: inline-block;
+    float: right;
+    width: 89%;
 }
 div.lessonBG {
     border-top:3px solid #ffffff;
@@ -155,8 +157,8 @@ span.colorGreen {
 }
 .instrTaskText {
     display: inline-block;
-    float:right;
-    width: 89%;
+    /*float:right;*/
+    width: 100%;
     font-size: 16px;
     padding-right: 20px;
 }
@@ -227,6 +229,8 @@ div.lessonButFinal
 }
 .BBCode textarea {
     height: 130px;
+    width: 99%;
+    resize: none;
 }
 .BBCode input[type="submit"] {
     width: 90px;
@@ -323,4 +327,35 @@ color:#4b75a4 ;
 }
 #do4 img{
     position: relative; top: 8px; padding-right: 1px;
+}
+
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.428571429;
+    color: #333333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+pre {
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+
+pre.prettyprint {
+    margin-bottom: 20px;
+}
+
+pre {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border: 0;
 }

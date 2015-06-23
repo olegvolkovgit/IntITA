@@ -5,7 +5,7 @@ class LessonController extends Controller{
 
     public function initialize($id)
     {
-        if ($id != 1){
+        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
         if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
@@ -82,16 +82,28 @@ class LessonController extends Controller{
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = Yii::app()->request->getPost('order');
 
-        if ($idType == '2'){ //if we want to load video, we finding video link
-            $tempArray = explode(" ", $htmlBlock);
-            for ($i = count($tempArray)-1; $i > 0; $i--) {
-                if ($this->startsWith($tempArray[$i], 'src="')) {
-                    $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
-                    $model->html_block = $link;
+        switch ($idType){
+            case '2':
+                 //if we want to load video, we finding video link
+                $tempArray = explode(" ", $htmlBlock);
+                for ($i = count($tempArray)-1; $i > 0; $i--) {
+                    if ($this->startsWith($tempArray[$i], 'src="')) {
+                        $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
+                        $model->html_block = $link;
+                    }
                 }
-            }
-        } else {
-            $model->html_block = $htmlBlock;
+                break;
+            case '9':
+                $tempArray = explode(" ", $htmlBlock);
+                for ($i = count($tempArray)-1; $i > 0; $i--) {
+                    if ($this->startsWith($tempArray[$i], 'src="')) {
+                        $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 6);
+                        $model->html_block = $link;
+                    }
+                }
+                break;
+            default:
+                $model->html_block = $htmlBlock;
         }
 
         $model->id_type = $idType;
@@ -175,6 +187,37 @@ class LessonController extends Controller{
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function actionUploadImage(){
+        $path = StaticFilesHelper::createLectureImagePath();
+        // files storage folder
+        $dir = Yii::getpathOfAlias('webroot').$path;
+
+        $_FILES['file']['type'] = strtolower($_FILES['file']['type']);
+
+        if ($_FILES['file']['type'] == 'image/png'
+            || $_FILES['file']['type'] == 'image/jpg'
+            || $_FILES['file']['type'] == 'image/gif'
+            || $_FILES['file']['type'] == 'image/jpeg'
+            || $_FILES['file']['type'] == 'image/pjpeg')
+        {
+            // setting file's mysterious name
+            $filename = md5(date('YmdHis')).'.jpg';
+            $file = $dir.$filename;
+
+            // copying
+            copy($_FILES['file']['tmp_name'], $file);
+
+
+            // displaying file
+            $array = array(
+                'filelink' => '/images/lecture/'.$filename
+            );
+
+            echo stripslashes(json_encode($array));
+
         }
     }
 

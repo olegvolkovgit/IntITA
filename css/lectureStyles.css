@@ -10,7 +10,11 @@
     padding-bottom: 20px;
     height: 200px;
 }
- 
+
+img {
+    max-width: 790px;
+}
+
 .lectureImageMain
 {
 position:absolute;
@@ -68,7 +72,7 @@ margin-left:12px;
 #lectureTimeText
 {
 position:absolute;
-margin-left: 120px;
+margin-left: 100px;
 margin-top: -21px;
 display:inline-block;
 text-align: left ;
@@ -82,7 +86,7 @@ font-style:italic;
 position:absolute;
 display:inline-block;
 margin-top:-21px;
-margin-left:160px;
+margin-left:150px;
 }
 #iconImage
 {

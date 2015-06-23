@@ -25,7 +25,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
 ?>
 <?php if(AccessHelper::canAddResponse()){?>
 <div class="lessonTask">
-    <img class="lessonBut" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/lessButton.png">
+    <img class="lessonBut" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'lessButton.png');?>">
     <div class="lessonButName" unselectable="on"><?php echo Yii::t('teacher', '0187'); ?></div>
     <div class="lessonLine"></div>
     <div class="responseBG">
@@ -70,7 +70,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
         </div>
         <div class="BBCode">
             <form  action="<?php echo Yii::app()->createUrl('profile/response', array('id' => $model->teacher_id));?>" method="post">
-                <textarea class="editor" name="response" ><?php echo $respval; ?></textarea>
+                <textarea class="editor" name="response" ></textarea>
                 <input type="hidden" id="rat1" name="material" value="<?php echo $knowval; ?>"/>
                 <input type="hidden" id="rat2" name="behavior" value="<?php echo $behval; ?>"/>
                 <input type="hidden" id="rat3" name="motiv" value="<?php echo $motivval; ?>"/>
@@ -85,7 +85,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
 <?php } ?>
 <script type="text/javascript">
 
-    $.fn.raty.defaults.path = "<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/img/";
+    $.fn.raty.defaults.path = "<?php echo Yii::app()->request->baseUrl; ?>/images/rating/";
 
     $('#material').raty({
         score: <?php echo $knowldg; ?>,

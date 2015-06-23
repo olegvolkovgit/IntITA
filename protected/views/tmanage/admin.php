@@ -21,7 +21,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+    <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
     <h1>Управління викладачами</h1>
 
     <p>

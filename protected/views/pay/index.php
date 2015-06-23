@@ -55,6 +55,11 @@ $this->breadcrumbs=array(
 
             <input type="submit" value="Сплатити зараз">
     </form>
+    <?php if(Yii::app()->user->hasFlash('error')){?>
+        <div style="color: red">
+            <?php echo Yii::app()->user->getFlash('error'); ?>
+        </div>
+    <?php } ?>
     <?php if(Yii::app()->user->hasFlash('pay')){?>
         <div style="color: green">
             <?php echo Yii::app()->user->getFlash('pay'); ?>

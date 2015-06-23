@@ -3,7 +3,7 @@
 <!-- studprofile style -->
 <?php
 /* @var $this StudentprofileController */
-/* @var $model Studentprofile */
+/* @var $post Studentprofile */
 /* @var $form CActiveForm */
 ?>
 <?php
@@ -13,6 +13,7 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
 );
 ?>
+<?php if (!isset($tab)) $tab=''; ?>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">
@@ -79,9 +80,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <div class="aboutInfo">
                         <?php $post::getTwitterLink($post->twitter);?>
                     </div>
-                    <div class="aboutInfo">
-                        <p><?php $post::getCourses('Курси самогоних апаратів 6-го рівня');?></p>
-                    </div>
+<!--                    <div class="aboutInfo">-->
+<!--                        <p>--><?php //$post::getCourses('Курси самогоних апаратів 6-го рівня');?><!--</p>-->
+<!--                    </div>-->
                 </td>
             </tr>
         </table>
@@ -103,8 +104,8 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <label  for="tab6" class="tabsDown1" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
 <!--            <input id="tab7" type="radio" name="tabs">-->
 <!--            <label for="tab7" title="--><?php //echo Yii::t('profile', '0114'); ?><!--">--><?php //echo Yii::t('profile', '0114'); ?><!--</label>-->
-<!--            <input id="tab8" type="radio" name="tabs">-->
-<!--            <label class="tabsDown" for="tab8" title="--><?php //echo Yii::t('profile', '0115'); ?><!--">--><?php //echo Yii::t('profile', '0115'); ?><!--</label>-->
+            <input id="tab8" type="radio" name="tabs" <?php echo $tab?>>
+            <label class="tabsDown" for="tab8" title="<?php echo Yii::t('profile', '0115'); ?>"><?php echo Yii::t('profile', '0115'); ?></label>
             <input id="tab9" type="radio" name="tabs">
             <label class="tabsDown" for="tab9" title="<?php echo Yii::t('profile', '0116'); ?>"><?php echo Yii::t('profile', '0116'); ?></label>
             <input id="tab10" type="radio" name="tabs">
@@ -131,9 +132,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
 <!--            <section id="myDownload">-->
 <!--                --><?php //$this->renderPartial('_myDownload'); ?>
 <!--            </section>-->
-<!--            <section id="mylettersSend">-->
-<!--                --><?php //$this->renderPartial('_mylettersSend'); ?>
-<!--            </section>-->
+            <section id="mylettersSend">
+                <?php $this->renderPartial('_mylettersSend', array('letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider)); ?>
+            </section>
             <section id="myMark">
                 <?php $this->renderPartial('_myMark'); ?>
             </section>

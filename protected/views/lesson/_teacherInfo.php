@@ -9,11 +9,7 @@ $user = new StudentReg();
 $app = Yii::app();
 $teacher = Teacher::model()->findByPk($lecture->idTeacher);
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
-
 <div class="teacherBlock">
-<!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url);//$teacher->foto_url; ?><!--">-->
     <div
         style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
         <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
@@ -38,48 +34,11 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
                         </div>
                     </li>
                     <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-                    <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
+                    <?php if(AccessHelper::canAddConsultation()){
                         ?>
                     <div class="calendar">
-                        <!--Календарь-->
-                        <div class="input-append date form_datetime" id="form_datetime">
-                            <input size="16" type="text" value="" readonly id="dateTimePicker">
-                            <span class="add-on"><i class="icon-th"></i></span>
-                            <!--Скрита форма з Ajax кнопкою для передачі і виводу зайнятих інтервалів консультацій-->
-                            <?php $form=$this->beginWidget('CActiveForm', array(
-                                'id'=>'ajaxchange-form',
-                            )); ?>
-                            <input type="hidden" id="dateconsajax" name="dateconsajax" />
-                            <input type="hidden" name="teacherIdajax" value=<?php echo $teacher->teacher_id; ?> />
-                            <?php
-                            echo CHtml::ajaxSubmitButton('Updatedate', CController::createUrl('lesson/UpdateAjax'), array('update' => '#timeConsultation'), array('id' => 'hiddenAjaxButton'));
-                            ?>
-                            <?php $this->endWidget(); ?>
-                        </div>
-                        <!--Інтервали консультацій-->
-                        <div id="timeConsultation">
-                           <?php $this->renderPartial('_timeConsult', array('teacherId'=>$teacher->teacher_id,'day'=>'')); ?>
-                        </div>
-                        <!--Інформативна форма після вибору консультації-->
-                        <div id="consultationInfo">
-                            <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">
-                                <p class="consInfHeader">
-                               Вітаємо!
-                                </p>
-                                <p id="consInfText">
-                                    у Вас запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;?>.
-                                </p>
-                                <input type="hidden" id="datecons" name="datecons" />
-                                <input type="hidden" id="timecons" name="timecons" />
-                                <input type="hidden"  name="teacherid" value="<?php echo $teacher->teacher_id; ?>" />
-                                <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
-                                <input type="hidden"  name="lectureid" value="<?php echo $lecture->id; ?>" />
-                                <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
-                            </form>
-                        </div>
-                        <a id="consultationCalendar">
-                            <?php echo Yii::t('lecture','0079'); ?>
-                        </a>
+                        <?php
+                        echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id))); ?>
                     </div>
                     <?php
                     }
@@ -89,33 +48,5 @@ $teacher = Teacher::model()->findByPk($lecture->idTeacher);
     </div>
 </div>
 
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ua.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js"></script>
-
-
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/parseTable.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/showCalendar.js"></script>
-
-<script type="text/javascript">
-var firstday = new Date();
-var lastday = new Date();
-lastday.setDate(firstday.getDate()+366);
-    $('#dateTimePicker').datetimepicker({
-        format: "yyyy-mm-dd",
-        language: "<?php echo $app->session['lg']?>",
-        weekStart: 1,
-        todayBtn:  0,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0,
-        startDate:  firstday,
-        endDate:  lastday
-    });
-    $('#dateTimePicker').datetimepicker('setDaysOfWeekDisabled', [0,6]);
-</script>
 
 

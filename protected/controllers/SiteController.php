@@ -3,7 +3,6 @@
 class SiteController extends Controller
 {
 	/* @var $mainpage Mainpage*/
-	/* @var $modelCarousel Carousel */
 	/* @var $step1 Step*/
 	/* @var $step2 Step*/
 	/* @var $step3 Step*/
@@ -12,7 +11,6 @@ class SiteController extends Controller
 	/* @var $objAbout1 AboutUs*/
 	/* @var $objAbout2 AboutUs*/
 	/* @var $objAbout3 AboutUs*/
-	/* @var $sourceMessages MyCDbMessageSource*/
     /*
 	 * Declares class-based actions.
 	 */
@@ -42,40 +40,15 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index1.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$modelCarousel = new Carousel();
-		$mainpage = new Mainpage();
-		$mainpage->setValueById(0);
+		$mainpage = Mainpage::model()->findByPk(0);
 
 		$arraySteps = $this->initSteps();
 		$arrayAboutUs = $this->initAboutus();
-		
-		$sliderPictures = array(
-			'slider1'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(1)->imagesPath.$modelCarousel->findByPk(1)->pictureURL,
-			'slider2'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(2)->imagesPath.$modelCarousel->findByPk(2)->pictureURL,
-			'slider3'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(3)->imagesPath.$modelCarousel->findByPk(3)->pictureURL,
-			'slider4'=>Yii::app()->request->baseUrl.$modelCarousel->findByPk(4)->imagesPath.$modelCarousel->findByPk(4)->pictureURL,
-		);
-		
+
 		$this->render('index', array(
-			'slider1'=>$sliderPictures['slider1'],
-			'slider2'=>$sliderPictures['slider2'],
-			'slider3'=>$sliderPictures['slider3'],
-			'slider4'=>$sliderPictures['slider4'],
             'mainpageModel'=>$mainpage,
 			'mainpage'=>array(
-				'sliderLine'=> $mainpage->sliderLineURL,
-				'sliderTexture'=> $mainpage->sliderTextureURL,
-				'buttonStart'=>$mainpage->sliderButtonText,
-				'sliderHeader'=>$mainpage->sliderHeader,
-				'sliderText'=>$mainpage->sliderText,
-				'title'=>$mainpage->title,
-				'header1'=>$mainpage->header1,
-				'header2'=>$mainpage->header2,
-				'hexagon'=>$mainpage->hexagon,
-				'subLineImage'=>$mainpage->subLineImage,
 				'stepSize'=>$mainpage->stepSize,
-				'imageNetwork'=>$mainpage->imageNetwork,
-				'formFon'=>$mainpage->formFon,
 			),
 			'block1'=>$arrayAboutUs['objAbout1'],
 			'block2'=>$arrayAboutUs['objAbout2'],
@@ -137,26 +110,6 @@ class SiteController extends Controller
 		);
 	}
 
-	public function actionAboutdetail()
-	{
-		//$dataProvider = new CActiveDataProvider('Mainpage');
-        $mainpage = new Mainpage(0);
-		$mainpage->setValueById(0);
-		$arrayAboutUs = $this->initAboutus();
-		$this->render('aboutdetail', array(
-			'mainpage'=>array(
-				'title'=>$mainpage->title,
-				'header1'=>$mainpage->header1,
-				'linkName'=>$mainpage->linkName,
-				'subLineImage'=>$mainpage->subLineImage,
-				'subheader1'=>$mainpage->subheader1,
-			),
-			'block1'=>$arrayAboutUs['objAbout1'],
-			'block2'=>$arrayAboutUs['objAbout2'],
-			'block3'=>$arrayAboutUs['objAbout3'],
-		));
-	}
-
 	/**
 	 * This is the action to handle external exceptions.
 	 */
@@ -183,6 +136,7 @@ class SiteController extends Controller
 	/**
 	 * Displays the login page
 	 */
+    /* Express registration, check-sending on email adresses token to activate your account */
 	public function actionRapidReg()
 	{
         if(isset($_POST['isExtended']))
@@ -202,20 +156,51 @@ class SiteController extends Controller
 		if(isset($_POST['StudentReg']))
 		{
 			$model->attributes=$_POST['StudentReg'];
-
-// validate user input and redirect to the previous page if valid
+            $getToken=rand(0, 99999);
+            $getTime=date("Y-m-d H:i:s");
+            $model->token=sha1($getToken.$getTime);
             if($model->validate()) {
                 $model->save();
-                $modellogin = new StudentReg('loginuser');
-                $modellogin->attributes=$_POST['StudentReg'];
-                if($modellogin->login())
-                    $this->redirect(Yii::app()->request->baseUrl.'/site');
-			}
-            Yii::app()->user->setFlash('forminfo', 'Ви ввели не вірні дані.');
-            $this->redirect(Yii::app()->request->baseUrl . '/site#form');
+                $subject=Yii::t('activeemail','0298');
+                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text=Yii::t('activeemail','0299').
+                    " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                mail($model->email,$subject,$text,$headers);
+                $this->render('activationinfo',array(
+                    'model'=>$model,
+                ));
+			}else{
+                Yii::app()->user->setFlash('forminfo', Yii::t('error','0300'));
+                $this->redirect(Yii::app()->request->baseUrl . '/site#form');
+            }
 		}
 
 	}
+
+    /* Activation account*/
+    public function actionAccActivation($token,$email)
+    {
+        $model=$this->getTokenAcc($token);
+        $modelemail=StudentReg::model()->findByAttributes(array('email'=>$email));
+        if($model->token==$modelemail->token){
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('status' => 1));
+            $this->render('activationaccount',array(
+                'model'=>$model,
+            ));
+        } else{
+            throw new CHttpException(404,Yii::t('exception','0237'));
+        }
+    }
+    /* Token validation*/
+    public function getTokenAcc($token)
+    {
+        $model=StudentReg::model()->findByAttributes(array('token'=>$token));
+        if($model===null)
+            throw new CHttpException(404,Yii::t('exception','0237'));
+        else
+            return $model;
+    }
 
     public function actionLogin()
     {
@@ -230,9 +215,14 @@ class SiteController extends Controller
         if(isset($_POST['StudentReg']))
         {
             $model->attributes=$_POST['StudentReg'];
+            $statusmodel=StudentReg::model()->findByAttributes(array('email'=>$model->email));
             // validate user input and redirect to the previous page if valid
-            if($model->login())
-                $this->redirect(Yii::app()->request->baseUrl.'/site');
+            if($statusmodel->status==1){
+                if($model->login())
+                    $this->redirect(Yii::app()->request->baseUrl.'/site');
+            }else $this->render('notactivated',array(
+                'model'=>$model,
+            ));
         }
     }
 	/**
@@ -294,6 +284,7 @@ class SiteController extends Controller
                         break;
                 }
             }
+            $model->status = 1;
             if($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
@@ -303,6 +294,7 @@ class SiteController extends Controller
             }
         }
     }
+    /* Checking the existence of a token  and lifetime*/
     public function getToken($token)
     {
         $time=date("Y-m-d H:i:s");
@@ -318,7 +310,7 @@ class SiteController extends Controller
         return $model;
     }
 
-
+    /* Change password if token true*/
     public function actionVerToken($token)
     {
         $model=$this->getToken($token);
@@ -392,14 +384,13 @@ class SiteController extends Controller
         {
             $subject=Yii::t('recovery','0281');
             $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-            $text=Yii::t('recovery','0239')."<br/>
-                    <a href='http://intita.itatests.com/index.php?r=site/vertoken/view&token=".$getModel->token."'>".Yii::t('recovery','0240')."</a>";
+            $text=Yii::t('recovery','0239').
+                " http://intita.itatests.com/index.php?r=site/vertoken/view&token=".$getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
-            Yii::app()->user->setFlash('forgot','Посилання для відновлення паролю відправлено на вказану електронну пошту');
             mail($getModel->email,$subject,$text,$headers);
-            if(Yii::app()->user->isGuest)
-                $this->redirect(Yii::app()->createUrl('site/index'));
-            else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+            $this->render('resetpassinfo',array(
+                'model'=>$model,
+            ));
         }
     }
     public function actionResetEmail()
@@ -425,14 +416,13 @@ class SiteController extends Controller
             {
                 $subject=Yii::t('recovery','0282');
                 $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-                $text=Yii::t('recovery','0283')."<br/>
-                    <a href='http://intita.itatests.com/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email."'>".Yii::t('recovery','0284')."</a>";
+                $text=Yii::t('recovery','0283').
+                    " http://intita.itatests.com/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
-                Yii::app()->user->setFlash('forgot','Посилання для підтвердження email відправлено на вказану електронну пошту');
                 mail($modelReset->email,$subject,$text,$headers);
-                if(Yii::app()->user->isGuest)
-                    $this->redirect(Yii::app()->createUrl('site/index'));
-                else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
+                $this->render('/site/changeemailinfo',array(
+                    'model'=>$modelReset,
+                ));
             }
         }
     }

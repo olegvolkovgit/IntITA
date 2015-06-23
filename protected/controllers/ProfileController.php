@@ -178,36 +178,12 @@ class ProfileController extends Controller
                     $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
                     $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
                     $teacher->updateByPk($id, array('rating' => $teacher->getAverageRate($teacher->user_id)));
-                    $resp='';
                     Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
                 } else {
-                    $resp=$_POST['response'];
                     Yii::app()->user->setFlash('responseError', Yii::t('response', '0385'));
                 }
             }
-//            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            if (Yii::app()->user->getId() == $teacher->user_id) {
-                $editMode = 1;
-            } else {
-                $editMode = 0;
-            }
-            $criteria= new CDbCriteria;
-            $criteria->order = 'date DESC';
-            $criteria->condition = 'about='.$teacher->user_id;
-
-            $dataProvider = new CActiveDataProvider('Response', array(
-                'criteria'=>$criteria,
-                'pagination'=>array(
-                    'pageSize'=>5,
-                ),
-            ));
-
-            $this->render('index', array (
-                'model' => $teacher,
-                'editMode' => $editMode,
-                'dataProvider' => $dataProvider,
-                'respval'=>$resp,
-            ));
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
 

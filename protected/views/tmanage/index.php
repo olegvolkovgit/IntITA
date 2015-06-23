@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
     array('label'=>'Додати викладача', 'url'=>array('create')),
     array('label'=>'Управління викладачами', 'url'=>array('admin')),
-    array('label'=>'Ролі викладачів', 'url'=>array('roles')),
+    array('label'=>'Управління ролями викладачів', 'url'=>array('roles')),
 );
 ?>
 
@@ -18,6 +18,7 @@ $this->menu=array(
     'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
     'columns'=>array(
+
         array(
             'header'=>'Фото',
             'value'=>'StaticFilesHelper::createPath("image", "teachers",$data->foto_url)',
@@ -28,8 +29,10 @@ $this->menu=array(
             'value'=>'"{$data->last_name} {$data->first_name} {$data->middle_name}"',
         ),
         array(
-            'name'=>'profile_text_short',
-            'type'=>'raw',
+            'class'=>'CLinkColumn',
+            'label'=>'Ролі викладача',
+            'urlExpression'=>'"/IntITA/tmanage/showRoles?id=".$data->teacher_id',
+            'header'=>'Author'
         ),
         array(
             'header'=>'Ролі',

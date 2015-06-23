@@ -6,10 +6,14 @@
  * The followings are the available columns in table 'role_attribute':
  * @property integer $id
  * @property string $name
+ * @property integer $role
  * @property string $type
+ * @property string $name_ru
+ * @property string $name_ua
  *
  * The followings are the available model relations:
  * @property AttributeValue[] $attributeValues
+ * @property Roles $role0
  */
 class RoleAttribute extends CActiveRecord
 {
@@ -29,12 +33,13 @@ class RoleAttribute extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type', 'required'),
-			array('name', 'length', 'max'=>30),
+			array('name, role, type, name_ru, name_ua', 'required'),
+			array('role', 'numerical', 'integerOnly'=>true),
+			array('name, name_ru, name_ua', 'length', 'max'=>30),
 			array('type', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type', 'safe', 'on'=>'search'),
+			array('id, name, role, type, name_ru, name_ua', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +52,7 @@ class RoleAttribute extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'attributeValues' => array(self::HAS_MANY, 'AttributeValue', 'attribute'),
+			'role0' => array(self::BELONGS_TO, 'Roles', 'role'),
 		);
 	}
 
@@ -57,8 +63,11 @@ class RoleAttribute extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'type' => 'Type',
+			'name' => 'Назва атрибута українською',
+			'role' => 'Роль',
+			'type' => 'Тип',
+			'name_ru' => 'Назва атрибута російською',
+			'name_ua' => 'Назва атрибута українською',
 		);
 	}
 
@@ -82,7 +91,10 @@ class RoleAttribute extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('role',$this->role);
 		$criteria->compare('type',$this->type,true);
+		$criteria->compare('name_ru',$this->name_ru,true);
+		$criteria->compare('name_ua',$this->name_ua,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,16 +112,16 @@ class RoleAttribute extends CActiveRecord
 		return parent::model($className);
 	}
 
-    protected function beforeDelete()
+    /** scope
+     * @param $role
+     * @return RoleAttribute
+     */
+    public function type($role)
     {
-        if (parent::beforeDelete())
-        {
-            foreach ($this->attribute_value as $value)
-                $value->delete();
-
-            return true;
-        }
-
-        return false;
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 't.role=:type',
+            'params'=>array(':type'=>$role),
+        ));
+        return $this;
     }
 }

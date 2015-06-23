@@ -69,7 +69,6 @@ class JsTranslationController extends AbstractController
         // cached via cache backend, thus it's simplier to use Symfony's
         // Response class instead of JsonResponse.
         $response = new Response();
-
         $response->headers->set('Content-Type', 'text/javascript');
 
         // Set various cache headers

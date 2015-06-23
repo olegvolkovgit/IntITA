@@ -166,6 +166,7 @@ class AccessHelper
         }
         $user = Yii::app()->user->getId();
         if (StudentReg::model()->findByPk($user)->role == 3){
+
             return true;
         }
         return false;
@@ -234,5 +235,27 @@ class AccessHelper
             $result[$i]['alias'] = $teachers[$i]->first_name." ".$teachers[$i]->last_name.", ".$teachers[$i]->email;
         }
         return $result;
+    }
+    public static function accesModule($order){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0 && $order>2){
+            return false;
+        }
+        return true;
+    }
+    public static function accesLecture($id){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
+            $permission = new Permissions();
+            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

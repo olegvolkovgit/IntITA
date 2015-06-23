@@ -34,6 +34,9 @@ class StaticFilesHelper {
             case "editor":
                 $path = $path.'/editor/'.$name;
                 break;
+            case "avatars":
+                $path = $path.'/avatars/'.$name;
+                break;
             case 'mainpage':
                 $path = $path.'/mainpage/'.$name;
                 break;
@@ -53,7 +56,7 @@ class StaticFilesHelper {
                 $path = $path.'/aboutus/'.$name;
                 break;
             case 'profile':
-                $path = $path.'/profile/'.$name;
+                $path = $path.'/student/'.$name;
                 break;
             case 'teachers':
                 $path = $path.'/teachers/'.$name;
@@ -67,12 +70,24 @@ class StaticFilesHelper {
             case 'common':
                 $path = $path.'/common/'.$name;
                 break;
+            case 'icons':
+                $path = $path.'/icons/'.$name;
+                break;
+            case 'rating':
+                $path = $path.'/rating/'.$name;
+                break;
+            case 'signin':
+                $path = $path.'/signin/'.$name;
+                break;
             default:
                 break;
         }
         return $path;
     }
 
+    public static function createLectureImagePath(){
+        return '/images/lecture/';
+    }
 
     public static function createTxtPath($name){
         return Yii::app()->params['commonPath'].'/'.$name;
@@ -87,13 +102,4 @@ class StaticFilesHelper {
         return Yii::app()->params['commonPath'].'/'.$name;
     }
 
-    public static function setTeachersModules($id){
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'module';
-        $criteria->join='JOIN teacher_module ON teacher_module.idModule = module.module_ID';
-        $criteria->condition='teacher_module.idTeacher='.$id;
-        $criteria->distinct = true;
-        $modules = Module::model()->findAll($criteria);
-        return $modules;
-    }
 }

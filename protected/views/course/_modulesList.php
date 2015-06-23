@@ -7,6 +7,7 @@
  */
 $editMode = ($canEdit)?'true':'';
 ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
 <div class="courseModules">
     <?php
     if ($canEdit){
@@ -108,7 +109,12 @@ $editMode = ($canEdit)?'true':'';
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => 'CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)))',
+            'value' => function($data) {
+                if (AccessHelper::accesModule($data->order))
+                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)));
+                else
+                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)),array('class'=>'disableModule'));
+            }
         ),
     ),
     'summaryText' => '',

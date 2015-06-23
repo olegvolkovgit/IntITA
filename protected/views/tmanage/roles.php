@@ -5,17 +5,13 @@
  * Date: 16.06.2015
  * Time: 15:45
  */
-//$atts = AttributeValue::model()->findAllByAttributes(array('attribute'=>2));
-//for ($i = 0; $i < count($atts);$i++){
-//    echo $atts[$i]->teacher." - ".Roles::model()->findByPk($atts[$i]->attribute)->title." - ".StudentReg::model()->findByPk($atts[$i]->value)->firstName.'<br>';
-//}
 /* @var $dataProvider CActiveDataProvider */
 $this->breadcrumbs=array(
     'Викладачі','Ролі викладачів'
 );
 $this->menu=array(
     array('label'=>'Додати роль', 'url'=>array('createRole')),
-    array('label'=>'Показати ролі викладача', 'url'=>array('viewRoles')),
+    //array('label'=>'Додати атрибут ролі', 'url'=>array('addRoleAttribute')),
 );
 ?>
     <h2>Ролі викладачів</h2>
@@ -25,20 +21,49 @@ $this->menu=array(
     'summaryText' => '',
     'columns'=>array(
         array(
-            'header'=>'Викладач',
-            'value'=>'TeacherHelper::getTeacherName($data->teacher)',
+            'header'=>'ID',
+            'value'=>'$data->id',
         ),
         array(
-            'header'=>'Роль',
-            'value'=>'TeacherHelper::getRoleTitle($data->role)',
+            'header'=>'Назва українською',
+            'value'=>'$data->title_ua',
         ),
         array(
-            'header'=>'Початок',
-            'value'=>'$data->start_date',
+            'header'=>'Назва російською',
+            'value'=>'$data->title_ru',
         ),
         array(
-            'header'=>'Кінець',
-            'value'=>'$data->end_date',
+            'header'=>'Назва англійською',
+            'value'=>'$data->title_en',
+        ),
+        array(
+            'header'=>'Опис',
+            'value'=>'$data->description',
+        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{view}{update}{delete}',
+            'buttons'=>array
+            (
+                'view' => array(
+                    //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                    'url' => 'Yii::app()->createUrl("roles/view", array("id"=>$data->primaryKey))',
+                    'label' => 'Атрибути ролі',
+                ),
+                'update' => array
+                (
+                    'label'=>'Редагувати',
+                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                    'url' => 'Yii::app()->createUrl("roles/update", array("id"=>$data->primaryKey))',
+                ),
+
+                'delete' => array
+                (
+                    'label'=>'Видалити',
+                    'url' => 'Yii::app()->createUrl("roles/delete", array("id"=>$data->primaryKey))',
+                    'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                ),
+            ),
         ),
     ),
 )); ?>

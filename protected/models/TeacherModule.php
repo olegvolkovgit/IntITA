@@ -124,4 +124,17 @@ class TeacherModule extends CActiveRecord
             $model->save();
         }
     }
+    public static function getAuthorModules($author){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('idModule'),
+            'from' => 'teacher_module',
+            'where' => 'idTeacher=:id',
+            'order' => 'idTeacher',
+            'params' => array(':id' => $author),
+        ))->queryAll();
+
+        return (!empty($modules))?$modules:[];
+    }
+
+
 }

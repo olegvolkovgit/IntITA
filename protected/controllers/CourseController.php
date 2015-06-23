@@ -89,14 +89,6 @@ class CourseController extends Controller
         $criteria=new CDbCriteria();
         $criteria->addCondition('course='.$id);
 
-        $criteria1=new CDbCriteria();
-        $criteria1->alias = 'teacher';
-        $criteria1->join='JOIN teacher_module ON teacher_module.idTeacher=teacher.teacher_id 
-        				  JOIN module ON module.module_id=teacher_module.idModule';
-        $criteria->with = 'teacherModules';
-        $criteria1->condition = 'module.course='.$id;
-        $criteria1->distinct = true;
-
         $dataProvider = new CActiveDataProvider('Module', array(
             'criteria' =>$criteria,
             'pagination'=>false,
@@ -108,12 +100,6 @@ class CourseController extends Controller
         ));
 
         $dataProvider1 = new CActiveDataProvider('Teacher', array(
-        	'criteria' =>$criteria1,
-        	'sort'=>array(
-                'defaultOrder'=>array(
-                    'order'=>CSort::SORT_ASC,
-                )
-            )
         ));
 
         $canEdit = AccessHelper::isAdmin();
