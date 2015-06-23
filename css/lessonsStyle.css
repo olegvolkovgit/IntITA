@@ -37,6 +37,7 @@ div.subLinks{
     float: left;
     width:66%;
     z-index: 0;
+    word-wrap: break-word;
 }
 h1.lessonTheme{
     color: #4b75a4;
