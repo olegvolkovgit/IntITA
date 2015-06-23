@@ -29,7 +29,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                 </td>
             </tr>
         </table>
-        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl.$post->avatar; ?>"/>
+        <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
         <table class='profileInfo'>
             <tr>
                 <td>
