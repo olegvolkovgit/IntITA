@@ -47,8 +47,8 @@
     </form-->
     <?php $form=$this->beginWidget('CActiveForm',array(
         'action'=>array("teachers/teacherletter"),
-        /*'enableClientValidation' => true,
-        'enableAjaxValidation'=>true, */
+        'enableClientValidation' => true,
+        'enableAjaxValidation'=>true,
         'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
         'htmlOptions'=> array(
             'method'=>'post',
