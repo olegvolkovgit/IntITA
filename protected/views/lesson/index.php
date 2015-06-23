@@ -171,4 +171,6 @@ $this->breadcrumbs=array(
     }
 </script>
 </div>
-
+<!--send answer task-->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sendanswertask.js"></script>
+<!--send answer task-->
