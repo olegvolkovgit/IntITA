@@ -174,3 +174,6 @@ $this->breadcrumbs=array(
 <!--send answer task-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sendanswertask.js"></script>
 <!--send answer task-->
+<?php
+//if(isset($_POST['date']))
+//echo $_POST['date'] ?>

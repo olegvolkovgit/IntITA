@@ -189,3 +189,7 @@ img.lessonBut  {
     background: #454545;
     color: #fcfcfc;
 }
+.modelerrors{
+    color: red;
+    text-align: center;
+}
