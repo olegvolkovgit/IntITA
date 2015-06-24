@@ -237,6 +237,9 @@ class AccessHelper
         return $result;
     }
     public static function accesModule($id){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
         $lectures = Lecture::model()->findAll('idModule=:id', array(':id'=>$id));
         if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
             if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$id))
