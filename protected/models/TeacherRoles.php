@@ -97,6 +97,11 @@ class TeacherRoles extends CActiveRecord
 		));
 	}
 
+    public function primaryKey()
+    {
+        return array('teacher', 'role');
+    }
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -109,9 +114,13 @@ class TeacherRoles extends CActiveRecord
 	}
 
     public static function setTeacherRole($teacherId, $roleId){
-        $model = new TeacherRoles();
-        $model->teacher = $teacherId;
-        $model->role = $roleId;
+        if (TeacherRoles::model()->exists('teacher=:teacher and role=:attribute', array('teacher'=>$teacherId, 'attribute'=>$roleId))){
+            $model = TeacherRoles::model()->findByAttributes(array('teacher'=>$teacherId, 'role'=>$roleId));
+        } else{
+            $model = new TeacherRoles();
+            $model->teacher = $teacherId;
+            $model->role = $roleId;
+        }
         $model->start_date = date("Y-m-d H:i");
         if ($model->validate()){
             $model->save();

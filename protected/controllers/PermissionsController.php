@@ -163,7 +163,9 @@ class PermissionsController extends Controller
             };
         }
         $last = '</select>';
-        echo $result.$last;
+        $result .= $last;
+        $result .= "<br><br>Значення атрибута:  <input type='text' value='' name='attributeValue' id='inputValue'>";
+        echo $result;
     }
 
     public function actionShowModules(){
@@ -226,4 +228,40 @@ class PermissionsController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionSetTeacherRoleAttribute(){
+
+        $request = Yii::app()->request;
+        $teacherId = $request->getPost('teacher', 0);
+        $roleId = $request->getPost('role', 0);
+        $attributeId = $request->getPost('attribute', 0);
+        $value = $request->getPost('attributeValue', 0);
+
+        if ($teacherId && $attributeId && $value){
+            $result = false;
+            switch($attributeId){
+                case '2':
+                    $result = TrainerStudent::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '3':
+                    $result = ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '4':// leader's projects
+                    $result = true;//ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '6':
+                    $result = LeaderModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '7':
+                    break;
+                default:
+                    $result = AttributeValue::setRoleAttribute($teacherId, $attributeId, $value);
+
+            }
+            if ($result){
+                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+            }
+
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

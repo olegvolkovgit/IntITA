@@ -66,11 +66,11 @@ class TeacherHelper
             case '4':// leader's projects
                 $result = TeacherHelper::getLeaderProjects($teacher);
                 break;
-            case '6'://leader's modules
+            case '7'://leader's modules
                 $result = TeacherHelper::getLeaderModules($teacher);
                 break;
-            case '7'://author's modules
-                $result = TeacherHelper::getLeaderModules($teacher);
+            case '6'://author's modules
+                $result = TeacherHelper::getTeacherModules($teacher);
                 break;
             case '8'://leader's capacity
                 if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
@@ -87,6 +87,12 @@ class TeacherHelper
 
     public static function getLeaderModules($teacher){
         $modules = LeaderModules::getModulesByLeader($teacher);
+        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+    public static function getTeacherModules($teacher){
+        $modules = TeacherModule::getModulesByTeacher($teacher);
         $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }

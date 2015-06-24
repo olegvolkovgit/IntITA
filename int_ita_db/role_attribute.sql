@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-23 16:44:24
+-- Date/time:                    2015-06-24 19:16:25
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   PRIMARY KEY (`id`),
   KEY `role` (`role`),
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
 -- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
@@ -31,7 +31,7 @@ INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`
 	(2, 'students_list', 1, 'int', 'Список студентов', 'Список студентів'),
 	(3, 'modules_list', 2, 'int', 'Список модулей', 'Список модулів'),
 	(4, 'projects_list', 3, 'int', 'Проекты', 'Проекти'),
-	(5, 'modules_consultant', 2, 'int', 'Модули', 'Модулі'),
+	(5, 'shedule', 2, 'int', 'Расписание', 'Розклад'),
 	(6, 'modules_list', 4, 'int', 'Список модулей', 'Список модулів'),
 	(7, 'modules_list', 3, 'int', 'Список модулей', 'Список модулів'),
 	(8, 'capacity', 3, 'int', 'Количество студентов', 'Кількість студентів');

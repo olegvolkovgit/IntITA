@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('permissions/setTeacherRole');?>" method="POST" name="add-access">
+    <form action="<?php echo Yii::app()->createUrl('permissions/setTeacherRoleAttribute');?>" method="POST" name="add-access">
         <fieldset>
             <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
             Викладач:<br>
@@ -48,26 +48,28 @@ $this->breadcrumbs=array(
             <br>
             <br>
 
-                        Атрибути ролі:<br>
-                        <div name="selectAttribute" style="float:left;"></div>
-                        <br>
-                        <br>
-
+            Атрибути ролі:<br>
+            <div name="selectAttribute" style="float:left;"></div>
+            <br>
+            <br>
+            <br>
+            <br>
             <input type="submit" value="Призначити атрибут">
     </form>
 </div>
 
 <script type="text/javascript">
     function selectRole(){
-        var course = $('select[name="course"]').val();
-        if(!course){
+        var role = $('select[name="role"]').val();
+
+        if(!role){
             $('div[name="selectRole"]').html('');
             $('div[name="selectAttribute"]').html('');
         }else{
             $.ajax({
                 type: "POST",
-                url: "/IntITA/permissions/showRoles",
-                data: {course: course},
+                url: "/IntITA/permissions/showAttributes",
+                data: {role: role},
                 cache: false,
                 success: function(response){ $('div[name="selectAttribute"]').html(response); }
             });
@@ -75,13 +77,14 @@ $this->breadcrumbs=array(
     }
 
     function selectAttribute(){
-        var role = $('select[name="role"]').val();
+        var attribute = $('select[name="attribute"]').val();
+        alert(attribute);
         $.ajax({
             type: "POST",
-            url: "/IntITA/permissions/showAttributes",
+            url: "/IntITA/permissions/show",
             data: {role: role},
             cache: false,
-            success: function(response){ $('div[name="selectLecture"]').html(response); }
+            success: function(response){ $('div[name="selectAttribute"]').html(response); }
         });
     }
 </script>

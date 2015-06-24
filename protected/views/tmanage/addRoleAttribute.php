@@ -12,7 +12,7 @@ $this->menu=array(
     array('label'=>'Роль', 'url'=>array('roles')),
 );
 ?>
-
+    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
     <h1>Додати атрибут ролі</h1>
 
 <?php $this->renderPartial('_formRoleAttribute', array('model'=>$model)); ?>

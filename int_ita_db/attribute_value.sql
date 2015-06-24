@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-23 16:44:21
+-- Date/time:                    2015-06-24 19:16:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `attribute_value` (
 -- Dumping data for table int_ita_db.attribute_value: ~38 rows (approximately)
 /*!40000 ALTER TABLE `attribute_value` DISABLE KEYS */;
 INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
-	(2, 1, 1, '10'),
+	(2, 1, 1, '5'),
 	(3, 2, 1, '12'),
 	(4, 3, 1, '23'),
 	(6, 4, 1, '5'),
@@ -40,13 +40,8 @@ INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
 	(16, 6, 3, '1'),
 	(17, 1, 3, '2'),
 	(18, 2, 3, '5'),
-	(19, 3, 4, '3\r\n'),
+	(19, 3, 4, '1'),
 	(20, 5, 3, '5'),
-	(21, 1, 5, '1'),
-	(22, 2, 5, '1'),
-	(23, 3, 5, '1'),
-	(24, 4, 5, '1'),
-	(25, 6, 5, '1'),
 	(32, 1, 4, '1'),
 	(33, 2, 4, '2'),
 	(34, 4, 4, '4'),
@@ -60,11 +55,11 @@ INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
 	(44, 6, 6, '5'),
 	(45, 1, 7, '1'),
 	(46, 2, 7, '2'),
-	(47, 3, 7, '3'),
+	(47, 3, 7, '123'),
 	(48, 4, 7, '1'),
 	(49, 5, 7, '1'),
 	(50, 6, 7, '1'),
-	(51, 1, 8, '12'),
+	(51, 1, 8, '1245'),
 	(52, 2, 8, '4'),
 	(53, 3, 8, '4'),
 	(54, 4, 8, '5'),

@@ -115,4 +115,21 @@ class LeaderModules extends CActiveRecord
 
         return (!empty($modules))?$modules:[];
     }
+
+    public static function setRoleAttribute($teacher, $attribute, $value){
+        $result = false;
+        if (TrainerStudent::model()->exists('leader=:teacher and module=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
+            $model = TrainerStudent::model()->findByAttributes(array('leader'=>$teacher, 'module'=>$attribute));
+        } else{
+            $model = new TrainerStudent();
+            $model->leader = $teacher;
+            $model->module = $attribute;
+        }
+        $model->value = $value;
+        if ($model->validate()){
+            $model->save();
+            $result = true;
+        }
+        return $result;
+    }
 }

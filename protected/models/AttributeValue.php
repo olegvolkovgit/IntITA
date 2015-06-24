@@ -5,13 +5,13 @@
  *
  * The followings are the available columns in table 'attribute_value':
  * @property integer $id
- * @property integer $role
+ * @property integer $teacher
  * @property integer $attribute
  * @property string $value
  *
  * The followings are the available model relations:
  * @property RoleAttribute $attribute0
- * @property Roles $role0
+ * @property Teacher $teacher0
  */
 class AttributeValue extends CActiveRecord
 {
@@ -31,12 +31,12 @@ class AttributeValue extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role, attribute, value', 'required'),
-			array('role, attribute', 'numerical', 'integerOnly'=>true),
+			array('teacher, attribute, value', 'required'),
+			array('teacher, attribute', 'numerical', 'integerOnly'=>true),
 			array('value', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, role, attribute, value', 'safe', 'on'=>'search'),
+			array('id, teacher, attribute, value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +49,7 @@ class AttributeValue extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'attribute0' => array(self::BELONGS_TO, 'RoleAttribute', 'attribute'),
-			'role0' => array(self::BELONGS_TO, 'Roles', 'role'),
+			'teacher0' => array(self::BELONGS_TO, 'Teacher', 'teacher'),
 		);
 	}
 
@@ -60,7 +60,7 @@ class AttributeValue extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'role' => 'Role',
+			'teacher' => 'Teacher',
 			'attribute' => 'Attribute',
 			'value' => 'Value',
 		);
@@ -85,7 +85,7 @@ class AttributeValue extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('role',$this->role);
+		$criteria->compare('teacher',$this->teacher);
 		$criteria->compare('attribute',$this->attribute);
 		$criteria->compare('value',$this->value,true);
 
@@ -104,4 +104,21 @@ class AttributeValue extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function setRoleAttribute($teacher, $attribute, $value){
+        $result = false;
+        if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
+            $model = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute));
+        } else{
+            $model = new AttributeValue();
+            $model->teacher = $teacher;
+            $model->attribute = $attribute;
+        }
+        $model->value = $value;
+        if ($model->validate()){
+            $model->save();
+            $result = true;
+        }
+        return $result;
+    }
 }
