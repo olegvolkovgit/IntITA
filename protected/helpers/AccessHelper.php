@@ -238,6 +238,10 @@ class AccessHelper
     }
     public static function accesModule($id){
         $lectures = Lecture::model()->findAll('idModule=:id', array(':id'=>$id));
+        if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
+            if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$id))
+                return true;
+        }
         $permission = new Permissions();
         foreach($lectures as $lecture){
             if ($permission->checkPermission(Yii::app()->user->getId(),  $lecture->id, array('read'))) {

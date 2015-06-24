@@ -136,4 +136,11 @@ class TeacherHelper
         }
         return $result;
     }
+    public static function isTeacherAuthorModule($idUser,$idModule){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
+            $teacherId = Teacher::model()->findByAttributes(array('user_id' => $idUser));
+            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule));
+        }
+        if(isset($author)) return true; else return false;
+    }
 }
