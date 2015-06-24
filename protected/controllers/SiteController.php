@@ -130,7 +130,9 @@ class SiteController extends Controller
 		if (isset($_GET['lg'])) {
 			$app->session['lg'] = $_GET['lg'];
 		}
-        $this->redirect($_SERVER["HTTP_REFERER"]);
+        if (isset($_SERVER["HTTP_REFERER"]))
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        else $this->redirect(Yii::app()->createUrl('site/index'));
 	}
 
 	/**
