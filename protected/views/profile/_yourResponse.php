@@ -74,7 +74,7 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
                 <input type="hidden" id="rat1" name="material" value="<?php echo $knowval; ?>"/>
                 <input type="hidden" id="rat2" name="behavior" value="<?php echo $behval; ?>"/>
                 <input type="hidden" id="rat3" name="motiv" value="<?php echo $motivval; ?>"/>
-                <input name="sendResponse" id="lessonTask1" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
+                <input name="sendResponse" id="sendResponse" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
                 <?php if(Yii::app()->user->hasFlash('messageResponse')):
                     echo Yii::app()->user->getFlash('messageResponse');
                 endif; ?>

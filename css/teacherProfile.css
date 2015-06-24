@@ -120,3 +120,72 @@ div.responseBG {
     color:red;
     text-align: center;
 }
+div.lessonTask {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.lessonLine{
+    border: 1px solid #4b75a4;
+}
+input[type="submit"]#sendResponse {
+    width: 90px;
+    height:28px;
+    border-radius: 10px;
+    color:#ffffff;
+    background-color:#4b75a4;
+    margin: 10px 0px 20px 0px;
+    float:right;
+    border:none;
+}
+input[type="submit"]#sendResponse:hover {
+    cursor: pointer;
+    border-top-color: #454545;
+    background: #454545;
+    color: #fcfcfc;
+}
+img.lessonBut  {
+    position: absolute;
+    left:43%;
+    top:-14px;
+    width: 90px;
+    height:28px;
+}
+.lessonButName {
+    position: absolute;
+    color:#ffffff;
+    left:43%;
+    top:-14px;
+    width: 90px;
+    height:28px;
+    text-align: center;
+    padding-top: 4px;
+}
+.lessonTask table{
+    margin-bottom: 20px;
+}
+.BBCode {
+    margin: 30px 30px 10px 30px;
+    overflow:hidden;
+}
+.BBCode textarea {
+    height: 130px;
+    width: 99%;
+    resize: none;
+}
+.BBCode input[type="submit"] {
+    width: 90px;
+    height:28px;
+    border-radius: 10px;
+    color:#ffffff;
+    background-color:#4b75a4;
+    margin: 10px 0px 20px 0px;
+    float:right;
+    border:none;
+}
+.BBCode input[type="submit"]:hover {
+    cursor: pointer;
+    border-top-color: #454545;
+    background: #454545;
+    color: #fcfcfc;
+}

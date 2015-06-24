@@ -1,6 +1,3 @@
-<!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
-
 <!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
 <script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
 <!--<!-- Підключення BBCode WysiBB -->
