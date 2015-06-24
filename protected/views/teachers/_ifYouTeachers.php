@@ -47,9 +47,12 @@
     </form-->
     <?php $form=$this->beginWidget('CActiveForm',array(
         'action'=>array("teachers/teacherletter"),
-        'enableClientValidation' => true,
+        'enableClientValidation'=>true,
         'enableAjaxValidation'=>true,
-        'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'validateOnChange'=>false,
+        ),
         'htmlOptions'=> array(
             'method'=>'post',
         )
@@ -58,49 +61,49 @@
             <?=$form->labelEx($teacherletter,'firstname',array('class'=>'formFirstname','id'=>'formTeacher'))?>
             <?=$form->textField($teacherletter,'firstname')?>
             <br>
-            <?=$form->error($teacherletter,'firstname')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'firstname')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'lastname',array('class'=>'formLastname','id'=>'formTeacher'))?>
             <?=$form->textField($teacherletter,'lastname')?>
             <br>
-            <?=$form->error($teacherletter,'lastname')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'lastname')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'age',array('class'=>'formYearname','id'=>'formTeacher'))?>
             <?=$form->textField($teacherletter,'age')?>
             <br>
-            <?=$form->error($teacherletter,'age')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'age')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'education',array('class'=>'formEducationname','id'=>'formTeacher'))?>
             <?=$form->textField($teacherletter,'education')?>
             <br>
-            <?=$form->error($teacherletter,'education')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'education')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'phone',array('class'=>'formPhonename','id'=>'formTeacher'))?>
             <?=$form->textField($teacherletter,'phone')?>
             <br>
-            <?=$form->error($teacherletter,'phone')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'phone')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'email',array('class'=>'formEmail','id'=>'formTeacher'))?>
             <?=$form->emailField($teacherletter,'email')?>
             <br>
-            <?=$form->error($teacherletter,'email')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'email')?>
         </div>
         <br><br>
         <div class="row">
             <?=$form->labelEx($teacherletter,'courses',array('class'=>'formTextname','id'=>'formTeacher'))?>
             <?=$form->textArea($teacherletter,'courses',array('class'=>'formTeacher1','id'=>'formTeacher2'))?>
             <br><br><br>
-            <?=$form->error($teacherletter,'courses')?"Обов'язкове поле":""?>
+            <?=$form->error($teacherletter,'courses')?>
         </div>
         <br><br>
         <ul class="actions">
