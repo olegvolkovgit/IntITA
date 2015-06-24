@@ -5,7 +5,7 @@ class TmanageController extends Controller
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout='//layouts/column2';
+    public $layout = '//layouts/column2';
 
     /**
      * @return array action filters
@@ -22,23 +22,23 @@ class TmanageController extends Controller
     {
         return array(
             array('allow',
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
+                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
                     'showRoles', 'addRoleAttribute'),
-                'expression'=>array($this, 'isAdministrator'),
+                'expression' => array($this, 'isAdministrator'),
             ),
             array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
+                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
                     'showRoles', 'addRoleAttribute'),
-                'users'=>array('*'),
+                'users' => array('*'),
             ),
         );
     }
 
     function isAdministrator()
     {
-        if(AccessHelper::isAdmin())
+        if (AccessHelper::isAdmin())
             return true;
         else
             return false;
@@ -50,34 +50,35 @@ class TmanageController extends Controller
      */
     public function actionView($id)
     {
-         $this->render('view',array(
-            'model'=>$this->loadModel($id),
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
         ));
     }
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate()
     {
-        $model=new Teacher;
+        $model = new Teacher;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        if(isset($_POST['Teacher']))
-        {
-            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
-            $model->attributes=$_POST['Teacher'];
-            $model->avatar=$_FILES['Teacher'];
+        if (isset($_POST['Teacher'])) {
+            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
+            $model->attributes = $_POST['Teacher'];
+            $model->avatar = $_FILES['Teacher'];
 
-            if($model->save()) {
-                StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role'=>1));
+            if ($model->save()) {
+                StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
                 $this->redirect(array('view', 'id' => $model->teacher_id));
             }
         }
-        $this->render('create',array(
-            'model'=>$model,
+        $this->render('create', array(
+            'model' => $model,
         ));
     }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -85,22 +86,22 @@ class TmanageController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
+        $model = $this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        if(isset($_POST['Teacher']))
-        {
-            $model->oldAvatar=$model->foto_url;
-            $_POST['Teacher']['foto_url']=$_FILES['Teacher']['name']['foto_url'];
-            $model->attributes=$_POST['Teacher'];
-            $model->avatar=$_FILES['Teacher'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->teacher_id));
+        if (isset($_POST['Teacher'])) {
+            $model->oldAvatar = $model->foto_url;
+            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
+            $model->attributes = $_POST['Teacher'];
+            $model->avatar = $_FILES['Teacher'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->teacher_id));
         }
-        $this->render('update',array(
-            'model'=>$model,
+        $this->render('update', array(
+            'model' => $model,
         ));
     }
+
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -110,32 +111,35 @@ class TmanageController extends Controller
     {
         $this->loadModel($id)->delete();
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
+        if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
+
     /**
      * Lists all models.
      */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Teacher');
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
+        $dataProvider = new CActiveDataProvider('Teacher');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
         ));
     }
+
     /**
      * Manages all models.
      */
     public function actionAdmin()
     {
-        $model=new Teacher('search');
+        $model = new Teacher('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Teacher']))
-            $model->attributes=$_GET['Teacher'];
-        $this->render('admin',array(
-            'model'=>$model,
+        if (isset($_GET['Teacher']))
+            $model->attributes = $_GET['Teacher'];
+        $this->render('admin', array(
+            'model' => $model,
         ));
     }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -145,19 +149,19 @@ class TmanageController extends Controller
      */
     public function loadModel($id)
     {
-        $model=Teacher::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,'The requested page does not exist.');
+        $model = Teacher::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+
     /**
      * Performs the AJAX validation.
      * @param Teacher $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='teacher-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -166,7 +170,7 @@ class TmanageController extends Controller
 
     public function actionRoles()
     {
-        $dataProvider=new CActiveDataProvider('Roles');
+        $dataProvider = new CActiveDataProvider('Roles');
         $this->render('roles', array(
             'dataProvider' => $dataProvider,
         ));
@@ -178,61 +182,73 @@ class TmanageController extends Controller
      */
     public function actionCreateRole()
     {
-        $model=new Roles;
+        $model = new Roles;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        if(isset($_POST['Roles']))
-        {
-            $model->attributes=$_POST['Roles'];
+        if (isset($_POST['Roles'])) {
+            $model->attributes = $_POST['Roles'];
 
-            if($model->save()) {
-               $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) {
+                $this->redirect(array('view', 'id' => $model->id));
             }
         }
-        $this->render('createRole',array(
-            'model'=>$model,
+        $this->render('createRole', array(
+            'model' => $model,
         ));
     }
 
-    public function actionShowRoles($id){
+    public function actionShowRoles($id)
+    {
 
         $roles = TeacherRoles::model()->findAllByAttributes(array('teacher' => $id));
 
         $name = Teacher::getFullName($id);
-        $this->render('showRoles',array(
-            'roles'=>$roles,
-            'name'=>$name,
-            'teacherId'=>$id,
+        $this->render('showRoles', array(
+            'roles' => $roles,
+            'name' => $name,
+            'teacherId' => $id,
         ));
     }
 
-    public function actionAddRoleAttribute($role){
-        $model=new RoleAttribute;
-        if(isset($_POST['RoleAttribute']))
-        {
-            $model->attributes=$_POST['RoleAttribute'];
-            if($model->save())
-                $this->redirect(array('viewRoleAttribute','id'=>$model->id));
+    public function actionAddRoleAttribute($role)
+    {
+        $model = new RoleAttribute;
+        if (isset($_POST['RoleAttribute'])) {
+            $model->attributes = $_POST['RoleAttribute'];
+            if ($model->save())
+                $this->redirect(array('viewRoleAttribute', 'id' => $model->id));
         }
         $model->role = $role;
-        $this->render('addRoleAttribute',array(
-            'model'=>$model,
+        $this->render('addRoleAttribute', array(
+            'model' => $model,
         ));
     }
 
     public function actionShowAttributes($role)
     {
         $criteria = new CDbCriteria();
-        $criteria->condition = 'role='.$role;
+        $criteria->condition = 'role=' . $role;
         $dataProvider = new CActiveDataProvider('RoleAttribute', array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
 
         $model = Roles::model()->findByPk($role);
 
-        $this->render('showRoleAttributes',array(
-            'model'=>$model,
-            'dataProvider'=>$dataProvider,
+        $this->render('showRoleAttributes', array(
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ));
+    }
+
+    public function actionAddTeacherRole($teacher){
+        $this->render('addTeacherRole', array(
+            'teacher' => $teacher,
+        ));
+    }
+
+    public function actionAddTeacherRoleAttribute($teacher){
+        $this->render('addTeacherRoleAttribute', array(
+            'teacher' => $teacher,
         ));
     }
 }

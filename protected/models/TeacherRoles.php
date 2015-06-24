@@ -31,7 +31,7 @@ class TeacherRoles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('teacher, role, start_date, end_date', 'required'),
+			array('teacher, role, start_date', 'required'),
 			array('teacher, role', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -107,4 +107,16 @@ class TeacherRoles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function setTeacherRole($teacherId, $roleId){
+        $model = new TeacherRoles();
+        $model->teacher = $teacherId;
+        $model->role = $roleId;
+        $model->start_date = date("Y-m-d H:i");
+        if ($model->validate()){
+            $model->save();
+            return true;
+        }
+        return false;
+    }
 }

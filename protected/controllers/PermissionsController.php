@@ -148,6 +148,24 @@ class PermissionsController extends Controller
         echo $result.$last;
     }
 
+    public function actionShowAttributes(){
+        $first = '<select size="1" name="attribute">';
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, name_ua';
+        $criteria->order = 'id ASC';
+        $criteria->addCondition('role='.$_POST['role']);
+        $rows = RoleAttribute::model()->findAll($criteria);
+        $result = $first.'<option value="">Всі атрибути ролі</option>
+                   <optgroup label="Виберіть атрибут">';
+        if(!empty($rows)) {
+            foreach ($rows as $numRow => $row) {
+                $result = $result . '<option value="' . $row['id'] . '">' . $row['name_ua'] . '</option>';
+            };
+        }
+        $last = '</select>';
+        echo $result.$last;
+    }
+
     public function actionShowModules(){
         $first = '<select name="module" onchange="javascript:selectLecture();">';
         $criteria = new CDbCriteria();
@@ -194,4 +212,18 @@ class PermissionsController extends Controller
             }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    public function actionSetTeacherRole(){
+
+        $request = Yii::app()->request;
+        $teacherId = $request->getPost('teacher', 0);
+        $roleId = $request->getPost('role', 0);
+        if ($teacherId && $roleId){
+            if (TeacherRoles::setTeacherRole($teacherId, $roleId)){
+                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+            }
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
 }
