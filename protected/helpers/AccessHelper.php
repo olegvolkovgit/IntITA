@@ -255,6 +255,9 @@ class AccessHelper
     }
     public static function accesLecture($id){
         if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
+            if (Yii::app()->user->isGuest){
+                return false;
+            }
             $permission = new Permissions();
             if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
                 return false;
