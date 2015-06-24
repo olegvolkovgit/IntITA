@@ -7,7 +7,6 @@
  */
 $user = new StudentReg();
 $app = Yii::app();
-$teacher = $teachers[0];
 ?>
 <div class="teacherBlock">
     <div

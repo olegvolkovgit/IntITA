@@ -30,5 +30,5 @@
 
 
     <div style="position:relative;"><a name="resp" ></a></div>
-    <?php $this->renderPartial('_yourResponse', array('model' => $model,'teacherRat'=>$teacherRat));?>
+    <?php $this->renderPartial('_yourResponse', array('model' => $model,'teacherRat'=>$teacherRat,'response' => $response));?>
 </div>

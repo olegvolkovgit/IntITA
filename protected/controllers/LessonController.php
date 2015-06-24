@@ -35,18 +35,8 @@ class LessonController extends Controller{
             )
         );
 
-        $owners = [];
-
-        $criteria1 = new CDbCriteria();
-        $criteria1->alias='teacher_module';
-        $criteria1->select = 'idTeacher';
-        $criteria1->addCondition('idModule='.$lecture->idModule);
-        $criteria1->toArray();
-        $temp = TeacherModule::model()->findAll($criteria1); //info about owners
-        for($i = 0; $i < count($temp);$i++){
-            array_push($owners, $temp[$i]->idTeacher);
-        }
-        $teachers = Teacher::model()->findAllByPk($owners);
+        $temp = TeacherModule::model()->find('idModule='.$lecture->idModule);
+        $teacher = Teacher::model()->findByPk($temp->idTeacher);
 
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
@@ -55,7 +45,7 @@ class LessonController extends Controller{
             'lecture' => $lecture,
             'editMode' => $editMode,
             'countBlocks' => $countBlocks,
-            'teachers' => $teachers,
+            'teacher' => $teacher,
         ));
     }
 
