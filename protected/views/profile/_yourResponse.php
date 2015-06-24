@@ -65,14 +65,9 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
         </div>
 
         <div class="BBCode">
-            <div class="formStudProf">
                 <?php $form=$this->beginWidget('CActiveForm', array(
                     'id'=>'response-form',
                     'action'=> Yii::app()->createUrl('profile/index', array('idTeacher'=>$model->primaryKey)),
-// Please note: When you enable ajax validation, make sure the corresponding
-// controller action is handling ajax validation correctly.
-// There is a call to performAjaxValidation() commented in generated controller code.
-// See class documentation of CActiveForm for details on this.
                     'enableAjaxValidation'=>false,
                     'htmlOptions' => array('enctype' => 'multipart/form-data'),
                 )); ?>
