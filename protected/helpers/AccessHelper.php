@@ -249,6 +249,9 @@ class AccessHelper
     }
 
     public static function accesModule($id){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
         $lectures = Lecture::model()->findAll('idModule=:id', array(':id'=>$id));
         if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
             if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$id))
@@ -264,6 +267,9 @@ class AccessHelper
     }
     public static function accesLecture($id){
         if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
+            if (Yii::app()->user->isGuest){
+                return false;
+            }
             $permission = new Permissions();
             if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
                 return false;
