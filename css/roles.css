@@ -2,6 +2,7 @@
     font-size: 24px;
     text-align: left;
     color: #4b75a4;
+    margin-left: 75px;
 }
 .atts{
     font-size: 20px;
@@ -14,4 +15,6 @@
 }
 .attsValue{
     margin-left: 30px;
+    color: darkviolet;
+    font-style: italic;
 }

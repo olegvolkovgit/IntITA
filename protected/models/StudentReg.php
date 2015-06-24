@@ -83,7 +83,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>Yii::t('error','0416')),
+            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\'’]+$/u','message'=>Yii::t('error','0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

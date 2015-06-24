@@ -136,5 +136,21 @@ class TeacherModule extends CActiveRecord
         return (!empty($modules))?$modules:[];
     }
 
+    public static function getModulesByTeacher($teacher){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('idModule'),
+            'from' => 'teacher_module',
+            'where' => 'idTeacher=:id',
+            'order' => 'idModule',
+            'params' => array(':id' => $teacher),
+        ))->queryAll();
+        $count = count($modules);
 
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["idModule"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+        }
+
+        return (!empty($modules))?$modules:[];
+    }
 }

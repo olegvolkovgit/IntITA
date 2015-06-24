@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 18:57:12
+-- Date/time:                    2015-06-24 19:16:26
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,11 +23,10 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~19 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~26 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
-	(1, 2, '0000-00-00', '0000-00-00'),
 	(1, 1, '0000-00-00', '0000-00-00'),
 	(2, 2, '0000-00-00', '0000-00-00'),
 	(5, 4, '0000-00-00', '0000-00-00'),
@@ -36,15 +35,23 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(4, 3, '0000-00-00', '0000-00-00'),
 	(3, 4, '0000-00-00', '0000-00-00'),
 	(3, 2, '0000-00-00', '0000-00-00'),
-	(4, 2, '0000-00-00', '0000-00-00'),
 	(2, 1, '0000-00-00', '0000-00-00'),
 	(3, 1, '0000-00-00', '0000-00-00'),
 	(4, 1, '0000-00-00', '0000-00-00'),
 	(6, 1, '0000-00-00', '0000-00-00'),
 	(1, 3, '0000-00-00', '0000-00-00'),
 	(2, 3, '0000-00-00', '0000-00-00'),
-	(5, 3, '0000-00-00', '0000-00-00'),
-	(6, 3, '0000-00-00', '0000-00-00');
+	(5, 3, '2015-06-24', '0000-00-00'),
+	(6, 3, '0000-00-00', '0000-00-00'),
+	(5, 1, '2015-06-24', '0000-00-00'),
+	(4, 2, '2015-06-24', '0000-00-00'),
+	(5, 2, '2015-06-24', '0000-00-00'),
+	(1, 2, '2015-06-24', '0000-00-00'),
+	(1, 4, '2015-06-24', '0000-00-00'),
+	(2, 4, '2015-06-24', '0000-00-00'),
+	(4, 4, '2015-06-24', '0000-00-00'),
+	(5, 4, '2015-06-24', '0000-00-00'),
+	(6, 4, '2015-06-24', '0000-00-00');
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

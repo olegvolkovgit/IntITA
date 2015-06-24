@@ -15,7 +15,7 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
     //'cssFile'=>Yii::app()->baseUrl . '/css/customCGridView.css',
-    'htmlOptions'=>array('class'=>'grid-view custom'),
+    'htmlOptions'=>array('class'=>'grid-view custom','id'=>'adminTeacherList'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
     'columns'=>array(
 
@@ -31,7 +31,7 @@ $this->menu=array(
         array(
             'class'=>'CLinkColumn',
             'label'=>'Ролі викладача',
-            'urlExpression'=>'"/IntITA/tmanage/showRoles?id=".$data->teacher_id',
+            'urlExpression'=>'Yii::app()->createUrl("tmanage/showRoles", array("id"=>$data->teacher_id))',
             'header'=>'Author'
         ),
         array(

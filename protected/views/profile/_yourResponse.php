@@ -63,22 +63,39 @@ if($teacherRat && $teacherRat->knowledge!==null && $teacherRat->behavior!==null 
                 </tr>
             </table>
         </div>
-        <div class="responseError">
-            <?php if(Yii::app()->user->hasFlash('responseError')):
-                echo Yii::app()->user->getFlash('responseError');
-            endif; ?>
-        </div>
+
         <div class="BBCode">
-            <form  action="<?php echo Yii::app()->createUrl('profile/response', array('id' => $model->teacher_id));?>" method="post">
-                <textarea class="editor" name="response" ></textarea>
-                <input type="hidden" id="rat1" name="material" value="<?php echo $knowval; ?>"/>
-                <input type="hidden" id="rat2" name="behavior" value="<?php echo $behval; ?>"/>
-                <input type="hidden" id="rat3" name="motiv" value="<?php echo $motivval; ?>"/>
-                <input name="sendResponse" id="lessonTask1" type="submit" value="<?php echo Yii::t('teacher', '0192'); ?>">
+                <?php $form=$this->beginWidget('CActiveForm', array(
+                    'id'=>'response-form',
+                    'action'=> Yii::app()->createUrl('profile/index', array('idTeacher'=>$model->primaryKey)),
+                    'enableAjaxValidation'=>false,
+                    'htmlOptions' => array('enctype' => 'multipart/form-data'),
+                )); ?>
+                <div class="row">
+                    <?php echo $form->hiddenField($response,'knowledge',array('id'=>'rat1','value'=>$knowval)); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->hiddenField($response,'behavior',array('id'=>'rat2', 'value'=>$behval)); ?>
+                </div>
+                <div class="row">
+                    <?php echo $form->hiddenField($response,'motivation',array('id'=>'rat3','value'=>$motivval)); ?>
+                </div>
+
+                <div class="row">
+                    <?php echo $form->textArea($response,'text', array('class'=>'editor')); ?>
+                </div>
+                <div class="modelerrors">
+                    <?php if ($form->error($response,'knowledge') || $form->error($response,'behavior') ||  $form->error($response,'motivation'))
+                    echo Yii::t('response', '0385'); ?>
+                    <?php echo $form->error($response,'text'); ?>
+                </div>
+                <div class="rowbuttons">
+                    <?php echo CHtml::submitButton(Yii::t('teacher', '0192'), array('id' => "sendResponse")); ?>
+                </div>
                 <?php if(Yii::app()->user->hasFlash('messageResponse')):
                     echo Yii::app()->user->getFlash('messageResponse');
                 endif; ?>
-            </form>
+                <?php $this->endWidget(); ?>
         </div>
     </div>
 </div>

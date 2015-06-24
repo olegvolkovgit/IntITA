@@ -26,12 +26,12 @@
                     <?php echo $data['html_block'];?>
                 </ol>
             </div>
-            <div class="BBCode">
-                <form action="" method="post">
-                    <textarea class="editor"></textarea>
-                    <input  href="#" id="lessonTask3" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
-                </form>
-            </div>
+            <form action="http://ii.itatests.com" method="post" class="sendAnswer">
+                <input type="hidden" name="task" value="<?php echo $data['id_lecture'].'-'.$data['block_order'] ?>>
+                <input type="hidden" name="lang" value="c">
+                <textarea name="code" > </textarea>
+                <input name="send" id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" >
+            </form>
         </div>
     </div>
 </div>

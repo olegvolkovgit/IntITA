@@ -67,9 +67,6 @@ $this->breadcrumbs=array(
     <?php } ?>
 </div>
 
-
-
-
 <script type="text/javascript">
     function selectModule(){
         var course = $('select[name="course"]').val();

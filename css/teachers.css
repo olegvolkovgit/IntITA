@@ -174,3 +174,9 @@ td.profileTeacher a{
 .formPhonename.style {
     margin-left: 15px;
 }
+.teachersList a{
+    color: #4b75a4;
+}
+.teachersList a:hover{
+    color: #666666;
+}

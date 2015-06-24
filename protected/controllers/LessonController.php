@@ -34,6 +34,10 @@ class LessonController extends Controller{
                 'pageSize' => '200',
             )
         );
+
+        $temp = TeacherModule::model()->find('idModule='.$lecture->idModule);
+        $teacher = Teacher::model()->findByPk($temp->idTeacher);
+
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
         $this->render('index', array(
@@ -41,6 +45,7 @@ class LessonController extends Controller{
             'lecture' => $lecture,
             'editMode' => $editMode,
             'countBlocks' => $countBlocks,
+            'teacher' => $teacher,
         ));
     }
 

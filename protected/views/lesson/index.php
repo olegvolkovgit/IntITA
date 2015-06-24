@@ -46,7 +46,7 @@ $this->breadcrumbs=array(
 
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture));?>
+    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
@@ -171,4 +171,9 @@ $this->breadcrumbs=array(
     }
 </script>
 </div>
-
+<!--send answer task-->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sendanswertask.js"></script>
+<!--send answer task-->
+<?php
+//if(isset($_POST['date']))
+//echo $_POST['date'] ?>

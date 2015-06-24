@@ -4,15 +4,15 @@
 
 $this->breadcrumbs=array(
     'Ролі викладачів'=>array('roles'),
-    'Додати роль',
+    'Додати атрибут ролі'.$model->name_ua,
 );
 
 $this->menu=array(
-    array('label'=>'Список атрибутів ролі', 'url'=>array('index')),
-    array('label'=>'Управління атрибутами ролі', 'url'=>array('admin')),
+    //array('label'=>'Список атрибутів ролі', 'url'=>array('/tmanage/showAttributes/?role='.$model->role)),
+    array('label'=>'Роль', 'url'=>array('roles')),
 );
 ?>
-
+    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
     <h1>Додати атрибут ролі</h1>
 
 <?php $this->renderPartial('_formRoleAttribute', array('model'=>$model)); ?>

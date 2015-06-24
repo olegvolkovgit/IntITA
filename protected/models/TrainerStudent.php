@@ -116,4 +116,21 @@ class TrainerStudent extends CActiveRecord
 
         return (!empty($students))?$students:[];
     }
+
+    public static function setRoleAttribute($teacher, $attribute, $value){
+        $result = false;
+        if (TrainerStudent::model()->exists('teacher=:teacher and student=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
+            $model = TrainerStudent::model()->findByAttributes(array('teacher'=>$teacher, 'student'=>$attribute));
+        } else{
+            $model = new TrainerStudent();
+            $model->teacher = $teacher;
+            $model->student = $attribute;
+        }
+        $model->value = $value;
+        if ($model->validate()){
+            $model->save();
+            $result = true;
+        }
+        return $result;
+    }
 }

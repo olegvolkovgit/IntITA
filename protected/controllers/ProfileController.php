@@ -30,6 +30,49 @@ class ProfileController extends Controller
         // using the default layout 'protected/views/layouts/main.php'
         $teacher = Teacher::model()->findByPk($idTeacher);
 
+        $response = new Response();
+        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+
+        if (isset($_POST['Response'])) {
+            $response->attributes=$_POST["Response"];
+            $response->who = Yii::app()->user->id;
+            $response->about = $teacher->user_id;
+            $response->date = date("Y-m-d H:i:s");
+            $response->text = $response->bbcode_to_html($_POST['Response']['text']);
+            if ($response->validate())
+            {
+                if($teacherRat && $teacherRat->knowledge==$_POST['Response']['knowledge'] && $teacherRat->behavior==$_POST['Response']['behavior'] && $teacherRat->motivation==$_POST['Response']['motivation']){
+                    $response->knowledge = Null;
+                    $response->behavior = Null;
+                    $response->motivation = Null;
+                    $response->rate = Null;
+                }
+                if($teacherRat && ($teacherRat->knowledge!==$_POST['Response']['knowledge'] || $teacherRat->behavior!==$_POST['Response']['behavior'] || $teacherRat->motivation!==$_POST['Response']['motivation']))
+                {
+                    $teacherRat->knowledge = $_POST['Response']['knowledge'];
+                    $teacherRat->behavior = $_POST['Response']['behavior'];
+                    $teacherRat->motivation = $_POST['Response']['motivation'];
+                    $teacherRat->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
+                    $teacherRat->save();
+                }else{
+                    $response->knowledge = $_POST['Response']['knowledge'];
+                    $response->behavior = $_POST['Response']['behavior'];
+                    $response->motivation = $_POST['Response']['motivation'];
+                    $response->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
+                }
+                $response->who_ip = $_SERVER["REMOTE_ADDR"];
+
+                $response->save();
+
+                $teacher->updateByPk($idTeacher, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
+                $teacher->updateByPk($idTeacher, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
+                $teacher->updateByPk($idTeacher, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
+                $teacher->updateByPk($idTeacher, array('rating' => $teacher->getAverageRate($teacher->user_id)));
+                Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
+                $this->refresh();
+            }
+        }
+
         if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
         } else {
@@ -50,6 +93,7 @@ class ProfileController extends Controller
             'model' => $teacher,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
+            'response' => $response,
         ));
     }
 
@@ -140,51 +184,6 @@ class ProfileController extends Controller
     {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
-    }
-
-    public function actionResponse($id)
-    {
-        $response = new Response();
-        $teacher = Teacher::model()->findByPk($id);
-        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
-
-        if ($_POST['sendResponse']) {
-            if (!empty($_POST['response'])) {
-                $response->who = Yii::app()->user->id;
-                $response->about = $teacher->user_id;
-                $response->date = date("Y-m-d H:i:s");
-                $response->text = $response->bbcode_to_html($_POST['response']);
-                if($teacherRat && $teacherRat->knowledge==$_POST['material'] && $teacherRat->behavior==$_POST['behavior'] && $response->motivation==$_POST['motiv']){
-                    $response->knowledge = Null;
-                    $response->behavior = Null;
-                    $response->motivation = Null;
-                    $response->rate = Null;
-                } if($teacherRat && ($teacherRat->knowledge!==$_POST['material'] || $teacherRat->behavior!==$_POST['behavior'] || $response->motivation!==$_POST['motiv'])){
-                    $teacherRat->knowledge = $_POST['material'];
-                    $teacherRat->behavior = $_POST['behavior'];
-                    $teacherRat->motivation = $_POST['motiv'];
-                    $teacherRat->rate = round(($_POST['material'] + $_POST['behavior'] + $_POST['motiv']) / 3);
-                    $teacherRat->save();
-                }else{
-                    $response->knowledge = $_POST['material'];
-                    $response->behavior = $_POST['behavior'];
-                    $response->motivation = $_POST['motiv'];
-                    $response->rate = round(($_POST['material'] + $_POST['behavior'] + $_POST['motiv']) / 3);
-                }
-                $response->who_ip = $_SERVER["REMOTE_ADDR"];
-                if($_POST['material']!=='' && $_POST['behavior']!=='' && $_POST['motiv']!==''){
-                    $response->save();
-                    $teacher->updateByPk($id, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
-                    $teacher->updateByPk($id, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
-                    $teacher->updateByPk($id, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
-                    $teacher->updateByPk($id, array('rating' => $teacher->getAverageRate($teacher->user_id)));
-                    Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
-                } else {
-                    Yii::app()->user->setFlash('responseError', Yii::t('response', '0385'));
-                }
-            }
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
     }
 
     public function getCourses(){

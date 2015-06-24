@@ -130,7 +130,9 @@ class SiteController extends Controller
 		if (isset($_GET['lg'])) {
 			$app->session['lg'] = $_GET['lg'];
 		}
-        $this->redirect($_SERVER["HTTP_REFERER"]);
+        if (isset($_SERVER["HTTP_REFERER"]))
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        else $this->redirect(Yii::app()->createUrl('site/index'));
 	}
 
 	/**
@@ -259,8 +261,8 @@ class SiteController extends Controller
                     ),
                 );
                 $filesName=uniqid().'.jpg';
-                file_put_contents(Yii::getpathOfAlias('webroot')."/avatars/".$filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
-                $model->avatar="/avatars/".$filesName;
+                file_put_contents(Yii::getpathOfAlias('webroot')."/images/avatars/".$filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
+                $model->avatar=$filesName;
             }
             if(isset($user['city'])) $model->address=$user['city'];
             if(isset($user['network'])){

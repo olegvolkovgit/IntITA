@@ -100,7 +100,7 @@ class RolesController extends Controller
 		{
 			$model->attributes=$_POST['Roles'];
 			if($model->save())
-				$this->redirect('/tmanage/roles');
+				$this->redirect(Yii::app()->createUrl('tmanage/roles'));
 		}
 
 		$this->render('create',array(

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-22 18:57:10
+-- Date/time:                    2015-06-24 19:16:24
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,8 +30,8 @@ INSERT INTO `consultant_modules` (`id`, `consultant`, `module`) VALUES
 	(2, 2, 1),
 	(3, 3, 1),
 	(4, 4, 2),
-	(5, 5, 50),
-	(6, 6, 54);
+	(5, 5, 4),
+	(6, 6, 3);
 /*!40000 ALTER TABLE `consultant_modules` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

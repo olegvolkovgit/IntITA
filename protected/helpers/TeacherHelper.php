@@ -46,15 +46,16 @@ class TeacherHelper
     }
 
     public static function getRoleTitle($id){
-        $title = 'title_ua';
-        return Roles::model()->findByPk($id)->$title;
+        return Roles::model()->findByPk($id)->title_ua;
     }
 
     public static function getTeacherAttributeValue($teacher, $attribute){
         $result = '';
         switch($attribute){
             case '1': //capacity
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
                 break;
             case '2': //trainer's students
                 $result = TeacherHelper::getTrainerStudents($teacher);
@@ -65,23 +66,33 @@ class TeacherHelper
             case '4':// leader's projects
                 $result = TeacherHelper::getLeaderProjects($teacher);
                 break;
-            case '6'://leader's modules
+            case '7'://leader's modules
                 $result = TeacherHelper::getLeaderModules($teacher);
                 break;
-            case '7'://author's modules
-                $result = TeacherHelper::getLeaderModules($teacher);
+            case '6'://author's modules
+                $result = TeacherHelper::getTeacherModules($teacher);
                 break;
             case '8'://leader's capacity
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
                 break;
             default:
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                }
         }
         return $result;
     }
 
     public static function getLeaderModules($teacher){
         $modules = LeaderModules::getModulesByLeader($teacher);
+        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+    public static function getTeacherModules($teacher){
+        $modules = TeacherModule::getModulesByTeacher($teacher);
         $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }
@@ -122,5 +133,26 @@ class TeacherHelper
         $modules = ConsultantModules::getModulesByConsultant($teacher);
         $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
+    }
+
+    public static function getRoleTitlesList(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, title_ua';
+        $criteria->distinct = true;
+        $criteria->toArray();
+
+        $result = '';
+        $titles = Roles::model()->findAll($criteria);
+        for($i = 0; $i < count($titles); $i++){
+            $result[$i][$titles[$i]['id']] = $titles[$i]['title_ua'];
+        }
+        return $result;
+    }
+    public static function isTeacherAuthorModule($idUser,$idModule){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
+            $teacherId = Teacher::model()->findByAttributes(array('user_id' => $idUser));
+            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule));
+        }
+        if(isset($author)) return true; else return false;
     }
 }

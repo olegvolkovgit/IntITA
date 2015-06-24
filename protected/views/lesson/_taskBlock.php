@@ -15,7 +15,7 @@
 
 <div class="lessonTask">
     <img class="lessonBut" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?>">
-    <div class="lessonButName" unselectable = "on"><?php echo Yii::t('lecture','0086'); ?> 1</div>
+    <div class="lessonButName" unselectable = "on"><?php echo Yii::t('lecture','0086'); ?></div>
     <div class="lessonLine"></div>
     <div class="lessonBG">
         <div class="instrTaskImg">
@@ -27,14 +27,12 @@
                 <?php echo $data['html_block'];?>
             </ol>
             </div>
-            <div class="BBCode">
-                <form action="http://ii.itatests.com" method="post">
-                    <input type="hidden" name="task" value="1">
-                    <input type="hidden" name="lang" value="c">
-                    <textarea name="code" > </textarea>
-                    <input href="#" id="lessonTask2" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
-                </form>
-            </div>
+            <form action="http://ii.itatests.com" method="post" class="sendAnswer">
+                <input type="hidden" name="task" value="<?php echo $data['id_lecture'].'-'.$data['block_order'] ?>">
+                <input type="hidden" name="lang" value="c">
+                <textarea name="code" > </textarea>
+                <input name="send" id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
+            </form>
         </div>
     </div>
 </div>

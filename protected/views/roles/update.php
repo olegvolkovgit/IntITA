@@ -3,9 +3,9 @@
 /* @var $model Roles */
 
 $this->breadcrumbs=array(
-	'Roles'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
+	'Ролі викладачів'=>array('tmanage/index'),
+	'Роль '.$model->title_ua=>array('view','id'=>$model->id),
+	'Редагувати',
 );
 
 $this->menu=array(
@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Roles <?php echo $model->id; ?></h1>
+<h1> Редагувати роль <?php echo $model->title_ua; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -126,4 +126,21 @@ class Project extends CActiveRecord
 
         return (!empty($projects))?$projects:[];
     }
+
+    public static function setRoleAttribute($teacher, $attribute, $value){
+        $result = true;
+//        if (TrainerStudent::model()->exists('teacher=:teacher and student=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
+//            $model = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'student'=>$attribute));
+//        } else{
+//            $model = new AttributeValue();
+//            $model->teacher = $teacher;
+//            $model->student = $attribute;
+//        }
+//        $model->value = $value;
+//        if ($model->validate()){
+//            $model->save();
+//            $result = true;
+//        }
+        return $result;
+    }
 }
