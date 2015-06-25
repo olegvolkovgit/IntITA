@@ -50,7 +50,7 @@ function getIdName() {
                 convertImageLinks: true,
                 convertUrlLinks: true,
                 convertLinks: true,
-                imageUpload: 'http://localhost/IntITA/upload/images/picUpload.php',
+                imageUpload: '/lesson/uploadImage',
                 plugins: ['table',
                           'fontfamily',
                           'fontsize',

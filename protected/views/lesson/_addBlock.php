@@ -6,6 +6,7 @@
  * Time: 16:58
  */
 ?>
+
 <?php if($editMode){?>
     <a name="newBlockForm">
     <div id="textBlockForm">
@@ -14,6 +15,8 @@
             <br>
             <span class="formLabel">Новий блок:</span>
             <br>
+            <a href="<?php echo Yii::app()->createUrl('lesson/formulaRedactor');?>">Formula redactor</a>
+            <a href="http://xn--80aaasqmjc6cd.xn--j1amh/mathred/mathred.htm">Formula redactor</a>
             <br>
             <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
             <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
@@ -53,6 +56,9 @@ if ($editMode) {
             'css' => 'wym.css',
         ),
         'plugins' => array(
+            'table' => array(
+                'js' => array('table.js',),
+            ),
             'fullscreen' => array(
                 'js' => array('fullscreen.js',),
             ),
