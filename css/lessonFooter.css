@@ -103,3 +103,6 @@ table.ratingLeson{
 .nextLesonLink input[type="submit"]:hover {
     background: #454545;
 }
+.subViewLessons{
+    word-wrap: break-word;
+}

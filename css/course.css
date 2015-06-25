@@ -387,13 +387,17 @@ body .grid-view table.items td.aliasColumn{
 body .grid-view table.items td.titleColumn{
     vertical-align: top;
     background-color: white;
-    padding-left: 0px;
+    padding-left: 0;
     float:left;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;!important;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;!important;
+    width:450px;
 }
-
+.grid-view table.items td.titleColumn a{
+    width: 100%;
+    word-wrap: break-word;
+}
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
     background: #ffffff;
 }

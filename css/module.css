@@ -177,6 +177,9 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     width: 20px;
     height: 20px;
 }
+.grid-view table.items{
+    border:none;
+}
 body .grid-view table.items td{
     font-size: 16px;
     background-color: white;
@@ -196,15 +199,15 @@ body .grid-view table.items td.aliasColumn{
     margin-bottom: 0px;
     padding-left: 0px;
 }
-
 body .grid-view table.items td.titleColumn{
     vertical-align: top;
     background-color: white;
-    padding-left: 0px;
+    padding-left: 0;
     float:left;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;!important;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;!important;
+    width:450px;
 }
 
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
@@ -214,13 +217,12 @@ body .grid-view table.items td.titleColumn{
 .grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
     background: #ffffff;
 }
-
-.grid-view table.items{
-    border:none;
+.grid-view table.items td.titleColumn a{
+    width: 100%;
+    word-wrap: break-word;
 }
-
 .grid-view{
-    padding-top: 0px;
+    padding-top: 0;
 }
 div.ratico{
     display: inline-block;
