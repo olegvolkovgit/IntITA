@@ -179,7 +179,7 @@
 
 		source: true,
 		buttons: ['html', 'formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist',
-				  'outdent', 'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule'], // + 'underline'
+				  'outdent', 'indent', 'image', 'file', 'link', 'alignment', 'horizontalrule', 'underline', 'table'], // + 'underline'
 
 		buttonsHide: [],
 		buttonsHideOnMobile: [],

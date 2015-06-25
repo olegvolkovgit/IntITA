@@ -226,4 +226,8 @@ class LessonController extends Controller{
         }
     }
 
+    public function actionFormulaRedactor(){
+        $this->render('formulaRedactor');
+    }
+
 }
