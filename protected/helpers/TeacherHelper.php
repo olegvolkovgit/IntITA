@@ -53,7 +53,9 @@ class TeacherHelper
         $result = '';
         switch($attribute){
             case '1': //capacity
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
                 break;
             case '2': //trainer's students
                 $result = TeacherHelper::getTrainerStudents($teacher);
@@ -64,23 +66,33 @@ class TeacherHelper
             case '4':// leader's projects
                 $result = TeacherHelper::getLeaderProjects($teacher);
                 break;
-            case '6'://leader's modules
+            case '7'://leader's modules
                 $result = TeacherHelper::getLeaderModules($teacher);
                 break;
-            case '7'://author's modules
-                $result = TeacherHelper::getLeaderModules($teacher);
+            case '6'://author's modules
+                $result = TeacherHelper::getTeacherModules($teacher);
                 break;
             case '8'://leader's capacity
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
                 break;
             default:
-                $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                }
         }
         return $result;
     }
 
     public static function getLeaderModules($teacher){
         $modules = LeaderModules::getModulesByLeader($teacher);
+        $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+    public static function getTeacherModules($teacher){
+        $modules = TeacherModule::getModulesByTeacher($teacher);
         $result = TeacherHelper::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }

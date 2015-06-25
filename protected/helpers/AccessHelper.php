@@ -194,6 +194,17 @@ class AccessHelper
         return $result;
     }
 
+    public static function generateRolesList(){
+        $roles = Roles::model()->findAll();
+        $count = count($roles);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $roles[$i]->id;
+            $result[$i]['alias'] = $roles[$i]->title_ua;
+        }
+        return $result;
+    }
+
     public static function generateModulesList($course=1){
         $modules = Module::model()->findAllByAttributes(array('course' => $course));
         $count = count($modules);
@@ -236,6 +247,7 @@ class AccessHelper
         }
         return $result;
     }
+
     public static function accesModule($id){
         if (Yii::app()->user->isGuest){
             return false;

@@ -118,4 +118,21 @@ class ConsultantModules extends CActiveRecord
 
         return (!empty($modules))?$modules:[];
     }
+
+    public static function setRoleAttribute($teacher, $attribute, $value){
+        $result = false;
+        if (ConsultantModules::model()->exists('consultant=:teacher and module=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
+            $model = ConsultantModules::model()->findByAttributes(array('consultant'=>$teacher, 'module'=>$attribute));
+        } else{
+            $model = new ConsultantModules();
+            $model->consultant = $teacher;
+            $model->module = $attribute;
+        }
+        $model->value = $value;
+        if ($model->validate()){
+            $model->save();
+            $result = true;
+        }
+        return $result;
+    }
 }
