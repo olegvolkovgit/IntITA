@@ -32,54 +32,40 @@
         )
     )); ?>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'firstname',array('class'=>'formFirstname','id'=>'formTeacher'))?>
+            <?=$form->label($teacherletter,'firstname')?>
             <?=$form->textField($teacherletter,'firstname')?>
-<!--            <br>-->
             <?=$form->error($teacherletter,'firstname')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'lastname',array('class'=>'formLastname','id'=>'formTeacher'))?>
+            <?=$form->label($teacherletter,'lastname')?>
             <?=$form->textField($teacherletter,'lastname')?>
-<!--            <br>-->
             <?=$form->error($teacherletter,'lastname')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'age',array('class'=>'formYearname','id'=>'formTeacher'))?>
+            <?=$form->label($teacherletter,'age')?>
             <?=$form->textField($teacherletter,'age')?>
-<!--            <br>-->
             <?=$form->error($teacherletter,'age')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'education',array('class'=>'formEducationname','id'=>'formTeacher'))?>
+            <?=$form->label($teacherletter,'education')?>
             <?=$form->textField($teacherletter,'education')?>
-<!--            <br>-->
             <?=$form->error($teacherletter,'education')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'phone',array('class'=>'formPhonename','id'=>'formTeacher'))?>
-            <?=$form->textField($teacherletter,'phone')?>
-<!--            <br>-->
+            <?=$form->label($teacherletter,'phone')?>
+            <?=$form->textField($teacherletter,'phone',array('maxlength'=>13))?>
             <?=$form->error($teacherletter,'phone')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'email',array('class'=>'formEmail','id'=>'formTeacher'))?>
+            <?=$form->label($teacherletter,'email')?>
             <?=$form->textField($teacherletter,'email')?>
-<!--            <br>-->
             <?=$form->error($teacherletter,'email')?>
         </div>
-        <br><br>
         <div class="row">
-            <?=$form->labelEx($teacherletter,'courses',array('class'=>'formTextname','id'=>'formTeacher'))?>
-            <?=$form->textArea($teacherletter,'courses',array('class'=>'formTeacher1','id'=>'formTeacher2'))?>
-            <br><br><br>
+            <?=$form->label($teacherletter,'courses',array('class'=>'courseslabel'))?>
+            <?=$form->textArea($teacherletter,'courses')?>
             <?=$form->error($teacherletter,'courses')?>
         </div>
-        <br><br>
     <ul class="actions">
         <?=CHtml::submitButton(Yii::t('teachers', '0180'),array('id'=>'send_btn', 'name'=>'sendletter'))?>
     </ul>
@@ -90,10 +76,3 @@
         endif; ?>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        var today = new Date();
-        var yr = today.getFullYear();
-        $("#bdate").inputmask("dd/mm/yyyy", {yearrange: { minyear: 1900, maxyear: yr-3 }, "placeholder": "<?php echo Yii::t('regexp', '0262');?>"}); //specify year range
-    });
-</script>
