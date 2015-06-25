@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-25 14:06:49
+-- Date/time:                    2015-06-25 17:31:57
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_record`),
   KEY `FK_messages_sourcemessages` (`id`),
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1442 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -1465,7 +1465,13 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1438, 426, 'en', 'years:'),
 	(1439, 427, 'ua', 'Введіть дату народження в форматі дд/мм/рррр'),
 	(1440, 427, 'ru', 'Введите дату рождения в формате дд/мм/гггг'),
-	(1441, 427, 'en', 'Enter your date of birth in the format DD/MM/YYYY');
+	(1441, 427, 'en', 'Enter your date of birth in the format DD/MM/YYYY'),
+	(1442, 428, 'ua', 'Введіть коректний вік'),
+	(1443, 428, 'ru', 'Введите корректный возраст'),
+	(1444, 428, 'en', 'Enter the correct age'),
+	(1445, 429, 'ua', 'Недопустимі символи!'),
+	(1446, 429, 'ru', 'Недопустимые символы!'),
+	(1447, 429, 'en', 'Invalid characters!');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
