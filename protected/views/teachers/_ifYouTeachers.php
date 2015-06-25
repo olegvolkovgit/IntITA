@@ -83,7 +83,7 @@
         <ul class="actions">
             <?=CHtml::submitButton(Yii::t('teachers', '0180'),array('id'=>'send_btn', 'name'=>'sendletter'))?>
         </ul>
-    <?php $this->endWidget(); ?>
+    </form>
     <div style="margin-top: 75px">
         <?php if(Yii::app()->user->hasFlash('messagemail')):
             echo Yii::app()->user->getFlash('messagemail');

@@ -35,6 +35,7 @@
 #hambMenu
 {
     display: none;
+    oveflow: hidden;
     position: absolute;
     left: inherit;
     background: #ffffff;
