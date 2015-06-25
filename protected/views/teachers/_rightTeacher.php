@@ -12,7 +12,7 @@
 //var_dump($post[$i-1]);die;
 ?>
 <div class="rightTeacher">
-    <?php $this->renderPartial('_ifYouTeachers', array('post' => $post)); ?>
+    <?php $this->renderPartial('_ifYouTeachers', array('post' => $post,'teacherletter'=>$teacherletter)); ?>
 
     <?php
     $j=0;

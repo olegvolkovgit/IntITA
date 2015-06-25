@@ -123,20 +123,7 @@ class TeachersController extends Controller
 	 */
 	public function actionIndex()
 	{
-        $criteria= new CDbCriteria;
-        $criteria->alias = 'teacher';
-        $criteria->order = 'rating DESC';
-		$dataProvider = new CActiveDataProvider('Teacher', array(
-            'criteria' => $criteria,
-            'Pagination'=>false,
-        ));
-//var_dump($dataProvider);die;
-        $teachers = Teacher::getAllTeachersId();
-
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-            'teachers'=>$teachers,
-		));
+        $this->renderIndex(new TeacherLetter);
 	}
 
 	/**
@@ -184,8 +171,11 @@ class TeachersController extends Controller
     public function actionTeacherLetter()
     {
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
-
-        if($_POST['sendletter']) {
+        $obj=new TeacherLetter;
+        $obj->attributes=$_POST["TeacherLetter"];
+        if ($obj->validate())
+        {
+        //if($_POST['sendletter']) {
             if(!empty($_POST['textname'])) {
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
@@ -198,13 +188,14 @@ class TeachersController extends Controller
                 $mess = "Ім'я: ".$firstname." ".$lastname."\r\n"."Дата народження: ".$year."\r\n"."Освіта: ".$educ."\r\n"."Телефон: ".$phone."\r\n"."Курси які готовий викладати: ".$courses;
                 // $to - кому отправляем
                 $to = Yii::app()->params['adminEmail'];
-
                 // функция, которая отправляет наше письмо.
                 mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $from . "\r\n");
                 Yii::app()->user->setFlash('messagemail','Ваше повідомлення відправлено');
+                header('Location: '.$_SERVER['HTTP_REFERER']);
             }
-            header('Location: '.$_SERVER['HTTP_REFERER']);
         }
+        else $this->renderIndex($obj);
+        //}
     }
 
     public function getTitles($courses){
@@ -213,6 +204,25 @@ class TeachersController extends Controller
             $titles[$i]['title'] = Course::model()->findByPk($courses[$i]["course"])->course_name;
         }
         return $titles;
+    }
+
+    private function renderIndex($teacherLetter)
+    {
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'teacher';
+        $criteria->order = 'rating DESC';
+        $dataProvider = new CActiveDataProvider('Teacher', array(
+            'criteria' => $criteria,
+            'Pagination'=>false,
+        ));
+        //var_dump($dataProvider);die;
+        $teachers = Teacher::getAllTeachersId();
+
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+            'teachers'=>$teachers,
+            'teacherletter'=>$teacherLetter
+        ));
     }
 
 

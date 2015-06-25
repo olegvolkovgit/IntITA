@@ -66,11 +66,11 @@ $.Redactor.opts.langs['ua'] = {
 	fullscreen: 'На весь екран',
 	deleted: 'Закреслений',
     anchor: 'Anchor',
-	link_new_tab: 'Open link in new tab',
+	link_new_tab: 'Відкрити посилання у новій вкладці',
 	underline: 'Underline',
 	alignment: 'Alignment',
-	filename: 'Name (optional)',
-	edit: 'Edit',
-	center: 'Center'
+	filename: 'Назва (optional)',
+	edit: 'Редагувати',
+	center: 'По центру'
 };
 })( jQuery );
