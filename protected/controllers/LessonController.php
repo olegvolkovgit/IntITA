@@ -82,10 +82,10 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
-        $content = substr($htmlBlock, 2, count($htmlBlock) - 5);
+       // $content = substr($htmlBlock, 2, count($htmlBlock) - 5);
 
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture,'block_order' => $order));
-        $model->html_block = $content;
+        $model->html_block = $htmlBlock;
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);
     }

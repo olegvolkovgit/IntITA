@@ -5,7 +5,10 @@
  * Date: 14.04.2015
  * Time: 18:36
  */
-$formulaCode = addcslashes($data['html_block'], '\\');
+$temp = substr($data['html_block'], 2, count($data['html_block']) - 5);
+$formulaCode = addcslashes($temp, '\\');
+//var_dump($formulaCode);die();
+
 ?>
 <head>
     <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
