@@ -18,8 +18,7 @@
             <br>
             <span class="formLabel">Новий блок:</span>
             <br>
-            <a href="javascript:OpenLatexEditor('newTextBlock','latex','en_us', 'false')">Formula redactor</a>
-<!--            <a href="http://xn--80aaasqmjc6cd.xn--j1amh/mathred/mathred.htm">Formula redactor</a>-->
+            <a href="javascript:OpenLatexEditor('newTextBlock','latex','uk_uk', 'false')">Додати формулу</a>
             <br>
             <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
             <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
@@ -38,6 +37,8 @@
                 <option value="7" >Інструкція
                 <option value="8" >Заголовок (для змісту)
                 <option value="9" >Зображення
+                <option value="10" >Формула
+                <option value="11" >Таблиця
             </select>
             <br>
             <br>
