@@ -1,13 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "permissions".
+ * This is the model class for table "pay_modules".
  *
- * The followings are the available columns in table 'permissions':
+ * The followings are the available columns in table 'pay_modules':
  * @property integer $id_user
- * @property integer $id_resource
+ * @property integer $id_module
  * @property integer $rights
+ *
+ * The followings are the available model relations:
+ * @property Module $idModule
+ * @property User $idUser
  */
+
 //Flags for bits mask - right's array in db
 //define('U_READ', 1 << 0);      // 0000 0001  view resource
 //define('U_EDIT', 1 << 1);      // 0000 0010  edit resource
@@ -15,22 +20,16 @@
 //define('U_DELETE', 1 << 3);     // 0000 1000  delete resource
 //define ('U_ALL', U_READ | U_CREATE | U_EDIT | U_DELETE); // 1111 all permissions
 
-class Permissions extends CActiveRecord
+class PayModules extends CActiveRecord
 {
-
-    public $User;
-    /**
+	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'permissions';
+		return 'pay_modules';
 	}
 
-
-    public function _construct(){
-        $this->User = 1;
-    }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -39,11 +38,11 @@ class Permissions extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_resource, rights', 'required'),
-			array('id_user, id_resource, rights', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_module, rights', 'required'),
+			array('id_user, id_module, rights', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_user, id_resource, rights', 'safe', 'on'=>'search'),
+			array('id_user, id_module, rights', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +54,8 @@ class Permissions extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
+			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
 		);
 	}
 
@@ -65,7 +66,7 @@ class Permissions extends CActiveRecord
 	{
 		return array(
 			'id_user' => 'Id User',
-			'id_resource' => 'Id Resource',
+			'id_module' => 'Id Module',
 			'rights' => 'Rights',
 		);
 	}
@@ -89,7 +90,7 @@ class Permissions extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user);
-		$criteria->compare('id_resource',$this->id_resource);
+		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('rights',$this->rights);
 
 		return new CActiveDataProvider($this, array(
@@ -101,14 +102,12 @@ class Permissions extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Permissions the static model class
+	 * @return PayModules the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-    
 
     /*
      * Returns bit mask for change user permissions
@@ -120,19 +119,19 @@ class Permissions extends CActiveRecord
             $right = $rights[$i];
             switch ($right) {
                 case 'read':
-                    $flag |= 1 << 0;  // add to mask bit for right READ
+                    $flag |= 1<<0;  // add to mask bit for right READ
                     break;
                 case 'edit':
-                    $flag |= 2 << 0;  // add to mask bit for right EDIT
+                    $flag |= 1 << 1;  // add to mask bit for right EDIT
                     break;
                 case 'create':
-                    $flag |= 3 << 0; // add to mask bit for right CREATE
+                    $flag |= 1 << 2; // add to mask bit for right CREATE
                     break;
                 case 'delete':
-                    $flag |= 4 << 0; // add to mask bit for right DELETE
+                    $flag |= 1 << 3; // add to mask bit for right DELETE
                     break;
                 default:
-                    throw new CHttpException(500, 'Permisssions::setRight:  Invalid param $rights');
+                    throw new CHttpException(500, 'PayModule::setRight:  Invalid param $rights');
             }
         }
         return $flag;
@@ -155,14 +154,15 @@ class Permissions extends CActiveRecord
      * @param integer $idResource resource
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
-    public function checkPermission($idUser, $idResource, $rights){
-        $record = $this->findByAttributes(array('id_user' => $idUser,
-                'id_resource' => $idResource));
-        if (is_null($record)) {
-            return false;
+    public function checkModulePermission($idUser, $idResource, $rights){
+        $recordModule = $this->findByAttributes(array('id_user' => $idUser,
+            'id_module' => $idResource));
+        if (is_null($recordModule)) {
+            $idCourse = Module::model()->findByAttributes(array('module_ID' => $idResource))->course;
+            return PayCourses::model()->checkCoursePermission($idUser, $idCourse, $rights);
         } else {
             $mask = $this->setFlags($rights);
-            if ($record->rights & $mask){
+            if ($recordModule->rights & $mask){
                 return true;
             }else {
                 return false;
@@ -173,7 +173,7 @@ class Permissions extends CActiveRecord
 
     public function primaryKey()
     {
-        return array('id_user', 'id_resource');
+        return array('id_user', 'id_module');
     }
 
     /*
@@ -182,28 +182,29 @@ class Permissions extends CActiveRecord
  * @param integer $idResource
  * @param array $rights array of rights for user (allowed read, edit, create, delete)
  * */
-    public function setPermission($idUser, $idResource, $rights){
-        if(Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $idUser, ':resource' => $idResource)))
+    public function setModulePermission($idUser, $idResource, $rights){
+        if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource)))
         {
-            Permissions::model()->updateByPk(array('id_user'=>$idUser,'id_resource'=> $idResource), array('rights' => Permissions::setFlags($rights)));
+            PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => PayModules::setFlags($rights)));
         }
         else
         {
-            Yii::app()->db->createCommand()->insert('permissions', array(
+            Yii::app()->db->createCommand()->insert('pay_modules', array(
                 'id_user' => $idUser,
-                'id_resource' => $idResource,
-                'rights' => Permissions::setFlags($rights),
+                'id_module' => $idResource,
+                'rights' => PayModules::setFlags($rights),
             ));
         }
-}
-    public function setRead($idUser, $idResource){
-        $model = new Permissions();
-        if(Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $idUser, ':resource' => $idResource))) {
-            $model = Permissions::model()->findByAttributes(array('id_user' => $idUser, 'id_resource' => $idResource));
-            $rights = $model->rights | 1 << 0;
-             Permissions::model()->updateByPk(array('id_user'=>$idUser,'id_resource'=> $idResource), array('rights' => $rights));
-        } else {
-            $model->setPermission($idUser, $idResource, array('read'));
-        }
     }
+    public function setModuleRead($idUser, $idResource){
+        $model = new PayModules();
+        if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource))) {
+            $model = PayModules::model()->findByAttributes(array('id_user' => $idUser, 'id_module' => $idResource));
+            $rights = $model->rights | 1 << 0;
+            PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => $rights));
+        } else {
+            $model->setModulePermission($idUser, $idResource, array('read'));
+        }
+}
+
 }

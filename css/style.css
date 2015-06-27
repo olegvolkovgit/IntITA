@@ -550,6 +550,8 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
     display: inline-block;
     margin-top: 40px;
     color: #666666;
+    width: 80%;
+    word-wrap: break-word;
 }
 .my-cool-breadcrumbs a:visited{
     color: #666666;

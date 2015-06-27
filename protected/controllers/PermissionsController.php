@@ -186,8 +186,14 @@ class PermissionsController extends Controller
 
     public function actionNewTeacherPermission(){
         $teacher = Yii::app()->request->getPost('user');
+        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
         $module = Yii::app()->request->getPost('module');
         TeacherModule::addTeacherAccess($teacher, $module);
+        $permission = new PayModules();
+        $permission->setModulePermission(
+            $userId,
+            $module,
+            array('read', 'edit'));
         //$this->actionIndex();
         $this->redirect(Yii::app()->request->urlReferrer);
     }

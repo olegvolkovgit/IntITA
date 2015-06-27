@@ -16,11 +16,12 @@ class TeacherLetter extends CFormModel
     public function rules()
     {
         return array(
-            array('firstname, lastname, phone, email, courses','required'),
-            array('age', 'numerical','integerOnly'=>true),
+            array('firstname, lastname, phone, email, courses','required','message'=>Yii::t('error','0268')),
+            array('age', 'numerical','integerOnly'=>true, 'min'=>16,'max'=>100,"tooSmall" => Yii::t('error','0428'),"tooBig" => Yii::t('error','0428'),'message'=> Yii::t('error','0428')),
             array('firstname, lastname', 'length', 'max'=>35),
-            array('firstname, lastname', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\']+$/u','message'=>'Недопустимі символи!'),
-            array('email','email'),
+            array('phone', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>Yii::t('error','0429')),
+            array('firstname, lastname', 'match', 'pattern'=>'/^[a-zа-яіёA-ZА-ЯІЁ\s\'’]+$/u','message'=>Yii::t('error','0429')),
+            array('email','email', 'message'=>Yii::t('error','0271')),
             array('email','length','max'=>50)
         );
     }

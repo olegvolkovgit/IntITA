@@ -5,24 +5,29 @@ class LessonController extends Controller{
 
     public function initialize($id)
     {
-        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
-        if(Yii::app()->user->isGuest){
+        $lecture = Lecture::model()->findByPk($id);
+        if (!($lecture->isFree)){
+            if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
-        }
-        else{
-            $permission = new Permissions();
-            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
-                throw new CHttpException(403, Yii::t('errors', '0139'));
             }
-        }
+            else{
+                if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
+                    if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule))
+                        return true;
+                }
+                $modulePermission = new PayModules();
+                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+                throw new CHttpException(403, Yii::t('errors', '0139'));
+                }
+            }
         }
     }
 
     public function actionIndex($id){
-        $this->initialize($id);
-        $editMode = $this->checkEditMode($id, Yii::app()->user->getId());
-
         $lecture = Lecture::model()->findByPk($id);
+
+        $this->initialize($id);
+        $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture='.$id);
@@ -61,22 +66,28 @@ class LessonController extends Controller{
         $this->render('unableLesson');
     }
 
-    public function filters()
-    {
-        return array(
-            'ajaxOnly + save',
-        );
-    }
-
     public function actionSave(){
         $order = substr(Yii::app()->request->getPost('order'), 2);
         $id = Yii::app()->request->getPost('idLecture');
-        var_dump($order);
-
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
         $model->save();
+    }
+
+    public function actionSaveFormula(){
+
+
+        $htmlBlock = Yii::app()->request->getPost('content');
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+       // $content = substr($htmlBlock, 2, count($htmlBlock) - 5);
+
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture,'block_order' => $order));
+        $model->html_block = $htmlBlock;
+        $model->save();
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCreateNewBlock(){
@@ -107,10 +118,12 @@ class LessonController extends Controller{
                     }
                 }
                 break;
+            case '10':;
+                $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
+                break;
             default:
                 $model->html_block = $htmlBlock;
         }
-
         $model->id_type = $idType;
         $model->type = ElementType::model()->findByPk($idType)->type;
 
@@ -186,9 +199,9 @@ class LessonController extends Controller{
         LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
     }
 
-    public function checkEditMode($idLecture, $idUser){
-        $permission = new Permissions();
-        if ($permission->checkPermission($idUser, $idLecture, array('edit'))) {
+    public function checkEditMode($idModule, $idUser){
+        $permission = new PayModules();
+        if ($permission->checkModulePermission($idUser, $idModule, array('edit'))) {
             return true;
         } else {
             return false;

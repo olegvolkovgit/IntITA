@@ -92,6 +92,7 @@ div.aboutMore{
 }
 .txtMsg{
     white-space: pre-wrap;
+    word-wrap: break-word;
 }
 .txtMsg ul{
     margin-top: 0;

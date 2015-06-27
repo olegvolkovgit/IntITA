@@ -193,7 +193,7 @@ if (!isset($tab)) $tab='';
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
-        <?php if($post->avatar!=='/avatars/noname.png') {
+        <?php if($post->avatar!=='noname.png') {
         ?>
         <a style="display: block" href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
             Видалити аватар

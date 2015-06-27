@@ -22,16 +22,55 @@ div.ifYouTeachers{
     display:inline-block;
     margin-bottom: 90px;
     padding:20px;
+    padding-right:32px;
     background:#4B75A4;
     overflow: hidden;
 }
 div.ifYouTeachers label{
-    float: left;
+    display: inline-block;
+    text-align: right;
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+    color: #FFF;
 }
 div.ifYouTeachers input {
     float: right;
     width: 400px;
+    height: 40px;
+    border-radius: 5px;
     box-shadow: none;
+    padding-left: 7px;
+}
+div.ifYouTeachers textarea {
+    float: right;
+    width: 400px;
+    height: 160px;
+    border-radius: 5px;
+    box-shadow: none;
+    resize: none;
+    padding-left: 7px;
+}
+.ifYouTeachers .row{
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+.ifYouTeachers div{
+    border: none;
+}
+div.ifYouTeachers label.courseslabel{
+    line-height: 20px;
+}
+.ifYouTeachers .errorMessage{
+    display: inline-block;
+    color: darkred;
+    margin-left: 130px;
+}
+.ifYouTeachers div.error input, .ifYouTeachers div.error textarea{
+    border: 1px solid darkred;
 }
 
 .subLinksTeachers a{
@@ -149,7 +188,7 @@ td.profileTeacher a{
     color: #ffffff;
 }
 #send_btn {
-    width: 100px;
+    width: 110px;
     height:30px;
     border-radius: 10px;
     border:none;
@@ -158,21 +197,8 @@ td.profileTeacher a{
     font-size: medium;
     margin-top: 20px;
     clear: both;
-}
-.formFirstname.style {
-    margin-left: 50px;
-}
-.formLastname.style {
-    margin-left: 8px;
-}
-.formYearname.style {
-    margin-left: 52px;
-}
-.formEducationname.style {
-    margin-left: 30px;
-}
-.formPhonename.style {
-    margin-left: 15px;
+    font-weight: 600;
+    cursor: pointer;
 }
 .teachersList a{
     color: #4b75a4;

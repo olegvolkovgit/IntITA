@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-25 17:39:38
+-- Date/time:                    2015-06-27 19:58:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~128 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~150 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 1),
@@ -105,9 +105,9 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(40, 19, 1),
 	(40, 20, 3),
 	(40, 21, 1),
-	(40, 22, 1),
-	(40, 23, 1),
-	(40, 24, 1),
+	(40, 22, 15),
+	(40, 23, 15),
+	(40, 24, 15),
 	(40, 26, 7),
 	(40, 27, 3),
 	(40, 47, 3),

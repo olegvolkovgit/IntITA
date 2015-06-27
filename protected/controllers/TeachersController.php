@@ -170,7 +170,6 @@ class TeachersController extends Controller
 	}
     public function actionTeacherLetter()
     {
-        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         $obj=new TeacherLetter;
         $obj->attributes=$_POST["TeacherLetter"];
         if ($obj->validate())
