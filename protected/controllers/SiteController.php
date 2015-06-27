@@ -243,21 +243,19 @@ class SiteController extends Controller
         elseif(!mysql_select_db($database))
             die('Не удалось выбрать БД!');
 
-        $siu = $_COOKIE['user_id_transition'];
+        if (isset($_COOKIE['user_id_transition'])) {
+            $siu = $_COOKIE['user_id_transition'];
 
-        $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =".$siu.";";
-        mysql_query($sql);
-        mysql_close();
+            $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
+            mysql_query($sql);
+            mysql_close();
 
 //        unset($_COOKIE["user_id_transition"]);
-        setCookie("user_id_transition", null, time()-10, "/", "intita");
-//        $tmp = Yii::app()->session['translatedTable'];
+            setCookie("user_id_transition", null, time() - 10, "/", "intita");
+        }
 		Yii::app()->user->logout();
-//        Yii::app()->session['translatedTable'] = $tmp;
 		$this->redirect(Yii::app()->homeUrl);
-
-
-    }
+	}
 
     public function actionSocialLogin()
     {

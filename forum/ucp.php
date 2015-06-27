@@ -20,14 +20,12 @@ $phpEx = substr(strrchr(__FILE__, '.'), 1);
 require($phpbb_root_path . 'common.' . $phpEx);
 require($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 require($phpbb_root_path . 'includes/functions_module.' . $phpEx);
-
 // Basic parameter data
 $id 	= request_var('i', '');
 $mode	= request_var('mode', '');
-
 if (in_array($mode, array('login', 'login_link', 'logout', 'confirm', 'sendpassword', 'activate')))
 {
-	define('IN_LOGIN', true);
+    define('IN_LOGIN', true);
 }
 
 // Start session management
@@ -69,7 +67,7 @@ switch ($mode)
 //
 //		$module->load('ucp', 'register');
 //		$module->display($user->lang['REGISTER']);
-        header ("location: /#form");
+        header ("location: /IntITA/#form");
         exit();
 	break;
 
@@ -84,7 +82,7 @@ switch ($mode)
 //		}
 //
 //		login_box(request_var('redirect', "index.$phpEx"));
-        header('location: /index.php?dialog=true');
+        header('location: /IntITA/index.php?dialog=true');
 	break;
 
 	case 'login_link':
