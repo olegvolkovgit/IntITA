@@ -8,16 +8,40 @@ class CoursemanageController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'users'=>array('*'),
+            ),
+        );
+    }
+
+    function isAdministrator()
+    {
+        if(AccessHelper::isAdmin())
+            return true;
+        else
+            return false;
+    }
 
 	/**
 	 * Displays a particular model.
@@ -36,14 +60,17 @@ class CoursemanageController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Course;
+   		$model=new Course;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Course']))
-		{
-			$model->attributes=$_POST['Course'];
+        {
+
+            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+            $model->attributes=$_POST['Course'];
+            $model->logo=$_FILES['Course'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
@@ -67,7 +94,10 @@ class CoursemanageController extends Controller
 
 		if(isset($_POST['Course']))
 		{
-			$model->attributes=$_POST['Course'];
+            $model->oldLogo=$model->course_img;
+            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+            $model->attributes=$_POST['Course'];
+            $model->logo=$_FILES['Course'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
@@ -84,7 +114,7 @@ class CoursemanageController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+    	$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -96,11 +126,7 @@ class CoursemanageController extends Controller
 	 */
 	public function actionIndex()
 	{
-        if (!AccessHelper::isAdmin()){
-            throw new CHttpException(403, 'У Вас немає права перегляду та редагування цієї сторінки.');
-        }
-
-		$dataProvider=new CActiveDataProvider('Course');
+    	$dataProvider=new CActiveDataProvider('Course');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

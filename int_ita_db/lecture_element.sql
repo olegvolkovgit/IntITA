@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-05 18:11:40
+-- Date/time:                    2015-06-25 17:39:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~20 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~37 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -46,7 +46,24 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(35, 1, 13, 'text', 8, '<p>Глава 1.</p>'),
 	(36, 1, 14, 'label', 8, '<p>Глава 3.</p>'),
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
-	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>');
+	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
+	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
+	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/bVssxumkHI4"'),
+	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
+	(42, 1, 20, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
+	(43, 1, 21, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
+	(45, 1, 22, 'text', 1, '<p>y6</p>'),
+	(46, 1, 23, 'text', 1, '<iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/9eiRmWLcASw" frameborder="0" allowfullscreen=""></iframe>'),
+	(47, 1, 24, 'video', 2, '//www.youtube.com/embed/9eiRmWLcASw"'),
+	(56, 2, 2, 'text', 1, '/images/lecture/2139e6cb5c89529517e7c5ae47c49763.jpg'),
+	(57, 2, 3, 'image', 9, '/images/lecture/29ce2affb5bdaa6c330f9ed52d0cf64a.jpg"></p'),
+	(58, 2, 4, 'text', 1, '<p><img src="/images/lecture/f410fd7420bfa6c526e0fab647e3e484.jpg"></p>'),
+	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
+	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
+	(61, 2, 7, 'text', 1, '<p>\\[\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}\\]</p>'),
+	(62, 2, 8, 'text', 1, '<p>\\[\\color{aqua} {\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}}\\]</p>'),
+	(63, 2, 9, 'text', 1, '<p>\\[\\color{yellow} {\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}}\\]</p>'),
+	(64, 2, 10, 'text', 1, '<p>\\(\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}\\)</p>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -6,7 +6,11 @@
  * Time: 16:58
  */
 ?>
+
 <?php if($editMode){?>
+<head>
+    <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+</head>
     <a name="newBlockForm">
     <div id="textBlockForm">
         <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock');?>" method="post">
@@ -14,6 +18,8 @@
             <br>
             <span class="formLabel">Новий блок:</span>
             <br>
+            <a href="javascript:OpenLatexEditor('newTextBlock','latex','en_us', 'false')">Formula redactor</a>
+<!--            <a href="http://xn--80aaasqmjc6cd.xn--j1amh/mathred/mathred.htm">Formula redactor</a>-->
             <br>
             <input name="idLecture" value="<?php echo $lecture->id;?>" hidden="hidden">
             <input name="order" value="<?php echo ($countBlocks + 1);?>" hidden="hidden">
@@ -31,6 +37,7 @@
                 <option value="6" >Підсумкове завдання
                 <option value="7" >Інструкція
                 <option value="8" >Заголовок (для змісту)
+                <option value="9" >Зображення
             </select>
             <br>
             <br>
@@ -45,13 +52,16 @@ if ($editMode) {
     $this->widget('ImperaviRedactorWidget', array(
         'selector' => "#newTextBlock",
         'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
+            'imageUpload' => Yii::app()->createUrl('/lesson/uploadImage'),
             'lang' => 'ua',
             'toolbar' => true,
             'iframe' => true,
             'css' => 'wym.css',
         ),
         'plugins' => array(
+            'table' => array(
+                'js' => array('table.js',),
+            ),
             'fullscreen' => array(
                 'js' => array('fullscreen.js',),
             ),

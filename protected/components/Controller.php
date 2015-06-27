@@ -24,6 +24,7 @@ class Controller extends CController
 	public $email;
 	public $imageSotial;
 
+
 	public function init(){
         $header = Header::model()->findByPk(1);
         $footer = Footer::model()->findByPk(1);

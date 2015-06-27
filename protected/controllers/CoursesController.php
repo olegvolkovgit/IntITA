@@ -31,6 +31,7 @@ class CoursesController extends Controller
 
         $criteria= new CDbCriteria;
         $criteria->alias = 'course';
+        $criteria->order = 'rating DESC';
         if ($selector !== 'all'){
             if ($selector == 'junior'){
                 $criteria->addInCondition('level', array('intern','strong junior','junior'));
@@ -40,11 +41,10 @@ class CoursesController extends Controller
             }
         }
 
-        $dataProvider = new CActiveDataProvider('Course'
-            , array(
+        $dataProvider = new CActiveDataProvider('Course', array(
             'criteria' => $criteria,
-        )
-        );
+            'Pagination'=>false,
+        ));
 
         $total = $dataProvider->getTotalItemCount();
         $count1 =round($total/2);

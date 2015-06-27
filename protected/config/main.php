@@ -20,35 +20,22 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'ext.autoadmin.*',
-		'ext.autoadmin.models.*',
-		'ext.autoadmin.models.field.*',
-		'ext.autoadmin.helpers.*',
-		'ext.autoadmin.controllers.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
-        'editable.*' //easy include of editable classes
+        'editable.*', //easy include of editable classes
+        'ext.giix-components.*', // giix components
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'admin',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-		),
-
-		'autoadmin'=>array(
-			'class'=>'ext.autoadmin.AutoAdmin',
-			'basePath' => dirname(__FILE__).'/../modules/autoadmin',
-			'wwwDirName' => 'www', //your DocumentRoot
-			'authMode' => true, //Switch on authorization system
-			'openMode' => true, //Use for temporary switching off all access limitations
-			'logMode' => false,
-		),
-
+        'gii' => array(
+            'class' => 'system.gii.GiiModule',
+            'generatorPaths' => array(
+                'ext.giix-core', // giix generators
+            ),
+            'password'=>'admin',
+        ),
 	),
 
 	// application components
@@ -164,7 +151,7 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-//         'imagesPath'=>'http://localhost/ITA/images',
+    //    'imagesPath'=>'http://localhost/IntITA/images',
         'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',

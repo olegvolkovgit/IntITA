@@ -399,7 +399,7 @@ Optional extensions on the jquery.inputmask base
                         } else if (kommaMatches.length > dotMatches.length) {
                             initialValue = initialValue.replace(/,/g, "");
                             initialValue = initialValue.replace(".", opts.radixPoint);
-                        } else { //equal 
+                        } else { //equal
                             initialValue = initialValue.indexOf(".") < initialValue.indexOf(",") ? initialValue.replace(/\./g, "") : initialValue = initialValue.replace(/,/g, "");
                         }
                     } else {

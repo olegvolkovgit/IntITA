@@ -17,7 +17,7 @@ class StaticFilesHelper {
                 return StaticFilesHelper::createAvatarsPath($name);
                 break;
             case 'common':
-                return taticFilesHelper::createCommonPath($subcategory, $name);
+                return StaticFilesHelper::createCommonPath($subcategory, $name);
                 break;
             case 'txt':
                 return StaticFilesHelper::createTxtPath($subcategory, $name);
@@ -85,6 +85,9 @@ class StaticFilesHelper {
         return $path;
     }
 
+    public static function createLectureImagePath(){
+        return '/images/lecture/';
+    }
 
     public static function createTxtPath($name){
         return Yii::app()->params['commonPath'].'/'.$name;

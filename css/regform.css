@@ -255,11 +255,7 @@ input.error,
 textarea.error,
 select.error
 {
-    border-color: #c72929;
     box-shadow: 0 0 4px #c72929;
-}
-.rowPass div.error input,.rowPass input.error{
-    border-color: #c72929;
 }
 .signIn .errorMessage {
     float:left;

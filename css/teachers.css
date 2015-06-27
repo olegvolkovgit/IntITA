@@ -28,7 +28,7 @@ div.ifYouTeachers{
 div.ifYouTeachers label{
     float: left;
 }
-div.ifYouTeachers input{
+div.ifYouTeachers input {
     float: right;
     width: 400px;
     box-shadow: none;
@@ -122,9 +122,10 @@ td.profileTeacher a{
 }
 #formTeacher {
     color: white;
-    text-align: right;
+    text-align: left;
     position: relative;
     left: 20px;
+    width: 100px;
 }
 .formTeacher1 {
     border-radius: 5px;
@@ -172,4 +173,10 @@ td.profileTeacher a{
 }
 .formPhonename.style {
     margin-left: 15px;
+}
+.teachersList a{
+    color: #4b75a4;
+}
+.teachersList a:hover{
+    color: #666666;
 }

@@ -7,6 +7,7 @@
  */
 $editMode = ($canEdit)?'true':'';
 ?>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
 <div class="courseModules">
     <?php
     if ($canEdit){
@@ -14,7 +15,7 @@ $editMode = ($canEdit)?'true':'';
         <div onclick="enableEdit();">
             <a href="#">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                     id="editIco" title="Редагувати список модулів"/>
+                     id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
             </a>
         </div>
     <?php
@@ -29,35 +30,35 @@ $editMode = ($canEdit)?'true':'';
         <a href="#moduleForm">
             <?php echo CHtml::hiddenField('idcourse', $model->course_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'), array('update' => '#moduleForm'), array('id' => 'addModule','title'=>'Додати модуль'));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'), array('update' => '#moduleForm'), array('id' => 'addModule','title'=>Yii::t('course', '0336')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
     </div>
-<h2>Модулі</h2>
+<h2><?php echo Yii::t('course', '0330') ?></h2>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'modules-grid',
     'dataProvider' => $dataProvider,
-    'emptyText' => 'У даному курсі модулів немає.',
+    'emptyText' => Yii::t('course', '0331'),
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
             'template'=>'{up}{down}{delete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
-            'deleteConfirmation'=>'Вы уверены что хотите удалить модуль?',
+            'deleteConfirmation'=>Yii::t('course', '0332'),
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->primaryKey))',
-                    'label' => 'Дезактивировать модуль',
+                    'label' => Yii::t('course', '0333'),
                     'visible'=> $editMode,
                 ),
                 'up' => array
                 (
 
-                    'label'=>'Поднять модуль вверх на 1 позицию',   //Text label of the button.
+                    'label'=>Yii::t('course', '0334'),   //Text label of the button.
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'options'=>array(
                         'class'=>'controlButtons;',
@@ -76,7 +77,7 @@ $editMode = ($canEdit)?'true':'';
                 'down' => array
                 (
 
-                    'label'=>'Опустить модуль вниз на 1 позицию',    //Text label of the button.
+                    'label'=>Yii::t('course', '0335'),    //Text label of the button.
                     'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->primaryKey))',
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                     'options'=>array(
@@ -97,7 +98,7 @@ $editMode = ($canEdit)?'true':'';
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>'$data->order == 0 ? "Виключено":"Модуль {$data->order}."',
+            'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('course', '0364').' {$data->order}."',
             'header'=>false,
             'htmlOptions'=>array('class'=>'aliasColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
@@ -108,7 +109,12 @@ $editMode = ($canEdit)?'true':'';
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => 'CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)))',
+            'value' => function($data) {
+                if (AccessHelper::accesModule($data->module_ID))
+                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)));
+                else
+                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)),array('class'=>'disableModule'));
+            }
         ),
     ),
     'summaryText' => '',

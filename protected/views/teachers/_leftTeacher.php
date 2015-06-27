@@ -8,10 +8,10 @@
 ?>
 <div class="leftTeacher">
     <?php
-    $i=0;
+    $j=0;
     foreach ($post as $teacherValue) {
-        $i++;
-        if ($i % 2 <> 0) {
+        $j++;
+        if ($j % 2 <> 0) {
             ?>
             <div class="teacherBlock">
                 <table>
@@ -24,32 +24,40 @@
                             <h2><?php echo $teacherValue->last_name ?></h2>
                             <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
-                            <p>
-                                <?php echo Yii::t('teachers', '0061'); ?>
-                            </p>
-                            <div class="teacherCourses">
-                                <ul>
-                                    <?php
-                                    for ($j = 0; $j < count($coursesID); $j++)
-                                    {
-                                        ?>
-                                        <li><a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesID[$j]['course']));?>"><?php echo $titles[$j]['title']; ?></a></li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </div>
+                            <?php $modules = TeacherHelper::getModulesByTeacher($teacherValue->teacher_id);
+                            if (!empty($modules)){?>
+                                <p>
+                                    <?php echo Yii::t('teachers', '0061'); ?>
+                                </p>
+                                <div class="TeacherProfilecourse">
+
+                                    <div class="teacherCourses">
+                                        <ul>
+                                            <?php
+                                            $count = count($modules);
+                                            for ($i = 0; $i < $count; $i++) {
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>$modules[$i]["idModule"]));?>"><?php echo $modules[$i]["title"]; ?></a>
+                                                </li>
+                                            <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php }?>
                         </td>
                     </tr>
                 </table>
                 <div class="aboutMore">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'readMore.png');?>"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a><br>
                     <?php
-                    for ($k=0; $k<10; $k++)
-                    {
-                        ?>
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/>
-                    <?php
+                    for ($k=0; $k<$teacherValue->rating; $k++) {?>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
+                    }
+                    for ($k=$teacherValue->rating; $k<10; $k++) {?>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
                     }
                     ?>
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>

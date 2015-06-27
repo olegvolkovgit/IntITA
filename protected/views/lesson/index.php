@@ -10,6 +10,7 @@
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type='text/javascript'>SyntaxHighlighter.all();</script>
 <!-- Підсвітка синтаксису -->
 <!-- Підключення BBCode WysiBB -->
@@ -46,7 +47,7 @@ $this->breadcrumbs=array(
 
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture));?>
+    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
@@ -72,7 +73,7 @@ $this->breadcrumbs=array(
         <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
         <br>
         <?php if($countBlocks){?>
-            <span class="listTheme"><?php echo Yii::t('lecture', '0317');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+            <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
 
             <div class="spoilerBody">
                 <?php
@@ -98,7 +99,7 @@ $this->breadcrumbs=array(
             'itemView'=>'_content',
             'summaryText' => '',
             'viewData' => array('editMode' => $editMode),
-            'emptyText' => Yii::t('lecture', '0316').'<br><br><br><br><br>',
+            'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',
             'pagerCssClass'=>'YiiPager',
             'ajaxUpdate' => true,
             'id'=>"blocks_list",
@@ -171,4 +172,9 @@ $this->breadcrumbs=array(
     }
 </script>
 </div>
-
+<!--send answer task-->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sendanswertask.js"></script>
+<!--send answer task-->
+<?php
+//if(isset($_POST['date']))
+//echo $_POST['date'] ?>

@@ -747,7 +747,7 @@
                 return isMatch;
             }
             function isValid(pos, c, strict, fromSetValid) { //strict true ~ no correction or autofill
-                strict = strict === true; //always set a value to strict to prevent possible strange behavior in the extensions 
+                strict = strict === true; //always set a value to strict to prevent possible strange behavior in the extensions
 
                 function _isValid(position, c, strict, fromSetValid) {
                     var rslt = false;
@@ -834,7 +834,7 @@
                         alternation,
                         isValidRslt,
                         altPos;
-                    //find last modified alternation 
+                    //find last modified alternation
                     for (var lAlt = getLastValidPosition() ; lAlt >= 0; lAlt--) {
                         altPos = getMaskSet()["validPositions"][lAlt];
                         if (altPos && altPos.alternation != undefined) {
@@ -864,7 +864,7 @@
                                         for (var dp = decisionPos; dp >= 0; dp--) {
                                             possibilityPos = getMaskSet()["validPositions"][dp];
                                             if (possibilityPos != undefined) {
-                                                possibilities = possibilityPos.locator[alternation]; //store to reset 
+                                                possibilities = possibilityPos.locator[alternation]; //store to reset
                                                 //possibilityPos.alternation = undefined;
                                                 possibilityPos.locator[alternation] = parseInt(altNdxs[mndx]);
                                                 break;
@@ -1097,7 +1097,7 @@
                                 hasAlternations = true;
                                 break;
                             }
-                            
+
                             if(tests[i].match.optionality != true && tests[i].match.optionalQuantifier != true)
                                 prevTest = tests[i];
                         }
@@ -1452,7 +1452,7 @@
 
                         npt.__defineGetter__("value", getter);
                         npt.__defineSetter__("value", setter);
-                    } else { //jquery.val 
+                    } else { //jquery.val
                         valueGet = function () { return npt.value; }
                         valueSet = function (value) { npt.value = value; }
                         PatchValhook(npt.type);
@@ -1484,7 +1484,7 @@
                                 }
                             }
                         }
-                        
+
                         if (lastAlt > -1) {
                             while (validInputs.length > 0) {
                                 getMaskSet()["p"] = seekNext(getLastValidPosition());
@@ -2250,7 +2250,7 @@
                             return maskScope({ "action": "getemptymask", "el": this });
                         }
                         else return "";
-                    case "hasMaskedValue": //check wheter the returned value is masked or not; currently only works reliable when using jquery.val fn to retrieve the value 
+                    case "hasMaskedValue": //check wheter the returned value is masked or not; currently only works reliable when using jquery.val fn to retrieve the value
                         return this.data("_inputmask") ? !this.data("_inputmask")['opts'].autoUnmask : false;
                     case "isComplete":
                         if (this.data("_inputmask")) {

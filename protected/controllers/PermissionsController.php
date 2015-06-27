@@ -2,13 +2,46 @@
 
 class PermissionsController extends Controller
 {
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+                    'newTeacherPermission', 'addTeacher'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+                    'newTeacherPermission', 'addTeacher'),
+                'users'=>array('*'),
+            ),
+        );
+    }
+
+    function isAdministrator()
+    {
+        if(AccessHelper::isAdmin())
+            return true;
+        else
+            return false;
+    }
 
     public function actionIndex()
 	{
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
-        $model = new Permissions;
+        $model = new Permissions('search');
         if(isset($_GET['Permissions']))
             $model->attributes=$_GET['Permissions'];
 
@@ -18,7 +51,6 @@ class PermissionsController extends Controller
                 'pageSize' => '50',
             )
         );
-
 
         if(!isset($_GET['ajax'])) $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -47,16 +79,10 @@ class PermissionsController extends Controller
     }
 
     public function actionEdit(){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
         $this->render('edit');
     }
 
     public function actionNewPermission(){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
         $rights = [];
         if (isset($_POST['read'])) {
             array_push($rights, 'read');
@@ -94,14 +120,11 @@ class PermissionsController extends Controller
                 ));
             }
         }
-        $this->actionIndex();
+        $this->redirect(Yii::app()->request->urlReferrer);
+        //$this->actionIndex();
     }
 
     public function actionDelete($id, $resource){
-        if (Yii::app()->user->getId() != 49) {
-            throw new CHttpException(403, 'У вас немає права редагування цього документа.');
-        }
-
         $result = Yii::app()->db->createCommand()->delete('permissions', 'id_user=:id_user AND id_resource=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
 
         $this->actionIndex();
@@ -125,6 +148,26 @@ class PermissionsController extends Controller
         echo $result.$last;
     }
 
+    public function actionShowAttributes(){
+        $first = '<select size="1" name="attribute">';
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, name_ua';
+        $criteria->order = 'id ASC';
+        $criteria->addCondition('role='.$_POST['role']);
+        $rows = RoleAttribute::model()->findAll($criteria);
+        $result = $first.'<option value="">Всі атрибути ролі</option>
+                   <optgroup label="Виберіть атрибут">';
+        if(!empty($rows)) {
+            foreach ($rows as $numRow => $row) {
+                $result = $result . '<option value="' . $row['id'] . '">' . $row['name_ua'] . '</option>';
+            };
+        }
+        $last = '</select>';
+        $result .= $last;
+        $result .= "<br><br>Значення атрибута:  <input type='text' value='' name='attributeValue' id='inputValue'>";
+        echo $result;
+    }
+
     public function actionShowModules(){
         $first = '<select name="module" onchange="javascript:selectLecture();">';
         $criteria = new CDbCriteria();
@@ -139,5 +182,86 @@ class PermissionsController extends Controller
         };
         $last = '</select>';
         echo $result.$last;
+    }
+
+    public function actionNewTeacherPermission(){
+        $teacher = Yii::app()->request->getPost('user');
+        $module = Yii::app()->request->getPost('module');
+        TeacherModule::addTeacherAccess($teacher, $module);
+        //$this->actionIndex();
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionAddTeacher(){
+        $user = Yii::app()->request->getPost('user');
+        $role = StudentReg::model()->findByPk($user)->role;
+        switch($role){
+            case '0':
+                StudentReg::model()->updateByPk($user, array('role' => 1));
+                break;
+            case '1':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
+                break;
+            case '2':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є модератором.");
+                break;
+            case '3':
+                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є адміністратором.");
+                break;
+            default:
+                StudentReg::model()->updateByPk($user, array('role' => 1));
+                break;
+            }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionSetTeacherRole(){
+
+        $request = Yii::app()->request;
+        $teacherId = $request->getPost('teacher', 0);
+        $roleId = $request->getPost('role', 0);
+        if ($teacherId && $roleId){
+            if (TeacherRoles::setTeacherRole($teacherId, $roleId)){
+                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+            }
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionSetTeacherRoleAttribute(){
+
+        $request = Yii::app()->request;
+        $teacherId = $request->getPost('teacher', 0);
+        $roleId = $request->getPost('role', 0);
+        $attributeId = $request->getPost('attribute', 0);
+        $value = $request->getPost('attributeValue', 0);
+
+        if ($teacherId && $attributeId && $value){
+            $result = false;
+            switch($attributeId){
+                case '2':
+                    $result = TrainerStudent::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '3':
+                    $result = ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '4':// leader's projects
+                    $result = true;//ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '6':
+                    $result = LeaderModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '7':
+                    break;
+                default:
+                    $result = AttributeValue::setRoleAttribute($teacherId, $attributeId, $value);
+
+            }
+            if ($result){
+                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+            }
+
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

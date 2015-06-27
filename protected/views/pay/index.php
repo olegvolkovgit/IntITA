@@ -1,3 +1,4 @@
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 <?php
 /**
  * Created by PhpStorm.
@@ -12,8 +13,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-
-<div id="addAccess">
+<div id="addAccessModule">
     <br>
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('pay/payNow');?>" method="POST" name="add-access">
@@ -55,15 +55,17 @@ $this->breadcrumbs=array(
 
             <input type="submit" value="Сплатити зараз">
     </form>
+    <?php if(Yii::app()->user->hasFlash('error')){?>
+        <div style="color: red">
+            <?php echo Yii::app()->user->getFlash('error'); ?>
+        </div>
+    <?php } ?>
     <?php if(Yii::app()->user->hasFlash('pay')){?>
         <div style="color: green">
             <?php echo Yii::app()->user->getFlash('pay'); ?>
         </div>
     <?php } ?>
 </div>
-
-
-
 
 <script type="text/javascript">
     function selectModule(){
@@ -74,7 +76,7 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/IntITA/permissions/showModules",
+                url: "/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

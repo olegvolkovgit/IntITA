@@ -46,8 +46,7 @@ class TeacherModule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idModule0' => array(self::BELONGS_TO, 'Module', 'idModule'),
-			'idTeacher0' => array(self::BELONGS_TO, 'Teacher', 'idTeacher'),
+		
 		);
 	}
 
@@ -115,5 +114,43 @@ class TeacherModule extends CActiveRecord
             array_push($result, $teachers[$i]["idTeacher"]);
         }
         return $result;
+    }
+
+    public static function addTeacherAccess($teacher, $module){
+        $model = new TeacherModule();
+        $model->idTeacher = $teacher;
+        $model->idModule = $module;
+        if ($model->validate()){
+            $model->save();
+        }
+    }
+    public static function getAuthorModules($author){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('idModule'),
+            'from' => 'teacher_module',
+            'where' => 'idTeacher=:id',
+            'order' => 'idTeacher',
+            'params' => array(':id' => $author),
+        ))->queryAll();
+
+        return (!empty($modules))?$modules:[];
+    }
+
+    public static function getModulesByTeacher($teacher){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('idModule'),
+            'from' => 'teacher_module',
+            'where' => 'idTeacher=:id',
+            'order' => 'idModule',
+            'params' => array(':id' => $teacher),
+        ))->queryAll();
+        $count = count($modules);
+
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["idModule"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+        }
+
+        return (!empty($modules))?$modules:[];
     }
 }

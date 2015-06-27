@@ -13,7 +13,7 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
 <?php
 $this->pageTitle = 'INTITA';
-$post=Teacher::model()->findAll();
+$post=$dataProvider->getData();
 ?>
 <!-- BD -))) -->
 <div class="subNavBlockTeachers">
@@ -26,6 +26,6 @@ $post=Teacher::model()->findAll();
     <div class="titleTeachers">
         <h1><?php echo Yii::t('teachers', '0058'); ?></h1>
     </div>
-    <?php $this->renderPartial('_leftTeacher', array('post' => $post, 'coursesID' => $coursesID, 'titles' => $titles)); ?>
-    <?php $this->renderPartial('_rightTeacher', array('post' => $post, 'coursesID' => $coursesID, 'titles' => $titles)); ?>
+    <?php $this->renderPartial('_leftTeacher', array('post' => $post));  ?>
+    <?php $this->renderPartial('_rightTeacher', array('post' => $post,'teacherletter'=>$teacherletter)); ?>
 </div>

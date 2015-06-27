@@ -6,12 +6,25 @@ $this->breadcrumbs=array(
 	'Permissions',
 );
 $alert = 'Ви впевнені, що хочете видалити цей запис?';
+Yii::app()->clientScript->registerScript('search', "
+$('.search-form form').submit(function(){
+	$('#access-grid').yiiGridView('update', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
 ?>
+
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
 <a href="#form">
     <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
+</a>
+
+<a href="#formTeacher">
+    <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
 </a>
 
 <?php
@@ -20,7 +33,7 @@ $dataProvider = $model->search();
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
-    //'filter' => $model,
+    'summaryText'=>'',
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
@@ -92,4 +105,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ?>
 
 <?php $this->renderPartial('_add', array('model' => $model));?>
+<?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
+
 

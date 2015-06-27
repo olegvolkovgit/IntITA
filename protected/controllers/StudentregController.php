@@ -169,8 +169,8 @@ class StudentRegController extends Controller
                 {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                     $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
-                    $model->avatar="/avatars/".$_FILES["upload"]["name"];
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/images/avatars/".$_FILES['upload']['name']);
+                    $model->avatar=$_FILES["upload"]["name"];
                 }
                 if ($model->hasErrors()) {
                     $this->render("studentreg", array('model'=>$model,'tab'=>$tab));
@@ -250,8 +250,9 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser)
+    public function actionProfile($idUser,$tab='')
     {
+        $letter = new Letters();
         $model=StudentReg::model()->findByPk($idUser);
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
@@ -273,7 +274,37 @@ class StudentRegController extends Controller
             ),
         ));
 
-        $this->render("studentprofile", array('model'=>$model,'dataProvider' => $dataProvider,'post' => $model));
+        $sentLettersCriteria= new CDbCriteria;
+        $sentLettersCriteria->alias = 'letters';
+        $sentLettersCriteria->addCondition('sender_id='.$idUser);
+
+        $sentLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria'=>$sentLettersCriteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+            ),
+            'sort'=> array(
+                'defaultOrder' => 'date DESC',
+                'attributes'=>array('date'),
+            ),
+        ));
+
+        $receivedLettersCriteria= new CDbCriteria;
+        $receivedLettersCriteria->alias = 'letters';
+        $receivedLettersCriteria->addCondition('addressee_id='.$idUser);
+
+        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria'=>$receivedLettersCriteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+            ),
+            'sort'=> array(
+                'defaultOrder' => 'date DESC',
+                'attributes'=>array('date'),
+            ),
+        ));
+
+        $this->render("studentprofile", array('dataProvider' => $dataProvider,'post' => $model,'letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider, 'tab'=>$tab));
 
     }
     public function actionSendletter()
@@ -392,8 +423,8 @@ class StudentRegController extends Controller
                 }elseif (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                     $ext = substr(strrchr( $_FILES["upload"]["name"],'.'), 1);
                     $_FILES["upload"]["name"]=uniqid().'.'.$ext;
-                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/avatars/".$_FILES['upload']['name']);
-                    $model->updateByPk($id, array('avatar' => "/avatars/".$_FILES["upload"]["name"]));
+                    copy($_FILES['upload']['tmp_name'], Yii::getpathOfAlias('webroot')."/images/avatars/".$_FILES['upload']['name']);
+                    $model->updateByPk($id, array('avatar' => $_FILES["upload"]["name"]));
                     Yii::app()->user->setFlash('messageedit', 'Оновлено' );
                 }
             }
@@ -401,7 +432,8 @@ class StudentRegController extends Controller
                 $this->render("studentprofileedit", array('model'=>$model,'tab'=>$tab));
             } else
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-        }
+        } else
+            $this->render("studentprofileedit", array('model'=>$model));
     }
     public function actionChangepass()
     {
@@ -419,7 +451,7 @@ class StudentRegController extends Controller
             if(isset($_POST['StudentReg']))
             {
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
-                $this->redirect(Yii::app()->createUrl('studentreg/profile'));
+                $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId())));
             }
         }
     }
@@ -427,9 +459,9 @@ class StudentRegController extends Controller
     {
         $id=Yii::app()->user->id;
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
-        if($model->avatar!=='/avatars/noname.png'){
-            unlink(Yii::getpathOfAlias('webroot').$model->avatar);
-            $model->updateByPk($id, array('avatar' => "/avatars/".'noname.png'));
+        if($model->avatar!=='noname.png'){
+            unlink(Yii::getpathOfAlias('webroot').'/images/avatars/'.$model->avatar);
+            $model->updateByPk($id, array('avatar' => 'noname.png'));
             $this->redirect(Yii::app()->createUrl('studentreg/edit'));
         } else {
             $this->redirect(Yii::app()->createUrl('studentreg/edit'));

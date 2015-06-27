@@ -9,16 +9,12 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
+    'id'=>'extseach-form'
 )); ?>
 
 	<div class="row">
 		<?php echo $form->label($model,'course_ID'); ?>
 		<?php echo $form->textField($model,'course_ID'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'alias'); ?>
-		<?php echo $form->textField($model,'alias',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
 
 	<div class="row">
@@ -59,31 +55,6 @@
 	<div class="row">
 		<?php echo $form->label($model,'course_price'); ?>
 		<?php echo $form->textField($model,'course_price',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'for_whom'); ?>
-		<?php echo $form->textArea($model,'for_whom',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'what_you_learn'); ?>
-		<?php echo $form->textArea($model,'what_you_learn',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'what_you_get'); ?>
-		<?php echo $form->textArea($model,'what_you_get',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'course_img'); ?>
-		<?php echo $form->textField($model,'course_img',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'review'); ?>
-		<?php echo $form->textArea($model,'review',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row buttons">

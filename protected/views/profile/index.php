@@ -1,6 +1,3 @@
-<!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
-
 <!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
 <script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
 <!--<!-- Підключення BBCode WysiBB -->
@@ -31,7 +28,7 @@ if (isset($_GET['div'])){
 }
 ?>
 <div class="TeacherProfilemainBlock">
-    <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'sections' => $sections, 'editMode' => $editMode, 'coursesID' => $coursesID, 'titles' => $titles)); ?>
+    <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'editMode' => $editMode)); ?>
     <!-- Block 2 -->
-    <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider)); ?>
+    <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider,'response' => $response)); ?>
 

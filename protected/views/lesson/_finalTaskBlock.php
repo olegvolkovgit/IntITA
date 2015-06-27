@@ -5,7 +5,6 @@
  * Date: 14.04.2015
  * Time: 19:04
  */?>
-<img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'borderLesson.png');?>">
 <div class="element">
     <?php $this->renderPartial('_editToolbar',array(
         'idLecture' => $data['id_lecture'],
@@ -27,12 +26,12 @@
                     <?php echo $data['html_block'];?>
                 </ol>
             </div>
-            <div class="BBCode">
-                <form action="" method="post">
-                    <textarea class="editor"></textarea>
-                    <input  href="#" id="lessonTask3" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
-                </form>
-            </div>
+            <form action="http://ii.itatests.com" method="post" class="sendAnswer">
+                <input type="hidden" name="task" value="<?php echo $data['id_lecture'].'-'.$data['block_order'] ?>>
+                <input type="hidden" name="lang" value="c">
+                <textarea name="code" > </textarea>
+                <input name="send" id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" >
+            </form>
         </div>
     </div>
 </div>

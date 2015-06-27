@@ -10,13 +10,17 @@
                     <span><?php echo $data['graduate_date'] ?></span>
                 </div>
                 <div class="text1"><?php echo $data['first_name'],"&nbsp;", $data['last_name'] ?></div>
-                <div>
-                    <div class="spoiler-title closed">Розгорнути відгук про навчання &#9660;</div>
-                    <div class="spoiler-body">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
-                        <?php echo $data['recall'] ?>
-                    </div>
+
+                <div class="spoiler-title closed"> <?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?> </div>
+                <div class="spoiler-body">
+                    <form name=form_recall>
+                        <input type=hidden name=id1 id="id1" value="<?php echo htmlspecialchars($a = Yii::t('graduates', '0423')); ?>">
+                        <input type=hidden name=id2 id="id2" value="<?php echo htmlspecialchars($b); ?>">
+                    </form>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
+                    <?php echo $data['recall'] ?>
                 </div>
+
                 <div class="text">
                     <div>
                         <?php echo Yii::t('graduates', '0316') ?>

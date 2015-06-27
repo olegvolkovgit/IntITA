@@ -25,7 +25,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 <h1>Управління курсами</h1>
 
 <p>
@@ -42,8 +42,11 @@ $('.search-form form').submit(function(){
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'course-grid',
+    'summaryText'=>'Показано курсів {start} - {end} з {count}',
 	'dataProvider'=>$model->search(),
+    'emptyText'=>'По заданому пошуку нічого не знайдено',
 	'filter'=>$model,
+    'emptyText'=>'Такого курса немає (',
 	'columns'=>array(
 		'course_ID',
 		'alias',

@@ -1,16 +1,22 @@
 Yii 1.1.16 <br/>
-###AutoAdmin CMS Framework http://www.yiiframework.com/extension/autoadmin/
-Back-end index page http://localhost/IntITA/www/_admin/
 
 ###Pages:
-1. [main](http://localhost/IntITA/) - http://localhost/IntITA/ <br/>
-2. [lecture](http://localhost/IntITA/lesson/index/1/) - http://localhost/IntITA/lesson/index/1/ <br/>
-3. [teacher profile](http://localhost/IntITA/profile) - http://localhost/IntITA/profile <br/>
-4. [extended registration](http://localhost/IntITA/studentreg) - http://localhost/IntITA/studentreg<br/>
-5. [teachers](http://localhost/IntITA/teachers) - http://localhost/IntITA/teachers <br/>
-6. [courses](http://localhost/IntITA/courses) - http://localhost/IntITA/courses <br/>
-7. [course](http://localhost/IntITA/course/index/1/) - http://localhost/IntITA/course/index/1/ <br/>
-8. [about us](http://localhost/IntITA/site/aboutus) - http://localhost/IntITA/site/aboutus
-9. [student profile](http://localhost/IntITA/studentreg/profile) - http://localhost/IntITA/studentreg/profile
-10. [student profile edit](http://localhost/IntITA/studentreg/edit) - http://localhost/IntITA/studentreg/edit
+1. [main](http://intita.itatests.com/) - http://intita.itatests.com/ <br/>
+2. [lecture](http://intita.itatests.com/lesson/index/1/) - http://intita.itatests.com/lesson/index/1/ <br/>
+3. [teacher profile](http://intita.itatests.com/profile/index/?idTeacher=1) - http://intita.itatests.com/profile/index/?idTeacher=1 <br/>
+4. [extended registration](http://intita.itatests.com/studentreg) - http://intita.itatests.com/studentreg<br/>
+5. [teachers](http://intita.itatests.com/teachers) - http://intita.itatests.com/teachers <br/>
+6. [courses](http://intita.itatests.com/courses) - http://intita.itatests.com/courses <br/>
+7. [course](http://intita.itatests.com/course/index/1/) - http://intita.itatests.com/course/index/1/ <br/>
+8. [about us](http://intita.itatests.com/aboutus) - http://intita.itatests.com/aboutus  <br/>
+9. [user profile](http://intita.itatests.com/studentreg/profile/?idUser=22) - http://intita.itatests.com/studentreg/profile/?idUser=22  <br/>
+10. [user profile edit](http://intita.itatests.com/studentreg/edit) - http://intita.itatests.com/studentreg/edit  <br/>
+11. [graduates] (http://intita.itatests.com/graduate) - http://intita.itatests.com/graduate <br />
+12. [forum] (http://intita.itatests.com/forum/) - http://intita.itatests.com/forum/ <br />
+
+###Admin pages
+1. [teacher manage] (http://intita.itatests.com/tmanage) - http://intita.itatests.com/tmanage/  <br/>
+2. [courses manage] (http://intita.itatests.com/coursemanage) - http://intita.itatests.com/coursemanage/  <br/>
+3. [access manage] (http://intita.itatests.com/permissions) - http://intita.itatests.com/permissions/  <br/>
+4. [messages manage] (http://intita.itatests.com/messages) - http://intita.itatests.com/messages/  <br/>
 

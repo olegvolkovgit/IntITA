@@ -8,16 +8,7 @@ class CourseController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -186,7 +177,7 @@ class CourseController extends Controller
         $order = Module::model()->findByPk($idModule)->order;
 
         //Module::model()->deleteByPk($idModule);
-        //TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
+        TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
         Module::model()->updateByPk($idModule, array('order' => 0));
         Module::model()->updateByPk($idModule, array('course' => 0));
 

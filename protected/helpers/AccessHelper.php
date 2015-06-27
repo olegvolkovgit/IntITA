@@ -166,6 +166,7 @@ class AccessHelper
         }
         $user = Yii::app()->user->getId();
         if (StudentReg::model()->findByPk($user)->role == 3){
+
             return true;
         }
         return false;
@@ -193,6 +194,17 @@ class AccessHelper
         return $result;
     }
 
+    public static function generateRolesList(){
+        $roles = Roles::model()->findAll();
+        $count = count($roles);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $roles[$i]->id;
+            $result[$i]['alias'] = $roles[$i]->title_ua;
+        }
+        return $result;
+    }
+
     public static function generateModulesList($course=1){
         $modules = Module::model()->findAllByAttributes(array('course' => $course));
         $count = count($modules);
@@ -213,5 +225,56 @@ class AccessHelper
             $result[$i]['alias'] = $lectures[$i]->title;
         }
         return $result;
+    }
+    public static function canAddConsultation(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static function generateTeachersList(){
+        $teachers = Teacher::model()->findAll();
+        $count = count($teachers);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+            $result[$i]['id'] = $teachers[$i]->teacher_id;
+            $result[$i]['alias'] = $teachers[$i]->first_name." ".$teachers[$i]->last_name.", ".$teachers[$i]->email;
+        }
+        return $result;
+    }
+
+    public static function accesModule($id){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $lectures = Lecture::model()->findAll('idModule=:id', array(':id'=>$id));
+        if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
+            if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$id))
+                return true;
+        }
+        $permission = new Permissions();
+        foreach($lectures as $lecture){
+            if ($permission->checkPermission(Yii::app()->user->getId(),  $lecture->id, array('read'))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static function accesLecture($id){
+        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
+            if (Yii::app()->user->isGuest){
+                return false;
+            }
+            $permission = new Permissions();
+            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

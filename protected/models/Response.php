@@ -10,6 +10,10 @@
  * @property string $date
  * @property string $text
  * @property integer $rate
+ * @property integer $knowledge
+ * @property integer $behavior
+ * @property integer $motivation
+ * @property string $who_ip
  *
  * The followings are the available model relations:
  * @property User $who0
@@ -17,10 +21,6 @@
  */
 class Response extends CActiveRecord
 {
-    public $knowledge;
-    public $behavior;
-    public $motivation;
-    public $who_ip;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,7 +37,11 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('who, about, date, text, rate', 'required'),
+			array('who, about, date', 'required'),
+            array('knowledge', 'required', 'message'=>'знання викладача'),
+            array('behavior', 'required', 'message'=>'ефективність викладача'),
+            array('motivation', 'required', 'message'=>'ставлення викладача до студента'),
+            array('text', 'required', 'message'=>'Відгук не може бути пустим'),
 			array('who, about, rate', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().
@@ -98,6 +102,10 @@ class Response extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('rate',$this->rate);
+        $criteria->compare('rate',$this->knowledge);
+        $criteria->compare('rate',$this->behavior);
+        $criteria->compare('rate',$this->motivation);
+        $criteria->compare('rate',$this->who_ip);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -156,6 +164,7 @@ class Response extends CActiveRecord
             '[code]' => '<code>','[/code]' => '</code>',
             '[preformatted]' => '<pre>','[/preformatted]' => '</pre>',
             '[pre]' => '<pre>','[/pre]' => '</pre>',
+            '[list=1]'=>'<ul>'
         );
 
         $bbtext = str_ireplace(array_keys($bbtags), array_values($bbtags), $bbtext);

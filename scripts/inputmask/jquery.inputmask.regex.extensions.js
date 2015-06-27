@@ -1,13 +1,12 @@
 /*
-Input Mask plugin extensions
-http://github.com/RobinHerbots/jquery.inputmask
-Copyright (c) 2010 -  Robin Herbots
-Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-Version: 0.0.0-dev
-
-Regex extensions on the jquery.inputmask base
-Allows for using regular expressions as a mask
-*/
+ Input Mask plugin extensions
+ http://github.com/RobinHerbots/jquery.inputmask
+ Copyright (c) 2010 -  Robin Herbots
+ Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+ Version: 0.0.0-dev
+ Regex extensions on the jquery.inputmask base
+ Allows for using regular expressions as a mask
+ */
 (function ($) {
     $.extend($.inputmask.defaults.aliases, { // $(selector).inputmask("Regex", { regex: "[0-9]*"}
         'Regex': {
@@ -20,7 +19,7 @@ Allows for using regular expressions as a mask
             tokenizer: /\[\^?]?(?:[^\\\]]+|\\[\S\s]?)*]?|\\(?:0(?:[0-3][0-7]{0,2}|[4-7][0-7]?)?|[1-9][0-9]*|x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|c[A-Za-z]|[\S\s]?)|\((?:\?[:=!]?)?|(?:[?*+]|\{[0-9]+(?:,[0-9]*)?\})\??|[^.?*+^${[()|\\]+|./g,
             quantifierFilter: /[0-9]+[^,]/,
             isComplete: function(buffer, opts){
-            	return new RegExp(opts.regex).test(buffer.join(''));
+                return new RegExp(opts.regex).test(buffer.join(''));
             },
             definitions: {
                 'r': {
@@ -53,31 +52,31 @@ Allows for using regular expressions as a mask
                                         }
                                         break;
                                     case "{": case "+": case "*": //Quantifier
-                                        var quantifierToken = new regexToken(false, true);
-                                        m = m.replace(/[{}]/g, "");
-                                        var mq = m.split(","), mq0 = isNaN(mq[0]) ? mq[0] : parseInt(mq[0]), mq1 = mq.length == 1 ? mq0 : (isNaN(mq[1]) ? mq[1] : parseInt(mq[1]));
-                                        quantifierToken.quantifier = { min: mq0, max: mq1 };
-                                        if (opengroups.length > 0) {
-                                            var matches = opengroups[opengroups.length - 1]["matches"];
-                                            match = matches.pop();
-                                            if (!match["isGroup"]) {
-                                                var groupToken = new regexToken(true);
-                                                groupToken.matches.push(match);
-                                                match = groupToken;
-                                            }
-                                            matches.push(match);
-                                            matches.push(quantifierToken);
-                                        } else {
-                                            match = currentToken.matches.pop();
-                                            if (!match["isGroup"]) {
-                                                var groupToken = new regexToken(true);
-                                                groupToken.matches.push(match);
-                                                match = groupToken;
-                                            }
-                                            currentToken.matches.push(match);
-                                            currentToken.matches.push(quantifierToken);
+                                    var quantifierToken = new regexToken(false, true);
+                                    m = m.replace(/[{}]/g, "");
+                                    var mq = m.split(","), mq0 = isNaN(mq[0]) ? mq[0] : parseInt(mq[0]), mq1 = mq.length == 1 ? mq0 : (isNaN(mq[1]) ? mq[1] : parseInt(mq[1]));
+                                    quantifierToken.quantifier = { min: mq0, max: mq1 };
+                                    if (opengroups.length > 0) {
+                                        var matches = opengroups[opengroups.length - 1]["matches"];
+                                        match = matches.pop();
+                                        if (!match["isGroup"]) {
+                                            var groupToken = new regexToken(true);
+                                            groupToken.matches.push(match);
+                                            match = groupToken;
                                         }
-                                        break;
+                                        matches.push(match);
+                                        matches.push(quantifierToken);
+                                    } else {
+                                        match = currentToken.matches.pop();
+                                        if (!match["isGroup"]) {
+                                            var groupToken = new regexToken(true);
+                                            groupToken.matches.push(match);
+                                            match = groupToken;
+                                        }
+                                        currentToken.matches.push(match);
+                                        currentToken.matches.push(quantifierToken);
+                                    }
+                                    break;
                                     default:
                                         if (opengroups.length > 0) {
                                             opengroups[opengroups.length - 1]["matches"].push(m);

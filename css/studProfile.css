@@ -7,6 +7,14 @@
     overflow: hidden;
     font-size: 18px;
 }
+.formStudProf a
+{
+    color: #4b75a4;
+}
+.formStudProf a:hover
+{
+    color: #666666;
+}
 div.regLinks{
     box-sizing:border-box;
     -moz-box-sizing:border-box;
@@ -292,7 +300,7 @@ span.interestBG{
 }
 .formStudProf .errorMessage
 {
-    margin-left: 230px;
+    margin-left: 215px;
     color: red;
     font-size: 0.9em;
 }
