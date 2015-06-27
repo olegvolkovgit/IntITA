@@ -18,7 +18,6 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			sendContent: function()
 			{
 				var html = this.code.get();
-				console.log(html);
 
                 $.ajax({
                     cache: false,

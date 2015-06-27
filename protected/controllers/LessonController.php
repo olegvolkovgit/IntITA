@@ -74,10 +74,9 @@ class LessonController extends Controller{
     }
 
     public function actionSave(){
+        var_dump($_POST);die();
         $order = substr(Yii::app()->request->getPost('order'), 2);
         $id = Yii::app()->request->getPost('idLecture');
-        var_dump($order);
-
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
@@ -112,10 +111,12 @@ class LessonController extends Controller{
                     }
                 }
                 break;
+            case '10':;
+                $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
+                break;
             default:
                 $model->html_block = $htmlBlock;
         }
-
         $model->id_type = $idType;
         $model->type = ElementType::model()->findByPk($idType)->type;
 
