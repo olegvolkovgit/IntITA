@@ -5,24 +5,29 @@ class LessonController extends Controller{
 
     public function initialize($id)
     {
-        if (!($id == 1 || $id == 2 || $id == 31 || $id == 32)){
-        if(Yii::app()->user->isGuest){
+        $lecture = Lecture::model()->findByPk($id);
+        if (!($lecture->isFree)){
+            if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
-        }
-        else{
-            $permission = new Permissions();
-            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array('read'))) {
-                throw new CHttpException(403, Yii::t('errors', '0139'));
             }
-        }
+            else{
+                if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
+                    if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule))
+                        return true;
+                }
+                $modulePermission = new PayModules();
+                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+                throw new CHttpException(403, Yii::t('errors', '0139'));
+                }
+            }
         }
     }
 
     public function actionIndex($id){
-        $this->initialize($id);
-        $editMode = $this->checkEditMode($id, Yii::app()->user->getId());
-
         $lecture = Lecture::model()->findByPk($id);
+
+        $this->initialize($id);
+        $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture='.$id);
@@ -186,9 +191,9 @@ class LessonController extends Controller{
         LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
     }
 
-    public function checkEditMode($idLecture, $idUser){
-        $permission = new Permissions();
-        if ($permission->checkPermission($idUser, $idLecture, array('edit'))) {
+    public function checkEditMode($idModule, $idUser){
+        $permission = new PayModules();
+        if ($permission->checkModulePermission($idUser, $idModule, array('edit'))) {
             return true;
         } else {
             return false;
