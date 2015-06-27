@@ -145,6 +145,7 @@ dd textarea {
 /* Quick-login on index page */
 fieldset.quick-login {
 	margin-top: 5px;
+    display: none;
 }
 
 fieldset.quick-login input {

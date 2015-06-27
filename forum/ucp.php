@@ -62,13 +62,15 @@ switch ($mode)
 	break;
 
 	case 'register':
-		if ($user->data['is_registered'] || isset($_REQUEST['not_agreed']))
-		{
-			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
-		}
-
-		$module->load('ucp', 'register');
-		$module->display($user->lang['REGISTER']);
+//		if ($user->data['is_registered'] || isset($_REQUEST['not_agreed']))
+//		{
+//			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
+//		}
+//
+//		$module->load('ucp', 'register');
+//		$module->display($user->lang['REGISTER']);
+        header ("location: /#form");
+        exit();
 	break;
 
 	case 'confirm':
@@ -76,12 +78,13 @@ switch ($mode)
 	break;
 
 	case 'login':
-		if ($user->data['is_registered'])
-		{
-			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
-		}
-
-		login_box(request_var('redirect', "index.$phpEx"));
+//		if ($user->data['is_registered'])
+//		{
+//			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
+//		}
+//
+//		login_box(request_var('redirect', "index.$phpEx"));
+        header('location: /index.php?dialog=true');
 	break;
 
 	case 'login_link':
@@ -98,6 +101,24 @@ switch ($mode)
 		if ($user->data['user_id'] != ANONYMOUS && $request->is_set('sid') && $request->variable('sid', '') === $user->session_id)
 		{
 			$user->session_kill();
+
+            $host = "localhost";
+            $database="int_ita_db";
+            $db_user = "intita";
+            $password = "1234567";
+
+            if(!mysql_connect($host,$db_user,$password))
+                die('Не удалось подключиться к серверу MySql!');
+            elseif(!mysql_select_db($database))
+                die('Не удалось выбрать БД!');
+
+            $siu = request_var('user_id_transition','',false,true);
+
+            $sql = "DELETE FROM phpbb_sessions WHERE session_user_id = ".$siu.";";
+            mysql_query($sql);
+            mysql_close();
+
+            setCookie("user_id_transition", null, time()-10, "/", "intita");
 		}
 		else if ($user->data['user_id'] != ANONYMOUS)
 		{
