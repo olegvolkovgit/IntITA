@@ -10,7 +10,6 @@ $dbpasswd = '1234567';
 $table_prefix = 'phpbb_';
 $phpbb_adm_relative_path = 'adm/';
 $acm_type = 'null';
-
 @define('PHPBB_INSTALLED', true);
 // @define('PHPBB_DISPLAY_LOAD_TIME', true);
 @define('DEBUG', true);

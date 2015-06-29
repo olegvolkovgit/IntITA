@@ -66,22 +66,28 @@ class LessonController extends Controller{
         $this->render('unableLesson');
     }
 
-    public function filters()
-    {
-        return array(
-            'ajaxOnly + save',
-        );
-    }
-
     public function actionSave(){
         $order = substr(Yii::app()->request->getPost('order'), 2);
         $id = Yii::app()->request->getPost('idLecture');
-        var_dump($order);
-
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
         $model->save();
+    }
+
+    public function actionSaveFormula(){
+
+
+        $htmlBlock = Yii::app()->request->getPost('content');
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+       // $content = substr($htmlBlock, 2, count($htmlBlock) - 5);
+
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture,'block_order' => $order));
+        $model->html_block = $htmlBlock;
+        $model->save();
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCreateNewBlock(){
@@ -112,10 +118,12 @@ class LessonController extends Controller{
                     }
                 }
                 break;
+            case '10':;
+                $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
+                break;
             default:
                 $model->html_block = $htmlBlock;
         }
-
         $model->id_type = $idType;
         $model->type = ElementType::model()->findByPk($idType)->type;
 

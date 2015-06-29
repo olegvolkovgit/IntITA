@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-25 17:39:41
+-- Date/time:                    2015-06-27 19:58:28
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -433,15 +433,54 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.course_modules
+DROP TABLE IF EXISTS `course_modules`;
+CREATE TABLE IF NOT EXISTS `course_modules` (
+  `id_course` int(10) NOT NULL,
+  `id_module` int(10) NOT NULL,
+  `order` int(10) NOT NULL,
+  KEY `FK_course_modules_course` (`id_course`),
+  KEY `FK_course_modules_module` (`id_module`),
+  CONSTRAINT `FK_course_modules_course` FOREIGN KEY (`id_course`) REFERENCES `course` (`course_ID`),
+  CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.course_modules: ~21 rows (approximately)
+/*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
+INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
+	(1, 1, 1),
+	(1, 2, 4),
+	(1, 3, 2),
+	(1, 4, 3),
+	(1, 7, 5),
+	(1, 9, 6),
+	(1, 10, 7),
+	(1, 11, 8),
+	(1, 14, 9),
+	(1, 16, 10),
+	(1, 17, 11),
+	(1, 18, 13),
+	(1, 20, 12),
+	(1, 22, 14),
+	(1, 23, 15),
+	(13, 54, 1),
+	(13, 55, 2),
+	(13, 56, 3),
+	(14, 58, 1),
+	(14, 59, 2),
+	(14, 60, 3);
+/*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.element_type
 DROP TABLE IF EXISTS `element_type`;
 CREATE TABLE IF NOT EXISTS `element_type` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `type` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~9 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~11 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -452,7 +491,9 @@ INSERT INTO `element_type` (`id`, `type`) VALUES
 	(6, 'final task'),
 	(7, 'instruction'),
 	(8, 'label'),
-	(9, 'image');
+	(9, 'image'),
+	(10, 'formula'),
+	(11, 'table');
 /*!40000 ALTER TABLE `element_type` ENABLE KEYS */;
 
 
@@ -663,9 +704,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~37 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~36 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -701,10 +742,9 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(58, 2, 4, 'text', 1, '<p><img src="/images/lecture/f410fd7420bfa6c526e0fab647e3e484.jpg"></p>'),
 	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
 	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
-	(61, 2, 7, 'text', 1, '<p>\\[\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}\\]</p>'),
-	(62, 2, 8, 'text', 1, '<p>\\[\\color{aqua} {\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}}\\]</p>'),
-	(63, 2, 9, 'text', 1, '<p>\\[\\color{yellow} {\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}}\\]</p>'),
-	(64, 2, 10, 'text', 1, '<p>\\(\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}\\)</p>');
+	(67, 2, 9, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\varepsilon \\mathbb{P}\\Re \\mathbb{I}\\mathbb{R}}\\]\r\n'),
+	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\zeta \\beta \\gamma \\ae \\l \\O \\SS \\$ \\gamma \\beta \\lambda \\mu \\Theta \\Upsilon \\Phi \\Psi \\Omega }\\]\r\n'),
+	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\triangledown \\triangleleft \\barwedge \\bullet \\blacktriangle }\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -2261,7 +2301,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   KEY `course` (`course`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~24 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~21 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
@@ -2279,15 +2319,12 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(20, 1, 12, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
 	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
 	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(50, 8, 1, 'Module 1.', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(51, 8, 2, 'Module 2.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(54, 13, 1, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(55, 13, 2, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(56, 13, 3, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(58, 14, 1, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(59, 14, 2, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(60, 14, 3, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(61, 1, 16, '\';\'d;;dfg,d', 'module16', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
+	(60, 14, 3, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -2420,9 +2457,9 @@ INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(40, 19, 1),
 	(40, 20, 3),
 	(40, 21, 1),
-	(40, 22, 1),
-	(40, 23, 1),
-	(40, 24, 1),
+	(40, 22, 15),
+	(40, 23, 15),
+	(40, 24, 15),
 	(40, 26, 7),
 	(40, 27, 3),
 	(40, 47, 3),

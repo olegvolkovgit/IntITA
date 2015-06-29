@@ -767,9 +767,17 @@ class session
 		$session_autologin = (($this->cookie_data['k'] || $persist_login) && $this->data['is_registered']) ? true : false;
 		$set_admin = ($set_admin && $this->data['is_registered']) ? true : false;
 
+        $cookie_value = request_var('user_id_transition','',false,true);
+//        var_dump($cookie_value);
+        if ($cookie_value) {
+            $sui = $cookie_value;
+        }else{
+            $sui = $this->data['user_id'];
+        }
+
 		// Create or update the session
 		$sql_ary = array(
-			'session_user_id'		=> (int) $this->data['user_id'],
+			'session_user_id'		=> (int) $sui,
 			'session_start'			=> (int) $this->time_now,
 			'session_last_visit'	=> (int) $this->data['session_last_visit'],
 			'session_time'			=> (int) $this->time_now,

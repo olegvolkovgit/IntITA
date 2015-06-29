@@ -226,9 +226,28 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-//        $tmp = Yii::app()->session['translatedTable'];
+
+        $host = "localhost";
+        $database="int_ita_db";
+        $db_user = "intita";
+        $password = "1234567";
+
+        if(!mysql_connect($host,$db_user,$password))
+            die('Не удалось подключиться к серверу MySql!');
+        elseif(!mysql_select_db($database))
+            die('Не удалось выбрать БД!');
+
+        if (isset($_COOKIE['user_id_transition'])) {
+            $siu = $_COOKIE['user_id_transition'];
+
+            $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
+            mysql_query($sql);
+            mysql_close();
+
+//        unset($_COOKIE["user_id_transition"]);
+            setCookie("user_id_transition", null, time() - 10, "/", "intita");
+        }
 		Yii::app()->user->logout();
-//        Yii::app()->session['translatedTable'] = $tmp;
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
