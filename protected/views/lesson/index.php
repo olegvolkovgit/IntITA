@@ -41,7 +41,7 @@
 
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById()['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => 1)),$lecture->getModuleInfoById()['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),$lecture['title'],
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById()['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => 1)),$lecture->getModuleInfoById()['moduleTitle'],$lecture['title'],
 );
 ?>
 

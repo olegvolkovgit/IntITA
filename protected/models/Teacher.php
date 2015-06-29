@@ -200,8 +200,10 @@ class Teacher extends CActiveRecord
     }
     protected function beforeSave()
     {
-        if ($this->scenario=="update")
+        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['foto_url']))
         {
+            $this->foto_url=$this->oldAvatar;
+        } else if(($this->scenario=="update") && (!empty($this->avatar['tmp_name']['foto_url']))){
             $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->oldAvatar;
             if (is_file($src))
                 unlink($src);
