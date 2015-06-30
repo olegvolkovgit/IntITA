@@ -20,6 +20,7 @@
         </tr>
     </table>
     <?php $form=$this->beginWidget('CActiveForm',array(
+        'id'=>'teacherletter-form',
         'action'=>array("teachers/teacherletter"),
         'enableClientValidation'=>true,
         'enableAjaxValidation'=>true,
