@@ -168,9 +168,7 @@ class SiteController extends Controller
                 $text=Yii::t('activeemail','0299').
                     " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
                 mail($model->email,$subject,$text,$headers);
-                $this->render('activationinfo',array(
-                    'model'=>$model,
-                ));
+                $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
 			}else{
                 Yii::app()->user->setFlash('forminfo', Yii::t('error','0300'));
                 $this->redirect(Yii::app()->request->baseUrl . '/site#form');
@@ -187,9 +185,7 @@ class SiteController extends Controller
         if($model->token==$modelemail->token){
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
-            $this->render('activationaccount',array(
-                'model'=>$model,
-            ));
+            $this->redirect(Yii::app()->createUrl('/site/activationaccount'));
         } else{
             throw new CHttpException(404,Yii::t('exception','0237'));
         }
@@ -222,9 +218,7 @@ class SiteController extends Controller
             if($statusmodel->status==1){
                 if($model->login())
                     $this->redirect(Yii::app()->request->baseUrl.'/site');
-            }else $this->render('notactivated',array(
-                'model'=>$model,
-            ));
+            }else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email'=>$model->email)));
         }
     }
 	/**
@@ -355,8 +349,8 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
             if(Yii::app()->user->isGuest && $model->login())
-                $this->render('resetemail');
-            else   $this->render('resetemail');
+            $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
+            else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
         }
         else{
             $this->render('resetpass',array(
@@ -390,9 +384,7 @@ class SiteController extends Controller
                 " http://intita.itatests.com/index.php?r=site/vertoken/view&token=".$getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
             mail($getModel->email,$subject,$text,$headers);
-            $this->render('resetpassinfo',array(
-                'model'=>$model,
-            ));
+            $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
         }
     }
     public function actionResetEmail()
@@ -422,10 +414,41 @@ class SiteController extends Controller
                     " http://intita.itatests.com/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
                 mail($modelReset->email,$subject,$text,$headers);
-                $this->render('/site/changeemailinfo',array(
-                    'model'=>$modelReset,
-                ));
+                $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
             }
         }
+    }
+
+    public function actionActivationinfo($email)
+    {
+        $this->render('activationinfo',array(
+            'email'=>$email,
+        ));
+    }
+    public function actionChangeemailinfo($email)
+    {
+        $this->render('changeemailinfo',array(
+            'email'=>$email,
+        ));
+    }
+    public function actionResetpassinfo($email)
+    {
+        $this->render('resetpassinfo',array(
+            'email'=>$email,
+        ));
+    }
+    public function actionResetemailinfo()
+    {
+        $this->render('resetemail');
+    }
+    public function actionNotactivated($email)
+    {
+        $this->render('notactivated',array(
+            'email'=>$email,
+        ));
+    }
+    public function actionActivationaccount()
+    {
+        $this->render('activationaccount');
     }
 }
