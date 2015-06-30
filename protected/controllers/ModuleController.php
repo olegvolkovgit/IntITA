@@ -81,7 +81,7 @@ class ModuleController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($idModule)
+	public function actionIndex($idModule,$idCourse)
 	{
         $model = Module::model()->findByPk($idModule);
         $owners = [];
@@ -109,7 +109,6 @@ class ModuleController extends Controller
                 )
             )
         ));
-
         $editMode = 0; //init editMode flag
         //find id teacher related to current user id
         if (Yii::app()->user->isGuest){ //if user guest
@@ -139,6 +138,7 @@ class ModuleController extends Controller
             'editMode' => $editMode,
             'lecturesTitles' => $lecturesTitles,
             'dataProvider' => $dataProvider,
+            'idCourse'=>$idCourse,
         ));
 	}
 
@@ -207,8 +207,7 @@ class ModuleController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
-        $this->actionIndex($_POST['idModule']);
-
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public  function actionSaveModule(){
@@ -224,7 +223,7 @@ class ModuleController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
-        $this->actionIndex($_POST['idModule']);
+        $this->actionIndex($_POST['idModule'],$_POST['idCourse']);
         //$this->render('saveLesson');
     }
 

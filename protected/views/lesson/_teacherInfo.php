@@ -37,7 +37,7 @@ $app = Yii::app();
                         ?>
                     <div class="calendar">
                         <?php
-                        echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id))); ?>
+                        echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse))); ?>
                     </div>
                     <?php
                     }

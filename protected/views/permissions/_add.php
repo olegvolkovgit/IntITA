@@ -48,10 +48,6 @@
             <br>
             <br>
 
-        Лекція:<br>
-            <div name="selectLecture" style="float:left;"></div>
-        <br>
-        <br>
             <fieldset id="rights">
                 <legend>Права</legend>
                 <input type="checkbox" name="read" value="1" />READ<br />

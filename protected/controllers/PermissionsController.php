@@ -41,11 +41,11 @@ class PermissionsController extends Controller
 
     public function actionIndex()
 	{
-        $model = new Permissions('search');
+        $model = new PayModules('search');
         if(isset($_GET['Permissions']))
             $model->attributes=$_GET['Permissions'];
 
-		$dataProvider = new CActiveDataProvider('Permissions');
+		$dataProvider = new CActiveDataProvider('PayModules');
 
         $dataProvider->setPagination(array(
                 'pageSize' => '50',
@@ -63,12 +63,12 @@ class PermissionsController extends Controller
 	}
 
     public static function checkPermission($idUser, $idResource, $rights){
-        $record = Permissions::model()->findByAttributes(array('id_user' => $idUser,
-            'id_resource' => $idResource));
+        $record = PayModules::model()->findByAttributes(array('id_user' => $idUser,
+            'id_module' => $idResource));
         if (is_null($record)) {
             return false;
         } else {
-            $mask = Permissions::model()->setFlags($rights);
+            $mask = PayModules::model()->setFlags($rights);
             if ($record->rights & $mask){
                 return true;
             }else {
@@ -97,8 +97,8 @@ class PermissionsController extends Controller
             array_push($rights, 'delete');
         }
 
-        if(isset($_POST['lecture'])) {
-            if (Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['lecture']))) {
+        if(!empty($_POST['module'])) {
+            if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
 //                $permissionToBeChanged = Permissions::model()->findByPk(array('id_user'=>$_POST['user'],
 //                                                                            'id_resource'=>$_POST['lecture']));
 //                $permissionToBeChanged->rights = Permissions::setFlags($rights);
@@ -111,12 +111,12 @@ class PermissionsController extends Controller
 //                {
 //                    var_dump($permissionToBeChanged->getErrors());
 //                }
-                Permissions::model()->updateByPk(array('id_user' => $_POST['user'], 'id_resource' => $_POST['lecture']), array('rights' => Permissions::setFlags($rights)));
+                PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
             } else {
-                $user = Yii::app()->db->createCommand()->insert('permissions', array(
+                $user = Yii::app()->db->createCommand()->insert('pay_modules', array(
                     'id_user' => $_POST['user'],
-                    'id_resource' => $_POST['lecture'],
-                    'rights' => Permissions::setFlags($rights),
+                    'id_module' => $_POST['module'],
+                    'rights' => PayModules::setFlags($rights),
                 ));
             }
         }
@@ -125,7 +125,7 @@ class PermissionsController extends Controller
     }
 
     public function actionDelete($id, $resource){
-        $result = Yii::app()->db->createCommand()->delete('permissions', 'id_user=:id_user AND id_resource=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
+        $result = Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user'=>$id, ':id_resource'=>$resource));
 
         $this->actionIndex();
     }
@@ -169,12 +169,25 @@ class PermissionsController extends Controller
     }
 
     public function actionShowModules(){
-        $first = '<select name="module" onchange="javascript:selectLecture();">';
-        $criteria = new CDbCriteria();
-        $criteria->select = 'module_ID, module_name';
+        $first = '<select name="module">';
+
+        $modulelist = [];
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
         $criteria->order = '`order` ASC';
-        $criteria->addCondition('course='.$_POST['course']);
-        $rows = Module::model()->findAll($criteria);
+        $criteria->addCondition('id_course='.$_POST['course']);
+        $temp = CourseModules::model()->findAll($criteria);
+        for($i = 0; $i < count($temp);$i++){
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+
+        $criteriaData= new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $rows = Module::model()->findAll($criteriaData);
         $result = $first.'<option value="">Всі модулі</option>
                    <optgroup label="Виберіть модуль">';
         foreach ($rows as $numRow => $row) {
