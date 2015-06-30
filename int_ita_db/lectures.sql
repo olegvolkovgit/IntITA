@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-27 19:58:22
+-- Date/time:                    2015-06-30 13:35:27
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,13 +25,13 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `idTeacher` varchar(50) DEFAULT NULL,
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~34 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
-	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 0),
-	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 0),
+	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
+	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 1),
 	(3, 'lectureImage.png', 'lecture3', 'ua', 1, 3, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0),
 	(5, 'lectureImage.png', 'lecture4', 'ua', 1, 4, 'Функції в PHP', 1, 60, '1', 0),
 	(14, 'lectureImage.png', 'lecture5', 'ua', 1, 5, 'Об\'єкти і класи PHP', 1, 60, '2', 0),
@@ -62,7 +62,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
 	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0),
 	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0),
-	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0);
+	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0),
+	(48, 'lectureImage.png', 'lecture1', 'ua', 61, 1, 'New lecture', 1, 60, '1', 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

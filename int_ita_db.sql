@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-27 19:58:28
+-- Date/time:                    2015-06-30 13:35:21
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `aa_authorizations` (
   CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table int_ita_db.aa_authorizations: ~60 rows (approximately)
+-- Dumping data for table int_ita_db.aa_authorizations: ~46 rows (approximately)
 /*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
 INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
 	(1, 2, '2015-03-02 15:33:25', '::1'),
@@ -361,7 +361,7 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~22 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
 INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
 	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),
@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~11 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -564,7 +564,7 @@ CREATE TABLE IF NOT EXISTS `header` (
   PRIMARY KEY (`headerID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.header: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.header: ~3 rows (approximately)
 /*!40000 ALTER TABLE `header` DISABLE KEYS */;
 INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
 	(0, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus'),
@@ -630,13 +630,13 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `idTeacher` varchar(50) DEFAULT NULL,
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
 -- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
-	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 0),
-	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 0),
+	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
+	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 1),
 	(3, 'lectureImage.png', 'lecture3', 'ua', 1, 3, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0),
 	(5, 'lectureImage.png', 'lecture4', 'ua', 1, 4, 'Функції в PHP', 1, 60, '1', 0),
 	(14, 'lectureImage.png', 'lecture5', 'ua', 1, 5, 'Об\'єкти і класи PHP', 1, 60, '2', 0),
@@ -667,7 +667,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
 	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0),
 	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0),
-	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0);
+	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0),
+	(48, 'lectureImage.png', 'lecture1', 'ua', 61, 1, 'New lecture', 1, 60, '1', 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 
 
@@ -704,9 +705,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~36 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~37 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -743,8 +744,12 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
 	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
 	(67, 2, 9, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\varepsilon \\mathbb{P}\\Re \\mathbb{I}\\mathbb{R}}\\]\r\n'),
-	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\zeta \\beta \\gamma \\ae \\l \\O \\SS \\$ \\gamma \\beta \\lambda \\mu \\Theta \\Upsilon \\Phi \\Psi \\Omega }\\]\r\n'),
-	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\triangledown \\triangleleft \\barwedge \\bullet \\blacktriangle }\\]\r\n');
+	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\rho \\mu \\mu \\tau }\\]\r\n'),
+	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\bullet \\blacktriangle }\\]\r\n'),
+	(76, 2, 10, 'text', 1, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im \\Re \\jmath \\Cup \\!\\]\r\n'),
+	(77, 2, 11, 'text', 1, '\\[\\varepsilon \\vartheta \\rho {\\color{Red} \\varsigma \\varpi \\vartheta \\varepsilon }\\]\r\n'),
+	(78, 2, 12, 'table', 11, '<table><tbody><tr><td>gsrg</td><td></td><td>gdrg</td></tr><tr><td></td><td>gdrgs</td><td>grdg</td></tr><tr><td>gdrgs</td><td></td><td>gdg</td></tr><tr><td>fsefsg</td><td></td><td>fsdfs</td></tr><tr><td></td><td>fsfs</td><td>gdrg</td></tr></tbody></table>'),
+	(79, 48, 1, 'formula', 10, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -761,7 +766,7 @@ CREATE TABLE IF NOT EXISTS `letters` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.letters: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.letters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `letters` DISABLE KEYS */;
 INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`, `date`, `status`) VALUES
 	(1, 22, 38, 'Заняття 4', 'Привіт1', '2015-06-21 21:36:58', 1);
@@ -801,7 +806,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', 'line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', 'hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', 'networking.png', 'formFon.png');
@@ -820,7 +825,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -1739,9 +1744,9 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(914, 287, 'ua', 'Вітаємо!'),
 	(915, 287, 'ru', 'Поздравляем!'),
 	(916, 287, 'en', 'Congratulations!'),
-	(917, 288, 'ua', 'Ви успішно змінили пароль.'),
-	(918, 288, 'ru', 'Вы успешно изменили пароль.'),
-	(919, 288, 'en', 'You have successfully changed your password.'),
+	(917, 288, 'ua', 'Ви успішно змінили електронну пошту.'),
+	(918, 288, 'ru', 'Вы успешно изменили email.'),
+	(919, 288, 'en', 'You have successfully changed your email.'),
 	(920, 289, 'ua', 'Відновлення паролю'),
 	(921, 289, 'ru', 'Восстановление пароля'),
 	(922, 289, 'en', 'Password recovery'),
@@ -2301,7 +2306,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   KEY `course` (`course`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~25 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
 	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
@@ -2324,7 +2329,8 @@ INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `l
 	(56, 13, 3, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(58, 14, 1, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
 	(59, 14, 2, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(60, 14, 3, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
+	(60, 14, 3, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(61, 1, 16, 'New module', 'module16', 'ua', 0, 0, 1, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -2342,6 +2348,8 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
 
 -- Dumping data for table int_ita_db.pay_courses: ~0 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
+INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
+	(38, 1, 1);
 /*!40000 ALTER TABLE `pay_courses` ENABLE KEYS */;
 
 
@@ -2357,8 +2365,36 @@ CREATE TABLE IF NOT EXISTS `pay_modules` (
   CONSTRAINT `FK_pay_modules_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for modules: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_modules: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.pay_modules: ~27 rows (approximately)
 /*!40000 ALTER TABLE `pay_modules` DISABLE KEYS */;
+INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
+	(38, 1, 3),
+	(38, 61, 3),
+	(38, 1, 3),
+	(39, 1, 3),
+	(40, 1, 3),
+	(41, 1, 3),
+	(40, 2, 3),
+	(41, 2, 3),
+	(38, 3, 3),
+	(41, 3, 3),
+	(41, 4, 3),
+	(40, 9, 3),
+	(41, 9, 3),
+	(38, 10, 3),
+	(41, 10, 3),
+	(38, 7, 3),
+	(42, 7, 3),
+	(39, 11, 3),
+	(38, 14, 3),
+	(41, 16, 3),
+	(40, 17, 3),
+	(38, 18, 3),
+	(40, 20, 3),
+	(41, 22, 3),
+	(39, 23, 3),
+	(38, 20, 3),
+	(39, 2, 3);
 /*!40000 ALTER TABLE `pay_modules` ENABLE KEYS */;
 
 
@@ -2373,7 +2409,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~150 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~128 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
 	(1, 1, 1),
@@ -3187,7 +3223,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_acl_users` (
   KEY `auth_role_id` (`auth_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_acl_users: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_acl_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_acl_users` DISABLE KEYS */;
 INSERT INTO `phpbb_acl_users` (`user_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
 	(2, 0, 0, 5, 0);
@@ -3427,7 +3463,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1433429448', 1),
+	('cache_last_gc', '1435425065', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -3450,7 +3486,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_mail', '', 0),
 	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
-	('database_last_gc', '1431077130', 1),
+	('database_last_gc', '1435425078', 1),
 	('dbms_version', '5.5.41-log', 0),
 	('default_dateformat', 'D M d, Y g:i a', 0),
 	('default_lang', 'uk', 0),
@@ -3605,12 +3641,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '7c4a292e948f0a2cd721a6c6a5bda1d1', 1),
-	('rand_seed_last_update', '1434633857', 1),
+	('rand_seed', 'fb6cb6a1f1407f4d43aa6db7aa488e08', 1),
+	('rand_seed_last_update', '1435582467', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1434633857', 1),
+	('read_notification_last_gc', '1435581463', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),
@@ -3621,7 +3657,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('search_gc', '7200', 0),
 	('search_indexing_state', '', 1),
 	('search_interval', '0', 0),
-	('search_last_gc', '1432142776', 1),
+	('search_last_gc', '1435425084', 1),
 	('search_store_results', '1800', 0),
 	('search_type', '\\phpbb\\search\\fulltext_native', 0),
 	('secure_allow_deny', '1', 0),
@@ -3631,7 +3667,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1433248691', 1),
+	('session_last_gc', '1435582467', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -3656,7 +3692,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('version', '3.1.4', 0),
 	('warnings_expire_days', '90', 0),
 	('warnings_gc', '14400', 0),
-	('warnings_last_gc', '1434631453', 1);
+	('warnings_last_gc', '1435425111', 1);
 /*!40000 ALTER TABLE `phpbb_config` ENABLE KEYS */;
 
 
@@ -3691,12 +3727,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~3 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
-INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('2d1a7a021e037ff5af01e0864d8867d3', '560a1b42c729bbe96a34f5c2603da1f1', 1, '6FYV5J', 420831711, 0),
-	('532508a29f9a165b7c886f55e8ce85b5', 'cd2f1509ecfaae31d6aab37c0aca96f7', 1, '646RK6A', 1777825899, 0),
-	('1b165063bd8dc1863409c71f7c0f6045', 'fb598984019bddbe0987715fbaa4b688', 1, '4IF79S', 1563347645, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 
 
@@ -3945,7 +3977,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums_track` (
   PRIMARY KEY (`user_id`,`forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_forums_track: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_forums_track: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_forums_track` DISABLE KEYS */;
 INSERT INTO `phpbb_forums_track` (`user_id`, `forum_id`, `mark_time`) VALUES
 	(2, 2, 1433430287);
@@ -4942,7 +4974,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');
@@ -5115,7 +5147,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordmatch` (
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~77 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~70 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUES
 	(1, 1, 0),
@@ -5220,11 +5252,10 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('9b5f437fb1a3f404f2935786e213f2cf', 1, 1434631451, 1434631451, 1434633856, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36', '', 'index.php', 1, 0, 0, 0),
-	('aa36442de314f8e0f7a088a37cce2289', 2, 1433430118, 1433430267, 1433430287, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'viewtopic.php?f=2&p=4&t=3', 1, 0, 0, 2);
+	('ce6ea6ebd115648ed0af50fa1b3289d5', 1, 1435581460, 1435581460, 1435582487, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'ucp.php?mode=register', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -5337,7 +5368,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');
@@ -5417,8 +5448,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics` (
 /*!40000 ALTER TABLE `phpbb_topics` DISABLE KEYS */;
 INSERT INTO `phpbb_topics` (`topic_id`, `forum_id`, `icon_id`, `topic_attachment`, `topic_reported`, `topic_title`, `topic_poster`, `topic_time`, `topic_time_limit`, `topic_views`, `topic_status`, `topic_type`, `topic_first_post_id`, `topic_first_poster_name`, `topic_first_poster_colour`, `topic_last_post_id`, `topic_last_poster_id`, `topic_last_poster_name`, `topic_last_poster_colour`, `topic_last_post_subject`, `topic_last_post_time`, `topic_last_view_time`, `topic_moved_id`, `topic_bumped`, `topic_bumper`, `poll_title`, `poll_start`, `poll_length`, `poll_max_options`, `poll_last_vote`, `poll_vote_change`, `topic_visibility`, `topic_delete_time`, `topic_delete_reason`, `topic_delete_user`, `topic_posts_approved`, `topic_posts_unapproved`, `topic_posts_softdeleted`) VALUES
 	(1, 2, 0, 0, 0, 'Ласкаво просимо до phpBB3', 2, 1431076924, 0, 1, 0, 0, 1, 'intita', 'AA0000', 1, 2, 'intita', 'AA0000', 'Ласкаво просимо до phpBB3', 1431076924, 1431077129, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
-	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 3, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1431082648, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
-	(3, 2, 0, 0, 0, '4 червня', 2, 1433429758, 0, 4, 0, 0, 3, 'intita', 'AA0000', 4, 48, 'Ivanna', '', 'Re: 4 червня', 1433430237, 1433430287, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0);
+	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 5, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1435425430, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
+	(3, 2, 0, 0, 0, '4 червня', 2, 1433429758, 0, 5, 0, 0, 3, 'intita', 'AA0000', 4, 48, 'Ivanna', '', 'Re: 4 червня', 1433430237, 1435425084, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0);
 /*!40000 ALTER TABLE `phpbb_topics` ENABLE KEYS */;
 
 
@@ -5552,11 +5583,11 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
   KEY `user_type` (`user_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_users: ~48 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_users: ~47 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b705c3dbdaa5024d', 1, 0, 0),
-	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430118, 0, 1433429758, 'index.php', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '287b3c896ddb8ad1', 1, 0, 0),
+	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430287, 0, 1433429758, 'viewtopic.php?f=2&p=4&t=3', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(3, 2, 6, '', 0, '', 1431076932, 'AdsBot [Google]', 'adsbot [google]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8fb1961bea68d3af', 0, 0, 0),
 	(4, 2, 6, '', 0, '', 1431076932, 'Alexa [Bot]', 'alexa [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b0ce7ddbe26f78e5', 0, 0, 0),
 	(5, 2, 6, '', 0, '', 1431076932, 'Alta Vista [Bot]', 'alta vista [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'aa44fb14e9ba2611', 0, 0, 0),
@@ -5618,7 +5649,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_group` (
   KEY `group_leader` (`group_leader`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_group: ~51 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_group: ~49 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_group` DISABLE KEYS */;
 INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pending`) VALUES
 	(1, 1, 0, 0),
@@ -5685,7 +5716,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_notifications` (
   `notify` tinyint(1) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_notifications: ~188 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_notifications: ~184 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_user_notifications` (`item_type`, `item_id`, `user_id`, `method`, `notify`) VALUES
 	('notification.type.post', 0, 2, '', 1),
@@ -6014,16 +6045,26 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `title_ua` varchar(20) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='List of teachers roles.';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='List of teachers roles.';
 
--- Dumping data for table int_ita_db.roles: ~5 rows (approximately)
+-- Dumping data for table int_ita_db.roles: ~15 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `title_en`, `title_ru`, `title_ua`, `description`) VALUES
 	(1, 'Trainer', 'Тренер', 'Тренер', 'Trainer. Help student with simple and common problems.'),
 	(2, 'Consultant', 'Консультант', 'Консультант', 'Online consultations'),
 	(3, 'Leader', 'Руководитель проекта', 'Керівник проекта', 'Leader for single and team students projects'),
 	(4, 'Author', 'Автор модуля', 'Автор модуля', 'Module owner'),
-	(5, 'Admin', 'Админ', 'Адмін', 'Create and describe courses and modules.');
+	(5, 'Admin', 'Админ', 'Адмін', 'Create and describe courses and modules.'),
+	(6, '67u48u', 'ur7u7', 'uryru76r', 'j7j6r'),
+	(7, 'gserg', 'grggeg', '11111', 'gegeg'),
+	(8, 'rge5', 't4525', 'r42', 'wef524'),
+	(9, 'rge5', 't4525', 'r42', 'wef524'),
+	(10, 'rge5', 't4525', 'r42', 'wef524'),
+	(11, 'rge5', 't4525', 'r42', 'wef524'),
+	(12, 'rge5', 't4525', 'fser42', 'wef524'),
+	(13, 'rge5', 't4525', 'fser42', 'wef524'),
+	(14, 'rge5', 't4525', 'fser42', 'wef524'),
+	(15, 'uikmy', 'hty', 'htdyh', 'hdty');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 
@@ -6041,7 +6082,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
--- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.role_attribute: ~9 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
 INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`) VALUES
 	(1, 'capacity', 1, 'int', 'Количество студентов', 'Кількість студентів'),
@@ -6064,7 +6105,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~429 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~381 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6531,7 +6572,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `first_name` varchar(35) NOT NULL,
   `middle_name` varchar(35) NOT NULL,
   `last_name` varchar(35) NOT NULL,
-  `foto_url` varchar(100) NOT NULL,
+  `foto_url` varchar(100) NOT NULL DEFAULT 'noname.png',
   `subjects` varchar(100) NOT NULL,
   `profile_text_first` text NOT NULL,
   `profile_text_short` text NOT NULL,
@@ -6546,7 +6587,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `user_id` int(11) NOT NULL,
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
@@ -6556,7 +6597,8 @@ INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `
 	(3, 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', 'teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile/index/?idTeacher=5', 'teacher3@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher3', 0, 0, 0, 40, 0),
 	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', 0, 0, 0, 41, 0),
 	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', 0, 0, 0, 42, 0),
-	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', 0, 0, 0, 43, 0);
+	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', 0, 0, 0, 43, 0),
+	(7, 'sddhwqhdf', 'sdvbkjs', 'vbedfvkj', 'Tulips.jpg', '', '', '', '', '', 'vdfb@rtr.ge', '', '', 0, 0, 0, 47, NULL);
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 
 
@@ -6569,9 +6611,9 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   PRIMARY KEY (`id`),
   KEY `FK_teacher_module_teacher` (`idTeacher`),
   KEY `FK_teacher_module_module` (`idModule`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~25 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~30 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -6598,7 +6640,8 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(40, 4, 22),
 	(41, 2, 23),
 	(44, 1, 20),
-	(45, 2, 2);
+	(45, 2, 2),
+	(46, 1, 61);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
 
@@ -6615,7 +6658,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~23 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
@@ -6643,7 +6686,8 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(2, 4, '2015-06-24', '0000-00-00'),
 	(4, 4, '2015-06-24', '0000-00-00'),
 	(5, 4, '2015-06-24', '0000-00-00'),
-	(6, 4, '2015-06-24', '0000-00-00');
+	(6, 4, '2015-06-24', '0000-00-00'),
+	(7, 2, '2015-06-29', '0000-00-00');
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
 
 
@@ -6692,7 +6736,7 @@ CREATE TABLE IF NOT EXISTS `trainer_student` (
   CONSTRAINT `FK_trainer_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.trainer_student: ~7 rows (approximately)
+-- Dumping data for table int_ita_db.trainer_student: ~6 rows (approximately)
 /*!40000 ALTER TABLE `trainer_student` DISABLE KEYS */;
 INSERT INTO `trainer_student` (`trainer`, `student`) VALUES
 	(1, 55),
@@ -6741,7 +6785,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~19 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`) VALUES
 	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', 'noname.png', 0, NULL, NULL, 1),
@@ -6756,7 +6800,7 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1),
+	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
 	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
 	(49, 'Admin', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 3, NULL, NULL, 1),
 	(50, 'Serhiy', '', '', 0, '', NULL, 'Kalinovsky', NULL, '19.11.1978', 'serhiy.kalinovsky@gmail.com', NULL, 'https://www.facebook.com/serhiy.kalinovsky', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),

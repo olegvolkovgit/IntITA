@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-27 19:58:22
+-- Date/time:                    2015-06-30 13:35:28
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -941,9 +941,9 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(914, 287, 'ua', 'Вітаємо!'),
 	(915, 287, 'ru', 'Поздравляем!'),
 	(916, 287, 'en', 'Congratulations!'),
-	(917, 288, 'ua', 'Ви успішно змінили пароль.'),
-	(918, 288, 'ru', 'Вы успешно изменили пароль.'),
-	(919, 288, 'en', 'You have successfully changed your password.'),
+	(917, 288, 'ua', 'Ви успішно змінили електронну пошту.'),
+	(918, 288, 'ru', 'Вы успешно изменили email.'),
+	(919, 288, 'en', 'You have successfully changed your email.'),
 	(920, 289, 'ua', 'Відновлення паролю'),
 	(921, 289, 'ru', 'Восстановление пароля'),
 	(922, 289, 'en', 'Password recovery'),
