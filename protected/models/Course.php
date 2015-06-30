@@ -198,8 +198,10 @@ class Course extends CActiveRecord
     protected function beforeSave()
     {
         if($this->start=='') $this->start=null;
-        if ($this->scenario=="update")
+        if (($this->scenario=="update") && (empty($this->logo['tmp_name']['course_img'])))
         {
+            $this->course_img=$this->oldLogo;
+        } else if(($this->scenario=="update") && (!empty($this->logo['tmp_name']['course_img']))){
             $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->oldLogo;
             if (is_file($src))
                 unlink($src);
