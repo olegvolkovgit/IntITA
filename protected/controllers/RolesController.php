@@ -103,9 +103,10 @@ class RolesController extends Controller
 				$this->redirect(Yii::app()->createUrl('tmanage/roles'));
 		}
 
-		$this->render('create',array(
+		$this->render('tmanage/roles', array(
 			'model'=>$model,
-		));
+            )
+		);
 	}
 
 

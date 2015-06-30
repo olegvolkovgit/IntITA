@@ -1,5 +1,5 @@
 <?php
-/* @var $this RoleAttributeController */
+/* @var $this TmanageController */
 /* @var $model RoleAttribute */
 
 $this->breadcrumbs=array(

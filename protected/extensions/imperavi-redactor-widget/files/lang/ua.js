@@ -6,7 +6,7 @@ $.Redactor.opts.langs['ua'] = {
 	table: 'Таблиця',
 	link: 'Посилання',
 	link_insert: 'Вставити посилання ...',
-	link_edit: 'Edit link',
+	link_edit: 'Редагувати посилання',
 	unlink: 'Видалити посилання',
 	formatting: 'Стилі',
 	paragraph: 'Звичайний текст',
@@ -68,7 +68,7 @@ $.Redactor.opts.langs['ua'] = {
     anchor: 'Anchor',
 	link_new_tab: 'Відкрити посилання у новій вкладці',
 	underline: 'Underline',
-	alignment: 'Alignment',
+	alignment: 'Вирівнювання',
 	filename: 'Назва (optional)',
 	edit: 'Редагувати',
 	center: 'По центру'

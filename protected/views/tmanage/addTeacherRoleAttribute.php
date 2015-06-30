@@ -68,7 +68,7 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/IntITA/permissions/showAttributes",
+                url: "/permissions/showAttributes",
                 data: {role: role},
                 cache: false,
                 success: function(response){ $('div[name="selectAttribute"]').html(response); }
@@ -81,7 +81,7 @@ $this->breadcrumbs=array(
         alert(attribute);
         $.ajax({
             type: "POST",
-            url: "/IntITA/permissions/show",
+            url: "/permissions/show",
             data: {role: role},
             cache: false,
             success: function(response){ $('div[name="selectAttribute"]').html(response); }

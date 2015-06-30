@@ -122,8 +122,8 @@ class TeacherRoles extends CActiveRecord
             $model->role = $roleId;
         }
         $model->start_date = date("Y-m-d H:i");
+
         if ($model->validate()){
-            $model->save();
             return true;
         }
         return false;

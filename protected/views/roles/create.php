@@ -3,16 +3,12 @@
 /* @var $model Roles */
 
 $this->breadcrumbs=array(
-	'Roles'=>array('index'),
-	'Create',
+	'Ролі викладачів'=>array('index'),
+	'Створити роль',
 );
 
-$this->menu=array(
-	array('label'=>'List Roles', 'url'=>array('index')),
-	array('label'=>'Manage Roles', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Create Roles</h1>
+<h1>Створити роль</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

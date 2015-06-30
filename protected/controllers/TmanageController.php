@@ -189,7 +189,7 @@ class TmanageController extends Controller
             $model->attributes = $_POST['Roles'];
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->render('viewRole', array('model' => $model));
             }
         }
         $this->render('createRole', array(
@@ -216,7 +216,7 @@ class TmanageController extends Controller
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect(array('viewRoleAttribute', 'id' => $model->id));
+                $this->redirect(array('showAttributes', 'role'=>$model->role));
         }
         $model->role = $role;
         $this->render('addRoleAttribute', array(
@@ -249,6 +249,32 @@ class TmanageController extends Controller
     public function actionAddTeacherRoleAttribute($teacher){
         $this->render('addTeacherRoleAttribute', array(
             'teacher' => $teacher,
+        ));
+    }
+
+    public function actionViewRole($id)
+    {
+        $this->render('viewRole',array(
+            'model'=>$this->loadModel($id),
+        ));
+    }
+
+    public function actionUpdateRole($id)
+    {
+        $model= Roles::model()->findByPk($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if(isset($_POST['Roles']))
+        {
+            $model->attributes=$_POST['Roles'];
+            if($model->save())
+                $this->redirect(array('tmanage/roles'));
+        }
+
+        $this->render('updateRole',array(
+            'model'=>$model,
         ));
     }
 }

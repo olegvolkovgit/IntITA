@@ -18,3 +18,7 @@
     color: darkviolet;
     font-style: italic;
 }
+.custom img
+{
+    width: 150px;
+}
