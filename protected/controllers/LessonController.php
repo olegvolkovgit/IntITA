@@ -99,6 +99,9 @@ class LessonController extends Controller{
         $model->block_order = Yii::app()->request->getPost('order');
 
         switch ($idType){
+//            case '1':
+//                $model->html_block = $this->redirectTextLinks($htmlBlock);
+//                break;
             case '2':
                  //if we want to load video, we finding video link
                 $tempArray = explode(" ", $htmlBlock);
@@ -109,6 +112,18 @@ class LessonController extends Controller{
                     }
                 }
                 break;
+//            case '4':
+//                $model->html_block = $this->redirectTextLinks($htmlBlock);
+//                break;
+//            case '5':
+//                $model->html_block = $this->redirectTextLinks($htmlBlock);
+//                break;
+//            case '6':
+//                $model->html_block = $this->redirectTextLinks($htmlBlock);
+//                break;
+//            case '7':
+//                $model->html_block = $this->redirectTextLinks($htmlBlock);
+//                break;
             case '9':
                 $tempArray = explode(" ", $htmlBlock);
                 for ($i = count($tempArray)-1; $i > 0; $i--) {
@@ -131,9 +146,24 @@ class LessonController extends Controller{
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    function startsWith($haystack, $needle) {
+    private function startsWith($haystack, $needle) {
         return substr($haystack, 0, strlen($needle)) === $needle;
     }
+
+    public function redirectTextLinks($htmlBlock){
+        var_dump($htmlBlock);die();
+        $tempArray = explode(" ", $htmlBlock);
+        $result = [];
+        for ($i = count($tempArray)-1; $i > 0; $i--) {
+            $result .= $tempArray[$i];
+            if ($this->startsWith($tempArray[$i], 'href="')) {
+                $result .= ' target="_blank" ';
+            }
+        }
+        var_dump($result);die();
+        return $result;
+    }
+
 
     //reorder blocks on lesson page - up block
     public function actionUpElement()
