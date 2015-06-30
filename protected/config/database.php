@@ -9,4 +9,5 @@ return array(
 	'username' => 'intita',
 	'password' => '1234567',
 	'charset' => 'utf8',
+    'enableProfiling' => true,
 );

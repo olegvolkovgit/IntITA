@@ -63,14 +63,14 @@ class TeachersController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new TeachersTemp;
+		$model=new Teacher;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['TeachersTemp']))
+		if(isset($_POST['Teacher']))
 		{
-			$model->attributes=$_POST['TeachersTemp'];
+			$model->attributes=$_POST['Teacher'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->teacher_id));
 		}
