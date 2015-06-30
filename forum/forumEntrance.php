@@ -20,7 +20,7 @@ if ($id) {
         $sql2 = "INSERT INTO phpbb_users (user_id, username, username_clean) VALUES ('".$id."', '".$name."', '".$name."');";
         $result2 = mysql_query($sql2);
     }
-    setcookie("user_id_transition", $id, time() + 3600, "/");
+    setcookie("user_id_transition", $id, time() + 3600, "/", "intita");
     $sql3 = "DELETE FROM phpbb_sessions WHERE session_user_id=1";
     $result3 = mysql_query($sql3);
 }
