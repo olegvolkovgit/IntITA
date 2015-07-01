@@ -10,10 +10,11 @@ elseif(!mysql_select_db($database))
 session_start();
 $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
 if ($id) {
-    $sql = "SELECT firstName, secondName FROM `user` WHERE id=".$id.";";
+    $sql = "SELECT firstName, secondName, email FROM `user` WHERE id=".$id.";";
     $result = mysql_query($sql);
     $row = mysql_fetch_array($result);
     $name = $row['firstName'].' '.$row['secondName'];
+    if ($name==" ") $name = $row['email'];
     $sql1 = "SELECT user_id FROM phpbb_users WHERE user_id=".$id.";";
     $result1 = mysql_query($sql1);
     if (mysql_num_rows($result1)==0) {

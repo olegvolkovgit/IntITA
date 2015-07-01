@@ -3166,7 +3166,7 @@
 						var text = $('#redactor-filename').val();
 						if (typeof text == 'undefined' || text === '') text = json.filename;
 
-						link = '<a href="' + json.filelink + '" id="filelink-marker">' + text + '</a>';
+						link = '<a href="' + json.filelink + '" target="_blank" id="filelink-marker">' + text + '</a>';
 					}
 
 					if (direct)
