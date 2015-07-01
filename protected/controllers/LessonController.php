@@ -26,6 +26,10 @@ class LessonController extends Controller{
     public function actionIndex($id){
         $lecture = Lecture::model()->findByPk($id);
 
+//        if (isset($_POST))
+//        {
+//            var_dump($_POST);die();
+//        }
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
 

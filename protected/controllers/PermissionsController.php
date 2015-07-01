@@ -226,8 +226,10 @@ class PermissionsController extends Controller
         $request = Yii::app()->request;
         $teacherId = $request->getPost('teacher', 0);
         $roleId = $request->getPost('role', 0);
+
         if ($teacherId && $roleId){
             if (TeacherRoles::setTeacherRole($teacherId, $roleId)){
+
                 $this->redirect(Yii::app()->createUrl('tmanage/index'));
             }
         }

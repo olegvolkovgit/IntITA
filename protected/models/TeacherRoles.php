@@ -117,6 +117,7 @@ class TeacherRoles extends CActiveRecord
         if (TeacherRoles::model()->exists('teacher=:teacher and role=:attribute', array('teacher'=>$teacherId, 'attribute'=>$roleId))){
             $model = TeacherRoles::model()->findByAttributes(array('teacher'=>$teacherId, 'role'=>$roleId));
         } else{
+
             $model = new TeacherRoles();
             $model->teacher = $teacherId;
             $model->role = $roleId;
@@ -124,6 +125,7 @@ class TeacherRoles extends CActiveRecord
         $model->start_date = date("Y-m-d H:i");
 
         if ($model->validate()){
+            $model->save();
             return true;
         }
         return false;

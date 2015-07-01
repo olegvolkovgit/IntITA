@@ -26,13 +26,13 @@
                     <?php echo $data['html_block'];?>
                 </ol>
             </div>
-            <form action="http://ii.itatests.com" method="post" class="sendAnswer">
-                <input type="hidden" name="name">
-                <input type="hidden" name="email">
-                <input type="hidden" name="task" value="<?php echo $data['id_lecture'].'-'.$data['block_order'] ?>">
-                <input type="hidden" name="lang" value="c">
-                <textarea name="text" > </textarea>
-                <input name="send" id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
+            <form onclick="sendTaskAnswer()" method="post" class="sendAnswer">
+                <input type="hidden" name="operation" value="status">
+                <input type="hidden" name="session" value="123456789044241232">
+                <input type="hidden" name="task" value="1">
+<!--                <input type="hidden" name="lang" value="c++">-->
+                <textarea name="code" > </textarea>
+                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
             </form>
         </div>
     </div>
@@ -77,4 +77,20 @@ if ($editMode) {
     ));
 }
 ?>
+
+<script type="text/javascript">
+    function sendTaskAnswer() {
+        JSONRequest.post(
+            "http://ii.itatests.com",
+            {
+                "operation" : "status",
+                "session" : "123456789044241232",
+                "jobid" : 1
+            },
+            function (requestNumber, value, exception) {
+                alert(value);
+            }
+        );
+    }
+</script>
 

@@ -27,13 +27,13 @@
                 <?php echo $data['html_block'];?>
             </ol>
             </div>
-            <form action="http://ii.itatests.com" method="post" class="sendAnswer">
-                <input type="hidden" name="name">
-                <input type="hidden" name="email">
-                <input type="hidden" name="task" value="<?php echo $data['id_lecture'].'-'.$data['block_order'] ?>">
-                <input type="hidden" name="lang" value="c">
-                <textarea name="text" > </textarea>
-                <input name="send" id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
+            <form class="sendAnswer" onclick="sendTaskAnswer()">
+                <input type="hidden" name="operation" value="send">
+                <input type="hidden" name="session" value="123456789044241232">
+                <input type="hidden" name="task" value="2">
+                <input type="hidden" name="lang" value="c++">
+                <textarea name="code" ></textarea>
+                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
             </form>
         </div>
     </div>
@@ -78,3 +78,26 @@ if ($editMode) {
     ));
 }
 ?>
+
+<script type="text/javascript">
+    function sendTaskAnswer() {
+        JSONRequest.post(
+            "http://ii.itatests.com",
+            {
+                "operation": "send",
+                "session": "123456789044241232",
+                "jobid": 5,
+                "code": " std::cout << \"Hello World!\" << std::endl;",
+                "task": 2,
+                "lang": "c++"
+            },
+            function (requestNumber, value, exception) {
+                if (value) {
+                    processResponse(value);
+                } else {
+                    processError(exception);
+                }
+            }
+        );
+    }
+</script>
