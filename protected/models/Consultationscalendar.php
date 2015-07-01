@@ -109,9 +109,16 @@ class Consultationscalendar extends CActiveRecord
     /*Визначаєм клас комірки з інтервалом, натиснута чи не натиснута*/
     public static function classTD ($id, $times, $date)
     {
+        $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
+        if($date == date("Y-m-d")) {
+            $start = substr($times, 0, 5);
+            if($start<=date("G:i")){
+                $classTD='disabledTime';
+                return $classTD;
+            }
+        }
         $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id) or (date_cons=:date and user_id=:idu)", array(':date'=>$date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
         $classTD = '';
-        $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
         foreach($a as $td){
             $startCons = intval(substr($td->start_cons, 0, 2))*60 + intval(substr($td->start_cons, 3, 2));
             $endCons = intval(substr($td->end_cons, 0, 2))*60 + intval(substr($td->end_cons, 3, 2));

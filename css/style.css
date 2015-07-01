@@ -28,7 +28,7 @@ p {
 }
 #navigation {
     position:relative;
-    width: 90%; /*1200px;*/
+    width: 1200px;
     height: 100px;
     margin: 0 auto;
     background-color: white;
@@ -106,7 +106,7 @@ p {
     margin-left: 40px;
 }
 #logo_img.downmain a {
-    display: inline-block;
+    display: block;
     height: 0;
 }
 /******************enter button***************/

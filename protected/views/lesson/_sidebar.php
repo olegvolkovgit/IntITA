@@ -6,12 +6,12 @@
         <ul>
             <li>
                 <?php echo Yii::t('lecture', '0070'); ?>
-                <span><?php echo $lecture->getCourseInfoById()['courseTitle']; ?></span>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById()['courseLang']); ?>
+                <span><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']; ?></span>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>
                 )
             </li>
             <li>
                 <?php echo Yii::t('lecture', '0072'); ?>
-                <span><?php echo $lecture->getModuleInfoById()['moduleTitle']; ?></span>
+                <span><?php echo $lecture->getModuleInfoById($idCourse)['moduleTitle']; ?></span>
             </li>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <span><?php echo $lecture->title; ?></span>
@@ -32,14 +32,14 @@
             </li>
             <br>
             <li>
-                <?php echo '(' . $lecture->order . ' з ' . $lecture->getModuleInfoById()['countLessons'] . ' занять)'; ?>
+                <?php echo '(' . $lecture->order . ' з ' . $lecture->getModuleInfoById($idCourse)['countLessons'] . ' занять)'; ?>
             </li>
             <div id="counter">
                 <?php
                 for ($i = 0; $i < $lecture->order; $i++) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>">
                 <?php }
-                for ($i = 0; $i < $lecture->getModuleInfoById()['countLessons'] - $lecture->order; $i++) { ?>
+                for ($i = 0; $i < $lecture->getModuleInfoById($idCourse)['countLessons'] - $lecture->order; $i++) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
                 <?php } ?>
                 <div id="iconImage">
@@ -48,6 +48,8 @@
             </div>
         </ul>
     </div>
+    <br>
+    <div style="clear: both">
     <p><a href="skype:<?php echo $lecture->getTeacherInfoById()['skype']; ?>?chat"><input type="submit"
                                                                                           value="Skype"></a></p>
 
@@ -67,5 +69,7 @@
                 "styleLoader": "http:\/\/intita.itatests.com\/mibew\/chat\/style\/popup\/default"
             });</script>
         <!-- / mibew button --></a></p>
+
+    </div>
 </div>
 <!--navigation vertical-->

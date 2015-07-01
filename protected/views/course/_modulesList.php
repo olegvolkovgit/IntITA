@@ -38,7 +38,7 @@ $editMode = ($canEdit)?'true':'';
 <h2><?php echo Yii::t('course', '0330') ?></h2>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'modules-grid',
-    'dataProvider' => $dataProvider,
+    'dataProvider' => $dataProvider->search($model->course_ID),
     'emptyText' => Yii::t('course', '0331'),
     'columns' => array(
         array(
@@ -51,7 +51,7 @@ $editMode = ($canEdit)?'true':'';
                 'htmlOptions'=>array('display' => 'none'),
                 'delete' => array(
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
                     'label' => Yii::t('course', '0333'),
                     'visible'=> $editMode,
                 ),
@@ -70,7 +70,7 @@ $editMode = ($canEdit)?'true':'';
                             }'
                         )
                     ), //HTML options for the button tag.
-                    'url' => 'Yii::app()->createUrl("course/upModule", array("idModule"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("course/upModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
                     'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
                 ),
 
@@ -78,7 +78,7 @@ $editMode = ($canEdit)?'true':'';
                 (
 
                     'label'=>Yii::t('course', '0335'),    //Text label of the button.
-                    'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                     'options'=>array(
                         'class'=>'controlButtons;',
@@ -110,10 +110,10 @@ $editMode = ($canEdit)?'true':'';
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) {
-                if (AccessHelper::accesModule($data->module_ID))
-                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)));
+                if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                 else
-                    return CHtml::link(CHtml::encode($data->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->module_ID)),array('class'=>'disableModule'));
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),array('class'=>'disableModule'));
             }
         ),
     ),

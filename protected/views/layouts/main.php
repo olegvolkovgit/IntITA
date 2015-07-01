@@ -44,6 +44,7 @@ $header = new Header();?>
     <!-- Horizontal header Scroll-->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/horizontalscroll.js"></script>
     <!-- Horizontal header Scroll -->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
 
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/hamburgerMenu.css" />
@@ -404,6 +405,8 @@ $header = new Header();?>
    <!-- footer -->
     <!--SingIn modal-->
     <?php
+    $openDialog = false;
+    if (isset($_GET['dialog'])) $openDialog = true;
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog',
         'themeUrl'=>Yii::app()->request->baseUrl.'/css',
@@ -411,7 +414,7 @@ $header = new Header();?>
         'theme'=>'my',
         'options' => array(
             'width'=>540,
-            'autoOpen' => false,
+            'autoOpen' => $openDialog,
             'modal' => true,
             'resizable'=> false
         ),

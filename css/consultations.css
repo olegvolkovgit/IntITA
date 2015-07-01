@@ -365,6 +365,7 @@ div#timeInfo{
     margin-bottom: 20px;
     margin-right: 20px;
     margin-left: 20px;
+    float: left;
 }
 #consultationBack:hover, #consultationNext:hover{
     background: #454545;

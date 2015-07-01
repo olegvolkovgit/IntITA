@@ -86,44 +86,15 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
-        $criteria=new CDbCriteria();
-        $criteria->addCondition('course='.$id);
-
-        $dataProvider = new CActiveDataProvider('Module', array(
-            'criteria' =>$criteria,
-            'pagination'=>false,
-            'sort'=>array(
-                'defaultOrder'=>array(
-                    'order'=>CSort::SORT_ASC,
-                )
-            )
-        ));
-
-        $dataProvider1 = new CActiveDataProvider('Teacher', array(
-        ));
-
         $canEdit = AccessHelper::isAdmin();
         $model = Course::model()->findByPk($id);
-        $modules = Module::getModules($id);
 
-        $teachers = TeacherModule::getCourseTeachers($modules);
-//        $user = Yii::app()->user->getId();
-//        if ($user = Teacher::isTeacher($user)) {
-//            if(Teacher::isTeacherCanEdit($user, $modules)){
-//                $canEdit = true;
-//            }
-//            if(count($modules) <= 3){
-//                $canEdit = true;
-//        }
-//        }
+        $dataProvider=new CourseModules('search');
 
 		$this->render('index',array(
 			'model'=>$model,
-            'modules' => $modules,
             'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
-            'dataProvider1' => $dataProvider1,
-            'teachers' => $teachers,
 		));
 	}
 
@@ -172,19 +143,18 @@ class CourseController extends Controller
 
     public function actionUnableModule(){
         $idModule = $_GET['idModule'];
+        $idCourse = $_GET['idCourse'];
 
-        $idCourse =Module::model()->findByPk($idModule)->course;
-        $order = Module::model()->findByPk($idModule)->order;
+        $order = CourseModules::model()->findByPk(array('id_course'=>$idCourse,'id_module'=> $idModule))->order;
 
-        //Module::model()->deleteByPk($idModule);
-        TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
-        Module::model()->updateByPk($idModule, array('order' => 0));
-        Module::model()->updateByPk($idModule, array('course' => 0));
+        CourseModules::model()->deleteByPk(array('id_course'=>$idCourse,'id_module'=> $idModule));
+        $issetCourseModule = CourseModules::model()->findByAttributes(array('id_module'=>$idModule));
+        if($issetCourseModule) TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
 
         $count = Course::model()->findByPk($idCourse)->modules_count;
         for ($i = $order + 1; $i <= $count; $i++){
-            $id = Module::model()->findByAttributes(array('course'=>$idCourse,'order'=>$i))->module_ID;
-            Module::model()->updateByPk($id, array('order' => $i-1));
+            $nextModule = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'order'=>$i))->id_module;
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $nextModule), array('order' => $i-1));
         }
         Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
 
@@ -193,16 +163,17 @@ class CourseController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionUpModule($idModule){
+    public function actionUpModule(){
+        $idModule = $_GET['idModule'];
+        $idCourse = $_GET['idCourse'];
 
-        $idCourse =Module::model()->findByPk($idModule)->course;
-        $order = Module::model()->findByPk($idModule)->order;
+        $order = CourseModules::model()->findByPk(array('id_course'=>$idCourse,'id_module'=> $idModule))->order;
 
         if($order > 1) {
-            $idPrev = Module::model()->findByAttributes(array('course'=>$idCourse,'order' => $order - 1))->module_ID;
+            $idPrev = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'order' => $order - 1))->id_module;
 
-            Module::model()->updateByPk($idModule, array('order' => $order - 1));
-            Module::model()->updateByPk($idPrev, array('order' => $order));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $order-1));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idPrev), array('order' => $order));
         }
 //        // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
@@ -211,16 +182,16 @@ class CourseController extends Controller
 
     public function actionDownModule(){
         $idModule = $_GET['idModule'];
-        $idCourse =Module::model()->findByPk($idModule)->course;
+        $idCourse = $_GET['idCourse'];
 
         $count = Course::model()->findByPk($idCourse)->modules_count;
-        $order = Module::model()->findByPk($idModule)->order;
+        $order = CourseModules::model()->findByPk(array('id_course'=>$idCourse,'id_module'=> $idModule))->order;
 
         if($order < $count) {
-            $idNext = Module::model()->findByAttributes(array('course'=>$idCourse,'order' => $order + 1))->module_ID;
+            $idNext = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'order' => $order + 1))->id_module;
 
-            Module::model()->updateByPk($idModule, array('order' => $order + 1));
-            Module::model()->updateByPk($idNext, array('order' => $order));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $order+1));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idNext), array('order' => $order));
         }
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

@@ -46,8 +46,8 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course, order, language', 'required'),
-			array('course, module_duration_hours, module_duration_days, lesson_count, order, hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
+			array('language', 'required'),
+			array('module_duration_hours, module_duration_days, lesson_count,hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
 			array('level', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
@@ -208,19 +208,27 @@ class Module extends CActiveRecord
 
     public function addNewModule($idCourse, $newModuleName, $lang){
         $module = new Module();
-        $module->course = $idCourse;
+        $coursemodule = new CourseModules();
 
-        $order = Module::model()->count("course=$idCourse and `order`>0");
+        $order = CourseModules::model()->count("id_course=$idCourse");
 
-        $module->order = ++$order;
-        $module->alias = 'module'.$order;
+        $module->alias = 'module'.++$order;
         $module->language = $lang;
-        //$teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
         $module->module_name = $newModuleName;
-        //var_dump($newModuleName);die();
         if($module->validate()) {
             $module->save();
         }
+
+        $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+
+        $coursemodule->id_course = $idCourse;
+        $coursemodule->id_module = $idModule;
+        $coursemodule->order = $order;
+
+        if($coursemodule->validate()) {
+            $coursemodule->save();
+        }
+
         return $order;
     }
 

@@ -5,7 +5,10 @@
  * Date: 14.04.2015
  * Time: 18:36
  */
-$formulaCode = addcslashes($data['html_block'], '\\');
+$temp = substr($data['html_block'], 2, count($data['html_block']) - 5);
+$formulaCode = addcslashes($temp, '\\');
+//var_dump($formulaCode);die();
+
 ?>
 <head>
     <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
@@ -25,12 +28,12 @@ $formulaCode = addcslashes($data['html_block'], '\\');
                  '<?php echo 'content'.$data['block_order'];?>')">
             <?php echo $data['html_block'];?>
         </div>
-            <form id="editFormula<?php echo $data['block_order'];?>" action="<?php echo Yii::app()->createUrl('/lesson/save');?>"
+            <form id="editFormula<?php echo $data['block_order'];?>" action="<?php echo Yii::app()->createUrl('lesson/saveFormula');?>"
                   method="post"
                   style="display:none;">
                 <input name="idLecture" value="<?php echo $data['id_lecture'];?>" hidden="hidden">
                 <input name="order" value="<?php echo $data['block_order'];?>" hidden="hidden">
-                <textarea name="content<?php echo $data['block_order'];?>"
+                <textarea name="content"
                           id="content<?php echo $data['block_order'];?>" cols="108" rows="10">
                     <?php echo $data['html_block'];?>
                 </textarea>

@@ -14,7 +14,7 @@ class PayController extends Controller{
     }
 
     public function actionPayModule(){
-        if (!isset($_POST['module']) ) {
+        if (empty($_POST['module']) ) {
             Yii::app()->user->setFlash('errorModule', "<br>Будь-ласка, оберіть курс та модуль для оплати.");
             $this->redirect(Yii::app()->request->urlReferrer);
         }

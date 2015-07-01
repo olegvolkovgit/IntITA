@@ -153,7 +153,7 @@
         <td>
             <?php if(StudentReg::getRole(Yii::app()->user->id)==False){
                 ?>
-                <button class="ButtonRatting" style="margin-left: 200px"><?php echo Yii::t('profile', '0253'); ?></button>
+                <button class="ButtonRatting" style="margin-left: 150px"><?php echo Yii::t('profile', '0253'); ?></button>
             <?php
             }
             ?>

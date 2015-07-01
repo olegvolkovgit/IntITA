@@ -144,78 +144,79 @@ dd textarea {
 
 /* Quick-login on index page */
 fieldset.quick-login {
-	margin-top: 5px;
+    margin-top: 5px;
+    display: none;
 }
 
 fieldset.quick-login input {
-	width: auto;
+    width: auto;
 }
 
 fieldset.quick-login input.inputbox {
-	width: 15%;
-	vertical-align: middle;
-	margin-right: 5px;
+    width: 15%;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 fieldset.quick-login label {
-	white-space: nowrap;
-	padding-right: 2px;
+    white-space: nowrap;
+    padding-right: 2px;
 }
 
 /* Display options on viewtopic/viewforum pages  */
 fieldset.display-options {
-	text-align: center;
-	margin: 3px 0 5px 0;
+    text-align: center;
+    margin: 3px 0 5px 0;
 }
 
 fieldset.display-options label {
-	white-space: nowrap;
-	padding-right: 2px;
+    white-space: nowrap;
+    padding-right: 2px;
 }
 
 fieldset.display-options a {
-	margin-top: 3px;
+    margin-top: 3px;
 }
 
 /* Display actions for ucp and mcp pages */
 fieldset.display-actions {
-	text-align: right;
-	line-height: 2em;
-	white-space: nowrap;
-	padding-right: 1em;
+    text-align: right;
+    line-height: 2em;
+    white-space: nowrap;
+    padding-right: 1em;
 }
 
 fieldset.display-actions label {
-	white-space: nowrap;
-	padding-right: 2px;
+    white-space: nowrap;
+    padding-right: 2px;
 }
 
 fieldset.sort-options {
-	line-height: 2em;
+    line-height: 2em;
 }
 
 /* MCP forum selection*/
 fieldset.forum-selection {
-	margin: 5px 0 3px 0;
-	float: right;
+    margin: 5px 0 3px 0;
+    float: right;
 }
 
 fieldset.forum-selection2 {
-	margin: 13px 0 3px 0;
-	float: right;
+    margin: 13px 0 3px 0;
+    float: right;
 }
 
 /* Submit button fieldset */
 fieldset.submit-buttons {
-	text-align: center;
-	vertical-align: middle;
-	margin: 5px 0;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px 0;
 }
 
 fieldset.submit-buttons input {
-	vertical-align: middle;
-	padding-top: 3px;
-	padding-bottom: 3px;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 /* Posting page styles
@@ -223,48 +224,48 @@ fieldset.submit-buttons input {
 
 /* Buttons used in the editor */
 #format-buttons {
-	margin: 15px 0 2px 0;
+    margin: 15px 0 2px 0;
 }
 
 #format-buttons input, #format-buttons select {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 /* Main message box */
 #message-box {
-	width: 80%;
+    width: 80%;
 }
 
 #message-box textarea {
-	font-family: "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
-	width: 450px;
-	height: 270px;
-	min-width: 100%;
-	max-width: 100%;
-	font-size: 1.2em;
-	resize: vertical;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+    width: 450px;
+    height: 270px;
+    min-width: 100%;
+    max-width: 100%;
+    font-size: 1.2em;
+    resize: vertical;
 }
 
 /* Emoticons panel */
 #smiley-box {
-	width: 18%;
-	float: right;
+    width: 18%;
+    float: right;
 }
 
 #smiley-box img {
-	margin: 3px;
+    margin: 3px;
 }
 
 /* Input field styles
 ---------------------------------------- */
 .inputbox {
-	border: 1px solid transparent;
-	padding: 2px;
+    border: 1px solid transparent;
+    padding: 2px;
 }
 
 .inputbox:hover, .inputbox:focus {
-	border: 1px solid transparent;
-	outline-style: none;
+    border: 1px solid transparent;
+    outline-style: none;
 }
 
 input.inputbox	{ width: 85%; }
@@ -273,20 +274,20 @@ input.narrow	{ width: 25%; }
 input.tiny	{ width: 150px; }
 
 textarea.inputbox {
-	width: 85%;
+    width: 85%;
 }
 
 .autowidth {
-	width: auto !important;
+    width: auto !important;
 }
 
 input[type="number"] {
-	-moz-padding-end: inherit;
+    -moz-padding-end: inherit;
 }
 
 input[type="search"] {
-	-webkit-appearance: textfield;
-	-webkit-box-sizing: content-box;
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
 }
 
 input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-results-button, input[type="search"]::-webkit-search-results-decoration {

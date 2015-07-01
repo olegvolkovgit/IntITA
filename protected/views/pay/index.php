@@ -127,7 +127,7 @@ $this->breadcrumbs=array(
             $.ajax({
                 type: "POST",
 //                url: 'http://localhost/Int/permissions/showModules',
-                url: "permissions/showModules",
+                url: "/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

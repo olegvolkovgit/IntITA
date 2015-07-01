@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-27 16:33:14
+-- Date/time:                    2015-06-27 19:58:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -60,17 +60,9 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(58, 2, 4, 'text', 1, '<p><img src="/images/lecture/f410fd7420bfa6c526e0fab647e3e484.jpg"></p>'),
 	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
 	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
-	(65, 2, 7, 'formula', 10, '\\[\\left \\{ \\Theta \\iota \\vartheta \\tau \\ddot{\\sqsupseteq \\uplus \\circ \\pm \\widehat{\\leftarrow }} \\right \\}\\]'),
-	(66, 2, 8, 'formula', 10, '\\[\\alpha \\varepsilon \\mu \\tau\\]'),
-	(67, 2, 9, 'formula', 10, '\\[\\OE \\measuredangle \\mathbb{N}\\mathbb{Q}\\bigcap \\tfrac{\\ae }{{\\check{\\breve{}}}\'\'}\\]'),
-	(68, 2, 10, 'formula', 10, '\\[\\tfrac{\\beta }{\\gamma \\Delta \\Sigma n \\to }\\]'),
-	(69, 2, 11, 'formula', 10, '\\[\\mp \\imath \\mathbb{I}\\Delta\\]'),
-	(70, 2, 12, 'formula', 10, '\\[\\gamma \\iota \\varrho \\varpi \\prod \\bigcap_{\\oint \\frac{\\partial^2 \\frac{\\partial \\frac{\\partial^2 _{}}{\\partial x^2}}{\\partial x}}{\\partial x^2}}^{}\\]\r\n'),
-	(71, 2, 13, 'formula', 10, '\\[\\left ( \\Cap \\delta \\sqsubset \\Gamma \\varepsilon \\varepsilon \\varepsilon \\bigcap \\frac{^{^{}}}{} \\right )\\]\r\n'),
-	(72, 2, 14, 'formula', 10, '\\[\\frac{\\partial \\frac{\\partial^2 }{\\partial x^2}}{\\partial x}\\textit{\\lim_{}}\\]\r\n'),
-	(73, 2, 15, 'formula', 10, '\\[\\tfrac{bd}{\\zeta \\eta \\varepsilon \\pi }\\ae\\]'),
-	(74, 2, 16, 'formula', 10, '\\[\\mu \\varpi \\sigma \\varsigma \\varphi \\ae \\AE \\SS \\euro\\]'),
-	(75, 2, 17, 'text', 1, '<p>ыупв</p>');
+	(67, 2, 9, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\varepsilon \\mathbb{P}\\Re \\mathbb{I}\\mathbb{R}}\\]\r\n'),
+	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\zeta \\beta \\gamma \\ae \\l \\O \\SS \\$ \\gamma \\beta \\lambda \\mu \\Theta \\Upsilon \\Phi \\Psi \\Omega }\\]\r\n'),
+	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\triangledown \\triangleleft \\barwedge \\bullet \\blacktriangle }\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

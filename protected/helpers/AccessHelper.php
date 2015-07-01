@@ -60,12 +60,12 @@ class AccessHelper
     }
 
     public static function getResourceDescription($id){
-        $lecture = "Lecture ".Lecture::model()->findByPk($id)->order.". ".Lecture::model()->findByPk($id)->title;
-        $idModule = Lecture::model()->findByPk($id)->idModule;
-        $module = "Module"." ".$idModule.". ";
-        $idCourse = Module::model()->findByPk($idModule)->course;
-        $course = Course::model()->findByPk($idCourse)->course_name.". ";
-        return $course.$module.$lecture;
+//        $lecture = "Lecture ".Lecture::model()->findByPk($id)->order.". ".Lecture::model()->findByPk($id)->title;
+        $module = Module::model()->findByPk($id);
+//        $idCourse = Module::model()->findByPk($idModule)->course;
+//        $course = Course::model()->findByPk($idCourse)->course_name.". ";
+//        return $course.$module.$lecture;
+        return "Module"." ".$module->module_ID.". ".$module->module_name;
     }
 
     public static function getTitles(){
