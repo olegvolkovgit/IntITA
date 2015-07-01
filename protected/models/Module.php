@@ -227,8 +227,6 @@ class Module extends CActiveRecord
         return $order;
     }
 
-
-
     public static function getModules($id){
         $modules = Yii::app()->db->createCommand()
             ->select('module_ID')

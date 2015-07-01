@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-01 19:12:28
+-- Date/time:                    2015-07-01 19:23:37
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -757,7 +757,7 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(730, 248, 'ua', 'Змінити пароль'),
 	(731, 248, 'ru', 'Изменить пароль'),
 	(732, 248, 'en', 'Change password'),
-	(733, 253, 'ua', 'Замовити</br>електронний</br>сертифікат'),
+	(733, 253, 'ua', 'Замовити </br>електронний </br>сертифікат'),
 	(734, 253, 'ru', 'Заказать </ br> электронный </ br> сертификат'),
 	(735, 253, 'en', 'Order </ br> e </ br> certificate'),
 	(736, 249, 'ua', 'ЗБЕРЕГТИ />'),
