@@ -30,6 +30,6 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                 </td>
             </tr>
         </table>
-        <?php $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post));?>
+        <?php  $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post, "idCourse"=>$idCourse));?>
     </div>
 </div>

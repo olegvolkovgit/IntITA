@@ -203,19 +203,27 @@ class Module extends CActiveRecord
 
     public function addNewModule($idCourse, $newModuleName, $lang){
         $module = new Module();
-        $module->course = $idCourse;
+        $coursemodule = new CourseModules();
 
-        $order = Module::model()->count("course=$idCourse and `order`>0");
+        $order = CourseModules::model()->count("id_course=$idCourse");
 
-        $module->order = ++$order;
-        $module->alias = 'module'.$order;
+        $module->alias = 'module'.++$order;
         $module->language = $lang;
-        //$teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
         $module->module_name = $newModuleName;
-        //var_dump($newModuleName);die();
         if($module->validate()) {
             $module->save();
         }
+
+        $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+
+        $coursemodule->id_course = $idCourse;
+        $coursemodule->id_module = $idModule;
+        $coursemodule->order = $order;
+
+        if($coursemodule->validate()) {
+            $coursemodule->save();
+        }
+
         return $order;
     }
 

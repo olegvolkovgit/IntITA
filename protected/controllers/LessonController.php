@@ -23,7 +23,7 @@ class LessonController extends Controller{
         }
     }
 
-    public function actionIndex($id){
+    public function actionIndex($id,$idCourse){
         $lecture = Lecture::model()->findByPk($id);
 
 //        if (isset($_POST))
@@ -55,6 +55,7 @@ class LessonController extends Controller{
             'editMode' => $editMode,
             'countBlocks' => $countBlocks,
             'teacher' => $teacher,
+            'idCourse'=>$idCourse,
         ));
     }
 

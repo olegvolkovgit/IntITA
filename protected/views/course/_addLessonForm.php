@@ -1,4 +1,4 @@
-<?php $order = Module::model()->count("course=$newmodel->course_ID and `order`>0"); ?>
+<?php $order = CourseModules::model()->count("id_course=$newmodel->course_ID"); ?>
 <form id="addLessonForm" action="<?php echo Yii::app()->createUrl('module/saveModule');?>" method="post">
     <br>
     <span id="formLabel"><?php echo Yii::t('course', '0365') ?></span>

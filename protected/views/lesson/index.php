@@ -38,20 +38,19 @@
 </script>
 <?php
 /* @var $this LessonController */
-
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById()['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => 1)),$lecture->getModuleInfoById()['moduleTitle'],$lecture['title'],
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),$lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),$lecture['title'],
 );
 ?>
 
 <div class="lectureMainBlock" >
-    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture));?>
-    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher));?>
+    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
+    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
 </div>
 
 <div class="lessonBlock" id="lessonBlock">
-    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture));?>
+    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
 
         <?php if($editMode){?>
@@ -109,7 +108,7 @@ $this->breadcrumbs=array(
 
         </div>
     <!-- lesson footer ----congratulations-->
-<?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture));?>
+<?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
 <!--modal task -->
 <?php
 //$this->beginWidget('zii.widgets.jui.CJuiDialog', array(

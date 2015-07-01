@@ -205,18 +205,17 @@ class Lecture extends CActiveRecord
         return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->id;
     }
 
-    public function getModuleInfoById(){
+    public function getModuleInfoById($idCourse){
         $module = Module::model()->findByPk($this->idModule);
         return array(
             'moduleTitle' => $module->module_name,
             'countLessons' =>  $module->lesson_count,
-            'idCourse' => $module->course,
+            'idCourse' => $idCourse,
         );
     }
 
-    public function getCourseInfoById(){
-        $courseId = Module::model()->findByPk($this->idModule)->course;
-        $course = Course::model()->findByPk($courseId);
+    public function getCourseInfoById($idCourse){
+        $course = Course::model()->findByPk($idCourse);
         return array(
             'courseTitle' => $course->course_name,
             'courseLang' =>  $course->language,

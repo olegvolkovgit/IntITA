@@ -8,6 +8,7 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$model->course_name,
 );
+
 ?>
 
 <div class="courseBlock">
@@ -19,6 +20,7 @@ $this->breadcrumbs=array(
     <div class="courseShortInfo">
         <?php $this->renderPartial('_courseShortInfo', array('model'=>$model));?>
         <br>
+
         <div class="courseTeachers">
             <?php $this->renderPartial('_courseInfo', array('model'=>$model));?>
         </div>

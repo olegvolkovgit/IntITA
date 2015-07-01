@@ -158,13 +158,22 @@ class PayModules extends CActiveRecord
         $recordModule = $this->findByAttributes(array('id_user' => $idUser,
             'id_module' => $idResource));
         if (is_null($recordModule)) {
-            $idCourse = Module::model()->findByAttributes(array('module_ID' => $idResource))->course;
-            return PayCourses::model()->checkCoursePermission($idUser, $idCourse, $rights);
+            $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idResource));
+            foreach($courses as $course){
+                if(PayCourses::model()->checkCoursePermission($idUser, $course->id_course, $rights))
+                return true;
+            }
+            return false;
         } else {
             $mask = $this->setFlags($rights);
             if ($recordModule->rights & $mask){
                 return true;
             }else {
+                $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idResource));
+                foreach($courses as $course){
+                    if(PayCourses::model()->checkCoursePermission($idUser, $course->id_course, $rights))
+                        return true;
+                }
                 return false;
             }
 

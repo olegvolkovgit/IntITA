@@ -94,7 +94,7 @@ class ConsultationscalendarController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($lectureId)
+	public function actionIndex($lectureId, $idCourse)
 	{
         $lecture = Lecture::model()->findByPk($lectureId);
         $teachersconsult = [];
@@ -119,7 +119,8 @@ class ConsultationscalendarController extends Controller
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-            'lecture'=>$lecture
+            'lecture'=>$lecture,
+            'idCourse'=>$idCourse,
 		));
 	}
 

@@ -7,7 +7,6 @@
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
-
 ?>
 
 <div class="lessonModule" id="lectures">
@@ -112,9 +111,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => function($data) {
+            'value' => function($data) use ($idCourse) {
             if (AccessHelper::accesLecture($data->id))
-                return CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl("lesson/index", array("id" => $data->id)));
+                return CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse"=>$idCourse)));
             else
                 return $data->title;
             }
@@ -124,7 +123,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 ?>
     <div id="lessonForm">
-        <?php $this->renderPartial('_addLessonForm', array('newmodel'=>$module)); ?>
+        <?php $this->renderPartial('_addLessonForm', array('newmodel'=>$module, "idCourse"=>$idCourse)); ?>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
