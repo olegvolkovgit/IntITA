@@ -6,7 +6,7 @@ $(function() {
     var mainBlockCoord =$(window).scrollTop()+document.getElementById('titlesBlock').getBoundingClientRect().bottom;
 
     $(window).scroll(function() {
-        if (($(window).scrollTop() > mainBlockCoord-56) && ($(window).scrollTop()+sideBarHeight+100) < (document.getElementById('subViewLessons').getBoundingClientRect().top + $(window).scrollTop())) {
+        if (($(window).scrollTop() > mainBlockCoord-56) && ($(window).scrollTop()+sideBarHeight+120) < (document.getElementById('subViewLessons').getBoundingClientRect().top + $(window).scrollTop())) {
             document.getElementById('sidebarLesson').style.display='block';
             document.getElementById('sidebarLesson').style.position='fixed';
             document.getElementById('sidebarLesson').style.top='50px';

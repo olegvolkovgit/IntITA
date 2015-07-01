@@ -48,6 +48,8 @@
             </div>
         </ul>
     </div>
+    <br>
+    <div style="clear: both">
     <p><a href="skype:<?php echo $lecture->getTeacherInfoById()['skype']; ?>?chat"><input type="submit"
                                                                                           value="Skype"></a></p>
 
@@ -67,5 +69,7 @@
                 "styleLoader": "http:\/\/intita.itatests.com\/mibew\/chat\/style\/popup\/default"
             });</script>
         <!-- / mibew button --></a></p>
+
+    </div>
 </div>
 <!--navigation vertical-->

@@ -358,8 +358,8 @@ table.timeTable tr:first-child td{
     border-bottom: 1px solid #d8d8d8;
 }
 .ButtonRatting {
-    width: 100px;
-    height: 55px;
+    width: 120px;
+    height: 70px;
     color:#ffffff;
     background:#4b70a3;
     border-radius: 10px;
@@ -510,7 +510,7 @@ li.active a, li.active a:hover {
     display: inline-block;
     width: 60px;
     height: 40px;
-    float:left;
+    vertical-align: top;
     text-align: right;
     line-height: 40px;
     color: #999999;
