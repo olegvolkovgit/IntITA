@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
         <div onclick="showForm();">
             <a href="#newBlockForm">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
-                     id="addTextBlock" title="Додати новий блок"/>
+                     id="addTextBlock" title="Додати новий блок" onclick="showBlockForm()"/>
             </a>
         </div>
         <?php }?>
@@ -104,17 +104,9 @@ $this->breadcrumbs=array(
             'id'=>"blocks_list",
         ));
         ?>
-
-<!--<table ><tr><td>-->
-<!--        <div class="download" id="do4">  <a  href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-yrok.png">Завантажити урок</a></div>-->
-<!--            </td><td>-->
-<!--            <div class="download" id="do3"> <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid.png">Завантажити всі відео</a></div>-->
-<!--            </td><td>-->
-<!--                <div class="download" id="do1">  <a href="#"><img style="" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/000zav-ysi-vid2.png">Завантажити всі відео</a></div>-->
-<!--</td></tr></table>-->
-<!--</div>-->
     <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
-    </div>
+
+        </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
 <!--modal task -->
@@ -169,11 +161,10 @@ $this->breadcrumbs=array(
     function showForm(){
         document.getElementById('textBlockForm').style.display = 'block';
     }
+
+    function showBlockForm(){
+        document.getElementById('blockForm').style.display = 'block';
+    }
 </script>
 </div>
-<!--send answer task-->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sendanswertask.js"></script>
-<!--send answer task-->
-<?php
-//if(isset($_POST['date']))
-//echo $_POST['date'] ?>
+

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-06-27 19:58:28
+-- Date/time:                    2015-07-01 19:23:44
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -244,6 +244,48 @@ INSERT INTO `aboutus` (`blockID`, `language`, `line2Image`, `iconImage`, `titleT
 /*!40000 ALTER TABLE `aboutus` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.assignment_cpp
+DROP TABLE IF EXISTS `assignment_cpp`;
+CREATE TABLE IF NOT EXISTS `assignment_cpp` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `header` varchar(512) DEFAULT NULL,
+  `etalon` varchar(512) DEFAULT NULL,
+  `footer` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table int_ita_db.assignment_cpp: ~7 rows (approximately)
+/*!40000 ALTER TABLE `assignment_cpp` DISABLE KEYS */;
+INSERT INTO `assignment_cpp` (`ID`, `name`, `header`, `etalon`, `footer`) VALUES
+	(1, 'hello world', '#include <iostream> \r\n int main()\r\n {', 'std::cout << "Hello World!" << std::endl;', 'return 0;}'),
+	(2, 'pcount(): reports th', '#include <strstream>\r\n#include <iostream>\r\nusing namespace std;\r\nint main()\r\n{', ' char str[80];ostrstream outs(str, sizeof(str));\r\n  outs << "abcdefg ";\r\n  outs << 27 << " "  << 890.23;\r\n  outs << ends;  // null terminate\r\n  cout << "chars in outs: "<< outs.pcount(); // \r\n  cout << " " << str;', ' return 0;}'),
+	(3, 'cout: output hex', '#include <iostream>\r\n#include <iomanip>\r\nusing namespace std;\r\nint main() {', ' cout << hex << 100 << endl;  cout << setfill(\'?\') << setw(10) << 2343.0;', 'return 0;}'),
+	(4, 'Set cout: hex and ba', '#include <iostream>\r\n#include <iomanip>\r\nusing namespace std;\r\nint main() {', 'cout.setf(ios::hex, ios::basefield);\r\n  cout << 100 << endl;                  // cout 100 in hex\r\n  cout.fill(\'?\');\r\n  cout.width(10);\r\n  cout << 2343.0;', 'return 0;}'),
+	(5, 'cout: uppercase,show', '#include <iostream>\r\nusing namespace std;\r\nint main() {', 'cout.unsetf(ios::dec);\r\n  cout.setf(ios::uppercase | ios::showbase | ios::hex);\r\n  cout << 88 << \'\n\';\r\n  cout.unsetf(ios::uppercase);\r\n  cout << 88 << \'\n\';', 'return 0;}'),
+	(6, 'Defines your own ter', '#include <iostream>\r\n#include <cstdlib>\r\n#include <exception>\r\nusing namespace std;\r\nvoid myTerminator() {\r\n  cout << "Your own terminate handler\n";\r\n  abort();\r\n}\r\nint main() {', 'set_terminate(myTerminator);   \r\n  try {\r\n    cout << "Inside try block.";\r\n    throw 100; \r\n  }\r\n  catch (double i) { }', 'return 0;}'),
+	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}');
+/*!40000 ALTER TABLE `assignment_cpp` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.assignment_java
+DROP TABLE IF EXISTS `assignment_java`;
+CREATE TABLE IF NOT EXISTS `assignment_java` (
+  `ID` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(20) DEFAULT NULL,
+  `header` varchar(512) DEFAULT NULL,
+  `etalon` varchar(512) DEFAULT NULL,
+  `footer` varchar(512) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table int_ita_db.assignment_java: ~2 rows (approximately)
+/*!40000 ALTER TABLE `assignment_java` DISABLE KEYS */;
+INSERT INTO `assignment_java` (`ID`, `name`, `header`, `etalon`, `footer`) VALUES
+	(0, 'hello wordl', 'class Main#NUM#\r\n{\r\npublic static void main(String args[])\r\n{', 'System.out.println("Hello World!");', '}\r\n}'),
+	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}');
+/*!40000 ALTER TABLE `assignment_java` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.attribute_value
 DROP TABLE IF EXISTS `attribute_value`;
 CREATE TABLE IF NOT EXISTS `attribute_value` (
@@ -323,6 +365,25 @@ INSERT INTO `carousel` (`order`, `pictureURL`, `description`, `imagesPath`, `tex
 /*!40000 ALTER TABLE `carousel` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.company
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE IF NOT EXISTS `company` (
+  `company_id` int(11) NOT NULL,
+  `company_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `company_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table int_ita_db.company: ~2 rows (approximately)
+/*!40000 ALTER TABLE `company` DISABLE KEYS */;
+INSERT INTO `company` (`company_id`, `company_name`, `company_email`, `remember_token`, `created_at`, `updated_at`) VALUES
+	(10, 'dfghj', '', NULL, '2015-06-27 09:32:04', '2015-06-27 09:32:04'),
+	(10, '---', '', NULL, '2015-06-27 09:51:39', '2015-06-27 09:51:39');
+/*!40000 ALTER TABLE `company` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.consultant_modules
 DROP TABLE IF EXISTS `consultant_modules`;
 CREATE TABLE IF NOT EXISTS `consultant_modules` (
@@ -361,38 +422,8 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.consultationscalendar: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.consultationscalendar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
-INSERT INTO `consultationscalendar` (`id`, `teacher_id`, `user_id`, `lecture_id`, `date_cons`, `start_cons`, `end_cons`) VALUES
-	(1, 1, 1, 1, '2015-05-08', '12:20:00', '12:40:00'),
-	(2, 1, 1, 1, '2015-05-07', '14:20:00', '14:40:00'),
-	(3, 1, 1, 1, '2015-05-07', '16:00:00', '16:20:00'),
-	(4, 1, 1, 1, '2015-05-07', '17:20:00', '17:40:00'),
-	(5, 1, 1, 1, '2015-05-07', '18:40:00', '19:00:00'),
-	(6, 1, 1, 1, '2015-05-07', '19:20:00', '19:40:00'),
-	(7, 1, 1, 1, '2015-05-07', '17:20:00', '17:40:00'),
-	(8, 1, 1, 1, '2015-05-07', '18:20:00', '18:40:00'),
-	(9, 1, 1, 1, '2015-05-07', '19:20:00', '19:40:00'),
-	(10, 2, 38, 1, '2015-05-05', '12:20:00', '12:40:00'),
-	(11, 2, 38, 1, '2015-05-05', '13:00:00', '14:00:00'),
-	(12, 2, 38, 1, '2015-05-05', '14:20:00', '14:40:00'),
-	(13, 2, 38, 1, '2015-05-12', '12:00:00', '15:00:00'),
-	(14, 2, 38, 1, '2015-05-12', '19:00:00', '21:00:00'),
-	(15, 2, 38, 1, '2015-05-13', '14:20:00', '14:40:00'),
-	(16, 2, 38, 1, '2015-05-13', '15:20:00', '15:40:00'),
-	(17, 2, 38, 1, '2015-05-13', '17:20:00', '19:40:00'),
-	(18, 2, 38, 1, '2015-05-12', '17:20:00', '17:40:00'),
-	(19, 2, 1, 1, '2015-05-06', '11:20:00', '12:00:00'),
-	(20, 2, 1, 1, '2015-05-06', '14:20:00', '14:40:00'),
-	(21, 2, 1, 1, '2015-05-06', '15:20:00', '15:40:00'),
-	(22, 2, 1, 1, '2015-05-06', '16:20:00', '16:40:00'),
-	(23, 2, 1, 1, '2015-05-13', '21:00:00', '21:20:00'),
-	(24, 2, 38, 1, '2015-05-14', '11:20:00', '11:40:00'),
-	(25, 1, 49, 1, '2015-05-26', '11:20:00', '11:40:00'),
-	(26, 1, 49, 1, '2015-05-27', '11:20:00', '11:40:00'),
-	(27, 1, 22, 1, '2015-06-23', '11:20:00', '11:40:00'),
-	(28, 1, 22, 1, '2015-06-23', '14:20:00', '14:40:00'),
-	(29, 1, 22, 1, '2015-06-18', '10:00:00', '10:20:00');
 /*!40000 ALTER TABLE `consultationscalendar` ENABLE KEYS */;
 
 
@@ -445,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~24 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -468,7 +499,10 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(13, 56, 3),
 	(14, 58, 1),
 	(14, 59, 2),
-	(14, 60, 3);
+	(14, 60, 3),
+	(3, 1, 1),
+	(3, 2, 2),
+	(3, 3, 3);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 
 
@@ -572,6 +606,79 @@ INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1L
 /*!40000 ALTER TABLE `header` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.history
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE IF NOT EXISTS `history` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(20) DEFAULT NULL,
+  `code` varchar(512) DEFAULT NULL,
+  `date_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=298 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table int_ita_db.history: ~57 rows (approximately)
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` (`ID`, `ip`, `code`, `date_time`) VALUES
+	(1, '123', '123', '2015-06-02 00:00:00'),
+	(242, '127.0.0.1', 'std::cout << "Hello World!" << std::endl;', '2015-06-23 21:22:22'),
+	(243, '127.0.0.1', 'std::cout << "Hello World!" << std::endl;', '2015-06-23 21:26:37'),
+	(244, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-23 21:28:13'),
+	(245, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-23 21:57:14'),
+	(246, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-23 21:57:35'),
+	(247, '127.0.0.1', 'std::cout << "Hello World!" << std::endl;', '2015-06-24 19:02:44'),
+	(248, '127.0.0.1', 'std::cout << "Hello World!" << std::endl;', '2015-06-24 19:12:01'),
+	(249, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-24 19:21:22'),
+	(250, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-24 19:29:31'),
+	(251, '127.0.0.1', 'System.out.println("Hello World!");', '2015-06-24 19:29:58'),
+	(252, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:23:59'),
+	(253, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:13'),
+	(254, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:23'),
+	(255, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:27'),
+	(256, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:28'),
+	(257, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:29'),
+	(258, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:29'),
+	(259, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:30'),
+	(260, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:31'),
+	(261, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:31'),
+	(262, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:32'),
+	(263, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:33'),
+	(264, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:33'),
+	(265, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:34'),
+	(266, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:28:35'),
+	(267, '127.0.0.1', 'std::cout << "Hello World!" << std::endl; //System.out.println("Hello World!");  ', '2015-06-25 15:31:50'),
+	(268, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:33:05'),
+	(269, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:43:34'),
+	(270, '127.0.0.1', ' System.out.println("Hello World!");   std::cout << "Hello World!" << std::endl;', '2015-06-25 15:46:26'),
+	(271, '127.0.0.1', ' System.out.println("Hello World!");   ', '2015-06-25 15:49:04'),
+	(272, '127.0.0.1', ' System.out.println("Hello World!"); 34  ', '2015-06-25 15:51:05'),
+	(273, '127.0.0.1', ' System.out.println("Hello World!"); 34  ', '2015-06-25 15:52:25'),
+	(274, '127.0.0.1', ' System.out.println("Hello World!"); 34  ', '2015-06-25 15:52:27'),
+	(275, '127.0.0.1', ' System.out.println("Hello World!"); 34  ', '2015-06-25 15:52:30'),
+	(276, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:54:34'),
+	(277, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:12'),
+	(278, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:14'),
+	(279, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:16'),
+	(280, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:17'),
+	(281, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:19'),
+	(282, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:26'),
+	(283, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:27'),
+	(284, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:29'),
+	(285, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 15:56:30'),
+	(286, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 16:09:14'),
+	(287, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 16:09:23'),
+	(288, '127.0.0.1', ' std::cout << "Hello World!" << std::endl;', '2015-06-25 16:09:25'),
+	(289, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:09:37'),
+	(290, '127.0.0.1', ' System.out.println("Hello World!"); ', '2015-06-25 16:09:52'),
+	(291, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:10:13'),
+	(292, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:13:42'),
+	(293, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:13:44'),
+	(294, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:13:45'),
+	(295, '127.0.0.1', ' std::cout << "Hello Worlda!" << std::endl;', '2015-06-25 16:20:26'),
+	(296, '81.30.164.98', 'cout << "Hello, world!" << endl;', '2015-06-27 08:10:32'),
+	(297, '81.30.164.98', 'cout << "Hello, world!" << endl;', '2015-06-27 08:17:35');
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.language
 DROP TABLE IF EXISTS `language`;
 CREATE TABLE IF NOT EXISTS `language` (
@@ -630,13 +737,13 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `idTeacher` varchar(50) DEFAULT NULL,
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~34 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
-	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 0),
-	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 0),
+	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
+	(2, 'lectureImage.png', 'lecture2', 'ua', 1, 2, 'Основи синтаксису', 1, 50, '3', 1),
 	(3, 'lectureImage.png', 'lecture3', 'ua', 1, 3, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0),
 	(5, 'lectureImage.png', 'lecture4', 'ua', 1, 4, 'Функції в PHP', 1, 60, '1', 0),
 	(14, 'lectureImage.png', 'lecture5', 'ua', 1, 5, 'Об\'єкти і класи PHP', 1, 60, '2', 0),
@@ -667,7 +774,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
 	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0),
 	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0),
-	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0);
+	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0),
+	(48, 'lectureImage.png', 'lecture1', 'ua', 61, 1, 'New lecture', 1, 60, '1', 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 
 
@@ -704,9 +812,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~36 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~45 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -743,8 +851,17 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
 	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
 	(67, 2, 9, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\varepsilon \\mathbb{P}\\Re \\mathbb{I}\\mathbb{R}}\\]\r\n'),
-	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\zeta \\beta \\gamma \\ae \\l \\O \\SS \\$ \\gamma \\beta \\lambda \\mu \\Theta \\Upsilon \\Phi \\Psi \\Omega }\\]\r\n'),
-	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\triangledown \\triangleleft \\barwedge \\bullet \\blacktriangle }\\]\r\n');
+	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\rho \\mu \\mu \\tau }\\]\r\n'),
+	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\bullet \\blacktriangle }\\]\r\n'),
+	(76, 2, 10, 'text', 1, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im \\Re \\jmath \\Cup \\!\\]\r\n'),
+	(77, 2, 11, 'text', 1, '\\[\\varepsilon \\vartheta \\rho {\\color{Red} \\varsigma \\varpi \\vartheta \\varepsilon }\\]\r\n'),
+	(78, 2, 12, 'table', 11, '<table><tbody><tr><td>gsrg</td><td></td><td>gdrg</td></tr><tr><td></td><td>gdrgs</td><td>grdg</td></tr><tr><td>gdrgs</td><td></td><td>gdg</td></tr><tr><td>fsefsg</td><td></td><td>fsdfs</td></tr><tr><td></td><td>fsfs</td><td>gdrg</td></tr></tbody></table>'),
+	(79, 48, 1, 'formula', 10, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n'),
+	(80, 1, 25, 'text', 1, '<p><span class="highLT">&lt;</span><span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span></p><p><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></p><p><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></p><p><span class="redactor-invisible-space"><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></span></p>'),
+	(81, 2, 13, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
+	(82, 2, 14, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
+	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
+	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -1555,7 +1672,7 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(730, 248, 'ua', 'Змінити пароль'),
 	(731, 248, 'ru', 'Изменить пароль'),
 	(732, 248, 'en', 'Change password'),
-	(733, 253, 'ua', 'Замовити</br>електронний</br>сертифікат'),
+	(733, 253, 'ua', 'Замовити </br>електронний </br>сертифікат'),
 	(734, 253, 'ru', 'Заказать </ br> электронный </ br> сертификат'),
 	(735, 253, 'en', 'Order </ br> e </ br> certificate'),
 	(736, 249, 'ua', 'ЗБЕРЕГТИ />'),
@@ -1739,9 +1856,9 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(914, 287, 'ua', 'Вітаємо!'),
 	(915, 287, 'ru', 'Поздравляем!'),
 	(916, 287, 'en', 'Congratulations!'),
-	(917, 288, 'ua', 'Ви успішно змінили пароль.'),
-	(918, 288, 'ru', 'Вы успешно изменили пароль.'),
-	(919, 288, 'en', 'You have successfully changed your password.'),
+	(917, 288, 'ua', 'Ви успішно змінили електронну пошту.'),
+	(918, 288, 'ru', 'Вы успешно изменили email.'),
+	(919, 288, 'en', 'You have successfully changed your email.'),
 	(920, 289, 'ua', 'Відновлення паролю'),
 	(921, 289, 'ru', 'Восстановление пароля'),
 	(922, 289, 'en', 'Password recovery'),
@@ -2273,12 +2390,27 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.migrations
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table int_ita_db.migrations: ~4 rows (approximately)
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` (`migration`, `batch`) VALUES
+	('2014_10_12_000000_create_users_table', 1),
+	('2014_10_12_100000_create_password_resets_table', 1),
+	('2015_06_06_140859_create_userlist_table', 1),
+	('2015_06_09_174158_create_vacancies_table', 1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.module
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
   `module_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `course` int(11) NOT NULL,
-  `order` int(11) NOT NULL,
   `module_name` varchar(255) NOT NULL,
   `alias` varchar(10) NOT NULL,
   `language` varchar(6) NOT NULL,
@@ -2297,35 +2429,50 @@ CREATE TABLE IF NOT EXISTS `module` (
   `days_in_week` int(11) DEFAULT '3',
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`module_ID`),
-  UNIQUE KEY `module_ID` (`module_ID`),
-  KEY `course` (`course`)
+  UNIQUE KEY `module_ID` (`module_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~22 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` (`module_ID`, `course`, `order`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
-	(1, 1, 1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
-	(2, 1, 4, 'Елементарна математика', 'module2', 'ua', 30, 15, 3, 3200, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
-	(3, 1, 2, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 3, 3500, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;5;', 'junior', 3, 3, NULL),
-	(4, 1, 3, 'Елементи вищої математики', 'module4', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;', 'junior', 3, 3, NULL),
-	(7, 1, 5, 'Комп\'ютерні мережі', 'module5', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;2;', 'junior', 3, 3, NULL),
-	(9, 1, 6, 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
-	(10, 1, 7, 'Дискретна математика', 'module7', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(11, 1, 8, 'Бази даних', 'module8', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3, NULL),
-	(14, 1, 9, 'Англійська мова', 'module9', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;5;6;', 'junior', 3, 3, NULL),
-	(16, 1, 10, 'Програмування на PHP (Частина 1)', 'module10', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '6;', 'junior', 3, 3, NULL),
-	(17, 1, 11, 'Програмування на PHP (Частина 2)', 'module11', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;6;', 'junior', 3, 3, NULL),
-	(18, 1, 13, 'Верстка на HTML, CSS', 'module12', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;', 'junior', 3, 3, NULL),
-	(20, 1, 12, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
-	(22, 1, 14, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
-	(23, 1, 15, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(54, 13, 1, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(55, 13, 2, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(56, 13, 3, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(58, 14, 1, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(59, 14, 2, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(60, 14, 3, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
+INSERT INTO `module` (`module_ID`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
+	(1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
+	(2, 'Елементарна математика', 'module2', 'ua', 30, 15, 3, 3200, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
+	(3, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 3, 3500, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;5;', 'junior', 3, 3, NULL),
+	(4, 'Елементи вищої математики', 'module4', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;', 'junior', 3, 3, NULL),
+	(7, 'Комп\'ютерні мережі', 'module5', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;2;', 'junior', 3, 3, NULL),
+	(9, 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
+	(10, 'Дискретна математика', 'module7', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
+	(11, 'Бази даних', 'module8', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3, NULL),
+	(14, 'Англійська мова', 'module9', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;5;6;', 'junior', 3, 3, NULL),
+	(16, 'Програмування на PHP (Частина 1)', 'module10', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '6;', 'junior', 3, 3, NULL),
+	(17, 'Програмування на PHP (Частина 2)', 'module11', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;6;', 'junior', 3, 3, NULL),
+	(18, 'Верстка на HTML, CSS', 'module12', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;', 'junior', 3, 3, NULL),
+	(20, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
+	(22, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
+	(23, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
+	(54, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(55, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(56, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(58, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(59, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(60, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(61, 'New module', 'module16', 'ua', 0, 0, 1, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.password_resets
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  KEY `password_resets_email_index` (`email`),
+  KEY `password_resets_token_index` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table int_ita_db.password_resets: ~0 rows (approximately)
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.pay_courses
@@ -2340,8 +2487,13 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~4 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
+INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
+	(38, 1, 1),
+	(46, 6, 1),
+	(51, 4, 1),
+	(22, 3, 1);
 /*!40000 ALTER TABLE `pay_courses` ENABLE KEYS */;
 
 
@@ -2357,8 +2509,37 @@ CREATE TABLE IF NOT EXISTS `pay_modules` (
   CONSTRAINT `FK_pay_modules_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for modules: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_modules: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.pay_modules: ~28 rows (approximately)
 /*!40000 ALTER TABLE `pay_modules` DISABLE KEYS */;
+INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
+	(38, 1, 3),
+	(38, 61, 3),
+	(38, 1, 3),
+	(39, 1, 3),
+	(40, 1, 3),
+	(41, 1, 3),
+	(40, 2, 3),
+	(41, 2, 3),
+	(38, 3, 3),
+	(41, 3, 3),
+	(41, 4, 3),
+	(40, 9, 3),
+	(41, 9, 3),
+	(38, 10, 3),
+	(41, 10, 3),
+	(38, 7, 3),
+	(42, 7, 3),
+	(39, 11, 3),
+	(38, 14, 3),
+	(41, 16, 3),
+	(40, 17, 3),
+	(38, 18, 3),
+	(40, 20, 3),
+	(41, 22, 3),
+	(39, 23, 3),
+	(38, 20, 3),
+	(39, 2, 3),
+	(22, 3, 1);
 /*!40000 ALTER TABLE `pay_modules` ENABLE KEYS */;
 
 
@@ -2369,163 +2550,11 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `id_resource` int(11) NOT NULL,
   `rights` tinyint(10) NOT NULL,
   PRIMARY KEY (`id_user`,`id_resource`),
-  KEY `FK_permissions_lectures` (`id_resource`),
-  CONSTRAINT `FK_permissions_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
+  KEY `FK_permissions_lectures` (`id_resource`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for lectures: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.permissions: ~150 rows (approximately)
+-- Dumping data for table int_ita_db.permissions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` (`id_user`, `id_resource`, `rights`) VALUES
-	(1, 1, 1),
-	(1, 2, 1),
-	(1, 3, 1),
-	(1, 5, 1),
-	(1, 14, 1),
-	(1, 15, 1),
-	(1, 16, 1),
-	(1, 17, 1),
-	(1, 18, 1),
-	(1, 19, 1),
-	(1, 20, 1),
-	(1, 21, 1),
-	(1, 22, 1),
-	(1, 23, 1),
-	(1, 24, 1),
-	(1, 26, 1),
-	(1, 27, 1),
-	(1, 31, 1),
-	(1, 32, 1),
-	(1, 33, 1),
-	(1, 35, 1),
-	(1, 36, 1),
-	(1, 37, 1),
-	(1, 38, 1),
-	(1, 39, 1),
-	(1, 40, 1),
-	(1, 41, 1),
-	(1, 42, 1),
-	(1, 43, 1),
-	(1, 44, 1),
-	(1, 45, 1),
-	(1, 46, 1),
-	(1, 47, 1),
-	(38, 1, 15),
-	(38, 2, 15),
-	(38, 3, 15),
-	(38, 5, 15),
-	(38, 14, 15),
-	(38, 15, 15),
-	(38, 16, 15),
-	(38, 17, 15),
-	(38, 18, 15),
-	(38, 19, 15),
-	(38, 20, 15),
-	(38, 21, 15),
-	(38, 22, 15),
-	(38, 23, 15),
-	(38, 24, 15),
-	(38, 26, 15),
-	(38, 27, 15),
-	(38, 31, 15),
-	(38, 32, 15),
-	(38, 33, 15),
-	(38, 34, 15),
-	(38, 36, 15),
-	(38, 39, 15),
-	(38, 43, 15),
-	(38, 44, 15),
-	(38, 45, 15),
-	(38, 47, 15),
-	(38, 48, 15),
-	(38, 49, 15),
-	(38, 50, 15),
-	(39, 1, 15),
-	(39, 2, 15),
-	(39, 14, 15),
-	(39, 16, 15),
-	(39, 18, 3),
-	(39, 21, 3),
-	(40, 0, 0),
-	(40, 2, 3),
-	(40, 3, 1),
-	(40, 5, 1),
-	(40, 14, 1),
-	(40, 15, 15),
-	(40, 16, 3),
-	(40, 17, 1),
-	(40, 18, 1),
-	(40, 19, 1),
-	(40, 20, 3),
-	(40, 21, 1),
-	(40, 22, 15),
-	(40, 23, 15),
-	(40, 24, 15),
-	(40, 26, 7),
-	(40, 27, 3),
-	(40, 47, 3),
-	(40, 51, 3),
-	(40, 52, 3),
-	(40, 53, 3),
-	(40, 54, 3),
-	(40, 55, 3),
-	(40, 56, 3),
-	(40, 57, 3),
-	(41, 3, 15),
-	(42, 1, 15),
-	(42, 2, 15),
-	(42, 3, 1),
-	(42, 5, 7),
-	(42, 14, 1),
-	(42, 15, 1),
-	(42, 16, 1),
-	(42, 17, 3),
-	(42, 18, 1),
-	(42, 19, 1),
-	(42, 20, 1),
-	(42, 21, 1),
-	(42, 26, 1),
-	(42, 27, 1),
-	(43, 1, 15),
-	(43, 2, 15),
-	(45, 1, 1),
-	(45, 2, 1),
-	(45, 3, 1),
-	(45, 5, 1),
-	(45, 14, 1),
-	(45, 15, 1),
-	(45, 16, 1),
-	(45, 19, 1),
-	(45, 27, 1),
-	(49, 1, 1),
-	(49, 2, 1),
-	(49, 3, 1),
-	(49, 5, 1),
-	(49, 14, 1),
-	(49, 15, 1),
-	(49, 16, 1),
-	(49, 17, 1),
-	(49, 18, 1),
-	(49, 19, 1),
-	(49, 20, 1),
-	(49, 21, 1),
-	(49, 26, 1),
-	(49, 27, 1),
-	(49, 31, 1),
-	(49, 32, 1),
-	(49, 33, 1),
-	(50, 1, 15),
-	(50, 2, 1),
-	(50, 3, 1),
-	(50, 5, 1),
-	(50, 14, 1),
-	(50, 15, 1),
-	(50, 16, 1),
-	(50, 17, 1),
-	(50, 18, 1),
-	(50, 19, 1),
-	(50, 20, 1),
-	(50, 21, 1),
-	(50, 26, 1);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 
@@ -3427,7 +3456,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1433429448', 1),
+	('cache_last_gc', '1435676183', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -3450,7 +3479,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_mail', '', 0),
 	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
-	('database_last_gc', '1431077130', 1),
+	('database_last_gc', '1435425078', 1),
 	('dbms_version', '5.5.41-log', 0),
 	('default_dateformat', 'D M d, Y g:i a', 0),
 	('default_lang', 'uk', 0),
@@ -3605,12 +3634,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '7c4a292e948f0a2cd721a6c6a5bda1d1', 1),
-	('rand_seed_last_update', '1434633857', 1),
+	('rand_seed', 'd51688450bfa6f0fa23411439b20d4fd', 1),
+	('rand_seed_last_update', '1435676183', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1434633857', 1),
+	('read_notification_last_gc', '1435668117', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),
@@ -3621,7 +3650,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('search_gc', '7200', 0),
 	('search_indexing_state', '', 1),
 	('search_interval', '0', 0),
-	('search_last_gc', '1432142776', 1),
+	('search_last_gc', '1435676076', 1),
 	('search_store_results', '1800', 0),
 	('search_type', '\\phpbb\\search\\fulltext_native', 0),
 	('secure_allow_deny', '1', 0),
@@ -3631,7 +3660,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1433248691', 1),
+	('session_last_gc', '1435671745', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -3656,7 +3685,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('version', '3.1.4', 0),
 	('warnings_expire_days', '90', 0),
 	('warnings_gc', '14400', 0),
-	('warnings_last_gc', '1434631453', 1);
+	('warnings_last_gc', '1435667984', 1);
 /*!40000 ALTER TABLE `phpbb_config` ENABLE KEYS */;
 
 
@@ -3691,12 +3720,11 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~3 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~2 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
 INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('2d1a7a021e037ff5af01e0864d8867d3', '560a1b42c729bbe96a34f5c2603da1f1', 1, '6FYV5J', 420831711, 0),
-	('532508a29f9a165b7c886f55e8ce85b5', 'cd2f1509ecfaae31d6aab37c0aca96f7', 1, '646RK6A', 1777825899, 0),
-	('1b165063bd8dc1863409c71f7c0f6045', 'fb598984019bddbe0987715fbaa4b688', 1, '4IF79S', 1563347645, 0);
+	('3cca7d06fa5bfda88f01443639df6ab0', '9272e4a226b7efc6093a0af4604053b1', 3, '33W6SG', 279339011, 0),
+	('8a85864223fad83e17d3c38a5cc3c1e9', '9272e4a226b7efc6093a0af4604053b1', 3, '6RAJL', 1745595066, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 
 
@@ -5220,11 +5248,10 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('9b5f437fb1a3f404f2935786e213f2cf', 1, 1434631451, 1434631451, 1434633856, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36', '', 'index.php', 1, 0, 0, 0),
-	('aa36442de314f8e0f7a088a37cce2289', 2, 1433430118, 1433430267, 1433430287, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36', '', 'viewtopic.php?f=2&p=4&t=3', 1, 0, 0, 2);
+	('9272e4a226b7efc6093a0af4604053b1', 1, 1435667982, 1435667982, 1435676182, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -5417,8 +5444,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics` (
 /*!40000 ALTER TABLE `phpbb_topics` DISABLE KEYS */;
 INSERT INTO `phpbb_topics` (`topic_id`, `forum_id`, `icon_id`, `topic_attachment`, `topic_reported`, `topic_title`, `topic_poster`, `topic_time`, `topic_time_limit`, `topic_views`, `topic_status`, `topic_type`, `topic_first_post_id`, `topic_first_poster_name`, `topic_first_poster_colour`, `topic_last_post_id`, `topic_last_poster_id`, `topic_last_poster_name`, `topic_last_poster_colour`, `topic_last_post_subject`, `topic_last_post_time`, `topic_last_view_time`, `topic_moved_id`, `topic_bumped`, `topic_bumper`, `poll_title`, `poll_start`, `poll_length`, `poll_max_options`, `poll_last_vote`, `poll_vote_change`, `topic_visibility`, `topic_delete_time`, `topic_delete_reason`, `topic_delete_user`, `topic_posts_approved`, `topic_posts_unapproved`, `topic_posts_softdeleted`) VALUES
 	(1, 2, 0, 0, 0, 'Ласкаво просимо до phpBB3', 2, 1431076924, 0, 1, 0, 0, 1, 'intita', 'AA0000', 1, 2, 'intita', 'AA0000', 'Ласкаво просимо до phpBB3', 1431076924, 1431077129, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
-	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 3, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1431082648, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
-	(3, 2, 0, 0, 0, '4 червня', 2, 1433429758, 0, 4, 0, 0, 3, 'intita', 'AA0000', 4, 48, 'Ivanna', '', 'Re: 4 червня', 1433430237, 1433430287, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0);
+	(2, 2, 0, 0, 0, '8 травня', 2, 1431082457, 0, 5, 0, 0, 2, 'intita', 'AA0000', 2, 2, 'intita', 'AA0000', '8 травня', 1431082457, 1435425430, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
+	(3, 2, 0, 0, 0, '4 червня', 2, 1433429758, 0, 7, 0, 0, 3, 'intita', 'AA0000', 4, 48, 'Ivanna', '', 'Re: 4 червня', 1433430237, 1435674985, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0);
 /*!40000 ALTER TABLE `phpbb_topics` ENABLE KEYS */;
 
 
@@ -5552,56 +5579,11 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
   KEY `user_type` (`user_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_users: ~48 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_users: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b705c3dbdaa5024d', 1, 0, 0),
-	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430118, 0, 1433429758, 'index.php', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
-	(3, 2, 6, '', 0, '', 1431076932, 'AdsBot [Google]', 'adsbot [google]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8fb1961bea68d3af', 0, 0, 0),
-	(4, 2, 6, '', 0, '', 1431076932, 'Alexa [Bot]', 'alexa [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b0ce7ddbe26f78e5', 0, 0, 0),
-	(5, 2, 6, '', 0, '', 1431076932, 'Alta Vista [Bot]', 'alta vista [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'aa44fb14e9ba2611', 0, 0, 0),
-	(6, 2, 6, '', 0, '', 1431076932, 'Ask Jeeves [Bot]', 'ask jeeves [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'c6a227e047b660dd', 0, 0, 0),
-	(7, 2, 6, '', 0, '', 1431076932, 'Baidu [Spider]', 'baidu [spider]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '81eabd6fba400ea6', 0, 0, 0),
-	(8, 2, 6, '', 0, '', 1431076932, 'Bing [Bot]', 'bing [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b46ecc9cf4351084', 0, 0, 0),
-	(9, 2, 6, '', 0, '', 1431076932, 'Exabot [Bot]', 'exabot [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'adccd845a4a3309a', 0, 0, 0),
-	(10, 2, 6, '', 0, '', 1431076932, 'FAST Enterprise [Crawler]', 'fast enterprise [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'a9f6cad28682c0b9', 0, 0, 0),
-	(11, 2, 6, '', 0, '', 1431076932, 'FAST WebCrawler [Crawler]', 'fast webcrawler [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '0f1e07b60f11f1d0', 0, 0, 0),
-	(12, 2, 6, '', 0, '', 1431076932, 'Francis [Bot]', 'francis [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '23fc118e872ccb6e', 0, 0, 0),
-	(13, 2, 6, '', 0, '', 1431076932, 'Gigabot [Bot]', 'gigabot [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '1cb937388ea81f60', 0, 0, 0),
-	(14, 2, 6, '', 0, '', 1431076932, 'Google Adsense [Bot]', 'google adsense [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '6b94dc3b6ba0ce4d', 0, 0, 0),
-	(15, 2, 6, '', 0, '', 1431076932, 'Google Desktop', 'google desktop', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '59d01214c2906319', 0, 0, 0),
-	(16, 2, 6, '', 0, '', 1431076932, 'Google Feedfetcher', 'google feedfetcher', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'fc42531b9677a64b', 0, 0, 0),
-	(17, 2, 6, '', 0, '', 1431076932, 'Google [Bot]', 'google [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '205e6956b35b1775', 0, 0, 0),
-	(18, 2, 6, '', 0, '', 1431076932, 'Heise IT-Markt [Crawler]', 'heise it-markt [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '553be5516caa2d51', 0, 0, 0),
-	(19, 2, 6, '', 0, '', 1431076932, 'Heritrix [Crawler]', 'heritrix [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '259e0909a00c977d', 0, 0, 0),
-	(20, 2, 6, '', 0, '', 1431076932, 'IBM Research [Bot]', 'ibm research [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '0b8c869b3a1976b8', 0, 0, 0),
-	(21, 2, 6, '', 0, '', 1431076932, 'ICCrawler - ICjobs', 'iccrawler - icjobs', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '98202e2f508b229d', 0, 0, 0),
-	(22, 2, 6, '', 0, '', 1431076932, 'ichiro [Crawler]', 'ichiro [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '9d6a1a15c4e37982', 0, 0, 0),
-	(23, 2, 6, '', 0, '', 1431076932, 'Majestic-12 [Bot]', 'majestic-12 [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'ac211676f47e478d', 0, 0, 0),
-	(24, 2, 6, '', 0, '', 1431076932, 'Metager [Bot]', 'metager [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '9d659da1e1817872', 0, 0, 0),
-	(25, 2, 6, '', 0, '', 1431076932, 'MSN NewsBlogs', 'msn newsblogs', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '6e753fd32e6c1fda', 0, 0, 0),
-	(26, 2, 6, '', 0, '', 1431076932, 'MSN [Bot]', 'msn [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'bf0dde11ccbf74a0', 0, 0, 0),
-	(27, 2, 6, '', 0, '', 1431076932, 'MSNbot Media', 'msnbot media', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '3335f518df13845b', 0, 0, 0),
-	(28, 2, 6, '', 0, '', 1431076932, 'Nutch [Bot]', 'nutch [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'f9e8a789835722f6', 0, 0, 0),
-	(29, 2, 6, '', 0, '', 1431076932, 'Online link [Validator]', 'online link [validator]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '01918a62521bb42f', 0, 0, 0),
-	(30, 2, 6, '', 0, '', 1431076932, 'psbot [Picsearch]', 'psbot [picsearch]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '2f56f12a5e4703a5', 0, 0, 0),
-	(31, 2, 6, '', 0, '', 1431076932, 'Sensis [Crawler]', 'sensis [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '2ed96394667bb77e', 0, 0, 0),
-	(32, 2, 6, '', 0, '', 1431076932, 'SEO Crawler', 'seo crawler', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'ff916b227c9ec3b8', 0, 0, 0),
-	(33, 2, 6, '', 0, '', 1431076932, 'Seoma [Crawler]', 'seoma [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'c9263d6960674eba', 0, 0, 0),
-	(34, 2, 6, '', 0, '', 1431076932, 'SEOSearch [Crawler]', 'seosearch [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'ee80f9400368a4c6', 0, 0, 0),
-	(35, 2, 6, '', 0, '', 1431076932, 'Snappy [Bot]', 'snappy [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'c0268ed35b1b9e27', 0, 0, 0),
-	(36, 2, 6, '', 0, '', 1431076932, 'Steeler [Crawler]', 'steeler [crawler]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'f88cc526513fe28a', 0, 0, 0),
-	(37, 2, 6, '', 0, '', 1431076932, 'Telekom [Bot]', 'telekom [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '3647d0840f2b5e85', 0, 0, 0),
-	(38, 2, 6, '', 0, '', 1431076932, 'TurnitinBot [Bot]', 'turnitinbot [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '70d8e8d5726b0dcd', 0, 0, 0),
-	(39, 2, 6, '', 0, '', 1431076932, 'Voyager [Bot]', 'voyager [bot]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'c1d7e86c9804c88a', 0, 0, 0),
-	(40, 2, 6, '', 0, '', 1431076932, 'W3 [Sitesearch]', 'w3 [sitesearch]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'fae0202108d740f5', 0, 0, 0),
-	(41, 2, 6, '', 0, '', 1431076932, 'W3C [Linkcheck]', 'w3c [linkcheck]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '363767d3d3969504', 0, 0, 0),
-	(42, 2, 6, '', 0, '', 1431076932, 'W3C [Validator]', 'w3c [validator]', '', 1431076932, '', 0, '', 0, 1431076932, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '1e38cf7df0120df5', 0, 0, 0),
-	(43, 2, 6, '', 0, '', 1431076933, 'YaCy [Bot]', 'yacy [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '59c5244985f29d79', 0, 0, 0),
-	(44, 2, 6, '', 0, '', 1431076933, 'Yahoo MMCrawler [Bot]', 'yahoo mmcrawler [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '8b4d4e5b829312c3', 0, 0, 0),
-	(45, 2, 6, '', 0, '', 1431076933, 'Yahoo Slurp [Bot]', 'yahoo slurp [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '40bdfa398100dabe', 0, 0, 0),
-	(46, 2, 6, '', 0, '', 1431076933, 'Yahoo [Bot]', 'yahoo [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '5ef718e8d194dd82', 0, 0, 0),
-	(47, 2, 6, '', 0, '', 1431076933, 'YahooSeeker [Bot]', 'yahooseeker [bot]', '', 1431076933, '', 0, '', 0, 1431076933, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'uk', 'UTC', 'D M d, Y g:i a', 1, 0, '9E8DA7', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 0, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'cd7ba34f5b0082fd', 0, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '03a732bb1768764b', 1, 0, 0),
+	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430287, 0, 1433429758, 'viewtopic.php?f=2&p=4&t=3', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(48, 0, 2, '00000000001qccftm0\ni1cjyo000000\nqlaq53000000', 0, '::1', 1433430175, 'Ivanna', 'ivanna', '$2y$10$YrMGyqi8ZQ6BN1cf0UzfZ.LgX1Na4vdzIBLYspxUgo6BcdiW715fa', 1433430175, 'vnnchkh@gmail.com', 328510056717, '', 1433430246, 1433430175, 1433430237, '', '', 0, 0, 0, 0, 0, 0, 1, 'uk', 'Europe/Kiev', 'D M d, Y g:i a', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '02c7d053ef52557c', 1, 0, 0);
 /*!40000 ALTER TABLE `phpbb_users` ENABLE KEYS */;
 
@@ -6014,16 +5996,26 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `title_ua` varchar(20) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='List of teachers roles.';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='List of teachers roles.';
 
--- Dumping data for table int_ita_db.roles: ~5 rows (approximately)
+-- Dumping data for table int_ita_db.roles: ~15 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `title_en`, `title_ru`, `title_ua`, `description`) VALUES
 	(1, 'Trainer', 'Тренер', 'Тренер', 'Trainer. Help student with simple and common problems.'),
 	(2, 'Consultant', 'Консультант', 'Консультант', 'Online consultations'),
 	(3, 'Leader', 'Руководитель проекта', 'Керівник проекта', 'Leader for single and team students projects'),
 	(4, 'Author', 'Автор модуля', 'Автор модуля', 'Module owner'),
-	(5, 'Admin', 'Админ', 'Адмін', 'Create and describe courses and modules.');
+	(5, 'Admin', 'Админ', 'Адмін', 'Create and describe courses and modules.'),
+	(6, '67u48u', 'ur7u7', 'uryru76r', 'j7j6r'),
+	(7, 'gserg', 'grggeg', '11111', 'gegeg'),
+	(8, 'rge5', 't4525', 'r42', 'wef524'),
+	(9, 'rge5', 't4525', 'r42', 'wef524'),
+	(10, 'rge5', 't4525', 'r42', 'wef524'),
+	(11, 'rge5', 't4525', 'r42', 'wef524'),
+	(12, 'rge5', 't4525', 'fser42', 'wef524'),
+	(13, 'rge5', 't4525', 'fser42', 'wef524'),
+	(14, 'rge5', 't4525', 'fser42', 'wef524'),
+	(15, 'uikmy', 'hty', 'htdyh', 'hdty');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 
@@ -6531,7 +6523,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `first_name` varchar(35) NOT NULL,
   `middle_name` varchar(35) NOT NULL,
   `last_name` varchar(35) NOT NULL,
-  `foto_url` varchar(100) NOT NULL,
+  `foto_url` varchar(100) NOT NULL DEFAULT 'noname.png',
   `subjects` varchar(100) NOT NULL,
   `profile_text_first` text NOT NULL,
   `profile_text_short` text NOT NULL,
@@ -6546,9 +6538,9 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `user_id` int(11) NOT NULL,
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
+-- Dumping data for table int_ita_db.teacher: ~7 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `user_id`, `rating`) VALUES
 	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала</p><p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards</p><p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).</p><p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br></p><p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.</p><p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила</p><p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,</p><p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого</p><p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,</p><p>                    що не подобалося її батькам і що вони їй забороняли.<br></p><p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:</p><ul>	<li>оказании полезных услуг горизонтального характера;</li>	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>	<li>позитивное обучение швейного мастерства;</li></ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', 6, 7, 7, 38, 7),
@@ -6556,7 +6548,8 @@ INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `
 	(3, 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', 'teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '', '/profile/index/?idTeacher=5', 'teacher3@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher3', 0, 0, 0, 40, 0),
 	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', 0, 0, 0, 41, 0),
 	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', 0, 0, 0, 42, 0),
-	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', 0, 0, 0, 43, 0);
+	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', 0, 0, 0, 43, 0),
+	(7, 'sddhwqhdf', 'sdvbkjs', 'vbedfvkj', 'noname.png', '', '', '', '', '', 'vdfb@rtr.ge', '', '', 0, 0, 0, 47, NULL);
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 
 
@@ -6569,9 +6562,9 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   PRIMARY KEY (`id`),
   KEY `FK_teacher_module_teacher` (`idTeacher`),
   KEY `FK_teacher_module_module` (`idModule`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~25 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~26 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -6598,7 +6591,8 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(40, 4, 22),
 	(41, 2, 23),
 	(44, 1, 20),
-	(45, 2, 2);
+	(45, 2, 2),
+	(46, 1, 61);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
 
@@ -6615,7 +6609,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~29 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
@@ -6643,42 +6637,11 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(2, 4, '2015-06-24', '0000-00-00'),
 	(4, 4, '2015-06-24', '0000-00-00'),
 	(5, 4, '2015-06-24', '0000-00-00'),
-	(6, 4, '2015-06-24', '0000-00-00');
+	(6, 4, '2015-06-24', '0000-00-00'),
+	(7, 2, '2015-06-29', '0000-00-00'),
+	(7, 7, '2015-07-01', '0000-00-00'),
+	(7, 4, '2015-07-01', '0000-00-00');
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.teacher_temp
-DROP TABLE IF EXISTS `teacher_temp`;
-CREATE TABLE IF NOT EXISTS `teacher_temp` (
-  `teacher_id` int(11) NOT NULL AUTO_INCREMENT,
-  `lang` varchar(6) NOT NULL,
-  `first_name` varchar(35) NOT NULL,
-  `middle_name` varchar(35) NOT NULL,
-  `last_name` varchar(35) NOT NULL,
-  `foto_url` varchar(100) NOT NULL,
-  `subjects` varchar(100) NOT NULL,
-  `profile_text_big` text NOT NULL,
-  `profile_text` text NOT NULL,
-  `readMoreLink` varchar(255) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `tel` varchar(100) NOT NULL,
-  `skype` varchar(50) NOT NULL,
-  `title` varchar(50) NOT NULL,
-  `linkName` varchar(50) NOT NULL,
-  `smallImage` varchar(255) NOT NULL,
-  PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- Dumping data for table int_ita_db.teacher_temp: ~6 rows (approximately)
-/*!40000 ALTER TABLE `teacher_temp` DISABLE KEYS */;
-INSERT INTO `teacher_temp` (`teacher_id`, `lang`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_big`, `profile_text`, `readMoreLink`, `email`, `tel`, `skype`, `title`, `linkName`, `smallImage`) VALUES
-	(1, 'UA', 'Олександра', 'Василівна', 'Сіра', '/css/images/teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', 'Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала вкладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO). Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.\r\n\r\nМарина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження. Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років, дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те, що не подобалося її батькам і що вони їй забороняли.\r\n\r\nГлавный бухгалтер акционерного предприятия, специализирующегося на:\r\n\r\n    оказании полезных услуг горизонтального характера;\r\n    торговле, внешнеэкономической и внутреннеэкономической;\r\n    позитивное обучение швейного мастерства;\r\n\r\n Олександра Сіра виконала головну роль у фільмі оскароносного режисера Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really fit the typical mold of someone who goes into the adult film business. … I\'d never heard anybody talk about the business the way that she talked about it». Журналіст Скотт Маколей каже, що можливо Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар, Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.\r\n\r\nКоли Олександра готувалася до ролі у «Дівчині за викликом», Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29]. У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини, схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.\'; ', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png'),
-	(2, 'UA', 'Константин', 'Константинович', 'Константинопольский', '/css/images/teacher2.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png'),
-	(3, 'UA', 'Любовь', 'Анатольевна', 'Ктоятакая-Замухриншская', '/css/images/teacher3.jpg', 'Бухгалтер с «О» и до первой отсидки; Программирование своего позитивного прошлого', '', '<p>Практикующий главный бухгалтер. Учредитель ПП <span>«Логика тут безсильна»</span>;</p>\r\n<p>Образование высшее - ДонГУ (1987г.)</p>\r\n<p>Опыт работы 27 лет, в т. ч. преподавания - 9 лет.</p>\r\n<ul><li>специалист по позитивной энергетике;</li><li>эксперт по эффективному ремонту баянов;</li><li>мастер психотерапии для сложных бабушек и дедушек;</li></ul>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png'),
-	(4, 'UA', 'Василий', 'Васильевич', 'Меняетпроффесию', '/css/images/teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png'),
-	(5, 'UA', 'Ия', 'Тожевна', 'Воваяготова', '/css/images/teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png'),
-	(6, 'UA', 'Петросян', 'Петросянович', 'Забугорный', '/css/images/teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '/profile', 'ivanov@intita.org, ivanov@gmail.com', '/067/56-569-56, /093/26-45-65', 'ivanov.ivanov', '', '', '/css/images/teacherImage.png');
-/*!40000 ALTER TABLE `teacher_temp` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.trainer_student
@@ -6698,7 +6661,7 @@ INSERT INTO `trainer_student` (`trainer`, `student`) VALUES
 	(1, 55),
 	(1, 51),
 	(2, 52),
-	(3, 1),
+	(3, 54),
 	(4, 11),
 	(5, 54),
 	(6, 22);
@@ -6739,12 +6702,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activkey_lifetime` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~21 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~23 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`) VALUES
-	(1, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', 'noname.png', 0, NULL, NULL, 1),
 	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
 	(22, 'Student', '', '', 0, '', NULL, '', '', '', 'student@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1),
 	(38, '', '', '', 0, '', NULL, '', '', '', 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, 'b7d8aa75094d15f260127f485a480bf844b60016', '2015-05-18 13:58:52', 1),
@@ -6756,7 +6718,7 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1),
+	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
 	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
 	(49, 'Admin', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 3, NULL, NULL, 1),
 	(50, 'Serhiy', '', '', 0, '', NULL, 'Kalinovsky', NULL, '19.11.1978', 'serhiy.kalinovsky@gmail.com', NULL, 'https://www.facebook.com/serhiy.kalinovsky', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
@@ -6764,7 +6726,49 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(52, 'Student 2', '', '', 0, '', NULL, NULL, NULL, NULL, 'student2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(53, 'Student 3', '', '', 0, '', NULL, NULL, NULL, NULL, 'student3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(54, 'Student 4', '', '', 0, '', NULL, NULL, NULL, NULL, 'student4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(55, 'Student 5', '', '', 0, '', NULL, NULL, NULL, NULL, 'student5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1);
+	(55, 'Student 5', '', '', 0, '', NULL, NULL, NULL, NULL, 'student5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
+	(56, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', 'noname.png', 0, NULL, NULL, 1),
+	(100, 'faergaerge', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0),
+	(103, 'David', '', '', 0, '', NULL, 'Cameron', '', '', 'info@bonprix.ua', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, 'bfbb9ee6d481be5934356ddde3f42861ae3dc2e0', NULL, 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table int_ita_db.users: ~0 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.vacancies
+DROP TABLE IF EXISTS `vacancies`;
+CREATE TABLE IF NOT EXISTS `vacancies` (
+  `company_id` int(11) NOT NULL,
+  `bfranch` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `organisation` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date_field` date NOT NULL,
+  `salary` int(11) NOT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table int_ita_db.vacancies: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vacancies` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacancies` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

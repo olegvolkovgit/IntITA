@@ -242,14 +242,14 @@ class Lecture extends CActiveRecord
     }
 
     public function getTeacherInfoById(){
-        $teacher = TeachersTemp::model()->findByPk($this->idTeacher);
+        $teacher = Teacher::model()->findByPk($this->idTeacher);
         return array(
             'full_name' => $teacher->last_name.' '.$teacher->first_name.' '.$teacher->middle_name,
             'email' =>  $teacher->email,
             'tel' => $teacher->tel,
             'skype' => $teacher->skype,
             'readMoreLink' => $teacher->readMoreLink,
-            'photo' => $teacher->smallImage,
+            'photo' => $teacher->foto_url,
         );
     }
 

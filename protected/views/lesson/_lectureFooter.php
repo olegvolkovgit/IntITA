@@ -48,7 +48,7 @@ $footNavSize='960px'; // Ширина блоку
                 </tr>
             </table>
             <div class="preLesonLink">
-                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPreId()));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
+                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPreId(), 'idCourse'=>$idCourse));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
             </div>
         </div>
     <?php
@@ -97,7 +97,7 @@ $footNavSize='960px'; // Ширина блоку
         </table>
         <?php if($lecture->getThisMedal()=='Зараховано') { ?>
             <div class="nextLesonLink">
-                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId()));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
+                <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId(), 'idCourse'=>$idCourse));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>
 
             <?php  }?>

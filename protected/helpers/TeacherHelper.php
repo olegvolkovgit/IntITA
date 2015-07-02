@@ -21,6 +21,11 @@ class TeacherHelper
 
         for($i = 0;$i < $count;$i++){
              $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+             $modules[$i]["idCourse"] = Yii::app()->db->createCommand()
+                 ->select('id_course')
+                 ->from('course_modules')
+                 ->where('id_module=:id', array(':id'=>$modules[$i]["idModule"]))
+                 ->queryScalar();
         }
 
         return (!empty($modules))?$modules:[];

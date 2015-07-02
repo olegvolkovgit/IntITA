@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'module':
  * @property integer $module_ID
- * @property integer $course
  * @property string $module_name
  * @property string $alias
  * @property string $language
@@ -19,7 +18,6 @@
  * @property string $module_img
  * @property string $about_module
  * @property string $owners
- * @property integer $order
  * @property integer $hours_in_day
  * @property integer $days_in_week
  * @property integer $level
@@ -47,7 +45,7 @@ class Module extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('language', 'required'),
-			array('module_duration_hours, module_duration_days, lesson_count,hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
+			array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
 			array('level', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
@@ -58,7 +56,7 @@ class Module extends CActiveRecord
             array('module_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('module_ID, course, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, order, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners, days_in_week, hours_in_day, level', 'safe', 'on'=>'search'),
+			array('module_ID, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners, days_in_week, hours_in_day, level', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,7 +68,7 @@ class Module extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'course0' => array(self::BELONGS_TO, 'Course', 'course'),
+
 		);
 	}
 
@@ -81,7 +79,6 @@ class Module extends CActiveRecord
 	{
 		return array(
 			'module_ID' => 'Module',
-			'course' => 'Course',
 			'module_name' => 'Module Name',
 			'alias' => 'Alias',
 			'language' => 'Language',
@@ -117,7 +114,6 @@ class Module extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('module_ID',$this->module_ID);
-		$criteria->compare('course',$this->course);
 		$criteria->compare('module_name',$this->module_name,true);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('language',$this->language,true);
@@ -131,7 +127,6 @@ class Module extends CActiveRecord
 		$criteria->compare('module_img',$this->module_img,true);
 		$criteria->compare('about_module',$this->about_module,true);
 		$criteria->compare('owners',$this->owners,true);
-        $criteria->compare('order',$this->order,true);
         $criteria->compare('days_in_week',$this->days_in_week,true);
         $criteria->compare('hours_in_day',$this->hours_in_day,true);
         $criteria->compare('level',$this->level,true);
@@ -231,8 +226,6 @@ class Module extends CActiveRecord
 
         return $order;
     }
-
-
 
     public static function getModules($id){
         $modules = Yii::app()->db->createCommand()

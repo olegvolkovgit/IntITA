@@ -1,16 +1,14 @@
 <?php
+/* @var $this TmanageController */
 /* @var $model Roles */
 /* @var $form CActiveForm */
-/* @var $this RolesController */
 ?>
-
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
 <div class="form">
 
     <?php $form=$this->beginWidget('CActiveForm', array(
-        'id'=>'role-form',
-        'action'=>Yii::app()->createUrl('/roles/create'),
+        'id'=>'roles-form',
         'htmlOptions'=>array(
             'class'=>'formatted-form',
             'enctype'=>'multipart/form-data',
@@ -23,7 +21,7 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Fields with <span class="required">*</span> are required.</p>
+    <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
     <?php echo $form->errorSummary($model); ?>
 

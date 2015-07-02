@@ -97,6 +97,7 @@ class StudentRegController extends Controller
     {
         $tab='';
         $model=new StudentReg('reguser');
+
         if(isset($_POST['StudentReg']))
         {
             if(is_null($_POST['StudentReg']['firstName']))

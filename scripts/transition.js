@@ -1,7 +1,6 @@
 /**
  * Created by student on 30.05.2015.
  */
-
 $(document).on ('click', 'a[href="/forum"]', function(){
     $.ajax({
         url: "/forum/forumEntrance.php",

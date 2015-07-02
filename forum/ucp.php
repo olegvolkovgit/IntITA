@@ -67,7 +67,7 @@ switch ($mode)
 //
 //		$module->load('ucp', 'register');
 //		$module->display($user->lang['REGISTER']);
-        header ("location: /IntITA/#form");
+        header ("location: /#form");
         exit();
 	break;
 
@@ -82,7 +82,7 @@ switch ($mode)
 //		}
 //
 //		login_box(request_var('redirect', "index.$phpEx"));
-        header('location: /IntITA/index.php?dialog=true');
+        header('location: /index.php?dialog=true');
 	break;
 
 	case 'login_link':
@@ -116,7 +116,7 @@ switch ($mode)
             mysql_query($sql);
             mysql_close();
 
-            setCookie("user_id_transition", null, time()-10, "/", "intita");
+            setCookie("user_id_transition", null, time()-10, "/");
 		}
 		else if ($user->data['user_id'] != ANONYMOUS)
 		{

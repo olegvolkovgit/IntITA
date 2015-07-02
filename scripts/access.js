@@ -18,8 +18,7 @@ function selectModule(){
     }else{
         $.ajax({
             type: "POST",
-            url: "/IntITA/permissions/showModules",
-            //url: "http://localhost/Int/permissions/showModules",
+            url: "/permissions/showModules",
             data: {course: course},
             cache: false,
             success: function(response){ $('div[name="selectModule"]').html(response); }
@@ -41,4 +40,15 @@ function selectModule1(){
             success: function(response){ $('div[name="selectModule1"]').html(response); }
         });
     }
+}
+
+function selectLecture(){
+    var module = $('select[name="module"]').val();
+    $.ajax({
+        type: "POST",
+        url: "/permissions/showLectures",
+        data: {module: module},
+        cache: false,
+        success: function(response){ $('div[name="selectLecture"]').html(response); }
+    });
 }

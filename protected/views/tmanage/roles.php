@@ -54,7 +54,7 @@ $this->menu=array(
                 (
                     'label'=>'Редагувати',
                     //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                    'url' => 'Yii::app()->createUrl("roles/update", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("tmanage/updateRole", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array

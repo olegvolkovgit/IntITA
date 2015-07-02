@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 17:47
+@var $roles TeacherRoles
+
  */
 
     $this->breadcrumbs=array(
@@ -15,7 +13,7 @@
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
     <p class="header">Ролі викладача <?php echo $name;?></p>
 <?php
-for ($i = count($roles)-1; $i > 0; $i--){
+for ($i = count($roles)-1; $i >= 0; $i--){
     echo '<div class="atts">'.TeacherHelper::getRoleTitle($roles[$i]['role']).'</div>';
     $atts = RoleAttribute::model()->type($roles[$i]['role'])->findAll();
     if (!empty($atts)) {

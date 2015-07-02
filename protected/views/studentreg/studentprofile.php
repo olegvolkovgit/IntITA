@@ -12,6 +12,7 @@ $this->pageTitle = 'INTITA';
 <?php
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
 );
+
 ?>
 <?php if (!isset($tab)) $tab=''; ?>
 <div class="formStudProf">

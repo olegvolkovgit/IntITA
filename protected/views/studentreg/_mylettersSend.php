@@ -41,7 +41,7 @@
                 'dataProvider'=>$sentLettersProvider,
                 'itemView'=>'/letters/_sentLetters',
                 'template'=>'{items}{pager}',
-                'emptyText'=>'відправлених листів немає',
+                'emptyText'=>'Відправлених листів немає',
                 'pager' => array(
                     'firstPageLabel'=>'<<',
                     'lastPageLabel'=>'>>',
