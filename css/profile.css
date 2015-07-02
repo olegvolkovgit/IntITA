@@ -303,7 +303,7 @@ div#consultation-grid.grid-view td{
     border-right: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
     border-bottom: 1px solid #cccccc;
-    padding: 5px 0 5px 0;
+    padding: 5px 5px 5px 5px;
 }
 #consultation-grid table.items thead th, #consultation-grid table.items thead th a{
     color:#999999;
