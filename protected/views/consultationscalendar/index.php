@@ -24,7 +24,7 @@ $this->breadcrumbs=array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
         'columns'=>array("one","two"),
     ));
     ?>
