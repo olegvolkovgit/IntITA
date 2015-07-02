@@ -6,6 +6,7 @@
  * Time: 2:05
  */
 ?>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <!--Render all parts of lesson content-->
 <br>
 <?php
@@ -47,7 +48,7 @@
                 $this->renderPartial('_imageBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 10:
-                $this->renderPartial('_formulaBlock', array('data'=>$data, 'editMode' => $editMode));
+                $this->renderPartial('_formulaBlock', array('data'=>$data, 'editMode' => $editMode), false, true);
                 break;
             case 11:
                 $this->renderPartial('_tableBlock', array('data'=>$data, 'editMode' => $editMode));

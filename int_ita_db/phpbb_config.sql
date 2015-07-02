@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-01 19:23:38
+-- Date/time:                    2015-07-02 17:19:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -267,12 +267,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'd51688450bfa6f0fa23411439b20d4fd', 1),
-	('rand_seed_last_update', '1435676183', 1),
+	('rand_seed', 'a5bef4763a35950e0d92e03d683204b8', 1),
+	('rand_seed_last_update', '1435775111', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1435668117', 1),
+	('read_notification_last_gc', '1435775113', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),

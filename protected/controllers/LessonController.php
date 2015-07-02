@@ -23,18 +23,14 @@ class LessonController extends Controller{
         }
     }
 
-    public function actionIndex($id,$idCourse){
+    public function actionIndex($id,$idCourse)
+    {
         $lecture = Lecture::model()->findByPk($id);
-
-//        if (isset($_POST))
-//        {
-//            var_dump($_POST);die();
-//        }
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition('id_lecture='.$id);
+        $criteria->addCondition('id_lecture=' . $id);
 
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->criteria = $criteria;
@@ -44,19 +40,27 @@ class LessonController extends Controller{
             )
         );
 
-        $temp = TeacherModule::model()->find('idModule='.$lecture->idModule);
+        $temp = TeacherModule::model()->find('idModule=' . $lecture->idModule);
         $teacher = Teacher::model()->findByPk($temp->idTeacher);
 
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
+        if (Yii::app()->request->isAjaxRequest){
+            $this->renderPartial('_blocks_list', array(
+                'dataProvider'=>$dataProvider,
+                'editMode' => $editMode,
+            ));
+            Yii::app()->end();
+        } else {
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
             'countBlocks' => $countBlocks,
             'teacher' => $teacher,
-            'idCourse'=>$idCourse,
+            'idCourse' => $idCourse,
         ));
+        }
     }
 
     public function actionUpdateAjax()

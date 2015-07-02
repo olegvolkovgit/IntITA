@@ -10,16 +10,9 @@
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script class='javascript' type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/editor3.js"></script>
 <script type='text/javascript'>SyntaxHighlighter.all();</script>
 <!-- Підсвітка синтаксису -->
-<!-- Підключення BBCode WysiBB -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
-
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/BBCode.js"></script>
-<!-- Підключення BBCode WysiBB -->
 <!-- Spoiler -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
@@ -89,10 +82,7 @@ $this->breadcrumbs=array(
                 ?>
             </div>
         <?php }?>
-
-        <!-- Lesson content-->
         <?php
-
         $this->widget('zii.widgets.CListView', array(
             'dataProvider'=>$dataProvider,
             'itemView'=>'_content',
