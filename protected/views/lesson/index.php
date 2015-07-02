@@ -82,18 +82,7 @@ $this->breadcrumbs=array(
                 ?>
             </div>
         <?php }?>
-        <?php
-        $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$dataProvider,
-            'itemView'=>'_content',
-            'summaryText' => '',
-            'viewData' => array('editMode' => $editMode),
-            'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',
-            'pagerCssClass'=>'YiiPager',
-            'ajaxUpdate' => true,
-            'id'=>"blocks_list",
-        ));
-        ?>
+        <?php $this->renderPartial('_blocks_list', array('dataProvider' => $dataProvider, 'editMode' => $editMode), false, true);?>
     <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
 
         </div>
