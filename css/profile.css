@@ -346,11 +346,11 @@ div#consultation-grid.grid-view td{
     white-space: nowrap;
 }
 #consultation-grid table.items td.dateColumn{
-    width:80px;
+    width:70px;
     white-space: nowrap;
 }
 #consultation-grid table.items td.timeColumn{
-    width:80px;
+    width:70px;
     white-space: nowrap;
 }
 #consultation-grid table.items td.nameColumn{
