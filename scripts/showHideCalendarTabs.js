@@ -47,12 +47,13 @@ function goNext(teacherId) {
     var timeconsId='timecons'+teacherId;
     var infoId='#consultationInfo'+teacherId;
     if (parseTable(gridId).length !== 0) {
+        var str = parseTable(gridId);
         $(timeId).css('display', 'none');
         var textinfo = document.getElementById(textId);
-        var dateinfo = document.getElementById(calendarId).value + ' о ' + parseTable(gridId);
+        var dateinfo = document.getElementById(calendarId).value + ' о ' + str.join(', ');
         textinfo.innerHTML = dateinfo + textinfo.innerHTML;
         document.getElementById(dateconsId).value = document.getElementById(calendarId).value;
-        document.getElementById(timeconsId).value = parseTable(gridId);
+        document.getElementById(timeconsId).value = str;
         $(infoId).css('display', 'block');
     }
 }
