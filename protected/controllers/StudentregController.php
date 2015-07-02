@@ -182,9 +182,7 @@ class StudentRegController extends Controller
                     $text=Yii::t('activeemail','0299').
                         " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
                     mail($model->email,$subject,$text,$headers);
-                    $this->render('/site/activationinfo',array(
-                        'model'=>$model,
-                    ));
+                    $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 }
             } else {
                 $this->render("studentreg", array('model'=>$model));
