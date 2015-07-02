@@ -92,10 +92,10 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
             <label class="tabsUp1" for="tab1" title="<?php echo Yii::t('profile', '0108'); ?>"><?php echo Yii::t('profile', '0108'); ?></label>
-<!--            <input id="tab2" type="radio" name="tabs" >-->
-<!--            <label for="tab2" title="--><?php //echo Yii::t('profile', '0109'); ?><!--">--><?php //echo Yii::t('profile', '0109'); ?><!--</label>-->
-            <input id="tab3" type="radio" name="tabs" >
-            <label for="tab3" title="<?php echo Yii::t('profile', '0110'); ?>"><?php echo Yii::t('profile', '0110'); ?></label>
+            <input id="tab2" type="radio" name="tabs" >
+            <label for="tab2" title="<?php echo Yii::t('profile', '0109'); ?>"><?php echo Yii::t('profile', '0109'); ?></label>
+<!--            <input id="tab3" type="radio" name="tabs" >-->
+<!--            <label for="tab3" title="--><?php //echo Yii::t('profile', '0110'); ?><!--">--><?php //echo Yii::t('profile', '0110'); ?><!--</label>-->
             <input id="tab6" type="radio" name="tabs">
             <label  for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
 <!--            <input id="tab4" type="radio" name="tabs">-->
@@ -116,17 +116,17 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                 <?php $this->renderPartial('_mycourse'); ?>
             </section>
             <section id="timetable">
-                <?php $this->renderPartial('_timetable'); ?>
+                <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
             </section>
-            <section id="consultation">
-                <?php $this->renderPartial('_consultation', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
-            </section>
-            <section id="exams">
-                <?php $this->renderPartial('_exams'); ?>
-            </section>
-            <section id="projects">
-                <?php $this->renderPartial('_projects'); ?>
-            </section>
+<!--            <section id="consultation">-->
+<!--                --><?php //$this->renderPartial('_consultation', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
+<!--            </section>-->
+<!--            <section id="exams">-->
+<!--                --><?php //$this->renderPartial('_exams'); ?>
+<!--            </section>-->
+<!--            <section id="projects">-->
+<!--                --><?php //$this->renderPartial('_projects'); ?>
+<!--            </section>-->
             <section id="myRatting">
                 <?php $this->renderPartial('_myRatting'); ?>
             </section>

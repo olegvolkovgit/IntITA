@@ -1,5 +1,4 @@
-<p class="tabHeader"><?php echo Yii::t('profile', '0109'); ?></p>
-
+<p class="tabHeader"><?php echo Yii::t('profile', '0110'); ?></p>
 <table class="exmCons">
     <tr>
         <td>
@@ -28,429 +27,85 @@
         </td>
     </tr>
 </table>
-
-<table class="timeTable">
-    <tr>
-        <td>
-            <div><?php echo Yii::t('profile', '0126'); ?></div>
-        </td>
-        <td>
-            <div><?php echo Yii::t('profile', '0127'); ?></div>
-        </td>
-        <td>
-            <div><?php echo Yii::t('profile', '0128'); ?></div>
-        </td>
-        <td>
-            <div><?php echo Yii::t('profile', '0129'); ?></div>
-        </td>
-        <td>
-            <div><?php echo Yii::t('profile', '0130'); ?></div>
-        </td>
-    </tr>
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>14 березня 2015</div>
-        </td>
-        <td>
-            <div>20:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен по програмному проектуванню</div>
-        </td>
-    </tr>
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>14 березня 2015</div>
-        </td>
-        <td>
-            <div>22:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-    <tr class="imp">
-        <td>
-            <div><?php echo Yii::t('profile', '0133'); ?></div>
-        </td>
-        <td>
-            <div>14 березня 2015</div>
-        </td>
-        <td>
-            <div>23:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>15 березня 2015</div>
-        </td>
-        <td>
-            <div>18:15</div>
-        </td>
-        <td>
-            <div>Панкрат Щур</div>
-        </td>
-        <td>
-            <div>Проектування інтерфейсу</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>15 березня 2015</div>
-        </td>
-        <td>
-            <div>21:00</div>
-        </td>
-        <td>
-            <div>Панкрат Щур</div>
-        </td>
-        <td>
-            <div>Проектування інтерфейсу</div>
-        </td>
-    </tr>
-
-    <tr class="imp">
-        <td>
-            <div><?php echo Yii::t('profile', '0133'); ?></div>
-        </td>
-        <td>
-            <div>15 березня 2015</div>
-        </td>
-        <td>
-            <div>21:15</div>
-        </td>
-        <td>
-            <div>Панкрат Щур</div>
-        </td>
-        <td>
-            <div>Проектування інтерфейсу</div>
-        </td>
-    </tr>
-
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>17 березня 2015</div>
-        </td>
-        <td>
-            <div>13:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен по циркуляції пива в організмі програміста</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>17 березня 2015</div>
-        </td>
-        <td>
-            <div>21:00</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX для прасок</div>
-        </td>
-    </tr>
-
-    <tr class="imp">
-        <td>
-            <div><?php echo Yii::t('profile', '0133'); ?></div>
-        </td>
-        <td>
-            <div>17 березня 2015</div>
-        </td>
-        <td>
-            <div>21:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX для прасок</div>
-        </td>
-    </tr>
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>19 березня 2015</div>
-        </td>
-        <td>
-            <div>15:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен на право водіння інвалідною коляскою</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>19 березня 2015</div>
-        </td>
-        <td>
-            <div>21:00</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr  class="kdp">
-        <td>
-            <div><?php echo Yii::t('profile', '0134'); ?></div>
-        </td>
-        <td>
-            <div>19 березня 2015</div>
-        </td>
-        <td>
-            <div>21:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr  class="kdp">
-        <td>
-            <div><?php echo Yii::t('profile', '0134'); ?></div>
-        </td>
-        <td>
-            <div>20 березня 2015</div>
-        </td>
-        <td>
-            <div>17:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>20 березня 2015</div>
-        </td>
-        <td>
-            <div>23:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен на право екзаменування</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>20 березня 2015</div>
-        </td>
-        <td>
-            <div>23:30</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr  class="kdp">
-        <td>
-            <div><?php echo Yii::t('profile', '0134'); ?></div>
-        </td>
-        <td>
-            <div>21 березня 2015</div>
-        </td>
-        <td>
-            <div>21:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>21 березня 2015</div>
-        </td>
-        <td>
-            <div>22:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>21 березня 2015</div>
-        </td>
-        <td>
-            <div>23:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен на право водіння дитячою коляскою</div>
-        </td>
-    </tr>
-
-    <tr class="exm">
-        <td>
-            <div><?php echo Yii::t('profile', '0131'); ?></div>
-        </td>
-        <td>
-            <div>22 березня 2015</div>
-        </td>
-        <td>
-            <div>11:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Екзамен на право водіння дитячою коляскою</div>
-        </td>
-    </tr>
-
-    <tr class="consult">
-        <td>
-            <div><?php echo Yii::t('profile', '0132'); ?></div>
-        </td>
-        <td>
-            <div>22 березня 2015</div>
-        </td>
-        <td>
-            <div>21:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-
-    <tr  class="kdp">
-        <td>
-            <div><?php echo Yii::t('profile', '0134'); ?></div>
-        </td>
-        <td>
-            <div>22 березня 2015</div>
-        </td>
-        <td>
-            <div>22:15</div>
-        </td>
-        <td>
-            <div>Лариса Доліна</div>
-        </td>
-        <td>
-            <div>Проектування UI/UIX</div>
-        </td>
-    </tr>
-</table>
-
+<?php
+$alert = 'Ви впевнені, що хочите відмінити консультацію?';
+?>
+<div class="consult">
+    <?php $this->widget('zii.widgets.grid.CGridView', array(
+        'id'=>'consultation-grid',
+        'dataProvider'=>$dataProvider,
+        'emptyText' => 'Запланованих консультацій немає.',
+        'summaryText' => '',
+        'columns'=>array(
+            array(
+                'header'=>Yii::t('profile', '0126'),
+                'value'=>'Yii::t(\'profile\', \'0132\')',
+            ),
+            array(
+                'name'=>'date_cons',
+                'header'=>Yii::t('profile', '0127'),
+            ),
+            array(
+                'name'=>'start_cons',
+                'header'=>Yii::t('profile', '0128'),
+                'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
+            ),
+            array(
+                'header'=>ConsultationsHelper::getUserTitle($user->id),
+                'value'=>'ConsultationsHelper::getUserName(' . $user->id . ',$data)',
+            ),
+            array(
+                'header'=>Yii::t('profile', '0130'),
+                'value'=>'ConsultationsHelper::getTheme($data)',
+            ),
+            array(
+                'class'=>'CButtonColumn',
+                'headerHtmlOptions'=>array('style'=>'width:20px;'),
+                'htmlOptions' => array('style'=>'width:20px'),
+                'buttons'=>array
+                (
+                    'htmlOptions'=>array('display' => 'none'),
+                    'delete' => array(
+                        'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
+                        'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+                        'label' => 'Відмінити консультацію',
+                    ),
+                ),
+                'updateButtonOptions'=> array('style'=>'display:none'),
+                'viewButtonOptions'=> array('style'=>'display:none'),
+                'deleteConfirmation'=>$alert,
+            ),
+        ),
+    )); ?>
+</div>
 <script>
     function changeTabs(n){
         if (n.innerHTML=="<?php echo Yii::t('profile', '0111'); ?>"){
-            $('#timetable .exm').toggle('fast');
+            $('.exm').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0110'); ?>"){
-            $('#timetable .consult').toggle('fast');
+            $('.consult').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0124'); ?>"){
-            $('#timetable .imp').toggle('fast');
+            $('.imp').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
 
         if (n.innerHTML=="<?php echo Yii::t('profile', '0125'); ?>"){
-            $('#timetable .kdp').toggle('fast');
+            $('.kdp').toggle('fast');
             if(n.className=='selectedTab')
                 n.className='unselectedTab';
             else n.className='selectedTab';
         }
     }
 </script>
-
