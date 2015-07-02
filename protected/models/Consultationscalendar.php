@@ -109,6 +109,7 @@ class Consultationscalendar extends CActiveRecord
     /*Визначаєм клас комірки з інтервалом, натиснута чи не натиснута*/
     public static function classTD ($id, $times, $date)
     {
+        date_default_timezone_set('Europe/Kiev');
         $startTime = intval(substr($times, 0, 2))*60 + intval(substr($times, 3, 2));
         if($date == date("Y-m-d")) {
             $start = substr($times, 0, 5);

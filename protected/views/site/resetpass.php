@@ -23,13 +23,13 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regexp', '0264');?>
-        <span class="passEye"> <?php echo $form->passwordField($chForm,'new_password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>255)); ?></span>
+        <span class="passEye"> <?php echo $form->passwordField($chForm,'new_password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
         <span><?php echo $form->error($chForm,'new_password'); ?></span>
     </div>
 
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regexp', '0265');?>
-        <span class="passEye"> <?php echo $form->passwordField($chForm,'new_password_repeat',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>255)); ?></span>
+        <span class="passEye"> <?php echo $form->passwordField($chForm,'new_password_repeat',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
         <span><?php echo $form->error($chForm,'new_password_repeat'); ?></span>
     </div>
     <?php echo CHtml::hiddenField('tokenhid' , $model->token, array('id' => 'hiddenInput')); ?>

@@ -54,14 +54,6 @@ if (!isset($tab)) $tab='';
                 </td>
             </tr>
         </table>
-<!--        <div class="rowRadioButton">-->
-<!--            --><?php //$model->role =0; ?>
-<!--            --><?php //echo $form->labelEx($model,'role'); ?>
-<!--            <div class="radiolabelRole">-->
-<!--                --><?php //echo $form->radioButtonList($model,'role',array(0=>Yii::t('regexp', '0151')), array('separator'=>' '));?>
-<!--            </div>-->
-<!--        </div>-->
-
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
             <label class="tabsUp1" for="tab1" title="Основне">Основне</label>
