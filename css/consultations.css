@@ -246,6 +246,9 @@ div.datetimepicker-minutes{
 .consinf > div .consInfText{
     text-align: left;
 }
+p.consInfText{
+    word-wrap: break-word;
+}
 #consultationButton{
     float:left;
     width: 130px;

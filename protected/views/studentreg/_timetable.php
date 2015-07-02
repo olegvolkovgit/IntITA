@@ -44,19 +44,27 @@ $alert = 'Ви впевнені, що хочите відмінити консу
             array(
                 'name'=>'date_cons',
                 'header'=>Yii::t('profile', '0127'),
+                'type' => 'raw',
+                'htmlOptions'=>array('class'=>'dateColumn'),
             ),
             array(
                 'name'=>'start_cons',
                 'header'=>Yii::t('profile', '0128'),
                 'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
+                'type' => 'raw',
+                'htmlOptions'=>array('class'=>'timeColumn'),
             ),
             array(
                 'header'=>ConsultationsHelper::getUserTitle($user->id),
                 'value'=>'ConsultationsHelper::getUserName(' . $user->id . ',$data)',
+                'type' => 'raw',
+                'htmlOptions'=>array('class'=>'nameColumn'),
             ),
             array(
                 'header'=>Yii::t('profile', '0130'),
                 'value'=>'ConsultationsHelper::getTheme($data)',
+                'type' => 'raw',
+                'htmlOptions'=>array('class'=>'themeColumn'),
             ),
             array(
                 'class'=>'CButtonColumn',
