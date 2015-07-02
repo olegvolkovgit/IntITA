@@ -18,7 +18,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="signIn">
     <div class="rowemail">
         <?php $placeHolderEmail = Yii::t('regform','0014');?>
-        <?php echo $form->textField($eForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($eForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40)); ?>
         <span><?php echo $form->error($eForm,'email'); ?></span>
     </div>
     </br>

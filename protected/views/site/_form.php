@@ -27,13 +27,13 @@
             )); ?>
 			<div class="rowemail">
 				<?php $placeHolderEmail = Yii::t('regform','0014');?>
-				<?php echo $form->textField($model,'email',array('class'=>'signInEmail','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>255)); ?>
+				<?php echo $form->textField($model,'email',array('class'=>'signInEmail','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40)); ?>
 				<?php echo $form->error($model,'email',array('id'=>'emailErr')); ?>
 			</div>
 
 			<div class="rowpass">
 				<?php $placeHolderPassword = Yii::t('regform','0015');?>
-				<span class="passEye"> <?php echo $form->passwordField($model,'password',array('class'=>'signInPass','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>255)); ?></span>
+				<span class="passEye"> <?php echo $form->passwordField($model,'password',array('class'=>'signInPass','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
 				<?php echo $form->error($model,'password',array('id'=>'passErr')); ?>
                 <div class="forminfo">
                     <?php if(Yii::app()->user->hasFlash('forminfo')):
