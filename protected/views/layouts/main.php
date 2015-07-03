@@ -10,7 +10,6 @@ $header = new Header();?>
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
-
     <!-- fonts -->
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/fontface.css"/>
     <!-- fonts -->
@@ -54,7 +53,7 @@ $header = new Header();?>
     <!-- Hamburger menu -->
     <div id="hambNav">
         <div id="hambButton">
-            <?=CHtml::image(Yii::app()->request->baseUrl."/images/hamburger.jpg","Menu")?>
+            <?php CHtml::image(Yii::app()->request->baseUrl."/images/hamburger.jpg","Menu")?>
         </div>
         <div id="hambMenu">
             <a href="<?php echo Yii::app()->request->baseUrl; ?>" class="logo"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Logo_small.png"/></a>

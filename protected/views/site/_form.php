@@ -3,16 +3,11 @@
     $mainpage = new Mainpage();
 ?>
 
-<script src="//ulogin.ru/js/ulogin.js"></script>
-
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/regform.css" />
 <div style="position:relative;"><a name="form" style="position:absolute; top:-60px;"></a></div>
 <div class="regFormBG" >
 	<div class="regFormBox">
-
 		<p class="zagolovok"><?php echo Yii::t('regform','0009'); ?></p>
 		<p class="zagolovok2"><?php echo Yii::t('regform','0010'); ?></p>
-
 		<div class="signInForm">
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'studentreg-form',
@@ -56,7 +51,6 @@
 
 			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
 			<div class="image" >
-                    <script src="//ulogin.ru/js/ulogin.js"></script>
                     <div id="uReg" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo,city;
 								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/sociallogin'?>">
 							<ul id="uLoginImages">
@@ -73,3 +67,6 @@
 		</div><!-- form -->
 	</div>
 </div>
+
+<script src="//ulogin.ru/js/ulogin.js"></script>
+

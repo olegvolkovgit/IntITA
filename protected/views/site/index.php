@@ -2,7 +2,7 @@
 <?php
 /* @var $this SiteController */
 ?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sliderMainpage.js"></script>
+
 <?php $this->renderPartial('_slider');  ?>
 
 <?php
