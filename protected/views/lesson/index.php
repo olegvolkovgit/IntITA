@@ -104,7 +104,7 @@ $this->breadcrumbs=array(
             'id'=>"blocks_list",
         ));
         ?>
-    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => $editMode));?>
 
         </div>
     <!-- lesson footer ----congratulations-->

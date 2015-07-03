@@ -23,7 +23,7 @@
                 <a href="javascript:OpenLatexEditor('newTextBlock','latex','uk_uk', 'false')">Додати формулу</a>
                 <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
-                <input name="order" value="<?php echo($countBlocks + 1); ?>" hidden="hidden">
+<!--                <input name="order" value="--><?php //echo($countBlocks + 1); ?><!--" hidden="hidden">-->
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"
                           placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
                 </textarea>
