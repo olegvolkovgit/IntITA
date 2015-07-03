@@ -168,7 +168,7 @@ class ConsultationscalendarController extends Controller
 	}
 
 
-    public function actionSaveconsultation(){
+    public function actionSaveconsultation($idCourse){
         $date=Yii::app()->getRequest()->getPost('datecons');
         $idteacher=Yii::app()->request->getPost('teacherid');
         $idlecture=Yii::app()->request->getPost('lectureid');
@@ -186,7 +186,7 @@ class ConsultationscalendarController extends Controller
                     $calendar->save();
                     $calendar = new Consultationscalendar();
                 } else {
-                    $this->redirect( array('consultationerror','lecture'=>$idlecture));
+                    $this->redirect( array('consultationerror','lecture'=>$idlecture,'idCourse'=>$idCourse));
                 }
             }
         }
@@ -199,10 +199,10 @@ class ConsultationscalendarController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-    public function actionConsultationError($lecture)
+    public function actionConsultationError($lecture, $idCourse)
     {
         $this->render('consultationerror',array(
-            'lecture'=>$lecture,
+            'lecture'=>$lecture,'idCourse'=>$idCourse
         ));
     }
 }

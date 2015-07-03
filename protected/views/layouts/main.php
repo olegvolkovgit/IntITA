@@ -46,9 +46,6 @@ $header = new Header();?>
     <!-- Horizontal header Scroll -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
 
-    <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/hamburgerMenu.css" />
-
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 

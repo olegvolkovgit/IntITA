@@ -24,6 +24,9 @@ div.subLinks{
 .lessonBlock p{
     font-size: 16px;
 }
+.instrTaskText  p{
+    margin-left: 30px;
+}
 .lessonBlock h3{
     margin-top: 20px;
 }

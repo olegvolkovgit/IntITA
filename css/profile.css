@@ -288,8 +288,9 @@ table.timeTable tr:first-child td{
 .timeTable tr:first-child td{
     border-top: none;
 }
-
-
+div#consultation-grid.grid-view td{
+    max-width: 250px;
+}
 #consultation-grid table.items{
     margin-top: 10px;
     font-size: 14px;
@@ -302,7 +303,7 @@ table.timeTable tr:first-child td{
     border-right: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
     border-bottom: 1px solid #cccccc;
-    padding: 5px 0 5px 0;
+    padding: 5px 5px 5px 5px;
 }
 #consultation-grid table.items thead th, #consultation-grid table.items thead th a{
     color:#999999;
@@ -328,9 +329,6 @@ table.timeTable tr:first-child td{
 #consultation-grid table.items tr > td:first-child{
     white-space: nowrap;
 }
-#consultation-grid table.items tr:first-child div {
-    border: none;
-}
 #consultation-grid table.items tr:first-child td{
     border-top: none;
 }
@@ -342,6 +340,27 @@ table.timeTable tr:first-child td{
 }
 #consultation img{
     display: block;
+}
+#consultation-grid table.items tr td:first-child {
+    width: 1%;
+    white-space: nowrap;
+}
+#consultation-grid table.items td.dateColumn{
+    width:70px;
+    white-space: nowrap;
+}
+#consultation-grid table.items td.timeColumn{
+    width:70px;
+    white-space: nowrap;
+}
+#consultation-grid table.items td.nameColumn{
+    width:150px;
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+#consultation-grid table.items td.themeColumn{
+    width:250px;
+    word-wrap: break-word;
 }
 .selectedTab {
     text-decoration: none;

@@ -61,7 +61,7 @@
                     <!--Інформативна форма після вибору консультації-->
                     <div class="consinf">
                         <div id="<?php echo 'consultationInfo'.$data['teacher_id']?>">
-                            <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation');?>" method="post">
+                            <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation',array('idCourse'=>$idCourse));?>" method="post">
                                 <p class="consInfHeader">
                                     Вітаємо!
                                 </p>
