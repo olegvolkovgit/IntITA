@@ -80,8 +80,8 @@ $this->breadcrumbs=array(
                 for($i=0; $i<count($summary);$i++){
                 ?>
                 <p>
-                    <a href="#<?php echo $summary[$i];?>">
-                        <?php echo $summary[$i];?>
+                    <a href="#<?php echo strip_tags($summary[$i]);?>">
+                        <?php echo strip_tags($summary[$i]);?>
                     </a>
                 </p>
                 <?php
