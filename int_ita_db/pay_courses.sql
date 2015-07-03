@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-02 17:19:21
+-- Date/time:                    2015-07-03 15:51:19
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~4 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~3 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
 INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(38, 1, 1),

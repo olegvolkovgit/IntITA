@@ -106,10 +106,10 @@ if ($editMode) {
             success: function(data, code){
                 if (code==200){
                     $('#code').html(data); // запрос успешно прошел
-                    alert(data);
+                    //alert(data);
                 }else{
                     $('#code').html(code); // возникла ошибка, возвращаем код ошибки
-                    alert(code);
+                    //alert(code);
                 }
                 $('.code').html('Your code: '+data.code); // данные которые вернул сервер!
             },

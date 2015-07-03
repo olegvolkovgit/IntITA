@@ -7,13 +7,8 @@
  */
 $temp = substr($data['html_block'], 2, count($data['html_block']) - 5);
 $formulaCode = addcslashes($temp, '\\');
-//var_dump($formulaCode);die();
 
 ?>
-<head>
-    <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
-</head>
-
     <div class="element">
         <?php $this->renderPartial('_editToolbar', array(
             'idLecture' => $data['id_lecture'],
