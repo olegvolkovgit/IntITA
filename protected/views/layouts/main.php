@@ -203,8 +203,8 @@ $header = new Header();?>
             </ul>
         </div>
         <div id="logo2" class="down">
-            <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                <img  src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
+            <a href="<?php //echo Yii::app()->request->baseUrl;?>">
+                <img  src="<?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
             </a>
         </div>
         <div id="hamburgerLang">
@@ -219,23 +219,23 @@ $header = new Header();?>
 <div id="hamburgerMainBox">
     <div id="hamburgerSubBox">
         <div class="hamburgerBox">
-            <a class="hamburgerLink" href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a>
+            <a class="hamburgerLink" href="<?php //echo $this->link1; ?>"><?php //echo Yii::t('header','0016'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link2; ?>"><?php ///echo Yii::t('header','0021'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link3; ?>"><?php //echo Yii::t('header','0017'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link4; ?>"><?php //echo Yii::t('header','0018'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox2">
-            <a id="hamburgerEnterButton" href="<?php echo Yii::app()->request->baseUrl;?>#form"><?php echo $header->getEnterButton(); ?></a>
+            <a id="hamburgerEnterButton" href="<?php //echo Yii::app()->request->baseUrl;?>#form"><?php //echo $header->getEnterButton(); ?></a>
         </div>
     </div>
 </div>

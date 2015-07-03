@@ -282,4 +282,18 @@ class LessonController extends Controller{
         $this->render('formulaRedactor');
     }
 
+    public function actionShowTaskAnswer(){
+        sleep(1);
+        $data = array(
+            'operation' => 'send',
+            'session' => '123456789044241232',
+            'jobid' => 5,
+            'code' => 'std::cout << \"Hello World!\" << std::endl;',
+            'task' => 2,
+            'lang' => 'c++',
+        );
+
+        echo json_encode($data);
+    }
+
 }
