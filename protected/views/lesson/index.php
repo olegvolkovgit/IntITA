@@ -2,8 +2,6 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lectureStyles.css" />
 
-
-
 <!-- Spoiler -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
@@ -70,19 +68,7 @@ $this->breadcrumbs=array(
         <?php }?>
 
         <!-- Lesson content-->
-        <?php
-
-        $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$dataProvider,
-            'itemView'=>'_content',
-            'summaryText' => '',
-            'viewData' => array('editMode' => $editMode),
-            'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',
-            'pagerCssClass'=>'YiiPager',
-            'ajaxUpdate' => true,
-            'id'=>"blocks_list",
-        ));
-        ?>
+        <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
     <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
 
         </div>
@@ -168,5 +154,6 @@ $this->breadcrumbs=array(
 <!--Load Redactor-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
+
 
 
