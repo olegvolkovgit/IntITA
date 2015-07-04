@@ -63,7 +63,18 @@
                     <div class="courseLang">
                         <?php echo Yii::t('courses', '0069'); ?>
                         <a id="coursesLangs"
-                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php echo $val->language; ?></a>
+                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php echo $val->language; ?>
+                        </a>
+                        <?php if(isset($coursesLangs[$val->course_ID]['ru'])){?>
+                        <a id="coursesLangs"
+                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>">ru
+                        </a>
+                        <?php }
+                        if(isset($coursesLangs[$val->course_ID]['en'])){?>
+                        <a id="coursesLangs"
+                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>">en
+                        </a>
+                        <?php }?>
                     </div>
                     <!--Вартість курсу-->
 

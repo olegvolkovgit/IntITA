@@ -113,10 +113,10 @@ class CourseLanguages extends CActiveRecord
             if (CourseLanguages::model()->exists('lang_ua=:idCourse', array('idCourse' => $coursesUA[$i]['course_ID']))){
                 $model = CourseLanguages::model()->findByAttributes(array('lang_ua'=>$coursesUA[$i]['course_ID']));
                 if ($model->lang_ru){
-                    $result[$i]['ru'] = $model->lang_ru;
+                    $result[$model->lang_ua]['ru'] = $model->lang_ru;
                 }
                 if ($model->lang_en){
-                    $result[$i]['en'] = $model->lang_en;
+                    $result[$model->lang_ua]['en'] = $model->lang_en;
                 }
             }
         }

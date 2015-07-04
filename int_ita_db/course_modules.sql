@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 10:31:46
+-- Date/time:                    2015-07-04 11:06:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -49,27 +49,7 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(3, 1, 1),
 	(3, 2, 2),
 	(3, 3, 3),
-	(1, 61, 16),
-	(15, 62, 1),
-	(15, 63, 2),
-	(15, 64, 3),
-	(15, 65, 4),
-	(15, 66, 5),
-	(15, 67, 6),
-	(15, 68, 7),
-	(15, 69, 8),
-	(15, 70, 9),
-	(15, 71, 10),
-	(15, 72, 11),
-	(15, 73, 12),
-	(15, 74, 13),
-	(15, 75, 14),
-	(16, 76, 1),
-	(16, 77, 2),
-	(16, 78, 3),
-	(17, 79, 1),
-	(17, 80, 2),
-	(17, 81, 3);
+	(1, 61, 16);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

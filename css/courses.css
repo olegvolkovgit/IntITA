@@ -185,7 +185,7 @@
 }
 a#coursesLangs {
     background:none!important;
-    border:none;
+    border-left: 1px solid #999999;
     cursor: pointer;
     color: #4b70a4;
     font-size: 14px;
@@ -193,6 +193,7 @@ a#coursesLangs {
     font-family: "MyriadPro";
     text-decoration: none; !important;
     position:relative;
+    padding-left: 8px;
 }
 #coursesLang .selectedLang,#coursesLangs .selectedLang {
     text-decoration: none;
@@ -208,9 +209,9 @@ a#coursesLangs {
     position: relative;
     float: left;
 }
-#coursesLangs #ru {
-    border-left: 1px solid #999999;
-    padding-left: 8px;
+.courseLang  a#coursesLangs:first-child{
+    border: none;
+
 }
 .coursesline1  img {
     height: 3px;

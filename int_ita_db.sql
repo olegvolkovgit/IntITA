@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 10:31:40
+-- Date/time:                    2015-07-04 11:06:45
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   UNIQUE KEY `course_name` (`course_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
--- Dumping data for table int_ita_db.course: ~12 rows (approximately)
+-- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `rating`) VALUES
 	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
@@ -263,10 +263,10 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 	(7, 'QA', 'ua', 'Тестувальник (QA)', 'senior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course7Image.png', 6),
 	(13, 'english', 'ua', 'Англійська мова для ІТ', 'middle', '2015-12-30', 0, 3, 60, 2500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 6),
 	(14, 'career', 'ua', 'Побудова успішної ІТ кар’єри', 'senior', '2015-12-30', 0, 3, 0, 0, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', '', '', 'course3Image.png', 1),
-	(15, 'coursePhpRU', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, 14, 0, 3000, '', '', '', 'course1Image.png', NULL),
-	(16, 'englishRU', 'ru', 'Английский язык для ІТ', 'middle', '2015-12-30', 0, 3, 0, 4500, '', '', '', 'course1Image.png', NULL),
-	(17, 'careerRU', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, 3, 0, 0, '', '', '', 'course1Image.png', NULL),
-	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL);
+	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
+	(19, '', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, NULL, 0, 6200, '', '', '', 'course1Image.png', NULL),
+	(20, '', 'ru', 'Английский язык для ИТ', 'middle', '2015-12-30', 0, NULL, 0, 5600, '', '', '', 'course1Image.png', NULL),
+	(21, '', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -285,10 +285,12 @@ CREATE TABLE IF NOT EXISTS `course_languages` (
   CONSTRAINT `FK_course_languages_course_2` FOREIGN KEY (`lang_ua`) REFERENCES `course` (`course_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Table for connecting similar courses on different languages.';
 
--- Dumping data for table int_ita_db.course_languages: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.course_languages: ~3 rows (approximately)
 /*!40000 ALTER TABLE `course_languages` DISABLE KEYS */;
 INSERT INTO `course_languages` (`id`, `lang_ua`, `lang_ru`, `lang_en`) VALUES
-	(1, 1, 15, 0);
+	(3, 1, 19, 0),
+	(4, 14, 21, 0),
+	(6, 13, 20, 0);
 /*!40000 ALTER TABLE `course_languages` ENABLE KEYS */;
 
 
@@ -304,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~45 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~25 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -331,27 +333,7 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(3, 1, 1),
 	(3, 2, 2),
 	(3, 3, 3),
-	(1, 61, 16),
-	(15, 62, 1),
-	(15, 63, 2),
-	(15, 64, 3),
-	(15, 65, 4),
-	(15, 66, 5),
-	(15, 67, 6),
-	(15, 68, 7),
-	(15, 69, 8),
-	(15, 70, 9),
-	(15, 71, 10),
-	(15, 72, 11),
-	(15, 73, 12),
-	(15, 74, 13),
-	(15, 75, 14),
-	(16, 76, 1),
-	(16, 77, 2),
-	(16, 78, 3),
-	(17, 79, 1),
-	(17, 80, 2),
-	(17, 81, 3);
+	(1, 61, 16);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 
 
@@ -363,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~11 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -447,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `header` (
   PRIMARY KEY (`headerID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.header: ~3 rows (approximately)
+-- Dumping data for table int_ita_db.header: ~2 rows (approximately)
 /*!40000 ALTER TABLE `header` DISABLE KEYS */;
 INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
 	(0, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus'),
@@ -588,7 +570,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~34 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
@@ -721,7 +703,7 @@ CREATE TABLE IF NOT EXISTS `letters` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.letters: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.letters: ~1 rows (approximately)
 /*!40000 ALTER TABLE `letters` DISABLE KEYS */;
 INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`, `date`, `status`) VALUES
 	(1, 22, 38, 'Заняття 4', 'Привіт1', '2015-06-21 21:36:58', 1);
@@ -761,7 +743,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', 'line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', 'hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', 'networking.png', 'formFon.png');
@@ -780,7 +762,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -2337,7 +2319,7 @@ CREATE TABLE IF NOT EXISTS `module_languages` (
   CONSTRAINT `FK_module_languages_course_2` FOREIGN KEY (`lang_ru`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module_languages: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.module_languages: ~10 rows (approximately)
 /*!40000 ALTER TABLE `module_languages` DISABLE KEYS */;
 INSERT INTO `module_languages` (`id`, `lang_ua`, `lang_ru`, `lang_en`) VALUES
 	(1, 1, 62, 0),
@@ -2380,7 +2362,7 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~3 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~4 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
 INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(38, 1, 1),
@@ -2402,7 +2384,7 @@ CREATE TABLE IF NOT EXISTS `pay_modules` (
   CONSTRAINT `FK_pay_modules_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for modules: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_modules: ~27 rows (approximately)
+-- Dumping data for table int_ita_db.pay_modules: ~28 rows (approximately)
 /*!40000 ALTER TABLE `pay_modules` DISABLE KEYS */;
 INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(38, 1, 3),
@@ -3109,7 +3091,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_acl_users` (
   KEY `auth_role_id` (`auth_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_acl_users: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_acl_users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_acl_users` DISABLE KEYS */;
 INSERT INTO `phpbb_acl_users` (`user_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
 	(2, 0, 0, 5, 0);
@@ -3863,7 +3845,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums_track` (
   PRIMARY KEY (`user_id`,`forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_forums_track: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_forums_track: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_forums_track` DISABLE KEYS */;
 INSERT INTO `phpbb_forums_track` (`user_id`, `forum_id`, `mark_time`) VALUES
 	(2, 2, 1433430287);
@@ -4860,7 +4842,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');
@@ -5033,7 +5015,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordmatch` (
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~70 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~77 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUES
 	(1, 1, 0),
@@ -5254,7 +5236,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');
@@ -5490,7 +5472,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_group` (
   KEY `group_leader` (`group_leader`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_group: ~49 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_group: ~51 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_group` DISABLE KEYS */;
 INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pending`) VALUES
 	(1, 1, 0, 0),
@@ -5557,7 +5539,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_notifications` (
   `notify` tinyint(1) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_notifications: ~184 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_notifications: ~188 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_user_notifications` (`item_type`, `item_id`, `user_id`, `method`, `notify`) VALUES
 	('notification.type.post', 0, 2, '', 1),
@@ -5923,7 +5905,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
--- Dumping data for table int_ita_db.role_attribute: ~9 rows (approximately)
+-- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
 INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`) VALUES
 	(1, 'capacity', 1, 'int', 'Количество студентов', 'Кількість студентів'),
@@ -5946,7 +5928,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~381 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~429 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6430,7 +6412,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
+-- Dumping data for table int_ita_db.teacher: ~7 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `user_id`, `rating`) VALUES
 	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала</p><p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards</p><p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).</p><p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br></p><p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.</p><p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила</p><p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,</p><p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого</p><p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,</p><p>                    що не подобалося її батькам і що вони їй забороняли.<br></p><p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:</p><ul>	<li>оказании полезных услуг горизонтального характера;</li>	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>	<li>позитивное обучение швейного мастерства;</li></ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', 6, 7, 7, 38, 7),
@@ -6454,7 +6436,7 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   KEY `FK_teacher_module_module` (`idModule`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~30 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~26 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -6499,7 +6481,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~23 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~29 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
@@ -6545,7 +6527,7 @@ CREATE TABLE IF NOT EXISTS `trainer_student` (
   CONSTRAINT `FK_trainer_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.trainer_student: ~6 rows (approximately)
+-- Dumping data for table int_ita_db.trainer_student: ~7 rows (approximately)
 /*!40000 ALTER TABLE `trainer_student` DISABLE KEYS */;
 INSERT INTO `trainer_student` (`trainer`, `student`) VALUES
 	(1, 55),
@@ -6594,7 +6576,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~22 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~23 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`) VALUES
 	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
