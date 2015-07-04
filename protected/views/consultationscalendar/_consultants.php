@@ -65,9 +65,8 @@
                                 <p class="consInfHeader">
                                     Вітаємо!
                                 </p>
-                                <p class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>">
-                                    у Вас буде запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $data['last_name']." ".$data['first_name']." ".$data['middle_name'];?>. Для підтвердження натисніть "Добре".
-                                </p>
+                                <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value=" у Вас буде запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $data['last_name']." ".$data['first_name']." ".$data['middle_name'];?>. Для підтвердження натисніть 'Добре'." />
+                                <p class='consInfText' id="<?php echo 'constext'.$data['teacher_id']?>"></p>
                                 <input type="hidden" id="<?php echo 'datecons'.$data['teacher_id']?>" name="datecons" />
                                 <input type="hidden" id="<?php echo 'timecons'.$data['teacher_id']?>" name="timecons" />
                                 <input type="hidden"  name="teacherid" value="<?php echo $data['teacher_id']; ?>" />
