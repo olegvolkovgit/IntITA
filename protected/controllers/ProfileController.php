@@ -40,6 +40,10 @@ class ProfileController extends Controller
             $response->about = $teacher->user_id;
             $response->date = date("Y-m-d H:i:s");
             $response->text = $response->bbcode_to_html($_POST['Response']['text']);
+            $str = trim($_POST['Response']['text'], chr(194).chr(160).chr(32)." \t\n\r\0\x0B");
+            if( $str==''){
+                $response->text=NULL;
+            }
             if ($response->validate())
             {
                 if($teacherRat && $teacherRat->knowledge==$_POST['Response']['knowledge'] && $teacherRat->behavior==$_POST['Response']['behavior'] && $teacherRat->motivation==$_POST['Response']['motivation']){
