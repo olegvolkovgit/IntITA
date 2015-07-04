@@ -262,6 +262,10 @@ div.lessonButFinal
     z-index: 1;
     width: 33%;
 }
+#sidebarLesson div.titlesBlock
+{
+    width: 390px;
+}
 #sidebarLesson p{
     margin-left: 100px;
 }
