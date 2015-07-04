@@ -2,36 +2,13 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lectureStyles.css" />
 
-<!-- lesson style -->
-<!-- Підсвітка синтаксису-->
-<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shCoreEclipse.css'>
-<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shThemeEclipse.css'>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/XRegExp.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type='text/javascript'>SyntaxHighlighter.all();</script>
-<!-- Підсвітка синтаксису -->
-<!-- Підключення BBCode WysiBB -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
-
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/BBCode.js"></script>
-<!-- Підключення BBCode WysiBB -->
 <!-- Spoiler -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
 <!--Sidebar-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
-<!--Font Awesome-->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<!--Font Awesome-->
-<!--Load Redactor-->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
-<!--Load Redactor-->
+
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
     order = 1;
@@ -91,20 +68,8 @@ $this->breadcrumbs=array(
         <?php }?>
 
         <!-- Lesson content-->
-        <?php
-
-        $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$dataProvider,
-            'itemView'=>'_content',
-            'summaryText' => '',
-            'viewData' => array('editMode' => $editMode),
-            'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',
-            'pagerCssClass'=>'YiiPager',
-            'ajaxUpdate' => true,
-            'id'=>"blocks_list",
-        ));
-        ?>
-    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => $editMode));?>
+        <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
 
         </div>
     <!-- lesson footer ----congratulations-->
@@ -150,7 +115,7 @@ $this->breadcrumbs=array(
 //$this->endWidget('zii.widgets.jui.CJuiDialog');
 //?>
 <!--<!--modal task ---error-->
-
+</div>
 
 <script type="text/javascript">
     function enableLessonEdit(){
@@ -166,5 +131,29 @@ $this->breadcrumbs=array(
         document.getElementById('blockForm').style.display = 'block';
     }
 </script>
-</div>
+
+<!-- lesson style -->
+<!-- Підсвітка синтаксису-->
+<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shCoreEclipse.css'>
+<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shThemeEclipse.css'>
+<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/XRegExp.js'></script>
+<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
+<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
+<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type='text/javascript'>SyntaxHighlighter.all();</script>
+<!-- Підсвітка синтаксису -->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
+<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
+
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/BBCode.js"></script>
+<!--Font Awesome-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<!--Font Awesome-->
+<!--Load Redactor-->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+<!--Load Redactor-->
+
+
 

@@ -245,7 +245,7 @@ class SiteController extends Controller
             mysql_close();
 
 //        unset($_COOKIE["user_id_transition"]);
-            setCookie("user_id_transition", null, time() - 10, "/", "intita");
+            setCookie("user_id_transition", null, time() - 10, "/");
         }
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);

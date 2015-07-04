@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-01 19:23:38
+-- Date/time:                    2015-07-03 15:51:20
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,11 +23,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
-INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('3cca7d06fa5bfda88f01443639df6ab0', '9272e4a226b7efc6093a0af4604053b1', 3, '33W6SG', 279339011, 0),
-	('8a85864223fad83e17d3c38a5cc3c1e9', '9272e4a226b7efc6093a0af4604053b1', 3, '6RAJL', 1745595066, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

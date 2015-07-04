@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-01 19:23:44
+-- Date/time:                    2015-07-03 15:51:26
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -420,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `consultationscalendar` (
   `start_cons` time DEFAULT NULL,
   `end_cons` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.consultationscalendar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `consultationscalendar` DISABLE KEYS */;
@@ -476,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~24 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~25 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -502,7 +502,8 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(14, 60, 3),
 	(3, 1, 1),
 	(3, 2, 2),
-	(3, 3, 3);
+	(3, 3, 3),
+	(1, 61, 16);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 
 
@@ -814,7 +815,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~45 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~39 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -845,21 +846,15 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(45, 1, 22, 'text', 1, '<p>y6</p>'),
 	(46, 1, 23, 'text', 1, '<iframe style="width: 500px; height: 281px;" src="//www.youtube.com/embed/9eiRmWLcASw" frameborder="0" allowfullscreen=""></iframe>'),
 	(47, 1, 24, 'video', 2, '//www.youtube.com/embed/9eiRmWLcASw"'),
-	(56, 2, 2, 'text', 1, '/images/lecture/2139e6cb5c89529517e7c5ae47c49763.jpg'),
-	(57, 2, 3, 'image', 9, '/images/lecture/29ce2affb5bdaa6c330f9ed52d0cf64a.jpg"></p'),
-	(58, 2, 4, 'text', 1, '<p><img src="/images/lecture/f410fd7420bfa6c526e0fab647e3e484.jpg"></p>'),
-	(59, 2, 5, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
-	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
-	(67, 2, 9, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\varepsilon \\mathbb{P}\\Re \\mathbb{I}\\mathbb{R}}\\]\r\n'),
-	(68, 2, 10, 'formula', 10, '\\[{\\color{Cyan} \\gamma \\rho \\mu \\mu \\tau }\\]\r\n'),
-	(70, 2, 11, 'formula', 10, '\\[{\\color{Cyan} \\pm \\cap \\sqcup \\triangleleft \\circ \\square \\blacksquare \\triangledown \\bullet \\blacktriangle }\\]\r\n'),
-	(76, 2, 10, 'text', 1, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im \\Re \\jmath \\Cup \\!\\]\r\n'),
-	(77, 2, 11, 'text', 1, '\\[\\varepsilon \\vartheta \\rho {\\color{Red} \\varsigma \\varpi \\vartheta \\varepsilon }\\]\r\n'),
-	(78, 2, 12, 'table', 11, '<table><tbody><tr><td>gsrg</td><td></td><td>gdrg</td></tr><tr><td></td><td>gdrgs</td><td>grdg</td></tr><tr><td>gdrgs</td><td></td><td>gdg</td></tr><tr><td>fsefsg</td><td></td><td>fsdfs</td></tr><tr><td></td><td>fsfs</td><td>gdrg</td></tr></tbody></table>'),
-	(79, 48, 1, 'formula', 10, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n'),
+	(56, 2, 3, 'text', 1, '/images/lecture/2139e6cb5c89529517e7c5ae47c49763.jpg'),
+	(57, 2, 2, 'image', 9, '/images/lecture/29ce2affb5bdaa6c330f9ed52d0cf64a.jpg"></p'),
+	(59, 2, 4, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
+	(60, 2, 5, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
+	(76, 2, 8, 'formula', 10, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im \\Re \\Cup \\!\\]\r\n'),
+	(79, 48, 1, 'text', 1, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n'),
 	(80, 1, 25, 'text', 1, '<p><span class="highLT">&lt;</span><span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span></p><p><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></p><p><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></p><p><span class="redactor-invisible-space"><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></span></p>'),
-	(81, 2, 13, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
-	(82, 2, 14, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
+	(81, 2, 6, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
+	(82, 2, 7, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
@@ -3634,12 +3629,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'd51688450bfa6f0fa23411439b20d4fd', 1),
-	('rand_seed_last_update', '1435676183', 1),
+	('rand_seed', '5bf8ab897c53b62455aca219c37472cf', 1),
+	('rand_seed_last_update', '1435846884', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1435668117', 1),
+	('read_notification_last_gc', '1435775113', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),
@@ -3660,7 +3655,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1435671745', 1),
+	('session_last_gc', '1435846886', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -3720,11 +3715,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
-INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('3cca7d06fa5bfda88f01443639df6ab0', '9272e4a226b7efc6093a0af4604053b1', 3, '33W6SG', 279339011, 0),
-	('8a85864223fad83e17d3c38a5cc3c1e9', '9272e4a226b7efc6093a0af4604053b1', 3, '6RAJL', 1745595066, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 
 
@@ -5251,7 +5243,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
 -- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('9272e4a226b7efc6093a0af4604053b1', 1, 1435667982, 1435667982, 1435676182, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
+	('0071172900f6951b880db920688d4cf4', 1, 1435846883, 1435846883, 1435846883, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -5582,7 +5574,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '03a732bb1768764b', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b6dedcb3380ce50d', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430287, 0, 1433429758, 'viewtopic.php?f=2&p=4&t=3', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(48, 0, 2, '00000000001qccftm0\ni1cjyo000000\nqlaq53000000', 0, '::1', 1433430175, 'Ivanna', 'ivanna', '$2y$10$YrMGyqi8ZQ6BN1cf0UzfZ.LgX1Na4vdzIBLYspxUgo6BcdiW715fa', 1433430175, 'vnnchkh@gmail.com', 328510056717, '', 1433430246, 1433430175, 1433430237, '', '', 0, 0, 0, 0, 0, 0, 1, 'uk', 'Europe/Kiev', 'D M d, Y g:i a', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '02c7d053ef52557c', 1, 0, 0);
 /*!40000 ALTER TABLE `phpbb_users` ENABLE KEYS */;

@@ -10,7 +10,6 @@ $header = new Header();?>
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
-
     <!-- fonts -->
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/fontface.css"/>
     <!-- fonts -->
@@ -24,7 +23,7 @@ $header = new Header();?>
     <!-- steps style -->
     <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/css/images/favicon.ico" type="image/x-icon"/>
     <!-- jQuery -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery-1.8.3.js"></script>
     <!-- jQuery -->
     <!-- carousel-plugins -->
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
@@ -54,7 +53,7 @@ $header = new Header();?>
     <!-- Hamburger menu -->
     <div id="hambNav">
         <div id="hambButton">
-            <?=CHtml::image(Yii::app()->request->baseUrl."/images/hamburger.jpg","Menu")?>
+            <?php CHtml::image(Yii::app()->request->baseUrl."/images/hamburger.jpg","Menu")?>
         </div>
         <div id="hambMenu">
             <a href="<?php echo Yii::app()->request->baseUrl; ?>" class="logo"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Logo_small.png"/></a>
@@ -200,8 +199,8 @@ $header = new Header();?>
             </ul>
         </div>
         <div id="logo2" class="down">
-            <a href="<?php echo Yii::app()->request->baseUrl;?>">
-                <img  src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
+            <a href="<?php //echo Yii::app()->request->baseUrl;?>">
+                <img  src="<?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>"/>
             </a>
         </div>
         <div id="hamburgerLang">
@@ -216,23 +215,23 @@ $header = new Header();?>
 <div id="hamburgerMainBox">
     <div id="hamburgerSubBox">
         <div class="hamburgerBox">
-            <a class="hamburgerLink" href="<?php echo $this->link1; ?>"><?php echo Yii::t('header','0016'); ?></a>
+            <a class="hamburgerLink" href="<?php //echo $this->link1; ?>"><?php //echo Yii::t('header','0016'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link2; ?>"><?php echo Yii::t('header','0021'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link2; ?>"><?php ///echo Yii::t('header','0021'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link3; ?>"><?php echo Yii::t('header','0017'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link3; ?>"><?php //echo Yii::t('header','0017'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox">
-            <a  class="hamburgerLink" href="<?php echo $this->link4; ?>"><?php echo Yii::t('header','0018'); ?></a>
+            <a  class="hamburgerLink" href="<?php //echo $this->link4; ?>"><?php //echo Yii::t('header','0018'); ?></a>
         </div>
         <div class="hamburgerLine"></div>
         <div class="hamburgerBox2">
-            <a id="hamburgerEnterButton" href="<?php echo Yii::app()->request->baseUrl;?>#form"><?php echo $header->getEnterButton(); ?></a>
+            <a id="hamburgerEnterButton" href="<?php //echo Yii::app()->request->baseUrl;?>#form"><?php //echo $header->getEnterButton(); ?></a>
         </div>
     </div>
 </div>

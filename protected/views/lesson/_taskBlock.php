@@ -25,14 +25,11 @@
         <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
             <?php echo $data['html_block'];?>
             </div>
-            <form class="sendAnswer" onclick="sendTaskAnswer()">
-                <input type="hidden" name="operation" value="send">
-                <input type="hidden" name="session" value="123456789044241232">
-                <input type="hidden" name="task" value="2">
-                <input type="hidden" name="lang" value="c++">
-                <textarea name="code" ></textarea>
-                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
+            <form method="post" class="sendAnswer" id="sendAnswer" action="#">
+                <textarea name="code" id="code" value='std::cout << \"Hello World!\" << std::endl;'> </textarea>
+                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" onclick="test()">
             </form>
+            <div id="content1"></div>
         </div>
     </div>
 </div>
@@ -76,26 +73,56 @@ if ($editMode) {
     ));
 }
 ?>
-
 <script type="text/javascript">
-    function sendTaskAnswer() {
-        JSONRequest.post(
-            "http://ii.itatests.com",
-            {
-                "operation": "send",
-                "session": "123456789044241232",
-                "jobid": 5,
-                "code": " std::cout << \"Hello World!\" << std::endl;",
-                "task": 2,
-                "lang": "c++"
-            },
-            function (requestNumber, value, exception) {
-                if (value) {
-                    processResponse(value);
-                } else {
-                    processError(exception);
+//    $(function() {
+//        $("#sendAnswer").submit(function() {
+//            $.ajax({
+//                url: 'http://ii.itatests.com',
+//                type: 'POST',
+//                dataType:"json",
+//                data: {
+//                    "operation" : "status",
+//                    "session" : "123456789044241232",
+//                    "jobid" : 1
+//                }
+//            });
+//        });
+//    });
+    function test() {
+        cart = {
+            "operation" : "status",
+            "session" : "123456789044241232",
+            "jobid" : 1
+        };
+        alert ( JSON.stringify( cart ) );
+
+        $.ajax({
+            type: "POST",
+            url: "http://ii.itatests.com",
+            dataType: "json",
+            data: cart,
+            beforesend: $('.content1').html('Загрузка'),
+
+            success: function(data, code){
+                if (code==200){
+                    $('#code').html(data); // запрос успешно прошел
+                    //alert(data);
+                }else{
+                    $('#code').html(code); // возникла ошибка, возвращаем код ошибки
+                    //alert(code);
                 }
+                $('.code').html('Your code: '+data.code); // данные которые вернул сервер!
+            },
+
+            error:  function(xhr, str){
+                $('.code').html('Критическая ошибка');
+            },
+
+            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
+                $('#something').hide(); //например, спрятали какую-то кнопочку, которая вызывала запрос
             }
-        );
+
+        });
+
     }
 </script>

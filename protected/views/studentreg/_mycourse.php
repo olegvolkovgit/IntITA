@@ -16,14 +16,12 @@
     <p class="courseLevLang"><?php echo Yii::t('courses', '0069'); ?><span class="colorP"><?php echo Yii::t('profile', '0136'); ?></span></p>
 </div>
 
-
 <div class="profileModule">
     <p><?php echo Yii::t('lecture', '0072'); ?></br> <a href="<?php echo Yii::app()->request->baseUrl; ?>/module/index/?idModule=1&idCourse=1"><span class="colorP">Модуль 4. Модульне око, модульний ніс</span></a></p>
 </div>
 <div class="profileLesson">
     <p><?php echo Yii::t('lecture', '0073'); ?></br> <a href="<?php echo Yii::app()->request->baseUrl; ?>/lesson/index/1/?idCourse=1"><span class="colorP">Заняття 6. Повторіння мать учіння</span></a></p>
 </div>
-
 
 <div style="border-bottom:none" class="profileCourse">
     <table>

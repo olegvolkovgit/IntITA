@@ -5403,7 +5403,7 @@
 
 					this.link.getData();
 					this.link.cleanUrl();
-
+                    this.link.target == '_blank';
 					if (this.link.target == '_blank') $('#redactor-link-blank').prop('checked', true);
 
 					this.link.$inputUrl = $('#redactor-link-url');
@@ -5505,7 +5505,7 @@
 						}
 					}
 
-					this.link.set(text, link, target);
+					this.link.set(text, link, '_blank');
 					this.modal.close();
 				},
 				set: function(text, link, target)
