@@ -75,44 +75,45 @@ if ($editMode) {
 ?>
 <script type="text/javascript">
     function test() {
+        var cart = {
+            "operation": "result",
+            "session" : "1241q223f4f2341",
+            "jobid" : 11212,
+            "code" : "int k =5;",
+            "task": 1,
+            "lang": "c++"
+        };
         $.ajax({
             type: "POST",
             url: "http://ii.itatests.com",
-            dataType: 'JSON',
-            data: {
-                "operation": "result",
-                "session" : "1241q223f4f2341",
-                "jobid" : 11212,
-                "code" : "std::cout << \"Hello World!\" << std::endl;",
-                "task": 1,
-                "lang": "c++"
-            },
+            dataType: 'json',
+            data: JSON.stringify(cart),
 
             success: function(data, code){
-                if (code==204){
+                if (code==200){
                     //$('#code').html(code); // запрос успешно прошел
-                    alert(data);
+                    alert(code);
                 }else{
                     alert(code);
-                    //$('#code').html(code); // возникла ошибка, возвращаем код ошибки
+                    $('#code').html(code); // возникла ошибка, возвращаем код ошибки
                 }
-                $('.code').html('Your code: '+data.code); // данные которые вернул сервер!
+                $('#code').html('Your code: '+data.code); // данные которые вернул сервер!
             },
 
             error: function(xhr, str){
                 $('#code').html('Критическая ошибка');
-
-                $.getJSON("http://ii.itatests.com", function(result, status, xhr){
-                    alert(status);
-                });
                 alert(str);
             },
 
             complete:  function(){ //а тут ничего из предложенных параметров не берем :)
+                $.getJSON("http://ii.itatests.com", function(data) {
+                    $.each(data, function(key, val) {
+                        $('#code').append('<option value="' + val + '">' + key + '</option>');
+                    });
+                });
 
+                alert('Complete');
             }
-
         });
-
     }
 </script>

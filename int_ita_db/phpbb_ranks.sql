@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 11:11:04
+-- Date/time:                    2015-07-05 00:14:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');

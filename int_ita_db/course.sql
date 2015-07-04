@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 11:11:03
+-- Date/time:                    2015-07-05 00:14:30
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`course_ID`),
   UNIQUE KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
 -- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
@@ -47,7 +47,7 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
 	(19, '', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, NULL, 0, 6200, '', '', '', 'course1Image.png', NULL),
 	(20, '', 'ru', 'Английский язык для ИТ', 'middle', '2015-12-30', 0, NULL, 0, 5600, '', '', '', 'course1Image.png', NULL),
-	(21, '', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
+	(21, '', 'ru', 'Как построить успешную ИТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

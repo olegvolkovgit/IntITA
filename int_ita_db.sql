@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 11:10:57
+-- Date/time:                    2015-07-05 00:14:46
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -86,6 +86,27 @@ INSERT INTO `assignment_java` (`ID`, `name`, `header`, `etalon`, `footer`) VALUE
 	(0, 'hello wordl', 'class Main#NUM#\r\n{\r\npublic static void main(String args[])\r\n{', 'System.out.println("Hello World!");', '}\r\n}'),
 	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}');
 /*!40000 ALTER TABLE `assignment_java` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.assignment_js
+DROP TABLE IF EXISTS `assignment_js`;
+CREATE TABLE IF NOT EXISTS `assignment_js` (
+  `ID` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `header` varchar(512) CHARACTER SET latin1 DEFAULT NULL,
+  `etalon` varchar(512) CHARACTER SET latin1 DEFAULT NULL,
+  `footer` varchar(512) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+-- Dumping data for table int_ita_db.assignment_js: ~5 rows (approximately)
+/*!40000 ALTER TABLE `assignment_js` DISABLE KEYS */;
+INSERT INTO `assignment_js` (`ID`, `name`, `header`, `etalon`, `footer`) VALUES
+	(0, 'hello wordl', 'class Main#NUM#\r\n{\r\npublic static void main(String args[])\r\n{', 'System.out.println("Hello World!");', '}\r\n}'),
+	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}'),
+	(2, 'k', NULL, NULL, NULL),
+	(0, '127.0.0.1', ' console.log("hh");', '2015-7-1 16:16:13', NULL),
+	(0, '127.0.0.1', ' console.log("hi");', '2015-7-1 17:26:26', NULL);
+/*!40000 ALTER TABLE `assignment_js` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.attribute_value
@@ -249,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`course_ID`),
   UNIQUE KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
 -- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
@@ -266,7 +287,7 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
 	(19, '', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, NULL, 0, 6200, '', '', '', 'course1Image.png', NULL),
 	(20, '', 'ru', 'Английский язык для ИТ', 'middle', '2015-12-30', 0, NULL, 0, 5600, '', '', '', 'course1Image.png', NULL),
-	(21, '', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
+	(21, '', 'ru', 'Как построить успешную ИТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -283,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `course_languages` (
   KEY `FK_course_languages_course_3` (`lang_en`),
   CONSTRAINT `FK_course_languages_course` FOREIGN KEY (`lang_ru`) REFERENCES `course` (`course_ID`),
   CONSTRAINT `FK_course_languages_course_2` FOREIGN KEY (`lang_ua`) REFERENCES `course` (`course_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Table for connecting similar courses on different languages.';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Table for connecting similar courses on different languages.';
 
 -- Dumping data for table int_ita_db.course_languages: ~3 rows (approximately)
 /*!40000 ALTER TABLE `course_languages` DISABLE KEYS */;
@@ -760,9 +781,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_record`),
   KEY `FK_messages_sourcemessages` (`id`),
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1454 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 453 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -2211,7 +2232,13 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1444, 428, 'en', 'Enter the correct age'),
 	(1445, 429, 'ua', 'Недопустимі символи!'),
 	(1446, 429, 'ru', 'Недопустимые символы!'),
-	(1447, 429, 'en', 'Invalid characters!');
+	(1447, 429, 'en', 'Invalid characters!'),
+	(1448, 430, 'ua', 'Розгорнути історію навчання'),
+	(1449, 430, 'ru', 'Развернуть историю обучения'),
+	(1450, 430, 'en', 'Open history teaching'),
+	(1451, 431, 'ua', 'Згорнути історію навчання'),
+	(1452, 431, 'ru', 'Свернуть историю обучения'),
+	(1453, 431, 'en', 'Close study history');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -5859,6 +5886,82 @@ INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, 
 /*!40000 ALTER TABLE `response` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.results
+DROP TABLE IF EXISTS `results`;
+CREATE TABLE IF NOT EXISTS `results` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `session` varchar(255) NOT NULL,
+  `jobid` int(11) NOT NULL,
+  `status` text NOT NULL,
+  `date` date NOT NULL,
+  `result` text NOT NULL,
+  `warning` text NOT NULL,
+  PRIMARY KEY (`id`,`session`(100)),
+  UNIQUE KEY `SECONDY` (`session`,`jobid`)
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table int_ita_db.results: ~56 rows (approximately)
+/*!40000 ALTER TABLE `results` DISABLE KEYS */;
+INSERT INTO `results` (`id`, `session`, `jobid`, `status`, `date`, `result`, `warning`) VALUES
+	(1, '12345', 1, 'updated', '2015-06-30', '...', 'sdfsfsd'),
+	(62, '127.0.0.1', 0, '2015-6-30 15:32:42', '0000-00-00', '', ''),
+	(63, '1234564232', 22, 'updated', '2015-06-30', '...', '...'),
+	(65, '1234564232', 25, 'updated', '2015-06-30', '...', '...'),
+	(66, '123456789044241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(67, '12345678944241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(68, '123456944241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(69, 'qwe', 1, 'updated', '2015-07-01', '...', '...'),
+	(70, 'qwe', 2, 'updated', '2015-07-01', '...', '...'),
+	(71, 'qwe', 3, 'updated', '2015-07-01', '...', '...'),
+	(72, 'qwe', 5, 'updated', '2015-07-01', '...', '...'),
+	(73, 'qwe', 6, 'updated', '2015-07-01', '...', '...'),
+	(74, 'qwe', 8, 'updated', '2015-07-01', '...', '...'),
+	(75, 'qwe', 9, 'updated', '2015-07-01', '...', '...'),
+	(76, 'qwe', 11, 'proccess', '2015-07-01', '...', '...'),
+	(79, 'qwe', 21, 'updated', '2015-07-01', '...', '...'),
+	(80, 'qwe', 20, 'updated', '2015-07-01', '...', '...'),
+	(81, 'qwe', 222, 'proccess', '2015-07-01', '...', '...'),
+	(83, 'qwe', 2221, 'proccess', '2015-07-01', '...', '...'),
+	(85, '123456789044241232w', 5, 'updated', '2015-07-01', '...', '...'),
+	(86, '1234567k89044241232w', 5, 'updated', '2015-07-01', '...', '...'),
+	(88, '12345j67k89044241232w', 5, 'updated', '2015-07-01', '...', '...'),
+	(89, '12345j67k89044lk241232w', 5, 'proccess', '2015-07-01', '...', '...'),
+	(91, '12345j67kkhjkh89044lk241232w', 5, 'proccess', '2015-07-01', '...', '...'),
+	(93, '12321', 6, 'updated', '2015-07-01', '...', '...'),
+	(94, '12321', 66, 'updated', '2015-07-01', '...', '...'),
+	(96, '12321', 616, 'updated', '2015-07-01', '...', '...'),
+	(97, '12321', 6186, 'updated', '2015-07-01', '...', '...'),
+	(98, '12321', 61186, 'updated', '2015-07-01', '...', '...'),
+	(99, '12321', 611186, 'updated', '2015-07-01', '...', '...'),
+	(100, '12321', 14, 'updated', '2015-07-01', '...', '...'),
+	(101, '123321', 14, 'proccess', '2015-07-01', '...', '...'),
+	(102, '12d3321', 14, 'updated', '2015-07-01', '...', '...'),
+	(103, '123231', 14, 'updated', '2015-07-01', '...', '...'),
+	(104, '1232311', 14, 'updated', '2015-07-01', '...', '...'),
+	(105, '12312311', 14, 'updated', '2015-07-01', '...', '...'),
+	(106, '1', 14, 'updated', '2015-07-01', '...', '...'),
+	(107, '11', 14, 'updated', '2015-07-01', '...', '...'),
+	(108, '112', 14, 'updated', '2015-07-01', '...', '...'),
+	(109, '112', 141, 'updated', '2015-07-01', '...', '...'),
+	(110, '112', 0, 'updated', '2015-07-01', '...', '...'),
+	(111, '112', 5, 'updated', '2015-07-01', '...', '...'),
+	(112, '112', 4, 'updated', '2015-07-01', '...', '...'),
+	(113, '112', 55, 'updated', '2015-07-01', '...', '...'),
+	(114, '112', 555, 'updated', '2015-07-01', '...', '...'),
+	(115, '112', 5555, 'updated', '2015-07-01', '...', '...'),
+	(118, '112', 1, 'updated', '2015-07-01', '...', '...'),
+	(119, '112', 12, 'updated', '2015-07-01', '...', '...'),
+	(120, '112', 122, 'proccess', '2015-07-01', '...', '...'),
+	(122, '112', 144444444, 'updated', '2015-07-01', '...', '...'),
+	(123, '112', 14444444, 'updated', '2015-07-01', '...', '...'),
+	(124, '12345689044241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(125, '1235689044241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(126, '123568044241232', 5, 'updated', '2015-07-01', '...', '...'),
+	(127, '12356804424122', 5, 'updated', '2015-07-01', '...', '...'),
+	(128, '1235684424122', 5, 'updated', '2015-07-01', '...', '...');
+/*!40000 ALTER TABLE `results` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.roles
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -5926,9 +6029,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=432 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~429 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~431 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6359,7 +6462,9 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(426, 'course', '0426'),
 	(427, 'error', '0427'),
 	(428, 'error', '0428'),
-	(429, 'error', '0429');
+	(429, 'error', '0429'),
+	(430, 'graduates', '0430'),
+	(431, 'graduates', '0431');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 

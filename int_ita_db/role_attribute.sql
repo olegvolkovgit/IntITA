@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 11:11:05
+-- Date/time:                    2015-07-05 00:14:41
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
--- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.role_attribute: ~9 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
 INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`) VALUES
 	(1, 'capacity', 1, 'int', 'Количество студентов', 'Кількість студентів'),

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-04 11:11:03
+-- Date/time:                    2015-07-05 00:14:32
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_record`),
   KEY `FK_messages_sourcemessages` (`id`),
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1454 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
@@ -1471,7 +1471,13 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1444, 428, 'en', 'Enter the correct age'),
 	(1445, 429, 'ua', 'Недопустимі символи!'),
 	(1446, 429, 'ru', 'Недопустимые символы!'),
-	(1447, 429, 'en', 'Invalid characters!');
+	(1447, 429, 'en', 'Invalid characters!'),
+	(1448, 430, 'ua', 'Розгорнути історію навчання'),
+	(1449, 430, 'ru', 'Развернуть историю обучения'),
+	(1450, 430, 'en', 'Open history teaching'),
+	(1451, 431, 'ua', 'Згорнути історію навчання'),
+	(1452, 431, 'ru', 'Свернуть историю обучения'),
+	(1453, 431, 'en', 'Close study history');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

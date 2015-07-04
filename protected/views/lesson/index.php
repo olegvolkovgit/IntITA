@@ -91,13 +91,13 @@ $this->breadcrumbs=array(
 //$this->renderPartial('/lesson/_modalTask');
 //$this->endWidget('zii.widgets.jui.CJuiDialog');
 //?>
-<!--<!--modal task ---congratulations-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--<!--modal task ---error1--->
+<!--modal task ---congratulations
+
+
+
+
+
+<!--modal task ---error1-
 <?php
 //$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 //    'id' => 'mydialog3',
