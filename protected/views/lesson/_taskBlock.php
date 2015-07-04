@@ -90,9 +90,12 @@ if ($editMode) {
 //    });
     function test() {
         cart = {
-            "operation" : "status",
-            "session" : "123456789044241232",
-            "jobid" : 1
+            "operation": "result",
+            "session" : "1241q223f4f2341",
+            "jobid" : 11212,
+            "code" : "std::cout << \"Hello World!\" << std::endl;",
+            "task": 1,
+            "lang": "c++"
         };
         alert ( JSON.stringify( cart ) );
 
@@ -106,10 +109,8 @@ if ($editMode) {
             success: function(data, code){
                 if (code==200){
                     $('#code').html(data); // запрос успешно прошел
-                    //alert(data);
                 }else{
                     $('#code').html(code); // возникла ошибка, возвращаем код ошибки
-                    //alert(code);
                 }
                 $('.code').html('Your code: '+data.code); // данные которые вернул сервер!
             },

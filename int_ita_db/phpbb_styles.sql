@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-03 15:51:21
+-- Date/time:                    2015-07-04 11:11:05
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-03 15:51:20
+-- Date/time:                    2015-07-04 11:11:04
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums_track` (
   PRIMARY KEY (`user_id`,`forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_forums_track: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_forums_track: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_forums_track` DISABLE KEYS */;
 INSERT INTO `phpbb_forums_track` (`user_id`, `forum_id`, `mark_time`) VALUES
 	(2, 2, 1433430287);

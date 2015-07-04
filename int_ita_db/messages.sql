@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-03 15:51:19
+-- Date/time:                    2015-07-04 11:11:03
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 447 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -947,8 +947,8 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(920, 289, 'ua', 'Відновлення паролю'),
 	(921, 289, 'ru', 'Восстановление пароля'),
 	(922, 289, 'en', 'Password recovery'),
-	(923, 290, 'ua', 'Щоб відновити пароль, введіть свою електронну пошту нижче. На данну електронну пошту буде відправлено посиланням для відновлення паролю. Термін дії посилання 30 хв.'),
-	(924, 290, 'ru', 'Чтобы восстановить пароль, введите свою электронную почту ниже. На эту электронную почту будет отправлено ссылкой для восстановления пароля. Срок действия ссылки 30 мин.'),
+	(923, 290, 'ua', 'Щоб відновити пароль, введіть свою електронну пошту нижче. На данну електронну пошту буде відправлено посилання для відновлення паролю. Термін дії посилання 30 хв.'),
+	(924, 290, 'ru', 'Чтобы восстановить пароль, введите свою электронную почту ниже. На эту электронную почту будет отправлена ссылка для восстановления пароля. Срок действия ссылки 30 мин.'),
 	(925, 290, 'en', 'To reset your password, enter your email below. In this e-mail will be sent a link to reset your password. The link 30 min.'),
 	(926, 291, 'ua', 'ВІДПРАВИТИ />'),
 	(927, 291, 'ru', 'ОТПРАВИТЬ />'),
@@ -956,8 +956,8 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(929, 292, 'ua', 'Зміна email'),
 	(930, 292, 'ru', 'Изменение email'),
 	(931, 292, 'en', 'Changing email'),
-	(932, 293, 'ua', 'Введіть нову електронну пошту в поле нижче.На дану електронну пошту буде відправлено посиланням для підтвердження дійсності адреси. Термін дії посилання 30 хв.'),
-	(933, 293, 'ru', 'Введите новую электронную почту в поле ниже.На данную электронную почту будет отправлено ссылкой для подтверждения подлинности адреса. Срок действия ссылки 30 мин.'),
+	(932, 293, 'ua', 'Введіть нову електронну пошту в поле нижче.На дану електронну пошту буде відправлено посилання для підтвердження дійсності адреси. Термін дії посилання 30 хв.'),
+	(933, 293, 'ru', 'Введите новую электронную почту в поле ниже.На данную электронную почту будет отправлена ссылка для подтверждения подлинности адреса. Срок действия ссылки 30 мин.'),
 	(934, 293, 'en', 'Enter a new e-mail in this field below.Na email will be sent a link to confirm validity of the address. The link 30 min.'),
 	(935, 294, 'ua', 'ВІДПРАВИТИ />'),
 	(936, 294, 'ru', 'ОТПРАВИТЬ />'),

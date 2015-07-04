@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-03 15:51:26
+-- Date/time:                    2015-07-04 11:10:57
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -13,204 +13,6 @@
 -- Dumping database structure for int_ita_db
 CREATE DATABASE IF NOT EXISTS `int_ita_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `int_ita_db`;
-
-
--- Dumping structure for table int_ita_db.aa_access
-DROP TABLE IF EXISTS `aa_access`;
-CREATE TABLE IF NOT EXISTS `aa_access` (
-  `user_id` smallint(5) unsigned NOT NULL,
-  `interface_id` smallint(5) unsigned NOT NULL,
-  `read` tinyint(1) NOT NULL DEFAULT '0',
-  `add` tinyint(1) NOT NULL DEFAULT '0',
-  `edit` tinyint(1) NOT NULL DEFAULT '0',
-  `delete` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`interface_id`),
-  KEY `interface_id` (`interface_id`),
-  CONSTRAINT `aa_access_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `aa_access_ibfk_2` FOREIGN KEY (`interface_id`) REFERENCES `aa_interfaces` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_access: ~0 rows (approximately)
-/*!40000 ALTER TABLE `aa_access` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aa_access` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_authorizations
-DROP TABLE IF EXISTS `aa_authorizations`;
-CREATE TABLE IF NOT EXISTS `aa_authorizations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` smallint(5) unsigned NOT NULL,
-  `when_enter` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ip` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `when_enter` (`when_enter`),
-  CONSTRAINT `aa_authorizations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `aa_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_authorizations: ~60 rows (approximately)
-/*!40000 ALTER TABLE `aa_authorizations` DISABLE KEYS */;
-INSERT INTO `aa_authorizations` (`id`, `user_id`, `when_enter`, `ip`) VALUES
-	(1, 2, '2015-03-02 15:33:25', '::1'),
-	(2, 2, '2015-03-02 15:33:25', '::1'),
-	(3, 2, '2015-03-02 15:41:58', '::1'),
-	(4, 2, '2015-03-02 15:41:59', '::1'),
-	(5, 3, '2015-03-02 15:45:10', '::1'),
-	(6, 3, '2015-03-02 15:45:10', '::1'),
-	(7, 2, '2015-03-03 15:04:10', '::1'),
-	(8, 2, '2015-03-03 15:04:10', '::1'),
-	(9, 2, '2015-03-03 15:41:31', '::1'),
-	(10, 2, '2015-03-03 15:41:32', '::1'),
-	(11, 2, '2015-03-03 17:26:15', '::1'),
-	(12, 2, '2015-03-03 17:26:15', '::1'),
-	(13, 2, '2015-03-04 12:54:56', '::1'),
-	(14, 2, '2015-03-04 12:54:56', '::1'),
-	(15, 2, '2015-03-05 14:12:11', '::1'),
-	(16, 2, '2015-03-05 14:12:12', '::1'),
-	(17, 2, '2015-03-06 13:21:13', '::1'),
-	(18, 2, '2015-03-06 13:21:13', '::1'),
-	(19, 2, '2015-03-06 13:33:29', '::1'),
-	(20, 2, '2015-03-06 13:33:30', '::1'),
-	(21, 2, '2015-03-07 01:19:06', '::1'),
-	(22, 2, '2015-03-07 01:19:07', '::1'),
-	(23, 2, '2015-03-07 10:31:26', '::1'),
-	(24, 2, '2015-03-07 10:31:27', '::1'),
-	(25, 2, '2015-03-10 14:40:09', '::1'),
-	(26, 2, '2015-03-10 14:40:09', '::1'),
-	(27, 2, '2015-03-12 17:10:57', '::1'),
-	(28, 2, '2015-03-12 17:10:57', '::1'),
-	(29, 2, '2015-03-12 18:59:14', '::1'),
-	(30, 2, '2015-03-12 18:59:14', '::1'),
-	(31, 2, '2015-03-13 13:24:19', '::1'),
-	(32, 2, '2015-03-13 13:24:21', '::1'),
-	(33, 2, '2015-03-13 16:25:37', '::1'),
-	(34, 2, '2015-03-13 16:25:37', '::1'),
-	(35, 2, '2015-03-19 15:45:40', '::1'),
-	(36, 2, '2015-03-19 15:45:41', '::1'),
-	(37, 2, '2015-03-20 15:14:18', '::1'),
-	(38, 2, '2015-03-20 15:14:18', '::1'),
-	(39, 2, '2015-03-23 14:29:03', '::1'),
-	(40, 2, '2015-03-23 14:29:04', '::1'),
-	(41, 2, '2015-03-24 19:48:01', '::1'),
-	(42, 2, '2015-03-24 19:48:01', '::1'),
-	(43, 2, '2015-03-26 16:11:11', '::1'),
-	(44, 2, '2015-03-26 16:11:12', '::1'),
-	(45, 2, '2015-04-02 16:57:52', '::1'),
-	(46, 2, '2015-04-02 16:57:52', '::1'),
-	(47, 2, '2015-04-07 16:12:17', '::1'),
-	(48, 2, '2015-04-07 16:12:17', '::1'),
-	(49, 2, '2015-04-09 13:46:07', '::1'),
-	(50, 2, '2015-04-09 13:46:07', '::1'),
-	(51, 2, '2015-05-05 23:41:47', '::1'),
-	(52, 2, '2015-05-05 23:41:47', '::1'),
-	(53, 2, '2015-05-06 14:29:21', '::1'),
-	(54, 2, '2015-05-06 14:29:21', '::1'),
-	(55, 2, '2015-05-06 19:24:31', '::1'),
-	(56, 2, '2015-05-06 19:24:31', '::1'),
-	(57, 2, '2015-05-10 22:46:16', '::1'),
-	(58, 2, '2015-05-10 22:46:16', '::1'),
-	(59, 2, '2015-05-21 16:59:55', '::1'),
-	(60, 2, '2015-05-21 16:59:56', '::1');
-/*!40000 ALTER TABLE `aa_authorizations` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_errors
-DROP TABLE IF EXISTS `aa_errors`;
-CREATE TABLE IF NOT EXISTS `aa_errors` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `error_type` enum('exception','warning') DEFAULT NULL,
-  `info` text,
-  `authorization_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `authorization_id` (`authorization_id`),
-  CONSTRAINT `aa_errors_ibfk_1` FOREIGN KEY (`authorization_id`) REFERENCES `aa_authorizations` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table int_ita_db.aa_errors: ~0 rows (approximately)
-/*!40000 ALTER TABLE `aa_errors` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aa_errors` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_interfaces
-DROP TABLE IF EXISTS `aa_interfaces`;
-CREATE TABLE IF NOT EXISTS `aa_interfaces` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `section_id` tinyint(3) unsigned DEFAULT NULL,
-  `alias` varchar(60) NOT NULL,
-  `level` tinyint(3) unsigned NOT NULL DEFAULT '5',
-  `title` varchar(80) NOT NULL,
-  `info` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`),
-  KEY `section_id` (`section_id`),
-  CONSTRAINT `aa_interfaces_ibfk_1` FOREIGN KEY (`section_id`) REFERENCES `aa_sections` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_interfaces: ~0 rows (approximately)
-/*!40000 ALTER TABLE `aa_interfaces` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aa_interfaces` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_logs
-DROP TABLE IF EXISTS `aa_logs`;
-CREATE TABLE IF NOT EXISTS `aa_logs` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `interface_id` smallint(5) unsigned DEFAULT NULL,
-  `authorization_id` int(10) unsigned DEFAULT NULL,
-  `when_event` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `message` text,
-  `data` text,
-  PRIMARY KEY (`id`),
-  KEY `interface_id` (`interface_id`),
-  KEY `authorization_id` (`authorization_id`),
-  CONSTRAINT `aa_logs_ibfk_1` FOREIGN KEY (`interface_id`) REFERENCES `aa_interfaces` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `aa_logs_ibfk_2` FOREIGN KEY (`authorization_id`) REFERENCES `aa_authorizations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_logs: ~0 rows (approximately)
-/*!40000 ALTER TABLE `aa_logs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aa_logs` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_sections
-DROP TABLE IF EXISTS `aa_sections`;
-CREATE TABLE IF NOT EXISTS `aa_sections` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_sections: ~0 rows (approximately)
-/*!40000 ALTER TABLE `aa_sections` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aa_sections` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.aa_users
-DROP TABLE IF EXISTS `aa_users`;
-CREATE TABLE IF NOT EXISTS `aa_users` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `level` enum('root','admin','user') NOT NULL DEFAULT 'user',
-  `login` varchar(21) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `interface_level` tinyint(4) NOT NULL DEFAULT '1',
-  `email` varchar(40) NOT NULL,
-  `surname` varchar(21) NOT NULL,
-  `firstname` varchar(21) NOT NULL,
-  `middlename` varchar(21) DEFAULT NULL,
-  `regdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `info` tinytext,
-  `salt` varchar(8) DEFAULT NULL,
-  `disabled` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
--- Dumping data for table int_ita_db.aa_users: ~2 rows (approximately)
-/*!40000 ALTER TABLE `aa_users` DISABLE KEYS */;
-INSERT INTO `aa_users` (`id`, `level`, `login`, `password`, `interface_level`, `email`, `surname`, `firstname`, `middlename`, `regdate`, `info`, `salt`, `disabled`) VALUES
-	(2, 'root', 'root', '63a9f0ea7bb98050796b649e85481845', 1, 'root', 'root', 'root', 'root', '2015-03-02 15:33:13', NULL, NULL, 0),
-	(3, 'user', 'User', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'user', 'Surname', 'Name', 'Middle name', '2015-03-02 15:43:00', NULL, NULL, 0);
-/*!40000 ALTER TABLE `aa_users` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.aboutus
@@ -447,9 +249,9 @@ CREATE TABLE IF NOT EXISTS `course` (
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`course_ID`),
   UNIQUE KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
--- Dumping data for table int_ita_db.course: ~9 rows (approximately)
+-- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `rating`) VALUES
 	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
@@ -460,8 +262,36 @@ INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, 
 	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course8Image.png', 4),
 	(7, 'QA', 'ua', 'Тестувальник (QA)', 'senior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course7Image.png', 6),
 	(13, 'english', 'ua', 'Англійська мова для ІТ', 'middle', '2015-12-30', 0, 3, 60, 2500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 6),
-	(14, 'career', 'ua', 'Побудова успішної ІТ кар’єри', 'senior', '2015-12-30', 0, 3, 0, 0, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', '', '', 'course3Image.png', 1);
+	(14, 'career', 'ua', 'Побудова успішної ІТ кар’єри', 'senior', '2015-12-30', 0, 3, 0, 0, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', '', '', 'course3Image.png', 1),
+	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
+	(19, '', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, NULL, 0, 6200, '', '', '', 'course1Image.png', NULL),
+	(20, '', 'ru', 'Английский язык для ИТ', 'middle', '2015-12-30', 0, NULL, 0, 5600, '', '', '', 'course1Image.png', NULL),
+	(21, '', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, NULL, 0, 4500, '', '', '', 'course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.course_languages
+DROP TABLE IF EXISTS `course_languages`;
+CREATE TABLE IF NOT EXISTS `course_languages` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `lang_ua` int(10) NOT NULL,
+  `lang_ru` int(10) NOT NULL,
+  `lang_en` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_course_languages_course_2` (`lang_ua`),
+  KEY `FK_course_languages_course` (`lang_ru`),
+  KEY `FK_course_languages_course_3` (`lang_en`),
+  CONSTRAINT `FK_course_languages_course` FOREIGN KEY (`lang_ru`) REFERENCES `course` (`course_ID`),
+  CONSTRAINT `FK_course_languages_course_2` FOREIGN KEY (`lang_ua`) REFERENCES `course` (`course_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Table for connecting similar courses on different languages.';
+
+-- Dumping data for table int_ita_db.course_languages: ~3 rows (approximately)
+/*!40000 ALTER TABLE `course_languages` DISABLE KEYS */;
+INSERT INTO `course_languages` (`id`, `lang_ua`, `lang_ru`, `lang_en`) VALUES
+	(3, 1, 19, 0),
+	(4, 14, 21, 0),
+	(6, 13, 20, 0);
+/*!40000 ALTER TABLE `course_languages` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.course_modules
@@ -819,18 +649,18 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
-	(10, 1, 2, 'instruction', 7, '<ol>\n	<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>ter<em>ms</em></span><em> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</em></li>\n	<li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>\n</ol>'),
-	(13, 1, 3, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
-	(18, 1, 4, 'task', 5, '<ol>\n	<ol>\n		<li><span style="background-color: rgb(255, 255, 0);">On <del>li</del>ne 7, set <span class="colorGreen">$</span>terms equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</span></li>\n		<li><span style="background-color: rgb(255, 255, 0);">On line 9, edit the st<del>ate condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:</del></span><span style="background-color: rgb(255, 255, 0);">You get a 1</span>0% discount!</li>\n	</ol>\n</ol>'),
-	(19, 1, 5, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
+	(10, 1, 4, 'instruction', 7, '<ol>\n	<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>ter<em>ms</em></span><em> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</em></li>\n	<li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>\n</ol>'),
+	(13, 1, 2, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
+	(18, 1, 3, 'task', 5, '<ol>\n	<ol>\n		<li><span style="background-color: rgb(255, 255, 0);">On <del>li</del>ne 7, set <span class="colorGreen">$</span>terms equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</span></li>\n		<li><span style="background-color: rgb(255, 255, 0);">On line 9, edit the st<del>ate condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:</del></span><span style="background-color: rgb(255, 255, 0);">You get a 1</span>0% discount!</li>\n	</ol>\n</ol>'),
+	(19, 1, 7, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(21, 2, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних<em></em></span>\n	<strong><del><em></em></del></strong>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(22, 3, 1, 'text', 1, ' <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>'),
 	(23, 24, 1, 'text', 1, '<p>New text block!</p>'),
 	(24, 24, 2, 'text', 1, '<p><iframe width="420" height="315" src="https://www.youtube.com/embed/7KAhgrBDl3A" frameborder="0" allowfullscreen=""></iframe></p>'),
-	(25, 1, 6, 'text', 1, '<p>simple\r\n</p>'),
-	(26, 1, 7, 'text', 1, '<p>Add links. Example with "www" and "http"</p><p><a href="http://www.google.com">www.google.com</a></p><p><a href="http://google.com">http://google.com</a></p><p><br></p>'),
-	(27, 1, 8, 'text', 1, '<p>Add video. Example: ("<a href="http://www.youtube.com/watch?v=QlRGhXj0uRY">youtube.com/watch?v=QlRGhXj0uRY</a>")\r\n</p>\r\n<p>\r\n	<iframe width="500" height="281" src="//www.youtube.com/embed/QlRGhXj0uRY" frameborder="0" allowfullscreen="">\r\n	</iframe><span class="redactor-invisible-space"><br></span>\r\n</p>'),
-	(28, 1, 9, 'text', 1, '<p>Add picture. Example: "screensavergift.com/wp-content/uploads/BeautifulNature3-610x320.jpg"</p><p><img src="http://www.screensavergift.com/wp-content/uploads/BeautifulNature3-610x320.jpg"><span class="redactor-invisible-space"><br></span></p>'),
+	(25, 1, 5, 'text', 1, '<p>simple\r\n</p>'),
+	(26, 1, 9, 'text', 1, '<p>Add links. Example with "www" and "http"</p><p><a href="http://www.google.com">www.google.com</a></p><p><a href="http://google.com">http://google.com</a></p><p><br></p>'),
+	(27, 1, 6, 'text', 1, '<p>Add video. Example: ("<a href="http://www.youtube.com/watch?v=QlRGhXj0uRY">youtube.com/watch?v=QlRGhXj0uRY</a>")\r\n'),
+	(28, 1, 8, 'text', 1, '<p>Add picture. Example: "screensavergift.com/wp-content/uploads/BeautifulNature3-610x320.jpg"</p><p><img src="http://www.screensavergift.com/wp-content/uploads/BeautifulNature3-610x320.jpg"><span class="redactor-invisible-space"><br></span></p>'),
 	(29, 1, 10, 'text', 1, '<p>Add code. Example:</p><pre>&lt;div id="logo_img" class="down"&gt;<br> &lt;a href="&lt;?php echo Yii::app()-&gt;createUrl(\'site/index\');?&gt;"&gt;<br> &lt;img id="logo" src="&lt;?php echo Yii::app()-&gt;request-&gt;baseUrl;?&gt;/css/images/Logo_small.png"/&gt;<br> &lt;/a&gt;<br>&lt;/div&gt;</pre>'),
 	(30, 1, 11, 'text', 1, '<p><iframe width="500" height="281" src="//www.youtube.com/embed/6zEnXc8jdEE" frameborder="0" allowfullscreen=""></iframe></p>'),
 	(32, 1, 12, 'code', 3, '<pre>\r\nmodel = Module::model()->findByPk($idModule);\r\n        $owners = explode(\';\',$model->owners); //array of teacher\'s ids that cna edit this module\r\n        $teachers = Teacher::model()->findAllByAttributes(array(\'teacher_id\'=>$owners)); //info about owners\r\n\r\n\r\n        $criteria=new CDbCriteria();\r\n        $criteria->addCondition(\'idModule>0\');\r\n        $criteria->addCondition(\'idModule=\'.$idModule);\r\n\r\n        $dataProvider = new CActiveDataProvider(\'Lecture\', array(\r\n            \'criteria\' =>$criteria,\r\n            \'pagination\'=>false,\r\n            \'sort\'=>array(\r\n                \'defaultOrder\'=>array(\r\n                    \'order\'=>CSort::SORT_ASC,\r\n                )\r\n            )\r\n        ));\r\n</pre>'),
@@ -839,7 +669,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
 	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
 	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
-	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/bVssxumkHI4"'),
+	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
 	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
 	(42, 1, 20, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
 	(43, 1, 21, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
@@ -849,12 +679,12 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(56, 2, 3, 'text', 1, '/images/lecture/2139e6cb5c89529517e7c5ae47c49763.jpg'),
 	(57, 2, 2, 'image', 9, '/images/lecture/29ce2affb5bdaa6c330f9ed52d0cf64a.jpg"></p'),
 	(59, 2, 4, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
-	(60, 2, 5, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
-	(76, 2, 8, 'formula', 10, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im \\Re \\Cup \\!\\]\r\n'),
+	(60, 2, 6, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
+	(76, 2, 5, 'formula', 10, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im\\Theta \\Sigma \\Psi \\Psi \\Psi \\Psi \\Re \\Cup \\!\\]\r\n'),
 	(79, 48, 1, 'text', 1, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n'),
 	(80, 1, 25, 'text', 1, '<p><span class="highLT">&lt;</span><span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span></p><p><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></p><p><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></p><p><span class="redactor-invisible-space"><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></span></p>'),
-	(81, 2, 6, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
-	(82, 2, 7, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
+	(81, 2, 7, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
+	(82, 2, 8, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
@@ -1857,8 +1687,8 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(920, 289, 'ua', 'Відновлення паролю'),
 	(921, 289, 'ru', 'Восстановление пароля'),
 	(922, 289, 'en', 'Password recovery'),
-	(923, 290, 'ua', 'Щоб відновити пароль, введіть свою електронну пошту нижче. На данну електронну пошту буде відправлено посиланням для відновлення паролю. Термін дії посилання 30 хв.'),
-	(924, 290, 'ru', 'Чтобы восстановить пароль, введите свою электронную почту ниже. На эту электронную почту будет отправлено ссылкой для восстановления пароля. Срок действия ссылки 30 мин.'),
+	(923, 290, 'ua', 'Щоб відновити пароль, введіть свою електронну пошту нижче. На данну електронну пошту буде відправлено посилання для відновлення паролю. Термін дії посилання 30 хв.'),
+	(924, 290, 'ru', 'Чтобы восстановить пароль, введите свою электронную почту ниже. На эту электронную почту будет отправлена ссылка для восстановления пароля. Срок действия ссылки 30 мин.'),
 	(925, 290, 'en', 'To reset your password, enter your email below. In this e-mail will be sent a link to reset your password. The link 30 min.'),
 	(926, 291, 'ua', 'ВІДПРАВИТИ />'),
 	(927, 291, 'ru', 'ОТПРАВИТЬ />'),
@@ -1866,8 +1696,8 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(929, 292, 'ua', 'Зміна email'),
 	(930, 292, 'ru', 'Изменение email'),
 	(931, 292, 'en', 'Changing email'),
-	(932, 293, 'ua', 'Введіть нову електронну пошту в поле нижче.На дану електронну пошту буде відправлено посиланням для підтвердження дійсності адреси. Термін дії посилання 30 хв.'),
-	(933, 293, 'ru', 'Введите новую электронную почту в поле ниже.На данную электронную почту будет отправлено ссылкой для подтверждения подлинности адреса. Срок действия ссылки 30 мин.'),
+	(932, 293, 'ua', 'Введіть нову електронну пошту в поле нижче.На дану електронну пошту буде відправлено посилання для підтвердження дійсності адреси. Термін дії посилання 30 хв.'),
+	(933, 293, 'ru', 'Введите новую электронную почту в поле ниже.На данную электронную почту будет отправлена ссылка для подтверждения подлинности адреса. Срок действия ссылки 30 мин.'),
 	(934, 293, 'en', 'Enter a new e-mail in this field below.Na email will be sent a link to confirm validity of the address. The link 30 min.'),
 	(935, 294, 'ua', 'ВІДПРАВИТИ />'),
 	(936, 294, 'ru', 'ОТПРАВИТЬ />'),
@@ -2425,9 +2255,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module: ~22 rows (approximately)
+-- Dumping data for table int_ita_db.module: ~42 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`module_ID`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
 	(1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 15, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
@@ -2445,14 +2275,64 @@ INSERT INTO `module` (`module_ID`, `module_name`, `alias`, `language`, `module_d
 	(20, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
 	(22, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
 	(23, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(54, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(55, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(56, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(58, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(59, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(60, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(61, 'New module', 'module16', 'ua', 0, 0, 1, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
+	(54, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(55, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(56, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(58, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(59, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(60, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(61, 'New module', 'module16', 'ua', 0, 0, 1, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(62, 'Введение в программирование', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(63, 'Элементарная математика', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(64, 'Алгоритмизация и программирование на С', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(65, 'Элементы высшей математики', 'module4', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(66, 'Компьютерные сети', 'module5', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(67, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'module6', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(68, 'Дискретная математика', 'module7', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(69, 'Базы данных', 'module8', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(70, 'Программирование на РНР (Часть 1)', 'module9', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(71, 'Программирование на РНР (Часть 2)', 'module10', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(72, 'Верстка на HTML, CSS', 'module11', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(73, 'Программирование на JavaScript', 'module12', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(74, 'Современные технологии разработки программ', 'module13', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(75, 'Командный дипломный проект', 'module14', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(76, 'For beginners', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(77, 'Pre Intermediate', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(78, 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(79, 'Построение индивидуального плана успешной ИТ карьеры.', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(80, 'Эффективное трудоустройство', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(81, 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.module_languages
+DROP TABLE IF EXISTS `module_languages`;
+CREATE TABLE IF NOT EXISTS `module_languages` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `lang_ua` int(10) NOT NULL,
+  `lang_ru` int(10) NOT NULL,
+  `lang_en` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_module_languages_course` (`lang_ua`),
+  KEY `FK_module_languages_course_2` (`lang_ru`),
+  CONSTRAINT `FK_module_languages_course` FOREIGN KEY (`lang_ua`) REFERENCES `module` (`module_ID`),
+  CONSTRAINT `FK_module_languages_course_2` FOREIGN KEY (`lang_ru`) REFERENCES `module` (`module_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.module_languages: ~10 rows (approximately)
+/*!40000 ALTER TABLE `module_languages` DISABLE KEYS */;
+INSERT INTO `module_languages` (`id`, `lang_ua`, `lang_ru`, `lang_en`) VALUES
+	(1, 1, 62, 0),
+	(2, 2, 63, 0),
+	(3, 3, 64, 0),
+	(5, 4, 65, 0),
+	(6, 7, 66, 0),
+	(7, 18, 72, 0),
+	(8, 55, 77, 0),
+	(9, 54, 76, 0),
+	(10, 56, 78, 0),
+	(11, 10, 68, 0);
+/*!40000 ALTER TABLE `module_languages` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.password_resets
@@ -3451,7 +3331,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1435676183', 1),
+	('cache_last_gc', '1435936576', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -3629,12 +3509,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '5bf8ab897c53b62455aca219c37472cf', 1),
-	('rand_seed_last_update', '1435846884', 1),
+	('rand_seed', '809d579cb679a9f1d3f3f81a5436bd4e', 1),
+	('rand_seed_last_update', '1435936576', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1435775113', 1),
+	('read_notification_last_gc', '1435936573', 1),
 	('record_online_date', '1431077095', 1),
 	('record_online_users', '2', 1),
 	('referer_validation', '1', 0),
@@ -5243,7 +5123,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
 -- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('0071172900f6951b880db920688d4cf4', 1, 1435846883, 1435846883, 1435846883, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
+	('a87df497184ad9a522beee7fb9ebf793', 1, 1435936570, 1435936570, 1435936583, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36', '', 'ucp.php?mode=login', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -5574,7 +5454,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'b6dedcb3380ce50d', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '6442aaca45422df9', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430287, 0, 1433429758, 'viewtopic.php?f=2&p=4&t=3', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(48, 0, 2, '00000000001qccftm0\ni1cjyo000000\nqlaq53000000', 0, '::1', 1433430175, 'Ivanna', 'ivanna', '$2y$10$YrMGyqi8ZQ6BN1cf0UzfZ.LgX1Na4vdzIBLYspxUgo6BcdiW715fa', 1433430175, 'vnnchkh@gmail.com', 328510056717, '', 1433430246, 1433430175, 1433430237, '', '', 0, 0, 0, 0, 0, 0, 1, 'uk', 'Europe/Kiev', 'D M d, Y g:i a', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '02c7d053ef52557c', 1, 0, 0);
 /*!40000 ALTER TABLE `phpbb_users` ENABLE KEYS */;
