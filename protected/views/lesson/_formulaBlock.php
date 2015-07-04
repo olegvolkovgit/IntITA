@@ -17,13 +17,17 @@ $formulaCode = addcslashes($temp, '\\');
         ));?>
 
         <div class="formula" id="<?php echo "t" .  $data['block_order'];?>"
+             <?php if($editMode){?>
              onclick="
                  openEditor('<?php echo 'editFormula'.$data['block_order'];?>',
                  '<?php echo $formulaCode;?>',
-                 '<?php echo 'content'.$data['block_order'];?>')">
+                 '<?php echo 'content'.$data['block_order'];?>')"
+            <?php }?>
+            >
             <?php echo $data['html_block'];?>
         </div>
-            <form id="editFormula<?php echo $data['block_order'];?>" action="<?php echo Yii::app()->createUrl('lesson/saveFormula');?>"
+            <form id="editFormula<?php echo $data['block_order'];?>"
+                  action="<?php echo Yii::app()->createUrl('lesson/saveFormula');?>"
                   method="post"
                   style="display:none;">
                 <input name="idLecture" value="<?php echo $data['id_lecture'];?>" hidden="hidden">
@@ -36,6 +40,7 @@ $formulaCode = addcslashes($temp, '\\');
                 <input type="submit" value="Зберегти" onclick="sendContent('<?php echo 'content'.$data['block_order'];?>')">
             </form>
     </div>
+
 <script type="text/javascript">
     function openEditor(id, data, textarea) {
         document.getElementById(id).style.display = "block";
