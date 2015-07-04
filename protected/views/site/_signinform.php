@@ -15,13 +15,13 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="signIn">
     <div class="rowemail">
         <?php $placeHolderEmail = Yii::t('regform','0014');?>
-        <?php echo $form->textField($qForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($qForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40)); ?>
         <span><?php echo $form->error($qForm,'email'); ?></span>
     </div>
 
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regform','0015');?>
-        <span class="passEye"> <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>255)); ?></span>
+        <span class="passEye"> <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
         <span><?php echo $form->error($qForm,'password'); ?></span>
         <?php if(Yii::app()->user->hasFlash('info')):
             echo Yii::app()->user->getFlash('info');
