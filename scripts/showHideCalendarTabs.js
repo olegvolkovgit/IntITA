@@ -42,6 +42,7 @@ function goNext(teacherId) {
     var timeId='#timeConsultation'+teacherId;
     var gridId='timeGrid'+teacherId;
     var textId='consInfText'+teacherId;
+    var constext='constext'+teacherId;
     var calendarId='dateTimePicker'+teacherId;
     var dateconsId='datecons'+teacherId;
     var timeconsId='timecons'+teacherId;
@@ -49,9 +50,10 @@ function goNext(teacherId) {
     if (parseTable(gridId).length !== 0) {
         var str = parseTable(gridId);
         $(timeId).css('display', 'none');
-        var textinfo = document.getElementById(textId);
+        var textinfo = document.getElementById(textId).value;
+        var context = document.getElementById(constext);
         var dateinfo = document.getElementById(calendarId).value + ' о ' + str.join(', ');
-        textinfo.innerHTML = dateinfo + textinfo.innerHTML;
+        context.innerHTML = dateinfo + textinfo;
         document.getElementById(dateconsId).value = document.getElementById(calendarId).value;
         document.getElementById(timeconsId).value = str;
         $(infoId).css('display', 'block');

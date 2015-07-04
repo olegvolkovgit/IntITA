@@ -105,7 +105,7 @@ class LessonController extends Controller{
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('newTextBlock');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = Yii::app()->request->getPost('order');
+        $model->block_order = LectureElement::model()->count('id_lecture = :id', array(':id' => Yii::app()->request->getPost('idLecture')))+1;
 
         switch ($idType){
 //            case '1':
