@@ -296,6 +296,7 @@ div#consultation-grid.grid-view td{
     font-size: 14px;
     border-spacing: 0 10px;
     text-align: center;
+    word-wrap: break-word;
 }
 #consultation-grid table.items td{
     color:#666666;
@@ -355,7 +356,6 @@ div#consultation-grid.grid-view td{
 }
 #consultation-grid table.items td.nameColumn{
     width:150px;
-    white-space: nowrap;
     word-wrap: break-word;
 }
 #consultation-grid table.items td.themeColumn{

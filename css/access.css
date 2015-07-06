@@ -101,6 +101,6 @@ body .grid-view table.items td.deleteButton{
     margin-left: 0px;
 }
 /*---------------Add new record (permissions/add)-------------------*/
-#addAccessModule select{
-    max-width: 200px;
+#addAccessModule select,#addTeacherAccess select,#addAccess select{
+    max-width: 250px;
 }

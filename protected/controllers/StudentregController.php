@@ -333,7 +333,8 @@ class StudentRegController extends Controller
 
         $this->render("studentprofile", array(
             'dataProvider' => $dataProvider,
-            'post' => $model,'letter'=>$letter,
+            'post' => $model,
+            'letter'=>$letter,
             'sentLettersProvider'=>$sentLettersProvider,
             'receivedLettersProvider'=>$receivedLettersProvider,
             'tab'=>$tab,
