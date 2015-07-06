@@ -728,6 +728,9 @@ div.errorMessage{
 }
 /*send letter*/
 /*finance*/
+#finances{
+    word-wrap: break-word;
+}
 .payments {
     color: #666666;
     font-size: 18px;
@@ -750,7 +753,6 @@ div.errorMessage{
     font-size: 18px;
     margin-bottom: 2px;
     text-decoration: none;
-    word-wrap: break-word;
 }
 .price{
     font-size: 14px;
@@ -786,4 +788,8 @@ div.errorMessage{
 a.teachername{
     margin-right: 10px;
     text-decoration: none;
+}
+div.stars{
+    display: inline-block;
+    float:right;
 }
