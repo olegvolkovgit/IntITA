@@ -388,17 +388,8 @@ div#consultation-grid.grid-view td{
     border-left-width: 0px;
     border-bottom-width: 0px;
 }
-
-.disabled1 {
-    pointer-events: none;
-    color: #666666;
-    cursor: default;
-}
 .linkFinances {
     border-right: 1px solid gray;
-}
-.colorF {
-    color: #4b75a4;
 }
 .borderF {
     border-bottom: 1px solid #d8d8d8;
@@ -410,24 +401,6 @@ div#consultation-grid.grid-view td{
     padding: 0 0 0 20px;
     line-height: 100%;
 }
-.FinancesPay {
-    margin: 0;
-    padding: 0 0 0 20px;
-    line-height: 100%;
-}
-.ButtonFinances {
-    width: 125px;
-    height: 30px;
-    color:#ffffff;
-    background:#4b70a3;
-    border-radius: 7px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    border-left-width: 0px;
-    border-bottom-width: 0px;
-    font-size: 11px;
-}
-
     /*Timetable*/
 /*consultation*/
 /*-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----ЗАВАНТАЖЕННЯ-----*/
@@ -521,9 +494,6 @@ li.active a, li.active a:hover {
 
 
 /***ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ----ЛИСТУВАНЯ***/
-#mylettersSend {
-    padding-top: 50px;
-}
 #mylettersSend label
 {
     display: inline-block;
@@ -757,3 +727,63 @@ div.errorMessage{
     margin-bottom: 5px;
 }
 /*send letter*/
+/*finance*/
+.payments {
+    color: #666666;
+    font-size: 18px;
+}
+.payInfo {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+.payInfo .selectedTab {
+    text-decoration: none;
+    color: #666666;
+}
+.payInfo .unselectedTab {
+    text-decoration: underline;
+    color: #4b75a4;
+    cursor: pointer;
+}
+.completely a.coursename,.partly a.modulename{
+    color: #4b75a4;
+    font-size: 18px;
+    margin-bottom: 2px;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+.price{
+    font-size: 14px;
+    color: #4b75a4;
+    margin-top: 0;
+}
+.FinancesPay {
+    padding: 0 0 0 20px;
+    line-height: 100%;
+    border-bottom: 1px solid #d8d8d8;
+    margin-bottom: 10px;
+}
+.ButtonFinances {
+    width: 125px;
+    height: 30px;
+    color:#ffffff;
+    background:#4b70a3;
+    border-radius: 7px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+    font-size: 11px;
+    margin-top: 10px;
+}
+/*mymark*/
+.mymark{
+    word-wrap: break-word;
+    border-bottom: 1px solid #d8d8d8;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+a.teachername{
+    margin-right: 10px;
+    text-decoration: none;
+}

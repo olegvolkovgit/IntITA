@@ -46,6 +46,7 @@ class ProfileController extends Controller
             }
             if ($response->validate())
             {
+                $response->setScenario('emptyrating');
                 if($teacherRat && $teacherRat->knowledge==$_POST['Response']['knowledge'] && $teacherRat->behavior==$_POST['Response']['behavior'] && $teacherRat->motivation==$_POST['Response']['motivation']){
                     $response->knowledge = Null;
                     $response->behavior = Null;
@@ -54,12 +55,17 @@ class ProfileController extends Controller
                 }
                 if($teacherRat && ($teacherRat->knowledge!==$_POST['Response']['knowledge'] || $teacherRat->behavior!==$_POST['Response']['behavior'] || $teacherRat->motivation!==$_POST['Response']['motivation']))
                 {
+                    $response->knowledge = Null;
+                    $response->behavior = Null;
+                    $response->motivation = Null;
+                    $response->rate = Null;
                     $teacherRat->knowledge = $_POST['Response']['knowledge'];
                     $teacherRat->behavior = $_POST['Response']['behavior'];
                     $teacherRat->motivation = $_POST['Response']['motivation'];
                     $teacherRat->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
                     $teacherRat->save();
-                }else{
+                }
+                if(!$teacherRat) {
                     $response->knowledge = $_POST['Response']['knowledge'];
                     $response->behavior = $_POST['Response']['behavior'];
                     $response->motivation = $_POST['Response']['motivation'];

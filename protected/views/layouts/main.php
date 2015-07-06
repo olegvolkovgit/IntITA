@@ -370,7 +370,7 @@ $header = new Header();?>
             </div>
             <div class="centerfooter">
                 <div class="footerlogo">
-                    <a href="<?php echo Yii::app()->request->baseUrl;?>">
+                    <a href="<?php echo Yii::app()->createUrl('site/index');?>">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>" >
                     </a>
                 </div>

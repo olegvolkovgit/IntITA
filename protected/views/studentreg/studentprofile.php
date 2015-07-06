@@ -137,10 +137,25 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                 <?php $this->renderPartial('_mylettersSend', array('letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider)); ?>
             </section>
             <section id="myMark">
-                <?php $this->renderPartial('_myMark'); ?>
+                <p class="tabHeader"><?php echo Yii::t('profile', '0116'); ?></p>
+                <?php
+                $this->widget('zii.widgets.CListView', array(
+                    'dataProvider'=>$markProvider,
+                    'itemView'=>'_myMark',
+                    'template'=>'{items}{pager}',
+                    'emptyText'=>'Оцінювань немає',
+                    'pager' => array(
+                        'firstPageLabel'=>'<<',
+                        'lastPageLabel'=>'>>',
+                        'prevPageLabel'=>'<',
+                        'nextPageLabel'=>'>',
+                        'header'=>'',
+                    ),
+                ));
+                ?>
             </section>
             <section id="finances">
-                <?php $this->renderPartial('_finances'); ?>
+                <?php $this->renderPartial('_finances', array('paymentsCourses'=>$paymentsCourses,'paymentsModules'=>$paymentsModules)); ?>
             </section>
         </div>
     </div>
