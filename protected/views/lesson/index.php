@@ -32,7 +32,7 @@ $this->breadcrumbs=array(
 
         <?php if($editMode){?>
         <div onclick="enableLessonEdit();">
-            <a href="#">
+            <a>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="Редагувати заняття"/>
             </a>
