@@ -693,6 +693,10 @@ span.addressee {
     resize: none;
     padding-left: 5px;
 }
+#mylettersSend textarea.letterresponse{
+    width: 98%;
+    margin: 0;
+}
 #mylettersSend input[type="text"]
 {
     width: 80%;
@@ -707,7 +711,7 @@ span.addressee {
     height: 40px;
     margin: 10px 0 10px 5px;
 }
-.spoilerBody img{
+.letter img{
     width: 60px;
     height: 60px;
     vertical-align: top;
@@ -725,6 +729,13 @@ div.errorMessage{
     color: #c72929;
     margin-left: 90px;
     margin-bottom: 5px;
+}
+.letter div.errorMessage{
+    margin-left: 0;
+}
+.responseletter{
+    margin: 0 0 10px 50px;
+    border-bottom:1px solid #d8d8d8;
 }
 /*send letter*/
 /*finance*/
@@ -792,4 +803,18 @@ a.teachername{
 div.stars{
     display: inline-block;
     float:right;
+}
+/*myrating*/
+.myrating{
+    word-wrap: break-word;
+    border-bottom: 1px solid #d8d8d8;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.mainrating{
+    word-wrap: break-word;
+    border-bottom: 1px solid #d8d8d8;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    font-weight: 600;
 }
