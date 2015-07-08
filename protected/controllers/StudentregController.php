@@ -505,4 +505,41 @@ class StudentRegController extends Controller
         }
 
     }
+
+    public function actionTimetableProvider($user, $tab)
+    {
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$user));
+
+        switch ($tab){
+            case '1':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '2':
+                $criteria= new CDbCriteria;
+                $criteria->alias = 'consultationscalendar';
+                if($teacher)
+                    $criteria->addCondition('teacher_id='.$teacher->teacher_id);
+                else
+                    $criteria->addCondition('user_id='.$user);
+
+                $data = new CActiveDataProvider('Consultationscalendar', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>100,
+                    ),
+                    'sort'=> array(
+                        'defaultOrder' => 'date_cons DESC',
+                        'attributes'=>array('date_cons'),
+                    ),
+                ));
+                break;
+            case '3':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '4':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+        }
+        $this->renderPartial('_timetableprovider', array('dataProvider'=>$data,'userId'=>$user));
+    }
 }
