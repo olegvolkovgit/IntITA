@@ -78,7 +78,7 @@ if ($editMode) {
         var cart = {
             "operation": "result",
             "session" : "1241q223f4f2341",
-            "jobid" : 11212,
+            "jobid" : 2555,
             "code" : "int k =5;",
             "task": 1,
             "lang": "c++"
@@ -89,12 +89,12 @@ if ($editMode) {
             dataType: 'json',
             data: JSON.stringify(cart),
 
-            success: function(data, code){
+            success: function(){
                 if (code==200){
-                    //$('#code').html(code); // запрос успешно прошел
-                    alert(code);
+                    //'#code').html(data.msg); // запрос успешно прошел
+                    alert('Success');
                 }else{
-                    alert(code);
+                    //alert(code);
                     $('#code').html(code); // возникла ошибка, возвращаем код ошибки
                 }
                 $('#code').html('Your code: '+data.code); // данные которые вернул сервер!
