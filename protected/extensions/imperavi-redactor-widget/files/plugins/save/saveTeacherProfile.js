@@ -22,7 +22,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: 'http://localhost/IntITA/profile/save',
+                    url: 'http://intita.itatests.com/profile/save',
                     data: {'content':html,'id':idTeacher,'block':block}
                 });
             }
