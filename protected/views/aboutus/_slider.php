@@ -80,25 +80,25 @@
     <div class="slide">
         <div>
             <p class="about"><?php echo Yii::t('slider','0027'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '1.jpg'); ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', 'slider1.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p class="about"><?php echo Yii::t('slider','0028'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '2.jpg'); ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', 'slider2.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p class="about"><?php echo Yii::t('slider','0029'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '3.jpg'); ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', 'slider3.jpg'); ?>" />
         </div>
     </div>
     <div class="slide">
         <div>
             <p class="about"><?php echo Yii::t('slider','0030'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '4.jpg'); ?>" />
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', 'slider4.jpg'); ?>" />
         </div>
     </div>
 </div>
