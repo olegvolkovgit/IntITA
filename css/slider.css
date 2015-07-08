@@ -26,7 +26,11 @@
 	text-align: center;
 	z-index: 1;
 	left: 50%;
-	
+}
+.slide p.about
+{
+    left: 46%;
+    color: #000000;
 }
 .slide img
 {
@@ -38,8 +42,14 @@
 #sliderCenterBox
 {
 	position: absolute;
+    color: #383838;
 	width: 100%;
 	z-index: 1;
+}
+#sliderCenterBox.about
+{
+    top: -85px;
+    left: -60px;
 }
 .sliderCenterBoxText p
 {
@@ -51,7 +61,11 @@
 	font-family: "MyriadPro";
 	text-shadow: 0.05em 0.05em 0.05em #555;
 }
-
+.sliderCenterBoxText p.about
+{
+    font-size: 1.15em;
+    color: #000000;
+}
 
 
 .sliderCenterBoxLine hr
@@ -60,7 +74,10 @@
 	width: 2.5em;
 	
 }
-
+.sliderCenterBoxLine hr.about
+{
+    border-color: #000000;
+}
 
 .sliderSnake .snake img
 {

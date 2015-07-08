@@ -44,6 +44,7 @@ function textSliderCentr() { /* Центрування тексту картин
     $('.slide p').width(document.body.clientWidth);
     $('.slide p').css('margin-left', (document.body.clientWidth/2-document.body.clientWidth)+'px');
     $('.slide p').css('top', document.body.clientWidth/4.05+'px');
+    $('.slide p.about').css('top', document.body.clientWidth/10+'px');
 }
 $(function() { textSliderCentr(); });
 $(window).resize(function() { textSliderCentr(); });
