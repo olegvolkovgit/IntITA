@@ -1,119 +1,103 @@
-<p class="tabHeader"><?php echo Yii::t('profile', '0110'); ?></p>
+<p class="tabHeader"><?php echo Yii::t('profile', '0109'); ?></p>
 <table class="exmCons">
     <tr>
         <td>
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/exam.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0111'); ?></span>
+            <?php
+            echo CHtml::ajaxLink(
+                "<span id='exam' class='unselectedTab' onclick='selectExam(this)'>" . Yii::t('profile', '0111') . "</span>",
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 1)),
+                array(
+                    'update' => '#timetablecontent'
+                )
+            );
+            ?>
         </td>
         <td>
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/consultation.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0110'); ?></span>
+            <?php
+            echo CHtml::ajaxLink(
+                "<span id='cons' class='unselectedTab' onclick='selectCons(this)'>" . Yii::t('profile', '0110') . "</span>",
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 2)),
+                array(
+                    'update' => '#timetablecontent'
+                )
+            );
+            ?>
         </td>
         <td>
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/imp.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0124'); ?></span>
+            <?php
+            echo CHtml::ajaxLink(
+                "<span id='imp' class='unselectedTab' onclick='selectImp(this)'>" . Yii::t('profile', '0124') . "</span>",
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 3)),
+                array(
+                    'update' => '#timetablecontent'
+                )
+            );
+            ?>
         </td>
         <td>
             <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/kdp.png"/>
         </td>
         <td>
-            <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0125'); ?></span>
+            <?php
+            echo CHtml::ajaxLink(
+                "<span id='kdp' class='unselectedTab' onclick='selectKdp(this)'>" . Yii::t('profile', '0125') . "</span>",
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 4)),
+                array(
+                    'update' => '#timetablecontent'
+                )
+            );
+            ?>
         </td>
     </tr>
 </table>
-<?php
-$alert = 'Ви впевнені, що хочите відмінити консультацію?';
-?>
-<div class="consult">
-    <?php $this->widget('zii.widgets.grid.CGridView', array(
-        'id'=>'consultation-grid',
-        'dataProvider'=>$dataProvider,
-        'emptyText' => 'Запланованих консультацій немає.',
-        'summaryText' => '',
-        'columns'=>array(
-            array(
-                'header'=>Yii::t('profile', '0126'),
-                'value'=>'Yii::t(\'profile\', \'0132\')',
-            ),
-            array(
-                'name'=>'date_cons',
-                'header'=>Yii::t('profile', '0127'),
-                'type' => 'raw',
-                'htmlOptions'=>array('class'=>'dateColumn'),
-            ),
-            array(
-                'name'=>'start_cons',
-                'header'=>Yii::t('profile', '0128'),
-                'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
-                'type' => 'raw',
-                'htmlOptions'=>array('class'=>'timeColumn'),
-            ),
-            array(
-                'header'=>ConsultationsHelper::getUserTitle($user->id),
-                'value'=>'ConsultationsHelper::getUserName(' . $user->id . ',$data)',
-                'type' => 'raw',
-                'htmlOptions'=>array('class'=>'nameColumn'),
-            ),
-            array(
-                'header'=>Yii::t('profile', '0130'),
-                'value'=>'ConsultationsHelper::getTheme($data)',
-                'type' => 'raw',
-                'htmlOptions'=>array('class'=>'themeColumn'),
-            ),
-            array(
-                'class'=>'CButtonColumn',
-                'headerHtmlOptions'=>array('style'=>'width:20px;'),
-                'htmlOptions' => array('style'=>'width:20px'),
-                'buttons'=>array
-                (
-                    'htmlOptions'=>array('display' => 'none'),
-                    'delete' => array(
-                        'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
-                        'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                        'label' => 'Відмінити консультацію',
-                    ),
-                ),
-                'updateButtonOptions'=> array('style'=>'display:none'),
-                'viewButtonOptions'=> array('style'=>'display:none'),
-                'deleteConfirmation'=>$alert,
-            ),
-        ),
-    )); ?>
+<div class="consult" id="timetablecontent">
+    <div style="display: none">
+        <?php $this->renderPartial('_timetableprovider', array('dataProvider' => $dataProvider, 'userId' => $user->id)); ?>
+    </div>
 </div>
 <script>
-    function changeTabs(n){
-        if (n.innerHTML=="<?php echo Yii::t('profile', '0111'); ?>"){
-            $('.exm').toggle('fast');
-            if(n.className=='selectedTab')
-                n.className='unselectedTab';
-            else n.className='selectedTab';
+    function selectExam(n) {
+        if (n.className == 'unselectedTab') {
+            n.className = 'selectedTab';
+            document.getElementById("cons").className = 'unselectedTab';
+            document.getElementById("imp").className = 'unselectedTab';
+            document.getElementById("kdp").className = 'unselectedTab';
         }
+    }
 
-        if (n.innerHTML=="<?php echo Yii::t('profile', '0110'); ?>"){
-            $('.consult').toggle('fast');
-            if(n.className=='selectedTab')
-                n.className='unselectedTab';
-            else n.className='selectedTab';
+    function selectCons(n) {
+        if (n.className == 'unselectedTab') {
+            n.className = 'selectedTab';
+            document.getElementById("exam").className = 'unselectedTab';
+            document.getElementById("imp").className = 'unselectedTab';
+            document.getElementById("kdp").className = 'unselectedTab';
         }
+    }
 
-        if (n.innerHTML=="<?php echo Yii::t('profile', '0124'); ?>"){
-            $('.imp').toggle('fast');
-            if(n.className=='selectedTab')
-                n.className='unselectedTab';
-            else n.className='selectedTab';
+    function selectImp(n) {
+        if (n.className == 'unselectedTab') {
+            n.className = 'selectedTab';
+            document.getElementById("cons").className = 'unselectedTab';
+            document.getElementById("exam").className = 'unselectedTab';
+            document.getElementById("kdp").className = 'unselectedTab';
         }
+    }
 
-        if (n.innerHTML=="<?php echo Yii::t('profile', '0125'); ?>"){
-            $('.kdp').toggle('fast');
-            if(n.className=='selectedTab')
-                n.className='unselectedTab';
-            else n.className='selectedTab';
+    function selectKdp(n) {
+        if (n.className == 'unselectedTab') {
+            n.className = 'selectedTab';
+            document.getElementById("cons").className = 'unselectedTab';
+            document.getElementById("imp").className = 'unselectedTab';
+            document.getElementById("exam").className = 'unselectedTab';
         }
     }
 </script>
