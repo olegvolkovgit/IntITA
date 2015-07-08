@@ -18,13 +18,12 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             sendContent: function()
             {
                 var html = this.code.get();
-                console.log(html);
 
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: 'http://intita.itatests.com/profile/save',
-                    data: {'content':html,'id':1,'block':1}
+                    url: 'http://localhost/IntITA/profile/save',
+                    data: {'content':html,'id':idTeacher,'block':block}
                 });
             }
         };

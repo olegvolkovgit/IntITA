@@ -5,7 +5,14 @@
  * Date: 12.05.2015
  * Time: 16:52
  */
-?>
+if ($editMode){
+    ?>
+    <script type="text/javascript">
+        idTeacher = <?php echo $model->teacher_id;?>;
+        block = '1';
+    </script>
+<?php }?>
+
 <div class="TeacherProfileblock1">
     <table>
         <tr>
@@ -18,39 +25,33 @@
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>
 
-
-                <div class="editable"  onclick="function(){block = 1;}">
+                <div class="editableText" id="t1" onclick="function(){order = 't1';}">
                     <p>
-                    <?php echo $model->profile_text_first; ?>
+                    <?php if($model->profile_text_first != '') {
+                        echo $model->profile_text_first;
+                    } else {
+                        if ($editMode){
+                            echo "Натисніть для редагування профілю.";
+                        }
+                    }?>
                     </p>
                 </div>
                 <?php
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>
 
-                <div class="editable" onclick="function(){block = 2;}">
+                <div  class="editableText" id="t2" onclick="function(){order = 't2';}">
                     <p>
-                    <?php echo $model->profile_text_last;?>
+                        <?php if($model->profile_text_last != '') {
+                            echo $model->profile_text_last;
+                        } else {
+                            if ($editMode){
+                                echo "Натисніть для редагування профілю.";
+                            }
+                        }?>
                     </p>
                 </div>
                 <br>
-<!--                --><?php
-//                if ($editMode) {
-//                    ?>
-<!--                    <form id="updateProfile" action="--><?php //echo Yii::app()->createUrl('profile/save');?><!--" method="post">-->
-<!--                        <input name="id" value="--><?php //echo $model->teacher_id; ?><!--" hidden="hidden"/>-->
-<!--                        <input name="firstText" value="" hidden="hidden" id="firstText"/>-->
-<!--                        <input name="secondText" value="" hidden="hidden" id="secondText"/>-->
-<!--                        <textarea id="content" name="content"  hidden="hidden"></textarea>-->
-<!--                        <p>-->
-<!--                            <button onclick="javascript:getContent();" id="updateButton">-->
-<!--                                UPDATE-->
-<!--                            </button>-->
-<!--                        </p>-->
-<!--                    </form>-->
-<!--                --><?php
-//                }
-//                ?>
                 <?php if(Yii::app()->user->hasFlash('success')):?>
                     <div class="info">
                         <?php echo Yii::app()->user->getFlash('success'); ?>

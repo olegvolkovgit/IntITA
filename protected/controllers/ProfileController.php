@@ -104,10 +104,10 @@ class ProfileController extends Controller
 
     public function actionSave(){
         if (isset($_POST['id'])) {
-            if ($_POST['block'] == 1) {
+            if ($_POST['block'] == 't1') {
                 Teacher::updateFirstText($_POST['id'], $_POST['content']);
             }
-            if ($_POST['block'] == 2) {
+            if ($_POST['block'] == 't2') {
                 Teacher::updateSecondText($_POST['id'], $_POST['content']);
             }
         }

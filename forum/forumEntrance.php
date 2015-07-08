@@ -8,7 +8,7 @@ if(!mysql_connect($host,$user,$password))
 elseif(!mysql_select_db($database))
     die('Не удалось выбрать БД!');
 session_start();
-$id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
+$id = (int)$_SESSION['ec7fd6d0888e50ffcc52f32a58d6e345__id'];
 if ($id) {
     $sql = "SELECT firstName, secondName, email FROM `user` WHERE id=".$id.";";
     $result = mysql_query($sql);

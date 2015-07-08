@@ -1,19 +1,4 @@
-<!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
-<script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
-<!--<!-- Підключення BBCode WysiBB -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/BBCode.js"></script>
-<!-- Підключення BBCode WysiBB -->
-<!-- Spoiler -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/teacherProfile.js"></script>
-<!-- teacherProfile style -->
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teacherProfile.css" />
-<!-- steps style -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+
 
 <?php
 /* @var $this ProfileController */
@@ -27,8 +12,27 @@ if (isset($_GET['div'])){
     $currentDiv = '';
 }
 ?>
+
 <div class="TeacherProfilemainBlock">
     <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'editMode' => $editMode)); ?>
     <!-- Block 2 -->
     <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider,'response' => $response)); ?>
+</div>
 
+
+    <!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
+    <!--<!-- Підключення BBCode WysiBB -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/lang/ua.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/BBCode.js"></script>
+    <!-- Підключення BBCode WysiBB -->
+    <!-- Spoiler -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/teacherProfile.js"></script>
+    <!-- teacherProfile style -->
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teacherProfile.css" />
+    <!-- steps style -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactorProfile.js"></script>

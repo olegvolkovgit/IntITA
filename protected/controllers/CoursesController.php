@@ -55,6 +55,7 @@ class CoursesController extends Controller
         $this->render('index', array(
             'coursesLangs'=>$coursesLang,
             'dataProvider' => $dataProvider,
+            'total' => $total,
             'count1' => $count1,
             'count2' => $count2,
         ));

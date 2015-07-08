@@ -52,6 +52,6 @@
 <!--        </tr>-->
 <!--    </table>-->
     <a href="<?php echo Yii::app()->createUrl('pay/index');?>">
-        <button class="ButtonFinances" style="float:right"><?php echo Yii::t('profile', '0261'); ?></button>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
     </a>
 </div>

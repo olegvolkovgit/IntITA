@@ -21,7 +21,7 @@
                     <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'senior'));?>)</div></td>
         <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png');?>"/>&nbsp;&nbsp;</div></td>
         <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all'));?>">
-                    <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo Course::model()->count('level');?>)</div></td>
+                    <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo $total;?>)</div></td>
     </tr>
 </table>
 
