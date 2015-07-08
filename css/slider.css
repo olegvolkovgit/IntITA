@@ -30,6 +30,7 @@
 .slide p.about
 {
     left: 46%;
+    color: #000000;
 }
 .slide img
 {
@@ -63,6 +64,7 @@
 .sliderCenterBoxText p.about
 {
     font-size: 1.15em;
+    color: #000000;
 }
 
 
@@ -72,7 +74,10 @@
 	width: 2.5em;
 	
 }
-
+.sliderCenterBoxLine hr.about
+{
+    border-color: #000000;
+}
 
 .sliderSnake .snake img
 {

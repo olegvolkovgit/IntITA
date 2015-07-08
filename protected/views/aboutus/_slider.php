@@ -73,7 +73,7 @@
         <p class="about">ПРО ЩО МРІЄШ ТИ?</p>
     </div>
     <div class="sliderCenterBoxLine">
-        <hr>
+        <hr class="about">
     </div>
 </div>
 <div id="slider" class="owl-carousel">
