@@ -12,13 +12,13 @@
     <tr>
         <!--Для початківців (6)   |   Для спеціалістів (0)   |   Для експертів (0)   |   Усі курси (6)   |-->
         <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior'));?>">
-                    <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(<?php echo count(Course::model()->findAllByAttributes(array('level' => array('junior','strong junior','intern')))); ?>)</div></td>
+                    <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;(<?php echo count(Course::model()->findAllByAttributes(array('level' => array('junior','strong junior','intern'), 'language' => 'ua'))); ?>)</div></td>
         <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png');?>"/>&nbsp;&nbsp;</div></td>
         <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle'));?>">
-                    <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'middle'));?>)</div></td>
+                    <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level and language=:lang',	array(':level' => 'middle', ':lang' => 'ua'));?>)</div></td>
         <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png');?>"/>&nbsp;&nbsp;</div></td>
         <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior'));?>">
-                    <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level',	array(':level' => 'senior'));?>)</div></td>
+                    <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;(<?php echo Course::model()->count('level=:level and language=:lang',	array(':level' => 'senior', ':lang' => 'ua'));?>)</div></td>
         <td><div class='sourse'>&nbsp;&nbsp;<img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png');?>"/>&nbsp;&nbsp;</div></td>
         <td  valign="top"> <div class='sourse'><a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all'));?>">
                     <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;(<?php echo $total;?>)</div></td>
