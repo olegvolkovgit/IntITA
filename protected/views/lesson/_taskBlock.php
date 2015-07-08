@@ -103,17 +103,17 @@ if ($editMode) {
             error: function(xhr, str){
                 $('#code').html('Критическая ошибка');
                 alert(str);
-            },
-
-            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
-                $.getJSON("http://ii.itatests.com", function(data) {
-                    $.each(data, function(key, val) {
-                        $('#code').append('<option value="' + val + '">' + key + '</option>');
-                    });
-                });
-
-                alert('Complete');
             }
+
+//            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
+//                $.getJSON("http://ii.itatests.com", function(data) {
+//                    $.each(data, function(key, val) {
+//                        $('#code').append('<option value="' + val + '">' + key + '</option>');
+//                    });
+//                });
+//
+//                alert('Complete');
+//            }
         });
     }
 </script>

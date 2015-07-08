@@ -306,7 +306,7 @@ $header = new Header();?>
     <?php endif?>
 
     <?php if(!Yii::app()->user->isGuest && !(Yii::app()->controller->id=='site'
-        && Yii::app()->controller->action->id=='index')) {
+        && Yii::app()->controller->action->id=='index') && !(Yii::app()->controller->id=='aboutus')) {
         $post=StudentReg::model()->findByPk(Yii::app()->user->id);
         ?>
         <div class="profileStatus">
