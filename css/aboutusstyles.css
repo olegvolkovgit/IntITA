@@ -428,3 +428,26 @@
     border-top-color: #363636;
     background: #363636;
 }
+.slideAbout p
+{
+    position: absolute;
+    font-size: 0.6em;
+    font-family: "MyriadPro";
+    font-weight: 200;
+    color: white;
+    text-shadow: 0.1em 0.1em 0.1em #555;
+    text-align: center;
+    z-index: 1;
+    left: 50%;
+}
+.slideAbout p.about
+{
+    left: 46%;
+    color: #000000;
+}
+.slideAbout img
+{
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}

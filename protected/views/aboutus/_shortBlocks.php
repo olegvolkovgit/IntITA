@@ -39,7 +39,7 @@ $dropName = Yii::t('mainpage','0004');
                             <img src="<?php echo $val->iconImage;?>">
                         </div>
                         <div class="title" >
-                            <div class="aboutTitleLink" onclick="WindowShow(<?php echo $index;?>,1)">
+                            <div class="aboutTitleLink" onclick="WindowShow(<?php echo $index;?>">
                                 <?php echo $val->titleText; ?>
                             </div>
                             <p>
