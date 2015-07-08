@@ -32,6 +32,7 @@ class CoursesController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
+        $criteria->condition = 'language="ua"';
         if ($selector !== 'all'){
             if ($selector == 'junior'){
                 $criteria->addInCondition('level', array('intern','strong junior','junior'));
@@ -45,13 +46,14 @@ class CoursesController extends Controller
             'criteria' => $criteria,
             'Pagination'=>false,
         ));
+        $coursesLang = CourseLanguages::getCoursesByLang($criteria);
 
         $total = $dataProvider->getTotalItemCount();
         $count1 =round($total/2);
         $count2 = $total - $count1;
 
         $this->render('index', array(
-
+            'coursesLangs'=>$coursesLang,
             'dataProvider' => $dataProvider,
             'count1' => $count1,
             'count2' => $count2,

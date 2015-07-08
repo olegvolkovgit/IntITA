@@ -25,35 +25,12 @@
                 <div class="courseLevelBox">
                     <?php echo Yii::t('courses', '0068'); ?>
                     <span class="courseLevel">
-			                            <?php
-                                        $rate = 0;
-                                        switch ($val->level) {
-                                            case 'intern':
-                                                echo Yii::t('courses', '0232');
-                                                $rate = 1;
-                                                break;
-                                            case 'junior':
-                                                echo Yii::t('courses', '0233');
-                                                $rate = 2;
-                                                break;
-                                            case 'strong junior':
-                                                echo Yii::t('courses', '0234');
-                                                $rate = 3;
-                                                break;
-                                            case 'middle':
-                                                echo Yii::t('courses', '0235');
-                                                $rate = 4;
-                                                break;
-                                            case 'senior':
-                                                echo Yii::t('courses', '0236');
-                                                $rate = 5;
-                                                break;
-                                        }
-                                        ?>
-			                          </span>
+                        <?php echo CourseHelper::translateLevel($val->level);?>
+			        </span>
 
                     <div class='courseLevelIndex'>
                         <?php
+                        $rate = CourseHelper::getCourseRate($val->level);
                         for ($i = 0; $i < $rate; $i++) {
                             ?><span class="courseLevelImage">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>">
@@ -83,7 +60,19 @@
                 <div class="courseLang">
                     <?php echo Yii::t('courses', '0069'); ?>
                     <a id="coursesLangs"
-                       href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php echo $val->language; ?></a>
+                       href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php echo $val->language; ?>
+                    </a>
+                    <?php if(isset($coursesLangs[$val->course_ID]['ru'])){?>
+                        <a id="coursesLangs"
+                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesLangs[$val->course_ID]['ru'])); ?>">ru
+                        </a>
+                    <?php }
+                    if(isset($coursesLangs[$val->course_ID]['en'])){?>
+                        <a id="coursesLangs"
+                           href="<?php echo Yii::app()->createUrl('course/index', array('id' => $coursesLangs[$val->course_ID]['en'])); ?>">en
+                        </a>
+                    <?php }?>
+
                 </div>
                 <!--Вартість курсу-->
                 <div class="coursePriceBox">

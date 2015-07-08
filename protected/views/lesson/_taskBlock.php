@@ -27,7 +27,7 @@
             </div>
             <form method="post" class="sendAnswer" id="sendAnswer" action="#">
                 <textarea name="code" id="code" value='std::cout << \"Hello World!\" << std::endl;'> </textarea>
-                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" onclick="test()">
+                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" onclick='test()'>
             </form>
             <div id="content1"></div>
         </div>
@@ -74,55 +74,46 @@ if ($editMode) {
 }
 ?>
 <script type="text/javascript">
-//    $(function() {
-//        $("#sendAnswer").submit(function() {
-//            $.ajax({
-//                url: 'http://ii.itatests.com',
-//                type: 'POST',
-//                dataType:"json",
-//                data: {
-//                    "operation" : "status",
-//                    "session" : "123456789044241232",
-//                    "jobid" : 1
-//                }
-//            });
-//        });
-//    });
     function test() {
-        cart = {
-            "operation" : "status",
-            "session" : "123456789044241232",
-            "jobid" : 1
+        var cart = {
+            "operation": "result",
+            "session" : "1241q223f4f2341",
+            "jobid" : 11212,
+            "code" : "int k =5;",
+            "task": 1,
+            "lang": "c++"
         };
-        alert ( JSON.stringify( cart ) );
-
         $.ajax({
             type: "POST",
             url: "http://ii.itatests.com",
-            dataType: "json",
-            data: cart,
-            beforesend: $('.content1').html('Загрузка'),
+            dataType: 'json',
+            data: JSON.stringify(cart),
 
             success: function(data, code){
                 if (code==200){
-                    $('#code').html(data); // запрос успешно прошел
-                    //alert(data);
+                    //$('#code').html(code); // запрос успешно прошел
+                    alert(code);
                 }else{
+                    alert(code);
                     $('#code').html(code); // возникла ошибка, возвращаем код ошибки
-                    //alert(code);
                 }
-                $('.code').html('Your code: '+data.code); // данные которые вернул сервер!
+                $('#code').html('Your code: '+data.code); // данные которые вернул сервер!
             },
 
-            error:  function(xhr, str){
-                $('.code').html('Критическая ошибка');
+            error: function(xhr, str){
+                $('#code').html('Критическая ошибка');
+                alert(str);
             },
 
             complete:  function(){ //а тут ничего из предложенных параметров не берем :)
-                $('#something').hide(); //например, спрятали какую-то кнопочку, которая вызывала запрос
+                $.getJSON("http://ii.itatests.com", function(data) {
+                    $.each(data, function(key, val) {
+                        $('#code').append('<option value="' + val + '">' + key + '</option>');
+                    });
+                });
+
+                alert('Complete');
             }
-
         });
-
     }
 </script>
