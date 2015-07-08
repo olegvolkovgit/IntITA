@@ -7,7 +7,7 @@
     <input name="idCourse" value="<?php echo $newmodel->course_ID;?>" hidden="hidden">
     <input name="order" value="<?php echo $order+1?>" hidden="hidden">
     <input name="lang" value="<?php echo $newmodel->language;?>" hidden="hidden">
-    <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІії.,:;`'?!~* ()/+-]+$" maxlength="255">
+    <input type="text" name="newModuleName" id="newModuleName" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255">
     <br><br>
     <input type="submit"  value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()">
 </form>

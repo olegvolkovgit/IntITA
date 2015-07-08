@@ -303,7 +303,45 @@ class StudentRegController extends Controller
             ),
         ));
 
-        $this->render("studentprofile", array('dataProvider' => $dataProvider,'post' => $model,'letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider, 'tab'=>$tab));
+        $coursesCriteria= new CDbCriteria;
+        $coursesCriteria->alias = 'pay_courses';
+        $coursesCriteria->addCondition('id_user='.$idUser);
+
+        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
+            'criteria'=>$coursesCriteria,
+            'pagination'=>false,
+        ));
+
+        $modulesCriteria= new CDbCriteria;
+        $modulesCriteria->alias = 'pay_modules';
+        $modulesCriteria->addCondition('id_user='.$idUser);
+
+        $paymentsModules = new CActiveDataProvider('PayModules', array(
+            'criteria'=>$modulesCriteria,
+            'pagination'=>false,
+        ));
+
+        $markCriteria= new CDbCriteria;
+        $markCriteria->alias = 'response';
+        $markCriteria->addCondition('who='.$idUser);
+        $markCriteria->addCondition('rate>0');
+
+        $markProvider = new CActiveDataProvider('Response', array(
+            'criteria'=>$markCriteria,
+            'pagination'=>false,
+        ));
+
+        $this->render("studentprofile", array(
+            'dataProvider' => $dataProvider,
+            'post' => $model,
+            'letter'=>$letter,
+            'sentLettersProvider'=>$sentLettersProvider,
+            'receivedLettersProvider'=>$receivedLettersProvider,
+            'tab'=>$tab,
+            'paymentsCourses'=>$paymentsCourses,
+            'paymentsModules'=>$paymentsModules,
+            'markProvider'=>$markProvider,
+        ));
 
     }
     public function actionSendletter()

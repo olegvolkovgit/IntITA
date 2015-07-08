@@ -158,6 +158,30 @@ class LettersController extends Controller
             }
         }
     }
+    public function actionSendRespLetter($id)
+    {
+        $tab='checked';
+        $model= new Letters();
+        if(isset($_POST['ajax']) && $_POST['ajax']==='respletter-form'.$id)
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        if(isset($_POST['Letters']))
+        {
+            $model->attributes=$_POST['Letters'];
+            $model->date = date("Y-m-d H:i:s");
+            if($model->validate())
+            {
+                $model->save();
+                Yii::app()->user->setFlash('sendletter', 'Ваш лист успішно відправлений');
+                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+            } else {
+                Yii::app()->user->setFlash('sendletter', 'Заповніть всі поля перед відправкою');
+                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+            }
+        }
+    }
     public function actionStatusUpdate($id)
     {
         $model=Letters::model()->findByPk($id);

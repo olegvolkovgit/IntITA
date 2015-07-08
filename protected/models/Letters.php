@@ -34,7 +34,7 @@ class Letters extends CActiveRecord
 			array('sender_id, addressee_id, status', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, sender_id, addressee_id, text_letter, status', 'safe', 'on'=>'search'),
+			array('id, sender_id, addressee_id, text_letter, status, rapport', 'safe', 'on'=>'search'),
 		);
 	}
 

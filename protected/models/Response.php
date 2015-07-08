@@ -38,9 +38,9 @@ class Response extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('who, about, date', 'required'),
-            array('knowledge', 'required', 'message'=>'знання викладача'),
-            array('behavior', 'required', 'message'=>'ефективність викладача'),
-            array('motivation', 'required', 'message'=>'ставлення викладача до студента'),
+            array('knowledge', 'required', 'message'=>'знання викладача','except'=>'emptyrating'),
+            array('behavior', 'required', 'message'=>'ефективність викладача','except'=>'emptyrating'),
+            array('motivation', 'required', 'message'=>'ставлення викладача до студента','except'=>'emptyrating'),
             array('text', 'required', 'message'=>'Відгук не може бути пустим'),
 			array('who, about, rate', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),

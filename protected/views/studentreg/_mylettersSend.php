@@ -1,14 +1,10 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerLetter.js"></script>
-<div>
 <p class="tabHeader">Листування</p>
-</div>
 
 <div class="box_tabs">
     <ul class="box_tab-links">
-        <li ><a href="#box_tab1">Вхідні</a></li>
+        <li><a href="#box_tab1">Вхідні</a></li>
         <li><a href="#box_tab2">Вихідні</a></li>
-<!--        <li><a href="#box_tab3">Архів</a></li>-->
-<!--        <li><a href="#box_tab4">Чернетки</a></li>-->
         <li class="active_box">
             <a class='createLetter' href="#box_tab5">
                 <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/send.jpg"/>Створити
@@ -22,6 +18,7 @@
             $this->widget('zii.widgets.CListView', array(
                 'dataProvider'=>$receivedLettersProvider,
                 'itemView'=>'/letters/_receivedLetters',
+                'viewData' => array('respletter'=>$letter),
                 'template'=>'{items}{pager}',
                 'emptyText'=>'Прийнятих листів немає',
                 'pager' => array(
@@ -40,6 +37,7 @@
             $this->widget('zii.widgets.CListView', array(
                 'dataProvider'=>$sentLettersProvider,
                 'itemView'=>'/letters/_sentLetters',
+                'viewData' => array('model'=>$letter),
                 'template'=>'{items}{pager}',
                 'emptyText'=>'Відправлених листів немає',
                 'pager' => array(
@@ -52,15 +50,6 @@
             ));
             ?>
         </div>
-
-<!--        <div id="box_tab3" class="box_tab3">-->
-<!---->
-<!--        </div>-->
-<!---->
-<!--        <div id="box_tab4" class="box_tab4">-->
-<!---->
-<!--        </div>-->
-
         <div id="box_tab5" class="box_tab5">
 <!---->
 <!--            <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>-->

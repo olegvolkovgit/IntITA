@@ -1,57 +1,78 @@
+<p class="tabHeader"><?php echo Yii::t('profile', '0254'); ?></p>
 <div class="FinancesPay">
-<!--<p class="tabHeader">--><?php //echo Yii::t('profile', '0254'); ?><!--</p>-->
-<!---->
-<!--    <p class="disabled1">--><?php //echo Yii::t('profile', '0255'); ?><!--</p>-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/financeicoGreen.png"/>-->
-<!--                <a link class="linkFinances" type="text" href="#" style="padding-right: 5px"><small>--><?php //echo Yii::t('profile', '0256'); ?><!--</small></a>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/financeicoRed.png"/>-->
-<!--                <a link type="text" href="#"><small>--><?php //echo Yii::t('profile', '0257'); ?><!--</small></a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--    <p class="colorF"><big>Курс основи програмування під Android для чайників та прасок</big></p>-->
-<!--    <p class="colorF"><small>--><?php //echo Yii::t('profile', '0258'); ?><!-- 2500 --><?php //echo Yii::t('profile', '0259'); ?><!--</small></p>-->
-<!--</div>-->
-<!---->
-<!--<div class="FinancesPay">-->
-<!--    <p class="disabled1">--><?php //echo Yii::t('profile', '0255'); ?><!--</p>-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/financeicoGreen.png"/>-->
-<!--                <a link class="linkFinances" type="text" href="#" style="padding-right: 5px"><small>--><?php //echo Yii::t('profile', '0256'); ?><!--</small></a>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/css/images/financeicoRed.png"/>-->
-<!--                <a link type="text" href="#"><small>--><?php //echo Yii::t('profile', '0257'); ?><!--</small></a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--    <p class="colorF"><big>Курс основи програмування для прасок та парасольок</big></p>-->
-<!--        <p class="colorF"><small>--><?php //echo Yii::t('profile', '0258'); ?><!-- 1500 --><?php //echo Yii::t('profile', '0259'); ?><!--</small></p>-->
-<!--        <p class="borderF"><small>--><?php //echo Yii::t('profile', '0260'); ?><!-- 1-4</small></p>-->
-<!--</div>-->
-<!---->
+    <p class="payments"><?php echo Yii::t('profile', '0255'); ?></p>
+    <table class="payInfo">
+        <tr>
+            <td>
+                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeicoGreen.png"/>
+                <span id="full" class='selectedTab' onclick="showFullPay(this)"><?php echo Yii::t('profile', '0256'); ?></span>
+            </td>
+            <td>
+                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeicoRed.png"/>
+                <span id="notfull" class='unselectedTab' onclick="showNotfullPay(this)"><?php echo Yii::t('profile', '0257'); ?></span>
+            </td>
+        </tr>
+    </table>
+
+    <div class="completely">
+        <?php
+        $this->widget('zii.widgets.CListView', array(
+            'dataProvider'=>$paymentsCourses,
+            'itemView'=>'_fullpayments',
+            'template'=>'{items}{pager}',
+            'emptyText'=>'Проплачених курсів немає',
+            'pager' => array(
+                'firstPageLabel'=>'<<',
+                'lastPageLabel'=>'>>',
+                'prevPageLabel'=>'<',
+                'nextPageLabel'=>'>',
+                'header'=>'',
+            ),
+        ));
+        ?>
+    </div>
+    <div class="partly" style="display: none" >
+        <?php
+        $this->widget('zii.widgets.CListView', array(
+            'dataProvider'=>$paymentsModules,
+            'itemView'=>'_modulespayments',
+            'template'=>'{items}{pager}',
+            'emptyText'=>'Проплачених курсів немає',
+            'pager' => array(
+                'firstPageLabel'=>'<<',
+                'lastPageLabel'=>'>>',
+                'prevPageLabel'=>'<',
+                'nextPageLabel'=>'>',
+                'header'=>'',
+            ),
+        ));
+        ?>
+    </div>
+
 <!--<div class="studPay">-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <td>-->
 <!--    <p>--><?php //echo Yii::t('profile', '0121'); ?><!-- 30.12.2015</p>-->
 <!--    <p>--><?php //echo Yii::t('profile', '0122'); ?><!-- 1000 --><?php //echo Yii::t('profile', '0123'); ?><!--</p>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--    <a href="--><?php //echo Yii::app()->createUrl('pay/index');?><!--">-->
-<!--        <button class="ButtonFinances" style="margin-left: 150px">--><?php //echo Yii::t('profile', '0261'); ?><!--</button>-->
-<!--        </a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
+<!--</div>-->
     <a href="<?php echo Yii::app()->createUrl('pay/index');?>">
         <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
     </a>
-</div>
+
+
+<script>
+    function showFullPay(n){
+        $('.completely').show('fast');
+        $('.partly').hide('fast');
+        if(n.className=='unselectedTab'){
+            n.className='selectedTab';
+            document.getElementById("notfull").className='unselectedTab';
+        }
+    }
+    function showNotfullPay(n){
+        $('.partly').show('fast');
+        $('.completely').hide('fast');
+        if(n.className=='unselectedTab'){
+            n.className='selectedTab';
+            document.getElementById("full").className='unselectedTab';
+        }
+    }
+</script>
