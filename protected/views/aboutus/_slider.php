@@ -74,12 +74,14 @@
 <div id="slider" class="owl-carousel">
     <div class="slideAbout">
             <div class="about1">
-                ПРО ЩО МРІЄШ ТИ?
+                <div class="headerAbout">
+                  ПРО ЩО МРІЄШ ТИ?
+                </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Спробуємо вгадати: власна квартира чи навіть будинок? Гарний автомобіль? Закордонні подорожі, можливо, до екзотичних країн?
+                    Спробуємо вгадати: власна квартира чи <br> навіть будинок? Гарний автомобіль? <br> Закордонні подорожі, можливо, до <br> екзотичних країн?
                 </div>
             </div>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?>" />
@@ -87,12 +89,14 @@
     <div class="slideAbout">
         <div class="about">
             <div class="about2">
-                ПРО ЩО МРІЄШ ТИ?
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн з коханою людиною? Небезпечні єкскурсії
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
                 </div>
             </div>
         </div>
@@ -101,12 +105,14 @@
     <div class="slideAbout">
         <div class="about">
             <div class="about3">
-                ПРО ЩО МРІЄШ ТИ?
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн з коханою людиною? Небезпечні єкскурсії
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
                 </div>
             </div>
         </div>
@@ -114,12 +120,14 @@
     </div>
     <div class="slideAbout">
             <div class="about4">
-                ПРО ЩО МРІЄШ ТИ?
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн з коханою людиною? Небезпечні єкскурсії
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
                 </div>
             </div>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '4.jpg'); ?>"/>
