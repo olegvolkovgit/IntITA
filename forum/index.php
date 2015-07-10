@@ -19,6 +19,7 @@
 */
 
 //include "yiiapp.php";
+if ($_GET['transition']=="true") header("Location: index.php?transition=false");
 //
 //$controller = new Controller('bbforum'); // bbforum - произвольное название
 //Yii::app()->controller = $controller;
