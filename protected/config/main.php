@@ -155,5 +155,6 @@ return array(
         'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
+        'interpreterServer' => 'http://ii.itatests.com',
 	),
 );

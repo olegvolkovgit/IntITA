@@ -78,7 +78,7 @@ if ($editMode) {
         var cart = {
             "operation": "result",
             "session" : "1241q223f4f2341",
-            "jobid" : 2555,
+            "jobid" : 4225,
             "code" : "int k =5;",
             "task": 1,
             "lang": "c++"
@@ -89,31 +89,32 @@ if ($editMode) {
             dataType: 'json',
             data: JSON.stringify(cart),
 
-            success: function(){
+            success: function(Res, code){
+                alert(Res);
                 if (code==200){
-                    //'#code').html(data.msg); // запрос успешно прошел
-                    alert('Success');
+                    ('#code').html(Res); // запрос успешно прошел
+                    alert('Success ' + Res);
                 }else{
-                    //alert(code);
-                    $('#code').html(code); // возникла ошибка, возвращаем код ошибки
+                    alert(code);
+                    $('#code').html(Res); // возникла ошибка, возвращаем код ошибки
                 }
-                $('#code').html('Your code: '+data.code); // данные которые вернул сервер!
+                //$('#code').html('Your code: '+data.code); // данные которые вернул сервер!
             },
 
             error: function(xhr, str){
-                $('#code').html('Критическая ошибка');
+                //$('#code').html('Критическая ошибка');
                 alert(str);
             }
 
-//            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
-//                $.getJSON("http://ii.itatests.com", function(data) {
-//                    $.each(data, function(key, val) {
-//                        $('#code').append('<option value="' + val + '">' + key + '</option>');
-//                    });
-//                });
-//
-//                alert('Complete');
-//            }
+            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
+                $.getJSON("http://ii.itatests.com", function(Res) {
+                    $.each(Res, function(key, val) {
+                        $('#code').append('<option value="' + val + '">' + key + '</option>');
+                    });
+                });
+
+                alert('Complete');
+            }
         });
     }
 </script>

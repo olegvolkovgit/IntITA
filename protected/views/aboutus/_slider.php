@@ -70,34 +70,67 @@
 </script>
 <body onload="centerPage()">
 
-<div id="sliderCenterBox" class="about">
-    <div class="sliderCenterBoxText">
-        <p class="about">ПРО ЩО МРІЄШ ТИ?</p>
-    </div>
-</div>
+<div class="aboutusslider">
 <div id="slider" class="owl-carousel">
     <div class="slideAbout">
-        <div>
-<!--            <p class="about">--><?php //echo Yii::t('slider','0027'); ?><!--</p>-->
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?>" />
-        </div>
+            <div class="about1">
+                <div class="headerAbout">
+                  ПРО ЩО МРІЄШ ТИ?
+                </div>
+                <div class="sliderCenterBoxLine">
+                    <hr>
+                </div>
+                <div class="textabout">
+                    Спробуємо вгадати: власна квартира чи <br> навіть будинок? Гарний автомобіль? <br> Закордонні подорожі, можливо, до <br> екзотичних країн?
+                </div>
+            </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?>" />
     </div>
     <div class="slideAbout">
-        <div>
-<!--            <p class="about">--><?php //echo Yii::t('slider','0028'); ?><!--</p>-->
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '2.jpg'); ?>"/>
+        <div class="about">
+            <div class="about2">
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
+                <div class="sliderCenterBoxLine">
+                    <hr>
+                </div>
+                <div class="textabout">
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                </div>
+            </div>
         </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '2.jpg'); ?>"/>
     </div>
     <div class="slideAbout">
-        <div>
-<!--            <p class="about">--><?php //echo Yii::t('slider','0029'); ?><!--</p>-->
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '3.jpg'); ?>"/>
+        <div class="about">
+            <div class="about3">
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
+                <div class="sliderCenterBoxLine">
+                    <hr>
+                </div>
+                <div class="textabout">
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                </div>
+            </div>
         </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '3.jpg'); ?>"/>
     </div>
     <div class="slideAbout">
-        <div>
-<!--            <p class="about">--><?php //echo Yii::t('slider','0030'); ?><!--</p>-->
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '4.jpg'); ?>"/>
-        </div>
+            <div class="about4">
+                <div class="headerAbout">
+                    ПРО ЩО МРІЄШ ТИ?
+                </div>
+                <div class="sliderCenterBoxLine">
+                    <hr>
+                </div>
+                <div class="textabout">
+                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                </div>
+            </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '4.jpg'); ?>"/>
     </div>
+</div>
 </div>

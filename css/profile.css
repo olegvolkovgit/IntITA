@@ -366,7 +366,7 @@ div#consultation-grid.grid-view td{
     text-decoration: none;
     color: #999999;
 }
-.unselectedTab {
+.selectedTab .unselectedTab {
     text-decoration: underline;
     color: #4b75a4;
 }

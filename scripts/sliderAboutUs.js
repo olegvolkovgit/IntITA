@@ -10,12 +10,17 @@ $(function(){
 function fontSize() { /* Маштабування тексту слайдера*/
     var width = 1440;
     var fontSize = 42;
+    var fontHeaderSize = 32;
+    var fontTextSize = 16;
     var bodyWidth = $('html').width();
     var multiplier = bodyWidth / width;
+    fontHeaderSize = Math.floor(fontHeaderSize * multiplier);
+    fontTextSize = Math.floor(fontTextSize * multiplier);
+    $('.headerAbout').css({fontSize: fontHeaderSize+'px'});
+    $('.sliderCenterBoxLine').css({fontSize: fontHeaderSize+'px'});
+    $('.textabout').css({fontSize: fontTextSize+'px'});
     if (document.body.clientWidth <= width)
         fontSize = Math.floor(fontSize * multiplier);
-    $('.sliderCenterBoxText').css({fontSize: fontSize+'px'});
-    $('.sliderCenterBoxLine').css({fontSize: fontSize+'px'});
     $('#slider').css({fontSize: fontSize+'px'});
     $('.sliderSnake .button ').css({fontSize: fontSize+'px'});
 }
