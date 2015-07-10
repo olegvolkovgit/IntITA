@@ -60,5 +60,4 @@ class CoursesController extends Controller
             'count2' => $count2,
         ));
     }
-
 }

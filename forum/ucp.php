@@ -67,7 +67,7 @@ switch ($mode)
 //
 //		$module->load('ucp', 'register');
 //		$module->display($user->lang['REGISTER']);
-        header ("location: /IntITA/#form");
+        header ("location: /#form");
         exit();
 	break;
 
@@ -82,7 +82,7 @@ switch ($mode)
 //		}
 //
 //		login_box(request_var('redirect', "index.$phpEx"));
-        header('location: /IntITA/index.php?dialog=true');
+        header('location: /index.php?dialog=true');
 	break;
 
 	case 'login_link':
