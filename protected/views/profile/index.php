@@ -1,5 +1,3 @@
-
-
 <?php
 /* @var $this ProfileController */
 $this->pageTitle = 'INTITA';
@@ -13,15 +11,14 @@ if (isset($_GET['div'])){
 }
 ?>
 
+<script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
+
 <div class="TeacherProfilemainBlock">
     <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'editMode' => $editMode)); ?>
     <!-- Block 2 -->
     <?php $this->renderPartial('_profileBlock2', array('model' => $model, 'editMode' => $editMode, 'dataProvider' => $dataProvider,'response' => $response)); ?>
 </div>
 
-
-    <!--<script type="text/javascript" charset="utf-8" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/rating/js/jquery.min.js"></script>-->
-    <script type="text/javascript" charset="utf-8" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rating/js/jquery.raty.js"></script>
     <!--<!-- Підключення BBCode WysiBB -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />

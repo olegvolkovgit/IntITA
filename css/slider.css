@@ -11,6 +11,10 @@
 {
 	margin-top: 41px;
 }
+.aboutusslider .owl-wrapper-outer
+{
+    margin-top: 0;
+}
 #slider
 {
 	z-index: 0;
@@ -27,11 +31,6 @@
 	z-index: 1;
 	left: 50%;
 }
-.slide p.about
-{
-    left: 46%;
-    color: #000000;
-}
 .slide img
 {
 	position: absolute;
@@ -46,11 +45,6 @@
 	width: 100%;
 	z-index: 1;
 }
-#sliderCenterBox.about
-{
-    top: -85px;
-    left: -60px;
-}
 .sliderCenterBoxText p
 {
 	position: relative;
@@ -61,24 +55,12 @@
 	font-family: "MyriadPro";
 	text-shadow: 0.05em 0.05em 0.05em #555;
 }
-.sliderCenterBoxText p.about
-{
-    font-size: 1.15em;
-    color: #000000;
-}
-
-
 .sliderCenterBoxLine hr
 {
 	border: 0.05em solid white;
 	width: 2.5em;
 	
 }
-.sliderCenterBoxLine hr.about
-{
-    border-color: #000000;
-}
-
 .sliderSnake .snake img
 {
 	position: absolute;
