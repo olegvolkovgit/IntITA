@@ -22,6 +22,8 @@
                 <br>
                 <a href="javascript:OpenLatexEditor('newTextBlock','latex','uk_uk', 'false')">Додати формулу</a>
                 <br>
+                <a href="javascript:showAddTaskForm()">Додати задачу</a>
+                <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
 <!--                <input name="order" value="--><?php //echo($countBlocks + 1); ?><!--" hidden="hidden">-->
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"
@@ -34,7 +36,7 @@
                     <option value="2">Відео
                     <option value="3">Код
                     <option value="4">Приклад
-                    <option value="5">Завдання
+                    <option value="5">Задача
                     <option value="6">Підсумкове завдання
                     <option value="7">Інструкція
                     <option value="8">Заголовок (для змісту)
@@ -50,6 +52,7 @@
                     onclick="hideForm('blockForm', 'newTextBlock')"><?php echo Yii::t('course', '0368') ?></button>
         </div>
     </div>
+    <?php $this->renderPartial('_addTask');?>
     <br>
     <br>
     <?php } ?>
@@ -103,4 +106,10 @@
             $form.style.display = 'none';
             document.getElementById(title).innerHTML = '';
         }
+        function showAddTaskForm(){
+            document.getElementById('addTask').style.display = 'block';
+            document.getElementById('addBlockForm').style.display = 'none';
+            document.getElementById('cancelButton').style.display = 'none';
+        }
     </script>
+

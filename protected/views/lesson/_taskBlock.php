@@ -25,10 +25,10 @@
         <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
             <?php echo $data['html_block'];?>
             </div>
-            <form method="post" class="sendAnswer" id="sendAnswer" action="#">
+            <form class="sendAnswer" id="sendAnswer">
                 <textarea name="code" id="code" value='std::cout << \"Hello World!\" << std::endl;'> </textarea>
-                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>" onclick='test()'>
             </form>
+            <button class="taskSubmit" onclick='sendAnswer()'><?php echo Yii::t('lecture','0089'); ?></button>
             <div id="content1"></div>
         </div>
     </div>
@@ -74,47 +74,28 @@ if ($editMode) {
 }
 ?>
 <script type="text/javascript">
-    function test() {
-        var cart = {
-            "operation": "result",
-            "session" : "1241q223f4f2341",
-            "jobid" : 4225,
-            "code" : "int k =5;",
-            "task": 1,
-            "lang": "c++"
-        };
-        $.ajax({
-            type: "POST",
-            url: "http://ii.itatests.com",
-            dataType: 'json',
-            data: JSON.stringify(cart),
+        function sendAnswer(){
+            document.getElementById('addTask').style.display = 'none';
+            var command = {
+                "operation": "start",
+                "session" : "1241q223f4f2341",
+                "jobid" : 11,
+                "code" : "std::cout << \"Hello World!\" << std::endl;",
+                "task": 2,
+                "lang": "c++"
+            };
+            var jqxhr = $.post( "http://ii.itatests.com", JSON.stringify(command), function(){
+                alert( "success" );
+            })
+                .done(function(data) {
+                    alert( data );
+                })
+                .fail(function() {
+                    alert( "error" );
+                })
+                .always(function() {
 
-            success: function(Res, code){
-                alert(Res);
-                if (code==200){
-                    ('#code').html(Res); // запрос успешно прошел
-                    alert('Success ' + Res);
-                }else{
-                    alert(code);
-                    $('#code').html(Res); // возникла ошибка, возвращаем код ошибки
-                }
-                //$('#code').html('Your code: '+data.code); // данные которые вернул сервер!
-            },
+                }, "json");
+        }
 
-            error: function(xhr, str){
-                //$('#code').html('Критическая ошибка');
-                alert(str);
-            }
-
-            complete:  function(){ //а тут ничего из предложенных параметров не берем :)
-                $.getJSON("http://ii.itatests.com", function(Res) {
-                    $.each(Res, function(key, val) {
-                        $('#code').append('<option value="' + val + '">' + key + '</option>');
-                    });
-                });
-
-                alert('Complete');
-            }
-        });
-    }
 </script>

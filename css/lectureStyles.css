@@ -217,3 +217,11 @@ margin-top:10px;
 #cancelButton{
     margin-top: 10px;
 }
+
+#addTask{
+    display:none;
+}
+
+#newTextBlock, #header, #etalon, #taskFooter{
+    resize: none;
+}

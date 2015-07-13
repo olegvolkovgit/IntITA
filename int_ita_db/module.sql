@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-10 16:41:41
+-- Date/time:                    2015-07-13 17:03:51
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`module_ID`),
   UNIQUE KEY `module_ID` (`module_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.module: ~42 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
@@ -79,7 +79,8 @@ INSERT INTO `module` (`module_ID`, `module_name`, `alias`, `language`, `module_d
 	(78, 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
 	(79, 'Построение индивидуального плана успешной ИТ карьеры.', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
 	(80, 'Эффективное трудоустройство', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
-	(81, 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL);
+	(81, 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(82, 'Getting Started C++', 'module1', 'ua', 0, 0, 1, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

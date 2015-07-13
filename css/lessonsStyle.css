@@ -236,17 +236,17 @@ div.lessonButFinal
     width: 99%;
     resize: none;
 }
-.sendAnswer input[type="submit"] {
+.taskSubmit {
     width: 90px;
     height:28px;
     border-radius: 10px;
     color:#ffffff;
     background-color:#4b75a4;
-    margin: 10px 0px 20px 0px;
+    margin: 10px 0px 20px 30px;
     float:right;
     border:none;
 }
-.sendAnswer input[type="submit"]:hover {
+.taskSubmit :hover {
     cursor: pointer;
     border-top-color: #454545;
     background: #454545;

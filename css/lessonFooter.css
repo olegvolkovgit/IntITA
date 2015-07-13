@@ -103,3 +103,6 @@ table.ratingLeson{
 .subViewLessons{
     word-wrap: break-word;
 }
+.nextLessButt{
+    cursor:pointer;
+}

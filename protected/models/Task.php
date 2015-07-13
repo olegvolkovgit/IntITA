@@ -14,7 +14,7 @@
  *
  * The followings are the available model relations:
  * @property LectureElement $condition0
- * @property Lectures $idLecture
+ * @property Lecture $idLecture
  * @property Teacher $author0
  * @property TaskMarks[] $taskMarks
  */

@@ -153,6 +153,7 @@ $this->breadcrumbs=array(
 <!--Font Awesome-->
 <!--Load Redactor-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
 <!--Load Redactor-->
 
 

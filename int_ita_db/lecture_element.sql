@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-10 16:41:41
+-- Date/time:                    2015-07-13 17:03:51
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
 -- Dumping data for table int_ita_db.lecture_element: ~39 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
@@ -65,7 +65,12 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(81, 2, 7, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
 	(82, 2, 8, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
-	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>');
+	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>'),
+	(85, 22, 1, 'task', 5, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
+	(86, 50, 1, 'label', 8, '<h4>Example 1: Get your compiler working!</h4>'),
+	(87, 50, 2, 'text', 1, '<h4>Example 2: Get some input</h4>'),
+	(88, 50, 3, 'text', 1, '<h4>Example 3: What does this program output?</h4>'),
+	(89, 50, 4, 'text', 1, '<h4>Example 6: Strings for your consideration</h4>');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
