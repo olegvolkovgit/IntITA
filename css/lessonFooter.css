@@ -96,6 +96,7 @@ table.ratingLeson{
     box-shadow:0 2px 0 #7f7f7f;
     font-size: 20px;
     font-family: MyriadPro2;
+    cursor: pointer;
 }
 .nextLesonLink input[type="submit"]:hover {
     background: #454545;
