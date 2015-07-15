@@ -27,6 +27,10 @@ $('.search-form form').submit(function(){
     <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
 </a>
 
+<a href="<?php echo Yii::app()->createUrl('permissions/freeLessons');?>">
+    <div id="manageFreeLessons">Безкоштовні заняття</div>
+</a>
+
 <?php
 $dataProvider = $model->search();
 

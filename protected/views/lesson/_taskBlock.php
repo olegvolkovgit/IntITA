@@ -23,6 +23,7 @@
         </div>
         <div class="content">
         <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+            <br/>
             <?php echo $data['html_block'];?>
             </div>
             <form class="sendAnswer" id="sendAnswer">

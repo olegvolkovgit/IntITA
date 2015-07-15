@@ -62,6 +62,31 @@ class PermissionsController extends Controller
         ));
 	}
 
+    public function actionFreeLessons()
+    {
+        $model = new Lecture('search');
+        $model->unsetAttributes();  // clear any default values
+        $model->isFree = 1;
+//        if(isset($_GET['Permissions']))
+//            $model->attributes=$_GET['Permissions'];
+
+        $dataProvider = new CActiveDataProvider('Lecture');
+
+        $dataProvider->setPagination(array(
+                'pageSize' => '50',
+            )
+        );
+
+        if(!isset($_GET['ajax'])) $this->render('_freeLectures', array(
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+        ));
+        else  $this->renderPartial('_freeLectures', array(
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+        ));
+    }
+
     public static function checkPermission($idUser, $idResource, $rights){
         $record = PayModules::model()->findByAttributes(array('id_user' => $idUser,
             'id_module' => $idResource));

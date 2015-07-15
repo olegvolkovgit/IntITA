@@ -113,4 +113,22 @@ class LectureElement extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addNewTaskBlock($idLecture, $condition){
+        $model = new LectureElement();
+
+        $order = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $model->block_order = ++$order;
+
+        $model->type = 'task';
+        $model->id_type = 5;
+        $model->html_block = $condition;
+        $model->id_lecture = $idLecture;
+
+        if ($model->save(true)) {
+            return LectureElement::model()->findByAttributes(array('block_order'=>$order, 'id_lecture' => $idLecture))->id_block;
+        } else {
+            return false;
+        }
+    }
 }

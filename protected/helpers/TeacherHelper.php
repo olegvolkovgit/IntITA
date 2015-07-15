@@ -160,4 +160,12 @@ class TeacherHelper
         }
         if(isset($author)) return true; else return false;
     }
+
+    public static function getTeacherId($user){
+        if ($user){
+            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
+        } else {
+            return 0;
+        }
+    }
 }

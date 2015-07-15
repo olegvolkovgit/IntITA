@@ -28,6 +28,10 @@ class LessonController extends Controller{
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $user = 0;
+        if ($editMode){
+            $user = Yii::app()->user->getId();
+        }
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture=' . $id);
@@ -59,6 +63,7 @@ class LessonController extends Controller{
             'countBlocks' => $countBlocks,
             'teacher' => $teacher,
             'idCourse' => $idCourse,
+            'user' =>$user,
         ));
         }
     }

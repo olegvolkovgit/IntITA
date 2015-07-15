@@ -29,7 +29,11 @@ class ModuleHelper {
     }
 
     public static function getModuleName($id){
-        return Module::model()->findByPk($id)->module_name;
+        if ($id){
+            return Module::model()->findByPk($id)->module_name;
+        } else {
+            return '';
+        }
     }
 
     public static function getModuleOrder($id){

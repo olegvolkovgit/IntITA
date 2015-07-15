@@ -17,8 +17,9 @@
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
-            <select name="lang" placeholder="(Виберіть мову програмування)">
-                <option value="c++" selected>С++</option>
+            <select id="lang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
+                <optgroup label="Виберіть мову програмування">
+                <option value="c++">С++</option>
                 <option value="java">Java</option>
                 <option value="js">JavaScript</option>
             </select>
@@ -26,6 +27,11 @@
             <br>
             Назва:
             <input type="text" name="name" id="name" placeholder="назва задачі"/>
+            <br>
+            <br>
+            Умова задачі:
+            <textarea name="condition" id="condition" cols="105" required form="add-task" rows="10">
+            </textarea>
             <br>
             <br>
             Header:
@@ -44,7 +50,6 @@
             <br>
         </fieldset>
     </form>
-    <button onclick='createTask()'
-            }>Додати задачу</button>
+    <button onclick='createTask()'>Додати задачу</button>
 </div>
 
