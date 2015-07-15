@@ -37,9 +37,10 @@ class CoursesController extends Controller
             if ($selector == 'junior'){
                 $criteria->addInCondition('level', array('intern','strong junior','junior'));
             } else {
-                $criteria->condition = 'level=:level';
+                $criteria->condition = 'level=:level and language="ua"';
                 $criteria->params = array(':level'=>$selector);
             }
+
         }
 
         $dataProvider = new CActiveDataProvider('Course', array(

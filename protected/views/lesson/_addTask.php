@@ -13,12 +13,10 @@
 <div id="addTask">
     <br>
     <form name="add-task">
-<!--        action="--><?php //echo Yii::app()->createUrl('task/addTask');?><!--"-->
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
-            <select id="lang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
-                <optgroup label="Виберіть мову програмування">
+            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
                 <option value="c++">С++</option>
                 <option value="java">Java</option>
                 <option value="js">JavaScript</option>

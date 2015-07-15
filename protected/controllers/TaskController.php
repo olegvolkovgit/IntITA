@@ -15,7 +15,6 @@ class TaskController extends Controller
 
 	public function actionAddTask()
 	{
-
         $condition = Yii::app()->request->getPost('condition', '');
         $lecture =  Yii::app()->request->getPost('lecture', 0);
         $author = Yii::app()->request->getPost('author', null);
@@ -26,7 +25,6 @@ class TaskController extends Controller
             if ($lectureElementId = LectureElement::addNewTaskBlock($lecture, $condition)) {
                 Task::addNewTask($lectureElementId, $language, $author);
             }
-
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);

@@ -50,10 +50,13 @@ class LessonController extends Controller{
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
         if (Yii::app()->request->isAjaxRequest){
+            Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+            Yii::app()->clientScript->scriptMap['jquery-ui.min.js'] = false;
+            Yii::app()->clientScript->scriptMap['jquery-ui.css'] = false;
             $this->renderPartial('_blocks_list', array(
                 'dataProvider'=>$dataProvider,
                 'editMode' => $editMode,
-            ));
+            ), false, true);
             Yii::app()->end();
         } else {
         $this->render('index', array(
