@@ -22,14 +22,14 @@ function createTask() {
         //alert("success");
     })
         .done(function (data) {
-            alert(data.result);
+            //alert(data.result);
             addTaskToLecture(condition, idTeacher, idLecture, lang, assignment = 0);
         })
         .fail(function () {
-            alert("Error");
+            //alert("Error");
         })
         .always(function () {
-            alert("Finished!");
+            //alert("Finished!");
             addTaskToLecture(condition, idTeacher, idLecture, lang, assignment = 0);
         });
     document.getElementById('addTask').style.display = 'none';
@@ -40,13 +40,13 @@ function addTaskToLecture() {
         //console.log( "success" );
     })
         .done(function () {
-            console.log("success");
+           // console.log("success");
         })
         .fail(function () {
-            console.log("error");
+           // console.log("error");
         })
         .always(function () {
-            console.log("complete");
+          //  console.log("complete");
         });
 
     $.ajax({
