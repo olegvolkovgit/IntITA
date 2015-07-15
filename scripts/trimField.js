@@ -42,3 +42,11 @@ function trimLectureName() {
     lec=document.getElementById('newLectureName');
     lec.value=$.trim(lec.value);
 }
+function trimLetterEmail() {
+    var letEm=document.getElementsByClassName('letterEmail')[0];
+    letEm.value=$.trim(letEm.value);
+    var letP=document.getElementsByClassName('letterPhone')[0];
+    letP.value=$.trim(letP.value);
+    var letA=document.getElementsByClassName('letterAge')[0];
+    letA.value=$.trim(letA.value);
+}

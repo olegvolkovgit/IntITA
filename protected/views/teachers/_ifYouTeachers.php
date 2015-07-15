@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <?=$form->label($teacherletter,'age')?>
-            <?=$form->textField($teacherletter,'age')?>
+            <?=$form->textField($teacherletter,'age',array('class'=>'letterAge'))?>
             <?=$form->error($teacherletter,'age')?>
         </div>
         <div class="row">
@@ -54,12 +54,12 @@
         </div>
         <div class="row">
             <?=$form->label($teacherletter,'phone')?>
-            <?=$form->textField($teacherletter,'phone',array('maxlength'=>13))?>
+            <?=$form->textField($teacherletter,'phone',array('maxlength'=>13, 'class'=>'letterPhone'))?>
             <?=$form->error($teacherletter,'phone')?>
         </div>
         <div class="row">
             <?=$form->label($teacherletter,'email')?>
-            <?=$form->textField($teacherletter,'email')?>
+            <?=$form->textField($teacherletter,'email',array('class'=>'letterEmail'))?>
             <?=$form->error($teacherletter,'email')?>
         </div>
         <div class="row">
@@ -68,7 +68,7 @@
             <?=$form->error($teacherletter,'courses')?>
         </div>
     <ul class="actions">
-        <?=CHtml::submitButton(Yii::t('teachers', '0180'),array('id'=>'send_btn', 'name'=>'sendletter'))?>
+        <?=CHtml::submitButton(Yii::t('teachers', '0180'),array('id'=>'send_btn', 'name'=>'sendletter', 'onclick' => 'trimLetterEmail()'))?>
     </ul>
     <?php $this->endWidget(); ?>
     <div style="margin-top: 75px">
