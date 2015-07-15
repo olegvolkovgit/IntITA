@@ -217,7 +217,22 @@ margin-top:10px;
 #cancelButton{
     margin-top: 10px;
 }
-
+.teacherBlock div.photobg{
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.teacherBlock img.teacherphoto{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+}
+.teacherBlock img.mask{
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+}
 #addTask{
     display:none;
 }
