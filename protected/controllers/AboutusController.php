@@ -40,7 +40,7 @@ class AboutusController extends Controller{
         $objAbout3 = new AboutUs(3);
         $objAbout3->setValuesById(3);
         $objAbout3->titleText = Yii::t('aboutus', '0034');
-        $objAbout3->titleTextExp = Yii::t('aboutus', '0557');
+        $objAbout3->titleTextExp = Yii::t('aboutus', '0558');
         $objAbout3->textAbout = Yii::t('aboutus', '0037');
         return $arrayAboutUs = array(
             'objAbout1'=>$objAbout1,

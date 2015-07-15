@@ -51,7 +51,7 @@ function addTaskToLecture() {
 
     $.ajax({
         type: "POST",
-        url: "/IntITA/task/addTask",
+        url: "/task/addTask",
         data: {
             'condition': condition,
             'author': idTeacher,
