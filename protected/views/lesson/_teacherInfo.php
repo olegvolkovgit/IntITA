@@ -9,9 +9,9 @@ $user = new StudentReg();
 $app = Yii::app();
 ?>
 <div class="teacherBlock">
-    <div
-        style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>) no-repeat; background-size: 90px;">
-        <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+    <div class="photobg">
+        <img class="mask" src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+        <img class="teacherphoto" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url)?>">
     </div>
     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
         <span>
