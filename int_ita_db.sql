@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-13 17:03:58
+-- Date/time:                    2015-07-15 17:37:08
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_ID` int(11) NOT NULL AUTO_INCREMENT,
   `alias` varchar(20) NOT NULL,
   `language` varchar(6) NOT NULL,
-  `course_name` varchar(45) NOT NULL,
+  `course_name` varchar(100) NOT NULL,
   `level` enum('intern','junior','strong junior','middle','senior') NOT NULL,
   `start` date DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~25 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -348,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~11 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -432,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `header` (
   PRIMARY KEY (`headerID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.header: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.header: ~3 rows (approximately)
 /*!40000 ALTER TABLE `header` DISABLE KEYS */;
 INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
 	(0, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus'),
@@ -573,7 +573,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~36 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
@@ -596,21 +596,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(31, 'lectureImage.png', 'lecture1', 'ua', 3, 1, 'Вступ', 1, 60, '1', 0),
 	(32, 'lectureImage.png', 'lecture2', 'ua', 3, 2, '2', 1, 60, '1', 0),
 	(33, 'lectureImage.png', 'lecture3', 'ua', 3, 3, '3', 1, 60, '1', 0),
-	(35, 'lectureImage.png', 'lecture15', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0),
-	(36, 'lectureImage.png', 'lecture16', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0),
-	(37, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(38, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(39, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(40, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'ythteth', 1, 60, '1', 0),
-	(41, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(42, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(43, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0),
-	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0),
 	(47, 'lectureImage.png', 'lecture15', 'ua', 1, 15, '15', 1, 60, '3', 0),
 	(48, 'lectureImage.png', 'lecture1', 'ua', 61, 1, 'New lecture', 1, 60, '1', 0),
-	(49, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Example 1: Get your compiler working!', 1, 60, '1', 0),
 	(50, 'lectureImage.png', 'lecture1', 'ua', 82, 1, 'Practice', 1, 60, '1', 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 
@@ -648,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
 -- Dumping data for table int_ita_db.lecture_element: ~44 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
@@ -692,11 +679,13 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(82, 2, 8, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>'),
-	(85, 22, 1, 'task', 5, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
-	(86, 50, 1, 'label', 8, '<h4>Example 1: Get your compiler working!</h4>'),
-	(87, 50, 2, 'text', 1, '<h4>Example 2: Get some input</h4>'),
-	(88, 50, 3, 'text', 1, '<h4>Example 3: What does this program output?</h4>'),
-	(89, 50, 4, 'text', 1, '<h4>Example 6: Strings for your consideration</h4>');
+	(85, 22, 1, 'formula', 10, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
+	(86, 50, 1, 'label', 8, 'Example 1: Get your compiler working!'),
+	(87, 50, 5, 'label', 8, '<h4>Example 2: Get some input</h4>'),
+	(88, 50, 3, 'label', 8, '<h4>Example 3: What does this program output?</h4>'),
+	(89, 50, 4, 'label', 8, '<h4>Example 6: Strings for your consideration</h4>'),
+	(124, 50, 2, 'task', 5, 'Description: a program that prints the immortal saying "hello world"'),
+	(125, 50, 6, 'task', 5, 'Illustrate the use of cin to get input.');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -713,7 +702,7 @@ CREATE TABLE IF NOT EXISTS `letters` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.letters: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.letters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `letters` DISABLE KEYS */;
 INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`, `date`, `status`) VALUES
 	(1, 22, 38, 'Заняття 4', 'Привіт1', '2015-06-21 21:36:58', 1);
@@ -753,7 +742,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', 'line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', 'hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', 'networking.png', 'formFon.png');
@@ -770,9 +759,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_record`),
   KEY `FK_messages_sourcemessages` (`id`),
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1455 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1836 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 442 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -2216,7 +2205,388 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1451, 431, 'ua', 'Згорнути історію навчання'),
 	(1452, 431, 'ru', 'Свернуть историю обучения'),
 	(1453, 431, 'en', 'Close study history'),
-	(1454, 338, 'en', 'own apartment');
+	(1454, 338, 'en', 'own apartment'),
+	(1455, 432, 'ua', 'Не потрібно відвідувати навчальний заклад, Академія з тобою всюди.<br>'),
+	(1456, 432, 'ru', 'Не нужно посещать учебное заведение, Академия с тобой повсюду.<br>'),
+	(1457, 432, 'en', 'You needn`t go to the  Academy, it is  always with you.<br>'),
+	(1458, 433, 'ua', 'Навіть якщо ти у місці, де немає звязку та інтернету, ти можеш переглядати лекції в <span class="pinkword">офлайн-режимі</span>, а практичну частину зробити пізніше, коли зявиться доступ.'),
+	(1459, 433, 'ru', 'Даже если ты в месте, где нет связи и интернета, ты можешь просматривать лекции в <span class="pinkword"> офлайн-режиме</span>, а практическую часть сделать позже, когда появится доступ.'),
+	(1460, 433, 'en', 'Even if you have no Internet connection, you can look through the material <span class="pinkword">offline</span>.'),
+	(1461, 434, 'ua', 'Кит другий.<br> Орієнтація на ринок.'),
+	(1462, 434, 'ru', 'Кит второй.<br> Ориентация на рынок.'),
+	(1463, 434, 'en', 'Principle 2<br>  Market targeting'),
+	(1464, 435, 'ua', 'Ми даємо тобі лише <span class="pinkword">100%</span> необхідні знання. Ми поважаємо гуманітарні дисципліни та фундаментальні точні науки, які входять до  складу обовязкових для вивчення у вишах, але переконані, що вони не є обовязковими для того, щоб стати <span class="blueword">професіоналом у сфері ІТ</span>. Ми вважаємо, що кожен має вирішувати індивідуально, що вивчати та чим цікавитись за межами своєї професії.<br>У той же час у програмах вишів відсутні критичні для професійного успіху дисципліни, або ж вони викладаються недостатньо професійно (англійська мова для ІТ-спеціалістів, проектний менеджмент тощо).<br>'),
+	(1465, 435, 'ru', 'Мы даем тебе только <span class = "pinkword"> 100%</span> необходимые знания. Мы уважаем гуманитарные дисциплины и фундаментальные точные науки, которые входят в состав обязательных для изучения в вузах, но убеждены, что они не являются обязательными для того, чтобы стать <span class = "blueword"> профессионалом в сфере ИТ</span>. Мы считаем, что каждый должен решать индивидуально, что изучать и чем интересоваться вне своей профессии. <br>В то же время в программах вузов отсутствуют критические для профессионального успеха дисциплины, или же они излагаются недостаточно профессионально (английский язык для ИТ-специалистов, проектный менеджмент). <br>'),
+	(1466, 435, 'en', 'We are giving you <span class="pinkword">100%</span> only  necessary knowledge. We respect the humanitarian  and fundamental exact sciences, which university students are obliged to study, but we consider  that you will not require such  knowledge  to become a  <span class="blueword">professional in the field of information technology</span>. You can  certainly decide what to study and what hobby to have in your free time. <br>At the same time, university programs are missing some subjects critical for professional success or  they are not professionally taught (English for IT, project management, etc.).<br>'),
+	(1467, 436, 'ua', 'Інформаційні технології - це дисципліна, яка змінюється кожного дня, програми вишів просто не встигають адаптуватися до такої швидкості змін. <span class="blueword">ІНТІТА</span> слідкує за змінами щодня, і адаптує як навчальну програму, так і зміст окремих предметів за необхідністю миттєво. Ми завжди у пошуку нового матеріалу, який можна передати студентам академії.'),
+	(1468, 436, 'ru', 'Информационные технологии - это дисциплина, которая меняется каждый день, программы вузов просто не успевают адаптироваться к такой скорости изменений. <span class = "blueword"> ИНТИТА</span> следит за изменениями в день, и адаптирует как учебную программу, так и содержание отдельных предметов при необходимости мгновенно. Мы всегда в поиске нового материала, который можно передать студентам академии.'),
+	(1469, 436, 'en', 'Information technology is a  subject which is constantly changing,  universities do not manage to adapt to such  fast changes.  <span class="blueword">INTITA</span> monitors changes every day  and instantly  adapts both  the program and subject content to new requirements. We are always in search of new material to share with our students.'),
+	(1470, 437, 'ua', 'Порівнюючи звичайний технічний виш та академію <span class="blueword">ІНТІТА</span>, ти можеш думати про сімейний <span class="pinkword">універсал</span> та болід <span class="sunword">Формула-1</span>. Перший підходить для широкого кола завдань, але він значно програє позашляховикам у прохідності, міні-венам у місткості, лімузинам - у комфорті, спoртивним автомобілям - у швидкості та керуванні.'),
+	(1471, 437, 'ru', 'Сравнивая обычный технический вуз и академию <span class = "blueword"> ИНТИТА</span>, ты можешь думать о семейном <span class = "pinkword"> универсал</span> и болид <span class = "sunword"> Формула 1</span>. Первый подходит для широкого круга задач, но он значительно проигрывает внедорожникам в проходимости, мини-венам в емкости, лимузинам - в комфорте, спoртивним автомобилям - в скорости и управлении.'),
+	(1472, 437, 'en', 'Comparing average technical university  with <span class = "blueword">INTITA</span> Academy is like comparing  the <span class = "pinkword">family car</span> with  <span class = "sunword">formula 1</span> bolid. The first is suitable for a wide range of tasks, but it is not so permeable like  off-road cars, not so capacious like minivans, not so comfortable like limousines and not so fast and controlled like sport cars.'),
+	(1473, 438, 'ua', 'Другий сконструйовано лише заради максимальної швидкості та маневреності, жертвуючи усім іншим. І в результаті ми не зробимо з тебе універсально освічену людину, яка розбирається потрохи у всьому, ми підготуємо тебе <span class = "blueword">професіоналом світового класу</span> в області програмування.'),
+	(1474, 438, 'ru', 'Второй сконструирован исключительно для максимальной скорости и маневренности, жертвуя всем остальным. И в результате мы не сделаем из тебя универсально образованного человека, который разбирается понемногу во всем, мы подготовим тебя <span class = "blueword">профессионалом мирового класса</span> в области программирования.'),
+	(1475, 438, 'en', 'The second one is designed only for maximal speed and maneuverability, sacrificing everything else. So, we don’t try to give you knowledge in a variety of  different subjects to make you know-it-all specialist, we teach you to become a <span class = "blueword">world-class professional programmer</span>.'),
+	(1476, 439, 'ua', 'Кит третій.<br> Результативність.'),
+	(1477, 439, 'ru', 'Кит третий.<br> Результативность.'),
+	(1478, 439, 'en', ' Principle 3<br> Managing for result'),
+	(1479, 440, 'ua', 'На відміну від традиційних закладів, ми навчаємо не задля оцінок. Ми працюємо <span class="sunword">індивідуально</span> з кожним студентом, щоб досягти 100% засвоєння необхідних знань (ми даємо лише необхідні знання).'),
+	(1480, 440, 'ru', 'В отличие от традиционных заведений, мы учим не для оценок. Мы работаем <span class = "sunword"> индивидуально</span> с каждым студентом, чтобы достичь 100% усвоение необходимых знаний (мы даем только необходимые знания).'),
+	(1481, 440, 'en', 'Unlike traditional educational institutions we don`t teach you for the sake of  getting a good mark. We work <span class = "sunword">individually</span> with every student to help him/her achieve 100%  sufficient knowledge (we don`t provide you with  unnecessary things at all).'),
+	(1482, 441, 'ua', 'Ми не обмежуємо тебе у часі, теоретично ти можеш навчатися як завгодно довго. Ми беремо на себе зобовязання навчити тебе програмуванню, незважаючи на те, які знання у тебе вже є. Єдиними передумовами для початку занять є <span class="blueword">бажання</span>, час на навчання, наявність хоча б простенького комп’ютера та вміння читати та писати.'),
+	(1483, 441, 'ru', 'Мы не ограничиваем тебя во времени, теоретически ты можешь учиться сколь угодно долго. Мы берем на себя обязательства научить тебя программированию, несмотря на то, какие знания у тебя уже есть. Единственными предпосылками для начала занятий является <span class = "blueword"> желание</span>, время на обучение, наличие хотя бы простенького компьютера и умение читать и писать.'),
+	(1484, 441, 'en', 'We don`t limit your time of studying you may take as long as you need. We take responsibility to teach you programming  independently of  the knowledge you have already possess.\r\nThe only prerequisites for starting the course is a <span class = "blueword">desire</span> and  time for learning, a computer and an ability to read and write.'),
+	(1485, 442, 'ua', 'Починаючи з першого заняття, ти робитимеш завдання з реального світу програмування. Ближче до закінчення навчання ти будеш приймати участь у створенні реальних програмних продуктів для ринку.'),
+	(1486, 442, 'ru', 'Начиная с первого занятия, ты будешь делать задачи из реального мира программирования. Ближе к окончанию учебы ты будешь принимать участие в создании реальных программных продуктов для рынка.'),
+	(1487, 442, 'en', 'Starting from the first lesson you will perform real programming tasks and finishing the course you will participate in real software development practices.'),
+	(1488, 443, 'ua', '“Три кити” Академії ІНТІТА'),
+	(1489, 443, 'ru', 'Три кита Академии ИНТИТА'),
+	(1490, 443, 'en', 'Three  basic principles of INTITA Academy'),
+	(1491, 444, 'ua', 'Кит перший. Гнучкість та зручність.'),
+	(1492, 444, 'ru', 'Кит первый. Гибкость и удобство.'),
+	(1493, 444, 'en', 'Principle 1 Flexibility and convenience'),
+	(1494, 445, 'ua', 'Ти можеш <span class="blueword">самостійно</span> будувати графік навчання, виходячи з власних потреб та цілей. Якщо ти хочеш закінчити навчання та почати працювати вже через рік, обирай інтенсивне навчання та займайся 6-8 годин в день. Якщо ти хочеш освоїти програмування '),
+	(1495, 445, 'ru', 'Ты можешь <span class = "blueword"> самостоятельно</span> строить график обучения, исходя из собственных потребностей и целей. Если ты хочешь закончить учебу и начать работать уже через год, выбирай интенсивное обучение и занимайся 6-8 часов в день. Если ты хочешь освоить программирование'),
+	(1496, 445, 'en', 'You can schedule courses <span class = "blueword">at your convenience</span> taking into consideration  your own needs and goals. If you want to complete education and start working just  in a year, select intensive learning for  6-8 hours  daily. But  if you want to learn programming'),
+	(1497, 446, 'ua', '<span class="redword"> поступово</span>, не жертвуючи іншими важливими для тебе речами, ти можеш займатися ті ж 6-8 годин, але у тиждень.'),
+	(1498, 446, 'ru', '<span class =" redword "> постепенно</span>, не жертвуя другими важными для тебя вещами, ты можешь заниматься те же 6-8 часов, но в неделю.'),
+	(1499, 446, 'en', '<span class =" redword "> steadily</span> without sacrificing important things in your life, then you can study   6-8 hours per week.'),
+	(1500, 447, 'ua', 'Ми <span class="pinkword">гарантуємо</span> тобі стажування і <span class="blackword">100%</span> отримання пропозиції працевлаштування протягом 4-6-ти місяців після успішного завершення навчання. Так впевнено стверджувати нам дозволяє той факт, що усі наші випускники працюють тими на кого навчались - <span class="blueword">програмістами</span>.'),
+	(1501, 447, 'ru', 'Мы <span class = "pinkword"> гарантируем</span> тебе стажировку и <span class = "blackword"> 100%</span> получение предложения трудоустройства в течение 4-6 месяцев после успешного завершения обучения. Так уверенно утверждать нам позволяет тот факт, что все наши выпускники работают теми на кого учились - <span class = "blueword"> программистами</span>.'),
+	(1502, 447, 'en', 'We  <span class = "pinkword">guarantee</span> you will have an internship and offers of employment during 4-6 months after successful completion of a  course. The proof is in our graduates : <span class = "blackword">100% </span>of them  work as <span class = "blueword">programmers</span>.'),
+	(1503, 448, 'ua', 'ІНТІТА.<br> переваги наочно:'),
+	(1504, 448, 'ru', 'ИНТИТА.<br> преимущества наглядно:'),
+	(1505, 448, 'en', 'INTITA.<br> Demonstrably advantages:'),
+	(1506, 449, 'ua', 'Традиційне навчання'),
+	(1507, 449, 'ru', 'Традиционное обучение'),
+	(1508, 449, 'en', 'Traditional education'),
+	(1509, 450, 'ua', 'Необхідність відвідувати заняття у класі'),
+	(1510, 450, 'ru', 'Необходимость заниматься в классе'),
+	(1511, 450, 'en', 'Necessity to attend  classes'),
+	(1512, 451, 'ua', 'Заняття за фіксованим графіком'),
+	(1513, 451, 'ru', 'Занятия по фиксированному графику'),
+	(1514, 451, 'en', 'Fixed class-schedule'),
+	(1515, 452, 'ua', 'Жорстко визначена навчальна програма, привязана до часових рамок (академічний рік)'),
+	(1516, 452, 'ru', 'Жестко определена учебная программа, привязана к временных рамок (академический год)'),
+	(1517, 452, 'en', 'Fixed education programme and academic calendar'),
+	(1518, 453, 'ua', 'Лекції та семінари, як основа навчального процесу (вивчення теорії)'),
+	(1519, 453, 'ru', 'Лекции и семинары, как основа учебного процесса (изучение теории)'),
+	(1520, 453, 'en', 'Lectures and seminars are the basis of learning process (theory learning)'),
+	(1521, 454, 'ua', 'Оцінки за якість засвоєних знань за певний час'),
+	(1522, 454, 'ru', 'Оценки за качество усвоенных знаний за определенное время'),
+	(1523, 454, 'en', 'Marks are given during educational process'),
+	(1524, 455, 'ua', 'Диплом про вищу освіту видається через 5-6 років за умови засвоєння великої кількості непрофільних знань (мова, історія, філософія тощо)'),
+	(1525, 455, 'ru', 'Диплом о высшем образовании выдается через 5-6 лет при условии усвоения большого количества непрофильных знаний (язык, история, философия и т.д.)'),
+	(1526, 455, 'en', 'Certificates are given after 5-6 years of studies only after a huge amount of non-core knowledge has been gained (culture, history, philosophy, etc.)'),
+	(1527, 456, 'ua', 'ІНТІТА'),
+	(1528, 456, 'ru', 'ИНТИТА'),
+	(1529, 456, 'en', 'INTITA'),
+	(1530, 457, 'ua', 'Навчання у себе вдома'),
+	(1531, 457, 'ru', 'Обучение у себя дома'),
+	(1532, 457, 'en', 'Education at home'),
+	(1533, 458, 'ua', 'Заняття за індивідуальним графіком'),
+	(1534, 458, 'ru', 'Занятия по индивидуальному графику'),
+	(1535, 458, 'en', 'Self-paced course'),
+	(1536, 459, 'ua', 'Можливість обирати предмети та термін навчання'),
+	(1537, 459, 'ru', 'Возможность выбирать предметы и срок обучения'),
+	(1538, 459, 'en', 'Possibility to choose learning subjects and time frames'),
+	(1539, 460, 'ua', 'Практичні заняття з першого дня навчання, створення реальних працюючих проектів'),
+	(1540, 460, 'ru', 'Практические занятия с первого дня обучения, создание реальных работающих проектов'),
+	(1541, 460, 'en', 'Practical lessons starting from the first day, developing real projects'),
+	(1542, 461, 'ua', 'Оцінок немає, лише “знання засвоєні” чи “потрібно навчатися далі”'),
+	(1543, 461, 'ru', 'Оценок нет, только "знания усвоены" или "нужно учиться дальше"'),
+	(1544, 461, 'en', 'No marks, only “passed” or “have to continue studying”'),
+	(1545, 462, 'ua', 'Лише практичні знання, які будуть потрібні тобі у роботі та житті: програмування, англійська мова, побудова карєри на ринку інформаційних технологій, основи життєвого успіху.'),
+	(1546, 462, 'ru', 'Только практические знания, которые будут нужны тебе в работе и жизни: программирование, английский язык, построение карьеры на рынке информационных технологий, основы жизненного успеха.'),
+	(1547, 462, 'en', 'Only practical knowledge that is needed in future work and life: programming, English , IT career building, life success seminars.'),
+	(1548, 463, 'ua', 'Переваги'),
+	(1549, 463, 'ru', 'Преимущества'),
+	(1550, 463, 'en', 'Advantages'),
+	(1551, 464, 'ua', 'Комфортна домашня атмосфера, економія часу та коштів на поїздки'),
+	(1552, 464, 'ru', 'Комфортная домашняя атмосфера, экономия времени и средств на поездки'),
+	(1553, 464, 'en', 'Comfort home atmosphere,saving  time and transportation costs'),
+	(1554, 465, 'ua', 'Можливість підлаштувати графік навчання під власні потреби'),
+	(1555, 465, 'ru', 'Возможность подстроить график обучения под собственные нужды'),
+	(1556, 465, 'en', 'Possibility to adjust  schedule to your own needs'),
+	(1557, 466, 'ua', 'Навчання в комфортному темпі за власним графіком, не обмежене часом'),
+	(1558, 466, 'ru', 'Обучение в комфортном темпе по собственному графику, не ограниченное время'),
+	(1559, 466, 'en', 'Comfort education tempo driven by your own, not limited schedule'),
+	(1560, 467, 'ua', 'Отримання реального робочого досвіду вже протягом навчання, портфоліо готових робіт на момент закінчення навчання'),
+	(1561, 467, 'ru', 'Получение реального рабочего опыта уже в течение обучения, портфолио готовых работ на момент окончания обучения'),
+	(1562, 467, 'en', 'Real work experience during education and a portfolio of completed projects after graduation'),
+	(1563, 468, 'ua', 'Навчання до позитивного результату: до повного засвоєння необхідних знань'),
+	(1564, 468, 'ru', 'Обучение к положительному результату: к полного усвоения необходимых знаний'),
+	(1565, 468, 'en', 'Education for a positive result: until all the necessary skills are gained'),
+	(1566, 469, 'ua', 'Весь час навчання витрачається на отримання <span class="blueword">корисних практичних знань</span>, тому термін навчання скорочуються, а кількість практичних засвоєних знань більша, ніж у традиційних закладах.'),
+	(1567, 469, 'ru', 'Все время обучения тратится на получение <span class="blueword">полезных практических знаний</span>, поэтому срок обучения сокращаются, а количество практических усвоенных знаний больше, чем в традиционных заведениях.'),
+	(1568, 469, 'en', 'All  time is assigned for getting <span class="blueword">useful practical knowledge</span>, thus education terms are decreased and the amount of gained skills is greater than in traditional institutions'),
+	(1569, 470, 'ua', 'Чи ви відрізняєтесь від інших?'),
+	(1570, 470, 'ru', 'Отличаетесь ли вы от других?'),
+	(1571, 470, 'en', 'What makes your course different from all the  others?'),
+	(1572, 471, 'ua', 'Скільки триває навчання, як швидко я зможу почати заробляти?'),
+	(1573, 471, 'ru', 'Сколько длится обучение, как быстро я смогу начать зарабатывать?'),
+	(1574, 471, 'en', 'How long is the course and how soon  can I start  making  money?'),
+	(1575, 472, 'ua', 'Чи отримаю я державний диплом про освіту?'),
+	(1576, 472, 'ru', 'Получу ли я государственный диплом об образовании?'),
+	(1577, 472, 'en', 'Will I receive a state- recognized education diploma?'),
+	(1578, 473, 'ua', 'Чому навчання коштує так дешево (дорого) у порівнянні з іншими курсами?'),
+	(1579, 473, 'ru', 'Почему обучение стоит так дешево (дорого) по сравнению с другими курсами?'),
+	(1580, 473, 'en', 'Why is the course so cheap(expensive) compared  to alternatives?'),
+	(1581, 474, 'ua', 'Чому онлайн навчання коштує дорожче у порівнянні з офлайн навчанням?'),
+	(1582, 474, 'ru', 'Почему онлайн обучение стоит дороже по сравнению с оффлайн обучением?'),
+	(1583, 474, 'en', 'Why is online education  more expensive than offline one?'),
+	(1584, 475, 'ua', 'У мене зараз немає необхідних коштів, чи можу я навчатися у кредит?'),
+	(1585, 475, 'ru', 'У меня сейчас нет средств, могу ли я учиться в кредит?'),
+	(1586, 475, 'en', 'Now I do not have enough money to pay for the course  can I get a study loan?'),
+	(1587, 476, 'ua', 'Чи маю я укладати договір на навчання?'),
+	(1588, 476, 'ru', 'Имею ли я заключать договор на обучение?'),
+	(1589, 476, 'en', 'Should I conclude a study contract?'),
+	(1590, 477, 'ua', 'Я чув від знайомого, що він освоїв програмування самотужки, це можливо?'),
+	(1591, 477, 'ru', 'Я слышал от знакомого, что он освоил программирование самостоятельно, это возможно?'),
+	(1592, 477, 'en', 'I heard from a friend that he had  learnt programming on his own. Is it possible?'),
+	(1593, 478, 'ua', 'У мене у школі було погано з математикою / я давно не займався математикою. Це може завадити мені навчитися програмуванню?'),
+	(1594, 478, 'ru', 'У меня в школе было плохо с математикой / я давно не занимался математикой. Это может помешать мне научиться программированию?'),
+	(1595, 478, 'en', 'I was bad at math at school/I have not not been learning mathematics for a long time. Can this be an obstacle to learning programming?'),
+	(1596, 479, 'ua', 'Мені 34 роки, чи можу я зараз розпочати навчання?'),
+	(1597, 479, 'ru', 'Мне 34 года, могу ли я сейчас начать обучение?'),
+	(1598, 479, 'en', 'I am 34 years old. Can I start learning now?'),
+	(1599, 480, 'ua', 'Я чув думку, що професія програміста технічна, а я - людина творча. Чи підійде програмування мені?'),
+	(1600, 480, 'ru', 'Я слышал мнение, что профессия программиста техническая, а я - человек творческий. Подойдет программирования мне?'),
+	(1601, 480, 'en', 'I heard that profession of a  programmer is technical, but I am creative. Will programming fit me?'),
+	(1602, 481, 'ua', 'Ми гарантуємо стажування і 100% отримання пропозиції працевлаштування протягом 4-6-ти місяців після успішного завершення навчання. Так впевнено стверджувати нам дозволяє той факт, що усі наші випускники працюють програмістами.'),
+	(1603, 481, 'ru', 'Мы гарантируем стажировку и 100% получения предложения трудоустройства в течение 4-6 месяцев после успешного завершения обучения. Так уверенно утверждать нам позволяет тот факт, что все наши выпускники работают программистами.'),
+	(1604, 481, 'en', 'We guarantee you will have an internship and offers of employment during 4-6 months after successful completion of a  course. The proof is in our graduates : 100% of them  work as programmers.'),
+	(1605, 482, 'ua', 'Навчання не має фіксованого терміну і залежить виключно від темпу, який обереш ти. Ми рекомендуємо кожному студенту його індивідуальний темп.'),
+	(1606, 482, 'ru', 'Обучение не имеет фиксированного срока и зависит исключительно от темпа, который выберешь ты. Мы рекомендуем каждому студенту его индивидуальный темп.'),
+	(1607, 482, 'en', 'The time for learning is not limited it depends only on your own pace. We suggest  that every student choose  his/her own tempo of learning.'),
+	(1608, 483, 'ua', 'Ми видаємо диплом після проходження курсу та сертифікат після проходження модуля власного зразка. Ми не видаємо дипломів державного зразка, наша ціль - забезпечити передумови для гарантованого працевлаштування слухачів.'),
+	(1609, 483, 'ru', 'Мы выдаем диплом после прохождения курса и сертификат после прохождения модуля собственного образца. Мы не выдаем дипломов государственного образца, наша цель - обеспечить предпосылки для гарантированного трудоустройства слушателей.'),
+	(1610, 483, 'en', 'We give a  personalized diploma after completion of the course and  a personalized certificate after you finish the module. We don`t provide a state- recognized education diploma because our goal  is to ensure job opportunities for graduates.'),
+	(1611, 484, 'ua', 'Вартість навчання економічно обгрунтована і буде тобою відроблена менше, ніж за рік роботи на позиції програміста-початківця.'),
+	(1612, 484, 'ru', 'Стоимость обучения экономически обоснована и будет тобой отработанных меньше, чем за год работы на позиции программиста начинающего.'),
+	(1613, 484, 'en', 'The cost of our course is economically justified and you can make the money in less than a year working as a junior programmer.'),
+	(1614, 485, 'ua', 'При онлайн навчанні ми використовуємо персоналізований підхід до кожного студента, що вимагає більшої уваги викладачів, аніж при навчанні груп.'),
+	(1615, 485, 'ru', 'При онлайн обучении мы используем персонализированный подход к каждому студенту, что требует большего внимания преподавателей, чем при обучении групп.'),
+	(1616, 485, 'en', 'We use individual approach to every student teaching him/her  online, it requires more time and effort of teachers than working in groups.'),
+	(1617, 486, 'ua', 'Так, ми пропонуємо гнучкий підхід в оплаті за навчання - можливе кредитування навчання на 2-3 роки, що дозволить тобі виплачувати основну суму вже після працевлаштування.'),
+	(1618, 486, 'ru', 'Так, мы предлагаем гибкий подход в оплате за обучение - возможно кредитование обучения на 2-3 года, что позволит тебе выплачивать основную сумму уже после трудоустройства.'),
+	(1619, 486, 'en', 'Yes. We offer a flexible approach to payment for a course. It is possible to get 2-3 year  loan  that will allow you to pay the bigger part after you find a job.'),
+	(1620, 487, 'ua', 'Договір уладається лише при оформленні кредиту на навчання.'),
+	(1621, 487, 'ru', 'Договор уладаеться только при оформлении кредита на обучение.'),
+	(1622, 487, 'en', 'Only when you take a study  loan.'),
+	(1623, 488, 'ua', 'Так, на ринку багато “програмістів-самоучок”, але вони, як правило, пройшли довгий шлях (як правило більше 5 років) для того, щоб навчитись програмуванню, ми - один із ефективних варіантів стати кваліфікованим програмістом за короткий час.'),
+	(1624, 488, 'ru', 'Так, на рынке много "программистов-самоучек", но они, как правило, прошли долгий путь (как правило более 5 лет) для того, чтобы научиться программированию, мы - один из эффективных вариантов стать квалифицированным программистом за короткое время.'),
+	(1625, 488, 'en', 'Yes, there are a lot of “self-taught programmers” in the labor market, but they as a rule come  a long way (more than 5 years) to learn programming. We offer one of the most effective ways to become a skilled programmer in a short term.'),
+	(1626, 489, 'ua', 'Математика допомагає краще розвинути логічне мислення і знання елементарної математики необхідні обов’язково, проте, не математичне, а логічне мислення визначає наскільки гарний програміст і тільки невеликий відсоток гарних математиків стають професійними програмістами.'),
+	(1627, 489, 'ru', 'Математика помогает лучше развить логическое мышление и знание элементарной математики необходимы обязательно, однако, математическое, а логическое мышление определяет насколько хороший программист и только небольшой процент хороших математиков становятся профессиональными программистами.'),
+	(1628, 489, 'en', 'Math helps to improve logical thinking that is why knowledge  of elementary math is a must. However, not mathematical but logical thinking defines how good a programmer is and only a small percentage of good mathematicians become professional programmers.'),
+	(1629, 490, 'ua', 'Верхньої вікової межі для того, щоб вивчати програмування - немає, люди і старшого віку розпочинали і досягали гарних результатів. Життєвий досвід людям старшого віку дозволяє ефективніше побудувати навчальний процес і швидше кар’єрно зростати.'),
+	(1630, 490, 'ru', 'Верхней возрастной границы для того, чтобы изучать программирование - нет, люди и старшего возраста начинали и достигали хороших результатов. Жизненный опыт людям старшего возраста позволяет эффективнее построить учебный процесс и быстрее карьерно расти.'),
+	(1631, 490, 'en', 'There is no age maximum for participants.  Even older people started  learning and reached good results. Experience allows older adults arrange an  educational process more effectively and  improve a career faster.'),
+	(1632, 491, 'ua', 'Програмування - це і є творчість, варто спробувати, щоб зрозуміти чи це твоє покликання.'),
+	(1633, 491, 'ru', 'Программирование - это и есть творчество, стоит попробовать, чтобы понять это твое призвание.'),
+	(1634, 491, 'en', 'Programming is creative. You need to try it  to understand whether the profession fits you or not.'),
+	(1635, 492, 'ua', 'Викладач'),
+	(1636, 492, 'ru', 'Преподаватель'),
+	(1637, 492, 'en', 'Lecturer'),
+	(1638, 493, 'ua', 'у Вас буде запланована консультація по темі'),
+	(1639, 493, 'ru', 'у Вас будет запланирована консультация по теме'),
+	(1640, 493, 'en', 'you will be scheduled consultations on the topic'),
+	(1641, 494, 'ua', 'викладач'),
+	(1642, 494, 'ru', 'преподаватель'),
+	(1643, 494, 'en', 'lecturer'),
+	(1644, 495, 'ua', 'Для підтвердження натисніть \'Добре\'.'),
+	(1645, 495, 'ru', 'Для подтверждения нажмите "Хорошо".'),
+	(1646, 495, 'en', 'To confirm, click \'OK\'.'),
+	(1647, 496, 'ua', 'Добре'),
+	(1648, 496, 'ru', 'Хорошо'),
+	(1649, 496, 'en', 'OK'),
+	(1650, 497, 'ua', 'Скасувати'),
+	(1651, 497, 'ru', 'Отменить'),
+	(1652, 497, 'en', 'Сancel'),
+	(1653, 498, 'ua', 'Вітаємо!'),
+	(1654, 498, 'ru', 'Поздравляем!'),
+	(1655, 498, 'en', 'Congratulations!'),
+	(1656, 499, 'ua', 'Виберіть годину'),
+	(1657, 499, 'ru', 'Выберите время'),
+	(1658, 499, 'en', 'Choose a time'),
+	(1659, 500, 'ua', 'Ви можете обрати декілька консультацій. Використовуйте клавіші <span class="colorP">Ctrl</span> або <span class="colorP">Shift</span>.'),
+	(1660, 500, 'ru', 'Вы можете выбрать несколько консультаций. Используйте клавиши <span class = "colorP"> Ctrl </span> или <span class = "colorP"> Shift </span>.'),
+	(1661, 500, 'en', 'You can select multiple consultations. Use the <span class = "colorP"> Ctrl </span> or <span class = "colorP"> Shift </span>.'),
+	(1662, 501, 'ua', 'Назад'),
+	(1663, 501, 'ru', 'Назад'),
+	(1664, 501, 'en', 'Back'),
+	(1665, 502, 'ua', 'Далі'),
+	(1666, 502, 'ru', 'Дальше'),
+	(1667, 502, 'en', 'Next'),
+	(1668, 503, 'ua', 'Вибачте, час даної консультації вже зайнятий. Перейдіть на'),
+	(1669, 503, 'ru', 'Извините, время данной консультации уже занято. Перейдите на'),
+	(1670, 503, 'en', 'Sorry, this time consultations are unavailable. Go to'),
+	(1671, 504, 'ua', 'сторінку'),
+	(1672, 504, 'ru', 'страницу'),
+	(1673, 504, 'en', 'page'),
+	(1674, 505, 'ua', 'консультацій та виберіть інший час.'),
+	(1675, 505, 'ru', 'консультаций и выберите другое время.'),
+	(1676, 505, 'en', 'of consultations and choose another time.'),
+	(1677, 506, 'ua', 'Консультації'),
+	(1678, 506, 'ru', 'Консультации'),
+	(1679, 506, 'en', 'Consultations'),
+	(1680, 507, 'ua', 'Консультація зайнята'),
+	(1681, 507, 'ru', 'Консультация занята'),
+	(1682, 507, 'en', 'Consultation unavailable'),
+	(1683, 508, 'ua', 'Курси'),
+	(1684, 508, 'ru', 'Курсы'),
+	(1685, 508, 'en', 'Courses'),
+	(1686, 509, 'ua', 'Управління'),
+	(1687, 509, 'ru', 'Управление'),
+	(1688, 509, 'en', 'Management'),
+	(1689, 510, 'ua', 'Список курсів'),
+	(1690, 510, 'ru', 'Список курсов'),
+	(1691, 510, 'en', 'List of courses'),
+	(1692, 511, 'ua', 'Створити курс'),
+	(1693, 511, 'ru', 'Создать курс'),
+	(1694, 511, 'en', 'Create course'),
+	(1695, 512, 'ua', 'Управління курсами'),
+	(1696, 512, 'ru', 'Управление курсами'),
+	(1697, 512, 'en', 'Management courses'),
+	(1698, 513, 'ua', 'Ви можете використовувати вирази'),
+	(1699, 513, 'ru', 'Вы можете использовать выражения'),
+	(1700, 513, 'en', 'You can use expressions'),
+	(1701, 514, 'ua', 'або'),
+	(1702, 514, 'ru', 'или'),
+	(1703, 514, 'en', 'or'),
+	(1704, 515, 'ua', 'Розширений пошук'),
+	(1705, 515, 'ru', 'Расширенный поиск'),
+	(1706, 515, 'en', 'Advanced Search'),
+	(1707, 516, 'ua', 'Показано курсів'),
+	(1708, 516, 'ru', 'Показано курсов'),
+	(1709, 516, 'en', 'Showing courses'),
+	(1710, 517, 'ua', 'Нічого не знайдено'),
+	(1711, 517, 'ru', 'Ничего не найдено'),
+	(1712, 517, 'en', 'Nothing found'),
+	(1713, 518, 'ua', 'Ви впевнені?'),
+	(1714, 518, 'ru', 'Вы уверены?'),
+	(1715, 518, 'en', 'Are you sure?'),
+	(1716, 519, 'ua', 'Назва курсу'),
+	(1717, 519, 'ru', 'Название курса'),
+	(1718, 519, 'en', 'Name of course'),
+	(1719, 520, 'ua', 'Рівень'),
+	(1720, 520, 'ru', 'Уровень'),
+	(1721, 520, 'en', 'Level'),
+	(1722, 521, 'ua', 'Тривалість курсу'),
+	(1723, 521, 'ru', 'Продолжительность курса'),
+	(1724, 521, 'en', 'Duration of course'),
+	(1725, 522, 'ua', 'Вартість курсу'),
+	(1726, 522, 'ru', 'Стоимость курса'),
+	(1727, 522, 'en', 'Price of course'),
+	(1728, 523, 'ua', 'Показати курс'),
+	(1729, 523, 'ru', 'Показать курс'),
+	(1730, 523, 'en', 'Show course'),
+	(1731, 524, 'ua', 'Оновити курс'),
+	(1732, 524, 'ru', 'Обновить курс'),
+	(1733, 524, 'en', 'Refresh course'),
+	(1734, 525, 'ua', 'Видалити курс'),
+	(1735, 525, 'ru', 'Удалить курс'),
+	(1736, 525, 'en', 'Remove course'),
+	(1737, 526, 'ua', 'Виберіть адресата'),
+	(1738, 526, 'ru', 'Выберите адресата'),
+	(1739, 526, 'en', 'Choose a addressee'),
+	(1740, 527, 'ua', 'Тема:'),
+	(1741, 527, 'ru', 'Тема: '),
+	(1742, 527, 'en', 'Theme: '),
+	(1743, 528, 'ua', 'Статус: '),
+	(1744, 528, 'ru', 'Статус: '),
+	(1745, 528, 'en', 'Status: '),
+	(1746, 529, 'ua', 'лист прочитаний отримувачем'),
+	(1747, 529, 'ru', 'письмо прочитано получателем'),
+	(1748, 529, 'en', 'letter read by the recipient'),
+	(1749, 530, 'ua', 'отримувач ще не прочитав листа'),
+	(1750, 530, 'ru', 'получатель еще не прочитал письмо'),
+	(1751, 530, 'en', 'the recipient has not read the letter'),
+	(1752, 531, 'ua', 'Листування'),
+	(1753, 531, 'ru', 'Переписка'),
+	(1754, 531, 'en', 'Correspondence'),
+	(1755, 532, 'ua', 'Вхідні'),
+	(1756, 532, 'ru', 'Входные'),
+	(1757, 532, 'en', 'Incoming'),
+	(1758, 533, 'ua', 'Вихідні'),
+	(1759, 533, 'ru', 'Выходные'),
+	(1760, 533, 'en', 'Output'),
+	(1761, 534, 'ua', 'Створити'),
+	(1762, 534, 'ru', 'Создать'),
+	(1763, 534, 'en', 'Create'),
+	(1764, 535, 'ua', 'Отриманих листів немає'),
+	(1765, 535, 'ru', 'Полученных писем нет'),
+	(1766, 535, 'en', 'No received Letters'),
+	(1767, 536, 'ua', 'Відправлених листів немає'),
+	(1768, 536, 'ru', 'Отправленных писем нет'),
+	(1769, 536, 'en', 'No sent letters'),
+	(1770, 537, 'ua', 'Ваш лист успішно відправлений'),
+	(1771, 537, 'ru', 'Ваше письмо успешно отправлен'),
+	(1772, 537, 'en', 'Your letter sent successfully'),
+	(1773, 538, 'ua', 'Заповніть всі поля перед відправкою'),
+	(1774, 538, 'ru', 'Заполните все поля перед отправкой'),
+	(1775, 538, 'en', 'Fill in all the fields before sending'),
+	(1776, 539, 'ua', 'Кому:'),
+	(1777, 539, 'ru', 'Кому:'),
+	(1778, 539, 'en', 'To:'),
+	(1779, 540, 'ua', 'Зміст:'),
+	(1780, 540, 'ru', 'Содержание:'),
+	(1781, 540, 'en', 'Contents:'),
+	(1782, 541, 'ua', 'Надіслати'),
+	(1783, 541, 'ru', 'Отправить'),
+	(1784, 541, 'en', 'Send'),
+	(1785, 542, 'ua', 'Відповісти'),
+	(1786, 542, 'ru', 'Ответить'),
+	(1787, 542, 'en', 'Answer'),
+	(1788, 543, 'ua', 'Проплачених курсів немає'),
+	(1789, 543, 'ru', 'Проплаченных курсов нет'),
+	(1790, 543, 'en', 'No courses paid for'),
+	(1791, 544, 'ua', 'Відгук не може бути пустим'),
+	(1792, 544, 'ru', 'Отзыв не может быть пустым'),
+	(1793, 544, 'en', 'Feedback can not be empty'),
+	(1794, 545, 'ua', 'Розклад пустий'),
+	(1795, 545, 'ru', 'Расписание пустое'),
+	(1796, 545, 'en', 'Timetable empty'),
+	(1797, 546, 'ua', 'Ви впевнені, що хочете відмінити консультацію?'),
+	(1798, 546, 'ru', 'Вы уверены, что хотите отменить консультацию?'),
+	(1799, 546, 'en', 'Are you sure You want to cancel the consultation?'),
+	(1800, 547, 'ua', 'Відмінити консультацію'),
+	(1801, 547, 'ru', 'Отменить консультацию'),
+	(1802, 547, 'en', 'Delete consultation'),
+	(1803, 548, 'ua', 'Оцінювань немає'),
+	(1804, 548, 'ru', 'Оценок нет'),
+	(1805, 548, 'en', 'No mark'),
+	(1806, 549, 'ua', 'ПРО ЩО МРІЄШ ТИ?'),
+	(1807, 549, 'ru', 'О ЧЕМ МЕЧТАЕШЬ ТЫ?'),
+	(1808, 549, 'en', 'WHAT DO YOU DREAM ABOUT?'),
+	(1809, 550, 'ua', 'Власна квартира в <br>сучасному мегаполісі? <br>Чи гарний автомобіль?'),
+	(1810, 550, 'ru', 'Собственная квартира в <br>современном мегаполисе? <br>Хороший автомобиль?'),
+	(1811, 550, 'en', 'Own apartment in <br>the modern metropolis? <br>Do good car?'),
+	(1812, 551, 'ua', 'Професія майбутнього?<br> Цікава і перспективна, яка <br>проникає в усі сфери нашого життя!'),
+	(1813, 551, 'ru', 'Профессия будущего? <br>Интересная и перспективная, которая <br>проникает во все сферы нашей жизни!'),
+	(1814, 551, 'en', 'Occupation future? <br>Interesting and promising that <br>into all areas of our lives!'),
+	(1815, 552, 'ua', 'Гарний автомобіль? <br>Чи власний будинок <br>в затишній місцині?'),
+	(1816, 552, 'ru', 'Хороший автомобиль? <br>ли собственный дом <br>в тихом местечке?'),
+	(1817, 552, 'en', 'A good car? Do <br>own home  <br>in a cozy locality?'),
+	(1818, 553, 'ua', 'Мандрівки за кордон? <br>Цікаві подорожі з гарними друзями <br>чи коханою людиною!'),
+	(1819, 553, 'ru', 'Путешествия за границу? <br>Интересные путешествия с хорошими друзьями <br>или любимым человеком!'),
+	(1820, 553, 'en', 'Travelling abroad? <br>Interesting trip with good friends <br>or a loved one!'),
+	(1821, 554, 'ua', 'Забезпечене життя <br>для себе та близьких, коли <br>не доводиться думати про гроші?'),
+	(1822, 554, 'ru', 'Обеспеченную жизнь <br>для себя и близких, когда <br>не приходится думать о деньгах?'),
+	(1823, 554, 'en', 'Secure life for themselves <br>and loved ones when <br>not have to think about money?'),
+	(1824, 555, 'ua', 'Може, це свобода жити своїм життям? <br>Самостійно керувати <br>власним часом!'),
+	(1825, 555, 'ru', 'Может, это свобода жить своей жизнью? <br>Самостоятельно управлять <br>собственным временем!'),
+	(1826, 555, 'en', 'Maybe it is the freedom to live their lives? <br>Independently manage <br>own time!'),
+	(1827, 556, 'ua', 'Про що зараз мрієш ти?'),
+	(1828, 556, 'ru', 'О чем сейчас мечтаешь ты?'),
+	(1829, 556, 'en', 'What are you dreaming  about now?'),
+	(1830, 557, 'ua', 'Навчання майбутнього вже сьогодні'),
+	(1831, 557, 'ru', 'Обучение будущего уже сегодня'),
+	(1832, 557, 'en', 'Education of the future available  today'),
+	(1833, 558, 'ua', 'Питання, які нам часто ставлять'),
+	(1834, 558, 'ru', 'Часто задаваемые вопросы'),
+	(1835, 558, 'en', 'FAQ');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 
@@ -2325,7 +2695,7 @@ CREATE TABLE IF NOT EXISTS `module_languages` (
   CONSTRAINT `FK_module_languages_course_2` FOREIGN KEY (`lang_ru`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.module_languages: ~10 rows (approximately)
+-- Dumping data for table int_ita_db.module_languages: ~8 rows (approximately)
 /*!40000 ALTER TABLE `module_languages` DISABLE KEYS */;
 INSERT INTO `module_languages` (`id`, `lang_ua`, `lang_ru`, `lang_en`) VALUES
 	(1, 1, 62, 0),
@@ -2368,7 +2738,7 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~4 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~3 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
 INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(38, 1, 1),
@@ -2390,7 +2760,7 @@ CREATE TABLE IF NOT EXISTS `pay_modules` (
   CONSTRAINT `FK_pay_modules_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for modules: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_modules: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.pay_modules: ~27 rows (approximately)
 /*!40000 ALTER TABLE `pay_modules` DISABLE KEYS */;
 INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(38, 1, 3),
@@ -3098,7 +3468,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_acl_users` (
   KEY `auth_role_id` (`auth_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_acl_users: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_acl_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_acl_users` DISABLE KEYS */;
 INSERT INTO `phpbb_acl_users` (`user_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
 	(2, 0, 0, 5, 0);
@@ -3852,7 +4222,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_forums_track` (
   PRIMARY KEY (`user_id`,`forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_forums_track: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_forums_track: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_forums_track` DISABLE KEYS */;
 INSERT INTO `phpbb_forums_track` (`user_id`, `forum_id`, `mark_time`) VALUES
 	(2, 2, 1433430287);
@@ -4849,7 +5219,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');
@@ -5022,7 +5392,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordmatch` (
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~77 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~70 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUES
 	(1, 1, 0),
@@ -5243,7 +5613,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');
@@ -5481,7 +5851,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_group` (
   KEY `group_leader` (`group_leader`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_group: ~51 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_group: ~49 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_group` DISABLE KEYS */;
 INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pending`) VALUES
 	(1, 1, 0, 0),
@@ -5548,7 +5918,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_notifications` (
   `notify` tinyint(1) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_notifications: ~188 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_notifications: ~184 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_user_notifications` (`item_type`, `item_id`, `user_id`, `method`, `notify`) VALUES
 	('notification.type.post', 0, 2, '', 1),
@@ -5990,7 +6360,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
--- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.role_attribute: ~9 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
 INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`) VALUES
 	(1, 'capacity', 1, 'int', 'Количество студентов', 'Кількість студентів'),
@@ -6011,9 +6381,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=432 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=559 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~431 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~381 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6446,7 +6816,134 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(428, 'error', '0428'),
 	(429, 'error', '0429'),
 	(430, 'graduates', '0430'),
-	(431, 'graduates', '0431');
+	(431, 'graduates', '0431'),
+	(432, 'aboutus', '0432'),
+	(433, 'aboutus', '0433'),
+	(434, 'aboutus', '0434'),
+	(435, 'aboutus', '0435'),
+	(436, 'aboutus', '0436'),
+	(437, 'aboutus', '0437'),
+	(438, 'aboutus', '0438'),
+	(439, 'aboutus', '0439'),
+	(440, 'aboutus', '0440'),
+	(441, 'aboutus', '0441'),
+	(442, 'aboutus', '0442'),
+	(443, 'aboutus', '0443'),
+	(444, 'aboutus', '0444'),
+	(445, 'aboutus', '0445'),
+	(446, 'aboutus', '0446'),
+	(447, 'aboutus', '0447'),
+	(448, 'aboutus', '0448'),
+	(449, 'aboutus', '0449'),
+	(450, 'aboutus', '0450'),
+	(451, 'aboutus', '0451'),
+	(452, 'aboutus', '0452'),
+	(453, 'aboutus', '0453'),
+	(454, 'aboutus', '0454'),
+	(455, 'aboutus', '0455'),
+	(456, 'aboutus', '0456'),
+	(457, 'aboutus', '0457'),
+	(458, 'aboutus', '0458'),
+	(459, 'aboutus', '0459'),
+	(460, 'aboutus', '0460'),
+	(461, 'aboutus', '0461'),
+	(462, 'aboutus', '0462'),
+	(463, 'aboutus', '0463'),
+	(464, 'aboutus', '0464'),
+	(465, 'aboutus', '0465'),
+	(466, 'aboutus', '0466'),
+	(467, 'aboutus', '0467'),
+	(468, 'aboutus', '0468'),
+	(469, 'aboutus', '0469'),
+	(470, 'aboutus', '0470'),
+	(471, 'aboutus', '0471'),
+	(472, 'aboutus', '0472'),
+	(473, 'aboutus', '0473'),
+	(474, 'aboutus', '0474'),
+	(475, 'aboutus', '0475'),
+	(476, 'aboutus', '0476'),
+	(477, 'aboutus', '0477'),
+	(478, 'aboutus', '0478'),
+	(479, 'aboutus', '0479'),
+	(480, 'aboutus', '0480'),
+	(481, 'aboutus', '0481'),
+	(482, 'aboutus', '0482'),
+	(483, 'aboutus', '0483'),
+	(484, 'aboutus', '0484'),
+	(485, 'aboutus', '0485'),
+	(486, 'aboutus', '0486'),
+	(487, 'aboutus', '0487'),
+	(488, 'aboutus', '0488'),
+	(489, 'aboutus', '0489'),
+	(490, 'aboutus', '0490'),
+	(491, 'aboutus', '0491'),
+	(492, 'consultation', '0492'),
+	(493, 'consultation', '0493'),
+	(494, 'consultation', '0494'),
+	(495, 'consultation', '0495'),
+	(496, 'consultation', '0496'),
+	(497, 'consultation', '0497'),
+	(498, 'consultation', '0498'),
+	(499, 'consultation', '0499'),
+	(500, 'consultation', '0500'),
+	(501, 'consultation', '0501'),
+	(502, 'consultation', '0502'),
+	(503, 'consultation', '0503'),
+	(504, 'consultation', '0504'),
+	(505, 'consultation', '0505'),
+	(506, 'consultation', '0506'),
+	(507, 'consultation', '0507'),
+	(508, 'coursemanage', '0508'),
+	(509, 'coursemanage', '0509'),
+	(510, 'coursemanage', '0510'),
+	(511, 'coursemanage', '0511'),
+	(512, 'coursemanage', '0512'),
+	(513, 'coursemanage', '0513'),
+	(514, 'coursemanage', '0514'),
+	(515, 'coursemanage', '0515'),
+	(516, 'coursemanage', '0516'),
+	(517, 'coursemanage', '0517'),
+	(518, 'coursemanage', '0518'),
+	(519, 'coursemanage', '0519'),
+	(520, 'coursemanage', '0520'),
+	(521, 'coursemanage', '0521'),
+	(522, 'coursemanage', '0522'),
+	(523, 'coursemanage', '0523'),
+	(524, 'coursemanage', '0524'),
+	(525, 'coursemanage', '0525'),
+	(526, 'letter', '0526'),
+	(527, 'letter', '0527'),
+	(528, 'letter', '0528'),
+	(529, 'letter', '0529'),
+	(530, 'letter', '0530'),
+	(531, 'letter', '0531'),
+	(532, 'letter', '0532'),
+	(533, 'letter', '0533'),
+	(534, 'letter', '0534'),
+	(535, 'letter', '0535'),
+	(536, 'letter', '0536'),
+	(537, 'letter', '0537'),
+	(538, 'letter', '0538'),
+	(539, 'letter', '0539'),
+	(540, 'letter', '0540'),
+	(541, 'letter', '0541'),
+	(542, 'letter', '0542'),
+	(543, 'finances', '0543'),
+	(544, 'response', '0544'),
+	(545, 'profile', '0545'),
+	(546, 'profile', '0546'),
+	(547, 'profile', '0547'),
+	(548, 'profile', '0548'),
+	(549, 'slider', '0549'),
+	(550, 'slider', '0550'),
+	(551, 'slider', '0551'),
+	(552, 'slider', '0552'),
+	(553, 'slider', '0553'),
+	(554, 'slider', '0554'),
+	(555, 'slider', '0555'),
+	(556, 'aboutus', '0556'),
+	(557, 'aboutus', '0557'),
+	(558, 'aboutus', '0558');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 
 
@@ -6479,23 +6976,27 @@ INSERT INTO `step` (`stepID`, `language`, `stepName`, `stepNumber`, `stepTitle`,
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_lecture` int(11) NOT NULL,
-  `language` varchar(15) NOT NULL,
-  `assignment` int(10) NOT NULL,
+  `language` varchar(15) DEFAULT NULL,
+  `assignment` int(10) DEFAULT NULL,
   `condition` int(11) NOT NULL,
-  `author` int(11) NOT NULL,
-  `level` int(11) NOT NULL,
+  `author` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_task_lectures` (`id_lecture`),
-  KEY `FK_task_teacher` (`author`),
   KEY `FK_task_lecture_element` (`condition`),
-  CONSTRAINT `FK_task_lecture_element` FOREIGN KEY (`condition`) REFERENCES `lecture_element` (`id_block`),
-  CONSTRAINT `FK_task_lectures` FOREIGN KEY (`id_lecture`) REFERENCES `lectures` (`id`),
+  KEY `FK_task_teacher` (`author`),
   CONSTRAINT `FK_task_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.\r\n';
 
--- Dumping data for table int_ita_db.task: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.task: ~5 rows (approximately)
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
+INSERT INTO `task` (`id`, `language`, `assignment`, `condition`, `author`) VALUES
+	(18, 'c++', 0, 115, 1),
+	(19, 'c++', 0, 116, 1),
+	(20, 'c++', 0, 118, 1),
+	(21, 'c++', 0, 119, 1),
+	(22, 'c++', 0, 120, 1),
+	(23, 'c++', 0, 121, 1),
+	(24, 'c++', 10, 124, 1),
+	(25, 'c++', 10, 125, 1);
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 
 
@@ -6543,7 +7044,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher: ~7 rows (approximately)
+-- Dumping data for table int_ita_db.teacher: ~6 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `user_id`, `rating`) VALUES
 	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного <span style="background-color: rgb(255, 255, 0);">режисера</span>\n</p>\n<p><span style="background-color: rgb(255, 255, 0);">                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</span>\n</p>\n<p><span style="background-color: rgb(255, 255, 0);">                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</span>\n</p>\n<p><span style="background-color: rgb(255, 255, 0);">                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></span>\n</p>\n<p><del><strong><span style="background-color: rgb(255, 255, 0);">                        the typical mold of someone who goes into the adult film </span><em><span style="background-color: rgb(255, 255, 0);">business. … I\'d never heard anybody tal</span>k </em></strong></del>\n</p>\n<p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо\n</p>\n<p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,\n</p>\n<p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.\n</p>\n<p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,\n</p>\n<p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].\n</p>\n<p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла\n</p>\n<p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,\n</p>\n<p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.\n</p>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p><span style="background-color: rgb(178, 162, 199);">Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</span>\n</p>\n<p><span style="background-color: rgb(178, 162, 199);">                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</span>\n</p>\n<p><span style="background-color: rgb(178, 162, 199);">                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</span>\n</p>\n<p><span style="background-color: rgb(178, 162, 199);">                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></span>\n</p>\n<p><del><strong><span style="background-color: rgb(178, 162, 199);">                        the typical mold of someone who goes into the adult film </span><em><span style="background-color: rgb(178, 162, 199);">business. … I\'d never heard anybody ta</span>lk </em></strong></del>\n</p>\n<p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо\n</p>\n<p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,\n</p>\n<p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.\n</p>\n<p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,\n</p>\n<p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].\n</p>\n<p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла\n</p>\n<p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,\n</p>\n<p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.\n</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', 6, 7, 7, 38, 7),
@@ -6567,7 +7068,7 @@ CREATE TABLE IF NOT EXISTS `teacher_module` (
   KEY `FK_teacher_module_module` (`idModule`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_module: ~27 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_module: ~30 rows (approximately)
 /*!40000 ALTER TABLE `teacher_module` DISABLE KEYS */;
 INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(1, 1, 1),
@@ -6613,7 +7114,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~29 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~23 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
@@ -6659,7 +7160,7 @@ CREATE TABLE IF NOT EXISTS `trainer_student` (
   CONSTRAINT `FK_trainer_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.trainer_student: ~7 rows (approximately)
+-- Dumping data for table int_ita_db.trainer_student: ~6 rows (approximately)
 /*!40000 ALTER TABLE `trainer_student` DISABLE KEYS */;
 INSERT INTO `trainer_student` (`trainer`, `student`) VALUES
 	(1, 55),
@@ -6706,9 +7207,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activkey_lifetime` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~28 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~24 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`) VALUES
 	(1, 'Anonim', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0),
@@ -6731,14 +7232,13 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(54, 'Student 4', '', '', 0, '', NULL, NULL, NULL, NULL, 'student4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(55, 'Student 5', '', '', 0, '', NULL, NULL, NULL, NULL, 'student5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(56, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '559e5fbe94740.jpg', 0, NULL, NULL, 1),
-	(100, 'faergaerge', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0),
 	(103, 'David', '', '', 0, '', NULL, 'Cameron', '', '', 'info@bonprix.ua', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, 'bfbb9ee6d481be5934356ddde3f42861ae3dc2e0', NULL, 1),
-	(104, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'fbgf@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, 'c5f1a9722575671a9da8efe5cc32e26f76092818', NULL, 0),
 	(106, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nnn.badyora2015@gmail.com', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
 	(108, 'Sector', '', '', 0, '', NULL, 'Freedom', NULL, NULL, 'yaroslav.plaksii@gmail.com', NULL, 'http://www.facebook.com/100007943565992', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '559f786580f41.jpg', 0, NULL, NULL, 1),
 	(109, '', '', '', 0, '', NULL, '', '', '', 'antongriadchenko@gmail.com', '5a7e4b28af86dc7f576692b97266fb445149ddee', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
 	(110, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(111, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1);
+	(111, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
+	(112, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 3, NULL, NULL, 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 

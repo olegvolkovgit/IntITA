@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-13 17:03:51
+-- Date/time:                    2015-07-15 17:37:16
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~39 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~46 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -66,11 +66,13 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(82, 2, 8, 'text', 1, '<p><a href="http://intita.itatests.com/teachers" target="_blank">Teachers</a></p>'),
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>'),
-	(85, 22, 1, 'task', 5, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
-	(86, 50, 1, 'label', 8, '<h4>Example 1: Get your compiler working!</h4>'),
-	(87, 50, 2, 'text', 1, '<h4>Example 2: Get some input</h4>'),
-	(88, 50, 3, 'text', 1, '<h4>Example 3: What does this program output?</h4>'),
-	(89, 50, 4, 'text', 1, '<h4>Example 6: Strings for your consideration</h4>');
+	(85, 22, 1, 'formula', 10, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
+	(86, 50, 1, 'label', 8, 'Example 1: Get your compiler working!'),
+	(87, 50, 5, 'label', 8, '<h4>Example 2: Get some input</h4>'),
+	(88, 50, 3, 'label', 8, '<h4>Example 3: What does this program output?</h4>'),
+	(89, 50, 4, 'label', 8, '<h4>Example 6: Strings for your consideration</h4>'),
+	(124, 50, 2, 'task', 5, 'Description: a program that prints the immortal saying "hello world"'),
+	(125, 50, 6, 'task', 5, 'Illustrate the use of cin to get input.');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
