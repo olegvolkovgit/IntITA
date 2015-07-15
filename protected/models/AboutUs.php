@@ -18,7 +18,7 @@
  */
 class Aboutus extends CActiveRecord
 {
-
+    public $titleText1, $titleText2, $titleText3;
 	/**
 	 * @return string the associated database table name
 	 */

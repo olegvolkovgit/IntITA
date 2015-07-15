@@ -17,7 +17,7 @@
         <ul>
             <li>
                 <div class="teacherTitle">
-                    <?php echo 'Консультант' ?>
+                    <?php echo Yii::t("consultation", "0492") ?>
                 </div>
             </li>
             <li>
@@ -63,18 +63,18 @@
                         <div id="<?php echo 'consultationInfo'.$data['teacher_id']?>">
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation',array('idCourse'=>$idCourse));?>" method="post">
                                 <p class="consInfHeader">
-                                    Вітаємо!
+                                    <?php echo Yii::t("consultation", "0498") ?>
                                 </p>
-                                <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value=" у Вас буде запланована консультація по темі <?php echo $lecture->title ?>, викладач <?php echo $data['last_name']." ".$data['first_name']." ".$data['middle_name'];?>. Для підтвердження натисніть 'Добре'." />
+                                <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value="<?php echo ' '.Yii::t('consultation', '0493').' '.$lecture->title.', '.Yii::t('consultation', '0494').' '.$data['last_name'].' '.$data['first_name'].' '.$data['middle_name'].'. '.Yii::t('consultation', '0495') ?>" />
                                 <p class='consInfText' id="<?php echo 'constext'.$data['teacher_id']?>"></p>
                                 <input type="hidden" id="<?php echo 'datecons'.$data['teacher_id']?>" name="datecons" />
                                 <input type="hidden" id="<?php echo 'timecons'.$data['teacher_id']?>" name="timecons" />
                                 <input type="hidden"  name="teacherid" value="<?php echo $data['teacher_id']; ?>" />
                                 <input type="hidden"  name="userid" value="<?php echo Yii::app()->user->id; ?>" />
                                 <input type="hidden"  name="lectureid" value="<?php echo $lecture->id; ?>" />
-                                <input name="saveConsultation" id="consultationButton" type="submit" value="Добре">
+                                <input name="saveConsultation" id="consultationButton" type="submit" value="<?php echo Yii::t("consultation", "0496") ?>">
                             </form>
-                            <button id="cancelButton" onclick="exit()" >Скасувати</button>
+                            <button id="cancelButton" onclick="exit()" ><?php echo Yii::t("consultation", "0497") ?></button>
                         </div>
                     </div>
                     <a id="consultationCalendar" onclick="showCalendar('<?php echo $data['teacher_id']; ?>')">
@@ -94,7 +94,7 @@
     lastday.setDate(firstday.getDate()+366);
     $(calendarId).datetimepicker({
         format: "yyyy-mm-dd",
-        language: "<?php echo 'ru'?>",
+        language: "<?php echo Yii::app()->session['lg']?>",
         weekStart: 1,
         todayBtn:  0,
         autoclose: 1,

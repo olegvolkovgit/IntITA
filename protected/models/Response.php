@@ -41,7 +41,7 @@ class Response extends CActiveRecord
             array('knowledge', 'required', 'message'=>'знання викладача','except'=>'emptyrating'),
             array('behavior', 'required', 'message'=>'ефективність викладача','except'=>'emptyrating'),
             array('motivation', 'required', 'message'=>'ставлення викладача до студента','except'=>'emptyrating'),
-            array('text', 'required', 'message'=>'Відгук не може бути пустим'),
+            array('text', 'required', 'message'=>Yii::t("response", "0544")),
 			array('who, about, rate', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().

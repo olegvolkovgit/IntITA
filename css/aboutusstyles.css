@@ -82,6 +82,7 @@
 {
     cursor: pointer;
 }
+
 .title p {
     width:210px;
     text-align: left;
@@ -158,6 +159,16 @@
     display: none;
     width:1200px;
     margin: 0 auto;
+    color: #5c5c5c;
+}
+#dropTextLayer2 .textBox{
+    font-size: 18px;
+    background: #ebebeb;
+    border-radius:0 0 10px 10px;
+    border: 2px solid #d9d9d9;
+    border-top: none;
+    box-shadow: 0 6px 4px -4px #5f5f5f;
+    padding-bottom: 40px;
 }
 #dropTextLayer3
 {
@@ -170,6 +181,9 @@
     position:relative;
     font-size:14px;
     margin-bottom:0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /*Firefox 1-3*/
+    -webkit-box-sizing: border-box; /* Safari */
 
 }
 
@@ -253,8 +267,9 @@
     padding:20px;
 
     margin-bottom:20px;
-    border-radius:3px;
+    border-radius:0 0 10px 10px;
     background-color: #ebebeb;
+    box-shadow: 0 6px 4px -4px #5f5f5f;
 }
 
 #beginButtonCenter
@@ -440,9 +455,9 @@
 {
     width: 1.5em;
 }
-.textabout{
+.slideAbout .textabout{
     font-size: 16px;
-    text-align: left;
+    text-align: center;
 }
 div.about1{
     position: absolute;
@@ -454,14 +469,13 @@ div.about1{
     color: white;
     left:55%;
     top: 25%;
+    line-height: 1.1;
 }
 .headerAbout{
     font-size: 32px;
 }
 .about1 .sliderCenterBoxLine hr{
     border: 0.05em solid white;
-    margin-top: 10px;
-    margin-bottom: 10px;
     width: 1.5em;
 }
 div.about2{
@@ -474,11 +488,10 @@ div.about2{
     left:20%;
     top: 35%;
     color: #32567d;
+    line-height: 1.1;
 }
 .about2 .sliderCenterBoxLine hr{
     border: 0.05em solid #32567d;
-    margin-top: 10px;
-    margin-bottom: 10px;
     width: 1.5em;
 }
 div.about3{
@@ -489,13 +502,12 @@ div.about3{
     text-shadow: none;
     font-weight: 400;
     left:35%;
-    top: 5%;
+    top: 4%;
     color: #000000;
+    line-height: 1.1;
 }
 .about3 .sliderCenterBoxLine hr{
     border: 0.05em solid #000000;
-    margin-top: 10px;
-    margin-bottom: 10px;
     width: 1.5em;
 }
 div.about4{
@@ -508,11 +520,42 @@ div.about4{
     left:25%;
     top: 10%;
     color: #000000;
+    line-height: 1.1;
 }
 .about4 .sliderCenterBoxLine hr{
     border: 0.05em solid #000000;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    width: 1.5em;
+}
+div.about5{
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    font-size: 32px;
+    text-shadow: none;
+    font-weight: 400;
+    left:25%;
+    top: 10%;
+    color: #ffffff;
+    line-height: 1.1;
+}
+.about5 .sliderCenterBoxLine hr{
+    border: 0.05em solid #ffffff;
+    width: 1.5em;
+}
+div.about6{
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    font-size: 32px;
+    text-shadow: none;
+    font-weight: 400;
+    left:35%;
+    top: 4%;
+    color: #000000;
+    line-height: 1.1;
+}
+.about6 .sliderCenterBoxLine hr{
+    border: 0.05em solid #000000;
     width: 1.5em;
 }
 .fullpageaboutus .block {
@@ -542,10 +585,10 @@ div.about4{
     margin-top: 0;
 }
 .fullpageaboutus .title {
-    position:absolute;
-    top:60%;
     color:#4682B4;
-    font-size:18px;
+    font-size:30px;
+    margin-top: 20px;
+    text-align: left;
 }
 .fullpageaboutus .mainAbout{
     width: 1200px;
@@ -557,3 +600,152 @@ div.about4{
 .fullpageaboutus .icon{
     margin-top:10px;
 }
+/*second Tab*/
+.tabcolumn{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /*Firefox 1-3*/
+    -webkit-box-sizing: border-box; /* Safari */
+    width: 33%;
+    padding-left: 30px;
+    padding-right: 20px;
+    display: inline-block;
+    vertical-align: top;
+}
+.imgtableft{
+    margin: 10px 10px 0 10px;
+    float: left;
+}
+.imgtabright{
+    float:right;
+    margin: 10px 10px 0 10px;
+}
+.img1{
+    display: inline-block;
+    margin: 0 10px 0 10px;
+}
+.img2{
+    display: inline-block;
+    margin-left: 5px;
+}
+.blueword{
+    color:#4b75a4;
+}
+.redword{
+    color:#ad2b2b;
+}
+.pinkword{
+    color:#fa8394;
+}
+.sunword{
+    color:#ff8a00;
+}
+.blackword{
+    color:#000000;
+}
+.header1{
+    font-size: 24px;
+    color:#4b75a4;
+    margin-bottom: 10px;
+}
+.subheader1{
+    font-size: 20px;
+    color:#3d4d60;
+    display: inline-block;
+    width: 40%;
+}
+.subheader2{
+    font-size: 18px;
+    font-weight: bold;
+    color:#4b75a4;
+    padding-top: 10px;
+}
+.subheader3{
+    font-size: 18px;
+    font-weight: bold;
+    color:#4b75a4;
+    padding-top: 10px;
+}
+.benefittitle h1{
+    font-size: 36px;
+    color:#5b5b5b;
+    margin: 0 auto;
+    display: table;
+    font-weight: normal;
+    padding-left: 20px;
+}
+.benefittitle{
+    margin: 50px 0 50px 0;
+    line-height: 0.9;
+}
+.benefittitle table{
+    border-bottom: 3px solid #4b75a4;
+    margin: 0 auto;
+}
+.benefit{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /*Firefox 1-3*/
+    -webkit-box-sizing: border-box; /* Safari */
+    margin: 0 auto;
+    width:1200px;
+    border: 2px solid #d9d9d9;
+    position:relative;
+    display:inline-block;
+    margin-bottom:20px;
+    border-radius:10px;
+    background-color: #ebebeb;
+    line-height: 1.2;
+    box-shadow: 0 6px 4px -4px #5f5f5f;
+}
+.benefitcolumn{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /*Firefox 1-3*/
+    -webkit-box-sizing: border-box; /* Safari */
+    width: 33%;
+    padding-left: 30px;
+    padding-right: 20px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 18px;
+    color:#5c5c5c
+}
+h3.benefitheader{
+    color:#4b75a4;
+    font-size: 20px;
+}
+.imgleft{
+    float:left;
+    margin: 0 10px 0 10px;
+}
+.imgright{
+    float:right;
+    margin: 0 10px 0 10px;
+}
+/*third Tab*/
+.faqBox{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /*Firefox 1-3*/
+    -webkit-box-sizing: border-box; /* Safari */
+    margin: 0 auto;
+    width:1200px;
+    border: 2px solid #d9d9d9;
+    border-top: none;
+    position:relative;
+    padding:20px 60px 60px 130px;
+    margin-bottom:20px;
+    border-radius:0 0 10px 10px;
+    background-color: #ebebeb;
+    box-shadow: 0 6px 4px -4px #5f5f5f;
+    font-size: 18px;
+}
+.faqimg{
+    float:left;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+.faqBox table td{
+    vertical-align: top;
+}
+.faqBox table {
+    border-spacing: 0 15px;
+}
+

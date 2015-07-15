@@ -1,10 +1,10 @@
 <?php
-$alert = 'Ви впевнені, що хочите відмінити консультацію?';
+$alert = Yii::t('profile', '0546');
 
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'consultation-grid',
     'dataProvider'=>$dataProvider,
-    'emptyText' => 'Розклад пустий',
+    'emptyText' => Yii::t('profile', '0545'),
     'summaryText' => '',
     'columns'=>array(
         array(
@@ -46,7 +46,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'delete' => array(
                     'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'label' => 'Відмінити консультацію',
+                    'label' => Yii::t('profile', '0547'),
                 ),
             ),
             'updateButtonOptions'=> array('style'=>'display:none'),

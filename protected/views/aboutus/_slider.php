@@ -75,13 +75,13 @@
     <div class="slideAbout">
             <div class="about1">
                 <div class="headerAbout">
-                  ПРО ЩО МРІЄШ ТИ?
+                    <?php echo Yii::t("slider", "0549") ?>
                 </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Спробуємо вгадати: власна квартира чи <br> навіть будинок? Гарний автомобіль? <br> Закордонні подорожі, можливо, до <br> екзотичних країн?
+                    <?php echo Yii::t("slider", "0550") ?>
                 </div>
             </div>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?>" />
@@ -90,13 +90,13 @@
         <div class="about">
             <div class="about2">
                 <div class="headerAbout">
-                    ПРО ЩО МРІЄШ ТИ?
+                    <?php echo Yii::t("slider", "0549") ?>
                 </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                    <?php echo Yii::t("slider", "0551") ?>
                 </div>
             </div>
         </div>
@@ -106,13 +106,13 @@
         <div class="about">
             <div class="about3">
                 <div class="headerAbout">
-                    ПРО ЩО МРІЄШ ТИ?
+                    <?php echo Yii::t("slider", "0549") ?>
                 </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                    <?php echo Yii::t("slider", "0552") ?>
                 </div>
             </div>
         </div>
@@ -121,16 +121,44 @@
     <div class="slideAbout">
             <div class="about4">
                 <div class="headerAbout">
-                    ПРО ЩО МРІЄШ ТИ?
+                    <?php echo Yii::t("slider", "0549") ?>
                 </div>
                 <div class="sliderCenterBoxLine">
                     <hr>
                 </div>
                 <div class="textabout">
-                    Закордонні подорожі, до екзотичних країн <br> з коханою людиною? Небезпечні єкскурсії
+                    <?php echo Yii::t("slider", "0553") ?>
                 </div>
             </div>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '4.jpg'); ?>"/>
+    </div>
+    <div class="slideAbout">
+        <div class="about5">
+            <div class="headerAbout">
+                <?php echo Yii::t("slider", "0549") ?>
+            </div>
+            <div class="sliderCenterBoxLine">
+                <hr>
+            </div>
+            <div class="textabout">
+                <?php echo Yii::t("slider", "0554") ?>
+            </div>
+        </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?>"/>
+    </div>
+    <div class="slideAbout">
+        <div class="about6">
+            <div class="headerAbout">
+                <?php echo Yii::t("slider", "0549") ?>
+            </div>
+            <div class="sliderCenterBoxLine">
+                <hr>
+            </div>
+            <div class="textabout">
+                <?php echo Yii::t("slider", "0555") ?>
+            </div>
+        </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '3.jpg'); ?>"/>
     </div>
 </div>
 </div>

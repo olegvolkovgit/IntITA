@@ -52,7 +52,7 @@ function goNext(teacherId) {
         $(timeId).css('display', 'none');
         var textinfo = document.getElementById(textId).value;
         var context = document.getElementById(constext);
-        var dateinfo = document.getElementById(calendarId).value + ' о ' + str.join(', ');
+        var dateinfo = document.getElementById(calendarId).value + ' ' + str.join(', ');
         context.innerHTML = dateinfo + textinfo;
         document.getElementById(dateconsId).value = document.getElementById(calendarId).value;
         document.getElementById(timeconsId).value = str;
