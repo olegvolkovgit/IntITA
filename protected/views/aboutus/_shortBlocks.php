@@ -39,7 +39,7 @@ $dropName = Yii::t('mainpage','0004');
                             </div>
                             <div class="title" >
                                 <div class="aboutTitleLink" >
-                                    <?php echo $val->titleText; ?>
+                                    <?php echo $val->titleTextExp; ?>
                                 </div>
                             </div>
                         </li>
