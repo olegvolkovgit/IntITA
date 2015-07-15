@@ -150,10 +150,10 @@ class LettersController extends Controller
             if($model->validate())
             {
                 $model->save();
-                Yii::app()->user->setFlash('sendletter', 'Ваш лист успішно відправлений');
+                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
             } else {
-                Yii::app()->user->setFlash('sendletter', 'Заповніть всі поля перед відправкою');
+                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
             }
         }
@@ -174,10 +174,10 @@ class LettersController extends Controller
             if($model->validate())
             {
                 $model->save();
-                Yii::app()->user->setFlash('sendletter', 'Ваш лист успішно відправлений');
+                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
             } else {
-                Yii::app()->user->setFlash('sendletter', 'Заповніть всі поля перед відправкою');
+                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
             }
         }

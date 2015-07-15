@@ -60,7 +60,7 @@ if ($data['status'] == 1) $style = 'completed'; else $style = '';
                 <?php echo $form->error($respletter, 'text_letter'); ?>
             </div>
             <div class="row buttons">
-                <?php echo CHtml::submitButton('Відповісти', array('class' => "sendletter")); ?>
+                <?php echo CHtml::submitButton(Yii::t("letter", "0542"), array('class' => "sendletter")); ?>
             </div>
 
             <?php $this->endWidget(); ?>

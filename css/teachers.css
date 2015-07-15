@@ -123,6 +123,9 @@ img.teacherAvatar{
     border-collapse: collapse;
     padding: 0;
 }
+.teacherBlock td{
+    width: 100%;
+}
 .teacherBlock span{
     font-weight: bold;
 }

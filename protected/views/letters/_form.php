@@ -30,21 +30,21 @@ $list = CHtml::listData($models,
 	</div>
 
 	<div class="letterrow">
-        <?php echo $form->labelEx($model,'addressee_id'); ?>
+        <?php echo $form->label($model,'addressee_id'); ?>
         <?php echo $form->dropDownList($model, 'addressee_id',
             $list,
-            array('empty' => '(Виберіть адресата)'));?>
+            array('empty' => Yii::t("letter", "0526")));?>
         <?php echo $form->error($model,'addressee_id'); ?>
 	</div>
 
     <div class="letterrow">
-        <?php echo $form->labelEx($model,'theme'); ?>
+        <?php echo $form->label($model,'theme'); ?>
         <?php echo $form->textField($model,'theme', array('maxlength'=>80)); ?>
         <?php echo $form->error($model,'theme'); ?>
     </div>
 
 	<div class="letterrow">
-		<?php echo $form->labelEx($model,'text_letter'); ?>
+		<?php echo $form->label($model,'text_letter'); ?>
 		<?php echo $form->textArea($model,'text_letter',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'text_letter'); ?>
 	</div>
@@ -54,7 +54,7 @@ $list = CHtml::listData($models,
         endif; ?>
     </div>
 	<div class="row buttons">
-        <?php echo CHtml::submitButton('Надіслати', array('class' => "sendletter")); ?>
+        <?php echo CHtml::submitButton(Yii::t("letter", "0541"), array('class' => "sendletter")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

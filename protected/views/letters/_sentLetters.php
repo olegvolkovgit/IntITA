@@ -31,11 +31,11 @@ if($data['status']==1) $style='completed'; else $style='';?>
             </tr>
             <tr>
                 <td>
-                    <div>Тема: <?php echo $data['theme'] ?></div>
+                    <div><?php echo Yii::t("letter", "0527").' '.$data['theme'] ?></div>
                 </td>
             </tr>
         </table>
         <div class="letterbody"><?php echo $data['text_letter'] ?></div>
-        <div>Статус: <?php if($data['status']==1) echo 'лист прочитаний отримувачем'; else echo 'отримувач ще не прочитав листа' ?></div>
+        <div><?php echo Yii::t("letter", "0528"); if($data['status']==1) echo Yii::t("letter", "0529"); else echo Yii::t("letter", "0530") ?></div>
     </div>
 </div>

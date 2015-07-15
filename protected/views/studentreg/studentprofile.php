@@ -93,17 +93,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <label class="tabsUp1" for="tab1" title="<?php echo Yii::t('profile', '0108'); ?>"><?php echo Yii::t('profile', '0108'); ?></label>
             <input id="tab2" type="radio" name="tabs" >
             <label for="tab2" title="<?php echo Yii::t('profile', '0109'); ?>"><?php echo Yii::t('profile', '0109'); ?></label>
-<!--            <input id="tab3" type="radio" name="tabs" >-->
-<!--            <label for="tab3" title="--><?php //echo Yii::t('profile', '0110'); ?><!--">--><?php //echo Yii::t('profile', '0110'); ?><!--</label>-->
             <input id="tab6" type="radio" name="tabs">
             <label  for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
-<!--            <input id="tab4" type="radio" name="tabs">-->
-<!--            <label for="tab4" title="--><?php //echo Yii::t('profile', '0111'); ?><!--">--><?php //echo Yii::t('profile', '0111'); ?><!--</label>-->
-<!--            <input id="tab5" type="radio" name="tabs" >-->
-<!--            <label for="tab5" title="--><?php //echo Yii::t('profile', '0112'); ?><!--">--><?php //echo Yii::t('profile', '0112'); ?><!--</label>-->
             <div class="lineUnderTab"></div>
-<!--            <input id="tab7" type="radio" name="tabs">-->
-<!--            <label for="tab7" title="--><?php //echo Yii::t('profile', '0114'); ?><!--">--><?php //echo Yii::t('profile', '0114'); ?><!--</label>-->
             <input id="tab8" type="radio" name="tabs" <?php echo $tab?>>
             <label class="tabsDown1" for="tab8" title="<?php echo Yii::t('profile', '0115'); ?>"><?php echo Yii::t('profile', '0115'); ?></label>
             <input id="tab9" type="radio" name="tabs">
@@ -117,21 +109,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <section id="timetable">
                 <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
             </section>
-<!--            <section id="consultation">-->
-<!--                --><?php //$this->renderPartial('_consultation', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
-<!--            </section>-->
-<!--            <section id="exams">-->
-<!--                --><?php //$this->renderPartial('_exams'); ?>
-<!--            </section>-->
-<!--            <section id="projects">-->
-<!--                --><?php //$this->renderPartial('_projects'); ?>
-<!--            </section>-->
             <section id="myRatting">
                 <?php $this->renderPartial('_myRatting'); ?>
             </section>
-<!--            <section id="myDownload">-->
-<!--                --><?php //$this->renderPartial('_myDownload'); ?>
-<!--            </section>-->
             <section id="mylettersSend">
                 <?php $this->renderPartial('_mylettersSend', array('letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider)); ?>
             </section>
@@ -142,7 +122,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     'dataProvider'=>$markProvider,
                     'itemView'=>'_myMark',
                     'template'=>'{items}{pager}',
-                    'emptyText'=>'Оцінювань немає',
+                    'emptyText'=>Yii::t('profile', '0548'),
                     'pager' => array(
                         'firstPageLabel'=>'<<',
                         'lastPageLabel'=>'>>',

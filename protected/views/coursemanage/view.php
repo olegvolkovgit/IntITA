@@ -3,16 +3,16 @@
 /* @var $model Course */
 
 $this->breadcrumbs=array(
-	'Курси'=>array('index'),
+    Yii::t("coursemanage", "0508")=>array('index'),
 	$model->course_ID,
 );
 
 $this->menu=array(
-	array('label'=>'Список курсів', 'url'=>array('index')),
-	array('label'=>'Створити курс', 'url'=>array('create')),
-	array('label'=>'Оновити курс', 'url'=>array('update', 'id'=>$model->course_ID)),
-	array('label'=>'Видалити курс', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->course_ID),'confirm'=>'Ви впевнені?')),
-	array('label'=>'Управління курсами', 'url'=>array('admin')),
+	array('label'=>Yii::t("coursemanage", "0510"), 'url'=>array('index')),
+	array('label'=>Yii::t("coursemanage", "0511"), 'url'=>array('create')),
+	array('label'=>Yii::t("coursemanage", "0524"), 'url'=>array('update', 'id'=>$model->course_ID)),
+	array('label'=>Yii::t("coursemanage", "0525"), 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->course_ID),'confirm'=>Yii::t("coursemanage", "0518"))),
+	array('label'=>Yii::t("coursemanage", "0512"), 'url'=>array('admin')),
 );
 ?>
 

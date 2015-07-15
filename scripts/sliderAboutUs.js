@@ -11,7 +11,7 @@ function fontSize() { /* Маштабування тексту слайдера*
     var width = 1440;
     var fontSize = 42;
     var fontHeaderSize = 32;
-    var fontTextSize = 16;
+    var fontTextSize = 18;
     var bodyWidth = $('html').width();
     var multiplier = bodyWidth / width;
     fontHeaderSize = Math.floor(fontHeaderSize * multiplier);

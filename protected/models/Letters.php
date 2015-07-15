@@ -57,10 +57,10 @@ class Letters extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'sender_id' => 'Відправник',
-			'addressee_id' => 'Кому:',
-			'text_letter' => 'Зміст:',
-			'status' => 'Статус',
-            'theme' => 'Тема:',
+			'addressee_id' => Yii::t("letter", "0539"),
+			'text_letter' => Yii::t("letter", "0540"),
+			'status' => Yii::t("letter", "0528"),
+            'theme' => Yii::t("letter", "0527"),
             'date' => 'Дата',
 		);
 	}

@@ -1,13 +1,13 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerLetter.js"></script>
-<p class="tabHeader">Листування</p>
+<p class="tabHeader"><?php echo Yii::t("letter", "0531") ?></p>
 
 <div class="box_tabs">
     <ul class="box_tab-links">
-        <li><a href="#box_tab1">Вхідні</a></li>
-        <li><a href="#box_tab2">Вихідні</a></li>
+        <li><a href="#box_tab1"><?php echo Yii::t("letter", "0532") ?></a></li>
+        <li><a href="#box_tab2"><?php echo Yii::t("letter", "0533") ?></a></li>
         <li class="active_box">
             <a class='createLetter' href="#box_tab5">
-                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/send.jpg"/>Створити
+                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/send.jpg"/><?php echo Yii::t("letter", "0534") ?>
             </a>
         </li>
     </ul>
@@ -20,7 +20,7 @@
                 'itemView'=>'/letters/_receivedLetters',
                 'viewData' => array('respletter'=>$letter),
                 'template'=>'{items}{pager}',
-                'emptyText'=>'Прийнятих листів немає',
+                'emptyText'=>Yii::t("letter", "0535"),
                 'pager' => array(
                     'firstPageLabel'=>'<<',
                     'lastPageLabel'=>'>>',
@@ -39,7 +39,7 @@
                 'itemView'=>'/letters/_sentLetters',
                 'viewData' => array('model'=>$letter),
                 'template'=>'{items}{pager}',
-                'emptyText'=>'Відправлених листів немає',
+                'emptyText'=>Yii::t("letter", "0536"),
                 'pager' => array(
                     'firstPageLabel'=>'<<',
                     'lastPageLabel'=>'>>',

@@ -14,11 +14,11 @@
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),$lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),$lecture['title']=>Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'],'idCourse' => $idCourse)),'Консультації',
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),$lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),$lecture['title']=>Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'],'idCourse' => $idCourse)),Yii::t("consultation", "0506"),
 );
 ?>
 <div class="consultationsMainBlock" >
-    <h1 class="consultations"><?php echo 'Консультації'?></h1>
+    <h1 class="consultations"><?php echo Yii::t("consultation", "0506")?></h1>
     <?php
     $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,

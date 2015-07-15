@@ -1,4 +1,4 @@
-<p id="timeTitle">Виберіть годину</p><button id="exitButton" onclick="goOut('<?php echo $teacherId; ?>')">x</button>
+<p id="timeTitle"><?php echo Yii::t("consultation", "0499") ?></p><button id="exitButton" onclick="goOut('<?php echo $teacherId; ?>')">x</button>
 <p  id="timeDate" onclick="chooseDate('<?php echo $teacherId; ?>')"><?php echo (Yii::app()->language == 'ua')?$day:Yii::app()->dateFormatter->format("d MMMM y",strtotime($day)); ?></p>
 <table class='timeGrid' id='<?php echo 'timeGrid'.$teacherId?>'>
     <?php
@@ -25,11 +25,10 @@
 </table>
 
 <div id="timeInfo">
-    Ви можете вибрати декілька консультацій.
-    Використовуйте клавіші <span class="colorP">Ctrl</span> або <span class="colorP">Shift</span>.
+    <?php echo Yii::t("consultation", "0500") ?>
 </div>
 
-<button id="consultationBack" onclick="goBack('<?php echo $teacherId; ?>')">Назад</button>
-<button id="consultationNext" onclick="goNext('<?php echo $teacherId; ?>')">Далі</button>
+<button id="consultationBack" onclick="goBack('<?php echo $teacherId; ?>')"><?php echo Yii::t("consultation", "0501") ?></button>
+<button id="consultationNext" onclick="goNext('<?php echo $teacherId; ?>')"><?php echo Yii::t("consultation", "0502") ?></button>
 
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/timeSelect.js"></script>

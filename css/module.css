@@ -82,7 +82,18 @@ a:hover {color:#5b5b5b; text-decoration:underline;}
     max-width: 90px;
     text-align: center;
     line-height: 1;
-   }
+}
+.teacherBoxLeft div.photobg{
+    -moz-background-size: 90px; /* Firefox 3.6+ */
+    -webkit-background-size: 90px; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 90px; /* Opera 9.6+ */
+    background-size: 90px; /* Современные браузеры */
+    background-repeat:no-repeat;
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
 .teacherBoxRight{
     border-left: 1px solid #cccccc;
     padding-left: 15px;

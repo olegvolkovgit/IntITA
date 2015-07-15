@@ -40,7 +40,7 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('first_name, middle_name, last_name, email, user_id', 'required'),
+            array('first_name, middle_name, last_name, email, user_id', 'required', 'message'=>'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
             array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
@@ -49,7 +49,7 @@ class Teacher extends CActiveRecord
             array('foto_url, subjects', 'length', 'max'=>100),
             array('readMoreLink', 'length', 'max'=>255),
             array('email, skype', 'length', 'max'=>50),
-            array('email','email'),
+            array('email','email', 'message'=>'Невірна електронна адреса'),
             array('profile_text_first,profile_text_short,profile_text_last,tel', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

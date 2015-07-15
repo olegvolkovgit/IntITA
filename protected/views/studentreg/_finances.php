@@ -20,7 +20,7 @@
             'dataProvider'=>$paymentsCourses,
             'itemView'=>'_fullpayments',
             'template'=>'{items}{pager}',
-            'emptyText'=>'Проплачених курсів немає',
+            'emptyText'=>Yii::t("finances", "0543"),
             'pager' => array(
                 'firstPageLabel'=>'<<',
                 'lastPageLabel'=>'>>',
@@ -37,7 +37,7 @@
             'dataProvider'=>$paymentsModules,
             'itemView'=>'_modulespayments',
             'template'=>'{items}{pager}',
-            'emptyText'=>'Проплачених курсів немає',
+            'emptyText'=>Yii::t("finances", "0543"),
             'pager' => array(
                 'firstPageLabel'=>'<<',
                 'lastPageLabel'=>'>>',

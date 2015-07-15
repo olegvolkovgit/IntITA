@@ -3,13 +3,13 @@
 /* @var $model Course */
 
 $this->breadcrumbs=array(
-	'Курси'=>array('index'),
-	'Управління',
+    Yii::t("coursemanage", "0508")=>array('index'),
+    Yii::t("coursemanage", "0509"),
 );
 
 $this->menu=array(
-	array('label'=>'Список курсів', 'url'=>array('index')),
-	array('label'=>'Створити курс', 'url'=>array('create')),
+	array('label'=>Yii::t("coursemanage", "0510"), 'url'=>array('index')),
+	array('label'=>Yii::t("coursemanage", "0511"), 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,14 +26,13 @@ $('.search-form form').submit(function(){
 ");
 ?>
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
-<h1>Управління курсами</h1>
+<h1><?php echo Yii::t("coursemanage", "0511") ?></h1>
 
 <p>
-Ви можете використовувати вирази (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-або <b>=</b>)
+    <?php echo Yii::t("coursemanage", "0513") ?> (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>, <b>=</b>)
 </p>
 
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link(Yii::t("coursemanage", "0515"),'#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -42,11 +41,17 @@ $('.search-form form').submit(function(){
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'course-grid',
-    'summaryText'=>'Показано курсів {start} - {end} з {count}',
+    'summaryText'=>Yii::t("coursemanage", "0516").' {start} - {end} / {count}',
+    'pager' => array(
+        'firstPageLabel'=>'<<',
+        'lastPageLabel'=>'>>',
+        'prevPageLabel'=>'<',
+        'nextPageLabel'=>'>',
+        'header'=>'',
+    ),
 	'dataProvider'=>$model->search(),
-    'emptyText'=>'По заданому пошуку нічого не знайдено',
+    'emptyText'=>Yii::t("coursemanage", "0517"),
 	'filter'=>$model,
-    'emptyText'=>'Такого курса немає (',
 	'columns'=>array(
 		'course_ID',
 		'alias',
@@ -54,20 +59,9 @@ $('.search-form form').submit(function(){
 		'course_name',
 		'level',
 		'start',
-		/*
-		'status',
-		'modules_count',
-		'course_duration_hours',
-		'course_price',
-		'for_whom',
-		'what_you_learn',
-		'what_you_get',
-		'course_img',
-		'review',
-		*/
 		array(
 			'class'=>'CButtonColumn',
-            'deleteConfirmation'=>'Ви впевнені?',
+            'deleteConfirmation'=>'Yii::t("coursemanage", "0518")',
 		),
 	),
 )); ?>

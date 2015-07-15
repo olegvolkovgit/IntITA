@@ -30,14 +30,17 @@ class AboutusController extends Controller{
         $objAbout1 = new AboutUs(1);
         $objAbout1->setValuesById(1);
         $objAbout1->titleText = Yii::t('aboutus', '0032');
+        $objAbout1->titleTextExp = Yii::t('aboutus', '0556');
         $objAbout1->textAbout = Yii::t('aboutus', '0035');
         $objAbout2 = new AboutUs(2);
         $objAbout2->setValuesById(2);
         $objAbout2->titleText = Yii::t('aboutus', '0033');
+        $objAbout2->titleTextExp = Yii::t('aboutus', '0557');
         $objAbout2->textAbout = Yii::t('aboutus', '0036');
         $objAbout3 = new AboutUs(3);
         $objAbout3->setValuesById(3);
         $objAbout3->titleText = Yii::t('aboutus', '0034');
+        $objAbout3->titleTextExp = Yii::t('aboutus', '0557');
         $objAbout3->textAbout = Yii::t('aboutus', '0037');
         return $arrayAboutUs = array(
             'objAbout1'=>$objAbout1,
