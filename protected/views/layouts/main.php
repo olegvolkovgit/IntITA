@@ -317,7 +317,9 @@ $header = new Header();?>
                     <?php echo $post->nickname;?></br>
                     <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
                 </div>
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
+                <div class="minavatar">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
+                </div>
             </a>
         </div>
     <?php

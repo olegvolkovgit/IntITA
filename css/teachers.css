@@ -113,10 +113,14 @@ div.titleTeachers {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-img.teacherAvatar{
-    display: block;
+div.avatarsize{
     width: 112px;
-    height: 136px;
+    height: 132px;
+    overflow: hidden;
+}
+.avatarsize img.teacherAvatar{
+    width: 112px;
+    min-height: 136px;
 }
 .teacherBlock table,.teacherBlock td{
     vertical-align: top;

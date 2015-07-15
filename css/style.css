@@ -567,11 +567,16 @@ div.profileStatus{
     overflow: hidden;
     z-index: 0;
 }
-.profileStatus img {
+div.minavatar{
     width:70px;
     height:70px;
     float: right;
     margin-right: 10px;
+    overflow: hidden;
+}
+.profileStatus .minavatar img{
+    width: 70px;
+    min-height: 70px;
 }
 .profileStatus div {
     float: right;
