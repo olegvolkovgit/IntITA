@@ -65,6 +65,9 @@ div.nextLessons {
     display:inline-block;
     float:left;
 }
+.typeLesson td{
+    vertical-align: bottom;
+}
 .typeLesson img {
     margin-right: 22px;
 }

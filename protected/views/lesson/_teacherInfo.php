@@ -26,24 +26,23 @@ $app = Yii::app();
                         <?php echo $teacher->email; ?>
                     </li>
                     <li>
-                        <?php echo $teacher->tel; ?>
-                    </li>
-                    <li>
                         <?php echo 'skype: '?><div id="teacherSkype"><?php echo $teacher->skype; ?>
                         </div>
                     </li>
-                    <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-                    <?php if(AccessHelper::canAddConsultation()){
-                        ?>
-                    <div class="calendar">
-                        <?php
-                        echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse))); ?>
-                    </div>
-                    <?php
-                    }
-                    ?>
                 </ul>
         </span>
+    <!--Link to page with consultations-->
+
+        <?php if(AccessHelper::canAddConsultation()){
+            ?>
+            <div class="calendar">
+                <?php
+                echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse))); ?>
+            </div>
+        <?php
+        }
+        ?>
+
     </div>
 </div>
 

@@ -233,7 +233,7 @@ div.lessonButFinal
     width: 99%;
     resize: none;
 }
-.taskSubmit {
+.taskSubmit, #taskSubmit {
     width: 90px;
     height:28px;
     border-radius: 10px;
@@ -243,7 +243,10 @@ div.lessonButFinal
     float:right;
     border:none;
 }
-.taskSubmit :hover {
+#taskSubmit {
+    margin-right: 0;
+  }
+.taskSubmit :hover, #taskSubmit:hover {
     cursor: pointer;
     border-top-color: #454545;
     background: #454545;

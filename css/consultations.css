@@ -386,3 +386,19 @@ div#timeInfo{
     font-weight:bold;
 }
 /*----TimeConsultation----*/
+.leftBlock div.photobg{
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.leftBlock img.teacherphoto{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+}
+.leftBlock img.mask{
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+}

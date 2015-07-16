@@ -8,8 +8,9 @@
 ?>
 <div class="teacherBlock">
     <div class="leftBlock">
-        <div style=" background: url(<?php echo StaticFilesHelper::createPath('image', 'teachers', $data['foto_url']); ?>) no-repeat; background-size: 90px;">
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+        <div class="photobg">
+            <img class="mask" src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+            <img class="teacherphoto" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $data['foto_url'])?>">
         </div>
         <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $data['teacher_id']))?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
     </div>
@@ -25,9 +26,6 @@
             </li>
             <li>
                 <?php echo $data['email']; ?>
-            </li>
-            <li>
-                <?php echo $data['tel']; ?>
             </li>
             <li>
                 <?php echo 'skype: '?>

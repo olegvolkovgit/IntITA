@@ -32,7 +32,7 @@ function createTask() {
         })
         .always(function () {
         });
-    document.getElementById('addTask').style.display = 'none';
+    location.reload();
 }
 
 function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
@@ -50,4 +50,6 @@ function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
         cache: false
     });
 }
-
+function cancelTask() {
+    location.reload();
+}
