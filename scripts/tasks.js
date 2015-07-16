@@ -32,7 +32,7 @@ function createTask() {
             //alert("Finished!");
             addTaskToLecture(condition, idTeacher, idLecture, lang, assignment = 0);
         });
-    document.getElementById('addTask').style.display = 'none';
+    location.reload();
 }
 
 function addTaskToLecture() {
@@ -62,4 +62,6 @@ function addTaskToLecture() {
         cache: false
     });
 }
-
+function cancelTask() {
+    location.reload();
+}

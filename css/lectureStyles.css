@@ -237,7 +237,7 @@ margin-top:10px;
     display:none;
 }
 
-#newTextBlock, #header, #etalon, #taskFooter{
+#newTextBlock, #header, #etalon, #taskFooter, #condition{
     resize: none;
 }
 .calendar{
