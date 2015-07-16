@@ -2,7 +2,7 @@
 
 class TestsController extends Controller
 {
-	public function actionIndex()
+	public function actionAddTest()
 	{
 		$this->render('index');
 	}

@@ -27,9 +27,15 @@
             <?php echo $data['html_block'];?>
             </div>
             <form class="sendAnswer" id="sendAnswer">
-                <textarea name="code" id="code" value='std::cout << \"Hello World!\" << std::endl;'> </textarea>
+                <textarea name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
-            <button class="taskSubmit" onclick='sendAnswer()'><?php echo Yii::t('lecture','0089'); ?></button>
+            <button class="taskSubmit"
+                    onclick="sendTaskAnswer(
+                'code<?php echo $data['block_order'];?>',
+                '<?php echo LectureHelper::getTaskId($data['id_block']);?>',
+                '<?php echo LectureHelper::getTaskLang($data['id_block']);?>')">
+                <?php echo Yii::t('lecture','0089'); ?>
+            </button>
             <div id="content1"></div>
         </div>
     </div>
@@ -74,29 +80,3 @@ if ($editMode) {
     ));
 }
 ?>
-<script type="text/javascript">
-        function sendAnswer(){
-            document.getElementById('addTask').style.display = 'none';
-            var command = {
-                "operation": "start",
-                "session" : "1241q223f4f2341",
-                "jobid" : 11,
-                "code" : "std::cout << \"Hello World!\" << std::endl;",
-                "task": 2,
-                "lang": "c++"
-            };
-            var jqxhr = $.post( "http://ii.itatests.com", JSON.stringify(command), function(){
-                alert( "success" );
-            })
-                .done(function(data) {
-                    alert( data );
-                })
-                .fail(function() {
-                    alert( "error" );
-                })
-                .always(function() {
-
-                }, "json");
-        }
-
-</script>

@@ -13,7 +13,7 @@
         <fieldset>
             <legend id="label">Додати новий тест:</legend>
             Назва:
-            <input type="text" name="name" id="name" placeholder="назва  теста"/>
+            <input type="text" name="name" id="name" size="80" placeholder="назва  теста"/>
             <br>
             <br>
             Питання теста:
@@ -22,7 +22,7 @@
             <br>
             <fieldset>
                 <legend id="label1">Варіанти відповіді:</legend>
-                1. <input type="text" name="answer" id="answer1" />
+                1. <input type="text" name="answer" id="answer1" size="80"/>
             </fieldset>
             <br>
             <fieldset>
@@ -35,5 +35,6 @@
         </fieldset>
     </form>
     <button onclick='createTest()'>Додати тест</button>
+    <button onclick='cancelTest()'>Скасувати</button>
 </div>
 

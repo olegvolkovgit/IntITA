@@ -34,7 +34,7 @@
             <br>
             Etalon:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" required form="add-task" rows="15"></textarea>
             <br>
-            Footer:<textarea name="taskFooter" id="taskFooter" cols="105" placeholder="}}" required form="add-task" rows="5"></textarea>
+            Footer:<textarea name="taskFooter" id="taskFooter" cols="105" required form="add-task" rows="5"></textarea>
             <br>
         </fieldset>
     </form>
