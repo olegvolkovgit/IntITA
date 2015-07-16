@@ -24,6 +24,8 @@
                 <br>
                 <a href="javascript:showAddTaskForm()">Додати задачу</a>
                 <br>
+                <a href="javascript:showAddTestForm()">Додати тест</a>
+                <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
 <!--                <input name="order" value="--><?php //echo($countBlocks + 1); ?><!--" hidden="hidden">-->
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"
@@ -43,6 +45,7 @@
                     <option value="9">Зображення
                     <option value="10">Формула
                         <!--                <option value="11" >Таблиця-->
+                    <option value="12">Тест
                 </select>
                 <br>
                 <br>
@@ -53,6 +56,7 @@
         </div>
     </div>
     <?php $this->renderPartial('_addTask');?>
+    <?php $this->renderPartial('_addTest');?>
     <br>
     <br>
     <?php } ?>
@@ -108,6 +112,11 @@
         }
         function showAddTaskForm(){
             document.getElementById('addTask').style.display = 'block';
+            document.getElementById('addBlockForm').style.display = 'none';
+            document.getElementById('cancelButton').style.display = 'none';
+        }
+        function showAddTestForm(){
+            document.getElementById('addTest').style.display = 'block';
             document.getElementById('addBlockForm').style.display = 'none';
             document.getElementById('cancelButton').style.display = 'none';
         }

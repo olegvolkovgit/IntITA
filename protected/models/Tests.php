@@ -1,28 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "task".
+ * This is the model class for table "tests".
  *
- * The followings are the available columns in table 'task':
+ * The followings are the available columns in table 'tests':
  * @property integer $id
- * @property string $language
- * @property integer $assignment
- * @property integer $condition
+ * @property integer $block_element
  * @property integer $author
- * @property string $table
  *
  * The followings are the available model relations:
+ * @property LectureElement $blockElement
  * @property Teacher $author0
- * @property TaskMarks[] $taskMarks
+ * @property TestsAnswers[] $testsAnswers
  */
-class Task extends CActiveRecord
+class Tests extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'task';
+		return 'tests';
 	}
 
 	/**
@@ -33,13 +31,11 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('condition', 'required'),
-			array('assignment, condition, author', 'numerical', 'integerOnly'=>true),
-			array('language', 'length', 'max'=>15),
-			array('table', 'length', 'max'=>20),
+			array('id, block_element, author', 'required'),
+			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, language, assignment, condition, author, table', 'safe', 'on'=>'search'),
+			array('id, block_element, author', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +47,9 @@ class Task extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'blockElement' => array(self::BELONGS_TO, 'LectureElement', 'block_element'),
 			'author0' => array(self::BELONGS_TO, 'Teacher', 'author'),
-			'taskMarks' => array(self::HAS_MANY, 'TaskMarks', 'id_task'),
+			'testsAnswers' => array(self::HAS_MANY, 'TestsAnswers', 'id_test'),
 		);
 	}
 
@@ -63,11 +60,8 @@ class Task extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'language' => 'Language',
-			'assignment' => 'Assignment',
-			'condition' => 'Condition',
+			'block_element' => 'Block Element',
 			'author' => 'Author',
-			'table' => 'Table',
 		);
 	}
 
@@ -90,11 +84,8 @@ class Task extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('language',$this->language,true);
-		$criteria->compare('assignment',$this->assignment);
-		$criteria->compare('condition',$this->condition);
+		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
-		$criteria->compare('table',$this->table,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -105,22 +96,10 @@ class Task extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Task the static model class
+	 * @return Tests the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-    public static function addNewTask($condition, $language, $author, $assignment, $table)
-    {
-        $model = new Task();
-        $model->condition = $condition;
-        $model->author = $author;
-        $model->language = $language;
-        $model->assignment = $assignment;
-        $model->table = $table;
-
-        $model->save();
-    }
 }

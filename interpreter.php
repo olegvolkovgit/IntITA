@@ -6,7 +6,7 @@
  * Time: 16:57
  */
 ?>
-<h2>Логи интерпретатора</h2>
+<h2>Interpreter log.txt</h2>
 <?php
 echo "<pre>" . file_get_contents("/var/www/ii/log.txt") . "</pre>";
 ?>

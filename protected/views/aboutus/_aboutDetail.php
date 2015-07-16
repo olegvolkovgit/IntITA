@@ -213,7 +213,7 @@ $block1->drop2Text = '
     </div>
     <div class="benefitcolumn">
         <p><h3 class="benefitheader">'.Yii::t("aboutus", "0463").'</h3></p>
-        <p><img class="imgright" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'ok.png') . '">'.Yii::t("aboutus", "0464").'</p>
+        <p><img class="imgright" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'OK.png') . '">'.Yii::t("aboutus", "0464").'</p>
         <p>'.Yii::t("aboutus", "0465").'</p>
         <p><img class="imgleft" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'cube.png') . '">'.Yii::t("aboutus", "0466").'</p>
         <p><img class="imgright" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'notebook.png') . '">'.Yii::t("aboutus", "0467").'</p>

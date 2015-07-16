@@ -237,6 +237,10 @@ margin-top:10px;
     display:none;
 }
 
+#addTest{
+    display:none;
+}
+
 #newTextBlock, #header, #etalon, #taskFooter{
     resize: none;
 }

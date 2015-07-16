@@ -19,11 +19,12 @@ class TaskController extends Controller
         $lecture =  Yii::app()->request->getPost('lecture', 0);
         $author = Yii::app()->request->getPost('author', null);
         $language = Yii::app()->request->getPost('language', 'C++');
-        $assignment = Yii::app()->request->getPost('assignment', null);
+        $assignment = Yii::app()->request->getPost('assignment', 0);
+        $table = Yii::app()->request->getPost('table', '');
 
         if ($condition){
             if ($lectureElementId = LectureElement::addNewTaskBlock($lecture, $condition)) {
-                Task::addNewTask($lectureElementId, $language, $author);
+                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table);
             }
         }
 
