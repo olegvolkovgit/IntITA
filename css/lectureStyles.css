@@ -240,3 +240,6 @@ margin-top:10px;
 #newTextBlock, #header, #etalon, #taskFooter{
     resize: none;
 }
+.calendar{
+    margin-left: 110px;
+}

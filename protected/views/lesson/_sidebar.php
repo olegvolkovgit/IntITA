@@ -50,7 +50,7 @@
     </div>
     <br>
     <div style="clear: both">
-    <p><a href="skype:<?php echo $lecture->getTeacherInfoById()['skype']; ?>?chat"><input type="submit"
+    <p><a href="skype:<?php echo '#' ?>?chat"><input type="submit"
                                                                                           value="Skype"></a></p>
 
     <p><!-- mibew button --><a id="mibew-agent-button"

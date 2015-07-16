@@ -7,7 +7,6 @@
  * @property integer $id
  * @property string $image
  * @property string $alias
- * @property string $language
  * @property integer $idModule
  * @property integer $order
  * @property string $title
@@ -15,7 +14,6 @@
  * @property integer $durationInMinutes
  * @property integer $preLecture
  * @property integer $nextLecture
- * @property string $idTeacher
  *
  */
 class Lecture extends CActiveRecord
@@ -41,12 +39,10 @@ class Lecture extends CActiveRecord
             array('idModule, order, idType, durationInMinutes', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('language', 'length', 'max' => 6),
             array('title', 'length', 'max' => 255),
-            array('idTeacher', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, language, idModule, order, title, idType, durationInMinutes, idTeacher', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title, idType, durationInMinutes', 'safe', 'on' => 'search'),
         );
     }
 
@@ -71,13 +67,11 @@ class Lecture extends CActiveRecord
             'id' => 'ID',
             'image' => 'Image',
             'alias' => 'Alias',
-            'language' => 'Language',
             'idModule' => 'Id Module',
             'order' => 'Order',
             'title' => 'Title',
             'idType' => 'Id Type',
             'durationInMinutes' => 'Duration In Minutes',
-            'idTeacher' => 'Id Teacher',
         );
     }
 
@@ -102,13 +96,11 @@ class Lecture extends CActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('image', $this->image, true);
         $criteria->compare('alias', $this->alias, true);
-        $criteria->compare('language', $this->language, true);
         $criteria->compare('idModule', $this->idModule);
         $criteria->compare('order', $this->order);
         $criteria->compare('title', $this->title, true);
         $criteria->compare('idType', $this->idType);
         $criteria->compare('durationInMinutes', $this->durationInMinutes);
-        $criteria->compare('idTeacher', $this->idTeacher, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
