@@ -105,6 +105,12 @@ div.code {
     float: right;
     width: 89%;
 }
+.contentTest{
+    display: inline-block;
+    float: right;
+    width: 84%;
+    padding: 0 20px 0 20px;
+}
 div.lessonBG {
     border-top:3px solid #ffffff;
     background-color: #dbe3ed;
@@ -187,7 +193,7 @@ div.lessonInstr,div.lessonTask {
 }
 img.lessonBut  {
     position: absolute;
-    left:43%;
+    left:44%;
     top:-14px;
     width: 90px;
     height:28px;
@@ -198,7 +204,7 @@ img.lessonBut  {
 .lessonButName {
     position: absolute;
     color:#ffffff;
-    left:43%;
+    left:44%;
     top:-14px;
     width: 90px;
     height:28px;
@@ -367,4 +373,41 @@ pre {
     white-space: pre-wrap;
     background-color: transparent;
     border: 0;
+}
+/*Test Block*/
+div.lessonTest {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.instrTestImg {
+    display: inline-block;
+    width: 10%;
+    height: 100%;
+    float:left;
+}
+.instrTestImg img{
+    margin: 10px 0 0 10px;
+}
+.instrTestText {
+    display: inline-block;
+    width: 92%;
+    font-size: 16px;
+    margin: 20px 0 20px 30px;
+}
+.testSubmit {
+    width: 90px;
+    height:28px;
+    border-radius: 10px;
+    color:#ffffff;
+    background-color:#4b75a4;
+    margin: 10px 30px 20px 30px;
+    float:right;
+    border:none;
+}
+.testSubmit :hover{
+    cursor: pointer;
+    border-top-color: #454545;
+    background: #454545;
+    color: #fcfcfc;
 }

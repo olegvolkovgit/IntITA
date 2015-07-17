@@ -20,19 +20,16 @@ p {
 }
 /*******navigations-top******/
 #mainheader {
-    position:fixed;
-    width: 100%;
-    background-color: white;
-    z-index: 5;
-    top:0;
+    border-bottom: 2px solid #4b75a4;
 }
 #navigation {
+    display: block;
     position:relative;
     width: 1200px;
     height: 100px;
     margin: 0 auto;
+    border-bottom: 2px solid #4b75a4;
     background-color: white;
-    z-index: 5;
 }
 #navigation.down {
     height: 60px;
@@ -243,18 +240,10 @@ p {
     color: #999999;
 }
 #headerUnderline{
-    display:inline-block;
-    width:100%;
-    border-bottom: 2px solid #4b75a4;
-    position: fixed;
-    top:100px;
-    z-index: 4;
+    height: 60px;
 }
-#headerUnderline.down{
-    top:60px;
-}
-#headerUnderline.downmain{
-    top:60px;
+#headerUnderline.downmain {
+    height: 100px;
 }
 /*************languages buttons*************/
 /************************************/
@@ -560,7 +549,7 @@ input[type="submit"]::-moz-focus-inner { /* убираем внутренний 
 
 div.profileStatus{
     position: absolute;
-    top:73px;
+    top:10px;
     right:0;
     float:right;
     display:block;
