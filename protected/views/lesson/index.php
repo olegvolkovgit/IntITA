@@ -11,10 +11,13 @@
 
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
+    idUser = <?php echo $user;?>;
     <?php if($user != 0){?>
     idTeacher = <?php echo TeacherHelper::getTeacherId($user);?>;
     <?php }?>
     order = 1;
+    currentTask = 0;
+    editMode = <?php echo $editMode;?>;
 </script>
 <?php
 /* @var $this LessonController */
@@ -71,7 +74,7 @@ $this->breadcrumbs=array(
         <?php }?>
 
         <!-- Lesson content-->
-        <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+        <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user));?>
     <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
 
         </div>
@@ -152,8 +155,9 @@ $this->breadcrumbs=array(
 <?php if ($editMode){?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
 <?php }?>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
 
 

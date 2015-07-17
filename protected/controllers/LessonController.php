@@ -28,10 +28,13 @@ class LessonController extends Controller{
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
-        $user = 0;
-        if ($editMode){
+        if (Yii::app()->user->isGuest) {
+            $user = 0;
+        } else{
             $user = Yii::app()->user->getId();
+
         }
+
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture=' . $id);

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-15 17:37:16
+-- Date/time:                    2015-07-17 18:30:18
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,15 +22,14 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~46 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~40 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(10, 1, 4, 'instruction', 7, '<ol>\n	<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>ter<em>ms</em></span><em> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</em></li>\n	<li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>\n</ol>'),
 	(13, 1, 2, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
-	(18, 1, 3, 'task', 5, '<ol>\n	<ol>\n		<li><span style="background-color: rgb(255, 255, 0);">On <del>li</del>ne 7, set <span class="colorGreen">$</span>terms equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</span></li>\n		<li><span style="background-color: rgb(255, 255, 0);">On line 9, edit the st<del>ate condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:</del></span><span style="background-color: rgb(255, 255, 0);">You get a 1</span>0% discount!</li>\n	</ol>\n</ol>'),
 	(19, 1, 7, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(21, 2, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних<em></em></span>\n	<strong><del><em></em></del></strong>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(22, 3, 1, 'text', 1, ' <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>'),
@@ -46,7 +45,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(35, 1, 13, 'text', 8, '<p>Глава 1.</p>'),
 	(36, 1, 14, 'label', 8, '<p>Глава 3.</p>'),
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
-	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
+	(38, 1, 16, 'text', 1, '<p>aefaeghsr</p>'),
 	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
 	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
 	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
@@ -67,12 +66,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>'),
 	(85, 22, 1, 'formula', 10, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
-	(86, 50, 1, 'label', 8, 'Example 1: Get your compiler working!'),
-	(87, 50, 5, 'label', 8, '<h4>Example 2: Get some input</h4>'),
-	(88, 50, 3, 'label', 8, '<h4>Example 3: What does this program output?</h4>'),
-	(89, 50, 4, 'label', 8, '<h4>Example 6: Strings for your consideration</h4>'),
-	(124, 50, 2, 'task', 5, 'Description: a program that prints the immortal saying "hello world"'),
-	(125, 50, 6, 'task', 5, 'Illustrate the use of cin to get input.');
+	(161, 1, 3, 'text', 1, '<p>simple');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -241,6 +241,11 @@ margin-top:10px;
     display:none;
 }
 
+.taskSubmit :disabled {
+    background: #dddddd;
+    color: #333333;
+}
+
 #newTextBlock, #header, #etalon, #taskFooter{
     resize: none;
 }

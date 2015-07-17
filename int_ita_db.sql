@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-15 17:37:08
+-- Date/time:                    2015-07-17 18:30:10
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `type` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
 -- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
@@ -361,7 +361,8 @@ INSERT INTO `element_type` (`id`, `type`) VALUES
 	(8, 'label'),
 	(9, 'image'),
 	(10, 'formula'),
-	(11, 'table');
+	(11, 'table'),
+	(12, 'test');
 /*!40000 ALTER TABLE `element_type` ENABLE KEYS */;
 
 
@@ -573,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~33 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~23 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 1, 1, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
@@ -635,15 +636,14 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~44 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~41 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(10, 1, 4, 'instruction', 7, '<ol>\n	<li>On line 7, set <span class="colorBP"><span class="colorGreen">$</span>ter<em>ms</em></span><em> equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</em></li>\n	<li>On line 9, edit the state condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:<span class="colorAlert">You get a 10% discount!</span></li>\n</ol>'),
 	(13, 1, 2, 'text', 1, '<p><span class="colorBlack">Імена змінних</span>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
-	(18, 1, 3, 'task', 5, '<ol>\n	<ol>\n		<li><span style="background-color: rgb(255, 255, 0);">On <del>li</del>ne 7, set <span class="colorGreen">$</span>terms equal to a number greater than 5. Make sure to put a semicolon at the end of the line.</span></li>\n		<li><span style="background-color: rgb(255, 255, 0);">On line 9, edit the st<del>ate condition so that your program will be out Some expressions return a \' logical value": TRUE or FALSE, text like thise:</del></span><span style="background-color: rgb(255, 255, 0);">You get a 1</span>0% discount!</li>\n	</ol>\n</ol>'),
 	(19, 1, 7, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
 	(21, 2, 1, 'text', 1, '<p><span class="colorBlack">Імена змінних<em></em></span>\n	<strong><del><em></em></del></strong>\n</p>\n<p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:\n</p>'),
 	(22, 3, 1, 'text', 1, ' <span class="colorBlack">Імена змінних</span>\r\n    <p>Будь-яка змінна в РНР має ім\'я, що починається із знаку $, наприклад Svariable. При такому способі формування імен змінних їх дуже легко відрізнити від іншого коду. Якщо в інших мовах інколи може виникати плутанина з тим, що при першому погляді на код не завжди ясно - де тут змінні, а де функції, то в РНР це питання навіть не постає. Наприклад, ссилка на змінну по її імені, що зберігається в іншій змінній:</p>'),
@@ -659,7 +659,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(35, 1, 13, 'text', 8, '<p>Глава 1.</p>'),
 	(36, 1, 14, 'label', 8, '<p>Глава 3.</p>'),
 	(37, 1, 15, 'label', 8, '<p>Глава 4.</p>'),
-	(38, 1, 16, 'task', 5, '<p>aefaeghsr</p>'),
+	(38, 1, 16, 'text', 1, '<p>aefaeghsr</p>'),
 	(39, 1, 17, 'text', 1, '<p>124578235689</p>'),
 	(40, 1, 18, 'video', 2, '//www.youtube.com/embed/d1_JBMrrYw8"'),
 	(41, 1, 19, 'video', 2, '//www.youtube.com/embed/5PSNL1qE6VY"'),
@@ -680,12 +680,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(83, 14, 1, 'label', 8, '<p>Chapter 1.</p>'),
 	(84, 1, 26, 'final task', 6, '<p>gvszbs</p>'),
 	(85, 22, 1, 'formula', 10, '\\[\\sum \\varepsilon \\gamma \\iota \\rho \\tau \\varpi \\nu\\]\r\n'),
-	(86, 50, 1, 'label', 8, 'Example 1: Get your compiler working!'),
-	(87, 50, 5, 'label', 8, '<h4>Example 2: Get some input</h4>'),
-	(88, 50, 3, 'label', 8, '<h4>Example 3: What does this program output?</h4>'),
-	(89, 50, 4, 'label', 8, '<h4>Example 6: Strings for your consideration</h4>'),
-	(124, 50, 2, 'task', 5, 'Description: a program that prints the immortal saying "hello world"'),
-	(125, 50, 6, 'task', 5, 'Illustrate the use of cin to get input.');
+	(161, 1, 3, 'text', 1, '<p>simple');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -761,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1836 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 441 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 823 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1, 1, 'ua', 'INTITA'),
@@ -2791,7 +2786,8 @@ INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(38, 20, 3),
 	(39, 2, 3),
 	(22, 3, 1),
-	(38, 82, 3);
+	(38, 82, 3),
+	(51, 82, 1);
 /*!40000 ALTER TABLE `pay_modules` ENABLE KEYS */;
 
 
@@ -3731,7 +3727,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_mail', '', 0),
 	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
-	('database_last_gc', '1436270362', 1),
+	('database_last_gc', '1436982166', 1),
 	('dbms_version', '5.5.41-log', 0),
 	('default_dateformat', 'D M d, Y g:i a', 0),
 	('default_lang', 'uk', 0),
@@ -3886,8 +3882,8 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '199100e34ab69241fd3555aa1f9d520f', 1),
-	('rand_seed_last_update', '1436536450', 1),
+	('rand_seed', '9aa712350dc3b357c95438602d2d37f6', 1),
+	('rand_seed_last_update', '1436982164', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
@@ -5500,7 +5496,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
 -- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('335c74926e49ca873edef61544372fcb', 1, 1436536450, 1436536450, 1436536482, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36', '', 'ucp.php?mode=login', 1, 0, 0, 0);
+	('81a572ea40a5354a97ded4151713b7ce', 1, 1436982164, 1436982164, 1436982164, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -5831,7 +5827,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~5 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '663d5f89dec33113', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 'en', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'a922e07ba9ca24a1', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\ni1cjyo000000\nzik0zjzi8sg0', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1433430287, 0, 1433429758, 'viewtopic.php?f=2&p=4&t=3', '', 0, 0, 0, 0, 0, 0, 3, 'uk', '', 'D M d, Y g:i a', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(38, 0, 3, '\ni1cjyo000000\ni1cjr4000000', 0, '', 0, 'teacher1@gmail.com', 'teacher1@gmail.com', '', 0, '', 0, '', 1436273010, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, '', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(40, 0, 3, '\ni1cjyo000000\ni1cjr4000000', 0, '', 0, 'teacher3@gmail.com', 'teacher3@gmail.com', '', 0, '', 0, '', 1436271127, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, '', '', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
@@ -6383,7 +6379,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=559 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~381 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~558 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -6980,23 +6976,31 @@ CREATE TABLE IF NOT EXISTS `task` (
   `assignment` int(10) DEFAULT NULL,
   `condition` int(11) NOT NULL,
   `author` int(11) DEFAULT NULL,
+  `table` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_task_lecture_element` (`condition`),
-  KEY `FK_task_teacher` (`author`),
+  KEY `author` (`author`),
   CONSTRAINT `FK_task_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.\r\n';
 
--- Dumping data for table int_ita_db.task: ~5 rows (approximately)
+-- Dumping data for table int_ita_db.task: ~2 rows (approximately)
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` (`id`, `language`, `assignment`, `condition`, `author`) VALUES
-	(18, 'c++', 0, 115, 1),
-	(19, 'c++', 0, 116, 1),
-	(20, 'c++', 0, 118, 1),
-	(21, 'c++', 0, 119, 1),
-	(22, 'c++', 0, 120, 1),
-	(23, 'c++', 0, 121, 1),
-	(24, 'c++', 10, 124, 1),
-	(25, 'c++', 10, 125, 1);
+INSERT INTO `task` (`id`, `language`, `assignment`, `condition`, `author`, `table`) VALUES
+	(50, 'c++', 1, 100, 1, 'assignment_cpp'),
+	(51, 'c++', 2, 159, 1, 'assignment_cpp'),
+	(52, 'c++', 3, 160, 1, 'assignment_cpp'),
+	(53, 'c++', 1, 100, 1, 'assignment_cpp'),
+	(54, 'c++', 1, 100, 1, 'assignment_cpp'),
+	(55, 'c++', 1, 111, 1, 'assignment_cpp'),
+	(56, 'c++', 1, 135, 1, 'assignment_cpp'),
+	(57, 'c++', 1, 153, 2, 'assignment_cpp'),
+	(58, 'c++', 1, 157, 3, 'assignment_cpp'),
+	(59, 'c++', 1, 175, 5, 'assignment_cpp'),
+	(60, 'c++', 1, 195, 5, 'assignment_cpp'),
+	(61, 'c++', 1, 197, 2, 'assignment_cpp'),
+	(62, 'c++', 1, 208, 2, 'assignment_cpp'),
+	(63, 'c++', 1, 209, 5, 'assignment_cpp'),
+	(64, 'c++', 1, 220, 5, 'assignment_cpp'),
+	(65, 'c++', 1, 224, 5, 'assignment_cpp');
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 
 
@@ -7007,13 +7011,15 @@ CREATE TABLE IF NOT EXISTS `task_marks` (
   `id_user` int(10) NOT NULL,
   `id_task` int(10) NOT NULL,
   `mark` tinyint(1) NOT NULL,
-  `comment` varchar(100) NOT NULL,
+  `result` varchar(255) NOT NULL,
+  `warning` varchar(255) NOT NULL,
+  `date` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_task_marks_user` (`id_user`),
   KEY `FK_task_marks_task` (`id_task`),
   CONSTRAINT `FK_task_marks_task` FOREIGN KEY (`id_task`) REFERENCES `task` (`id`),
   CONSTRAINT `FK_task_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - success ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - done ';
 
 -- Dumping data for table int_ita_db.task_marks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `task_marks` DISABLE KEYS */;
@@ -7149,6 +7155,57 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
 
 
+-- Dumping structure for table int_ita_db.tests
+DROP TABLE IF EXISTS `tests`;
+CREATE TABLE IF NOT EXISTS `tests` (
+  `id` int(10) NOT NULL,
+  `block_element` int(10) NOT NULL,
+  `author` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_tests_teacher` (`author`),
+  KEY `FK_tests_lecture_element` (`block_element`),
+  CONSTRAINT `FK_tests_lecture_element` FOREIGN KEY (`block_element`) REFERENCES `lecture_element` (`id_block`),
+  CONSTRAINT `FK_tests_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.tests: ~0 rows (approximately)
+/*!40000 ALTER TABLE `tests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tests` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.tests_answers
+DROP TABLE IF EXISTS `tests_answers`;
+CREATE TABLE IF NOT EXISTS `tests_answers` (
+  `id` int(10) NOT NULL,
+  `id_test` int(10) NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  `is_valid` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_tests_answers_tests` (`id_test`),
+  CONSTRAINT `FK_tests_answers_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.tests_answers: ~0 rows (approximately)
+/*!40000 ALTER TABLE `tests_answers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tests_answers` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.tests_marks
+DROP TABLE IF EXISTS `tests_marks`;
+CREATE TABLE IF NOT EXISTS `tests_marks` (
+  `id` int(10) NOT NULL,
+  `id_user` int(10) NOT NULL,
+  `id_task` int(10) NOT NULL,
+  `mark` int(10) NOT NULL,
+  `comment` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.tests_marks: ~0 rows (approximately)
+/*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
+
+
 -- Dumping structure for table int_ita_db.trainer_student
 DROP TABLE IF EXISTS `trainer_student`;
 CREATE TABLE IF NOT EXISTS `trainer_student` (
@@ -7206,39 +7263,40 @@ CREATE TABLE IF NOT EXISTS `user` (
   `token` varchar(150) DEFAULT NULL,
   `activkey_lifetime` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
+  `reg_time` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.user: ~24 rows (approximately)
+-- Dumping data for table int_ita_db.user: ~27 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`) VALUES
-	(1, 'Anonim', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0),
-	(2, 'Administrator', '', '', 0, '', NULL, 'Forum', '', '', 'forum_admin@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 3, 'ef50a48e3132fb85a11a789529f45ca21e18e322', NULL, 1),
-	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
-	(22, 'Student', '', '', 0, '', NULL, '', '', '', 'student@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1),
-	(38, '', '', '', 0, '', NULL, '', '', '', 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, 'b7d8aa75094d15f260127f485a480bf844b60016', '2015-05-18 13:58:52', 1),
-	(39, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(50, 'Serhiy', '', '', 0, '', NULL, 'Kalinovsky', NULL, '19.11.1978', 'serhiy.kalinovsky@gmail.com', NULL, 'https://www.facebook.com/serhiy.kalinovsky', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(51, 'Student 1', '', '', 0, '', NULL, NULL, NULL, NULL, 'student1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(52, 'Student 2', '', '', 0, '', NULL, NULL, NULL, NULL, 'student2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(53, 'Student 3', '', '', 0, '', NULL, NULL, NULL, NULL, 'student3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(54, 'Student 4', '', '', 0, '', NULL, NULL, NULL, NULL, 'student4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(55, 'Student 5', '', '', 0, '', NULL, NULL, NULL, NULL, 'student5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(56, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '559e5fbe94740.jpg', 0, NULL, NULL, 1),
-	(103, 'David', '', '', 0, '', NULL, 'Cameron', '', '', 'info@bonprix.ua', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, 'bfbb9ee6d481be5934356ddde3f42861ae3dc2e0', NULL, 1),
-	(106, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nnn.badyora2015@gmail.com', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(108, 'Sector', '', '', 0, '', NULL, 'Freedom', NULL, NULL, 'yaroslav.plaksii@gmail.com', NULL, 'http://www.facebook.com/100007943565992', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '559f786580f41.jpg', 0, NULL, NULL, 1),
-	(109, '', '', '', 0, '', NULL, '', '', '', 'antongriadchenko@gmail.com', '5a7e4b28af86dc7f576692b97266fb445149ddee', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1),
-	(110, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1),
-	(111, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1),
-	(112, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 3, NULL, NULL, 1);
+INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`, `reg_time`) VALUES
+	(1, 'Anonim', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0, 0),
+	(2, 'Administrator', '', '', 0, '', NULL, 'Forum', '', '', 'forum_admin@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 3, 'ef50a48e3132fb85a11a789529f45ca21e18e322', NULL, 1, 0),
+	(11, 'ivanna@yutr.rtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
+	(22, 'Student', '', '', 0, '', NULL, '', '', '', 'student@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1, 0),
+	(38, '', '', '', 0, '', NULL, '', '', '', 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, 'b7d8aa75094d15f260127f485a480bf844b60016', '2015-05-18 13:58:52', 1, 0),
+	(39, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(44, 'Vinnytsia', '', '', 0, '', NULL, 'IT-Academy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(45, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(50, 'Serhiy', '', '', 0, '', NULL, 'Kalinovsky', NULL, '19.11.1978', 'serhiy.kalinovsky@gmail.com', NULL, 'https://www.facebook.com/serhiy.kalinovsky', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(51, 'Student 1', '', '', 0, '', NULL, NULL, NULL, NULL, 'student1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(52, 'Student 2', '', '', 0, '', NULL, NULL, NULL, NULL, 'student2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(53, 'Student 3', '', '', 0, '', NULL, NULL, NULL, NULL, 'student3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(54, 'Student 4', '', '', 0, '', NULL, NULL, NULL, NULL, 'student4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(55, 'Student 5', '', '', 0, '', NULL, NULL, NULL, NULL, 'student5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(56, 'Вова', '', '', 0, '', 'Джа', 'Марля', 'Wizlight', '21/03/1997', 'Wizlightdragon@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(911)_______', '', 'Ямайка', 'ВДПУ', 'Онлайн', 'Ковбаска, колобки, раста', '', 'Володію албанською. Люблю м\'ясо та до м\'яса. Розвожу королів. ', '559e5fbe94740.jpg', 0, NULL, NULL, 1, 0),
+	(103, 'David', '', '', 0, '', NULL, 'Cameron', '', '', 'info@bonprix.ua', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, 'bfbb9ee6d481be5934356ddde3f42861ae3dc2e0', NULL, 1, 0),
+	(106, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nnn.badyora2015@gmail.com', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(108, 'Sector', '', '', 0, '', NULL, 'Freedom', NULL, NULL, 'yaroslav.plaksii@gmail.com', NULL, 'http://www.facebook.com/100007943565992', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '559f786580f41.jpg', 0, NULL, NULL, 1, 0),
+	(109, '', '', '', 0, '', NULL, '', '', '', 'antongriadchenko@gmail.com', '5a7e4b28af86dc7f576692b97266fb445149ddee', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
+	(110, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
+	(111, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'nover2579@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
+	(112, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'vnnchkh@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 3, NULL, NULL, 1, 0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 

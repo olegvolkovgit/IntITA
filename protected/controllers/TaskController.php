@@ -9,7 +9,7 @@ class TaskController extends Controller
     {
         return array(
             'accessControl',
-            'postOnly + addTask',
+            'postOnly + addTask, setMark',
         );
     }
 
@@ -31,5 +31,16 @@ class TaskController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
 
+    public function actionSetMark()
+    {
+        $status = Yii::app()->request->getPost('status', '');
+        $result =  Yii::app()->request->getPost('result', '');
+        $task = Yii::app()->request->getPost('task', 0);
+        $user = Yii::app()->request->getPost('user', 0);
+        $date = Yii::app()->request->getPost('date', 0);
+        $warning = Yii::app()->request->getPost('warning', '');
 
+        TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

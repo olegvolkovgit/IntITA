@@ -29,14 +29,14 @@
             <form class="sendAnswer" id="sendAnswer">
                 <textarea name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
-            <button class="taskSubmit"
+            <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                     onclick="sendTaskAnswer(
-                'code<?php echo $data['block_order'];?>',
-                '<?php echo LectureHelper::getTaskId($data['id_block']);?>',
-                '<?php echo LectureHelper::getTaskLang($data['id_block']);?>')">
+                        <?php echo $user;?>,
+                        'code<?php echo $data['block_order'];?>',
+                    <?php echo LectureHelper::getTaskId($data['id_block']);?>,
+                        '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');" >
                 <?php echo Yii::t('lecture','0089'); ?>
             </button>
-            <div id="content1"></div>
         </div>
     </div>
 </div>

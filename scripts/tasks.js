@@ -39,7 +39,7 @@ function createTask() {
 function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
     $.ajax({
         type: "POST",
-        url: "/IntITA/task/addTask",
+        url: "/task/addTask",
         data: {
             'condition': condition,
             'author': idTeacher,
@@ -55,29 +55,4 @@ function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
 }
 function cancelTask() {
     location.reload();
-}
-
-function sendTaskAnswer(id, task, lang){
-    code = document.getElementById(id).innerText;
-    alert(lang);
-    var command = {
-        "operation": "start",
-        "session" : "1241q223f4f2341",
-        "jobid" : 11212,
-        "code" : code,
-        "task": task,
-        "lang": lang
-    };
-    var jqxhr = $.post( "http://ii.itatests.com", JSON.stringify(command), function(){
-        alert( "success" );
-    })
-        .done(function(data) {
-            alert( data );
-        })
-        .fail(function() {
-            alert( "error" );
-        })
-        .always(function() {
-
-        }, "json");
 }

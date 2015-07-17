@@ -8,11 +8,13 @@
  * @property integer $id_user
  * @property integer $id_task
  * @property integer $mark
- * @property string $comment
+ * @property string $result
+ * @property string $warning
+ * @property string $date
  *
  * The followings are the available model relations:
  * @property Task $idTask
- * @property User $idUser
+ * @property StudentReg $idUser
  */
 class TaskMarks extends CActiveRecord
 {
@@ -32,12 +34,13 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, comment', 'required'),
+			array('id_user, id_task, mark, result, warning, date', 'required'),
 			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
-			array('comment', 'length', 'max'=>100),
+			array('result, warning', 'length', 'max'=>255),
+			array('date', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_task, mark, comment', 'safe', 'on'=>'search'),
+			array('id, id_user, id_task, mark, result, warning, date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +67,9 @@ class TaskMarks extends CActiveRecord
 			'id_user' => 'Id User',
 			'id_task' => 'Id Task',
 			'mark' => 'Mark',
-			'comment' => 'Comment',
+			'result' => 'Result',
+			'warning' => 'Warning',
+			'date' => 'Date',
 		);
 	}
 
@@ -90,7 +95,9 @@ class TaskMarks extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('id_task',$this->id_task);
 		$criteria->compare('mark',$this->mark);
-		$criteria->compare('comment',$this->comment,true);
+		$criteria->compare('result',$this->result,true);
+		$criteria->compare('warning',$this->warning,true);
+		$criteria->compare('date',$this->date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,4 +114,17 @@ class TaskMarks extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addMark($user, $task, $status, $result, $date, $warning){
+        $model = new TaskMarks();
+
+        $model->id_task = 1;//$task;
+        $model->id_user = '';//$user;
+        $model->mark = 0;//($status == "done")?1:0;
+        $model->result = '';//$result;
+        $model->warning = '';//$warning;
+        $model->date = '';//$date;
+
+        $model->save();
+    }
 }
