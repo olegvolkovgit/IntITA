@@ -43,7 +43,6 @@
 </div>
 
 <?php
-// use editor WYSIWYG Imperavi
 if ($editMode) {
     $this->widget('ImperaviRedactorWidget', array(
         'selector' => "#",
