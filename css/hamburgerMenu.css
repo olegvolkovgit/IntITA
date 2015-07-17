@@ -1,25 +1,18 @@
 #hambNav
 {
-    width: 42px;
-    margin: 1% 0 0 1%;
-    overflow: hidden;
-    float: left;
-}
-
-#hambNav hr
-{
-    width: 100%;
-    margin: 0;
-    color: #4b75a4;
-    clear: both;
+    position: fixed;
+    display: none;
+    left: 0;
+    top:0;
+    z-index: 100;
 }
 
 #hambButton
 {
-    overflow: hidden;
-    width: 100%;
-    clear: both;
-    margin: 3% 0 0 0;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 15px;
+    z-index: 3;
 }
 #hambButton:hover
 {
@@ -27,59 +20,52 @@
 }
 #hambButton img
 {
-    display: block;
-    width: 75%;
-    margin: 0 auto;
 }
 
 #hambMenu
 {
     display: none;
-    oveflow: hidden;
-    position: absolute;
-    left: inherit;
+    position: fixed;
+    top: 0;
+    width: 250px;
     background: #ffffff;
-    z-index: 99999;
-    width: 12%;
-    padding: 0.8% 3% 1%;
+    z-index: 2;
+    box-shadow: 0 0 2px 2px #999999;
 }
 
 #hambMenu a.logo
 {
-    width: 100px;
     display: block;
     overflow: hidden;
+    margin-left: 90px;
+    margin-top: 10px;
 }
 
 #hambMenu a.logo img
 {
-    width: 100%;
     display: block;
 }
 
-#hambMenu .lang
+#hambMenu .humblang
 {
     display: block;
-    float: left;
+    margin-left: 90px;
+    margin-top: 10px;
     clear: both;
-    margin: 0;
-    padding: 0;
-    z-index: 6;
 }
-#hambMenu .lang *
+#hambMenu .humblang a
 {
-    margin: 0;
-    padding: 0;
+    color: #4b70a4;
+    border-left: 1px solid #999999;
+    padding-left: 8px;
+    padding-right: 8px;
 }
-#hambMenu .lang a
+#hambMenu .humblang a:first-child
 {
-    color: #4b70a3;
+    border-left:none;
+    padding-left: 0;
 }
-#hambMenu .lang a:visited
-{
-    color: #4b70a3;
-}
-#hambMenu .lang a.selectedLang
+#hambMenu .humblang a.selectedLang
 {
     color: #999999;
     text-decoration: none;
@@ -87,9 +73,10 @@
 #hambMenu .menulist
 {
     list-style: none;
-    width: 100%;
+    font-size: 18px;
+    line-height: 2;
     clear: both;
-    margin: 25% 0 12% 0;
+    margin: 35px 0 35px 90px;
     padding: 0;
 }
 #hambMenu .menulist a
@@ -99,9 +86,68 @@
 }
 #hambMenu .menulist a:hover
 {
-    text-decoration: underline;
+    color: #4b70a4;
 }
 #hambMenu .menulist li
 {
     display: block;
+}
+#hambNav .humundline
+{
+    width: 85%;
+    margin: 0 auto;
+    border: 1px solid #4b75a4;
+    clear: both;
+}
+a#hum_button {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    height: 33px;
+    width: 70px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    vertical-align: middle;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    z-index: 6;
+}
+a#hum_button:hover {
+    background: #454545;
+}
+a#hum_button:active {
+    background: #363636;
+}
+div.humStatus{
+    position: relative;
+    margin: 0 auto;
+    top:10px;
+    right:0;
+    display:block;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.humStatus div {
+    display: inline-block;
+    color:#4b75a4;
+    font-family: MyriadPro;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 100%;
+}
+div.humavatar{
+    width:70px;
+    height:70px;
+    margin-right: 10px;
+    overflow: hidden;
+}
+.humavatar img{
+    width: 70px;
+    min-height: 70px;
 }

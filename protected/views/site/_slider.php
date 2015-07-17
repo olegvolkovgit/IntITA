@@ -14,12 +14,6 @@
     {
         width = screen.width
     }
-    function centerPage()
-    {
-        $('.contentCenterBox').css('width', width);
-        $('.contentCenterBox').css('left', "50%");
-        $('.contentCenterBox').css('margin-left', -width/2);
-    }
     var key = document.getElementById('enter_button');
     var nav = document.getElementById('navigation');
     var logo = document.getElementById('logo_img');
@@ -49,31 +43,31 @@
     logo.className = "";
     border.className = "";
     lang.className = "";
-    underline.className = "";
+    underline.className = "downmain";
     but.className = "";
     document.getElementById('logo').src=logolang;
-    window.onscroll = function() {
-        var pageY = window.pageYOffset || document.documentElement.scrollTop;
-        if (pageY >= key.offsetHeight) {
-            document.getElementById('logo').src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>";
-            key.className = "downmain";
-            logo.className = "downmain";
-            nav.className = "downmain";
-            border.className = "downmain";
-            lang.className = "downmain";
-            underline.className = "downmain";
-            but.className = "downmain";
-        } else {
-            document.getElementById('logo').src=logolang;
-            border.className = "";
-            key.className = "";
-            logo.className = "";
-            nav.className = "";
-            lang.className = "";
-            underline.className = "";
-            but.className = "";
-        }
-    }
+//    window.onscroll = function() {
+//        var pageY = window.pageYOffset || document.documentElement.scrollTop;
+//        if (pageY >= key.offsetHeight) {
+//            document.getElementById('logo').src="<?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>//";
+//            key.className = "downmain";
+//            logo.className = "downmain";
+//            nav.className = "downmain";
+//            border.className = "downmain";
+//            lang.className = "downmain";
+//            underline.className = "downmain";
+//            but.className = "downmain";
+//        } else {
+//            document.getElementById('logo').src=logolang;
+//            border.className = "";
+//            key.className = "";
+//            logo.className = "";
+//            nav.className = "";
+//            lang.className = "";
+//            underline.className = "";
+//            but.className = "";
+//        }
+//    }
 </script>
 
 <div id="sliderCenterBox">
