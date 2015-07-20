@@ -217,9 +217,10 @@ class SiteController extends Controller
             // validate user input and redirect to the previous page if valid
             if($statusmodel->status==1){
                 if($model->login()){
-                    if(Yii::app()->controller->id == 'site') $this->redirect(Yii::app()->homeUrl);
-                    if (isset($_SERVER["HTTP_REFERER"]))
+                    if (isset($_SERVER["HTTP_REFERER"])){
+                        if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
+                    }
                     else $this->redirect(Yii::app()->homeUrl);
                 }
             }else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email'=>$model->email)));
@@ -266,9 +267,10 @@ class SiteController extends Controller
         $user = json_decode($s, true);
         $model->email=$user['email'];
         if($model->socialLogin()){
-            if(Yii::app()->controller->id == 'site') $this->redirect(Yii::app()->homeUrl);
-            if (isset($_SERVER["HTTP_REFERER"]))
+            if (isset($_SERVER["HTTP_REFERER"])){
+                if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
+            }
             else $this->redirect(Yii::app()->homeUrl);
         } else {
             if(isset($user['first_name'])) $model->firstName=$user['first_name'];
@@ -315,9 +317,10 @@ class SiteController extends Controller
                 $model = new StudentReg();
                 $model->email=$user['email'];
                 if($model->socialLogin()){
-                    if(Yii::app()->controller->id == 'site') $this->redirect(Yii::app()->homeUrl);
-                    if (isset($_SERVER["HTTP_REFERER"]))
+                    if (isset($_SERVER["HTTP_REFERER"])){
+                        if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
+                    }
                     else $this->redirect(Yii::app()->homeUrl);
                 }
             }
