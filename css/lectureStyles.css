@@ -246,7 +246,7 @@ margin-top:10px;
     color: #333333;
 }
 
-#newTextBlock, #header, #etalon, #taskFooter{
+#newTextBlock, #header, #etalon, #taskFooter, #condition{
     resize: none;
 }
 .calendar{
