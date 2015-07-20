@@ -7,16 +7,16 @@
  */
 ?>
 <?php
-$optionsnum = 5;
+$optionsNum = 5;
 $ask='Скільки ніг у корови?';
-$testtype=2;
+$testType=2;
 ?>
     <div>
-        <!--    --><?php //$this->renderPartial('_editToolbar', array(
-        //        'idLecture' => $data['id_lecture'],
-        //        'order' =>  $data['block_order'],
-        //        'editMode' => $editMode,
-        //    ));
+            <?php $this->renderPartial('_editToolbar', array(
+                'idLecture' => $data['id_lecture'],
+                'order' =>  $data['block_order'],
+                'editMode' => $editMode,
+            ));
         ?>
 
         <div class="lessonTest">
@@ -34,12 +34,12 @@ $testtype=2;
                         <?php echo $ask ?>
                     </div>
                     <div >
-                        <?php if($testtype==1){
-                            for($i=1;$i<=$optionsnum;$i++){?>
+                        <?php if($testType==1){
+                            for($i=1;$i<=$optionsNum;$i++){?>
                                 <input type="radio" name="radioanswer" value="<?php echo $i ?>"> Тестова відповідь №<?php echo $i ?><br><br>
                             <?php }
-                        } elseif ($testtype==2){
-                            for($j=1;$j<=$optionsnum;$j++){?>
+                        } elseif ($testType==2){
+                            for($j=1;$j<=$optionsNum;$j++){?>
                             <input type="checkbox" name="checkboxanswer" value="<?php echo $j ?>"> Тестова відповідь №<?php echo $j ?><br><br>
                         <?php }
                         }

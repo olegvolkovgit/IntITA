@@ -218,6 +218,11 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+
+        switch ($model->id_type){
+            case '5': Task::deleteTask($model->id_block);
+        }
         //delete current block
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
 

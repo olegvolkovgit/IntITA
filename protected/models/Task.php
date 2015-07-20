@@ -123,4 +123,9 @@ class Task extends CActiveRecord
 
         $model->save();
     }
+
+    public static function deleteTask($condition){
+        $task = Task::model()->findByAttributes(array('condition' => $condition));
+        $task->delete();
+    }
 }

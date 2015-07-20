@@ -2,30 +2,37 @@
  * Created by Ivanna on 13.07.2015.
  */
 function createTest() {
-    //document.getElementById('addTest').style.display = 'none';
-    //var header = document.getElementById('header').value;
-    //var etalon = document.getElementById('etalon').value;
-    //var taskFooter = document.getElementById('taskFooter').value;
-    //var lang = $('select[name="lang"]').val();
-    //var name = document.getElementById('name').value;
-    //var condition = document.getElementById('condition').value;
-    //condition = condition.trim();
+    document.getElementById('addTest').style.display = 'none';
+    var name = document.getElementById('name').value;
+    var optionsNum = document.getElementById('optionsNum').value;
+    var answersNum = document.getElementById('answersNum').value;
+    var condition = document.getElementById('condition').value;
+    condition = condition.trim();
+    var optionsArray = {};
+    for (var i = 0; i < optionsNum; i++){
+        var id = "option" + i;
+        optionsArray[i] = document.getElementById(id).value;
+    }
+
+    var answersArray = {};
+    for (var j = 0; j < answersNum; j++){
+        var idAnswer = "answer" + j;
+        optionsArray[j] = document.getElementById(idAnswer).value;
+    }
+
     var newTest = {
-        //"operation": "addtask",
-        //"name": name,
-        //"header": header,
-        //"etalon": etalon,
-        //"footer": taskFooter,
-        //"lang": "c++"
+        "name": name,
+        "condition": condition,
+        "options": optionsArray,
+        "answers" : answersArray,
+        "optionsNum": optionsNum,
+        "answersNum": answersNum
     };
     var jqxhr = $.post("/tests/addTest", JSON.stringify(newTest), function () {
 
     })
         .done(function (data) {
-            //var serverResponse = jQuery.parseJSON(data);
-            //if (serverResponse.status == 'success') {
-            //    addTestToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table);
-            //}
+            alert("success");
         })
         .fail(function () {
 

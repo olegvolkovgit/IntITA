@@ -22,7 +22,7 @@
             <br>
             <fieldset>
                 <legend id="label1">Варіанти відповіді:</legend>
-                1. <input type="text" name="answer" id="answer1" size="80"/>
+                1. <input type="text" name="option" id="option1" size="80"/>
             </fieldset>
             <br>
             <fieldset>
@@ -32,6 +32,8 @@
                 <input type="checkbox" name="answer1" value="1"> 1 відповідь
             </fieldset>
             <br>
+            <input type="text" name="optionsNum" id="optionsNum" hidden="hidden" value="1"/>
+            <input type="text" name="answersNum" id="answersNum" hidden="hidden" value="1"/>
         </fieldset>
     </form>
     <button onclick='createTest()'>Додати тест</button>
