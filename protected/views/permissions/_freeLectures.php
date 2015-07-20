@@ -13,62 +13,86 @@ $this->breadcrumbs=array(
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
 <?php
-$dataProvider = $model->search();
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
+    'filter'=>$model,
     'summaryText'=>'',
     'columns' => array(
+//        'idModule',
+//        'order',
+//        'title',
+//        'idType',
+//        'isFree',
         array(
-            'name' => 'Модуль',
+            'name' => 'ModuleTitle',
+            'header'=>'Модуль',
             'type' => 'raw',
-            'value' => 'ModuleHelper::getModuleName($data->idModule)',
+            'value' => '($data->idModule)? $data->ModuleTitle->module_name : ""',
+            'sortable'=>true,
         ),
         array(
-            'name' => 'Порядок',
+            'name' => 'order',
+            'filter' => false,
             'type' => 'raw',
             'value' => '$data->order',
         ),
         array(
-            'name' => 'Назва',
+            'name' => 'title',
             'type' => 'raw',
             'value' => '$data->title',
         ),
         array(
-            'name' => 'Тип заняття',
+            'name' => 'idType',
             'type' => 'raw',
             'value' => '$data->idType',
         ),
         array(
-            'name' => 'Доступ',
+            'name' => 'isFree',
             'type' => 'raw',
             'value' => '$data->isFree',
         ),
-//        array(
-//            'class'=>'CButtonColumn',
-//            'template'=>'{delete}',
-//            'buttons'=>array
-//            (
-//                'delete' => array
-//                (
-//                    'label'=>'Delete',
-//                    //'url'=>'Yii::app()->createUrl("permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
-//                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-//                    'click'=>"function(){
-//                        $.fn.yiiGridView.update('access_grid', {
-//                            type:'POST',
-//                            url:$(this).attr('href'),
-//                            success:function(data) {
-//                        $.fn.yiiGridView.update('access_grid');
-//                        }
-//                        })
-//                        return false;
-//                    }
-//                    ",
-//                ),
-//            ),
-//        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{free} {paid}',
+            'buttons'=>array
+            (
+                'free' => array
+                (
+                    'label'=>'Безкоштовно',
+                    'url'=>'Yii::app()->createUrl("permissions/setFreeLessons", array("id"=>$data->id))',
+                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'free.png'),
+                    'click'=>"function(){
+                        $.fn.yiiGridView.update('freeLecturesGrid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                        $.fn.yiiGridView.update('freeLecturesGrid');
+                        }
+                        })
+                        return false;
+                    }
+                    ",
+                ),
+                'paid' => array
+                (
+                    'label'=>'Платний',
+                    'url'=>'Yii::app()->createUrl("permissions/setPaidLessons", array("id"=>$data->id))',
+                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'paid.png'),
+                    'click'=>"function(){
+                        $.fn.yiiGridView.update('freeLecturesGrid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data) {
+                        $.fn.yiiGridView.update('freeLecturesGrid');
+                        }
+                        })
+                        return false;
+                    }
+                    ",
+                ),
+            ),
+        ),
     ),
 ));
 ?>

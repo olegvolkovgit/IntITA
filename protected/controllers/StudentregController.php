@@ -251,8 +251,10 @@ class StudentRegController extends Controller
 
     public function actionProfile($idUser,$tab='')
     {
-        $letter = new Letters();
         $model=StudentReg::model()->findByPk($idUser);
+        if ($idUser!==Yii::app()->user->getId())
+            throw new CHttpException(403, 'Вибачте, Ви не можете переглядати чужий профіль.');
+        $letter = new Letters();
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
         $criteria= new CDbCriteria;

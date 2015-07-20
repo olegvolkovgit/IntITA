@@ -18,14 +18,14 @@ class PermissionsController extends Controller
         return array(
             array('allow',
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher'),
+                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher'),
+                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons'),
                 'users'=>array('*'),
             ),
         );
@@ -67,23 +67,11 @@ class PermissionsController extends Controller
         $model = new Lecture('search');
         $model->unsetAttributes();  // clear any default values
         $model->isFree = 1;
-//        if(isset($_GET['Permissions']))
-//            $model->attributes=$_GET['Permissions'];
+        if(isset($_GET['Lecture']))
+            $model->attributes=$_GET['Lecture'];
 
-        $dataProvider = new CActiveDataProvider('Lecture');
-
-        $dataProvider->setPagination(array(
-                'pageSize' => '50',
-            )
-        );
-
-        if(!isset($_GET['ajax'])) $this->render('_freeLectures', array(
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ));
-        else  $this->renderPartial('_freeLectures', array(
-            'dataProvider' => $dataProvider,
-            'model' => $model,
+        $this->render('_freeLectures',array(
+            'model'=>$model,
         ));
     }
 
@@ -309,5 +297,21 @@ class PermissionsController extends Controller
 
         }
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionSetFreeLessons($id)
+    {
+        Lecture::model()->updateByPk($id, array('isFree' => 1));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionSetPaidLessons($id)
+    {
+        Lecture::model()->updateByPk($id, array('isFree' => 0));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
     }
 }
