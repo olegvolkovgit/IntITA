@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-20 16:13:48
+-- Date/time:                    2015-07-21 00:41:31
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -13,14 +13,13 @@
 -- Dumping structure for table int_ita_db.tests
 DROP TABLE IF EXISTS `tests`;
 CREATE TABLE IF NOT EXISTS `tests` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `block_element` int(10) NOT NULL,
   `author` int(10) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_tests_teacher` (`author`),
-  KEY `FK_tests_lecture_element` (`block_element`),
-  CONSTRAINT `FK_tests_lecture_element` FOREIGN KEY (`block_element`) REFERENCES `lecture_element` (`id_block`),
-  CONSTRAINT `FK_tests_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
+  KEY `FK_tests_lecture_element` (`block_element`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.tests: ~0 rows (approximately)

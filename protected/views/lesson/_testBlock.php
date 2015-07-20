@@ -31,8 +31,9 @@ $testType=2;
                 </div>
                 <div class="contentTest">
                     <div class="instrTestText" id="">
-                        <?php echo $ask ?>
+                        <?php echo $data['html_block']; ?>
                     </div>
+                    <br>
                     <div >
                         <?php if($testType==1){
                             for($i=1;$i<=$optionsNum;$i++){?>

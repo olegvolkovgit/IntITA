@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-20 16:13:43
+-- Date/time:                    2015-07-21 00:41:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   UNIQUE KEY `FK_lecture_element_task` (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=267 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~172 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~187 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -210,7 +210,10 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(250, 101, 13, 'task', 5, '<p>1) оформіть наведений вище приклад як робочу програму (з виведенням на екран результату розрахунку складного виразу);</p><p>2) розбийте складний вираз на декілька простих;</p>3) запрограмуйте послідовно всі одержані прості вирази з виведенням кінцевого результату, порівняйте його з початковим результатом розрахунку складного виразу (змінна <strong><span style="color: rgb(192, 80, 77);">с</span></strong>).'),
 	(252, 81, 1, 'label', 8, '<p>chapter 1</p>'),
 	(254, 111, 1, 'text', 1, '\\[\\alpha \\zeta\\]\r\n'),
-	(256, 53, 2, 'task', 5, 'condition');
+	(256, 53, 2, 'task', 5, 'condition'),
+	(264, 2, 7, 'test', 12, 'l.g.lgk.'),
+	(265, 2, 8, 'test', 12, 'hgyhbdty'),
+	(266, 2, 9, 'test', 12, ';poou');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

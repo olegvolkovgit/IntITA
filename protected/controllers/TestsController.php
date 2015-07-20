@@ -4,8 +4,19 @@ class TestsController extends Controller
 {
 	public function actionAddTest()
 	{
-		$this->render('index');
+        $lecture = Yii::app()->request->getPost('lectureId', 0);
+        $condition =  Yii::app()->request->getPost('condition', '');
+        $testTitle = Yii::app()->request->getPost('testTitle', '');
+        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
+        $author = Yii::app()->request->getPost('author', 0);
+        if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition)) {
+            Tests::addNewTest($lectureElementId, $testTitle, $author);
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
 	}
+
+
 
 	// Uncomment the following methods and override them if needed
 	/*

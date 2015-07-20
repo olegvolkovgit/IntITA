@@ -7,11 +7,11 @@
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
+ * @property string $title
  *
  * The followings are the available model relations:
  * @property LectureElement $blockElement
  * @property Teacher $author0
- * @property TestsAnswers[] $testsAnswers
  */
 class Tests extends CActiveRecord
 {
@@ -21,14 +21,6 @@ class Tests extends CActiveRecord
 	public function tableName()
 	{
 		return 'tests';
-	}
-
-    public function filters()
-	{
-        return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
 	}
 
 	/**
@@ -41,9 +33,10 @@ class Tests extends CActiveRecord
 		return array(
 			array('id, block_element, author', 'required'),
 			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
+			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, block_element, author, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +50,6 @@ class Tests extends CActiveRecord
 		return array(
 			'blockElement' => array(self::BELONGS_TO, 'LectureElement', 'block_element'),
 			'author0' => array(self::BELONGS_TO, 'Teacher', 'author'),
-			'testsAnswers' => array(self::HAS_MANY, 'TestsAnswers', 'id_test'),
 		);
 	}
 
@@ -70,6 +62,7 @@ class Tests extends CActiveRecord
 			'id' => 'ID',
 			'block_element' => 'Block Element',
 			'author' => 'Author',
+			'title' => 'Title',
 		);
 	}
 
@@ -94,6 +87,7 @@ class Tests extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
+		$criteria->compare('title',$this->title,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -110,111 +104,14 @@ class Tests extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-    public function actionCreate()
-    {
-    $model=new Task;
 
-        if(isset($_POST['Task']))
-        {
-            $model->attributes=$_POST['Task'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
-        }
+    public static function addNewTest($blockElement, $title, $author){
+        $model = new Tests();
 
-        $this->render('create',array(
-            'model'=>$model,
-        ));
-    }
+        $model->block_element = $blockElement;
+        $model->title = $title;
+        $model->author = $author;
 
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
-    public function actionUpdate($id)
-    {
-        $model=$this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if(isset($_POST['Task']))
-        {
-            $model->attributes=$_POST['Task'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
-        }
-
-        $this->render('update',array(
-            'model'=>$model,
-        ));
-    }
-
-    /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
-    public function actionDelete($id)
-    {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-    }
-
-    /**
-     * Lists all models.
-     */
-    public function actionIndex()
-    {
-        $dataProvider=new CActiveDataProvider('Task');
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
-        ));
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model=new Task('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Task']))
-            $model->attributes=$_GET['Task'];
-
-        $this->render('admin',array(
-            'model'=>$model,
-        ));
-    }
-
-    /**
-     * Returns the data model based on the primary key given in the GET variable.
-     * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
-     * @return Task the loaded model
-     * @throws CHttpException
-     */
-    public function loadModel($id)
-    {
-        $model=Task::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,'The requested page does not exist.');
-        return $model;
-    }
-
-    /**
-     * Performs the AJAX validation.
-     * @param Task $model the model to be validated
-     */
-    protected function performAjaxValidation($model)
-    {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='task-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        return $model->save();
     }
 }

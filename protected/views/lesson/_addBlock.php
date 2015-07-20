@@ -56,7 +56,7 @@
         </div>
     </div>
     <?php $this->renderPartial('_addTask');?>
-    <?php $this->renderPartial('_addTest');?>
+    <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => $teacher));?>
     <br>
     <br>
     <?php } ?>

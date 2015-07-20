@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-20 16:13:48
+-- Date/time:                    2015-07-21 00:41:31
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS `tests_answers` (
   `answer` varchar(255) NOT NULL,
   `is_valid` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_tests_answers_tests` (`id_test`),
-  CONSTRAINT `FK_tests_answers_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`)
+  KEY `FK_tests_answers_tests` (`id_test`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.tests_answers: ~0 rows (approximately)
