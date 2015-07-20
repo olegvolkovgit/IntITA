@@ -213,7 +213,7 @@ img.lessonBut  {
 }
 img.lessonButFinal  {
     position: absolute;
-    left:46%;
+    left:40%;
     top:-16px;
     width: 164px;
     height:32px;
@@ -223,7 +223,7 @@ div.lessonButFinal
 {
     position: absolute;
     color:#ffffff;
-    left:46%;
+    left:40%;
     top:-16px;
     width: 164px;
     height:32px;
