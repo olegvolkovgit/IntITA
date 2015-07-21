@@ -124,7 +124,7 @@ class Lecture extends CActiveRecord
                     'desc' => $expr.' DESC',
                 ),
                 'order'=>array(
-                    'asc' => $expr='order',
+                    'asc' => $expr='`order`',
                     'desc' => $expr.' DESC',
                 ),
                 'title'=>array(
