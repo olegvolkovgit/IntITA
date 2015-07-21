@@ -7,6 +7,10 @@
  */
 ?>
 <a name="testForm"></a>
+<script type="text/javascript">
+//    document.getElementById("optionsNum").value = 1;
+//    document.getElementById("option1").value = '';
+</script>
 <div id="addTest">
     <br>
     <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/addTest');?>">
@@ -38,7 +42,7 @@
             <input type="text" name="lectureId" id="lectureId" hidden="hidden" value="<?php echo $lecture;?>"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo $lecture;?>"/>
         </fieldset>
-        <input type="submit" value="Додати тест" onclick="clearFields()">
+        <input type="submit" value="Додати тест">
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>

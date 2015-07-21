@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-21 00:41:29
+-- Date/time:                    2015-07-21 01:00:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `letters` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.letters: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.letters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `letters` DISABLE KEYS */;
 INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`, `date`, `status`) VALUES
 	(1, 22, 38, 'Заняття 4', 'Привіт1', '2015-06-21 21:36:58', 1);

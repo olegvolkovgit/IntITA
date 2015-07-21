@@ -69,7 +69,7 @@ return array(
         ),
 
 		'user' => array(
-			'loginUrl'       => array('/site/login'),
+			'loginUrl'       => array('/site/index'),
 			'allowAutoLogin' => true,
 		),
 
@@ -151,10 +151,11 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-        //'imagesPath'=>'http://localhost/IntITA/images',
+//        'imagesPath'=>'http://localhost/IntITA/images',
         'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',
+        'openDialogPath' =>'http://localhost/Int/index.php?dialog=true',
 	),
 );

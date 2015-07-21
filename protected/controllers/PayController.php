@@ -25,9 +25,11 @@ class PayController extends Controller{
         Yii::app()->user->setFlash('payModule', '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
             $module->module_name.'</strong> курса <strong>'.
             Course::model()->findByPk($_POST['course'])->course_name.'</strong> оплачено.
-            <br />Тепер у Вас є доступ до усіх занять цього модуля. <h4>Enjoy it!</h4>');
+            <br />Тепер у Вас є доступ до усіх занять цього модуля.');
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+
     public function actionPayCourse(){
         if (empty($_POST['course']) ) {
             Yii::app()->user->setFlash('errorCourse', "<br>Будь-ласка, оберіть курс для оплати.");
@@ -39,7 +41,7 @@ class PayController extends Controller{
 
         Yii::app()->user->setFlash('payCourse', '<br /><h4>Вітаємо!</h4> Курс '.
             $course->course_name.'</strong> оплачено.
-            <br />Тепер у Вас є доступ до усіх занять цього курсу. <h4>Enjoy it!</h4>');
+            <br />Тепер у Вас є доступ до усіх занять цього курсу.');
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

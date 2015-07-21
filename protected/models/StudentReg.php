@@ -30,6 +30,7 @@
  * @property string $token
  * @property string $activkey_lifetime
  * @property string $status
+ * property string $reg_time
  */
 class StudentReg extends CActiveRecord
 {
@@ -87,7 +88,7 @@ class StudentReg extends CActiveRecord
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role', 'safe', 'on'=>'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time', 'safe', 'on'=>'search'),
         );
     }
     public function authenticate($attribute,$params)
@@ -163,6 +164,7 @@ class StudentReg extends CActiveRecord
             'linkedin' => 'http://www.linkedin.com/',
             'vkontakte' => 'http://vk.com/',
             'twitter' => 'http://twitter.com/',
+            'reg_time' => 'Registration Time',
         );
     }
 
@@ -246,6 +248,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('activkey_lifetime',$this->activkey_lifetime,true);
         $criteria->compare('status',$this->status,true);
         $criteria->compare('isExtended',$this->isExtended, true);
+        $criteria->compare('reg_time',$this->reg_time, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -257,6 +260,7 @@ class StudentReg extends CActiveRecord
     {
         if($this->password!==Null)
         $this->password=sha1($this->password);
+        $this->reg_time=time();
         return parent::beforeSave();
     }
 

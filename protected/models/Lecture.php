@@ -14,6 +14,7 @@
  * @property integer $durationInMinutes
  * @property integer $preLecture
  * @property integer $nextLecture
+ * @property integer $isFree
  *
  */
 class Lecture extends CActiveRecord
@@ -42,7 +43,7 @@ class Lecture extends CActiveRecord
             array('title', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, idModule, order, title, idType, durationInMinutes', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title, idType, durationInMinutes,isFree, ModuleTitle', 'safe', 'on' => 'search'),
         );
     }
 
@@ -55,6 +56,7 @@ class Lecture extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
         );
     }
 
@@ -66,11 +68,12 @@ class Lecture extends CActiveRecord
         return array(
             'id' => 'ID',
             'image' => 'Image',
-            'alias' => 'Alias',
-            'idModule' => 'Id Module',
-            'order' => 'Order',
-            'title' => 'Title',
-            'idType' => 'Id Type',
+            'alias' => 'Псевдонім',
+            'idModule' => 'Модуль',
+            'order' => 'Порядок',
+            'title' => 'Назва',
+            'idType' => 'Тип',
+            'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Duration In Minutes',
         );
     }
@@ -96,21 +99,48 @@ class Lecture extends CActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('image', $this->image, true);
         $criteria->compare('alias', $this->alias, true);
-        $criteria->compare('idModule', $this->idModule);
-        $criteria->compare('order', $this->order);
+        $criteria->compare('idModule', $this->idModule, true);
+        $criteria->compare('order', $this->order, true);
         $criteria->compare('title', $this->title, true);
-        $criteria->compare('idType', $this->idType);
-        $criteria->compare('durationInMinutes', $this->durationInMinutes);
+        $criteria->compare('idType', $this->idType, true);
+        $criteria->compare('isFree', $this->isFree, true);
+        $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
+
+
+        $criteria->with=array('ModuleTitle');
+        $criteria->compare('ModuleTitle.module_name',$this->ModuleTitle,true);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-            'sort' => array (
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize' => '50',
+            ),
+            'sort'=>array('attributes'=>array(
                 'defaultOrder'=>array(
                     'order'=>CSort::SORT_ASC,
-                )
-            ),
-            //
-            ));
+                ),
+                'ModuleTitle'=>array(
+                    'asc' => $expr='ModuleTitle.module_name',
+                    'desc' => $expr.' DESC',
+                ),
+                'order'=>array(
+                    'asc' => $expr='`order`',
+                    'desc' => $expr.' DESC',
+                ),
+                'title'=>array(
+                    'asc' => $expr='title',
+                    'desc' => $expr.' DESC',
+                ),
+                'idType'=>array(
+                    'asc' => $expr='idType',
+                    'desc' => $expr.' DESC',
+                ),
+                'isFree'=>array(
+                    'asc' => $expr='isFree',
+                    'desc' => $expr.' DESC',
+                ),
+            )),
+        ));
     }
 
     /**

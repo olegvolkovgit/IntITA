@@ -153,7 +153,7 @@ class LessonController extends Controller{
                     }
                 }
                 break;
-            case '10':;
+            case '10':
                 $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
                 break;
             default:
@@ -312,7 +312,4 @@ class LessonController extends Controller{
         echo json_encode($data);
     }
 
-    public function actionErrorTask(){
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
 }

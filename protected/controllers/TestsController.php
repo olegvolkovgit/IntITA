@@ -8,30 +8,51 @@ class TestsController extends Controller
         $condition =  Yii::app()->request->getPost('condition', '');
         $testTitle = Yii::app()->request->getPost('testTitle', '');
         $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
+
+        $options = [];
+
+        for ($i = 0; $i < $optionsNum; $i++){
+            $temp = "option".($i+1);
+            $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
+            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
+        }
         $author = Yii::app()->request->getPost('author', 0);
         if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition)) {
             Tests::addNewTest($lectureElementId, $testTitle, $author);
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $lectureElementId))->id;
+            TestsAnswers::addOptions($idTest, $options);
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
 
+    public function actionCheckTestAnswer(){
+        $user = Yii::app()->request->getPost('user', '');
+        $test =  Yii::app()->request->getPost('test', '');
+        $answers = Yii::app()->request->getPost('answers', '');
+        $testType = Yii::app()->request->getPost('testType', 1);
 
+        $answersArray = explode(',', $answers);
 
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
+        if (TestsAnswers::checkTestAnswer($user, $test, $answersArray, $testType)){
+            var_dump('true');
+        } else {
+            var_dump('false');
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + checkTestAnswer',
+        );
+    }
+/*
 	public function actions()
 	{
 		// return external action classes, e.g.:

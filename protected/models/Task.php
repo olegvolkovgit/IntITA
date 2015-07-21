@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "task1".
+ * This is the model class for table "tasks".
  *
- * The followings are the available columns in table 'task1':
+ * The followings are the available columns in table 'tasks':
  * @property integer $id
  * @property string $language
  * @property integer $assignment
@@ -22,7 +22,7 @@ class Task extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'task1';
+		return 'tasks';
 	}
 
 	/**
