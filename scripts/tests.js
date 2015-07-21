@@ -1,4 +1,5 @@
 function cancelTest() {
+    clearFields();
     location.reload();
 }
 
@@ -20,5 +21,45 @@ function addOption(){
 function clearFields(){
     document.getElementById("optionsNum").value = 1;
     document.getElementById("option1").value = '';
+}
+
+function sendTestAnswer(test, testType){
+    answers = getUserAnswers(testType);
+
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/tests/checkTestAnswer",
+        data: {
+            'user': idUser,
+            'test': test,
+            'answers': answers,
+            'testType': testType
+        },
+        cache: false,
+        success: function(){
+        }
+    });
+}
+
+function getUserAnswers(testType){
+    if (testType == 1){
+        answer = $('input[name="radioanswer"]:checked').val();
+        return answer;
+    } else {
+        answers = getMultiplyAnswers();
+        return answers;
+    }
+}
+
+function getMultiplyAnswers(){
+        var answers = $('input[name="checkboxanswer"]:checked');
+
+        var answersValue = [];
+        for(var i = 0, l = answers.length; i < l;  i++)
+        {
+            answersValue.push(answers[i].value);
+        }
+
+        return answersValue.join(",");
 }
 

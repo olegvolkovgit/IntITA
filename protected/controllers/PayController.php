@@ -28,6 +28,8 @@ class PayController extends Controller{
             <br />Тепер у Вас є доступ до усіх занять цього модуля. <h4>Enjoy it!</h4>');
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+
     public function actionPayCourse(){
         if (empty($_POST['course']) ) {
             Yii::app()->user->setFlash('errorCourse', "<br>Будь-ласка, оберіть курс для оплати.");

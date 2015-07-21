@@ -153,7 +153,7 @@ class LessonController extends Controller{
                     }
                 }
                 break;
-            case '10':;
+            case '10':
                 $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
                 break;
             default:
@@ -297,19 +297,4 @@ class LessonController extends Controller{
     public function actionFormulaRedactor(){
         $this->render('formulaRedactor');
     }
-
-    public function actionShowTaskAnswer(){
-        sleep(1);
-        $data = array(
-            'operation' => 'send',
-            'session' => '123456789044241232',
-            'jobid' => 5,
-            'code' => 'std::cout << \"Hello World!\" << std::endl;',
-            'task' => 2,
-            'lang' => 'c++',
-        );
-
-        echo json_encode($data);
-    }
-
 }

@@ -10,8 +10,6 @@
  * @property string $title
  *
  * The followings are the available model relations:
- * @property LectureElement $blockElement
- * @property Teacher $author0
  */
 class Tests extends CActiveRecord
 {
@@ -31,7 +29,7 @@ class Tests extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, block_element, author', 'required'),
+			array('author, block_element', 'required'),
 			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
@@ -48,8 +46,7 @@ class Tests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'blockElement' => array(self::BELONGS_TO, 'LectureElement', 'block_element'),
-			'author0' => array(self::BELONGS_TO, 'Teacher', 'author'),
+
 		);
 	}
 
@@ -87,7 +84,7 @@ class Tests extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('title',$this->title);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,6 +109,6 @@ class Tests extends CActiveRecord
         $model->title = $title;
         $model->author = $author;
 
-        return $model->save();
+        $model->save();
     }
 }
