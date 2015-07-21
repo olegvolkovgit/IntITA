@@ -184,8 +184,7 @@ margin-top:10px;
 }
 /*----Edit toolbar----*/
 .editToolbar{
-    margin-left: -70px;
-    /*//margin-top: 5px;*/
+    margin-top: -20px;
     float:left;
 }
 .editIco{
@@ -246,7 +245,7 @@ margin-top:10px;
     color: #333333;
 }
 
-#newTextBlock, #header, #etalon, #taskFooter{
+#newTextBlock, #header, #etalon, #taskFooter, #condition{
     resize: none;
 }
 .calendar{

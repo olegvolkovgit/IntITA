@@ -28,6 +28,11 @@ window.onload = function () {
         iBl[i].onclick = getIdName;
     }
 
+    var lBl = document.getElementsByClassName("labelBlock");
+    for (var i = 0; i < lBl.length; i++) {
+        lBl[i].onclick = getIdName;
+    }
+
 
 function getIdName() {
     var idName = this.getAttribute('id');
