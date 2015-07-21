@@ -312,4 +312,7 @@ class LessonController extends Controller{
         echo json_encode($data);
     }
 
+    public function actionErrorTask(){
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

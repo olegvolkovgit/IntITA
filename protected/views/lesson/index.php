@@ -80,46 +80,42 @@ $this->breadcrumbs=array(
         </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
-<!--modal task -->
-<?php
-//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//    'id' => 'mydialog2',
-//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-//    'cssFile'=>'jquery-ui2.css',
-//    'theme'=>'my',
-//    'options' => array(
-//        'width'=>540,
-//        'autoOpen' => false,
-//        'modal' => true,
-//        'resizable'=> false,
-//    ),
-//));
-//$this->renderPartial('/lesson/_modalTask');
-//$this->endWidget('zii.widgets.jui.CJuiDialog');
-//?>
-<!--modal task ---congratulations
-
-
-
-
+<!--modal task congratulations-->
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'mydialog2',
+        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'cssFile' => 'jquery-ui2.css',
+        'theme' => 'my',
+        'options' => array(
+            'width' => 540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable' => false,
+        ),
+    ));
+    $this->renderPartial('/lesson/_modalTask');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+<!--modal task congratulations end-->
 
 <!--modal task ---error1-
 <?php
-//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//    'id' => 'mydialog3',
-//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-//    'cssFile'=>'jquery-ui3.css',
-//    'theme'=>'my',
-//    'options' => array(
-//        'width'=>540,
-//        'autoOpen' => false,
-//        'modal' => true,
-//        'resizable'=> false
-//    ),
-//));
-//$this->renderPartial('/lesson/_modalTask2');
-//$this->endWidget('zii.widgets.jui.CJuiDialog');
-//?>
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'mydialog3',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui3.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('/lesson/_modalTask2');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
 <!--<!--modal task ---error-->
 </div>
 

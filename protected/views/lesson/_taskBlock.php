@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 14.04.2015
- * Time: 18:43
- */
-?>
 <div class="element">
     <?php $this->renderPartial('_editToolbar', array(
         'idLecture' => $data['id_lecture'],
@@ -29,15 +21,16 @@
             <form class="sendAnswer" id="sendAnswer">
                 <textarea name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
+
             <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                     onclick="sendTaskAnswer(
-                        <?php echo $user;?>,
-                        'code<?php echo $data['block_order'];?>',
+                    <?php echo $user;?>,'code<?php echo $data['block_order'];?>',
                     <?php echo LectureHelper::getTaskId($data['id_block']);?>,
-                        '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');" >
-                <?php echo Yii::t('lecture','0089'); ?>
+                    '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');" >
+                    <?php echo Yii::t('lecture','0089'); ?>
             </button>
         </div>
+
     </div>
 </div>
 </div>
