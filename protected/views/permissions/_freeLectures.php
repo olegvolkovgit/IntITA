@@ -54,6 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class'=>'CButtonColumn',
+            'header'=>'Флажок',
             'template'=>'{free} {paid}',
             'buttons'=>array
             (
