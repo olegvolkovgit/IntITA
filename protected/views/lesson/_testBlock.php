@@ -7,9 +7,11 @@
  */
 ?>
 <?php
+
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
+
 ?>
     <div>
             <?php $this->renderPartial('_editToolbar', array(

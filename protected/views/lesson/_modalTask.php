@@ -10,9 +10,7 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
-    'action' => array(''),
     'action' => Yii::app()->request->baseUrl.'/lesson/errorTask',
-
 ));
 ?>
 <div  class="signIn2">

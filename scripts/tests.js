@@ -28,7 +28,7 @@ function sendTestAnswer(test, testType){
 
     $.ajax({
         type: "POST",
-        url: "/IntITA/tests/checkTestAnswer",
+        url: "/tests/checkTestAnswer",
         data: {
             'user': idUser,
             'test': test,
