@@ -69,7 +69,7 @@ return array(
         ),
 
 		'user' => array(
-			'loginUrl'       => array('/site/login'),
+			'loginUrl'       => array('/site/index'),
 			'allowAutoLogin' => true,
 		),
 
