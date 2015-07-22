@@ -56,9 +56,9 @@ if (!isset($tab)) $tab='';
         <div class="tabs">
 
             <input id="tab1" type="radio" name="tabs" checked>
-            <label class="tabsUp1" for="tab1" title="Основне">Основне</label>
+            <label class="tabsUp1" for="tab1" title="Основне"><?php echo Yii::t('regexp', '0562');?></label>
             <input id="tab2" type="radio" name="tabs" <?php echo $tab?>>
-            <label for="tab2" title="Додаткове">Додаткове</label>
+            <label for="tab2" title="Додаткове"><?php echo Yii::t('regexp', '0563');?></label>
             <div class="lineUnderTab"></div>
             <section id="mainreg">
                 <div class="row">
@@ -195,9 +195,11 @@ if (!isset($tab)) $tab='';
         <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
         <?php if($post->avatar!=='noname.png') {
         ?>
-        <a style="display: block" href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
-            Видалити аватар
-        </a>
+            <div>
+            <a href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
+                <?php echo Yii::t('regexp', '0561');?>
+            </a>
+            </div>
         <?php
         }
         ?>

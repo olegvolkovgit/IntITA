@@ -628,7 +628,7 @@ li.active_box a.createLetter{
 a.createLetter{
     width: 160px; text-align:center; background: #4b70a3; color: white;
 }
-.flashinfo{
+#flashinfo{
     color: red;
     text-align: center;
 }
@@ -719,6 +719,13 @@ table.letterinfo{
     display: inline-block;
     vertical-align: top;
     line-height: 16px;
+}
+table.letterinfo td{
+    vertical-align: top;
+}
+table.letterinfo table div{
+    width: 580px;
+    word-wrap: break-word;
 }
 div.letterbody{
     margin: 10px 10px 10px 10px;

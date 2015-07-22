@@ -9,7 +9,7 @@
 <div class="bgBlue" id="xex">
     <table>
         <tr>
-            <td valign="top">
+            <td valign="top" style="width: 80px">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'course99.png');?>">
             </td>
             <td>
@@ -18,7 +18,7 @@
                 </div>
 
             </td>
-            <td valign="top" style="padding-left: 40px;">
+            <td valign="top" style="float: right;width: 30px">
                 <div id="xex" onclick='xexx("")' style="cursor: pointer;">
                     <img
                         src="<?php echo StaticFilesHelper::createPath('image', 'common', 'close_button.png');?>">

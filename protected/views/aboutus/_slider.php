@@ -76,33 +76,33 @@
             </div>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '4.jpg'); ?>"/>
     </div>
-<!--    <div class="slideAbout">-->
-<!--        <div class="about5">-->
-<!--            <div class="headerAbout">-->
-<!--                --><?php //echo Yii::t("slider", "0549") ?>
-<!--            </div>-->
-<!--            <div class="sliderCenterBoxLine">-->
-<!--                <hr>-->
-<!--            </div>-->
-<!--            <div class="textabout">-->
-<!--                --><?php //echo Yii::t("slider", "0554") ?>
-<!--            </div>-->
-<!--        </div>-->
-<!--        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'aboutus', '1.jpg'); ?><!--"/>-->
-<!--    </div>-->
-<!--    <div class="slideAbout">-->
-<!--        <div class="about6">-->
-<!--            <div class="headerAbout">-->
-<!--                --><?php //echo Yii::t("slider", "0549") ?>
-<!--            </div>-->
-<!--            <div class="sliderCenterBoxLine">-->
-<!--                <hr>-->
-<!--            </div>-->
-<!--            <div class="textabout">-->
-<!--                --><?php //echo Yii::t("slider", "0555") ?>
-<!--            </div>-->
-<!--        </div>-->
-<!--        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'aboutus', '3.jpg'); ?><!--"/>-->
-<!--    </div>-->
+    <div class="slideAbout">
+        <div class="about5">
+            <div class="headerAbout">
+                <?php echo Yii::t("slider", "0549") ?>
+            </div>
+            <div class="sliderCenterBoxLine">
+                <hr>
+            </div>
+            <div class="textabout">
+                <?php echo Yii::t("slider", "0554") ?>
+            </div>
+        </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '5.jpg'); ?>"/>
+    </div>
+    <div class="slideAbout">
+        <div class="about6">
+            <div class="headerAbout">
+                <?php echo Yii::t("slider", "0549") ?>
+            </div>
+            <div class="sliderCenterBoxLine">
+                <hr>
+            </div>
+            <div class="textabout">
+                <?php echo Yii::t("slider", "0555") ?>
+            </div>
+        </div>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', '6.jpg'); ?>"/>
+    </div>
 </div>
 </div>

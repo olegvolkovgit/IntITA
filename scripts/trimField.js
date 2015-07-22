@@ -49,4 +49,5 @@ function trimLetterEmail() {
     letP.value=$.trim(letP.value);
     var letA=document.getElementsByClassName('letterAge')[0];
     letA.value=$.trim(letA.value);
+    $("div#letterFlash").hide();
 }

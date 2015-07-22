@@ -71,7 +71,7 @@
         <?=CHtml::submitButton(Yii::t('teachers', '0180'),array('id'=>'send_btn', 'name'=>'sendletter', 'onclick' => 'trimLetterEmail()'))?>
     </ul>
     <?php $this->endWidget(); ?>
-    <div style="margin-top: 75px">
+    <div id='letterFlash' style="margin-top: 75px">
         <?php if(Yii::app()->user->hasFlash('messagemail')):
             echo Yii::app()->user->getFlash('messagemail');
         endif; ?>

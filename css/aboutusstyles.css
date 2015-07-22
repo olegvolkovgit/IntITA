@@ -43,7 +43,7 @@
     float:left;
     left:0px;
     width:260px;
-    height:260px;
+    height:280px;
     display:inline-block;
     position:relative;
     margin-left: 50px;
@@ -73,10 +73,11 @@
 }
 .title {
     position:absolute;
-    top:41%;
+    top:30%;
     left:12%;
     color:#4682B4;
-    font-size:18px;
+    font-size:22px;
+    text-align: left;
 }
 .aboutTitleLink
 {
@@ -84,14 +85,14 @@
 }
 
 .title p {
-    width:210px;
+    width:240px;
     text-align: left;
     position:absolute;
     margin-top:5px;
     color:#696969;
-    font-size:14px;
+    font-size:16px;
     font-family:MyriadPro;
-    line-height: 14px;/* это я добавил */
+    line-height: 18px;/* это я добавил */
 }
 .block a {
     position:absolute;
@@ -460,6 +461,7 @@
     text-align: center;
 }
 div.about1{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -479,6 +481,7 @@ div.about1{
     width: 1.5em;
 }
 div.about2{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -495,13 +498,14 @@ div.about2{
     width: 1.5em;
 }
 div.about3{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    left:35%;
+    left:30%;
     top: 4%;
     color: #000000;
     line-height: 1.1;
@@ -511,6 +515,7 @@ div.about3{
     width: 1.5em;
 }
 div.about4{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -527,14 +532,15 @@ div.about4{
     width: 1.5em;
 }
 div.about5{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    left:25%;
-    top: 10%;
+    left:35%;
+    top: 70%;
     color: #ffffff;
     line-height: 1.1;
 }
@@ -543,6 +549,7 @@ div.about5{
     width: 1.5em;
 }
 div.about6{
+    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -551,11 +558,11 @@ div.about6{
     font-weight: 400;
     left:35%;
     top: 4%;
-    color: #000000;
+    color: #ffffff;
     line-height: 1.1;
 }
 .about6 .sliderCenterBoxLine hr{
-    border: 0.05em solid #000000;
+    border: 0.05em solid #ffffff;
     width: 1.5em;
 }
 .fullpageaboutus .block {
@@ -747,5 +754,8 @@ h3.benefitheader{
 }
 .faqBox table {
     border-spacing: 0 15px;
+}
+td.freelife{
+    width: 340px;
 }
 

@@ -6,12 +6,11 @@
 }
 #coursesHeader
 {
-    width:230px;
     white-space: nowrap;
     color: #ffffff;
     font-size:24px;
-    padding-left: 90px;
-    padding-right: 90px;
+    text-align: center;
+    margin-right: 35px;
 }
 #coursesPart1
 {
@@ -272,7 +271,7 @@ a#coursesLangs {
     top: 4px;
 }
 .bgBlue table {
-    margin-top: 0;
+    width: 100%;
 }
 .bgBlue{
     background-color:#4B75A4;
