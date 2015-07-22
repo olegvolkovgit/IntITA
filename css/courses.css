@@ -273,6 +273,9 @@ a#coursesLangs {
 .bgBlue table {
     width: 100%;
 }
+#coursesMainBox .bgBlue table td{
+   vertical-align: middle;
+}
 .bgBlue{
     background-color:#4B75A4;
     color: #ffffff;
@@ -310,6 +313,6 @@ a#coursesLangs {
 }
 
 #coursesMainBox td{
-    vertical-align: top;
-}
+     vertical-align: top;
+ }
 
