@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-21 01:00:38
+-- Date/time:                    2015-07-22 19:38:55
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   UNIQUE KEY `FK_lecture_element_task` (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=267 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~172 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~193 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -57,7 +57,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(47, 1, 24, 'video', 2, '//www.youtube.com/embed/9eiRmWLcASw"'),
 	(59, 2, 2, 'text', 1, '<table><tbody><tr><td>bdffbdz</td><td>bdfb</td><td>bfdbdbfd</td></tr><tr><td>bfdbdf</td><td>bdfbfd</td><td>bfdb</td></tr><tr><td>fdbsf</td><td>bfb</td><td>bfbfs</td></tr></tbody></table>'),
 	(60, 2, 5, 'text', 1, '<table><thead><tr><th>First Name</th><th>Last Name</th><th>Points</th></tr></thead><tbody><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></tbody></table>'),
-	(76, 2, 4, 'formula', 10, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im\\Theta \\Sigma \\Psi \\Psi \\Psi \\Psi \\Re \\Cup \\!\\]\r\n'),
+	(76, 2, 4, 'formula', 10, '\\[\\aa \\mathbb{I}\\Re \\Im \\exists \\Im\\Theta \\Sigma \\Psi \\Re \\Cup \\!\\]\r\n'),
 	(79, 48, 1, 'text', 1, '\\[\\sqrt{\\mathbb{Z}\\ddots \\mathbb{I}\\zeta \\varepsilon \\vartheta \\nu \\tau \\sigma \\mu \\varpi }\\]\r\n'),
 	(80, 1, 25, 'text', 1, '<p><span class="highLT">&lt;</span><span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span></p><p><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></p><p><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></p><p><span class="redactor-invisible-space"><span class="redactor-invisible-space"><span class="highLT">&lt;<span class="highELE">a</span> <span class="highATT">href=</span><span class="highVAL">"http://www.w3schools.com/"</span> <span class="highATT">target=</span><span class="highVAL">"_blank"</span><span class="highGT">&gt;</span>Visit W3Schools!<span class="highLT">&lt;</span><span class="highELE">/a</span><span class="highGT">&gt;</span><br></span></span></span></p>'),
 	(81, 2, 6, 'text', 1, '<p><a href="http://intita.itatests.com/teachers">Teachers</a></p>'),
@@ -211,9 +211,15 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(252, 81, 1, 'label', 8, '<p>chapter 1</p>'),
 	(254, 111, 1, 'text', 1, '\\[\\alpha \\zeta\\]\r\n'),
 	(256, 53, 2, 'task', 5, 'condition'),
-	(264, 2, 7, 'test', 12, 'l.g.lgk.'),
-	(265, 2, 8, 'test', 12, 'hgyhbdty'),
-	(266, 2, 9, 'test', 12, ';poou');
+	(302, 2, 7, 'text', 1, '\\[\\sum \\varepsilon \\beta \\vartheta \\mu \\nu \\pi \\iota \\nu \\tau\\]\r\n'),
+	(303, 2, 8, 'text', 1, '$\\left \\| \\varepsilon \\varepsilon \\varepsilon \\varepsilon \\vartheta \\mu \\right \\|$ '),
+	(304, 2, 9, 'text', 1, '\\[\\inline \\delta \\gamma \\gamma\\]\r\n'),
+	(309, 2, 10, 'task', 5, 'vbkb'),
+	(310, 2, 11, 'test', 12, 'grtshsryh'),
+	(311, 2, 12, 'test', 12, 'i875'),
+	(312, 2, 13, 'text', 1, '$\\gamma \\gamma \\tau \\varphi \\varrho$ '),
+	(313, 2, 14, 'formula', 10, '\\[\\prod \\zeta \\beta \\iota \\nu \\pi \\lambda\\]\r\n'),
+	(314, 2, 15, 'text', 1, '\\[\\left ( \\varepsilon \\varepsilon \\varepsilon \\varepsilon \\vartheta \\rho \\right )\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

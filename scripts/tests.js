@@ -23,20 +23,24 @@ function clearFields(){
     document.getElementById("option1").value = '';
 }
 
-function sendTestAnswer(test, testType){
+function sendTestAnswer(user, test, testType, editMode){
     answers = getUserAnswers(testType);
 
     $.ajax({
         type: "POST",
         url: "/tests/checkTestAnswer",
         data: {
-            'user': idUser,
+            'user': user,
             'test': test,
             'answers': answers,
-            'testType': testType
+            'testType': testType,
+            'editMode': editMode
         },
         cache: false,
-        success: function(){
+        success: function() {
+            if (editMode == 0) {
+                isTrueTestAnswer(user, test);
+            }
         }
     });
 }
@@ -61,5 +65,29 @@ function getMultiplyAnswers(){
         }
 
         return answersValue.join(",");
+}
+
+function isTrueTestAnswer(user, test){
+    var command = {
+        "user": user,
+        "test" : test
+    };
+    var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){
+
+    })
+        .done(function(data) {
+            if (data['status'] == '1') {
+                $("#mydialog2").dialog("open"); return false;
+            } else {
+                $("#mydialog3").dialog("open"); return false;
+            }
+        })
+        .fail(function() {
+            alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
+            "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+        })
+        .always(function() {
+
+        }, "json");
 }
 

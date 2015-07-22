@@ -20,7 +20,7 @@
                 <br>
                 <span class="formLabel">Новий блок:</span>
                 <br>
-                <a href="javascript:OpenLatexEditor('newTextBlock','latex','uk_uk', 'false')">Додати формулу</a>
+                <a href="javascript:OpenLatexEditor('newTextBlock','latex','uk_uk', 'true')">Додати формулу</a>
                 <br>
                 <a href="javascript:showAddTaskForm()">Додати задачу</a>
                 <br>
@@ -100,25 +100,5 @@
         ));
     }
     ?>
-    <script type="text/javascript">
-        function saveNewBlock() {
-            source = $('#newTextBlock').code.get;
-            document.getElementById('newTextBlock').innerHTML = source;
-        }
-        function hideForm(id, title) {
-            $form = document.getElementById(id);
-            $form.style.display = 'none';
-            document.getElementById(title).innerHTML = '';
-        }
-        function showAddTaskForm(){
-            document.getElementById('addTask').style.display = 'block';
-            document.getElementById('addBlockForm').style.display = 'none';
-            document.getElementById('cancelButton').style.display = 'none';
-        }
-        function showAddTestForm(){
-            document.getElementById('addTest').style.display = 'block';
-            document.getElementById('addBlockForm').style.display = 'none';
-            document.getElementById('cancelButton').style.display = 'none';
-        }
-    </script>
+
 

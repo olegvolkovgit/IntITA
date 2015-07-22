@@ -17,7 +17,7 @@
     <?php }?>
     order = 1;
     currentTask = 0;
-    editMode = <?php echo $editMode;?>;
+    editMode = <?php echo ($editMode)?1:0;?>;
 </script>
 <?php
 /* @var $this LessonController */
@@ -152,6 +152,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>

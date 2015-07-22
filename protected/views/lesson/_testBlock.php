@@ -48,7 +48,12 @@ $testType = TestsHelper::getTestType($data['id_block']);
                         }
                         ?>
                     </div>
-                    <button class="testSubmit" onclick='sendTestAnswer(<?php echo TestsHelper::getTestId($data['id_block'])?>, <?php echo $testType;?>);'>
+                    <button class="testSubmit" onclick='sendTestAnswer(
+                        <?php echo $user;?>,
+                        <?php echo TestsHelper::getTestId($data['id_block'])?>,
+                        <?php echo $testType;?>,
+                        <?php echo ($editMode)?1:0;?>
+                        );'>
                         <?php echo Yii::t('lecture', '0089'); ?>
                     </button>
                 </div>

@@ -27,7 +27,6 @@ $form = $this->beginWidget('CActiveForm', array(
         </table>
         <div class="happily2">
             <p>Щось пішло неправильно, виправ помилку</p>
-
             <p>та переходь до наступного матеріалу</p>
         </div>
         <input id="signInButtonM22" type="submit" value="ЗАКРИТИ">

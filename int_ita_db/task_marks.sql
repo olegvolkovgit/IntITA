@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-21 01:00:40
+-- Date/time:                    2015-07-22 19:38:57
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `task_marks` (
   PRIMARY KEY (`id`),
   KEY `FK_task_marks_user` (`id_user`),
   KEY `FK_task_marks_task` (`id_task`),
-  CONSTRAINT `FK_task_marks_task` FOREIGN KEY (`id_task`) REFERENCES `tasks` (`id`),
+  CONSTRAINT `FK_task_marks_task` FOREIGN KEY (`id_task`) REFERENCES `task1` (`id`),
   CONSTRAINT `FK_task_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - done ';
 
