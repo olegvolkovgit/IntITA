@@ -20,6 +20,7 @@ function sendTaskAnswer(idUser, id, task, lang){
             currentTask = 0;
         })
         .always(function() {
+
         }, "json");
 }
 
