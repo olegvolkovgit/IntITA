@@ -185,7 +185,7 @@ class TeachersController extends Controller
             $to = Yii::app()->params['adminEmail'];
             // функция, которая отправляет наше письмо.
             mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
-            Yii::app()->user->setFlash('messagemail','Ваше повідомлення відправлено');
+            Yii::app()->user->setFlash('messagemail',Yii::t('teachers', '0564'));
             header('Location: '.$_SERVER['HTTP_REFERER']);
         }
         else $this->renderIndex($obj);

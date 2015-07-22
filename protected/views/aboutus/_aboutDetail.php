@@ -99,7 +99,7 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
                 <img id="fst1" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas12.png') . '">
                 <img id="fst2" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas11.png') . '">
             </td>
-            <td>
+            <td class="freelife">
 <span>' . Yii::t("aboutus", "0351") . '</span>
             </td></tr></table>
 </div>

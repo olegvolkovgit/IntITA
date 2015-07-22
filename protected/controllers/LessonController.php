@@ -36,6 +36,7 @@ class LessonController extends Controller{
 
         }
 
+
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture=' . $id);
 
@@ -105,7 +106,17 @@ class LessonController extends Controller{
        // $content = substr($htmlBlock, 2, count($htmlBlock) - 5);
 
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture,'block_order' => $order));
-        $model->html_block = $htmlBlock;
+        if(strpos($htmlBlock,'$\displaystyle ')===0) {
+            $temp=substr_replace($htmlBlock,'\[',0,15);
+            $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
+        }elseif(strpos($htmlBlock,'$')===0) {
+            $temp = substr_replace($htmlBlock, '\[', 0, 1);
+            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
+        }elseif(strpos($htmlBlock,'\[\inline')===0) {
+            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
+        }else{
+            $model->html_block = $htmlBlock;
+        }
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -154,7 +165,18 @@ class LessonController extends Controller{
                 }
                 break;
             case '10':
-                $model->html_block = substr($htmlBlock, 0, count($htmlBlock) - 2);
+                if(strpos($htmlBlock,'$\displaystyle ')===0) {
+                    $temp=substr_replace($htmlBlock,'\[',0,15);
+                    $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
+                }
+                elseif(strpos($htmlBlock,'$')===0) {
+                    $temp = substr_replace($htmlBlock, '\[', 0, 1);
+                    $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
+                }elseif(strpos($htmlBlock,'\[\inline')===0) {
+                $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
+                }else{
+                    $model->html_block = $htmlBlock;
+                }
                 break;
             default:
                 $model->html_block = $htmlBlock;

@@ -48,15 +48,16 @@ $list = CHtml::listData($models,
 		<?php echo $form->textArea($model,'text_letter',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'text_letter'); ?>
 	</div>
-    <div class="flashinfo">
+    <div id="flashinfo">
         <?php if(Yii::app()->user->hasFlash('sendletter')):
             echo Yii::app()->user->getFlash('sendletter');
         endif; ?>
     </div>
 	<div class="row buttons">
-        <?php echo CHtml::submitButton(Yii::t("letter", "0541"), array('class' => "sendletter")); ?>
+        <?php echo CHtml::submitButton(Yii::t("letter", "0541"), array('class' => "sendletter", 'onclick'=>'{hideFlash()}')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hideFlash.js"></script>

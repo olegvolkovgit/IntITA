@@ -13,11 +13,20 @@ if ($data['status'] == 1) $style = 'completed'; else $style = '';
     <span onclick="letterSpoiler(this)">
     <?php
     echo CHtml::ajaxLink(
-        "<img src='".StaticFilesHelper::createPath('image', 'avatars', $sender->avatar)."'/><table class='letterinfo'>
+        "<table class='letterinfo'>
+            <tr>
+                <td>
+                    <img src='".StaticFilesHelper::createPath('image', 'avatars', $sender->avatar)."'/>
+                </td>
+                <td>
+                    <table>
                         <tr><td><div>".$data['date']."</div></td></tr>
                         <tr><td><div>".$sender->email."</div></td></tr>
                         <tr><td><div>Тема: ".$data['theme']."</div></td></tr>
-                        </table>",
+                    </table>
+                </td>
+            </tr>
+        </table>",
         Yii::app()->createUrl('letters/StatusUpdate', array('id' => $data['id'])),
         array(
             'update' => '#statusLetter'

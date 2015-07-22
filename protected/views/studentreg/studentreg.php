@@ -56,9 +56,9 @@ if (!isset($tab)) $tab='';
         </table>
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
-            <label class="tabsUp1" for="tab1" title="Основне">Основне</label>
+            <label class="tabsUp1" for="tab1" title="Основне"><?php echo Yii::t('regexp', '0562');?></label>
             <input id="tab2" type="radio" name="tabs" <?php echo $tab?>>
-            <label for="tab2" title="Додаткове">Додаткове</label>
+            <label for="tab2" title="Додаткове"><?php echo Yii::t('regexp', '0563');?></label>
             <div class="lineUnderTab"></div>
             <section id="mainreg">
                 <div class="row">

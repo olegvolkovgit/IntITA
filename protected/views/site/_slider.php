@@ -116,6 +116,18 @@
             <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '4.jpg'); ?>" />
         </div>
     </div>
+    <div class="slide">
+        <div>
+            <p><?php echo Yii::t('slider','0559'); ?></p>
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '9.jpg'); ?>" />
+        </div>
+    </div>
+    <div class="slide">
+        <div>
+            <p><?php echo Yii::t('slider','0560'); ?></p>
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '10.jpg'); ?>" />
+        </div>
+    </div>
 </div>
 <div class="mouseLine">
     <a id="mouseLine" href="#form"><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>
