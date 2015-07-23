@@ -131,7 +131,7 @@ class TestsAnswers extends CActiveRecord
         for ($i = 0; $i < $count; $i++){
             $validAnswers[$i] = $validAnswersRecords[$i]["answer"];
         }
-        var_dump($validAnswers);die();
+
         return TestsAnswers::checkValidAnswers($validAnswers, $userAnswers);
     }
 

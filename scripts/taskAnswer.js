@@ -38,13 +38,13 @@ function getTaskResult(idUser, code, task, lang){
     })
         .done(function(data) {
             var serverResponse = jQuery.parseJSON(data);
+            setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
+            currentTask = 0;
             if (serverResponse.status == 'done') {
                 $("#mydialog2").dialog("open"); return false;
             } else {
                 $("#mydialog3").dialog("open"); return false;
             }
-            setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
-            currentTask = 0;
         })
         .fail(function() {
             alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\nСпробуйте перезавантажити сторінку або напишіть нам Wizlightdragon@gmail.com.");
