@@ -16,9 +16,7 @@
     <div style="position:relative;" ><a name="<?php echo strip_tags($data['html_block']);?>" style="position:absolute; top:-60px;" ></a></div>
 
     <h1 class="lessonPart" >
-        <div class="labelBlock" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
-    <?php echo $data['html_block'];?>
-        </div>
+        <div class="labelBlock" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}"><?php echo $data['html_block'];?></div>
     </h1>
 
 </div>

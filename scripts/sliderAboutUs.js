@@ -2,8 +2,10 @@
  * Created by Ivanna on 13.05.2015.
  */
 $(function(){
+    $('.owl-item').width($(window).width());
     $('.owl-item').height(document.body.clientWidth/3);
     $(window).resize(function(){
+        $('.owl-item').width($("html").width());
         $('.owl-item').height(document.body.clientWidth/3);
     });
 });
@@ -13,9 +15,12 @@ function fontSize() { /* Маштабування тексту слайдера*
     var fontHeaderSize = 32;
     var fontTextSize = 18;
     var bodyWidth = $('html').width();
+    var bodyText = 425;
     var multiplier = bodyWidth / width;
     fontHeaderSize = Math.floor(fontHeaderSize * multiplier);
+    bodyText = Math.floor(bodyText * multiplier);
     fontTextSize = Math.floor(fontTextSize * multiplier);
+    $('.abouttext').children("div").css({width: bodyText+'px'});
     $('.headerAbout').css({fontSize: fontHeaderSize+'px'});
     $('.sliderCenterBoxLine').css({fontSize: fontHeaderSize+'px'});
     $('.textabout').css({fontSize: fontTextSize+'px'});

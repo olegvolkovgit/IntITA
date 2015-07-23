@@ -367,6 +367,8 @@ class StudentRegController extends Controller
     }
     public function actionEdit()
     {
+        if (Yii::app()->user->isGuest)
+            throw new CHttpException(403, 'Вибачте, перед редагуванням свого профіля авторизуйтеся.');
         $model =  new StudentReg('edit');
 
         $this->render("studentprofileedit", array('model'=>$model));
