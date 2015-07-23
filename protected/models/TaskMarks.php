@@ -34,7 +34,7 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, result, date', 'required'),
+			array('id_user, id_task, mark, date', 'required'),
 			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
 			array('result, warning', 'length', 'max'=>255),
 			array('date', 'length', 'max'=>30),
@@ -115,7 +115,7 @@ class TaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addMark($user, $task, $status, $result, $date, $warning){
+    public static function addMark($user, $task, $status, $result='', $date, $warning=''){
         $model = new TaskMarks();
 
         $model->id_task = $task;

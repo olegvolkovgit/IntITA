@@ -118,6 +118,7 @@ class Task extends CActiveRecord
         $model->assignment = $assignment;
         $model->table = $table;
 
+
         $model->save();
     }
 
