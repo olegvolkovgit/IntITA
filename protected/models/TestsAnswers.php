@@ -125,12 +125,13 @@ class TestsAnswers extends CActiveRecord
         $criteria->params = array(':id_test' => $test);
         $criteria->toArray();
         $validAnswersRecords = TestsAnswers::model()->findAll($criteria);
+
         $count = count($validAnswersRecords);
         $validAnswers = [];
         for ($i = 0; $i < $count; $i++){
             $validAnswers[$i] = $validAnswersRecords[$i]["answer"];
         }
-
+        var_dump($validAnswers);die();
         return TestsAnswers::checkValidAnswers($validAnswers, $userAnswers);
     }
 
