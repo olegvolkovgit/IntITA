@@ -1,6 +1,7 @@
 
 function sendTaskAnswer(idUser, id, task, lang){
-    code = document.getElementById(id).value;
+    id = "#"+id;
+    code = $(id).val();
     var command = {
         "operation": "start",
         "session" : "1241q223f4f2341",

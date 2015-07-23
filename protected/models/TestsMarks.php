@@ -107,4 +107,9 @@ class TestsMarks extends CActiveRecord
 
         $model->save(true);
     }
+
+    public static function isTestDone($user, $idTest){
+        return TestsMarks::model()->exists('id_user =:user and id_test =:test and mark = 1',
+            array(':user' => $user, ':test' => $idTest));
+    }
 }

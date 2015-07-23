@@ -35,7 +35,7 @@
                 break;
             case 6:
                 // done
-                $this->renderPartial('_finalTaskBlock', array('data'=>$data, 'editMode' => $editMode));
+                $this->renderPartial('_finalTaskBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
             case 7:
                 // done

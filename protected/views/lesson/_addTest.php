@@ -42,8 +42,10 @@
             <input type="text" name="lectureId" id="lectureId" hidden="hidden" value="<?php echo $lecture;?>"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo $lecture;?>"/>
         </fieldset>
-        <input type="submit" value="Додати тест">
+        <input type="submit" value="Додати тест" onclick="check();">
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>
+
+
 
