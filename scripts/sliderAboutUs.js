@@ -2,8 +2,10 @@
  * Created by Ivanna on 13.05.2015.
  */
 $(function(){
+    $('.owl-item').width($(window).width());
     $('.owl-item').height(document.body.clientWidth/3);
     $(window).resize(function(){
+        $('.owl-item').width($("html").width());
         $('.owl-item').height(document.body.clientWidth/3);
     });
 });
