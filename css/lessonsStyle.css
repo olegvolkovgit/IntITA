@@ -411,3 +411,8 @@ div.lessonTest {
     background: #454545;
     color: #fcfcfc;
 }
+.ansnumber{
+    display:inline-block;
+    width: 25px;
+    text-align: right;
+}

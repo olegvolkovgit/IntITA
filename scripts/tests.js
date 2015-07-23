@@ -8,7 +8,7 @@ function addOption(){
 
     newOption = 1 + parseInt(optionsNum);
     var newOptionDiv = document.createElement('div');
-    newOptionDiv.innerHTML = newOption + '. <input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80"/><br>';
+    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80"/><br>';
     document.getElementById("optionsList").appendChild(newOptionDiv);
 
     var newAnswerDiv = document.createElement('div');

@@ -27,7 +27,7 @@
             <fieldset>
                 <legend id="label1">Варіанти відповіді:</legend>
                 <div  id="optionsList">
-                1. <input type="text" name="option1" id="option1" size="80"/><br>
+                    <div class="ansnumber">1.</div><input type="text" name="option1" id="option1" size="80"/><br>
                 </div>
                 <a href="javascript:addOption()" id="addOption">Додати відповідь</a>
             </fieldset>
