@@ -131,4 +131,22 @@ class LectureElement extends CActiveRecord
             return false;
         }
     }
+
+    public static function addNewTestBlock($idLecture, $condition){
+        $model = new LectureElement();
+
+        $order = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $model->block_order = ++$order;
+
+        $model->type = 'test';
+        $model->id_type = 12;
+        $model->html_block = $condition;
+        $model->id_lecture = $idLecture;
+
+        if ($model->save()) {
+            return LectureElement::model()->findByAttributes(array('block_order'=>$order, 'id_lecture' => $idLecture))->id_block;
+        } else {
+            return false;
+        }
+    }
 }

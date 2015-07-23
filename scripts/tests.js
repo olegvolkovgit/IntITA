@@ -1,57 +1,93 @@
-/**
- * Created by Ivanna on 13.07.2015.
- */
-function createTest() {
-    //document.getElementById('addTest').style.display = 'none';
-    //var header = document.getElementById('header').value;
-    //var etalon = document.getElementById('etalon').value;
-    //var taskFooter = document.getElementById('taskFooter').value;
-    //var lang = $('select[name="lang"]').val();
-    //var name = document.getElementById('name').value;
-    //var condition = document.getElementById('condition').value;
-    //condition = condition.trim();
-    var newTest = {
-        //"operation": "addtask",
-        //"name": name,
-        //"header": header,
-        //"etalon": etalon,
-        //"footer": taskFooter,
-        //"lang": "c++"
+function cancelTest() {
+    clearFields();
+    location.reload();
+}
+
+function addOption(){
+    optionsNum = document.getElementById("optionsNum").value;
+
+    newOption = 1 + parseInt(optionsNum);
+    var newOptionDiv = document.createElement('div');
+    newOptionDiv.innerHTML = newOption + '. <input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80"/><br>';
+    document.getElementById("optionsList").appendChild(newOptionDiv);
+
+    var newAnswerDiv = document.createElement('div');
+    newAnswerDiv.innerHTML = '<input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'">'+ newOption +' відповідь';
+    document.getElementById("answersList").appendChild(newAnswerDiv);
+
+    document.getElementById("optionsNum").value = newOption;
+}
+
+function clearFields(){
+    document.getElementById("optionsNum").value = 1;
+    document.getElementById("option1").value = '';
+}
+
+function sendTestAnswer(user, test, testType, editMode){
+    answers = getUserAnswers(testType);
+
+    $.ajax({
+        type: "POST",
+        url: "/tests/checkTestAnswer",
+        data: {
+            'user': user,
+            'test': test,
+            'answers': answers,
+            'testType': testType,
+            'editMode': editMode
+        },
+        cache: false,
+        success: function() {
+            if (editMode == 0) {
+                isTrueTestAnswer(user, test);
+            }
+        }
+    });
+}
+
+function getUserAnswers(testType){
+    if (testType == 1){
+        answer = $('input[name="radioanswer"]:checked').val();
+        return answer;
+    } else {
+        answers = getMultiplyAnswers();
+        return answers;
+    }
+}
+
+function getMultiplyAnswers(){
+        var answers = $('input[name="checkboxanswer"]:checked');
+
+        var answersValue = [];
+        for(var i = 0, l = answers.length; i < l;  i++)
+        {
+            answersValue.push(answers[i].value);
+        }
+
+        return answersValue.join(",");
+}
+
+function isTrueTestAnswer(user, test){
+    var command = {
+        "user": user,
+        "test" : test
     };
-    var jqxhr = $.post("/tests/addTest", JSON.stringify(newTest), function () {
+    var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){
 
     })
-        .done(function (data) {
-            //var serverResponse = jQuery.parseJSON(data);
-            //if (serverResponse.status == 'success') {
-            //    addTestToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table);
-            //}
+        .done(function(data) {
+            if (data['status'] == '1') {
+                $("#mydialog2").dialog("open"); return false;
+            } else {
+                $("#mydialog3").dialog("open"); return false;
+            }
         })
-        .fail(function () {
-
+        .fail(function() {
+            alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
+            "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
         })
-        .always(function () {
-        });
-    location.reload();
-}
+        .always(function() {
 
-function addTestToLecture(condition, idTeacher, idLecture, lang, id, table) {
-    //$.ajax({
-    //    type: "POST",
-    //    url: "/IntITA/task/addTask",
-    //    data: {
-    //        'condition': condition,
-    //        'author': idTeacher,
-    //        'lecture': idLecture,
-    //        'language': lang,
-    //        'assignment': id,
-    //        'table' : table
-    //    },
-    //    cache: false
-    //});
-}
-
-function cancelTest() {
-    location.reload();
+        }, "json");
 }
 

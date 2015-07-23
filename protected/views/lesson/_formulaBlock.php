@@ -7,7 +7,6 @@
  */
 $temp = substr($data['html_block'], 2, count($data['html_block']) - 5);
 $formulaCode = addcslashes($temp, '\\');
-
 ?>
     <div class="element">
         <?php $this->renderPartial('_editToolbar', array(

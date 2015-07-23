@@ -1,24 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "tests".
+ * This is the model class for table "tests_marks".
  *
- * The followings are the available columns in table 'tests':
+ * The followings are the available columns in table 'tests_marks':
  * @property integer $id
- * @property integer $block_element
- * @property integer $author
- * @property string $title
- *
- * The followings are the available model relations:
+ * @property integer $id_user
+ * @property integer $id_test
+ * @property integer $mark
  */
-class Tests extends CActiveRecord
+class TestsMarks extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tests';
+		return 'tests_marks';
 	}
 
 	/**
@@ -29,12 +27,11 @@ class Tests extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, block_element', 'required'),
-			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>50),
+			array('id_user, id_test, mark', 'required'),
+			array('id, id_user, id_test, mark', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author, title', 'safe', 'on'=>'search'),
+			array('id, id_user, id_test, mark', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,7 +43,6 @@ class Tests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-
 		);
 	}
 
@@ -57,9 +53,9 @@ class Tests extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => 'Block Element',
-			'author' => 'Author',
-			'title' => 'Title',
+			'id_user' => 'Id User',
+			'id_test' => 'Id Test',
+			'mark' => 'Mark',
 		);
 	}
 
@@ -82,9 +78,9 @@ class Tests extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('block_element',$this->block_element);
-		$criteria->compare('author',$this->author);
-		$criteria->compare('title',$this->title);
+		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('id_test',$this->id_test);
+		$criteria->compare('mark',$this->mark);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -95,20 +91,20 @@ class Tests extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Tests the static model class
+	 * @return TestsMarks the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public static function addNewTest($blockElement, $title, $author){
-        $model = new Tests();
+    public static function addTestMark($user, $test, $mark){
+        $model = new TestsMarks();
 
-        $model->block_element = $blockElement;
-        $model->title = $title;
-        $model->author = $author;
+        $model->id_user = $user;
+        $model->id_test = $test;
+        $model->mark = $mark;
 
-        $model->save();
+        $model->save(true);
     }
 }

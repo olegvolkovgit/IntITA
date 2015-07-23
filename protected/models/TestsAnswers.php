@@ -30,7 +30,7 @@ class TestsAnswers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, id_test, answer, is_valid', 'required'),
+			//array('id_test, answer, is_valid', 'required'),
 			array('id, id_test, is_valid', 'numerical', 'integerOnly'=>true),
 			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -102,4 +102,43 @@ class TestsAnswers extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addOptions($test, $options){
+        $count = count($options);
+
+        for($i = 0; $i < $count; $i++){
+            $model = new TestsAnswers();
+
+            $model->id_test = $test;
+            $model->answer = $options[$i]["option"];
+            $model->is_valid = ($options[$i]["isTrue"])?1:0;
+
+            $model->save(false);
+        }
+    }
+
+    public static function checkTestAnswer($user, $test, $userAnswers, $testType){
+
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->addCondition('id_test = :id_test and is_valid = 1');
+        $criteria->params = array(':id_test' => $test);
+        $criteria->toArray();
+        $validAnswersRecords = TestsAnswers::model()->findAll($criteria);
+        $count = count($validAnswersRecords);
+        $validAnswers = [];
+        for ($i = 0; $i < $count; $i++){
+            $validAnswers[$i] = $validAnswersRecords[$i]["answer"];
+        }
+
+        return TestsAnswers::checkValidAnswers($validAnswers, $userAnswers);
+    }
+
+    public static function checkValidAnswers($validAnswers, $userAnswers){
+        if(count(array_diff($userAnswers, $validAnswers)) == 0){
+            return true;
+        } else {
+           return false;
+        }
+    }
 }

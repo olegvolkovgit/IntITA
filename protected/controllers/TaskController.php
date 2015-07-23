@@ -27,7 +27,6 @@ class TaskController extends Controller
                 Task::addNewTask($lectureElementId, $language, $author, $assignment, $table);
             }
         }
-
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
 

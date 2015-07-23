@@ -38,12 +38,11 @@ function getTaskResult(idUser, code, task, lang){
         .done(function(data) {
             var serverResponse = jQuery.parseJSON(data);
             if (serverResponse.status == 'done') {
-                alert("Вітаємо! Все вірно. Тепер ви можете переходити до наступного завдання.");
+                $("#mydialog2").dialog("open"); return false;
             } else {
-                alert("Відповідь неправильна! Передивіться відео чи перечитайте лецію і спробуйте ще раз!");
+                $("#mydialog3").dialog("open"); return false;
             }
             setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
-
             currentTask = 0;
         })
         .fail(function() {

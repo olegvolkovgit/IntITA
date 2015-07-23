@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "task".
+ * This is the model class for table "task1".
  *
- * The followings are the available columns in table 'task':
+ * The followings are the available columns in table 'task1':
  * @property integer $id
  * @property string $language
  * @property integer $assignment
@@ -22,7 +22,7 @@ class Task extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'task';
+		return 'task1';
 	}
 
 	/**
@@ -122,5 +122,10 @@ class Task extends CActiveRecord
         $model->table = $table;
 
         $model->save();
+    }
+
+    public static function deleteTask($condition){
+        $task = Task::model()->findByAttributes(array('condition' => $condition));
+        $task->delete();
     }
 }

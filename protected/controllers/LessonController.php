@@ -28,6 +28,7 @@ class LessonController extends Controller{
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $user = 0;
         if (Yii::app()->user->isGuest) {
             $user = 0;
         } else{
@@ -239,6 +240,11 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+
+        switch ($model->id_type){
+            case '5': Task::deleteTask($model->id_block);
+        }
         //delete current block
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
 
@@ -314,18 +320,7 @@ class LessonController extends Controller{
         $this->render('formulaRedactor');
     }
 
-    public function actionShowTaskAnswer(){
-        sleep(1);
-        $data = array(
-            'operation' => 'send',
-            'session' => '123456789044241232',
-            'jobid' => 5,
-            'code' => 'std::cout << \"Hello World!\" << std::endl;',
-            'task' => 2,
-            'lang' => 'c++',
-        );
-
-        echo json_encode($data);
+    public function actionErrorTask(){
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
-
 }

@@ -17,7 +17,7 @@
     <?php }?>
     order = 1;
     currentTask = 0;
-    editMode = <?php echo $editMode;?>;
+    editMode = <?php echo ($editMode)?1:0;?>;
 </script>
 <?php
 /* @var $this LessonController */
@@ -75,51 +75,47 @@ $this->breadcrumbs=array(
 
         <!-- Lesson content-->
         <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user));?>
-    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode));?>
+    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
 
         </div>
     <!-- lesson footer ----congratulations-->
 <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
-<!--modal task -->
-<?php
-//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//    'id' => 'mydialog2',
-//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-//    'cssFile'=>'jquery-ui2.css',
-//    'theme'=>'my',
-//    'options' => array(
-//        'width'=>540,
-//        'autoOpen' => false,
-//        'modal' => true,
-//        'resizable'=> false,
-//    ),
-//));
-//$this->renderPartial('/lesson/_modalTask');
-//$this->endWidget('zii.widgets.jui.CJuiDialog');
-//?>
-<!--modal task ---congratulations
-
-
-
-
+<!--modal task congratulations-->
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'mydialog2',
+        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'cssFile' => 'jquery-ui2.css',
+        'theme' => 'my',
+        'options' => array(
+            'width' => 540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable' => false,
+        ),
+    ));
+    $this->renderPartial('/lesson/_modalTask');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+<!--modal task congratulations end-->
 
 <!--modal task ---error1-
 <?php
-//$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//    'id' => 'mydialog3',
-//    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-//    'cssFile'=>'jquery-ui3.css',
-//    'theme'=>'my',
-//    'options' => array(
-//        'width'=>540,
-//        'autoOpen' => false,
-//        'modal' => true,
-//        'resizable'=> false
-//    ),
-//));
-//$this->renderPartial('/lesson/_modalTask2');
-//$this->endWidget('zii.widgets.jui.CJuiDialog');
-//?>
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'mydialog3',
+    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+    'cssFile'=>'jquery-ui3.css',
+    'theme'=>'my',
+    'options' => array(
+        'width'=>540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable'=> false
+    ),
+));
+$this->renderPartial('/lesson/_modalTask2');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
 <!--<!--modal task ---error-->
 </div>
 
@@ -156,6 +152,7 @@ $this->breadcrumbs=array(
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>

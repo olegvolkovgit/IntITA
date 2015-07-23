@@ -7,16 +7,18 @@
  */
 ?>
 <?php
-$optionsnum = 5;
-$ask='Скільки ніг у корови?';
-$testtype=2;
+
+$optionsNum = TestsHelper::getOptionsNum($data['id_block']);
+$options = TestsHelper::getOptions($data['id_block']);
+$testType = TestsHelper::getTestType($data['id_block']);
+
 ?>
     <div>
-        <!--    --><?php //$this->renderPartial('_editToolbar', array(
-        //        'idLecture' => $data['id_lecture'],
-        //        'order' =>  $data['block_order'],
-        //        'editMode' => $editMode,
-        //    ));
+            <?php $this->renderPartial('_editToolbar', array(
+                'idLecture' => $data['id_lecture'],
+                'order' =>  $data['block_order'],
+                'editMode' => $editMode,
+            ));
         ?>
 
         <div class="lessonTest">
@@ -31,21 +33,29 @@ $testtype=2;
                 </div>
                 <div class="contentTest">
                     <div class="instrTestText" id="">
-                        <?php echo $ask ?>
+                        <?php echo $data['html_block']; ?>
                     </div>
+                    <br>
                     <div >
-                        <?php if($testtype==1){
-                            for($i=1;$i<=$optionsnum;$i++){?>
-                                <input type="radio" name="radioanswer" value="<?php echo $i ?>"> Тестова відповідь №<?php echo $i ?><br><br>
+                        <?php if($testType == 1){
+                            for($i = 1;$i <= $optionsNum; $i++){?>
+                                <input type="radio" name="radioanswer" class="answer" value="<?php echo $options[$i-1]["answer"]; ?>"> <?php echo $options[$i-1]["answer"]; ?><br>
                             <?php }
-                        } elseif ($testtype==2){
-                            for($j=1;$j<=$optionsnum;$j++){?>
-                            <input type="checkbox" name="checkboxanswer" value="<?php echo $j ?>"> Тестова відповідь №<?php echo $j ?><br><br>
+                        } elseif ($testType == 2){
+                            for($j = 1; $j <= $optionsNum; $j++){?>
+                            <input type="checkbox" name="checkboxanswer"  class="answer" value="<?php echo $options[$j-1]["answer"]; ?>"> <?php echo $options[$j-1]["answer"]; ?><br>
                         <?php }
                         }
                         ?>
                     </div>
-                    <button class="testSubmit" onclick=''><?php echo Yii::t('lecture', '0089'); ?></button>
+                    <button class="testSubmit" onclick='sendTestAnswer(
+                        <?php echo $user;?>,
+                        <?php echo TestsHelper::getTestId($data['id_block'])?>,
+                        <?php echo $testType;?>,
+                        <?php echo ($editMode)?1:0;?>
+                        );'>
+                        <?php echo Yii::t('lecture', '0089'); ?>
+                    </button>
                 </div>
             </div>
         </div>
