@@ -459,8 +459,10 @@
     font-size: 16px;
     text-align: center;
 }
+div.abouttext{
+
+}
 div.about1{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -480,7 +482,6 @@ div.about1{
     width: 1.5em;
 }
 div.about2{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -497,7 +498,6 @@ div.about2{
     width: 1.5em;
 }
 div.about3{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -514,7 +514,6 @@ div.about3{
     width: 1.5em;
 }
 div.about4{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -531,7 +530,6 @@ div.about4{
     width: 1.5em;
 }
 div.about5{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -548,7 +546,6 @@ div.about5{
     width: 1.5em;
 }
 div.about6{
-    width: 400px;
     position: absolute;
     z-index: 1;
     text-align: center;
