@@ -40,7 +40,7 @@
             <br>
             <input type="text" name="optionsNum" id="optionsNum" hidden="hidden" value="1"/>
             <input type="text" name="lectureId" id="lectureId" hidden="hidden" value="<?php echo $lecture;?>"/>
-            <input type="text" name="author" id="author" hidden="hidden" value="<?php echo $lecture;?>"/>
+            <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <input type="submit" value="Додати тест" onclick="check();">
     </form>

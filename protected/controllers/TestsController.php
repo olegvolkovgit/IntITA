@@ -17,6 +17,7 @@ class TestsController extends Controller
             $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
         }
         $author = Yii::app()->request->getPost('author', 0);
+
         if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition)) {
             Tests::addNewTest($lectureElementId, $testTitle, $author);
             $idTest = Tests::model()->findByAttributes(array('block_element' => $lectureElementId))->id;
