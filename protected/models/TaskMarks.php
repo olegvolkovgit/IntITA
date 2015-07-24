@@ -34,7 +34,7 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, result, warning, date', 'required'),
+			array('id_user, id_task, mark, date', 'required'),
 			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
 			array('result, warning', 'length', 'max'=>255),
 			array('date', 'length', 'max'=>30),
@@ -115,16 +115,21 @@ class TaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addMark($user, $task, $status, $result, $date, $warning){
+    public static function addMark($user, $task, $status, $result='', $date, $warning=''){
         $model = new TaskMarks();
 
-        $model->id_task = 1;//$task;
-        $model->id_user = '';//$user;
-        $model->mark = 0;//($status == "done")?1:0;
-        $model->result = '';//$result;
-        $model->warning = '';//$warning;
-        $model->date = '';//$date;
+        $model->id_task = $task;
+        $model->id_user = $user;
+        $model->mark = ($status == "done")?1:0;
+        $model->result = $result;
+        $model->warning = $warning;
+        $model->date = $date;
 
         $model->save();
+    }
+
+    public static function isTaskDone($user, $idTask){
+        return TaskMarks::model()->exists('id_user =:user and id_task =:task and mark = 1',
+            array(':user' => $user, ':task' => $idTask));
     }
 }

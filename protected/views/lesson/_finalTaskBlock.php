@@ -18,19 +18,22 @@
     <div class="lessonLine"></div>
     <div class="lessonBG">
         <div class="instrTaskImg">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
+            <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">
         </div>
         <div class="content">
             <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
                 <?php echo $data['html_block'];?>
             </div>
             <form onclick="sendTaskAnswer()" method="post" class="sendAnswer">
-                <input type="hidden" name="operation" value="status">
-                <input type="hidden" name="session" value="123456789044241232">
-                <input type="hidden" name="task" value="1">
-<!--                <input type="hidden" name="lang" value="c++">-->
-                <textarea name="code" > </textarea>
-                <input id="taskSubmit" type="submit" value="<?php echo Yii::t('lecture','0089'); ?>">
+                <textarea name="code<?php echo $data['block_order'];?>" > </textarea>
+
+                <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
+                        onclick="sendTaskAnswer(
+                        <?php echo $user;?>,'code<?php echo $data['block_order'];?>',
+                        <?php echo LectureHelper::getTaskId($data['id_block']);?>,
+                            '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');">
+                    <?php echo Yii::t('lecture','0089'); ?>
+                </button>
             </form>
         </div>
     </div>

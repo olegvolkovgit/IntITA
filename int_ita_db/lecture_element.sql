@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-22 19:38:55
+-- Date/time:                    2015-07-23 17:46:14
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   UNIQUE KEY `FK_lecture_element_task` (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~193 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~178 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -219,7 +219,11 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(311, 2, 12, 'test', 12, 'i875'),
 	(312, 2, 13, 'text', 1, '$\\gamma \\gamma \\tau \\varphi \\varrho$ '),
 	(313, 2, 14, 'formula', 10, '\\[\\prod \\zeta \\beta \\iota \\nu \\pi \\lambda\\]\r\n'),
-	(314, 2, 15, 'text', 1, '\\[\\left ( \\varepsilon \\varepsilon \\varepsilon \\varepsilon \\vartheta \\rho \\right )\\]\r\n');
+	(314, 2, 15, 'text', 1, '\\[\\left ( \\varepsilon \\varepsilon \\varepsilon \\varepsilon \\vartheta \\rho \\right )\\]\r\n'),
+	(315, 47, 1, 'formula', 10, '\\[\\sum \\varepsilon \\nu \\varpi\\]\r\n'),
+	(316, 47, 2, 'test', 12, 'умова'),
+	(317, 47, 3, 'test', 12, 'ислоуа'),
+	(318, 47, 4, 'test', 12, 'мппмкеп');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

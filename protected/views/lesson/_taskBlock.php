@@ -11,7 +11,7 @@
     <div class="lessonLine"></div>
     <div class="lessonBG">
         <div class="instrTaskImg">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
+            <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">
         </div>
         <div class="content">
         <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
@@ -22,7 +22,7 @@
                 <textarea name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
 
-            <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
+            <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                     onclick="sendTaskAnswer(
                     <?php echo $user;?>,'code<?php echo $data['block_order'];?>',
                     <?php echo LectureHelper::getTaskId($data['id_block']);?>,

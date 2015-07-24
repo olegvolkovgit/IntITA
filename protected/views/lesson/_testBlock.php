@@ -29,7 +29,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
             <div class="lessonLine"></div>
             <div class="lessonBG">
                 <div class="instrTestImg">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'task.png'); ?>">
+                    <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">
                 </div>
                 <div class="contentTest">
                     <div class="instrTestText" id="">
@@ -53,7 +53,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
                         <?php echo TestsHelper::getTestId($data['id_block'])?>,
                         <?php echo $testType;?>,
                         <?php echo ($editMode)?1:0;?>
-                        );'>
+                        );' <?php if($editMode || $user == 0){ echo "disabled";}?> >
                         <?php echo Yii::t('lecture', '0089'); ?>
                     </button>
                 </div>

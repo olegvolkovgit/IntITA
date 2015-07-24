@@ -12,8 +12,6 @@
  * @property string $table
  *
  * The followings are the available model relations:
- * @property Teacher $author0
- * @property TaskMarks[] $taskMarks
  */
 class Task extends CActiveRecord
 {
@@ -33,7 +31,7 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('condition', 'required'),
+			//array('condition', 'required'),
 			array('assignment, condition, author', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>15),
 			array('table', 'length', 'max'=>20),
@@ -51,8 +49,7 @@ class Task extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'author0' => array(self::BELONGS_TO, 'Teacher', 'author'),
-			'taskMarks' => array(self::HAS_MANY, 'TaskMarks', 'id_task'),
+
 		);
 	}
 
@@ -120,6 +117,7 @@ class Task extends CActiveRecord
         $model->language = $language;
         $model->assignment = $assignment;
         $model->table = $table;
+
 
         $model->save();
     }

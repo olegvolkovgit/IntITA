@@ -26,23 +26,23 @@ function clearFields(){
 function sendTestAnswer(user, test, testType, editMode){
     answers = getUserAnswers(testType);
 
-    $.ajax({
-        type: "POST",
-        url: "/tests/checkTestAnswer",
-        data: {
-            'user': user,
-            'test': test,
-            'answers': answers,
-            'testType': testType,
-            'editMode': editMode
-        },
-        cache: false,
-        success: function() {
-            if (editMode == 0) {
-                isTrueTestAnswer(user, test);
+        $.ajax({
+            type: "POST",
+            url: "/tests/checkTestAnswer",
+            data: {
+                'user': user,
+                'test': test,
+                'answers': answers,
+                'testType': testType,
+                'editMode': editMode
+            },
+            cache: false,
+            success: function () {
+                if (editMode == 0) {
+                    isTrueTestAnswer(user, test);
+                }
             }
-        }
-    });
+        });
 }
 
 function getUserAnswers(testType){
@@ -90,4 +90,5 @@ function isTrueTestAnswer(user, test){
 
         }, "json");
 }
+
 
