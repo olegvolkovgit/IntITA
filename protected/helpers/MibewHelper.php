@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Ivanna
+ * Date: 21.07.2015
+ * Time: 15:35
+ */
+
+class MibewHelper {
+
+    public static function getNameEmail(){
+        if (Yii::app()->user->isGuest) {
+            $nameEmail='';
+        }else {
+            $user = StudentReg::model()->findByPk(Yii::app()->user->id);
+            $nameEmail='&name='.$user->firstName.'&email='.$user->email;
+        }
+        return $nameEmail;
+    }
+}
