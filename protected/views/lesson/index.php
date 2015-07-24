@@ -85,7 +85,7 @@ $this->breadcrumbs=array(
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog2',
         'themeUrl' => Yii::app()->request->baseUrl . '/css',
-        'cssFile' => 'jquery-ui2.css',
+        'cssFile' => 'jquery-ui.css',
         'theme' => 'my',
         'options' => array(
             'width' => 540,
@@ -104,7 +104,7 @@ $this->breadcrumbs=array(
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'mydialog3',
     'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-    'cssFile'=>'jquery-ui3.css',
+    'cssFile'=>'jquery-ui.css',
     'theme'=>'my',
     'options' => array(
         'width'=>540,
