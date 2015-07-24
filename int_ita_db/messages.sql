@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:14
+-- Date/time:                    2015-07-24 18:27:54
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_record`),
   KEY `FK_messages_sourcemessages` (`id`),
   CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1855 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1861 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.messages: ~1 837 rows (approximately)
+-- Dumping data for table int_ita_db.messages: ~1 843 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(2, 2, 'ua', 'Про нас'),
@@ -501,7 +501,7 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(475, 159, 'ua', 'Файл не вибрано...'),
 	(476, 159, 'ru', 'Файл не выбран...'),
 	(477, 159, 'en', 'The file is not selected'),
-	(478, 160, 'ua', 'І\'мя'),
+	(478, 160, 'ua', 'Ім\'я'),
 	(479, 160, 'ru', 'Имя'),
 	(480, 160, 'en', 'Name'),
 	(481, 161, 'ua', 'Роль'),
@@ -543,7 +543,7 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(517, 173, 'ua', 'ЗБЕРЕГТИ'),
 	(518, 173, 'ru', 'СОХРАНИТЬ'),
 	(519, 173, 'en', 'SAVE'),
-	(520, 174, 'ua', 'І\'мя'),
+	(520, 174, 'ua', 'Ім\'я'),
 	(521, 174, 'ru', 'Имя'),
 	(522, 174, 'en', 'Name'),
 	(523, 175, 'ua', 'Прізвище'),
@@ -1861,7 +1861,13 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1851, 564, 'ua', 'Ваше повідомлення відправлено'),
 	(1852, 564, 'ru', 'Ваше сообщение отправлено'),
 	(1853, 564, 'en', 'Your message has been sent'),
-	(1854, 1, 'ua', 'INTITA');
+	(1854, 1, 'ua', 'INTITA'),
+	(1855, 566, 'en', 'Final test'),
+	(1856, 566, 'ru', 'Финальный тест'),
+	(1857, 566, 'ua', 'Підсумковий тест'),
+	(1858, 565, 'en', 'Test'),
+	(1859, 565, 'ru', 'Тест'),
+	(1860, 565, 'ua', 'Тест');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

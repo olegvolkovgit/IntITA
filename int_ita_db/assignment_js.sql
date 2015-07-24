@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:13
+-- Date/time:                    2015-07-24 18:27:54
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,14 +20,11 @@ CREATE TABLE IF NOT EXISTS `assignment_js` (
   `footer` varchar(512) CHARACTER SET latin1 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii;
 
--- Dumping data for table int_ita_db.assignment_js: ~5 rows (approximately)
+-- Dumping data for table int_ita_db.assignment_js: ~2 rows (approximately)
 /*!40000 ALTER TABLE `assignment_js` DISABLE KEYS */;
 INSERT INTO `assignment_js` (`ID`, `name`, `header`, `etalon`, `footer`) VALUES
 	(0, 'hello wordl', 'class Main#NUM#\r\n{\r\npublic static void main(String args[])\r\n{', 'System.out.println("Hello World!");', '}\r\n}'),
-	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}'),
-	(2, 'k', NULL, NULL, NULL),
-	(0, '127.0.0.1', ' console.log("hh");', '2015-7-1 16:16:13', NULL),
-	(0, '127.0.0.1', ' console.log("hi");', '2015-7-1 17:26:26', NULL);
+	(7, 'javaDefault', 'class Main#NUM# \r\n{ \r\n    public static void main (String[] args)  \r\n   {  ', ' System.out.println ("Hello, world.");', '}}');
 /*!40000 ALTER TABLE `assignment_js` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

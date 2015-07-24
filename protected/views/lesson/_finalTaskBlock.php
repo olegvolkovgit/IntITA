@@ -31,13 +31,7 @@
                 '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');" method="post" class="sendAnswer">
                 <textarea name="code<?php echo $data['block_order'];?>" > </textarea>
 
-                <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
-<!--                        onclick="sendTaskAnswer(-->
-<!--                        --><?php //echo $user;?>//,
-//                            'code<?php //echo $data['block_order'];?>//',
-//                        <?php //echo LectureHelper::getTaskId($data['id_block']);?>//,
-//                            '<?php //echo LectureHelper::getTaskLang($data['id_block']);?>//');"
-                    >
+                <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>>
                     <?php echo Yii::t('lecture','0089'); ?>
                 </button>
             </form>

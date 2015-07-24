@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:13
+-- Date/time:                    2015-07-24 18:27:54
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS `element_type` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `type` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Types of lecture elements.';
 
--- Dumping data for table int_ita_db.element_type: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.element_type: ~13 rows (approximately)
 /*!40000 ALTER TABLE `element_type` DISABLE KEYS */;
 INSERT INTO `element_type` (`id`, `type`) VALUES
 	(1, 'text'),
@@ -32,7 +32,8 @@ INSERT INTO `element_type` (`id`, `type`) VALUES
 	(9, 'image'),
 	(10, 'formula'),
 	(11, 'table'),
-	(12, 'test');
+	(12, 'test'),
+	(13, 'final test');
 /*!40000 ALTER TABLE `element_type` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

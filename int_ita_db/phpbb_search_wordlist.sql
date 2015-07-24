@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:17
+-- Date/time:                    2015-07-24 18:27:55
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordlist` (
   PRIMARY KEY (`word_id`),
   UNIQUE KEY `wrd_txt` (`word_text`),
   KEY `wrd_cnt` (`word_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordlist: ~74 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordlist: ~129 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordlist` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `word_count`) VALUES
 	(1, 'приклад', 0, 1),
@@ -98,7 +98,62 @@ INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `wor
 	(71, 'сьогодні', 0, 1),
 	(72, 'червня', 0, 3),
 	(73, '2015', 0, 1),
-	(74, 'року', 0, 1);
+	(74, 'року', 0, 1),
+	(75, 'обговорення', 0, 3),
+	(76, 'заняття', 0, 3),
+	(77, 'змінні', 0, 8),
+	(78, 'типи', 0, 8),
+	(79, 'даних', 0, 9),
+	(80, 'php', 0, 13),
+	(81, 'основи', 0, 6),
+	(82, 'синтаксису', 0, 6),
+	(83, 'обробка', 0, 4),
+	(84, 'запитів', 0, 4),
+	(85, 'допомогою', 0, 4),
+	(86, 'змінюються', 0, 2),
+	(87, 'типові', 0, 2),
+	(88, 'дуже', 0, 1),
+	(89, 'дотепно', 0, 1),
+	(90, 'jhbhb', 0, 1),
+	(91, '784', 0, 1),
+	(92, 'мається', 0, 3),
+	(93, 'увазі', 0, 3),
+	(94, 'синтаксис', 0, 3),
+	(95, 'нова', 0, 2),
+	(96, 'тема', 0, 10),
+	(97, 'ребететптпааопрыврпьап', 0, 1),
+	(98, 'амтавлопра', 0, 1),
+	(99, 'итьтьбь', 0, 1),
+	(100, 'бтьбьтьбтстит', 0, 1),
+	(101, 'бази', 0, 1),
+	(102, 'частина', 0, 1),
+	(103, 'оллорло', 0, 1),
+	(104, 'апаорпаврпалврпл', 0, 1),
+	(105, 'воарвлрааларплап', 0, 1),
+	(106, 'ваороарллварварпа', 0, 1),
+	(107, 'ывораларлалпрапр', 0, 1),
+	(108, 'ыравларавларвлав', 0, 1),
+	(109, 'ырлрлырпапарпаа', 0, 1),
+	(110, 'ылвраварварвааов', 0, 1),
+	(111, 'ывраварвававваор', 0, 1),
+	(112, 'ворварварварвалр', 0, 1),
+	(113, 'ваварвоарвоарвав', 0, 1),
+	(114, 'вапвапавпа', 0, 1),
+	(115, 'вавравраврал', 0, 1),
+	(116, 'апапавп', 0, 1),
+	(117, 'авав', 0, 1),
+	(118, 'ролплол', 0, 1),
+	(119, 'апапва', 0, 1),
+	(120, 'тема7', 0, 1),
+	(121, 'dghyrturyjfyhjfnhjh', 0, 1),
+	(122, 'дякую', 0, 1),
+	(123, 'кеп', 0, 1),
+	(124, 'ndsdafhgdsf', 0, 1),
+	(125, 'fjdsfgdshfgds', 0, 1),
+	(126, 'добре', 0, 2),
+	(127, 'сьтмьтбьбт', 0, 1),
+	(128, 'иьмтьитьиь', 0, 2),
+	(129, 'asdfgdsfnhgqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', 0, 1);
 /*!40000 ALTER TABLE `phpbb_search_wordlist` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

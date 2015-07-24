@@ -20,6 +20,7 @@
 class Lecture extends CActiveRecord
 {
     const MAX_RAIT = 6;
+    private $isPassed;
     /**
      * @return string the associated database table name
      */

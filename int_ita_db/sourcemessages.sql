@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:18
+-- Date/time:                    2015-07-24 18:27:56
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=559 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=567 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
--- Dumping data for table int_ita_db.sourcemessages: ~558 rows (approximately)
+-- Dumping data for table int_ita_db.sourcemessages: ~564 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
 INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(1, 'mainpage', '0001'),
@@ -451,8 +451,6 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(427, 'error', '0427'),
 	(428, 'error', '0428'),
 	(429, 'error', '0429'),
-	(430, 'graduates', '0430'),
-	(431, 'graduates', '0431'),
 	(432, 'aboutus', '0432'),
 	(433, 'aboutus', '0433'),
 	(434, 'aboutus', '0434'),
@@ -579,7 +577,15 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(555, 'slider', '0555'),
 	(556, 'aboutus', '0556'),
 	(557, 'aboutus', '0557'),
-	(558, 'aboutus', '0558');
+	(558, 'aboutus', '0558'),
+	(559, 'slider', '0559'),
+	(560, 'slider', '0560'),
+	(561, 'regexp', '0561'),
+	(562, 'regexp', '0562'),
+	(563, 'regexp', '0563'),
+	(564, 'teachers', '0564'),
+	(565, 'lecture', '0565'),
+	(566, 'lecture', '0566');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

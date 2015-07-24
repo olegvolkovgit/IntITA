@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-23 17:46:18
+-- Date/time:                    2015-07-24 18:27:56
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,60 +22,22 @@ CREATE TABLE IF NOT EXISTS `phpbb_user_group` (
   KEY `group_leader` (`group_leader`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_user_group: ~49 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_user_group: ~13 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_user_group` DISABLE KEYS */;
 INSERT INTO `phpbb_user_group` (`group_id`, `user_id`, `group_leader`, `user_pending`) VALUES
 	(1, 1, 0, 0),
 	(2, 2, 0, 0),
 	(4, 2, 0, 0),
 	(5, 2, 1, 0),
-	(6, 3, 0, 0),
-	(6, 4, 0, 0),
-	(6, 5, 0, 0),
-	(6, 6, 0, 0),
-	(6, 7, 0, 0),
-	(6, 8, 0, 0),
-	(6, 9, 0, 0),
-	(6, 10, 0, 0),
-	(6, 11, 0, 0),
-	(6, 12, 0, 0),
-	(6, 13, 0, 0),
-	(6, 14, 0, 0),
-	(6, 15, 0, 0),
-	(6, 16, 0, 0),
-	(6, 17, 0, 0),
-	(6, 18, 0, 0),
-	(6, 19, 0, 0),
-	(6, 20, 0, 0),
-	(6, 21, 0, 0),
-	(6, 22, 0, 0),
-	(6, 23, 0, 0),
-	(6, 24, 0, 0),
-	(6, 25, 0, 0),
-	(6, 26, 0, 0),
-	(6, 27, 0, 0),
-	(6, 28, 0, 0),
-	(6, 29, 0, 0),
-	(6, 30, 0, 0),
-	(6, 31, 0, 0),
-	(6, 32, 0, 0),
-	(6, 33, 0, 0),
-	(6, 34, 0, 0),
-	(6, 35, 0, 0),
-	(6, 36, 0, 0),
-	(6, 37, 0, 0),
-	(6, 38, 0, 0),
-	(6, 39, 0, 0),
-	(6, 40, 0, 0),
-	(6, 41, 0, 0),
-	(6, 42, 0, 0),
-	(6, 43, 0, 0),
-	(6, 44, 0, 0),
-	(6, 45, 0, 0),
-	(6, 46, 0, 0),
-	(6, 47, 0, 0),
-	(2, 48, 0, 0),
-	(7, 48, 0, 0);
+	(2, 113, 0, 0),
+	(2, 52, 0, 0),
+	(2, 38, 0, 0),
+	(2, 106, 0, 0),
+	(2, 51, 0, 0),
+	(2, 40, 0, 0),
+	(2, 22, 0, 0),
+	(2, 45, 0, 0),
+	(2, 121, 0, 0);
 /*!40000 ALTER TABLE `phpbb_user_group` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
