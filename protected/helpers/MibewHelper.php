@@ -17,4 +17,12 @@ class MibewHelper {
         }
         return $nameEmail;
     }
+    public static function getLg(){
+        if (Yii::app()->session['lg']) {
+            $lg=Yii::app()->session['lg'];
+        }else {
+            $lg='ua';
+        }
+        return $lg;
+    }
 }
