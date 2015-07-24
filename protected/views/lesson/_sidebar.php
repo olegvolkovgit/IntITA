@@ -1,6 +1,7 @@
 <?php
 ?>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/css/mibew.css"></script>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
         <ul>
