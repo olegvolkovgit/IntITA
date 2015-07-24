@@ -7,25 +7,23 @@
  */
 ?>
 <?php
-
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
-
 ?>
     <div>
-            <?php $this->renderPartial('_editToolbar', array(
-                'idLecture' => $data['id_lecture'],
-                'order' =>  $data['block_order'],
-                'editMode' => $editMode,
-            ));
+        <?php $this->renderPartial('_editToolbar', array(
+            'idLecture' => $data['id_lecture'],
+            'order' =>  $data['block_order'],
+            'editMode' => $editMode,
+        ));
         ?>
 
         <div class="lessonTest">
             <img class="lessonBut"
                  src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?>">
 
-            <div class="lessonButName" unselectable="on"><?php echo Yii::t('lecture', '0565');?></div>
+            <div class="lessonButName" unselectable="on"><?php echo Yii::t('lecture', '0566');?></div>
             <div class="lessonLine"></div>
             <div class="lessonBG">
                 <div class="instrTestImg">
@@ -43,16 +41,16 @@ $testType = TestsHelper::getTestType($data['id_block']);
                             <?php }
                         } elseif ($testType == 2){
                             for($j = 1; $j <= $optionsNum; $j++){?>
-                            <input type="checkbox" name="checkboxanswer"  class="answer" value="<?php echo $options[$j-1]["answer"]; ?>"> <?php echo $options[$j-1]["answer"]; ?><br>
-                        <?php }
+                                <input type="checkbox" name="checkboxanswer"  class="answer" value="<?php echo $options[$j-1]["answer"]; ?>"> <?php echo $options[$j-1]["answer"]; ?><br>
+                            <?php }
                         }
                         ?>
                     </div>
                     <button class="testSubmit" onclick='sendTestAnswer(
-                        <?php echo $user;?>,
-                        <?php echo TestsHelper::getTestId($data['id_block'])?>,
-                        <?php echo $testType;?>,
-                        <?php echo ($editMode)?1:0;?>
+                    <?php echo $user;?>,
+                    <?php echo TestsHelper::getTestId($data['id_block'])?>,
+                    <?php echo $testType;?>,
+                    <?php echo ($editMode)?1:0;?>
                         );' <?php if($editMode || $user == 0){ echo "disabled";}?> >
                         <?php echo Yii::t('lecture', '0089'); ?>
                     </button>

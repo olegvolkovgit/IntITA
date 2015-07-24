@@ -8,7 +8,7 @@ function addOption(){
 
     newOption = 1 + parseInt(optionsNum);
     var newOptionDiv = document.createElement('div');
-    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80"/><br>';
+    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required/><br>';
     document.getElementById("optionsList").appendChild(newOptionDiv);
 
     var newAnswerDiv = document.createElement('div');
@@ -24,6 +24,7 @@ function clearFields(){
 }
 
 function sendTestAnswer(user, test, testType, editMode){
+
     answers = getUserAnswers(testType);
 
         $.ajax({

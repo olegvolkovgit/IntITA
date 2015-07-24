@@ -56,6 +56,9 @@
             case 12:
                 $this->renderPartial('_testBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
+            case 13:
+                $this->renderPartial('_finalTestBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
+                break;
             default:
                 echo $data['html_block'];
         }

@@ -8,6 +8,7 @@ class TestsController extends Controller
         $condition =  Yii::app()->request->getPost('condition', '');
         $testTitle = Yii::app()->request->getPost('testTitle', '');
         $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
+        $isFinal = Yii::app()->request->getPost('testType', 'plain');
 
         $options = [];
 
@@ -18,7 +19,7 @@ class TestsController extends Controller
         }
         $author = Yii::app()->request->getPost('author', 0);
 
-        if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition)) {
+        if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition, $isFinal)) {
             Tests::addNewTest($lectureElementId, $testTitle, $author);
             $idTest = Tests::model()->findByAttributes(array('block_element' => $lectureElementId))->id;
             TestsAnswers::addOptions($idTest, $options);

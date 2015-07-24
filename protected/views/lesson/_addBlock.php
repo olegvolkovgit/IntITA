@@ -22,9 +22,13 @@
                 <br>
                 <a href="javascript:addFormula()">Додати формулу</a>
                 <br>
-                <a href="javascript:showAddTaskForm()">Додати задачу</a>
+                <a href="javascript:showAddTaskForm('plain')">Додати задачу</a>
                 <br>
-                <a href="javascript:showAddTestForm()">Додати тест</a>
+                <a href="javascript:showAddTaskForm('final')">Додати підсумкову задачу</a>
+                <br>
+                <a href="javascript:showAddTestForm('plain')">Додати тест</a>
+                <br>
+                <a href="javascript:showAddTestForm('final')">Додати підсумковий тест</a>
                 <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"

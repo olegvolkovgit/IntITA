@@ -12,7 +12,7 @@ $this->menu=array(
 	array('label'=>'Manage Messages', 'url'=>array('admin')),
 );
 ?>
-    <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+
 <h1>Create Messages</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

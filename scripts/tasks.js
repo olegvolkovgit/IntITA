@@ -24,7 +24,7 @@ function createTask() {
         .done(function (data) {
             var serverResponse = jQuery.parseJSON(data);
             if (serverResponse.status == 'success') {
-                addTaskToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table);
+                addTaskToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table, task);
             }
         })
         .fail(function () {
@@ -37,7 +37,7 @@ function createTask() {
 
 }
 
-function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
+function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table, taskType) {
     $.ajax({
         type: "POST",
         url: "/task/addTask",
@@ -47,7 +47,8 @@ function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table) {
             'lecture': idLecture,
             'language': lang,
             'assignment': id,
-            'table' : table
+            'table' : table,
+            'taskType' : taskType
         },
         cache: false,
         success: function(){location.reload();

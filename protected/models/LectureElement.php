@@ -114,14 +114,20 @@ class LectureElement extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewTaskBlock($idLecture, $condition){
+    public static function addNewTaskBlock($idLecture, $condition, $taskType){
         $model = new LectureElement();
 
         $order = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
         $model->block_order = ++$order;
 
-        $model->type = 'task';
-        $model->id_type = 5;
+        if ($taskType == 'final'){
+            $model->type = 'final task';
+            $model->id_type = 6;
+        } else {
+            $model->type = 'task';
+            $model->id_type = 5;
+        }
+
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 
@@ -132,14 +138,19 @@ class LectureElement extends CActiveRecord
         }
     }
 
-    public static function addNewTestBlock($idLecture, $condition){
+    public static function addNewTestBlock($idLecture, $condition, $testType){
         $model = new LectureElement();
 
         $order = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
         $model->block_order = ++$order;
 
-        $model->type = 'test';
-        $model->id_type = 12;
+        if ($testType == 'final'){
+            $model->type = 'final test';
+            $model->id_type = 13;
+        } else {
+            $model->type = 'test';
+            $model->id_type = 12;
+        }
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 

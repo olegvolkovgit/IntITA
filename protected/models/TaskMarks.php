@@ -13,7 +13,6 @@
  * @property string $date
  *
  * The followings are the available model relations:
- * @property Task $idTask
  * @property StudentReg $idUser
  */
 class TaskMarks extends CActiveRecord
@@ -52,7 +51,6 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idTask' => array(self::BELONGS_TO, 'Task', 'id_task'),
 			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
 		);
 	}

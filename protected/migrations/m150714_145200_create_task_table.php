@@ -4,7 +4,7 @@ class m150714_145200_create_task_table extends CDbMigration
 {
 	public function up()
 	{
-        $this->createTable('task', array(
+        $this->createTable('task1', array(
             'id' => 'INT(10) NOT NULL AUTO_INCREMENT',
             'language' => 'VARCHAR(15) NULL DEFAULT NULL',
             'assignment' => 'INT(10) NULL DEFAULT NULL',
@@ -16,7 +16,7 @@ class m150714_145200_create_task_table extends CDbMigration
 
 	public function down()
 	{
-        $this->dropTable('task');
+        $this->dropTable('task1');
 	}
 
 	/*
