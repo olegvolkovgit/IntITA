@@ -6,7 +6,6 @@
 $qForm = new StudentReg;
 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'mydialog3',
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
