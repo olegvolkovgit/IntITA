@@ -91,7 +91,7 @@ class LessonController extends Controller{
         $order = substr(Yii::app()->request->getPost('order'), 2);
         $id = Yii::app()->request->getPost('idLecture');
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id,'block_order' => $order));
-        $model->html_block = Yii::app()->request->getPost('content');
+        $model->html_block = str_replace("\n</p>","</p>",Yii::app()->request->getPost('content'));
 
         $model->save();
     }
