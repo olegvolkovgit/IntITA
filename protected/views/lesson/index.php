@@ -108,7 +108,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'theme'=>'my',
     'options' => array(
         'width'=>540,
-        'autoOpen' => false,
+        'autoOpen' => true,
         'modal' => true,
         'resizable'=> false
     ),

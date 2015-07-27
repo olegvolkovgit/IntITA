@@ -78,9 +78,13 @@ function isTrueTestAnswer(user, test){
     })
         .done(function(data) {
             if (data['status'] == '1') {
-                $("#mydialog2").dialog("open"); return false;
+                $("#mydialog2").dialog("open");
+                $("#mydialog2").parent().css('border', '4px solid #339900');
+                return false;
             } else {
-                $("#mydialog3").dialog("open"); return false;
+                $("#mydialog3").dialog("open");
+                $("#mydialog3").parent().css('border', '4px solid #cc0000');
+                return false;
             }
         })
         .fail(function() {

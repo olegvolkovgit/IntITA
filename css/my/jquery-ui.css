@@ -248,7 +248,7 @@ button.ui-button-icons-only {
 }
 .ui-button-icon-only .ui-button-text,
 .ui-button-icons-only .ui-button-text {
-	padding: .4em;
+	padding: 0;
 	text-indent: -9999999px;
 }
 .ui-button-text-icon-primary .ui-button-text,
@@ -1222,4 +1222,8 @@ body .ui-tooltip {
 	opacity: .3;
 	filter: Alpha(Opacity=30); /* support: IE8 */
 	border-radius: 8px;
+}
+.ui-button-text{
+	width: 20px;
+	height: 20px;
 }
