@@ -91,7 +91,6 @@ function isTrueTestAnswer(user, test){
             "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
         })
         .always(function() {
-
         }, "json");
 }
 
