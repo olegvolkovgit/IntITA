@@ -58,7 +58,7 @@ function getTaskResult(idUser, code, task, lang){
 function setMark(task, status, date, result, warning){
     $.ajax({
         type: "POST",
-        url: "/task/setMark",
+        url: "/IntITA/task/setMark",
         data: {
             'user': idUser,
             'task': task,

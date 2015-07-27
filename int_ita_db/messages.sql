@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-24 18:27:54
+-- Date/time:                    2015-07-27 18:23:27
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `language` varchar(16) NOT NULL,
   `translation` text NOT NULL,
   PRIMARY KEY (`id_record`),
-  KEY `FK_messages_sourcemessages` (`id`),
-  CONSTRAINT `FK_messages_sourcemessages` FOREIGN KEY (`id`) REFERENCES `sourcemessages` (`id`) ON DELETE CASCADE
+  KEY `FK_messages_sourcemessages` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1861 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.messages: ~1 843 rows (approximately)
@@ -1862,12 +1861,12 @@ INSERT INTO `messages` (`id_record`, `id`, `language`, `translation`) VALUES
 	(1852, 564, 'ru', 'Ваше сообщение отправлено'),
 	(1853, 564, 'en', 'Your message has been sent'),
 	(1854, 1, 'ua', 'INTITA'),
-	(1855, 566, 'en', 'Final test'),
-	(1856, 566, 'ru', 'Финальный тест'),
-	(1857, 566, 'ua', 'Підсумковий тест'),
-	(1858, 565, 'en', 'Test'),
-	(1859, 565, 'ru', 'Тест'),
-	(1860, 565, 'ua', 'Тест');
+	(1855, 565, 'ua', 'Тест'),
+	(1856, 565, 'ru', 'Тест'),
+	(1857, 565, 'en', 'Test'),
+	(1858, 566, 'ua', 'Підсумковий тест'),
+	(1859, 566, 'ru', 'Финальный тест'),
+	(1860, 566, 'en', 'Final test');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

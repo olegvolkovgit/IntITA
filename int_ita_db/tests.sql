@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-24 18:27:56
+-- Date/time:                    2015-07-27 18:23:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -16,11 +16,11 @@ CREATE TABLE IF NOT EXISTS `tests` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `block_element` int(10) NOT NULL,
   `author` int(10) NOT NULL,
-  `title` varchar(50) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.tests: ~42 rows (approximately)
+-- Dumping data for table int_ita_db.tests: ~49 rows (approximately)
 /*!40000 ALTER TABLE `tests` DISABLE KEYS */;
 INSERT INTO `tests` (`id`, `block_element`, `author`, `title`) VALUES
 	(35, 310, 2, 'hystjhytw'),
@@ -52,19 +52,26 @@ INSERT INTO `tests` (`id`, `block_element`, `author`, `title`) VALUES
 	(61, 415, 1, ''),
 	(62, 418, 1, ''),
 	(63, 436, 1, 'тест'),
-	(64, 454, 118, ''),
-	(65, 455, 118, ''),
-	(66, 456, 118, ''),
-	(67, 457, 118, ''),
-	(68, 458, 118, ''),
-	(69, 459, 118, ''),
-	(70, 460, 118, ''),
-	(71, 461, 118, ''),
-	(72, 484, 146, ''),
-	(73, 493, 148, ''),
-	(74, 498, 73, 'yjrkjir7k'),
-	(75, 503, 1, 'bscjdb'),
-	(76, 505, 1, 'VDSKJVNS');
+	(64, 454, 9, ''),
+	(65, 455, 9, ''),
+	(66, 456, 9, ''),
+	(67, 457, 9, ''),
+	(68, 458, 9, ''),
+	(69, 459, 9, ''),
+	(70, 460, 9, ''),
+	(71, 461, 9, ''),
+	(72, 484, 9, ''),
+	(73, 493, 9, ''),
+	(74, 498, 9, 'yjrkjir7k'),
+	(75, 504, 1, 'test'),
+	(76, 505, 1, 'efer'),
+	(77, 509, 1, '1'),
+	(78, 471, 1, 'test'),
+	(79, 492, 1, 'bhjb'),
+	(80, 515, 1, 'ьтиптипситясбп'),
+	(81, 524, 1, 'тест'),
+	(82, 525, 1, ''),
+	(83, 528, 1, '');
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

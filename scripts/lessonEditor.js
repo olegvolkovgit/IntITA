@@ -24,3 +24,16 @@ function showAddTestForm(testType){
     document.getElementById('addBlockForm').style.display = 'none';
     document.getElementById('cancelButton').style.display = 'none';
 }
+
+function enableLessonEdit(){
+    document.getElementById('editIco').style.display = 'none';
+    document.getElementById('addTextBlock').style.display = 'inline-block';
+}
+
+function showForm(){
+    document.getElementById('textBlockForm').style.display = 'block';
+}
+
+function showBlockForm(){
+    document.getElementById('blockForm').style.display = 'block';
+}

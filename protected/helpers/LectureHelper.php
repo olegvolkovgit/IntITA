@@ -47,4 +47,43 @@ class LectureHelper {
             }
         }
     }
+
+    public static function isNextLectureAvailable($idUser, $idLecture){
+        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
+        if ($finalTask != 0) {
+            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
+
+            $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
+
+            $result = false;
+            switch ($typeFinalTask) {
+                case '6':
+                    $result = TaskMarks::isTaskDone($idUser, $idTask);
+                    break;
+                case '13':
+                    $result = TestsMarks::isTestDone($idUser, $idTask);
+                    break;
+            }
+            return $result;
+        } else{
+            return false;
+        }
+    }
+
+    public static function getFinalLectureTask($idLecture){
+        $finalTask = 0;
+        if (LectureElement::model()->exists('(id_type = 6 or id_type = 13) and id_lecture=:id_lecture', array(':id_lecture' => $idLecture))){
+            $criteria = new CDbCriteria();
+            $criteria->addCondition('(id_type=6 or id_type=13) and id_lecture='.$idLecture);
+            $criteria->limit = 1;
+            $criteria->order = 'block_order';
+
+            $finalTask = LectureElement::model()->find($criteria);
+
+            return $finalTask->id_block;
+        }else{
+            return 0;
+        }
+
+    }
 }

@@ -33,7 +33,6 @@ class LessonController extends Controller{
             $user = 0;
         } else{
             $user = Yii::app()->user->getId();
-
         }
 
 

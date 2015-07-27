@@ -22,9 +22,9 @@
                 <br>
                 <a href="javascript:addFormula()">Додати формулу</a>
                 <br>
-                <a href="javascript:showAddTaskForm('plain')">Додати задачу</a>
+                <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>
                 <br>
-                <a href="javascript:showAddTaskForm('final')">Додати підсумкову задачу</a>
+                <a href="javascript:showAddTaskForm('final')">Додати підсумкове завдання</a>
                 <br>
                 <a href="javascript:showAddTestForm('plain')">Додати тест</a>
                 <br>
@@ -41,14 +41,10 @@
                     <option value="2">Відео
                     <option value="3">Код
                     <option value="4">Приклад
-                    <option value="5">Задача
-                    <option value="6">Підсумкове завдання
                     <option value="7">Інструкція
                     <option value="8">Заголовок (для змісту)
                     <option value="9">Зображення
-                    <option value="10">Формула
                         <!--                <option value="11" >Таблиця-->
-                    <option value="12">Тест
                 </select>
                 <br>
                 <br>

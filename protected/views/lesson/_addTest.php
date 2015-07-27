@@ -21,7 +21,7 @@
             <br>
             <br>
             Питання теста:
-            <input type="text" name="condition" id="condition" size="80" placeholder="умова теста"/>
+            <input type="text" name="condition" id="condition" size="80" placeholder="умова теста" required/>
             <br>
             <br>
             <fieldset>
