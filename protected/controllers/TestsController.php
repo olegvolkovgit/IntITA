@@ -29,16 +29,15 @@ class TestsController extends Controller
 	}
 
     public function actionCheckTestAnswer(){
+        $emptyanswers = [];
         $user = Yii::app()->request->getPost('user', '');
         $test =  Yii::app()->request->getPost('test', '');
-        $answers = Yii::app()->request->getPost('answers', '');
+        $answers = Yii::app()->request->getPost('answers', $emptyanswers);
         $testType = Yii::app()->request->getPost('testType', 1);
         $editMode =  Yii::app()->request->getPost('editMode', 0);
 
-        $answersArray = explode(',', $answers);
-
         if ($editMode == 0) {
-            if (TestsAnswers::checkTestAnswer($user, $test, $answersArray, $testType)) {
+            if (TestsAnswers::checkTestAnswer($user, $test, $answers, $testType)) {
                 TestsMarks::addTestMark($user, $test, 1);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);

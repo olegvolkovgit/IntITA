@@ -64,7 +64,7 @@ function getMultiplyAnswers(){
             answersValue.push(answers[i].value);
         }
 
-        return answersValue.join(",");
+    return answersValue;
 }
 
 function isTrueTestAnswer(user, test){
