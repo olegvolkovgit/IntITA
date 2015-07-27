@@ -55,7 +55,7 @@ $(window).resize(function() { sliderButtonSize(); });
 
 function centrSliderButtons() { /* центрування кнопок прокрутки слайдеру*/
         $('.owl-controls').css('margin-left', '0')
-        $('.owl-controls').css('left', '0')
+        $('.owl-controls').css('left', '5%')
         $('.owl-controls').css('width', 'auto')
 }
 $(function() { centrSliderButtons(); });
