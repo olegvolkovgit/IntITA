@@ -235,11 +235,15 @@ margin-top:10px;
 #addTask{
     display:none;
 }
-
+#addTask textarea {
+    width: 100%;
+}
 #addTest{
     display:none;
 }
-
+#addTest fieldset input[type="text"]{
+    width: 95%;
+}
 .taskSubmit :disabled {
     background: #dddddd;
     color: #333333;

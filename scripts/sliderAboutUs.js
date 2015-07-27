@@ -2,10 +2,8 @@
  * Created by Ivanna on 13.05.2015.
  */
 $(function(){
-    $('.owl-item').width($(window).width());
     $('.owl-item').height(document.body.clientWidth/3);
     $(window).resize(function(){
-        $('.owl-item').width($("html").width());
         $('.owl-item').height(document.body.clientWidth/3);
     });
 });
@@ -53,15 +51,9 @@ $(window).resize(function() { sliderBoxCentr(); });
 
 
 function centrSliderButtons() { /* центрування кнопок прокрутки слайдеру*/
-    if ( document.body.clientWidth <= 1000){
-        $('.owl-controls').css('margin-left', '0')
-        $('.owl-controls').css('left', '0')
-        $('.owl-controls').css('width', 'auto')
-    }else {
-        $('.owl-controls').css('margin-left', '-620px');
-        $('.owl-controls').css('left', '50%')
-        $('.owl-controls').css('width', '200px')
-    }
+    $('.owl-controls').css('margin-left', '0')
+    $('.owl-controls').css('left', '8%')
+    $('.owl-controls').css('width', 'auto')
 }
 $(function() { centrSliderButtons(); });
 $(window).resize(function() { centrSliderButtons(); });

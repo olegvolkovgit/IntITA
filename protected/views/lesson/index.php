@@ -99,7 +99,7 @@ $this->breadcrumbs=array(
     ?>
 <!--modal task congratulations end-->
 
-<!--modal task ---error1-
+<!--modal task ---error1-->
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'mydialog3',

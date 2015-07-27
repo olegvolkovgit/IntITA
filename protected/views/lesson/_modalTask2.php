@@ -6,7 +6,6 @@
 $qForm = new StudentReg;
 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'mydialog3',
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
@@ -26,8 +25,8 @@ $form = $this->beginWidget('CActiveForm', array(
             </tr>
         </table>
         <div class="happily2">
-            <p>Щось пішло неправильно, виправ помилку</p>
-            <p>та переходь до наступного матеріалу</p>
+            <p>Щось пішло неправильно, виправ помилку<br>
+            та переходь до наступного матеріалу.</p>
         </div>
         <input id="signInButtonM22" type="submit" value="ЗАКРИТИ">
     </div>

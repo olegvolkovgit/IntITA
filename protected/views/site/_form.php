@@ -3,7 +3,7 @@
     $mainpage = new Mainpage();
 ?>
 
-<div style="position:relative;"><a name="form" style="position:absolute; top:-60px;"></a></div>
+<a name="form" ></a>
 <div class="regFormBG" >
 	<div class="regFormBox">
 		<p class="zagolovok"><?php echo Yii::t('regform','0009'); ?></p>

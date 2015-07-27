@@ -156,6 +156,6 @@ return array(
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' =>'http://localhost/Int/index.php?dialog=true',
+        'openDialogPath' =>'http://intita.itatests.com/index.php?dialog=true',
 	),
 );

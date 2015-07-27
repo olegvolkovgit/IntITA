@@ -6,7 +6,6 @@
 $qForm = new StudentReg;
 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'mydialog2',
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
@@ -26,8 +25,8 @@ $form = $this->beginWidget('CActiveForm', array(
     </table>
 
     <div class="happily">
-        <p>Ти успішно вирішив(ла) завдання!</p>
-        <p>Тепер ти можеш перейти до наступного матеріалу!</p>
+        <p>Ти успішно вирішив(ла) завдання!<br>
+        Тепер ти можеш перейти до наступного матеріалу!</p>
 <!--        <p id="haa">а також</p>-->
 <!--        <p>Поділитися успіхом у соціальних мережах:</p>-->
     </div>
