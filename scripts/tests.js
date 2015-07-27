@@ -26,7 +26,6 @@ function clearFields(){
 function sendTestAnswer(user, test, testType, editMode){
 
     answers = getUserAnswers(testType);
-
         $.ajax({
             type: "POST",
             url: "/tests/checkTestAnswer",

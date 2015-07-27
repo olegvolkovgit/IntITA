@@ -24,17 +24,13 @@
             <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
                 <?php echo $data['html_block'];?>
             </div>
-            <form onclick="sendTaskAnswer(
-            <?php echo $user.date("Y-m-d-h-i-sa");?>,
-                'code<?php echo $data['block_order'];?>',
-            <?php echo LectureHelper::getTaskId($data['id_block']);?>,
-                '<?php echo LectureHelper::getTaskLang($data['id_block']);?>');" method="post" class="sendAnswer">
+            <form class="sendAnswer">
                 <textarea name="code<?php echo $data['block_order'];?>" > </textarea>
-
-                <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>>
+            </form>
+                <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?> onclick="sendTaskAnswer('<?php echo $user.date("Y-m-d-h-i-sa");?>','code<?php echo $data['block_order'];?>',<?php echo LectureHelper::getTaskId($data['id_block']);?>,'<?php echo LectureHelper::getTaskLang($data['id_block']);?>');">
                     <?php echo Yii::t('lecture','0089'); ?>
                 </button>
-            </form>
+
         </div>
     </div>
 </div>

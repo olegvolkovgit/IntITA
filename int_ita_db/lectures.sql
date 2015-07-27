@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-24 18:27:54
+-- Date/time:                    2015-07-27 18:23:27
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `idTeacher` varchar(50) DEFAULT NULL,
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~134 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~138 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
@@ -163,7 +163,11 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(145, 'lectureImage.png', 'lecture5', 'ua', 61, 5, 'test 5', 1, 60, '1', 0),
 	(146, 'lectureImage.png', 'lecture6', 'ua', 61, 6, 'Тест 6', 1, 60, '1', 0),
 	(147, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'тест 7', 1, 60, '1', 0),
-	(148, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'ТЕСТ 8', 1, 60, '1', 0);
+	(148, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'ТЕСТ 8', 1, 60, '1', 0),
+	(149, 'lectureImage.png', 'lecture9', 'ua', 61, 9, '9', 1, 60, '1', 0),
+	(150, 'lectureImage.png', 'lecture10', 'ua', 61, 10, '101010101010', 1, 60, '1', 0),
+	(151, 'lectureImage.png', 'lecture11', 'ua', 61, 11, '21', 1, 60, '1', 0),
+	(152, 'lectureImage.png', 'lecture12', 'ua', 61, 12, '12', 1, 60, '1', 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

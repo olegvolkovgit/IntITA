@@ -79,7 +79,7 @@ $this->breadcrumbs=array(
 
         </div>
     <!-- lesson footer ----congratulations-->
-<?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
+<?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user'=>$user, 'editMode' => $editMode));?>
 <!--modal task congratulations-->
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -118,21 +118,6 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--<!--modal task ---error-->
 </div>
-
-<script type="text/javascript">
-    function enableLessonEdit(){
-        document.getElementById('editIco').style.display = 'none';
-        document.getElementById('addTextBlock').style.display = 'inline-block';
-    }
-
-    function showForm(){
-        document.getElementById('textBlockForm').style.display = 'block';
-    }
-
-    function showBlockForm(){
-        document.getElementById('blockForm').style.display = 'block';
-    }
-</script>
 
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->

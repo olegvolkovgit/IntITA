@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-24 18:27:56
+-- Date/time:                    2015-07-27 18:23:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS `tests_answers` (
   `is_valid` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_tests_answers_tests` (`id_test`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=216 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.tests_answers: ~181 rows (approximately)
+-- Dumping data for table int_ita_db.tests_answers: ~194 rows (approximately)
 /*!40000 ALTER TABLE `tests_answers` DISABLE KEYS */;
 INSERT INTO `tests_answers` (`id`, `id_test`, `answer`, `is_valid`) VALUES
 	(22, 35, 'gtsrth', 0),
@@ -199,12 +199,25 @@ INSERT INTO `tests_answers` (`id`, `id_test`, `answer`, `is_valid`) VALUES
 	(194, 74, 'u467uj467', 0),
 	(195, 74, 'jru7ui78', 1),
 	(196, 74, 'ur674', 0),
-	(197, 75, 'ascbdj', 1),
-	(198, 75, '', 0),
-	(199, 75, '', 0),
-	(200, 76, 'BFJWEIFB', 1),
-	(201, 76, 'NVFJDKV', 0),
-	(202, 76, 'DAEDCWE', 0);
+	(197, 75, 'answer 1', 0),
+	(198, 75, 'answer 2', 1),
+	(199, 75, 'answer 3', 1),
+	(200, 76, 'ferfref', 1),
+	(201, 76, 'rfrefref', 0),
+	(202, 77, '1', 1),
+	(203, 77, '1', 1),
+	(204, 77, '1', 1),
+	(205, 80, 'лаоправпрвапралпав', 1),
+	(206, 80, 'оапрлаврпларпла', 0),
+	(207, 81, 'тест', 1),
+	(208, 81, '', 0),
+	(209, 82, 'служебное слово на языке QBASIC', 0),
+	(210, 82, 'область памяти, в которой хранится некоторое значение', 1),
+	(211, 82, ' значение регистра.', 0),
+	(212, 83, ' любая последовательность любых символов', 0),
+	(213, 83, 'последовательность латинских букв, цифр, специальных знаков (кроме пробел', 1),
+	(214, 83, 'которая всегда должна начинаться с латинской буквы', 0),
+	(215, 83, 'последовательность русских, латинских букв, начинающихся с латинской буквы и из специальных знаков, допускающая знак подчеркивания.', 0);
 /*!40000 ALTER TABLE `tests_answers` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

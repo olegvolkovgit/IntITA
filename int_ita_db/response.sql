@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-24 18:27:56
+-- Date/time:                    2015-07-27 18:23:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,12 +28,12 @@ CREATE TABLE IF NOT EXISTS `response` (
   KEY `FK__user_2` (`about`),
   CONSTRAINT `FK__user` FOREIGN KEY (`who`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
 
--- Dumping data for table int_ita_db.response: ~53 rows (approximately)
+-- Dumping data for table int_ita_db.response: ~54 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
-	(1, 22, 38, '2015-06-24 15:07:16', 'iubl,ugl', 1, '::1', 1, 1, 1),
+	(1, 22, 38, '2015-06-24 15:07:16', 'iubl,ugl', 6, '::1', 8, 5, 5),
 	(2, 22, 38, '2015-06-24 15:07:26', 'luu;;', 4, '::1', 2, 2, 7),
 	(3, 22, 38, '2015-06-24 15:07:36', 'liugl', NULL, '::1', 7, 7, 7),
 	(4, 22, 38, '2015-06-24 15:22:00', 'loyilyl', NULL, '::1', 7, 9, 7),
@@ -85,7 +85,8 @@ INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, 
 	(50, 45, 108, '2015-07-22 08:53:10', 'qfwgvadsv', NULL, '81.30.164.98', NULL, NULL, NULL),
 	(51, 45, 109, '2015-07-22 08:53:33', 'rsthnsfgn', NULL, '81.30.164.98', NULL, NULL, NULL),
 	(52, 121, 43, '2015-07-24 09:24:59', 'вмірувяепо', 4, '94.179.32.251', 2, 8, 2),
-	(53, 121, 43, '2015-07-24 09:25:18', 'акнгнгонгоікьнікн\r\nнгінгегнг\r\nкнгінкгнкгн\r\nкгннгнгнгнгн\r\nоеенге', NULL, '94.179.32.251', NULL, NULL, NULL);
+	(53, 121, 43, '2015-07-24 09:25:18', 'акнгнгонгоікьнікн\r\nнгінгегнг\r\nкнгінкгнкгн\r\nкгннгнгнгнгн\r\nоеенге', NULL, '94.179.32.251', NULL, NULL, NULL),
+	(54, 22, 38, '2015-07-27 10:13:36', 'mkmmknmbn', NULL, '94.179.88.43', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `response` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
