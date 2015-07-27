@@ -10,16 +10,18 @@ elseif(!mysql_select_db($database))
 session_start();
 $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
 if ($id) {
-    $sql = "SELECT firstName, secondName, email FROM `user` WHERE id=".$id.";";
+    $sql = "SELECT firstName, secondName, email, reg_time FROM `user` WHERE id=".$id.";";
     $result = mysql_query($sql);
     $row = mysql_fetch_array($result);
     $name = $row['firstName'].' '.$row['secondName'];
     if ($name==" ") $name = $row['email'];
+    $regTime = $row['reg_time'];
+    if ($regTime == 0) $regTime = time();
     $sql1 = "SELECT user_id FROM phpbb_users WHERE user_id=".$id.";";
     $result1 = mysql_query($sql1);
     if (mysql_num_rows($result1)==0) {
-        $sql2 = "INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone, user_dateformat)
-          VALUES ('".$id."', '".$name."', '".$name."', 'Europe/Kiev', 'd M Y H:i');";
+        $sql2 = "INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone, user_dateformat, user_regdate)
+          VALUES ('".$id."', '".$name."', '".$name."', 'Europe/Kiev', 'd M Y H:i', ".$regTime.");";
         $result2 = mysql_query($sql2);
         $sql3 = "INSERT INTO phpbb_user_group (group_id, user_id, group_leader, user_pending) VALUES (2, ".$id.", 0, 0);";
         $result3 = mysql_query ($sql3);
