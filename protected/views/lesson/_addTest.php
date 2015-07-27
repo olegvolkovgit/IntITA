@@ -15,12 +15,6 @@
     <br>
     <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/addTest');?>">
         <fieldset>
-            <legend id="label">Додати новий тест:</legend>
-            Назва:
-            <br>
-            <input type="text" name="testTitle" id="testTitle" size="80" placeholder="назва теста"/>
-            <br>
-            <br>
             Питання теста:
             <br>
             <input type="text" name="condition" id="condition" size="80" placeholder="умова теста"/>

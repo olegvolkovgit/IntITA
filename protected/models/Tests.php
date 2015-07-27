@@ -7,7 +7,6 @@
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
- * @property string $title
  *
  * The followings are the available model relations:
  */
@@ -31,10 +30,9 @@ class Tests extends CActiveRecord
 		return array(
 			array('author, block_element', 'required'),
 			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author, title', 'safe', 'on'=>'search'),
+			array('id, block_element, author', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +57,6 @@ class Tests extends CActiveRecord
 			'id' => 'ID',
 			'block_element' => 'Block Element',
 			'author' => 'Author',
-			'title' => 'Title',
 		);
 	}
 
@@ -84,7 +81,6 @@ class Tests extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
-		$criteria->compare('title',$this->title);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +102,6 @@ class Tests extends CActiveRecord
         $model = new Tests();
 
         $model->block_element = $blockElement;
-        $model->title = $title;
         $model->author = $author;
 
         $model->save();
