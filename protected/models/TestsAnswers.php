@@ -119,6 +119,10 @@ class TestsAnswers extends CActiveRecord
 
     public static function checkTestAnswer($user, $test, $userAnswers, $testType){
 
+		if(!is_array($userAnswers)){
+			$userAns=array($userAnswers);
+		}else $userAns=$userAnswers;
+
         $criteria = new CDbCriteria();
         $criteria->select = 'answer';
         $criteria->addCondition('id_test = :id_test and is_valid = 1');
@@ -132,11 +136,12 @@ class TestsAnswers extends CActiveRecord
             $validAnswers[$i] = $validAnswersRecords[$i]["answer"];
         }
 
-        return TestsAnswers::checkValidAnswers($validAnswers, $userAnswers);
+        return TestsAnswers::checkValidAnswers($validAnswers, $userAns);
     }
 
     public static function checkValidAnswers($validAnswers, $userAnswers){
-        if(count(array_diff($userAnswers, $validAnswers)) == 0){
+
+        if(count(array_diff($userAnswers, $validAnswers)) == 0 && count(array_diff($validAnswers, $userAnswers)) == 0){
             return true;
         } else {
            return false;

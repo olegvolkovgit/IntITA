@@ -2,13 +2,19 @@
  * Created by Ivanna on 13.07.2015.
  */
 function createTask() {
-    document.getElementById('addTask').style.display = 'none';
     var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
     var taskFooter = document.getElementById('taskFooter').value;
+    var condition = document.getElementById('condition').value;
+
+    if(condition.trim()=='' || header.trim()=='' || etalon.trim()=='' || taskFooter.trim()==''){
+        alert('Поля з "*" повинні бути заповнені');
+        return false;
+    }
+    document.getElementById('addTask').style.display = 'none';
+
     var lang = $('select[name="lang"]').val();
     var name = document.getElementById('name').value;
-    var condition = document.getElementById('condition').value;
     condition = condition.trim();
     var newTask = {
         "operation": "addtask",

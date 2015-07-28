@@ -23,8 +23,11 @@ function clearFields(){
     document.getElementById("option1").value = '';
 }
 
-function sendTestAnswer(user, test, testType, editMode){
-
+function sendTestAnswer(checkAnswers, user, test, testType, editMode){
+    if(checkAnswers.length==0){
+        alert('Спочатку виберіть варіант відповіді');
+        return false;
+    }
     answers = getUserAnswers(testType);
         $.ajax({
             type: "POST",
@@ -64,7 +67,7 @@ function getMultiplyAnswers(){
             answersValue.push(answers[i].value);
         }
 
-        return answersValue.join(",");
+    return answersValue;
 }
 
 function isTrueTestAnswer(user, test){
@@ -92,6 +95,18 @@ function isTrueTestAnswer(user, test){
         })
         .always(function() {
         }, "json");
+}
+function checkAnswers(answers){
+    $("#conditionTest").val($("#conditionTest").val().trim());
+    $("#optionsList input").val($("#optionsList input").val().trim());
+
+    if(answers.length==0){
+        alert('Виберіть хоч один правильний варіант перед створенням тесту');
+        document.getElementById("addtests").disabled = true;
+    }
+}
+function buttonEnabled(){
+        document.getElementById("addtests").disabled = false;
 }
 
 
