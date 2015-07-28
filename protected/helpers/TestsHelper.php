@@ -49,4 +49,12 @@ class TestsHelper {
         return ($count > 1)?2:1;
     }
 
+    public static function getTypeButton($type){
+        if($type == 1){
+            return 'input:radio:checked';
+        }elseif ($type == 2){
+            return 'input:checkbox:checked';
+        }
+    }
+
 }
