@@ -557,6 +557,9 @@ div.profileStatus{
     overflow: hidden;
     z-index: 0;
 }
+.profileStatus a{
+    text-decoration: none;
+}
 div.minavatar{
     width:70px;
     height:70px;

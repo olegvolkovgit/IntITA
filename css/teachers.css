@@ -47,6 +47,7 @@ div.ifYouTeachers textarea {
     float: right;
     width: 400px;
     height: 160px;
+    border:none;
     border-radius: 5px;
     box-shadow: none;
     resize: none;
