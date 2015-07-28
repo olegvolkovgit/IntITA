@@ -2,6 +2,10 @@
 function sendTaskAnswer(idUser, id, task, lang){
     id = "#"+id;
     code = $(id).val();
+    if(code.trim()==''){
+        alert('Спочатку дайте відповідь на питання');
+        return false;
+    }
     var command = {
         "operation": "start",
         "session" : "1241q223f4f2341",
