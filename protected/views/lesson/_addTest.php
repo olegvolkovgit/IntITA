@@ -17,7 +17,7 @@
         <fieldset>
             Питання теста:
             <br>
-            <input type="text" name="condition" id="condition" size="80" placeholder="умова теста"/>
+            <input type="text" name="condition" id="condition" size="80" placeholder="умова теста" required/>
             <br>
             <br>
             <fieldset>
@@ -28,7 +28,7 @@
                 <a href="javascript:addOption()" id="addOption">Додати відповідь</a>
             </fieldset>
             <br>
-            <fieldset>
+            <fieldset onclick="buttonEnabled();">
                 <legend id="label2">Правильні відповіді:</legend>
                 <div id="answersList">
                 <input type="checkbox" name="answer1" value="1">1 відповідь</div>
@@ -39,7 +39,7 @@
             <input type="text" name="testType" id="testType" hidden="hidden" value="plain"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
-        <input type="submit" value="Додати тест" onclick="check();">
+        <input type="submit" value="Додати тест" id='addtests' onclick="checkAnswers($('#answersList input:checkbox:checked'));">
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>

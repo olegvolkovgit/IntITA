@@ -94,5 +94,14 @@ function isTrueTestAnswer(user, test){
 
         }, "json");
 }
+function checkAnswers(answers){
+    if(answers.length==0){
+        alert('Виберіть хоч один правельний варіант перед створенням тесту');
+        document.getElementById("addtests").disabled = true;
+    }
+}
+function buttonEnabled(){
+        document.getElementById("addtests").disabled = false;
+}
 
 
