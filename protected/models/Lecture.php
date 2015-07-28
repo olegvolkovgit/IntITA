@@ -15,6 +15,7 @@
  * @property integer $preLecture
  * @property integer $nextLecture
  * @property integer $isFree
+ * @property integer $rate
  *
  */
 class Lecture extends CActiveRecord
@@ -38,13 +39,13 @@ class Lecture extends CActiveRecord
         // will receive user inputs.
         return array(
             array('idModule, order, title', 'required'),
-            array('idModule, order, idType, durationInMinutes', 'numerical', 'integerOnly' => true),
+            array('idModule, order, idType, durationInMinutes, rate', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('title', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, idModule, order, title, idType, durationInMinutes,isFree, ModuleTitle', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title, idType, durationInMinutes,isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -75,7 +76,8 @@ class Lecture extends CActiveRecord
             'title' => 'Назва',
             'idType' => 'Тип',
             'isFree' => 'Безкоштовно',
-            'durationInMinutes' => 'Duration In Minutes',
+            'durationInMinutes' => 'Тривалість лекції(хв)',
+            'rate' => 'Рейтинг заняття',
         );
     }
 
@@ -106,6 +108,7 @@ class Lecture extends CActiveRecord
         $criteria->compare('idType', $this->idType, true);
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
+        $criteria->compare('rate', $this->rate);
 
 
         $criteria->with=array('ModuleTitle');
@@ -172,7 +175,7 @@ class Lecture extends CActiveRecord
     function getPreType()
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->idType;
-        $type = Lecturetype::model()->findByPk($typeId);
+        $type = LectureType::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
             'image' => $type->image,
@@ -202,7 +205,7 @@ class Lecture extends CActiveRecord
     function getPostType()
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->idType;
-        $type = Lecturetype::model()->findByPk($typeId);
+        $type = LectureType::model()->findByPk($typeId);
         return array(
             'text' => $type->text,
             'image' => $type->image,
@@ -257,7 +260,7 @@ class Lecture extends CActiveRecord
     }
 
     public function getTypeInfo(){
-        $type = Lecturetype::model()->findByPk($this->idType);
+        $type = LectureType::model()->findByPk($this->idType);
         return array(
             'image' => $type->image,
             'text' => $type->text,
@@ -337,7 +340,7 @@ class Lecture extends CActiveRecord
     }
 
     public function getLectureTypeText(){
-        $type = Lecturetype::model()->findByPk($this->id);
+        $type = LectureType::model()->findByPk($this->id);
         return $type->text;
     }
     public static function getLessonCont($id){

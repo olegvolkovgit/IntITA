@@ -100,10 +100,3 @@
     }
     ?>
 
-    <script type="text/javascript">
-        function addFormula(){
-            $('select').val('10');
-            OpenLatexEditor('newTextBlock','latex','uk_uk', 'true');
-        }
-    </script>
-

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "lecturetype".
+ * This is the model class for table "lecture_type".
  *
- * The followings are the available columns in table 'lecturetype':
+ * The followings are the available columns in table 'lecture_type':
  * @property integer $id
  * @property string $image
  * @property string $text
  * @property string $description
  */
-class Lecturetype extends CActiveRecord
+class LectureType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'lecturetype';
+		return 'lecture_type';
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Lecturetype extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Lecturetype the static model class
+	 * @return LectureType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

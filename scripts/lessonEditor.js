@@ -37,3 +37,7 @@ function showForm(){
 function showBlockForm(){
     document.getElementById('blockForm').style.display = 'block';
 }
+
+function addFormula(){
+    OpenLatexEditor('newTextBlock','latex','uk_uk', 'true');
+}

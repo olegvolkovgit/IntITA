@@ -48,7 +48,7 @@ class LectureHelper {
         }
     }
 
-    public static function isNextLectureAvailable($idUser, $idLecture){
+    public static function isLectureAvailable($idUser, $idLecture, $defaultForNoExist){
         $finalTask = LectureHelper::getFinalLectureTask($idLecture);
         if ($finalTask != 0) {
             $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
@@ -66,7 +66,7 @@ class LectureHelper {
             }
             return $result;
         } else{
-            return false;
+            return $defaultForNoExist;
         }
     }
 

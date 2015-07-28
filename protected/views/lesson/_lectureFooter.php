@@ -38,7 +38,7 @@ $footNavSize='960px'; // Ширина блоку
                     }
                     ?>
                     <td><img src="<?php
-                        if ($lecture->getPreMedal()=='Зараховано')
+                        if (LectureHelper::isLectureAvailable($user, $lecture['id'], false) || $editMode)
                         {
                             echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                         } else {
@@ -86,7 +86,7 @@ $footNavSize='960px'; // Ширина блоку
                 }
                 ?>
                 <td><img src="<?php
-                    if (LectureHelper::isNextLectureAvailable($user, $lecture['id']))
+                    if (LectureHelper::isLectureAvailable($user, $lecture['id'], false))
                     {
                         echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                     } else {
@@ -95,7 +95,7 @@ $footNavSize='960px'; // Ширина блоку
                     ?> " style="width:<?php echo $footNavSize*0.035 . 'px';?>"></td>
             </tr>
         </table>
-        <?php if(LectureHelper::isNextLectureAvailable($user, $lecture['id']) || $editMode) { ?>
+        <?php if(LectureHelper::isLectureAvailable($user, $lecture['id'], true) || $editMode) { ?>
             <div class="nextLesonLink">
                 <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId(), 'idCourse'=>$idCourse));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>
