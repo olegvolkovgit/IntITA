@@ -27,14 +27,14 @@
             <input type="text" name="name" id="name" placeholder="назва задачі"/>
             <br>
             <br>
-            Умова задачі:<textarea name="condition" id="condition" cols="105" required form="add-task" rows="10"></textarea>
+            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>
             <br>
             <br>
-            Header:<textarea name="header" id="header" cols="105" required form="add-task" rows="5"></textarea>
+            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>
             <br>
-            Etalon:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" required form="add-task" rows="15"></textarea>
+            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
             <br>
-            Footer:<textarea name="taskFooter" id="taskFooter" cols="105" required form="add-task" rows="5"></textarea>
+            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>
             <br>
         </fieldset>
     </form>

@@ -96,7 +96,7 @@ function isTrueTestAnswer(user, test){
 }
 function checkAnswers(answers){
     if(answers.length==0){
-        alert('Виберіть хоч один правельний варіант перед створенням тесту');
+        alert('Виберіть хоч один правильний варіант перед створенням тесту');
         document.getElementById("addtests").disabled = true;
     }
 }
