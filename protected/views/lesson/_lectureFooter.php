@@ -38,7 +38,7 @@ $footNavSize='960px'; // Ширина блоку
                     }
                     ?>
                     <td><img src="<?php
-                        if (LectureHelper::isLectureAvailable($user, $lecture['id'], false) || $editMode)
+                        if (LectureHelper::isLectureAvailable($user, $lecture->getPreId(), false) || $editMode)
                         {
                             echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                         } else {
