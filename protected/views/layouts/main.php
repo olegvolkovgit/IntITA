@@ -244,7 +244,7 @@ $header = new Header();?>
                     </div>
                 </div>
                 <div class="rightfooter">
-                    <a href="#"><img src="<?php echo $this->imageUp; ?>"></a>
+                    <a onclick='goUp()' ><img src="<?php echo $this->imageUp; ?>"></a>
                 </div>
             </div>
         </div>
@@ -291,5 +291,6 @@ $header = new Header();?>
 </div>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hamburgermenu.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/goToTop.js"></script>
 </body>
 </html>
