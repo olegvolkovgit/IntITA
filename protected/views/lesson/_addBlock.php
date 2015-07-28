@@ -35,8 +35,8 @@
                           placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
                 </textarea>
                 <br>
-                <span class="formLabel">Тип блоку:</span>
-                <select name="type">
+                <span class="formLabel" id="typeSelectLabel">Тип блоку:</span>
+                <select name="type" id="typeSelect">
                     <option value="1" selected>Текст
                     <option value="2">Відео
                     <option value="3">Код
@@ -44,11 +44,12 @@
                     <option value="7">Інструкція
                     <option value="8">Заголовок (для змісту)
                     <option value="9">Зображення
+                    <option value="10">Формула
                         <!--                <option value="11" >Таблиця-->
                 </select>
                 <br>
                 <br>
-                <input type="submit" value="Додати" onclick="saveNewBlock();">
+                <input type="submit" value="Додати" id="addBlockSubmit" onclick="saveNewBlock();">
             </form>
             <button id="cancelButton"
                     onclick="hideForm('blockForm', 'newTextBlock')"><?php echo Yii::t('course', '0368') ?></button>

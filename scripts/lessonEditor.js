@@ -6,6 +6,7 @@ task = 'plain';
 function saveNewBlock() {
     source = $('#newTextBlock').code.get;
     document.getElementById('newTextBlock').innerHTML = source;
+    document.getElementById('addBlockForm').style.visibility = "visible";
 }
 function hideForm(id, title) {
     $form = document.getElementById(id);
@@ -39,5 +40,8 @@ function showBlockForm(){
 }
 
 function addFormula(){
+    $('select').val('10');
+    document.getElementById('addBlockForm').style.visibility = "hidden";
+    document.getElementById('addBlockSubmit').style.visibility = "visible";
     OpenLatexEditor('newTextBlock','latex','uk_uk', 'true');
 }
