@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:09
+-- Date/time:                    2015-07-29 20:33:49
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_posts` (
   KEY `tid_post_time` (`topic_id`,`post_time`),
   KEY `post_username` (`post_username`),
   KEY `post_visibility` (`post_visibility`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_posts: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_posts: ~29 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_posts` DISABLE KEYS */;
 INSERT INTO `phpbb_posts` (`post_id`, `topic_id`, `forum_id`, `poster_id`, `icon_id`, `poster_ip`, `post_time`, `post_reported`, `enable_bbcode`, `enable_smilies`, `enable_magic_url`, `enable_sig`, `post_username`, `post_subject`, `post_text`, `post_checksum`, `post_attachment`, `bbcode_bitfield`, `bbcode_uid`, `post_postcount`, `post_edit_time`, `post_edit_reason`, `post_edit_user`, `post_edit_count`, `post_edit_locked`, `post_visibility`, `post_delete_time`, `post_delete_reason`, `post_delete_user`) VALUES
 	(5, 4, 16, 2, 0, '81.30.164.98', 1437053884, 0, 1, 1, 1, 1, '', 'Змінні та типи даних в PHP', 'Обговорення заняття &quot;Змінні та типи даних в PHP&quot;', '2be39cb02525d1caaab1a88ebcb9458b', 0, '', '3i5zo1rl', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
@@ -80,7 +80,10 @@ INSERT INTO `phpbb_posts` (`post_id`, `topic_id`, `forum_id`, `poster_id`, `icon
 	(27, 5, 16, 45, 0, '81.30.164.98', 1437389655, 0, 1, 1, 1, 1, '', 'Re: Основи синтаксису', 'добре', 'bd324daa894d5317a64ab73f376e65dc', 0, '', '2dlujva1', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
 	(28, 6, 16, 45, 0, '81.30.164.98', 1437389787, 0, 1, 1, 1, 1, '', 'Re: Обробка запитів з допомогою PHP', 'добре', 'bd324daa894d5317a64ab73f376e65dc', 0, '', 'ea4liott', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
 	(29, 16, 36, 121, 0, '94.179.33.38', 1437554649, 0, 1, 1, 1, 1, '', 'иьмтьитьиь', 'сьтмьтбьбт бт', 'e5bae6257463743eac9293cfd2d8f1e7', 0, '', 'hvtacvqr', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
-	(30, 16, 36, 38, 0, '80.91.174.90', 1437732959, 0, 1, 1, 1, 1, '', 'Re: иьмтьитьиь', 'asdfgdsfnhgqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', '739d72a94660d6e744c799d539159f38', 0, '', '2s49ns92', 1, 0, '', 0, 0, 0, 1, 0, '', 0);
+	(30, 16, 36, 38, 0, '80.91.174.90', 1437732959, 0, 1, 1, 1, 1, '', 'Re: иьмтьитьиь', 'asdfgdsfnhgqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', '739d72a94660d6e744c799d539159f38', 0, '', '2s49ns92', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
+	(31, 4, 16, 125, 0, '81.30.164.98', 1438014402, 0, 1, 1, 1, 1, '', 'Re: Змінні та типи даних в PHP', 'З нами з 27.07', 'd6d2bcc162ebbd971137e258799fba7a', 0, '', '1he5ee1d', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
+	(32, 6, 16, 54, 0, '81.30.164.98', 1438016568, 0, 1, 1, 1, 1, '', 'Re: Обробка запитів з допомогою PHP', 'Яких запитів? GET та РОST?', 'b2bf557e6e2ff54b9a71c282e50bfab1', 0, '', 'qicwrg2w', 1, 0, '', 0, 0, 0, 1, 0, '', 0),
+	(33, 17, 29, 39, 0, '178.94.43.154', 1438089493, 0, 1, 1, 1, 1, '', 'аочропр', 'ьитьитьсиьит', 'fd64da38874cb7db2fdf7648b97c7b60', 0, '', '1s2j12tz', 1, 0, '', 0, 0, 0, 1, 0, '', 0);
 /*!40000 ALTER TABLE `phpbb_posts` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

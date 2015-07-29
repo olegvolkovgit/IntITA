@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:08
+-- Date/time:                    2015-07-29 20:33:47
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,7 +19,9 @@ CREATE TABLE IF NOT EXISTS `module_languages` (
   `lang_en` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_module_languages_course` (`lang_ua`),
-  KEY `FK_module_languages_course_2` (`lang_ru`)
+  KEY `FK_module_languages_course_2` (`lang_ru`),
+  CONSTRAINT `FK_module_languages_course` FOREIGN KEY (`lang_ua`) REFERENCES `module` (`module_ID`),
+  CONSTRAINT `FK_module_languages_course_2` FOREIGN KEY (`lang_ru`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.module_languages: ~10 rows (approximately)

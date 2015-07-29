@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:10
+-- Date/time:                    2015-07-29 20:33:49
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordmatch` (
   KEY `post_id` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~209 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordmatch: ~224 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUES
 	(1, 1, 0),
@@ -115,6 +115,7 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(9, 77, 1),
 	(13, 77, 1),
 	(14, 77, 1),
+	(31, 77, 1),
 	(5, 78, 0),
 	(5, 78, 1),
 	(8, 78, 0),
@@ -123,6 +124,7 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(9, 78, 1),
 	(13, 78, 1),
 	(14, 78, 1),
+	(31, 78, 1),
 	(5, 79, 0),
 	(5, 79, 1),
 	(8, 79, 0),
@@ -132,6 +134,7 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(13, 79, 1),
 	(14, 79, 1),
 	(15, 79, 0),
+	(31, 79, 1),
 	(5, 80, 0),
 	(5, 80, 1),
 	(7, 80, 0),
@@ -145,6 +148,8 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(25, 80, 0),
 	(26, 80, 0),
 	(28, 80, 1),
+	(31, 80, 1),
+	(32, 80, 1),
 	(6, 81, 0),
 	(6, 81, 1),
 	(11, 81, 1),
@@ -161,14 +166,18 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(7, 83, 1),
 	(24, 83, 1),
 	(28, 83, 1),
+	(32, 83, 1),
 	(7, 84, 0),
 	(7, 84, 1),
 	(24, 84, 1),
 	(28, 84, 1),
+	(32, 84, 0),
+	(32, 84, 1),
 	(7, 85, 0),
 	(7, 85, 1),
 	(24, 85, 1),
 	(28, 85, 1),
+	(32, 85, 1),
 	(8, 86, 0),
 	(9, 86, 0),
 	(8, 87, 0),
@@ -232,7 +241,13 @@ INSERT INTO `phpbb_search_wordmatch` (`post_id`, `word_id`, `title_match`) VALUE
 	(29, 127, 0),
 	(29, 128, 1),
 	(30, 128, 1),
-	(30, 129, 0);
+	(30, 129, 0),
+	(31, 130, 0),
+	(32, 131, 0),
+	(32, 132, 0),
+	(32, 133, 0),
+	(33, 134, 0),
+	(33, 135, 1);
 /*!40000 ALTER TABLE `phpbb_search_wordmatch` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

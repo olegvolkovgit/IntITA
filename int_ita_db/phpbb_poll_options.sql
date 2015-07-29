@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:09
+-- Date/time:                    2015-07-29 20:33:49
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_poll_options` (
 -- Dumping data for table int_ita_db.phpbb_poll_options: ~2 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_poll_options` DISABLE KEYS */;
 INSERT INTO `phpbb_poll_options` (`poll_option_id`, `topic_id`, `poll_option_text`, `poll_option_total`) VALUES
-	(1, 15, '1. Динамо', 0),
+	(1, 15, '1. Динамо', 1),
 	(2, 15, '2. Шахтер', 0);
 /*!40000 ALTER TABLE `phpbb_poll_options` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;

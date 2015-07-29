@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:10
+-- Date/time:                    2015-07-29 20:33:50
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,11 +20,10 @@ CREATE TABLE IF NOT EXISTS `task_marks` (
   `comment` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_task_marks_user` (`id_user`),
-  KEY `FK_task_marks_task1` (`id_task`),
   CONSTRAINT `FK_task_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - success ';
 
--- Dumping data for table int_ita_db.task_marks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.task_marks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `task_marks` DISABLE KEYS */;
 INSERT INTO `task_marks` (`id`, `id_user`, `id_task`, `mark`, `comment`) VALUES
 	(1, 51, 77, 1, '');

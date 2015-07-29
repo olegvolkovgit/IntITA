@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:10
+-- Date/time:                    2015-07-29 20:33:50
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_track` (
   KEY `topic_id` (`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics_track: ~16 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics_track: ~19 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_track` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_track` (`user_id`, `topic_id`, `forum_id`, `mark_time`) VALUES
 	(2, 5, 16, 1437055279),
@@ -32,6 +32,7 @@ INSERT INTO `phpbb_topics_track` (`user_id`, `topic_id`, `forum_id`, `mark_time`
 	(38, 5, 16, 1437220304),
 	(38, 6, 16, 1437389787),
 	(38, 16, 36, 1437732959),
+	(39, 17, 29, 1438089493),
 	(40, 4, 16, 1437054417),
 	(40, 6, 16, 1437219404),
 	(40, 7, 16, 1437054945),
@@ -39,8 +40,10 @@ INSERT INTO `phpbb_topics_track` (`user_id`, `topic_id`, `forum_id`, `mark_time`
 	(40, 15, 35, 1437204004),
 	(45, 5, 16, 1437389655),
 	(45, 6, 16, 1437389787),
-	(51, 4, 16, 1437054093),
-	(121, 16, 36, 1437554649);
+	(51, 4, 16, 1438014402),
+	(121, 16, 36, 1437554649),
+	(125, 4, 16, 1438014402),
+	(125, 5, 16, 1437389655);
 /*!40000 ALTER TABLE `phpbb_topics_track` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

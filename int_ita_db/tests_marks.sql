@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:10
+-- Date/time:                    2015-07-29 20:33:50
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   KEY `FK_tests_marks_tests` (`id_test`),
   CONSTRAINT `FK_tests_marks_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`),
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
+) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
--- Dumping data for table int_ita_db.tests_marks: ~157 rows (approximately)
+-- Dumping data for table int_ita_db.tests_marks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
 INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(14, 51, 35, 1),
@@ -181,9 +181,76 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(165, 22, 82, 0),
 	(166, 22, 83, 0),
 	(167, 22, 83, 0),
-	(168, 51, 74, 0),
-	(169, 51, 76, 0),
-	(170, 51, 76, 1);
+	(168, 22, 48, 1),
+	(169, 22, 49, 1),
+	(170, 22, 51, 1),
+	(171, 56, 87, 1),
+	(172, 56, 87, 0),
+	(173, 56, 87, 0),
+	(174, 51, 56, 0),
+	(175, 51, 56, 0),
+	(176, 51, 56, 0),
+	(177, 51, 56, 0),
+	(178, 51, 56, 0),
+	(179, 51, 88, 0),
+	(180, 51, 89, 1),
+	(181, 51, 89, 1),
+	(182, 51, 89, 1),
+	(183, 51, 89, 0),
+	(184, 51, 89, 1),
+	(185, 51, 90, 1),
+	(186, 51, 90, 1),
+	(187, 51, 90, 1),
+	(188, 22, 91, 1),
+	(189, 51, 73, 1),
+	(190, 51, 102, 1),
+	(191, 51, 102, 1),
+	(192, 51, 102, 1),
+	(193, 22, 98, 0),
+	(194, 22, 99, 1),
+	(195, 22, 100, 1),
+	(196, 22, 98, 0),
+	(197, 22, 101, 0),
+	(198, 51, 81, 1),
+	(199, 129, 107, 1),
+	(200, 129, 108, 1),
+	(201, 129, 109, 1),
+	(202, 129, 110, 0),
+	(203, 129, 111, 0),
+	(204, 51, 116, 1),
+	(205, 51, 39, 0),
+	(210, 51, 74, 0),
+	(211, 51, 39, 0),
+	(212, 51, 75, 0),
+	(217, 51, 76, 0),
+	(218, 51, 76, 1),
+	(219, 51, 76, 0),
+	(220, 51, 118, 0),
+	(221, 51, 118, 0),
+	(222, 51, 118, 0),
+	(223, 51, 56, 1),
+	(224, 51, 56, 0),
+	(225, 51, 56, 0),
+	(226, 51, 56, 1),
+	(227, 51, 122, 1),
+	(228, 51, 122, 1),
+	(229, 51, 122, 1),
+	(230, 51, 122, 0),
+	(231, 51, 122, 0),
+	(232, 51, 123, 1),
+	(233, 51, 123, 0),
+	(234, 51, 123, 0),
+	(235, 51, 123, 0),
+	(236, 51, 59, 0),
+	(237, 51, 59, 0),
+	(238, 51, 59, 0),
+	(239, 51, 53, 1),
+	(240, 51, 55, 0),
+	(241, 51, 53, 1),
+	(242, 51, 53, 1),
+	(243, 51, 42, 0),
+	(244, 51, 42, 1),
+	(245, 51, 39, 0);
 /*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:09
+-- Date/time:                    2015-07-29 20:33:48
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -89,7 +89,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1438012874', 1),
+	('cache_last_gc', '1438188467', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -112,7 +112,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_mail', '', 0),
 	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
-	('database_last_gc', '1437425341', 1),
+	('database_last_gc', '1438079883', 1),
 	('dbms_version', '5.5.41-log', 0),
 	('default_dateformat', 'D M d, Y g:i a', 0),
 	('default_lang', 'uk', 0),
@@ -252,8 +252,8 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('newest_user_id', '48', 1),
 	('newest_username', 'Ivanna', 1),
 	('num_files', '0', 1),
-	('num_posts', '26', 1),
-	('num_topics', '13', 1),
+	('num_posts', '29', 1),
+	('num_topics', '14', 1),
 	('num_users', '2', 1),
 	('override_user_style', '0', 0),
 	('pass_complex', 'PASS_TYPE_ANY', 0),
@@ -267,12 +267,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'a1e54d8d2f5de0a4b9fe44d3386809f4', 1),
-	('rand_seed_last_update', '1438088361', 1),
+	('rand_seed', '468e75f5239857bf2cdd7688cf217480', 1),
+	('rand_seed_last_update', '1438190772', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1438088362', 1),
+	('read_notification_last_gc', '1438188481', 1),
 	('record_online_date', '1436536322', 1),
 	('record_online_users', '3', 1),
 	('referer_validation', '1', 0),
@@ -283,7 +283,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('search_gc', '7200', 0),
 	('search_indexing_state', '', 1),
 	('search_interval', '0', 0),
-	('search_last_gc', '1438012877', 1),
+	('search_last_gc', '1438188473', 1),
 	('search_store_results', '1800', 0),
 	('search_type', '\\phpbb\\search\\fulltext_native', 0),
 	('secure_allow_deny', '1', 0),
@@ -293,7 +293,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1438012858', 1),
+	('session_last_gc', '1438188461', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -318,7 +318,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('version', '3.1.4', 0),
 	('warnings_expire_days', '90', 0),
 	('warnings_gc', '14400', 0),
-	('warnings_last_gc', '1438012869', 1);
+	('warnings_last_gc', '1438188478', 1);
 /*!40000 ALTER TABLE `phpbb_config` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

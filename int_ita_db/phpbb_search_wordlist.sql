@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 18:48:10
+-- Date/time:                    2015-07-29 20:33:49
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_search_wordlist` (
   PRIMARY KEY (`word_id`),
   UNIQUE KEY `wrd_txt` (`word_text`),
   KEY `wrd_cnt` (`word_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_search_wordlist: ~129 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_search_wordlist: ~135 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_search_wordlist` DISABLE KEYS */;
 INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `word_count`) VALUES
 	(1, 'приклад', 0, 1),
@@ -101,15 +101,15 @@ INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `wor
 	(74, 'року', 0, 1),
 	(75, 'обговорення', 0, 3),
 	(76, 'заняття', 0, 3),
-	(77, 'змінні', 0, 8),
-	(78, 'типи', 0, 8),
-	(79, 'даних', 0, 9),
-	(80, 'php', 0, 13),
+	(77, 'змінні', 0, 9),
+	(78, 'типи', 0, 9),
+	(79, 'даних', 0, 10),
+	(80, 'php', 0, 15),
 	(81, 'основи', 0, 6),
 	(82, 'синтаксису', 0, 6),
-	(83, 'обробка', 0, 4),
-	(84, 'запитів', 0, 4),
-	(85, 'допомогою', 0, 4),
+	(83, 'обробка', 0, 5),
+	(84, 'запитів', 0, 6),
+	(85, 'допомогою', 0, 5),
 	(86, 'змінюються', 0, 2),
 	(87, 'типові', 0, 2),
 	(88, 'дуже', 0, 1),
@@ -153,7 +153,13 @@ INSERT INTO `phpbb_search_wordlist` (`word_id`, `word_text`, `word_common`, `wor
 	(126, 'добре', 0, 2),
 	(127, 'сьтмьтбьбт', 0, 1),
 	(128, 'иьмтьитьиь', 0, 2),
-	(129, 'asdfgdsfnhgqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', 0, 1);
+	(129, 'asdfgdsfnhgqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', 0, 1),
+	(130, 'нами', 0, 1),
+	(131, 'яких', 0, 1),
+	(132, 'get', 0, 1),
+	(133, 'роst', 0, 1),
+	(134, 'ьитьитьсиьит', 0, 1),
+	(135, 'аочропр', 0, 1);
 /*!40000 ALTER TABLE `phpbb_search_wordlist` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
