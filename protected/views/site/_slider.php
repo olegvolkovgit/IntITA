@@ -130,5 +130,5 @@
     </div>
 </div>
 <div class="mouseLine">
-    <a id="mouseLine" href="#form"><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>
+    <a id="mouseLine" <?php echo AccessHelper::LinkInMouseLine(); ?>><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>
 </div>

@@ -280,4 +280,9 @@ class AccessHelper
         }
         return true;
     }
+    public static function LinkInMouseLine(){
+        if(Yii::app()->user->isGuest)
+            return "href='#form'";
+        else return "";
+    }
 }

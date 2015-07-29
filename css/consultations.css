@@ -83,7 +83,7 @@ div.calendar{
     opacity: 0;
     cursor: pointer;
 }
-#ajaxchange-form, #hiddenAjaxButton{
+#ajaxchange-form{
     display: inline-block;
     width: 0;
     height: 0;
@@ -92,6 +92,11 @@ div.calendar{
     margin: 0;
     padding: 0;
     cursor: none;
+}
+#ajaxchange-form input{
+    width: 0;
+    height: 0;
+    float:right;
 }
 #form_datetime{
     height: 0;

@@ -82,10 +82,12 @@ function isTrueTestAnswer(user, test){
             if (data['status'] == '1') {
                 $("#mydialog2").dialog("open");
                 $("#mydialog2").parent().css('border', '4px solid #339900');
+                $("#mydialog2").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
                 return false;
             } else {
                 $("#mydialog3").dialog("open");
                 $("#mydialog3").parent().css('border', '4px solid #cc0000');
+                $("#mydialog3").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
                 return false;
             }
         })

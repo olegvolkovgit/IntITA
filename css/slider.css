@@ -98,9 +98,8 @@
 	border-top-color: #363636;
 	background: #363636;
 }
-.mouseLine img
-{
-	position: absolute;
+.mouseLine{
+	position: relative;
 	margin-top: -2.55%;
 	z-index: 2;
 }

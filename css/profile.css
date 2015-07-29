@@ -709,6 +709,7 @@ span.addressee {
     width: 78%;
     height: 40px;
     margin: 10px 0 10px 5px;
+    line-height: 40px;
 }
 .letter img{
     width: 60px;

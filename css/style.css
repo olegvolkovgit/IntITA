@@ -363,6 +363,7 @@ p {
     display: block;
     margin: 0 auto;
     top: 23px;
+    cursor: pointer;
 }
 /****************************************/
 
@@ -555,6 +556,9 @@ div.profileStatus{
     display:block;
     overflow: hidden;
     z-index: 0;
+}
+.profileStatus a{
+    text-decoration: none;
 }
 div.minavatar{
     width:70px;
