@@ -48,8 +48,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
                     </div>
                     <button class="testSubmit" onclick='sendTestAnswer(
                     $("<?php echo "#answers" .  $data['block_order'].' ';?> <?php echo TestsHelper::getTypeButton($testType);?>"),
-                    <?php echo $user;?>,
-                    <?php echo TestsHelper::getTestId($data['id_block'])?>,
+                    <?php echo $user;?>, <?php echo TestsHelper::getTestId($data['id_block'])?>,
                     <?php echo $testType;?>,
                     <?php echo ($editMode)?1:0;?>
                         );' <?php if($editMode || $user == 0){ echo "disabled";}?> >
