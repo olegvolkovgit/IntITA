@@ -87,4 +87,13 @@ class LectureHelper {
         }
 
     }
+
+    public static function isFinalFirst($idLecture){
+        $count = LectureElement::model()->exists('id_lecture=:id_lecture and (id_type=6 or id_type=13)', array('id_lecture' => $idLecture));
+        if ($count){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
 }

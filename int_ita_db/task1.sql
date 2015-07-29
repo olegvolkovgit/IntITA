@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-27 18:55:19
+-- Date/time:                    2015-07-29 18:48:10
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `task1` (
   PRIMARY KEY (`id`),
   KEY `author` (`author`),
   CONSTRAINT `FK_task1_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.';
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.';
 
--- Dumping data for table int_ita_db.task1: ~47 rows (approximately)
+-- Dumping data for table int_ita_db.task1: ~48 rows (approximately)
 /*!40000 ALTER TABLE `task1` DISABLE KEYS */;
 INSERT INTO `task1` (`id`, `language`, `assignment`, `condition`, `author`, `table`) VALUES
 	(50, 'c++', 1, 100, 1, 'assignment_cpp'),
@@ -73,7 +73,8 @@ INSERT INTO `task1` (`id`, `language`, `assignment`, `condition`, `author`, `tab
 	(99, 'c++', 39, 486, 1, 'assignment_cpp'),
 	(100, 'c++', 40, 497, 1, 'assignment_cpp'),
 	(101, 'c++', 1, 473, 1, 'assignment_cpp'),
-	(102, 'c++', 1, 84, 1, 'assignment_cpp');
+	(102, 'c++', 1, 84, 1, 'assignment_cpp'),
+	(103, 'c++', 1, 237, 1, 'assignment_cpp');
 /*!40000 ALTER TABLE `task1` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-27 18:55:15
+-- Date/time:                    2015-07-29 18:48:08
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=534 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=546 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~377 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~389 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -170,7 +170,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(231, 73, 6, 'text', 1, '<p>vdvdfgdfgdf</p>'),
 	(232, 112, 1, 'text', 1, '<p>fffffffffffffssssssssssssss\n</p>'),
 	(233, 113, 1, 'task', 5, '<p>Задача 1</p>'),
-	(236, 112, 2, 'final task', 6, '<p><span style="color: rgb(204, 193, 217);">11111111111111</span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><br></span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><span class="redactor-invisible-space"><br></span></span>\n</p>'),
+	(236, 112, 2, 'task', 5, '<p><span style="color: rgb(204, 193, 217);">11111111111111</span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><br></span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><span class="redactor-invisible-space"><br></span></span>\n</p>'),
 	(237, 112, 3, 'text', 1, '<p>аропропропр</p>'),
 	(238, 101, 1, 'label', 8, '<p>Вступ</p>'),
 	(239, 101, 2, 'text', 1, '<p>Тепер, ознайомившись із загальною структурою програми і основними принципами процесу програмування (присвоювання, розгалудження та повторювання), настав час заглибитись в інші тонкощі синтаксису мови С.</p><p>В рамках даного заняття ми освоїмо:</p><ol><li>основні типи даних, які підлягають обробці під час виконання програми;</li><li>правила оголошення і використання змінних;</li><li>основні операції над даними; суть поняття “оператор”;</li><li>правила запису виразів, що містять змінні, константи та операції над ними;</li><li>розберемося з пріоритетами виконання в програмі різних операцій;</li><li>вивчимо основні оператори, призначені для введення даних в змінні і їх виведення на екран;</li><li>і насамкінець - познайомимося з правилами оголошення і виконання типових дій над даними, що містяться в спеціальних структурах (“сховищах”) однотипних даних під назвою “масиви” (одно- і двовимірних).</li></ol>'),
@@ -402,8 +402,20 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(529, 151, 3, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
 	(530, 151, 4, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
 	(531, 151, 5, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
-	(532, 112, 4, 'task', 5, '<p>ьпьпоьспо</p>'),
-	(533, 53, 2, 'formula', 10, '\\[5> 3; 6< 10; 8=8\\]\r\n');
+	(532, 112, 4, 'text', 1, '<p>ьпьпоьспо</p>'),
+	(533, 53, 2, 'formula', 10, '\\[5> 3; 6< 10; 8=8\\]\r\n'),
+	(534, 139, 5, 'text', 1, '\\[wFwefgerGFVRTA\\]\r\n'),
+	(535, 73, 12, 'text', 1, '\\[vsdvfsv\\]\r\n'),
+	(536, 73, 13, 'text', 1, '\\[rwftrg\\]\r\n'),
+	(537, 73, 14, 'text', 1, '\\[\\sum \\alpha \\mu \\mu \\nu \\varsigma\\]\r\n'),
+	(538, 147, 8, 'text', 1, '\\[\\sum \\rho \\rho\\]\r\n'),
+	(539, 147, 9, 'text', 1, '\\[\\zeta \\rho \\rho\\]\r\n'),
+	(540, 147, 10, 'text', 1, '\\[\\zeta\\]\r\n'),
+	(541, 147, 11, 'text', 1, '\\[\\Cup \\bigtriangledown \\amalg\\]\r\n'),
+	(542, 147, 12, 'text', 1, '\\[\\varsigma\\]\r\n'),
+	(543, 147, 13, 'text', 1, '\\[\\mu \\mu\\]\r\n'),
+	(544, 147, 14, 'text', 1, '\\[\\varpi \\mu\\]\r\n'),
+	(545, 147, 15, 'formula', 10, '\\[\\zeta \\pi \\zeta \\nu \\nu\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

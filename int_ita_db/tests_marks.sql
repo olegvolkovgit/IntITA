@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-27 18:55:20
+-- Date/time:                    2015-07-29 18:48:10
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   KEY `FK_tests_marks_tests` (`id_test`),
   CONSTRAINT `FK_tests_marks_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`),
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
--- Dumping data for table int_ita_db.tests_marks: ~154 rows (approximately)
+-- Dumping data for table int_ita_db.tests_marks: ~157 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
 INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(14, 51, 35, 1),
@@ -180,7 +180,10 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(164, 22, 82, 0),
 	(165, 22, 82, 0),
 	(166, 22, 83, 0),
-	(167, 22, 83, 0);
+	(167, 22, 83, 0),
+	(168, 51, 74, 0),
+	(169, 51, 76, 0),
+	(170, 51, 76, 1);
 /*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

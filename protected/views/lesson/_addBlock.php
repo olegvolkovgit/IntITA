@@ -24,11 +24,11 @@
                 <br>
                 <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>
                 <br>
-                <a href="javascript:showAddTaskForm('final')">Додати підсумкове завдання</a>
+                <a href="javascript:showAddTaskForm('final', <?php echo LectureHelper::isFinalFirst($lecture->id);?>)">Додати підсумкове завдання</a>
                 <br>
                 <a href="javascript:showAddTestForm('plain')">Додати тест</a>
                 <br>
-                <a href="javascript:showAddTestForm('final')">Додати підсумковий тест</a>
+                <a href="javascript:showAddTestForm('final', <?php echo LectureHelper::isFinalFirst($lecture->id);?>)")">Додати підсумковий тест</a>
                 <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108"

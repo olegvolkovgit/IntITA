@@ -75,7 +75,7 @@ function isTrueTestAnswer(user, test){
         "user": user,
         "test" : test
     };
-    var jqxhr = $.post( "/IntITA/tests/getTestResult", JSON.stringify(command), function(){
+    var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){
 
     })
         .done(function(data) {

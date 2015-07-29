@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-27 18:55:34
+-- Date/time:                    2015-07-29 18:47:58
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -765,172 +765,152 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `durationInMinutes` int(11) DEFAULT '60',
   `idTeacher` varchar(50) DEFAULT NULL,
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
+  `rate` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
 -- Dumping data for table int_ita_db.lectures: ~138 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
-INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`) VALUES
-	(1, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Змінні та типи даних в PHP', 1, 40, '1', 1),
-	(2, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'Основи синтаксису', 1, 50, '3', 1),
-	(3, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0),
-	(5, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Функції в PHP', 1, 60, '1', 0),
-	(14, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'Об\'єкти і класи PHP', 1, 60, '2', 0),
-	(15, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Робота з масивами даних', 1, 60, '3', 0),
-	(16, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Робота з стрічками', 1, 60, '2', 0),
-	(17, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Робота з файловою системою', 1, 60, '4', 0),
-	(18, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Бази даних і СУБД. Введення в SQL', 1, 60, '2', 0),
-	(19, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Взаємодія PHP і MySQL', 1, 60, '1', 0),
-	(20, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Авторизація доступу з допомогою сесій', 1, 60, '3', 0),
-	(21, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Регулярні вирази', 1, 60, '2', 0),
-	(22, 'lectureImage.png', 'lecture1', 'ua', 2, 1, 'Взаємодія PHP і XML', 1, 60, '1', 0),
-	(23, 'lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2', 0),
-	(24, 'lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '4', 0),
-	(26, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'Фреймворк Yii', 1, 60, '1', 0),
-	(27, 'lectureImage.png', 'lecture14', 'ua', 0, 0, 'Фреймворк Lavarel', 1, 60, '3', 0),
-	(31, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Вступ', 1, 60, '1', 0),
-	(32, 'lectureImage.png', 'lecture2', 'ua', 0, 0, '2', 1, 60, '1', 0),
-	(33, 'lectureImage.png', 'lecture3', 'ua', 0, 0, '3', 1, 60, '1', 0),
-	(35, 'lectureImage.png', 'lecture15', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0),
-	(36, 'lectureImage.png', 'lecture16', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0),
-	(37, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(38, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(39, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0),
-	(40, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'ythteth', 1, 60, '1', 0),
-	(41, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(42, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(43, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0),
-	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0),
-	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0),
-	(47, 'lectureImage.png', 'lecture15', 'ua', 0, 0, '15', 1, 60, '3', 0),
-	(48, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'New lecture', 1, 60, '1', 0),
-	(49, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'hgfjhkjcj bjkhlhkjl', 1, 60, '5', 0),
-	(50, 'lectureImage.png', 'lecture2', 'ua', 7, 2, 'Математический анализ', 1, 60, '5', 0),
-	(51, 'lectureImage.png', 'lecture3', 'ua', 7, 3, 'Дифференциальные уравнения', 1, 60, '5', 0),
-	(52, 'lectureImage.png', 'lecture4', 'ua', 7, 4, 'Математическая физика', 1, 60, '5', 0),
-	(53, 'lectureImage.png', 'lecture5', 'ua', 7, 5, 'Геометрия и топология', 1, 60, '5', 0),
-	(54, 'lectureImage.png', 'lecture6', 'ua', 7, 1, 'Теория вероятностей и математическая статистика', 1, 60, '5', 0),
-	(55, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'd', 1, 60, '1', 0),
-	(56, 'lectureImage.png', 'lecture17', 'ua', 0, 0, '/', 1, 60, '1', 0),
-	(57, 'lectureImage.png', 'lecture18', 'ua', 0, 0, '0', 1, 60, '1', 0),
-	(58, 'lectureImage.png', 'lecture19', 'ua', 0, 0, '-1', 1, 60, '1', 0),
-	(59, 'lectureImage.png', 'lecture20', 'ua', 0, 0, '.', 1, 60, '1', 0),
-	(60, 'lectureImage.png', 'lecture21', 'ua', 0, 0, 'ооооооооооооооооооооооооооооооооооооооооммммммммммммммммммммммммммммммммммммммммммммттттттттттттттттттттттттттттттттттттттттттттттттттттввввввввввввввввввввввввввввввввввввввввввввввввссссссссссссссссссссссссссссссссссссссссммммммммммммммммммммммммммммммм', 1, 60, '1', 0),
-	(61, 'lectureImage.png', 'lecture22', 'ua', 0, 0, 'ииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииаааааааааааааааааааааааааааааааааааааааааааааааааааааааасссссссссссссссссссссссссссссссссссссссссссссссссссссссссввввввввввввввввввввввввввввввввввввввввввввввввввввииииииии', 1, 60, '1', 0),
-	(62, 'lectureImage.png', 'lecture23', 'ua', 0, 0, 'чсьтмиьт)', 1, 60, '1', 0),
-	(63, 'lectureImage.png', 'lecture24', 'ua', 0, 0, 'пор:', 1, 60, '1', 0),
-	(64, 'lectureImage.png', 'lecture25', 'ua', 0, 0, ';', 1, 60, '1', 0),
-	(65, 'lectureImage.png', 'lecture26', 'ua', 0, 0, ',', 1, 60, '1', 0),
-	(66, 'lectureImage.png', 'lecture1', 'ua', 11, 2, 'Занятие 1', 1, 60, '2', 0),
-	(67, 'lectureImage.png', 'lecture2', 'ua', 11, 1, 'Занятие 2,', 1, 60, '2', 0),
-	(68, 'lectureImage.png', 'lecture3', 'ua', 11, 3, 'Занятие 3.', 1, 60, '2', 0),
-	(69, 'lectureImage.png', 'lecture4', 'ua', 11, 4, 'Занятие 4;', 1, 60, '2', 0),
-	(70, 'lectureImage.png', 'lecture5', 'ua', 11, 5, 'Занятие 5:', 1, 60, '2', 0),
-	(71, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'занятие 6', 1, 60, '2', 0),
-	(72, 'lectureImage.png', 'lecture1', 'ua', 23, 1, 'аатара', 1, 60, '2', 0),
-	(73, 'lectureImage.png', 'lecture2', 'ua', 61, 1, 'gfggeg', 1, 60, '1', 0),
-	(74, 'lectureImage.png', 'lecture4', 'ua', 0, 0, '4', 1, 60, '1', 0),
-	(75, 'lectureImage.png', 'lecture27', 'ua', 0, 0, '\'`!,?їЇ', 1, 60, '1', 0),
-	(76, 'lectureImage.png', 'lecture28', 'ua', 0, 0, 'jgkhjlkhl', 1, 60, '1', 0),
-	(77, 'lectureImage.png', 'lecture29', 'ua', 0, 0, 'yuiuuoyil', 1, 60, '1', 0),
-	(78, 'lectureImage.png', 'lecture1', 'ua', 20, 1, 'rgdgjkj', 1, 60, '3', 0),
-	(79, 'lectureImage.png', 'lecture2', 'ua', 20, 2, 'hjhgjghgkg', 1, 60, '3', 0),
-	(80, 'lectureImage.png', 'lecture30', 'ua', 0, 0, 'Що таке програмування', 1, 60, '9', 0),
-	(81, 'lectureImage.png', 'lecture31', 'ua', 0, 0, 'кар\'єра', 1, 60, '1', 0),
-	(82, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'ппппппппппппппппппппппппппппаааааааааааааааааааааааааааааааввввввввввввввввввввввввввввввссс', 1, 60, '1', 0),
-	(83, 'lectureImage.png', 'lecture32', 'ua', 0, 0, 'Що потрібно щоб стати програмістом?', 1, 60, '9', 0),
-	(84, 'lectureImage.png', 'lecture33', 'ua', 0, 0, 'Що таке мова програмування.', 1, 60, '9', 0),
-	(85, 'lectureImage.png', 'lecture34', 'ua', 0, 0, 'Якою має бути програма?', 1, 60, '9', 0),
-	(86, 'lectureImage.png', 'lecture35', 'ua', 0, 0, 'Етапи програмування', 1, 60, '9', 0),
-	(87, 'lectureImage.png', 'lecture36', 'ua', 0, 0, 'Підсумкове завдання.', 1, 60, '9', 0),
-	(88, 'lectureImage.png', 'lecture4', 'ua', 2, 4, 'Дроби', 1, 60, '10', 0),
-	(89, 'lectureImage.png', 'lecture5', 'ua', 2, 5, 'Нескінченний періодичний десятковий дріб', 1, 60, '10', 0),
-	(90, 'lectureImage.png', 'lecture6', 'ua', 2, 6, 'Одночлен і многочлени', 1, 60, '10', 0),
-	(91, 'lectureImage.png', 'lecture7', 'ua', 2, 7, 'Натуральні числа', 1, 60, '10', 0),
-	(92, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'xfgfghhjhkjkjhlkl', 1, 60, '1', 0),
-	(93, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'lesson 7', 1, 60, '1', 0),
-	(94, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'fhgfjhj', 1, 60, '1', 0),
-	(95, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'yiuioioioio', 1, 60, '1', 0),
-	(96, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'guuihuiuhiuhiuu', 1, 60, '1', 0),
-	(97, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'fcghgcjhgfj', 1, 60, '1', 0),
-	(98, 'lectureImage.png', 'lecture1', 'ua', 9, 1, '1', 1, 60, '3', 0),
-	(99, 'lectureImage.png', 'lecture3', 'ua', 20, 3, '!!!!!!', 1, 60, '1', 0),
-	(100, 'lectureImage.png', 'lecture8', 'ua', 3, 1, 'Основи мови С (частина 1)', 1, 60, '11', 0),
-	(101, 'lectureImage.png', 'lecture9', 'ua', 3, 2, 'Основи мови С (частина 2)', 1, 60, '11', 0),
-	(102, 'lectureImage.png', 'lecture3', 'ua', 3, 3, 'Процедури і функції', 1, 60, '11', 0),
-	(103, 'lectureImage.png', 'lecture4', 'ua', 3, 4, 'Покажчики та рекурсія', 1, 60, '11', 0),
-	(104, 'lectureImage.png', 'lecture5', 'ua', 3, 5, 'Символьні рядки', 1, 60, '11', 0),
-	(105, 'lectureImage.png', 'lecture6', 'ua', 3, 6, 'Текстові файли', 1, 60, '11', 0),
-	(106, 'lectureImage.png', 'lecture7', 'ua', 3, 7, 'Файли з довільним доступом', 1, 60, '11', 0),
-	(107, 'lectureImage.png', 'lecture8', 'ua', 3, 8, 'Типи даних, визначені користувачем (частина 1)', 1, 60, '11', 0),
-	(108, 'lectureImage.png', 'lecture9', 'ua', 3, 9, 'Типи даних, визначені користувачем (частина 2)', 1, 60, '11', 0),
-	(109, 'lectureImage.png', 'lecture10', 'ua', 3, 10, 'Динамічні структури даних (частина 1)', 1, 60, '11', 0),
-	(110, 'lectureImage.png', 'lecture11', 'ua', 3, 11, 'Динамічні структури даних (частина 2)', 1, 60, '11', 0),
-	(111, 'lectureImage.png', 'lecture12', 'ua', 3, 12, 'Налагодження і тестування', 1, 60, '11', 0),
-	(112, 'lectureImage.png', 'lecture2', 'ua', 61, 2, 'ffff', 1, 60, '1', 0),
-	(113, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'dfgdfgdfg', 1, 60, '1', 0),
-	(114, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'аопваотмаи', 1, 60, '1', 0),
-	(115, 'lectureImage.png', 'lecture1', 'ua', 18, 1, 'Тест занятие', 1, 60, '1', 0),
-	(116, 'lectureImage.png', 'lecture4', 'ua', 20, 4, 'тьмтсич', 1, 60, '1', 0),
-	(117, 'lectureImage.png', 'lecture5', 'ua', 1, 1, 'Етапи програмування. Парадигма програмування.', 1, 60, '9', 0),
-	(118, 'lectureImage.png', 'lecture6', 'ua', 1, 2, 'Функціонування комп\'ютера.', 1, 60, '9', 0),
-	(119, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Пристрої введення (клавіатура, мишка, джойстик, сенсорні, мікрофон) та виведення (монітор, відеоадаптер, принтер, плоттер, аудіо адаптер)', 1, 60, '9', 0),
-	(120, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Пам\'ять комп\'ютера (принципи роботи). Зберігання та перенесення даних. Програмне забезпечення (поняття, класифікація).', 1, 60, '9', 0),
-	(121, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Принципи фон Неймана. Процесор (історія, компоненти, схема, характеристики).', 1, 60, '9', 0),
-	(122, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Платформи, ОС (історія, поняття, функції, модулі, функції ядра)', 1, 60, '9', 0),
-	(123, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Системи числення. Правила переведення для різних СЧ.', 1, 60, '9', 0),
-	(124, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Алгоритм (поняття, способи подання, властивості, приклади).', 1, 60, '9', 0),
-	(125, 'lectureImage.png', 'lecture13', 'ua', 1, 9, 'Технології програмування. Покоління', 1, 60, '9', 0),
-	(126, 'lectureImage.png', 'lecture14', 'ua', 1, 10, 'Розвиток мов програмування', 1, 60, '9', 0),
-	(127, 'lectureImage.png', 'lecture11', 'ua', 1, 3, 'Пристрої введення та виведення інформації.', 1, 60, '9', 0),
-	(128, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Пам\'ять комп\'ютера. Зберігання та перенесення даних. Програмне забезпечення', 1, 60, '9', 0),
-	(129, 'lectureImage.png', 'lecture11', 'ua', 1, 5, 'Принципи фон Неймана. Що таке процесор.', 1, 60, '9', 0),
-	(130, 'lectureImage.png', 'lecture11', 'ua', 1, 6, 'Що таке операційна система.', 1, 60, '9', 0),
-	(131, 'lectureImage.png', 'lecture11', 'ua', 1, 4, 'Пам\'ять комп\'ютера. Програмне забезпечення', 1, 60, '9', 0),
-	(132, 'lectureImage.png', 'lecture11', 'ua', 1, 8, 'Що таке алгоритм.', 1, 60, '9', 0),
-	(133, 'lectureImage.png', 'lecture11', 'ua', 1, 7, 'Системи числення. Правила переведення.', 1, 60, '9', 0),
-	(134, 'lectureImage.png', 'lecture1', 'ua', 0, 0, '1', 1, 60, '1', 0),
-	(135, 'lectureImage.png', 'lecture1', 'ua', 111, 1, '1', 1, 60, '1', 0),
-	(136, 'lectureImage.png', 'lecture3', 'ua', 61, 3, 'Test3', 1, 60, '1', 0),
-	(137, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'test', 1, 60, '1', 0),
-	(138, 'lectureImage.png', 'lecture2', 'ua', 111, 2, 'ghhkgjkjk', 1, 60, '1', 0),
-	(139, 'lectureImage.png', 'lecture3', 'ua', 111, 3, 'yfugg', 1, 60, '1', 0),
-	(140, 'lectureImage.png', 'lecture8', 'ua', 2, 8, 'Дроби', 1, 60, '10', 0),
-	(141, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Test 4', 1, 60, '1', 0),
-	(142, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'test 5', 1, 60, '1', 0),
-	(143, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Test 6', 1, 60, '1', 0),
-	(144, 'lectureImage.png', 'lecture4', 'ua', 61, 4, 'Test 4', 1, 60, '1', 0),
-	(145, 'lectureImage.png', 'lecture5', 'ua', 61, 5, 'test 5', 1, 60, '1', 0),
-	(146, 'lectureImage.png', 'lecture6', 'ua', 61, 6, 'Тест 6', 1, 60, '1', 0),
-	(147, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'тест 7', 1, 60, '1', 0),
-	(148, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'ТЕСТ 8', 1, 60, '1', 0),
-	(149, 'lectureImage.png', 'lecture9', 'ua', 61, 9, '9', 1, 60, '1', 0),
-	(150, 'lectureImage.png', 'lecture10', 'ua', 61, 10, '101010101010', 1, 60, '1', 0),
-	(151, 'lectureImage.png', 'lecture11', 'ua', 61, 11, '21', 1, 60, '1', 0),
-	(152, 'lectureImage.png', 'lecture12', 'ua', 61, 12, '12', 1, 60, '1', 0);
+INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`, `rate`) VALUES
+	(1, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Змінні та типи даних в PHP', 1, 40, '1', 1, 5),
+	(2, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'Основи синтаксису', 1, 50, '3', 1, 5),
+	(3, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0, 5),
+	(4, 'lectureImage.png', 'lecture1', 'ua', 2, 1, 'Взаємодія PHP і XML', 1, 60, '1', 0, 4),
+	(5, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Функції в PHP', 1, 60, '1', 0, 5),
+	(14, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'Об\'єкти і класи PHP', 1, 60, '2', 0, 5),
+	(15, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Робота з масивами даних', 1, 60, '3', 0, 5),
+	(16, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Робота з стрічками', 1, 60, '2', 0, 5),
+	(17, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Робота з файловою системою', 1, 60, '4', 0, 5),
+	(18, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Бази даних і СУБД. Введення в SQL', 1, 60, '2', 0, 5),
+	(19, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Взаємодія PHP і MySQL', 1, 60, '1', 0, 5),
+	(20, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Авторизація доступу з допомогою сесій', 1, 60, '3', 0, 5),
+	(21, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Регулярні вирази', 1, 60, '2', 0, 4),
+	(23, 'lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2', 0, 4),
+	(24, 'lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '4', 0, 4),
+	(26, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'Фреймворк Yii', 1, 60, '1', 0, 5),
+	(27, 'lectureImage.png', 'lecture14', 'ua', 0, 0, 'Фреймворк Lavarel', 1, 60, '3', 0, 5),
+	(31, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Вступ', 1, 60, '1', 0, 5),
+	(32, 'lectureImage.png', 'lecture2', 'ua', 0, 0, '2', 1, 60, '1', 0, 5),
+	(33, 'lectureImage.png', 'lecture3', 'ua', 0, 0, '3', 1, 60, '1', 0, 5),
+	(35, 'lectureImage.png', 'lecture15', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0, 4),
+	(36, 'lectureImage.png', 'lecture16', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0, 4),
+	(37, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
+	(38, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
+	(39, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
+	(40, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'ythteth', 1, 60, '1', 0, 4),
+	(41, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
+	(42, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
+	(43, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
+	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
+	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0, 4),
+	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0, 4),
+	(47, 'lectureImage.png', 'lecture15', 'ua', 0, 0, '15', 1, 60, '3', 0, 4),
+	(48, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'New lecture', 1, 60, '1', 0, 4),
+	(49, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'hgfjhkjcj bjkhlhkjl', 1, 60, '5', 0, 4),
+	(50, 'lectureImage.png', 'lecture2', 'ua', 7, 2, 'Математический анализ', 1, 60, '5', 0, 4),
+	(51, 'lectureImage.png', 'lecture3', 'ua', 7, 3, 'Дифференциальные уравнения', 1, 60, '5', 0, 4),
+	(52, 'lectureImage.png', 'lecture4', 'ua', 7, 4, 'Математическая физика', 1, 60, '5', 0, 4),
+	(53, 'lectureImage.png', 'lecture5', 'ua', 7, 5, 'Геометрия и топология', 1, 60, '5', 0, 4),
+	(54, 'lectureImage.png', 'lecture6', 'ua', 7, 1, 'Теория вероятностей и математическая статистика', 1, 60, '5', 0, 4),
+	(55, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'd', 1, 60, '1', 0, 4),
+	(56, 'lectureImage.png', 'lecture17', 'ua', 0, 0, '/', 1, 60, '1', 0, 4),
+	(57, 'lectureImage.png', 'lecture18', 'ua', 0, 0, '0', 1, 60, '1', 0, 4),
+	(58, 'lectureImage.png', 'lecture19', 'ua', 0, 0, '-1', 1, 60, '1', 0, 4),
+	(59, 'lectureImage.png', 'lecture20', 'ua', 0, 0, '.', 1, 60, '1', 0, 4),
+	(60, 'lectureImage.png', 'lecture21', 'ua', 0, 0, 'ооооооооооооооооооооооооооооооооооооооооммммммммммммммммммммммммммммммммммммммммммммттттттттттттттттттттттттттттттттттттттттттттттттттттввввввввввввввввввввввввввввввввввввввввввввввввссссссссссссссссссссссссссссссссссссссссммммммммммммммммммммммммммммммм', 1, 60, '1', 0, 4),
+	(61, 'lectureImage.png', 'lecture22', 'ua', 0, 0, 'ииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииаааааааааааааааааааааааааааааааааааааааааааааааааааааааасссссссссссссссссссссссссссссссссссссссссссссссссссссссссввввввввввввввввввввввввввввввввввввввввввввввввввввииииииии', 1, 60, '1', 0, 4),
+	(62, 'lectureImage.png', 'lecture23', 'ua', 0, 0, 'чсьтмиьт)', 1, 60, '1', 0, 4),
+	(63, 'lectureImage.png', 'lecture24', 'ua', 0, 0, 'пор:', 1, 60, '1', 0, 4),
+	(64, 'lectureImage.png', 'lecture25', 'ua', 0, 0, ';', 1, 60, '1', 0, 4),
+	(65, 'lectureImage.png', 'lecture26', 'ua', 0, 0, ',', 1, 60, '1', 0, 4),
+	(66, 'lectureImage.png', 'lecture1', 'ua', 11, 2, 'Занятие 1', 1, 60, '2', 0, 4),
+	(67, 'lectureImage.png', 'lecture2', 'ua', 11, 1, 'Занятие 2,', 1, 60, '2', 0, 4),
+	(68, 'lectureImage.png', 'lecture3', 'ua', 11, 3, 'Занятие 3.', 1, 60, '2', 0, 4),
+	(69, 'lectureImage.png', 'lecture4', 'ua', 11, 4, 'Занятие 4;', 1, 60, '2', 0, 4),
+	(70, 'lectureImage.png', 'lecture5', 'ua', 11, 5, 'Занятие 5:', 1, 60, '2', 0, 4),
+	(71, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'занятие 6', 1, 60, '2', 0, 4),
+	(72, 'lectureImage.png', 'lecture1', 'ua', 23, 1, 'аатара', 1, 60, '2', 0, 4),
+	(73, 'lectureImage.png', 'lecture2', 'ua', 61, 1, 'gfggeg', 1, 60, '1', 0, 4),
+	(74, 'lectureImage.png', 'lecture4', 'ua', 0, 0, '4', 1, 60, '1', 0, 4),
+	(75, 'lectureImage.png', 'lecture27', 'ua', 0, 0, '\'`!,?їЇ', 1, 60, '1', 0, 4),
+	(76, 'lectureImage.png', 'lecture28', 'ua', 0, 0, 'jgkhjlkhl', 1, 60, '1', 0, 4),
+	(77, 'lectureImage.png', 'lecture29', 'ua', 0, 0, 'yuiuuoyil', 1, 60, '1', 0, 4),
+	(78, 'lectureImage.png', 'lecture1', 'ua', 20, 1, 'rgdgjkj', 1, 60, '3', 0, 4),
+	(79, 'lectureImage.png', 'lecture2', 'ua', 20, 2, 'hjhgjghgkg', 1, 60, '3', 0, 4),
+	(80, 'lectureImage.png', 'lecture30', 'ua', 0, 0, 'Що таке програмування', 1, 60, '9', 0, 4),
+	(81, 'lectureImage.png', 'lecture31', 'ua', 0, 0, 'кар\'єра', 1, 60, '1', 0, 4),
+	(82, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'ппппппппппппппппппппппппппппаааааааааааааааааааааааааааааааввввввввввввввввввввввввввввввссс', 1, 60, '1', 0, 4),
+	(83, 'lectureImage.png', 'lecture32', 'ua', 0, 0, 'Що потрібно щоб стати програмістом?', 1, 60, '9', 0, 4),
+	(84, 'lectureImage.png', 'lecture33', 'ua', 0, 0, 'Що таке мова програмування.', 1, 60, '9', 0, 4),
+	(85, 'lectureImage.png', 'lecture34', 'ua', 0, 0, 'Якою має бути програма?', 1, 60, '9', 0, 4),
+	(86, 'lectureImage.png', 'lecture35', 'ua', 0, 0, 'Етапи програмування', 1, 60, '9', 0, 4),
+	(87, 'lectureImage.png', 'lecture36', 'ua', 0, 0, 'Підсумкове завдання.', 1, 60, '9', 0, 4),
+	(88, 'lectureImage.png', 'lecture4', 'ua', 2, 4, 'Дроби', 1, 60, '10', 0, 4),
+	(89, 'lectureImage.png', 'lecture5', 'ua', 2, 5, 'Нескінченний періодичний десятковий дріб', 1, 60, '10', 0, 4),
+	(90, 'lectureImage.png', 'lecture6', 'ua', 2, 6, 'Одночлен і многочлени', 1, 60, '10', 0, 4),
+	(91, 'lectureImage.png', 'lecture7', 'ua', 2, 7, 'Натуральні числа', 1, 60, '10', 0, 4),
+	(92, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'xfgfghhjhkjkjhlkl', 1, 60, '1', 0, 4),
+	(93, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'lesson 7', 1, 60, '1', 0, 4),
+	(94, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'fhgfjhj', 1, 60, '1', 0, 4),
+	(95, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'yiuioioioio', 1, 60, '1', 0, 4),
+	(96, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'guuihuiuhiuhiuu', 1, 60, '1', 0, 4),
+	(97, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'fcghgcjhgfj', 1, 60, '1', 0, 4),
+	(98, 'lectureImage.png', 'lecture1', 'ua', 9, 1, '1', 1, 60, '3', 0, 4),
+	(99, 'lectureImage.png', 'lecture3', 'ua', 20, 3, '!!!!!!', 1, 60, '1', 0, 4),
+	(100, 'lectureImage.png', 'lecture8', 'ua', 3, 1, 'Основи мови С (частина 1)', 1, 60, '11', 0, 4),
+	(101, 'lectureImage.png', 'lecture9', 'ua', 3, 2, 'Основи мови С (частина 2)', 1, 60, '11', 0, 4),
+	(102, 'lectureImage.png', 'lecture3', 'ua', 3, 3, 'Процедури і функції', 1, 60, '11', 0, 4),
+	(103, 'lectureImage.png', 'lecture4', 'ua', 3, 4, 'Покажчики та рекурсія', 1, 60, '11', 0, 4),
+	(104, 'lectureImage.png', 'lecture5', 'ua', 3, 5, 'Символьні рядки', 1, 60, '11', 0, 4),
+	(105, 'lectureImage.png', 'lecture6', 'ua', 3, 6, 'Текстові файли', 1, 60, '11', 0, 4),
+	(106, 'lectureImage.png', 'lecture7', 'ua', 3, 7, 'Файли з довільним доступом', 1, 60, '11', 0, 4),
+	(107, 'lectureImage.png', 'lecture8', 'ua', 3, 8, 'Типи даних, визначені користувачем (частина 1)', 1, 60, '11', 0, 4),
+	(108, 'lectureImage.png', 'lecture9', 'ua', 3, 9, 'Типи даних, визначені користувачем (частина 2)', 1, 60, '11', 0, 4),
+	(109, 'lectureImage.png', 'lecture10', 'ua', 3, 10, 'Динамічні структури даних (частина 1)', 1, 60, '11', 0, 4),
+	(110, 'lectureImage.png', 'lecture11', 'ua', 3, 11, 'Динамічні структури даних (частина 2)', 1, 60, '11', 0, 4),
+	(111, 'lectureImage.png', 'lecture12', 'ua', 3, 12, 'Налагодження і тестування', 1, 60, '11', 0, 4),
+	(112, 'lectureImage.png', 'lecture2', 'ua', 61, 2, 'ffff', 1, 60, '1', 0, 4),
+	(113, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'dfgdfgdfg', 1, 60, '1', 0, 4),
+	(114, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'аопваотмаи', 1, 60, '1', 0, 4),
+	(115, 'lectureImage.png', 'lecture1', 'ua', 18, 1, 'Тест занятие', 1, 60, '1', 0, 4),
+	(116, 'lectureImage.png', 'lecture4', 'ua', 20, 4, 'тьмтсич', 1, 60, '1', 0, 4),
+	(117, 'lectureImage.png', 'lecture5', 'ua', 1, 1, 'Етапи програмування. Парадигма програмування.', 1, 60, '9', 0, 4),
+	(118, 'lectureImage.png', 'lecture6', 'ua', 1, 2, 'Функціонування комп\'ютера.', 1, 60, '9', 0, 4),
+	(119, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Пристрої введення (клавіатура, мишка, джойстик, сенсорні, мікрофон) та виведення (монітор, відеоадаптер, принтер, плоттер, аудіо адаптер)', 1, 60, '9', 0, 4),
+	(120, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Пам\'ять комп\'ютера (принципи роботи). Зберігання та перенесення даних. Програмне забезпечення (поняття, класифікація).', 1, 60, '9', 0, 4),
+	(121, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Принципи фон Неймана. Процесор (історія, компоненти, схема, характеристики).', 1, 60, '9', 0, 4),
+	(122, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Платформи, ОС (історія, поняття, функції, модулі, функції ядра)', 1, 60, '9', 0, 4),
+	(123, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Системи числення. Правила переведення для різних СЧ.', 1, 60, '9', 0, 4),
+	(124, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Алгоритм (поняття, способи подання, властивості, приклади).', 1, 60, '9', 0, 4),
+	(125, 'lectureImage.png', 'lecture13', 'ua', 1, 9, 'Технології програмування. Покоління', 1, 60, '9', 0, 4),
+	(126, 'lectureImage.png', 'lecture14', 'ua', 1, 10, 'Розвиток мов програмування', 1, 60, '9', 0, 4),
+	(127, 'lectureImage.png', 'lecture11', 'ua', 1, 3, 'Пристрої введення та виведення інформації.', 1, 60, '9', 0, 4),
+	(128, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Пам\'ять комп\'ютера. Зберігання та перенесення даних. Програмне забезпечення', 1, 60, '9', 0, 4),
+	(129, 'lectureImage.png', 'lecture11', 'ua', 1, 5, 'Принципи фон Неймана. Що таке процесор.', 1, 60, '9', 0, 4),
+	(130, 'lectureImage.png', 'lecture11', 'ua', 1, 6, 'Що таке операційна система.', 1, 60, '9', 0, 4),
+	(131, 'lectureImage.png', 'lecture11', 'ua', 1, 4, 'Пам\'ять комп\'ютера. Програмне забезпечення', 1, 60, '9', 0, 4),
+	(132, 'lectureImage.png', 'lecture11', 'ua', 1, 8, 'Що таке алгоритм.', 1, 60, '9', 0, 4),
+	(133, 'lectureImage.png', 'lecture11', 'ua', 1, 7, 'Системи числення. Правила переведення.', 1, 60, '9', 0, 4),
+	(134, 'lectureImage.png', 'lecture1', 'ua', 0, 0, '1', 1, 60, '1', 0, 4),
+	(135, 'lectureImage.png', 'lecture1', 'ua', 111, 1, '1', 1, 60, '1', 0, 4),
+	(136, 'lectureImage.png', 'lecture3', 'ua', 61, 3, 'Test3', 1, 60, '1', 0, 4),
+	(137, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'test', 1, 60, '1', 0, 4),
+	(138, 'lectureImage.png', 'lecture2', 'ua', 111, 2, 'ghhkgjkjk', 1, 60, '1', 0, 4),
+	(139, 'lectureImage.png', 'lecture3', 'ua', 111, 3, 'yfugg', 1, 60, '1', 0, 4),
+	(140, 'lectureImage.png', 'lecture8', 'ua', 2, 8, 'Дроби', 1, 60, '10', 0, 4),
+	(141, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Test 4', 1, 60, '1', 0, 4),
+	(142, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'test 5', 1, 60, '1', 0, 4),
+	(143, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Test 6', 1, 60, '1', 0, 4),
+	(144, 'lectureImage.png', 'lecture4', 'ua', 61, 4, 'Test 4', 1, 60, '1', 0, 4),
+	(145, 'lectureImage.png', 'lecture5', 'ua', 61, 5, 'test 5', 1, 60, '1', 0, 4),
+	(146, 'lectureImage.png', 'lecture6', 'ua', 61, 6, 'Тест 6', 1, 60, '1', 0, 4),
+	(147, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'тест 7', 1, 60, '1', 0, 4),
+	(148, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'ТЕСТ 8', 1, 60, '1', 0, 4),
+	(149, 'lectureImage.png', 'lecture9', 'ua', 61, 9, '9', 1, 60, '1', 0, 4),
+	(150, 'lectureImage.png', 'lecture10', 'ua', 61, 10, '101010101010', 1, 60, '1', 0, 4),
+	(151, 'lectureImage.png', 'lecture11', 'ua', 61, 11, '21', 1, 60, '1', 0, 4),
+	(152, 'lectureImage.png', 'lecture12', 'ua', 61, 12, '12', 1, 60, '1', 0, 4);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
-
-
--- Dumping structure for table int_ita_db.lecturetype
-DROP TABLE IF EXISTS `lecturetype`;
-CREATE TABLE IF NOT EXISTS `lecturetype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) NOT NULL,
-  `text` varchar(50) NOT NULL,
-  `short` varchar(5) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- Dumping data for table int_ita_db.lecturetype: ~4 rows (approximately)
-/*!40000 ALTER TABLE `lecturetype` DISABLE KEYS */;
-INSERT INTO `lecturetype` (`id`, `image`, `text`, `short`, `description`) VALUES
-	(1, 'lectureType.png', 'лекція/практика', 'л/п', ''),
-	(2, 'exam.png', 'екзамен', 'екз', ''),
-	(3, 'imp.png', 'індивідуальний модульний проект', 'ІМП', ''),
-	(4, 'kdp.png', 'командний дипломний проект', 'КДП', '');
-/*!40000 ALTER TABLE `lecturetype` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.lecture_element
@@ -945,9 +925,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=534 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=546 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~377 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~374 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -1093,7 +1073,7 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(231, 73, 6, 'text', 1, '<p>vdvdfgdfgdf</p>'),
 	(232, 112, 1, 'text', 1, '<p>fffffffffffffssssssssssssss\n</p>'),
 	(233, 113, 1, 'task', 5, '<p>Задача 1</p>'),
-	(236, 112, 2, 'final task', 6, '<p><span style="color: rgb(204, 193, 217);">11111111111111</span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><br></span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><span class="redactor-invisible-space"><br></span></span>\n</p>'),
+	(236, 112, 2, 'task', 5, '<p><span style="color: rgb(204, 193, 217);">11111111111111</span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><br></span>\n</p>\n<p><span style="color: rgb(204, 193, 217);"><a href="http://www.yiiframework.com/doc/guide/1.1/ru/topics.auth">http://www.yiiframework.com/doc/guide/1.1/ru/topic...</a><span class="redactor-invisible-space"><br></span></span>\n</p>'),
 	(237, 112, 3, 'text', 1, '<p>аропропропр</p>'),
 	(238, 101, 1, 'label', 8, '<p>Вступ</p>'),
 	(239, 101, 2, 'text', 1, '<p>Тепер, ознайомившись із загальною структурою програми і основними принципами процесу програмування (присвоювання, розгалудження та повторювання), настав час заглибитись в інші тонкощі синтаксису мови С.</p><p>В рамках даного заняття ми освоїмо:</p><ol><li>основні типи даних, які підлягають обробці під час виконання програми;</li><li>правила оголошення і використання змінних;</li><li>основні операції над даними; суть поняття “оператор”;</li><li>правила запису виразів, що містять змінні, константи та операції над ними;</li><li>розберемося з пріоритетами виконання в програмі різних операцій;</li><li>вивчимо основні оператори, призначені для введення даних в змінні і їх виведення на екран;</li><li>і насамкінець - познайомимося з правилами оголошення і виконання типових дій над даними, що містяться в спеціальних структурах (“сховищах”) однотипних даних під назвою “масиви” (одно- і двовимірних).</li></ol>'),
@@ -1325,9 +1305,42 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(529, 151, 3, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
 	(530, 151, 4, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
 	(531, 151, 5, 'final test', 13, 'Белая береза Под моим окном Принакрылась снегом, Точно серебром.  На пушистых ветках Снежною каймой Распустились кисти Белой бахромой.'),
-	(532, 112, 4, 'task', 5, '<p>ьпьпоьспо</p>'),
-	(533, 53, 2, 'formula', 10, '\\[5> 3; 6< 10; 8=8\\]\r\n');
+	(532, 112, 4, 'text', 1, '<p>ьпьпоьспо</p>'),
+	(533, 53, 2, 'formula', 10, '\\[5> 3; 6< 10; 8=8\\]\r\n'),
+	(534, 139, 5, 'text', 1, '\\[wFwefgerGFVRTA\\]\r\n'),
+	(535, 73, 12, 'text', 1, '\\[vsdvfsv\\]\r\n'),
+	(536, 73, 13, 'text', 1, '\\[rwftrg\\]\r\n'),
+	(537, 73, 14, 'text', 1, '\\[\\sum \\alpha \\mu \\mu \\nu \\varsigma\\]\r\n'),
+	(538, 147, 8, 'text', 1, '\\[\\sum \\rho \\rho\\]\r\n'),
+	(539, 147, 9, 'text', 1, '\\[\\zeta \\rho \\rho\\]\r\n'),
+	(540, 147, 10, 'text', 1, '\\[\\zeta\\]\r\n'),
+	(541, 147, 11, 'text', 1, '\\[\\Cup \\bigtriangledown \\amalg\\]\r\n'),
+	(542, 147, 12, 'text', 1, '\\[\\varsigma\\]\r\n'),
+	(543, 147, 13, 'text', 1, '\\[\\mu \\mu\\]\r\n'),
+	(544, 147, 14, 'text', 1, '\\[\\varpi \\mu\\]\r\n'),
+	(545, 147, 15, 'formula', 10, '\\[\\zeta \\pi \\zeta \\nu \\nu\\]\r\n');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
+
+
+-- Dumping structure for table int_ita_db.lecture_type
+DROP TABLE IF EXISTS `lecture_type`;
+CREATE TABLE IF NOT EXISTS `lecture_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(255) NOT NULL,
+  `text` varchar(50) NOT NULL,
+  `short` varchar(5) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table int_ita_db.lecture_type: ~4 rows (approximately)
+/*!40000 ALTER TABLE `lecture_type` DISABLE KEYS */;
+INSERT INTO `lecture_type` (`id`, `image`, `text`, `short`, `description`) VALUES
+	(1, 'lectureType.png', 'лекція/практика', 'л/п', ''),
+	(2, 'exam.png', 'екзамен', 'екз', ''),
+	(3, 'imp.png', 'індивідуальний модульний проект', 'ІМП', ''),
+	(4, 'kdp.png', 'командний дипломний проект', 'КДП', '');
+/*!40000 ALTER TABLE `lecture_type` ENABLE KEYS */;
 
 
 -- Dumping structure for table int_ita_db.letters
@@ -1430,7 +1443,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', 'line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', 'hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', 'networking.png', 'formFon.png');
@@ -4341,7 +4354,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_acl_users` (
   KEY `auth_role_id` (`auth_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_acl_users: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_acl_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_acl_users` DISABLE KEYS */;
 INSERT INTO `phpbb_acl_users` (`user_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
 	(2, 0, 0, 5, 0);
@@ -4584,7 +4597,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1437994677', 1),
+	('cache_last_gc', '1438012874', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -4762,12 +4775,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'b20db4efb4e09fefe8982e78bc95472e', 1),
-	('rand_seed_last_update', '1437994736', 1),
+	('rand_seed', 'a1e54d8d2f5de0a4b9fe44d3386809f4', 1),
+	('rand_seed_last_update', '1438088361', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1437994688', 1),
+	('read_notification_last_gc', '1438088362', 1),
 	('record_online_date', '1436536322', 1),
 	('record_online_users', '3', 1),
 	('referer_validation', '1', 0),
@@ -4778,7 +4791,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('search_gc', '7200', 0),
 	('search_indexing_state', '', 1),
 	('search_interval', '0', 0),
-	('search_last_gc', '1437991911', 1),
+	('search_last_gc', '1438012877', 1),
 	('search_store_results', '1800', 0),
 	('search_type', '\\phpbb\\search\\fulltext_native', 0),
 	('secure_allow_deny', '1', 0),
@@ -4788,7 +4801,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1437994694', 1),
+	('session_last_gc', '1438012858', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -4813,7 +4826,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('version', '3.1.4', 0),
 	('warnings_expire_days', '90', 0),
 	('warnings_gc', '14400', 0),
-	('warnings_last_gc', '1437994684', 1);
+	('warnings_last_gc', '1438012869', 1);
 /*!40000 ALTER TABLE `phpbb_config` ENABLE KEYS */;
 
 
@@ -4848,10 +4861,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_confirm` (
   KEY `confirm_type` (`confirm_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_confirm: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_confirm: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_confirm` DISABLE KEYS */;
-INSERT INTO `phpbb_confirm` (`confirm_id`, `session_id`, `confirm_type`, `code`, `seed`, `attempts`) VALUES
-	('cae3c2200804b99a700820655ba8073e', 'a0488c22e98cf32531a3fa09473a10e6', 3, '6SD4U4', 1891679466, 0);
 /*!40000 ALTER TABLE `phpbb_confirm` ENABLE KEYS */;
 
 
@@ -6272,7 +6283,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');
@@ -6737,11 +6748,10 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~2 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('9c8af08f8e2ccc8b38f38abb36ff87c9', 1, 1437991909, 1437991909, 1437991909, '94.179.88.43', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.54.16 (KHTML, like Gecko) Version/5.1.4 Safari/534.54.16', '', 'index.php', 1, 0, 0, 0),
-	('a0488c22e98cf32531a3fa09473a10e6', 1, 1437994676, 1437994676, 1437994746, '81.30.164.98', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0', '', 'ucp.php?mode=terms', 1, 0, 0, 0);
+	('f6bbfd4c245afb93bf9fa8b32b45fc35', 1, 1438088360, 1438088360, 1438088360, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36', '', 'ucp.php', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -6854,7 +6864,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');
@@ -6934,8 +6944,8 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics` (
 /*!40000 ALTER TABLE `phpbb_topics` DISABLE KEYS */;
 INSERT INTO `phpbb_topics` (`topic_id`, `forum_id`, `icon_id`, `topic_attachment`, `topic_reported`, `topic_title`, `topic_poster`, `topic_time`, `topic_time_limit`, `topic_views`, `topic_status`, `topic_type`, `topic_first_post_id`, `topic_first_poster_name`, `topic_first_poster_colour`, `topic_last_post_id`, `topic_last_poster_id`, `topic_last_poster_name`, `topic_last_poster_colour`, `topic_last_post_subject`, `topic_last_post_time`, `topic_last_view_time`, `topic_moved_id`, `topic_bumped`, `topic_bumper`, `poll_title`, `poll_start`, `poll_length`, `poll_max_options`, `poll_last_vote`, `poll_vote_change`, `topic_visibility`, `topic_delete_time`, `topic_delete_reason`, `topic_delete_user`, `topic_posts_approved`, `topic_posts_unapproved`, `topic_posts_softdeleted`) VALUES
 	(4, 16, 0, 0, 0, 'Змінні та типи даних в PHP', 2, 1437053884, 0, 30, 0, 0, 5, 'intita', 'AA0000', 14, 22, 'Student ', '', 'Re: Змінні та типи даних в PHP', 1437166713, 1437425368, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 5, 0, 0),
-	(5, 16, 0, 0, 0, 'Основи синтаксису', 2, 1437053934, 0, 34, 0, 0, 6, 'intita', 'AA0000', 27, 45, 'Roman Melnyk', '', 'Re: Основи синтаксису', 1437389655, 1437994722, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 5, 0, 0),
-	(6, 16, 0, 0, 0, 'Обробка запитів з допомогою PHP', 2, 1437053968, 0, 37, 0, 0, 7, 'intita', 'AA0000', 28, 45, 'Roman Melnyk', '', 'Re: Обробка запитів з допомогою PHP', 1437389787, 1437468458, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 3, 0, 0),
+	(5, 16, 0, 0, 0, 'Основи синтаксису', 2, 1437053934, 0, 35, 0, 0, 6, 'intita', 'AA0000', 27, 45, 'Roman Melnyk', '', 'Re: Основи синтаксису', 1437389655, 1438012890, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 5, 0, 0),
+	(6, 16, 0, 0, 0, 'Обробка запитів з допомогою PHP', 2, 1437053968, 0, 38, 0, 0, 7, 'intita', 'AA0000', 28, 45, 'Roman Melnyk', '', 'Re: Обробка запитів з допомогою PHP', 1437389787, 1438012880, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 3, 0, 0),
 	(8, 15, 0, 0, 0, 'Нова тема', 22, 1437125835, 0, 7, 0, 0, 12, 'Student ', '', 12, 22, 'Student ', '', 'Нова тема', 1437125835, 1437723594, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 1, 0, 0),
 	(9, 34, 0, 0, 0, 'Тема Тема', 40, 1437203534, 0, 16, 0, 0, 15, 'teacher3@gmail.com', '', 16, 40, 'teacher3@gmail.com', '', 'Re: Тема Тема', 1437203610, 1437469317, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0),
 	(10, 35, 0, 0, 0, 'Тема 2', 40, 1437203686, 0, 17, 0, 0, 17, 'teacher3@gmail.com', '', 18, 40, 'teacher3@gmail.com', '', '', 1437203752, 1437425353, 0, 0, 0, '', 0, 0, 1, 0, 0, 1, 0, '', 0, 2, 0, 0),
@@ -7034,7 +7044,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_watch` (
   KEY `notify_stat` (`notify_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics_watch: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics_watch: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_watch` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_watch` (`topic_id`, `user_id`, `notify_status`) VALUES
 	(4, 22, 0);
@@ -7120,7 +7130,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~11 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '2F4M64ETS4', 1437402761, 0, 0, 0, 0, 0, 0, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', 'a3008bec58a33e7f', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '2F4M64ETS4', 1437402761, 0, 0, 0, 0, 0, 0, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '5c4b5abb2af3dd8a', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\n\n\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1437140101, 0, 1437055279, 'index.php?transition=false', '3IF0CVYBS4', 0, 0, 0, 0, 0, 0, 4, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(22, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Student ', 'Student ', '', 0, '', 0, '', 1437221780, 1437123064, 1437220140, 'posting.php?f=16&mode=reply&t=5', '3N68T27D96', 1437166212, 0, 0, 0, 0, 0, 4, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 0, 0, 0),
 	(38, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'teacher ', 'teacher ', '', 0, '', 0, '', 1437732968, 0, 1437732959, 'viewforum.php?f=15', '', 0, 0, 0, 0, 0, 0, 2, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
@@ -8238,9 +8248,9 @@ CREATE TABLE IF NOT EXISTS `task1` (
   PRIMARY KEY (`id`),
   KEY `author` (`author`),
   CONSTRAINT `FK_task1_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.';
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.';
 
--- Dumping data for table int_ita_db.task1: ~47 rows (approximately)
+-- Dumping data for table int_ita_db.task1: ~46 rows (approximately)
 /*!40000 ALTER TABLE `task1` DISABLE KEYS */;
 INSERT INTO `task1` (`id`, `language`, `assignment`, `condition`, `author`, `table`) VALUES
 	(50, 'c++', 1, 100, 1, 'assignment_cpp'),
@@ -8289,7 +8299,8 @@ INSERT INTO `task1` (`id`, `language`, `assignment`, `condition`, `author`, `tab
 	(99, 'c++', 39, 486, 1, 'assignment_cpp'),
 	(100, 'c++', 40, 497, 1, 'assignment_cpp'),
 	(101, 'c++', 1, 473, 1, 'assignment_cpp'),
-	(102, 'c++', 1, 84, 1, 'assignment_cpp');
+	(102, 'c++', 1, 84, 1, 'assignment_cpp'),
+	(103, 'c++', 1, 237, 1, 'assignment_cpp');
 /*!40000 ALTER TABLE `task1` ENABLE KEYS */;
 
 
@@ -8773,7 +8784,7 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   KEY `FK_tests_marks_tests` (`id_test`),
   CONSTRAINT `FK_tests_marks_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`),
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
 -- Dumping data for table int_ita_db.tests_marks: ~154 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
@@ -8931,7 +8942,10 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(164, 22, 82, 0),
 	(165, 22, 82, 0),
 	(166, 22, 83, 0),
-	(167, 22, 83, 0);
+	(167, 22, 83, 0),
+	(168, 51, 74, 0),
+	(169, 51, 76, 0),
+	(170, 51, 76, 1);
 /*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
 
 

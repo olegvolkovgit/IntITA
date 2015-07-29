@@ -13,17 +13,25 @@ function hideForm(id, title) {
     $form.style.display = 'none';
     document.getElementById(title).innerHTML = '';
 }
-function showAddTaskForm(taskType){
-    task = taskType;
-    document.getElementById('addTask').style.display = 'block';
-    document.getElementById('addBlockForm').style.display = 'none';
-    document.getElementById('cancelButton').style.display = 'none';
+function showAddTaskForm(taskType, isFirst){
+    if(isFirst == 0){
+        alert('У цій лекції вже є підсумковий тест або задача. Щоб додати нову підсумкову задачу, потрібно видалити існуючу задачу чи тест.');
+    } else {
+        task = taskType;
+        document.getElementById('addTask').style.display = 'block';
+        document.getElementById('addBlockForm').style.display = 'none';
+        document.getElementById('cancelButton').style.display = 'none';
+    }
 }
-function showAddTestForm(testType){
-    document.getElementById('testType').value = testType;
-    document.getElementById('addTest').style.display = 'block';
-    document.getElementById('addBlockForm').style.display = 'none';
-    document.getElementById('cancelButton').style.display = 'none';
+function showAddTestForm(testType, isFirst){
+    if(isFirst == 0){
+        alert('У цій лекції вже є підсумковий тест або задача. Щоб додати новий підсумковий тест, потрібно видалити існуючу задачу чи тест.');
+    } else {
+        document.getElementById('testType').value = testType;
+        document.getElementById('addTest').style.display = 'block';
+        document.getElementById('addBlockForm').style.display = 'none';
+        document.getElementById('cancelButton').style.display = 'none';
+    }
 }
 
 function enableLessonEdit(){
