@@ -99,8 +99,6 @@ function isTrueTestAnswer(user, test){
         }, "json");
 }
 function checkAnswers(answers){
-    $("#conditionTest").val($("#conditionTest").val().trim());
-    $("#optionsList input").val($("#optionsList input").val().trim());
 
     if(answers.length==0){
         alert('Виберіть хоч один правильний варіант перед створенням тесту');
