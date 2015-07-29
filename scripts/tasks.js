@@ -25,7 +25,6 @@ function createTask() {
         "lang": "c++"
     };
     var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(newTask), function () {
-
     })
         .done(function (data) {
             var serverResponse = jQuery.parseJSON(data);
