@@ -3,10 +3,10 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lectureStyles.css" />
 
 <!-- Spoiler -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
 <!--Sidebar-->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
 
 <script type="text/javascript">
@@ -127,19 +127,19 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type='text/javascript'>SyntaxHighlighter.all();</script>
+<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>SyntaxHighlighter.all();</script>
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <!--Font Awesome-->
 <!--Load Redactor-->
 <?php if ($editMode){?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
+    <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
+    <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
 
 
