@@ -2,7 +2,7 @@
 function sendTaskAnswer(idUser, id, task, lang){
     id = "#"+id;
     code = $(id).val();
-    if(code.trim()==''){
+    if( code.trim() == ''){
         alert('Спочатку дайте відповідь на питання');
         return false;
     }

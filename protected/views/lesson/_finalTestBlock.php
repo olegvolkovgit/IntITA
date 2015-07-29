@@ -34,7 +34,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
                         <?php echo $data['html_block']; ?>
                     </div>
                     <br>
-                    <div >
+                    <div id="<?php echo "answers" .  $data['block_order'];?>">
                         <?php if($testType == 1){
                             for($i = 1;$i <= $optionsNum; $i++){?>
                                 <input type="radio" name="radioanswer" class="answer" value="<?php echo $options[$i-1]["answer"]; ?>"> <?php echo $options[$i-1]["answer"]; ?><br>
@@ -47,6 +47,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
                         ?>
                     </div>
                     <button class="testSubmit" onclick='sendTestAnswer(
+                    $("<?php echo "#answers" .  $data['block_order'].' ';?> <?php echo TestsHelper::getTypeButton($testType);?>"),
                     <?php echo $user;?>,
                     <?php echo TestsHelper::getTestId($data['id_block'])?>,
                     <?php echo $testType;?>,

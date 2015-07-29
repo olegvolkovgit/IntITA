@@ -3,10 +3,10 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lectureStyles.css" />
 
 <!-- Spoiler -->
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
 <!--Sidebar-->
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
 
 <script type="text/javascript">

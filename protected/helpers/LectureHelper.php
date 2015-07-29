@@ -52,16 +52,17 @@ class LectureHelper {
         $finalTask = LectureHelper::getFinalLectureTask($idLecture);
         if ($finalTask != 0) {
             $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
-
-            $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
-
             $result = false;
             switch ($typeFinalTask) {
                 case '6':
+                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
                     $result = TaskMarks::isTaskDone($idUser, $idTask);
                     break;
                 case '13':
-                    $result = TestsMarks::isTestDone($idUser, $idTask);
+                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
+                    $result = TestsMarks::isTestDone($idUser, $idTest);
+                    break;
+                default:
                     break;
             }
             return $result;

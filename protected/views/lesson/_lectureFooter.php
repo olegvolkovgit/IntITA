@@ -54,7 +54,7 @@ $footNavSize='960px'; // Ширина блоку
     <?php
     }
 
-    if (  $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons'])
+    if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons'])
     {
     ?>
     <div class="nextLessons">
