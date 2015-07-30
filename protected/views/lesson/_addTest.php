@@ -23,7 +23,7 @@
             <fieldset>
                 <legend id="label1">Варіанти відповіді:</legend>
                 <div  id="optionsList">
-                    <div class="ansnumber">1.</div><input type="text" name="option1" id="option1" size="80" required/><br>
+                    <div class="ansnumber">1.</div><input class="testVariant" type="text" name="option1" id="option1" size="80" required/><br>
                 </div>
                 <a href="javascript:addOption()" id="addOption">Додати відповідь</a>
             </fieldset>

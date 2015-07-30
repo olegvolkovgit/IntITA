@@ -124,7 +124,7 @@ class TestsAnswers extends CActiveRecord
 		}else $userAns=$userAnswers;
 
         $criteria = new CDbCriteria();
-        $criteria->select = 'answer';
+        $criteria->select = 'id';
         $criteria->addCondition('id_test = :id_test and is_valid = 1');
         $criteria->params = array(':id_test' => $test);
         $criteria->toArray();
@@ -133,7 +133,7 @@ class TestsAnswers extends CActiveRecord
         $count = count($validAnswersRecords);
         $validAnswers = [];
         for ($i = 0; $i < $count; $i++){
-            $validAnswers[$i] = $validAnswersRecords[$i]["answer"];
+            $validAnswers[$i] = $validAnswersRecords[$i]["id"];
         }
 
         return TestsAnswers::checkValidAnswers($validAnswers, $userAns);

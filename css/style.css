@@ -217,25 +217,26 @@ p {
 #lang.downmain {
     display: none;
 }
-#lang #en {
+#lang a {
     border-left: 1px solid #999999;
-    border-right: 1px solid #999999;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 6px;
+    padding-right: 6px;
 }
-#lang input[type="button"]{
+#lang a:first-child {
+    border-left: none;
+}
+#lang a{
     background:none!important;
-    border:none;
     cursor: pointer;
     color: #4b70a3;
     font-size: 18px;
     font-family: "MyriadPro";
     text-decoration: underline;
 }
-#lang input[type="button"]:hover{
+#lang a:hover{
     color: #666666;
 }
-#lang input[type="button"].selectedLang {
+#lang a.selectedLang {
     text-decoration: none;
     color: #999999;
 }

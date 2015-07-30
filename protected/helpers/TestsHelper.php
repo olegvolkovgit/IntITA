@@ -56,5 +56,12 @@ class TestsHelper {
             return 'input:checkbox:checked';
         }
     }
-
+    public static function getAnswerKey($block){
+        $answerKey =[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => TestsHelper::getTestId($block)));
+        foreach($test as $answerid){
+            array_push($answerKey, $answerid->id);
+        }
+        return $answerKey;
+    }
 }

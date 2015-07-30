@@ -66,50 +66,15 @@ $header = new Header();?>
                     </a>
                 </div>
                 <div id="lang" class="down">
-                    <form onsubmit="" name="fff">
-                        <?php echo CHtml::button('ua', array('submit' => array('site/changeLang/lg/ua'), 'id' => "ua", 'name' => "ua", 'className' => 'selectedLang')); ?>
-                        <?php echo CHtml::button('en', array('submit' => array('site/changeLang/lg/en'), 'id' => "en", 'name' => "en")); ?>
-                        <?php echo CHtml::button('ru', array('submit' => array('site/changeLang/lg/ru'), 'id' => "ru", 'name' => "ru")); ?>
-                    </form>
-                </div>
-                <?php
-                $app = Yii::app();
-                switch ($app->session['lg']) {
-                case 'ua':
+                    <?php
+                    if(Yii::app()->session['lg']==NULL) Yii::app()->session['lg']='ua';
+                    foreach (["ua", "en", "ru"] as $val) {
+                        ?>
+                        <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>$val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
+                        <?php
+                    }
                     ?>
-                    <script>
-                        document.getElementById('ua').disabled = true;
-                        document.getElementById('ua').className = "selectedLang";
-                    </script>
-                <?php
-                break;
-                case 'en':
-                ?>
-                    <script>
-                        document.getElementById('ua').className = '';
-                        document.getElementById('en').disabled = true;
-                        document.getElementById('en').className = "selectedLang";
-                    </script>
-                <?php
-                break;
-                case 'ru':
-                ?>
-                    <script>
-                        document.getElementById('ua').className = '';
-                        document.getElementById('ru').disabled = true;
-                        document.getElementById('ru').className = "selectedLang";
-                    </script>
-                <?php
-                break;
-                default:
-                ?>
-                    <script>
-                        document.getElementById('ua').disabled = true;
-                        document.getElementById('ua').className = "selectedLang";
-                    </script>
-                <?php
-                }
-                ?>
+                </div>
                 <div id="enterButton">
                     <div id="button_border" class="down">
                     </div>
