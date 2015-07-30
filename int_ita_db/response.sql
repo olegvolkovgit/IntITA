@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:50
+-- Date/time:                    2015-07-30 14:46:10
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `response` (
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
 
--- Dumping data for table int_ita_db.response: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.response: ~57 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
 	(1, 22, 38, '2015-06-24 15:07:16', 'iubl,ugl', 6, '::1', 8, 5, 5),

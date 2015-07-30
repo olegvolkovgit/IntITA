@@ -49,7 +49,12 @@ function showBlockForm(){
 
 function addFormula(){
     $('select').val('10');
-    document.getElementById('addBlockForm').style.visibility = "hidden";
-    document.getElementById('addBlockSubmit').style.visibility = "visible";
-    OpenLatexEditor('newTextBlock','latex','uk_uk', 'true');
+    document.getElementById('blockForm').style.display = "none";
+    document.getElementById('divAddFormula').style.display =  "block";
+    OpenLatexEditor('newFormula','latex','uk_uk', 'true');
+}
+
+function cancelAddFormula(){
+    document.getElementById('divAddFormula').style.display =  "none";
+    location.reload();
 }

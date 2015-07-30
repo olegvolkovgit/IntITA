@@ -8,9 +8,6 @@
 ?>
 
 <?php if ($editMode){ ?>
-<head>
-    <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
-</head>
 <a name="newBlockForm">
     <div id="blockForm">
         <div id="textBlockForm">
@@ -57,6 +54,7 @@
     </div>
     <?php $this->renderPartial('_addTask');?>
     <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => $teacher));?>
+    <?php $this->renderPartial('_addFormula', array('idLecture' => $lecture->id));?>
     <br>
     <br>
     <?php } ?>

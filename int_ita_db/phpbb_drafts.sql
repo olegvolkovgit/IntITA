@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:48
+-- Date/time:                    2015-07-30 14:46:09
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,10 +22,12 @@ CREATE TABLE IF NOT EXISTS `phpbb_drafts` (
   `draft_message` mediumtext COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`draft_id`),
   KEY `save_time` (`save_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_drafts: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_drafts: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_drafts` DISABLE KEYS */;
+INSERT INTO `phpbb_drafts` (`draft_id`, `user_id`, `topic_id`, `forum_id`, `save_time`, `draft_subject`, `draft_message`) VALUES
+	(1, 129, 0, 0, 1438247834, 'thsrth', 'shsfghfg');
 /*!40000 ALTER TABLE `phpbb_drafts` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

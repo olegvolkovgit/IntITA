@@ -255,3 +255,7 @@ margin-top:10px;
 .calendar{
     margin-left: 110px;
 }
+
+#divAddFormula {
+    display: none;
+}

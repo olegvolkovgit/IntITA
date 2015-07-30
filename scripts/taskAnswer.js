@@ -78,7 +78,8 @@ function setMark(task, status, date, result, warning){
             'warning': warning
         },
         cache: false,
-        success: function(){location.reload();
+        success: function(){
+            location.reload();
         }
     });
 }

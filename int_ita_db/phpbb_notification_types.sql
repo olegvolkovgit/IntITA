@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:49
+-- Date/time:                    2015-07-30 14:46:09
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_notification_types` (
   `notification_type_enabled` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`notification_type_id`),
   UNIQUE KEY `type` (`notification_type_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_notification_types: ~8 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_notification_types: ~9 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_notification_types` DISABLE KEYS */;
 INSERT INTO `phpbb_notification_types` (`notification_type_id`, `notification_type_name`, `notification_type_enabled`) VALUES
 	(1, 'notification.type.topic', 1),
@@ -30,7 +30,8 @@ INSERT INTO `phpbb_notification_types` (`notification_type_id`, `notification_ty
 	(5, 'notification.type.post', 1),
 	(6, 'notification.type.approve_post', 1),
 	(7, 'notification.type.group_request', 1),
-	(8, 'notification.type.post_in_queue', 1);
+	(8, 'notification.type.post_in_queue', 1),
+	(9, 'notification.type.pm', 1);
 /*!40000 ALTER TABLE `phpbb_notification_types` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:49
+-- Date/time:                    2015-07-30 14:46:09
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,16 +24,17 @@ CREATE TABLE IF NOT EXISTS `phpbb_notifications` (
   PRIMARY KEY (`notification_id`),
   KEY `item_ident` (`notification_type_id`,`item_id`),
   KEY `user` (`user_id`,`notification_read`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_notifications: ~5 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_notifications: ~6 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_notifications` DISABLE KEYS */;
 INSERT INTO `phpbb_notifications` (`notification_id`, `notification_type_id`, `item_id`, `item_parent_id`, `user_id`, `notification_read`, `notification_time`, `notification_data`) VALUES
 	(2, 6, 4, 3, 48, 0, 1433430282, 'a:6:{s:12:"post_subject";s:18:"Re: 4 червня";s:9:"poster_id";s:2:"48";s:11:"topic_title";s:14:"4 червня";s:13:"post_username";s:0:"";s:8:"forum_id";s:1:"2";s:10:"forum_name";s:30:"Ваш перший форум";}'),
 	(3, 3, 25, 5, 2, 0, 1437220140, 'a:6:{s:9:"poster_id";i:22;s:11:"topic_title";s:33:"Основи синтаксису";s:12:"post_subject";s:37:"Re: Основи синтаксису";s:13:"post_username";s:0:"";s:8:"forum_id";i:16;s:10:"forum_name";s:42:"Вступ до програмування";}'),
 	(4, 3, 26, 5, 2, 0, 1437220304, 'a:6:{s:9:"poster_id";i:38;s:11:"topic_title";s:33:"Основи синтаксису";s:12:"post_subject";s:37:"Re: Основи синтаксису";s:13:"post_username";s:0:"";s:8:"forum_id";i:16;s:10:"forum_name";s:42:"Вступ до програмування";}'),
 	(5, 4, 31, 4, 22, 0, 1438014402, 'a:6:{s:9:"poster_id";i:125;s:11:"topic_title";s:44:"Змінні та типи даних в PHP";s:12:"post_subject";s:48:"Re: Змінні та типи даних в PHP";s:13:"post_username";s:0:"";s:8:"forum_id";i:16;s:10:"forum_name";s:42:"Вступ до програмування";}'),
-	(6, 5, 31, 4, 22, 0, 1438014402, 'a:6:{s:9:"poster_id";i:125;s:11:"topic_title";s:44:"Змінні та типи даних в PHP";s:12:"post_subject";s:48:"Re: Змінні та типи даних в PHP";s:13:"post_username";s:0:"";s:8:"forum_id";i:16;s:10:"forum_name";s:42:"Вступ до програмування";}');
+	(6, 5, 31, 4, 22, 0, 1438014402, 'a:6:{s:9:"poster_id";i:125;s:11:"topic_title";s:44:"Змінні та типи даних в PHP";s:12:"post_subject";s:48:"Re: Змінні та типи даних в PHP";s:13:"post_username";s:0:"";s:8:"forum_id";i:16;s:10:"forum_name";s:42:"Вступ до програмування";}'),
+	(7, 9, 1, 0, 121, 0, 1438247796, 'a:2:{s:12:"from_user_id";s:3:"129";s:15:"message_subject";s:13:"cgbbcmvbmvn,!";}');
 /*!40000 ALTER TABLE `phpbb_notifications` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
