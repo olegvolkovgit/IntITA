@@ -50,7 +50,7 @@ function sendTestAnswer(checkAnswers, user, test, testType, editMode){
 
 function getUserAnswers(testType){
     if (testType == 1){
-        answer = $('input[name="radioanswer"]:checked').val();
+        answer = $('input[name="radioanswer"]:checked').attr("id");
         return answer;
     } else {
         answers = getMultiplyAnswers();
@@ -60,13 +60,11 @@ function getUserAnswers(testType){
 
 function getMultiplyAnswers(){
         var answers = $('input[name="checkboxanswer"]:checked');
-
         var answersValue = [];
         for(var i = 0, l = answers.length; i < l;  i++)
         {
-            answersValue.push(answers[i].value);
+            answersValue.push(answers[i].id);
         }
-
     return answersValue;
 }
 

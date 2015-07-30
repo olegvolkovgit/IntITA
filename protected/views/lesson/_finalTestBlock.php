@@ -37,20 +37,21 @@ $testType = TestsHelper::getTestType($data['id_block']);
                     <div id="<?php echo "answers" .  $data['block_order'];?>">
                         <?php if($testType == 1){
                             for($i = 1;$i <= $optionsNum; $i++){?>
-                                <input type="radio" name="radioanswer" class="answer" value="<?php echo $options[$i-1]["answer"]; ?>"> <?php echo $options[$i-1]["answer"]; ?><br>
+                                <input id="<?php echo TestsHelper::getAnswerKey($data['id_block'])[$i-1]; ?>" type="radio" name="radioanswer" class="answer" value="<?php echo $options[$i-1]["answer"]; ?>"> <?php echo $options[$i-1]["answer"]; ?><br>
                             <?php }
                         } elseif ($testType == 2){
                             for($j = 1; $j <= $optionsNum; $j++){?>
-                                <input type="checkbox" name="checkboxanswer"  class="answer" value="<?php echo $options[$j-1]["answer"]; ?>"> <?php echo $options[$j-1]["answer"]; ?><br>
+                                <input id="<?php echo TestsHelper::getAnswerKey($data['id_block'])[$j-1]; ?>" type="checkbox" name="checkboxanswer"  class="answer" value="<?php echo $options[$j-1]["answer"]; ?>"> <?php echo $options[$j-1]["answer"]; ?><br>
                             <?php }
                         }
                         ?>
                     </div>
                     <button class="testSubmit" onclick='sendTestAnswer(
-                    $("<?php echo "#answers" .  $data['block_order'].' ';?> <?php echo TestsHelper::getTypeButton($testType);?>"),
-                    <?php echo $user;?>, <?php echo TestsHelper::getTestId($data['id_block'])?>,
-                    <?php echo $testType;?>,
-                    <?php echo ($editMode)?1:0;?>
+                        $("<?php echo "#answers" .  $data['block_order'].' ';?> <?php echo TestsHelper::getTypeButton($testType);?>"),
+                        <?php echo $user;?>,
+                        <?php echo TestsHelper::getTestId($data['id_block'])?>,
+                        <?php echo $testType;?>,
+                        <?php echo ($editMode)?1:0;?>
                         );' <?php if($editMode || $user == 0){ echo "disabled";}?> >
                         <?php echo Yii::t('lecture', '0089'); ?>
                     </button>
