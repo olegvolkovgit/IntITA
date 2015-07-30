@@ -23,9 +23,19 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'course_name'); ?>
-		<?php echo $form->textField($model,'course_name',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->label($model,'title_ua'); ?>
+		<?php echo $form->textField($model,'title_ua',array('size'=>45,'maxlength'=>100)); ?>
 	</div>
+
+    <div class="row">
+        <?php echo $form->label($model,'title_ru'); ?>
+        <?php echo $form->textField($model,'title_ru',array('size'=>45,'maxlength'=>100)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->label($model,'title_en'); ?>
+        <?php echo $form->textField($model,'title_en',array('size'=>45,'maxlength'=>100)); ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->label($model,'level'); ?>

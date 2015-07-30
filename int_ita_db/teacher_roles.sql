@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 14:46:10
+-- Date/time:                    2015-07-30 17:06:32
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -51,9 +51,7 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(2, 4, '2015-06-24', '0000-00-00'),
 	(4, 4, '2015-06-24', '0000-00-00'),
 	(5, 4, '2015-06-24', '0000-00-00'),
-	(6, 4, '2015-06-24', '0000-00-00'),
-	(7, 2, '2015-06-29', '0000-00-00'),
-	(7, 4, '2015-07-01', '0000-00-00');
+	(6, 4, '2015-06-24', '0000-00-00');
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

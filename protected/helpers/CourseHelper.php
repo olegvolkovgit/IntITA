@@ -90,4 +90,12 @@ class CourseHelper {
         }
         return '<div>'.Yii::t('course', '0425').' '.$year.' '.Yii::t('course', '0426').'</div><div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.$price*12*$year.' '.Yii::t('courses', '0322').'</b></span></div>';
     }
+
+    public static function getCourseName($idCourse){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+
+        $title = "title_".$lang;
+        $courseTitle = Course::model()->findByPk($idCourse)->$title;
+        return $courseTitle;
+    }
 }

@@ -17,9 +17,17 @@
 	<?php echo CHtml::encode($data->language); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('course_name')); ?>:</b>
-	<?php echo CHtml::encode($data->course_name); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('title_ua')); ?>:</b>
+	<?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
 	<br />
+
+    <b><?php echo CHtml::encode($data->getAttributeLabel('title_ru')); ?>:</b>
+    <?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
+    <br />
+
+    <b><?php echo CHtml::encode($data->getAttributeLabel('title_en')); ?>:</b>
+    <?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
+    <br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('level')); ?>:</b>
 	<?php echo CHtml::encode($data->level); ?>

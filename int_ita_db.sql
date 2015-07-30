@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 14:45:57
+-- Date/time:                    2015-07-30 17:06:36
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -375,7 +375,9 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_ID` int(11) NOT NULL AUTO_INCREMENT,
   `alias` varchar(20) NOT NULL,
   `language` varchar(6) NOT NULL,
-  `course_name` varchar(45) NOT NULL,
+  `title_ua` varchar(100) NOT NULL,
+  `title_ru` varchar(100) DEFAULT NULL,
+  `title_en` varchar(100) DEFAULT NULL,
   `level` enum('intern','junior','strong junior','middle','senior') NOT NULL,
   `start` date DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
@@ -387,33 +389,25 @@ CREATE TABLE IF NOT EXISTS `course` (
   `what_you_get` text,
   `course_img` varchar(255) DEFAULT 'courseimg1.png',
   `rating` tinyint(2) DEFAULT NULL,
-  PRIMARY KEY (`course_ID`),
-  UNIQUE KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+  PRIMARY KEY (`course_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
--- Dumping data for table int_ita_db.course: ~20 rows (approximately)
+-- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` (`course_ID`, `alias`, `language`, `course_name`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `rating`) VALUES
-	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
-	(2, 'courseJavaScript', 'ua', 'Інтернет програміст (Java Script)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course9Image.png', 6),
-	(3, 'courseJava', 'ua', 'Програміст (Java)', 'strong junior', '2015-10-30', 0, 0, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course3Image.png', 6),
-	(4, 'C#', 'ua', 'Програміст (C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course4Image.png', 6),
-	(5, 'C++', 'ua', 'Програміст (С++)', 'intern', '2015-12-30', 0, 10, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course2Image.png', 6),
-	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course8Image.png', 4),
-	(7, 'QA', 'ua', 'Тестувальник (QA)', 'senior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course7Image.png', 6),
-	(13, 'english', 'ua', 'Англійська мова для ІТ', 'middle', '2015-12-30', 0, 3, 60, 2500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 6),
-	(14, 'career', 'ua', 'Побудова успішної ІТ кар’єри', 'senior', '2015-12-30', 0, 3, 0, 0, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', '', '', 'course3Image.png', 1),
-	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
-	(19, '', 'ru', 'Интернет программист (РНР)', 'strong junior', '2015-07-30', 0, 14, 0, 6200, '', '', '', 'course1Image.png', NULL),
-	(20, '', 'ru', 'Английский язык для ИТ', 'middle', '2015-12-30', 0, 3, 0, 5600, '', '', '', 'course1Image.png', NULL),
-	(21, '', 'ru', 'Как построить успешную ІТ карьеру', 'senior', '2015-12-30', 0, 3, 0, 4500, '', '', '', 'course1Image.png', NULL),
-	(22, '', 'en', 'їїїїїїї', 'intern', NULL, 0, NULL, 0, 0, '', '', '', '000pronas3.png', NULL),
-	(23, '', 'ua', 'уававё', 'intern', NULL, 0, 9, 0, 0, '', '', '', '000pronas1.png', NULL),
-	(24, '', 'ua', 'іавппр2', 'intern', NULL, 0, NULL, 0, 0, '', '', '', '000pronas4.png', NULL),
-	(25, '', 'ua', 'Основные понятия кинематики', 'intern', NULL, 0, NULL, 0, 0, '', '', '', '000pronas5.png', NULL),
-	(26, '', 'ua', '.............................................', 'intern', NULL, 0, NULL, 0, 0, '', '', '', '000pronas14.png', NULL),
-	(27, '', 'ua', 'Закон всемирного тяготения.Движение тел под д', 'intern', NULL, 0, NULL, 0, 0, '', '', '', '000pronas13.png', NULL),
-	(28, '', 'ua', 'gstrhtysj', 'middle', NULL, 0, NULL, 0, 0, '', '', '', 'Hydrangeas.jpg', NULL);
+INSERT INTO `course` (`course_ID`, `alias`, `language`, `title_ua`, `title_ru`, `title_en`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `rating`) VALUES
+	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'Интернет программист (РНР)', 'Web developer(PHP)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
+	(2, 'courseJavaScript', 'ua', 'Інтернет програміст (Java Script)', 'Интернет программист  (Java Script)', 'Web developer (JavaScript)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course9Image.png', 6),
+	(3, 'courseJava', 'ua', 'Програміст (Java)', 'Программист (Java)', 'Programmer  (Java)', 'strong junior', '2015-10-30', 0, 0, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course3Image.png', 6),
+	(4, 'C#', 'ua', 'Програміст (C#)', 'Программист (C#)', 'Programmer(C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course4Image.png', 6),
+	(5, 'C++', 'ua', 'Програміст (С++)', 'Программист (С++)', 'Programmer (С++)', 'intern', '2015-12-30', 0, 10, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course2Image.png', 6),
+	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'Программист (Objective С)', 'Programmer(Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course8Image.png', 4),
+	(7, 'QA', 'ua', 'Тестувальник (QA)', 'Тестировщик (QA)', 'Quality assurance engineer(QA)', 'senior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course7Image.png', 6),
+	(13, 'english', 'ua', 'Англійська мова для ІТ', 'Английский язык для ИТ', 'English for IT', 'middle', '2015-12-30', 0, 3, 60, 2500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 6),
+	(14, 'career', 'ua', 'Побудова успішної ІТ кар’єри', 'Построение успешной ИТ-карьеры', 'How to build a  successful career in IT', 'senior', '2015-12-30', 0, 3, 0, 0, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', '', '', 'course3Image.png', 1),
+	(18, 'verstka', 'ua', 'Верстальник сайтів (HTML, CSS)', 'Верстальщик сайтов (HTML, CSS)', 'Website layout specialist (HTML, CSS)', 'middle', '2015-12-30', 0, 0, 0, 5200, '', '', '', 'course1Image.png', NULL),
+	(19, 'coursePhpRu', 'ru', 'Інтернет програміст (РНР)', 'Интернет программист (РНР)', 'Web developer(PHP)', 'strong junior', '2015-07-30', 0, 14, 0, 6200, '', '', '', 'course1Image.png', NULL),
+	(20, 'englishRu', 'ru', 'Англійська мова для ІТ', 'Английский язык для ИТ', 'English for IT', 'middle', '2015-12-30', 0, 3, 0, 5600, '', '', '', 'course1Image.png', NULL),
+	(21, 'careerRu', 'ru', 'Побудова успішної ІТ кар’єри', 'Как построить успешную ІТ карьеру', 'How to build a  successful career in IT', 'senior', '2015-12-30', 0, 3, 0, 4500, '', '', '', 'course1Image.png', NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 
 
@@ -453,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~64 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~55 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -501,15 +495,6 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(20, 99, 1),
 	(20, 100, 2),
 	(20, 101, 3),
-	(23, 102, 4),
-	(23, 103, 5),
-	(23, 104, 2),
-	(23, 105, 1),
-	(23, 106, 3),
-	(23, 107, 6),
-	(23, 108, 7),
-	(23, 109, 8),
-	(23, 110, 9),
 	(5, 111, 1),
 	(5, 112, 2),
 	(5, 113, 3),
@@ -993,7 +978,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=654 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~507 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~500 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -3676,7 +3661,7 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~27 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~22 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
 INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(38, 1, 1),
@@ -3685,13 +3670,8 @@ INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(22, 3, 1),
 	(22, 1, 1),
 	(22, 21, 1),
-	(22, 25, 1),
 	(11, 1, 1),
-	(11, 22, 1),
-	(55, 25, 1),
 	(38, 3, 1),
-	(40, 24, 1),
-	(110, 25, 1),
 	(1, 1, 1),
 	(45, 1, 1),
 	(115, 19, 1),
@@ -4964,8 +4944,8 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '284e7fd0d571fa8be7dd3952d648410c', 1),
-	('rand_seed_last_update', '1438247834', 1),
+	('rand_seed', '7e1b3780e7f71361f89cf76fdc3b401d', 1),
+	('rand_seed_last_update', '1438257064', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
@@ -4990,7 +4970,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1438245305', 1),
+	('session_last_gc', '1438257064', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),
@@ -6985,12 +6965,10 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~3 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
-	('66335d610e65f470c8438b6b74cbf8af', 129, 1438247726, 1438247726, 1438248223, '94.179.84.150', 'Mozilla/5.0 (Windows NT 6.1; rv:40.0) Gecko/20100101 Firefox/40.0', '', 'ucp.php?i=ucp_notifications', 1, 0, 0, 0),
-	('a8623d62254d870a7a91d05e667f0ba2', 129, 1438240340, 1438240340, 1438242297, '94.179.84.150', 'Mozilla/5.0 (Windows NT 6.1; rv:40.0) Gecko/20100101 Firefox/40.0', '', 'ucp.php?i=ucp_profile&mode=profile_info', 1, 0, 0, 0),
-	('c6ddc5d6f5edba659f053d94ebc7b64a', 45, 1438243145, 1438243145, 1438245304, '81.30.164.98', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
+	('29d4d7a38fddc6cab5aefa1f4958e99f', 1, 1438257061, 1438257061, 1438257061, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
 /*!40000 ALTER TABLE `phpbb_sessions` ENABLE KEYS */;
 
 
@@ -7377,13 +7355,13 @@ CREATE TABLE IF NOT EXISTS `phpbb_users` (
 -- Dumping data for table int_ita_db.phpbb_users: ~15 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_users` DISABLE KEYS */;
 INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions`, `user_perm_from`, `user_ip`, `user_regdate`, `username`, `username_clean`, `user_password`, `user_passchg`, `user_email`, `user_email_hash`, `user_birthday`, `user_lastvisit`, `user_lastmark`, `user_lastpost_time`, `user_lastpage`, `user_last_confirm_key`, `user_last_search`, `user_warnings`, `user_last_warning`, `user_login_attempts`, `user_inactive_reason`, `user_inactive_time`, `user_posts`, `user_lang`, `user_timezone`, `user_dateformat`, `user_style`, `user_rank`, `user_colour`, `user_new_privmsg`, `user_unread_privmsg`, `user_last_privmsg`, `user_message_rules`, `user_full_folder`, `user_emailtime`, `user_topic_show_days`, `user_topic_sortby_type`, `user_topic_sortby_dir`, `user_post_show_days`, `user_post_sortby_type`, `user_post_sortby_dir`, `user_notify`, `user_notify_pm`, `user_notify_type`, `user_allow_pm`, `user_allow_viewonline`, `user_allow_viewemail`, `user_allow_massemail`, `user_options`, `user_avatar`, `user_avatar_type`, `user_avatar_width`, `user_avatar_height`, `user_sig`, `user_sig_bbcode_uid`, `user_sig_bbcode_bitfield`, `user_jabber`, `user_actkey`, `user_newpasswd`, `user_form_salt`, `user_new`, `user_reminded`, `user_reminded_time`) VALUES
-	(1, 2, 1, '00000000000w27wrgg\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '2F4M64ETS4', 1438079950, 0, 0, 0, 0, 0, 0, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '388fc7b7bb457233', 1, 0, 0),
+	(1, 2, 1, '00000000000w27wrgg\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\n\n\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000\ni1cjyo000000', 0, '', 1431076924, 'Anonymous', 'anonymous', '', 0, '', 0, '', 0, 0, 0, '', '2F4M64ETS4', 1438079950, 0, 0, 0, 0, 0, 0, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 0, 230271, '', '', 0, 0, '', '', '', '', '', '', '34e56eb9cd94b6d6', 1, 0, 0),
 	(2, 3, 5, 'zik0zjzik0zjzik0zc\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\n\n\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000\nzik0zj000000', 0, '127.0.0.1', 1431076924, 'intita', 'intita', '$2y$10$G.aeTtUTb6qI44QQuAOgh.P5fP9mw3.6/WzPVzB53z5TM5i3mBdra', 0, 'intita.hr@gmail.com', 144972273819, '', 1438188533, 0, 1437055279, 'index.php?transition=false', '3IF0CVYBS4', 0, 0, 0, 0, 0, 0, 4, 'uk', 'Europe/Kiev', 'd M Y H:i', 1, 1, 'AA0000', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '5e79e054a6e4eacd', 0, 0, 0),
 	(22, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Student ', 'Student ', '', 0, '', 0, '', 1437221780, 1437123064, 1437220140, 'posting.php?f=16&mode=reply&t=5', '3N68T27D96', 1437166212, 0, 0, 0, 0, 0, 4, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 0, 0, 0),
 	(38, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'teacher ', 'teacher ', '', 0, '', 0, '', 1437732968, 0, 1437732959, 'viewforum.php?f=15', '', 0, 0, 0, 0, 0, 0, 2, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(39, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1438089466, 'teacher2@gmail.com', 'teacher2@gmail.com', '', 0, '', 0, '', 0, 0, 1438089493, '', 'DP7RFO1A2P', 0, 0, 0, 0, 0, 0, 1, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(40, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'teacher3@gmail.com', 'teacher3@gmail.com', '', 0, '', 0, '', 1437215252, 0, 1437219397, 'index.php?transition=false', '3JEJLYLZU4', 1437054456, 0, 0, 0, 0, 0, 12, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 0, 0, 0),
-	(45, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Roman Melnyk', 'Roman Melnyk', '', 0, '', 0, '', 1438199164, 0, 1437389787, 'viewtopic.php?f=16&t=6&view=unread', '', 0, 0, 0, 0, 0, 0, 2, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
+	(45, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Roman Melnyk', 'Roman Melnyk', '', 0, '', 0, '', 1438245304, 0, 1437389787, 'index.php', '', 0, 0, 0, 0, 0, 0, 2, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(51, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Student 1 ', 'Student 1 ', '', 0, '', 0, '', 1438015309, 0, 1437054093, 'posting.php?f=16&mode=reply&t=4', '', 0, 0, 0, 0, 0, 0, 1, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(52, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'Student 2 ', 'Student 2 ', '', 0, '', 0, '', 1437469749, 0, 0, 'index.php?transition=false', '', 0, 0, 0, 0, 0, 0, 0, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(54, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1438016520, 'StudentFour ', 'StudentFour ', '', 0, '', 0, '', 1438018029, 0, 1438016568, 'viewtopic.php?p=27', '2Y1D403DFK', 0, 0, 0, 0, 0, 0, 1, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
@@ -7391,7 +7369,7 @@ INSERT INTO `phpbb_users` (`user_id`, `user_type`, `group_id`, `user_permissions
 	(113, 0, 3, '', 0, '', 1431076924, 'Олександр Бохан', 'Олександр Бохан', '', 0, '', 0, '', 1436971163, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(121, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1431076924, 'genius ', 'genius ', '', 0, '', 0, '', 0, 0, 1437554649, '', '1C98QMWW3P', 0, 0, 0, 0, 0, 0, 1, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 1, 1, 1438247796, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
 	(125, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1438013849, 'potap@gmail.com', 'potap@gmail.com', '', 0, '', 0, '', 1438014936, 0, 1438014402, '', '', 0, 0, 0, 0, 0, 0, 1, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 0, 0, -3, 0, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0),
-	(129, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1438165651, 'Наталья Бадёра', 'Наталья Бадёра', '', 0, '', 0, '', 0, 0, 1438247796, '', '', 0, 0, 0, 0, 0, 0, 0, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 1438247796, 0, -3, 1438242151, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0);
+	(129, 0, 3, '00000000001qh78puw\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\n\n\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000\nkgzahh000000', 0, '', 1438165651, 'Наталья Бадёра', 'Наталья Бадёра', '', 0, '', 0, '', 1438242297, 0, 1438247796, 'ucp.php?i=ucp_profile&mode=profile_info', '', 0, 0, 0, 0, 0, 0, 0, '', 'Europe/Kiev', 'd M Y H:i', 1, 0, '', 0, 0, 1438247796, 0, -3, 1438242151, 0, 't', 'd', 0, 't', 'a', 0, 1, 0, 1, 1, 1, 1, 230271, '', '', 0, 0, '', '', '', '', '', '', '', 1, 0, 0);
 /*!40000 ALTER TABLE `phpbb_users` ENABLE KEYS */;
 
 
@@ -7717,7 +7695,7 @@ CREATE TABLE IF NOT EXISTS `project_student` (
   CONSTRAINT `FK_project_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.project_student: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.project_student: ~7 rows (approximately)
 /*!40000 ALTER TABLE `project_student` DISABLE KEYS */;
 INSERT INTO `project_student` (`project`, `student`) VALUES
 	(1, 51),
@@ -7750,7 +7728,7 @@ CREATE TABLE IF NOT EXISTS `response` (
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
 
--- Dumping data for table int_ita_db.response: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.response: ~57 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
 	(1, 22, 38, '2015-06-24 15:07:16', 'iubl,ugl', 6, '::1', 8, 5, 5),
@@ -7876,7 +7854,7 @@ CREATE TABLE IF NOT EXISTS `role_attribute` (
   CONSTRAINT `FK_role_attribute_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='1 - capacity: number of students\r\n2 - students list: trainer''s students\r\n3 - modules list: leader''s modules\r\n4 - projects list: leader''s projects\r\n5 - modules_consultant';
 
--- Dumping data for table int_ita_db.role_attribute: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.role_attribute: ~8 rows (approximately)
 /*!40000 ALTER TABLE `role_attribute` DISABLE KEYS */;
 INSERT INTO `role_attribute` (`id`, `name`, `role`, `type`, `name_ru`, `name_ua`) VALUES
 	(1, 'capacity', 1, 'int', 'Количество студентов', 'Кількість студентів'),
@@ -8508,7 +8486,7 @@ CREATE TABLE IF NOT EXISTS `task1` (
   CONSTRAINT `FK_task1_teacher` FOREIGN KEY (`author`) REFERENCES `teacher` (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Lectures tasks.';
 
--- Dumping data for table int_ita_db.task1: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.task1: ~46 rows (approximately)
 /*!40000 ALTER TABLE `task1` DISABLE KEYS */;
 INSERT INTO `task1` (`id`, `language`, `assignment`, `condition`, `author`, `table`) VALUES
 	(50, 'c++', 1, 100, 1, 'assignment_cpp'),
@@ -8573,7 +8551,7 @@ CREATE TABLE IF NOT EXISTS `task_marks` (
   CONSTRAINT `FK_task_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - success ';
 
--- Dumping data for table int_ita_db.task_marks: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.task_marks: ~1 rows (approximately)
 /*!40000 ALTER TABLE `task_marks` DISABLE KEYS */;
 INSERT INTO `task_marks` (`id`, `id_user`, `id_task`, `mark`, `comment`) VALUES
 	(1, 51, 77, 1, '');
@@ -8604,7 +8582,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher: ~12 rows (approximately)
+-- Dumping data for table int_ita_db.teacher: ~11 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `user_id`, `rating`) VALUES
 	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала\n</p>\n<p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards\n</p>\n<p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).\n</p>\n<p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br>\n</p>\n<p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.\n</p>\n<p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила\n</p>\n<p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,\n</p>\n<p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого\n</p>\n<p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,\n</p>\n<p>                    що не подобалося її батькам і що вони їй забороняли.<br>\n</p>\n<p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:\n</p>\n<ul>\n	<li>оказании полезных услуг горизонтального характера;</li>\n	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>\n	<li>позитивное обучение швейного мастерства;</li>\n</ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', 6, 6, 6, 38, 6),
@@ -8613,7 +8591,6 @@ INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `
 	(4, 'Василий', 'Васильевич', 'Меняетпроффесию', 'teacher4.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=2', 'teacher4@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher4', 4, 2, 5, 41, 4),
 	(5, 'Ия', 'Тожевна', 'Воваяготова', 'teacher5.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '', '/profile/index/?idTeacher=3', 'teacher5@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher5', 5, 6, 5, 42, 5),
 	(6, 'Петросян', 'Петросянович', 'Забугорный', 'teacher6.jpg', 'программування БДСМ; программування на Php для пострадавших в ЧАЭС; GlobalLoqic, Samsung, Coqniance', '<p>hello!</p>', '<p>Консультант по вопросам бухгалтерского и налогового учета, отчетности для предприятий разной формы собственности. Преподаватель с многолетним стажем работы. <span>Реально шарит в компьютерах.</span></p><p>Автор технологии повышения квалификации специалистов экономического профиля.</p><p>Опыт преподавательской работы около 20 лет в учебных центрах и ВУЗах Киева. Опыт работы главным бухгалтером, финансовым директором. Большой опыт внедрения программ системы Виндовз 3:11.</p>', '<h3>hello2!</h3>', '/profile/index/?idTeacher=4', 'teacher6@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher6', 2, 5, 2, 43, 3),
-	(7, 'sddhwqhdf', 'sdvbkjs', 'vbedfvkj', 'noname.png', '', '', '', '', '', 'vdfb@rtr.ge', '', '', 8, 6, 2, 47, 5),
 	(8, 'Викладач', 'Викладач', 'Викладач', 'noname.png', '', '', '', '', '', '1111111111111111111111111111111111111111@gmail.com', '', '', 1, 1, 1, 110, 1),
 	(9, 'Антон', 'Олексійович', 'Грядченко', 'noname.png', '', '', '', '', '', 'antongriadchenko@gmail.com', '', '', 9, 6, 9, 109, 8),
 	(10, 'Ярослав', 'Іванович', 'Плаксій', 'noname.png', '', '', '', '', '', 'yaroslav.plaksii@gmail.com', '', '', 10, 9, 9, 108, 9),
@@ -8685,7 +8662,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~26 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),
@@ -8713,9 +8690,7 @@ INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(2, 4, '2015-06-24', '0000-00-00'),
 	(4, 4, '2015-06-24', '0000-00-00'),
 	(5, 4, '2015-06-24', '0000-00-00'),
-	(6, 4, '2015-06-24', '0000-00-00'),
-	(7, 2, '2015-06-29', '0000-00-00'),
-	(7, 4, '2015-07-01', '0000-00-00');
+	(6, 4, '2015-06-24', '0000-00-00');
 /*!40000 ALTER TABLE `teacher_roles` ENABLE KEYS */;
 
 
@@ -9199,7 +9174,7 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
--- Dumping data for table int_ita_db.tests_marks: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.tests_marks: ~226 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
 INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(14, 51, 35, 1),
@@ -9442,7 +9417,7 @@ CREATE TABLE IF NOT EXISTS `trainer_student` (
   CONSTRAINT `FK_trainer_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.trainer_student: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.trainer_student: ~7 rows (approximately)
 /*!40000 ALTER TABLE `trainer_student` DISABLE KEYS */;
 INSERT INTO `trainer_student` (`trainer`, `student`) VALUES
 	(1, 55),

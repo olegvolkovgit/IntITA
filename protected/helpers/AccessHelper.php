@@ -189,7 +189,7 @@ class AccessHelper
         $result = [];
         for($i = 0; $i < $count; $i++){
             $result[$i]['id'] = $courses[$i]->course_ID;
-            $result[$i]['alias'] = $courses[$i]->course_name;
+            $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->course_ID);
         }
         return $result;
     }
