@@ -19,6 +19,7 @@
 
         <div class="humblang">
             <?php
+            if(Yii::app()->session['lg']==NULL) Yii::app()->session['lg']='ua';
             foreach (["ua", "en", "ru"] as $val) {
                 ?>
                 <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>$val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
