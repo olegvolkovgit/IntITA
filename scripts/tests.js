@@ -8,7 +8,7 @@ function addOption(){
 
     newOption = 1 + parseInt(optionsNum);
     var newOptionDiv = document.createElement('div');
-    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required/><br>';
+    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required/><br>';
     document.getElementById("optionsList").appendChild(newOptionDiv);
 
     var newAnswerDiv = document.createElement('div');
@@ -97,7 +97,10 @@ function isTrueTestAnswer(user, test){
         }, "json");
 }
 function checkAnswers(answers){
-
+    var answerTrim = document.getElementsByClassName('testVariant');
+    for (var i = 0; i < answerTrim.length; i++) {
+        answerTrim[i].value = $.trim(answerTrim[i].value);
+    }
     if(answers.length==0){
         alert('Виберіть хоч один правильний варіант перед створенням тесту');
         document.getElementById("addtests").disabled = true;
