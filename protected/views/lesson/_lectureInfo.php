@@ -48,7 +48,14 @@
         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
     <?php } ?>
     <div id="iconImage">
-        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');?>">
+        <img src="<?php
+        if (LectureHelper::isLectureAvailable($user, $lecture->id, false))
+        {
+            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
+        } else {
+            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
+        }
+        ?> ">
     </div>
 </div>
 </ul>

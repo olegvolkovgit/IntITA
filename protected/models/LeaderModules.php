@@ -107,10 +107,11 @@ class LeaderModules extends CActiveRecord
             'params' => array(':id' => $leader),
         ))->queryAll();
         $count = count($modules);
+        $titleParam = ModuleHelper::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
             $modules[$i]['id'] = $modules[$i]["module"];
-            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->module_name;
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->$titleParam;
         }
 
         return (!empty($modules))?$modules:[];

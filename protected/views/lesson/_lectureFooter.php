@@ -86,7 +86,7 @@ $footNavSize='960px'; // Ширина блоку
                 }
                 ?>
                 <td><img src="<?php
-                    if (LectureHelper::isLectureAvailable($user, $lecture['id'], false))
+                    if (LectureHelper::isLectureAvailable($user, LectureHelper::getNextId($lecture['id']), false))
                     {
                         echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
                     } else {
@@ -99,7 +99,7 @@ $footNavSize='960px'; // Ширина блоку
             <div class="nextLesonLink">
                 <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $lecture->getPostId(), 'idCourse'=>$idCourse));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>
-            <?php  }?>
+        <?php  }?>
     </div>
 
 <?php

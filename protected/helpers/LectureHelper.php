@@ -96,4 +96,24 @@ class LectureHelper {
             return 1;
         }
     }
+
+    public static function getLectureTypeTitle($idType){
+        if(LectureType::model()->exists('id=:idType', array(':idType' => $idType))){
+            $titleParam = LectureHelper::getTypeTitleParam();
+            return LectureType::model()->findByPk($idType)->$titleParam;
+        }else {
+            return '';
+        }
+    }
+
+    public static function getTypeTitleParam(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        $title = "title_".$lang;
+        return $title;
+    }
+
+    public static function getNextId($id){
+        $current = Lecture::model()->findByPk($id);
+        return Lecture::model()->findByAttributes(array('order'=>$current->order+1,'idModule'=>$current->idModule))->id;
+    }
 }

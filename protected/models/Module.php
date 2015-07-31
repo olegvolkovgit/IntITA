@@ -5,7 +5,9 @@
  *
  * The followings are the available columns in table 'module':
  * @property integer $module_ID
- * @property string $module_name
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
  * @property string $alias
  * @property string $language
  * @property integer $module_duration_hours
@@ -49,14 +51,14 @@ class Module extends CActiveRecord
 			array('level', 'length', 'max'=>45),
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
-			array('module_img, module_name', 'length', 'max'=>255),
+			array('module_img, title_ua, title_ru, title_en', 'length', 'max'=>255),
 			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
-            array('module_name, level,hours_in_day, days_in_week', 'required','message'=>Yii::t('module', '0412'),'on'=>'canedit'),
+            array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required','message'=>Yii::t('module', '0412'),'on'=>'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
             array('module_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('module_ID, module_name, alias, language, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners, days_in_week, hours_in_day, level', 'safe', 'on'=>'search'),
+			array('module_ID, title_ua, title_ru, title_en, alias, language, module_duration_hours, module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img, about_module, owners, days_in_week, hours_in_day, level', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,7 +81,9 @@ class Module extends CActiveRecord
 	{
 		return array(
 			'module_ID' => 'Module',
-			'module_name' => 'Module Name',
+			'title_ua' => 'Назва українською',
+            'title_ru' => 'Назва російською',
+            'title_en' => 'Назва англійською',
 			'alias' => 'Alias',
 			'language' => 'Language',
 			'module_duration_hours' => 'Module Duration Hours',
@@ -114,7 +118,9 @@ class Module extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('module_ID',$this->module_ID);
-		$criteria->compare('module_name',$this->module_name,true);
+		$criteria->compare('title_ua',$this->title_ua,true);
+        $criteria->compare('title_ru',$this->title_ru,true);
+        $criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('language',$this->language,true);
 		$criteria->compare('module_duration_hours',$this->module_duration_hours);
@@ -209,7 +215,7 @@ class Module extends CActiveRecord
 
         $module->alias = 'module'.++$order;
         $module->language = $lang;
-        $module->module_name = $newModuleName;
+        $module->title_ua = $newModuleName;
         if($module->validate()) {
             $module->save();
         }

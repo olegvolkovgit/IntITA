@@ -66,7 +66,7 @@ class PermissionsController extends Controller
     {
         $model = new Lecture('search');
         $model->unsetAttributes();  // clear any default values
-        $model->isFree = 1;
+
         if(isset($_GET['Lecture']))
             $model->attributes=$_GET['Lecture'];
 
