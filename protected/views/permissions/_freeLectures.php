@@ -18,6 +18,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $model->search(),
     'filter'=>$model,
     'summaryText'=>'',
+    'pager' => array(
+        'firstPageLabel'=>'<<',
+        'lastPageLabel'=>'>>',
+        'prevPageLabel'=>'<',
+        'nextPageLabel'=>'>',
+        'header'=>'',
+    ),
     'columns' => array(
 //        'idModule',
 //        'order',
@@ -30,6 +37,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type' => 'raw',
             'value' => '($data->idModule)? $data->ModuleTitle->module_name : ""',
             'sortable'=>true,
+            'htmlOptions'=>array('class'=>'titleModule'),
         ),
         array(
             'name' => 'order',
@@ -41,6 +49,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'title',
             'type' => 'raw',
             'value' => '$data->title',
+            'htmlOptions'=>array('class'=>'titleLecture'),
         ),
         array(
             'name' => 'idType',
