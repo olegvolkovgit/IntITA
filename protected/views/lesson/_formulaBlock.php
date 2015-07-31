@@ -25,19 +25,21 @@ $formulaCode = addcslashes($temp, '\\');
             >
             <?php echo $data['html_block'];?>
         </div>
-            <form id="editFormula<?php echo $data['block_order'];?>"
+            <form class="editFormula" id="editFormula<?php echo $data['block_order'];?>"
                   action="<?php echo Yii::app()->createUrl('lesson/saveFormula');?>"
                   method="post"
                   style="display:none;">
-                <input name="idLecture" value="<?php echo $data['id_lecture'];?>" hidden="hidden">
-                <input name="order" value="<?php echo $data['block_order'];?>" hidden="hidden">
+                <input id="idLecture" name="idLecture" value="<?php echo $data['id_lecture'];?>" hidden="hidden">
+                <input id="order" name="order" value="<?php echo $data['block_order'];?>" hidden="hidden">
                 <textarea name="content"
-                          id="content<?php echo $data['block_order'];?>" cols="108" rows="10">
+                          id="content<?php echo $data['block_order'];?>" cols="108" rows="10" required onclick="buttonEditFormulaEnabled()">
                     <?php echo $data['html_block'];?>
                 </textarea>
                 <br>
-                <input type="submit" value="Зберегти" onclick="sendContent('<?php echo 'content'.$data['block_order'];?>')">
+                <input class="editFormulaButton" type="submit" value="Зберегти" onclick="sendContent('<?php echo 'content'.$data['block_order'];?>')">
+                <input class="editFormulaCancel" type="submit" value="Скасувати" onclick='cancelEditFormula()'>
             </form>
+
     </div>
 
 <script type="text/javascript">
@@ -49,8 +51,16 @@ $formulaCode = addcslashes($temp, '\\');
     }
     function sendContent(id){
         contentValue = document.getElementById(id).value;
-        idLecture =  document.getElementById('idLecture').innerText;
-        order =  document.getElementById('order').innerText;
+
+        idLecture =  document.getElementById('idLecture').value;
+        order =  document.getElementById('order').value;
+
+        var val = $("#"+id).val().trim();
+        if(val=="\\[\\]"){
+            alert('Формула не може бути пуста');
+            $(".editFormulaButton").attr('disabled',true);
+            return false;
+        }
 
         $.ajax({
             cache: false,
@@ -58,5 +68,12 @@ $formulaCode = addcslashes($temp, '\\');
             url: '/lesson/save',
             data: {'content':contentValue,'idLecture':idLecture,'order':order}
         });
+    }
+    function buttonEditFormulaEnabled(){
+        $(".editFormulaButton").removeAttr('disabled');
+    }
+    function cancelEditFormula(){
+        $(".editFormulaCancel").attr('disabled',true);
+        location.reload();
     }
 </script>

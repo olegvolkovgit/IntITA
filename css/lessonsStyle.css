@@ -422,3 +422,22 @@ div.lessonTest {
 .element textarea{
     resize: none;
 }
+.cancelAddFormula{
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    color: buttontext;
+    padding: 2px 6px 3px;
+    border: 2px outset buttonface;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    background-color: buttonface;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    vertical-align: text-top;
+}

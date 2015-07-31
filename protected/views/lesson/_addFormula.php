@@ -10,9 +10,9 @@
 <div id="divAddFormula">
     <form id="addFormula" action="<?php echo Yii::app()->createUrl('lesson/addFormula'); ?>" method="post">
         <input name="idLecture" value="<?php echo $idLecture; ?>" hidden="hidden">
-        <textarea name="newFormula" id="newFormula" cols="108" rows="10"></textarea>
+        <textarea name="newFormula" id="newFormula" cols="108" rows="10" required onclick='buttonFormulaEnabled()'></textarea>
         <br>
-        <input type="submit" value="Додати формулу">
+        <input id="addFormulaButton" type="submit" value="Додати формулу" onclick='fieldValidation()' >
         <br>
     </form>
     <button onclick='cancelAddFormula()'>Скасувати</button>

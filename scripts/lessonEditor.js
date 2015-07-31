@@ -58,3 +58,13 @@ function cancelAddFormula(){
     document.getElementById('divAddFormula').style.display =  "none";
     location.reload();
 }
+function fieldValidation(){
+    var val = $("#newFormula").val().trim();
+    if(val=="\\[\\]"){
+        alert('Формула не може бути пуста');
+        $("#addFormulaButton").attr('disabled',true);
+    }
+}
+function buttonFormulaEnabled(){
+    $("#addFormulaButton").removeAttr('disabled');
+}
