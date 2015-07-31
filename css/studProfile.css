@@ -307,58 +307,62 @@ span.colorP {
 }
 /*TABS*/
 /* стили секций с содержанием */
-.formStudProf section {
-    display: none;
-    padding: 15px;
-    background: #fff;
-    margin-top: 14px;
-    overflow: hidden;
+.tabs {
+    display: block;
+
 }
-.tabs > input {
-    display: none;
+.tabs > ul{
+    margin:15px 0 0 22px;
+    padding:0;
 }
-/* стили вкладок (табов) */
-.tabs > label {
+.tabs > ul:after{
+    content:"";
+    display:block;
+    clear:both;
+    height:5px;
+}
+.tabs > ul li{
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    display: inline-block;
-    text-align: center;
     color: #666666;
-    width: 150px;
-    height: 40px;
-    margin: 14px -2px 0 -2px;
+    width: 140px;
+    height: 35px;
+    text-align: center;
     border: 1px solid #d8d8d8;
     border-bottom: none;
+    margin:0;
+    cursor:pointer;
+    display:block;
+    float:left;
+    padding:0;
     border-radius: 5px 5px 0 0;
-    float: none;
 }
-div.lineUnderTab{
-    border-bottom: 1px solid #d8d8d8;
-}
-label.tabsDown1,label.tabsDown {
-    width: 125px;
-}
-label.tabsUp1,label.tabsDown1{
-    margin-left: 30px;
-}
-/* изменения стиля заголовков вкладок при наведении */
-.tabs > label:hover {
-    background-color: #ededed;
-    cursor: pointer;
-}
-/* стили для активной вкладки */
-.tabs > input:checked + label {
-    color: #cccccc;
+.tabs > ul li.active{
+    color:#cccccc;
     -webkit-transform:translateY(-3px) scaleY(1.2);
     -moz-transform:translateY(-3px) scaleY(1.2);
     -o-transform:translateY(-3px) scaleY(1.2);
     -ms-transform:translateY(-3px) scaleY(1.2);
     transform: translateY(-3px) scaleY(1.2);
 }
-/* активация секций с помощью переключателя :checked */
-#tab1:checked ~ #mainreg,
-#tab2:checked ~ #addreg{
-    display: block;
+.tabs > ul li.active:hover{
+    background:#ededed;
+}
+.tabs > ul li:hover{
+    background:#ededed;
+}
+.profileActivity .tabsContent > div {
+    display: none;
+    padding: 15px 15px 15px 30px;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 14px;
+    overflow: hidden;
+}
+hr.lineUnderTab{
+    border-top: 1px solid #d8d8d8;
+    margin-top: -5px;
 }
 /*TABS*/
 /*My Course*/

@@ -95,7 +95,7 @@ class StudentRegController extends Controller
 
     public function actionIndex($tempEmail='',$tempPass='')
     {
-        $tab='';
+        $tab=0;
         $model=new StudentReg('reguser');
 
         if(isset($_POST['StudentReg']))
@@ -120,7 +120,7 @@ class StudentRegController extends Controller
                         $model->facebook = $fURL;
                     else {
                         $model->addError('facebook','Ви ввели не коректну сторінку');
-                        $tab='checked';
+                        $tab=1;
                     }
                 }
                 if(!empty($_POST['StudentReg']['googleplus']))
@@ -130,7 +130,7 @@ class StudentRegController extends Controller
                         $model->googleplus = $gURL;
                     else {
                         $model->addError('googleplus','Ви ввели не коректну сторінку');
-                        $tab='checked';
+                        $tab=1;
                     }
                 }
                 if(!empty($_POST['StudentReg']['linkedin']))
@@ -140,7 +140,7 @@ class StudentRegController extends Controller
                         $model->linkedin = $lURL;
                     else {
                         $model->addError('linkedin','Ви ввели не коректну сторінку');
-                        $tab='checked';
+                        $tab=1;
                     }
                 }
                 if(!empty($_POST['StudentReg']['vkontakte']))
@@ -150,7 +150,7 @@ class StudentRegController extends Controller
                         $model->vkontakte = $vURL;
                     else {
                         $model->addError('vkontakte','Ви ввели не коректну сторінку');
-                        $tab='checked';
+                        $tab=1;
                     }
                 }
                 if(!empty($_POST['StudentReg']['twitter']))
@@ -160,7 +160,7 @@ class StudentRegController extends Controller
                         $model->twitter = $tURL;
                     else {
                         $model->addError('twitter','Ви ввели не коректну сторінку');
-                        $tab='checked';
+                        $tab=1;
                     }
                 }
                 if($_FILES["upload"]["size"] > 1024*1024*5)
@@ -249,7 +249,7 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser,$tab='')
+    public function actionProfile($idUser,$tab=0)
     {
         $model=StudentReg::model()->findByPk($idUser);
         if ($idUser!==Yii::app()->user->getId())
@@ -376,7 +376,7 @@ class StudentRegController extends Controller
     }
     public function actionRewrite()
     {
-        $tab='';
+        $tab=0;
         $id=Yii::app()->user->id;
         $model=StudentReg::model()->findByPk(Yii::app()->user->id);
         $model->setScenario('edit');
@@ -406,7 +406,7 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('facebook' => $fURL));
                 else {
                     $model->addError('facebook','Ви ввели не коректну сторінку');
-                    $tab='checked';
+                    $tab=1;
                 }
             }
             else  $model->updateByPk($id, array('facebook' => ''));
@@ -417,7 +417,7 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('googleplus' => $gURL));
                 else {
                     $model->addError('googleplus','Ви ввели не коректну сторінку');
-                    $tab='checked';
+                    $tab=1;
                 }
             }
             else  $model->updateByPk($id, array('googleplus' => ''));
@@ -428,7 +428,7 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('linkedin' => $lURL));
                 else {
                     $model->addError('linkedin','Ви ввели не коректну сторінку');
-                    $tab='checked';
+                    $tab=1;
                 }
             }
             else  $model->updateByPk($id, array('linkedin' => ''));
@@ -439,7 +439,7 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('vkontakte' => $vURL));
                 else {
                     $model->addError('vkontakte','Ви ввели не коректну сторінку');
-                    $tab='checked';
+                    $tab=1;
                 }
             }
             else  $model->updateByPk($id, array('vkontakte' => ''));
@@ -450,7 +450,7 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('twitter' => $tURL));
                 else {
                     $model->addError('twitter','Ви ввели не коректну сторінку');
-                    $tab='checked';
+                    $tab=1;
                 }
             }
             else  $model->updateByPk($id, array('twitter' => ''));

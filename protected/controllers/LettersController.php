@@ -136,7 +136,7 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
-        $tab='checked';
+        $tab=3;
         $model= new Letters();
         if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
         {
