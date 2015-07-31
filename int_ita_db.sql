@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 17:06:36
+-- Date/time:                    2015-07-31 18:15:44
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -166,7 +166,7 @@ INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
 	(14, 6, 2, '22'),
 	(15, 4, 2, '55'),
 	(16, 6, 3, '1'),
-	(17, 1, 3, '2'),
+	(17, 1, 3, '1'),
 	(18, 2, 3, '5'),
 	(19, 3, 4, '1'),
 	(20, 5, 3, '5'),
@@ -390,16 +390,16 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_img` varchar(255) DEFAULT 'courseimg1.png',
   `rating` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`course_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='status: 0 - in develop, 1 - avaliable';
 
 -- Dumping data for table int_ita_db.course: ~13 rows (approximately)
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
 INSERT INTO `course` (`course_ID`, `alias`, `language`, `title_ua`, `title_ru`, `title_en`, `level`, `start`, `status`, `modules_count`, `course_duration_hours`, `course_price`, `for_whom`, `what_you_learn`, `what_you_get`, `course_img`, `rating`) VALUES
-	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'Интернет программист (РНР)', 'Web developer(PHP)', 'strong junior', '2015-07-30', 0, 16, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
+	(1, 'coursePhp', 'ua', 'Інтернет програміст (РНР)', 'Интернет программист (РНР)', 'Web developer (PHP)', 'strong junior', '2015-07-30', 0, 19, 89, 6548, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 9),
 	(2, 'courseJavaScript', 'ua', 'Інтернет програміст (Java Script)', 'Интернет программист  (Java Script)', 'Web developer (JavaScript)', 'strong junior', '2015-10-30', 0, 0, 120, 6500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course9Image.png', 6),
 	(3, 'courseJava', 'ua', 'Програміст (Java)', 'Программист (Java)', 'Programmer  (Java)', 'strong junior', '2015-10-30', 0, 0, 30, 6700, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course3Image.png', 6),
 	(4, 'C#', 'ua', 'Програміст (C#)', 'Программист (C#)', 'Programmer(C#)', 'strong junior', '2015-10-30', 0, 0, 40, 6000, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course4Image.png', 6),
-	(5, 'C++', 'ua', 'Програміст (С++)', 'Программист (С++)', 'Programmer (С++)', 'intern', '2015-12-30', 0, 10, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course2Image.png', 6),
+	(5, 'C++', 'ua', 'Програміст (С++)', 'Программист (С++)', 'Programmer (С++)', 'intern', '2015-12-30', 0, 0, 36, 5900, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course2Image.png', 6),
 	(6, 'ObjectiveC', 'ua', 'Програміст (Objective С)', 'Программист (Objective С)', 'Programmer(Objective С)', 'middle', '2015-10-30', 0, 0, 130, 7100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course8Image.png', 4),
 	(7, 'QA', 'ua', 'Тестувальник (QA)', 'Тестировщик (QA)', 'Quality assurance engineer(QA)', 'senior', '2016-02-28', 0, 0, 64, 6100, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course7Image.png', 6),
 	(13, 'english', 'ua', 'Англійська мова для ІТ', 'Английский язык для ИТ', 'English for IT', 'middle', '2015-12-30', 0, 3, 60, 2500, 'хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект\r\n [...]', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині', 'course1Image.png', 6),
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.course_modules: ~55 rows (approximately)
+-- Dumping data for table int_ita_db.course_modules: ~57 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -458,13 +458,13 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 9, 6),
 	(1, 10, 7),
 	(1, 11, 8),
-	(1, 14, 9),
-	(1, 16, 10),
-	(1, 17, 11),
-	(1, 18, 13),
-	(1, 20, 12),
-	(1, 22, 14),
-	(1, 23, 15),
+	(1, 14, 10),
+	(1, 16, 11),
+	(1, 17, 13),
+	(1, 18, 15),
+	(1, 20, 14),
+	(1, 22, 16),
+	(1, 23, 17),
 	(13, 54, 1),
 	(13, 55, 2),
 	(13, 56, 3),
@@ -474,7 +474,7 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(3, 1, 1),
 	(3, 2, 2),
 	(3, 3, 3),
-	(1, 61, 16),
+	(1, 61, 19),
 	(19, 82, 1),
 	(19, 83, 2),
 	(19, 84, 3),
@@ -495,16 +495,9 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(20, 99, 1),
 	(20, 100, 2),
 	(20, 101, 3),
-	(5, 111, 1),
-	(5, 112, 2),
-	(5, 113, 3),
-	(5, 114, 4),
-	(5, 115, 5),
-	(5, 116, 6),
-	(5, 117, 7),
-	(5, 118, 8),
-	(5, 119, 9),
-	(5, 120, 10);
+	(1, 121, 9),
+	(1, 122, 12),
+	(1, 123, 18);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 
 
@@ -781,92 +774,30 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~177 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~75 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`, `rate`) VALUES
-	(1, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Змінні та типи даних в PHP', 1, 40, '1', 1, 4),
-	(2, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'Основи синтаксису', 1, 50, '3', 1, 4),
-	(3, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'Обробка запитів з допомогою PHP', 1, 60, '4', 0, 4),
-	(5, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Функції в PHP', 1, 60, '1', 0, 4),
-	(14, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'Об\'єкти і класи PHP', 1, 60, '2', 0, 4),
-	(15, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Робота з масивами даних', 1, 60, '3', 0, 4),
-	(16, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Робота з стрічками', 1, 60, '2', 0, 4),
-	(17, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Робота з файловою системою', 1, 60, '4', 0, 4),
-	(18, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Бази даних і СУБД. Введення в SQL', 1, 60, '2', 0, 4),
-	(19, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Взаємодія PHP і MySQL', 1, 60, '1', 0, 4),
-	(20, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Авторизація доступу з допомогою сесій', 1, 60, '3', 0, 4),
-	(21, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Регулярні вирази', 1, 60, '2', 0, 4),
 	(22, 'lectureImage.png', 'lecture1', 'ua', 2, 1, 'Взаємодія PHP і XML', 1, 60, '1', 0, 4),
 	(23, 'lectureImage.png', 'lecture2', 'ua', 2, 2, 'Приклади коду', 1, 60, '2', 0, 4),
 	(24, 'lectureImage.png', 'lecture3', 'ua', 2, 3, 'Список літератури', 1, 60, '4', 0, 4),
-	(26, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'Фреймворк Yii', 1, 60, '1', 0, 4),
-	(27, 'lectureImage.png', 'lecture14', 'ua', 0, 0, 'Фреймворк Lavarel', 1, 60, '3', 0, 4),
-	(31, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Вступ', 1, 60, '1', 0, 4),
-	(32, 'lectureImage.png', 'lecture2', 'ua', 0, 0, '2', 1, 60, '1', 0, 4),
-	(33, 'lectureImage.png', 'lecture3', 'ua', 0, 0, '3', 1, 60, '1', 0, 4),
-	(35, 'lectureImage.png', 'lecture15', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0, 4),
-	(36, 'lectureImage.png', 'lecture16', 'ua', 0, 0, ',,....gergregea', 1, 60, '1', 0, 4),
-	(37, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
-	(38, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
-	(39, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'u7j5787j', 1, 60, '1', 0, 4),
-	(40, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'ythteth', 1, 60, '1', 0, 4),
-	(41, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
-	(42, 'lectureImage.png', 'lecture17', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
-	(43, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
-	(44, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'j7t578', 1, 60, '1', 0, 4),
-	(45, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'eargrtsg..,,', 1, 60, '1', 0, 4),
-	(46, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '6363', 1, 60, '1', 0, 4),
-	(47, 'lectureImage.png', 'lecture15', 'ua', 0, 0, '15', 1, 60, '3', 0, 4),
-	(48, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'New lecture', 1, 60, '1', 0, 4),
-	(49, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'hgfjhkjcj bjkhlhkjl', 1, 60, '5', 0, 4),
 	(50, 'lectureImage.png', 'lecture2', 'ua', 7, 2, 'Математический анализ', 1, 60, '5', 0, 4),
 	(51, 'lectureImage.png', 'lecture3', 'ua', 7, 3, 'Дифференциальные уравнения', 1, 60, '5', 0, 4),
 	(52, 'lectureImage.png', 'lecture4', 'ua', 7, 4, 'Математическая физика', 1, 60, '5', 0, 4),
 	(53, 'lectureImage.png', 'lecture5', 'ua', 7, 5, 'Геометрия и топология', 1, 60, '5', 0, 4),
 	(54, 'lectureImage.png', 'lecture6', 'ua', 7, 1, 'Теория вероятностей и математическая статистика', 1, 60, '5', 0, 4),
-	(55, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'd', 1, 60, '1', 0, 4),
-	(56, 'lectureImage.png', 'lecture17', 'ua', 0, 0, '/', 1, 60, '1', 0, 4),
-	(57, 'lectureImage.png', 'lecture18', 'ua', 0, 0, '0', 1, 60, '1', 0, 4),
-	(58, 'lectureImage.png', 'lecture19', 'ua', 0, 0, '-1', 1, 60, '1', 0, 4),
-	(59, 'lectureImage.png', 'lecture20', 'ua', 0, 0, '.', 1, 60, '1', 0, 4),
-	(60, 'lectureImage.png', 'lecture21', 'ua', 0, 0, 'ооооооооооооооооооооооооооооооооооооооооммммммммммммммммммммммммммммммммммммммммммммттттттттттттттттттттттттттттттттттттттттттттттттттттввввввввввввввввввввввввввввввввввввввввввввввввссссссссссссссссссссссссссссссссссссссссммммммммммммммммммммммммммммммм', 1, 60, '1', 0, 4),
-	(61, 'lectureImage.png', 'lecture22', 'ua', 0, 0, 'ииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииаааааааааааааааааааааааааааааааааааааааааааааааааааааааасссссссссссссссссссссссссссссссссссссссссссссссссссссссссввввввввввввввввввввввввввввввввввввввввввввввввввввииииииии', 1, 60, '1', 0, 4),
-	(62, 'lectureImage.png', 'lecture23', 'ua', 0, 0, 'чсьтмиьт)', 1, 60, '1', 0, 4),
-	(63, 'lectureImage.png', 'lecture24', 'ua', 0, 0, 'пор:', 1, 60, '1', 0, 4),
-	(64, 'lectureImage.png', 'lecture25', 'ua', 0, 0, ';', 1, 60, '1', 0, 4),
-	(65, 'lectureImage.png', 'lecture26', 'ua', 0, 0, ',', 1, 60, '1', 0, 4),
 	(66, 'lectureImage.png', 'lecture1', 'ua', 11, 2, 'Занятие 1', 1, 60, '2', 0, 4),
 	(67, 'lectureImage.png', 'lecture2', 'ua', 11, 1, 'Занятие 2,', 1, 60, '2', 0, 4),
 	(68, 'lectureImage.png', 'lecture3', 'ua', 11, 3, 'Занятие 3.', 1, 60, '2', 0, 4),
 	(69, 'lectureImage.png', 'lecture4', 'ua', 11, 4, 'Занятие 4;', 1, 60, '2', 0, 4),
 	(70, 'lectureImage.png', 'lecture5', 'ua', 11, 5, 'Занятие 5:', 1, 60, '2', 0, 4),
-	(71, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'занятие 6', 1, 60, '2', 0, 4),
 	(72, 'lectureImage.png', 'lecture1', 'ua', 23, 1, 'аатара', 1, 60, '2', 0, 4),
 	(73, 'lectureImage.png', 'lecture2', 'ua', 61, 1, 'gfggeg', 1, 60, '1', 0, 4),
-	(74, 'lectureImage.png', 'lecture4', 'ua', 0, 0, '4', 1, 60, '1', 0, 4),
-	(75, 'lectureImage.png', 'lecture27', 'ua', 0, 0, '\'`!,?їЇ', 1, 60, '1', 0, 4),
-	(76, 'lectureImage.png', 'lecture28', 'ua', 0, 0, 'jgkhjlkhl', 1, 60, '1', 0, 4),
-	(77, 'lectureImage.png', 'lecture29', 'ua', 0, 0, 'yuiuuoyil', 1, 60, '1', 0, 4),
 	(78, 'lectureImage.png', 'lecture1', 'ua', 20, 1, 'rgdgjkj', 1, 60, '3', 0, 4),
 	(79, 'lectureImage.png', 'lecture2', 'ua', 20, 2, 'hjhgjghgkg', 1, 60, '3', 0, 4),
-	(80, 'lectureImage.png', 'lecture30', 'ua', 0, 0, 'Що таке програмування', 1, 60, '9', 0, 4),
-	(81, 'lectureImage.png', 'lecture31', 'ua', 0, 0, 'кар\'єра', 1, 60, '1', 0, 4),
-	(82, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'ппппппппппппппппппппппппппппаааааааааааааааааааааааааааааааввввввввввввввввввввввввввввввссс', 1, 60, '1', 0, 4),
-	(83, 'lectureImage.png', 'lecture32', 'ua', 0, 0, 'Що потрібно щоб стати програмістом?', 1, 60, '9', 0, 4),
-	(84, 'lectureImage.png', 'lecture33', 'ua', 0, 0, 'Що таке мова програмування.', 1, 60, '9', 0, 4),
-	(85, 'lectureImage.png', 'lecture34', 'ua', 0, 0, 'Якою має бути програма?', 1, 60, '9', 0, 4),
-	(86, 'lectureImage.png', 'lecture35', 'ua', 0, 0, 'Етапи програмування', 1, 60, '9', 0, 4),
-	(87, 'lectureImage.png', 'lecture36', 'ua', 0, 0, 'Підсумкове завдання.', 1, 60, '9', 0, 4),
 	(88, 'lectureImage.png', 'lecture4', 'ua', 2, 4, 'Дроби', 1, 60, '10', 0, 4),
 	(89, 'lectureImage.png', 'lecture5', 'ua', 2, 5, 'Нескінченний періодичний десятковий дріб', 1, 60, '10', 0, 4),
 	(90, 'lectureImage.png', 'lecture6', 'ua', 2, 6, 'Одночлен і многочлени', 1, 60, '10', 0, 4),
 	(91, 'lectureImage.png', 'lecture7', 'ua', 2, 7, 'Натуральні числа', 1, 60, '10', 0, 4),
-	(92, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'xfgfghhjhkjkjhlkl', 1, 60, '1', 0, 4),
-	(93, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'lesson 7', 1, 60, '1', 0, 4),
-	(94, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'fhgfjhj', 1, 60, '1', 0, 4),
-	(95, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'yiuioioioio', 1, 60, '1', 0, 4),
-	(96, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'guuihuiuhiuhiuu', 1, 60, '1', 0, 4),
-	(97, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'fcghgcjhgfj', 1, 60, '1', 0, 4),
 	(98, 'lectureImage.png', 'lecture1', 'ua', 9, 1, '1', 1, 60, '3', 0, 4),
 	(99, 'lectureImage.png', 'lecture3', 'ua', 20, 3, '!!!!!!', 1, 60, '1', 0, 4),
 	(100, 'lectureImage.png', 'lecture8', 'ua', 3, 1, 'Основи мови С (частина 1)', 1, 60, '11', 0, 4),
@@ -881,65 +812,31 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(109, 'lectureImage.png', 'lecture10', 'ua', 3, 10, 'Динамічні структури даних (частина 1)', 1, 60, '11', 0, 4),
 	(110, 'lectureImage.png', 'lecture11', 'ua', 3, 11, 'Динамічні структури даних (частина 2)', 1, 60, '11', 0, 4),
 	(111, 'lectureImage.png', 'lecture12', 'ua', 3, 12, 'Налагодження і тестування', 1, 60, '11', 0, 4),
-	(112, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'ffff', 1, 60, '1', 0, 4),
-	(113, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'dfgdfgdfg', 1, 60, '1', 0, 4),
-	(114, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'аопваотмаи', 1, 60, '1', 0, 4),
 	(115, 'lectureImage.png', 'lecture1', 'ua', 18, 1, 'Тест занятие', 1, 60, '1', 0, 4),
 	(116, 'lectureImage.png', 'lecture4', 'ua', 20, 4, 'тьмтсич', 1, 60, '1', 0, 4),
-	(117, 'lectureImage.png', 'lecture5', 'ua', 1, 1, 'Етапи програмування. Парадигма програмування.', 1, 60, '9', 0, 4),
-	(118, 'lectureImage.png', 'lecture6', 'ua', 1, 2, 'Функціонування комп\'ютера.', 1, 60, '9', 0, 4),
-	(119, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'Пристрої введення (клавіатура, мишка, джойстик, сенсорні, мікрофон) та виведення (монітор, відеоадаптер, принтер, плоттер, аудіо адаптер)', 1, 60, '9', 0, 4),
-	(120, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'Пам\'ять комп\'ютера (принципи роботи). Зберігання та перенесення даних. Програмне забезпечення (поняття, класифікація).', 1, 60, '9', 0, 4),
-	(121, 'lectureImage.png', 'lecture9', 'ua', 0, 0, 'Принципи фон Неймана. Процесор (історія, компоненти, схема, характеристики).', 1, 60, '9', 0, 4),
-	(122, 'lectureImage.png', 'lecture10', 'ua', 0, 0, 'Платформи, ОС (історія, поняття, функції, модулі, функції ядра)', 1, 60, '9', 0, 4),
-	(123, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'Системи числення. Правила переведення для різних СЧ.', 1, 60, '9', 0, 4),
-	(124, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Алгоритм (поняття, способи подання, властивості, приклади).', 1, 60, '9', 0, 4),
+	(117, 'lectureImage.png', 'lecture5', 'ua', 1, 1, 'Етапи програмування. Парадигма програмування.', 1, 60, '9', 1, 4),
+	(118, 'lectureImage.png', 'lecture6', 'ua', 1, 2, 'Функціонування комп\'ютера.', 1, 60, '9', 1, 4),
 	(125, 'lectureImage.png', 'lecture13', 'ua', 1, 9, 'Технології програмування. Покоління', 1, 60, '9', 0, 4),
 	(126, 'lectureImage.png', 'lecture14', 'ua', 1, 10, 'Розвиток мов програмування', 1, 60, '9', 0, 4),
 	(127, 'lectureImage.png', 'lecture11', 'ua', 1, 3, 'Пристрої введення та виведення інформації.', 1, 60, '9', 0, 4),
-	(128, 'lectureImage.png', 'lecture12', 'ua', 0, 0, 'Пам\'ять комп\'ютера. Зберігання та перенесення даних. Програмне забезпечення', 1, 60, '9', 0, 4),
 	(129, 'lectureImage.png', 'lecture11', 'ua', 1, 5, 'Принципи фон Неймана. Що таке процесор.', 1, 60, '9', 0, 4),
 	(130, 'lectureImage.png', 'lecture11', 'ua', 1, 6, 'Що таке операційна система.', 1, 60, '9', 0, 4),
 	(131, 'lectureImage.png', 'lecture11', 'ua', 1, 4, 'Пам\'ять комп\'ютера. Програмне забезпечення', 1, 60, '9', 0, 4),
 	(132, 'lectureImage.png', 'lecture11', 'ua', 1, 8, 'Що таке алгоритм.', 1, 60, '9', 0, 4),
 	(133, 'lectureImage.png', 'lecture11', 'ua', 1, 7, 'Системи числення. Правила переведення.', 1, 60, '9', 0, 4),
-	(134, 'lectureImage.png', 'lecture1', 'ua', 0, 0, '1', 1, 60, '1', 0, 4),
-	(135, 'lectureImage.png', 'lecture1', 'ua', 111, 1, '1', 1, 60, '1', 0, 4),
+	(135, 'lectureImage.png', 'lecture1', 'ua', 0, 0, '1', 1, 60, '1', 0, 4),
 	(136, 'lectureImage.png', 'lecture3', 'ua', 61, 2, 'Test3', 1, 60, '1', 0, 4),
-	(137, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'test', 1, 60, '1', 0, 4),
-	(138, 'lectureImage.png', 'lecture2', 'ua', 111, 2, 'ghhkgjkjk', 1, 60, '1', 0, 4),
-	(139, 'lectureImage.png', 'lecture3', 'ua', 111, 3, 'yfugg', 1, 60, '1', 0, 4),
+	(138, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'ghhkgjkjk', 1, 60, '1', 0, 4),
+	(139, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'yfugg', 1, 60, '1', 0, 4),
 	(140, 'lectureImage.png', 'lecture8', 'ua', 2, 8, 'Дроби', 1, 60, '10', 0, 4),
-	(141, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'Test 4', 1, 60, '1', 0, 4),
-	(142, 'lectureImage.png', 'lecture5', 'ua', 0, 0, 'test 5', 1, 60, '1', 0, 4),
-	(143, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Test 6', 1, 60, '1', 0, 4),
 	(144, 'lectureImage.png', 'lecture4', 'ua', 61, 3, 'Test 4', 1, 60, '1', 0, 4),
 	(145, 'lectureImage.png', 'lecture5', 'ua', 61, 4, 'test 5', 1, 60, '1', 0, 4),
-	(146, 'lectureImage.png', 'lecture6', 'ua', 0, 0, 'Тест 6', 1, 60, '1', 0, 4),
-	(147, 'lectureImage.png', 'lecture7', 'ua', 0, 0, 'тест 7', 1, 60, '1', 0, 4),
-	(148, 'lectureImage.png', 'lecture8', 'ua', 0, 0, 'ТЕСТ 8', 1, 60, '1', 0, 4),
-	(149, 'lectureImage.png', 'lecture9', 'ua', 0, 0, '9', 1, 60, '1', 0, 4),
-	(150, 'lectureImage.png', 'lecture10', 'ua', 0, 0, '101010101010', 1, 60, '1', 0, 4),
-	(151, 'lectureImage.png', 'lecture11', 'ua', 0, 0, '21', 1, 60, '1', 0, 4),
-	(152, 'lectureImage.png', 'lecture12', 'ua', 0, 0, '12', 1, 60, '1', 0, 4),
-	(153, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'ВоваТест', 1, 60, '1', 0, 4),
-	(154, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'ВоваТест', 1, 60, '1', 0, 4),
-	(155, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'ВоваТест', 1, 60, '1', 0, 4),
-	(156, 'lectureImage.png', 'lecture4', 'ua', 111, 4, 'ВоваТест', 1, 60, '1', 0, 4),
-	(157, 'lectureImage.png', 'lecture11', 'ua', 0, 0, 'jfghdgjhdgjdhgjdfhgdjghdjghdfghdfgjhdfgm', 1, 60, '1', 0, 4),
-	(158, 'lectureImage.png', 'lecture13', 'ua', 0, 0, 'thgjfhhvkgkj', 1, 60, '1', 0, 4),
-	(159, 'lectureImage.png', 'lecture14', 'ua', 0, 0, 'Test 14', 1, 60, '1', 0, 4),
-	(160, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'ТутБувВова', 1, 60, '1', 0, 4),
+	(156, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'ВоваТест', 1, 60, '1', 0, 4),
 	(161, 'lectureImage.png', 'lecture6', 'ua', 7, 6, '6', 1, 60, '1', 0, 0),
 	(162, 'lectureImage.png', 'lecture7', 'ua', 7, 7, '7', 1, 60, '1', 0, 0),
 	(163, 'lectureImage.png', 'lecture8', 'ua', 7, 8, '8', 1, 60, '1', 0, 0),
 	(164, 'lectureImage.png', 'lecture9', 'ua', 7, 9, '9', 1, 60, '1', 0, 0),
 	(165, 'lectureImage.png', 'lecture10', 'ua', 7, 10, '10', 1, 60, '1', 0, 0),
-	(166, 'lectureImage.png', 'lecture16', 'ua', 0, 0, '116', 1, 60, '1', 0, 0),
-	(168, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'ТутБувПетя', 1, 60, '1', 0, 0),
-	(169, 'lectureImage.png', 'lecture19', 'ua', 0, 0, 'ТутБувСаша', 1, 60, '1', 0, 0),
-	(170, 'lectureImage.png', 'lecture20', 'ua', 0, 0, 'АТутБувСергійко', 1, 60, '1', 0, 0),
-	(171, 'lectureImage.png', 'lecture18', 'ua', 0, 0, 'Занятие 21', 1, 60, '1', 0, 0),
 	(172, 'lectureImage.png', 'lecture19', 'ua', 61, 5, '20', 1, 60, '1', 0, 0),
 	(173, 'lectureImage.png', 'lecture1', 'ua', 14, 1, '1', 1, 60, '1', 0, 0),
 	(174, 'lectureImage.png', 'lecture2', 'ua', 14, 2, '2', 1, 60, '1', 0, 0),
@@ -954,12 +851,6 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(183, 'lectureImage.png', 'lecture12', 'ua', 61, 12, 'test 12', 1, 60, '1', 0, 0),
 	(184, 'lectureImage.png', 'lecture13', 'ua', 61, 13, 'test 13', 1, 60, '1', 0, 0),
 	(185, 'lectureImage.png', 'lecture14', 'ua', 61, 14, 'test 14', 1, 60, '1', 0, 0),
-	(186, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'test 15', 1, 60, '1', 0, 0),
-	(187, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'test 16', 1, 60, '1', 0, 0),
-	(188, 'lectureImage.png', 'lecture17', 'ua', 0, 0, '17', 1, 60, '1', 0, 0),
-	(189, 'lectureImage.png', 'lecture18', 'ua', 0, 0, '18', 1, 60, '1', 0, 0),
-	(190, 'lectureImage.png', 'lecture19', 'ua', 0, 0, '19', 1, 60, '1', 0, 0),
-	(191, 'lectureImage.png', 'lecture20', 'ua', 0, 0, '20', 1, 60, '1', 0, 0),
 	(192, 'lectureImage.png', 'lecture9', 'ua', 2, 9, 'Одночлени і многочлени', 1, 60, '10', 0, 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 
@@ -976,9 +867,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=654 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=656 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~500 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~507 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -1480,7 +1371,9 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(650, 192, 9, 'example', 4, '<p><strong><em>Наприклад</em>: 5a,6b,3x,xyz – одночлени.</strong></p>'),
 	(651, 192, 10, 'text', 1, '<p><em>Одночлен стандартного вигляду</em> – одночлен, який містить тільки один числовий множник, що стоїть на першому місці, і степені з різними буквеними основами.</p>'),
 	(652, 192, 11, 'example', 4, '<p><strong><em>Наприклад</em>: <img src="https://lh3.googleusercontent.com/xdw6yrNgfBE_iesSz0Xc76tpC5VBT7bGp5TQrPmAfPsffc_0ZxrAnbndJe4LvLbe1CVQIirfi6lo0nPgeuAu6QiUknUayZGdTIfmkX6FrLVDE-xlZFH3GhbJ0PK58u8RFIUpfHe6VJNfGdAB" width="308" height="54" style="width: 308px; height: 54px;">- одночлени стандартного вигляду.</strong></p>'),
-	(653, 192, 12, 'text', 1, '<p><em>Коефіцієнтом одночлена</em> називають числовий множник одночлена стандартного вигляду.</p><p><strong><em>Наприклад</em>: коефіцієнтами одночленів <img src="https://lh4.googleusercontent.com/KA-CtiSgQUXq6319BqCc_m4jUybfDChJkBvYJRWpvPhAKA74Wdf94P-Q9P33SEAt7Sjp_qE3eLFiYb0oNOx_DsDp3OeefZRYTKmm_D30KNuiza2pyjXCd7Hv3R-KmZYzIEaHj4aN4hqIJK_u" width="270" height="52" style="width: 270px; height: 52px;"> є відповідно числа 5, -3, -1, 1. Коефіцієнти 1 та -1 в одночленах не записують.</strong></p>');
+	(653, 192, 12, 'text', 1, '<p><em>Коефіцієнтом одночлена</em> називають числовий множник одночлена стандартного вигляду.</p><p><strong><em>Наприклад</em>: коефіцієнтами одночленів <img src="https://lh4.googleusercontent.com/KA-CtiSgQUXq6319BqCc_m4jUybfDChJkBvYJRWpvPhAKA74Wdf94P-Q9P33SEAt7Sjp_qE3eLFiYb0oNOx_DsDp3OeefZRYTKmm_D30KNuiza2pyjXCd7Hv3R-KmZYzIEaHj4aN4hqIJK_u" width="270" height="52" style="width: 270px; height: 52px;"> є відповідно числа 5, -3, -1, 1. Коефіцієнти 1 та -1 в одночленах не записують.</strong></p>'),
+	(654, 178, 4, 'text', 1, '<p>1+2/(1+8) = 1/3</p>'),
+	(655, 178, 5, 'formula', 10, '\\begin{align}\r\nx &= 1 \\\\\r\ny &= 2 \\\\\r\n\\end{align}');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 
 
@@ -1489,7 +1382,9 @@ DROP TABLE IF EXISTS `lecture_type`;
 CREATE TABLE IF NOT EXISTS `lecture_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `image` varchar(255) NOT NULL,
-  `text` varchar(50) NOT NULL,
+  `title_ua` varchar(50) NOT NULL,
+  `title_ru` varchar(50) NOT NULL,
+  `title_en` varchar(50) NOT NULL,
   `short` varchar(5) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -1497,11 +1392,11 @@ CREATE TABLE IF NOT EXISTS `lecture_type` (
 
 -- Dumping data for table int_ita_db.lecture_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `lecture_type` DISABLE KEYS */;
-INSERT INTO `lecture_type` (`id`, `image`, `text`, `short`, `description`) VALUES
-	(1, 'lectureType.png', 'лекція/практика', 'л/п', ''),
-	(2, 'exam.png', 'екзамен', 'екз', ''),
-	(3, 'imp.png', 'індивідуальний модульний проект', 'ІМП', ''),
-	(4, 'kdp.png', 'командний дипломний проект', 'КДП', '');
+INSERT INTO `lecture_type` (`id`, `image`, `title_ua`, `title_ru`, `title_en`, `short`, `description`) VALUES
+	(1, 'lectureType.png', 'лекція/практика', 'лекция/практика', 'lecture/practice', 'л/п', ''),
+	(2, 'exam.png', 'екзамен', 'экзамен', 'exam', 'екз', ''),
+	(3, 'imp.png', 'індивідуальний модульний проект', 'индивидуальный модульный проект', 'module individual project', 'ІМП', ''),
+	(4, 'kdp.png', 'командний дипломний проект', 'комадный модульный проект', 'diploma team project', 'КДП', '');
 /*!40000 ALTER TABLE `lecture_type` ENABLE KEYS */;
 
 
@@ -1608,7 +1503,7 @@ CREATE TABLE IF NOT EXISTS `mainpage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.mainpage: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.mainpage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mainpage` DISABLE KEYS */;
 INSERT INTO `mainpage` (`id`, `language`, `title`, `sliderHeader`, `sliderText`, `category`, `message`, `sliderTextureURL`, `sliderLineURL`, `sliderButtonText`, `header1`, `subLineImage`, `subheader1`, `arrayBlocks`, `header2`, `subheader2`, `arraySteps`, `stepSize`, `linkName`, `hexagon`, `formHeader1`, `formHeader2`, `regText`, `buttonStart`, `socialText`, `imageNetwork`, `formFon`) VALUES
 	(0, 'ua', 'INTITA', 'ПРОГРАМУЙ  МАЙБУТНЄ', 'Не упусти свій шанс змінити світ - отримай якісну та сучасну освіту і стань класним спеціалістом!', 'mainpage', 'PROGRAM FUTURE', '/css/images/slider_img/texture.png', '/css/images/slider_img/line.png', 'ПОЧАТИ', 'Про нас', 'line1.png', 'дещо, що Вам потрібно знати про наші курси', '1', 'Як проводиться навчання?', 'далі пояснення як ви будете вчитися крок за кроком', '1', '958px', 'детальніше ...', 'hexagon.png', 'Готові розпочати?', 'Введіть дані в форму нижче', 'розширена реєстрація', 'ПОЧАТИ', 'Ви можете також зареєструватися через соцмережі:', 'networking.png', 'formFon.png');
@@ -3496,7 +3391,9 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
   `module_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(255) NOT NULL,
+  `title_ru` varchar(255) DEFAULT NULL,
+  `title_en` varchar(255) DEFAULT NULL,
+  `title_ua` varchar(255) NOT NULL,
   `alias` varchar(10) NOT NULL,
   `language` varchar(6) NOT NULL,
   `module_duration_hours` int(11) NOT NULL,
@@ -3513,94 +3410,77 @@ CREATE TABLE IF NOT EXISTS `module` (
   `hours_in_day` int(11) DEFAULT '3',
   `days_in_week` int(11) DEFAULT '3',
   `rating` tinyint(2) DEFAULT NULL,
-  PRIMARY KEY (`module_ID`),
-  UNIQUE KEY `module_ID` (`module_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`module_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table int_ita_db.module: ~81 rows (approximately)
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` (`module_ID`, `module_name`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
-	(1, 'Вступ до програмування', 'module1', 'ua', 313, 20, 10, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
-	(2, 'Елементарна математика', 'module2', 'ua', 30, 15, 9, 3200, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
-	(3, 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 12, 3500, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;5;', 'junior', 3, 3, NULL),
-	(4, 'Елементи вищої математики', 'module4', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;', 'junior', 3, 3, NULL),
-	(7, 'Комп\'ютерні мережі', 'module5', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;2;', 'junior', 3, 3, NULL),
-	(9, 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
-	(10, 'Дискретна математика', 'module7', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(11, 'Бази даних', 'module8', 'ua', 60, 0, 5, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3, NULL),
-	(14, 'Англійська мова', 'module9', 'ua', 60, 0, 4, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;5;6;', 'junior', 3, 3, NULL),
-	(16, 'Програмування на PHP (Частина 1)', 'module10', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '6;', 'junior', 3, 3, NULL),
-	(17, 'Програмування на PHP (Частина 2)', 'module11', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;6;', 'junior', 3, 3, NULL),
-	(18, 'Верстка на HTML, CSS', 'module12', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;', 'junior', 3, 3, NULL),
-	(20, 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 4, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
-	(22, 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
-	(23, 'Командний дипломний проект', 'module15', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
-	(54, 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(55, 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(56, 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(58, 'Побудова індивідуального плану успішної ІТ кар єри.', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(59, 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(60, 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(61, 'New module', 'module16', 'ua', 0, 0, 14, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(62, 'Введение в программирование', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(63, 'Элементарная математика', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(64, 'Алгоритмизация и программирование на С', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(65, 'Элементы высшей математики', 'module4', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(66, 'Компьютерные сети', 'module5', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(67, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'module6', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(68, 'Дискретная математика', 'module7', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(69, 'Базы данных', 'module8', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(70, 'Программирование на РНР (Часть 1)', 'module9', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(71, 'Программирование на РНР (Часть 2)', 'module10', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(72, 'Верстка на HTML, CSS', 'module11', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(73, 'Программирование на JavaScript', 'module12', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(74, 'Современные технологии разработки программ', 'module13', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(75, 'Командный дипломный проект', 'module14', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
-	(76, 'For beginners', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
-	(77, 'Pre Intermediate', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
-	(78, 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
-	(79, 'Построение индивидуального плана успешной ИТ карьеры.', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
-	(80, 'Эффективное трудоустройство', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
-	(81, 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
-	(82, 'Введение в программирование', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(83, 'Элементарная математика', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(84, 'Алгоритмизация и программирование на С', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(85, 'Элементы высшей математики', 'module4', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(86, 'Компьютерные сети', 'module5', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(87, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'module6', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(88, 'Дискретная математика', 'module7', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(89, 'Базы данных', 'module8', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(90, 'Программирование на РНР (Часть 1)', 'module9', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(91, 'Программирование на РНР (Часть 2)', 'module10', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(92, 'Верстка на HTML, CSS', 'module11', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(93, 'Программирование на JavaScript', 'module12', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(94, 'Современные технологии разработки программ', 'module13', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(95, 'Командный дипломный проект', 'module14', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(96, 'Построение индивидуального плана успешной ИТ карьеры', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(97, 'Эффективное трудоустройство', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(98, 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(99, 'For beginners', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(100, 'Pre Intermediate', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(101, 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(102, 'варпаорплрд', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(103, 'апопрлродолжджджджддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддоооооооооооооооооооооооооооооооооооооорррррррррррррррррррррррррррррррррррррррррррррпппппппппппппппппппппппппппппппппппппппппппппппттттттттт', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(104, 'а', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(105, 'йцаквааеенрп', 'module4', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(106, 'пррррр', 'module5', 'ua', 0, 0, 0, 1234567, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(107, '5486', 'module6', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(108, '548696', 'module7', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(109, '5486966', 'module8', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(110, 'нгщгшзщшхзщхщъхъхъхъъхъх', 'module9', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(111, '\'\'\'\'', 'module1', 'ua', 0, 0, 4, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(112, 'їїїїїїї', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(113, '!', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(114, '?????', 'module4', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(115, ':', 'module5', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(116, ';', 'module6', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(117, '.', 'module7', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(118, ',', 'module8', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(119, 'пороррррррррррррррррррррроооооооооооооооооо555555555555555555556666666666666666666666666664444444444444ссссссссссссссссссчччччччччччччччччччччччммммммммммммммммммм            ссссссссссссссссссссссччччччччччччччччччччччччччччччччччччччжжжжжжжжжжжжжжжжжжжж', 'module9', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
-	(120, '*()-=', 'module10', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
+INSERT INTO `module` (`module_ID`, `title_ru`, `title_en`, `title_ua`, `alias`, `language`, `module_duration_hours`, `module_duration_days`, `lesson_count`, `module_price`, `for_whom`, `what_you_learn`, `what_you_get`, `module_img`, `about_module`, `owners`, `level`, `hours_in_day`, `days_in_week`, `rating`) VALUES
+	(1, 'Введение в программирование', 'Intro to Programming ', 'Вступ до програмування', 'module1', 'ua', 313, 20, 10, 6500, 'для менеджерів проектів і тих, хто відповідає за постановку завдань на розробку;для дизайнерів, які готові почати не просто малювати красиві картинки, а й навчитися тому, як створювати працюючі і зручні інтерфейси;для розробників, які хочуть самостійно створити або змінити свій проект;', 'Ви навчитеся писати чистий код;Користуватися системами контролю версій;Дізнаєтеся, з чого складається сучасний додаток;Для чого потрібен безперервна інтеграція (СІ) сервер;Чому потрібно тестувати свої програми і як це робити;', 'Відеозаписи та текстові матеріали всіх онлайн-занять;Спілкування з розумними одногрупниками;Сертифікат про закінчення навчання;Прилаштованість на робоче місце в силіконовій долині;', 'courseimg1.png', NULL, '1;2;3;4;', 'strong junior', 4, 6, NULL),
+	(2, 'Элементарная математика', 'Elementary math', 'Елементарна математика', 'module2', 'ua', 30, 15, 9, 3200, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
+	(3, 'Алгоритмизация и программирование на С', 'C  language programming and algorithmization', 'Алгоритмізація і програмування на мові С', 'module3', 'ua', 60, 30, 12, 3500, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;5;', 'junior', 3, 3, NULL),
+	(4, 'Элементы высшей математики', 'Higher Math elements', 'Елементи вищої математики', 'module4', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;', 'junior', 3, 3, NULL),
+	(7, 'Компьютерные сети. Основы', 'Computer networks', 'Комп\'ютерні мережі. Основи', 'module5', 'ua', 60, 0, 10, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;2;', 'junior', 3, 3, NULL),
+	(9, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'Algorithms processing and analyses.Combinatorial algorithms', 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '3;4;', 'junior', 3, 3, NULL),
+	(10, 'Дискретная математика', 'Discrete Math', 'Дискретна математика', 'module7', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
+	(11, 'Базы данных. Основы', 'Databases', 'Бази даних. Основи', 'module8', 'ua', 60, 0, 5, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;3;', 'junior', 3, 3, NULL),
+	(14, 'Английский язык', 'English', 'Англійська мова', 'module9', 'ua', 60, 0, 4, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '4;5;6;', 'junior', 3, 3, NULL),
+	(16, 'Программирование на РНР. Основы', 'PHP web programming (Part 1)', 'Програмування на PHP. Основи', 'module10', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '6;', 'junior', 3, 3, NULL),
+	(17, 'Программирование на РНР (Часть 2)', 'PHP web programming (Part 2)', 'Програмування на PHP (Частина 2)', 'module11', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;6;', 'junior', 3, 3, NULL),
+	(18, 'Верстка на HTML, CSS', 'HTML, CSS Website layout', 'Верстка на HTML, CSS', 'module12', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;', 'junior', 3, 3, NULL),
+	(20, 'Программирование на JavaScript', 'JavaScript Programming', 'Програмування на JavaScript', 'module13', 'ua', 60, 0, 4, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;5;6;', 'junior', 3, 3, NULL),
+	(22, 'Современные технологии разработки программ', 'Modern Technologies of Software Development', 'Сучасні технології розробки програм', 'module14', 'ua', 60, 0, 0, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '5;4;6;', 'junior', 3, 3, NULL),
+	(23, 'Командный дипломный проект', 'Diploma team project', 'Командний дипломний проект', 'module15', 'ua', 60, 0, 1, 3000, NULL, NULL, NULL, 'courseimg1.png', NULL, '1;4;', 'junior', 3, 3, NULL),
+	(54, 'For beginners', 'For beginners', 'For beginners', 'module1', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(55, 'Pre Intermediate', 'Pre Intermediate', 'Pre Intermediate', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(56, 'Intermediate', 'Intermediate', 'Intermediate', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(58, 'Построение индивидуального плана успешной ИТ карьеры.', 'How to build a  successful career in IT-high level', 'Побудова індивідуального плану успішної ІТ кар’єри', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(59, 'Эффективное трудоустройство', 'Effective employment', 'Ефективне працевлаштування', 'module2', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(60, 'Психология успеха', 'The psychology of success', 'Психологія успіху', 'module3', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(61, 'New module', 'New module', 'New module', 'module16', 'ua', 0, 0, 14, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(62, 'Введение в программирование', 'Intro to Programming ', 'Вступ до програмування', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(63, 'Элементарная математика', 'Elementary math', 'Елементарна математика', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(64, 'Алгоритмизация и программирование на С', 'C  language programming and algorithmization', 'Алгоритмізація і програмування на мові С', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(65, 'Элементы высшей математики', 'Higher Math elements', 'Елементи вищої математики', 'module4', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(66, 'Компьютерные сети. Основы', 'Computer networks', 'Комп\'ютерні мережі. Основи', 'module5', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(67, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'Algorithms processing and analyses.Combinatorial algorithms', 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(68, 'Дискретная математика', 'Discrete Math', 'Дискретна математика', 'module7', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(69, 'Базы данных. Основы', 'Databases', 'Бази даних. Основи', 'module8', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(70, 'Программирование на РНР. Основы', 'PHP web programming (Part 1)', 'Програмування на PHP. Основи', 'module9', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(71, 'Программирование на РНР (Часть 2)', 'PHP web programming (Part 2)', 'Програмування на PHP (Частина 2)', 'module10', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(72, 'Верстка на HTML, CSS', 'HTML, CSS Website layout', 'Верстка на HTML, CSS', 'module11', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(73, 'Программирование на JavaScript', 'JavaScript Programming', 'Програмування на JavaScript', 'module12', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(74, 'Современные технологии разработки программ', 'Modern Technologies of Software Development', 'Сучасні технології розробки програм', 'module13', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(75, 'Командный дипломный проект', 'Diploma team project', 'Командний дипломний проект', 'module14', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'strong junior', 3, 3, NULL),
+	(76, 'For beginners', 'For beginners', 'For beginners', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(77, 'Pre Intermediate', 'Pre Intermediate', 'Pre Intermediate', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(78, 'Intermediate', 'Intermediate', 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'middle', 3, 3, NULL),
+	(79, 'Построение индивидуального плана успешной ИТ карьеры.', 'How to build a  successful career in IT-high level', 'Побудова індивідуального плану успішної ІТ кар’єри', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(80, 'Эффективное трудоустройство', 'Effective employment', 'Ефективне працевлаштування', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(81, 'Психология успеха', 'The psychology of success', 'Психологія успіху', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, 'senior', 3, 3, NULL),
+	(82, 'Введение в программирование', 'Intro to Programming ', 'Вступ до програмування', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(83, 'Элементарная математика', 'Elementary math', 'Елементарна математика', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(84, 'Алгоритмизация и программирование на С', 'C  language programming and algorithmization', 'Алгоритмізація і програмування на мові С', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(85, 'Элементы высшей математики', 'Higher Math elements', 'Елементи вищої математики', 'module4', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(86, 'Компьютерные сети. Основы', 'Computer networks', 'Комп\'ютерні мережі. Основи', 'module5', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(87, 'Разработка и анализ алгоритмов. Комбинаторные алгоритмы', 'Algorithms processing and analyses.Combinatorial algorithms', 'Розробка та аналіз алгоритмів. Комбінаторні алгоритми.', 'module6', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(88, 'Дискретная математика', 'Discrete Math', 'Дискретна математика', 'module7', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(89, 'Базы данных. Основы', 'Databases', 'Бази даних. Основи', 'module8', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(90, 'Программирование на РНР. Основы', 'PHP web programming (Part 1)', 'Програмування на PHP. Основи', 'module9', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(91, 'Программирование на РНР (Часть 2)', 'PHP web programming (Part 2)', 'Программирование на РНР (Часть 2)', 'module10', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(92, 'Верстка на HTML, CSS', 'HTML, CSS Website layout', 'Верстка на HTML, CSS', 'module11', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(93, 'Программирование на JavaScript', 'JavaScript Programming', 'Программирование на JavaScript', 'module12', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(94, 'Современные технологии разработки программ', 'Modern Technologies of Software Development', 'Современные технологии разработки программ', 'module13', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(95, 'Командный дипломный проект', 'Diploma team project', 'Командный дипломный проект', 'module14', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(96, 'Построение индивидуального плана успешной ИТ карьеры.', 'How to build a  successful career in IT-high level', 'Построение индивидуального плана успешной ИТ карьеры', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(97, 'Эффективное трудоустройство', 'Effective employment', 'Эффективное трудоустройство', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(98, 'Психология успеха', 'The psychology of success', 'Психология успеха', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(99, 'For beginners', 'For beginners', 'For beginners', 'module1', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(100, 'Pre Intermediate', 'Pre Intermediate', 'Pre Intermediate', 'module2', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(101, 'Intermediate', 'Intermediate', 'Intermediate', 'module3', 'ru', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(121, 'Базы данных для интернет-программистов', 'Databases for web developers', 'Бази даних для інтернет-програмістів', 'module17', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(122, 'Регулярные выражения', 'Regular expressions', 'Регулярні вирази', 'module18', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL),
+	(123, 'Стажировка', 'Traineeship', 'Стажування', 'module19', 'ua', 0, 0, 0, 0, NULL, NULL, NULL, 'courseimg1.png', NULL, NULL, NULL, 3, 3, NULL);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 
@@ -3661,7 +3541,7 @@ CREATE TABLE IF NOT EXISTS `pay_courses` (
   CONSTRAINT `FK_pay_course_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for courses: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_courses: ~22 rows (approximately)
+-- Dumping data for table int_ita_db.pay_courses: ~23 rows (approximately)
 /*!40000 ALTER TABLE `pay_courses` DISABLE KEYS */;
 INSERT INTO `pay_courses` (`id_user`, `id_course`, `rights`) VALUES
 	(38, 1, 1),
@@ -3754,7 +3634,6 @@ INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(52, 2, 1),
 	(121, 1, 1),
 	(121, 23, 1),
-	(38, 111, 3),
 	(1, 61, 1),
 	(1, 2, 1),
 	(129, 1, 1),
@@ -4523,7 +4402,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_acl_users` (
   KEY `auth_role_id` (`auth_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_acl_users: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_acl_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_acl_users` DISABLE KEYS */;
 INSERT INTO `phpbb_acl_users` (`user_id`, `forum_id`, `auth_option_id`, `auth_role_id`, `auth_setting`) VALUES
 	(2, 0, 0, 5, 0);
@@ -5062,7 +4941,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_drafts` (
   KEY `save_time` (`save_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_drafts: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_drafts: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_drafts` DISABLE KEYS */;
 INSERT INTO `phpbb_drafts` (`draft_id`, `user_id`, `topic_id`, `forum_id`, `save_time`, `draft_subject`, `draft_message`) VALUES
 	(1, 129, 0, 0, 1438247834, 'thsrth', 'shsfghfg');
@@ -6146,7 +6025,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_poll_votes` (
   KEY `vote_user_ip` (`vote_user_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_poll_votes: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_poll_votes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_poll_votes` DISABLE KEYS */;
 INSERT INTO `phpbb_poll_votes` (`topic_id`, `poll_option_id`, `vote_user_id`, `vote_user_ip`) VALUES
 	(15, 1, 54, '81.30.164.98');
@@ -6262,7 +6141,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_privmsgs` (
   KEY `root_level` (`root_level`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_privmsgs: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_privmsgs: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_privmsgs` DISABLE KEYS */;
 INSERT INTO `phpbb_privmsgs` (`msg_id`, `root_level`, `author_id`, `icon_id`, `author_ip`, `message_time`, `enable_bbcode`, `enable_smilies`, `enable_magic_url`, `enable_sig`, `message_subject`, `message_text`, `message_edit_reason`, `message_edit_user`, `message_attachment`, `bbcode_bitfield`, `bbcode_uid`, `message_edit_time`, `message_edit_count`, `to_address`, `bcc_address`, `message_reported`) VALUES
 	(1, 0, 129, 5, '94.179.84.150', 1438247796, 1, 1, 1, 1, 'cgbbcmvbmvn,!', 'jhghkgkgj', '', 0, 0, '', '3tpamifi', 0, 0, 'u_129:u_121', '', 0);
@@ -6479,7 +6358,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_ranks` (
   PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_ranks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_ranks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_ranks` DISABLE KEYS */;
 INSERT INTO `phpbb_ranks` (`rank_id`, `rank_title`, `rank_min`, `rank_special`, `rank_image`) VALUES
 	(1, 'Адміністратор сайту', 0, 1, '');
@@ -6965,7 +6844,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_sessions` (
   KEY `session_fid` (`session_forum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_sessions: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_sessions: ~2 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_sessions` DISABLE KEYS */;
 INSERT INTO `phpbb_sessions` (`session_id`, `session_user_id`, `session_last_visit`, `session_start`, `session_time`, `session_ip`, `session_browser`, `session_forwarded_for`, `session_page`, `session_viewonline`, `session_autologin`, `session_admin`, `session_forum_id`) VALUES
 	('29d4d7a38fddc6cab5aefa1f4958e99f', 1, 1438257061, 1438257061, 1438257061, '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36', '', 'index.php', 1, 0, 0, 0);
@@ -7081,7 +6960,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_styles` (
   UNIQUE KEY `style_name` (`style_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_styles: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_styles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_styles` DISABLE KEYS */;
 INSERT INTO `phpbb_styles` (`style_id`, `style_name`, `style_copyright`, `style_active`, `style_path`, `bbcode_bitfield`, `style_parent_id`, `style_parent_tree`) VALUES
 	(1, 'prosilver', '&copy; phpBB Limited', 1, 'prosilver', 'kNg=', 0, '');
@@ -7269,7 +7148,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_watch` (
   KEY `notify_stat` (`notify_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics_watch: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics_watch: ~0 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_watch` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_watch` (`topic_id`, `user_id`, `notify_status`) VALUES
 	(4, 22, 0);
@@ -8551,7 +8430,7 @@ CREATE TABLE IF NOT EXISTS `task_marks` (
   CONSTRAINT `FK_task_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='mark : 0 - failed, 1 - success ';
 
--- Dumping data for table int_ita_db.task_marks: ~1 rows (approximately)
+-- Dumping data for table int_ita_db.task_marks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `task_marks` DISABLE KEYS */;
 INSERT INTO `task_marks` (`id`, `id_user`, `id_task`, `mark`, `comment`) VALUES
 	(1, 51, 77, 1, '');
@@ -8582,7 +8461,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher: ~11 rows (approximately)
+-- Dumping data for table int_ita_db.teacher: ~12 rows (approximately)
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
 INSERT INTO `teacher` (`teacher_id`, `first_name`, `middle_name`, `last_name`, `foto_url`, `subjects`, `profile_text_first`, `profile_text_short`, `profile_text_last`, `readMoreLink`, `email`, `tel`, `skype`, `rate_knowledge`, `rate_efficiency`, `rate_relations`, `user_id`, `rating`) VALUES
 	(1, 'Олександра', 'Василівна', 'Сіра', 'teacher1.jpg', 'кройка и шитье сроков; програмування самоубийств', '<p><em></em>Народилася і виросла в Сакраменто, у 18 років вона переїхала до Лос-Анджелеса й незабаром стала\n</p>\n<p>                                викладачем. У 2007, 2008 і 2010 рр.. вона виграла кілька номінацій премії AVN Awards\n</p>\n<p>                                (також була названа «Найкращою програмісткою» у 2007 році за версією XRCO).\n</p>\n<p>                                Паралельно з вікладауцью роботою та роботою програміста в Саша Грей грає головну роль в тестванні Інтернету.<br>\n</p>\n<p>                                Марина Енн Генціс народилася у родині механіка. Її батько мав грецьке походження.\n</p>\n<p>                                Батьки дівчинки розлучилися коли їй було 5 років, надалі її виховувала мати, яка вступила\n</p>\n<p>                                в повторний шлюб у 2000 роц. Марина не ладнала з вітчимом, і, коли їй виповнилося 16 років,\n</p>\n<p>                                дівчина повідомила матері, що збирається покинути будинок. Достеменно невідомо, втекла вона з свого\n</p>\n<p>                    будинку або ж її відпустила мати. Сама Олександра пізніше зізнавалася, що в той час робила все те,\n</p>\n<p>                    що не подобалося її батькам і що вони їй забороняли.<br>\n</p>\n<p>                    Главный бухгалтер акционерного предприятия, специализирующегося на:\n</p>\n<ul>\n	<li>оказании полезных услуг горизонтального характера;</li>\n	<li>торговле, внешнеэкономической и внутреннеэкономической;</li>\n	<li>позитивное обучение швейного мастерства;</li>\n</ul>', '<p>Профессиональный преподаватель бухгалтерского и налогового учета Национальноготранспортного университета кафедры финансов, учета и аудита со стажем преподавательской работы более 25 лет. Закончила аспирантуру, автор 36 научных работ в области учета и аудита, в т.ч. уникальной обучающей методики написания бухгалтерских проводок: <span>"Как украсть и не сесть" </span> и <span>"Как украсть и посадить другого" </span>.</p><p>Главный бухгалтер акционерного предприятия, специализирующегося на:<ul><li>оказании полезных услуг горизонтального характера;</li><li>торговле, внешнеэкономической и внутреннеэкономической;</li><li>позитивное обучение швейного мастерства;</li></ul></p>', '<p>Олександра Сіра <del>виконала гол</del>овну роль у фільмі оскароносного режисера</p><p>                        Стівена Содерберга «Дівчина за викликом»[27][28]. Олександра грає дівчину на ім\'я Челсі, яка надає</p><p>                        ескорт послуги заможним людям. Содерберг взяв її на роль після того, як прочитав статтю про неї у</p><p>                        журналі Los Angeles, коментуючи це так: «She\'s kind of a new breed, I think. She doesn\'t really <del>fit </del></p><p><del><strong>                        the typical mold of someone who goes into the adult film <em>business. … I\'d never heard anybody talk </em></strong></del></p><p><del><em><strong>                        about the business the way that she ta</strong></em></del>lked about it». Журналіст Скотт Маколей каже, що можливо</p><p>                        Грей вибрала саме цю роль через свій інтерес до незалежних режисерів, таких як Жан-Люк Годар,</p><p>                        Хармоні Корін, Девід Гордон Грін, Мікеланджело Антоніоні, Аньєс Варда та Вільям Клейн.</p><p><br>Коли Олександра  готувалася до ролі у «Дівчині за викликом»,</p><p>                        Содерберг попросив її подивитися «Жити своїм життям» і «Божевільний П\'єро»[29].</p><p>                        У фільмі «Жити своїм життям» піднімаються проблеми проституції, звідки Грей могла</p><p>                        взяти щось і для своєї ролі, в той час як у «Божевільному П\'єро» показані відносини,</p><p>                        схожі на ті, що відбуваються між Челсі, її хлопцем і клієнтами.</p>', '/profile/index/?idTeacher=6', 'teacher1@gmail.com', '/067/56-569-56, /093/26-45-65', 'teacher1', 6, 6, 6, 38, 6),
@@ -8644,7 +8523,6 @@ INSERT INTO `teacher_module` (`id`, `idTeacher`, `idModule`) VALUES
 	(49, 10, 2),
 	(50, 11, 3),
 	(51, 11, 10),
-	(52, 1, 111),
 	(53, 12, 11);
 /*!40000 ALTER TABLE `teacher_module` ENABLE KEYS */;
 
@@ -8662,7 +8540,7 @@ CREATE TABLE IF NOT EXISTS `teacher_roles` (
   CONSTRAINT `FK_teacher_roles_teacher` FOREIGN KEY (`teacher`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.teacher_roles: ~26 rows (approximately)
+-- Dumping data for table int_ita_db.teacher_roles: ~28 rows (approximately)
 /*!40000 ALTER TABLE `teacher_roles` DISABLE KEYS */;
 INSERT INTO `teacher_roles` (`teacher`, `role`, `start_date`, `end_date`) VALUES
 	(1, 4, '0000-00-00', '0000-00-00'),

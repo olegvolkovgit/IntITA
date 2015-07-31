@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 17:06:26
+-- Date/time:                    2015-07-31 18:15:53
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -38,7 +38,7 @@ INSERT INTO `attribute_value` (`id`, `teacher`, `attribute`, `value`) VALUES
 	(14, 6, 2, '22'),
 	(15, 4, 2, '55'),
 	(16, 6, 3, '1'),
-	(17, 1, 3, '2'),
+	(17, 1, 3, '1'),
 	(18, 2, 3, '5'),
 	(19, 3, 4, '1'),
 	(20, 5, 3, '5'),

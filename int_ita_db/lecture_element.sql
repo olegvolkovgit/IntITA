@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 17:06:26
+-- Date/time:                    2015-07-31 18:15:54
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `lecture_element` (
   PRIMARY KEY (`id_block`),
   KEY `FK_lecture_element_element_type` (`id_type`),
   CONSTRAINT `FK_lecture_element_element_type` FOREIGN KEY (`id_type`) REFERENCES `element_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=654 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
+) ENGINE=InnoDB AUTO_INCREMENT=656 DEFAULT CHARSET=utf8 COMMENT='Chapters and other lecture''s resources ';
 
--- Dumping data for table int_ita_db.lecture_element: ~507 rows (approximately)
+-- Dumping data for table int_ita_db.lecture_element: ~502 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element` DISABLE KEYS */;
 INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, `id_type`, `html_block`) VALUES
 	(9, 1, 1, 'video', 2, 'https://www.youtube.com/embed/L3Mg6lk6yyA'),
@@ -526,7 +526,9 @@ INSERT INTO `lecture_element` (`id_block`, `id_lecture`, `block_order`, `type`, 
 	(650, 192, 9, 'example', 4, '<p><strong><em>Наприклад</em>: 5a,6b,3x,xyz – одночлени.</strong></p>'),
 	(651, 192, 10, 'text', 1, '<p><em>Одночлен стандартного вигляду</em> – одночлен, який містить тільки один числовий множник, що стоїть на першому місці, і степені з різними буквеними основами.</p>'),
 	(652, 192, 11, 'example', 4, '<p><strong><em>Наприклад</em>: <img src="https://lh3.googleusercontent.com/xdw6yrNgfBE_iesSz0Xc76tpC5VBT7bGp5TQrPmAfPsffc_0ZxrAnbndJe4LvLbe1CVQIirfi6lo0nPgeuAu6QiUknUayZGdTIfmkX6FrLVDE-xlZFH3GhbJ0PK58u8RFIUpfHe6VJNfGdAB" width="308" height="54" style="width: 308px; height: 54px;">- одночлени стандартного вигляду.</strong></p>'),
-	(653, 192, 12, 'text', 1, '<p><em>Коефіцієнтом одночлена</em> називають числовий множник одночлена стандартного вигляду.</p><p><strong><em>Наприклад</em>: коефіцієнтами одночленів <img src="https://lh4.googleusercontent.com/KA-CtiSgQUXq6319BqCc_m4jUybfDChJkBvYJRWpvPhAKA74Wdf94P-Q9P33SEAt7Sjp_qE3eLFiYb0oNOx_DsDp3OeefZRYTKmm_D30KNuiza2pyjXCd7Hv3R-KmZYzIEaHj4aN4hqIJK_u" width="270" height="52" style="width: 270px; height: 52px;"> є відповідно числа 5, -3, -1, 1. Коефіцієнти 1 та -1 в одночленах не записують.</strong></p>');
+	(653, 192, 12, 'text', 1, '<p><em>Коефіцієнтом одночлена</em> називають числовий множник одночлена стандартного вигляду.</p><p><strong><em>Наприклад</em>: коефіцієнтами одночленів <img src="https://lh4.googleusercontent.com/KA-CtiSgQUXq6319BqCc_m4jUybfDChJkBvYJRWpvPhAKA74Wdf94P-Q9P33SEAt7Sjp_qE3eLFiYb0oNOx_DsDp3OeefZRYTKmm_D30KNuiza2pyjXCd7Hv3R-KmZYzIEaHj4aN4hqIJK_u" width="270" height="52" style="width: 270px; height: 52px;"> є відповідно числа 5, -3, -1, 1. Коефіцієнти 1 та -1 в одночленах не записують.</strong></p>'),
+	(654, 178, 4, 'text', 1, '<p>1+2/(1+8) = 1/3</p>'),
+	(655, 178, 5, 'formula', 10, '\\begin{align}\r\nx &= 1 \\\\\r\ny &= 2 \\\\\r\n\\end{align}');
 /*!40000 ALTER TABLE `lecture_element` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
