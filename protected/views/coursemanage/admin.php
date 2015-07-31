@@ -56,7 +56,7 @@ $('.search-form form').submit(function(){
 		'course_ID',
 		'alias',
 		'language',
-		'course_name',
+		'title_ua',
 		'level',
 		'start',
 		array(

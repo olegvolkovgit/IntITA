@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:48
+-- Date/time:                    2015-07-30 17:06:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `phpbb_log` (
   KEY `topic_id` (`topic_id`),
   KEY `reportee_id` (`reportee_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_log: ~116 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_log: ~117 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_log` DISABLE KEYS */;
 INSERT INTO `phpbb_log` (`log_id`, `log_type`, `user_id`, `forum_id`, `topic_id`, `reportee_id`, `log_ip`, `log_time`, `log_operation`, `log_data`) VALUES
 	(1, 0, 2, 0, 0, 0, '127.0.0.1', 1431076934, 'LOG_INSTALL_INSTALLED', 'a:1:{i:0;s:5:"3.1.4";}'),
@@ -149,7 +149,8 @@ INSERT INTO `phpbb_log` (`log_id`, `log_type`, `user_id`, `forum_id`, `topic_id`
 	(114, 0, 2, 0, 0, 0, '81.30.164.98', 1437055050, 'LOG_ADMIN_AUTH_SUCCESS', ''),
 	(115, 2, 22, 0, 0, 0, '178.94.81.41', 1437135643, 'LOG_IP_BROWSER_FORWARDED_CHECK', 'a:6:{i:0;s:9:"178.94.81";i:1;s:9:"178.92.66";i:2;s:65:"mozilla/5.0 (windows nt 6.1; rv:40.0) gecko/20100101 firefox/40.0";i:3;s:65:"mozilla/5.0 (windows nt 6.1; rv:40.0) gecko/20100101 firefox/40.0";i:4;s:0:"";i:5;s:0:"";}'),
 	(116, 2, 52, 0, 0, 0, '94.179.33.38', 1437550299, 'LOG_IP_BROWSER_FORWARDED_CHECK', 'a:6:{i:0;s:9:"94.179.33";i:1;s:9:"94.179.58";i:2;s:65:"mozilla/5.0 (windows nt 6.1; rv:40.0) gecko/20100101 firefox/40.0";i:3;s:65:"mozilla/5.0 (windows nt 6.1; rv:40.0) gecko/20100101 firefox/40.0";i:4;s:0:"";i:5;s:0:"";}'),
-	(117, 0, 2, 0, 0, 0, '81.30.164.98', 1438188522, 'LOG_ADMIN_AUTH_SUCCESS', '');
+	(117, 0, 2, 0, 0, 0, '81.30.164.98', 1438188522, 'LOG_ADMIN_AUTH_SUCCESS', ''),
+	(118, 2, 45, 0, 0, 0, '178.94.166.76', 1438196845, 'LOG_IP_BROWSER_FORWARDED_CHECK', 'a:6:{i:0;s:10:"178.94.166";i:1;s:7:"37.54.2";i:2;s:125:"mozilla/5.0 (linux; android 5.0; k012 build/lrx21v) applewebkit/537.36 (khtml, like gecko) chrome/42.0.2311.109 safari/537.36";i:3;s:125:"mozilla/5.0 (linux; android 5.0; k012 build/lrx21v) applewebkit/537.36 (khtml, like gecko) chrome/42.0.2311.109 safari/537.36";i:4;s:0:"";i:5;s:0:"";}');
 /*!40000 ALTER TABLE `phpbb_log` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

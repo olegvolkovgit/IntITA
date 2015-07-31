@@ -27,10 +27,22 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'course_name'); ?>
-		<?php echo $form->textField($model,'course_name',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'course_name'); ?>
+		<?php echo $form->labelEx($model,'title_ua'); ?>
+		<?php echo $form->textField($model,'title_ua',array('size'=>45,'maxlength'=>100)); ?>
+		<?php echo $form->error($model,'title_ua'); ?>
 	</div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'title_ru'); ?>
+        <?php echo $form->textField($model,'title_ru',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'title_ru'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'title_en'); ?>
+        <?php echo $form->textField($model,'title_en',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'title_en'); ?>
+    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model,'level'); ?>

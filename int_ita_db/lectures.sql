@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:47
+-- Date/time:                    2015-07-30 17:06:26
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   `rate` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~163 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~177 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`, `title`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`, `rate`) VALUES
 	(1, 'lectureImage.png', 'lecture1', 'ua', 0, 0, 'Змінні та типи даних в PHP', 1, 40, '1', 1, 4),
@@ -193,7 +193,21 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(175, 'lectureImage.png', 'lecture3', 'ua', 14, 3, '3', 1, 60, '1', 0, 0),
 	(176, 'lectureImage.png', 'lecture4', 'ua', 14, 4, '4', 1, 60, '1', 0, 0),
 	(177, 'lectureImage.png', 'lecture20', 'ua', 61, 6, 'sdfdfdsf', 1, 60, '1', 0, 0),
-	(178, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'ТестТестів', 1, 60, '1', 0, 0);
+	(178, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'ТестТестів', 1, 60, '1', 0, 0),
+	(179, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'Test 8', 1, 60, '1', 0, 0),
+	(180, 'lectureImage.png', 'lecture9', 'ua', 61, 9, 'Test 9', 1, 60, '1', 0, 0),
+	(181, 'lectureImage.png', 'lecture10', 'ua', 61, 10, 'Test 10', 1, 60, '1', 0, 0),
+	(182, 'lectureImage.png', 'lecture11', 'ua', 61, 11, 'test 11', 1, 60, '1', 0, 0),
+	(183, 'lectureImage.png', 'lecture12', 'ua', 61, 12, 'test 12', 1, 60, '1', 0, 0),
+	(184, 'lectureImage.png', 'lecture13', 'ua', 61, 13, 'test 13', 1, 60, '1', 0, 0),
+	(185, 'lectureImage.png', 'lecture14', 'ua', 61, 14, 'test 14', 1, 60, '1', 0, 0),
+	(186, 'lectureImage.png', 'lecture15', 'ua', 0, 0, 'test 15', 1, 60, '1', 0, 0),
+	(187, 'lectureImage.png', 'lecture16', 'ua', 0, 0, 'test 16', 1, 60, '1', 0, 0),
+	(188, 'lectureImage.png', 'lecture17', 'ua', 0, 0, '17', 1, 60, '1', 0, 0),
+	(189, 'lectureImage.png', 'lecture18', 'ua', 0, 0, '18', 1, 60, '1', 0, 0),
+	(190, 'lectureImage.png', 'lecture19', 'ua', 0, 0, '19', 1, 60, '1', 0, 0),
+	(191, 'lectureImage.png', 'lecture20', 'ua', 0, 0, '20', 1, 60, '1', 0, 0),
+	(192, 'lectureImage.png', 'lecture9', 'ua', 2, 9, 'Одночлени і многочлени', 1, 60, '10', 0, 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

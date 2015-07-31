@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:49
+-- Date/time:                    2015-07-30 17:06:30
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,8 +28,12 @@ CREATE TABLE IF NOT EXISTS `phpbb_privmsgs_to` (
   KEY `usr_flder_id` (`user_id`,`folder_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_privmsgs_to: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_privmsgs_to: ~3 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_privmsgs_to` DISABLE KEYS */;
+INSERT INTO `phpbb_privmsgs_to` (`msg_id`, `user_id`, `author_id`, `pm_deleted`, `pm_new`, `pm_unread`, `pm_replied`, `pm_marked`, `pm_forwarded`, `folder_id`) VALUES
+	(1, 129, 129, 0, 0, 0, 0, 0, 0, 0),
+	(1, 121, 129, 0, 1, 1, 0, 0, 0, -3),
+	(1, 129, 129, 0, 0, 0, 0, 0, 0, -1);
 /*!40000 ALTER TABLE `phpbb_privmsgs_to` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

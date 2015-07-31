@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:50
+-- Date/time:                    2015-07-30 17:06:32
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `project_student` (
   CONSTRAINT `FK_project_student_user` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.project_student: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.project_student: ~7 rows (approximately)
 /*!40000 ALTER TABLE `project_student` DISABLE KEYS */;
 INSERT INTO `project_student` (`project`, `student`) VALUES
 	(1, 51),

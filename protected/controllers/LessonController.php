@@ -120,6 +120,34 @@ class LessonController extends Controller{
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionAddFormula(){
+        $model = new LectureElement();
+
+        $htmlBlock = Yii::app()->request->getPost('newFormula');
+
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::model()->count('id_lecture = :id', array(':id' => Yii::app()->request->getPost('idLecture')))+1;
+
+        if(strpos($htmlBlock,'$\displaystyle ')===0) {
+            $temp=substr_replace($htmlBlock,'\[',0,15);
+            $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
+        }
+        elseif(strpos($htmlBlock,'$')===0) {
+            $temp = substr_replace($htmlBlock, '\[', 0, 1);
+            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
+        }elseif(strpos($htmlBlock,'\[\inline')===0) {
+            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
+        }else{
+            $model->html_block = $htmlBlock;
+        }
+
+        $model->id_type = 10;
+        $model->type = 'formula';
+
+        $model->save();
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     public function actionCreateNewBlock(){
         $model = new LectureElement();
 

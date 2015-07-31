@@ -6,7 +6,7 @@
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$model->course_name,
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",CourseHelper::getCourseName($model->course_ID),
 );
 
 ?>
@@ -14,7 +14,7 @@ $this->breadcrumbs=array(
 <div class="courseBlock">
     <div class="courseTitle">
         <h1>
-            <?php echo $model->course_name?>
+            <?php echo CourseHelper::getCourseName($model->course_ID);?>
         </h1>
     </div>
     <div class="courseShortInfo">

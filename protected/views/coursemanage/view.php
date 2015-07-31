@@ -16,14 +16,16 @@ $this->menu=array(
 );
 ?>
 
-<h1>Курс <?php echo $model->course_name; ?></h1>
+<h1>Курс <?php echo CourseHelper::getCourseName($model->course_ID); ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'course_ID',
 		'language',
-		'course_name',
+		'title_ua',
+        'title_ru',
+        'title_en',
 		'level',
 		'start',
 		'status',

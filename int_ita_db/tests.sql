@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-29 20:33:50
+-- Date/time:                    2015-07-30 17:06:33
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS `tests` (
   `author` int(10) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
 
--- Dumping data for table int_ita_db.tests: ~89 rows (approximately)
+-- Dumping data for table int_ita_db.tests: ~90 rows (approximately)
 /*!40000 ALTER TABLE `tests` DISABLE KEYS */;
 INSERT INTO `tests` (`id`, `block_element`, `author`, `title`) VALUES
 	(35, 310, 2, 'hystjhytw'),
@@ -111,7 +111,8 @@ INSERT INTO `tests` (`id`, `block_element`, `author`, `title`) VALUES
 	(120, 596, 1, NULL),
 	(121, 597, 1, NULL),
 	(122, 601, 1, NULL),
-	(123, 602, 1, NULL);
+	(123, 602, 1, NULL),
+	(124, 603, 1, NULL);
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -19,7 +19,7 @@
 
                 <div class='courseName'><a
                         href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php
-                        echo $val->course_name; ?></a>
+                        echo CourseHelper::getCourseName($val->course_ID);?></a>
                 </div>
                 <!--Рівень курсу-->
                 <div class="courseLevelBox">

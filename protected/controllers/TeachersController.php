@@ -195,7 +195,7 @@ class TeachersController extends Controller
     public function getTitles($courses){
         $titles =[];
         for($i = 0; $i < count($courses); $i++ ){
-            $titles[$i]['title'] = Course::model()->findByPk($courses[$i]["course"])->course_name;
+            $titles[$i]['title'] = CourseHelper::getCourseName($courses[$i]["course"]);
         }
         return $titles;
     }

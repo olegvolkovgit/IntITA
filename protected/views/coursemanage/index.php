@@ -29,8 +29,16 @@ $this->menu=array(
             'header'=>'ID',
         ),
         array(
-            'name'=>'course_name',
+            'name'=>'title_ua',
             'header'=>Yii::t("coursemanage", "0519"),
+        ),
+        array(
+            'name'=>'title_ru',
+            'header'=>"Назва російською",
+        ),
+        array(
+            'name'=>'title_en',
+            'header'=>'Назва англійською',
         ),
         array(
             'name'=>'level',

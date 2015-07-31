@@ -243,7 +243,7 @@ class Lecture extends CActiveRecord
     public function getCourseInfoById($idCourse){
         $course = Course::model()->findByPk($idCourse);
         return array(
-            'courseTitle' => $course->course_name,
+            'courseTitle' => CourseHelper::getCourseName($idCourse),
             'courseLang' =>  $course->language,
         );
     }

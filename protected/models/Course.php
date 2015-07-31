@@ -6,7 +6,9 @@
  * @property integer $course_ID
  *  @property string $alias
  * @property string $language
- * @property string $course_name
+ * @property string $title_ua
+ *  @property string $title_ru
+ *  @property string $title_en
  * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
@@ -39,18 +41,18 @@ class Course extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('language, course_name', 'required', 'message'=>Yii::t('coursemanage', '0387')),
+			array('language, title_ua', 'required', 'message'=>Yii::t('coursemanage', '0387')),
 			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
-			array('course_name', 'length', 'max'=>45),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
 			array('course_img', 'length', 'max'=>255),
             array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
 			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('course_ID,alias, language, course_name, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),
+			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -74,7 +76,9 @@ class Course extends CActiveRecord
             'course_ID' => 'ID',
             'alias' => 'Псевдонім',
             'language' => Yii::t('course', '0400'),
-            'course_name' => Yii::t('course', '0401'),
+            'title_ua' => Yii::t('course', '0401'),
+            'title_ru' => 'Назва російською',
+            'title_en' => 'Назва англійською',
             'course_duration_hours' => Yii::t('course', '0402'),
             'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
@@ -109,7 +113,9 @@ class Course extends CActiveRecord
 		$criteria->compare('course_ID',$this->course_ID);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('language',$this->language,true);
-		$criteria->compare('course_name',$this->course_name,true);
+		$criteria->compare('title_ua',$this->title_ua,true);
+        $criteria->compare('title_ru',$this->title_ru,true);
+        $criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('course_duration_hours',$this->course_duration_hours);
 		$criteria->compare('modules_count',$this->modules_count);
 		$criteria->compare('course_price',$this->course_price,true);
