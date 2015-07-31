@@ -13,7 +13,7 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
 );
 ?>
-<?php if (!isset($tab)) $tab=''; ?>
+<?php if (!isset($tab)) $tab=0; ?>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">
@@ -89,53 +89,74 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
     </div>
     <div class="profileActivity">
         <div class="tabs">
-            <input id="tab1" type="radio" name="tabs" checked>
-            <label class="tabsUp1" for="tab1" title="<?php echo Yii::t('profile', '0108'); ?>"><?php echo Yii::t('profile', '0108'); ?></label>
-            <input id="tab2" type="radio" name="tabs" >
-            <label for="tab2" title="<?php echo Yii::t('profile', '0109'); ?>"><?php echo Yii::t('profile', '0109'); ?></label>
-            <input id="tab6" type="radio" name="tabs">
-            <label  for="tab6" title="<?php echo Yii::t('profile', '0113'); ?>"><?php echo Yii::t('profile', '0113'); ?></label>
-            <div class="lineUnderTab"></div>
-            <input id="tab8" type="radio" name="tabs" <?php echo $tab?>>
-            <label class="tabsDown1" for="tab8" title="<?php echo Yii::t('profile', '0115'); ?>"><?php echo Yii::t('profile', '0115'); ?></label>
-            <input id="tab9" type="radio" name="tabs">
-            <label class="tabsDown" for="tab9" title="<?php echo Yii::t('profile', '0116'); ?>"><?php echo Yii::t('profile', '0116'); ?></label>
-            <input id="tab10" type="radio" name="tabs">
-            <label class="tabsDown" style="background-image:url(<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeico.png);background-repeat: no-repeat;background-position:10px 3px;" for="tab10" title="<?php echo Yii::t('profile', '0117'); ?>"><?php echo Yii::t('profile', '0117'); ?></label>
-            <div class="lineUnderTab"></div>
-            <section id="myCourse">
-                <?php $this->renderPartial('_mycourse'); ?>
-            </section>
-            <section id="timetable">
-                <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
-            </section>
-            <section id="myRatting">
-                <?php $this->renderPartial('_myRatting'); ?>
-            </section>
-            <section id="mylettersSend">
-                <?php $this->renderPartial('_mylettersSend', array('letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider)); ?>
-            </section>
-            <section id="myMark">
-                <p class="tabHeader"><?php echo Yii::t('profile', '0116'); ?></p>
-                <?php
-                $this->widget('zii.widgets.CListView', array(
-                    'dataProvider'=>$markProvider,
-                    'itemView'=>'_myMark',
-                    'template'=>'{items}{pager}',
-                    'emptyText'=>Yii::t('profile', '0548'),
-                    'pager' => array(
-                        'firstPageLabel'=>'<<',
-                        'lastPageLabel'=>'>>',
-                        'prevPageLabel'=>'<',
-                        'nextPageLabel'=>'>',
-                        'header'=>'',
-                    ),
-                ));
-                ?>
-            </section>
-            <section id="finances">
-                <?php $this->renderPartial('_finances', array('paymentsCourses'=>$paymentsCourses,'paymentsModules'=>$paymentsModules)); ?>
-            </section>
+            <ul>
+                <li>
+                    <?php echo Yii::t('profile', '0108'); ?>
+                </li>
+                <li>
+                    <?php echo Yii::t('profile', '0109'); ?>
+                </li>
+                <li>
+                    <?php echo Yii::t('profile', '0113'); ?>
+                </li>
+            </ul>
+                <hr class="lineUnderTab">
+            <ul>
+                <li>
+                    <?php echo Yii::t('profile', '0115'); ?>
+                </li>
+                <li>
+                    <?php echo Yii::t('profile', '0116'); ?>
+                </li>
+                <li>
+                    <?php echo Yii::t('profile', '0117'); ?>
+                </li>
+            </ul>
+            <hr class="lineUnderTab">
+            <div class="tabsContent">
+                <div id="myCourse">
+                    <?php $this->renderPartial('_mycourse'); ?>
+                </div>
+                <div id="timetable">
+                    <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider,'user'=>$post)); ?>
+                </div>
+                <div id="myRatting">
+                    <?php $this->renderPartial('_myRatting'); ?>
+                </div>
+                <div id="mylettersSend" >
+                    <?php $this->renderPartial('_mylettersSend', array('letter'=>$letter,'sentLettersProvider'=>$sentLettersProvider,'receivedLettersProvider'=>$receivedLettersProvider)); ?>
+                </div>
+                <div id="myMark">
+                    <p class="tabHeader"><?php echo Yii::t('profile', '0116'); ?></p>
+                    <?php
+                    $this->widget('zii.widgets.CListView', array(
+                        'dataProvider'=>$markProvider,
+                        'itemView'=>'_myMark',
+                        'template'=>'{items}{pager}',
+                        'emptyText'=>Yii::t('profile', '0548'),
+                        'pager' => array(
+                            'firstPageLabel'=>'<<',
+                            'lastPageLabel'=>'>>',
+                            'prevPageLabel'=>'<',
+                            'nextPageLabel'=>'>',
+                            'header'=>'',
+                        ),
+                    ));
+                    ?>
+                </div>
+                <div id="finances">
+                    <?php $this->renderPartial('_finances', array('paymentsCourses'=>$paymentsCourses,'paymentsModules'=>$paymentsModules)); ?>
+                </div>
+            </div>
         </div>
     </div>
 </div><!-- form -->
+<!-- Script for open tabs-->
+<script>
+    $(document).ready(function(){
+    $(".tabs").lightTabs(<?php echo $tab?>);
+    });
+</script>
+<!-- OpenTab-->
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
+<!-- OpenTab -->

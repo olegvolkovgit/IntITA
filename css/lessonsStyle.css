@@ -416,3 +416,9 @@ div.lessonTest {
     width: 25px;
     text-align: right;
 }
+#addFormula textarea{
+    resize: none;
+}
+.element textarea{
+    resize: none;
+}

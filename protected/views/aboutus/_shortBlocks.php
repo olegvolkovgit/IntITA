@@ -12,7 +12,7 @@ $dropName = Yii::t('mainpage','0004');
 <div class="fullpageaboutus">
     <div class="mainAboutBlock">
         <div class="mainAbout">
-            <div class="header">
+            <div class="header" id="anchorAboutUs">
                 <?php echo $headerText; ?>
                 <p>
                     <?php echo $subheaderText; ?>
@@ -105,6 +105,7 @@ $dropName = Yii::t('mainpage','0004');
                         $('#dropTextLayer3').css('display', 'none');
                         $('.block').removeClass('selectedTab');
                         $(block).addClass('selectedTab');
+                        $('body,html').animate({scrollTop: $("#anchorAboutUs").offset().top}, 400);
                     }
                     if (buttonNumber ==2)
                     {
@@ -113,6 +114,7 @@ $dropName = Yii::t('mainpage','0004');
                         $('#dropTextLayer3').css('display', 'none');
                         $('.block').removeClass('selectedTab');
                         $(block).addClass('selectedTab');
+                        $('body,html').animate({scrollTop: $("#anchorAboutUs").offset().top}, 400);
                     }
                     if (buttonNumber ==3)
                     {
@@ -121,6 +123,7 @@ $dropName = Yii::t('mainpage','0004');
                         $('#dropTextLayer1').css('display', 'none');
                         $('.block').removeClass('selectedTab');
                         $(block).addClass('selectedTab');
+                        $('body,html').animate({scrollTop: $("#anchorAboutUs").offset().top}, 400);
                     }
                 }
             </script>
