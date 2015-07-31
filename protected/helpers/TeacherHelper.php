@@ -18,9 +18,10 @@ class TeacherHelper
             'params' => array(':id' => $id),
         ))->queryAll();
         $count = count($modules);
+        $titleParam = ModuleHelper::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
-             $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+             $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
              $modules[$i]["idCourse"] = Yii::app()->db->createCommand()
                  ->select('id_course')
                  ->from('course_modules')

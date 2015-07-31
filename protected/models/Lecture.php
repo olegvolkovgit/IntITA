@@ -176,8 +176,9 @@ class Lecture extends CActiveRecord
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->idType;
         $type = LectureType::model()->findByPk($typeId);
+        $titleParam = LectureHelper::getTypeTitleParam();
         return array(
-            'text' => $type->text,
+            'text' => $type->$titleParam,
             'image' => $type->image,
         );
     }
@@ -206,8 +207,9 @@ class Lecture extends CActiveRecord
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->idType;
         $type = LectureType::model()->findByPk($typeId);
+        $titleParam = LectureHelper::getTypeTitleParam();
         return array(
-            'text' => $type->text,
+            'text' => $type->$titleParam,
             'image' => $type->image,
         );
     }
@@ -233,8 +235,9 @@ class Lecture extends CActiveRecord
 
     public function getModuleInfoById($idCourse){
         $module = Module::model()->findByPk($this->idModule);
+        $titleParam = ModuleHelper::getModuleTitleParam();
         return array(
-            'moduleTitle' => $module->module_name,
+            'moduleTitle' => $module->$titleParam,
             'countLessons' =>  $module->lesson_count,
             'idCourse' => $idCourse,
         );
@@ -261,9 +264,10 @@ class Lecture extends CActiveRecord
 
     public function getTypeInfo(){
         $type = LectureType::model()->findByPk($this->idType);
+        $titleParam = LectureHelper::getTypeTitleParam();
         return array(
             'image' => $type->image,
-            'text' => $type->text,
+            'text' => $type->$titleParam,
         );
     }
 
@@ -305,22 +309,14 @@ class Lecture extends CActiveRecord
         $lecture = new Lecture();
         $lecture->title = $title;
         $lecture->idModule = $module;
-//        $order = Yii::app()->db->createCommand()
-//            ->select('order')
-//            ->from('lectures')
-//            ->order('order DESC')
-//            ->limit('1')
-//            ->queryRow()["order"];
         $order = Lecture::model()->count("idModule=$module and `order`>0");
         $lecture->order = ++$order;
         $lecture->language = $lang;
         $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture'.$order;
-//        if (!$lecture->isNewRecord) {
-            $lecture->save();
-//        } else {
-//            throw new CHttpException(422, 'Така лекція вже існує.');
-//        }
+
+        $lecture->save();
+
         return $order;
     }
 
@@ -341,7 +337,8 @@ class Lecture extends CActiveRecord
 
     public function getLectureTypeText(){
         $type = LectureType::model()->findByPk($this->id);
-        return $type->text;
+        $titleParam = LectureHelper::getTypeTitleParam();
+        return $type->$titleParam;
     }
     public static function getLessonCont($id){
         $summary=[];

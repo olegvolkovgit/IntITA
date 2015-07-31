@@ -13,22 +13,18 @@ $this->breadcrumbs=array(
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
 <?php
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
     'filter'=>$model,
     'summaryText'=>'',
     'columns' => array(
-//        'idModule',
-//        'order',
-//        'title',
-//        'idType',
-//        'isFree',
         array(
             'name' => 'ModuleTitle',
             'header'=>'Модуль',
             'type' => 'raw',
-            'value' => '($data->idModule)? $data->ModuleTitle->module_name : ""',
+            'value' => '($data->idModule)? $data->ModuleTitle->title_ua : ""',
             'sortable'=>true,
         ),
         array(
@@ -45,7 +41,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'idType',
             'type' => 'raw',
-            'value' => '$data->idType',
+            'value' => 'LectureHelper::getLectureTypeTitle($data->idType)',
         ),
         array(
             'name' => 'isFree',

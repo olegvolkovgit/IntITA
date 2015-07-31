@@ -104,16 +104,17 @@ $editMode = ($canEdit)?'true':'';
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
         ),
         array(
-            'name' => 'module_name',
+            'name' => 'title_ua',
             'type' => 'raw',
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) {
+                $title = ModuleHelper::getModuleTitleParam();
                 if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
-                    return CHtml::link(CHtml::encode($data->moduleInCourse->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->$title), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                 else
-                    return CHtml::link(CHtml::encode($data->moduleInCourse->module_name), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),array('class'=>'disableModule'));
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->$title), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),array('class'=>'disableModule'));
             }
         ),
     ),

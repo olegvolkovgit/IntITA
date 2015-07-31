@@ -28,7 +28,7 @@ $this->breadcrumbs=array(
 ?>
 
 <div class="lectureMainBlock" >
-    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
+    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
     <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
 </div>
 
@@ -127,7 +127,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!--<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+    MathJax.Hub.Config({
+        extensions: ['tex2jax.js',"TeX/AMSmath.js","TeX/AMSsymbols.js"],
+        tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]},
+        jax: ["input/TeX","output/HTML-CSS"],
+        displayAlign: "center",
+        displayIndent: "0.1em",
+        showProcessingMessages: false
+    });
+</script>
 <script>SyntaxHighlighter.all();</script>
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -138,6 +148,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <!--Load Redactor-->
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
+<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>-->
+<!--    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+<!--    <script type="text/javascript" src="rangy-core.js"></script>-->
+<!--    <script type="text/javascript" src="textinputs_jquery.js"></script>-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/writemaths.js"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $('.wm.ontop').writemaths({position:'center top', previewPosition: 'center bottom', of: 'this'});
+            $('.wm.side').writemaths({position:'right middle', previewPosition: 'left middle'});
+        });
+    </script>
 <?php }?>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>

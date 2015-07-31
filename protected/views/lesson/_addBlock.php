@@ -28,7 +28,7 @@
                 <a href="javascript:showAddTestForm('final', <?php echo LectureHelper::isFinalFirst($lecture->id);?>)")">Додати підсумковий тест</a>
                 <br>
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
-                <textarea name="newTextBlock" id="newTextBlock" cols="108"
+                <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
                           placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
                 </textarea>
                 <br>
