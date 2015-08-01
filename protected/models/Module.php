@@ -207,7 +207,7 @@ class Module extends CActiveRecord
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
     }
 
-    public function addNewModule($idCourse, $newModuleName, $lang){
+    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang){
         $module = new Module();
         $coursemodule = new CourseModules();
 
@@ -215,7 +215,9 @@ class Module extends CActiveRecord
 
         $module->alias = 'module'.++$order;
         $module->language = $lang;
-        $module->title_ua = $newModuleName;
+        $module->title_ua = $titleUa;
+        $module->title_ru = $titleRu;
+        $module->title_en = $titleEn;
         if($module->validate()) {
             $module->save();
         }

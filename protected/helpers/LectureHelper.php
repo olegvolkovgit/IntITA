@@ -116,4 +116,23 @@ class LectureHelper {
         $current = Lecture::model()->findByPk($id);
         return Lecture::model()->findByAttributes(array('order'=>$current->order+1,'idModule'=>$current->idModule))->id;
     }
+
+    public  static function getLectureDuration($id)
+    {
+        return Lecture::model()->findByPk($id)->durationInMinutes.Yii::t('lecture','0076');
+    }
+
+    public static function getLectureTitle($id)
+    {
+        return Lecture::model()->findByPk($id)->title;
+    }
+
+    public static function getLectureRate($id)
+    {
+        return Lecture::model()->findByPk($id)->rate;
+    }
+
+    public static function getPreId($order, $idModule){
+        return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
+    }
 }

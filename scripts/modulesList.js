@@ -16,10 +16,12 @@ function enableEdit(){
     document.getElementById('addModule').style.display = 'inline-block';
     $('.grid-view table.items td:first-child').show();
 }
-function hideForm(id, title){
+function hideForm(id, title1, title2, title3){
     $form = document.getElementById(id);
     $form.style.display = 'none';
-    document.getElementById(title).innerHTML = '';
+    document.getElementById(title1).innerHTML = '';
+    document.getElementById(title2).innerHTML = '';
+    document.getElementById(title3).innerHTML = '';
 }
 
 $("a").click(function (){

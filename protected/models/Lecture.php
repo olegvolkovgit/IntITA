@@ -198,10 +198,6 @@ class Lecture extends CActiveRecord
         return 'Зараховано';
     }
 
-     function getPostName()
-    {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->title;
-    }
 
     function getPostType()
     {
@@ -214,20 +210,12 @@ class Lecture extends CActiveRecord
         );
     }
 
-    function getPostDur()
+
+    function getPostRait($id)
     {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByPk($id)->rate;
     }
 
-    function getPostRait()
-    {
-        return '4.5';
-    }
-
-    function getPostMedal()
-    {
-        return 'Не зараховано';
-    }
 
     function getPostId(){
         return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->id;
