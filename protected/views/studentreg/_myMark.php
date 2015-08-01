@@ -1,5 +1,7 @@
 <?php
-$teacher=Teacher::model()->find('user_id=:ID', array(':ID'=>$data['about']));
+if(Teacher::model()->exists('user_id=:ID', array(':ID'=>$data['about'])))
+    $teacher=Teacher::model()->find('user_id=:ID', array(':ID'=>$data['about']));
+else return;
 ?>
 <div class="mymark">
     <a class="teachername" href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo $teacher->first_name.' '.$teacher->last_name;?></a>
