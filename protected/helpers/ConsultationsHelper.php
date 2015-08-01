@@ -30,7 +30,10 @@ class ConsultationsHelper
     }
     public static function getTheme($dp)
     {
-        $result=Lecture::model()->findByPk($dp->lecture_id)->title;
+        if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
+            $result=Lecture::model()->findByPk($dp->lecture_id)->title;
+        else $result='Видалена лекція';
+
         return $result;
     }
 
