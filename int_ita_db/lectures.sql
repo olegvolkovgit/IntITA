@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-31 18:15:54
+-- Date/time:                    2015-08-01 11:45:56
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   `rate` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
 -- Dumping data for table int_ita_db.lectures: ~75 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
@@ -78,34 +78,30 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `language`, `idModule`, `order`,
 	(131, 'lectureImage.png', 'lecture11', 'ua', 1, 4, 'Пам\'ять комп\'ютера. Програмне забезпечення', 1, 60, '9', 0, 4),
 	(132, 'lectureImage.png', 'lecture11', 'ua', 1, 8, 'Що таке алгоритм.', 1, 60, '9', 0, 4),
 	(133, 'lectureImage.png', 'lecture11', 'ua', 1, 7, 'Системи числення. Правила переведення.', 1, 60, '9', 0, 4),
-	(135, 'lectureImage.png', 'lecture1', 'ua', 0, 0, '1', 1, 60, '1', 0, 4),
 	(136, 'lectureImage.png', 'lecture3', 'ua', 61, 2, 'Test3', 1, 60, '1', 0, 4),
-	(138, 'lectureImage.png', 'lecture2', 'ua', 0, 0, 'ghhkgjkjk', 1, 60, '1', 0, 4),
-	(139, 'lectureImage.png', 'lecture3', 'ua', 0, 0, 'yfugg', 1, 60, '1', 0, 4),
 	(140, 'lectureImage.png', 'lecture8', 'ua', 2, 8, 'Дроби', 1, 60, '10', 0, 4),
 	(144, 'lectureImage.png', 'lecture4', 'ua', 61, 3, 'Test 4', 1, 60, '1', 0, 4),
 	(145, 'lectureImage.png', 'lecture5', 'ua', 61, 4, 'test 5', 1, 60, '1', 0, 4),
-	(156, 'lectureImage.png', 'lecture4', 'ua', 0, 0, 'ВоваТест', 1, 60, '1', 0, 4),
 	(161, 'lectureImage.png', 'lecture6', 'ua', 7, 6, '6', 1, 60, '1', 0, 0),
 	(162, 'lectureImage.png', 'lecture7', 'ua', 7, 7, '7', 1, 60, '1', 0, 0),
 	(163, 'lectureImage.png', 'lecture8', 'ua', 7, 8, '8', 1, 60, '1', 0, 0),
 	(164, 'lectureImage.png', 'lecture9', 'ua', 7, 9, '9', 1, 60, '1', 0, 0),
 	(165, 'lectureImage.png', 'lecture10', 'ua', 7, 10, '10', 1, 60, '1', 0, 0),
-	(172, 'lectureImage.png', 'lecture19', 'ua', 61, 5, '20', 1, 60, '1', 0, 0),
+	(172, 'lectureImage.png', 'lecture19', 'ua', 61, 5, '20', 1, 60, '1', 0, 4),
 	(173, 'lectureImage.png', 'lecture1', 'ua', 14, 1, '1', 1, 60, '1', 0, 0),
 	(174, 'lectureImage.png', 'lecture2', 'ua', 14, 2, '2', 1, 60, '1', 0, 0),
 	(175, 'lectureImage.png', 'lecture3', 'ua', 14, 3, '3', 1, 60, '1', 0, 0),
 	(176, 'lectureImage.png', 'lecture4', 'ua', 14, 4, '4', 1, 60, '1', 0, 0),
-	(177, 'lectureImage.png', 'lecture20', 'ua', 61, 6, 'sdfdfdsf', 1, 60, '1', 0, 0),
-	(178, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'ТестТестів', 1, 60, '1', 0, 0),
-	(179, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'Test 8', 1, 60, '1', 0, 0),
-	(180, 'lectureImage.png', 'lecture9', 'ua', 61, 9, 'Test 9', 1, 60, '1', 0, 0),
-	(181, 'lectureImage.png', 'lecture10', 'ua', 61, 10, 'Test 10', 1, 60, '1', 0, 0),
-	(182, 'lectureImage.png', 'lecture11', 'ua', 61, 11, 'test 11', 1, 60, '1', 0, 0),
-	(183, 'lectureImage.png', 'lecture12', 'ua', 61, 12, 'test 12', 1, 60, '1', 0, 0),
-	(184, 'lectureImage.png', 'lecture13', 'ua', 61, 13, 'test 13', 1, 60, '1', 0, 0),
-	(185, 'lectureImage.png', 'lecture14', 'ua', 61, 14, 'test 14', 1, 60, '1', 0, 0),
-	(192, 'lectureImage.png', 'lecture9', 'ua', 2, 9, 'Одночлени і многочлени', 1, 60, '10', 0, 0);
+	(177, 'lectureImage.png', 'lecture20', 'ua', 61, 6, 'sdfdfdsf', 1, 60, '1', 0, 4),
+	(178, 'lectureImage.png', 'lecture7', 'ua', 61, 7, 'ТестТестів', 1, 60, '1', 0, 4),
+	(179, 'lectureImage.png', 'lecture8', 'ua', 61, 8, 'Test 8', 1, 60, '1', 0, 4),
+	(180, 'lectureImage.png', 'lecture9', 'ua', 61, 9, 'Test 9', 1, 60, '1', 0, 4),
+	(181, 'lectureImage.png', 'lecture10', 'ua', 61, 10, 'Test 10', 1, 60, '1', 0, 4),
+	(182, 'lectureImage.png', 'lecture11', 'ua', 61, 11, 'test 11', 1, 60, '1', 0, 4),
+	(183, 'lectureImage.png', 'lecture12', 'ua', 61, 12, 'test 12', 1, 60, '1', 0, 4),
+	(184, 'lectureImage.png', 'lecture13', 'ua', 61, 13, 'test 13', 1, 60, '1', 0, 4),
+	(185, 'lectureImage.png', 'lecture14', 'ua', 61, 14, 'test 14', 1, 60, '1', 0, 4),
+	(192, 'lectureImage.png', 'lecture9', 'ua', 2, 9, 'Одночлени і многочлени', 1, 60, '10', 0, 4);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
