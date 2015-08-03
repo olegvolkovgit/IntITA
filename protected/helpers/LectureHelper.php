@@ -124,7 +124,13 @@ class LectureHelper {
 
     public static function getLectureTitle($id)
     {
-        return Lecture::model()->findByPk($id)->title;
+        $titleParam = LectureHelper::getTypeTitleParam();
+        $title = Lecture::model()->findByPk($id)->$titleParam;
+        if ($title == ''){
+            return Lecture::model()->findByPk($id)->title_ua;
+        } else{
+            return $title;
+        }
     }
 
     public static function getLectureRate($id)

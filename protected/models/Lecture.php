@@ -9,7 +9,9 @@
  * @property string $alias
  * @property integer $idModule
  * @property integer $order
- * @property string $title
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
  * @property integer $idType
  * @property integer $durationInMinutes
  * @property integer $preLecture
@@ -38,14 +40,14 @@ class Lecture extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('idModule, order, title', 'required'),
+            array('idModule, order, title_ua', 'required'),
             array('idModule, order, idType, durationInMinutes, rate', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('title', 'length', 'max' => 255),
+            array('title_ua, title_ru, title_en', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, idModule, order, title, idType, durationInMinutes,isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, durationInMinutes,isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -73,7 +75,9 @@ class Lecture extends CActiveRecord
             'alias' => 'Псевдонім',
             'idModule' => 'Модуль',
             'order' => 'Порядок',
-            'title' => 'Назва',
+            'title_ua' => 'Назва українською',
+            'title_ru' => 'Назва російською',
+            'title_en' => 'Назва англійською',
             'idType' => 'Тип',
             'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Тривалість лекції(хв)',
@@ -104,7 +108,9 @@ class Lecture extends CActiveRecord
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('idModule', $this->idModule, true);
         $criteria->compare('order', $this->order, true);
-        $criteria->compare('title', $this->title, true);
+        $criteria->compare('title_ua', $this->title_ua, true);
+        $criteria->compare('title_ru', $this->title_ru, true);
+        $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('idType', $this->idType, true);
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
@@ -124,15 +130,23 @@ class Lecture extends CActiveRecord
                     'order'=>CSort::SORT_ASC,
                 ),
                 'ModuleTitle'=>array(
-                    'asc' => $expr='ModuleTitle.module_name',
+                    'asc' => $expr='ModuleTitle.title_ua',
                     'desc' => $expr.' DESC',
                 ),
                 'order'=>array(
                     'asc' => $expr='`order`',
                     'desc' => $expr.' DESC',
                 ),
-                'title'=>array(
-                    'asc' => $expr='title',
+                'title_ua'=>array(
+                    'asc' => $expr='title_ua',
+                    'desc' => $expr.' DESC',
+                ),
+                'title_ru'=>array(
+                    'asc' => $expr='title_ru',
+                    'desc' => $expr.' DESC',
+                ),
+                'title_en'=>array(
+                    'asc' => $expr='title_en',
                     'desc' => $expr.' DESC',
                 ),
                 'idType'=>array(
@@ -158,11 +172,6 @@ class Lecture extends CActiveRecord
         return parent::model($className);
     }
 
-    function getThisMedal()
-    {
-        return 'Зараховано';
-    }
-
     function getPreId(){
         return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->id;
     }
@@ -186,16 +195,6 @@ class Lecture extends CActiveRecord
     function getPreDur()
     {
         return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->durationInMinutes.Yii::t('lecture','0076');
-    }
-
-    function getPreRait()
-    {
-        return '4.5';
-    }
-
-    function getPreMedal()
-    {
-        return 'Зараховано';
     }
 
 
@@ -293,13 +292,14 @@ class Lecture extends CActiveRecord
 
     }
 
-    public static function addNewLesson($module, $title, $lang, $teacher){
+    public static function addNewLesson($module, $title_ua, $title_ru, $title_en, $teacher){
         $lecture = new Lecture();
-        $lecture->title = $title;
+        $lecture->title_ua = $title_ua;
+        $lecture->title_ru = $title_ru;
+        $lecture->title_en = $title_en;
         $lecture->idModule = $module;
         $order = Lecture::model()->count("idModule=$module and `order`>0");
         $lecture->order = ++$order;
-        $lecture->language = $lang;
         $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture'.$order;
 
@@ -312,8 +312,9 @@ class Lecture extends CActiveRecord
     {
         $list = Lecture::model()->findAllByAttributes(array('idModule' => 1));
         $titles = array();
+        $titleParam = LectureHelper::getTypeTitleParam();
         foreach ($list as $item) {
-            array_push($titles, $item->title);
+            array_push($titles, $item->$titleParam);
         }
         return $titles;
     }
@@ -333,7 +334,7 @@ class Lecture extends CActiveRecord
         $cont =  LectureElement::model()->findAll("id_lecture=:id and id_type=:type", array(':type'=>'8', ':id'=>$id));
         $i=0;
         foreach($cont as $type){
-            $summary[$i] =$type->html_block;
+            $summary[$i] = $type->html_block;
             $i++;
         }
         return $summary;

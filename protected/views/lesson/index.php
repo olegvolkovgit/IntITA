@@ -21,9 +21,13 @@
 </script>
 <?php
 /* @var $this LessonController */
+/* @var $lecture Lecture*/
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),$lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),$lecture['title'],
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",
+    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    LectureHelper::getLectureTitle($lecture->id),
 );
 ?>
 
@@ -37,22 +41,11 @@ $this->breadcrumbs=array(
     <div class="lessonText">
 
         <?php if($editMode){?>
-        <div onclick="enableLessonEdit();">
-            <a>
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                    id="editIco" title="Редагувати заняття"/>
-            </a>
-        </div>
-        <div onclick="showForm();">
-            <a href="#newBlockForm">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
-                     id="addTextBlock" title="Додати новий блок" onclick="showBlockForm()"/>
-            </a>
-        </div>
+            <?php $this->renderPartial('_startEditButton', array('block' => 1));?>
         <?php }?>
 
 
-        <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
+        <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <br>
         <?php if($countBlocks){?>
             <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
@@ -75,7 +68,11 @@ $this->breadcrumbs=array(
 
         <!-- Lesson content-->
         <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user));?>
-    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
+        <?php if($editMode){?>
+            <?php $this->renderPartial('_startEditButton', array('block' => 2));?>
+        <?php }?>
+        <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
+
 
         </div>
     <!-- lesson footer ----congratulations-->

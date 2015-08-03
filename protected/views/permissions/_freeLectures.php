@@ -42,9 +42,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '$data->order',
         ),
         array(
-            'name' => 'title',
+            'name' => 'title_ua',
             'type' => 'raw',
-            'value' => '$data->title',
+            'value' => '$data->title_ua',
             'htmlOptions'=>array('class'=>'titleLecture'),
         ),
         array(

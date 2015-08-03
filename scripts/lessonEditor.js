@@ -15,7 +15,7 @@ function hideForm(id, title) {
 }
 function showAddTaskForm(taskType, isFirst){
     if(isFirst == 0){
-        alert('У цій лекції вже є підсумковий тест або задача. Щоб додати нову підсумкову задачу, потрібно видалити існуючу задачу чи тест.');
+        alert('У цьому занятті вже є підсумковий тест або задача. Щоб додати нову підсумкову задачу, потрібно видалити існуючу задачу чи тест.');
     } else {
         task = taskType;
         document.getElementById('addTask').style.display = 'block';
@@ -25,7 +25,7 @@ function showAddTaskForm(taskType, isFirst){
 }
 function showAddTestForm(testType, isFirst){
     if(isFirst == 0){
-        alert('У цій лекції вже є підсумковий тест або задача. Щоб додати новий підсумковий тест, потрібно видалити існуючу задачу чи тест.');
+        alert('У цьому занятті вже є підсумковий тест або задача. Щоб додати новий підсумковий тест, потрібно видалити існуючу задачу чи тест.');
     } else {
         document.getElementById('testType').value = testType;
         document.getElementById('addTest').style.display = 'block';
@@ -34,9 +34,11 @@ function showAddTestForm(testType, isFirst){
     }
 }
 
-function enableLessonEdit(){
-    document.getElementById('editIco').style.display = 'none';
-    document.getElementById('addTextBlock').style.display = 'inline-block';
+function enableLessonEdit(block){
+    editButton = 'editIco' + block;
+    addBlockButton = 'addTextBlock' + block;
+    document.getElementById(editButton).style.display = 'none';
+    document.getElementById(addBlockButton).style.display = 'inline-block';
 }
 
 function showForm(){

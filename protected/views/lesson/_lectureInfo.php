@@ -24,7 +24,7 @@
     <span><?php echo $lecture->getModuleInfoById($idCourse)['moduleTitle']; ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';?>
-    <span><?php echo $lecture->title; ?></span>
+    <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0074'); ?>
     <div id="lectionTypeText"><?php echo $lecture-> getTypeInfo()['text']; ?></div>

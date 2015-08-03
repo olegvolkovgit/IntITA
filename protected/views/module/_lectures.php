@@ -112,10 +112,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) use ($idCourse) {
-            if (AccessHelper::accesLecture($data->id))
-                return CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse"=>$idCourse)));
+            if (AccessHelper::accesLecture($data->id)) {
+                $titleParam = LectureHelper::getTypeTitleParam();
+                if($data->$titleParam == ''){
+                    $titleParam = 'title_ua';
+                }
+                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
+            }
             else
-                return $data->title;
+                return $data->title_ua;
             }
         ),
     ),

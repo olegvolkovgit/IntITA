@@ -187,11 +187,11 @@ margin-top:10px;
     margin-top: -20px;
     float:left;
 }
-.editIco{
+.editButton{
     float:right;
     display:inline;
 }
-#addTextBlock {
+.addTextBlock {
     float: right;
     margin-top: 20px;
     margin-right: 20px;

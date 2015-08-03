@@ -112,8 +112,15 @@ class TeacherHelper
         $count = count($values);
         if ($isLink) {
             for ($i = 0; $i < $count; $i++) {
-                $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array($param => $values[$i]['id'])) .
-                    "'>" . $values[$i]['title'] . "</a></span><br>";
+                if ($route != 'module/index') {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array($param => $values[$i]['id'])) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                } else {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array(
+                            $param => $values[$i]['id'],
+                            'idCourse' => CourseModules::model()->findByAttributes(array('id_module' => $values[$i]['id']))->id_course)) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                }
             }
         } else {
             for ($i = 0; $i < $count; $i++) {
