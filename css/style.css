@@ -255,7 +255,6 @@ p {
     margin-bottom: 13px;
     border-bottom: 1px solid #44bdf6;
     clear: both;
-    box-sizing: content-box;
 }
 .footercontent{
     display: block;
@@ -263,7 +262,6 @@ p {
     width: 1200px;
     height: 90px;
     margin: 0 auto;
-    vertical-align: top;
     border-left: 1px solid #33ccff;
     border-right: 1px solid #33ccff;
     border-bottom: 1px solid #44bdf6;
@@ -285,8 +283,11 @@ p {
 #mainfooter .leftfooter table img{
     vertical-align: middle;
 }
+#mainfooter .leftfooter table img:hover{
+    border-radius: 50px;
+    box-shadow: 0 0 10px #4b75a4;
+}
 .centerfooter{
-    vertical-align: top;
     position: relative;
     display: inline-block;
     width: 74%;
@@ -298,7 +299,6 @@ p {
 #mainfooter .centerfooter div{
     display: inline-block;
     position: relative;
-    height: 80px;
 }
 #mainfooter .footerlogo img{
     width: 140px;
@@ -307,10 +307,13 @@ p {
 }
 #mainfooter div.footerlogo {
     margin-left: 20px;
+    vertical-align: top;
 }
 #mainfooter div.footercontact {
+    display: inline-block;
     position: relative;
     width: 200px;
+    height: 80px;
 }
 #mainfooter .footercontact p{
     position: absolute;
@@ -391,7 +394,6 @@ p {
     height:100px;
     margin-top:5px;
     margin-left:468px;
-    /*background-color:none;*/
     padding-top:0px;
     line-height:1;
     text-align:center;

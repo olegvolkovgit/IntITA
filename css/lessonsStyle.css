@@ -273,7 +273,7 @@ div.lessonButFinal
     width: 390px;
 }
 #sidebarLesson p{
-    margin-left: 100px;
+    margin-left: 10px;
 }
 
 #sidebarLesson input[type="submit"] {
