@@ -51,25 +51,23 @@
     </div>
     <br>
     <div style="clear: both">
-    <p><a href="skype:<?php echo '#' ?>?chat"><input type="submit"
-                                                                                          value="Skype"></a></p>
+        <p><a href="skype:<?php echo '#' ?>?chat"><input type="submit" value="Skype"></a></p>
 
-    <p><!-- mibew button --><a id="mibew-agent-button"
-                               href="http://intita.itatests.com/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>&amp;style=default" target="_blank"
-                               onclick="Mibew.Objects.ChatPopups['55266d9dbb0cc4a'].open();return false;"><img
-                src="http://intita.itatests.com/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>" border="0" alt=""/></a>
-        <script type="text/javascript" src="http://intita.itatests.com/mibew/js/compiled/chat_popup.js"></script>
-        <script type="text/javascript">Mibew.ChatPopup.init({
-                "id": "55266d9dbb0cc4a",
-                "url": "http:\/\/intita.itatests.com\/mibew\/chat?locale=<?php echo MibewHelper::getLg(); ?><?php echo MibewHelper::getNameEmail(); ?>&style=default",
-                "preferIFrame": true,
-                "modSecurity": false,
-                "height": 480,
-                "width": 640,
-                "resizable": true,
-                "styleLoader": "http:\/\/intita.itatests.com\/mibew\/chat\/style\/popup\/default"
-            });</script>
-        <!-- / mibew button --></a></p>
+        <p>
+            <!-- mibew button -->
+            <a id="mibew-agent-button" href="http://intita.itatests.com/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>" target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
+                <img src="http://intita.itatests.com/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>" border="0" alt="" />
+            </a>
+            <script type="text/javascript" src="http://intita.itatests.com/mibew/js/compiled/chat_popup.js"></script>
+            <script type="text/javascript">Mibew.ChatPopup.init({
+                    "id":"55bf44d367c197db","url":"http:\/\/intita.itatests.com\/mibew\/chat?locale=<?php echo MibewHelper::getLg(); ?><?php echo MibewHelper::getNameEmail(); ?>",
+                    "preferIFrame":true,
+                    "modSecurity":false,
+                    "width":640,"height":480,"resizable":true,
+                    "styleLoader":"http:\/\/intita.itatests.com\/mibew\/chat\/style\/popup"});
+            </script>
+            <!-- / mibew button -->
+        </p>
 
     </div>
 </div>

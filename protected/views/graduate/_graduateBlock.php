@@ -17,7 +17,7 @@
                         <input type=hidden name=id1 id="id1" value="<?php echo htmlspecialchars($a = Yii::t('graduates', '0423')); ?>">
                         <input type=hidden name=id2 id="id2" value="<?php echo htmlspecialchars($b); ?>">
                     </form>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
+                    <img onclick="hideRecall(this)" src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
                     <?php echo $data['recall'] ?>
                 </div>
 
