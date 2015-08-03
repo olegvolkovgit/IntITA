@@ -71,22 +71,58 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'for_whom'); ?>
-		<?php echo $form->textArea($model,'for_whom',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'for_whom'); ?>
-	</div>
+        <?php echo $form->labelEx($model,'for_whom_ua'); ?>
+        <?php echo $form->textArea($model,'for_whom_ua',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'for_whom_ua'); ?>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'what_you_learn'); ?>
-		<?php echo $form->textArea($model,'what_you_learn',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'what_you_learn'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_learn_ua'); ?>
+        <?php echo $form->textArea($model,'what_you_learn_ua',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_learn_ua'); ?>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'what_you_get'); ?>
-		<?php echo $form->textArea($model,'what_you_get',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'what_you_get'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_get_ua'); ?>
+        <?php echo $form->textArea($model,'what_you_get_ua',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_get_ua'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'for_whom_en'); ?>
+        <?php echo $form->textArea($model,'for_whom_en',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'for_whom_en'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_learn_en'); ?>
+        <?php echo $form->textArea($model,'what_you_learn_en',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_learn_en'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_get_en'); ?>
+        <?php echo $form->textArea($model,'what_you_get_en',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_get_en'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'for_whom_ru'); ?>
+        <?php echo $form->textArea($model,'for_whom_ru',array('placeholder'=>Yii::t('coursemanage', '0417'), 'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'for_whom_ru'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_learn_ru'); ?>
+        <?php echo $form->textArea($model,'what_you_learn_ru',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_learn_ru'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'what_you_get_ru'); ?>
+        <?php echo $form->textArea($model,'what_you_get_ru',array('placeholder'=>Yii::t('coursemanage', '0417'),'rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->error($model,'what_you_get_ru'); ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'course_img'); ?>

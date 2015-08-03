@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-03 16:15:52
+-- Date/time:                    2015-08-04 01:53:52
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -89,7 +89,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('bump_interval', '10', 0),
 	('bump_type', 'd', 0),
 	('cache_gc', '7200', 0),
-	('cache_last_gc', '1438606184', 1),
+	('cache_last_gc', '1438615727', 1),
 	('captcha_gd', '1', 0),
 	('captcha_gd_3d_noise', '1', 0),
 	('captcha_gd_fonts', '1', 0),
@@ -267,8 +267,8 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', '659bfdad874dc7ff2adbf92198f3b069', 1),
-	('rand_seed_last_update', '1438606184', 1),
+	('rand_seed', 'ba734ec0f6349a07623b4d6e48c443eb', 1),
+	('rand_seed_last_update', '1438615726', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
@@ -293,7 +293,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('server_port', '80', 0),
 	('server_protocol', 'http://', 0),
 	('session_gc', '3600', 0),
-	('session_last_gc', '1438606152', 1),
+	('session_last_gc', '1438612044', 1),
 	('session_length', '3600', 0),
 	('site_desc', 'IT Академія', 0),
 	('site_home_text', '', 0),

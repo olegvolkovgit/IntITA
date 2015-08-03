@@ -98,4 +98,9 @@ class CourseHelper {
         $courseTitle = Course::model()->findByPk($idCourse)->$title;
         return $courseTitle;
     }
+
+    public static function getLangParam(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        return $lang;
+    }
 }
