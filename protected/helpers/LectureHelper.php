@@ -96,4 +96,49 @@ class LectureHelper {
             return 1;
         }
     }
+
+    public static function getLectureTypeTitle($idType){
+        if(LectureType::model()->exists('id=:idType', array(':idType' => $idType))){
+            $titleParam = LectureHelper::getTypeTitleParam();
+            return LectureType::model()->findByPk($idType)->$titleParam;
+        }else {
+            return '';
+        }
+    }
+
+    public static function getTypeTitleParam(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        $title = "title_".$lang;
+        return $title;
+    }
+
+    public static function getNextId($id){
+        $current = Lecture::model()->findByPk($id);
+        return Lecture::model()->findByAttributes(array('order'=>$current->order+1,'idModule'=>$current->idModule))->id;
+    }
+
+    public  static function getLectureDuration($id)
+    {
+        return Lecture::model()->findByPk($id)->durationInMinutes.Yii::t('lecture','0076');
+    }
+
+    public static function getLectureTitle($id)
+    {
+        $titleParam = LectureHelper::getTypeTitleParam();
+        $title = Lecture::model()->findByPk($id)->$titleParam;
+        if ($title == ''){
+            return Lecture::model()->findByPk($id)->title_ua;
+        } else{
+            return $title;
+        }
+    }
+
+    public static function getLectureRate($id)
+    {
+        return Lecture::model()->findByPk($id)->rate;
+    }
+
+    public static function getPreId($order, $idModule){
+        return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
+    }
 }

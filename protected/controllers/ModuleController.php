@@ -191,13 +191,14 @@ class ModuleController extends Controller
 
         $newOrder = Lecture::model()->addNewLesson(
             $_POST['idModule'],
-            $_POST['newLectureName'],
-            $_POST['lang'],
+            $_POST['titleUa'],
+            $_POST['titleRu'],
+            $_POST['titleEn'],
             Teacher::model()->find('user_id=:user', array(':user' => $teacher))->teacher_id
         );
 
         Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
-        Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['newLectureName'] .'додана до цього модуля');
+        Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['titleUa'] .'додана до цього модуля');
         // if AJAX request, we should not redirect the browser
 //        $permission = new PayModules();
 //        $permission->setModulePermission(
@@ -211,7 +212,10 @@ class ModuleController extends Controller
     }
 
     public  function actionSaveModule(){
-        $newOrder = Module::model()->addNewModule($_POST['idCourse'], $_POST['newModuleName'], $_POST['lang']);
+        $titleUa = Yii::app()->request->getPost('titleUA', '');
+        $titleRu = Yii::app()->request->getPost('titleRU', '');
+        $titleEn = Yii::app()->request->getPost('titleEN', '');
+        $newOrder = Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count'=>$newOrder));
 
 //        $model = new TeacherModule();

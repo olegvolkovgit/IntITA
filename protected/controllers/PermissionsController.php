@@ -66,7 +66,7 @@ class PermissionsController extends Controller
     {
         $model = new Lecture('search');
         $model->unsetAttributes();  // clear any default values
-        $model->isFree = 1;
+
         if(isset($_GET['Lecture']))
             $model->attributes=$_GET['Lecture'];
 
@@ -145,8 +145,9 @@ class PermissionsController extends Controller
 
     public function actionShowLectures(){
         $first = '<select size="1" name="lecture">';
+        $titleParam = LectureHelper::getTypeTitleParam();
         $criteria = new CDbCriteria();
-        $criteria->select = 'id, title';
+        $criteria->select = 'id, '.$titleParam;
         $criteria->order = 'id ASC';
         $criteria->addCondition('idModule='.$_POST['module']);
         $rows = Lecture::model()->findAll($criteria);

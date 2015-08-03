@@ -24,7 +24,7 @@
     <span><?php echo $lecture->getModuleInfoById($idCourse)['moduleTitle']; ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';?>
-    <span><?php echo $lecture->title; ?></span>
+    <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0074'); ?>
     <div id="lectionTypeText"><?php echo $lecture-> getTypeInfo()['text']; ?></div>
@@ -48,7 +48,14 @@
         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
     <?php } ?>
     <div id="iconImage">
-        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');?>">
+        <img src="<?php
+        if (LectureHelper::isLectureAvailable($user, $lecture->id, false))
+        {
+            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
+        } else {
+            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
+        }
+        ?> ">
     </div>
 </div>
 </ul>

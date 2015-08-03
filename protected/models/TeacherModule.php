@@ -145,10 +145,11 @@ class TeacherModule extends CActiveRecord
             'params' => array(':id' => $teacher),
         ))->queryAll();
         $count = count($modules);
+        $titleParam = ModuleHelper::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
             $modules[$i]['id'] = $modules[$i]["idModule"];
-            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
         }
 
         return (!empty($modules))?$modules:[];

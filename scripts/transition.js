@@ -5,7 +5,6 @@ $(document).on ('click', 'a[href="/forum"]', function(){
     $.ajax({
         url: "/forum/forumEntrance.php",
         success: function (data) {
-            //alert("Прибыли данные: " + data);
             window.open('/forum/index.php?transition=true', '_blank');
         },
         error: function (error) {
