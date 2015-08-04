@@ -13,6 +13,7 @@ $this->breadcrumbs=array(
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
 <?php
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
@@ -26,16 +27,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'header'=>'',
     ),
     'columns' => array(
-//        'idModule',
-//        'order',
-//        'title',
-//        'idType',
-//        'isFree',
         array(
             'name' => 'ModuleTitle',
             'header'=>'Модуль',
             'type' => 'raw',
-            'value' => '($data->idModule)? $data->ModuleTitle->module_name : ""',
+            'value' => '($data->idModule)? $data->ModuleTitle->title_ua : ""',
             'sortable'=>true,
             'htmlOptions'=>array('class'=>'titleModule'),
         ),
@@ -46,15 +42,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => '$data->order',
         ),
         array(
-            'name' => 'title',
+            'name' => 'title_ua',
             'type' => 'raw',
-            'value' => '$data->title',
+            'value' => '$data->title_ua',
             'htmlOptions'=>array('class'=>'titleLecture'),
         ),
         array(
             'name' => 'idType',
             'type' => 'raw',
-            'value' => '$data->idType',
+            'value' => 'LectureHelper::getLectureTypeTitle($data->idType)',
         ),
         array(
             'name' => 'isFree',

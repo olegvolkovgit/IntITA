@@ -138,7 +138,34 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
         ' . Yii::t("aboutus", "0361") . '
     </ul>
     <div class="sevenn" style="">
-<span class="detailTitle1"> ' . Yii::t("aboutus", "0362") . '</span>
+    <span class="detailTitle1"> ' . Yii::t("aboutus", "0362") . '</span>
+    </div>
+    <h1 class="mashinn" style="">' . Yii::t("aboutus", "0580") . '    </h1>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0581") . '</span>
+    </div>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0582") . '</span>
+    </div>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0583") . '</span>
+    </div>
+    <br>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0584") . '</span>
+    </div>
+    <h1>' . Yii::t("aboutus", "0585") . '</h1>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0586") . '</span>
+    </div>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0587") . '</span>
+    </div>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0588") . '</span>
+    </div>
+    <div class="sevenn" style="">
+    <span class="detailTitle1">' . Yii::t("aboutus", "0589") . '</span>
     </div>
 </div>
 <div>
@@ -152,9 +179,9 @@ $block1->drop2Text = '
     <div class="tabcolumn">
         <p>
             <img class="imgtableft" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'robot.png') . '">
-            '.Yii::t("aboutus", "0441").'
+            '.Yii::t("aboutus", "0578").'
             <img class="imgtableft" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'books.png') . '">
-            '.Yii::t("aboutus", "0442").'
+            '.Yii::t("aboutus", "0579").'
         </p>
         <h3 class="header1">'.Yii::t("aboutus", "0443").'</h3>
         <img class="img1" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'chair.png') . '">

@@ -35,11 +35,23 @@ function trimNetwork() {
     t.value=$.trim(t.value);
 }
 function trimModuleName() {
-    m=document.getElementById('newModuleName');
+    m=document.getElementById('titleUa');
+    m.value=$.trim(m.value);
+
+    m=document.getElementById('titleRu');
+    m.value=$.trim(m.value);
+
+    m=document.getElementById('titleEn');
     m.value=$.trim(m.value);
 }
 function trimLectureName() {
-    lec=document.getElementById('newLectureName');
+    lec=document.getElementById('titleUa');
+    lec.value=$.trim(lec.value);
+
+    lec=document.getElementById('titleRu');
+    lec.value=$.trim(lec.value);
+
+    lec=document.getElementById('titleEn');
     lec.value=$.trim(lec.value);
 }
 function trimLetterEmail() {

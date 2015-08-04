@@ -38,16 +38,16 @@ $header = new Header();?>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/slider.js"></script>
     <!-- carousel -->
     <!-- passEye, jQuery -->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
+    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
     <!-- trimEmail-->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
+    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
     <!-- Horizontal header Scroll-->
     <!--    <script type="text/javascript" src="-->
     <?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/horizontalscroll.js"></script>-->
     <!-- Horizontal header Scroll -->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
+    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
     <!-- OpenDialog -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
 

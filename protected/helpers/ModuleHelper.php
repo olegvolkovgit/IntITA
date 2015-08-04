@@ -29,11 +29,14 @@ class ModuleHelper {
     }
 
     public static function getModuleName($id){
-        if ($id){
-            return Module::model()->findByPk($id)->module_name;
-        } else {
-            return '';
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+
+        $title = "title_".$lang;
+        $moduleTitle = Module::model()->findByPk($id)->$title;
+        if ($moduleTitle == ""){
+            $moduleTitle = Module::model()->findByPk($id)->title_ua;
         }
+        return $moduleTitle;
     }
 
     public static function getModuleOrder($id){
@@ -41,7 +44,7 @@ class ModuleHelper {
     }
     public static function getModuleDuration($countless,$hours,$hInDay,$daysInWeek){
         if ($countless == 0){
-            return ;
+            return 0;
         }
         return ", ".Yii::t('module', '0217')." - <b>".ceil($hours/($hInDay*$daysInWeek))." ".Yii::t('module', '0218')."</b> (".$hInDay." ".Yii::t('module', '0219').", ".$daysInWeek." ".Yii::t('module', '0220').")";
     }
@@ -50,5 +53,11 @@ class ModuleHelper {
             return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
         return '<span id="oldPrice">'.$price.' '.Yii::t('module', '0222').'</span> '.ModuleHelper::getDiscountedPrice($price, 50).Yii::t('module', '0222').'('.Yii::t('module', '0223').')';
+    }
+
+    public static function getModuleTitleParam(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        $title = "title_".$lang;
+        return $title;
     }
 }

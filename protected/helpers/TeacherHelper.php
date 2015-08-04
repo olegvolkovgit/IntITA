@@ -18,9 +18,10 @@ class TeacherHelper
             'params' => array(':id' => $id),
         ))->queryAll();
         $count = count($modules);
+        $titleParam = ModuleHelper::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
-             $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->module_name;
+             $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
              $modules[$i]["idCourse"] = Yii::app()->db->createCommand()
                  ->select('id_course')
                  ->from('course_modules')
@@ -111,8 +112,15 @@ class TeacherHelper
         $count = count($values);
         if ($isLink) {
             for ($i = 0; $i < $count; $i++) {
-                $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array($param => $values[$i]['id'])) .
-                    "'>" . $values[$i]['title'] . "</a></span><br>";
+                if ($route != 'module/index') {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array($param => $values[$i]['id'])) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                } else {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array(
+                            $param => $values[$i]['id'],
+                            'idCourse' => CourseModules::model()->findByAttributes(array('id_module' => $values[$i]['id']))->id_course)) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                }
             }
         } else {
             for ($i = 0; $i < $count; $i++) {

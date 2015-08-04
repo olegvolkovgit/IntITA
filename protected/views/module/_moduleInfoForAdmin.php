@@ -9,10 +9,11 @@
 <div class="moduleTitle">
     <h1>
         <?php
+        $title = ModuleHelper::getModuleTitleParam();
         $this->widget('editable.EditableField', array(
             'type'      => 'text',
             'model'     => $post,
-            'attribute' => 'module_name',
+            'attribute' => $title,
             'url'       => $this->createUrl('module/updateModuleAttribute'),
             'title'     => Yii::t('module', '0369'),
             'placement' => 'right',

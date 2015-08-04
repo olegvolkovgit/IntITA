@@ -60,12 +60,9 @@ class AccessHelper
     }
 
     public static function getResourceDescription($id){
-//        $lecture = "Lecture ".Lecture::model()->findByPk($id)->order.". ".Lecture::model()->findByPk($id)->title;
         $module = Module::model()->findByPk($id);
-//        $idCourse = Module::model()->findByPk($idModule)->course;
-//        $course = Course::model()->findByPk($idCourse)->course_name.". ";
-//        return $course.$module.$lecture;
-        return "Module"." ".$module->module_ID.". ".$module->module_name;
+
+        return "Module"." ".$module->module_ID.". ".$module->title_ua;
     }
 
     public static function getTitles(){
@@ -138,13 +135,14 @@ class AccessHelper
 
     public static function getModuleTitles(){
         $criteria =new CDbCriteria();
-        $criteria->select = array('module_ID', 'module_name');
+        $titleParam = LectureHelper::getTypeTitleParam();
+        $criteria->select = array('module_ID', $titleParam);
         $criteria->toArray();
         $count = Module::model()->count();
         $titles = Module::model()->findAll($criteria);
         $result = [];
         for ($i = 0; $i < $count; $i++) {
-            $result[$titles[$i]["module_ID"]] = $titles[$i]["module_name"];
+            $result[$titles[$i]["module_ID"]] = $titles[$i][$titleParam];
         }
         return $result;
     }
@@ -209,9 +207,10 @@ class AccessHelper
         $modules = Module::model()->findAllByAttributes(array('course' => $course));
         $count = count($modules);
         $result = [];
+        $titleParam = LectureHelper::getTypeTitleParam();
         for($i = 0; $i < $count; $i++){
             $result[$i]['id'] = $modules[$i]->module_ID;
-            $result[$i]['alias'] = $modules[$i]->module_name;
+            $result[$i]['alias'] = $modules[$i]->$titleParam;
         }
         return $result;
     }
@@ -220,9 +219,10 @@ class AccessHelper
         $lectures = Lecture::model()->findAllByAttributes(array('idModule' => $module));
         $count = count($lectures);
         $result = [];
+        $titleParam = LectureHelper::getTypeTitleParam();
         for($i = 0; $i < $count; $i++){
             $result[$i]['id'] = $lectures[$i]->id;
-            $result[$i]['alias'] = $lectures[$i]->title;
+            $result[$i]['alias'] = $lectures[$i]->$titleParam;
         }
         return $result;
     }
@@ -264,16 +264,18 @@ class AccessHelper
     }
     public static function accesLecture($id){
         $lecture = Lecture::model()->findByPk($id);
+        $user = Yii::app()->user->getId();
         if (!($lecture->isFree)){
             if(Yii::app()->user->isGuest){
                 return false;
             } else{
-                if(AccessHelper::getRole(Yii::app()->user->getId())=='викладач'){
-                    if(TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule))
+                if(AccessHelper::getRole($user)=='викладач'){
+                    if(TeacherHelper::isTeacherAuthorModule($user,$lecture->idModule))
                         return true;
                 }
                 $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+                if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read'))
+                    || !LectureHelper::isLectureAvailable($user, $id, true)) {
                     return false;
                 }
             }

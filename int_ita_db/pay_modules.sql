@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-07-30 17:06:27
+-- Date/time:                    2015-08-03 16:15:52
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `pay_modules` (
   CONSTRAINT `FK_pay_modules_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User rights for modules: TINYINT(10) \r\n0 - read\r\n1 - edit\r\n2 - create\r\n3 - delete  ';
 
--- Dumping data for table int_ita_db.pay_modules: ~59 rows (approximately)
+-- Dumping data for table int_ita_db.pay_modules: ~58 rows (approximately)
 /*!40000 ALTER TABLE `pay_modules` DISABLE KEYS */;
 INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(38, 1, 3),
@@ -75,7 +75,6 @@ INSERT INTO `pay_modules` (`id_user`, `id_module`, `rights`) VALUES
 	(52, 2, 1),
 	(121, 1, 1),
 	(121, 23, 1),
-	(38, 111, 3),
 	(1, 61, 1),
 	(1, 2, 1),
 	(129, 1, 1),

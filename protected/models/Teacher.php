@@ -40,7 +40,7 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('first_name, middle_name, last_name, email, user_id', 'required', 'message'=>'Поле не може бути пустим'),
+            array('first_name, middle_name, last_name, user_id', 'required', 'message'=>'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
             array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),

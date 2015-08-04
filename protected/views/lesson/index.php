@@ -21,14 +21,18 @@
 </script>
 <?php
 /* @var $this LessonController */
+/* @var $lecture Lecture*/
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",$lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),$lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),$lecture['title'],
+    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",
+    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    LectureHelper::getLectureTitle($lecture->id),
 );
 ?>
 
 <div class="lectureMainBlock" >
-    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
+    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
     <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
 </div>
 
@@ -37,22 +41,11 @@ $this->breadcrumbs=array(
     <div class="lessonText">
 
         <?php if($editMode){?>
-        <div onclick="enableLessonEdit();">
-            <a>
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                    id="editIco" title="Редагувати заняття"/>
-            </a>
-        </div>
-        <div onclick="showForm();">
-            <a href="#newBlockForm">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add_lesson.png');?>"
-                     id="addTextBlock" title="Додати новий блок" onclick="showBlockForm()"/>
-            </a>
-        </div>
+            <?php $this->renderPartial('_startEditButton', array('block' => 1));?>
         <?php }?>
 
 
-        <h1 class="lessonTheme"><?php echo $lecture['title']?></h1>
+        <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <br>
         <?php if($countBlocks){?>
             <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
@@ -75,7 +68,11 @@ $this->breadcrumbs=array(
 
         <!-- Lesson content-->
         <?php $this->renderPartial('_blocks_list', array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user));?>
-    <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
+        <?php if($editMode){?>
+            <?php $this->renderPartial('_startEditButton', array('block' => 2));?>
+        <?php }?>
+        <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
+
 
         </div>
     <!-- lesson footer ----congratulations-->
@@ -127,7 +124,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!--<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+    MathJax.Hub.Config({
+        extensions: ['tex2jax.js',"TeX/AMSmath.js","TeX/AMSsymbols.js"],
+        tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]},
+        jax: ["input/TeX","output/HTML-CSS"],
+        displayAlign: "center",
+        displayIndent: "0.1em",
+        showProcessingMessages: false
+    });
+</script>
 <script>SyntaxHighlighter.all();</script>
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -138,6 +145,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <!--Load Redactor-->
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
+<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>-->
+<!--    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+<!--    <script type="text/javascript" src="rangy-core.js"></script>-->
+<!--    <script type="text/javascript" src="textinputs_jquery.js"></script>-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/writemaths.js"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $('.wm.ontop').writemaths({position:'center top', previewPosition: 'center bottom', of: 'this'});
+            $('.wm.side').writemaths({position:'right middle', previewPosition: 'left middle'});
+        });
+    </script>
 <?php }?>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
