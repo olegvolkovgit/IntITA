@@ -9,7 +9,7 @@ if ($editMode){
     ?>
     <script type="text/javascript">
         idTeacher = <?php echo $model->teacher_id;?>;
-        block = '1';
+        block = 't1';
     </script>
 <?php }?>
 
@@ -25,7 +25,7 @@ if ($editMode){
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>
 
-                <div class="editableText" id="t1" onclick="function(){order = 't1';}">
+                <div class="editableText" id="t1" onclick="function(){order = 't1'; block='t1';}">
                     <p>
                     <?php if($model->profile_text_first != '') {
                         echo $model->profile_text_first;
@@ -40,7 +40,7 @@ if ($editMode){
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>
 
-                <div  class="editableText" id="t2" onclick="function(){order = 't2';}">
+                <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t1';}">
                     <p>
                         <?php if($model->profile_text_last != '') {
                             echo $model->profile_text_last;

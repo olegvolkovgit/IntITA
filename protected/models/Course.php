@@ -12,9 +12,15 @@
  * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
- * @property string $for_whom
- * @property string $what_you_learn
- * @property string $what_you_get
+ * @property string $for_whom_ua
+ * @property string $what_you_learn_ua
+ * @property string $what_you_get_ua
+ * @property string $for_whom_ru
+ * @property string $what_you_learn_ru
+ * @property string $what_you_get_ru
+ * @property string $for_whom_en
+ * @property string $what_you_learn_en
+ * @property string $what_you_get_en
  * @property string $course_img
  * @property integer $rating
  *
@@ -49,10 +55,12 @@ class Course extends CActiveRecord
 			array('course_img', 'length', 'max'=>255),
             array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
-			array('for_whom, what_you_learn, what_you_get, level, start, course_price, status, review, rating', 'safe'),
+			array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom, what_you_learn,what_you_get, course_img', 'safe', 'on'=>'search'),
+			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
+			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
+			 course_img', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -82,9 +90,15 @@ class Course extends CActiveRecord
             'course_duration_hours' => Yii::t('course', '0402'),
             'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
-            'for_whom' => Yii::t('course', '0405'),
-            'what_you_learn' => Yii::t('course', '0406'),
-            'what_you_get' => Yii::t('course', '0407'),
+            'for_whom_ua' => Yii::t('course', '0405')." (UA)",
+            'what_you_learn_ua' => Yii::t('course', '0406')." (UA)",
+            'what_you_get_ua' => Yii::t('course', '0407')." (UA)",
+            'for_whom_ru' => Yii::t('course', '0405')." (RU)",
+            'what_you_learn_ru' => Yii::t('course', '0406')." (RU)",
+            'what_you_get_ru' => Yii::t('course', '0407')." (RU)",
+            'for_whom_en' => Yii::t('course', '0405')." (EN)",
+            'what_you_learn_en' => Yii::t('course', '0406')." (EN)",
+            'what_you_get_en' => Yii::t('course', '0407')." (EN)",
             'course_img' => Yii::t('course', '0408'),
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
@@ -119,9 +133,15 @@ class Course extends CActiveRecord
 		$criteria->compare('course_duration_hours',$this->course_duration_hours);
 		$criteria->compare('modules_count',$this->modules_count);
 		$criteria->compare('course_price',$this->course_price,true);
-		$criteria->compare('for_whom',$this->for_whom,true);
-		$criteria->compare('what_you_learn',$this->what_you_learn,true);
-		$criteria->compare('what_you_get',$this->what_you_get,true);
+		$criteria->compare('for_whom_ua',$this->for_whom_ua,true);
+		$criteria->compare('what_you_learn_ua',$this->what_you_learn_ua,true);
+		$criteria->compare('what_you_get_ua',$this->what_you_get_ua,true);
+        $criteria->compare('for_whom_ru',$this->for_whom_ru,true);
+        $criteria->compare('what_you_learn_ru',$this->what_you_learn_ru,true);
+        $criteria->compare('what_you_get_ru',$this->what_you_get_ru,true);
+        $criteria->compare('for_whom_en',$this->for_whom_en,true);
+        $criteria->compare('what_you_learn_en',$this->what_you_learn_en,true);
+        $criteria->compare('what_you_get_en',$this->what_you_get_en,true);
 		$criteria->compare('course_img',$this->course_img,true);
 
 		return new CActiveDataProvider($this, array(

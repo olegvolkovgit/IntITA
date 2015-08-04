@@ -5,6 +5,7 @@
  * Date: 12.05.2015
  * Time: 15:20
  */
+
 ?>
 <img class="courseImg" style="display: inline-block" src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img);?>" />
 <div class="courseShortInfoTable">

@@ -38,6 +38,7 @@ $editMode = ($canEdit)?'true':'';
     </div>
 <h2><?php echo Yii::t('module', '0225'); ?></h2>
 <?php
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'lectures-grid',
     'dataProvider' => $dataProvider,
@@ -112,15 +113,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) use ($idCourse) {
-            if (AccessHelper::accesLecture($data->id)) {
                 $titleParam = LectureHelper::getTypeTitleParam();
+            if (AccessHelper::accesLecture($data->id)) {
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else
-                return $data->title_ua;
+                return $data->$titleParam;
             }
         ),
     ),
