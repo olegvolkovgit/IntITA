@@ -6,7 +6,9 @@
  * Time: 22:05
  */
 ?>
-<?php $addressee=StudentReg::model()->findByPk($data['addressee_id']);
+<?php
+if(StudentReg::model()->exists('id=:user', array(':user' => $data['addressee_id']))){
+$addressee=StudentReg::model()->findByPk($data['addressee_id']);
 if($data['status']==1) $style='completed'; else $style='';?>
 <div class="letter">
     <span onclick="myLetterSpoiler(this)">
@@ -39,3 +41,6 @@ if($data['status']==1) $style='completed'; else $style='';?>
         <div><?php echo Yii::t("letter", "0528"); if($data['status']==1) echo Yii::t("letter", "0529"); else echo Yii::t("letter", "0530") ?></div>
     </div>
 </div>
+<?php
+} else return;
+?>
