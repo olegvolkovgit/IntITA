@@ -6,6 +6,7 @@
  * Time: 13:50
  */
 ?>
+<?php $title_lang=LectureHelper::getTypeTitleParam()?>
 <div class="teacherBlock">
     <div class="leftBlock">
         <div class="photobg">
@@ -63,7 +64,7 @@
                                 <p class="consInfHeader">
                                     <?php echo Yii::t("consultation", "0498") ?>
                                 </p>
-                                <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value="<?php echo ' '.Yii::t('consultation', '0493').' '.$lecture->title.', '.Yii::t('consultation', '0494').' '.$data['last_name'].' '.$data['first_name'].' '.$data['middle_name'].'. '.Yii::t('consultation', '0495') ?>" />
+                                <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value="<?php echo ' '.Yii::t('consultation', '0493').' '.$lecture->$title_lang.', '.Yii::t('consultation', '0494').' '.$data['last_name'].' '.$data['first_name'].' '.$data['middle_name'].'. '.Yii::t('consultation', '0495') ?>" />
                                 <p class='consInfText' id="<?php echo 'constext'.$data['teacher_id']?>"></p>
                                 <input type="hidden" id="<?php echo 'datecons'.$data['teacher_id']?>" name="datecons" />
                                 <input type="hidden" id="<?php echo 'timecons'.$data['teacher_id']?>" name="timecons" />
