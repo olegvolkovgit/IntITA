@@ -391,7 +391,11 @@
     width: 500px;
 }
 #mashinn{
-    color: #ae282b
+    color: #ae282b;
+}
+.mashinn{
+    color: #ae282b;
+    margin-left: -60px;
 }
 #theyy{
     padding-left: 20px;
