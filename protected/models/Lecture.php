@@ -40,11 +40,13 @@ class Lecture extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('idModule, order, title_ua', 'required'),
-            array('idModule, order, idType, durationInMinutes, rate', 'numerical', 'integerOnly' => true),
+            array('idModule, order, title_ua, durationInMinutes', 'required', 'message'=>Yii::t('validation','0576')),
+            array('idModule, order, idType, rate', 'numerical', 'integerOnly' => true),
+            array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min'=>0,"tooSmall"=>Yii::t('validation','057'), 'message'=>Yii::t('validation','0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
+            array('title_ua, title_ru, title_en', 'match', 'pattern'=>"/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()+-]+$/u",'message'=>Yii::t('error','0416')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, durationInMinutes,isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
