@@ -17,7 +17,7 @@
                 <br>
                 <span class="formLabel">Новий блок:</span>
                 <br>
-                <a href="javascript:addFormula()">Додати формулу</a>
+                <a href="javascript:addFormula()">Додати формулу LaTeX</a>
                 <br>
                 <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>
                 <br>
@@ -41,7 +41,7 @@
                     <option value="7">Інструкція
                     <option value="8">Заголовок (для змісту)
                     <option value="9">Зображення
-                    <option value="10">Формула
+                    <option value="10">Формула LaTeX
                         <!--                <option value="11" >Таблиця-->
                 </select>
                 <br>
