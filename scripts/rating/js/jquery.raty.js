@@ -432,7 +432,7 @@
 		click			: undefined,
 		half			: false,
 		halfShow		: true,
-		hints			: ['bad', 'poor', 'regular', 'good', 'gorgeous'],
+		hints			: ['', '', '', '', ''],
 		iconRange		: undefined,
 		mouseover		: undefined,
 		noRatedMsg		: 'not rated yet',

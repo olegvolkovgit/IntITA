@@ -61,11 +61,16 @@
                 </table>
                 <div class="aboutMore">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'readMore.png');?>"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a><br>
+                    <div style="display: inline-block" id="<?php echo $teacherValue->teacher_id; ?>"></div>
                     <?php
-                    for ($k=0; $k<$teacherValue->rating; $k++) {?>
+                    for ($k=0; $k<floor($teacherValue->rating/2); $k++) {?>
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
                     }
-                    for ($k=$teacherValue->rating; $k<10; $k++) {?>
+                    if($teacherValue->rating/2-floor($teacherValue->rating/2)==0.5)
+                    {?>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'star-half.png');?>"/><?php
+                    }
+                    for ($k=ceil($teacherValue->rating/2); $k<5; $k++) {?>
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
                     }
                     ?>
