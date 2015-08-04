@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 01:53:53
+-- Date/time:                    2015-08-04 14:06:45
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_poll_votes` (
   KEY `vote_user_ip` (`vote_user_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_poll_votes: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_poll_votes: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_poll_votes` DISABLE KEYS */;
 INSERT INTO `phpbb_poll_votes` (`topic_id`, `poll_option_id`, `vote_user_id`, `vote_user_ip`) VALUES
 	(15, 1, 54, '81.30.164.98');

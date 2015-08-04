@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 01:53:54
+-- Date/time:                    2015-08-04 14:06:45
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `phpbb_topics_watch` (
   KEY `notify_stat` (`notify_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table int_ita_db.phpbb_topics_watch: ~0 rows (approximately)
+-- Dumping data for table int_ita_db.phpbb_topics_watch: ~1 rows (approximately)
 /*!40000 ALTER TABLE `phpbb_topics_watch` DISABLE KEYS */;
 INSERT INTO `phpbb_topics_watch` (`topic_id`, `user_id`, `notify_status`) VALUES
 	(4, 22, 0);

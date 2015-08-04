@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 01:53:52
+-- Date/time:                    2015-08-04 14:06:44
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table int_ita_db.lectures: ~71 rows (approximately)
+-- Dumping data for table int_ita_db.lectures: ~73 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `idModule`, `order`, `title_ua`, `title_ru`, `title_en`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`, `rate`) VALUES
 	(22, 'lectureImage.png', 'lecture1', 2, 1, 'Взаємодія PHP і XML', '', '', 1, 60, '1', 0, 4),
