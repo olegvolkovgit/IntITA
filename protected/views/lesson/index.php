@@ -124,17 +124,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
 <script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
-<!--<script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
-<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
-    MathJax.Hub.Config({
-        extensions: ['tex2jax.js',"TeX/AMSmath.js","TeX/AMSsymbols.js"],
-        tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]},
-        jax: ["input/TeX","output/HTML-CSS"],
-        displayAlign: "center",
-        displayIndent: "0.1em",
-        showProcessingMessages: false
-    });
-</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>SyntaxHighlighter.all();</script>
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
