@@ -16,21 +16,21 @@
 <!-- EVENT index_body_forumlist_body_after -->
 
 <!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
-	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
-	<h3><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a><!-- IF S_REGISTER_ENABLED -->&nbsp; &bull; &nbsp;<a href="{U_REGISTER}">{L_REGISTER}</a><!-- ENDIF --></h3>
-		<fieldset class="quick-login">
-			<label for="username"><span>{L_USERNAME}{L_COLON}</span> <input type="text" name="username" id="username" size="10" class="inputbox" title="{L_USERNAME}" /></label>
-			<label for="password"><span>{L_PASSWORD}{L_COLON}</span> <input type="password" name="password" id="password" size="10" class="inputbox" title="{L_PASSWORD}" /></label>
-			<!-- IF U_SEND_PASSWORD -->
-				<a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a>
-			<!-- ENDIF -->
-			<!-- IF S_AUTOLOGIN_ENABLED -->
-				<span class="responsive-hide">|</span> <label for="autologin">{L_LOG_ME_IN} <input type="checkbox" name="autologin" id="autologin" /></label>
-			<!-- ENDIF -->
-			<input type="submit" name="login" value="{L_LOGIN}" class="button2" />
-			{S_LOGIN_REDIRECT}
-		</fieldset>
-	</form>
+	<!--<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">-->
+	<!--<h3><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a>&lt;!&ndash; IF S_REGISTER_ENABLED &ndash;&gt;&nbsp; &bull; &nbsp;<a href="{U_REGISTER}">{L_REGISTER}</a>&lt;!&ndash; ENDIF &ndash;&gt;</h3>-->
+		<!--<fieldset class="quick-login">-->
+			<!--<label for="username"><span>{L_USERNAME}{L_COLON}</span> <input type="text" name="username" id="username" size="10" class="inputbox" title="{L_USERNAME}" /></label>-->
+			<!--<label for="password"><span>{L_PASSWORD}{L_COLON}</span> <input type="password" name="password" id="password" size="10" class="inputbox" title="{L_PASSWORD}" /></label>-->
+			<!--&lt;!&ndash; IF U_SEND_PASSWORD &ndash;&gt;-->
+				<!--<a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a>-->
+			<!--&lt;!&ndash; ENDIF &ndash;&gt;-->
+			<!--&lt;!&ndash; IF S_AUTOLOGIN_ENABLED &ndash;&gt;-->
+				<!--<span class="responsive-hide">|</span> <label for="autologin">{L_LOG_ME_IN} <input type="checkbox" name="autologin" id="autologin" /></label>-->
+			<!--&lt;!&ndash; ENDIF &ndash;&gt;-->
+			<!--<input type="submit" name="login" value="{L_LOGIN}" class="button2" />-->
+			<!--{S_LOGIN_REDIRECT}-->
+		<!--</fieldset>-->
+	<!--</form>-->
 <!-- ENDIF -->
 
 <!-- EVENT index_body_stat_blocks_before -->
@@ -59,14 +59,14 @@
 <!-- ENDIF -->
 
 <!-- IF NEWEST_USER -->
-	<div class="stat-block statistics">
-		<h3>{L_STATISTICS}</h3>
-		<p>
-			<!-- EVENT index_body_block_stats_prepend -->
-			{TOTAL_POSTS} &bull; {TOTAL_TOPICS} &bull; {TOTAL_USERS} &bull; {NEWEST_USER}
-			<!-- EVENT index_body_block_stats_append -->
-		</p>
-	</div>
+	<!--<div class="stat-block statistics">-->
+		<!--<h3>{L_STATISTICS}</h3>-->
+		<!--<p>-->
+			<!--&lt;!&ndash; EVENT index_body_block_stats_prepend &ndash;&gt;-->
+			<!--{TOTAL_POSTS} &bull; {TOTAL_TOPICS} &bull; {TOTAL_USERS} &bull; {NEWEST_USER}-->
+			<!--&lt;!&ndash; EVENT index_body_block_stats_append &ndash;&gt;-->
+		<!--</p>-->
+	<!--</div>-->
 <!-- ENDIF -->
 
 <!-- EVENT index_body_stat_blocks_after -->
