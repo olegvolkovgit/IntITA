@@ -40,7 +40,7 @@ if ($editMode){
                 $this->renderPartial('_courses', array('id' => $model->teacher_id));
                 ?>
 
-                <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t1';}">
+                <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
                     <p>
                         <?php if($model->profile_text_last != '') {
                             echo $model->profile_text_last;

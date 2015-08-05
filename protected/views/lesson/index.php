@@ -133,12 +133,11 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <?php if ($editMode){?>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <!--Load Redactor-->
+
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
-<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>-->
-<!--    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
-<!--    <script type="text/javascript" src="rangy-core.js"></script>-->
-<!--    <script type="text/javascript" src="textinputs_jquery.js"></script>-->
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rangy-core.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/textinputs_jquery.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/writemaths.js"></script>
     <script language="javascript">
         $(document).ready(function() {

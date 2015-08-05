@@ -197,6 +197,8 @@ class PermissionsController extends Controller
             array_push($modulelist, $temp[$i]->id_module);
         }
 
+        $titleParam = ModuleHelper::getModuleTitleParam();
+
         $criteriaData= new CDbCriteria;
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
@@ -205,7 +207,7 @@ class PermissionsController extends Controller
         $result = $first.'<option value="">Всі модулі</option>
                    <optgroup label="Виберіть модуль">';
         foreach ($rows as $numRow => $row) {
-            $result = $result.'<option value="'.$row['module_ID'].'">'.$row['module_name'].'</option>';
+            $result = $result.'<option value="'.$row['module_ID'].'">'.$row[$titleParam].'</option>';
         };
         $last = '</select>';
         echo $result.$last;
