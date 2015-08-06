@@ -39,7 +39,7 @@ html {
 
 body {
 	/* Text-Sizing with ems: http://www.clagnut.com/blog/348/ */
-	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	color: #536482;
 	background: #DBD7D1;
 	font-size: 62.5%;	/* This sets the default font size to be equivalent to 10px */
@@ -55,14 +55,14 @@ img {
 }
 
 h1 {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: "MyriadPro", "Trebuchet MS", Helvetica, sans-serif;
 	font-size: 1.70em;
 	font-weight: normal;
 	color: #333333;
 }
 
 h2, caption {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: "MyriadPro", "Trebuchet MS", Helvetica, sans-serif;
 	font-size: 1.40em;
 	font-weight: normal;
 	color: #115098;
@@ -75,7 +75,7 @@ h2, caption {
 }
 
 h3, h4 {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: "MyriadPro", "Trebuchet MS", Helvetica, sans-serif;
 	font-size: 1.20em;
 	text-decoration: none;
 	line-height: 1.20em;
@@ -200,7 +200,7 @@ li {
 
 #page-header h1 {
 	color: #767676;
-	font-family: "Trebuchet MS",Helvetica,sans-serif;
+	font-family: "MyriadPro", "Trebuchet MS",Helvetica,sans-serif;
 	font-size: 1.70em;
 	padding-top: 10px;
 }
@@ -328,7 +328,7 @@ li {
 /* Tabbed menu
 ----------------------------------------*/
 #tabs {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "MyriadPro", Arial, Helvetica, sans-serif;
 	line-height: normal;
 	margin: 0 7px;
 	position: relative;
@@ -613,7 +613,7 @@ li {
 }
 
 #menu .header {
-	font-family: Tahoma, Helvetica, sans-serif;
+	font-family: "MyriadPro", Tahoma, Helvetica, sans-serif;
 	display: block;
 	font-weight: bold;
 	color: #115098;
@@ -1087,7 +1087,7 @@ fieldset p {
 
 legend {
 	padding: 1px 0;
-	font-family: Tahoma,arial,Verdana,Sans-serif;
+	font-family: "MyriadPro", Tahoma,arial,Verdana, sans-serif;
 	font-size: .9em;
 	font-weight: bold;
 	color: #115098;
@@ -1100,7 +1100,7 @@ legend {
 }
 
 input, textarea {
-	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 0.90em;
 	font-weight: normal;
 	vertical-align: middle;
@@ -1140,7 +1140,7 @@ input[type="number"] {
 optgroup, select {
 	background-color: #FAFAFA;
 	border: 1px solid #666666;
-	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 0.85em;
 	font-weight: normal;
 	font-style: normal;
@@ -1187,7 +1187,7 @@ option.disabled-option {
 }
 
 textarea {
-	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 0.85em;
 	width: 60%;
 	padding: 2px;
@@ -1292,7 +1292,7 @@ select#full_folder_action {
 	Other general def. list properties defined in prosilver_main.css
 ---------------------------------------- */
 dl {
-	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 1.00em;
 }
 
@@ -1532,7 +1532,7 @@ a.button1, input.button1,
 a.button2, input.button2 {
 	width: auto !important;
 	padding: 1px 3px 0 3px;
-	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+	font-family: "MyriadPro", "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	color: #000;
 	font-size: 0.85em;
 	background: #EFEFEF url("../images/bg_button.gif") repeat-x top;
@@ -1804,7 +1804,7 @@ li.pagination ul {
 	color: #FFFFFF;
 	margin: 0 0 0.5em;
 	font-size: 1.10em;
-	font-family: "Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
+	font-family: "MyriadPro", "Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
 }
 
 .successbox p, .errorbox p {
@@ -1891,7 +1891,7 @@ li.pagination ul {
 ---------------------------------------- */
 .sourcenum {
 	color: gray;
-	font-family: Monaco, 'Courier New', monospace;
+	font-family: "MyriadPro", Monaco, 'Courier New', monospace;
 	font-size: 1.25em;
 	font-weight: bold;
 	line-height: 1.20em;
@@ -1904,7 +1904,7 @@ li.pagination ul {
 }
 
 .source {
-	font-family: Monaco, 'Courier New', monospace;
+	font-family: "MyriadPro", Monaco, 'Courier New', monospace;
 	font-size: 1.25em;
 	line-height: 1.20em;
 	padding: 0;
