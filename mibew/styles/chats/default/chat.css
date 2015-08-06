@@ -476,15 +476,30 @@ ul li {
     border: 0;
     border-collapse: collapse;
     vertical-align: top;
+	line-height:20px;
+}
+.form tr td:first-child {
+	text-align:right;
 }
 #content-wrapper #send-message {
-    float: left;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 #content-wrapper input,
 #content-wrapper textarea,
 .headers-inwards-wrapper-bottom-right input {
     border: 1px solid #bbc4c4;
+	border-radius:5px;
+	padding-left:7px;
+}
+#content-wrapper input{
+	width:375px;
+}
+#content-wrapper textarea{
+	resize:none;
+	width:375px;
+}
+#content-wrapper input{
+    height:20px;
 }
 #ajax-loader {
     display: none;
