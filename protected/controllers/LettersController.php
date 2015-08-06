@@ -160,7 +160,7 @@ class LettersController extends Controller
     }
     public function actionSendRespLetter($id)
     {
-        $tab='checked';
+        $tab=3;
         $model= new Letters();
         if(isset($_POST['ajax']) && $_POST['ajax']==='respletter-form'.$id)
         {
