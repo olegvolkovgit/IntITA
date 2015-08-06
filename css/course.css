@@ -398,6 +398,11 @@ body .grid-view table.items td.titleColumn{
     width: 100%;
     word-wrap: break-word;
 }
+.grid-view table.items td.titleColumn a img{
+    position: relative;
+    vertical-align: bottom;
+    margin-left: 5px;
+}
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
     background: #ffffff;
 }
