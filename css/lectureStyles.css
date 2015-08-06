@@ -173,6 +173,7 @@ margin-left:10px;
 }
 /*----Edit toolbar----*/
 .editToolbar{
+    position: absolute;
     margin-top: -20px;
     float:left;
 }
