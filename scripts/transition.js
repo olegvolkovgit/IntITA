@@ -14,7 +14,6 @@ $(document).on ('click', 'a[href="/forum"]', function(){
     return false;
 });
 function goToForum() {
-    alert('ddd');
     $.ajax({
         url: "/forum/forumEntrance.php",
         success: function (data) {
