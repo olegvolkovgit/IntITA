@@ -207,7 +207,10 @@ class PermissionsController extends Controller
         $result = $first.'<option value="">Всі модулі</option>
                    <optgroup label="Виберіть модуль">';
         foreach ($rows as $numRow => $row) {
-            $result = $result.'<option value="'.$row['module_ID'].'">'.$row[$titleParam].'</option>';
+            if($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result.'<option value="'.$row['module_ID'].'">'.$row[$title].'</option>';
         };
         $last = '</select>';
         echo $result.$last;

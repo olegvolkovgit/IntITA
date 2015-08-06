@@ -8,8 +8,7 @@
 ?>
 <div class="moduleTitle">
     <h1>
-        <?php $titleParam = ModuleHelper::getModuleTitleParam();
-        echo $post->$titleParam;?>
+        <?php echo ModuleHelper::getModuleName($post->module_ID);?>
     </h1>
 </div>
 <table>

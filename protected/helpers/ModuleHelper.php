@@ -60,4 +60,12 @@ class ModuleHelper {
         $title = "title_".$lang;
         return $title;
     }
+    public static function getDefaultModuleName($moduleName){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        $title = "title_".$lang;
+
+        if ($moduleName == "")
+            return 'title_ua';
+        else return $title;
+    }
 }
