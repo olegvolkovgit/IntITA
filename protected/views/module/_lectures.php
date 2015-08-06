@@ -102,6 +102,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'alias',
             'type' => 'raw',
             'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('module', '0381').' {$data->order}."',
+            'value' =>function($data) {
+                if (AccessHelper::accesLecture($data->id))
+                    $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
+                else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
+                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
+                return $value;
+            },
             'header'=>false,
             'htmlOptions'=>array('class'=>'aliasColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
@@ -113,17 +120,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) use ($idCourse) {
-                $imgEnab=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
-                $imgDisab=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $titleParam = LectureHelper::getTypeTitleParam();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
             if (AccessHelper::accesLecture($data->id)) {
-                return CHtml::link(CHtml::encode($data->$titleParam).$imgEnab, Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
+                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else
-                return $data->$titleParam.$imgDisab;
+                return $data->$titleParam;
             }
         ),
     ),

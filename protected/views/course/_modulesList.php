@@ -98,7 +98,13 @@ $editMode = ($canEdit)?'true':'';
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('course', '0364').' {$data->order}."',
+            'value' =>function($data) {
+                if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
+                    $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
+                else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
+                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('course', '0364').' '.$data->order.'.';
+                return $value;
+            },
             'header'=>false,
             'htmlOptions'=>array('class'=>'aliasColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
@@ -110,14 +116,12 @@ $editMode = ($canEdit)?'true':'';
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) {
-                $imgEnab=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
-                $imgDisab=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $title = ModuleHelper::getModuleTitleParam();
                 $moduleTitle = ModuleHelper::getDefaultModuleName($data->moduleInCourse->$title);
                 if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
-                    return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle).$imgEnab, Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                 else
-                    return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle).$imgDisab, Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),array('class'=>'disableModule'));
+                    return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),array('class'=>'disableModule'));
             }
         ),
     ),

@@ -383,6 +383,11 @@ body .grid-view table.items td.aliasColumn{
     margin-bottom: 0px;
     padding-left: 0px;
 }
+body .grid-view table.items td.aliasColumn img {
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 5px;
+}
 
 body .grid-view table.items td.titleColumn{
     vertical-align: top;
@@ -397,11 +402,6 @@ body .grid-view table.items td.titleColumn{
 .grid-view table.items td.titleColumn a{
     width: 100%;
     word-wrap: break-word;
-}
-.grid-view table.items td.titleColumn a img{
-    position: relative;
-    vertical-align: bottom;
-    margin-left: 5px;
 }
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
     background: #ffffff;
