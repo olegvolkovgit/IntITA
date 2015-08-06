@@ -4,7 +4,7 @@
 $dbms = 'phpbb\\db\\driver\\mysqli';
 $dbhost = 'localhost';
 $dbport = '';
-$dbname = 'int_ita_db';
+$dbname = 'forum';
 $dbuser = 'intita';
 $dbpasswd = '1234567';
 $table_prefix = 'phpbb_';

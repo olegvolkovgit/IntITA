@@ -141,4 +141,13 @@ class LectureHelper {
     public static function getPreId($order, $idModule){
         return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
     }
+
+    public static function getLecturePageVideo($idLecturePage){
+        $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
+        return LectureElement::model()->findByPk($lectureElement)->html_block;
+    }
+
+    public static function getQuizType($id){
+        return LectureElement::model()->findByPk($id)->id_type;
+    }
 }

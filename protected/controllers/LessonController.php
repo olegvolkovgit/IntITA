@@ -23,21 +23,24 @@ class LessonController extends Controller{
         }
     }
 
-    public function actionIndex($id,$idCourse)
+    public function actionIndex($id,$idCourse, $page=1)
     {
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
         $editMode = $this->checkEditMode($lecture->idModule, Yii::app()->user->getId());
-        $user = 0;
+
         if (Yii::app()->user->isGuest) {
             $user = 0;
         } else{
             $user = Yii::app()->user->getId();
         }
 
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+
+        $textList = [317, 306, 393];
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition('id_lecture=' . $id);
+        $criteria->addInCondition('id_block', $textList);
 
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->criteria = $criteria;
@@ -62,7 +65,7 @@ class LessonController extends Controller{
 //            ), false, true);
 //            Yii::app()->end();
 //        } else {
-        $this->render('index', array(
+        $this->render('index1', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
@@ -70,6 +73,7 @@ class LessonController extends Controller{
             'teacher' => $teacher,
             'idCourse' => $idCourse,
             'user' =>$user,
+            'page' => $page,
         ));
         //}
     }
@@ -209,7 +213,7 @@ class LessonController extends Controller{
                 $model->html_block = $htmlBlock;
         }
         $model->id_type = $idType;
-        $model->type = ElementType::model()->findByPk($idType)->type;
+        //$model->type = ElementType::model()->findByPk($idType)->type;
 
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);

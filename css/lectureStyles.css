@@ -248,3 +248,10 @@ margin-left:10px;
 #divAddFormula {
     display: none;
 }
+#video, #text{
+    resize:none;
+    height: 400px;
+}
+#text{
+    overflow: auto;
+}

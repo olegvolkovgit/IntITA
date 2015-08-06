@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 14:06:46
+-- Date/time:                    2015-08-06 15:12:52
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `sourcemessages` (
   `category` varchar(32) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=567 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
+) ENGINE=InnoDB AUTO_INCREMENT=590 DEFAULT CHARSET=utf8 COMMENT='Table for interface messages (keys).';
 
 -- Dumping data for table int_ita_db.sourcemessages: ~564 rows (approximately)
 /*!40000 ALTER TABLE `sourcemessages` DISABLE KEYS */;
@@ -585,7 +585,30 @@ INSERT INTO `sourcemessages` (`id`, `category`, `message`) VALUES
 	(563, 'regexp', '0563'),
 	(564, 'teachers', '0564'),
 	(565, 'lecture', '0565'),
-	(566, 'lecture', '0566');
+	(566, 'lecture', '0566'),
+	(567, 'lecture', '0567'),
+	(568, 'lecture', '0568'),
+	(569, 'lecture', '0569'),
+	(570, 'lecture', '0570'),
+	(571, 'lecture', '0571'),
+	(572, 'lecture', '0572'),
+	(573, 'lecture', '0573'),
+	(574, 'lecture', '0574'),
+	(575, 'config', '0575'),
+	(576, 'validation', '0576'),
+	(577, 'validation', '0577'),
+	(578, 'aboutus', '0578'),
+	(579, 'aboutus', '0579'),
+	(580, 'aboutus', '0580'),
+	(581, 'aboutus', '0581'),
+	(582, 'aboutus', '0582'),
+	(583, 'aboutus', '0583'),
+	(584, 'aboutus', '0584'),
+	(585, 'aboutus', '0585'),
+	(586, 'aboutus', '0586'),
+	(587, 'aboutus', '0587'),
+	(588, 'aboutus', '0588'),
+	(589, 'aboutus', '0589');
 /*!40000 ALTER TABLE `sourcemessages` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

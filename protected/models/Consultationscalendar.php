@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "consultationscalendar".
+ * This is the model class for table "consultations_calendar".
  *
- * The followings are the available columns in table 'consultationscalendar':
+ * The followings are the available columns in table 'consultations_calendar':
  * @property integer $id
  * @property integer $teacher_id
  * @property integer $user_id
@@ -19,7 +19,7 @@ class Consultationscalendar extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'consultationscalendar';
+		return 'consultations_calendar';
 	}
 
 	/**

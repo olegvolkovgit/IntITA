@@ -7,11 +7,9 @@
  */
 ?>
 <?php
-
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
-
 ?>
     <div>
             <?php $this->renderPartial('_editToolbar', array(
@@ -20,13 +18,12 @@ $testType = TestsHelper::getTestType($data['id_block']);
                 'editMode' => $editMode,
             ));
         ?>
-
         <div class="lessonTest">
-            <img class="lessonBut"
-                 src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?>">
-
-            <div class="lessonButName" unselectable="on"><?php echo Yii::t('lecture', '0565');?></div>
-            <div class="lessonLine"></div>
+<!--            <img class="lessonBut"-->
+<!--                 src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
+<!---->
+<!--            <div class="lessonButName" unselectable="on">--><?php //echo Yii::t('lecture', '0565');?><!--</div>-->
+<!--            <div class="lessonLine"></div>-->
             <div class="lessonBG">
                 <div class="instrTestImg">
                     <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">

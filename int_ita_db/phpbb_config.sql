@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 14:06:44
+-- Date/time:                    2015-08-06 15:12:49
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -112,7 +112,7 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('coppa_mail', '', 0),
 	('cron_lock', '0', 1),
 	('database_gc', '604800', 0),
-	('database_last_gc', '1438079883', 1),
+	('database_last_gc', '1438862137', 1),
 	('dbms_version', '5.5.41-log', 0),
 	('default_dateformat', 'D M d, Y g:i a', 0),
 	('default_lang', 'uk', 0),
@@ -267,12 +267,12 @@ INSERT INTO `phpbb_config` (`config_name`, `config_value`, `is_dynamic`) VALUES
 	('print_pm', '1', 0),
 	('questionnaire_unique_id', '793ec7662bd4d575', 0),
 	('queue_interval', '60', 0),
-	('rand_seed', 'bdc319f6b72bddc8ca5b9287fe8834ce', 1),
-	('rand_seed_last_update', '1438642731', 1),
+	('rand_seed', '32508849a16e09e0b9b895caf953d397', 1),
+	('rand_seed_last_update', '1438862464', 1),
 	('ranks_path', 'images/ranks', 0),
 	('read_notification_expire_days', '30', 0),
 	('read_notification_gc', '86400', 0),
-	('read_notification_last_gc', '1438606142', 1),
+	('read_notification_last_gc', '1438862465', 1),
 	('record_online_date', '1436536322', 1),
 	('record_online_users', '3', 1),
 	('referer_validation', '1', 0),
