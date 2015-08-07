@@ -137,7 +137,7 @@
 		linkTooltip: true,
 		linkProtocol: 'http',
 		linkNofollow: false,
-		linkSize: 50,
+		//linkSize: 50,
 
 		imageEditable: true,
 		imageLink: true,
