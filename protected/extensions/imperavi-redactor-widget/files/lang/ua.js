@@ -71,6 +71,10 @@ $.Redactor.opts.langs['ua'] = {
 	alignment: 'Вирівнювання',
 	filename: 'Назва (optional)',
 	edit: 'Редагувати',
-	center: 'По центру'
+	center: 'По центру',
+	fontsize: 'Змінити розмір',
+	fontfamily: 'Змінити шрифт',
+	close: 'Закрити',
+	saveB: 'Зберегти',
 };
 })( jQuery );

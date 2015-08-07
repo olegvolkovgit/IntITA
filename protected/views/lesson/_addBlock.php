@@ -64,7 +64,7 @@
             'selector' => "#newTextBlock",
             'options' => array(
                 'imageUpload' => Yii::app()->createUrl('/lesson/uploadImage'),
-                'lang' => 'ua',
+                'lang' => LectureHelper::getLanguage(),
                 'toolbar' => true,
                 'iframe' => true,
                 'css' => 'wym.css',

@@ -256,6 +256,11 @@
 		// lang
 		langs: {
 			en: {
+				fullscreen: 'Fullscreen',
+				fontsize: 'Change Font Size',
+				fontfamily: 'Change Font Family',
+				close: 'Close',
+				saveB: 'Save',
 				html: 'HTML',
 				video: 'Insert Video',
 				image: 'Insert Image',

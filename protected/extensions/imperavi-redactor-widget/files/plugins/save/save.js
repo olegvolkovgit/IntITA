@@ -7,7 +7,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 		return {
 			init: function()
 			{
-				var button = this.button.add('save', 'Save');
+				var button = this.button.add('save', this.lang.get('saveB'));
 
 				// make your added button as Font Awesome's icon
 				this.button.setAwesome('save', 'fa-save');

@@ -160,4 +160,8 @@ class LectureHelper {
         }
         return $lectionsCount;
     }
+    public static function getLanguage(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        return $lang;
+    }
 }
