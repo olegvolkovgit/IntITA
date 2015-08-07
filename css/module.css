@@ -237,7 +237,7 @@ body .grid-view table.items td.titleColumn{
     background: #ffffff;
 }
 .grid-view table.items td.titleColumn a{
-    width: 100%;
+    max-width: 100%;
     word-wrap: break-word;
 }
 .grid-view{

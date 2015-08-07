@@ -7,6 +7,7 @@
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
+$enabledLessonOrder=LectureHelper::getLastEnabledLessonOrder($module->module_ID);
 ?>
 
 <div class="lessonModule" id="lectures">
@@ -102,8 +103,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'alias',
             'type' => 'raw',
             'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('module', '0381').' {$data->order}."',
-            'value' =>function($data) {
-                if (AccessHelper::accesLecture($data->id))
+            'value' =>function($data) use ($enabledLessonOrder) {
+                if (AccessHelper::accesLecture($data->id,$data->order,$enabledLessonOrder))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
@@ -119,12 +120,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => function($data) use ($idCourse) {
+            'value' => function($data) use ($idCourse,$enabledLessonOrder) {
                 $titleParam = LectureHelper::getTypeTitleParam();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-            if (AccessHelper::accesLecture($data->id)) {
+            if (AccessHelper::accesLecture($data->id,$data->order,$enabledLessonOrder)) {
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else

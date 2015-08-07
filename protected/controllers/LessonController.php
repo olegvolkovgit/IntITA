@@ -6,6 +6,7 @@ class LessonController extends Controller{
     public function initialize($id)
     {
         $lecture = Lecture::model()->findByPk($id);
+        $enabledLessonOrder=LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
         if (!($lecture->isFree)){
             if(Yii::app()->user->isGuest){
             throw new CHttpException(403, Yii::t('errors', '0138'));
@@ -16,7 +17,7 @@ class LessonController extends Controller{
                         return true;
                 }
                 $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) || $lecture->order>$enabledLessonOrder) {
                 throw new CHttpException(403, Yii::t('errors', '0139'));
                 }
             }

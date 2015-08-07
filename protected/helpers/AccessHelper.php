@@ -262,7 +262,10 @@ class AccessHelper
         }
         return true;
     }
-    public static function accesLecture($id){
+    /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
+    Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
+    Якщо $order>$enabledOrder то недоступна*/
+    public static function accesLecture($id,$order,$enabledOrder){
         $lecture = Lecture::model()->findByPk($id);
         $user = Yii::app()->user->getId();
         if (!($lecture->isFree)){
@@ -274,8 +277,7 @@ class AccessHelper
                         return true;
                 }
                 $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read'))
-                    || !LectureHelper::isLectureAvailable($user, $id, true)) {
+                if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order>$enabledOrder) {
                     return false;
                 }
             }

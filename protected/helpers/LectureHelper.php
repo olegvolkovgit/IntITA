@@ -141,4 +141,23 @@ class LectureHelper {
     public static function getPreId($order, $idModule){
         return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
     }
+    /* Шукаємо всі заняття які відображаються в модулі, сортуємо по зростаню порядкового номера і знаходимо
+   порядковий номер першого заняття де не зданий фінального теста чи завдання */
+    public static function getLastEnabledLessonOrder($idModule){
+        $user = Yii::app()->user->getId();
+
+        $criteria = new CDbCriteria();
+        $criteria->alias='lectures';
+        $criteria->addCondition('idModule='.$idModule.' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+
+        $lectionsCount=count($sortedLectures);
+        foreach($sortedLectures as $lecture){
+            if(!LectureHelper::isLectureAvailable($user, $lecture->id, true)){
+                return $lecture->order;
+            }
+        }
+        return $lectionsCount;
+    }
 }
