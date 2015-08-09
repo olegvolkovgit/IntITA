@@ -22,16 +22,20 @@
             <br>
             <fieldset>
                 <legend id="label1">Варіанти відповіді:</legend>
-                <div  id="optionsList">
-                    <div class="ansnumber">1.</div><input class="testVariant" type="text" name="option1" id="option1" size="80" required/><br>
-                </div>
-                <a href="javascript:addOption()" id="addOption">Додати відповідь</a>
+                <ol  id="optionsList" class="inputs">
+                    <li>
+                        <input class="testVariant" type="text" name="option1" id="option1" size="80" required/>
+                    </li>
+                </ol>
+                <div class="addTest" id="addOption">Додати відповідь</div>
+                <div class="removeTest">Видалити</div>
             </fieldset>
             <br>
             <fieldset onclick="buttonEnabled();">
                 <legend id="label2">Правильні відповіді:</legend>
-                <div id="answersList">
-                <input type="checkbox" name="answer1" value="1">1 відповідь</div>
+                <div id="answersList" class="answersCheckbox">
+                <div><input type="checkbox" name="answer1" value="1"><span>1 відповідь</span></div>
+                </div>
             </fieldset>
             <br>
             <input type="text" name="optionsNum" id="optionsNum" hidden="hidden" value="1"/>

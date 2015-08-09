@@ -249,3 +249,10 @@ margin-left:10px;
 #divAddFormula {
     display: none;
 }
+.addTest,.removeTest{
+    cursor: pointer;
+    color:#4b75a4;
+}
+.addTest:hover,.removeTest:hover{
+    color:#666666;
+}
