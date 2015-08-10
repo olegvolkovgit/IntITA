@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-06 16:18:22
+-- Date/time:                    2015-08-10 17:27:20
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   KEY `FK_tests_marks_tests` (`id_test`),
   CONSTRAINT `FK_tests_marks_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`),
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
+) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
--- Dumping data for table intita.tests_marks: ~227 rows (approximately)
+-- Dumping data for table intita.tests_marks: ~228 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
 INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(14, 51, 35, 1),
@@ -63,7 +63,7 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(47, 51, 35, 1),
 	(48, 51, 35, 0),
 	(49, 51, 35, 1),
-	(50, 51, 36, 1),
+	(50, 51, 48, 1),
 	(51, 51, 36, 0),
 	(52, 56, 38, 1),
 	(53, 56, 38, 0),
@@ -149,7 +149,7 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(133, 45, 48, 1),
 	(134, 45, 49, 0),
 	(135, 45, 51, 0),
-	(136, 45, 50, 1),
+	(136, 45, 50, 0),
 	(137, 45, 48, 1),
 	(138, 45, 48, 1),
 	(139, 45, 49, 0),
@@ -159,7 +159,7 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(143, 51, 48, 1),
 	(144, 51, 48, 1),
 	(145, 51, 49, 1),
-	(146, 51, 50, 1),
+	(146, 51, 50, 0),
 	(147, 51, 51, 1),
 	(148, 51, 51, 0),
 	(149, 51, 64, 1),
@@ -253,7 +253,8 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(245, 51, 39, 0),
 	(246, 129, 124, 1),
 	(247, 45, 51, 1),
-	(248, 51, 125, 0);
+	(248, 51, 125, 0),
+	(249, 51, 50, 1);
 /*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

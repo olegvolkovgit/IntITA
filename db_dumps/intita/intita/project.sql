@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-06 16:18:22
+-- Date/time:                    2015-08-10 17:27:20
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   CONSTRAINT `FK_project_teacher` FOREIGN KEY (`id_leader`) REFERENCES `teacher` (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='is_completed (values : 0 - in develop, 1 - completed)';
 
--- Dumping data for table intita.project: ~0 rows (approximately)
+-- Dumping data for table intita.project: ~6 rows (approximately)
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` (`id`, `id_leader`, `is_completed`, `title`, `start_date`, `mark`, `comment`) VALUES
 	(1, 1, 1, 'Розробка інтернет-магазину', '2015-06-15', 5, 'Відмінно'),
