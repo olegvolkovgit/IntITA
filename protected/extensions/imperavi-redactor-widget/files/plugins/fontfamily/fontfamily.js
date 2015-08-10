@@ -18,7 +18,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 
 				dropdown.remove = { title: 'Remove Font Family', func: that.fontfamily.reset };
 
-				var button = this.button.add('fontfamily', 'Change Font Family');
+				var button = this.button.add('fontfamily', this.lang.get('fontfamily'));
 				this.button.addDropdown(button, dropdown);
 
 			},

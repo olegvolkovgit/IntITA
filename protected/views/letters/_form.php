@@ -5,7 +5,7 @@
 ?>
 <?php
 $models = StudentReg::model()->findAll(
-array('condition'=>'role<>0', 'order' => 'id'));
+array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
 
 // format models as $key=>$value with listData
 $list = CHtml::listData($models,

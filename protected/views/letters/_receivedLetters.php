@@ -6,7 +6,9 @@
  * Time: 22:05
  */
 ?>
-<?php $sender = StudentReg::model()->findByPk($data['sender_id']);
+<?php
+if(StudentReg::model()->exists('id=:user', array(':user' => $data['sender_id']))){
+$sender = StudentReg::model()->findByPk($data['sender_id']);
 if ($data['status'] == 1) $style = 'completed'; else $style = '';
 ?>
 <div class="letter">
@@ -78,3 +80,6 @@ if ($data['status'] == 1) $style = 'completed'; else $style = '';
         <!-- form -->
     </div>
 </div>
+<?php
+} else return;
+?>

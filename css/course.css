@@ -383,6 +383,11 @@ body .grid-view table.items td.aliasColumn{
     margin-bottom: 0px;
     padding-left: 0px;
 }
+body .grid-view table.items td.aliasColumn img {
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 5px;
+}
 
 body .grid-view table.items td.titleColumn{
     vertical-align: top;

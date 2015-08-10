@@ -20,10 +20,11 @@ class PayController extends Controller{
         }
         $permission = new PayModules();
         $module = Module::model()->findByPk($_POST["module"]);
+        $name=ModuleHelper::getModuleTitleParam($module->module_ID);
         $permission->setModuleRead($_POST['user'], $module->module_ID);
 
         Yii::app()->user->setFlash('payModule', '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-            $module->module_name.'</strong> курса <strong>'.
+            $module->$name.'</strong> курса <strong>'.
 
             CourseHelper::getCourseName($_POST['course']).'</strong> оплачено.
             <br />Тепер у Вас є доступ до усіх занять цього модуля.');

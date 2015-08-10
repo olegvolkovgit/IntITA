@@ -15,6 +15,10 @@ class ConsultationsHelper
     }
     public static function getUserName($id,$dp)
     {
+        if(!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
+            $result='Видалений користувач';
+            return $result;
+        }
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
         if($teacher){
             if(StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){

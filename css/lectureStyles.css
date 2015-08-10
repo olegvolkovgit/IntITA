@@ -173,6 +173,7 @@ margin-left:10px;
 }
 /*----Edit toolbar----*/
 .editToolbar{
+    position: absolute;
     margin-top: -20px;
     float:left;
 }
@@ -254,4 +255,11 @@ margin-left:10px;
 }
 #text{
     overflow: auto;
+}
+.addTest,.removeTest{
+    cursor: pointer;
+    color:#4b75a4;
+}
+.addTest:hover,.removeTest:hover{
+    color:#666666;
 }

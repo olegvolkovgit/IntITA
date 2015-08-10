@@ -7,7 +7,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 		return {
 			init: function()
 			{
-				var button = this.button.add('close', 'Close');
+				var button = this.button.add('close', this.lang.get('close'));
 
 				// make your added button as Font Awesome's icon
 				this.button.setAwesome('close', 'fa-times');

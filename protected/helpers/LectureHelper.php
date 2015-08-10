@@ -141,6 +141,29 @@ class LectureHelper {
     public static function getPreId($order, $idModule){
         return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
     }
+    /* ������ �� ������� �� ������������� � �����, ������� �� �������� ����������� ������ � ���������
+   ���������� ����� ������� ������� �� �� ������ ���������� ����� �� �������� */
+    public static function getLastEnabledLessonOrder($idModule){
+        $user = Yii::app()->user->getId();
+
+        $criteria = new CDbCriteria();
+        $criteria->alias='lectures';
+        $criteria->addCondition('idModule='.$idModule.' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+
+        $lectionsCount=count($sortedLectures);
+        foreach($sortedLectures as $lecture){
+            if(!LectureHelper::isLectureAvailable($user, $lecture->id, true)){
+                return $lecture->order;
+            }
+        }
+        return $lectionsCount;
+    }
+    public static function getLanguage(){
+        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+        return $lang;
+    }
 
     public static function getLecturePageVideo($idLecturePage){
         $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;

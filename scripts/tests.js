@@ -2,21 +2,28 @@ function cancelTest() {
     clearFields();
     location.reload();
 }
+/*Добавляємо варіант відповіді в список і варіант для вибору цієї відповіді*/
+$(document).ready(function () {
+    $('html').on('click','.addTest',function () {
+        var optionsNum = document.getElementById("optionsNum").value;
+        var newOption = 1 + parseInt(optionsNum);
+        $('<li><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required></li>').fadeIn('slow').appendTo('.inputs');
 
-function addOption(){
-    optionsNum = document.getElementById("optionsNum").value;
+        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"><span>'+newOption+' відповідь</span></div>').fadeIn('slow').appendTo('.answersCheckbox');
 
-    newOption = 1 + parseInt(optionsNum);
-    var newOptionDiv = document.createElement('div');
-    newOptionDiv.innerHTML = '<div class="ansnumber">'+newOption + '.</div><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required/><br>';
-    document.getElementById("optionsList").appendChild(newOptionDiv);
-
-    var newAnswerDiv = document.createElement('div');
-    newAnswerDiv.innerHTML = '<input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'">'+ newOption +' відповідь';
-    document.getElementById("answersList").appendChild(newAnswerDiv);
-
-    document.getElementById("optionsNum").value = newOption;
-}
+        document.getElementById("optionsNum").value = newOption;
+    });
+    /*... і видаляємо*/
+    $('html').on('click','.removeTest', function () {
+        var optionsNum = document.getElementById("optionsNum").value;
+        var newOption =parseInt(optionsNum);
+        var a = $("#optionsList > li");
+        var b = $("#answersList > div");
+        a.filter(":last").remove();
+        b.filter(":last").remove();
+        document.getElementById("optionsNum").value = newOption-1;
+    });
+});
 
 function clearFields(){
     document.getElementById("optionsNum").value = 1;

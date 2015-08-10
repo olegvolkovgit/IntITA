@@ -9,7 +9,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			{
 				this.fullscreen.isOpen = false;
 
-				var button = this.button.add('fullscreen', 'Fullscreen');
+				var button = this.button.add('fullscreen', this.lang.get('fullscreen'));
 				this.button.addCallback(button, this.fullscreen.toggle);
 
 				if (this.opts.fullscreen) this.fullscreen.toggle();

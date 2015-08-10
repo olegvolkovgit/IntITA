@@ -13,3 +13,15 @@ $(document).on ('click', 'a[href="/forum"]', function(){
     });
     return false;
 });
+function goToForum() {
+    $.ajax({
+        url: "/forum/forumEntrance.php",
+        success: function (data) {
+            window.open('/forum/index.php?transition=true', '_blank');
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+    return false;
+}
