@@ -49,7 +49,7 @@ $this->breadcrumbs=array(
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <br>
         <!-- Lesson content-->
-        <?php $this->renderPartial('_lecturePageTabs', array('page' => $page, 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user));?>
+        <?php $this->renderPartial('_lecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));?>
 
 
         <?php if($editMode){?>

@@ -100,4 +100,63 @@ class LecturePage extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getBlocksListById($id){
+        $blocks = Yii::app()->db->createCommand()
+            ->select('element')
+            ->from('lecture_element_lecture_page')
+            ->where('page=:page', array(':page'=>$id))
+            ->queryAll();
+        $result = [];
+        for ($i = 0, $count = count($blocks); $i < $count; $i++ ){
+            $result[$i] = $blocks[$i]["element"];
+        }
+        return $result;
+    }
+
+    public static function getAccessPages($idLecture, $user){
+        $pages = LecturePage::model()->findAllByAttributes(array('id_lecture' => $idLecture));
+        $result = [];
+        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+            $result[$i]['order'] = $pages[$i]->page_order;
+            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                $result[$i]['isDone'] = true;
+                $result = LecturePage::setNoAccessPages($result, $count, $i+1);
+                break;
+            } else {
+
+            }
+        }
+        return $result;
+    }
+
+    public static function setNoAccessPages($result, $count, $order){
+        for ($i = $order; $i < $count; $i++ ){
+            $result[$i]['order'] = ++$order;
+            $result[$i]['isDone'] = false;
+        }
+        return $result;
+    }
+
+    public static function isQuizDone($quiz, $user){
+        if ($quiz == NULL){
+            return true;
+        }
+        if ($user != 0){
+            switch(LectureElement::model()->findByPk($quiz)->id_type){
+                case '5':
+                case '6':
+                    return TaskMarks::isTaskDone($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                    break;
+                case '12':
+                case '13':
+                    return TestsMarks::isTestDone($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return false;
+    }
 }

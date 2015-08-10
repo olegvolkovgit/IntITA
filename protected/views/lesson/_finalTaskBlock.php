@@ -79,20 +79,3 @@ if ($editMode) {
     ));
 }
 ?>
-
-<script type="text/javascript">
-    function sendTaskAnswer() {
-        JSONRequest.post(
-            "http://ii.itatests.com",
-            {
-                "operation" : "status",
-                "session" : "123456789044241232",
-                "jobid" : 1
-            },
-            function (requestNumber, value, exception) {
-                alert(value);
-            }
-        );
-    }
-</script>
-

@@ -188,7 +188,7 @@ span.colorAlert {
 }
 div.lessonInstr,div.lessonTask {
     position: relative;
-    margin-top: 40px;
+    margin-top: 0px;
     margin-bottom: 40px;
 }
 img.lessonBut  {

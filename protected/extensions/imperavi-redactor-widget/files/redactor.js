@@ -215,7 +215,7 @@
 		removeEmpty: ['p'], // or false;
 
 		activeButtons: ['deleted', 'italic', 'bold', 'underline', 'unorderedlist', 'orderedlist',
-						'alignleft', 'aligncenter', 'alignright', 'justify'],
+						'alignleft', 'aligncenter', 'alignright', 'justify', 'table'],
 		activeButtonsStates: {
 			b: 'bold',
 			strong: 'bold',
@@ -327,7 +327,6 @@
 				filename: 'Name (optional)',
 				edit: 'Edit',
 				upload_label: 'Drop file here or '
-
 			}
 		},
 

@@ -5,6 +5,23 @@
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <?php
+for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
+    if ($passedPages[$i]['isDone']) {
+        ?>
+        <a href="<?php $args = $_GET;
+             $args['page'] = $passedPages[$i]['order'];
+            echo $this->createUrl('', $args);?>"
+            title="Сторінка <?php echo $passedPages[$i]['order'];?>">
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
+        </a>
+    <?php } else {
+        ?>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageNoAccess.png');?>"
+        alt="Сторінка <?php echo $passedPages[$i]['order'];?>">
+    <?php }
+}?>
+<br>
+<?php
 $this->widget('zii.widgets.jui.CJuiTabs',array(
     'tabs'=>array(
         'Відео'=>array('id'=>'video','content'=>$this->renderPartial(

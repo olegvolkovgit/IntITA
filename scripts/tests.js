@@ -31,7 +31,7 @@ function sendTestAnswer(checkAnswers, user, test, testType, editMode){
     answers = getUserAnswers(testType);
         $.ajax({
             type: "POST",
-            url: "/tests/checkTestAnswer",
+            url: "/IntITA/tests/checkTestAnswer",
             data: {
                 'user': user,
                 'test': test,
@@ -73,7 +73,7 @@ function isTrueTestAnswer(user, test){
         "user": user,
         "test" : test
     };
-    var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){
+    var jqxhr = $.post( "/IntITA/tests/getTestResult", JSON.stringify(command), function(){
 
     })
         .done(function(data) {

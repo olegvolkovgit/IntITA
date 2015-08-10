@@ -37,7 +37,7 @@ class LessonController extends Controller{
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
-        $textList = [317, 306, 393];
+        $textList = LecturePage::getBlocksListById($page->id);
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
@@ -53,6 +53,7 @@ class LessonController extends Controller{
         $temp = TeacherModule::model()->find('idModule=' . $lecture->idModule);
         $teacher = Teacher::model()->findByPk($temp->idTeacher);
 
+        $passedPages = LecturePage::getAccessPages($id, $user);
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
 
 //        if (Yii::app()->request->isAjaxRequest){
@@ -69,6 +70,7 @@ class LessonController extends Controller{
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
+            'passedPages' => $passedPages,
             'countBlocks' => $countBlocks,
             'teacher' => $teacher,
             'idCourse' => $idCourse,
