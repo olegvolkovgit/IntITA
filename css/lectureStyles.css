@@ -249,3 +249,20 @@ margin-left:10px;
 #divAddFormula {
     display: none;
 }
+#video, #text{
+    resize:none;
+    height: 400px;
+}
+#text{
+    overflow: auto;
+}
+.addTest,.removeTest,.editRemoveTest,.editAddTest{
+    cursor: pointer;
+    color:#4b75a4;
+}
+.addTest:hover,.removeTest:hover,.editRemoveTest:hover,.editAddTest:hover{
+    color:#666666;
+}
+.editTest {
+    display: none;
+}
