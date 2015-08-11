@@ -70,3 +70,7 @@ function fieldValidation(){
 function buttonFormulaEnabled(){
     $("#addFormulaButton").removeAttr('disabled');
 }
+
+function addTextBlock(){
+    document.getElementById('blockForm').style.display = 'block';
+}

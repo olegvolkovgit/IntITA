@@ -1,25 +1,10 @@
-<?php if($data['id_type'] == 12 || $data['id_type'] == 13){?>
 <?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 16.07.2015
- * Time: 20:09
- */
-?>
-<?php
-
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
 ?>
     <div>
         <div class="lessonTest">
-<!--            <img class="lessonBut"-->
-<!--                 src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
-<!---->
-<!--            <div class="lessonButName" unselectable="on">--><?php //echo Yii::t('lecture', '0565');?><!--</div>-->
-<!--            <div class="lessonLine"></div>-->
             <div class="lessonBG">
                 <div class="instrTestImg">
                     <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">
@@ -55,46 +40,3 @@ $testType = TestsHelper::getTestType($data['id_block']);
         </div>
     </div>
 
-<?php
-// use editor WYSIWYG Imperavi
-if ($editMode) {
-    $this->widget('ImperaviRedactorWidget', array(
-        'selector' => "#",
-        'options' => array(
-            'imageUpload' => $this->createUrl('files/upload'),
-            'lang' => 'ua',
-            'toolbar' => true,
-            'iframe' => true,
-            'css' => 'wym.css',
-        ),
-        'plugins' => array(
-            'fullscreen' => array(
-                'js' => array('fullscreen.js',),
-            ),
-            'video' => array(
-                'js' => array('video.js',),
-            ),
-            'fontsize' => array(
-                'js' => array('fontsize.js',),
-            ),
-            'fontfamily' => array(
-                'js' => array('fontfamily.js',),
-            ),
-            'fontcolor' => array(
-                'js' => array('fontcolor.js',),
-            ),
-            'save' => array(
-                'js' => array('save.js',),
-            ),
-            'close' => array(
-                'js' => array('close.js',),
-            ),
-        ),
-    ));
-}
-?>
-<?php }else{
-    echo 'До цієї сторінки лекції теста не додано.';
-}?>?>
-</div>
-<?php $this->renderPartial('_editTest', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>

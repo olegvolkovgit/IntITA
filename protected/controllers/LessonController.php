@@ -357,8 +357,19 @@ class LessonController extends Controller{
     public function actionErrorTask(){
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function actionUpdateLectureAttribute(){
         $up = new EditableSaver('Lecture');
+        $up->update();
+    }
+
+    public function actionUpdateLecturePageAttribute(){
+        $up = new EditableSaver('LecturePage');
+        $up->update();
+    }
+
+    public function actionUpdateLectureElementAttribute(){
+        $up = new EditableSaver('LectureElement');
         $up->update();
     }
 }
