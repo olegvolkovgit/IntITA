@@ -266,3 +266,9 @@ margin-left:10px;
 .editTest {
     display: none;
 }
+.tabswidgets .ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #cccccc;
+    color: #222222;
+    font-weight: bold;
+}

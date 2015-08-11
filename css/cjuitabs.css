@@ -1,0 +1,1217 @@
+.tabsWidget .ui-helper-hidden {
+    display: none;
+}
+.tabsWidget .ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.tabsWidget .ui-helper-reset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    line-height: 1.3;
+    text-decoration: none;
+    font-size: 100%;
+    list-style: none;
+}
+.tabsWidget .ui-helper-clearfix:before,
+.tabsWidget .ui-helper-clearfix:after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+.tabsWidget .ui-helper-clearfix:after {
+    clear: both;
+}
+.tabsWidget .ui-helper-clearfix {
+    min-height: 0; /* support: IE7 */
+}
+.tabsWidget .ui-helper-zfix {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0;
+    filter:Alpha(Opacity=0); /* support: IE8 */
+}
+
+.tabsWidget .ui-front {
+    z-index: 100;
+}
+
+
+/* Interaction Cues
+----------------------------------*/
+.tabsWidget .ui-state-disabled {
+    cursor: default !important;
+}
+
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.tabsWidget .ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.tabsWidget .ui-widget-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.tabsWidget .ui-accordion .tabsWidget .ui-accordion-header {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    margin: 2px 0 0 0;
+    padding: .5em .5em .5em .7em;
+    min-height: 0; /* support: IE7 */
+    font-size: 100%;
+}
+.tabsWidget .ui-accordion .tabsWidget .ui-accordion-icons {
+    padding-left: 2.2em;
+}
+.tabsWidget .ui-accordion .tabsWidget .ui-accordion-icons .tabsWidget .ui-accordion-icons {
+    padding-left: 2.2em;
+}
+.tabsWidget .ui-accordion .tabsWidget .ui-accordion-header .tabsWidget .ui-accordion-header-icon {
+    position: absolute;
+    left: .5em;
+    top: 50%;
+    margin-top: -8px;
+}
+.tabsWidget .ui-accordion .tabsWidget .ui-accordion-content {
+    padding: 1em 2.2em;
+    border-top: 0;
+    overflow: auto;
+}
+.tabsWidget .ui-autocomplete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: default;
+}
+.tabsWidget .ui-button {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    line-height: normal;
+    margin-right: .1em;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    overflow: visible; /* removes extra width in IE */
+}
+.tabsWidget .ui-button,
+.tabsWidget .ui-button:link,
+.tabsWidget .ui-button:visited,
+.tabsWidget .ui-button:hover,
+.tabsWidget .ui-button:active {
+    text-decoration: none;
+}
+/* to make room for the icon, a width needs to be set here */
+.tabsWidget .ui-button-icon-only {
+    width: 2.2em;
+}
+/* button elements seem to need a little more width */
+button.tabsWidget .ui-button-icon-only {
+    width: 2.4em;
+}
+.tabsWidget .ui-button-icons-only {
+    width: 3.4em;
+}
+button.tabsWidget .ui-button-icons-only {
+    width: 3.7em;
+}
+
+/* button text element */
+.tabsWidget .ui-button .tabsWidget .ui-button-text {
+    display: block;
+    line-height: normal;
+}
+.tabsWidget .ui-button-text-only .tabsWidget .ui-button-text {
+    padding: .4em 1em;
+}
+.tabsWidget .ui-button-icon-only .tabsWidget .ui-button-text,
+.tabsWidget .ui-button-icons-only .tabsWidget .ui-button-text {
+    padding: .4em;
+    text-indent: -9999999px;
+}
+.tabsWidget .ui-button-text-icon-primary .tabsWidget .ui-button-text,
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-button-text {
+    padding: .4em 1em .4em 2.1em;
+}
+.tabsWidget .ui-button-text-icon-secondary .tabsWidget .ui-button-text,
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-button-text {
+    padding: .4em 2.1em .4em 1em;
+}
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-button-text {
+    padding-left: 2.1em;
+    padding-right: 2.1em;
+}
+/* no icon support for input elements, provide padding by default */
+input.tabsWidget .ui-button {
+    padding: .4em 1em;
+}
+
+/* button icon element(s) */
+.tabsWidget .ui-button-icon-only .tabsWidget .ui-icon,
+.tabsWidget .ui-button-text-icon-primary .tabsWidget .ui-icon,
+.tabsWidget .ui-button-text-icon-secondary .tabsWidget .ui-icon,
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-icon,
+.tabsWidget .ui-button-icons-only .tabsWidget .ui-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+}
+.tabsWidget .ui-button-icon-only .tabsWidget .ui-icon {
+    left: 50%;
+    margin-left: -8px;
+}
+.tabsWidget .ui-button-text-icon-primary .tabsWidget .ui-button-icon-primary,
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-button-icon-primary,
+.tabsWidget .ui-button-icons-only .tabsWidget .ui-button-icon-primary {
+    left: .5em;
+}
+.tabsWidget .ui-button-text-icon-secondary .tabsWidget .ui-button-icon-secondary,
+.tabsWidget .ui-button-text-icons .tabsWidget .ui-button-icon-secondary,
+.tabsWidget .ui-button-icons-only .tabsWidget .ui-button-icon-secondary {
+    right: .5em;
+}
+
+/* button sets */
+.tabsWidget .ui-buttonset {
+    margin-right: 7px;
+}
+.tabsWidget .ui-buttonset .tabsWidget .ui-button {
+    margin-left: 0;
+    margin-right: -.3em;
+}
+
+/* workarounds */
+/* reset extra padding in Firefox, see h5bp.com/l */
+input.tabsWidget .ui-button::-moz-focus-inner,
+button.tabsWidget .ui-button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+.tabsWidget .ui-datepicker {
+    width: 17em;
+    padding: .2em .2em 0;
+    display: none;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-header {
+    position: relative;
+    padding: .2em 0;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-prev,
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-next {
+    position: absolute;
+    top: 2px;
+    width: 1.8em;
+    height: 1.8em;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-prev-hover,
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-next-hover {
+    top: 1px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-prev {
+    left: 2px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-next {
+    right: 2px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-prev-hover {
+    left: 1px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-next-hover {
+    right: 1px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-prev span,
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -8px;
+    top: 50%;
+    margin-top: -8px;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-title {
+    margin: 0 2.3em;
+    line-height: 1.8em;
+    text-align: center;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-title select {
+    font-size: 1em;
+    margin: 1px 0;
+}
+.tabsWidget .ui-datepicker select.tabsWidget .ui-datepicker-month,
+.tabsWidget .ui-datepicker select.tabsWidget .ui-datepicker-year {
+    width: 45%;
+}
+.tabsWidget .ui-datepicker table {
+    width: 100%;
+    font-size: .9em;
+    border-collapse: collapse;
+    margin: 0 0 .4em;
+}
+.tabsWidget .ui-datepicker th {
+    padding: .7em .3em;
+    text-align: center;
+    font-weight: bold;
+    border: 0;
+}
+.tabsWidget .ui-datepicker td {
+    border: 0;
+    padding: 1px;
+}
+.tabsWidget .ui-datepicker td span,
+.tabsWidget .ui-datepicker td a {
+    display: block;
+    padding: .2em;
+    text-align: right;
+    text-decoration: none;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-buttonpane {
+    background-image: none;
+    margin: .7em 0 0 0;
+    padding: 0 .2em;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-buttonpane button {
+    float: right;
+    margin: .5em .2em .4em;
+    cursor: pointer;
+    padding: .2em .6em .3em .6em;
+    width: auto;
+    overflow: visible;
+}
+.tabsWidget .ui-datepicker .tabsWidget .ui-datepicker-buttonpane button.tabsWidget .ui-datepicker-current {
+    float: left;
+}
+
+/* with multiple calendars */
+.tabsWidget .ui-datepicker.tabsWidget .ui-datepicker-multi {
+    width: auto;
+}
+.tabsWidget .ui-datepicker-multi .tabsWidget .ui-datepicker-group {
+    float: left;
+}
+.tabsWidget .ui-datepicker-multi .tabsWidget .ui-datepicker-group table {
+    width: 95%;
+    margin: 0 auto .4em;
+}
+.tabsWidget .ui-datepicker-multi-2 .tabsWidget .ui-datepicker-group {
+    width: 50%;
+}
+.tabsWidget .ui-datepicker-multi-3 .tabsWidget .ui-datepicker-group {
+    width: 33.3%;
+}
+.tabsWidget .ui-datepicker-multi-4 .tabsWidget .ui-datepicker-group {
+    width: 25%;
+}
+.tabsWidget .ui-datepicker-multi .tabsWidget .ui-datepicker-group-last .tabsWidget .ui-datepicker-header,
+.tabsWidget .ui-datepicker-multi .tabsWidget .ui-datepicker-group-middle .tabsWidget .ui-datepicker-header {
+    border-left-width: 0;
+}
+.tabsWidget .ui-datepicker-multi .tabsWidget .ui-datepicker-buttonpane {
+    clear: left;
+}
+.tabsWidget .ui-datepicker-row-break {
+    clear: both;
+    width: 100%;
+    font-size: 0;
+}
+
+/* RTL support */
+.tabsWidget .ui-datepicker-rtl {
+    direction: rtl;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-prev {
+    right: 2px;
+    left: auto;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-next {
+    left: 2px;
+    right: auto;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-prev:hover {
+    right: 1px;
+    left: auto;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-next:hover {
+    left: 1px;
+    right: auto;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-buttonpane {
+    clear: right;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-buttonpane button {
+    float: left;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-buttonpane button.tabsWidget .ui-datepicker-current,
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-group {
+    float: right;
+}
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-group-last .tabsWidget .ui-datepicker-header,
+.tabsWidget .ui-datepicker-rtl .tabsWidget .ui-datepicker-group-middle .tabsWidget .ui-datepicker-header {
+    border-right-width: 0;
+    border-left-width: 1px;
+}
+.tabsWidget .ui-dialog {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .2em;
+    outline: 0;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-titlebar {
+    padding: .4em 1em;
+    position: relative;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-title {
+    float: left;
+    margin: .1em 0;
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-titlebar-close {
+    position: absolute;
+    right: .3em;
+    top: 50%;
+    width: 20px;
+    margin: -10px 0 0 0;
+    padding: 1px;
+    height: 20px;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding: .5em 1em;
+    background: none;
+    overflow: auto;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-buttonpane {
+    text-align: left;
+    border-width: 1px 0 0 0;
+    background-image: none;
+    margin-top: .5em;
+    padding: .3em 1em .5em .4em;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-buttonpane .tabsWidget .ui-dialog-buttonset {
+    float: right;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-dialog-buttonpane button {
+    margin: .5em .4em .5em 0;
+    cursor: pointer;
+}
+.tabsWidget .ui-dialog .tabsWidget .ui-resizable-se {
+    width: 12px;
+    height: 12px;
+    right: -5px;
+    bottom: -5px;
+    background-position: 16px 16px;
+}
+.tabsWidget .ui-draggable .tabsWidget .ui-dialog-titlebar {
+    cursor: move;
+}
+.tabsWidget .ui-draggable-handle {
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.tabsWidget .ui-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    outline: none;
+}
+.tabsWidget .ui-menu .tabsWidget .ui-menu {
+    position: absolute;
+}
+.tabsWidget .ui-menu .tabsWidget .ui-menu-item {
+    position: relative;
+    margin: 0;
+    padding: 3px 1em 3px .4em;
+    cursor: pointer;
+    min-height: 0; /* support: IE7 */
+    /* support: IE10, see #8844 */
+    list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+}
+.tabsWidget .ui-menu .tabsWidget .ui-menu-divider {
+    margin: 5px 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    border-width: 1px 0 0 0;
+}
+.tabsWidget .ui-menu .tabsWidget .ui-state-focus,
+.tabsWidget .ui-menu .tabsWidget .ui-state-active {
+    margin: -1px;
+}
+
+/* icon support */
+.tabsWidget .ui-menu-icons {
+    position: relative;
+}
+.tabsWidget .ui-menu-icons .tabsWidget .ui-menu-item {
+    padding-left: 2em;
+}
+
+/* left-aligned */
+.tabsWidget .ui-menu .tabsWidget .ui-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: .2em;
+    margin: auto 0;
+}
+
+/* right-aligned */
+.tabsWidget .ui-menu .tabsWidget .ui-menu-icon {
+    left: auto;
+    right: 0;
+}
+.tabsWidget .ui-progressbar {
+    height: 2em;
+    text-align: left;
+    overflow: hidden;
+}
+.tabsWidget .ui-progressbar .tabsWidget .ui-progressbar-value {
+    margin: -1px;
+    height: 100%;
+}
+.tabsWidget .ui-progressbar .tabsWidget .ui-progressbar-overlay {
+    background: url("data:image/gif;base64,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");
+    height: 100%;
+    filter: alpha(opacity=25); /* support: IE8 */
+    opacity: 0.25;
+}
+.tabsWidget .ui-progressbar-indeterminate .tabsWidget .ui-progressbar-value {
+    background-image: none;
+}
+.tabsWidget .ui-resizable {
+    position: relative;
+}
+.tabsWidget .ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.tabsWidget .ui-resizable-disabled .tabsWidget .ui-resizable-handle,
+.tabsWidget .ui-resizable-autohide .tabsWidget .ui-resizable-handle {
+    display: none;
+}
+.tabsWidget .ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0;
+}
+.tabsWidget .ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+}
+.tabsWidget .ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+}
+.tabsWidget .ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%;
+}
+.tabsWidget .ui-resizable-se {
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+.tabsWidget .ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+}
+.tabsWidget .ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+}
+.tabsWidget .ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+}
+.tabsWidget .ui-selectable {
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.tabsWidget .ui-selectable-helper {
+    position: absolute;
+    z-index: 100;
+    border: 1px dotted black;
+}
+.tabsWidget .ui-selectmenu-menu {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.tabsWidget .ui-selectmenu-menu .tabsWidget .ui-menu {
+    overflow: auto;
+    /* Support: IE7 */
+    overflow-x: hidden;
+    padding-bottom: 1px;
+}
+.tabsWidget .ui-selectmenu-menu .tabsWidget .ui-menu .tabsWidget .ui-selectmenu-optgroup {
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 2px 0.4em;
+    margin: 0.5em 0 0 0;
+    height: auto;
+    border: 0;
+}
+.tabsWidget .ui-selectmenu-open {
+    display: block;
+}
+.tabsWidget .ui-selectmenu-button {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+}
+.tabsWidget .ui-selectmenu-button span.tabsWidget .ui-icon {
+    right: 0.5em;
+    left: auto;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+}
+.tabsWidget .ui-selectmenu-button span.tabsWidget .ui-selectmenu-text {
+    text-align: left;
+    padding: 0.4em 2.1em 0.4em 1em;
+    display: block;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tabsWidget .ui-slider {
+    position: relative;
+    text-align: left;
+}
+.tabsWidget .ui-slider .tabsWidget .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: default;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.tabsWidget .ui-slider .tabsWidget .ui-slider-range {
+    position: absolute;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    background-position: 0 0;
+}
+
+/* support: IE8 - See #6727 */
+.tabsWidget .ui-slider.tabsWidget .ui-state-disabled .tabsWidget .ui-slider-handle,
+.tabsWidget .ui-slider.tabsWidget .ui-state-disabled .tabsWidget .ui-slider-range {
+    filter: inherit;
+}
+
+.tabsWidget .ui-slider-horizontal {
+    height: .8em;
+}
+.tabsWidget .ui-slider-horizontal .tabsWidget .ui-slider-handle {
+    top: -.3em;
+    margin-left: -.6em;
+}
+.tabsWidget .ui-slider-horizontal .tabsWidget .ui-slider-range {
+    top: 0;
+    height: 100%;
+}
+.tabsWidget .ui-slider-horizontal .tabsWidget .ui-slider-range-min {
+    left: 0;
+}
+.tabsWidget .ui-slider-horizontal .tabsWidget .ui-slider-range-max {
+    right: 0;
+}
+
+.tabsWidget .ui-slider-vertical {
+    width: .8em;
+    height: 100px;
+}
+.tabsWidget .ui-slider-vertical .tabsWidget .ui-slider-handle {
+    left: -.3em;
+    margin-left: 0;
+    margin-bottom: -.6em;
+}
+.tabsWidget .ui-slider-vertical .tabsWidget .ui-slider-range {
+    left: 0;
+    width: 100%;
+}
+.tabsWidget .ui-slider-vertical .tabsWidget .ui-slider-range-min {
+    bottom: 0;
+}
+.tabsWidget .ui-slider-vertical .tabsWidget .ui-slider-range-max {
+    top: 0;
+}
+.tabsWidget .ui-sortable-handle {
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.tabsWidget .ui-spinner {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0;
+    vertical-align: middle;
+}
+.tabsWidget .ui-spinner-input {
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 0;
+    margin: .2em 0;
+    vertical-align: middle;
+    margin-left: .4em;
+    margin-right: 22px;
+}
+.tabsWidget .ui-spinner-button {
+    width: 16px;
+    height: 50%;
+    font-size: .5em;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    cursor: default;
+    display: block;
+    overflow: hidden;
+    right: 0;
+}
+/* more specificity required here to override default borders */
+.tabsWidget .ui-spinner a.tabsWidget .ui-spinner-button {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+}
+/* vertically center icon */
+.tabsWidget .ui-spinner .tabsWidget .ui-icon {
+    position: absolute;
+    margin-top: -8px;
+    top: 50%;
+    left: 0;
+}
+.tabsWidget .ui-spinner-up {
+    top: 0;
+}
+.tabsWidget .ui-spinner-down {
+    bottom: 0;
+}
+
+/* TR overrides */
+.tabsWidget .ui-spinner .tabsWidget .ui-icon-triangle-1-s {
+    /* need to fix icons sprite */
+    background-position: -65px -16px;
+}
+.tabsWidget .ui-tabs {
+    position: relative;/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+    padding: .2em;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav {
+    margin: 0;
+    padding: .2em .2em 0;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav li {
+    list-style: none;
+    float: left;
+    position: relative;
+    top: 0;
+    margin: 1px .2em 0 0;
+    border-bottom-width: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav .tabsWidget .ui-tabs-anchor {
+    float: left;
+    padding: .5em 1em;
+    text-decoration: none;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav li.tabsWidget .ui-tabs-active {
+    margin-bottom: -1px;
+    padding-bottom: 1px;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav li.tabsWidget .ui-tabs-active .tabsWidget .ui-tabs-anchor,
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav li.tabsWidget .ui-state-disabled .tabsWidget .ui-tabs-anchor,
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-nav li.tabsWidget .ui-tabs-loading .tabsWidget .ui-tabs-anchor {
+    cursor: text;
+}
+.tabsWidget .ui-tabs-collapsible .tabsWidget .ui-tabs-nav li.tabsWidget .ui-tabs-active .tabsWidget .ui-tabs-anchor {
+    cursor: pointer;
+}
+.tabsWidget .ui-tabs .tabsWidget .ui-tabs-panel {
+    display: block;
+    border-width: 0;
+    padding: 1em 1.4em;
+    background: none;
+}
+.tabsWidget .ui-tooltip {
+    padding: 8px;
+    position: absolute;
+    z-index: 9999;
+    max-width: 300px;
+    -webkit-box-shadow: 0 0 5px #aaa;
+    box-shadow: 0 0 5px #aaa;
+}
+body .tabsWidget .ui-tooltip {
+    border-width: 2px;
+}
+
+/* Component containers
+----------------------------------*/
+.tabsWidget .ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 1.1em;
+}
+.tabsWidget .ui-widget .tabsWidget .ui-widget {
+    font-size: 1em;
+}
+.tabsWidget .ui-widget input,
+.tabsWidget .ui-widget select,
+.tabsWidget .ui-widget textarea,
+.tabsWidget .ui-widget button {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 1em;
+}
+.tabsWidget .ui-widget-content {
+    /*border: 1px solid #aaaaaa;*/
+    background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;
+    color: #222222;
+}
+.tabsWidget .ui-widget-content a {
+    color: #222222;
+}
+.tabsWidget .ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #cccccc url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") 50% 50% repeat-x;
+    color: #222222;
+    font-weight: bold;
+}
+.tabsWidget .ui-widget-header a {
+    color: #222222;
+}
+
+/* Interaction states
+----------------------------------*/
+.tabsWidget .ui-state-default,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-default,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-default {
+    border: 1px solid #d3d3d3;
+    background: #e6e6e6 url("images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #555555;
+}
+.tabsWidget .ui-state-default a,
+.tabsWidget .ui-state-default a:link,
+.tabsWidget .ui-state-default a:visited {
+    color: #555555;
+    text-decoration: none;
+}
+.tabsWidget .ui-state-hover,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-hover,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-hover,
+.tabsWidget .ui-state-focus,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-focus,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-focus {
+    border: 1px solid #999999;
+    background: #dadada url("images/ui-bg_glass_75_dadada_1x400.png") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+.tabsWidget .ui-state-hover a,
+.tabsWidget .ui-state-hover a:hover,
+.tabsWidget .ui-state-hover a:link,
+.tabsWidget .ui-state-hover a:visited,
+.tabsWidget .ui-state-focus a,
+.tabsWidget .ui-state-focus a:hover,
+.tabsWidget .ui-state-focus a:link,
+.tabsWidget .ui-state-focus a:visited {
+    color: #212121;
+    text-decoration: none;
+}
+.tabsWidget .ui-state-active,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-active,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-active {
+    border: 1px solid #aaaaaa;
+    background: #ffffff url("images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+.tabsWidget .ui-state-active a,
+.tabsWidget .ui-state-active a:link,
+.tabsWidget .ui-state-active a:visited {
+    color: #212121;
+    text-decoration: none;
+}
+
+/* Interaction Cues
+----------------------------------*/
+.tabsWidget .ui-state-highlight,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-highlight,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-highlight {
+    border: 1px solid #fcefa1;
+    background: #fbf9ee url("images/ui-bg_glass_55_fbf9ee_1x400.png") 50% 50% repeat-x;
+    color: #363636;
+}
+.tabsWidget .ui-state-highlight a,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-highlight a,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-highlight a {
+    color: #363636;
+}
+.tabsWidget .ui-state-error,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-error,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-error {
+    border: 1px solid #cd0a0a;
+    background: #fef1ec url("images/ui-bg_glass_95_fef1ec_1x400.png") 50% 50% repeat-x;
+    color: #cd0a0a;
+}
+.tabsWidget .ui-state-error a,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-error a,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-error a {
+    color: #cd0a0a;
+}
+.tabsWidget .ui-state-error-text,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-error-text,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-error-text {
+    color: #cd0a0a;
+}
+.tabsWidget .ui-priority-primary,
+.tabsWidget .ui-widget-content .tabsWidget .ui-priority-primary,
+.tabsWidget .ui-widget-header .tabsWidget .ui-priority-primary {
+    font-weight: bold;
+}
+.tabsWidget .ui-priority-secondary,
+.tabsWidget .ui-widget-content .tabsWidget .ui-priority-secondary,
+.tabsWidget .ui-widget-header .tabsWidget .ui-priority-secondary {
+    opacity: .7;
+    filter:Alpha(Opacity=70); /* support: IE8 */
+    font-weight: normal;
+}
+.tabsWidget .ui-state-disabled,
+.tabsWidget .ui-widget-content .tabsWidget .ui-state-disabled,
+.tabsWidget .ui-widget-header .tabsWidget .ui-state-disabled {
+    opacity: .35;
+    filter:Alpha(Opacity=35); /* support: IE8 */
+    background-image: none;
+}
+.tabsWidget .ui-state-disabled .tabsWidget .ui-icon {
+    filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
+}
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.tabsWidget .ui-icon {
+    width: 16px;
+    height: 16px;
+}
+.tabsWidget .ui-icon,
+.tabsWidget .ui-widget-content .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_222222_256x240.png");
+}
+.tabsWidget .ui-widget-header .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_222222_256x240.png");
+}
+.tabsWidget .ui-state-default .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_888888_256x240.png");
+}
+.tabsWidget .ui-state-hover .tabsWidget .ui-icon,
+.tabsWidget .ui-state-focus .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_454545_256x240.png");
+}
+.tabsWidget .ui-state-active .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_454545_256x240.png");
+}
+.tabsWidget .ui-state-highlight .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_2e83ff_256x240.png");
+}
+.tabsWidget .ui-state-error .tabsWidget .ui-icon,
+.tabsWidget .ui-state-error-text .tabsWidget .ui-icon {
+    background-image: url("images/ui-icons_cd0a0a_256x240.png");
+}
+
+/* positioning */
+.tabsWidget .ui-icon-blank { background-position: 16px 16px; }
+.tabsWidget .ui-icon-carat-1-n { background-position: 0 0; }
+.tabsWidget .ui-icon-carat-1-ne { background-position: -16px 0; }
+.tabsWidget .ui-icon-carat-1-e { background-position: -32px 0; }
+.tabsWidget .ui-icon-carat-1-se { background-position: -48px 0; }
+.tabsWidget .ui-icon-carat-1-s { background-position: -64px 0; }
+.tabsWidget .ui-icon-carat-1-sw { background-position: -80px 0; }
+.tabsWidget .ui-icon-carat-1-w { background-position: -96px 0; }
+.tabsWidget .ui-icon-carat-1-nw { background-position: -112px 0; }
+.tabsWidget .ui-icon-carat-2-n-s { background-position: -128px 0; }
+.tabsWidget .ui-icon-carat-2-e-w { background-position: -144px 0; }
+.tabsWidget .ui-icon-triangle-1-n { background-position: 0 -16px; }
+.tabsWidget .ui-icon-triangle-1-ne { background-position: -16px -16px; }
+.tabsWidget .ui-icon-triangle-1-e { background-position: -32px -16px; }
+.tabsWidget .ui-icon-triangle-1-se { background-position: -48px -16px; }
+.tabsWidget .ui-icon-triangle-1-s { background-position: -64px -16px; }
+.tabsWidget .ui-icon-triangle-1-sw { background-position: -80px -16px; }
+.tabsWidget .ui-icon-triangle-1-w { background-position: -96px -16px; }
+.tabsWidget .ui-icon-triangle-1-nw { background-position: -112px -16px; }
+.tabsWidget .ui-icon-triangle-2-n-s { background-position: -128px -16px; }
+.tabsWidget .ui-icon-triangle-2-e-w { background-position: -144px -16px; }
+.tabsWidget .ui-icon-arrow-1-n { background-position: 0 -32px; }
+.tabsWidget .ui-icon-arrow-1-ne { background-position: -16px -32px; }
+.tabsWidget .ui-icon-arrow-1-e { background-position: -32px -32px; }
+.tabsWidget .ui-icon-arrow-1-se { background-position: -48px -32px; }
+.tabsWidget .ui-icon-arrow-1-s { background-position: -64px -32px; }
+.tabsWidget .ui-icon-arrow-1-sw { background-position: -80px -32px; }
+.tabsWidget .ui-icon-arrow-1-w { background-position: -96px -32px; }
+.tabsWidget .ui-icon-arrow-1-nw { background-position: -112px -32px; }
+.tabsWidget .ui-icon-arrow-2-n-s { background-position: -128px -32px; }
+.tabsWidget .ui-icon-arrow-2-ne-sw { background-position: -144px -32px; }
+.tabsWidget .ui-icon-arrow-2-e-w { background-position: -160px -32px; }
+.tabsWidget .ui-icon-arrow-2-se-nw { background-position: -176px -32px; }
+.tabsWidget .ui-icon-arrowstop-1-n { background-position: -192px -32px; }
+.tabsWidget .ui-icon-arrowstop-1-e { background-position: -208px -32px; }
+.tabsWidget .ui-icon-arrowstop-1-s { background-position: -224px -32px; }
+.tabsWidget .ui-icon-arrowstop-1-w { background-position: -240px -32px; }
+.tabsWidget .ui-icon-arrowthick-1-n { background-position: 0 -48px; }
+.tabsWidget .ui-icon-arrowthick-1-ne { background-position: -16px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-e { background-position: -32px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-se { background-position: -48px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-s { background-position: -64px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-sw { background-position: -80px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-w { background-position: -96px -48px; }
+.tabsWidget .ui-icon-arrowthick-1-nw { background-position: -112px -48px; }
+.tabsWidget .ui-icon-arrowthick-2-n-s { background-position: -128px -48px; }
+.tabsWidget .ui-icon-arrowthick-2-ne-sw { background-position: -144px -48px; }
+.tabsWidget .ui-icon-arrowthick-2-e-w { background-position: -160px -48px; }
+.tabsWidget .ui-icon-arrowthick-2-se-nw { background-position: -176px -48px; }
+.tabsWidget .ui-icon-arrowthickstop-1-n { background-position: -192px -48px; }
+.tabsWidget .ui-icon-arrowthickstop-1-e { background-position: -208px -48px; }
+.tabsWidget .ui-icon-arrowthickstop-1-s { background-position: -224px -48px; }
+.tabsWidget .ui-icon-arrowthickstop-1-w { background-position: -240px -48px; }
+.tabsWidget .ui-icon-arrowreturnthick-1-w { background-position: 0 -64px; }
+.tabsWidget .ui-icon-arrowreturnthick-1-n { background-position: -16px -64px; }
+.tabsWidget .ui-icon-arrowreturnthick-1-e { background-position: -32px -64px; }
+.tabsWidget .ui-icon-arrowreturnthick-1-s { background-position: -48px -64px; }
+.tabsWidget .ui-icon-arrowreturn-1-w { background-position: -64px -64px; }
+.tabsWidget .ui-icon-arrowreturn-1-n { background-position: -80px -64px; }
+.tabsWidget .ui-icon-arrowreturn-1-e { background-position: -96px -64px; }
+.tabsWidget .ui-icon-arrowreturn-1-s { background-position: -112px -64px; }
+.tabsWidget .ui-icon-arrowrefresh-1-w { background-position: -128px -64px; }
+.tabsWidget .ui-icon-arrowrefresh-1-n { background-position: -144px -64px; }
+.tabsWidget .ui-icon-arrowrefresh-1-e { background-position: -160px -64px; }
+.tabsWidget .ui-icon-arrowrefresh-1-s { background-position: -176px -64px; }
+.tabsWidget .ui-icon-arrow-4 { background-position: 0 -80px; }
+.tabsWidget .ui-icon-arrow-4-diag { background-position: -16px -80px; }
+.tabsWidget .ui-icon-extlink { background-position: -32px -80px; }
+.tabsWidget .ui-icon-newwin { background-position: -48px -80px; }
+.tabsWidget .ui-icon-refresh { background-position: -64px -80px; }
+.tabsWidget .ui-icon-shuffle { background-position: -80px -80px; }
+.tabsWidget .ui-icon-transfer-e-w { background-position: -96px -80px; }
+.tabsWidget .ui-icon-transferthick-e-w { background-position: -112px -80px; }
+.tabsWidget .ui-icon-folder-collapsed { background-position: 0 -96px; }
+.tabsWidget .ui-icon-folder-open { background-position: -16px -96px; }
+.tabsWidget .ui-icon-document { background-position: -32px -96px; }
+.tabsWidget .ui-icon-document-b { background-position: -48px -96px; }
+.tabsWidget .ui-icon-note { background-position: -64px -96px; }
+.tabsWidget .ui-icon-mail-closed { background-position: -80px -96px; }
+.tabsWidget .ui-icon-mail-open { background-position: -96px -96px; }
+.tabsWidget .ui-icon-suitcase { background-position: -112px -96px; }
+.tabsWidget .ui-icon-comment { background-position: -128px -96px; }
+.tabsWidget .ui-icon-person { background-position: -144px -96px; }
+.tabsWidget .ui-icon-print { background-position: -160px -96px; }
+.tabsWidget .ui-icon-trash { background-position: -176px -96px; }
+.tabsWidget .ui-icon-locked { background-position: -192px -96px; }
+.tabsWidget .ui-icon-unlocked { background-position: -208px -96px; }
+.tabsWidget .ui-icon-bookmark { background-position: -224px -96px; }
+.tabsWidget .ui-icon-tag { background-position: -240px -96px; }
+.tabsWidget .ui-icon-home { background-position: 0 -112px; }
+.tabsWidget .ui-icon-flag { background-position: -16px -112px; }
+.tabsWidget .ui-icon-calendar { background-position: -32px -112px; }
+.tabsWidget .ui-icon-cart { background-position: -48px -112px; }
+.tabsWidget .ui-icon-pencil { background-position: -64px -112px; }
+.tabsWidget .ui-icon-clock { background-position: -80px -112px; }
+.tabsWidget .ui-icon-disk { background-position: -96px -112px; }
+.tabsWidget .ui-icon-calculator { background-position: -112px -112px; }
+.tabsWidget .ui-icon-zoomin { background-position: -128px -112px; }
+.tabsWidget .ui-icon-zoomout { background-position: -144px -112px; }
+.tabsWidget .ui-icon-search { background-position: -160px -112px; }
+.tabsWidget .ui-icon-wrench { background-position: -176px -112px; }
+.tabsWidget .ui-icon-gear { background-position: -192px -112px; }
+.tabsWidget .ui-icon-heart { background-position: -208px -112px; }
+.tabsWidget .ui-icon-star { background-position: -224px -112px; }
+.tabsWidget .ui-icon-link { background-position: -240px -112px; }
+.tabsWidget .ui-icon-cancel { background-position: 0 -128px; }
+.tabsWidget .ui-icon-plus { background-position: -16px -128px; }
+.tabsWidget .ui-icon-plusthick { background-position: -32px -128px; }
+.tabsWidget .ui-icon-minus { background-position: -48px -128px; }
+.tabsWidget .ui-icon-minusthick { background-position: -64px -128px; }
+.tabsWidget .ui-icon-close { background-position: -80px -128px; }
+.tabsWidget .ui-icon-closethick { background-position: -96px -128px; }
+.tabsWidget .ui-icon-key { background-position: -112px -128px; }
+.tabsWidget .ui-icon-lightbulb { background-position: -128px -128px; }
+.tabsWidget .ui-icon-scissors { background-position: -144px -128px; }
+.tabsWidget .ui-icon-clipboard { background-position: -160px -128px; }
+.tabsWidget .ui-icon-copy { background-position: -176px -128px; }
+.tabsWidget .ui-icon-contact { background-position: -192px -128px; }
+.tabsWidget .ui-icon-image { background-position: -208px -128px; }
+.tabsWidget .ui-icon-video { background-position: -224px -128px; }
+.tabsWidget .ui-icon-script { background-position: -240px -128px; }
+.tabsWidget .ui-icon-alert { background-position: 0 -144px; }
+.tabsWidget .ui-icon-info { background-position: -16px -144px; }
+.tabsWidget .ui-icon-notice { background-position: -32px -144px; }
+.tabsWidget .ui-icon-help { background-position: -48px -144px; }
+.tabsWidget .ui-icon-check { background-position: -64px -144px; }
+.tabsWidget .ui-icon-bullet { background-position: -80px -144px; }
+.tabsWidget .ui-icon-radio-on { background-position: -96px -144px; }
+.tabsWidget .ui-icon-radio-off { background-position: -112px -144px; }
+.tabsWidget .ui-icon-pin-w { background-position: -128px -144px; }
+.tabsWidget .ui-icon-pin-s { background-position: -144px -144px; }
+.tabsWidget .ui-icon-play { background-position: 0 -160px; }
+.tabsWidget .ui-icon-pause { background-position: -16px -160px; }
+.tabsWidget .ui-icon-seek-next { background-position: -32px -160px; }
+.tabsWidget .ui-icon-seek-prev { background-position: -48px -160px; }
+.tabsWidget .ui-icon-seek-end { background-position: -64px -160px; }
+.tabsWidget .ui-icon-seek-start { background-position: -80px -160px; }
+/* ui-icon-seek-first is deprecated, use ui-icon-seek-start instead */
+.tabsWidget .ui-icon-seek-first { background-position: -80px -160px; }
+.tabsWidget .ui-icon-stop { background-position: -96px -160px; }
+.tabsWidget .ui-icon-eject { background-position: -112px -160px; }
+.tabsWidget .ui-icon-volume-off { background-position: -128px -160px; }
+.tabsWidget .ui-icon-volume-on { background-position: -144px -160px; }
+.tabsWidget .ui-icon-power { background-position: 0 -176px; }
+.tabsWidget .ui-icon-signal-diag { background-position: -16px -176px; }
+.tabsWidget .ui-icon-signal { background-position: -32px -176px; }
+.tabsWidget .ui-icon-battery-0 { background-position: -48px -176px; }
+.tabsWidget .ui-icon-battery-1 { background-position: -64px -176px; }
+.tabsWidget .ui-icon-battery-2 { background-position: -80px -176px; }
+.tabsWidget .ui-icon-battery-3 { background-position: -96px -176px; }
+.tabsWidget .ui-icon-circle-plus { background-position: 0 -192px; }
+.tabsWidget .ui-icon-circle-minus { background-position: -16px -192px; }
+.tabsWidget .ui-icon-circle-close { background-position: -32px -192px; }
+.tabsWidget .ui-icon-circle-triangle-e { background-position: -48px -192px; }
+.tabsWidget .ui-icon-circle-triangle-s { background-position: -64px -192px; }
+.tabsWidget .ui-icon-circle-triangle-w { background-position: -80px -192px; }
+.tabsWidget .ui-icon-circle-triangle-n { background-position: -96px -192px; }
+.tabsWidget .ui-icon-circle-arrow-e { background-position: -112px -192px; }
+.tabsWidget .ui-icon-circle-arrow-s { background-position: -128px -192px; }
+.tabsWidget .ui-icon-circle-arrow-w { background-position: -144px -192px; }
+.tabsWidget .ui-icon-circle-arrow-n { background-position: -160px -192px; }
+.tabsWidget .ui-icon-circle-zoomin { background-position: -176px -192px; }
+.tabsWidget .ui-icon-circle-zoomout { background-position: -192px -192px; }
+.tabsWidget .ui-icon-circle-check { background-position: -208px -192px; }
+.tabsWidget .ui-icon-circlesmall-plus { background-position: 0 -208px; }
+.tabsWidget .ui-icon-circlesmall-minus { background-position: -16px -208px; }
+.tabsWidget .ui-icon-circlesmall-close { background-position: -32px -208px; }
+.tabsWidget .ui-icon-squaresmall-plus { background-position: -48px -208px; }
+.tabsWidget .ui-icon-squaresmall-minus { background-position: -64px -208px; }
+.tabsWidget .ui-icon-squaresmall-close { background-position: -80px -208px; }
+.tabsWidget .ui-icon-grip-dotted-vertical { background-position: 0 -224px; }
+.tabsWidget .ui-icon-grip-dotted-horizontal { background-position: -16px -224px; }
+.tabsWidget .ui-icon-grip-solid-vertical { background-position: -32px -224px; }
+.tabsWidget .ui-icon-grip-solid-horizontal { background-position: -48px -224px; }
+.tabsWidget .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
+.tabsWidget .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
+
+
+/* Misc visuals
+----------------------------------*/
+
+/* Corner radius */
+.tabsWidget .ui-corner-all,
+.tabsWidget .ui-corner-top,
+.tabsWidget .ui-corner-left,
+.tabsWidget .ui-corner-tl {
+    border-top-left-radius: 4px;
+}
+.tabsWidget .ui-corner-all,
+.tabsWidget .ui-corner-top,
+.tabsWidget .ui-corner-right,
+.tabsWidget .ui-corner-tr {
+    border-top-right-radius: 4px;
+}
+.tabsWidget .ui-corner-all,
+.tabsWidget .ui-corner-bottom,
+.tabsWidget .ui-corner-left,
+.tabsWidget .ui-corner-bl {
+    border-bottom-left-radius: 4px;
+}
+.tabsWidget .ui-corner-all,
+.tabsWidget .ui-corner-bottom,
+.tabsWidget .ui-corner-right,
+.tabsWidget .ui-corner-br {
+    border-bottom-right-radius: 4px;
+}
+
+/* Overlays */
+.tabsWidget .ui-widget-overlay {
+    background: #aaaaaa url("images/ui-bg_flat_0_aaaaaa_40x100.png") 50% 50% repeat-x;
+    opacity: .3;
+    filter: Alpha(Opacity=30); /* support: IE8 */
+}
+.tabsWidget .ui-widget-shadow {
+    margin: -8px 0 0 -8px;
+    padding: 8px;
+    background: #aaaaaa url("images/ui-bg_flat_0_aaaaaa_40x100.png") 50% 50% repeat-x;
+    opacity: .3;
+    filter: Alpha(Opacity=30); /* support: IE8 */
+    border-radius: 8px;
+}

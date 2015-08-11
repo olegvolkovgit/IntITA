@@ -3,7 +3,7 @@
  * @var $page LecturePage;
  */
 ?>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
 <?php
 for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     if ($passedPages[$i]['isDone']) {
@@ -21,6 +21,7 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     <?php }
 }?>
 <br>
+<div class="tabsWidget">
 <?php
 $this->widget('zii.widgets.jui.CJuiTabs',array(
     'tabs'=>array(
@@ -39,7 +40,9 @@ $this->widget('zii.widgets.jui.CJuiTabs',array(
     ),
     'id'=>'MyTab-Menu',
 ));
-
+?>
+</div>
+<?php
 if (!is_null($page->quiz)) {
     switch (lectureHelper::getQuizType($page->quiz)) {
         case '5':
