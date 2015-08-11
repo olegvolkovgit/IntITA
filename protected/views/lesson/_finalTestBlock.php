@@ -100,4 +100,4 @@ if ($editMode) {
 }
 ?>
 </div>
-<?php $this->renderPartial('_editTest', array('idBlock'=>$data['id_block']));?>
+<?php $this->renderPartial('_editTest', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>

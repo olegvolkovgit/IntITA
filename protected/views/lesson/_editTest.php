@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.07.2015
- * Time: 16:59
- */
+if ($editMode) {
 $answers=TestsHelper::getTestAnswers($idBlock);
 $valid=TestsHelper::getTestValid($idBlock);
 ?>
@@ -44,6 +39,7 @@ $valid=TestsHelper::getTestValid($idBlock);
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>
+<?php }?>
 
 
 
