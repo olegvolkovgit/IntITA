@@ -421,3 +421,10 @@ div.lessonTest {
 .element textarea{
     resize: none;
 }
+.element table{
+    border-collapse: collapse;
+}
+.element table td, .element table th {
+    padding: 3px;
+    border: 1px solid black;
+}
