@@ -173,4 +173,22 @@ class LectureHelper {
     public static function getQuizType($id){
         return LectureElement::model()->findByPk($id)->id_type;
     }
+
+    public static function getPageVideoUrl($pageId){
+        $element = LecturePage::model()->findByPk($pageId)->video;
+        if ($element) {
+            return LectureElement::model()->findByPk($element)->html_block;
+        }else{
+            return '';
+        }
+    }
+
+    public static function getPageQuiz($pageId){
+        $element = LecturePage::model()->findByPk($pageId)->quiz;
+        if ($element) {
+            return LectureElement::model()->findByPk($element);
+        }else{
+            return '';
+        }
+    }
 }

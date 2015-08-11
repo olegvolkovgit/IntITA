@@ -48,7 +48,8 @@ h1.lessonTheme{
 h1.lessonPart p{
     color: #4b75a4;
     font-size: 28px;
-    margin-top: 34px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     font-weight: normal;
 }
 span.listTheme{

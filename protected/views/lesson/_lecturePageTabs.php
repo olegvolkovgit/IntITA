@@ -4,6 +4,11 @@
  */
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <h1 class="lessonPart" >
+        <div class="labelBlock">
+            <p>Сторінка <?php echo $page->page_order.'. '.$page->page_title;?></p>
+        </div>
+    </h1>
 <?php
 for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     if ($passedPages[$i]['isDone']) {
@@ -38,6 +43,9 @@ $this->widget('zii.widgets.jui.CJuiTabs',array(
         'collapsible'=>true,
     ),
     'id'=>'MyTab-Menu',
+    'themeUrl' => Yii::app()->request->baseUrl.'/themes',
+    'cssFile' => 'jquery-ui.min.css',
+    'theme' => 'smoothness',
 ));
 
 if (!is_null($page->quiz)) {

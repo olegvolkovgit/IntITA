@@ -1,10 +1,5 @@
+<?php if($data['id_type'] == 5 || $data['id_type'] == 6){?>
 <div class="element">
-    <?php $this->renderPartial('_editToolbar', array(
-        'idLecture' => $data['id_lecture'],
-        'order' =>  $data['block_order'],
-        'editMode' => $editMode,
-    ));?>
-
 <div class="lessonTask">
 <!--    <img class="lessonBut" src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
 <!--    <div class="lessonButName" unselectable = "on">--><?php //echo Yii::t('lecture','0086'); ?><!--</div>-->
@@ -69,3 +64,6 @@ if ($editMode) {
     ));
 }
 ?>
+<?php }else{
+    echo 'До цієї сторінки лекції завдання не додано.';
+}?>

@@ -13,20 +13,20 @@
         <div id="textBlockForm">
             <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>"
                   method="post">
-                <br>
-                <br>
-                <span class="formLabel">Новий блок:</span>
-                <br>
+<!--                <br>-->
+<!--                <br>-->
+<!--                <span class="formLabel">Новий блок:</span>-->
+<!--                <br>-->
                 <a href="javascript:addFormula()">Додати формулу LaTeX</a>
                 <br>
-                <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>
-                <br>
-                <a href="javascript:showAddTaskForm('final', <?php echo LectureHelper::isFinalFirst($lecture->id);?>)">Додати підсумкове завдання</a>
-                <br>
-                <a href="javascript:showAddTestForm('plain')">Додати тест</a>
-                <br>
-                <a href="javascript:showAddTestForm('final', <?php echo LectureHelper::isFinalFirst($lecture->id);?>)")">Додати підсумковий тест</a>
-                <br>
+<!--                <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>-->
+<!--                <br>-->
+<!--                <a href="javascript:showAddTaskForm('final', --><?php //echo LectureHelper::isFinalFirst($lecture->id);?><!--)">Додати підсумкове завдання</a>-->
+<!--                <br>-->
+<!--                <a href="javascript:showAddTestForm('plain')">Додати тест</a>-->
+<!--                <br>-->
+<!--                <a href="javascript:showAddTestForm('final', --><?php //echo LectureHelper::isFinalFirst($lecture->id);?><!--)")">Додати підсумковий тест</a>-->
+<!--                <br>-->
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
                           placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
@@ -35,11 +35,11 @@
                 <span class="formLabel" id="typeSelectLabel">Тип блоку:</span>
                 <select name="type" id="typeSelect">
                     <option value="1" selected>Текст
-                    <option value="2">Відео
+<!--                    <option value="2">Відео-->
                     <option value="3">Код
                     <option value="4">Приклад
                     <option value="7">Інструкція
-                    <option value="8">Заголовок (для змісту)
+<!--                    <option value="8">Заголовок (для змісту)-->
                     <option value="9">Зображення
                     <option value="10">Формула LaTeX
                         <!--                <option value="11" >Таблиця-->
@@ -52,8 +52,8 @@
                     onclick="hideForm('blockForm', 'newTextBlock')"><?php echo Yii::t('course', '0368') ?></button>
         </div>
     </div>
-    <?php $this->renderPartial('_addTask');?>
-    <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => $teacher));?>
+    <?php //$this->renderPartial('_addTask');?>
+    <?php //$this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => $teacher));?>
     <?php $this->renderPartial('_addFormula', array('idLecture' => $lecture->id));?>
     <br>
     <br>

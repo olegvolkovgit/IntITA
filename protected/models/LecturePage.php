@@ -9,6 +9,7 @@
  * @property integer $page_order
  * @property integer $video
  * @property integer $quiz
+ *  @property string $page_title
  */
 class LecturePage extends CActiveRecord
 {
@@ -32,7 +33,7 @@ class LecturePage extends CActiveRecord
 			array('id_lecture, page_order, video, quiz', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lecture, page_order, video, quiz', 'safe', 'on'=>'search'),
+			array('id, id_lecture, page_order, video, quiz, page_title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +59,7 @@ class LecturePage extends CActiveRecord
 			'page_order' => 'Page Order',
 			'video' => 'Video',
 			'quiz' => 'Quiz',
+            'page_title' => 'Title',
 		);
 	}
 
@@ -84,6 +86,7 @@ class LecturePage extends CActiveRecord
 		$criteria->compare('page_order',$this->page_order);
 		$criteria->compare('video',$this->video);
 		$criteria->compare('quiz',$this->quiz);
+        $criteria->compare('page_title',$this->page_title);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

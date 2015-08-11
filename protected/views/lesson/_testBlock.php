@@ -1,23 +1,10 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 16.07.2015
- * Time: 20:09
- */
-?>
+<?php if($data['id_type'] == 12 || $data['id_type'] == 13){?>
 <?php
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
 ?>
     <div>
-            <?php $this->renderPartial('_editToolbar', array(
-                'idLecture' => $data['id_lecture'],
-                'order' =>  $data['block_order'],
-                'editMode' => $editMode,
-            ));
-        ?>
         <div class="lessonTest">
 <!--            <img class="lessonBut"-->
 <!--                 src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
@@ -97,3 +84,6 @@ if ($editMode) {
     ));
 }
 ?>
+<?php }else{
+    echo 'До цієї сторінки лекції теста не додано.';
+}?>
