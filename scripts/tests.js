@@ -21,7 +21,37 @@ $(document).ready(function () {
         var b = $("#answersList > div");
         a.filter(":last").remove();
         b.filter(":last").remove();
+        if(optionsNum>0)
         document.getElementById("optionsNum").value = newOption-1;
+    });
+
+    /*Добавляємо варіант відповіді в список і варіант для вибору цієї відповіді при редагуванні*/
+    $('html').on('click','.editAddTest',function () {
+        var idParent=$(this).parent().attr('id');
+        var answersContent=$(this).parent().next('fieldset').attr('id');
+        var options = $(this).parent().parent().children('.optionsNum');
+        var optionsNum = $(this).parent().parent().children('.optionsNum').val();
+        var newOption = 1 + parseInt(optionsNum);
+        $('<li><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required></li>').fadeIn('slow').appendTo('#'+idParent +' > ol');
+
+        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"><span>'+newOption+' відповідь</span></div>').fadeIn('slow').appendTo('#'+answersContent +' > .answersCheckbox');
+
+        options.val(newOption);
+    });
+    /*... і видаляємо*/
+    $('html').on('click','.editRemoveTest', function () {
+        var idParent=$(this).parent().attr('id');
+        var answersContent=$(this).parent().next('fieldset').attr('id');
+        var options = $(this).parent().parent().children('.optionsNum');
+        var optionsNum = $(this).parent().parent().children('.optionsNum').val();
+        var newOption = parseInt(optionsNum);
+        var a = $('#'+idParent+' > ol > li');
+        var b = $('#'+answersContent+' > div > div');
+        a.filter(":last").remove();
+        b.filter(":last").remove();
+
+        if(options.val()>0)
+        options.val(newOption-1);
     });
 });
 
@@ -103,6 +133,7 @@ function isTrueTestAnswer(user, test){
         .always(function() {
         }, "json");
 }
+/*перевіряємо чи вибраний хоч один варіант відповіді тесту як правильний, якщо ні - інфоповідомлення і неактивна кнопка*/
 function checkAnswers(answers){
     var answerTrim = document.getElementsByClassName('testVariant');
     for (var i = 0; i < answerTrim.length; i++) {
@@ -113,8 +144,22 @@ function checkAnswers(answers){
         document.getElementById("addtests").disabled = true;
     }
 }
+function editCheckAnswers(answers, idblock){
+    var answerTrim = document.getElementsByClassName('testVariant');
+    for (var i = 0; i < answerTrim.length; i++) {
+        answerTrim[i].value = $.trim(answerTrim[i].value);
+    }
+    if(answers.length==0){
+        alert('Виберіть хоч один правильний варіант перед створенням тесту');
+        document.getElementById("addtests"+idblock).disabled = true;
+    }
+}
+/*Робимо кнопку додати тест активною*/
 function buttonEnabled(){
         document.getElementById("addtests").disabled = false;
+}
+function editButtonEnabled(idblock){
+    document.getElementById("addtests"+idblock).disabled = false;
 }
 
 

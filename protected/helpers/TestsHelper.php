@@ -64,4 +64,26 @@ class TestsHelper {
         }
         return $answerKey;
     }
+    public static function getTestCondition($block){
+        return LectureElement::model()->findByPk($block)->html_block;
+    }
+    public static function getTestAnswers($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => TestsHelper::getTestId($block)));
+        foreach($test as $answer){
+            array_push($answers, $answer->answer);
+        }
+        return $answers;
+    }
+    public static function getTestValid($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => TestsHelper::getTestId($block)));
+        foreach($test as $answer){
+            if ($answer->is_valid==0)
+                array_push($answers, '');
+            elseif ($answer->is_valid==1)
+                array_push($answers, 'checked');
+        }
+        return $answers;
+    }
 }

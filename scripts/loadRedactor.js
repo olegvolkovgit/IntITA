@@ -32,7 +32,22 @@ window.onload = function () {
     for (var i = 0; i < lBl.length; i++) {
         lBl[i].onclick = getIdName;
     }
+    var testBl = document.getElementsByClassName("instrTestText");
+    for (var i = 0; i < testBl.length; i++) {
+        testBl[i].onclick = getTestIdName;
+    }
+    /*якщо користувач маЇ права дл€ редагуванн€ при кл≥ку на питанн€ тесту буде в≥дкриватис€(ставати видимою) форма редагуванн€ тесту*/
+    function getTestIdName() {
+        var idName = this.getAttribute('id');
+        order = '#'+ idName;
 
+        var edit = this.hasAttribute("contenteditable");
+        if(edit == false){
+            $('#'+ idName).closest(".element").hide();
+            var content=$('#'+ idName).closest(".element").next('.editTest')
+            content.show();
+        }
+    }
 
 function getIdName() {
     var idName = this.getAttribute('id');

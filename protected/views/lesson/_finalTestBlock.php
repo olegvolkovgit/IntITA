@@ -6,6 +6,7 @@
  * Time: 20:09
  */
 ?>
+<div class="element">
 <?php
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
@@ -98,3 +99,5 @@ if ($editMode) {
     ));
 }
 ?>
+</div>
+<?php $this->renderPartial('_editTest', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>

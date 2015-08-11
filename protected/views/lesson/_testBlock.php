@@ -1,5 +1,14 @@
 <?php if($data['id_type'] == 12 || $data['id_type'] == 13){?>
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 16.07.2015
+ * Time: 20:09
+ */
+?>
+<?php
+
 $optionsNum = TestsHelper::getOptionsNum($data['id_block']);
 $options = TestsHelper::getOptions($data['id_block']);
 $testType = TestsHelper::getTestType($data['id_block']);
@@ -86,4 +95,6 @@ if ($editMode) {
 ?>
 <?php }else{
     echo 'До цієї сторінки лекції теста не додано.';
-}?>
+}?>?>
+</div>
+<?php $this->renderPartial('_editTest', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>
