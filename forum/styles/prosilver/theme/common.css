@@ -1060,6 +1060,9 @@ form > p.post-notice strong {
 .stat-block {
 	clear: both;
 }
+.stat-block p {
+	display: none;
+}
 
 #top {
 	position: absolute;
