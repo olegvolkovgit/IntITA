@@ -3,3 +3,4 @@
 
 .idea/*
 protected/runtime/*
+forum/cache/*

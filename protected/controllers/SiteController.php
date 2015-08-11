@@ -48,7 +48,7 @@ class SiteController extends Controller
 		$this->render('index', array(
             'mainpageModel'=>$mainpage,
 			'mainpage'=>array(
-				'stepSize'=>$mainpage->stepSize,
+				'stepSize'=>"958px",
 			),
 			'block1'=>$arrayAboutUs['objAbout1'],
 			'block2'=>$arrayAboutUs['objAbout2'],

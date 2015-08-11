@@ -6,9 +6,9 @@
     ));?>
 
 <div class="lessonTask">
-    <img class="lessonBut" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?>">
-    <div class="lessonButName" unselectable = "on"><?php echo Yii::t('lecture','0086'); ?></div>
-    <div class="lessonLine"></div>
+<!--    <img class="lessonBut" src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
+<!--    <div class="lessonButName" unselectable = "on">--><?php //echo Yii::t('lecture','0086'); ?><!--</div>-->
+<!--    <div class="lessonLine"></div>-->
     <div class="lessonBG">
         <div class="instrTaskImg">
             <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">

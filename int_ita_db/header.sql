@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-04 14:06:44
+-- Date/time:                    2015-08-06 15:12:48
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,7 +14,6 @@
 DROP TABLE IF EXISTS `header`;
 CREATE TABLE IF NOT EXISTS `header` (
   `headerID` int(11) NOT NULL AUTO_INCREMENT,
-  `language` enum('EN','UA','RU') NOT NULL,
   `logoURL` varchar(255) NOT NULL,
   `smallLogoURL` varchar(255) NOT NULL,
   `item1Link` varchar(255) NOT NULL,
@@ -26,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `header` (
 
 -- Dumping data for table int_ita_db.header: ~2 rows (approximately)
 /*!40000 ALTER TABLE `header` DISABLE KEYS */;
-INSERT INTO `header` (`headerID`, `language`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
-	(1, 'RU', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus'),
-	(2, 'UA', '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus');
+INSERT INTO `header` (`headerID`, `logoURL`, `smallLogoURL`, `item1Link`, `item2Link`, `item3Link`, `item4Link`) VALUES
+	(1, '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus'),
+	(2, '/css/images/Logo_big.png', '/css/images/Logo_small.png', '/courses', '/teachers', '/forum', '/aboutus');
 /*!40000 ALTER TABLE `header` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

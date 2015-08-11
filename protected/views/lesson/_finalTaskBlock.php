@@ -13,9 +13,9 @@
     ));?>
 
 <div class="lessonTask">
-    <img class="lessonButFinal" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'lessButtonFinale.png'); ?>">
-    <div class="lessonButFinal" unselectable = "on"><?php echo Yii::t('lecture','0090'); ?></div>
-    <div class="lessonLine"></div>
+<!--    <img class="lessonButFinal" src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButtonFinale.png'); ?><!--">-->
+<!--    <div class="lessonButFinal" unselectable = "on">--><?php //echo Yii::t('lecture','0090'); ?><!--</div>-->
+<!--    <div class="lessonLine"></div>-->
     <div class="lessonBG">
         <div class="instrTaskImg">
             <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">
@@ -79,20 +79,3 @@ if ($editMode) {
     ));
 }
 ?>
-
-<script type="text/javascript">
-    function sendTaskAnswer() {
-        JSONRequest.post(
-            "http://ii.itatests.com",
-            {
-                "operation" : "status",
-                "session" : "123456789044241232",
-                "jobid" : 1
-            },
-            function (requestNumber, value, exception) {
-                alert(value);
-            }
-        );
-    }
-</script>
-

@@ -7,7 +7,6 @@
  * @property integer $id_block
  * @property integer $id_lecture
  * @property integer $block_order
- * @property string $type
  * @property integer $id_type
  * @property string $html_block
  *
@@ -32,12 +31,11 @@ class LectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lecture, block_order, type, id_type, html_block', 'required'),
+			array('id_lecture, block_order, id_type, html_block', 'required'),
 			array('id_lecture, block_order, id_type', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_block, id_lecture, block_order, type, id_type, html_block', 'safe', 'on'=>'search'),
+			array('id_block, id_lecture, block_order, id_type, html_block', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +60,6 @@ class LectureElement extends CActiveRecord
 			'id_block' => 'Id Block',
 			'id_lecture' => 'Id Lecture',
 			'block_order' => 'Block Order',
-			'type' => 'Type',
 			'id_type' => 'Id Type',
 			'html_block' => 'Html Block',
 		);
@@ -89,7 +86,6 @@ class LectureElement extends CActiveRecord
 		$criteria->compare('id_block',$this->id_block);
 		$criteria->compare('id_lecture',$this->id_lecture);
 		$criteria->compare('block_order',$this->block_order);
-		$criteria->compare('type',$this->type,true);
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('html_block',$this->html_block,true);
 
@@ -121,10 +117,10 @@ class LectureElement extends CActiveRecord
         $model->block_order = ++$order;
 
         if ($taskType == 'final'){
-            $model->type = 'final task';
+            //$model->type = 'final task';
             $model->id_type = 6;
         } else {
-            $model->type = 'task';
+            //$model->type = 'task';
             $model->id_type = 5;
         }
 
@@ -145,10 +141,10 @@ class LectureElement extends CActiveRecord
         $model->block_order = ++$order;
 
         if ($testType == 'final'){
-            $model->type = 'final test';
+            //$model->type = 'final test';
             $model->id_type = 13;
         } else {
-            $model->type = 'test';
+            //$model->type = 'test';
             $model->id_type = 12;
         }
         $model->html_block = $condition;

@@ -49,7 +49,7 @@ class Lecture extends CActiveRecord
             array('title_ua, title_ru, title_en', 'match', 'pattern'=>"/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()+-]+$/u",'message'=>Yii::t('error','0416')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, durationInMinutes,isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
     }
 

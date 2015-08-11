@@ -164,4 +164,13 @@ class LectureHelper {
         $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
         return $lang;
     }
+
+    public static function getLecturePageVideo($idLecturePage){
+        $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
+        return LectureElement::model()->findByPk($lectureElement)->html_block;
+    }
+
+    public static function getQuizType($id){
+        return LectureElement::model()->findByPk($id)->id_type;
+    }
 }
