@@ -126,33 +126,6 @@ class SiteController extends Controller
 
 	public function actionChangeLang($lg)
 	{
-        $new_lang = $_GET['lg'];
-        if ($new_lang == "ua"){
-            $_SESSION['current_language'] = null;
-        }else{
-            $_SESSION['current_language'] = $new_lang;
-        }
-
-        $id = (int)$_SESSION['ec984fe5e8234fefa59bbddba1d7e202__id'];
-
-        if ($id) {
-            $host = "localhost";
-            $database="int_ita_db";
-            $db_user = "intita";
-            $password = "1234567";
-
-            if(!mysql_connect($host,$db_user,$password))
-                die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db($database))
-                die('Не удалось выбрать БД!');
-
-            $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
-            if (mysql_num_rows($result) > 0) {
-                mysql_query("UPDATE phpbb_users SET user_lang = '" . $new_lang . "' WHERE user_id =" . $id . ";");
-            }
-            mysql_close();
-        }
-
         $app = Yii::app();
 		if (isset($_GET['lg'])) {
 			$app->session['lg'] = $_GET['lg'];
@@ -258,28 +231,32 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-        if (isset($_COOKIE['user_id_transition'])) {
-            $host = "localhost";
-            $database="int_ita_db";
-            $db_user = "intita";
-            $password = "1234567";
 
-            if(!mysql_connect($host,$db_user,$password))
-                die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db($database))
-                die('Не удалось выбрать БД!');
+        $host = "localhost";
+        $database="int_ita_db";
+        $db_user = "intita";
+        $password = "1234567";
+
+        if(!mysql_connect($host,$db_user,$password))
+            die('Не удалось подключиться к серверу MySql!');
+        elseif(!mysql_select_db($database))
+            die('Не удалось выбрать БД!');
+
+        if (isset($_COOKIE['user_id_transition'])) {
             $siu = $_COOKIE['user_id_transition'];
 
             $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
             mysql_query($sql);
-            setCookie("user_id_transition", null, time() - 10, "/");
             mysql_close();
-        }
 
-        Yii::app()->user->logout();
+//        unset($_COOKIE["user_id_transition"]);
+            setCookie("user_id_transition", null, time() - 10, "/");
+        }
+		Yii::app()->user->logout();
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
         else $this->redirect(Yii::app()->homeUrl);;
+
 	}
 
     public function actionSocialLogin()
