@@ -27,6 +27,28 @@ class TestsController extends Controller
 
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
+    public function actionEditTest()
+    {
+        $idBlock =  Yii::app()->request->getPost('idBlock', 0);
+        $condition =  Yii::app()->request->getPost('condition', '');
+        $testTitle = Yii::app()->request->getPost('testTitle', '');
+        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
+
+        $options = [];
+
+        for ($i = 0; $i < $optionsNum; $i++){
+            $temp = "option".($i+1);
+            $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
+            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
+        }
+
+        if (LectureElement::editTestBlock($idBlock, $condition)) {
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $idBlock))->id;
+            TestsAnswers::editOptions($idTest, $options);
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionCheckTestAnswer(){
         $emptyanswers = [];

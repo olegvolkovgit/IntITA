@@ -160,4 +160,16 @@ class LectureElement extends CActiveRecord
             return false;
         }
     }
+	/*Редагуємо питання теста*/
+	public static function editTestBlock($idBlock, $condition){
+		$model=LectureElement::model()->findByPk($idBlock);
+
+		$model->html_block = $condition;
+		if($model->validate()) {
+			$model->updateByPk($idBlock, array('html_block' => $condition));
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

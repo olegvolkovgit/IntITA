@@ -103,18 +103,63 @@ class TestsAnswers extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addOptions($test, $options){
+	public static function addOptions($test, $options){
+		$count = count($options);
+
+		for($i = 0; $i < $count; $i++){
+			$model = new TestsAnswers();
+
+			$model->id_test = $test;
+			$model->answer = $options[$i]["option"];
+			$model->is_valid = ($options[$i]["isTrue"])?1:0;
+
+			$model->save(false);
+		}
+	}
+    public static function editOptions($test, $options){
         $count = count($options);
+		$model=new TestsAnswers();
+		/* ритер≥й пошуку вс≥х в≥дпов≥дей певного тесту в≥дсортований по зростаюч≥й*/
+		$criteria = new CDbCriteria();
+		$criteria->alias='test_answers';
+		$criteria->addCondition('id_test='.$test);
+		$criteria->order = 'id ASC';
+		$sortedAnswers = TestsAnswers::model()->findAll($criteria);
+		/*к≥льк≥сть в≥дпов≥дей на пе≥ний тест*/
+		$answersCount=count($sortedAnswers);
+		/*якщо в≥дпов≥дей на новий тест б≥льше н≥ж було або р≥вно, то редагуЇмо стар≥ в≥дпов≥д≥ ≥ добавл€Їмо нов≥*/
+		if($answersCount<=$count){
+			$j=0;
+			foreach($sortedAnswers as $answers){
+				$model->updateByPk($answers->id, array('answer' => $options[$j]["option"]));
+				$model->updateByPk($answers->id, array('is_valid' => ($options[$j]["isTrue"])?1:0));
+				$j++;
+			}
+			for($i=$answersCount;$i<($count);$i++){
 
-        for($i = 0; $i < $count; $i++){
-            $model = new TestsAnswers();
+				$newModel = new TestsAnswers();
+				$newModel->id_test = $test;
+				$newModel->answer = $options[$i]["option"];
+				$newModel->is_valid = ($options[$i]["isTrue"])?1:0;
 
-            $model->id_test = $test;
-            $model->answer = $options[$i]["option"];
-            $model->is_valid = ($options[$i]["isTrue"])?1:0;
+				$newModel->save(false);
+			}
 
-            $model->save(false);
-        }
+		}
+		/*якщо в≥дпов≥дей на новий тест менше н≥ж було, то редагуЇмо стар≥ в≥дпов≥д≥ ≥ видал€Їмо лишн≥*/
+		elseif ($answersCount>$count){
+			$k=0;
+			foreach($sortedAnswers as $answers){
+				if($k>=$count){
+					$model->deleteByPk($answers->id);
+					$k++;
+				}else{
+					$model->updateByPk($answers->id, array('answer' => $options[$k]["option"]));
+					$model->updateByPk($answers->id, array('is_valid' => ($options[$k]["isTrue"])?1:0));
+					$k++;
+				}
+			}
+		}
     }
 
     public static function checkTestAnswer($user, $test, $userAnswers, $testType){
