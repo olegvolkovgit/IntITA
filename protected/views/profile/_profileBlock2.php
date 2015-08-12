@@ -19,11 +19,12 @@
         'template'=>'{items}{pager}',
         'emptyText'=>Yii::t('profile', '0195'),
         'pager' => array(
-            'firstPageLabel'=>'<<',
-            'lastPageLabel'=>'>>',
-            'prevPageLabel'=>'<',
-            'nextPageLabel'=>'>',
+            'firstPageLabel'=>'&#171;&#171;',
+            'lastPageLabel'=>'&#187;&#187;',
+            'prevPageLabel'=>'&#171;',
+            'nextPageLabel'=>'&#187;',
             'header'=>'',
+            'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
         ),
     ));
     ?>

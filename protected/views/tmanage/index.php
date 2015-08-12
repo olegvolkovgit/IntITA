@@ -16,6 +16,14 @@ $this->menu=array(
     'dataProvider'=>$dataProvider,
     'htmlOptions'=>array('class'=>'grid-view custom','id'=>'adminTeacherList'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+    ),
     'columns'=>array(
         array(
             'header'=>'Фото',

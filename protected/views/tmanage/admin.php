@@ -41,6 +41,14 @@ $('.search-form form').submit(function(){
     'dataProvider'=>$model->search(),
     'filter'=>$model,
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+    ),
     'columns'=>array(
         'first_name',
         'middle_name',

@@ -38,6 +38,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
     'summaryText'=>'',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+    ),
     'columns' => array(
         array(
             'class'=>'CButtonColumn',

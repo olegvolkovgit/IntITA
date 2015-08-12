@@ -42,13 +42,14 @@ $('.search-form form').submit(function(){
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'course-grid',
     'summaryText'=>Yii::t("coursemanage", "0516").' {start} - {end} / {count}',
-    'pager' => array(
-        'firstPageLabel'=>'<<',
-        'lastPageLabel'=>'>>',
-        'prevPageLabel'=>'<',
-        'nextPageLabel'=>'>',
-        'header'=>'',
-    ),
+	'pager' => array(
+		'firstPageLabel'=>'&#171;&#171;',
+		'lastPageLabel'=>'&#187;&#187;',
+		'prevPageLabel'=>'&#171;',
+		'nextPageLabel'=>'&#187;',
+		'header'=>'',
+		'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+	),
 	'dataProvider'=>$model->search(),
     'emptyText'=>Yii::t("coursemanage", "0517"),
 	'filter'=>$model,

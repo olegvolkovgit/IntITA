@@ -17,11 +17,12 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
     'summaryText'=>Yii::t("coursemanage", "0516").' {start} - {end} / {count}',
     'pager' => array(
-        'firstPageLabel'=>'<<',
-        'lastPageLabel'=>'>>',
-        'prevPageLabel'=>'<',
-        'nextPageLabel'=>'>',
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
         'header'=>'',
+        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
     ),
 	'columns'=>array(
         array(
