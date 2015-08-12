@@ -26,7 +26,9 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     <?php }
 }?>
 <br>
+<div class="tabsWidget">
 <?php
+
 if($page->video == null){
     $this->widget('zii.widgets.jui.CJuiTabs', array(
         'tabs' => array(

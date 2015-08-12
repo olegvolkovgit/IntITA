@@ -79,3 +79,4 @@ if ($editMode) {
     ));
 }
 ?>
+<?php $this->renderPartial('_editTask', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>

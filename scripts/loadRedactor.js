@@ -25,7 +25,7 @@ window.onload = function () {
 
     var iBl = document.getElementsByClassName("instrTaskText");
     for (var i = 0; i < iBl.length; i++) {
-        iBl[i].onclick = getIdName;
+        iBl[i].onclick = getTaskIdName;
     }
 
     var lBl = document.getElementsByClassName("labelBlock");
@@ -45,6 +45,18 @@ window.onload = function () {
         if(edit == false){
             $('#'+ idName).closest(".element").hide();
             var content=$('#'+ idName).closest(".element").next('.editTest')
+            content.show();
+        }
+    }
+    /*якщо користувач маЇ права дл€ редагуванн€ при кл≥ку на питанн€ тесту буде в≥дкриватис€(ставати видимою) форма редагуванн€ тесту*/
+    function getTaskIdName() {
+        var idName = this.getAttribute('id');
+        order = '#'+ idName;
+
+        var edit = this.hasAttribute("contenteditable");
+        if(edit == false){
+            $('#'+ idName).closest(".element").hide();
+            var content=$('#'+ idName).closest(".element").next('.editTask');
             content.show();
         }
     }

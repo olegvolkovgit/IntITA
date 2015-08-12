@@ -228,6 +228,12 @@ margin-left:10px;
 #addTask textarea {
     width: 100%;
 }
+.editTask{
+    display:none;
+}
+.editTask textarea {
+    width: 100%;
+}
 #addTest{
     display:none;
 }
@@ -257,6 +263,7 @@ margin-left:10px;
     overflow: auto;
 }
 
+}
 .addTest,.removeTest,.editRemoveTest,.editAddTest{
     cursor: pointer;
     color:#4b75a4;
@@ -264,6 +271,12 @@ margin-left:10px;
 .addTest:hover,.removeTest:hover,.editRemoveTest:hover,.editAddTest:hover{
     color:#666666;
 }
-.editTest{
+.editTest {
     display: none;
+}
+.tabswidgets .ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #cccccc;
+    color: #222222;
+    font-weight: bold;
 }

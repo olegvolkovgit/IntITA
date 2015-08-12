@@ -153,6 +153,8 @@ return array(
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
         'imagesPath'=>'http://localhost/IntITA/images',
 //        'imagesPath'=>'http://intita.itatests.com/images',
+       // 'imagesPath'=>'http://localhost/IntITA/images',
+        'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',

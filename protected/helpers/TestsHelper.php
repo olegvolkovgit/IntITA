@@ -86,4 +86,7 @@ class TestsHelper {
         }
         return $answers;
     }
+    public static function getTaskCondition($block){
+        return strip_tags(LectureElement::model()->findByPk($block)->html_block);
+    }
 }

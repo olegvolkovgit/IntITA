@@ -66,4 +66,4 @@ if ($editMode) {
 ?>
 <?php }else{
     echo 'До цієї сторінки лекції завдання не додано.';
-}?>
+}?><?php $this->renderPartial('_editTask', array('idBlock'=>$data['id_block'],'editMode'=>$editMode));?>
