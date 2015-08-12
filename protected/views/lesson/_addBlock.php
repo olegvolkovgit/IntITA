@@ -31,7 +31,7 @@
             'selector' => "#newTextBlock",
             'options' => array(
                 'imageUpload' => $this->createUrl('files/upload'),
-                'lang' => 'ua',
+                'lang' => LectureHelper::getLanguage(),
                 'toolbar' => true,
                 'iframe' => true,
                 'css' => 'wym.css',
