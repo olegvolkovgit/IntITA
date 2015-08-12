@@ -202,16 +202,8 @@ class LectureHelper {
         $criteria->addCondition('id_lecture='.$idLecture);
         $criteria->order = 'page_order';
         $list = LecturePage::model()->findAll($criteria);
-        var_dump($list);die();
+        //var_dump($list);die();
         return $list;
     }
 
-    public static function getLecturePageVideo($idLecturePage){
-        $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
-        return LectureElement::model()->findByPk($lectureElement)->html_block;
-    }
-
-    public static function getQuizType($id){
-        return LectureElement::model()->findByPk($id)->id_type;
-    }
 }
