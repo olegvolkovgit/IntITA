@@ -85,11 +85,11 @@ if($page->video) {
         switch (LectureHelper::getQuizType($data['id_block'])) {
             case '5':
             case '6':
-                $this->renderPartial('_editTest', array('idBlock' => $data['id_block']));
+                $this->renderPartial('_editTask', array('idBlock' => $data['id_block']));
                 break;
             case '12':
             case '13':
-                $this->renderPartial('_editTask', array('idBlock' => $data['id_block']));
+                $this->renderPartial('_editTest', array('idBlock' => $data['id_block']));
                 break;
             default:
                 break;
