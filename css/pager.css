@@ -10,7 +10,7 @@
 
 ul.yiiPager
 {
-    font-size:11px;
+    font-size:16px;
     border:0;
     margin:0;
     padding:0;
@@ -27,7 +27,6 @@ ul.yiiPager a:link,
 ul.yiiPager a:visited
 {
     border:solid 1px #9aafe5;
-    font-weight:bold;
     color:#0e509e;
     padding:1px 6px;
     text-decoration:none;
@@ -36,6 +35,8 @@ ul.yiiPager a:visited
 ul.yiiPager .page a
 {
     font-weight:normal;
+    padding:3px 9px;
+    line-height: 20px;
 }
 
 ul.yiiPager a:hover
@@ -47,7 +48,7 @@ ul.yiiPager .selected a
 {
     background:#2e6ab1;
     color:#FFFFFF;
-    font-weight:bold;
+    line-height: 20px;
 }
 
 ul.yiiPager .hidden a
@@ -55,7 +56,26 @@ ul.yiiPager .hidden a
     border:solid 1px #DEDEDE;
     color:#888888;
 }
-
+ul.yiiPager .first a
+{
+    padding:3px 7px;
+    line-height: 20px;
+}
+ul.yiiPager .previous a
+{
+    padding:3px 10px;
+    line-height: 20px;
+}
+ul.yiiPager .next a
+{
+    padding:3px 10px;
+    line-height: 20px;
+}
+ul.yiiPager .last a
+{
+    padding:3px 7px;
+    line-height: 20px;
+}
 /**
  * Hide first and last buttons by default.
  */
