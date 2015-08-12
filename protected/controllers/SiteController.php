@@ -133,7 +133,7 @@ class SiteController extends Controller
             $_SESSION['current_language'] = $new_lang;
         }
 
-        $id = (int)$_SESSION['ec984fe5e8234fefa59bbddba1d7e202__id'];
+        $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
 
         if ($id) {
             $host = "localhost";

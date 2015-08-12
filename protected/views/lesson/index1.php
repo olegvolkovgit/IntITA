@@ -43,11 +43,11 @@ $this->breadcrumbs=array(
 
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <?php if($editMode){
-            $this->renderPartial('_startEditButton', array('block' => 1));
-             //$this->renderPartial('_editLecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
-        }
-            $this->renderPartial('_lecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
-        ?>
+            //$this->renderPartial('_startEditButton', array('block' => 1));
+            $this->renderPartial('_editLecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+        } else {
+            $this->renderPartial('_lecturePageTabs', array('page' => $page, 'countBlocks' => $countBlocks, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+        }?>
 
     </div>
     <!-- lesson footer ----congratulations-->
@@ -107,19 +107,8 @@ $this->breadcrumbs=array(
 <!--Load Redactor-->
 <?php if ($editMode){?>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
-    <!--Load Redactor-->
-
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rangy-core.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/textinputs_jquery.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/writemaths.js"></script>
-    <script language="javascript">
-        $(document).ready(function() {
-            $('.wm.ontop').writemaths({position:'center top', previewPosition: 'center bottom', of: 'this'});
-            $('.wm.side').writemaths({position:'right middle', previewPosition: 'left middle'});
-        });
-    </script>
 <?php }?>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
