@@ -2,130 +2,130 @@
 
 class SiteController extends Controller
 {
-	/* @var $mainpage Mainpage*/
-	/* @var $step1 Step*/
-	/* @var $step2 Step*/
-	/* @var $step3 Step*/
-	/* @var $step4 Step*/
-	/* @var $step5 Step*/
-	/* @var $objAbout1 AboutUs*/
-	/* @var $objAbout2 AboutUs*/
-	/* @var $objAbout3 AboutUs*/
+    /* @var $mainpage Mainpage*/
+    /* @var $step1 Step*/
+    /* @var $step2 Step*/
+    /* @var $step3 Step*/
+    /* @var $step4 Step*/
+    /* @var $step5 Step*/
+    /* @var $objAbout1 AboutUs*/
+    /* @var $objAbout2 AboutUs*/
+    /* @var $objAbout3 AboutUs*/
     /*
 	 * Declares class-based actions.
 	 */
     public $source;
 
-	public function actions()
-	{
-		return array(
-			// captcha action renders the CAPTCHA image displayed on the contact page
-			'captcha'=>array(
-				'class'=>'CCaptchaAction',
-				'backColor'=>0xFFFFFF,
-			),
-			// page action renders "static" pages stored under 'protected/views/site/pages'
-			// They can be accessed via: index1.php?r=site/page&view=FileName
-			'page'=>array(
-				'class'=>'CViewAction',
-			),
-		);
-	}
+    public function actions()
+    {
+        return array(
+            // captcha action renders the CAPTCHA image displayed on the contact page
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'backColor'=>0xFFFFFF,
+            ),
+            // page action renders "static" pages stored under 'protected/views/site/pages'
+            // They can be accessed via: index1.php?r=site/page&view=FileName
+            'page'=>array(
+                'class'=>'CViewAction',
+            ),
+        );
+    }
 
-	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
-	 */
-	public function actionIndex()
-	{
-		// renders the view file 'protected/views/site/index1.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$mainpage = Mainpage::model()->findByPk(0);
+    /**
+     * This is the default 'index' action that is invoked
+     * when an action is not explicitly requested by users.
+     */
+    public function actionIndex()
+    {
+        // renders the view file 'protected/views/site/index1.php'
+        // using the default layout 'protected/views/layouts/main.php'
+        $mainpage = Mainpage::model()->findByPk(0);
 
-		$arraySteps = $this->initSteps();
-		$arrayAboutUs = $this->initAboutus();
+        $arraySteps = $this->initSteps();
+        $arrayAboutUs = $this->initAboutus();
 
-		$this->render('index', array(
+        $this->render('index', array(
             'mainpageModel'=>$mainpage,
-			'mainpage'=>array(
-				'stepSize'=>"958px",
-			),
-			'block1'=>$arrayAboutUs['objAbout1'],
-			'block2'=>$arrayAboutUs['objAbout2'],
-			'block3'=>$arrayAboutUs['objAbout3'],
-			'step1'=>$arraySteps['step1'],
-			'step2'=>$arraySteps['step2'],
-			'step3'=>$arraySteps['step3'],
-			'step4'=>$arraySteps['step4'],
-			'step5'=>$arraySteps['step5'],
-		));
-	}
+            'mainpage'=>array(
+                'stepSize'=>"958px",
+            ),
+            'block1'=>$arrayAboutUs['objAbout1'],
+            'block2'=>$arrayAboutUs['objAbout2'],
+            'block3'=>$arrayAboutUs['objAbout3'],
+            'step1'=>$arraySteps['step1'],
+            'step2'=>$arraySteps['step2'],
+            'step3'=>$arraySteps['step3'],
+            'step4'=>$arraySteps['step4'],
+            'step5'=>$arraySteps['step5'],
+        ));
+    }
 
-	public function initAboutus(){
-		$objAbout1 = new AboutUs(1);
-		$objAbout1->setValuesById(1);
-		$objAbout1->titleText = Yii::t('aboutus', '0032');
-		$objAbout1->textAbout = Yii::t('aboutus', '0035');
-		$objAbout2 = new AboutUs(2);
-		$objAbout2->setValuesById(2);
-		$objAbout2->titleText = Yii::t('aboutus', '0033');
-		$objAbout2->textAbout = Yii::t('aboutus', '0036');
-		$objAbout3 = new AboutUs(3);
-		$objAbout3->setValuesById(3);
-		$objAbout3->titleText = Yii::t('aboutus', '0034');
-		$objAbout3->textAbout = Yii::t('aboutus', '0037');
-		return $arrayAboutUs = array(
-			'objAbout1'=>$objAbout1,
-			'objAbout2'=>$objAbout2,
-			'objAbout3'=>$objAbout3,
-		);
-	}
+    public function initAboutus(){
+        $objAbout1 = new AboutUs(1);
+        $objAbout1->setValuesById(1);
+        $objAbout1->titleText = Yii::t('aboutus', '0032');
+        $objAbout1->textAbout = Yii::t('aboutus', '0035');
+        $objAbout2 = new AboutUs(2);
+        $objAbout2->setValuesById(2);
+        $objAbout2->titleText = Yii::t('aboutus', '0033');
+        $objAbout2->textAbout = Yii::t('aboutus', '0036');
+        $objAbout3 = new AboutUs(3);
+        $objAbout3->setValuesById(3);
+        $objAbout3->titleText = Yii::t('aboutus', '0034');
+        $objAbout3->textAbout = Yii::t('aboutus', '0037');
+        return $arrayAboutUs = array(
+            'objAbout1'=>$objAbout1,
+            'objAbout2'=>$objAbout2,
+            'objAbout3'=>$objAbout3,
+        );
+    }
 
-	public function initSteps(){
-		$step1 = Step::model()->findByPk(1);
-		$step2 = Step::model()->findByPk(2);
-		$step3 = Step::model()->findByPk(3);
-		$step4 = Step::model()->findByPk(4);
-		$step5 = Step::model()->findByPk(5);
+    public function initSteps(){
+        $step1 = Step::model()->findByPk(1);
+        $step2 = Step::model()->findByPk(2);
+        $step3 = Step::model()->findByPk(3);
+        $step4 = Step::model()->findByPk(4);
+        $step5 = Step::model()->findByPk(5);
 
-		$step1->stepTitle =  Yii::t('step','0038');
-		$step2->stepTitle =  Yii::t('step','0039');
-		$step3->stepTitle =  Yii::t('step','0040');
-		$step4->stepTitle =  Yii::t('step','0041');
-		$step5->stepTitle =  Yii::t('step','0042');
+        $step1->stepTitle =  Yii::t('step','0038');
+        $step2->stepTitle =  Yii::t('step','0039');
+        $step3->stepTitle =  Yii::t('step','0040');
+        $step4->stepTitle =  Yii::t('step','0041');
+        $step5->stepTitle =  Yii::t('step','0042');
 
-		$step1->stepText =  Yii::t('step','0044');
-		$step2->stepText =  Yii::t('step','0045');
-		$step3->stepText =  Yii::t('step','0046');
-		$step4->stepText =  Yii::t('step','0047');
-		$step5->stepText =  Yii::t('step','0048');
+        $step1->stepText =  Yii::t('step','0044');
+        $step2->stepText =  Yii::t('step','0045');
+        $step3->stepText =  Yii::t('step','0046');
+        $step4->stepText =  Yii::t('step','0047');
+        $step5->stepText =  Yii::t('step','0048');
 
 
-		return $arraySteps = array(
-			'step1'=>$step1,
-			'step2'=>$step2,
-			'step3'=>$step3,
-			'step4'=>$step4,
-			'step5'=>$step5,
-		);
-	}
+        return $arraySteps = array(
+            'step1'=>$step1,
+            'step2'=>$step2,
+            'step3'=>$step3,
+            'step4'=>$step4,
+            'step5'=>$step5,
+        );
+    }
 
-	/**
-	 * This is the action to handle external exceptions.
-	 */
-	public function actionError()
-	{
-		if($error=Yii::app()->errorHandler->error)
-		{
-			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
-			else
-				$this->render('error', $error);
-		}
-	}
+    /**
+     * This is the action to handle external exceptions.
+     */
+    public function actionError()
+    {
+        if($error=Yii::app()->errorHandler->error)
+        {
+            if(Yii::app()->request->isAjaxRequest)
+                echo $error['message'];
+            else
+                $this->render('error', $error);
+        }
+    }
 
-	public function actionChangeLang($lg)
-	{
+    public function actionChangeLang($lg)
+    {
         $new_lang = $_GET['lg'];
         if ($new_lang == "ua"){
             $_SESSION['current_language'] = null;
@@ -133,19 +133,14 @@ class SiteController extends Controller
             $_SESSION['current_language'] = $new_lang;
         }
 
-        $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
-
-        if ($id) {
+        if (isset($_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'])){
+            $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
             $host = "localhost";
-            $database="forum";
+            $database = "forum";
             $db_user = "intita";
             $password = "1234567";
-
-            if(!mysql_connect($host,$db_user,$password))
-                die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db($database))
-                die('Не удалось выбрать БД!');
-
+            mysql_connect($host, $db_user, $password);
+            mysql_select_db($database);
             $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
             if (mysql_num_rows($result) > 0) {
                 mysql_query("UPDATE phpbb_users SET user_lang = '" . $new_lang . "' WHERE user_id =" . $id . ";");
@@ -154,37 +149,37 @@ class SiteController extends Controller
         }
 
         $app = Yii::app();
-		if (isset($_GET['lg'])) {
-			$app->session['lg'] = $_GET['lg'];
-		}
+        if (isset($_GET['lg'])) {
+            $app->session['lg'] = $_GET['lg'];
+        }
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
         else $this->redirect(Yii::app()->homeUrl);
-	}
+    }
 
-	/**
-	 * Displays the login page
-	 */
+    /**
+     * Displays the login page
+     */
     /* Express registration, check-sending on email adresses token to activate your account */
-	public function actionRapidReg()
-	{
+    public function actionRapidReg()
+    {
         if(isset($_POST['isExtended']))
             $model = new StudentReg('fromraptoext');
         else $model = new StudentReg('repidreg');
 // if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='studentreg-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+        if(isset($_POST['ajax']) && $_POST['ajax']==='studentreg-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
         if(isset($_POST['isExtended']))
         {
             $this->redirect( Yii::app()->createUrl('studentreg/index',array('tempEmail'=>$_POST['StudentReg']['email'],'tempPass'=>$_POST['StudentReg']['password'])));
         }
 // collect user input data
-		if(isset($_POST['StudentReg']))
-		{
-			$model->attributes=$_POST['StudentReg'];
+        if(isset($_POST['StudentReg']))
+        {
+            $model->attributes=$_POST['StudentReg'];
             $getToken=rand(0, 99999);
             $getTime=date("Y-m-d H:i:s");
             $model->token=sha1($getToken.$getTime);
@@ -196,13 +191,13 @@ class SiteController extends Controller
                     " http://intita.itatests.com/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
                 mail($model->email,$subject,$text,$headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
-			}else{
+            }else{
                 Yii::app()->user->setFlash('forminfo', Yii::t('error','0300'));
                 $this->redirect(Yii::app()->request->baseUrl . '/site#form');
             }
-		}
+        }
 
-	}
+    }
 
     /* Activation account*/
     public function actionAccActivation($token,$email)
@@ -253,11 +248,11 @@ class SiteController extends Controller
             }else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email'=>$model->email)));
         }
     }
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
+    /**
+     * Logs out the current user and redirect to homepage.
+     */
+    public function actionLogout()
+    {
         if (isset($_COOKIE['user_id_transition'])) {
             $host = "localhost";
             $database="forum";
@@ -280,7 +275,7 @@ class SiteController extends Controller
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
         else $this->redirect(Yii::app()->homeUrl);;
-	}
+    }
 
     public function actionSocialLogin()
     {
@@ -362,7 +357,7 @@ class SiteController extends Controller
             throw new CHttpException(404,Yii::t('exception','0238'));
         }
         else
-        return $model;
+            return $model;
     }
 
     /* Change password if token true*/
@@ -408,7 +403,7 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
             if(Yii::app()->user->isGuest && $model->login())
-            $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
+                $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
             else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
         }
         else{
@@ -430,11 +425,11 @@ class SiteController extends Controller
         $model->attributes=Yii::app()->request->getPost('StudentReg');
         $getModel= StudentReg::model()->findByAttributes(array('email'=>$model->email));
         if(Yii::app()->request->getPost('StudentReg'))
-            {
-                $getToken=rand(0, 99999);
-                $getTime=date("Y-m-d H:i:s");
-                $getModel->token=sha1($getToken.$getTime);
-            }
+        {
+            $getToken=rand(0, 99999);
+            $getTime=date("Y-m-d H:i:s");
+            $getModel->token=sha1($getToken.$getTime);
+        }
         if($getModel->validate())
         {
             $subject=Yii::t('recovery','0281');

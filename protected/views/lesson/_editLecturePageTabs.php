@@ -13,6 +13,7 @@ for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $
         </a>
 <?php
 }?>
+
 <h1 class="lessonPart">
     <div class="labelBlock">
         <p>Сторінка <?php echo $page->page_order . '. ';
@@ -82,5 +83,16 @@ if($page->video) {
             default:
                 break;
         }
+    } else{
+        ?>
+        <button onclick=""> Додати текст </button>
+        <button onclick=""> Додати задачу </button>
+        <?php
     }
 ?>
+
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $lecture->id, 'page' => $page->page_order));?>"> Додати нову сторінку </a>
+<br>
+<br>

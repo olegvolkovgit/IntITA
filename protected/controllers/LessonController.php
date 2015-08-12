@@ -355,4 +355,32 @@ class LessonController extends Controller{
             $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
         }
     }
+
+    public function actionAddNewPage(){
+        $lecture = Yii::app()->request->getPost('lecture');
+        $page = Yii::app()->request->getPost('page');
+
+        $this->reorderLecturePagesDown($lecture, $page+1);
+        LecturePage::addNewPage($lecture, $page+1);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    //reorder blocks on lesson page - up block
+    public function reorderLecturePagesDown($lecture, $page)
+    {
+        if($page > 1) {
+            $this->swapLecturePages($lecture, $page);
+        }
+    }
+
+    public function swapLecturePages($lecture, $page)
+    {
+        $pagesCount = LecturePage::model()->count('id_lecture=:id', array(':id' => $lecture));
+        for($i = $page; $i <= $pagesCount; $i++){
+            $model = LecturePage::model()->findByAttributes(array('id_lecture'=>$lecture,'page_order'=>$i));
+            $model->attributes=array('page_order' => $i+1);
+            $model->save();
+        }
+    }
 }
