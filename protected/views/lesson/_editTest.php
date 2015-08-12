@@ -35,7 +35,7 @@ $valid=TestsHelper::getTestValid($idBlock);
             <input type="text" name="idBlock" hidden="hidden" value="<?php echo $idBlock;?>"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
-        <input type="submit" value="Додати тест" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
+        <input type="submit" value="Зберегти зміни" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>

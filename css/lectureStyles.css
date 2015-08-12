@@ -228,6 +228,12 @@ margin-left:10px;
 #addTask textarea {
     width: 100%;
 }
+.editTask{
+    display:none;
+}
+.editTask textarea {
+    width: 100%;
+}
 #addTest{
     display:none;
 }

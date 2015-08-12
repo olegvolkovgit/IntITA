@@ -30,7 +30,6 @@ class TaskController extends Controller
         }
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
-
     public function actionSetMark()
     {
         $status = Yii::app()->request->getPost('status', '');
@@ -43,4 +42,23 @@ class TaskController extends Controller
         TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+    public function actionEditTask()
+    {
+        $idBlock =  Yii::app()->request->getPost('idTaskBlock', 0);
+        $condition = Yii::app()->request->getPost('condition', '');
+        $lecture =  Yii::app()->request->getPost('lecture', 0);
+        $author = Yii::app()->request->getPost('author', null);
+        $language = Yii::app()->request->getPost('language', 'C++');
+        $assignment = Yii::app()->request->getPost('assignment', 0);
+        $table = Yii::app()->request->getPost('table', '');
+        $taskType = Yii::app()->request->getPost('taskType', 'plain');
+
+        if ($condition){
+            if ($lectureElementId = LectureElement::editTaskBlock($idBlock, $condition)) {
+//                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table);
+            }
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
 }
