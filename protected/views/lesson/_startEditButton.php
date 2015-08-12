@@ -1,6 +1,7 @@
 <?php
 
 ?>
+<br>
 <div onclick="enableLessonEdit(<?php echo $block;?>);">
     <a>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
@@ -13,3 +14,4 @@
              id="addTextBlock<?php echo $block;?>" title="Додати новий блок" onclick="showBlockForm()"/>
     </a>
 </div>
+<br>

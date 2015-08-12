@@ -36,9 +36,18 @@ function showAddTestForm(testType, isFirst){
 
 function enableLessonEdit(block){
     editButton = 'editIco' + block;
-    addBlockButton = 'addTextBlock' + block;
+    //addBlockButton = 'addTextBlock' + block;
     document.getElementById(editButton).style.display = 'none';
-    document.getElementById(addBlockButton).style.display = 'inline-block';
+    //document.getElementById(addBlockButton).style.display = 'inline-block';
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/lesson/showPagesList",
+        data: {'idLecture':idLecture},
+        success: function(){
+            $.fn.yiiListView.update('lecturePageTabs');
+            return false;
+        }
+    });
 }
 
 function showForm(){
@@ -71,6 +80,8 @@ function buttonFormulaEnabled(){
     $("#addFormulaButton").removeAttr('disabled');
 }
 
-function addTextBlock(){
-    document.getElementById('blockForm').style.display = 'block';
+function addTextBlock(type){
+    document.getElementById('addBlock').style.display = 'block';
+    document.getElementById('textBlockForm').style.display = 'block';
+    document.getElementById('blockType').value = type;
 }

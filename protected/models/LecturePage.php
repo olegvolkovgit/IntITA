@@ -123,6 +123,7 @@ class LecturePage extends CActiveRecord
         for ($i = 0, $count = count($pages); $i < $count; $i++ ){
             $result[$i]['order'] = $pages[$i]->page_order;
             $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+
             if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
                 $result[$i]['isDone'] = true;
                 $result = LecturePage::setNoAccessPages($result, $count, $i+1);
@@ -143,7 +144,7 @@ class LecturePage extends CActiveRecord
     }
 
     public static function isQuizDone($quiz, $user){
-        if ($quiz == NULL){
+        if (!$quiz){
             return true;
         }
         if ($user != 0){

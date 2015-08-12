@@ -1,5 +1,4 @@
 <?php
-if ($editMode) {
 $answers=TestsHelper::getTestAnswers($idBlock);
 $valid=TestsHelper::getTestValid($idBlock);
 ?>
@@ -41,7 +40,7 @@ $valid=TestsHelper::getTestValid($idBlock);
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>
-<?php }?>
+
 
 
 

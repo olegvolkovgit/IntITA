@@ -27,26 +27,45 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
 }?>
 <br>
 <?php
-$this->widget('zii.widgets.jui.CJuiTabs',array(
-    'tabs'=>array(
-        'Відео'=>array('id'=>'video','content'=>$this->renderPartial(
-            '_videoTab',
-            array('page' => $page),true
-        )),
-        'Текст'=>array('id'=>'text','content'=>$this->renderPartial(
-            '_textListTab',
-            array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user),true
-        )),
-    ),
-    // additional javascript options for the tabs plugin
-    'options'=>array(
-        'collapsible'=>true,
-    ),
-    'id'=>'MyTab-Menu',
-    'themeUrl' => Yii::app()->request->baseUrl.'/themes',
-    'cssFile' => 'jquery-ui.min.css',
-    'theme' => 'smoothness',
-));
+if($page->video == null){
+    $this->widget('zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+                '_textListTab',
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+            )),
+        ),
+        // additional javascript options for the tabs plugin
+        'options' => array(
+            'collapsible' => true,
+        ),
+        'id' => 'MyTab-Menu',
+        'themeUrl' => Yii::app()->request->baseUrl . '/themes',
+        'cssFile' => 'jquery-ui.min.css',
+        'theme' => 'smoothness',
+    ));
+}else {
+    $this->widget('zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+            'Відео' => array('id' => 'video', 'content' => $this->renderPartial(
+                '_videoTab',
+                array('page' => $page), true
+            )),
+            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+                '_textListTab',
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+            )),
+        ),
+        // additional javascript options for the tabs plugin
+        'options' => array(
+            'collapsible' => true,
+        ),
+        'id' => 'MyTab-Menu',
+        'themeUrl' => Yii::app()->request->baseUrl . '/themes',
+        'cssFile' => 'jquery-ui.min.css',
+        'theme' => 'smoothness',
+    ));
+}
 
 if (!is_null($page->quiz)) {
     switch (lectureHelper::getQuizType($page->quiz)) {

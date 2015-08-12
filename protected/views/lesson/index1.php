@@ -42,13 +42,13 @@ $this->breadcrumbs=array(
     <div class="lessonText">
 
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
-        <?php if($editMode){?>
-            <?php $this->renderPartial('_editLecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));?>
-        <?php }else{?>
-            <?php $this->renderPartial('_lecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));?>
-        <?php }?>
+        <?php if($editMode){
+            $this->renderPartial('_startEditButton', array('block' => 1));
+             //$this->renderPartial('_editLecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+        }
+            $this->renderPartial('_lecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+        ?>
 
-        <?php $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));?>
     </div>
     <!-- lesson footer ----congratulations-->
     <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user'=>$user, 'editMode' => $editMode));?>

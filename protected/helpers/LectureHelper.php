@@ -191,4 +191,18 @@ class LectureHelper {
             return '';
         }
     }
+
+    public static function getNumberLecturePages($idLecture){
+        return LecturePage::model()->count('id_lecture=:id', array(':id' => $idLecture));
+    }
+
+    public static function getPagesList($idLecture){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'page_title';
+        $criteria->addCondition('id_lecture='.$idLecture);
+        $criteria->order = 'page_order';
+        $list = LecturePage::model()->findAll($criteria);
+        var_dump($list);die();
+        return $list;
+    }
 }
