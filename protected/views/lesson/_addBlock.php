@@ -12,22 +12,9 @@
         <div id="textBlockForm">
             <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>"
                   method="post">
-<!--                <br>-->
-<!--                <br>-->
-<!--                <span class="formLabel">Новий блок:</span>-->
-<!--                <br>-->
-<!--                <a href="javascript:addFormula()">Додати формулу LaTeX</a>-->
-<!--                <br>-->
-<!--                <a href="javascript:showAddTaskForm('plain')">Додати завдання</a>-->
-<!--                <br>-->
-<!--                <a href="javascript:showAddTaskForm('final', --><?php //echo LectureHelper::isFinalFirst($lecture->id);?><!--)">Додати підсумкове завдання</a>-->
-<!--                <br>-->
-<!--                <a href="javascript:showAddTestForm('plain')">Додати тест</a>-->
-<!--                <br>-->
-<!--                <a href="javascript:showAddTestForm('final', --><?php //echo LectureHelper::isFinalFirst($lecture->id);?><!--)")">Додати підсумковий тест</a>-->
-<!--                <br>-->
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
                 <input name="type" value="" id="blockType" hidden="hidden">
+                <input name="page" value="<?php echo $pageOrder;?>" id="page" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
                           placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
                 </textarea>

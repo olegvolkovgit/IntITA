@@ -31,8 +31,8 @@ class LecturePage extends CActiveRecord
 		return array(
 			array('id_lecture', 'required'),
 			array('id_lecture, page_order, video, quiz', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
+            array('page_title', 'length', 'max' => 255),
+
 			array('id, id_lecture, page_order, video, quiz, page_title', 'safe', 'on'=>'search'),
 		);
 	}
@@ -117,6 +117,13 @@ class LecturePage extends CActiveRecord
         return $result;
     }
 
+    public static function addTextBlock($element, $page){
+        Yii::app()->db->createCommand()->insert('lecture_element_lecture_page', array(
+            'element'=>$element,
+            'page'=>$page,
+        ));
+    }
+
     public static function getAccessPages($idLecture, $user){
         $pages = LecturePage::model()->findAllByAttributes(array('id_lecture' => $idLecture));
         $result = [];
@@ -162,5 +169,14 @@ class LecturePage extends CActiveRecord
             }
         }
         return false;
+    }
+
+    public  static function addNewPage($lecture, $pageOrder){
+        $model = new LecturePage();
+
+        $model->id_lecture = $lecture;
+        $model->page_order = $pageOrder;
+
+        $model->save();
     }
 }

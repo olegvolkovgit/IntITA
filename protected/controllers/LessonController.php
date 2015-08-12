@@ -158,7 +158,7 @@ class LessonController extends Controller{
     public function actionCreateNewBlock(){
         $model = new LectureElement();
 
-
+        $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('newTextBlock');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
@@ -204,6 +204,12 @@ class LessonController extends Controller{
         $model->id_type = $idType;
 
         $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+
+        LecturePage::addTextBlock($id, $pageId);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 

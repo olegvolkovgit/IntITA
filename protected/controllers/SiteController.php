@@ -260,7 +260,7 @@ class SiteController extends Controller
 	{
         if (isset($_COOKIE['user_id_transition'])) {
             $host = "localhost";
-            $database="int_ita_db";
+            $database="forum";
             $db_user = "intita";
             $password = "1234567";
 

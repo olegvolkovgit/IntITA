@@ -199,12 +199,8 @@ class ModuleController extends Controller
 
         Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
         Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['titleUa'] .'додана до цього модуля');
-        // if AJAX request, we should not redirect the browser
-//        $permission = new PayModules();
-//        $permission->setModulePermission(
-//            $teacher,
-//            $_POST['idModule'],
-//            array('read', 'edit'));
+
+        LecturePage::addNewPage($newOrder, 1);
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
