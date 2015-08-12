@@ -25,7 +25,6 @@
                     onclick="hideForm('blockForm', 'newTextBlock')"><?php echo Yii::t('course', '0368') ?></button>
         </div>
     </div>
-
     <?php
     if ($editMode) {
         $this->widget('ImperaviRedactorWidget', array(
