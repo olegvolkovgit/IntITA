@@ -71,7 +71,7 @@ class Database
      * Database name
      * @var string
      */
-    protected $dbName = 'int_ita_db';
+    protected $dbName = 'mibew';
 
     /**
      * Tables prefix

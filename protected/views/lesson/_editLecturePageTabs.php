@@ -27,18 +27,6 @@ for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $
             ?></p>
     </div>
 </h1>
-<!---->
-<!--<h3><label for="pageTitle">Назва сторінки</label></h3>-->
-<?php
-//$this->widget('editable.EditableField', array(
-//    'type' => 'text',
-//    'model' => $page,
-//    'attribute' => 'page_title',
-//    'emptytext' => Yii::t('config', '0575'),
-//    'url' => $this->createUrl('lesson/updateLecturePageAttribute'),
-//    'placement' => 'right',
-//));
-//?>
 <h3><label for="pageVideo">Відео</label></h3>
 <?php
 if($page->video) {

@@ -199,8 +199,10 @@ class ModuleController extends Controller
 
         Module::model()->updateByPk($_POST['idModule'], array('lesson_count'=>$_POST['order']));
         Yii::app()->user->setFlash('newLecture','Нова лекція №'.$newOrder.$_POST['titleUa'] .'додана до цього модуля');
+        $idLecture = Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id;
 
-        LecturePage::addNewPage($newOrder, 1);
+        LecturePage::addNewPage($idLecture, 1);
+
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
