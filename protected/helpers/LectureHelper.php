@@ -206,4 +206,5 @@ class LectureHelper {
         return $list;
     }
 
+
 }

@@ -137,7 +137,7 @@ class SiteController extends Controller
 
         if ($id) {
             $host = "localhost";
-            $database="int_ita_db";
+            $database="forum";
             $db_user = "intita";
             $password = "1234567";
 

@@ -228,9 +228,6 @@ margin-left:10px;
 #addTask textarea {
     width: 100%;
 }
-.editTask{
-    display:none;
-}
 .editTask textarea {
     width: 100%;
 }
@@ -263,16 +260,12 @@ margin-left:10px;
     overflow: auto;
 }
 
-}
 .addTest,.removeTest,.editRemoveTest,.editAddTest{
     cursor: pointer;
     color:#4b75a4;
 }
 .addTest:hover,.removeTest:hover,.editRemoveTest:hover,.editAddTest:hover{
     color:#666666;
-}
-.editTest {
-    display: none;
 }
 .tabswidgets .ui-widget-header {
     border: 1px solid #aaaaaa;
