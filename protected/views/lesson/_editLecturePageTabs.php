@@ -27,18 +27,6 @@ for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $
             ?></p>
     </div>
 </h1>
-<!---->
-<!--<h3><label for="pageTitle">Назва сторінки</label></h3>-->
-<?php
-//$this->widget('editable.EditableField', array(
-//    'type' => 'text',
-//    'model' => $page,
-//    'attribute' => 'page_title',
-//    'emptytext' => Yii::t('config', '0575'),
-//    'url' => $this->createUrl('lesson/updateLecturePageAttribute'),
-//    'placement' => 'right',
-//));
-//?>
 <h3><label for="pageVideo">Відео</label></h3>
 <?php
 if($page->video) {
@@ -64,7 +52,7 @@ if($page->video) {
     <div id="addBlock">
         <?php
         $lecture = Lecture::model()->findByPk($page->id_lecture);
-        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user)));
+        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
         ?>
     </div>
     <br>
@@ -79,10 +67,20 @@ if($page->video) {
 </fieldset>
 <h3><label for="pageQuiz">Завдання (тест) лекції</label></h3>
 <?php
-    $data = LectureHelper::getPageQuiz($page->id);
-    if(LectureHelper::getQuizType($data['id_block']) == 12 || LectureHelper::getQuizType($data['id_block']) == 13) {
-        $this->renderPartial('_editTest', array('idBlock' => $data['id_block']));
-    }else{
-        $this->renderPartial('_editTask', array('idBlock' => $data['id_block']));
+    if($page->quiz != null) {
+        $data = LectureHelper::getPageQuiz($page->id);
+
+        switch (LectureHelper::getQuizType($data['id_block'])) {
+            case '5':
+            case '6':
+                $this->renderPartial('_editTask', array('idBlock' => $data['id_block']));
+                break;
+            case '12':
+            case '13':
+                $this->renderPartial('_editTest', array('idBlock' => $data['id_block']));
+                break;
+            default:
+                break;
+        }
     }
 ?>
