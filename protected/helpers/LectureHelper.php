@@ -141,8 +141,8 @@ class LectureHelper {
     public static function getPreId($order, $idModule){
         return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
     }
-    /* Шукаємо всі заняття які відображаються в модулі, сортуємо по зростаню порядкового номера і знаходимо
-   порядковий номер першого заняття де не зданий фінального теста чи завдання */
+    /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+   пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     public static function getLastEnabledLessonOrder($idModule){
         $user = Yii::app()->user->getId();
 
@@ -173,4 +173,38 @@ class LectureHelper {
     public static function getQuizType($id){
         return LectureElement::model()->findByPk($id)->id_type;
     }
+
+    public static function getPageVideoUrl($pageId){
+        $element = LecturePage::model()->findByPk($pageId)->video;
+        if ($element) {
+            return LectureElement::model()->findByPk($element)->html_block;
+        }else{
+            return '';
+        }
+    }
+
+    public static function getPageQuiz($pageId){
+        $element = LecturePage::model()->findByPk($pageId)->quiz;
+        if ($element) {
+            return LectureElement::model()->findByPk($element);
+        }else{
+            return '';
+        }
+    }
+
+    public static function getNumberLecturePages($idLecture){
+        return LecturePage::model()->count('id_lecture=:id', array(':id' => $idLecture));
+    }
+
+    public static function getPagesList($idLecture){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'page_title';
+        $criteria->addCondition('id_lecture='.$idLecture);
+        $criteria->order = 'page_order';
+        $list = LecturePage::model()->findAll($criteria);
+        //var_dump($list);die();
+        return $list;
+    }
+
+
 }

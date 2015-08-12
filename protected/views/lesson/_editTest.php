@@ -1,5 +1,4 @@
 <?php
-if ($editMode) {
 $answers=TestsHelper::getTestAnswers($idBlock);
 $valid=TestsHelper::getTestValid($idBlock);
 ?>
@@ -7,7 +6,8 @@ $valid=TestsHelper::getTestValid($idBlock);
     <br>
     <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>">
         <fieldset>
-            Питання теста:
+            <legend>Редагування теста:</legend>
+            Питання:
             <br>
             <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста" value="<?php echo TestsHelper::getTestCondition($idBlock);?>" required/>
             <br>
@@ -20,7 +20,7 @@ $valid=TestsHelper::getTestValid($idBlock);
                     <?php } ?>
                 </ol>
                 <div class="editAddTest">Додати відповідь</div>
-                <div class="editRemoveTest">Видалити</div>
+                <div class="editRemoveTest">Видалити (останню відповідь)</div>
             </fieldset>
             <fieldset id="answersField<?php echo $idBlock?>" onclick="editButtonEnabled('<?php echo $idBlock?>');">
                 <legend id="label2">Правильні відповіді:</legend>
@@ -35,11 +35,12 @@ $valid=TestsHelper::getTestValid($idBlock);
             <input type="text" name="idBlock" hidden="hidden" value="<?php echo $idBlock;?>"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
-        <input type="submit" value="Зберегти зміни" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
+        <br>
+        <input type="submit" value="Редагувати" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>
-<?php }?>
+
 
 
 

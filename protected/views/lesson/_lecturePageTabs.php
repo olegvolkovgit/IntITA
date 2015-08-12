@@ -3,7 +3,12 @@
  * @var $page LecturePage;
  */
 ?>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <h1 class="lessonPart" >
+        <div class="labelBlock">
+            <p>Сторінка <?php echo $page->page_order.'. '.$page->page_title;?></p>
+        </div>
+    </h1>
 <?php
 for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     if ($passedPages[$i]['isDone']) {
@@ -23,26 +28,47 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
 <br>
 <div class="tabsWidget">
 <?php
-$this->widget('zii.widgets.jui.CJuiTabs',array(
-    'tabs'=>array(
-        'Відео'=>array('id'=>'video','content'=>$this->renderPartial(
-            '_videoTab',
-            array('page' => $page),true
-        )),
-        'Текст'=>array('id'=>'text','content'=>$this->renderPartial(
-            '_textListTab',
-            array('dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user),true
-        )),
-    ),
-    // additional javascript options for the tabs plugin
-    'options'=>array(
-        'collapsible'=>true,
-    ),
-    'id'=>'MyTab-Menu',
-));
-?>
-</div>
-<?php
+
+if($page->video == null){
+    $this->widget('zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+                '_textListTab',
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+            )),
+        ),
+        // additional javascript options for the tabs plugin
+        'options' => array(
+            'collapsible' => true,
+        ),
+        'id' => 'MyTab-Menu',
+        'themeUrl' => Yii::app()->request->baseUrl . '/themes',
+        'cssFile' => 'jquery-ui.min.css',
+        'theme' => 'smoothness',
+    ));
+}else {
+    $this->widget('zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+            'Відео' => array('id' => 'video', 'content' => $this->renderPartial(
+                '_videoTab',
+                array('page' => $page), true
+            )),
+            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+                '_textListTab',
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+            )),
+        ),
+        // additional javascript options for the tabs plugin
+        'options' => array(
+            'collapsible' => true,
+        ),
+        'id' => 'MyTab-Menu',
+        'themeUrl' => Yii::app()->request->baseUrl . '/themes',
+        'cssFile' => 'jquery-ui.min.css',
+        'theme' => 'smoothness',
+    ));
+}
+
 if (!is_null($page->quiz)) {
     switch (lectureHelper::getQuizType($page->quiz)) {
         case '5':

@@ -10,7 +10,7 @@
     <br>
     <form name="add-task">
         <fieldset>
-            <legend id="label">Додати нову задачу:</legend>
+            <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
             <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
                 <option value="c++">С++</option>

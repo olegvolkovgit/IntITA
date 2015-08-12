@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-06 16:18:21
+-- Date/time:                    2015-08-10 17:27:19
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `leader_modules` (
   CONSTRAINT `FK_leader_modules_teacher` FOREIGN KEY (`leader`) REFERENCES `teacher` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.leader_modules: ~0 rows (approximately)
+-- Dumping data for table intita.leader_modules: ~7 rows (approximately)
 /*!40000 ALTER TABLE `leader_modules` DISABLE KEYS */;
 INSERT INTO `leader_modules` (`leader`, `module`) VALUES
 	(5, 54),
