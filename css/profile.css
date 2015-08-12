@@ -338,7 +338,7 @@ div#consultation-grid.grid-view td{
     display: block;
 }
 #consultation-grid table.items tr td:first-child {
-    width: 1%;
+    min-width: 20px;
     white-space: nowrap;
 }
 #consultation-grid table.items td.dateColumn{
