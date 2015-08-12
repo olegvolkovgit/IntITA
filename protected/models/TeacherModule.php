@@ -118,10 +118,15 @@ class TeacherModule extends CActiveRecord
 
     public static function addTeacherAccess($teacher, $module){
         $model = new TeacherModule();
-        $model->idTeacher = $teacher;
-        $model->idModule = $module;
-        if ($model->validate()){
-            $model->save();
+        if (!TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
+            ':teacher' => $teacher,
+            ':module' => $module,
+        ))){
+            $model->idTeacher = $teacher;
+            $model->idModule = $module;
+            if ($model->validate()){
+                $model->save();
+            }
         }
     }
     public static function getAuthorModules($author){
