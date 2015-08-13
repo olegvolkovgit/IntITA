@@ -7,7 +7,9 @@
  * @license http://www.yiiframework.com/license/
  * @since 1.0
  */
-
+.list-view .pager {
+    margin-bottom: 5px;
+}
 ul.yiiPager
 {
     border:0;

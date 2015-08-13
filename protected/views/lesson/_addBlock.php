@@ -52,12 +52,6 @@
                 'fontcolor' => array(
                     'js' => array('fontcolor.js',),
                 ),
-                'save' => array(
-                    'js' => array('save.js',),
-                ),
-                'close' => array(
-                    'js' => array('close.js',),
-                ),
             ),
         ));
     }
