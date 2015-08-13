@@ -144,18 +144,18 @@ $header = new Header();?>
                     <table>
                         <tr>
                             <td>
-                                <a href="https://twitter.com/INTITA_EDU">
+                                <a href="https://twitter.com/INTITA_EDU" target="_blank">
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'twitter.png'); ?>"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="http://youtube.com">
+                                <a href="http://youtube.com" target="_blank">
                                     <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/youtube.png"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="https://plus.google.com/u/0/116490432477798418410/posts">
+                                <a href="https://plus.google.com/u/0/116490432477798418410/posts" target="_blank">
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'googlePlus.png'); ?>"/>
                                 </a>
@@ -163,19 +163,19 @@ $header = new Header();?>
                         </tr>
                         <tr>
                             <td>
-                                <a href="https://www.facebook.com/pages/INTITA/320360351410183">
+                                <a href="https://www.facebook.com/pages/INTITA/320360351410183" target="_blank">
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'facebook.png'); ?>"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym">
+                                <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym" target="_blank">
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'inl.png'); ?>"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="http://vk.com/intita">
+                                <a href="http://vk.com/intita" target="_blank">
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'vkontakte.png'); ?>"/>
                                 </a>

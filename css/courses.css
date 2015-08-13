@@ -73,12 +73,19 @@
 {
     margin-left:150px;
 }
+.courseStatusBox img
+{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
 .coursePriceBox
 {
     margin-left: 150px;
 }
 #coursePriceStatus1 {
-    color: #ff0000;
+    color: #cc0000;
     text-decoration: line-through;
 }
 #coursePriceStatus2 {
@@ -255,7 +262,7 @@ a#coursesLangs {
     color: green;
 }
 #courseStatus0 {
-    color: #ff0000;
+    color: #cc0000;
 }
 .sourse{
     color:gray;

@@ -51,9 +51,13 @@
                     <div class="courseStatusBox">
                         <?php echo Yii::t('courses', '0094'); ?>
                         <span id="courseStatus<?php echo $val->status; ?>">
-                                    <?php if ($val->status == 0) {
+                                    <?php if ($val->status == 0) {?>
+                                        <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png');?>">
+                                        <?php
                                         echo Yii::t('courses', '0230');
-                                    } else {
+                                    } else {?>
+                                        <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png');?>">
+                                        <?php
                                         echo Yii::t('courses', '0231');
                                     }
                                     ?>
