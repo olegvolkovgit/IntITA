@@ -1,4 +1,7 @@
+
 <?php
+if(!Yii::app()->user->isGuest) $this->redirect(Yii::app()->createUrl('/site/index'));
+
 $this->pageTitle = 'INTITA';
 ?>
 <?php
