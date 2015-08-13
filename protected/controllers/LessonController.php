@@ -127,10 +127,31 @@ class LessonController extends Controller{
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionAddVideo(){
+        $model = new LectureElement();
+
+        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+        $pageOrder = Yii::app()->request->getPost('page');
+
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = 0;
+        $model->html_block = $htmlBlock;
+        $model->id_type = 2;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::getLastVideoId($model->id_lecture);
+
+        LecturePage::addVideo($pageId, $id);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     public function actionAddFormula(){
         $model = new LectureElement();
 
         $htmlBlock = Yii::app()->request->getPost('newFormula');
+        $pageOrder = Yii::app()->request->getPost('page');
 
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::model()->count('id_lecture = :id', array(':id' => Yii::app()->request->getPost('idLecture')))+1;
@@ -149,9 +170,14 @@ class LessonController extends Controller{
         }
 
         $model->id_type = 10;
-        $model->type = 'formula';
-
         $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+
+        LecturePage::addTextBlock($id, $pageId);
+
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -162,7 +188,7 @@ class LessonController extends Controller{
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('newTextBlock');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::model()->count('id_lecture = :id', array(':id' => Yii::app()->request->getPost('idLecture')))+1;
+        $model->block_order = LectureElement::model()->count('id_lecture = :id', array(':id' => Yii::app()->request->getPost('idLecture'))) + 1;
 
         switch ($idType){
             case '2':
@@ -175,6 +201,9 @@ class LessonController extends Controller{
                     }
                 }
                 break;
+            case '4':
+                $model->html_block = '<pre>'.$htmlBlock.'</pre>';
+                 break;
             case '9':
                 $tempArray = explode(" ", $htmlBlock);
                 for ($i = count($tempArray)-1; $i > 0; $i--) {
@@ -351,14 +380,44 @@ class LessonController extends Controller{
 
     public function actionShowPagesList(){
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
-        if($idLecture){
-            $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
-        }
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
     }
 
-    public function actionAddNewPage(){
-        $lecture = Yii::app()->request->getPost('lecture');
-        $page = Yii::app()->request->getPost('page');
+    public function actionDeletePage(){
+        $idLecture = Yii::app()->request->getPost('idLecture', 0);
+        $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
+
+        LecturePage::deletePage($idLecture, $pageOrder);
+
+        $this->reorderPages($idLecture, $pageOrder);
+
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+    }
+
+    public function actionShowPageEditor(){
+        $idLecture = Yii::app()->request->getPost('idLecture', 0);
+        $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
+
+        $textList = LecturePage::getBlocksListById($page->id);
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id_block', $textList);
+
+        $dataProvider = new CActiveDataProvider('LectureElement');
+        $dataProvider->criteria = $criteria;
+        $criteria->order = 'block_order ASC';
+        $dataProvider->setPagination(array(
+                'pageSize' => '200',
+            )
+        );
+
+        $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+
+        return $this->renderPartial('_editLecturePageTabs', array(
+            'page' => $page, 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId()));
+    }
+
+    public function actionAddNewPage($lecture, $page){
 
         $this->reorderLecturePagesDown($lecture, $page+1);
         LecturePage::addNewPage($lecture, $page+1);
@@ -381,6 +440,53 @@ class LessonController extends Controller{
             $model = LecturePage::model()->findByAttributes(array('id_lecture'=>$lecture,'page_order'=>$i));
             $model->attributes=array('page_order' => $i+1);
             $model->save();
+        }
+    }
+
+    //reorder blocks on lesson page - up block
+    public function actionUpPage()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $pageOrder = Yii::app()->request->getPost('pageOrder');
+
+        if($pageOrder > 1) {
+            $this->swapPages($idLecture, $pageOrder - 1, $pageOrder);
+        }
+
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+    }
+
+    //reorder blocks on lesson page - down block
+    public function actionDownPage(){
+
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $pageOrder = Yii::app()->request->getPost('pageOrder');
+
+        if($pageOrder < LecturePage::model()->count('id_lecture='.$idLecture)) {
+            $this->swapPages($idLecture, $pageOrder, $pageOrder + 1);
+        }
+
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+    }
+
+    public function swapPages($idLecture, $first, $second)
+    {
+        //find blocks id's for first and second pages
+        $firstId = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $first))->id;
+        $secondId = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $second))->id;
+        //swap blocks - rewrite page order in DB
+        LecturePage::model()->updateByPk($secondId, array('page_order' => $first));
+        LecturePage::model()->updateByPk($firstId, array('page_order' => $second));
+    }
+
+    public  function reorderPages($idLecture, $pageOrder){
+
+        $countPages = LecturePage::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $countPages++;
+
+        for ($i = $pageOrder+1; $i <= $countPages; $i++){
+            $id = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $i))->id;
+            LecturePage::model()->updateByPk($id, array('page_order' => $i-1));
         }
     }
 }

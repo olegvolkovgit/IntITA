@@ -40,14 +40,12 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
-
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
-        <?php if($editMode){
-            //$this->renderPartial('_startEditButton', array('block' => 1));
-            $this->renderPartial('_editLecturePageTabs', array('page' => $page,  'countBlocks' => $countBlocks, 'dataProvider'=>$dataProvider, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
-        } else {
+        <?php if($editMode) {
+            $this->renderPartial('_startEditButton', array('block' => 1));
+        }
             $this->renderPartial('_lecturePageTabs', array('page' => $page, 'countBlocks' => $countBlocks, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
-        }?>
+        ?>
 
     </div>
     <!-- lesson footer ----congratulations-->

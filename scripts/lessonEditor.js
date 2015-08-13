@@ -13,38 +13,41 @@ function hideForm(id, title) {
     $form.style.display = 'none';
     document.getElementById(title).innerHTML = '';
 }
-function showAddTaskForm(taskType, isFirst){
-    if(isFirst == 0){
-        alert('У цьому занятті вже є підсумковий тест або задача. Щоб додати нову підсумкову задачу, потрібно видалити існуючу задачу чи тест.');
-    } else {
+function showAddTaskForm(taskType){
         task = taskType;
         document.getElementById('addTask').style.display = 'block';
         document.getElementById('addBlockForm').style.display = 'none';
         document.getElementById('cancelButton').style.display = 'none';
-    }
 }
-function showAddTestForm(testType, isFirst){
-    if(isFirst == 0){
-        alert('У цьому занятті вже є підсумковий тест або задача. Щоб додати новий підсумковий тест, потрібно видалити існуючу задачу чи тест.');
-    } else {
+
+function showAddTestForm(testType){
         document.getElementById('testType').value = testType;
         document.getElementById('addTest').style.display = 'block';
         document.getElementById('addBlockForm').style.display = 'none';
         document.getElementById('cancelButton').style.display = 'none';
-    }
 }
 
 function enableLessonEdit(block){
     editButton = 'editIco' + block;
-    //addBlockButton = 'addTextBlock' + block;
     document.getElementById(editButton).style.display = 'none';
-    //document.getElementById(addBlockButton).style.display = 'inline-block';
     $.ajax({
         type: "POST",
         url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture},
-        success: function(){
-            $.fn.yiiListView.update('lecturePageTabs');
+        success: function(response){
+            $('div[name="lecturePage"]').html(response);
+                return false;
+        }
+    });
+}
+
+function showPageEdit(lecture, pageOrder){
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/lesson/showPageEditor",
+        data: {'idLecture':lecture, 'pageOrder':pageOrder},
+        success: function(response){
+            $('div[name="lecturePage"]').html(response);
             return false;
         }
     });
@@ -59,8 +62,6 @@ function showBlockForm(){
 }
 
 function addFormula(){
-    $('select').val('10');
-    document.getElementById('blockForm').style.display = "none";
     document.getElementById('divAddFormula').style.display =  "block";
     OpenLatexEditor('newFormula','latex','uk_uk', 'true');
 }
@@ -69,6 +70,12 @@ function cancelAddFormula(){
     document.getElementById('divAddFormula').style.display =  "none";
     location.reload();
 }
+
+function cancelAddVideo(){
+    document.getElementById('divAddVideo').style.display =  "none";
+    location.reload();
+}
+
 function fieldValidation(){
     var val = $("#newFormula").val().trim();
     if(val=="\\[\\]"){
@@ -84,4 +91,48 @@ function addTextBlock(type){
     document.getElementById('addBlock').style.display = 'block';
     document.getElementById('textBlockForm').style.display = 'block';
     document.getElementById('blockType').value = type;
+}
+
+function addVideo(){
+    document.getElementById('divAddVideo').style.display =  "block";
+    document.getElementById('addVideoStart').style.display = "none";
+}
+
+function deletePage(lecture, page){
+    if (confirm('Ви впевнені, що хочете видалити сторінку ' + page + '?')) {
+        $.ajax({
+            type: "POST",
+            url: "/IntITA/lesson/deletePage",
+            data: {'idLecture':lecture, 'pageOrder':page},
+            success: function(){
+                $('div[name="lecturePage"]').html(response);
+                return false;
+            }
+        });
+    }
+    location.reload();
+}
+
+function upPage(idLecture, pageOrder){
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/lesson/upPage",
+        data: {'idLecture':idLecture, 'pageOrder':pageOrder},
+        success: function(){
+            $('div[name="lecturePage"]').html(response);
+            return false;
+        }
+    });
+}
+
+function downPage(idLecture, pageOrder){
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/lesson/downPage",
+        data: {'idLecture':idLecture, 'pageOrder':pageOrder},
+        success: function(){
+            $('div[name="lecturePage"]').html(response);
+            return false;
+        }
+    });
 }

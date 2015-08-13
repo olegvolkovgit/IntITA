@@ -3,6 +3,7 @@
  * @var $page LecturePage;
  */
 ?>
+<div name="lecturePage">
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
     <h1 class="lessonPart" >
         <div class="labelBlock">
@@ -33,7 +34,7 @@ if($page->video == null){
         'tabs' => array(
             'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
                 '_textListTab',
-                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => $user), true
             )),
         ),
         // additional javascript options for the tabs plugin
@@ -51,7 +52,7 @@ if($page->video == null){
             )),
             'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
                 '_textListTab',
-                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'user' => $user), true
+                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => $user), true
             )),
         ),
         // additional javascript options for the tabs plugin
@@ -83,6 +84,7 @@ if (!is_null($page->quiz)) {
             break;
     }
 }
-
-
 ?>
+</div>
+<br>
+<br>

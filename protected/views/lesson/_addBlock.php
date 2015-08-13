@@ -40,8 +40,8 @@
                 'fullscreen' => array(
                     'js' => array('fullscreen.js',),
                 ),
-                'video' => array(
-                    'js' => array('video.js',),
+                'table' => array(
+                    'js' => array('table.js',),
                 ),
                 'fontsize' => array(
                     'js' => array('fontsize.js',),
@@ -51,12 +51,6 @@
                 ),
                 'fontcolor' => array(
                     'js' => array('fontcolor.js',),
-                ),
-                'save' => array(
-                    'js' => array('save.js',),
-                ),
-                'close' => array(
-                    'js' => array('close.js',),
                 ),
             ),
         ));
