@@ -28,17 +28,17 @@ if($teacherRat){
     <div class="TeacherProfiletitles">
         <?php
         if ($rat!==Null){
-        echo Yii::t('teacher', '0186');
-
-        for ($k = 1; $k <= $rat; $k++) {
-            ?>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/>
-        <?php
-        }
-        for($j = $rat+1; $j <= 10; $j++){?>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/>
-        <?php
-        }
+            echo Yii::t('teacher', '0186');
+            for ($k=0; $k<floor($rat/2); $k++) {?>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
+            }
+            if($rat/2-floor($rat/2)==0.5)
+            {?>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'star-half.png');?>"/><?php
+            }
+            for ($k=ceil($rat/2); $k<5; $k++) {?>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
+            }
         }
         ?>
     </div>
