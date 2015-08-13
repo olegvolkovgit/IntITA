@@ -1,4 +1,5 @@
 .regFormBG{
+    /*position: relative;*/
     padding-bottom: 100px;
     min-width: 1200px;
     background:url('images/formfon.jpg') repeat-x;
@@ -337,3 +338,15 @@ select.error
 #recovery-form .errorMessage, #resetemail-form .errorMessage{
     margin-bottom: 0;
 }
+/* rocket */
+div#rocket{
+    display: none;
+    position: absolute;
+    z-index: 2000;
+}
+div#exhaust{
+    display: none;
+    position: absolute;
+    z-index: 2000;
+}
+/* rocket */
