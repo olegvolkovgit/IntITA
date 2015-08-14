@@ -193,3 +193,7 @@ img.lessonBut  {
     color: red;
     text-align: center;
 }
+.editableText p{
+    margin: 2px 0;
+    text-indent: 20px;
+}
