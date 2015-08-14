@@ -203,4 +203,13 @@ class LecturePage extends CActiveRecord
         $model->quiz = $blockElement;
         $model->save();
     }
+
+    public static function unableQuiz($pageId){
+        if($pageId != 0){
+            $model = LecturePage::model()->findByPk($pageId);
+            $model->quiz = null;
+            return $model->save();
+        }
+        return false;
+    }
 }

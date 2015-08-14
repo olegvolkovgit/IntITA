@@ -109,7 +109,7 @@ class Task extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewTask($condition, $language, $author, $assignment, $table)
+    public static function addNewTask($condition, $language, $author, $assignment, $table, $pageId)
     {
         $model = new Task();
         $model->condition = $condition;
@@ -118,8 +118,9 @@ class Task extends CActiveRecord
         $model->assignment = $assignment;
         $model->table = $table;
 
-
-        $model->save();
+        if($model->save()){
+            LecturePage::addQuiz($pageId, $condition);
+        }
     }
 
     public static function deleteTask($condition){

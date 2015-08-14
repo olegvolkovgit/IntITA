@@ -116,4 +116,12 @@ class TestsController extends Controller
         );
         echo json_encode($resultJSON);
     }
+
+    public function actionUnableTest(){
+        $pageId = Yii::app()->request->getPost('pageId', 0);
+
+        if($pageId != 0){
+            LecturePage::unableQuiz($pageId);
+        }
+    }
 }

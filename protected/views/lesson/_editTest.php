@@ -38,7 +38,9 @@ $valid=TestsHelper::getTestValid($idBlock);
         <br>
         <input type="submit" value="Редагувати" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
     </form>
+    <br>
     <button onclick='cancelTest()'>Скасувати</button>
+    <button onclick='unableTest(<?php echo $pageId;?>)'>Видалити тест</button>
 </div>
 
 

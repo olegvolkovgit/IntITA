@@ -103,8 +103,6 @@ class LessonController extends Controller{
     }
 
     public function actionSaveFormula(){
-
-
         $htmlBlock = Yii::app()->request->getPost('content');
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
@@ -344,14 +342,12 @@ class LessonController extends Controller{
             // copying
             copy($_FILES['file']['tmp_name'], $file);
 
-
             // displaying file
             $array = array(
                 'filelink' => '/images/lecture/'.$filename
             );
 
             echo stripslashes(json_encode($array));
-
         }
     }
 

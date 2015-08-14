@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/lesson/showPagesList",
+        url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -44,7 +44,7 @@ function enableLessonEdit(block, course){
 function showPageEdit(lecture, pageOrder){
     $.ajax({
         type: "POST",
-        url: "/lesson/showPageEditor",
+        url: "/IntITA/lesson/showPageEditor",
         data: {'idLecture':lecture, 'pageOrder':pageOrder},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -99,10 +99,10 @@ function addVideo(){
 }
 
 function deletePage(lecture, page, course){
-    if (confirm('Ви впевнені, що хочете видалити сторінку ' + page + '?')) {
+    if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
         $.ajax({
             type: "POST",
-            url: "/lesson/deletePage",
+            url: "/IntITA/lesson/deletePage",
             data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
             success: function(){
                 $('div[name="lecturePage"]').html(response);
@@ -116,7 +116,7 @@ function deletePage(lecture, page, course){
 function upPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/lesson/upPage",
+        url: "/IntITA/lesson/upPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
@@ -128,7 +128,7 @@ function upPage(idLecture, pageOrder, course){
 function downPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/lesson/downPage",
+        url: "/IntITA/lesson/downPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
