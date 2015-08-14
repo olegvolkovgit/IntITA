@@ -19,12 +19,12 @@ for($i = 0, $count = count($pagesList); $i < $count; $i++){
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco"
              onclick="deletePage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>);">
        <a href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse, 'editPage' => $pagesList[$i]["page_order"]));?>">
-   <?php echo 'Сторінка '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
+   <?php echo 'Частина '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
 ?>
   </a></p></div>
 <?php }?>
 </h1>
 <br>
 <h1 class="lessonPart"><p>
-<a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> Додати нову сторінку </a>
+<a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> Додати нову частину </a>
 </p></h1>

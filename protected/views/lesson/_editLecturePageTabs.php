@@ -10,7 +10,7 @@ $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id']
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
   ?>
         <a href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'editPage' => $i+1));?>"
-           title="Сторінка <?php echo ($i+1);?>">
+           title="Частина <?php echo ($i+1);?>">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
         </a>
 <?php

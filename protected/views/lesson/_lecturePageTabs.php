@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
     <h1 class="lessonPart" >
         <div class="labelBlock">
-            <p>Сторінка <?php echo $page->page_order.'. '.$page->page_title;?></p>
+            <p>Частина <?php echo $page->page_order.'. '.$page->page_title;?></p>
         </div>
     </h1>
 <?php
