@@ -55,6 +55,7 @@ $header = new Header();?>
 </head>
 
 <body>
+<div id="main-wrapper">
 <div id="mainheader">
     <?php $this->renderPartial('/site/_hamburgermenu'); ?>
     <div id='headerUnderline'>
@@ -136,6 +137,46 @@ $header = new Header();?>
 </div>
 <div id="contentBoxMain">
     <?php echo $content; ?>
+    <!--SingIn modal-->
+    <?php
+    $openDialog = false;
+    if (isset($_GET['dialog'])) $openDialog = true;
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'mydialog',
+        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'cssFile' => 'jquery-ui.css',
+        'theme' => 'my',
+        'options' => array(
+            'width' => 540,
+            'autoOpen' => $openDialog,
+            'modal' => true,
+            'resizable' => false
+        ),
+    ));
+    $this->renderPartial('/site/_signinform');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+    <!--SignIn modal-->
+    <!--forgot pass modal-->
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'forgotpass',
+        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'cssFile' => 'jquery-ui.css',
+        'theme' => 'my',
+        'options' => array(
+            'width' => 540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable' => false
+        ),
+    ));
+    $this->renderPartial('/site/_forgotpass');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
+    <!--forgot pass modal-->
+</div>
+</div>
     <?php $footer = new Footer(); ?>
     <div id="mainfooter">
         <div style="height: 90px;display: block">
@@ -215,47 +256,9 @@ $header = new Header();?>
         </div>
     </div>
     <!-- footer -->
-    <!--SingIn modal-->
-    <?php
-    $openDialog = false;
-    if (isset($_GET['dialog'])) $openDialog = true;
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'mydialog',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => $openDialog,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_signinform');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
-    <!--SignIn modal-->
-    <!--forgot pass modal-->
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'forgotpass',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_forgotpass');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
-    <!--forgot pass modal-->
-</div>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hamburgermenu.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/goToTop.js"></script>
+
 </body>
 </html>

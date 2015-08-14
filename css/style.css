@@ -4,7 +4,16 @@ body {
 img {
     border-style:none;
 }
-
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%
+}
+#main-wrapper {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding-bottom: 105px;
+}
 .main {
     position: relative;
     width: 1200px;
@@ -251,10 +260,12 @@ p {
 
 /************navigation-bottom***********/
 #mainfooter{
-    margin-top: 20px;
-    margin-bottom: 13px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    height: 90px;
     border-bottom: 1px solid #44bdf6;
     clear: both;
+    margin-top: -105px;
 }
 .footercontent{
     display: block;
