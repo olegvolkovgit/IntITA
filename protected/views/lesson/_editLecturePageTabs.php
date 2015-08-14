@@ -5,6 +5,7 @@
 
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
 ?>
+
 <div name="lecturePage">
     <?php
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
@@ -100,8 +101,8 @@ if($page->video == null) {?>
         <?php
     }
 ?>
-<?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user)));?>
-<?php $this->renderPartial('_addTask');?>
+<?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
+<?php $this->renderPartial('_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
 <br>

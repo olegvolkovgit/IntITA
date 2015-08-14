@@ -98,12 +98,14 @@ class Tests extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewTest($blockElement, $title, $author){
+    public static function addNewTest($blockElement, $title, $author, $pageId){
         $model = new Tests();
 
         $model->block_element = $blockElement;
         $model->author = $author;
 
-        $model->save();
+        if ($model->save()){
+            LecturePage::addQuiz($pageId, $blockElement);
+        }
     }
 }

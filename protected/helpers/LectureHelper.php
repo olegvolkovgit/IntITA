@@ -205,4 +205,11 @@ class LectureHelper {
         return $list;
     }
 
+    public static function getModuleByLecture($idLecture){
+        return Lecture::model()->findByPk($idLecture)->idModule;
+    }
+
+    public static function isLectureFree($id){
+        return Lecture::model()->findByPk($id)->isFree;
+    }
 }

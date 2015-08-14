@@ -142,7 +142,7 @@ class LessonController extends Controller{
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
         $id = LectureElement::getLastVideoId($model->id_lecture);
 
-        LecturePage::addVideo($pageId, $id);
+        LecturePage::addVideo($pageId, $id["id_block"]);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }

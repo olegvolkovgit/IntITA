@@ -41,6 +41,27 @@ $this->breadcrumbs=array(
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
+        <?php if($countBlocks){?>
+            <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+
+            <div class="spoilerBody">
+                <?php
+                $summary =  Lecture::getLessonCont($lecture->id);
+                for($i=0; $i<count($summary);$i++){
+                    ?>
+                    <p>
+                        <a href="<?php $args = $_GET;
+                        $args['page'] = $passedPages[$i]['order'];
+                        echo $this->createUrl('', $args);?>"
+                           title="Частина <?php echo $passedPages[$i]['order'];?>">
+                            <?php echo strip_tags($summary[$i]);?>
+                        </a>
+                    </p>
+                <?php
+                }
+                ?>
+            </div>
+        <?php }?>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));
         }

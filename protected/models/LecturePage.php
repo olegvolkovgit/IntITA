@@ -197,4 +197,10 @@ class LecturePage extends CActiveRecord
         $model = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
         $model->delete();
     }
+
+    public static function addQuiz($pageId, $blockElement){
+        $model = LecturePage::model()->findByPk($pageId);
+        $model->quiz = $blockElement;
+        $model->save();
+    }
 }
