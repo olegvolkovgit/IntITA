@@ -6,6 +6,7 @@
  * Time: 1:47
  */
 $pagesList = LectureHelper::getPagesList($idLecture);?>
+<div name="lecturePage">
 <h1 class="lessonPart">
 <?php
 for($i = 0, $count = count($pagesList); $i < $count; $i++){
@@ -28,3 +29,4 @@ for($i = 0, $count = count($pagesList); $i < $count; $i++){
 <h1 class="lessonPart"><p>
 <a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> Додати нову частину </a>
 </p></h1>
+</div>

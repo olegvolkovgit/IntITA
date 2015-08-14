@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/showPagesList",
+        url: "http://intita.itatests.com/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -44,7 +44,7 @@ function enableLessonEdit(block, course){
 function showPageEdit(lecture, pageOrder){
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/showPageEditor",
+        url: "http://intita.itatests.com/lesson/showPageEditor",
         data: {'idLecture':lecture, 'pageOrder':pageOrder},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -102,7 +102,7 @@ function deletePage(lecture, page, course){
     if (confirm('Ви впевнені, що хочете видалити сторінку ' + page + '?')) {
         $.ajax({
             type: "POST",
-            url: "/IntITA/lesson/deletePage",
+            url: "http://intita.itatests.com/lesson/deletePage",
             data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
             success: function(){
                 $('div[name="lecturePage"]').html(response);
@@ -116,7 +116,7 @@ function deletePage(lecture, page, course){
 function upPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/upPage",
+        url: "http://intita.itatests.com/lesson/upPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
@@ -128,7 +128,7 @@ function upPage(idLecture, pageOrder, course){
 function downPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/downPage",
+        url: "http://intita.itatests.com/lesson/downPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
