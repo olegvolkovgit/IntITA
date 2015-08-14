@@ -31,7 +31,7 @@
             <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
             <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
             <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-            <li><a onclick="goToForum()" href="<?php echo $this->link3; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
+            <li><a class='forumLink' onclick="goToForum()" ><?php echo Yii::t('header', '0017'); ?></a></li>
             <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
         </ul>
         <div class="humundline"></div>

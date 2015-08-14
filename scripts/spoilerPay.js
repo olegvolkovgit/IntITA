@@ -11,6 +11,15 @@ function paymentSpoiler(a,b){
             document.getElementById("spoilerClick").innerHTML=a;
             document.getElementById("spoilerTriangle").innerHTML="\u25BC";
         }
+        $('#firstRadio').toggle('normal');
         $('.spoilerBody').toggle('normal');
         return false;
     }
+$(document).ready(function () {
+    $('html').on('click','.paymentPlan_value',function () {
+        $('img.icoCheck').hide();
+        $('img.icoNoCheck').show();
+        $(this).next('span').find('img.icoNoCheck').hide();
+        $(this).next('span').find('img.icoCheck').show();
+    });
+});

@@ -404,7 +404,7 @@ div.lessonTest {
     float:right;
     border:none;
 }
-.testSubmit :hover{
+.testSubmit:hover{
     cursor: pointer;
     border-top-color: #454545;
     background: #454545;

@@ -51,9 +51,13 @@
                     <div class="courseStatusBox">
                         <?php echo Yii::t('courses', '0094'); ?>
                         <span id="courseStatus<?php echo $val->status; ?>">
-                                    <?php if ($val->status == 0) {
+                                    <?php if ($val->status == 0) {?>
+                                        <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png');?>">
+                                        <?php
                                         echo Yii::t('courses', '0230');
-                                    } else {
+                                    } else {?>
+                                        <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png');?>">
+                                        <?php
                                         echo Yii::t('courses', '0231');
                                     }
                                     ?>
@@ -80,7 +84,7 @@
 
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147'); ?>
-                        <?php echo CourseHelper::getCoursePrice($val->course_price,25) ?>
+                        <?php echo CourseHelper::getMainCoursePrice($val->course_price,25) ?>
                     </div>
                     <div class='starLevelIndex'>
                         <br>

@@ -80,7 +80,7 @@ div.courseShortInfoTable{
     display: inline-block;
     width: 600px;
 }
-.courseShortInfoTable table{
+.courseShortInfoTable table.courseLevelInfo{
     width: 100%;
 }
 .courseShortInfo div.courseLevelName {
@@ -188,7 +188,7 @@ div.courseShortInfoTable{
     display: inline-block;
 }
 .courseDetail .numbers{
-    margin-left: 10px;
+    line-height: 1;
 }
 span.readmore-js-toggle{
     margin-right: 100px;
@@ -332,16 +332,21 @@ padding-left: 0px;
 .colorGreen{
     color: green;
 }
-#coursePriceStatus1 {
-    color: #ff0000;
+.coursePriceStatus {
+    color: #e41818;
+    text-decoration: underline;
+}
+.coursePriceStatus1 {
+    color: #e41818;
     text-decoration: line-through;
 }
-#coursePriceStatus2 {
+.coursePriceStatus2 {
     color: #666666;
     font-weight: bold;
 }
 #discount{
-    color: #4b75a4;
+    color: #078a0d;
+    margin-left: 85px;
 }
 #addModule{
     float:right;
@@ -482,4 +487,75 @@ body .grid-view table.items td.titleColumn{
 }
 a.disableModule{
     color:#666666;
+}
+.courseShortInfoTable table.mainPay{
+    display: inline-block;
+}
+.courseShortInfoTable table.mainPay,.courseShortInfoTable table.mainPay table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 1;
+}
+.courseShortInfoTable table.mainPay td {
+    position: relative;
+    vertical-align: top;
+}
+.courseShortInfoTable table.mainPay img {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.courseShortInfoTable table.mainPay table img {
+    margin-top: 0;
+}
+#PaymentPlan_value input{
+    position: relative;
+    vertical-align: top;
+    margin-top: 10px;
+    cursor: pointer;
+}
+input.paymentPlan_value{
+    position: relative;
+    vertical-align: top;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.paymentsListEven{
+    width: 450px;
+    height: 75px;
+    background: #ececec;
+    white-space: nowrap;
+}
+.paymentsListOdd{
+    width: 450px;
+    height: 75px;
+    white-space: nowrap;
+}
+#firstRadio{
+    display: none;
+}
+#rowRadio input:checked+span > .mainPay{
+    color: #264b73;
+}
+.icoCheck{
+    display: none;
+}
+#paymentButton{
+    display: inline-block;
+    position: relative;
+    width: 160px;
+    height: 30px;
+    border-radius: 7px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    color: #ffffff;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 32px;
+}
+#paymentButton:hover {
+    background: #454545;
+    cursor: pointer;
 }

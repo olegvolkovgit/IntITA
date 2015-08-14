@@ -7,20 +7,28 @@
  * @license http://www.yiiframework.com/license/
  * @since 1.0
  */
-
+.list-view .pager {
+    margin-bottom: 5px;
+}
 ul.yiiPager
 {
-    font-size:16px;
     border:0;
     margin:0;
     padding:0;
-    line-height:100%;
     display:inline;
+    font-size:1px; /* убираем горизонтальные отступы */
+    line-height:0; /* ...и вертикальные в некоторых браузерах */
+    letter-spacing:-1px; /* переубеждаем webkit'ы */
 }
 
 ul.yiiPager li
 {
+    font-size:16px;
     display:inline;
+    padding: 0;
+    margin: 0 1px 0 0;
+    line-height:normal;
+    letter-spacing:normal;
 }
 
 ul.yiiPager a:link,

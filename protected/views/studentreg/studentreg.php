@@ -149,27 +149,27 @@ if (!isset($tab)) $tab = 0;
                         <?php echo $form->textField($model, 'aboutUs', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs')); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
-                    <div class="row">
+                    <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
                         <?php echo $form->textField($model, 'facebook', array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 30, 'id' => 'trimF')); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
-                    <div class="row">
+                    <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
                         <?php echo $form->textField($model, 'googleplus', array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 30, 'id' => 'trimG')); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
-                    <div class="row">
+                    <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
                         <?php echo $form->textField($model, 'linkedin', array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 30, 'id' => 'trimL')); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="row">
+                    <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
                         <?php echo $form->textField($model, 'vkontakte', array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 30, 'id' => 'trimV')); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
-                    <div class="row">
+                    <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 30, 'id' => 'trimT')); ?>
                         <?php echo $form->error($model, 'twitter'); ?>

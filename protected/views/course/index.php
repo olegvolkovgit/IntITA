@@ -25,6 +25,6 @@ $this->breadcrumbs=array(
             <?php $this->renderPartial('_courseInfo', array('model'=>$model));?>
         </div>
         <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' =>$canEdit, 'model'=>$model));?>
-</div>
+    </div>
 </div>
 
