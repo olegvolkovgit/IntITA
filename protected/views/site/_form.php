@@ -5,12 +5,6 @@
 
 <a name="form" ></a>
 <div class="regFormBG" >
-	<div id="rocket">
-		<img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
-	</div>
-	<div id="exhaust">
-		<img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
-	</div>
 	<div class="regFormBox">
 		<p class="zagolovok"><?php echo Yii::t('regform','0009'); ?></p>
 		<p class="zagolovok2"><?php echo Yii::t('regform','0010'); ?></p>

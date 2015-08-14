@@ -6,7 +6,7 @@ function rocketMove(element,w) {
     element.animate({
         top:-500,
         left:w
-    }, 3500);
+    }, 4000);
 
     setTimeout(function () {
         $('#exhaust').hide();
@@ -14,10 +14,9 @@ function rocketMove(element,w) {
 }
 /*Якщо на сторінці є ракета - запускаємо її, якщо нема - скролимся вгору*/
 function goUp(){
-    if($("div").is('#rocket')){
         var hPosR=$(document).outerHeight()-750;
         var wPosR=$(document).outerWidth()/2-400;
-        var hPosE=$(document).outerHeight()-500;
+        var hPosE=$(document).outerHeight()-400;
         var wPosE=$(document).outerWidth()/2-690;
         $('#rocket').offset({top:hPosR, left:wPosR});
         $('#exhaust').show();
@@ -27,8 +26,4 @@ function goUp(){
 
         $('body,html').animate({scrollTop: 0}, 3000);
         rocketMove($('#rocket'),wPosR);
-    } else{
-        $('body,html').animate({scrollTop: 0}, 3000);
-    }
-
 };

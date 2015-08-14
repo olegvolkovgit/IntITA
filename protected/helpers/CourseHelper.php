@@ -190,4 +190,25 @@ class CourseHelper {
         $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
         return $lang;
     }
+    public static function getLessonsCount($id){
+        $criteria=new CDbCriteria;
+        $criteria->alias='course_modules';
+        $criteria->addCondition('id_course='.$id);
+        $modules = CourseModules::model()->findAll($criteria);
+        $modulesId = [];
+        foreach($modules as $module){
+            array_push($modulesId, $module->id_module);
+        }
+
+        $criteria2=new CDbCriteria;
+        $criteria2->alias='module';
+        $criteria2->addInCondition('module_ID', $modulesId, 'OR');
+        $modulesInfo = Module::model()->findAll($criteria2);
+        $lessonsCount=0;
+        foreach($modulesInfo as $modul){
+            $lessonsCount=$lessonsCount+$modul->lesson_count;
+        }
+
+        return $lessonsCount;
+    }
 }

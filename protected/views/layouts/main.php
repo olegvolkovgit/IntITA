@@ -259,6 +259,11 @@ $header = new Header();?>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hamburgermenu.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/goToTop.js"></script>
-
+<div id="rocket">
+    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
+</div>
+<div id="exhaust">
+    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+</div>
 </body>
 </html>
