@@ -27,13 +27,13 @@ function showAddTestForm(testType){
         document.getElementById('cancelButton').style.display = 'none';
 }
 
-function enableLessonEdit(block){
+function enableLessonEdit(block, course){
     editButton = 'editIco' + block;
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
         url: "/IntITA/lesson/showPagesList",
-        data: {'idLecture':idLecture},
+        data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
                 return false;
@@ -98,12 +98,12 @@ function addVideo(){
     document.getElementById('addVideoStart').style.display = "none";
 }
 
-function deletePage(lecture, page){
+function deletePage(lecture, page, course){
     if (confirm('Ви впевнені, що хочете видалити сторінку ' + page + '?')) {
         $.ajax({
             type: "POST",
             url: "/IntITA/lesson/deletePage",
-            data: {'idLecture':lecture, 'pageOrder':page},
+            data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
             success: function(){
                 $('div[name="lecturePage"]').html(response);
                 return false;
@@ -113,11 +113,11 @@ function deletePage(lecture, page){
     location.reload();
 }
 
-function upPage(idLecture, pageOrder){
+function upPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
         url: "/IntITA/lesson/upPage",
-        data: {'idLecture':idLecture, 'pageOrder':pageOrder},
+        data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
             return false;
@@ -125,11 +125,11 @@ function upPage(idLecture, pageOrder){
     });
 }
 
-function downPage(idLecture, pageOrder){
+function downPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
         url: "/IntITA/lesson/downPage",
-        data: {'idLecture':idLecture, 'pageOrder':pageOrder},
+        data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             $('div[name="lecturePage"]').html(response);
             return false;

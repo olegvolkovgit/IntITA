@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-10 17:27:20
+-- Date/time:                    2015-08-14 16:50:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS `tests_answers` (
   `is_valid` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_tests_answers_tests` (`id_test`)
-) ENGINE=InnoDB AUTO_INCREMENT=695 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=698 DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.tests_answers: ~673 rows (approximately)
+-- Dumping data for table intita.tests_answers: ~676 rows (approximately)
 /*!40000 ALTER TABLE `tests_answers` DISABLE KEYS */;
 INSERT INTO `tests_answers` (`id`, `id_test`, `answer`, `is_valid`) VALUES
 	(22, 35, 'gtsrth', 0),
@@ -696,7 +696,10 @@ INSERT INTO `tests_answers` (`id`, `id_test`, `answer`, `is_valid`) VALUES
 	(691, 204, 'vb', 0),
 	(692, 204, 'cvb', 0),
 	(693, 204, 'v', 0),
-	(694, 204, 'cvb', 1);
+	(694, 204, 'cvb', 1),
+	(695, 205, 'BDJFK', 0),
+	(696, 205, 'VFDZBZFG', 1),
+	(697, 205, 'BGFZB', 0);
 /*!40000 ALTER TABLE `tests_answers` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

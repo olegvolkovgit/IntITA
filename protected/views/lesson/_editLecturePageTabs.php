@@ -2,10 +2,15 @@
 /* @var $this LessonController */
 /* @var $page LecturePage */
 /* @var $lectureElement LectureElement */
-$this->renderPartial('_startEditButton', array('block' => 1));
+
+$page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
+?>
+<div name="lecturePage">
+    <?php
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
   ?>
-        <a onclick="showPageEdit(<?php echo $page->id_lecture;?>, <?php echo ($i+1);?>);" title="Сторінка <?php echo ($i+1);?>">
+        <a href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'editPage' => $i+1));?>"
+           title="Сторінка <?php echo ($i+1);?>">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
         </a>
 <?php
@@ -97,6 +102,6 @@ if($page->video == null) {?>
 ?>
 <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user)));?>
 <?php $this->renderPartial('_addTask');?>
-
+</div>
 <br>
 <br>

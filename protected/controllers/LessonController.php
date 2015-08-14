@@ -380,18 +380,21 @@ class LessonController extends Controller{
 
     public function actionShowPagesList(){
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+        $idCourse = Yii::app()->request->getPost('idCourse', 0);
+
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function actionDeletePage(){
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
         $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
+        $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         LecturePage::deletePage($idLecture, $pageOrder);
 
         $this->reorderPages($idLecture, $pageOrder);
 
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function actionShowPageEditor(){
@@ -414,7 +417,7 @@ class LessonController extends Controller{
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
 
         return $this->renderPartial('_editLecturePageTabs', array(
-            'page' => $page, 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId()));
+            'page' => $page, 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
     }
 
     public function actionAddNewPage($lecture, $page){
@@ -448,12 +451,13 @@ class LessonController extends Controller{
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
+        $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         if($pageOrder > 1) {
             $this->swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
 
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     //reorder blocks on lesson page - down block
@@ -461,12 +465,13 @@ class LessonController extends Controller{
 
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
+        $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         if($pageOrder < LecturePage::model()->count('id_lecture='.$idLecture)) {
             $this->swapPages($idLecture, $pageOrder, $pageOrder + 1);
         }
 
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture));
+        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function swapPages($idLecture, $first, $second)
