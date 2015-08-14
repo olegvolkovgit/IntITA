@@ -291,6 +291,9 @@ padding-left: 0px;
     line-height: 40px;
     float: left;
 }
+.markCourse img{
+    margin-left: 2px;
+}
 .startCourse{
     display: inline-block;
     position: relative;

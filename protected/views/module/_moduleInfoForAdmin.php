@@ -126,20 +126,9 @@
                 <?php echo ModuleHelper::getDiscountedPrice($post->module_price, 50).Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
             </div>
             </br>
-            <div>
+            <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-                <?php
-                for ($j = 0; $j < $post->rating; $j++) {
-                    ?><span>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>">
-                    </span><?php
-                }
-                for ($j = $post->rating; $j < 10; $j++) {
-                    ?><span>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>">
-                    </span><?php
-                }
-                ?>
+                <?php echo RatingHelper::getRating($post->rating); ?>
             </div>
         </td>
     </tr>

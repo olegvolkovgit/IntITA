@@ -72,20 +72,9 @@
                 <?php echo ModuleHelper::getModulePrice($post->module_price) ?>
             </div>
             </br>
-            <div>
+            <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-                <?php
-                for ($j=0; $j<floor($post->rating/2); $j++) {?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
-                }
-                if($post->rating/2-floor($post->rating/2)==0.5)
-                {?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'star-half.png');?>"/><?php
-                }
-                for ($j=ceil($post->rating/2); $j<5; $j++) {?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
-                }
-                ?>
+                <?php echo RatingHelper::getRating($post->rating); ?>
             </div>
         </td>
 </tr>

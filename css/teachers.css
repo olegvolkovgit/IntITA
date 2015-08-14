@@ -154,6 +154,9 @@ div.aboutMore{
     text-align: right;
     color: #4B75A4;
 }
+.aboutMore img{
+    margin-left: 2px;
+}
 td.profileTeacher{
     text-align: center;
     padding: 0 20px 0 0;

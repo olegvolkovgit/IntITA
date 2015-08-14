@@ -90,20 +90,9 @@
                     <div class="markAndButton">
                         <div class="markCourse">
                             <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
-                    <span>
-                        <?php
-                        for ($k=0; $k<floor($model->rating/2); $k++) {?>
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
-                        }
-                        if($model->rating/2-floor($model->rating/2)==0.5)
-                        {?>
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'star-half.png');?>"/><?php
-                        }
-                        for ($k=ceil($model->rating/2); $k<5; $k++) {?>
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
-                        }
-                        ?>
-                    </span>
+                            <span>
+                                <?php echo RatingHelper::getRating($model->rating); ?>
+                            </span>
                         </div>
                         <div class="startCourse">
                             <?php echo CHtml::submitButton(Yii::t('course', '0328'), array('id' => "paymentButton")); ?>

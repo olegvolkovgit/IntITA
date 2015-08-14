@@ -127,6 +127,7 @@
 .starLevelIndex img{
     position: relative;
     vertical-align: top;
+    margin-left: 2px;
 }
 .courseLevel
 {
