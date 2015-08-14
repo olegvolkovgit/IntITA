@@ -81,7 +81,7 @@
                 <!--Вартість курсу-->
                 <div class="coursePriceBox">
                     <?php echo Yii::t('courses', '0147'); ?>
-                    <?php echo CourseHelper::getCoursePrice($val->course_price,25) ?>
+                    <?php echo CourseHelper::getMainCoursePrice($val->course_price,25) ?>
                 </div>
                 <!--Оцінка курсу-->
                 <div class='starLevelIndex'>

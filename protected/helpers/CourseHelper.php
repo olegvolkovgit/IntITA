@@ -54,8 +54,7 @@ class CourseHelper {
         }
         return $rate;
     }
-
-    public static function getCoursePrice($price,$discount=0){
+    public static function getMainCoursePrice($price,$discount=0){
         if ($price == 0){
             return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
@@ -64,31 +63,119 @@ class CourseHelper {
         }
         return '<span id="coursePriceStatus1">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span id="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'</span><span id="discount"> ('.Yii::t('courses', '0144').' - '.$discount.'%)</span>';
     }
-    //    $price-ціна курсу, $number - кількість проплат, $discount - знижка
-    public static function getCoursePricePayments($price=0,$number=2,$discount=0){
-        if ($price == 0 || $number==0){
-            return;
+    //    $image-іконка проплати, $text - текст проплати, $price- ціна курсу, $discount - знижка
+    public static function getCoursePrice($image, $image2, $text, $price,$discount=0){
+        if ($price == 0){
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
         if ($discount == 0){
-            return '<div>'.$number.' '.Yii::t('course', '0198').'</div><div class="numbers"><span id="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').' =</span> '.$price/$number.' '.Yii::t('courses', '0322').' x '.$number.' '.Yii::t('course', '0323').'</div>';
+            return
+                '<table class="mainPay">
+                    <tr>
+                    <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                    <td>
+                        <table>
+                            <tr><td><div>'.$text.'</div></td></tr>
+                            <tr><td><span class="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').'</span></td></tr>
+                        </table>
+                    </td>
+                    </tr>
+                </table>';
         }
-        return '<div>'.$number.' '.Yii::t('course', '0198').'</div><div class="numbers"><span id="coursePriceStatus1">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span id="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'=</span> '.ModuleHelper::getDiscountedPrice($price, $discount)/$number.' '.Yii::t('courses', '0322').' x '.$number.' '.Yii::t('course', '0323').'<span id="discount"> ('.Yii::t('courses', '0144').' - '.$discount.'%)</span></div>';
+        return
+            '<table class="mainPay">
+                <tr>
+                <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                <td>
+                    <table>
+                        <tr><td><div>'.Yii::t('course', '0197').'</div></td></tr>
+                        <tr><td>
+                            <div class="numbers"><span class="coursePriceStatus1">'.$price." ".Yii::t('courses', '0322').'</span>
+                            &nbsp<span class="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'</span><br>
+                            <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').'">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
+                            </div>
+                        </td></tr>
+                    </table>
+                </td>
+                </tr>
+            </table>';
     }
-    //    $price-ціна проплати за місяць, $number - кількість проплат
-    public static function getCoursePriceMonths($price=0,$months=12){
+    //    $price-ціна курсу, $number - кількість проплат, $discount - знижка
+    public static function getCoursePricePayments($image, $image2, $price, $number=2,$discount=0,$text=''){
         if ($price == 0){
-            return;
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
-        if ($months <= 12){
-            return '<div>'.Yii::t('course', '0200').'</div><div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.$months.' '.Yii::t('course', '0323').'<b> = '.$price*$months.' '.Yii::t('courses', '0322').'</b></span></div>';
+        if ($discount == 0){
+            return
+                '<table class="mainPay">
+                    <tr>
+                    <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                    <td>
+                        <table>
+                            <tr><td><div style="color:#4b75a4">'.$number.' '.Yii::t('course', '0198').'</div></td></tr>
+                            <tr><td>
+                                <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').'</span>= '.$price/$number.' '.Yii::t('courses', '0322').'</div>
+                            </td></tr>
+                        </table>
+                    </td>
+                    </tr>
+                </table>';
         }
+        return
+            '<table class="mainPay">
+                <tr>
+                <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                <td>
+                    <table>
+                        <tr><td><div style="color:#4b75a4">'.$number.' '.Yii::t('course', '0198').'</div></td></tr>
+                        <tr><td>
+                            <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span>'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'=</span><span class="coursePriceStatus2"> '.ModuleHelper::getDiscountedPrice($price, $discount)/$number.' '.Yii::t('courses', '0322').'</span></div>
+                            <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').'">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
+                        </td></tr>
+                    </table>
+                </td>
+                </tr>
+            </table>';
     }
-    //    $price-ціна проплати за місяць, $year-на скільки років кредит
-    public static function getCoursePriceCredit($price=0, $year=2){
+    //    $image-іконка проплати, $text - текст проплати, $price-ціна проплати за місяць, $number - кількість проплат
+    public static function getCoursePriceMonths($image, $image2, $text, $price=0,$months=12){
         if ($price == 0){
-            return;
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
-        return '<div>'.Yii::t('course', '0425').' '.$year.' '.Yii::t('course', '0426').'</div><div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.$price*12*$year.' '.Yii::t('courses', '0322').'</b></span></div>';
+        return
+            '<table class="mainPay">
+                <tr>
+                <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                <td>
+                    <table>
+                        <tr><td><div>'.$text.'</div></td></tr>
+                        <tr><td>
+                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.$months.' '.Yii::t('course', '0323').'<b> = '.$price*$months.' '.Yii::t('courses', '0322').'</b></span></div>
+                        </td></tr>
+                    </table>
+                </td>
+                </tr>
+            </table>';
+    }
+    //    $image-іконка проплати, $price-ціна проплати за місяць, $year-на скільки років кредит
+    public static function getCoursePriceCredit($image, $image2, $price=0, $year=2){
+        if ($price == 0){
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
+        }
+        return
+            '<table class="mainPay">
+                <tr>
+                <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                <td>
+                    <table>
+                        <tr><td><div>'.Yii::t('course', '0425').' '.$year.' '.Yii::t('course', '0426').'</div></td></tr>
+                        <tr><td>
+                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.$price*12*$year.' '.Yii::t('courses', '0322').'</b></span></div>
+                        </td></tr>
+                    </table>
+                </td>
+                </tr>
+            </table>';
     }
 
     public static function getCourseName($idCourse){
