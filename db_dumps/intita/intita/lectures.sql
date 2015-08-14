@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-10 17:27:19
+-- Date/time:                    2015-08-14 16:50:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `lectures` (
   `isFree` tinyint(1) NOT NULL DEFAULT '0',
   `rate` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
+) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=utf8 COMMENT='isFree ( 0 - pay, 1 - demo lecture)';
 
--- Dumping data for table intita.lectures: ~73 rows (approximately)
+-- Dumping data for table intita.lectures: ~74 rows (approximately)
 /*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
 INSERT INTO `lectures` (`id`, `image`, `alias`, `idModule`, `order`, `title_ua`, `title_ru`, `title_en`, `idType`, `durationInMinutes`, `idTeacher`, `isFree`, `rate`) VALUES
 	(22, 'lectureImage.png', 'lecture1', 2, 1, 'Взаємодія PHP і XML', '', '', 1, 60, '1', 0, 4),
@@ -104,7 +104,8 @@ INSERT INTO `lectures` (`id`, `image`, `alias`, `idModule`, `order`, `title_ua`,
 	(185, 'lectureImage.png', 'lecture14', 61, 14, 'test 14', '', '', 1, 60, '1', 0, 4),
 	(192, 'lectureImage.png', 'lecture9', 2, 9, 'Одночлени і многочлени', '', '', 1, 60, '10', 0, 4),
 	(193, 'lectureImage.png', 'lecture15', 61, 15, 'ua', 'ru', 'en', 1, 60, '1', 0, 0),
-	(194, 'lectureImage.png', 'lecture16', 61, 16, 'ua', 'ru', 'en', 1, 60, '1', 0, 0);
+	(194, 'lectureImage.png', 'lecture16', 61, 16, 'ua', 'ru', 'en', 1, 60, '1', 0, 0),
+	(195, 'lectureImage.png', 'lecture11', 1, 11, 'ua', 'ru', 'en', 1, 60, '1', 0, 0);
 /*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -90,6 +90,11 @@ class LecturePage extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort' => array(
+                'defaultOrder'=>array(
+                    'page_order'=>CSort::SORT_ASC,
+                )
+            ),
 		));
 	}
 
@@ -178,5 +183,18 @@ class LecturePage extends CActiveRecord
         $model->page_order = $pageOrder;
 
         $model->save();
+    }
+
+    public static function addVideo($pageId, $block){
+
+        $model = LecturePage::model()->findByPk($pageId);
+
+        $model->video = $block;
+        $model->save();
+    }
+
+    public static function deletePage($idLecture, $pageOrder){
+        $model = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
+        $model->delete();
     }
 }

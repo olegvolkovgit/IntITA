@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-10 17:27:19
+-- Date/time:                    2015-08-14 16:50:39
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.course_modules: ~49 rows (approximately)
+-- Dumping data for table intita.course_modules: ~47 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
@@ -49,7 +49,6 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(3, 1, 1),
 	(3, 2, 2),
 	(3, 3, 3),
-	(1, 61, 19),
 	(19, 82, 1),
 	(19, 83, 2),
 	(19, 84, 3),
@@ -72,8 +71,7 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(20, 101, 3),
 	(1, 121, 9),
 	(1, 122, 12),
-	(1, 123, 18),
-	(1, 125, 20);
+	(1, 123, 18);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

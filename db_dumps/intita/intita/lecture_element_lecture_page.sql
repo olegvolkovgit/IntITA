@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-10 17:27:19
+-- Date/time:                    2015-08-14 16:50:40
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `lecture_element_lecture_page` (
   `page` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table intita.lecture_element_lecture_page: ~46 rows (approximately)
+-- Dumping data for table intita.lecture_element_lecture_page: ~132 rows (approximately)
 /*!40000 ALTER TABLE `lecture_element_lecture_page` DISABLE KEYS */;
 INSERT INTO `lecture_element_lecture_page` (`element`, `page`) VALUES
 	(317, 1),
@@ -65,7 +65,93 @@ INSERT INTO `lecture_element_lecture_page` (`element`, `page`) VALUES
 	(778, 27),
 	(779, 27),
 	(782, 28),
-	(785, 29);
+	(785, 29),
+	(787, 30),
+	(788, 30),
+	(791, 31),
+	(794, 32),
+	(797, 33),
+	(801, 34),
+	(804, 35),
+	(808, 36),
+	(811, 37),
+	(814, 39),
+	(817, 40),
+	(821, 41),
+	(824, 42),
+	(827, 43),
+	(798, 33),
+	(805, 35),
+	(876, 47),
+	(878, 48),
+	(882, 49),
+	(883, 49),
+	(886, 50),
+	(887, 50),
+	(889, 51),
+	(890, 51),
+	(891, 52),
+	(893, 52),
+	(895, 53),
+	(896, 53),
+	(854, 54),
+	(859, 55),
+	(861, 56),
+	(862, 56),
+	(864, 57),
+	(866, 57),
+	(869, 58),
+	(870, 58),
+	(871, 58),
+	(872, 58),
+	(898, 60),
+	(900, 61),
+	(904, 62),
+	(907, 63),
+	(909, 64),
+	(911, 65),
+	(913, 66),
+	(615, 67),
+	(923, 68),
+	(926, 69),
+	(927, 69),
+	(930, 70),
+	(931, 70),
+	(934, 71),
+	(935, 71),
+	(938, 72),
+	(941, 73),
+	(944, 74),
+	(947, 75),
+	(950, 76),
+	(953, 77),
+	(239, 89),
+	(241, 90),
+	(243, 91),
+	(244, 91),
+	(246, 92),
+	(247, 92),
+	(248, 92),
+	(249, 92),
+	(250, 92),
+	(378, 92),
+	(380, 93),
+	(382, 94),
+	(383, 94),
+	(384, 94),
+	(385, 94),
+	(446, 95),
+	(447, 95),
+	(955, 96),
+	(957, 1),
+	(958, 1),
+	(959, 96),
+	(960, 100),
+	(961, 98),
+	(962, 99),
+	(963, 97),
+	(964, 2),
+	(965, 5);
 /*!40000 ALTER TABLE `lecture_element_lecture_page` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

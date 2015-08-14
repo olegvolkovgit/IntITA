@@ -156,7 +156,7 @@ class LectureElement extends CActiveRecord
             return false;
         }
     }
-	/*Редагуємо питання теста*/
+	/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
 	public static function editTestBlock($idBlock, $condition){
 		$model=LectureElement::model()->findByPk($idBlock);
 
@@ -179,4 +179,13 @@ class LectureElement extends CActiveRecord
 			return false;
 		}
 	}
+
+    public static function getLastVideoId($idLecture){
+        return Yii::app()->db->createCommand()
+            ->select('id_block')
+            ->from('lecture_element')
+            ->where('id_lecture=:id and block_order=0', array(':id'=>$idLecture))
+            ->order('id_block DESC')
+            ->queryRow();
+    }
 }

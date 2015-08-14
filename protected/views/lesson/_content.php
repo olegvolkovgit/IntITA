@@ -23,7 +23,7 @@
                 break;
             case 3:
                 // done
-                //$this->renderPartial('_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
+                $this->renderPartial('_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 4:
                 // done
