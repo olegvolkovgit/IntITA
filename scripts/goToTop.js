@@ -17,7 +17,7 @@ function goUp(){
     if($("div").is('#rocket')){
         var hPosR=$(document).outerHeight()-750;
         var wPosR=$(document).outerWidth()/2-400;
-        var hPosE=$(document).outerHeight()-515;
+        var hPosE=$(document).outerHeight()-500;
         var wPosE=$(document).outerWidth()/2-690;
         $('#rocket').offset({top:hPosR, left:wPosR});
         $('#exhaust').show();

@@ -92,13 +92,15 @@
                             <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
                     <span>
                         <?php
-                        for ($i = 0; $i < $model->rating; $i++) { ?>
-                            <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png'); ?>"/><?php
+                        for ($k=0; $k<floor($model->rating/2); $k++) {?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png');?>"/><?php
                         }
-                        for ($i = $model->rating; $i < 10; $i++) { ?>
-                            <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png'); ?>"/><?php
+                        if($model->rating/2-floor($model->rating/2)==0.5)
+                        {?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'star-half.png');?>"/><?php
+                        }
+                        for ($k=ceil($model->rating/2); $k<5; $k++) {?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png');?>"/><?php
                         }
                         ?>
                     </span>
