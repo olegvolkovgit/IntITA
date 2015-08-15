@@ -332,3 +332,6 @@ td.button-column{
     width: 1%;
     white-space: nowrap;
 }
+.moduleRating img{
+    margin-left: 2px;
+}

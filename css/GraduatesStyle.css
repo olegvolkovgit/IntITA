@@ -124,3 +124,15 @@ span.spoilerTriangle {
 }
 .closed {
 }
+.GraduatesBlock td > img {
+    width: 65px;
+    height: 65px;
+}
+.rat {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #999999;
+}
+.rat img{
+    margin-left:2px;
+}

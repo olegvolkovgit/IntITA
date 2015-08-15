@@ -338,15 +338,3 @@ select.error
 #recovery-form .errorMessage, #resetemail-form .errorMessage{
     margin-bottom: 0;
 }
-/* rocket */
-div#rocket{
-    display: none;
-    position: absolute;
-    z-index: 2000;
-}
-div#exhaust{
-    display: none;
-    position: absolute;
-    z-index: 2000;
-}
-/* rocket */

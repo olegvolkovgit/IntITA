@@ -40,8 +40,8 @@
     <div class="courseDetail">
         <div class="colorP"><?php echo Yii::t('course', '0194'); ?></div>
         <div>
-            <b><?php echo $model->course_duration_hours; ?><?php echo Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
-            - <b><?php echo ceil($model->course_duration_hours / 36); ?><?php echo Yii::t('module', '0218'); ?></b>
+            <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
+            - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>
             (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
         </div>
         <div class="paymentsForm">
@@ -90,18 +90,9 @@
                     <div class="markAndButton">
                         <div class="markCourse">
                             <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
-                    <span>
-                        <?php
-                        for ($i = 0; $i < $model->rating; $i++) { ?>
-                            <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starFull.png'); ?>"/><?php
-                        }
-                        for ($i = $model->rating; $i < 10; $i++) { ?>
-                            <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'common', 'starEmpty.png'); ?>"/><?php
-                        }
-                        ?>
-                    </span>
+                            <span>
+                                <?php echo RatingHelper::getRating($model->rating); ?>
+                            </span>
                         </div>
                         <div class="startCourse">
                             <?php echo CHtml::submitButton(Yii::t('course', '0328'), array('id' => "paymentButton")); ?>

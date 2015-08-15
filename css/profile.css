@@ -806,6 +806,9 @@ div.stars{
     display: inline-block;
     float:right;
 }
+.stars img{
+    margin-left: 2px;
+}
 /*myrating*/
 .myrating{
     word-wrap: break-word;
