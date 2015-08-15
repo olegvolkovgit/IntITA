@@ -9,3 +9,9 @@
 <div style="text-align: center">
     <?php echo CHtml::link("Прийом оплат",  Yii::app()->createUrl('externalPays/index')); ?>
 </div>
+<div style="text-align: center">
+    <?php echo CHtml::link("Оплата курсу",  Yii::app()->createUrl('coursePays/index')); ?>
+</div>
+<div style="text-align: center">
+    <?php echo CHtml::link("Оплата модуля",  Yii::app()->createUrl('modulePays/index')); ?>
+</div>

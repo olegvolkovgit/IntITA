@@ -1,40 +1,45 @@
 <?php
 
 /**
- * This is the model class for table "acc_internal_pays".
+ * This is the model class for table "acc_course_service".
  *
- * The followings are the available columns in table 'acc_internal_pays':
- * @property string $id
- * @property string $create_date
- * @property integer $create_user
- * @property integer $acc_user_id
+ * The followings are the available columns in table 'acc_course_service':
  * @property string $service_id
- * @property string $description
- * @property string $summa
+ * @property integer $course_id
  *
  * The followings are the available model relations:
- * @property User $createUser
  * @property Service $service
- * @property User $accUser
+ * @property Course $course
  */
-abstract class InternalPays extends CActiveRecord
+class CourseService extends AbstractIntITAService
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_internal_pays';
+		return 'acc_course_service';
 	}
 
-        public function beforeSave() {
-            ///TODO: should use current user
-            $create_user = 1; 
-            
-            return parent::beforeSave();
-
-  
+        public function primaryKey() {
+             return 'course_id';
         }
+        
+        protected function beforeValidate() {
+
+            
+            if(!isset($this->service))
+            {
+                
+                $service = new Service;
+                $service->description = "Курс ".$this->course->title_ua." ";
+                $service->save();
+                $this->service = $service;
+                $this->service_id = $service->service_id;
+            }
+            return parent::beforeValidate();
+        }
+        
 
         /**
 	 * @return array validation rules for model attributes.
@@ -44,13 +49,12 @@ abstract class InternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_user, acc_user_id, service_id, summa', 'required'),
-			array('create_user, acc_user_id', 'numerical', 'integerOnly'=>true),
-			array('service_id, summa', 'length', 'max'=>10),
-			array('description', 'length', 'max'=>512),
+			array('service_id, course_id', 'required'),
+			array('course_id', 'numerical', 'integerOnly'=>true),
+			array('service_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, create_date, create_user, acc_user_id, service_id, description, summa', 'safe', 'on'=>'search'),
+			array('service_id, course_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,8 +66,8 @@ abstract class InternalPays extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'createUser' => array(self::BELONGS_TO, 'User', 'create_user'),
-			'accUser' => array(self::BELONGS_TO, 'User', 'acc_user_id'),
+			'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+			'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
 		);
 	}
 
@@ -73,13 +77,8 @@ abstract class InternalPays extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'operation id',
-			'create_date' => 'create date',
-			'create_user' => 'User who create',
-			'acc_user_id' => 'account user',
-			'service_id' => 'Billed service',
-			'description' => 'Description',
-			'summa' => 'Payment summ',
+			'service_id' => 'Service code',
+			'course_id' => 'Course code',
 		);
 	}
 
@@ -101,13 +100,8 @@ abstract class InternalPays extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('create_user',$this->create_user);
-		$criteria->compare('acc_user_id',$this->acc_user_id);
 		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('summa',$this->summa,true);
+		$criteria->compare('course_id',$this->course_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,7 +112,7 @@ abstract class InternalPays extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InternalPays the static model class
+	 * @return CourseService the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
