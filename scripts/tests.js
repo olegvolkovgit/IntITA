@@ -166,7 +166,7 @@ function unableTest(pageId){
     if (confirm('Ви впевнені, що хочете видалити тест?')) {
         $.ajax({
             type: "POST",
-            url: "/IntITA/tests/unableTest",
+            url: "/tests/unableTest",
             data: {'pageId':pageId},
             success: function(){
                 $('div[name="lecturePage"]').html(response);

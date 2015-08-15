@@ -5,7 +5,7 @@
 
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
 ?>
-
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <div name="lecturePage">
     <?php
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {

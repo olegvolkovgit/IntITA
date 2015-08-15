@@ -127,7 +127,7 @@ function unableTask(pageId){
     if (confirm('Ви впевнені, що хочете видалити задачу?')) {
         $.ajax({
             type: "POST",
-            url: "/IntITA/task/unableTask",
+            url: "/task/unableTask",
             data: {'pageId':pageId},
             success: function(){
                 $('div[name="lecturePage"]').html(response);
