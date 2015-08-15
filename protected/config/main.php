@@ -157,5 +157,6 @@ return array(
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',
         'openDialogPath' =>'http://intita.itatests.com/index.php?dialog=true',
+		'baseUrl' =>'http://intita.itatests.com',
 	),
 );
