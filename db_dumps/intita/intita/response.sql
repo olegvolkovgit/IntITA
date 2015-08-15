@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-14 16:50:40
+-- Date/time:                    2015-08-15 11:35:06
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `response` (
   KEY `FK__user_2` (`about`),
   CONSTRAINT `FK__user` FOREIGN KEY (`who`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK__user_2` FOREIGN KEY (`about`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='Responses for teachers';
 
--- Dumping data for table intita.response: ~57 rows (approximately)
+-- Dumping data for table intita.response: ~72 rows (approximately)
 /*!40000 ALTER TABLE `response` DISABLE KEYS */;
 INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, `knowledge`, `behavior`, `motivation`) VALUES
 	(1, 22, 38, '2015-06-24 15:07:16', 'iubl,ugl', 6, '::1', 8, 5, 5),
@@ -56,7 +56,7 @@ INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, 
 	(21, 22, 42, '2015-07-10 10:21:46', 'мтмтбь', NULL, '94.179.47.46', NULL, NULL, NULL),
 	(22, 22, 38, '2015-07-10 10:23:00', 'ччиист', NULL, '94.179.47.46', NULL, NULL, NULL),
 	(23, 22, 42, '2015-07-10 10:23:57', 'миьб', NULL, '94.179.47.46', NULL, NULL, NULL),
-	(24, 45, 109, '2015-07-10 14:06:09', 'qq', 7, '178.95.152.124', 7, 7, 7),
+	(24, 45, 109, '2015-07-10 14:06:09', 'qq', 10, '178.95.152.124', 10, 10, 9),
 	(25, 45, 109, '2015-07-10 14:06:33', 'wedqw', NULL, '178.95.152.124', NULL, NULL, NULL),
 	(26, 45, 109, '2015-07-10 14:06:46', 'aaaa', NULL, '178.95.152.124', NULL, NULL, NULL),
 	(27, 22, 109, '2015-07-11 13:33:32', 'bffhtityjjohtjhoyhouhoyt\r\n', 8, '81.30.164.98', 10, 4, 10),
@@ -89,7 +89,22 @@ INSERT INTO `response` (`id`, `who`, `about`, `date`, `text`, `rate`, `who_ip`, 
 	(54, 22, 38, '2015-07-27 10:13:36', 'mkmmknmbn', NULL, '94.179.88.43', NULL, NULL, NULL),
 	(55, 121, 38, '2015-07-27 13:48:11', 'fyudg', 10, '94.179.88.43', 9, 10, 10),
 	(56, 22, 41, '2015-07-28 19:12:07', 'яапяваряпврвпрявпрвпрвпрп', NULL, '178.94.43.154', NULL, NULL, NULL),
-	(57, 129, 42, '2015-07-29 10:53:23', 'кккнкн!крр;м\r\nрлоаист.%лор\r\n\r\nдл\r\nоплр', 9, '94.179.103.214', 8, 9, 9);
+	(57, 129, 42, '2015-07-29 10:53:23', 'кккнкн!крр;м\r\nрлоаист.%лор\r\n\r\nдл\r\nоплр', 9, '94.179.103.214', 8, 9, 9),
+	(58, 22, 117, '2015-08-10 15:04:10', 'hgjfj', 4, '81.30.164.98', 5, 4, 4),
+	(59, 22, 38, '2015-08-10 15:47:05', ' ьть', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(60, 22, 40, '2015-08-11 17:56:42', ' иьть ', 8, '94.179.97.196', 8, 6, 9),
+	(61, 22, 40, '2015-08-12 13:43:11', 'dhfgzjfjxfhjfhj', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(62, 22, 40, '2015-08-12 13:43:30', 'jkltjhlksjhfljhlfhj\r\nkgjhgjhlkkgfhfgl\r\nsdjfdfgsdfgd\r\nmdhgfdfgdjd', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(63, 44, 39, '2015-08-12 14:17:02', 'вап', 5, '80.91.174.90', 8, 5, 2),
+	(64, 44, 117, '2015-08-12 14:18:58', 'йййййййййййййййййййй', 9, '80.91.174.90', 10, 9, 9),
+	(65, 52, 40, '2015-08-12 14:54:27', 'ааоаоаро', 7, '81.30.164.98', 8, 4, 8),
+	(66, 52, 40, '2015-08-12 14:54:43', 'прапрпарпрап', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(67, 45, 130, '2015-08-12 18:49:28', 'sdfghfgmgh,.jm.', 9, '37.54.6.244', 9, 9, 9),
+	(68, 45, 109, '2015-08-13 08:14:34', 'ссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссс\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссс\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссс???????????????????????????\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n?????????????????????????????????????????????77', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(69, 51, 43, '2015-08-14 15:13:16', '1', 2, '81.30.164.98', 2, 2, 2),
+	(70, 51, 43, '2015-08-14 15:13:19', '1', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(71, 51, 43, '2015-08-14 15:13:22', '1', NULL, '81.30.164.98', NULL, NULL, NULL),
+	(72, 45, 130, '2015-08-14 19:03:15', 'ццццццццццццццццццццццццццццццццццццццццццццццццццццццццццц\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nцццццццццццццццццццццццццццццццццццццццц\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nццццццццццццццццццццццц', NULL, '37.54.4.76', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `response` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

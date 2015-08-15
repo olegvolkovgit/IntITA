@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-14 16:50:40
+-- Date/time:                    2015-08-15 11:35:06
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `tests_marks` (
   KEY `FK_tests_marks_tests` (`id_test`),
   CONSTRAINT `FK_tests_marks_tests` FOREIGN KEY (`id_test`) REFERENCES `tests` (`id`),
   CONSTRAINT `FK_tests_marks_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8 COMMENT='mark: 0 - failed, 1 - success';
 
--- Dumping data for table intita.tests_marks: ~268 rows (approximately)
+-- Dumping data for table intita.tests_marks: ~302 rows (approximately)
 /*!40000 ALTER TABLE `tests_marks` DISABLE KEYS */;
 INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(14, 51, 35, 1),
@@ -294,7 +294,41 @@ INSERT INTO `tests_marks` (`id`, `id_user`, `id_test`, `mark`) VALUES
 	(289, 51, 194, 1),
 	(290, 51, 195, 1),
 	(291, 51, 196, 1),
-	(292, 51, 197, 1);
+	(292, 51, 197, 1),
+	(293, 132, 48, 0),
+	(294, 132, 48, 0),
+	(295, 132, 48, 0),
+	(296, 132, 64, 1),
+	(297, 52, 48, 1),
+	(298, 44, 64, 1),
+	(299, 44, 65, 0),
+	(300, 44, 65, 1),
+	(301, 44, 66, 1),
+	(302, 44, 67, 1),
+	(303, 44, 68, 1),
+	(304, 44, 68, 0),
+	(305, 44, 68, 1),
+	(306, 44, 69, 1),
+	(307, 52, 49, 0),
+	(308, 52, 49, 1),
+	(309, 52, 50, 1),
+	(310, 52, 64, 1),
+	(311, 52, 65, 0),
+	(312, 52, 65, 1),
+	(313, 22, 50, 1),
+	(314, 133, 64, 1),
+	(315, 45, 64, 1),
+	(316, 45, 49, 0),
+	(317, 45, 49, 0),
+	(318, 45, 49, 0),
+	(319, 45, 49, 1),
+	(320, 45, 50, 0),
+	(321, 45, 50, 0),
+	(322, 45, 50, 1),
+	(323, 45, 71, 0),
+	(324, 45, 71, 0),
+	(325, 45, 71, 1),
+	(326, 22, 48, 1);
 /*!40000 ALTER TABLE `tests_marks` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

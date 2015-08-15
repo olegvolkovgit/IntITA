@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-14 16:50:40
+-- Date/time:                    2015-08-15 11:35:06
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,23 +45,23 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` tinyint(1) DEFAULT '0',
   `reg_time` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.user: ~48 rows (approximately)
+-- Dumping data for table intita.user: ~51 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_name`, `middleName`, `secondName`, `nickname`, `birthday`, `email`, `password`, `facebook`, `googleplus`, `linkedin`, `vkontakte`, `twitter`, `phone`, `hash`, `address`, `education`, `educform`, `interests`, `aboutUs`, `aboutMy`, `avatar`, `role`, `token`, `activkey_lifetime`, `status`, `reg_time`) VALUES
 	(1, 'Anonim', '', '', 0, '', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 0, 0),
 	(2, 'Administrator', '', '', 0, '', NULL, 'Forum', '', '', 'forum_admin@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 3, 'ef50a48e3132fb85a11a789529f45ca21e18e322', NULL, 1, 0),
 	(11, 'ivannayutrrtr', '', '', 0, '', NULL, '', '', '', 'ivanna@yutr.rtr', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
-	(22, 'Student', '', '', 0, '', NULL, '', '', '01/02/2003', 'student@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(111)111111_', '', '', '', 'Онлайн', '', '', 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', '55af62608fbde.jpg', 0, NULL, NULL, 1, 0),
+	(22, 'Student', '', '', 0, '', NULL, '', '', '01/02/2003', 'student@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(111)111111_', '', '', '', 'Онлайн/Офлайн', '', '', '1', '55ca365a7ab27.JPG', 0, NULL, NULL, 1, 0),
 	(38, 'teacher', '', '', 0, '', NULL, '', '', '11/11/2011', 'teacher1@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(000)0000000', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, '8f1f15efd7312a5795163d48402a727541c8ddc2', '2015-07-29 09:55:49', 1, 0),
-	(39, '', '', '', 0, '', NULL, '', '', '', 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
+	(39, '', '', '', 0, '', NULL, '', '', '', 'teacher2@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '+38(111)1111222', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
 	(40, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher3@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
 	(41, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher4@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
 	(42, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher5@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
 	(43, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teacher6@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
-	(44, 'Vinnytsia', '', '', 0, '', NULL, 'ITAcademy', NULL, NULL, 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
-	(45, 'Roman', '', '', 0, '', NULL, 'Melnyk', 'Romcom', '', 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', '', '', '', '', '', '', '', '', '', 'Онлайн/Офлайн', '', '', '', '55acd1ce9411d.jpg', 0, NULL, NULL, 1, 0),
+	(44, 'Vinnytsia', '', '', 0, '', NULL, 'ITAcademy', '', '', 'ita.in.ua.hr@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', '55cb512264ba3.jpg', 0, NULL, NULL, 1, 0),
+	(45, 'Roman', '', '', 0, '', NULL, 'Melnyk', 'Romcom', '', 'romcom77@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', '55acd1ce9411d.jpg', 0, NULL, NULL, 1, 0),
 	(46, 'IT', '', '', 0, '', NULL, 'Academy', NULL, NULL, 'ita.in.ua@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, NULL, NULL, 1, 0),
 	(47, 'Анонім', '', '', 0, '', NULL, '', '', '', 'tifjseihfuiw@tttt.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 1, NULL, NULL, 1, 0),
 	(48, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'teac@gmail.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 1, NULL, NULL, 1, 0),
@@ -97,7 +97,10 @@ INSERT INTO `user` (`id`, `firstName`, `identity`, `network`, `state`, `full_nam
 	(127, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'ohnDoe@example.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, '152c6eb30316267b4955e076951ef7a55ba4c960', NULL, 0, 1438079401),
 	(128, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'o.h.nDoe@example.com', '011c945f30ce2cbafc452f39840f025693339c42', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, 'dbee357fd9bcaf25080407179a113ce1fff64ef7', NULL, 0, 1438079467),
 	(129, 'Наталья', '', '', 0, '', NULL, 'Бадёра', NULL, '20.04.1989', 'natasha-badora@yandex.ru', '011c945f30ce2cbafc452f39840f025693339c42', 'https://www.facebook.com/app_scoped_user_id/805219722881225/', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, '55b8a44c268ca.jpg', 0, NULL, NULL, 1, 1438165651),
-	(130, 'Михайло', '', '', 0, '', NULL, 'Чухно', '', '', 'chuhno.mv@gmail.com', '47439b407286cd6f94618fbfb113f283ab3b4490', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', '55ba02d1920fe.jpg', 1, NULL, NULL, 1, 1438250920);
+	(130, 'Михайло', '', '', 0, '', NULL, 'Чухно', '', '', 'chuhno.mv@gmail.com', '47439b407286cd6f94618fbfb113f283ab3b4490', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', '55ba02d1920fe.jpg', 1, NULL, NULL, 1, 1438250920),
+	(131, '', '', '', 0, '', NULL, '', '', '', 'gfgj@rtuuy.com', 'b821103a5881b0d768dd9f697df6b0b7951110b2', '', '', '', '', '', '', '', 'dgh', 'dgh', 'Онлайн', '', '', 'dh', '55cb276c7fcba.jpg', 0, 'e43a0dc110feea87fb2fe641ee3bfa268cb0f79b', NULL, 0, 1439377260),
+	(132, '', '', '', 0, '', NULL, NULL, NULL, NULL, 'abyr@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, 'Онлайн', NULL, NULL, NULL, 'noname.png', 0, 'e4d4408e9332f3cdc524c27699403cd8419e3b84', NULL, 1, 1439386470),
+	(133, 'robota', '', '', 0, '', NULL, 'molodi', '', '', 'robotamolodi@gmail.com', '08de4459afb53dd6e8ab179fb42cdb93b0516185', '', '', '', '', '', '', '', '', '', 'Онлайн', '', '', '', 'noname.png', 0, NULL, NULL, 1, 1439389511);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
