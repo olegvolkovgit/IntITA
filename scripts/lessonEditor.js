@@ -125,6 +125,7 @@ function upPage(idLecture, pageOrder, course){
     });
 }
 
+
 function downPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
