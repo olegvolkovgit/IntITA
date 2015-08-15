@@ -1,6 +1,5 @@
 # ignore files
 
-
 .idea/*
 protected/runtime/*
 forum/cache/*
