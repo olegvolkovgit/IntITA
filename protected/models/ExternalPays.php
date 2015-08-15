@@ -36,7 +36,7 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_date, create_user, source_id, user_id, pay_date, summa, description', 'required'),
+			array('create_user, source_id, user_id, pay_date, summa, description', 'required'),
 			array('create_user, user_id', 'numerical', 'integerOnly'=>true),
 			array('source_id, summa', 'length', 'max'=>10),
 			array('description', 'length', 'max'=>512),
