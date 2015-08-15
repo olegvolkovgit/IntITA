@@ -133,6 +133,7 @@ $this->breadcrumbs=array(
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
 
