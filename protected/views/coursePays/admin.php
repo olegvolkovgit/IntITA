@@ -44,6 +44,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'id'=>'course-payment-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+        'summaryText'=> '',
 	'columns'=>array(
 		'id',
 		'create_date',
@@ -51,9 +52,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'acc_user_id',
 		'service_id',
 		'description',
-		/*
 		'summa',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),

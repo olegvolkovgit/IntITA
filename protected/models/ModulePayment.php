@@ -13,11 +13,14 @@
  */
 class ModulePayment extends InternalPays
 {
-    public function relations() {
-        $resultarray = parent::relations();
-        array_push($resultarray,array('service' => array(self::BELONGS_TO, 'ModuleService', 'service_id')));
-        return $resultarray;
-    }
-    //put your code here
+    protected $service_model = 'ModuleService';
+    protected $service_id_param = 'module_id';
     
+    public $module_id;
+    
+        
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
 }

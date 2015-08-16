@@ -20,6 +20,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+            'application.controllers.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes

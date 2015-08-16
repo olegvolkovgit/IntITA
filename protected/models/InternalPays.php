@@ -27,14 +27,33 @@ abstract class InternalPays extends CActiveRecord
 		return 'acc_internal_pays';
 	}
 
-        public function beforeSave() {
+        protected function beforeValidate() {
             ///TODO: should use current user
-            $create_user = 1; 
+            $this->create_user = 1; 
             
-            return parent::beforeSave();
+            $this->{$this->service_id_param} = 1;
+            $model = $this->service_model;
+            $courseService = $model::model()->findByAttributes(array($this->service_id_param=>$this->{$this->service_id_param}));
+        
 
-  
+            if(!isset($courseService))
+            {
+
+                $courseService = new $this->service_model();
+                $courseService->{$this->service_id_param} = $this->{$this->service_id_param};
+                $courseService->save();
+                $this->service = $courseService->service;
+                $this->service_id = $courseService->service_id;
+            }
+            else 
+            {
+                $this->service = $courseService->service;
+                $this->service_id = $courseService->service_id;
+            }
+            
+            return parent::beforeValidate();
         }
+
 
         /**
 	 * @return array validation rules for model attributes.
@@ -64,6 +83,7 @@ abstract class InternalPays extends CActiveRecord
 		return array(
 			'createUser' => array(self::BELONGS_TO, 'User', 'create_user'),
 			'accUser' => array(self::BELONGS_TO, 'User', 'acc_user_id'),
+                        'service' => array(self::BELONGS_TO, $this->service_model, 'service_id')
 		);
 	}
 
