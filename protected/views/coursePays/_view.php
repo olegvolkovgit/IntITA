@@ -17,12 +17,8 @@
 	<?php echo CHtml::encode($data->create_user); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('acc_user_id')); ?>:</b>
-	<?php echo CHtml::encode($data->acc_user_id); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('service_id')); ?>:</b>
-	<?php echo CHtml::encode($data->service_id); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('agreement_id')); ?>:</b>
+	<?php echo CHtml::encode($data->agreement_id); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('description')); ?>:</b>

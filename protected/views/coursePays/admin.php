@@ -49,8 +49,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'create_date',
 		'create_user',
-		'acc_user_id',
-		'service_id',
+		'agreement_id',
 		'description',
 		'summa',
 		array(

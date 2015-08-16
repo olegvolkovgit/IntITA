@@ -1,25 +1,47 @@
 <?php
 
 /**
- * This is the model class for table "acc_user".
+ * This is the model class for table "acc_course_service".
  *
- * The followings are the available columns in table 'acc_user':
- * @property integer $user_id
+ * The followings are the available columns in table 'acc_course_service':
+ * @property string $service_id
+ * @property integer $course_id
  *
  * The followings are the available model relations:
- * @property InternalPays[] $internalPays
+ * @property Service $service
+ * @property Course $course
  */
-class AccountUser extends CActiveRecord
+class CourseService extends AbstractIntITAService
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_user';
+		return 'acc_course_service';
 	}
 
-	/**
+        public function primaryKey() {
+             return 'course_id';
+        }
+        
+        protected function beforeValidate() {
+
+            
+            if(!isset($this->service))
+            {
+                
+                $service = new Service;
+                $service->description = "Курс ".$this->course->title_ua." ";
+                $service->save();
+                $this->service = $service;
+                $this->service_id = $service->service_id;
+            }
+            return parent::beforeValidate();
+        }
+        
+
+        /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -27,11 +49,12 @@ class AccountUser extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id', 'required'),
-			array('user_id', 'numerical', 'integerOnly'=>true),
+			array('service_id, course_id', 'required'),
+			array('course_id', 'numerical', 'integerOnly'=>true),
+			array('service_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id', 'safe', 'on'=>'search'),
+			array('service_id, course_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,7 +66,8 @@ class AccountUser extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'internalPays' => array(self::HAS_MANY, 'InternalPays', 'acc_user_id'),
+			'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+			'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
 		);
 	}
 
@@ -53,7 +77,8 @@ class AccountUser extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id' => 'User account',
+			'service_id' => 'Service code',
+			'course_id' => 'Course code',
 		);
 	}
 
@@ -75,7 +100,8 @@ class AccountUser extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('service_id',$this->service_id,true);
+		$criteria->compare('course_id',$this->course_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -86,10 +112,15 @@ class AccountUser extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return AccountUser the static model class
+	 * @return CourseService the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+        
+        public static function createCourseService() 
+        {
+            return parent::createService(__CLASS__,'course_id');
+        }
 }

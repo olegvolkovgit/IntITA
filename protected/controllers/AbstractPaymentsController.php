@@ -78,7 +78,8 @@ class AbstractPaymentsController extends Controller
 		{
 			$model->attributes=$_POST[$this->modelClass];
                        // var_dump($model);
-                      
+                       $model->course_id = 1;
+                       $model->acc_user_id = 1;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}

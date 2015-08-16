@@ -1,24 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "acc_course_service".
+ * This is the model class for table "acc_payment_schema".
  *
- * The followings are the available columns in table 'acc_course_service':
- * @property string $service_id
- * @property integer $course_id
+ * The followings are the available columns in table 'acc_payment_schema':
+ * @property string $id
+ * @property string $discount
+ * @property integer $pay_count
+ * @property string $loan
+ * @property string $name
+ * @property integer $monthpay
  *
  * The followings are the available model relations:
- * @property Service $service
- * @property Course $course
+ * @property UserAgreements[] $userAgreements
  */
-class CoursePayableService extends CActiveRecord
+class PaymentSchema extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_course_service';
+		return 'acc_payment_schema';
 	}
 
 	/**
@@ -29,12 +32,13 @@ class CoursePayableService extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_id, course_id', 'required'),
-			array('course_id', 'numerical', 'integerOnly'=>true),
-			array('service_id', 'length', 'max'=>10),
+			array('name', 'required'),
+			array('pay_count, monthpay', 'numerical', 'integerOnly'=>true),
+			array('discount, loan', 'length', 'max'=>10),
+			array('name', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('service_id, course_id', 'safe', 'on'=>'search'),
+			array('id, discount, pay_count, loan, name, monthpay', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +50,7 @@ class CoursePayableService extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-			'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
+			'userAgreements' => array(self::HAS_MANY, 'UserAgreements', 'payment_scheme'),
 		);
 	}
 
@@ -57,8 +60,12 @@ class CoursePayableService extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'service_id' => 'Service code',
-			'course_id' => 'Course code',
+			'id' => 'ID',
+			'discount' => 'відсоток знижки',
+			'pay_count' => 'кількість проплат',
+			'loan' => 'відсоток',
+			'name' => 'опис',
+			'monthpay' => 'Monthpay',
 		);
 	}
 
@@ -80,8 +87,12 @@ class CoursePayableService extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('course_id',$this->course_id);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('discount',$this->discount,true);
+		$criteria->compare('pay_count',$this->pay_count);
+		$criteria->compare('loan',$this->loan,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('monthpay',$this->monthpay);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,7 +103,7 @@ class CoursePayableService extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CoursePayableService the static model class
+	 * @return PaymentSchema the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

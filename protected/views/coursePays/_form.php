@@ -19,28 +19,11 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'create_date'); ?>
-		<?php echo $form->textField($model,'create_date'); ?>
-		<?php echo $form->error($model,'create_date'); ?>
-	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'create_user'); ?>
-		<?php echo $form->textField($model,'create_user'); ?>
-		<?php echo $form->error($model,'create_user'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'acc_user_id'); ?>
-		<?php echo $form->textField($model,'acc_user_id'); ?>
-		<?php echo $form->error($model,'acc_user_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'service_id'); ?>
-		<?php echo $form->textField($model,'service_id',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'service_id'); ?>
+		<?php echo $form->labelEx($model,'course_id'); ?>
+                <?php echo $form->dropDownList($model, 'course_id', CHtml::listData(Course::model()->findAll(), 'course_ID', 'title_ua'))?>
+		<?php echo $form->error($model,'course_id'); ?>
 	</div>
 
 	<div class="row">

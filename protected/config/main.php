@@ -19,6 +19,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+            'application.models.accountancy.*',
 		'application.components.*',
             'application.controllers.*',
         'ext.imperavi-redactor-widget.*',

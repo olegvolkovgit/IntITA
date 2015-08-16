@@ -1,28 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "acc_service".
+ * This is the model class for table "acc_payment_plan".
  *
- * The followings are the available columns in table 'acc_service':
- * @property string $service_id
- * @property string $description
- * @property string $create_date
- * @property integer $cancelled
- * @property integer $billable
- *
- * The followings are the available model relations:
- * @property CourseService[] $courseServices
- * @property InternalPays[] $internalPays
- * @property ModuleService[] $moduleServices
+ * The followings are the available columns in table 'acc_payment_plan':
+ * @property string $agreement_id
+ * @property string $pay_date
+ * @property string $summa
+ * @property string $paid_date
+ * @property string $cancelled_date
  */
-class PayableService extends CActiveRecord
+class AgreementPaymentPlan extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_service';
+		return 'acc_payment_plan';
 	}
 
 	/**
@@ -33,12 +28,12 @@ class PayableService extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, create_date', 'required'),
-			array('cancelled, billable', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>512),
+			array('agreement_id, pay_date, summa', 'required'),
+			array('agreement_id, summa', 'length', 'max'=>10),
+			array('paid_date, cancelled_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('service_id, description, create_date, cancelled, billable', 'safe', 'on'=>'search'),
+			array('agreement_id, pay_date, summa, paid_date, cancelled_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,9 +45,6 @@ class PayableService extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
-			'internalPays' => array(self::HAS_MANY, 'InternalPays', 'service_id'),
-			'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
 		);
 	}
 
@@ -62,11 +54,11 @@ class PayableService extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'service_id' => 'Service code',
-			'description' => 'service description',
-			'create_date' => 'service creation date',
-			'cancelled' => 'Is cancelled',
-			'billable' => 'Is billable',
+			'agreement_id' => 'номер договору',
+			'pay_date' => 'дата проплаты',
+			'summa' => 'сумма проплаты',
+			'paid_date' => 'дата проплати',
+			'cancelled_date' => 'дата відміни',
 		);
 	}
 
@@ -88,11 +80,11 @@ class PayableService extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('cancelled',$this->cancelled);
-		$criteria->compare('billable',$this->billable);
+		$criteria->compare('agreement_id',$this->agreement_id,true);
+		$criteria->compare('pay_date',$this->pay_date,true);
+		$criteria->compare('summa',$this->summa,true);
+		$criteria->compare('paid_date',$this->paid_date,true);
+		$criteria->compare('cancelled_date',$this->cancelled_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,7 +95,7 @@ class PayableService extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PayableService the static model class
+	 * @return AgreementPaymentPlan the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -13,11 +13,15 @@
  */
 class CoursePayment extends InternalPays
 {
-    protected $service_model = 'CourseService';
-    protected $service_id_param = 'course_id';
+    protected $Agreement_model = 'CourseAgreement';
+  
     
     public $course_id;
     
+    public function getAgreement()
+    {
+        return CourseAgreement::getByCourse($this->acc_user_id, $this->course_id);
+    }
     
     public static function model($className=__CLASS__)
     {
