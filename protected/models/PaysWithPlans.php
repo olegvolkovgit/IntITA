@@ -1,46 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "acc_course_service".
+ * This is the model class for table "acc_pays_plans".
  *
- * The followings are the available columns in table 'acc_course_service':
- * @property string $service_id
- * @property integer $course_id
- *
- * The followings are the available model relations:
- * @property Service $service
- * @property Course $course
+ * The followings are the available columns in table 'acc_pays_plans':
+ * @property string $internal_pay_id
+ * @property string $payment_plan_id
  */
-class CourseService extends AbstractIntITAService
+class PaysWithPlans extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_course_service';
+		return 'acc_pays_plans';
 	}
 
-        public function primaryKey() {
-             return 'course_id';
-        }
-        
-        protected function beforeValidate() 
-        {
-            $this->course = Course::model()->findByPk($this->course_id);
-            if(!isset($this->service))
-            {
-                $service = new Service;
-                $service->description = "Курс ".$this->course->title_ua." ";
-                $service->save();
-                $this->service = $service;
-                $this->service_id = $service->service_id;
-            }
-            return parent::beforeValidate();
-        }
-        
-
-        /**
+	/**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -48,12 +25,11 @@ class CourseService extends AbstractIntITAService
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_id, course_id', 'required'),
-			array('course_id', 'numerical', 'integerOnly'=>true),
-			array('service_id', 'length', 'max'=>10),
+			array('internal_pay_id, payment_plan_id', 'required'),
+			array('internal_pay_id, payment_plan_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('service_id, course_id', 'safe', 'on'=>'search'),
+			array('internal_pay_id, payment_plan_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,8 +41,6 @@ class CourseService extends AbstractIntITAService
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-			'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
 		);
 	}
 
@@ -76,8 +50,8 @@ class CourseService extends AbstractIntITAService
 	public function attributeLabels()
 	{
 		return array(
-			'service_id' => 'Service code',
-			'course_id' => 'Course code',
+			'internal_pay_id' => 'Internal Pay',
+			'payment_plan_id' => 'Payment Plan',
 		);
 	}
 
@@ -99,8 +73,8 @@ class CourseService extends AbstractIntITAService
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('course_id',$this->course_id);
+		$criteria->compare('internal_pay_id',$this->internal_pay_id,true);
+		$criteria->compare('payment_plan_id',$this->payment_plan_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,15 +85,10 @@ class CourseService extends AbstractIntITAService
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseService the static model class
+	 * @return PaysWithPlans the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-        
-        public static function createCourseService($course_id) 
-        {
-            return parent::createService(__CLASS__,'course_id',$course_id);
-        }
 }

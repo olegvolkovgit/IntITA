@@ -50,7 +50,18 @@ abstract class UserAgreements extends CActiveRecord
 			array('id, user_id, service_id, create_date, approval_user, approval_date, cancel_user, cancel_date, close_date, payment_scheme', 'safe', 'on'=>'search'),
 		);
 	}
-
+        
+        
+        
+        protected function afterSave() 
+        {
+            if(!isset($this->paymentScheme))
+            {
+                $this->paymentScheme = PaymentSchema::model()->findByPk($this->payment_scheme);
+            }
+            $this->paymentScheme->generatePaymentPlan($this);
+            parent::afterSave();
+        }
 	/**
 	 * @return array relational rules.
 	 */

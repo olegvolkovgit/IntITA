@@ -13,10 +13,10 @@
  */
 abstract class AbstractIntITAService extends CActiveRecord
 {
-    protected static function createService($serviceClass,$service_param) 
+    protected static function createService($serviceClass,$service_param,$service_param_value) 
     {
         $service = new $serviceClass();
-        $service->$service_param = $service_param;
+        $service->$service_param = $service_param_value;
         $service->save();
         return $service;
     }

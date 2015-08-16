@@ -109,4 +109,32 @@ class PaymentSchema extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public function generatePaymentPlan(UserAgreements $agreement) 
+        {
+            $price = $agreement->getAgreementPrice();
+            if($this->discount > 0)
+            {
+                $price = $price - ($price*$this->discount/100);
+            }
+            $pay_part = $price / $this->pay_count;
+            $time = strtotime(date("Y-m-d"));
+            if($this->monthpay)
+            {
+                $payperiod = "+1 month";
+            }
+            else 
+            {
+                $payperiod = "";
+            }
+            for($i = 0; $i < $this->pay_count; $i++)
+            {
+                $paymentPlan = new AgreementPaymentPlan();
+                $paymentPlan->agreement_id = $agreement->id;
+                $paymentPlan->pay_date = $time;
+                $time = date("Y-m-d", strtotime($payperiod, $time));
+                $paymentPlan->summa = $pay_part;
+                $paymentPlan->save();
+            }
+        }
 }

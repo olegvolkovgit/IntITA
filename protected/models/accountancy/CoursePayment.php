@@ -18,6 +18,13 @@ class CoursePayment extends InternalPays
     
     public $course_id;
     
+    public function setAttributes($values, $safeOnly = true) 
+    {
+        parent::setAttributes($values, $safeOnly);
+        $this->course_id = $values['course_id'];
+    }
+
+
     public function getAgreement()
     {
         return CourseAgreement::getByCourse($this->acc_user_id, $this->course_id);

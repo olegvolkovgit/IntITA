@@ -20,9 +20,8 @@ class CourseAgreement extends UserAgreements
         $service = CourseService::model()->findByAttributes(array('course_id'=>$course_id));
         if(!isset($service))
         {
-            $service = CourseService::createCourseService();
+            $service = CourseService::createCourseService($course_id);
         }
-        
         $model = CourseAgreement::model()->findByAttributes(array('service_id'=>$service->service_id, 'user_id' => $user_id));
         if(!isset($model))
         {
@@ -41,4 +40,13 @@ class CourseAgreement extends UserAgreements
             return parent::model($className);
     }
 
+    protected function afterSave() {
+        parent::afterSave();
+    }
+
+
+    public function getAgreementPrice()
+    {
+        return 1000;
+    }
 }
