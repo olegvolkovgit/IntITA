@@ -5,6 +5,7 @@
 
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
 ?>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
 <div name="lecturePage">
     <?php
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
@@ -84,11 +85,11 @@ if($page->video == null) {?>
         switch (LectureHelper::getQuizType($data['id_block'])) {
             case '5':
             case '6':
-                $this->renderPartial('_editTask', array('idBlock' => $data['id_block']));
+                $this->renderPartial('_editTask', array('idBlock' => $data['id_block'], 'pageId' => $page->id));
                 break;
             case '12':
             case '13':
-                $this->renderPartial('_editTest', array('idBlock' => $data['id_block']));
+                $this->renderPartial('_editTest', array('idBlock' => $data['id_block'], 'pageId' => $page->id));
                 break;
             default:
                 break;
@@ -100,8 +101,8 @@ if($page->video == null) {?>
         <?php
     }
 ?>
-<?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user)));?>
-<?php $this->renderPartial('_addTask');?>
+<?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
+<?php $this->renderPartial('_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
 <br>

@@ -333,10 +333,10 @@ class Lecture extends CActiveRecord
     }
     public static function getLessonCont($id){
         $summary=[];
-        $cont =  LectureElement::model()->findAll("id_lecture=:id and id_type=:type", array(':type'=>'8', ':id'=>$id));
+        $cont =  LecturePage::model()->findAll("id_lecture=:id", array(':id'=>$id));
         $i=0;
         foreach($cont as $type){
-            $summary[$i] = $type->html_block;
+            $summary[$i] = $type->page_title;
             $i++;
         }
         return $summary;

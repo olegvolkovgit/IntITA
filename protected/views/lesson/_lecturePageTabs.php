@@ -12,12 +12,14 @@
     </h1>
 <?php
 for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
-    if ($passedPages[$i]['isDone']) {
+    if ($passedPages[$i]['isDone'] ||
+        TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
+        LectureHelper::isLectureFree($page->id_lecture)) {
         ?>
         <a href="<?php $args = $_GET;
              $args['page'] = $passedPages[$i]['order'];
             echo $this->createUrl('', $args);?>"
-            title="Сторінка <?php echo $passedPages[$i]['order'];?>">
+            title="Частина <?php echo $passedPages[$i]['order'];?>">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
         </a>
     <?php } else {

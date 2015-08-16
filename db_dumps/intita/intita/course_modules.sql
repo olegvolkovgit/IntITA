@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-14 16:50:39
+-- Date/time:                    2015-08-15 11:35:05
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,24 +22,24 @@ CREATE TABLE IF NOT EXISTS `course_modules` (
   CONSTRAINT `FK_course_modules_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.course_modules: ~47 rows (approximately)
+-- Dumping data for table intita.course_modules: ~57 rows (approximately)
 /*!40000 ALTER TABLE `course_modules` DISABLE KEYS */;
 INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(1, 1, 1),
-	(1, 2, 4),
-	(1, 3, 2),
-	(1, 4, 3),
+	(1, 2, 2),
+	(1, 3, 3),
+	(1, 4, 4),
 	(1, 7, 5),
 	(1, 9, 6),
 	(1, 10, 7),
 	(1, 11, 8),
-	(1, 14, 10),
-	(1, 16, 11),
-	(1, 17, 13),
-	(1, 18, 15),
-	(1, 20, 14),
-	(1, 22, 16),
-	(1, 23, 17),
+	(1, 14, 21),
+	(1, 16, 10),
+	(1, 17, 12),
+	(1, 18, 13),
+	(1, 20, 15),
+	(1, 22, 17),
+	(1, 23, 18),
 	(13, 54, 1),
 	(13, 55, 2),
 	(13, 56, 3),
@@ -49,6 +49,7 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(3, 1, 1),
 	(3, 2, 2),
 	(3, 3, 3),
+	(1, 61, 20),
 	(19, 82, 1),
 	(19, 83, 2),
 	(19, 84, 3),
@@ -70,8 +71,17 @@ INSERT INTO `course_modules` (`id_course`, `id_module`, `order`) VALUES
 	(20, 100, 2),
 	(20, 101, 3),
 	(1, 121, 9),
-	(1, 122, 12),
-	(1, 123, 18);
+	(1, 122, 11),
+	(1, 123, 19),
+	(22, 1, 1),
+	(22, 2, 2),
+	(22, 126, 3),
+	(22, 127, 4),
+	(22, 128, 5),
+	(22, 129, 6),
+	(22, 130, 7),
+	(1, 131, 14),
+	(1, 132, 16);
 /*!40000 ALTER TABLE `course_modules` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

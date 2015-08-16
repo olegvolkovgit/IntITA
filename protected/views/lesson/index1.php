@@ -41,11 +41,32 @@ $this->breadcrumbs=array(
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
         <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
+        <?php if($countBlocks){?>
+            <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
+
+            <div class="spoilerBody">
+                <?php
+                $summary =  Lecture::getLessonCont($lecture->id);
+                for($i=0; $i<count($summary);$i++){
+                    ?>
+                    <p>
+                        <a href="<?php $args = $_GET;
+                        $args['page'] = $passedPages[$i]['order'];
+                        echo $this->createUrl('', $args);?>"
+                           title="Частина <?php echo $passedPages[$i]['order'];?>">
+                            <?php echo strip_tags($summary[$i]);?>
+                        </a>
+                    </p>
+                <?php
+                }
+                ?>
+            </div>
+        <?php }?>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));
         }
         if (isset($_GET['editPage'])){
-            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse']));
+            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse']), false, true);
         }else {
             $this->renderPartial('_lecturePageTabs', array('page' => $page, 'countBlocks' => $countBlocks, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
         }
@@ -107,11 +128,12 @@ $this->breadcrumbs=array(
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <!--Font Awesome-->
 <!--Load Redactor-->
-<?php if ($editMode){?>
+<?php if (isset($_GET['editPage'])){?>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
 <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
 

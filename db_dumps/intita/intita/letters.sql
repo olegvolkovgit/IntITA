@@ -3,7 +3,7 @@
 -- Server version:               5.6.21 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2015-08-14 16:50:40
+-- Date/time:                    2015-08-15 11:35:05
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `letters` (
   `date` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
--- Dumping data for table intita.letters: ~51 rows (approximately)
+-- Dumping data for table intita.letters: ~60 rows (approximately)
 /*!40000 ALTER TABLE `letters` DISABLE KEYS */;
 INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`, `date`, `status`) VALUES
 	(1, 22, 38, 'Заняття 4', 'Привіт1', '2015-06-21 21:36:58', 1),
@@ -76,7 +76,16 @@ INSERT INTO `letters` (`id`, `sender_id`, `addressee_id`, `theme`, `text_letter`
 	(48, 22, 38, 'zzx xbvhm', 'fhmj', '2015-07-27 10:16:00', 1),
 	(49, 121, 40, ' hvm', 'ghk', '2015-07-27 13:49:07', 0),
 	(50, 129, 40, 'спсвравчр', 'рлаппв', '2015-07-29 10:53:58', 0),
-	(51, 129, 40, 'влнол', 'вглнвгл', '2015-07-29 10:54:09', 0);
+	(51, 129, 40, 'влнол', 'вглнвгл', '2015-07-29 10:54:09', 0),
+	(52, 22, 38, 'ппр', 'с', '2015-08-10 15:40:02', 0),
+	(53, 22, 38, 'zzx xbvhm', 'и', '2015-08-10 15:40:09', 0),
+	(54, 22, 38, 'мро', 'ро', '2015-08-11 17:52:44', 0),
+	(55, 22, 38, 'т', '   арв', '2015-08-11 17:53:12', 0),
+	(56, 22, 38, 'zzx xbvhm', ' рь', '2015-08-11 17:53:28', 0),
+	(57, 52, 40, 'vjhj', 'fhkhgk', '2015-08-12 14:01:00', 0),
+	(58, 52, 39, 'нешегшгшгшгшеггкнгкнгнгннннннннннннннннннннннннннн', 'аопрваорпаылпрапраыпарвлпырвлапрвапорвлпрваплврпловавсмитмьитм\r\nоапрвоапрваолпрвлопрвапр  папавпаповадоапапапв тиадповпвдпдадп\r\nввопрварпрппр пропрпроапроаорпррапрапрппрпар проапрплрапрапрпрпа\r\nоврповарпаапаорппапаопрапаарпи  пи прапрвапвррпарпапапапрапапа', '2015-08-12 14:52:36', 0),
+	(59, 51, 38, '11', '11', '2015-08-13 12:29:03', 1),
+	(60, 38, 51, '11', '1111', '2015-08-13 12:29:24', 0);
 /*!40000 ALTER TABLE `letters` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

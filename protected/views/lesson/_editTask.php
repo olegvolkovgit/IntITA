@@ -37,6 +37,7 @@
     </form>
     <button onclick='editTask()'>Додати задачу</button>
     <button onclick='cancelTask()'>Скасувати</button>
+    <button onclick='unableTask(<?php echo $pageId;?>)'>Видалити задачу</button>
 </div>
 
 

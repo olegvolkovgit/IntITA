@@ -78,15 +78,17 @@ function editTask() {
     var lang = $('select[name="lang"]').val();
     var name = document.getElementById('name').value;
     condition = condition.trim();
-    var newTask = {
-        "operation": "addtask",
+    var editTask = {
+
+        "task": 210,
+        "lang": "c++",
+        "operation": "edittask",
         "name": name,
         "header": header,
         "etalon": etalon,
-        "footer": taskFooter,
-        "lang": "c++"
+        "footer": taskFooter
     };
-    var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(newTask), function () {
+    var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(editTask), function () {
     })
         .done(function (data) {
             var serverResponse = jQuery.parseJSON(data);
@@ -95,7 +97,7 @@ function editTask() {
             }
         })
         .fail(function () {
-            alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+            alert("Вибачте, але на сайті виникла помилка і редагувати задачу до заняття наразі неможливо. " +
                 "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
             location.reload();
         })
@@ -120,5 +122,21 @@ function editTaskToLecture(condition, idTeacher, idLecture, lang, id, table, tas
         success: function(){location.reload();
         }
     });
+}
+
+
+function unableTask(pageId){
+    if (confirm('Ви впевнені, що хочете видалити задачу?')) {
+        $.ajax({
+            type: "POST",
+            url: "/task/unableTask",
+            data: {'pageId':pageId},
+            success: function(){
+                $('div[name="lecturePage"]').html(response);
+                return false;
+            }
+        });
+    }
+    location.reload();
 }
 

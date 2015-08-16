@@ -9,6 +9,7 @@ class TestsController extends Controller
         $testTitle = Yii::app()->request->getPost('testTitle', '');
         $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
         $isFinal = Yii::app()->request->getPost('testType', 'plain');
+        $pageId = Yii::app()->request->getPost('pageId', 0);
 
         $options = [];
 
@@ -20,10 +21,14 @@ class TestsController extends Controller
         $author = Yii::app()->request->getPost('author', 0);
 
         if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition, $isFinal)) {
-            Tests::addNewTest($lectureElementId, $testTitle, $author);
+            Tests::addNewTest($lectureElementId, $testTitle, $author, $pageId);
             $idTest = Tests::model()->findByAttributes(array('block_element' => $lectureElementId))->id;
             TestsAnswers::addOptions($idTest, $options);
+
+
         }
+
+
 
         $this->redirect(Yii::app()->request->urlReferrer);
 	}
@@ -110,5 +115,13 @@ class TestsController extends Controller
             "status" => $result,
         );
         echo json_encode($resultJSON);
+    }
+
+    public function actionUnableTest(){
+        $pageId = Yii::app()->request->getPost('pageId', 0);
+
+        if($pageId != 0){
+            LecturePage::unableQuiz($pageId);
+        }
     }
 }

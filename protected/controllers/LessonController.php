@@ -103,8 +103,6 @@ class LessonController extends Controller{
     }
 
     public function actionSaveFormula(){
-
-
         $htmlBlock = Yii::app()->request->getPost('content');
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
@@ -142,7 +140,7 @@ class LessonController extends Controller{
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
         $id = LectureElement::getLastVideoId($model->id_lecture);
 
-        LecturePage::addVideo($pageId, $id);
+        LecturePage::addVideo($pageId, $id["id_block"]);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -344,14 +342,12 @@ class LessonController extends Controller{
             // copying
             copy($_FILES['file']['tmp_name'], $file);
 
-
             // displaying file
             $array = array(
                 'filelink' => '/images/lecture/'.$filename
             );
 
             echo stripslashes(json_encode($array));
-
         }
     }
 
@@ -382,7 +378,12 @@ class LessonController extends Controller{
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
         $idCourse = Yii::app()->request->getPost('idCourse', 0);
 
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
+        if($this->checkEditMode($idModule, Yii::app()->user->getId())) {
+            return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+        }else{
+            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+        }
     }
 
     public function actionDeletePage(){
@@ -400,6 +401,9 @@ class LessonController extends Controller{
     public function actionShowPageEditor(){
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
         $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
+        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
+
+        if($this->checkEditMode($idModule, Yii::app()->user->getId())) {
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
 
         $textList = LecturePage::getBlocksListById($page->id);
@@ -418,6 +422,9 @@ class LessonController extends Controller{
 
         return $this->renderPartial('_editLecturePageTabs', array(
             'page' => $page, 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
+        }else{
+            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+        }
     }
 
     public function actionAddNewPage($lecture, $page){

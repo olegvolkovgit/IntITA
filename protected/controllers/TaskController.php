@@ -22,10 +22,11 @@ class TaskController extends Controller
         $assignment = Yii::app()->request->getPost('assignment', 0);
         $table = Yii::app()->request->getPost('table', '');
         $taskType = Yii::app()->request->getPost('taskType', 'plain');
+        $pageId = Yii::app()->request->getPost('pageId', 1);
 
         if ($condition){
             if ($lectureElementId = LectureElement::addNewTaskBlock($lecture, $condition, $taskType)) {
-                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table);
+                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table, $pageId);
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -59,6 +60,15 @@ class TaskController extends Controller
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+
+    public function actionUnableTask(){
+        $pageId = Yii::app()->request->getPost('pageId', 0);
+
+        if($pageId != 0){
+            LecturePage::unableQuiz($pageId);
+        }
     }
 
 }

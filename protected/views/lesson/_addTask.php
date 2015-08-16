@@ -25,6 +25,7 @@
             <br>
             Назва:
             <input type="text" name="name" id="name" placeholder="назва задачі"/>
+            <input type="text" name="pageId" id="pageId" hidden="hidden" value="<?php echo $pageId;?>"/>
             <br>
             <br>
             Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>

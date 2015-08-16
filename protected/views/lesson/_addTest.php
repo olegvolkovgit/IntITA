@@ -13,7 +13,7 @@
 </script>
 <div id="addTest">
     <br>
-    <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/addTest');?>">
+    <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>">
         <fieldset>
             Питання теста:
             <br>
@@ -39,6 +39,7 @@
             </fieldset>
             <br>
             <input type="text" name="optionsNum" id="optionsNum" hidden="hidden" value="1"/>
+            <input type="text" name="pageId" id="pageId" hidden="hidden" value="<?php echo $pageId;?>"/>
             <input type="text" name="lectureId" id="lectureId" hidden="hidden" value="<?php echo $lecture;?>"/>
             <input type="text" name="testType" id="testType" hidden="hidden" value="plain"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
