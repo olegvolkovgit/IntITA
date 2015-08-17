@@ -45,6 +45,14 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
     'htmlOptions'=>array('class'=>'grid-view custom'),
+	'pager' => array(
+		'firstPageLabel'=>'&#171;&#171;',
+		'lastPageLabel'=>'&#187;&#187;',
+		'prevPageLabel'=>'&#171;',
+		'nextPageLabel'=>'&#187;',
+		'header'=>'',
+		'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+	),
     'summaryText'=>'',
 	'columns'=>array(
 		'id',

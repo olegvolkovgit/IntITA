@@ -210,6 +210,8 @@ img.lessonBut  {
     height:28px;
     text-align: center;
     padding-top: 4px;
+    font-size: 14px;
+    font-family: "MyriadPro";
 }
 img.lessonButFinal  {
     position: absolute;

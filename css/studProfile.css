@@ -99,6 +99,7 @@ table.profileInfo {
     padding-left: 8px;
     margin-bottom: -4px;
     resize: none;
+    font-size: 14px;
 }
 .studProf input:hover,
 .studProf textarea:hover{
@@ -315,7 +316,6 @@ span.colorP {
 /* стили секций с содержанием */
 .tabs {
     display: block;
-
 }
 .tabs > ul{
     margin:15px 0 0 22px;
