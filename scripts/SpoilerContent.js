@@ -2,11 +2,11 @@
 $(document).ready(function(){
     $('.spoilerLinks').click(function(){
         var nameSpoiler = $(this).children("span:first").text();
-        if(nameSpoiler=="Розгорнути історію навчання"){
-            $(this).children("span:first").text("Згорнути історію навчання");
+        if(nameSpoiler=="(показати)"){
+            $(this).children("span:first").text("(сховати)");
             $(this).children("span:last").text("\u25B2");
-        } else if(nameSpoiler=="Згорнути історію навчання"){
-            $(this).children("span:first").text("Розгорнути історію навчання");
+        } else if(nameSpoiler=="(сховати)"){
+            $(this).children("span:first").text("(показати)");
             $(this).children("span:last").text("\u25BC");
         }
         $(this).next('.spoilerBody').toggle('normal');
