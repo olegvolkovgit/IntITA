@@ -167,7 +167,8 @@ class LectureHelper {
 
     public static function getLecturePageVideo($idLecturePage){
         $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
-        return LectureElement::model()->findByPk($lectureElement)->html_block;
+        $videoLink = str_replace("watch?v=", "embed/", LectureElement::model()->findByPk($lectureElement)->html_block);
+        return $videoLink;
     }
 
     public static function getQuizType($id){
