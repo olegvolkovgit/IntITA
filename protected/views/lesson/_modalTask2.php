@@ -2,19 +2,9 @@
 <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/modalTask2.css"/>
 <!-- regform end -->
 <div class="mooda2">
-<?php
-$qForm = new StudentReg;
 
-$form = $this->beginWidget('CActiveForm', array(
-    'enableClientValidation' => true,
-    'enableAjaxValidation'=>true,
-    'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
-    'action' => Yii::app()->request->baseUrl.'/lesson/errorTask',
-));
-?>
     <div class="signIn22">
-        <div id="heedd2"
-        ">
+        <div id="heedd2">
         <table>
             <tr>
                 <td>
@@ -28,8 +18,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <p>Щось пішло неправильно, виправ помилку<br>
             та переходь до наступного матеріалу.</p>
         </div>
-        <input id="signInButtonM22" type="submit" value="ЗАКРИТИ">
+        <input id="signInButtonM22" type="submit" value="ЗАКРИТИ" onclick="$('#mydialog3').dialog('close');return false;">
     </div>
-<?php $this->endWidget(); ?>
 </div><!-- form -->
 </div>
