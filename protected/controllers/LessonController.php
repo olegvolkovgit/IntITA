@@ -35,6 +35,9 @@ class LessonController extends Controller{
         } else{
             $user = Yii::app()->user->getId();
         }
+        if(isset($_GET['editPage'])){
+            $page = $_GET['editPage'];
+        }
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
