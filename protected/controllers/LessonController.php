@@ -35,6 +35,9 @@ class LessonController extends Controller{
         } else{
             $user = Yii::app()->user->getId();
         }
+        if(isset($_GET['editPage'])){
+            $page = $_GET['editPage'];
+        }
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
@@ -50,9 +53,13 @@ class LessonController extends Controller{
                 'pageSize' => '200',
             )
         );
+        $teacherId = Teacher::getLectureTeacher($id);
 
-        $temp = TeacherModule::model()->find('idModule=' . $lecture->idModule);
-        $teacher = Teacher::model()->findByPk($temp->idTeacher);
+        if ($teacherId != 0){
+            $teacher = Teacher::model()->findByPk($teacherId);
+        } else {
+            $teacher = null;
+        }
 
         $passedPages = LecturePage::getAccessPages($id, $user);
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $id));
@@ -432,7 +439,10 @@ class LessonController extends Controller{
         $this->reorderLecturePagesDown($lecture, $page+1);
         LecturePage::addNewPage($lecture, $page+1);
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $args = $_GET;
+        $args['page'] = $page+1;
+
+        $this->redirect($this->createUrl('', $args));
     }
 
     //reorder blocks on lesson page - up block

@@ -4,16 +4,18 @@
  * User: Ivanna
  * Date: 09.04.2015
  * Time: 15:34
+ * var $teacher Teacher
  */
 $user = new StudentReg();
 $app = Yii::app();
+if($teacher != null){
 ?>
 <div class="teacherBlock">
     <div class="photobg">
         <img class="mask" src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
         <img class="teacherphoto" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url)?>">
     </div>
-    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
+    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher['teacher_id']));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>
         <span>
                 <ul>
                     <li> <div class="teacherTitle">
@@ -45,6 +47,6 @@ $app = Yii::app();
 
     </div>
 </div>
-
+<?php }?>
 
 

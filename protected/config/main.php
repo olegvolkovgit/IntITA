@@ -158,5 +158,6 @@ return array(
         'interpreterServer' => 'http://ii.itatests.com',
         'openDialogPath' =>'http://intita.itatests.com/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
+        'forumSessionId' => '8eee65c9aae96d768a096ddf87b0e43c__id',
 	),
 );

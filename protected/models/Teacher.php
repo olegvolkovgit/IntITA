@@ -249,4 +249,22 @@ class Teacher extends CActiveRecord
         $teacher = Teacher::model()->findByPk($id);
         return $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;
     }
+
+    public static function getLectureTeacher($idLecture){
+        $criteria = new CDbCriteria();
+        $criteria->select = "teacher_id";
+        $criteria->addCondition("isPrint=1");
+        $criteria->order = 'rating ASC';
+        $teachers = Teacher::model()->findAll($criteria);
+
+        foreach($teachers as $key){
+            if(TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
+                ':idTeacher' => $key->teacher_id,
+                ':idModule' => Lecture::model()->findByPk($idLecture)->idModule
+            ))){
+                return $key->teacher_id;
+            }
+        }
+        return 0;
+    }
 }

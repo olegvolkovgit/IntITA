@@ -67,7 +67,7 @@ class TmanageController extends Controller
         if (isset($_POST['Teacher'])) {
             $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
             $model->attributes = $_POST['Teacher'];
-            $model->avatar = $_FILES['Teacher'];
+            $model->avatar = ($_FILES['Teacher'])?$_FILES['Teacher']:"noname.png";
 
             if ($model->save()) {
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));

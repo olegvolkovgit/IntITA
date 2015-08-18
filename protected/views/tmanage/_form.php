@@ -88,6 +88,12 @@ $list = CHtml::listData($models,
         <?php echo $form->error($model,'skype'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model,'isPrint'); ?>
+        <?php echo $form->dropDownList($model, 'isPrint',array('1' => 'показувати', '0' => 'не показувати'));?>
+        <?php echo $form->error($model,'isPrint'); ?>
+    </div>
+
     <?php if($scenario == "create"){?>
         <div class="row">
             <?php echo $form->labelEx($model,'user_id'); ?>

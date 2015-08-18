@@ -75,6 +75,11 @@
         <?php echo CHtml::submitButton('Search'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->label($model,'isPrint'); ?>
+        <?php echo $form->textField($model,'isPrint'); ?>
+    </div>
+
     <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->

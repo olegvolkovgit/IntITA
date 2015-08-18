@@ -92,7 +92,9 @@ class ModuleController extends Controller
         $criteria1->toArray();
         $temp = TeacherModule::model()->findAll($criteria1); //info about owners
         for($i = 0; $i < count($temp);$i++){
-            array_push($owners, $temp[$i]->idTeacher);
+            if(Teacher::model()->findByPk($temp[$i]->idTeacher)->isPrint) {
+                array_push($owners, $temp[$i]->idTeacher);
+            }
         }
         $teachers = Teacher::model()->findAllByPk($owners);
 

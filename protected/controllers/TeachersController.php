@@ -158,7 +158,7 @@ class TeachersController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param TeachersTemp $model the model to be validated
+	 * @param Teacher the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
@@ -205,6 +205,7 @@ class TeachersController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'teacher';
         $criteria->order = 'rating DESC';
+        $criteria->condition = 'isPrint=1';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'Pagination'=>false,

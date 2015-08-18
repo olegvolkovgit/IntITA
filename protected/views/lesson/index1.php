@@ -129,7 +129,7 @@ $this->breadcrumbs=array(
 <!--Font Awesome-->
 <!--Load Redactor-->
 <?php if (isset($_GET['editPage'])){?>
-    <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
     <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
 <?php }?>
