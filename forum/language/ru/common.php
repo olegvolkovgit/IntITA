@@ -228,7 +228,7 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DOES_NOT_EXIST'				=> 'Расширение <strong>%s</strong> не существует.',
 
 	'FACEBOOK'					=> 'Facebook',
-	'FAQ'						=> 'FAQ',
+	'FAQ'						=> 'Помощь',
 	'FAQ_EXPLAIN'				=> 'Часто задаваемые вопросы',
 	'FILENAME'					=> 'Имя файла',
 	'FILESIZE'					=> 'Размер файла',

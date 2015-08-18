@@ -128,6 +128,7 @@ class SiteController extends Controller
     {
         $new_lang = $_GET['lg'];
         if ($new_lang == "ua"){
+            $new_lang = "uk";
             $_SESSION['current_language'] = null;
         }else{
             $_SESSION['current_language'] = $new_lang;
