@@ -4,12 +4,15 @@
 <div class="mooda">
 <?php
 $qForm = new StudentReg;
+if(isset($_GET['page']))
+    $page = $_GET['page'];
+else $page = 1;
 
 $form = $this->beginWidget('CActiveForm', array(
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
-    'action' => Yii::app()->request->baseUrl.'/lesson/errorTask',
+    'action' => Yii::app()->createUrl("/lesson/nextPage",array('id'=>$_GET['id'],'idCourse'=>$_GET['idCourse'], 'page'=>$page)),
 ));
 ?>
 <div  class="signIn2">

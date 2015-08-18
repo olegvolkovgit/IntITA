@@ -20,7 +20,7 @@ class ProfileController extends Controller
             $response->who = Yii::app()->user->id;
             $response->about = $teacher->user_id;
             $response->date = date("Y-m-d H:i:s");
-            $response->text = $response->bbcode_to_html($_POST['Response']['text']);
+            $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194).chr(160).chr(32)." \t\n\r\0\x0B");
             $str = trim($_POST['Response']['text'], chr(194).chr(160).chr(32)." \t\n\r\0\x0B");
             if( $str==''){
                 $response->text=NULL;

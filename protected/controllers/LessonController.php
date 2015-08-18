@@ -362,8 +362,10 @@ class LessonController extends Controller{
         $this->render('formulaRedactor');
     }
 
-    public function actionErrorTask(){
-        $this->redirect(Yii::app()->request->urlReferrer);
+    public function actionNextPage($id,$idCourse,$page){
+        if($page>=LectureHelper::getNumberLecturePages($id)) $page=LectureHelper::getNumberLecturePages($id);
+            else $page=$page+1;
+        $this->redirect(Yii::app()->createUrl("lesson/index",array('id'=>$id,'idCourse'=>$idCourse,'view'=>'', 'page'=>$page)));
     }
 
     public function actionUpdateLectureAttribute(){

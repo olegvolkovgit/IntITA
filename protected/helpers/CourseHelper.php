@@ -170,7 +170,7 @@ class CourseHelper {
                     <table>
                         <tr><td><div>'.Yii::t('course', '0425').' '.$year.' '.Yii::t('course', '0426').'</div></td></tr>
                         <tr><td>
-                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.$price*12*$year.' '.Yii::t('courses', '0322').'</b></span></div>
+                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.round($price*12*$year).' '.Yii::t('courses', '0322').'</b></span></div>
                         </td></tr>
                     </table>
                 </td>
