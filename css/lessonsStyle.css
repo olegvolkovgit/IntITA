@@ -433,3 +433,6 @@ div.lessonTest {
     padding: 3px;
     border: 1px solid black;
 }
+#addBlockForm .fa-save, #addBlockForm .fa-times{
+    display: none;
+}
