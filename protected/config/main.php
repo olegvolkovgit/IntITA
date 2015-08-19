@@ -114,6 +114,7 @@ return array(
 		'db'=>require(dirname(__FILE__).'/database.php'),
 		'db2'=>require(dirname(__FILE__).'/database.php'),
 		'dbAdmin' => require(dirname(__FILE__).'/database.php'),
+        'dbForum' => require(dirname(__FILE__).'/databaseForum.php'),
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -156,8 +157,13 @@ return array(
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' =>'http://intita.itatests.com/index.php?dialog=true',
+        'openDialogPath' => Yii::app()->params['baseUrl'].'/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
+        //xampp - localhost
+        //'forumSessionId' => 'ec7fd6d0888e50ffcc52f32a58d6e345__id',
+        //intita.itatests.com
         'forumSessionId' => '8eee65c9aae96d768a096ddf87b0e43c__id',
+        //qa.intita.com
+        //'forumSessionId' => 'f4e01dcc57f3005f5da0efc4c5ff6d26__id',
 	),
 );

@@ -133,8 +133,8 @@ class SiteController extends Controller
             $_SESSION['current_language'] = $new_lang;
         }
 
-        if (isset($_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'])){
-            $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
+        if (isset($_SESSION[Yii::app()->params['forumSessionId']])){
+            $id = (int)$_SESSION[Yii::app()->params['forumSessionId']];
             $host = "localhost";
             $database = "forum";
             $db_user = "intita";
@@ -212,6 +212,7 @@ class SiteController extends Controller
             throw new CHttpException(404,Yii::t('exception','0237'));
         }
     }
+
     /* Token validation*/
     public function getTokenAcc($token)
     {
@@ -254,15 +255,17 @@ class SiteController extends Controller
     public function actionLogout()
     {
         if (isset($_COOKIE['user_id_transition'])) {
-            $host = "localhost";
-            $database="forum";
-            $db_user = "intita";
-            $password = "1234567";
+//            $host = "localhost";
+//            $database="forum";
+//            $db_user = "intita";
+//            $password = "1234567";
+            $dbForum = Yii::app()->dbForum;
 
-            if(!mysql_connect($host,$db_user,$password))
+            if(!mysql_connect($dbForum->connectionString,$dbForum->username,$dbForum->password))
                 die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db($database))
+            elseif(!mysql_select_db("forum"))
                 die('Не удалось выбрать БД!');
+
             $siu = $_COOKIE['user_id_transition'];
 
             $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
