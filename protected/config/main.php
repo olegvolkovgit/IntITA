@@ -152,12 +152,12 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-        'imagesPath'=>'http://localhost/IntITA/images',
-//        'imagesPath'=>'http://intita.itatests.com/images',
+//        'imagesPath'=>'http://localhost/IntITA/images',
+        'imagesPath'=>'http://intita.itatests.com/images',
         'avatarsPath'=>'http://intita.itatests.com/avatars',
         'commonPath' =>'http://intita.itatests.com/files',
         'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' => Yii::app()->params['baseUrl'].'/index.php?dialog=true',
+        'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
         //xampp - localhost
         //'forumSessionId' => 'ec7fd6d0888e50ffcc52f32a58d6e345__id',
