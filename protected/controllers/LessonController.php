@@ -462,10 +462,7 @@ class LessonController extends Controller
         $this->reorderLecturePagesDown($lecture, $page + 1);
         LecturePage::addNewPage($lecture, $page + 1);
 
-        $args = $_GET;
-        $args['page'] = $page+1;
-
-        $this->redirect($this->createUrl('', $args));
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     //reorder blocks on lesson page - up block
