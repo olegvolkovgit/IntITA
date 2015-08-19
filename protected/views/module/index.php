@@ -16,5 +16,5 @@ $this->breadcrumbs=array(
     </div>
 
 </div>
-
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/module.js"></script>
 

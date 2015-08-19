@@ -436,3 +436,39 @@ div.lessonTest {
 #addBlockForm .fa-save, #addBlockForm .fa-times{
     display: none;
 }
+.hideInput{
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+.imageUpdateForm{
+    text-align: center;
+    font-size: 14px;
+}
+.imageUpdateForm a{
+    cursor: pointer;
+    color: #4B75A4;
+    text-decoration: underline;
+}
+.imageUpdateForm a:hover{
+    color: #264b73;
+}
+.imageUpdateForm input[type="submit"] {
+    height: 30px;
+    width: 90px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 1px solid #ffffff;
+    color: white;
+    vertical-align: middle;
+    text-align:      center;
+    cursor: pointer;
+}
+#avatarInfo{
+    width: 90px;
+}
+.lectureImageMain img{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}

@@ -201,3 +201,36 @@ img.lessonBut  {
     margin: 2px 0;
     text-indent: 20px;
 }
+.hideInput{
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+.avatarUpdateForm{
+    text-align: center;
+    padding-right: 20px;
+    width: 140px;
+}
+.avatarUpdateForm a{
+    cursor: pointer;
+    color: #4B75A4;
+    text-decoration: underline;
+}
+.avatarUpdateForm a:hover{
+    color: #264b73;
+}
+.avatarUpdateForm input[type="submit"] {
+    height: 30px;
+    width: 90px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 1px solid #ffffff;
+    color: white;
+    vertical-align: middle;
+    text-align:      center;
+    cursor: pointer;
+}
+#avatarInfo{
+    word-wrap: break-word;
+    white-space: normal;
+}
