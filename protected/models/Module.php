@@ -30,6 +30,8 @@
  */
 class Module extends CActiveRecord
 {
+    public $logo=array();
+    public $oldLogo;
 	/**
 	 * @return string the associated database table name
 	 */

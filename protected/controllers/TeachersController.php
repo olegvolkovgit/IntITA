@@ -29,7 +29,7 @@ class TeachersController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','teacherletter'),
+				'actions'=>array('index','view','teacherletter','UpdateTeacherAvatar'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -218,7 +218,30 @@ class TeachersController extends Controller
             'teacherletter'=>$teacherLetter
         ));
     }
+	public function actionUpdateTeacherAvatar($id)
+	{
+		$model=Teacher::model()->findByPk($id);
+		if (isset($_POST['Teacher'])) {
+			$model->oldAvatar = $model->foto_url;
+			if (!empty($_FILES['Teacher']['name']['foto_url'])) {
+				$model->avatar = $_FILES['Teacher'];
+				$src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
+				if (is_file($src)) unlink($src);
+				$ext = substr(strrchr($_FILES['Teacher']['name']['foto_url'], '.'), 1);
+				$_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
+				if(copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])){
+					$src=Yii::getPathOfAlias('webroot')."/images/teacher/".$model->oldAvatar;
+					if (is_file($src))
+						unlink($src);
+				}
+				$model->updateByPk($id, array('foto_url' => $_FILES['Teacher']['name']['foto_url']));
+				$this->redirect(Yii::app()->request->urlReferrer);
+			}else{
+				$this->redirect(Yii::app()->request->urlReferrer);
+			}
+		}
 
+	}
 
 
 }

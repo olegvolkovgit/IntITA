@@ -506,4 +506,28 @@ class LessonController extends Controller{
             LecturePage::model()->updateByPk($id, array('page_order' => $i-1));
         }
     }
+    public function actionUpdateLectureImage($id)
+    {
+        $model=Lecture::model()->findByPk($id);
+        if (isset($_POST['Lecture'])) {
+            $model->oldLogo = $model->image;
+            if (!empty($_FILES['Lecture']['name']['image'])) {
+                $model->logo = $_FILES['Lecture'];
+                $src = Yii::getPathOfAlias('webroot') . "/images/lecture/" . $model->oldLogo;
+                if (is_file($src)) unlink($src);
+                $ext = substr(strrchr($_FILES['Lecture']['name']['image'], '.'), 1);
+                $_FILES['Lecture']['name']['image'] = uniqid() . '.' . $ext;
+                if(copy($_FILES['Lecture']['tmp_name']['image'], Yii::getpathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'])){
+                    $src=Yii::getPathOfAlias('webroot')."/images/lecture/".$model->oldLogo;
+                    if (is_file($src))
+                        unlink($src);
+                }
+                $model->updateByPk($id, array('image' => $_FILES['Lecture']['name']['image']));
+                $this->redirect(Yii::app()->request->urlReferrer);
+            }else{
+                $this->redirect(Yii::app()->request->urlReferrer);
+            }
+        }
+
+    }
 }

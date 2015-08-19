@@ -18,6 +18,33 @@ if ($editMode){
         <tr>
             <td valign="top">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
+                <?php if ($editMode) {?>
+                <div class="avatarUpdateForm">
+                    <?php $form=$this->beginWidget('CActiveForm', array(
+                        'id'=>'teacherAvatar-form',
+                        'action'=> Yii::app()->createUrl('teachers/updateTeacherAvatar', array('id'=>$model->teacher_id)),
+                        'htmlOptions'=>array(
+                            'class'=>'formatted-form',
+                            'enctype'=>'multipart/form-data',
+                        ),
+                        'enableAjaxValidation'=>false,
+                    )); ?>
+                    <div class="hideInput">
+                        <?php echo $form->fileField($model, 'foto_url',array('id'=>'teacherAvatar', 'onChange'=>'js:getImgName(this.value)')); ?>
+                        <?php echo $form->error($model,'foto_url'); ?>
+                    </div>
+                    <div>
+                        <a onclick="selectAvatar()">
+                            <?php echo 'Вибрати';?>
+                        </a>
+                    </div>
+                    <div id="avatarInfo"><?php echo Yii::t('regexp', '0159');?></div>
+                    <div class="row buttons">
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
+                    </div>
+                    <?php $this->endWidget(); ?>
+                </div><!-- form -->
+                <?php }?>
             </td>
             <td>
                 <div class="TeacherProfilename"> <?php echo $model->first_name." ".$model->last_name;?></div>
