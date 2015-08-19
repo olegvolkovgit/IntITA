@@ -8,7 +8,8 @@ $password = "1234567";
 $dbc = mysql_connect($host,$user,$password);
 
 session_start();
-$id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
+$id = (int)$_SESSION[Yii::app()->params['forumSessionId']];
+
 if ($id) {
     $sql = "SELECT firstName, secondName, email, reg_time FROM $db_2.`user` WHERE id=".$id.";";
     $result = mysql_query($sql);

@@ -162,8 +162,8 @@ class LessonController extends Controller{
             $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
         }
         elseif(strpos($htmlBlock,'$')===0) {
-            $temp = substr_replace($htmlBlock, '\[', 0, 1);
-            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
+            $temp = substr_replace($htmlBlock, '\(', 0, 1);
+            $model->html_block = substr_replace($temp, '\)', strrpos($temp, '$'), 1);
         }elseif(strpos($htmlBlock,'\[\inline')===0) {
             $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
         }else{
