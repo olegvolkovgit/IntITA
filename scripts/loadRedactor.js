@@ -92,6 +92,7 @@ function getIdName() {
                           'video',
                           'imagemanager',
                           'fullscreen',
+                          'formula',
                           'save',
                           'close'],
                 formattingAdd: [

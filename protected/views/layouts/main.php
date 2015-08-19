@@ -179,7 +179,7 @@ $header = new Header();?>
 </div>
     <?php $footer = new Footer(); ?>
     <div id="mainfooter">
-        <div style="height: 90px;display: block">
+        <div style="height: 90px;display: block;border-bottom: 1px solid #44bdf6;">
             <div class="footercontent">
                 <div class="leftfooter">
                     <table>

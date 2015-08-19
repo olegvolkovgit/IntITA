@@ -936,3 +936,9 @@ body .redactor-box-fullscreen {
   font-size: 12px;
   text-transform: uppercase;
 }
+.redactor-toolbar li a.re-formula {
+    background-image: url(/images/editor/formula.png);
+}
+.redactor-toolbar li a.re-formula:hover {
+    background-image: url(/images/editor/formula.png);
+}
