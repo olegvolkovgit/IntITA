@@ -134,8 +134,16 @@ class SiteController extends Controller
             $_SESSION['current_language'] = $new_lang;
         }
 
-        if (isset($_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'])){
-            $id = (int)$_SESSION['8eee65c9aae96d768a096ddf87b0e43c__id'];
+        $id = null;
+
+        foreach ($_SESSION as $key => $value){
+            if (strpos($key, '__id')) {
+                $id = $value;
+                break;
+            }
+        }
+
+        if ($id){
             $host = "localhost";
             $database = "forum";
             $db_user = "intita";
