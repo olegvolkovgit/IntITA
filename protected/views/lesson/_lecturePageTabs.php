@@ -31,21 +31,21 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
 <br>
 <div class="tabsWidget">
 <?php
-if($page->video == null){
-    $this->widget('zii.widgets.jui.CJuiTabs', array(
-        'tabs' => array(
-            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
-                '_textListTab',
-                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => $user), true
-            )),
-        ),
-        // additional javascript options for the tabs plugin
-        'options' => array(
-            'collapsible' => true,
-        ),
-        'id' => 'MyTab-Menu',
-    ));
-}else {
+//if($page->video == null){
+//    $this->widget('zii.widgets.jui.CJuiTabs', array(
+//        'tabs' => array(
+//            'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+//                '_textListTab',
+//                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => $user), true
+//            )),
+//        ),
+//        // additional javascript options for the tabs plugin
+//        'options' => array(
+//            'collapsible' => true,
+//        ),
+//        'id' => 'MyTab-Menu',
+//    ));
+//}else {
     $this->widget('zii.widgets.jui.CJuiTabs', array(
         'tabs' => array(
             'Відео' => array('id' => 'video', 'content' => $this->renderPartial(
@@ -63,7 +63,7 @@ if($page->video == null){
         ),
         'id' => 'MyTab-Menu',
     ));
-}
+//}
 ?>
 </div>
 
