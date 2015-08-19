@@ -54,6 +54,7 @@ class Module extends CActiveRecord
 			array('alias, module_price', 'length', 'max'=>10),
 			array('language', 'length', 'max'=>6),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max'=>255),
+            array('module_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
 			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required','message'=>Yii::t('module', '0412'),'on'=>'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),

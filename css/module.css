@@ -338,10 +338,10 @@ td.button-column{
     margin-left: 2px;
 }
 .hideInput{
-    position: absolute;
-    opacity: 0;
-    z-index: -1;
-}
+     position: absolute;
+     opacity: 0;
+     z-index: -1;
+ }
 .imageUpdateForm{
     text-align: center;
     font-size: 14px;
@@ -367,4 +367,6 @@ td.button-column{
 }
 #avatarInfo{
     width: 90px;
+    word-wrap: break-word;
+    white-space: normal;
 }

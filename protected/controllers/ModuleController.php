@@ -302,22 +302,22 @@ class ModuleController extends Controller
             $model->oldLogo = $model->module_img;
             if (!empty($_FILES['Module']['name']['module_img'])) {
                 $model->logo = $_FILES['Module'];
-                $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
-                if (is_file($src)) unlink($src);
-                $ext = substr(strrchr($_FILES['Module']['name']['module_img'], '.'), 1);
-                $_FILES['Module']['name']['module_img'] = uniqid() . '.' . $ext;
-                if(copy($_FILES['Module']['tmp_name']['module_img'], Yii::getpathOfAlias('webroot') . "/images/module/" . $_FILES['Module']['name']['module_img'])){
-                    $src=Yii::getPathOfAlias('webroot')."/images/module/".$model->oldLogo;
-                    if (is_file($src))
-                        unlink($src);
-                }
-                if($model->validate()) {
+                if ($model->validate()) {
+                    $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
+                    if (is_file($src)) unlink($src);
+                    $ext = substr(strrchr($_FILES['Module']['name']['module_img'], '.'), 1);
+                    $_FILES['Module']['name']['module_img'] = uniqid() . '.' . $ext;
+                    if (copy($_FILES['Module']['tmp_name']['module_img'], Yii::getpathOfAlias('webroot') . "/images/module/" . $_FILES['Module']['name']['module_img'])) {
+                        $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
+                        if (is_file($src))
+                            unlink($src);
+                    }
                     $model->updateByPk($id, array('module_img' => $_FILES['Module']['name']['module_img']));
                     $this->redirect(Yii::app()->request->urlReferrer);
-                } else{
+                }else {
                     $this->redirect(Yii::app()->request->urlReferrer);
                 }
-            }else{
+            } else {
                 $this->redirect(Yii::app()->request->urlReferrer);
             }
         }

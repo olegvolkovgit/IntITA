@@ -37,9 +37,9 @@
                 )); ?>
                 <div class="hideInput">
                     <?php echo $form->fileField($post, 'module_img',array('id'=>'logoModule', 'onChange'=>'js:getImgName(this.value)')); ?>
-                    <?php echo $form->error($post,'module_img'); ?>
                 </div>
                 <div>
+                    <?php echo $form->error($post,'module_img'); ?>
                     <a onclick="selectLogo()">
                         <?php echo 'Вибрати';?>
                     </a>

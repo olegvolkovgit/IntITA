@@ -209,6 +209,7 @@ img.lessonBut  {
 .avatarUpdateForm{
     text-align: center;
     padding-right: 20px;
+    width: 140px;
 }
 .avatarUpdateForm a{
     cursor: pointer;
@@ -228,4 +229,8 @@ img.lessonBut  {
     vertical-align: middle;
     text-align:      center;
     cursor: pointer;
+}
+#avatarInfo{
+    word-wrap: break-word;
+    white-space: normal;
 }
