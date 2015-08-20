@@ -23,7 +23,7 @@
             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
         </div>
         <div class="content">
-        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+        <div class="instructionText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
             <?php echo $data['html_block'];?>
         </div>
     </div>

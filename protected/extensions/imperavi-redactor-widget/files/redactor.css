@@ -348,6 +348,9 @@ body .redactor-box-fullscreen {
 .re-gallery:before {
   content: "\e61f";
 }
+.re-formula:before {
+  content: url(/images/editor/formula.png);
+}
 /*
 	Toolbar tooltip
 */
@@ -884,11 +887,11 @@ body .redactor-box-fullscreen {
 }
 .redactor-editor pre {
   overflow: auto;
-  padding: 1em;
+  /*padding: 1em;*/
   border: 1px solid #ddd;
   border-radius: 3px;
   background: #f8f8f8;
-  white-space: pre;
+  /*white-space: pre;*/
   font-size: 90%;
 }
 .redactor-editor hr {
@@ -935,10 +938,4 @@ body .redactor-box-fullscreen {
 .redactor-editor h6 {
   font-size: 12px;
   text-transform: uppercase;
-}
-.redactor-toolbar li a.re-formula {
-    background-image: url(/images/editor/formula.png);
-}
-.redactor-toolbar li a.re-formula:hover {
-    background-image: url(/images/editor/formula.png);
 }

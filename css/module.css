@@ -12,6 +12,7 @@ img.moduleImg{
     width: 90px;
     height: 90px;
     border-radius: 50%;
+    border:1px solid #4B75A4;
 }
 img.time{
     padding-left: 5px;
