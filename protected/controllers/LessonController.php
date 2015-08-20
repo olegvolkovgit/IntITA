@@ -451,9 +451,8 @@ class LessonController extends Controller
 
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
-        } else {
-            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
+        throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
     }
 
     public function actionAddNewPage($lecture, $page)

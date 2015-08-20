@@ -128,13 +128,22 @@ class SiteController extends Controller
     {
         $new_lang = $_GET['lg'];
         if ($new_lang == "ua"){
+            $new_lang = "uk";
             $_SESSION['current_language'] = null;
         }else{
             $_SESSION['current_language'] = $new_lang;
         }
 
-        if (isset($_SESSION[Yii::app()->params['forumSessionId']])){
-            $id = (int)$_SESSION[Yii::app()->params['forumSessionId']];
+        $id = null;
+
+        foreach ($_SESSION as $key => $value){
+            if (strpos($key, '__id')) {
+                $id = $value;
+                break;
+            }
+        }
+
+        if ($id){
             $host = "localhost";
             $database = "forum";
             $db_user = "intita";
@@ -255,17 +264,15 @@ class SiteController extends Controller
     public function actionLogout()
     {
         if (isset($_COOKIE['user_id_transition'])) {
-//            $host = "localhost";
-//            $database="forum";
-//            $db_user = "intita";
-//            $password = "1234567";
-            $dbForum = Yii::app()->dbForum;
+            $host = "localhost";
+            $database="forum";
+            $db_user = "intita";
+            $password = "1234567";
 
-            if(!mysql_connect($dbForum->connectionString,$dbForum->username,$dbForum->password))
+            if(!mysql_connect($host,$db_user,$password))
                 die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db("forum"))
+            elseif(!mysql_select_db($database))
                 die('Не удалось выбрать БД!');
-
             $siu = $_COOKIE['user_id_transition'];
 
             $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
