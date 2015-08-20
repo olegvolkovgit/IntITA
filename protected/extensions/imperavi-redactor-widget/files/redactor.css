@@ -349,7 +349,7 @@ body .redactor-box-fullscreen {
   content: "\e61f";
 }
 .re-formula:before {
-  content: url(/images/editor/formula.png);
+  content: url(/images/editor/formula1.png);
 }
 /*
 	Toolbar tooltip
