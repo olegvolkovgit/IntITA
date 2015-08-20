@@ -130,7 +130,14 @@ class LecturePage extends CActiveRecord
     }
 
     public static function getAccessPages($idLecture, $user){
-        $pages = LecturePage::model()->findAllByAttributes(array('id_lecture' => $idLecture));
+        /*Sort page_order by Ascending*/
+        $criteria= new CDbCriteria;
+        $criteria->alias='lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture='.$idLecture;
+
+        $pages = LecturePage::model()->findAll($criteria);
+
         $result = [];
         for ($i = 0, $count = count($pages); $i < $count; $i++ ){
             $result[$i]['order'] = $pages[$i]->page_order;

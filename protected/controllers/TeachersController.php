@@ -226,7 +226,6 @@ class TeachersController extends Controller
             if (!empty($_FILES['Teacher']['name']['foto_url'])) {
                 $model->avatar = $_FILES['Teacher'];
                 if ($model->validate()) {
-                    $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
                     $ext = substr(strrchr($_FILES['Teacher']['name']['foto_url'], '.'), 1);
                     $_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])) {

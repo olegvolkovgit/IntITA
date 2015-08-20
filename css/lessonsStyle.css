@@ -194,7 +194,7 @@ span.colorAlert {
 }
 div.lessonInstr,div.lessonTask {
     position: relative;
-    margin-top: 0px;
+    margin-top: 20px;
     margin-bottom: 40px;
 }
 img.lessonBut  {
@@ -358,12 +358,13 @@ pre {
     font-size: 13px;
     line-height: 1.428571429;
     color: #333333;
-    word-break: break-all;
+    /*word-break: break-all;*/
     word-wrap: break-word;
     background-color: #f5f5f5;
     border: 1px solid #cccccc;
     border-radius: 4px;
     width: 99%;
+    font-family: inherit;
 }
 
 /*pre {*/
@@ -428,6 +429,9 @@ div.lessonTest {
 }
 .element textarea{
     resize: none;
+}
+.element{
+    font-family: "MyriadPro";
 }
 #addBlock{
     display:none;

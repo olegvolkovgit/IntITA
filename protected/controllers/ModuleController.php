@@ -305,7 +305,6 @@ class ModuleController extends Controller
             if (!empty($_FILES['Module']['name']['module_img'])) {
                 $model->logo = $_FILES['Module'];
                 if ($model->validate()) {
-                    $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
                     $ext = substr(strrchr($_FILES['Module']['name']['module_img'], '.'), 1);
                     $_FILES['Module']['name']['module_img'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Module']['tmp_name']['module_img'], Yii::getpathOfAlias('webroot') . "/images/module/" . $_FILES['Module']['name']['module_img'])) {
