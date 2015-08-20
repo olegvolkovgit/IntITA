@@ -542,7 +542,6 @@ class LessonController extends Controller
             if (!empty($_FILES['Lecture']['name']['image'])) {
                 $model->logo = $_FILES['Lecture'];
                 if ($model->validate()) {
-                    $src = Yii::getPathOfAlias('webroot') . "/images/lecture/" . $model->oldLogo;
                     $ext = substr(strrchr($_FILES['Lecture']['name']['image'], '.'), 1);
                     $_FILES['Lecture']['name']['image'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Lecture']['tmp_name']['image'], Yii::getpathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'])) {
