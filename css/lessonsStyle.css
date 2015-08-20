@@ -169,6 +169,12 @@ span.colorGreen {
     font-size: 16px;
     margin: 20px 0 0 30px;
 }
+.instructionText {
+    display: inline-block;
+    width: 92%;
+    font-size: 16px;
+    margin: 20px 0 0 30px;
+}
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
     counter-reset: num; /* Задаём имя счетчика */
@@ -360,9 +366,9 @@ pre {
     width: 99%;
 }
 
-pre {
-    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-}
+/*pre {*/
+    /*font-family: Monaco, Menlo, Consolas, "Courier New", monospace;*/
+/*}*/
 
 pre.prettyprint {
     margin-bottom: 20px;
@@ -433,8 +439,8 @@ div.lessonTest {
     padding: 3px;
     border: 1px solid black;
 }
-#addBlockForm .fa-save, #addBlockForm .fa-times{
-    display: none;
+#addBlockForm .re-save, #addBlockForm .re-close{
+     display: none;
 }
 .hideInput{
     position: absolute;
@@ -471,4 +477,5 @@ div.lessonTest {
     width: 90px;
     height: 90px;
     border-radius: 50%;
+    border:1px solid #4B75A4;
 }

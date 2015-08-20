@@ -543,12 +543,11 @@ class LessonController extends Controller
                 $model->logo = $_FILES['Lecture'];
                 if ($model->validate()) {
                     $src = Yii::getPathOfAlias('webroot') . "/images/lecture/" . $model->oldLogo;
-                    if (is_file($src)) unlink($src);
                     $ext = substr(strrchr($_FILES['Lecture']['name']['image'], '.'), 1);
                     $_FILES['Lecture']['name']['image'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Lecture']['tmp_name']['image'], Yii::getpathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'])) {
                         $src = Yii::getPathOfAlias('webroot') . "/images/lecture/" . $model->oldLogo;
-                        if (is_file($src))
+                        if (is_file($src) && $model->oldLogo!='lectureImage.png')
                             unlink($src);
                     }
                     $model->updateByPk($id, array('image' => $_FILES['Lecture']['name']['image']));

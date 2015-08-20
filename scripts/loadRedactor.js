@@ -36,6 +36,10 @@ window.onload = function () {
     for (var i = 0; i < testBl.length; i++) {
         testBl[i].onclick = getTestIdName;
     }
+    var instBl = document.getElementsByClassName("instructionText");
+    for (var i = 0; i < instBl.length; i++) {
+        instBl[i].onclick = getIdName;
+    }
     /*���� ���������� �� ����� ��� ����������� ��� ���� �� ������� ����� ���� �����������(������� �������) ����� ����������� �����*/
     function getTestIdName() {
         var idName = this.getAttribute('id');

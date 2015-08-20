@@ -342,7 +342,7 @@ padding-left: 0px;
 }
 .coursePriceStatus1 {
     color: #e41818;
-    text-decoration: line-through;
+    text-decoration: underline;
 }
 .coursePriceStatus2 {
     color: #666666;

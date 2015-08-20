@@ -7,7 +7,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
         return {
             init: function()
             {
-                var button = this.button.add('formula', this.lang.get('saveB'));
+                var button = this.button.add('formula', this.lang.get('formula'));
 
                 // make your added button as Font Awesome's icon
                 this.button.setAwesome('formula', 'fa-formula');

@@ -306,12 +306,11 @@ class ModuleController extends Controller
                 $model->logo = $_FILES['Module'];
                 if ($model->validate()) {
                     $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
-                    if (is_file($src)) unlink($src);
                     $ext = substr(strrchr($_FILES['Module']['name']['module_img'], '.'), 1);
                     $_FILES['Module']['name']['module_img'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Module']['tmp_name']['module_img'], Yii::getpathOfAlias('webroot') . "/images/module/" . $_FILES['Module']['name']['module_img'])) {
                         $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $model->oldLogo;
-                        if (is_file($src))
+                        if (is_file($src) && $model->oldLogo!='courseimg1.png')
                             unlink($src);
                     }
                     $model->updateByPk($id, array('module_img' => $_FILES['Module']['name']['module_img']));
