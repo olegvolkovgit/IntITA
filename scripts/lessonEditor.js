@@ -110,7 +110,7 @@ function deletePage(lecture, page, course){
             }
         });
     }
-    location.reload();
+    location.href='/IntITA/lesson/index/'+lecture+'/?idCourse='+course+'&view=&page=1';
 }
 
 function upPage(idLecture, pageOrder, course){
