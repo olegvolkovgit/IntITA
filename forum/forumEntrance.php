@@ -17,7 +17,6 @@ foreach ($_SESSION as $key => $value){
         break;
     }
 }
-
 if ($id) {
     $sql = "SELECT firstName, secondName, email, reg_time FROM $db_2.`user` WHERE id=".$id.";";
     $result = mysql_query($sql);

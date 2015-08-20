@@ -45,13 +45,14 @@ class Teacher extends CActiveRecord
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
             array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
-            array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!'),
-            array('tel', 'length', 'max'=>13),
+            array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!', 'except'=>'imageUpload',),
+            array('tel', 'length', 'max'=>13, 'except'=>'imageUpload',),
             array('foto_url, subjects', 'length', 'max'=>100),
+            array('foto_url', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('readMoreLink', 'length', 'max'=>255),
             array('email, skype', 'length', 'max'=>50),
             array('email','email', 'message'=>'Невірна електронна адреса'),
-            array('profile_text_first,profile_text_short,profile_text_last,tel', 'safe'),
+            array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'safe', 'on'=>'search'),
@@ -248,5 +249,23 @@ class Teacher extends CActiveRecord
     public static function getFullName($id){
         $teacher = Teacher::model()->findByPk($id);
         return $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;
+    }
+
+    public static function getLectureTeacher($idLecture){
+        $criteria = new CDbCriteria();
+        $criteria->select = "teacher_id";
+        $criteria->addCondition("isPrint=1");
+        $criteria->order = 'rating ASC';
+        $teachers = Teacher::model()->findAll($criteria);
+
+        foreach($teachers as $key){
+            if(TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
+                ':idTeacher' => $key->teacher_id,
+                ':idModule' => Lecture::model()->findByPk($idLecture)->idModule
+            ))){
+                return $key->teacher_id;
+            }
+        }
+        return 0;
     }
 }

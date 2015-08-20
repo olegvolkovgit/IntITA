@@ -61,29 +61,29 @@
                 <div id="rowRadio">
                     <div class="paymentsListOdd"><input id='firstRadio' type="radio" class="paymentPlan_value"
                                                         name="payment"
-                                                        value="1"><span><?php echo CourseHelper::getCoursePrice(StaticFilesHelper::createPath('image', 'course', 'wallet.png'), StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'), $model->course_price, 25) ?></span>
+                                                        value="1"><span><?php echo CourseHelper::getCoursePrice(StaticFilesHelper::createPath('image', 'course', 'wallet.png'), StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'), $model->course_price, 30) ?></span>
                     </div>
                     <div class="spoilerBody">
                         <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
-                                                             value="2"><span><?php echo CourseHelper::getCoursePricePayments(StaticFilesHelper::createPath('image', 'course', 'coins.png'), StaticFilesHelper::createPath('image', 'course', 'checkCoins.png'), $model->course_price, 2, 9) ?></span>
+                                                             value="2"><span><?php echo CourseHelper::getCoursePricePayments(StaticFilesHelper::createPath('image', 'course', 'coins.png'), StaticFilesHelper::createPath('image', 'course', 'checkCoins.png'), $model->course_price, 2, 10) ?></span>
                         </div>
                         <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                             value="3"><span><?php echo CourseHelper::getCoursePricePayments(StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'), StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'), $model->course_price, 4, 8) ?></span>
                         </div>
                         <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
-                                                             value="4"><span><?php echo CourseHelper::getCoursePriceMonths(StaticFilesHelper::createPath('image', 'course', 'calendar.png'), StaticFilesHelper::createPath('image', 'course', 'checkCalendar.png'), Yii::t('course', '0200'), round($model->course_price / 12), 12) ?></span>
+                                                             value="4"><span><?php echo CourseHelper::getCoursePriceMonths(StaticFilesHelper::createPath('image', 'course', 'calendar.png'), StaticFilesHelper::createPath('image', 'course', 'checkCalendar.png'), Yii::t('course', '0200'), round($model->course_price / 12,2), 12) ?></span>
                         </div>
                         <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
-                                                            value="5"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round($model->course_price / 24) * 1.1, 2) ?></span>
+                                                            value="5"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round(($model->course_price/24)*1.25,2), 2) ?></span>
                         </div>
                         <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
-                                                             value="6"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round($model->course_price / 36) * 1.3, 3) ?></span>
+                                                             value="6"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round(($model->course_price / 36)*1.5625,2), 3) ?></span>
                         </div>
                         <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
-                                                            value="7"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round($model->course_price / 48) * 1.5, 4) ?></span>
+                                                            value="7"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round(($model->course_price / 48) * 1.9535,2), 4) ?></span>
                         </div>
                         <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
-                                                             value="8"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round($model->course_price / 60) * 1.7, 5) ?></span>
+                                                             value="8"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round(($model->course_price / 60) * 2.3276,2), 5) ?></span>
                         </div>
                     </div>
 

@@ -19,7 +19,10 @@ for ($i = 0; $i < count($teachers); $i++) {
                     <br>
                     <?php echo $teachers[$i]->email; ?>
                     <br>
-                    <?php echo "Skype: ", $teachers[$i]->skype; ?>
+                    <?php
+                        if($teachers[$i]->skype != '') {
+                            echo "Skype: ", $teachers[$i]->skype;
+                        }?>
                 </div>
                 </td>
             </tr>

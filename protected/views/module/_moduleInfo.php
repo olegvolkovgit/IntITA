@@ -16,7 +16,7 @@
         <td>
             <img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'module', $post->module_img);?>" />
         </td>
-        <td style="padding-left: 15px;">
+        <td style="padding-left: 15px; border-left: 1px solid #cccccc;">
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                 <?php

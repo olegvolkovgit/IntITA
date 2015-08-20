@@ -331,7 +331,8 @@
 				alignment: 'Alignment',
 				filename: 'Name (optional)',
 				edit: 'Edit',
-				upload_label: 'Drop file here or '
+				upload_label: 'Drop file here or ',
+                formula: 'Formula LaTeX',
 
 			},
 			ru: {
@@ -410,7 +411,7 @@
 				fontfamily: 'Сменить шрифт',
 				close: 'Закрыть',
 				saveB: 'Сохранить',
-
+                formula: 'Формула LaTeX',
 			}
 		},
 

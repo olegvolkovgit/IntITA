@@ -319,6 +319,7 @@ select.error
 #uLogin img:hover,#uReg img:hover {
 	filter: Alpha(Opacity=100);/*IE7 fix*/
 	opacity: 1.0;
+    cursor: pointer;
  }
 
  /*Slider Registration Form */

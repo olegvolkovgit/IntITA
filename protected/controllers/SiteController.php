@@ -221,6 +221,7 @@ class SiteController extends Controller
             throw new CHttpException(404,Yii::t('exception','0237'));
         }
     }
+
     /* Token validation*/
     public function getTokenAcc($token)
     {

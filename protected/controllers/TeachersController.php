@@ -1,200 +1,197 @@
 <?php
+
 /*@var $model TeachersTemp*/
 
 class TeachersController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2';
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','teacherletter'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return array(
+            array('allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => array('index', 'view', 'teacherletter', 'UpdateTeacherAvatar'),
+                'users' => array('*'),
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
+            ),
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
+            ),
+            array('deny',  // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Teacher;
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate()
+    {
+        $model = new Teacher;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Teacher']))
-		{
-			$model->attributes=$_POST['Teacher'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->teacher_id));
-		}
+        if (isset($_POST['Teacher'])) {
+            $model->attributes = $_POST['Teacher'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->teacher_id));
+        }
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+        $this->render('create', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-		if(isset($_POST['TeachersTemp']))
-		{
-			$model->attributes=$_POST['TeachersTemp'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->teacher_id));
-		}
+        if (isset($_POST['TeachersTemp'])) {
+            $model->attributes = $_POST['TeachersTemp'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->teacher_id));
+        }
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
+    {
+        $this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
         $this->renderIndex(new TeacherLetter);
-	}
+    }
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new TeachersTemp('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['TeachersTemp']))
-			$model->attributes=$_GET['TeachersTemp'];
+    /**
+     * Manages all models.
+     */
+    public function actionAdmin()
+    {
+        $model = new TeachersTemp('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['TeachersTemp']))
+            $model->attributes = $_GET['TeachersTemp'];
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
+        $this->render('admin', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return TeachersTemp the loaded model
-	 * @throws CHttpException
-	 */
-	public function loadModel($id)
-	{
-		$model=TeachersTemp::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer $id the ID of the model to be loaded
+     * @return TeachersTemp the loaded model
+     * @throws CHttpException
+     */
+    public function loadModel($id)
+    {
+        $model = TeachersTemp::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param TeachersTemp $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='teachers-temp-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+    /**
+     * Performs the AJAX validation.
+     * @param TeachersTemp $model the model to be validated
+     */
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teachers-temp-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
     public function actionTeacherLetter()
     {
-        $obj=new TeacherLetter;
-        if(isset($_POST['ajax']) && $_POST['ajax']==='teacherletter-form')
-        {
+        $obj = new TeacherLetter;
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacherletter-form') {
             echo CActiveForm::validate($obj);
             Yii::app()->end();
         }
-        $obj->attributes=$_POST["TeacherLetter"];
-        if ($obj->validate())
-        {
-            $title = "Teacher_Work ".$obj->firstname." ".$obj->lastname;
-            $mess = "Ім'я: ".$obj->firstname." ".$obj->lastname."\r\n"."Дата народження: ".$obj->age."\r\n"."Освіта: ".$obj->education."\r\n"."Телефон: ".$obj->phone."\r\n"."Курси які готовий викладати: ".$obj->courses;
+        $obj->attributes = $_POST["TeacherLetter"];
+        if ($obj->validate()) {
+            $title = "Teacher_Work " . $obj->firstname . " " . $obj->lastname;
+            $mess = "Ім'я: " . $obj->firstname . " " . $obj->lastname . "\r\n" . "Дата народження: " . $obj->age . "\r\n" . "Освіта: " . $obj->education . "\r\n" . "Телефон: " . $obj->phone . "\r\n" . "Курси які готовий викладати: " . $obj->courses;
             // $to - кому отправляем
             $to = Yii::app()->params['adminEmail'];
             // функция, которая отправляет наше письмо.
             mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
-            Yii::app()->user->setFlash('messagemail',Yii::t('teachers', '0564'));
-            header('Location: '.$_SERVER['HTTP_REFERER']);
-        }
-        else $this->renderIndex($obj);
+            Yii::app()->user->setFlash('messagemail', Yii::t('teachers', '0564'));
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } else $this->renderIndex($obj);
         //}
     }
 
-    public function getTitles($courses){
-        $titles =[];
-        for($i = 0; $i < count($courses); $i++ ){
+    public function getTitles($courses)
+    {
+        $titles = [];
+        for ($i = 0; $i < count($courses); $i++) {
             $titles[$i]['title'] = CourseHelper::getCourseName($courses[$i]["course"]);
         }
         return $titles;
@@ -202,23 +199,53 @@ class TeachersController extends Controller
 
     private function renderIndex($teacherLetter)
     {
-        $criteria= new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'teacher';
         $criteria->order = 'rating DESC';
+        $criteria->condition = 'isPrint=1';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
-            'Pagination'=>false,
+            'Pagination' => false,
         ));
         //var_dump($dataProvider);die;
         $teachers = Teacher::getAllTeachersId();
 
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
-            'teachers'=>$teachers,
-            'teacherletter'=>$teacherLetter
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+            'teachers' => $teachers,
+            'teacherletter' => $teacherLetter
         ));
     }
 
+    public function actionUpdateTeacherAvatar($id)
+    {
+        $model = Teacher::model()->findByPk($id);
+        $model->setScenario('imageUpload');
+        if (isset($_POST['Teacher'])) {
+            $model->oldAvatar = $model->foto_url;
+            if (!empty($_FILES['Teacher']['name']['foto_url'])) {
+                $model->avatar = $_FILES['Teacher'];
+                if ($model->validate()) {
+                    $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
+                    if (is_file($src)) unlink($src);
+                    $ext = substr(strrchr($_FILES['Teacher']['name']['foto_url'], '.'), 1);
+                    $_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
+                    if (copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])) {
+                        $src = Yii::getPathOfAlias('webroot') . "/images/teacher/" . $model->oldAvatar;
+                        if (is_file($src))
+                            unlink($src);
+                    }
+                    $model->updateByPk($id, array('foto_url' => $_FILES['Teacher']['name']['foto_url']));
+                    $this->redirect(Yii::app()->request->urlReferrer);
+                } else {
+                    $this->redirect(Yii::app()->request->urlReferrer);
+                }
+            } else {
+                $this->redirect(Yii::app()->request->urlReferrer);
+            }
+        }
+
+    }
 
 
 }
