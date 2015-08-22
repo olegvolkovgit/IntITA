@@ -6,7 +6,7 @@ $header = new Header();?>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-    <meta property="og:image" content="http://qa.intita.com/css/images/Logo_small.png"/>
+    <meta property="og:image" content="http://intita.itatests.com/images/aboutus/image2.png"/>
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
