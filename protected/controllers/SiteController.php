@@ -256,8 +256,8 @@ class SiteController extends Controller
 
                     $host ="localhost";
                     $database="forum";
-                    $user = $dbForum["username"];
-                    $password = $dbForum["password"];
+                    $user = $dbForum['username'];
+                    $password = $dbForum['password'];
                     mysql_connect($host,$user,$password);
                     mysql_select_db($database);
                     mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
