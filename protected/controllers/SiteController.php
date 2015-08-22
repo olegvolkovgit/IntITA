@@ -146,8 +146,8 @@ class SiteController extends Controller
         if ($id){
             $host = "localhost";
             $database = "forum";
-            $db_user = "intita";
-            $password = "1234567";
+            $db_user = Yii::app()->dbForum['username'];
+            $password = Yii::app()->dbForum['password'];
             mysql_connect($host, $db_user, $password);
             mysql_select_db($database);
             $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
@@ -252,12 +252,10 @@ class SiteController extends Controller
                     $userModel=StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
-                    $dbForum = Yii::app()->dbForum;
-
                     $host ="localhost";
                     $database="forum";
-                    $user = $dbForum['username'];
-                    $password = $dbForum['password'];
+                    $user = Yii::app()->dbForum['username'];
+                    $password = Yii::app()->dbForum['password'];
                     mysql_connect($host,$user,$password);
                     mysql_select_db($database);
                     mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
@@ -300,12 +298,10 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        $dbForum = Yii::app()->dbForum;
-
         $host ="localhost";
         $database="forum";
-        $user = $dbForum["username"];
-        $password = $dbForum["password"];
+        $user = Yii::app()->dbForum['username'];
+        $password = Yii::app()->dbForum['password'];
         mysql_connect($host,$user,$password);
         mysql_select_db($database);
         $id = 0;
