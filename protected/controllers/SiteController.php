@@ -146,8 +146,8 @@ class SiteController extends Controller
         if ($id){
             $host = "localhost";
             $database = "forum";
-            $db_user = Yii::app()->dbForum['username'];
-            $password = Yii::app()->dbForum['password'];
+            $db_user = Yii::app()->dbForum->username;
+            $password = Yii::app()->dbForum->password;
             mysql_connect($host, $db_user, $password);
             mysql_select_db($database);
             $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
@@ -254,8 +254,8 @@ class SiteController extends Controller
                     if ($current_lang == "ua") $current_lang = "uk";
                     $host ="localhost";
                     $database="forum";
-                    $user = Yii::app()->dbForum['username'];
-                    $password = Yii::app()->dbForum['password'];
+                    $user = Yii::app()->dbForum->username;
+                    $password = Yii::app()->dbForum->password;
                     mysql_connect($host,$user,$password);
                     mysql_select_db($database);
                     mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
@@ -300,8 +300,9 @@ class SiteController extends Controller
     {
         $host ="localhost";
         $database="forum";
-        $user = Yii::app()->dbForum['username'];
-        $password = Yii::app()->dbForum['password'];
+        $user = Yii::app()->dbForum->username;
+        $password = Yii::app()->dbForum->password;
+
         mysql_connect($host,$user,$password);
         mysql_select_db($database);
         $id = 0;
@@ -383,8 +384,8 @@ class SiteController extends Controller
                     if ($current_lang == "ua") $current_lang = "uk";
                     $host = "localhost";
                     $database="forum";
-                    $user = Yii::app()->db['username'];
-                    $password = Yii::app()->db['password'];
+                    $user = Yii::app()->db->username;
+                    $password = Yii::app()->db->password;
                     mysql_connect($host,$user,$password);
                     mysql_select_db($database);
                     mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
