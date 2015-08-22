@@ -25,6 +25,7 @@ $header = new Header();?>
           type="image/x-icon"/>
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
     <!-- carousel-plugins -->
     <link type="text/css" rel="stylesheet"
@@ -49,7 +50,6 @@ $header = new Header();?>
     <!-- Horizontal header Scroll -->
     <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
     <!-- OpenDialog -->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
@@ -65,7 +65,7 @@ $header = new Header();?>
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
 
 <div id="main-wrapper">
 <div id="mainheader">
@@ -92,7 +92,7 @@ $header = new Header();?>
                     <div id="button_border" class="down">
                     </div>
                     <?php if (Yii::app()->user->isGuest) {
-                        echo CHtml::link($header->getEnterButton(), '#', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
+                        echo CHtml::link($header->getEnterButton(), '#', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'function(){alert("Hello!")}',));
                     } else {
                         ?>
                         <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout"
