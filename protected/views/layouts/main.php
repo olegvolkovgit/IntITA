@@ -44,12 +44,6 @@ $header = new Header();?>
     <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
-    <!-- Horizontal header Scroll-->
-    <!--    <script type="text/javascript" src="-->
-    <?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/horizontalscroll.js"></script>-->
-    <!-- Horizontal header Scroll -->
-    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
-    <!-- OpenDialog -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>

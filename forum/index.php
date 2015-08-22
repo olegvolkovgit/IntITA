@@ -19,7 +19,7 @@
 */
 
 //include "yiiapp.php";
-if ($_GET['transition']=="true") header("Location: index.php?transition=false");
+if ($_GET['reload']!="no") header("Location: index.php?reload=no");
 //
 //$controller = new Controller('bbforum'); // bbforum - произвольное название
 //Yii::app()->controller = $controller;

@@ -56,7 +56,7 @@
         <p>
             <!-- mibew button -->
             <a id="mibew-agent-button" href="<?php echo MibewHelper::getMibewHost(); ?>/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>;style=default" target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
-                <img src="http://intita.itatests.com/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>" border="0" alt="" />
+                <img src="<?php echo MibewHelper::getMibewHost(); ?>/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>" border="0" alt="" />
             </a>
             <script type="text/javascript" src="<?php echo MibewHelper::getMibewHost(); ?>/mibew/js/compiled/chat_popup.js"></script>
             <script type="text/javascript">Mibew.ChatPopup.init({
