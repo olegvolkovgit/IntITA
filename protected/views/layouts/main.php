@@ -55,12 +55,9 @@ $header = new Header();?>
 </head>
 
 <body>
-<?php
-$args = $_GET;
-?>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="75" data-margin="15"
-         data-url="<?php echo $this->createUrl('', $args); ?>"
+         data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
          data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
          data-image="http://qa.intita.com/css/images/Logo_small.png"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
