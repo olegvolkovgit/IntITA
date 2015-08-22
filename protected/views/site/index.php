@@ -1,4 +1,5 @@
-<body onload="centerPage()">
+<!--<body onload="centerPage()">-->
+<!--</body>-->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 <?php
 /* @var $this SiteController */
@@ -21,4 +22,4 @@ $massAbout=array($block1,$block2,$block3);
     $this->renderPartial('_form');
 }
 ?>
-</body>
+<!--</body>-->

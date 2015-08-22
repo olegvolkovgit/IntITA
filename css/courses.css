@@ -86,7 +86,7 @@
 }
 #coursePriceStatus1 {
     color: #cc0000;
-    text-decoration: underline;
+    text-decoration: line-through;
 }
 #coursePriceStatus2 {
     color: #333333;

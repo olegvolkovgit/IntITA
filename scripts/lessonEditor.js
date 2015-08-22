@@ -40,6 +40,13 @@ function enableLessonEdit(block, course){
         }
     });
 }
+function enableLessonPreview(lecture, course, editPage){
+    if(editPage===0) {
+        return false;
+    } else {
+        location.href='/lesson/index/'+lecture+'/?idCourse='+course+'&page='+editPage;
+    }
+}
 
 function showPageEdit(lecture, pageOrder){
     $.ajax({

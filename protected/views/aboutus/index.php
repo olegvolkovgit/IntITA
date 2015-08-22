@@ -6,10 +6,9 @@
  * Time: 18:08
  */
 ?>
-<html>
-<head>
-</head>
-<body onload=WindowShow(<?php echo (empty($_GET['id']))?1:$_GET['id']; ?>);centerPage()>
+
+<body onload=WindowShow(<?php echo (empty($_GET['id']))?1:$_GET['id']; ?>);>
+</body>
 <?php
 /*$this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0051'),
