@@ -651,3 +651,20 @@ div#exhaust{
     z-index: 2000;
 }
 /* rocket */
+/* share */
+#sharing .share42-counter {
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #FFF;
+    border:1px solid #d1d1d1;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    height: 20px;
+    line-height: 20px;
+}
+#sharing .share42-counter:before {
+    background: none;
+}
+/* share */

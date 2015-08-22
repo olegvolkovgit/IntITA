@@ -1,12 +1,12 @@
 <?php /* @var $this Controller */
 $header = new Header();?>
 <!DOCTYPE html>
-<html>
+<html xmlns:og="http://ogp.me/ns#">
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-
+    <meta property="og:image" content="http://qa.intita.com/css/images/Logo_small.png">
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
@@ -55,6 +55,21 @@ $header = new Header();?>
 </head>
 
 <body>
+<?php
+$args = $_GET;
+?>
+<div id="sharing">
+    <div class="share42init" data-top1="75" data-top2="75" data-margin="15"
+         data-url="<?php echo $this->createUrl('', $args); ?>"
+         data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
+         data-image="http://qa.intita.com/css/images/Logo_small.png"
+         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
+         data-path="/scripts/share42/"
+         data-zero-counter="1">
+    </div>
+</div>
+<script type="text/javascript" src="/scripts/share42/share42.js"></script>
+
 <div id="main-wrapper">
 <div id="mainheader">
     <?php $this->renderPartial('/site/_hamburgermenu'); ?>
