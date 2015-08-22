@@ -274,7 +274,7 @@ class SiteController extends Controller
                         mysql_query("UPDATE phpbb_users SET user_lang = '$current_lang' WHERE user_id =$userModel->id;");
                     }
                     mysql_close();
-                    if (!$_COOKIE['cookie_key']) {
+                    if (!isset($_COOKIE['cookie_key'])) {
                         foreach ($_SESSION as $key => $value){
                             if (strpos($key, '__id')) {
                                 $cookie_key = substr($key, 0, strpos($key, '_'));
