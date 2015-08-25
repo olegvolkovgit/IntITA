@@ -25,4 +25,3 @@ $massAbout = array($block1,$block2,$block3);
 
 <?php $this->renderPartial('_shortBlocks', array('subLineImage' => $subLineImage, 'massAbout' => $massAbout));?>
 <?php $this->renderPartial('_aboutDetail', array('block1' => $block1, 'block2' => $block2, 'block3' => $block3));?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.scrollTo-min.js"></script>
