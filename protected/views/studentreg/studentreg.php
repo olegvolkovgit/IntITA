@@ -192,7 +192,7 @@ if (!isset($tab)) $tab = 0;
                 </td>
             </tr>
         </table>
-        <img class='avatarimg' src="<?php echo Yii::app()->request->baseUrl; ?>/avatars/noname.png"/>
+        <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
 
         <div class="fileform">
             <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
