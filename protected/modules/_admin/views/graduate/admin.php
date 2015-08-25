@@ -51,12 +51,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'avatar',
 		'graduate_date',
 		'position',
-		/*
+
 		'work_place',
 		'work_site',
 		'courses',
 		'courses_page',
 		'history',
+        /*
 		'rate',
 		'recall',
 		*/

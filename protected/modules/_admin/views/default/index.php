@@ -7,3 +7,4 @@ $this->breadcrumbs=array(
 ?>
 <h1>Система управління контентом IntITA</h1>
 
+<h2><a href="/_admin/graduate/index">Випускники</a></h2>

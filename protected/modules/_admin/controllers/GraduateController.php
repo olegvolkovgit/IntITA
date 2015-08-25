@@ -124,7 +124,7 @@ class GraduateController extends Controller
     {
         $dataProvider=new CActiveDataProvider('Graduate');
 
-        $this->renderPartial('graduates/index',array(
+        $this->renderPartial('index',array(
             'dataProvider'=>$dataProvider,
         ));
     }
