@@ -50,7 +50,7 @@ $header = new Header();?>
 
 <body>
 <div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="75" data-margin="15"
+    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
          data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
          data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
          data-image="http://intita.itatests.com/images/mainpage/intitaLogo.jpg"

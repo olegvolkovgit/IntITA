@@ -20,6 +20,16 @@ if ($editMode){
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
                 <?php if ($editMode) {?>
                 <div class="avatarUpdateForm">
+                    <?php if($model->foto_url!=='noname.png') {
+                        ?>
+                        <div>
+                            <a href="<?php echo Yii::app()->createUrl('profile/deleteAvatar');?>">
+                                <?php echo Yii::t('regexp', '0561');?>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'=>'teacherAvatar-form',
                         'action'=> Yii::app()->createUrl('teachers/updateTeacherAvatar', array('id'=>$model->teacher_id)),

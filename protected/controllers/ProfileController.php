@@ -198,4 +198,17 @@ class ProfileController extends Controller
         }
         return $titles;
     }
+
+    public function actionDeleteAvatar()
+    {
+        $model=Teacher::model()->findByAttributes(array('user_id'=>Yii::app()->user->id));
+        if($model->foto_url!=='noname.png'){
+            unlink(Yii::getpathOfAlias('webroot').'/images/teachers/'.$model->foto_url);
+            $model->updateByPk($model->teacher_id, array('foto_url' => 'noname.png'));
+            $this->redirect(Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)));
+        } else {
+            $this->redirect(Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)));
+        }
+
+    }
 }
