@@ -20,7 +20,7 @@
         <div class="humblang">
             <?php
             if(Yii::app()->session['lg']==NULL) Yii::app()->session['lg']='ua';
-            foreach (["ua", "en", "ru"] as $val) {
+            foreach (array("ua", "en", "ru") as $val) {
                 ?>
                 <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>$val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
             <?php
@@ -31,7 +31,7 @@
             <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
             <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
             <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-            <li><a class='forumLink' onclick="goToForum()" ><?php echo Yii::t('header', '0017'); ?></a></li>
+            <li><a href="<?php echo $this->link3; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
             <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
         </ul>
         <div class="humundline"></div>
