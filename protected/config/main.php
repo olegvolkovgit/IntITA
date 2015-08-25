@@ -94,8 +94,8 @@ return array(
 				'course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
 				'course<idCourse:\d+>/lecture<id:\d+>/page<page:\d+>'=>'lesson/index', /*Url for lecture */
 				'course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
-				'studentreg/profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
-				'consultationscalendar/index/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
+				'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+				'consultationscalendar/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
 
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',

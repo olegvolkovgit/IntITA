@@ -4,7 +4,7 @@ class m150825_123908_fix_forums_paths extends CDbMigration
 {
 	public function up()
 	{
-        mysql_connect("localhost",Yii::app()->dbForum->username,Yii::app()->dbForum->password);
+        mysql_connect("localhost",Yii::app()->db->username,Yii::app()->db->password);
         mysql_select_db("forum");
 
         $result = mysql_query ("SELECT forum_id, forum_link FROM phpbb_forums WHERE forum_type=2");
