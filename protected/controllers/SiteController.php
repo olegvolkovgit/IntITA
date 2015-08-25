@@ -146,13 +146,13 @@ class SiteController extends Controller
         if ($id){
             $host = "localhost";
             $database = "forum";
-            $db_user = "intita";
-            $password = "1234567";
+            $db_user = Yii::app()->dbForum->username;
+            $password = Yii::app()->dbForum->password;
             mysql_connect($host, $db_user, $password);
             mysql_select_db($database);
             $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
             if (mysql_num_rows($result) > 0) {
-                mysql_query("UPDATE phpbb_users SET user_lang = '" . $new_lang . "' WHERE user_id =" . $id . ";");
+                mysql_query("UPDATE phpbb_users SET user_lang = '$new_lang' WHERE user_id =$id;");
             }
             mysql_close();
         }
@@ -249,6 +249,41 @@ class SiteController extends Controller
             // validate user input and redirect to the previous page if valid
             if($statusmodel->status==1){
                 if($model->login()){
+                    $userModel=StudentReg::model()->findByPk(Yii::app()->user->getId());
+                    $current_lang = Yii::app()->session['lg'];
+                    if ($current_lang == "ua") $current_lang = "uk";
+                    $host ="localhost";
+                    $database="forum";
+                    $user = Yii::app()->dbForum->username;
+                    $password = Yii::app()->dbForum->password;
+                    mysql_connect($host,$user,$password);
+                    mysql_select_db($database);
+                    mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
+                    $existingForumUser = mysql_num_rows(mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=$userModel->id;"));
+                    if (!$existingForumUser){
+                        $name = $userModel->firstName.' '.$userModel->secondName;
+                        if ($name==' ') $name = $model->email;
+                        $reg_time = $userModel->reg_time;
+                        if ($reg_time == 0) $reg_time = time();
+                        mysql_query("INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone,
+                            user_dateformat, user_regdate, user_lang) VALUES ($userModel->id, '$name', '$name',
+                            'Europe/Kiev', 'd M Y H:i', $reg_time, '$current_lang');");
+                        mysql_query("INSERT INTO phpbb_user_group (group_id, user_id, group_leader, user_pending)
+                            VALUES (2, $userModel->id, 0, 0);");
+                    }else{
+                        mysql_query("UPDATE phpbb_users SET user_lang = '$current_lang' WHERE user_id =$userModel->id;");
+                    }
+                    mysql_close();
+                    if (!isset($_COOKIE['cookie_key'])) {
+                        foreach ($_SESSION as $key => $value){
+                            if (strpos($key, '__id')) {
+                                $cookie_key = substr($key, 0, strpos($key, '_'));
+                                setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
+                                break;
+                            }
+                        }
+                    };
+
                     if (isset($_SERVER["HTTP_REFERER"])){
                         if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -263,23 +298,22 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        if (isset($_COOKIE['user_id_transition'])) {
-            $host = "localhost";
-            $database="forum";
-            $db_user = "intita";
-            $password = "1234567";
+        $host ="localhost";
+        $database="forum";
+        $user = Yii::app()->dbForum->username;
+        $password = Yii::app()->dbForum->password;
 
-            if(!mysql_connect($host,$db_user,$password))
-                die('Не удалось подключиться к серверу MySql!');
-            elseif(!mysql_select_db($database))
-                die('Не удалось выбрать БД!');
-            $siu = $_COOKIE['user_id_transition'];
-
-            $sql = "DELETE FROM phpbb_sessions WHERE session_user_id =" . $siu . ";";
-            mysql_query($sql);
-            setCookie("user_id_transition", null, time() - 10, "/");
-            mysql_close();
+        mysql_connect($host,$user,$password);
+        mysql_select_db($database);
+        $id = 0;
+        foreach ($_SESSION as $key => $value){
+            if (strpos($key, '__id')) {
+                $id = $value;
+                break;
+            }
         }
+        mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id =$id;");
+        mysql_close();
 
         Yii::app()->user->logout();
         if (isset($_SERVER["HTTP_REFERER"]))
@@ -345,6 +379,41 @@ class SiteController extends Controller
                 $model = new StudentReg();
                 $model->email=$user['email'];
                 if($model->socialLogin()){
+                    $userModel=StudentReg::model()->findByPk(Yii::app()->user->getId());
+                    $current_lang = Yii::app()->session['lg'];
+                    if ($current_lang == "ua") $current_lang = "uk";
+                    $host = "localhost";
+                    $database="forum";
+                    $user = Yii::app()->db->username;
+                    $password = Yii::app()->db->password;
+                    mysql_connect($host,$user,$password);
+                    mysql_select_db($database);
+                    mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
+                    $existingForumUser = mysql_num_rows(mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=$userModel->id;"));
+                    if (!$existingForumUser){
+                        $name = $userModel->firstName.' '.$userModel->secondName;
+                        if ($name==' ') $name = $model->email;
+                        $reg_time = $userModel->reg_time;
+                        if ($reg_time == 0) $reg_time = time();
+                        mysql_query("INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone,
+                            user_dateformat, user_regdate, user_lang) VALUES ($userModel->id, '$name', '$name',
+                            'Europe/Kiev', 'd M Y H:i', $reg_time, '$current_lang');");
+                        mysql_query("INSERT INTO phpbb_user_group (group_id, user_id, group_leader, user_pending)
+                            VALUES (2, $userModel->id, 0, 0);");
+                    }else{
+                        mysql_query("UPDATE phpbb_users SET user_lang = '$current_lang' WHERE user_id =$userModel->id;");
+                    }
+                    mysql_close();
+                    if (!$_COOKIE['cookie_key']) {
+                        foreach ($_SESSION as $key => $value){
+                            if (strpos($key, '__id')) {
+                                $cookie_key = substr($key, 0, strpos($key, '_'));
+                                setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
+                                break;
+                            }
+                        }
+                    };
+
                     if (isset($_SERVER["HTTP_REFERER"])){
                         if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);

@@ -166,6 +166,7 @@ return array(
         'interpreterServer' => 'http://ii.itatests.com',
         'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
+        'baseUrlWithoutHeader' => 'intita.itatests.com',
         //xampp - localhost
         //'forumSessionId' => 'ec7fd6d0888e50ffcc52f32a58d6e345__id',
         //intita.itatests.com

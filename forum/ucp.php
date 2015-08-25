@@ -85,16 +85,6 @@ switch ($mode)
         if ($user->data['user_id'] != ANONYMOUS && $request->is_set('sid') && $request->variable('sid', '') === $user->session_id)
         {
             $user->session_kill();
-            $host = "localhost";
-            $database="forum";
-            $db_user = "intita";
-            $password = "1234567";
-            mysql_connect($host,$db_user,$password);
-            mysql_select_db($database);
-            $siu = request_var('user_id_transition','',false,true);
-            mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id = ".$siu.";");
-            mysql_close();
-            setCookie("user_id_transition", null, time()-10, "/");
         }
         else if ($user->data['user_id'] != ANONYMOUS)
         {

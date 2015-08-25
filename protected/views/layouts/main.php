@@ -25,6 +25,7 @@ $header = new Header();?>
           type="image/x-icon"/>
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
     <!-- carousel-plugins -->
     <link type="text/css" rel="stylesheet"
@@ -43,13 +44,6 @@ $header = new Header();?>
     <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
-    <!-- Horizontal header Scroll-->
-    <!--    <script type="text/javascript" src="-->
-    <?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/horizontalscroll.js"></script>-->
-    <!-- Horizontal header Scroll -->
-    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/transition.js"></script>
-    <!-- OpenDialog -->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
