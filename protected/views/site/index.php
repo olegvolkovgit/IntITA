@@ -1,5 +1,4 @@
-<body onload="centerPage()">
-</body>
+<body>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 <?php
 /* @var $this SiteController */

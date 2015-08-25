@@ -44,7 +44,7 @@ function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
         return false;
     } else {
-        location.href='/lesson/index/'+lecture+'/?idCourse='+course+'&page='+editPage;
+        location.href='/IntITA/lesson/index/course'+course+'/lecture'+lecture+'/page'+editPage;
     }
 }
 
@@ -111,13 +111,13 @@ function deletePage(lecture, page, course){
             type: "POST",
             url: "/lesson/deletePage",
             data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
-            success: function(){
+            success: function(response){
                 $('div[name="lecturePage"]').html(response);
                 return false;
             }
         });
     }
-    location.href='/lesson/index/'+lecture+'/?idCourse='+course+'&view=&page=1';
+    location.href='/lesson/index/course'+course+'/lecture'+lecture+'/page1';
 }
 
 function upPage(idLecture, pageOrder, course){
@@ -125,7 +125,7 @@ function upPage(idLecture, pageOrder, course){
         type: "POST",
         url: "/lesson/upPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(){
+        success: function(response){
             $('div[name="lecturePage"]').html(response);
             return false;
         }
@@ -138,7 +138,7 @@ function downPage(idLecture, pageOrder, course){
         type: "POST",
         url: "/lesson/downPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(){
+        success: function(response){
             $('div[name="lecturePage"]').html(response);
             return false;
         }
