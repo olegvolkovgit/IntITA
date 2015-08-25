@@ -51,7 +51,7 @@ class GraduateController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view',array(
+        $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
         ));
     }
