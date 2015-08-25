@@ -6,7 +6,7 @@ $header = new Header();?>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-    <meta property="og:image" content="http://intita.itatests.com/images/aboutus/1.jpg"/>
+<!--    <meta property="og:image" content="http://intita.itatests.com/images/mainpage/intitaLogo.jpg"/>-->
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
@@ -50,12 +50,12 @@ $header = new Header();?>
 
 <body>
 <div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="75" data-margin="15"
+    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
          data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
          data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
-         data-image="http://qa.intita.com/css/images/Logo_small.png"
+         data-image="http://intita.itatests.com/images/mainpage/intitaLogo.jpg"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="/scripts/share42/"
+         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
 </div>

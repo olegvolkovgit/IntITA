@@ -229,7 +229,7 @@ class TeachersController extends Controller
                     $ext = substr(strrchr($_FILES['Teacher']['name']['foto_url'], '.'), 1);
                     $_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])) {
-                        $src = Yii::getPathOfAlias('webroot') . "/images/teacher/" . $model->oldAvatar;
+                        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
                         if (is_file($src) && $model->oldAvatar!='noname.png')
                             unlink($src);
                     }

@@ -230,6 +230,9 @@ img.lessonBut  {
     text-align:      center;
     cursor: pointer;
 }
+.avatarUpdateForm input[type="submit"]:hover {
+    background: #454545;
+}
 #avatarInfo{
     word-wrap: break-word;
     white-space: normal;

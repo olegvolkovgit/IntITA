@@ -89,6 +89,13 @@ return array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
 
+				'module/index/course<idCourse:\d+>/module<idModule:\d+>'=>'module/index', /*Url for module */
+				'lesson/index/course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
+				'lesson/index/course<idCourse:\d+>/lecture<id:\d+>/page<page:\d+>'=>'lesson/index', /*Url for lecture */
+				'lesson/index/course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
+				'studentreg/profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+				'consultationscalendar/index/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
+
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',

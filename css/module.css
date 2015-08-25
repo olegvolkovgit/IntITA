@@ -366,6 +366,9 @@ td.button-column{
     text-align:      center;
     cursor: pointer;
 }
+.imageUpdateForm input[type="submit"]:hover {
+    background: #454545;
+}
 #avatarInfo{
     width: 90px;
     word-wrap: break-word;
