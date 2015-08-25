@@ -36,6 +36,8 @@ return array(
             ),
             'password'=>'admin',
         ),
+
+        '_admin',
 	),
 
 	// application components
