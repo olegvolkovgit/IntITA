@@ -5,14 +5,18 @@
  *
  * The followings are the available columns in table 'graduate':
  * @property integer $id
- * @property string $full_name
+ * @property string $first_name
+ * @property string $last_name
  * @property string $avatar
  * @property string $graduate_date
  * @property string $position
  * @property string $work_place
+ * @property string $work_site
  * @property string $courses
+ * @property string $courses_page
  * @property string $history
  * @property integer $rate
+ * @property string $recall
  */
 class Graduate extends CActiveRecord
 {
@@ -33,11 +37,11 @@ class Graduate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('rate', 'numerical', 'integerOnly'=>true),
-			array('full_name, avatar, position, work_place, courses, history', 'length', 'max'=>255),
-			array('graduate_date', 'safe'),
+			array('first_name, last_name, avatar, position, work_place, work_site, courses, courses_page, history', 'length', 'max'=>255),
+			array('graduate_date, recall', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, full_name, avatar, graduate_date, position, work_place, courses, history, rate', 'safe', 'on'=>'search'),
+			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,14 +63,18 @@ class Graduate extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'full_name' => 'Full Name',
+			'first_name' => 'First Name',
+			'last_name' => 'Last Name',
 			'avatar' => 'Avatar',
 			'graduate_date' => 'Graduate Date',
 			'position' => 'Position',
 			'work_place' => 'Work Place',
+			'work_site' => 'Work Site',
 			'courses' => 'Courses',
+			'courses_page' => 'Courses Page',
 			'history' => 'History',
 			'rate' => 'Rate',
+			'recall' => 'Recall',
 		);
 	}
 
@@ -89,14 +97,18 @@ class Graduate extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('full_name',$this->full_name,true);
+		$criteria->compare('first_name',$this->first_name,true);
+		$criteria->compare('last_name',$this->last_name,true);
 		$criteria->compare('avatar',$this->avatar,true);
 		$criteria->compare('graduate_date',$this->graduate_date,true);
 		$criteria->compare('position',$this->position,true);
 		$criteria->compare('work_place',$this->work_place,true);
+		$criteria->compare('work_site',$this->work_site,true);
 		$criteria->compare('courses',$this->courses,true);
+		$criteria->compare('courses_page',$this->courses_page,true);
 		$criteria->compare('history',$this->history,true);
 		$criteria->compare('rate',$this->rate);
+		$criteria->compare('recall',$this->recall,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

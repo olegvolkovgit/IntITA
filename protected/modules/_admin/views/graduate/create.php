@@ -1,17 +1,11 @@
 <?php
 /* @var $this GraduateController */
 /* @var $model Graduate */
-
-$this->breadcrumbs=array(
-	'Graduates'=>array('index'),
-	'Create',
-);
-
-$this->menu=array(
-	array('label'=>'List Graduate', 'url'=>array('index')),
-	array('label'=>'Manage Graduate', 'url'=>array('admin')),
-);
 ?>
+    <br>
+    <a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/index">Список випускників</a>
+    <br>
+    <a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/admin">Управління випускниками</a>
 
 <h1>Create Graduate</h1>
 

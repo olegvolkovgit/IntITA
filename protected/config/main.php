@@ -14,7 +14,10 @@ return array(
 	'language'=>'ua',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array(
+        'log',
+        'config',
+    ),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -96,6 +99,8 @@ return array(
 				'course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
 				'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 				'consultationscalendar/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
+                'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
+                'user_profile/<idUser:\d+>' => 'studentreg/profile', /* Url for user profile */
 
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
@@ -141,9 +146,10 @@ return array(
 			),
 		),
 
-		'config' => array(
-			'class' => 'application.extensions.EConfig',
-		),
+        'config'=>array(
+            'class' => 'DConfig',
+            'cache'=>3600,
+        ),
 
         //X-editable config
         'editable' => array(

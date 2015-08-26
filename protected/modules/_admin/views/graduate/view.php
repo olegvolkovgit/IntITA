@@ -2,11 +2,6 @@
 /* @var $this GraduateController */
 /* @var $model Graduate */
 
-$this->breadcrumbs=array(
-	'Graduates'=>array('index'),
-	$model->id,
-);
-
 $this->menu=array(
 	array('label'=>'List Graduate', 'url'=>array('index')),
 	array('label'=>'Create Graduate', 'url'=>array('create')),
@@ -24,7 +19,11 @@ $this->menu=array(
 		'id',
 		'first_name',
 		'last_name',
-		'avatar',
+        array(
+            'header' => 'Аватар',
+            'value' => '$data->avatar',
+            'type' => 'image',
+        ),
 		'graduate_date',
 		'position',
 		'work_place',

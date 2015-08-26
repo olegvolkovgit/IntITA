@@ -1,17 +1,12 @@
 <?php
 /* @var $this GraduateController */
 /* @var $model Graduate */
-
-$this->breadcrumbs=array(
-	'Graduates'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Graduate', 'url'=>array('index')),
-	array('label'=>'Create Graduate', 'url'=>array('create')),
-);
-
+?>
+<br>
+<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/index">Список випускників</a>
+<br>
+<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/create">Додати випускника</a>
+<?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -26,7 +21,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Graduates</h1>
+<h1>Управління випускниками</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -42,25 +37,21 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'graduate-grid',
+    'summaryText' => '',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'first_name',
 		'last_name',
-		'avatar',
+        array(
+            'header' => 'Аватар',
+            'value' => 'StaticFilesHelper::createPath("image", "graduates", $data->avatar)',
+            'type' => 'image',
+        ),
 		'graduate_date',
 		'position',
-
 		'work_place',
-		'work_site',
-		'courses',
-		'courses_page',
-		'history',
-        /*
-		'rate',
 		'recall',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),

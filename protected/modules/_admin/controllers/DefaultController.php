@@ -1,9 +1,9 @@
 <?php
 
-class DefaultController extends Controller
+class DefaultController extends CController
 {
 	public function actionIndex()
 	{
-		$this->renderPartial('index');
+		$this->render('index');
 	}
 }

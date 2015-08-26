@@ -18,7 +18,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('avatar')); ?>:</b>
-	<?php echo CHtml::encode($data->avatar); ?>
+	<img src="<?php echo CHtml::encode(StaticFilesHelper::createPath("image", "graduates", $data->avatar)); ?>"/>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('graduate_date')); ?>:</b>

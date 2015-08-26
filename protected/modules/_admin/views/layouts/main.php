@@ -6,7 +6,6 @@ $header = new Header();
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-    <meta property="og:image" content="http://intita.itatests.com/images/mainpage/intitaLogo.jpg"/>
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
@@ -17,53 +16,25 @@ $header = new Header();
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/style.css"/>
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/hamburgerMenu.css"/>
-    <!-- aboutUs style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/aboutusstyles.css"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/step.css"/>
-    <!-- steps style -->
-    <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/css/images/favicon.ico"
-          type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/css/images/favicon.ico" type="image/x-icon"/>
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
-    <!-- carousel-plugins -->
-    <link type="text/css" rel="stylesheet"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
-    <!-- carousel-plugins -->
-    <!-- carousel -->
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/slider.css">
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/slider.js"></script>
-    <!-- carousel -->
     <!-- passEye, jQuery -->
     <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
     <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
-
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
-<div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
-         data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
-         data-image="http://intita.itatests.com/images/mainpage/intitaLogo.jpg"
-         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
-         data-zero-counter="1">
-    </div>
-</div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
 
 <div id="main-wrapper">
 <div id="mainheader">
-    <?php $this->renderPartial('/site/_hamburgermenu'); ?>
+    <?php //$this->renderPartial('/site/_hamburgermenu'); ?>
     <div id='headerUnderline'>
         <div id="navigation" class="down">
             <div class="main">
@@ -95,11 +66,11 @@ $header = new Header();
                 </div>
                 <div id="menulist">
                     <ul>
-                        <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                        <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                        <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                        <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
-                        <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/teachers' ; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/graduate' ; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/forum' ; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                     </ul>
                 </div>
             </div>
@@ -143,43 +114,43 @@ $header = new Header();
 </div>
 <div id="contentBoxMain">
     <?php echo $content; ?>
-    <!--SingIn modal-->
-    <?php
-    $openDialog = false;
-    if (isset($_GET['dialog'])) $openDialog = true;
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'mydialog',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => $openDialog,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_signinform');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
-    <!--SignIn modal-->
-    <!--forgot pass modal-->
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'forgotpass',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_forgotpass');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
+<!--    <!--SingIn modal-->
+<!--    --><?php
+//    $openDialog = false;
+//    if (isset($_GET['dialog'])) $openDialog = true;
+//    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+//        'id' => 'mydialog',
+//        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+//        'cssFile' => 'jquery-ui.css',
+//        'theme' => 'my',
+//        'options' => array(
+//            'width' => 540,
+//            'autoOpen' => $openDialog,
+//            'modal' => true,
+//            'resizable' => false
+//        ),
+//    ));
+//    //$this->renderPartial('/site/_signinform');
+//    $this->endWidget('zii.widgets.jui.CJuiDialog');
+//    ?>
+<!--    <!--SignIn modal-->
+<!--    <!--forgot pass modal-->
+<!--    --><?php
+//    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+//        'id' => 'forgotpass',
+//        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+//        'cssFile' => 'jquery-ui.css',
+//        'theme' => 'my',
+//        'options' => array(
+//            'width' => 540,
+//            'autoOpen' => false,
+//            'modal' => true,
+//            'resizable' => false
+//        ),
+//    ));
+//    $this->renderPartial('/site/_forgotpass');
+//    $this->endWidget('zii.widgets.jui.CJuiDialog');
+//    ?>
     <!--forgot pass modal-->
 </div>
 </div>
@@ -247,16 +218,16 @@ $header = new Header();
                     </div>
                     <div class="footermenu">
                         <ul>
-                            <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                            <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                            <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                            <li><a href="<?php echo $this->link3; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
-                            <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/courses' ; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/forum'; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="rightfooter">
-                    <a onclick='goUp()' ><img src="<?php echo $this->imageUp; ?>"></a>
+                    <a onclick='goUp()' ><img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'go_up.gif'); ?>"></a>
                 </div>
             </div>
         </div>
