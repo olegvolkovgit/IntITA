@@ -113,56 +113,52 @@ class StudentRegController extends Controller
             $model->token=sha1($getToken.$getTime);
             if($model->validate())
             {
-                if(!empty($_POST['StudentReg']['facebook']))
-                {
-                    $fURL='https://www.facebook.com/'.$_POST['StudentReg']['facebook'];
-                    if(StudentReg::getCorrectURl($fURL))
-                        $model->facebook = $fURL;
-                    else {
-                        $model->addError('facebook','Ви ввели не коректну сторінку');
-                        $tab=1;
+                /*network validation*/
+                $networksArray = [];
+                $networksArray["facebook"]=$_POST['StudentReg']['facebook'];
+                $networksArray["googleplus"]=$_POST['StudentReg']['googleplus'];
+                $networksArray["linkedin"]=$_POST['StudentReg']['linkedin'];
+                $networksArray["vkontakte"]=$_POST['StudentReg']['vkontakte'];
+                $networksArray["twitter"]=$_POST['StudentReg']['twitter'];
+                $networkKeys = array_keys($networksArray);
+                $networkIndex=0;
+                foreach($networksArray as $network){
+                    if($network!=''){
+                        switch ($networkKeys[$networkIndex]){
+                            case "facebook":
+                                $netURL='https://www.facebook.com/'.$_POST['StudentReg']['facebook'];
+                                break;
+                            case "googleplus":
+                                $netURL='https://plus.google.com/'.$_POST['StudentReg']['googleplus'];
+                                break;
+                            case "linkedin":
+                                $netURL='https://www.linkedin.com/'.$_POST['StudentReg']['linkedin'];
+                                break;
+                            case "vkontakte":
+                                $netURL='http://vk.com/'.$_POST['StudentReg']['vkontakte'];
+                                break;
+                            case "twitter":
+                                $netURL='https://twitter.com/'.$_POST['StudentReg']['twitter'];
+                                break;
+                            default:
+                                $netURL='https://www.'.$networkKeys[$networkIndex].'.com/'.$_POST['StudentReg'][$networkKeys[$networkIndex]];
+                        }
+                        if(StudentReg::getCorrectURl($netURL))
+                            $model->$networkKeys[$networkIndex] = $netURL;
+                        else {
+                            $model->addError($networkKeys[$networkIndex],'Ви ввели не коректну сторінку');
+                            $tab=1;
+                            $hasError=1;
+                        }
+                    }
+                    $networkIndex++;
+                }
+                if(isset($hasError) && $hasError==1) {
+                    for ($net = 0; $net < count($networkKeys); $net++){
+                        $model->$networkKeys[$net]=$_POST['StudentReg'][$networkKeys[$net]];
                     }
                 }
-                if(!empty($_POST['StudentReg']['googleplus']))
-                {
-                    $gURL='https://plus.google.com/'.$_POST['StudentReg']['googleplus'];
-                    if(StudentReg::getCorrectURl($gURL))
-                        $model->googleplus = $gURL;
-                    else {
-                        $model->addError('googleplus','Ви ввели не коректну сторінку');
-                        $tab=1;
-                    }
-                }
-                if(!empty($_POST['StudentReg']['linkedin']))
-                {
-                    $lURL='https://www.linkedin.com/'.$_POST['StudentReg']['linkedin'];
-                    if(StudentReg::getCorrectURl($lURL))
-                        $model->linkedin = $lURL;
-                    else {
-                        $model->addError('linkedin','Ви ввели не коректну сторінку');
-                        $tab=1;
-                    }
-                }
-                if(!empty($_POST['StudentReg']['vkontakte']))
-                {
-                    $vURL='http://vk.com/'.$_POST['StudentReg']['vkontakte'];
-                    if(StudentReg::getCorrectURl($vURL))
-                        $model->vkontakte = $vURL;
-                    else {
-                        $model->addError('vkontakte','Ви ввели не коректну сторінку');
-                        $tab=1;
-                    }
-                }
-                if(!empty($_POST['StudentReg']['twitter']))
-                {
-                    $tURL='https://twitter.com/'.$_POST['StudentReg']['twitter'];
-                    if(StudentReg::getCorrectURl($tURL))
-                        $model->twitter = $tURL;
-                    else {
-                        $model->addError('twitter','Ви ввели не коректну сторінку');
-                        $tab=1;
-                    }
-                }
+                /*network validation*/
                 if($_FILES["upload"]["size"] > 1024*1024*5)
                 {
                     Yii::app()->user->setFlash('avatarmessage',Yii::t('error','0302'));

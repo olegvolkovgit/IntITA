@@ -351,22 +351,6 @@ color:#4b75a4 ;
     position: relative; top: 8px; padding-right: 1px;
 }
 
-pre {
-    display: block;
-    padding: 9.5px;
-    margin: 0 0 10px;
-    font-size: 13px;
-    line-height: 1.428571429;
-    color: #333333;
-    /*word-break: break-all;*/
-    word-wrap: break-word;
-    background-color: #f5f5f5;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    width: 99%;
-    font-family: inherit;
-}
-
 /*pre {*/
     /*font-family: Monaco, Menlo, Consolas, "Courier New", monospace;*/
 /*}*/
@@ -374,8 +358,15 @@ pre {
 pre.prettyprint {
     margin-bottom: 20px;
 }
-
 pre {
+    display: block;
+    margin: 0 0 10px;
+    line-height: 1.428571429;
+    word-break: break-all;
+    word-wrap: break-word;
+    border-radius: 4px;
+    width: 99%;
+    font-family: inherit;
     padding: 0;
     font-size: inherit;
     color: inherit;
