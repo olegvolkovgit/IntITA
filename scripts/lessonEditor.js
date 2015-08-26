@@ -44,7 +44,7 @@ function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
         return false;
     } else {
-        location.href='/IntITA/lesson/index/course'+course+'/lecture'+lecture+'/page'+editPage;
+        location.href='/course'+course+'/lecture'+lecture+'/page'+editPage;
     }
 }
 
@@ -117,7 +117,7 @@ function deletePage(lecture, page, course){
             }
         });
     }
-    location.href='/lesson/index/course'+course+'/lecture'+lecture+'/page1';
+    location.href='/course'+course+'/lecture'+lecture+'/page1';
 }
 
 function upPage(idLecture, pageOrder, course){

@@ -84,7 +84,7 @@ table.profileInfo {
     height: 50px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
-    font-size: 14px;
+    font-family: "MyriadPro";
 }
 #aboutUs{
     margin-left: 215px;
@@ -99,7 +99,7 @@ table.profileInfo {
     padding-left: 8px;
     margin-bottom: -4px;
     resize: none;
-    font-size: 14px;
+    font-family: "MyriadPro";
 }
 .studProf input:hover,
 .studProf textarea:hover{
