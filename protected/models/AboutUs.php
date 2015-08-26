@@ -18,7 +18,6 @@ class Aboutus extends CActiveRecord
     public $drop1Text;
     public $drop2Text;
     public $drop3Text;
-
 	/**
 	 * @return string the associated database table name
 	 */
