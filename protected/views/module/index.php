@@ -1,7 +1,7 @@
 <?php
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag(ModuleHelper::getModuleName($post->module_ID), null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", 'description');
+Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'module', $post->module_img), null, null, array('property' => "og:image"));
 ?>
 <div id="sharing">

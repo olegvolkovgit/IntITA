@@ -1,7 +1,7 @@
 <?php
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag( $lecture->getCourseInfoById($idCourse)['courseTitle'], null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", 'description');
+Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag( StaticFilesHelper::createPath('image', 'lecture', $lecture->image), null, null, array('property' => "og:image"));
 ?>
 <div id="sharing">

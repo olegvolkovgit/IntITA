@@ -9,7 +9,7 @@
 <?php
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag(Yii::t('mainpage','0002'), null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", 'description');
+Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag('http://intita.itatests.com/images/mainpage/intitaLogo.jpg', null, null, array('property' => "og:image"));
 ?>
     <div id="sharing">

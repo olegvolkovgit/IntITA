@@ -1,7 +1,7 @@
 <?php
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag(Yii::t('teachers', '0058'), null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.", 'description');
+Yii::app()->clientScript->registerMetaTag("Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag('http://intita.itatests.com/images/mainpage/intitaLogo.jpg', null, null, array('property' => "og:image"));
 ?>
 <body>
