@@ -3,9 +3,9 @@
 /* @var $dataProvider CActiveDataProvider */
 ?>
 <br>
-<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/create">Додати випускника</a>
+<a href="/_admin/graduate/create">Додати випускника</a>
 <br>
-<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/admin">Управління випускниками</a>
+<a href="/_admin/graduate/admin">Управління випускниками</a>
 
 <h1>Випускники</h1>
 

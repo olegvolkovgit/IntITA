@@ -3,9 +3,9 @@
 /* @var $model Graduate */
 ?>
 <br>
-<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/index">Список випускників</a>
+<a href="/_admin/graduate/index">Список випускників</a>
 <br>
-<a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/create">Додати випускника</a>
+<a href="/_admin/graduate/create">Додати випускника</a>
 <?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

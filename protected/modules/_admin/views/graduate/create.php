@@ -3,9 +3,9 @@
 /* @var $model Graduate */
 ?>
     <br>
-    <a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/index">Список випускників</a>
+    <a href="/_admin/graduate/index">Список випускників</a>
     <br>
-    <a href="<?php echo Yii::app()->config->get('baseUrl');?>/_admin/graduate/admin">Управління випускниками</a>
+    <a href="/_admin/graduate/admin">Управління випускниками</a>
 
 <h1>Create Graduate</h1>
 
