@@ -19,31 +19,21 @@ class ConfigController extends CController
 		);
 	}
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+                'users'=>array('*'),
+            ),
+        );
+    }
 
 	/**
 	 * Displays a particular model.
