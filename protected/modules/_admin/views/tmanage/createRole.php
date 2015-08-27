@@ -6,13 +6,14 @@
  * Time: 17:07
  */
 /* @var $model Teacher */
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Роль'=>array('roles'),
-    'Додати роль',
-);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Ролі</a>
 
-    <h1>Додати роль</h1>
+    <h2>Додати роль</h2>
 
 <?php $this->renderPartial('_formRole', array('model'=>$model, 'scenario' => 'create')); ?>

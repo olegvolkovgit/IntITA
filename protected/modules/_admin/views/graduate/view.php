@@ -1,22 +1,22 @@
 <?php
 /* @var $this GraduateController */
 /* @var $model Graduate */
-
-$this->menu=array(
-	array('label'=>'List Graduate', 'url'=>array('index')),
-	array('label'=>'Create Graduate', 'url'=>array('create')),
-	array('label'=>'Update Graduate', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Graduate', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Graduate', 'url'=>array('admin')),
-);
 ?>
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create');?>">Додати випускника</a>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/graduate/index');?>">Список випускників</a>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/graduate/update', array('id' => $model->id));?>">Редагувати інформацію про випускника</a>
 
-<h1>View Graduate #<?php echo $model->id; ?></h1>
+
+<h1>Переглянути інформацію про випускника #<?php echo $model->first_name." ".$model->last_name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
 		'first_name',
 		'last_name',
         array(
@@ -30,7 +30,6 @@ $this->menu=array(
 		'work_site',
 		'courses',
 		'courses_page',
-		'history',
 		'rate',
 		'recall',
 	),

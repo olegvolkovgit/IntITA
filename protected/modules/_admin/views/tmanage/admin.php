@@ -1,13 +1,5 @@
 <?php
 /* @var $model Teacher */
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Управління',
-);
-$this->menu=array(
-    array('label'=>'Список викладачів', 'url'=>array('index')),
-    array('label'=>'Додати викладача', 'url'=>array('create')),
-);
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -21,6 +13,13 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
+
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
     <h1>Управління викладачами</h1>
 
@@ -54,25 +53,9 @@ $('.search-form form').submit(function(){
         'middle_name',
         'last_name',
         'foto_url',
-        /*
-        'subjects',
-        'profile_text_first',
-        'profile_text_short',
-        'profile_text_last',
-        'readMoreLink',
-        'email',
-        'tel',
-        'skype',
-        'smallImage',
-        'rate_knowledge',
-        'rate_efficiency',
-        'rate_relations',
-        'sections',
-        'user_id',
-        */
         array(
             'class'=>'CButtonColumn',
-            'deleteConfirmation'=>'Ви впевнені?',
+            'deleteConfirmation'=>'Ви підтверджуєте видалення викладача {$data->first_name." ".$data->last_name}?',
         ),
     ),
 )); ?>

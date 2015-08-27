@@ -1,17 +1,16 @@
 <?php
 /* @var $model Teacher */
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    "{$model->last_name} {$model->first_name} {$model->middle_name}",
-);
-$this->menu=array(
-    array('label'=>'Список викладачів', 'url'=>array('index')),
-    array('label'=>'Додати викладача', 'url'=>array('create')),
-    array('label'=>'Оновити', 'url'=>array('update', 'id'=>$model->teacher_id)),
-    array('label'=>'Видалити', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->teacher_id),'confirm'=>'Ви впевнені?')),
-    array('label'=>'Управління викладачами', 'url'=>array('admin')),
-);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/admin');?>">Управління викладачами</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/update', array('id' => $model->teacher_id));?>">Оновити інформацію про викладача</a>
 
     <h1>Викладач <?php print "{$model->last_name} {$model->first_name} {$model->middle_name}"; ?></h1>
 

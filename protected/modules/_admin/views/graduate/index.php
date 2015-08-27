@@ -2,18 +2,34 @@
 /* @var $this GraduateController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminGraduate.css" />
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
-<a href="/_admin/graduate/create">Додати випускника</a>
 <br>
-<a href="/_admin/graduate/admin">Управління випускниками</a>
+<a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create');?>">Додати випускника</a>
 
-<h1>Випускники</h1>
+<h2>Випускники</h2>
 
+<?php
+Yii::app()->clientScript->registerScript('search', "
+$('.search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+$('.search-form form').submit(function(){
+	$('#graduate-grid').yiiGridView('update', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
+?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'graduates',
-    'dataProvider' => $dataProvider,
-    'htmlOptions' => array('class' => 'grid-view custom', 'id' => 'graduate-form'),
+    'id' => 'graduate-grid',
+    'dataProvider' => $model->search(),
+    'htmlOptions' => array('class' => 'grid-view custom'),
     'summaryText' => '',
+    'filter'=>$model,
     'columns' => array(
         'first_name',
         'last_name',
@@ -24,10 +40,14 @@
         ),
         'position',
         'work_place',
-        'courses',
-        'history',
-        'rate',
-        'recall',
+        array(
+            'header' => 'Відгук',
+            'value' => '$data->recall',
+            'htmlOptions' => array('class' => 'recall'),
+        ),
+        array(
+            'class'=>'CButtonColumn',
+        ),
     ),
 
 )); ?>

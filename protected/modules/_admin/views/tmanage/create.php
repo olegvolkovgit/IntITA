@@ -1,15 +1,11 @@
 <?php
 /* @var $model Teacher */
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Додати викладача',
-);
-$this->menu=array(
-    array('label'=>'Всі викладачі', 'url'=>array('index')),
-    array('label'=>'Управління викладачами', 'url'=>array('admin')),
-);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
 
-    <h1>Додати викладача</h1>
+    <h2>Додати викладача</h2>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'scenario' => 'create')); ?>

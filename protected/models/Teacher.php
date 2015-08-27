@@ -54,7 +54,6 @@ class Teacher extends CActiveRecord
             array('email','email', 'message'=>'Невірна електронна адреса'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'safe', 'on'=>'search'),
         );
     }
@@ -219,6 +218,7 @@ class Teacher extends CActiveRecord
         }
         return true;
     }
+
     protected function beforeDelete()
     {
         $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;

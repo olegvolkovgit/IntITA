@@ -48,7 +48,6 @@ class Aboutus extends CActiveRecord
 			array('iconImage, linkAddress', 'required'),
 			array('iconImage, linkAddress', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('block_id, iconImage, linkAddress', 'safe', 'on'=>'search'),
 		);
 	}

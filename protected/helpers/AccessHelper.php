@@ -188,6 +188,7 @@ class AccessHelper
         for($i = 0; $i < $count; $i++){
             $result[$i]['id'] = $courses[$i]->course_ID;
             $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->course_ID);
+            $result[$i]['language'] = CourseHelper::getCourseLang($courses[$i]->course_ID);
         }
         return $result;
     }

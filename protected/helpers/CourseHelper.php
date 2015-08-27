@@ -211,4 +211,8 @@ class CourseHelper {
 
         return $lessonsCount;
     }
+
+    public static function getCourseLang($id){
+        return Course::model()->findByPk($id)->language;
+    }
 }

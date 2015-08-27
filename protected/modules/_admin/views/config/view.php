@@ -2,26 +2,18 @@
 /* @var $this ConfigController */
 /* @var $model Config */
 ?>
-<?php
-$this->breadcrumbs=array(
-	'Configs'=>array('index'),
-	$model->id,
-);
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Список налаштувань</a>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/config/update', array('id' => $model->id));?>">Редагувати налаштування</a>
 
-$this->menu=array(
-	array('label'=>'List Config', 'url'=>array('index')),
-	array('label'=>'Create Config', 'url'=>array('create')),
-	array('label'=>'Update Config', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Config', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Config', 'url'=>array('admin')),
-);
-?>
 
-<h1>View Config #<?php echo $model->id; ?></h1>
+<h1>Перегляд налаштування #<?php echo $model->param; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
-    'summaryText' => '',
 	'attributes'=>array(
 		'id',
 		'param',

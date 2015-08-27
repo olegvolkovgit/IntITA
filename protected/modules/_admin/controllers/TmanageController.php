@@ -259,9 +259,6 @@ class TmanageController extends Controller
     {
         $model= Roles::model()->findByPk($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
         if(isset($_POST['Roles']))
         {
             $model->attributes=$_POST['Roles'];

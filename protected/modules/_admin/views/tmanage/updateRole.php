@@ -1,19 +1,15 @@
 <?php
 /* @var $this TmanageController */
 /* @var $model Roles */
-
-$this->breadcrumbs=array(
-    'Ролі викладачів'=>array('index'),
-    'Роль '.$model->title_ua=>array('view','id'=>$model->id),
-    'Редагувати роль',
-);
-
-$this->menu=array(
-    array('label'=>'Список ролей', 'url'=>array('index')),
-    array('label'=>'Створити роль', 'url'=>array('create')),
-    array('label'=>'Переглянути роль', 'url'=>array('view', 'id'=>$model->id)),
-);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>">Створити роль</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/viewRole', array('id' => $model->id));?>">Переглянути роль</a>
 
     <h1>Редагувати роль <?php echo $model->id; ?></h1>
 

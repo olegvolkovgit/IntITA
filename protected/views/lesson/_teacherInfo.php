@@ -28,7 +28,11 @@ if($teacher != null){
                         <?php echo $teacher->email; ?>
                     </li>
                     <li>
-                        <?php echo 'skype: '?><div id="teacherSkype"><?php echo $teacher->skype; ?>
+                        <?php
+                            if($teacher->skype != '') {
+                                echo 'skype: ' ?><div id="teacherSkype"><?php echo $teacher->skype;
+                            }
+                        ?>
                         </div>
                     </li>
                 </ul>

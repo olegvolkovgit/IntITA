@@ -1,14 +1,18 @@
 <?php
 /* @var $dataProvider CActiveDataProvider */
-
-$this->menu=array(
-    array('label'=>'Додати викладача', 'url'=>array('/_admin/tmanage/create')),
-    array('label'=>'Управління викладачами', 'url'=>array('/_admin/tmanage/admin')),
-    array('label'=>'Управління ролями викладачів', 'url'=>array('/_admin/tmanage/roles')),
-);
 ?>
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
-    <h1>Викладачі</h1>
+
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/admin');?>">Управління викладачами</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Управління ролями викладачів</a>
+
+    <h2>Викладачі</h2>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,

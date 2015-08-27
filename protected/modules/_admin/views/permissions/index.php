@@ -2,9 +2,6 @@
 /* @var $this PermissionsController */
 /* @var $dataProvider CActiveDataProvider*/
 
-$this->breadcrumbs=array(
-	'Permissions',
-);
 $alert = 'Ви впевнені, що хочете видалити цей запис?';
 Yii::app()->clientScript->registerScript('search', "
 $('.search-form form').submit(function(){
@@ -15,9 +12,13 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
+
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+<br>
+
+<h2>Права доступу</h2>
 
 <a href="#form">
     <div id="enter_button_2" onclick="addAccess()">Додати запис</div>

@@ -33,7 +33,6 @@ class Config extends CActiveRecord
 			array('param, type', 'length', 'max'=>128),
 			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, param, value, default, label, type', 'safe', 'on'=>'search'),
 		);
 	}
@@ -56,11 +55,11 @@ class Config extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'param' => 'Param',
-			'value' => 'Value',
-			'default' => 'Default',
-			'label' => 'Label',
-			'type' => 'Type',
+			'param' => 'Параметр',
+			'value' => 'Значення',
+			'default' => 'За замовчуванням',
+			'label' => 'Опис',
+			'type' => 'Тип',
 		);
 	}
 

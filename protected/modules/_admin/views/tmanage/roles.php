@@ -6,14 +6,12 @@
  * Time: 15:45
  */
 /* @var $dataProvider CActiveDataProvider */
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Ролі викладачів'
-);
-$this->menu=array(
-    array('label'=>'Додати роль', 'url'=>array('createRole')),
-);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>">Додати роль</a>
+
     <h2>Ролі викладачів</h2>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
@@ -55,20 +53,20 @@ $this->menu=array(
             (
                 'view' => array(
                     //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("tmanage/showAttributes", array("role"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
                     'label' => 'Атрибути ролі',
                 ),
                 'update' => array
                 (
                     'label'=>'Редагувати',
                     //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                    'url' => 'Yii::app()->createUrl("tmanage/updateRole", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRole", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array
                 (
                     'label'=>'Видалити',
-                    'url' => 'Yii::app()->createUrl("roles/delete", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/roles/delete", array("id"=>$data->primaryKey))',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                 ),
             ),

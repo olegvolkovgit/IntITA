@@ -63,18 +63,18 @@ class Graduate extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'first_name' => 'First Name',
-			'last_name' => 'Last Name',
-			'avatar' => 'Avatar',
-			'graduate_date' => 'Graduate Date',
-			'position' => 'Position',
-			'work_place' => 'Work Place',
-			'work_site' => 'Work Site',
-			'courses' => 'Courses',
-			'courses_page' => 'Courses Page',
-			'history' => 'History',
-			'rate' => 'Rate',
-			'recall' => 'Recall',
+			'first_name' => "Ім'я",
+			'last_name' => 'Прізвище',
+			'avatar' => 'Фото',
+			'graduate_date' => 'Рік випуску',
+			'position' => 'Посада',
+			'work_place' => 'Місце роботи',
+			'work_site' => 'Сайт',
+			'courses' => 'Пройдені курси',
+			'courses_page' => 'Сторінка курсів',
+			'history' => 'Історія (не відображається)',
+			'rate' => 'Рейтинг',
+			'recall' => 'Відгук',
 		);
 	}
 
@@ -125,4 +125,30 @@ class Graduate extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    protected function beforeSave()
+    {
+        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['avatar']))
+        {
+            $this->avatar = $this->oldAvatar;
+        } else if(($this->scenario=="update") && (!empty($this->avatar['tmp_name']['avatar']))){
+            $src=Yii::getPathOfAlias('webroot')."/images/graduates/".$this->oldAvatar;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($this->scenario=="insert" || $this->scenario=="update")&& !empty($this->avatar['tmp_name']['avatar']))
+        {
+            if(!copy($this->avatar['tmp_name']['avatar'],Yii::getPathOfAlias('webroot')."/images/graduates/".$this->avatar['name']['avatar']))
+                throw new CHttpException(500);
+        }
+        return true;
+    }
+
+    protected function beforeDelete()
+    {
+        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
+        if (is_file($src))
+            unlink($src);
+        return true;
+    }
 }

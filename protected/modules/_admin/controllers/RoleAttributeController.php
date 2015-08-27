@@ -1,38 +1,46 @@
 <?php
 
-class ConfigController extends CController
+class RoleAttributeController extends CController
 {
-
-    public $menu = array();
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='main';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
 
     public function accessRules()
     {
         return array(
             array('allow',
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
                 'users'=>array('*'),
             ),
         );
+    }
+
+    function isAdministrator()
+    {
+        if(AccessHelper::isAdmin())
+            return true;
+        else
+            return false;
     }
 
 	/**
@@ -46,6 +54,28 @@ class ConfigController extends CController
 		));
 	}
 
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate()
+	{
+		$model=new RoleAttribute;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['RoleAttribute']))
+		{
+			$model->attributes=$_POST['RoleAttribute'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->id));
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -59,16 +89,30 @@ class ConfigController extends CController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Config']))
+		if(isset($_POST['RoleAttribute']))
 		{
-			$model->attributes=$_POST['Config'];
+			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
 		}
 
-		$this->render('update',array(
+		$this->render('/_admin/tmanage/updateRoleAttribute',array(
 			'model'=>$model,
 		));
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id)
+	{
+		$this->loadModel($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -76,17 +120,10 @@ class ConfigController extends CController
 	 */
 	public function actionIndex()
 	{
-        $model=new Config('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Config']))
-            $model->attributes=$_GET['Config'];
-
-        $dataProvider=new CActiveDataProvider('Config');
-
+		$dataProvider=new CActiveDataProvider('RoleAttribute');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-            'model' => $model,
-		), false, true);
+		));
 	}
 
 	/**
@@ -94,14 +131,13 @@ class ConfigController extends CController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Config('search');
+		$model=new RoleAttribute('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Config']))
-			$model->attributes=$_GET['Config'];
+		if(isset($_GET['RoleAttribute']))
+			$model->attributes=$_GET['RoleAttribute'];
 
 		$this->render('admin',array(
 			'model'=>$model,
-            'noLayout' => true,
 		));
 	}
 
@@ -109,12 +145,12 @@ class ConfigController extends CController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Config the loaded model
+	 * @return RoleAttribute the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Config::model()->findByPk($id);
+		$model=RoleAttribute::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -122,11 +158,11 @@ class ConfigController extends CController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Config $model the model to be validated
+	 * @param RoleAttribute $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='config-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='role-attribute-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
