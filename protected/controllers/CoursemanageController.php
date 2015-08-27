@@ -67,11 +67,16 @@ class CoursemanageController extends Controller
 
 		if(isset($_POST['Course']))
         {
-
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+			$fileInfo=new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes=$_POST['Course'];
             $model->logo=$_FILES['Course'];
 			if($model->save())
+				ImageHelper::uploadAndResizeImg(
+					Yii::getPathOfAlias('webroot')."/images/course/".$_FILES['Course']['name']['course_img'],
+					Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_".$model->course_ID.'.'.$fileInfo->getExtension(),
+					200
+				);
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
 
@@ -96,9 +101,15 @@ class CoursemanageController extends Controller
 		{
             $model->oldLogo=$model->course_img;
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
+			$fileInfo=new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes=$_POST['Course'];
             $model->logo=$_FILES['Course'];
 			if($model->save())
+				ImageHelper::uploadAndResizeImg(
+					Yii::getPathOfAlias('webroot')."/images/course/".$_FILES['Course']['name']['course_img'],
+					Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_".$id.'.'.$fileInfo->getExtension(),
+					200
+				);
 				$this->redirect(array('view','id'=>$model->course_ID));
 		}
 

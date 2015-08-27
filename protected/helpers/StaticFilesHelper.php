@@ -79,6 +79,18 @@ class StaticFilesHelper {
             case 'signin':
                 $path = $path.'/signin/'.$name;
                 break;
+            case 'course/share':
+                $path = $path.'/course/share/'.$name;
+                break;
+            case 'module/share':
+                $path = $path.'/module/share/'.$name;
+                break;
+            case 'lecture/share':
+                $path = $path.'/lecture/share/'.$name;
+                break;
+            case 'teachers/share':
+                $path = $path.'/teachers/share/'.$name;
+                break;
             default:
                 break;
         }

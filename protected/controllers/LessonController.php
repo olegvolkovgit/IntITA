@@ -549,6 +549,13 @@ class LessonController extends Controller
                             unlink($src);
                     }
                     $model->updateByPk($id, array('image' => $_FILES['Lecture']['name']['image']));
+
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot')."/images/lecture/".$_FILES['Lecture']['name']['image'],
+                        Yii::getPathOfAlias('webroot') . "/images/lecture/share/shareLectureImg_".$id.'.'.$ext,
+                        200
+                    );
+
                     $this->redirect(Yii::app()->request->urlReferrer);
                 } else {
                     $this->redirect(Yii::app()->request->urlReferrer);

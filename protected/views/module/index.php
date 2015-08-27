@@ -2,13 +2,13 @@
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag(ModuleHelper::getModuleName($post->module_ID), null, null, array('property' => "og:title"));
 Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
-Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'module', $post->module_img), null, null, array('property' => "og:image"));
+Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'module/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/module/share/",'shareModuleImg_',$post->module_ID,'defaultModuleImg.png')), null, null, array('property' => "og:image"));
 ?>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
          data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
          data-title="<?php echo ModuleHelper::getModuleName($post->module_ID);?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'module', $post->module_img);?>"
+         data-image="<?php echo StaticFilesHelper::createPath('image', 'module/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/module/share/",'shareModuleImg_',$post->module_ID,'defaultModuleImg.png'));?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
          data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
          data-zero-counter="1">

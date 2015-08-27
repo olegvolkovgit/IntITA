@@ -234,6 +234,11 @@ class TeachersController extends Controller
                             unlink($src);
                     }
                     $model->updateByPk($id, array('foto_url' => $_FILES['Teacher']['name']['foto_url']));
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
+                        200
+                    );
                     $this->redirect(Yii::app()->request->urlReferrer);
                 } else {
                     $this->redirect(Yii::app()->request->urlReferrer);

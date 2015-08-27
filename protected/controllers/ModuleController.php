@@ -313,6 +313,13 @@ class ModuleController extends Controller
                             unlink($src);
                     }
                     $model->updateByPk($id, array('module_img' => $_FILES['Module']['name']['module_img']));
+
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot')."/images/module/".$_FILES['Module']['name']['module_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/module/share/shareModuleImg_".$id.'.'.$ext,
+                        200
+                    );
+
                     $this->redirect(Yii::app()->request->urlReferrer);
                 }else {
                     $this->redirect(Yii::app()->request->urlReferrer);

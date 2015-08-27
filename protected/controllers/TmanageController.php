@@ -66,9 +66,15 @@ class TmanageController extends Controller
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
             $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
+            $fileInfo=new SplFileInfo($_POST['Teacher']['foto_url']);
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save()) {
+                ImageHelper::uploadAndResizeImg(
+                    Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
+                    Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$model->teacher_id.'.'.$fileInfo->getExtension(),
+                    200
+                );
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
                 $this->redirect(array('view', 'id' => $model->teacher_id));
             }
@@ -91,9 +97,15 @@ class TmanageController extends Controller
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
             $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
+            $fileInfo=new SplFileInfo($_POST['Teacher']['foto_url']);
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save())
+                ImageHelper::uploadAndResizeImg(
+                    Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
+                    Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$model->teacher_id.'.'.$fileInfo->getExtension(),
+                    200
+                );
                 $this->redirect(array('view', 'id' => $model->teacher_id));
         }
         $this->render('update', array(
