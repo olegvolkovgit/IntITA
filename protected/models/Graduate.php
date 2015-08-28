@@ -36,12 +36,14 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+            array('first_name, last_name, work_place', 'required', 'message'=>'Поле не може бути пустим'),
 			array('rate', 'numerical', 'integerOnly'=>true),
 			array('first_name, last_name, avatar, position, work_place, work_site, courses, courses_page, history', 'length', 'max'=>255),
 			array('graduate_date, recall', 'safe'),
+            array('avatar', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true, 'safe' => false),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
+			array('id, first_name, last_name, graduate_date, position, work_place, work_site, courses, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -125,30 +127,4 @@ class Graduate extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    protected function beforeSave()
-    {
-        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['avatar']))
-        {
-            $this->avatar = $this->oldAvatar;
-        } else if(($this->scenario=="update") && (!empty($this->avatar['tmp_name']['avatar']))){
-            $src=Yii::getPathOfAlias('webroot')."/images/graduates/".$this->oldAvatar;
-            if (is_file($src))
-                unlink($src);
-        }
-        if (($this->scenario=="insert" || $this->scenario=="update")&& !empty($this->avatar['tmp_name']['avatar']))
-        {
-            if(!copy($this->avatar['tmp_name']['avatar'],Yii::getPathOfAlias('webroot')."/images/graduates/".$this->avatar['name']['avatar']))
-                throw new CHttpException(500);
-        }
-        return true;
-    }
-
-    protected function beforeDelete()
-    {
-        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
-        if (is_file($src))
-            unlink($src);
-        return true;
-    }
 }
