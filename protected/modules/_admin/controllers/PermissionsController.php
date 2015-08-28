@@ -262,7 +262,7 @@ class PermissionsController extends Controller
         if ($teacherId && $roleId){
             if (TeacherRoles::setTeacherRole($teacherId, $roleId)){
 
-                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -298,7 +298,7 @@ class PermissionsController extends Controller
 
             }
             if ($result){
-                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
 
         }
