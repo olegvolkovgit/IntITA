@@ -213,7 +213,8 @@ class LessonController extends Controller
                 }
                 break;
             case '4':
-                $model->html_block = '<pre>' . $htmlBlock . '</pre>';
+                //                $model->html_block = '<pre>' . $htmlBlock . '</pre>';
+                $model->html_block =$htmlBlock;
                 break;
             case '9':
                 $tempArray = explode(" ", $htmlBlock);
