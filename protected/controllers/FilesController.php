@@ -13,7 +13,7 @@ class FilesController extends Controller
     /** Upload and Save file */
     public function actionUpload()
     {
-        $directory = Yii::getpathOfAlias('webroot').'/images/lecture/';
+        $directory = realpath(Yii::getpathOfAlias('webroot').'/images/lecture/').'/';
 
         $file = md5(date('YmdHis')).'.'.pathinfo(@$_FILES['file']['name'], PATHINFO_EXTENSION);
 
