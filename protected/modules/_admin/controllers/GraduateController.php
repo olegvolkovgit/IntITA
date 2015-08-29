@@ -56,8 +56,7 @@ class GraduateController extends CController
     public function actionView($id)
     {
         $this->render('view',array(
-            'model'=>$this->loadModel($id),
-            'noLayout' => true,
+            'model'=>$this->loadModel($id)
         ));
     }
 
@@ -74,14 +73,18 @@ class GraduateController extends CController
 
         if(isset($_POST['Graduate']))
         {
-            $model->attributes=$_POST['Graduate'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+            $model->attributes = $_POST['Graduate'];
+            $model->avatar = CUploadedFile::getInstance($model,'avatar');
+
+            if($model->save()){
+                $path=Yii::getPathOfAlias('webroot').'/images/graduates/'.$model->avatar->getName();
+                $model->avatar->saveAs($path);
+                $this->redirect('/_admin/graduate/index');
+            }
         }
 
         $this->render('create',array(
             'model'=>$model,
-            'noLayout' => true,
         ));
     }
 
@@ -105,8 +108,7 @@ class GraduateController extends CController
         }
 
         $this->render('update',array(
-            'model'=>$model,
-            'noLayout' => true,
+            'model'=>$model
         ));
     }
 
@@ -153,8 +155,7 @@ class GraduateController extends CController
             $model->attributes=$_GET['Graduate'];
 
         $this->render('admin',array(
-            'model'=>$model,
-            'noLayout' => true,
+            'model'=>$model
         ));
     }
 

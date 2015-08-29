@@ -11,7 +11,7 @@
     'htmlOptions'=>array(
         'class'=>'formatted-form',
         'enctype'=>'multipart/form-data',
-        'method'=>'POST',
+        //'method'=>'POST',
     ),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -39,7 +39,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'avatar'); ?>
-		<?php echo $form->textField($model,'avatar',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->fileField($model,'avatar'); ?>
 		<?php echo $form->error($model,'avatar'); ?>
 	</div>
 

@@ -28,6 +28,7 @@ $this->breadcrumbs=array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
         'summaryText' => '',
+        'emptyText' => 'Консультантів з питань цього модуля немає.',
         'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
         'columns'=>array("one","two"),
     ));

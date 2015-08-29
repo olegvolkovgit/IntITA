@@ -11,8 +11,8 @@
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступу</a>
 
+<h2>Безкоштовні лекції</h2>
 <?php
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
