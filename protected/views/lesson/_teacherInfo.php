@@ -31,11 +31,9 @@ if($teacher != null){
                         <?php
                             if($teacher->skype != '') {
                                 echo 'skype: ' ?><div id="teacherSkype"><?php echo $teacher->skype;
-                                ?>
-                        </div>
-                        <?php
                             }
                         ?>
+                        </div>
                     </li>
                 </ul>
         </span>
