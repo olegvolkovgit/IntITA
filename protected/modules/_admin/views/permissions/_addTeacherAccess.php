@@ -10,9 +10,9 @@
 <div id="addTeacherAccess">
     <br>
     <a name="formTeacher"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newTeacherPermission');?>" method="POST" name="add-teacher-access">
+    <form action="<?php echo Yii::app()->createUrl('permissions/newTeacherPermission');?>" method="POST" name="add-teacher-access">
         <fieldset>
-            <legend id="label">Надати права автора модуля:</legend>
+            <legend id="label">Надати права викладача:</legend>
             Викладач:<br>
             <select name="user" placeholder="(Виберіть викладача)" autofocus>
                 <?php $users = AccessHelper::generateTeachersList();

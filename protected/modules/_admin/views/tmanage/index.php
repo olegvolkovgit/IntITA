@@ -40,7 +40,11 @@
             'class'=>'CLinkColumn',
             'label'=>'Ролі викладача',
             'urlExpression'=>'Yii::app()->createUrl("/_admin/tmanage/showRoles", array("id"=>$data->teacher_id))',
-            'header'=>'Ролі'
+            'header'=>'Author'
+        ),
+        array(
+            'header'=>'Ролі',
+            'value'=>'TeacherHelper::getTeachersRoles($data->teacher_id)',
         ),
         'email',
     ),

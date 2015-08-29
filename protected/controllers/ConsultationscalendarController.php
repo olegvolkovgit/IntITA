@@ -105,10 +105,7 @@ class ConsultationscalendarController extends Controller
         $criteria->addCondition('module='.$lecture->idModule);
         $temp = ConsultantModules::model()->findAll($criteria);
         for($i = 0; $i < count($temp);$i++){
-            if (Teacher::model()->findByPk($temp[$i]->consultant)->isPrint){
-                 array_push($teachersconsult, $temp[$i]->consultant);
-            }
-
+            array_push($teachersconsult, $temp[$i]->consultant);
         }
 
         $criteriaData= new CDbCriteria;
