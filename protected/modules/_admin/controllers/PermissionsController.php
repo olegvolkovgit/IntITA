@@ -239,7 +239,6 @@ class PermissionsController extends Controller
             $userId,
             $module,
             array('read', 'edit'));
-        //$this->actionIndex();
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
