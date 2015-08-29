@@ -11,8 +11,8 @@
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступу</a>
 
+<h2>Безкоштовні лекції</h2>
 <?php
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
@@ -66,7 +66,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'free' => array
                 (
                     'label'=>'Безкоштовно',
-                    'url'=>'Yii::app()->createUrl("permissions/setFreeLessons", array("id"=>$data->id))',
+                    'url'=>'Yii::app()->createUrl("/_admin/permissions/setFreeLessons", array("id"=>$data->id))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'free.png'),
                     'click'=>"function(){
                         $.fn.yiiGridView.update('freeLecturesGrid', {
@@ -83,7 +83,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'paid' => array
                 (
                     'label'=>'Платний',
-                    'url'=>'Yii::app()->createUrl("permissions/setPaidLessons", array("id"=>$data->id))',
+                    'url'=>'Yii::app()->createUrl("/_admin/permissions/setPaidLessons", array("id"=>$data->id))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'paid.png'),
                     'click'=>"function(){
                         $.fn.yiiGridView.update('freeLecturesGrid', {
