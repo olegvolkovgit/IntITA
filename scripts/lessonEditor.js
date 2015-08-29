@@ -97,6 +97,7 @@ function buttonFormulaEnabled(){
 function addTextBlock(type){
     document.getElementById('addBlock').style.display = 'block';
     document.getElementById('textBlockForm').style.display = 'block';
+    document.getElementById('blockForm').style.display = 'block';
     document.getElementById('blockType').value = type;
 }
 
