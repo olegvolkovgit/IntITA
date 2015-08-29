@@ -45,10 +45,11 @@ class LessonController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
+        $criteria->with = array('elementInPage');
 
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->criteria = $criteria;
-        $criteria->order = 'block_order ASC';
+        $criteria->order = 'elementInPage.element_order ASC';
         $dataProvider->setPagination(array(
                 'pageSize' => '200',
             )
@@ -213,7 +214,8 @@ class LessonController extends Controller
                 }
                 break;
             case '4':
-                $model->html_block = '<pre>' . $htmlBlock . '</pre>';
+//                $model->html_block = '<pre>' . $htmlBlock . '</pre>';
+                $model->html_block = $htmlBlock;
                 break;
             case '9':
                 $tempArray = explode(" ", $htmlBlock);
@@ -262,9 +264,16 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
+        $idElementInPage = Yii::app()->request->getPost('idBlock');
+        $elementInPage = LectureElementLecturePage::model()->findByAttributes(array('element' => $idElementInPage));
+        $elementOrderInPage = $elementInPage->element_order;
+        $pageId = $elementInPage->page;
         //if exists prev element, reorder current and prev elements
         if ($order > 1) {
             $this->swapBlocks($idLecture, $order - 1, $order);
+        }
+        if ($elementOrderInPage > 1) {
+            $this->swapElementInPage($pageId, $elementOrderInPage-1, $elementOrderInPage);
         }
 
         // if AJAX request, we should not redirect the browser
@@ -277,9 +286,17 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
+        $idElementInPage = Yii::app()->request->getPost('idBlock');
+        $elementInPage = LectureElementLecturePage::model()->findByAttributes(array('element' => $idElementInPage));
+        $elementOrderInPage = $elementInPage->element_order;
+        $pageId = $elementInPage->page;
         //if exists next element, reorder current and next elements
         if ($order < LectureElement::model()->count('id_lecture=' . $idLecture)) {
             $this->swapBlocks($idLecture, $order, $order + 1);
+        }
+
+        if ($elementOrderInPage < LectureElementLecturePage::model()->count('page='.$pageId)){
+            $this->swapElementInPage($pageId, $elementOrderInPage, $elementOrderInPage+1);
         }
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -291,8 +308,12 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
+        $idElementInPage = Yii::app()->request->getPost('idBlock');
 
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+        $elementInPage = LectureElementLecturePage::model()->findByAttributes(array('element' => $idElementInPage));
+        $elementOrderInPage = $elementInPage->element_order;
+        $pageId = $elementInPage->page;
 
         switch ($model->id_type) {
             case '5':
@@ -300,15 +321,15 @@ class LessonController extends Controller
         }
         //delete current block
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
-
+        LectureElementLecturePage::model()->deleteAllByAttributes(array('element' => $idElementInPage));
         //reorder elements after deleted block
-        $this->reorderBlocks($idLecture, $order);
+        $this->reorderBlocks($idLecture, $order, $pageId, $idElementInPage, $elementOrderInPage);
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function reorderBlocks($idLecture, $order)
+    public function reorderBlocks($idLecture, $order, $pageId, $idElementInPage, $elementOrderInPage)
     {
         //count number of blocks in lecture and increment(because we delete one record in actionDeleteElement)
         $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
@@ -318,6 +339,17 @@ class LessonController extends Controller
             $id = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i))->id_block;
             LectureElement::model()->updateByPk($id, array('block_order' => $i - 1));
         }
+        //count number of blocks in lecture and increment(because we delete one record in actionDeleteElement)
+        $countElementInPage = LectureElementLecturePage::model()->count('page = :pageNum', array(':pageNum' => $pageId));
+        $countElementInPage++;
+        //change orders in blocks of lesson after deleted record(block)
+        for ($j = $elementOrderInPage + 1; $j <= $countElementInPage; $j++) {
+            $elementId = LectureElementLecturePage::model()->findByAttributes(array('page' => $pageId, 'element_order' => $j))->element;
+            $elementInPage = LectureElementLecturePage::model()->findByAttributes(array('element' => $elementId, 'page' => $pageId, 'element_order' => $j));
+            $elementInPage->element_order=$j-1;
+            $elementInPage->save();
+        }
+
     }
 
     public function swapBlocks($idLecture, $first, $second)
@@ -328,6 +360,18 @@ class LessonController extends Controller
         //swap blocks - rewrite block order in DB
         LectureElement::model()->updateByPk($secondId, array('block_order' => $first));
         LectureElement::model()->updateByPk($firstId, array('block_order' => $second));
+    }
+    public function swapElementInPage($pageId, $firstElementOrderInPage, $elementOrderInPage)
+    {
+        $firstElementInPage = LectureElementLecturePage::model()->findByAttributes(array('page' => $pageId, 'element_order' => $firstElementOrderInPage));
+        $secondElementInPage = LectureElementLecturePage::model()->findByAttributes(array('page' => $pageId, 'element_order' => $elementOrderInPage));
+
+        $secondElementInPage->element_order=$firstElementOrderInPage;
+        $firstElementInPage->element_order=$elementOrderInPage;
+
+        $secondElementInPage->save();
+        $firstElementInPage->save();
+
     }
 
     public function checkEditMode($idModule, $idUser)

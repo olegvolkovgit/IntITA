@@ -47,6 +47,7 @@ class LectureElement extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'elementInPage' => array(self::HAS_ONE, 'LectureElementLecturePage', array('element' => 'id_block')),
 			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
 		);
 	}
