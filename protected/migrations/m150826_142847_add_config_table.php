@@ -5,7 +5,7 @@ class m150826_142847_add_config_table extends CDbMigration
 	public function up()
 	{
         $this->createTable('config', array(
-            'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
+            'id' => 'pk',
             'param' => 'varchar(128) NOT NULL',
             'value' => 'text NOT NULL',
             'default' => 'text NOT NULL',
