@@ -22,7 +22,7 @@ $list = CHtml::listData($models,
 	// See class documentation of CActiveForm for details on this.
     'enableClientValidation'=>true,
     'enableAjaxValidation'=>true,
-    'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>true),
+    'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
 )); ?>
 
 	<div class="row">

@@ -12,7 +12,6 @@ $formulaCode = addcslashes($temp, '\\');
         <?php $this->renderPartial('_editToolbar', array(
             'idLecture' => $data['id_lecture'],
             'order' =>  $data['block_order'],
-            'idBlock' => $data['id_block'],
             'editMode' => $editMode,''
         ));?>
 

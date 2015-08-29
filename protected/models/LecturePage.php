@@ -123,16 +123,10 @@ class LecturePage extends CActiveRecord
     }
 
     public static function addTextBlock($element, $page){
-        $model = new LectureElementLecturePage();
-        $model->element=$element;
-        $model->page=$page;
-        $model->element_order = LectureElementLecturePage::model()->count('page = :pageNum', array(':pageNum' => $page)) + 1;
-        $model->save();
-//        Yii::app()->db->createCommand()->insert('lecture_element_lecture_page', array(
-//            'element'=>$element,
-//            'page'=>$page,
-//        ));
-
+        Yii::app()->db->createCommand()->insert('lecture_element_lecture_page', array(
+            'element'=>$element,
+            'page'=>$page,
+        ));
     }
 
     public static function getAccessPages($idLecture, $user){
