@@ -20,14 +20,14 @@ class PermissionsController extends Controller
         return array(
             array('allow',
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons','freeLessons'),
+                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons','freeLessons', 'userStatus'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons','freeLessons'),
+                    'newTeacherPermission', 'addTeacher','SetPaidLessons','SetFreeLessons','freeLessons', 'userStatus'),
                 'users'=>array('*'),
             ),
         );
@@ -73,6 +73,19 @@ class PermissionsController extends Controller
             $model->attributes=$_GET['Lecture'];
 
         $this->render('_freeLectures',array(
+            'model'=>$model,
+        ));
+    }
+
+    public function actionUserStatus()
+    {
+        $model = new StudentReg('search');
+        $model->unsetAttributes();  // clear any default values
+
+        if(isset($_GET['StudentReg']))
+            $model->attributes=$_GET['StudentReg'];
+
+        $this->render('userStatus',array(
             'model'=>$model,
         ));
     }
@@ -262,7 +275,7 @@ class PermissionsController extends Controller
         if ($teacherId && $roleId){
             if (TeacherRoles::setTeacherRole($teacherId, $roleId)){
 
-                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -298,7 +311,7 @@ class PermissionsController extends Controller
 
             }
             if ($result){
-                $this->redirect(Yii::app()->createUrl('tmanage/index'));
+                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
 
         }
@@ -315,6 +328,24 @@ class PermissionsController extends Controller
     public function actionSetPaidLessons($id)
     {
         Lecture::model()->updateByPk($id, array('isFree' => 0));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionSetUserVerification($id)
+    {
+        StudentReg::model()->updateByPk($id, array('status' => 1));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionUnsetUserVerification($id)
+    {
+        StudentReg::model()->updateByPk($id, array('status' => 0));
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

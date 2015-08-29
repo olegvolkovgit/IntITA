@@ -247,12 +247,14 @@ class StudentReg extends CActiveRecord
         $criteria->compare('token',$this->token,true);
         $criteria->compare('activkey_lifetime',$this->activkey_lifetime,true);
         $criteria->compare('status',$this->status,true);
-        $criteria->compare('isExtended',$this->isExtended, true);
         $criteria->compare('reg_time',$this->reg_time, true);
 
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
         ));
     }
 
