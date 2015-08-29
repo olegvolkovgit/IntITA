@@ -103,4 +103,9 @@ class Config extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getBaseUrl(){
+        return Yii::app()->config->get('baseUrl');
+    }
+
 }

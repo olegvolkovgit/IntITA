@@ -9,7 +9,7 @@
 $user = new StudentReg();
 $app = Yii::app();
 if($teacher != null){
-?>
+    ?>
 <div class="teacherBlock">
     <div class="photobg">
         <img class="mask" src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
@@ -31,26 +31,26 @@ if($teacher != null){
                         <?php
                             if($teacher->skype != '') {
                                 echo 'skype: ' ?><div id="teacherSkype"><?php echo $teacher->skype;
-                            }
-                        ?>
-                        </div>
+        ?>
+        </div>
+    <?php
+    }
+    ?>
                     </li>
                 </ul>
         </span>
     <!--Link to page with consultations-->
 
         <?php if(AccessHelper::canAddConsultation()){
-            ?>
-            <div class="calendar">
-                <?php
-                echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse))); ?>
-            </div>
-        <?php
-        }
         ?>
+        <div class="calendar">
+            <?php
+            echo CHtml::link(Yii::t('lecture','0079'),Yii::app()->createUrl('/consultationscalendar/index', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse))); ?>
+        </div>
+    <?php
+    }
+    ?>
 
     </div>
 </div>
 <?php }?>
-
-

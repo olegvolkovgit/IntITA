@@ -27,6 +27,7 @@ $this->breadcrumbs=array(
     $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
+        'emptyText' => 'Консультантів з питань цього модуля немає.',
         'summaryText' => '',
         'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
         'columns'=>array("one","two"),

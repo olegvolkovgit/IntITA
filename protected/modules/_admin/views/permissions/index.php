@@ -28,6 +28,10 @@ $('.search-form form').submit(function(){
     <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
 </a>
 
+<a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus');?>">
+    <div id="changeUserStatus">Змінити статус користувача</div>
+</a>
+
 <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons');?>">
     <div id="manageFreeLessons">Безкоштовні заняття</div>
 </a>
