@@ -66,11 +66,11 @@ $header = new Header();
                 </div>
                 <div id="menulist">
                     <ul>
-                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/teachers' ; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/graduate' ; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/forum' ; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
-                        <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->request->baseUrl.'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->request->baseUrl.'/teachers' ; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->request->baseUrl.'/graduate' ; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->request->baseUrl.'/forum' ; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
+                        <li><a href="<?php echo Yii::app()->request->baseUrl.'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                     </ul>
                 </div>
             </div>
@@ -218,11 +218,11 @@ $header = new Header();
                     </div>
                     <div class="footermenu">
                         <ul>
-                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/courses' ; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/forum'; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
-                            <li><a href="<?php echo Yii::app()->config->get('baseUrl').'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->request->baseUrl.'/courses' ; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->request->baseUrl.'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->request->baseUrl.'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->request->baseUrl.'/forum'; ?>"><?php echo Yii::t('header', '0017'); ?></a></li>
+                            <li><a href="<?php echo Yii::app()->request->baseUrl.'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                         </ul>
                     </div>
                 </div>
