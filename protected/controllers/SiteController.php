@@ -145,7 +145,7 @@ class SiteController extends Controller
 
         if ($id){
             $host = "localhost";
-            $database = Yii::app()->dbForum->dbname;
+            $database = "forum";
             $db_user = Yii::app()->dbForum->username;
             $password = Yii::app()->dbForum->password;
             mysql_connect($host, $db_user, $password);
@@ -253,7 +253,7 @@ class SiteController extends Controller
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
                     $host ="localhost";
-                    $database=Yii::app()->dbForum->dbname;
+                    $database="forum";
                     $user = Yii::app()->dbForum->username;
                     $password = Yii::app()->dbForum->password;
                     mysql_connect($host,$user,$password);
@@ -299,7 +299,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         $host ="localhost";
-        $database = Yii::app()->dbForum->dbname;
+        $database="forum";
         $user = Yii::app()->dbForum->username;
         $password = Yii::app()->dbForum->password;
 
@@ -383,7 +383,7 @@ class SiteController extends Controller
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
                     $host = "localhost";
-                    $database = Yii::app()->dbForum->dbname;
+                    $database="forum";
                     $user = Yii::app()->db->username;
                     $password = Yii::app()->db->password;
                     mysql_connect($host,$user,$password);
