@@ -5,19 +5,19 @@
  * Date: 16.06.2015
  * Time: 17:47
  */
-
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Ролі викладача',
-    'Призначити роль'
-);
 ?>
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
 
 
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('permissions/setTeacherRole');?>" method="POST" name="add-access">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRole');?>" method="POST" name="add-access">
         <fieldset>
             <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
             Викладач:<br>
@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/permissions/showRoles",
+                url: "/_admin/permissions/showRoles",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

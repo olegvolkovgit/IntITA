@@ -7,6 +7,8 @@ Yii::setPathOfAlias('editable', dirname(__FILE__).'/../extensions/x-editable');
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
+    $local_config = require(dirname(__FILE__).'/local.php'),
+
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'INTITA',
 
@@ -59,6 +61,7 @@ return array(
 
 		'cache'=>array(
 			'class'=>'system.caching.CFileCache',
+            'servers'=>$local_config['memcache_servers'],
 		),
 
         'autoadmin'=>array(
@@ -99,13 +102,13 @@ return array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
 
-                'course<id:\d+>'=>'course/index',
-                'course<idCourse:\d+>/module<idModule:\d+>'=>'module/index', /*Url for module */
-				'course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
-				'course<idCourse:\d+>/lecture<id:\d+>/page<page:\d+>'=>'lesson/index', /*Url for lecture */
-				'course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
+                'courses/course<id:\d+>'=>'course/index',
+                'courses/course<idCourse:\d+>/module<idModule:\d+>'=>'module/index', /*Url for module */
+				'courses/course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
+				'courses/course<idCourse:\d+>/lecture<id:\d+>/page<page:\d+>'=>'lesson/index', /*Url for lecture */
+				'courses/course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
 				'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
-				'consultationscalendar/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
+				'consultations/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
                 'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
                 'user_profile/<idUser:\d+>' => 'studentreg/profile', /* Url for user profile */
 
@@ -133,10 +136,9 @@ return array(
         ),
 
 		// database settings are configured in database.php
-		'db'=>require(dirname(__FILE__).'/database.php'),
-		'db2'=>require(dirname(__FILE__).'/database.php'),
-		'dbAdmin' => require(dirname(__FILE__).'/database.php'),
-        'dbForum' => require(dirname(__FILE__).'/databaseForum.php'),
+		'db'=>$local_config['db'],
+		'db2'=>$local_config['db'],
+        'dbForum' => $local_config['dbForum'],
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

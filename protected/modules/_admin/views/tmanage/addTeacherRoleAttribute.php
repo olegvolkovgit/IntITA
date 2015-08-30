@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('permissions/setTeacherRoleAttribute');?>" method="POST" name="add-access">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRoleAttribute');?>" method="POST" name="add-access">
         <fieldset>
             <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
             Викладач:<br>
@@ -68,7 +68,7 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/permissions/showAttributes",
+                url: "/_admin/permissions/showAttributes",
                 data: {role: role},
                 cache: false,
                 success: function(response){ $('div[name="selectAttribute"]').html(response); }
