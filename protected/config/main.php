@@ -3,12 +3,11 @@
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 Yii::setPathOfAlias('editable', dirname(__FILE__).'/../extensions/x-editable');
+$local_config = require(dirname(__FILE__).'/local.php');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
-    $local_config = require(dirname(__FILE__).'/local.php'),
-
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'INTITA',
 
@@ -61,7 +60,7 @@ return array(
 
 		'cache'=>array(
 			'class'=>'system.caching.CFileCache',
-            'servers'=>$local_config['memcache_servers'],
+            //'servers'=>$local_config['memcache_servers'],
 		),
 
         'autoadmin'=>array(
