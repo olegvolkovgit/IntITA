@@ -32,7 +32,7 @@ class CoursesController extends Controller
         $criteria= new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
-        $criteria->condition = 'language="ua"';
+        $criteria->condition = 'language="ua" and cancelled = 0';
         if ($selector !== 'all'){
             if ($selector == 'junior'){
                 $criteria->addInCondition('level', array('intern','strong junior','junior'));

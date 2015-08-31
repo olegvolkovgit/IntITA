@@ -23,7 +23,6 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                     cache: false,
                     type: "POST",
                     url: '/lesson/save',
-                    //url: 'http://localhost/IntITA/lesson/save',
                     data: {'content':html,'idLecture':idLecture,'order':order}
                 });
 			}
