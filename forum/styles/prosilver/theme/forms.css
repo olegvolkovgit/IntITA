@@ -387,6 +387,7 @@ input.button1:focus, input.button2:focus, input.button3:focus {
 	height: 24px;
 	margin: 0;
 	padding: 3px 5px;
+	width: 28px;
 }
 
 .search-box a.button {
@@ -395,6 +396,7 @@ input.button1:focus, input.button2:focus, input.button3:focus {
 	font-size: 0;
 	margin: 0;
 	padding: 2px 5px 2px 3px;
+	width: 18px;
 }
 
 /* Search box (header)
@@ -405,6 +407,7 @@ input.button1:focus, input.button2:focus, input.button3:focus {
 	float: right;
 	margin-right: 5px;
 	margin-top: 30px;
+	border: 1px solid #4B75A4;
 }
 
 .search-header .inputbox { border: 0; }
@@ -418,6 +421,7 @@ input.button1:focus, input.button2:focus, input.button3:focus {
 	border: 0;
 	border-left: 1px;
 	padding: 3px 5px 3px 4px;
+	width: 18px;
 }
 
 input.search {

@@ -10,7 +10,6 @@ class m150815_075731_add_page_title_column extends CDbMigration
 	public function down()
 	{
         $this->dropColumn('lecture_page', 'page_title');
-		return false;
 	}
 
 	/*

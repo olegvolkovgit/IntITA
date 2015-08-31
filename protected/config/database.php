@@ -1,8 +1,5 @@
 <?php
-
-// This is the database connection configuration.
 return array(
-
     'class' => 'CDbConnection',
     'connectionString' => 'mysql:host=localhost;dbname=intita',
     'emulatePrepare' => true,

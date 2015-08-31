@@ -1,7 +1,5 @@
 <?php
-// This is the forum database connection configuration.
 return array(
-
     'class' => 'CDbConnection',
     'connectionString' => 'mysql:host=localhost;dbname=forum',
     'emulatePrepare' => true,

@@ -23,6 +23,7 @@
  * @property string $what_you_get_en
  * @property string $course_img
  * @property integer $rating
+ * @property integer $cancelled
  *
  * The followings are the available model relations:
  * @property Modules[] $modules
@@ -60,7 +61,7 @@ class Course extends CActiveRecord
 			// @todo Please remove those attributes that should not be searched.
 			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
-			 course_img', 'safe', 'on'=>'search'),
+			 course_img, cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -103,6 +104,7 @@ class Course extends CActiveRecord
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
             'status' => Yii::t('course', '0411'),
+            'cancelled' => 'Видалений',
 		);
 	}
 
@@ -143,6 +145,7 @@ class Course extends CActiveRecord
         $criteria->compare('what_you_learn_en',$this->what_you_learn_en,true);
         $criteria->compare('what_you_get_en',$this->what_you_get_en,true);
 		$criteria->compare('course_img',$this->course_img,true);
+        $criteria->compare('cancelled',$this->cancelled,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -239,11 +242,11 @@ class Course extends CActiveRecord
         }
         return true;
     }
-    protected function beforeDelete()
-    {
-        $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->course_img;
-        if (is_file($src))
-            unlink($src);
-        return true;
-    }
+//    protected function beforeDelete()
+//    {
+//        $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->course_img;
+//        if (is_file($src))
+//            unlink($src);
+//        return true;
+//    }
 }

@@ -2,15 +2,15 @@
 
 class SiteController extends Controller
 {
-    /* @var $mainpage Mainpage*/
-    /* @var $step1 Step*/
-    /* @var $step2 Step*/
-    /* @var $step3 Step*/
-    /* @var $step4 Step*/
-    /* @var $step5 Step*/
-    /* @var $objAbout1 AboutUs*/
-    /* @var $objAbout2 AboutUs*/
-    /* @var $objAbout3 AboutUs*/
+    /* @var $mainpage Mainpage */
+    /* @var $step1 Step */
+    /* @var $step2 Step */
+    /* @var $step3 Step */
+    /* @var $step4 Step */
+    /* @var $step5 Step */
+    /* @var $objAbout1 AboutUs */
+    /* @var $objAbout2 AboutUs */
+    /* @var $objAbout3 AboutUs */
     /*
 	 * Declares class-based actions.
 	 */
@@ -20,14 +20,14 @@ class SiteController extends Controller
     {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha'=>array(
-                'class'=>'CCaptchaAction',
-                'backColor'=>0xFFFFFF,
+            'captcha' => array(
+                'class' => 'CCaptchaAction',
+                'backColor' => 0xFFFFFF,
             ),
             // page action renders "static" pages stored under 'protected/views/site/pages'
             // They can be accessed via: index1.php?r=site/page&view=FileName
-            'page'=>array(
-                'class'=>'CViewAction',
+            'page' => array(
+                'class' => 'CViewAction',
             ),
         );
     }
@@ -46,22 +46,23 @@ class SiteController extends Controller
         $arrayAboutUs = $this->initAboutus();
 
         $this->render('index', array(
-            'mainpageModel'=>$mainpage,
-            'mainpage'=>array(
-                'stepSize'=>"958px",
+            'mainpageModel' => $mainpage,
+            'mainpage' => array(
+                'stepSize' => "958px",
             ),
-            'block1'=>$arrayAboutUs['objAbout1'],
-            'block2'=>$arrayAboutUs['objAbout2'],
-            'block3'=>$arrayAboutUs['objAbout3'],
-            'step1'=>$arraySteps['step1'],
-            'step2'=>$arraySteps['step2'],
-            'step3'=>$arraySteps['step3'],
-            'step4'=>$arraySteps['step4'],
-            'step5'=>$arraySteps['step5'],
+            'block1' => $arrayAboutUs['objAbout1'],
+            'block2' => $arrayAboutUs['objAbout2'],
+            'block3' => $arrayAboutUs['objAbout3'],
+            'step1' => $arraySteps['step1'],
+            'step2' => $arraySteps['step2'],
+            'step3' => $arraySteps['step3'],
+            'step4' => $arraySteps['step4'],
+            'step5' => $arraySteps['step5'],
         ));
     }
 
-    public function initAboutus(){
+    public function initAboutus()
+    {
         $objAbout1 = new AboutUs(1);
         $objAbout1->setValuesById(1);
         $objAbout1->titleText = Yii::t('aboutus', '0032');
@@ -75,38 +76,39 @@ class SiteController extends Controller
         $objAbout3->titleText = Yii::t('aboutus', '0034');
         $objAbout3->textAbout = Yii::t('aboutus', '0037');
         return $arrayAboutUs = array(
-            'objAbout1'=>$objAbout1,
-            'objAbout2'=>$objAbout2,
-            'objAbout3'=>$objAbout3,
+            'objAbout1' => $objAbout1,
+            'objAbout2' => $objAbout2,
+            'objAbout3' => $objAbout3,
         );
     }
 
-    public function initSteps(){
+    public function initSteps()
+    {
         $step1 = Step::model()->findByPk(1);
         $step2 = Step::model()->findByPk(2);
         $step3 = Step::model()->findByPk(3);
         $step4 = Step::model()->findByPk(4);
         $step5 = Step::model()->findByPk(5);
 
-        $step1->stepTitle =  Yii::t('step','0038');
-        $step2->stepTitle =  Yii::t('step','0039');
-        $step3->stepTitle =  Yii::t('step','0040');
-        $step4->stepTitle =  Yii::t('step','0041');
-        $step5->stepTitle =  Yii::t('step','0042');
+        $step1->stepTitle = Yii::t('step', '0038');
+        $step2->stepTitle = Yii::t('step', '0039');
+        $step3->stepTitle = Yii::t('step', '0040');
+        $step4->stepTitle = Yii::t('step', '0041');
+        $step5->stepTitle = Yii::t('step', '0042');
 
-        $step1->stepText =  Yii::t('step','0044');
-        $step2->stepText =  Yii::t('step','0045');
-        $step3->stepText =  Yii::t('step','0046');
-        $step4->stepText =  Yii::t('step','0047');
-        $step5->stepText =  Yii::t('step','0048');
+        $step1->stepText = Yii::t('step', '0044');
+        $step2->stepText = Yii::t('step', '0045');
+        $step3->stepText = Yii::t('step', '0046');
+        $step4->stepText = Yii::t('step', '0047');
+        $step5->stepText = Yii::t('step', '0048');
 
 
         return $arraySteps = array(
-            'step1'=>$step1,
-            'step2'=>$step2,
-            'step3'=>$step3,
-            'step4'=>$step4,
-            'step5'=>$step5,
+            'step1' => $step1,
+            'step2' => $step2,
+            'step3' => $step3,
+            'step4' => $step4,
+            'step5' => $step5,
         );
     }
 
@@ -115,9 +117,8 @@ class SiteController extends Controller
      */
     public function actionError()
     {
-        if($error=Yii::app()->errorHandler->error)
-        {
-            if(Yii::app()->request->isAjaxRequest)
+        if ($error = Yii::app()->errorHandler->error) {
+            if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
                 $this->render('error', $error);
@@ -127,34 +128,35 @@ class SiteController extends Controller
     public function actionChangeLang($lg)
     {
         $new_lang = $_GET['lg'];
-        if ($new_lang == "ua"){
+        if ($new_lang == "ua") {
             $new_lang = "uk";
             $_SESSION['current_language'] = null;
-        }else{
+        } else {
             $_SESSION['current_language'] = $new_lang;
         }
 
         $id = null;
 
-        foreach ($_SESSION as $key => $value){
+        foreach ($_SESSION as $key => $value) {
             if (strpos($key, '__id')) {
                 $id = $value;
                 break;
             }
         }
 
-        if ($id){
-            $host = "localhost";
-            $database = "forum";
-            $db_user = Yii::app()->dbForum->username;
-            $password = Yii::app()->dbForum->password;
-            mysql_connect($host, $db_user, $password);
-            mysql_select_db($database);
-            $result = mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=" . $id . ";");
-            if (mysql_num_rows($result) > 0) {
-                mysql_query("UPDATE phpbb_users SET user_lang = '$new_lang' WHERE user_id =$id;");
+        if ($id) {
+            $result = Yii::app()->dbForum->createCommand()
+                ->select('user_id')
+                ->from('phpbb_users')
+                ->where('user_id=:id', array(':id' => $id))
+                ->queryRow();
+
+            if (count($result) > 0) {
+                Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
+                    'user_lang'=> $new_lang,
+                ), 'user_id=:id', array(':id'=>$id));
             }
-            mysql_close();
+
         }
 
         $app = Yii::app();
@@ -172,36 +174,33 @@ class SiteController extends Controller
     /* Express registration, check-sending on email adresses token to activate your account */
     public function actionRapidReg()
     {
-        if(isset($_POST['isExtended']))
+        if (isset($_POST['isExtended']))
             $model = new StudentReg('fromraptoext');
         else $model = new StudentReg('repidreg');
 // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax']==='studentreg-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'studentreg-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-        if(isset($_POST['isExtended']))
-        {
-            $this->redirect( Yii::app()->createUrl('studentreg/index',array('tempEmail'=>$_POST['StudentReg']['email'],'tempPass'=>$_POST['StudentReg']['password'])));
+        if (isset($_POST['isExtended'])) {
+            $this->redirect(Yii::app()->createUrl('studentreg/index', array('tempEmail' => $_POST['StudentReg']['email'], 'tempPass' => $_POST['StudentReg']['password'])));
         }
 // collect user input data
-        if(isset($_POST['StudentReg']))
-        {
-            $model->attributes=$_POST['StudentReg'];
-            $getToken=rand(0, 99999);
-            $getTime=date("Y-m-d H:i:s");
-            $model->token=sha1($getToken.$getTime);
-            if($model->validate()) {
+        if (isset($_POST['StudentReg'])) {
+            $model->attributes = $_POST['StudentReg'];
+            $getToken = rand(0, 99999);
+            $getTime = date("Y-m-d H:i:s");
+            $model->token = sha1($getToken . $getTime);
+            if ($model->validate()) {
                 $model->save();
-                $subject=Yii::t('activeemail','0298');
-                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-                $text=Yii::t('activeemail','0299').
-                    " ".Yii::app()->params['baseUrl']."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
-                mail($model->email,$subject,$text,$headers);
+                $subject = Yii::t('activeemail', '0298');
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text = Yii::t('activeemail', '0299') .
+                    " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email;
+                mail($model->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
-            }else{
-                Yii::app()->user->setFlash('forminfo', Yii::t('error','0300'));
+            } else {
+                Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
                 $this->redirect(Yii::app()->request->baseUrl . '/site#form');
             }
         }
@@ -209,25 +208,25 @@ class SiteController extends Controller
     }
 
     /* Activation account*/
-    public function actionAccActivation($token,$email)
+    public function actionAccActivation($token, $email)
     {
-        $model=$this->getTokenAcc($token);
-        $modelemail=StudentReg::model()->findByAttributes(array('email'=>$email));
-        if($model->token==$modelemail->token){
+        $model = $this->getTokenAcc($token);
+        $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
+        if ($model->token == $modelemail->token) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
             $this->redirect(Yii::app()->createUrl('/site/activationaccount'));
-        } else{
-            throw new CHttpException(404,Yii::t('exception','0237'));
+        } else {
+            throw new CHttpException(404, Yii::t('exception', '0237'));
         }
     }
 
     /* Token validation*/
     public function getTokenAcc($token)
     {
-        $model=StudentReg::model()->findByAttributes(array('token'=>$token));
-        if($model===null)
-            throw new CHttpException(404,Yii::t('exception','0237'));
+        $model = StudentReg::model()->findByAttributes(array('token' => $token));
+        if ($model === null)
+            throw new CHttpException(404, Yii::t('exception', '0237'));
         else
             return $model;
     }
@@ -236,46 +235,59 @@ class SiteController extends Controller
     {
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax']==='quick-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'quick-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
         // collect user input data
-        if(isset($_POST['StudentReg']))
-        {
-            $model->attributes=$_POST['StudentReg'];
-            $statusmodel=StudentReg::model()->findByAttributes(array('email'=>$model->email));
+        if (isset($_POST['StudentReg'])) {
+            $model->attributes = $_POST['StudentReg'];
+            $statusmodel = StudentReg::model()->findByAttributes(array('email' => $model->email));
             // validate user input and redirect to the previous page if valid
-            if($statusmodel->status==1){
-                if($model->login()){
-                    $userModel=StudentReg::model()->findByPk(Yii::app()->user->getId());
+            if ($statusmodel->status == 1) {
+                if ($model->login()) {
+                    $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
-                    $host ="localhost";
-                    $database="forum";
-                    $user = Yii::app()->dbForum->username;
-                    $password = Yii::app()->dbForum->password;
-                    mysql_connect($host,$user,$password);
-                    mysql_select_db($database);
-                    mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
-                    $existingForumUser = mysql_num_rows(mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=$userModel->id;"));
-                    if (!$existingForumUser){
-                        $name = $userModel->firstName.' '.$userModel->secondName;
-                        if ($name==' ') $name = $model->email;
+                    Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
+
+                    $existingForumUser = count(
+                        Yii::app()->dbForum->createCommand()
+                            ->select('user_id')
+                            ->from('phpbb_users')
+                            ->where('user_id=:id', array(':id' => $userModel->id))
+                            ->queryAll()
+                    );
+
+                    if (!$existingForumUser) {
+                        $name = $userModel->firstName . ' ' . $userModel->secondName;
+                        if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        mysql_query("INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone,
-                            user_dateformat, user_regdate, user_lang) VALUES ($userModel->id, '$name', '$name',
-                            'Europe/Kiev', 'd M Y H:i', $reg_time, '$current_lang');");
-                        mysql_query("INSERT INTO phpbb_user_group (group_id, user_id, group_leader, user_pending)
-                            VALUES (2, $userModel->id, 0, 0);");
-                    }else{
-                        mysql_query("UPDATE phpbb_users SET user_lang = '$current_lang' WHERE user_id =$userModel->id;");
+                        Yii::app()->dbForum->insert('phpbb_users', array(
+                                'user_id'=> $userModel->id,
+                                'username'=> $name,
+                                'username_clean' => $name,
+                                'user_timezone' => 'Europe/Kiev',
+                                'user_dateformat' => 'd M Y H:i',
+                                'user_regdate' => $reg_time,
+                                'user_lang' => $current_lang
+                            ));
+
+                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                            'group_id'=> 2,
+                            'user_id'=> $userModel->id,
+                            'group_leader' => 0,
+                            'user_pending' => 0
+                        ));
+                    } else {
+                        Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
+                            'user_lang'=> $current_lang,
+                        ), 'user_id=:id', array(':id' => $userModel->id));
                     }
-                    mysql_close();
+
                     if (!isset($_COOKIE['cookie_key'])) {
-                        foreach ($_SESSION as $key => $value){
+                        foreach ($_SESSION as $key => $value) {
                             if (strpos($key, '__id')) {
                                 $cookie_key = substr($key, 0, strpos($key, '_'));
                                 setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
@@ -284,36 +296,28 @@ class SiteController extends Controller
                         }
                     };
 
-                    if (isset($_SERVER["HTTP_REFERER"])){
-                        if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+                    if (isset($_SERVER["HTTP_REFERER"])) {
+                        if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
-                    }
-                    else $this->redirect(Yii::app()->homeUrl);
+                    } else $this->redirect(Yii::app()->homeUrl);
                 }
-            }else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email'=>$model->email)));
+            } else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
         }
     }
+
     /**
      * Logs out the current user and redirect to homepage.
      */
     public function actionLogout()
     {
-        $host ="localhost";
-        $database="forum";
-        $user = Yii::app()->dbForum->username;
-        $password = Yii::app()->dbForum->password;
-
-        mysql_connect($host,$user,$password);
-        mysql_select_db($database);
         $id = 0;
-        foreach ($_SESSION as $key => $value){
+        foreach ($_SESSION as $key => $value) {
             if (strpos($key, '__id')) {
                 $id = $value;
                 break;
             }
         }
-        mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id =$id;");
-        mysql_close();
+        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=:id', array(':id'=>$id));
 
         Yii::app()->user->logout();
         if (isset($_SERVER["HTTP_REFERER"]))
@@ -325,87 +329,100 @@ class SiteController extends Controller
     {
         $model = new StudentReg();
 
-        $s = file_get_contents('http://ulogin.ru/token.php?token=' .$_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
+        $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
         $user = json_decode($s, true);
-        $model->email=$user['email'];
-        if($model->socialLogin()){
-            if (isset($_SERVER["HTTP_REFERER"])){
-                if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+        $model->email = $user['email'];
+        if ($model->socialLogin()) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
-            }
-            else $this->redirect(Yii::app()->homeUrl);
+            } else $this->redirect(Yii::app()->homeUrl);
         } else {
-            if(isset($user['first_name'])) $model->firstName=$user['first_name'];
-            if(isset($user['last_name'])) $model->secondName=$user['last_name'];
-            if(isset($user['nickname'])) $model->nickname=$user['nickname'];
-            if(isset($user['bdate'])) $model->birthday=$user['bdate'];
-            if(isset($user['phone'])) $model->phone=$user['phone'];
-            if(isset($user['photo_big'])) {
-                $arrContextOptions=array(
-                    "ssl"=>array(
-                        "verify_peer"=>false,
-                        "verify_peer_name"=>false,
+            if (isset($user['first_name'])) $model->firstName = $user['first_name'];
+            if (isset($user['last_name'])) $model->secondName = $user['last_name'];
+            if (isset($user['nickname'])) $model->nickname = $user['nickname'];
+            if (isset($user['bdate'])) $model->birthday = $user['bdate'];
+            if (isset($user['phone'])) $model->phone = $user['phone'];
+            if (isset($user['photo_big'])) {
+                $arrContextOptions = array(
+                    "ssl" => array(
+                        "verify_peer" => false,
+                        "verify_peer_name" => false,
                     ),
                 );
-                $filesName=uniqid().'.jpg';
-                file_put_contents(Yii::getpathOfAlias('webroot')."/images/avatars/".$filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
-                $model->avatar=$filesName;
+                $filesName = uniqid() . '.jpg';
+                file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
+                $model->avatar = $filesName;
             }
-            if(isset($user['city'])) $model->address=$user['city'];
-            if(isset($user['network'])){
-                switch ($user['network']){
+            if (isset($user['city'])) $model->address = $user['city'];
+            if (isset($user['network'])) {
+                switch ($user['network']) {
                     case 'facebook':
-                        $model->facebook=$user['profile'];
+                        $model->facebook = $user['profile'];
                         break;
                     case 'googleplus':
-                        $model->googleplus=$user['profile'];
+                        $model->googleplus = $user['profile'];
                         break;
                     case 'linkedin':
-                        $model->linkedin=$user['profile'];
+                        $model->linkedin = $user['profile'];
                         break;
                     case 'vkontakte':
-                        $model->vkontakte=$user['profile'];
+                        $model->vkontakte = $user['profile'];
                         break;
                     case 'twitter':
-                        $model->twitter=$user['profile'];
+                        $model->twitter = $user['profile'];
                         break;
                     default:
                         break;
                 }
             }
             $model->status = 1;
-            if($model->validate()) {
+            if ($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
-                $model->email=$user['email'];
-                if($model->socialLogin()){
-                    $userModel=StudentReg::model()->findByPk(Yii::app()->user->getId());
+                $model->email = $user['email'];
+                if ($model->socialLogin()) {
+                    $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
-                    $host = "localhost";
-                    $database="forum";
-                    $user = Yii::app()->db->username;
-                    $password = Yii::app()->db->password;
-                    mysql_connect($host,$user,$password);
-                    mysql_select_db($database);
-                    mysql_query("DELETE FROM phpbb_sessions WHERE session_user_id=1");
-                    $existingForumUser = mysql_num_rows(mysql_query("SELECT user_id FROM phpbb_users WHERE user_id=$userModel->id;"));
-                    if (!$existingForumUser){
-                        $name = $userModel->firstName.' '.$userModel->secondName;
-                        if ($name==' ') $name = $model->email;
+                    Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
+
+                    $existingForumUser = count(
+                        Yii::app()->dbForum->createCommand()
+                            ->select('user_id')
+                            ->from('phpbb_users')
+                            ->where('user_id=:id', array(':id' => $userModel->id))
+                            ->queryAll()
+                    );
+                    if (!$existingForumUser) {
+                        $name = $userModel->firstName . ' ' . $userModel->secondName;
+                        if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        mysql_query("INSERT INTO phpbb_users (user_id, username, username_clean, user_timezone,
-                            user_dateformat, user_regdate, user_lang) VALUES ($userModel->id, '$name', '$name',
-                            'Europe/Kiev', 'd M Y H:i', $reg_time, '$current_lang');");
-                        mysql_query("INSERT INTO phpbb_user_group (group_id, user_id, group_leader, user_pending)
-                            VALUES (2, $userModel->id, 0, 0);");
-                    }else{
-                        mysql_query("UPDATE phpbb_users SET user_lang = '$current_lang' WHERE user_id =$userModel->id;");
+                        Yii::app()->dbForum->insert('phpbb_users', array(
+                            'user_id'=> $userModel->id,
+                            'username'=> $name,
+                            'username_clean' => $name,
+                            'user_timezone' => 'Europe/Kiev',
+                            'user_dateformat' => 'd M Y H:i',
+                            'user_regdate' => $reg_time,
+                            'user_lang' => $current_lang
+                        ));
+
+                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                            'group_id'=> 2,
+                            'user_id'=> $userModel->id,
+                            'group_leader' => 0,
+                            'user_pending' => 0
+                        ));
+                    } else {
+                        Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
+                            'user_lang'=> $current_lang,
+                        ), 'user_id=:id', array(':id' => $userModel->id));
                     }
                     mysql_close();
                     if (!$_COOKIE['cookie_key']) {
-                        foreach ($_SESSION as $key => $value){
+                        foreach ($_SESSION as $key => $value) {
                             if (strpos($key, '__id')) {
                                 $cookie_key = substr($key, 0, strpos($key, '_'));
                                 setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
@@ -414,139 +431,131 @@ class SiteController extends Controller
                         }
                     };
 
-                    if (isset($_SERVER["HTTP_REFERER"])){
-                        if($_SERVER["HTTP_REFERER"]==Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+                    if (isset($_SERVER["HTTP_REFERER"])) {
+                        if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
-                    }
-                    else $this->redirect(Yii::app()->homeUrl);
+                    } else $this->redirect(Yii::app()->homeUrl);
                 }
             }
         }
     }
+
     /* Checking the existence of a token  and lifetime*/
     public function getToken($token)
     {
-        $time=date("Y-m-d H:i:s");
-        $model=StudentReg::model()->findByAttributes(array('token'=>$token));
-        if($model===null)
-            throw new CHttpException(404,Yii::t('exception','0237'));
-        elseif(strtotime($time)-strtotime($model->activkey_lifetime)>1800){
+        $time = date("Y-m-d H:i:s");
+        $model = StudentReg::model()->findByAttributes(array('token' => $token));
+        if ($model === null)
+            throw new CHttpException(404, Yii::t('exception', '0237'));
+        elseif (strtotime($time) - strtotime($model->activkey_lifetime) > 1800) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
-            throw new CHttpException(404,Yii::t('exception','0238'));
-        }
-        else
+            throw new CHttpException(404, Yii::t('exception', '0238'));
+        } else
             return $model;
     }
 
     /* Change password if token true*/
     public function actionVerToken($token)
     {
-        $model=$this->getToken($token);
+        $model = $this->getToken($token);
         $model->setScenario('recoverypass');
-        if(isset($_POST['ajax']) && $_POST['ajax']==='changep-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'changep-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-        if(Yii::app()->request->getPost('StudentReg'))
-        {
-            $post=Yii::app()->request->getPost('StudentReg');
-            if($model->token==Yii::app()->request->getPost('tokenhid')){
-                $model->attributes=Yii::app()->request->getPost('StudentReg');
-                $model->password=$post['new_password'];
-                $model->token=null;
-                $model->activkey_lifetime=null;
-                if($model->validate()) {
+        if (Yii::app()->request->getPost('StudentReg')) {
+            $post = Yii::app()->request->getPost('StudentReg');
+            if ($model->token == Yii::app()->request->getPost('tokenhid')) {
+                $model->attributes = Yii::app()->request->getPost('StudentReg');
+                $model->password = $post['new_password'];
+                $model->token = null;
+                $model->activkey_lifetime = null;
+                if ($model->validate()) {
                     $model->save();
                     $modellogin = new StudentReg('loginuser');
-                    $modellogin->password=$post['new_password'];
-                    $modellogin->email=$model->email;
-                    if(Yii::app()->user->isGuest && $modellogin->login())
+                    $modellogin->password = $post['new_password'];
+                    $modellogin->email = $model->email;
+                    if (Yii::app()->user->isGuest && $modellogin->login())
                         $this->redirect(Yii::app()->createUrl('site/index'));
                     else $this->redirect(Yii::app()->createUrl('studentreg/edit'));
                 }
             }
-        } else{
-            $this->render('resetpass',array(
-                'model'=>$model,
+        } else {
+            $this->render('resetpass', array(
+                'model' => $model,
             ));
         }
     }
-    public function actionVerEmail($token,$email)
+
+    public function actionVerEmail($token, $email)
     {
-        $model=$this->getToken($token);
-        if($model)
-        {
+        $model = $this->getToken($token);
+        if ($model) {
             $model->updateByPk($model->id, array('email' => $email));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
-            if(Yii::app()->user->isGuest && $model->login())
+            if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
             else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
-        }
-        else{
-            $this->render('resetpass',array(
-                'model'=>$model,
+        } else {
+            $this->render('resetpass', array(
+                'model' => $model,
             ));
         }
     }
+
     public function actionRecoveryPass()
     {
         $model = new StudentReg('recovery');
         // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax']==='recovery-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'recovery-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
         // collect user input data
-        $model->attributes=Yii::app()->request->getPost('StudentReg');
-        $getModel= StudentReg::model()->findByAttributes(array('email'=>$model->email));
-        if(Yii::app()->request->getPost('StudentReg'))
-        {
-            $getToken=rand(0, 99999);
-            $getTime=date("Y-m-d H:i:s");
-            $getModel->token=sha1($getToken.$getTime);
+        $model->attributes = Yii::app()->request->getPost('StudentReg');
+        $getModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
+        if (Yii::app()->request->getPost('StudentReg')) {
+            $getToken = rand(0, 99999);
+            $getTime = date("Y-m-d H:i:s");
+            $getModel->token = sha1($getToken . $getTime);
         }
-        if($getModel->validate())
-        {
-            $subject=Yii::t('recovery','0281');
-            $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-            $text=Yii::t('recovery','0239').
-                " ".Yii::app()->params['baseUrl']."/index.php?r=site/vertoken/view&token=".$getModel->token;
-            $getModel->updateByPk($getModel->id, array('token' => $getModel->token,'activkey_lifetime' => $getTime));
-            mail($getModel->email,$subject,$text,$headers);
+        if ($getModel->validate()) {
+            $subject = Yii::t('recovery', '0281');
+            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+            $text = Yii::t('recovery', '0239') .
+                " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
+            $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
+            mail($getModel->email, $subject, $text, $headers);
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
         }
     }
+
     public function actionResetEmail()
     {
-        if(!Yii::app()->user->isGuest){
-            $model=StudentReg::model()->findByPk(Yii::app()->user->id);
+        if (!Yii::app()->user->isGuest) {
+            $model = StudentReg::model()->findByPk(Yii::app()->user->id);
             $modelReset = new StudentReg('resetemail');
             // if it is ajax validation request
-            if(isset($_POST['ajax']) && $_POST['ajax']==='resetemail-form')
-            {
+            if (isset($_POST['ajax']) && $_POST['ajax'] === 'resetemail-form') {
                 echo CActiveForm::validate($modelReset);
                 Yii::app()->end();
             }
             // collect user input data
-            $modelReset->attributes=Yii::app()->request->getPost('StudentReg');
-            if(Yii::app()->request->getPost('StudentReg'))
-            {
-                $getToken=rand(0, 99999);
-                $getTime=date("Y-m-d H:i:s");
-                $model->token=sha1($getToken.$getTime);
+            $modelReset->attributes = Yii::app()->request->getPost('StudentReg');
+            if (Yii::app()->request->getPost('StudentReg')) {
+                $getToken = rand(0, 99999);
+                $getTime = date("Y-m-d H:i:s");
+                $model->token = sha1($getToken . $getTime);
             }
-            if($model->validate())
-            {
-                $subject=Yii::t('recovery','0282');
-                $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
-                $text=Yii::t('recovery','0283').
-                    " ".Yii::app()->params['baseUrl']."/index.php?r=site/veremail/view&token=".$model->token."&email=".$modelReset->email;
-                $model->updateByPk($model->id, array('token' => $model->token,'activkey_lifetime' => $getTime));
-                mail($modelReset->email,$subject,$text,$headers);
+            if ($model->validate()) {
+                $subject = Yii::t('recovery', '0282');
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $text = Yii::t('recovery', '0283') .
+                    " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
+                $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
+                mail($modelReset->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
             }
         }
@@ -554,32 +563,37 @@ class SiteController extends Controller
 
     public function actionActivationinfo($email)
     {
-        $this->render('activationinfo',array(
-            'email'=>$email,
+        $this->render('activationinfo', array(
+            'email' => $email,
         ));
     }
+
     public function actionChangeemailinfo($email)
     {
-        $this->render('changeemailinfo',array(
-            'email'=>$email,
+        $this->render('changeemailinfo', array(
+            'email' => $email,
         ));
     }
+
     public function actionResetpassinfo($email)
     {
-        $this->render('resetpassinfo',array(
-            'email'=>$email,
+        $this->render('resetpassinfo', array(
+            'email' => $email,
         ));
     }
+
     public function actionResetemailinfo()
     {
         $this->render('resetemail');
     }
+
     public function actionNotactivated($email)
     {
-        $this->render('notactivated',array(
-            'email'=>$email,
+        $this->render('notactivated', array(
+            'email' => $email,
         ));
     }
+
     public function actionActivationaccount()
     {
         $this->render('activationaccount');

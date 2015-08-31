@@ -170,6 +170,18 @@ class AccessHelper
         return false;
     }
 
+    public static function isHasAccessFileShare(){
+        if (Yii::app()->user->isGuest){
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        $role = StudentReg::model()->findByPk($user)->role;
+        if ($role == 3 || $role == 1){
+            return true;
+        }
+        return false;
+    }
+
     public static function generateUsersList(){
         $users = StudentReg::model()->findAll();
         $count = count($users);
