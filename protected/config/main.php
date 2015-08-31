@@ -63,19 +63,6 @@ return array(
             //'servers'=>$local_config['memcache_servers'],
 		),
 
-        'autoadmin'=>array(
-            'class'=>'ext.autoadmin.AutoAdmin',
-            'basePath' => dirname(__FILE__).'/../modules/autoadmin',
-            'layout' => 'main',
-            'wwwDirName' => 'www',
-            'dbConnection' => 'db',
-            'dbAdminTablePrefix' => 'aa_',
-            'dbAdminSchema' => 'admin',
-            'authMode' => true,
-            'openMode' => false,
-            'logMode' => true,
-        ),
-
         'messages'=>array(
             'class'=>'CDbMessageSource',
             'sourceMessageTable'=>'sourcemessages',
