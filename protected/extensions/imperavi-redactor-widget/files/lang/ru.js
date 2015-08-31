@@ -75,6 +75,7 @@ $.Redactor.opts.langs['ru'] = {
 	fontfamily: 'Сменить шрифт',
 	close: 'Закрыть',
 	saveB: 'Сохранить',
-    formula: 'Формула LaTeX'
+    formula: 'Формула LaTeX',
+	closefullscreen: 'Закрыть',
 };
 })( jQuery );

@@ -2,7 +2,9 @@
 /* @var $this LessonController */
 /* @var $page LecturePage */
 /* @var $lectureElement LectureElement */
-
+if(!$editMode) {
+    throw new CHttpException(403, Yii::t('errors', 'Вибачте. Ви не маєте прав редагувати цю лекцію.'));
+}
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
 ?>
 <div name="lecturePage">
@@ -62,7 +64,7 @@ if($page->video == null) {?>
     <div id="addBlock">
         <?php
         $lecture = Lecture::model()->findByPk($page->id_lecture);
-        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'countBlocks' => $countBlocks, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
+        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
         ?>
     </div>
     <?php $this->renderPartial('_addFormula', array('idLecture' => $lecture->id, 'pageOrder' => $page->page_order));?>

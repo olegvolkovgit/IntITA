@@ -54,7 +54,7 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
             )),
             'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
                 '_textListTab',
-                array('dataProvider' => $dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => $user), true
+                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
             )),
         ),
         // additional javascript options for the tabs plugin

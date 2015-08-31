@@ -1,5 +1,5 @@
 <?php
-
+$local_config = require(dirname(__FILE__).'/local.php');
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array(
@@ -13,7 +13,7 @@ return array(
 	'components'=>array(
 
 		// database settings are configured in database.php
-		'db'=>require(dirname(__FILE__).'/database.php'),
+		'db'=>$local_config['db'],
 
 		'log'=>array(
 			'class'=>'CLogRouter',

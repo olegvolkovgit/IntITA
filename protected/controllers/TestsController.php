@@ -2,10 +2,10 @@
 
 class TestsController extends Controller
 {
-	public function actionAddTest()
-	{
+    public function actionAddTest()
+    {
         $lecture = Yii::app()->request->getPost('lectureId', 0);
-        $condition =  Yii::app()->request->getPost('condition', '');
+        $condition = Yii::app()->request->getPost('condition', '');
         $testTitle = Yii::app()->request->getPost('testTitle', '');
         $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
         $isFinal = Yii::app()->request->getPost('testType', 'plain');
@@ -13,10 +13,10 @@ class TestsController extends Controller
 
         $options = [];
 
-        for ($i = 0; $i < $optionsNum; $i++){
-            $temp = "option".($i+1);
+        for ($i = 0; $i < $optionsNum; $i++) {
+            $temp = "option" . ($i + 1);
             $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
-            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
+            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer" . ($i + 1), 0);
         }
         $author = Yii::app()->request->getPost('author', 0);
 
@@ -29,22 +29,22 @@ class TestsController extends Controller
         }
 
 
-
         $this->redirect(Yii::app()->request->urlReferrer);
-	}
+    }
+
     public function actionEditTest()
     {
-        $idBlock =  Yii::app()->request->getPost('idBlock', 0);
-        $condition =  Yii::app()->request->getPost('condition', '');
+        $idBlock = Yii::app()->request->getPost('idBlock', 0);
+        $condition = Yii::app()->request->getPost('condition', '');
         $testTitle = Yii::app()->request->getPost('testTitle', '');
         $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
 
         $options = [];
 
-        for ($i = 0; $i < $optionsNum; $i++){
-            $temp = "option".($i+1);
+        for ($i = 0; $i < $optionsNum; $i++) {
+            $temp = "option" . ($i + 1);
             $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
-            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
+            $options[$i]["isTrue"] = Yii::app()->request->getPost("answer" . ($i + 1), 0);
         }
 
         if (LectureElement::editTestBlock($idBlock, $condition)) {
@@ -55,21 +55,30 @@ class TestsController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionCheckTestAnswer(){
+    public function actionCheckTestAnswer()
+    {
         $emptyanswers = [];
-        $user = Yii::app()->request->getPost('user', '');
-        $test =  Yii::app()->request->getPost('test', '');
+        $user = Yii::app()->request->getPost('user', 0);
+        $test = Yii::app()->request->getPost('test', '');
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
         $testType = Yii::app()->request->getPost('testType', 1);
-        $editMode =  Yii::app()->request->getPost('editMode', 0);
+        $editMode = Yii::app()->request->getPost('editMode', 0);
 
-        if ($editMode == 0) {
-            if (TestsAnswers::checkTestAnswer($user, $test, $answers, $testType)) {
-                TestsMarks::addTestMark($user, $test, 1);
-            } else {
-                TestsMarks::addTestMark($user, $test, 0);
+
+        if (TestsAnswers::checkTestAnswer($user, $test, $answers, $testType)) {
+            if (!$user) {
+                if (!$editMode) {
+                    TestsMarks::addTestMark($user, $test, 1);
+                }
+            }
+        } else {
+            if (!$user) {
+                if (!$editMode) {
+                    TestsMarks::addTestMark($user, $test, 0);
+                }
             }
         }
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -87,14 +96,15 @@ class TestsController extends Controller
     /*
      * Receive user and test id by post, get last test mark for this user/test  and send JSON with mark.
      */
-    public function actionGetTestResult(){
+    public function actionGetTestResult()
+    {
         $rawdata = file_get_contents('php://input');
 
         $request = json_decode($rawdata);
         $user = $request->user;
-        $test =  $request->test;
+        $test = $request->test;
 
-        if (TestsMarks::model()->exists('id_user =:user and id_test =:test', array(':user' => $user, ':test' => $test))){
+        if (TestsMarks::model()->exists('id_user =:user and id_test =:test', array(':user' => $user, ':test' => $test))) {
             $criteria = new CDbCriteria;
             $criteria->order = 'id DESC';
 
@@ -117,10 +127,11 @@ class TestsController extends Controller
         echo json_encode($resultJSON);
     }
 
-    public function actionUnableTest(){
+    public function actionUnableTest()
+    {
         $pageId = Yii::app()->request->getPost('pageId', 0);
 
-        if($pageId != 0){
+        if ($pageId != 0) {
             LecturePage::unableQuiz($pageId);
         }
     }
