@@ -1,12 +1,20 @@
 <?php
-Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
+if (!($lecture->isFree)) {
+    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
+}else{
+    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
+}
 Yii::app()->clientScript->registerMetaTag( $lecture->getCourseInfoById($idCourse)['courseTitle'], null, null, array('property' => "og:title"));
 Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')), null, null, array('property' => "og:image"));
 ?>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php echo Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)) ?>"
+         data-url="<?php if (!($lecture->isFree)) {
+             echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse));
+         }else{
+             echo Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse));
+         } ?>"
          data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
@@ -91,9 +99,9 @@ $this->breadcrumbs=array(
             $this->renderPartial('_startEditButton', array('block' => 1));
         }
         if (isset($_GET['editPage'])){
-            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'countBlocks' => $countBlocks, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse']));
+            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
         }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page, 'countBlocks' => $countBlocks, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+            $this->renderPartial('_lecturePageTabs', array('page' => $page, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
         }
         ?>
 

@@ -60,6 +60,9 @@
                 'close' => array(
                     'js' => array('close.js',),
                 ),
+                'closefullscreen' => array(
+                    'js' => array('closefullscreen.js',),
+                ),
             ),
         ));
 

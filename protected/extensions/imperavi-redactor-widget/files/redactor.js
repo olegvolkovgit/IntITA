@@ -257,6 +257,7 @@
 		langs: {
 			en: {
 				fullscreen: 'Fullscreen',
+				closefullscreen: 'Close',
 				fontsize: 'Change Font Size',
 				fontfamily: 'Change Font Family',
 				close: 'Close',
@@ -412,6 +413,7 @@
 				close: 'Закрыть',
 				saveB: 'Сохранить',
                 formula: 'Формула LaTeX',
+				closefullscreen: 'Закрить',
 			}
 		},
 

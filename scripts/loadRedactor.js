@@ -98,7 +98,8 @@ function getIdName() {
                           'fullscreen',
                           'formula',
                           'save',
-                          'close'],
+                          'close',
+                          'closefullscreen'],
                 formattingAdd: [
                     {
                         tag: 'pre',
