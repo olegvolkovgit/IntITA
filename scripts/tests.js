@@ -78,9 +78,8 @@ function sendTestAnswer(checkAnswers, user, test, testType, editMode){
             },
             cache: false,
             success: function () {
-                if (editMode == 0) {
                     isTrueTestAnswer(user, test);
-                }
+
             }
         });
 }
