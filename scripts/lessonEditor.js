@@ -44,7 +44,7 @@ function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
         return false;
     } else {
-        location.href='/course'+course+'/lecture'+lecture+'/page'+editPage;
+        location.href='/courses/course'+course+'/lecture'+lecture+'/page'+editPage;
     }
 }
 
@@ -118,7 +118,7 @@ function deletePage(lecture, page, course){
             }
         });
     }
-    location.href='/course'+course+'/lecture'+lecture+'/page1';
+    location.href='/courses/course'+course+'/lecture'+lecture+'/page1';
 }
 
 function upPage(idLecture, pageOrder, course){

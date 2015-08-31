@@ -352,8 +352,7 @@ body .redactor-box-fullscreen {
   content: url(/images/editor/formula1.png);
 }
 .re-closefullscreen:before {
-  /*content: url(/images/editor/close.png);*/
-  content: "\f00d";
+  content: url(/images/editor/close.png);
 }
 /*
 	Toolbar tooltip

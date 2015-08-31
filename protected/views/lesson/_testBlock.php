@@ -32,7 +32,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
                         <?php echo TestsHelper::getTestId($data['id_block'])?>,
                         <?php echo $testType;?>,
                         <?php echo ($editMode)?1:0;?>
-                        );' <?php if($editMode || $user == 0){ echo "disabled";}?> >
+                        );' <?php if($editMode){ echo "disabled";}?> >
                         <?php echo Yii::t('lecture', '0089'); ?>
                     </button>
                 </div>

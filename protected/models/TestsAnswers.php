@@ -162,7 +162,7 @@ class TestsAnswers extends CActiveRecord
 		}
     }
 
-    public static function checkTestAnswer($user, $test, $userAnswers, $testType){
+    public static function checkTestAnswer($test, $userAnswers){
 
 		if(!is_array($userAnswers)){
 			$userAns=array($userAnswers);

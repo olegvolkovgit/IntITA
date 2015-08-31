@@ -63,8 +63,8 @@ class TestsController extends Controller
         $testType = Yii::app()->request->getPost('testType', 1);
         $editMode =  Yii::app()->request->getPost('editMode', 0);
 
-        if ($editMode == 0) {
-            if (TestsAnswers::checkTestAnswer($user, $test, $answers, $testType)) {
+        if ($editMode == 0 & $user!=0) {
+            if (TestsAnswers::checkTestAnswer($test, $answers)) {
                 TestsMarks::addTestMark($user, $test, 1);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);
@@ -104,6 +104,29 @@ class TestsController extends Controller
             )->mark;
         } else {
             $result = "not found";
+        }
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+
+        $resultJSON = array(
+            "user" => $user,
+            "test" => $test,
+            "status" => $result,
+        );
+        echo json_encode($resultJSON);
+    }
+    public function actionGetGuestTestResult(){
+        $rawdata = file_get_contents('php://input');
+
+        $request = json_decode($rawdata);
+        $user = $request->user;
+        $test =  $request->test;
+        $answers=  $request->answers;
+        if (TestsAnswers::checkTestAnswer($test, $answers)){
+            $result = 1;
+        } else {
+            $result = 0;
         }
 
         header("Access-Control-Allow-Origin: *");
