@@ -4,12 +4,12 @@ class m150831_150419_add_column_is_checked_to_response_table extends CDbMigratio
 {
 	public function up()
 	{
+        $this->addColumn('response', 'is_checked', 'TINYINT(1) NULL DEFAULT 0');
 	}
 
 	public function down()
 	{
-		echo "m150831_150419_add_column_is_checked_to_response_table does not support migration down.\n";
-		return false;
+        $this->dropColumn('response', 'is_checked');
 	}
 
 	/*
