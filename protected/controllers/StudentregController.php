@@ -174,10 +174,10 @@ class StudentRegController extends Controller
                 } else{
                     $model->save();
                     $subject=Yii::t('activeemail','0298');
-                    $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                    $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@intita.com";
                     $text=Yii::t('activeemail','0299').
                         " ".Yii::app()->params['baseUrl']."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
-                    mail($model->email,$subject,$text,$headers,"-f no-reply@intita.com");
+                    mail($model->email,$subject,$text,$headers);
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 }
             } else {
