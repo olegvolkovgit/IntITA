@@ -12,6 +12,9 @@ class LessonController extends Controller
             if (Yii::app()->user->isGuest) {
                 throw new CHttpException(403, Yii::t('errors', '0138'));
             } else {
+                if(AccessHelper::isAdmin()){
+                    return true;
+                }
                 if (AccessHelper::getRole(Yii::app()->user->getId()) == 'викладач') {
                     if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule))
                         return true;

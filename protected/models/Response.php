@@ -14,6 +14,7 @@
  * @property integer $behavior
  * @property integer $motivation
  * @property string $who_ip
+ * @property integer $is_checked
  *
  * The followings are the available model relations:
  * @property User $who0
@@ -42,11 +43,11 @@ class Response extends CActiveRecord
             array('behavior', 'required', 'message'=>'ефективність викладача','except'=>'emptyrating'),
             array('motivation', 'required', 'message'=>'ставлення викладача до студента','except'=>'emptyrating'),
             array('text', 'required', 'message'=>Yii::t("response", "0544")),
-			array('who, about, rate', 'numerical', 'integerOnly'=>true),
+			array('who, about, rate,  is_checked', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, who, about, date, text, rate', 'safe', 'on'=>'search'),
+
+			array('id, who, about, date, text, rate, is_checked', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,11 +71,12 @@ class Response extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'who' => 'Who',
-			'about' => 'About',
-			'date' => 'Date',
-			'text' => 'Text',
-			'rate' => 'Rate',
+			'who' => 'Автор відгука',
+			'about' => 'Про кого відгук',
+			'date' => 'Дата',
+			'text' => 'Відгук',
+			'rate' => 'Оцінка',
+            'is_checked' => 'Перевірено модератором',
 		);
 	}
 
@@ -102,10 +104,11 @@ class Response extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('rate',$this->rate);
-        $criteria->compare('rate',$this->knowledge);
-        $criteria->compare('rate',$this->behavior);
-        $criteria->compare('rate',$this->motivation);
+        $criteria->compare('knowledge',$this->knowledge);
+        $criteria->compare('behavior',$this->behavior);
+        $criteria->compare('motivation',$this->motivation);
         $criteria->compare('rate',$this->who_ip);
+        $criteria->compare('is_checked',$this->is_checked);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
