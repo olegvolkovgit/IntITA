@@ -197,7 +197,7 @@ class SiteController extends Controller
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
                 $text = Yii::t('activeemail', '0299') .
                     " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email;
-                mail($model->email, $subject, $text, $headers);
+                mail($model->email, $subject, $text, $headers,"-f no-reply@intita.com");
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
                 Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
