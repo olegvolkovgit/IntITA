@@ -177,6 +177,9 @@ margin-left:10px;
     margin-top: -20px;
     float:left;
 }
+.editToolbar img{
+    cursor:pointer;
+}
 .editButton{
     float:right;
     display:inline;
