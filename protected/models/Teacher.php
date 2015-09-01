@@ -90,7 +90,7 @@ class Teacher extends CActiveRecord
             'rate_efficiency' => 'Рівень ефективності',
             'rate_relations' => 'Рівень відношення',
             'user_id' => 'ID користувача',
-            'isPrint' => 'Публікувати',
+            'isPrint' => 'Статус',
         );
     }
     /**
