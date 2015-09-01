@@ -72,7 +72,7 @@ class Response extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'who' => 'Автор відгука',
-			'about' => 'Про кого відгук',
+			'about' => 'Про кого',
 			'date' => 'Дата',
 			'text' => 'Відгук',
 			'rate' => 'Оцінка',
@@ -112,6 +112,14 @@ class Response extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize' => '50',
+            ),
+            'sort'=>array(
+                'defaultOrder'=>array(
+                    'date'=>CSort::SORT_DESC,
+                ),
+            ),
 		));
 	}
 

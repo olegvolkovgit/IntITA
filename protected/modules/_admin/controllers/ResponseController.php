@@ -139,4 +139,32 @@ class ResponseController extends CController
 			Yii::app()->end();
 		}
 	}
+
+    public function actionSetPublish($id)
+    {
+        Response::model()->updateByPk($id, array('is_checked' => 1));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionUnsetPublish($id)
+    {
+        Response::model()->updateByPk($id, array('is_checked' => 0));
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+
+    public function actionUpdateResponseText($id){
+        Response::model()->updateByPk($id, array(
+            'text' => $_POST['Response']['text'],
+            'is_checked' => $_POST['Response']['is_checked']
+        ));
+
+        $this->actionView($id);
+    }
 }
