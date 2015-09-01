@@ -13,7 +13,8 @@ class ProfileController extends Controller
         $teacher = Teacher::model()->findByPk($idTeacher);
 
         $response = new Response();
-        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID and is_checked = 1', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+
 
         if (isset($_POST['Response'])) {
             $response->attributes=$_POST["Response"];
@@ -72,7 +73,7 @@ class ProfileController extends Controller
         }
         $criteria= new CDbCriteria;
         $criteria->order = 'date DESC';
-        $criteria->condition = 'about='.$teacher->user_id;
+        $criteria->condition = 'about='.$teacher->user_id." and is_checked = 1";
 
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,
