@@ -108,6 +108,10 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('baseUrl');
     }
 
+    public static function getBaseUrlWithoutSchema(){
+        return Yii::app()->config->get('baseUrlWithoutSchema');
+    }
+
     public static function getAdminEmail(){
         return Yii::app()->config->get('adminEmail');
     }
