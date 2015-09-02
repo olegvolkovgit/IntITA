@@ -46,28 +46,6 @@
     underline.className = "downmain";
     but.className = "";
     document.getElementById('logo').src=logolang;
-//    window.onscroll = function() {
-//        var pageY = window.pageYOffset || document.documentElement.scrollTop;
-//        if (pageY >= key.offsetHeight) {
-//            document.getElementById('logo').src="<?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png');?>//";
-//            key.className = "downmain";
-//            logo.className = "downmain";
-//            nav.className = "downmain";
-//            border.className = "downmain";
-//            lang.className = "downmain";
-//            underline.className = "downmain";
-//            but.className = "downmain";
-//        } else {
-//            document.getElementById('logo').src=logolang;
-//            border.className = "";
-//            key.className = "";
-//            logo.className = "";
-//            nav.className = "";
-//            lang.className = "";
-//            underline.className = "";
-//            but.className = "";
-//        }
-//    }
 </script>
 
 <div id="sliderCenterBox">
@@ -92,42 +70,16 @@
     </div>
 </div>
 <div id="slider" class="owl-carousel">
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0027'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '1.jpg'); ?>" />
+    <?php
+    foreach($sliderPictures as $key){?>
+        <div class="slide">
+            <div>
+                <p><?php echo Yii::t('slider','0027'); ?></p>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>" />
+            </div>
         </div>
-    </div>
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0028'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '2.jpg'); ?>" />
-        </div>
-    </div>
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0029'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '3.jpg'); ?>" />
-        </div>
-    </div>
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0030'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '4.jpg'); ?>" />
-        </div>
-    </div>
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0559'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '9.jpg'); ?>" />
-        </div>
-    </div>
-    <div class="slide">
-        <div>
-            <p><?php echo Yii::t('slider','0560'); ?></p>
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', '10.jpg'); ?>" />
-        </div>
-    </div>
+    <?php }
+    ?>
 </div>
 <div class="mouseLine">
     <a id="mouseLine" <?php echo AccessHelper::LinkInMouseLine(); ?>><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>

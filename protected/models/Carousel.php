@@ -78,6 +78,9 @@ class Carousel extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array(
+                'defaultOrder'=>'order ASC',
+            )
 		));
 	}
 
@@ -91,4 +94,8 @@ class Carousel extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getAllPictures(){
+        return Carousel::model()->findAll();
+    }
 }

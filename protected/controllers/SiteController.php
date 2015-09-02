@@ -44,12 +44,14 @@ class SiteController extends Controller
 
         $arraySteps = $this->initSteps();
         $arrayAboutUs = $this->initAboutus();
+        $sliderPictures = Carousel::getAllPictures();
 
         $this->render('index', array(
             'mainpageModel' => $mainpage,
             'mainpage' => array(
                 'stepSize' => "958px",
             ),
+            'sliderPictures' => $sliderPictures,
             'block1' => $arrayAboutUs['objAbout1'],
             'block2' => $arrayAboutUs['objAbout2'],
             'block3' => $arrayAboutUs['objAbout3'],
