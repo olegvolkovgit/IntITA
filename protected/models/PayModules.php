@@ -41,7 +41,6 @@ class PayModules extends CActiveRecord
 			array('id_user, id_module, rights', 'required'),
 			array('id_user, id_module, rights', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_user, id_module, rights', 'safe', 'on'=>'search'),
 		);
 	}
@@ -205,6 +204,7 @@ class PayModules extends CActiveRecord
             ));
         }
     }
+
     public function setModuleRead($idUser, $idResource){
         $model = new PayModules();
         if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource))) {
@@ -214,6 +214,13 @@ class PayModules extends CActiveRecord
         } else {
             $model->setModulePermission($idUser, $idResource, array('read'));
         }
-}
+    }
+
+    public static function unsetModulePermission($idUser, $idResource, $rights){
+        if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource)))
+        {
+            PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => 0));
+        }
+    }
 
 }

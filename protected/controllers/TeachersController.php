@@ -179,7 +179,7 @@ class TeachersController extends Controller
             $title = "Teacher_Work " . $obj->firstname . " " . $obj->lastname;
             $mess = "Ім'я: " . $obj->firstname . " " . $obj->lastname . "\r\n" . "Дата народження: " . $obj->age . "\r\n" . "Освіта: " . $obj->education . "\r\n" . "Телефон: " . $obj->phone . "\r\n" . "Курси які готовий викладати: " . $obj->courses;
             // $to - кому отправляем
-            $to = Yii::app()->params['adminEmail'];
+            $to = Config::getAdminEmail();
             // функция, которая отправляет наше письмо.
             mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
             Yii::app()->user->setFlash('messagemail', Yii::t('teachers', '0564'));

@@ -49,15 +49,15 @@ body .grid-view table.items td.deleteButton{
     display:table-cell;
     text-align:center;
     cursor: pointer;
-    margin-left: 700px;
+    margin-left: 950px;
     float: left;
     margin-top: -30px;
 }
 
-#addNewTeacher{
+#cancelAuthorModule{
     width: 200px;
     background: #4b70a3;
-    border-radius: 10px;
+    border-radius:   10px;
     color: white;
     font: 16px/30px "MyriadPro";
     text-decoration: none;
@@ -79,7 +79,7 @@ body .grid-view table.items td.deleteButton{
     display:table-cell;
     text-align:center;
     cursor: pointer;
-    margin-left: 450px;
+    margin-left: 700px;
     float: left;
     margin-top: -30px;
 }
@@ -100,7 +100,7 @@ body .grid-view table.items td.deleteButton{
 #addAccess{
     display: none;
 }
-#addTeacherAccess{
+#addTeacherAccess, #cancelTeacherAccess{
     display: none;
 }
 
@@ -134,7 +134,7 @@ body .grid-view table.items td.deleteButton{
     margin-left: 0px;
 }
 /*---------------Add new record (permissions/add)-------------------*/
-#addAccessModule select,#addTeacherAccess select,#addAccess select{
+#addAccessModule select,#addTeacherAccess select,#addAccess select, #cancelTeacherAccess select{
     max-width: 250px;
 }
 #freeLecturesGrid .items td.titleLecture{

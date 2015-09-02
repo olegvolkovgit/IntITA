@@ -350,4 +350,54 @@ class PermissionsController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    public function actionShowTeacherModules(){
+        $first = '<select name="module1">';
+
+        $modulelist = [];
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'teacher_modules';
+        $criteria->select = 'idModule';
+        $criteria->distinct = true;
+        $criteria->addCondition('idTeacher='.$_POST['teacher']);
+        $temp = TeacherModule::model()->findAll($criteria);
+        for($i = 0; $i < count($temp);$i++){
+            array_push($modulelist, $temp[$i]->idModule);
+        }
+
+        $titleParam = ModuleHelper::getModuleTitleParam();
+
+        $criteriaData= new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $result = $first.'<option value="">Всі модулі</option>
+                   <optgroup label="Виберіть модуль">';
+        $rows = Module::model()->findAll($criteriaData);
+        foreach ($rows as $numRow => $row) {
+            if($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result.'<option value="'.$row['module_ID'].'">'.$row[$title].'</option>';
+        };
+        $last = '</select>';
+        echo $result.$last;
+    }
+
+
+    public function actionCancelTeacherPermission(){
+        $teacher = Yii::app()->request->getPost('teacher');
+        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
+
+        $module = Yii::app()->request->getPost('module1');
+        TeacherModule::cancelTeacherAccess($teacher, $module);
+
+        $permission = new PayModules();
+        $permission->unsetModulePermission(
+            $userId,
+            $module,
+            array('read', 'edit'));
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }
