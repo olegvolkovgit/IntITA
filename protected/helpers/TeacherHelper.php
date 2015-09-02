@@ -176,4 +176,9 @@ class TeacherHelper
             return 0;
         }
     }
+
+    public static function getTeacherNameByUserId($user){
+        $idTeacher = TeacherHelper::getTeacherId($user);
+        return TeacherHelper::getTeacherName($idTeacher);
+    }
 }

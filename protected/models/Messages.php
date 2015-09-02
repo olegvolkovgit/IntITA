@@ -34,7 +34,6 @@ class Messages extends CActiveRecord
 			array('id', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>16),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_record, id, language, translation', 'safe', 'on'=>'search'),
 		);
 	}
@@ -57,10 +56,10 @@ class Messages extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_record' => 'Id Record',
-			'id' => 'ID',
-			'language' => 'Language',
-			'translation' => 'Translation',
+			'id_record' => 'Id запису',
+			'id' => 'ID повідомлення',
+			'language' => 'Мова',
+			'translation' => 'Переклад',
 		);
 	}
 

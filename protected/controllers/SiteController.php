@@ -297,7 +297,7 @@ class SiteController extends Controller
                     };
 
                     if (isset($_SERVER["HTTP_REFERER"])) {
-                        if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+                        if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
                     } else $this->redirect(Yii::app()->homeUrl);
                 }
@@ -334,7 +334,7 @@ class SiteController extends Controller
         $model->email = $user['email'];
         if ($model->socialLogin()) {
             if (isset($_SERVER["HTTP_REFERER"])) {
-                if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+                if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
             } else $this->redirect(Yii::app()->homeUrl);
         } else {
@@ -432,7 +432,7 @@ class SiteController extends Controller
                     };
 
                     if (isset($_SERVER["HTTP_REFERER"])) {
-                        if ($_SERVER["HTTP_REFERER"] == Yii::app()->params['openDialogPath']) $this->redirect(Yii::app()->homeUrl);
+                        if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
                     } else $this->redirect(Yii::app()->homeUrl);
                 }

@@ -13,7 +13,8 @@ class ProfileController extends Controller
         $teacher = Teacher::model()->findByPk($idTeacher);
 
         $response = new Response();
-        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID and is_checked = 1', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+
 
         if (isset($_POST['Response'])) {
             $response->attributes=$_POST["Response"];
@@ -72,7 +73,7 @@ class ProfileController extends Controller
         }
         $criteria= new CDbCriteria;
         $criteria->order = 'date DESC';
-        $criteria->condition = 'about='.$teacher->user_id;
+        $criteria->condition = 'about='.$teacher->user_id." and is_checked = 1";
 
         $dataProvider = new CActiveDataProvider('Response', array(
             'criteria'=>$criteria,
@@ -139,7 +140,7 @@ class ProfileController extends Controller
                     "Reply-To: {$model->email}\r\n".
                     "MIME-Version: 1.0\r\n".
                     "Content-Type: text/plain; charset=UTF-8";
-                mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
+                mail(Config::getAdminEmail(),$subject,$model->body,$headers);
                 Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
                 $this->refresh();
             }

@@ -108,4 +108,11 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('baseUrl');
     }
 
+    public static function getAdminEmail(){
+        return Yii::app()->config->get('adminEmail');
+    }
+
+    public static function getOpenDialogPath(){
+        return Yii::app()->config->get('openDialogPath');
+    }
 }

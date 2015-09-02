@@ -55,7 +55,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
+		<?php echo CHtml::submitButton('Зберегти'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

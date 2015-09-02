@@ -11,7 +11,7 @@
         'htmlOptions'=>array(
             'class'=>'formatted-form',
             'enctype'=>'multipart/form-data',
-            //'method'=>'POST',
+            'method'=>'POST',
         ),
         // Please note: When you enable ajax validation, make sure the corresponding
         // controller action is handling ajax validation correctly.

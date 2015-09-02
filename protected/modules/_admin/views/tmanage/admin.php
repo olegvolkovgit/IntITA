@@ -53,6 +53,7 @@ $('.search-form form').submit(function(){
         'middle_name',
         'last_name',
         'foto_url',
+        'isPrint',
         array(
             'class'=>'CButtonColumn',
             'deleteConfirmation'=>'Ви підтверджуєте видалення викладача {$data->first_name." ".$data->last_name}?',
