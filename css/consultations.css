@@ -401,6 +401,7 @@ div#timeInfo{
     position: relative;
     display: inline-block;
     width: 90px;
+    height: 90px;
 }
 .leftBlock img.mask{
     position: absolute;
