@@ -194,7 +194,7 @@ class SiteController extends Controller
             if ($model->validate()) {
                 $model->save();
                 $subject = Yii::t('activeemail', '0298');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@intita.com";
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
                     " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email;
                 mail($model->email, $subject, $text, $headers);
@@ -523,7 +523,7 @@ class SiteController extends Controller
         }
         if ($getModel->validate()) {
             $subject = Yii::t('recovery', '0281');
-            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
             $text = Yii::t('recovery', '0239') .
                 " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
@@ -551,7 +551,7 @@ class SiteController extends Controller
             }
             if ($model->validate()) {
                 $subject = Yii::t('recovery', '0282');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: IntITA";
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('recovery', '0283') .
                     " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
