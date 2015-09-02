@@ -29,7 +29,7 @@ class StaticFilesHelper {
     }
 
     public static function createImagePath($subcategory, $name){
-        $path = Yii::app()->params['imagesPath'];
+        $path = Config::getImagesPath();
         switch($subcategory){
             case "editor":
                 $path = $path.'/editor/'.$name;
@@ -105,7 +105,7 @@ class StaticFilesHelper {
         return Yii::app()->params['commonPath'].'/'.$name;
     }
 
-    public static function createAvatarsPath($name){
+    public static function createAvatarsPath(){
         $path = Yii::app()->params['avatarsPath'];
         return $path;
     }

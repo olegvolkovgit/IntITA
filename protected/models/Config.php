@@ -119,4 +119,8 @@ class Config extends CActiveRecord
     public static function getOpenDialogPath(){
         return Yii::app()->config->get('openDialogPath');
     }
+
+    public static function getImagesPath(){
+        return Yii::app()->config->get('imagesPath');
+    }
 }
