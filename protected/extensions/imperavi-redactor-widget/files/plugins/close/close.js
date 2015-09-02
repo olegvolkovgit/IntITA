@@ -16,6 +16,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			},
 			testButton: function(buttonName)
 			{
+				$('#formulaBox').remove();
 				this.core.destroy();
 			}
 		};

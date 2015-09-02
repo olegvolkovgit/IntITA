@@ -68,9 +68,14 @@ function showBlockForm(){
     document.getElementById('blockForm').style.display = 'block';
 }
 
-function addFormula(){
-    document.getElementById('divAddFormula').style.display =  "block";
-    OpenLatexEditor('newFormula','latex','uk_uk', 'true');
+function addFormula(type){
+    //document.getElementById('divAddFormula').style.display =  "block";
+    document.getElementById('addBlock').style.display = 'block';
+    document.getElementById('textBlockForm').style.display = 'block';
+    document.getElementById('blockForm').style.display = 'block';
+    document.getElementById('blockType').value = type;
+    $('#addBlock').find('.redactor-editor').attr('data-target','insert');
+    OpenLatexEditor('formulaContainer','latex','uk_uk', true);
 }
 
 function cancelAddFormula(){
@@ -99,6 +104,7 @@ function addTextBlock(type){
     document.getElementById('textBlockForm').style.display = 'block';
     document.getElementById('blockForm').style.display = 'block';
     document.getElementById('blockType').value = type;
+    $('#addBlock').find('.redactor-editor').attr('data-target','insert');
 }
 
 function addVideo(){

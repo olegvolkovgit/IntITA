@@ -282,3 +282,13 @@ margin-left:10px;
     color: #222222;
     font-weight: bold;
 }
+.container{
+    display: block;
+    overflow: hidden;
+    height: 80px;
+}
+textarea#formulaContainer{
+    min-width: 280px;
+    height: 30px;
+    resize: none;
+}

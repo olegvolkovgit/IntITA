@@ -72,6 +72,16 @@ function getIdName() {
     var edit = this.hasAttribute("contenteditable");
     if(edit == false){
         loadTextRedactor();
+        $(order).attr('data-target','insertE');
+        $(order).parent().after('<div class="container" id="formulaBox">'+
+                 '<div class="inner">'+
+                     '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer"></textarea>'+
+                     '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
+                 '</div>'+
+            '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте формулу</div>'+
+            '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
+            '</div>'
+        );
     }
 }
         function loadTextRedactor()
@@ -160,3 +170,38 @@ function getIdName() {
         }
 }
 
+
+function insertFormulaE(){
+    var $content = $('[data-target="insertE"]'),
+        $source = $('[data-source="insertE"]');
+
+        $content.trigger('focus');
+        insertHTMLE($source.val());
+}
+
+function insertHTMLE(html) {
+    try {
+        $('[data-target="insertE"]').focus();
+        if($("#inlineFormulaE").prop("checked")){
+            html = html.replace("\\[","$");
+            html = html.replace("\\]","$");
+        }
+        var selection = window.getSelection(),
+            range = selection.getRangeAt(0),
+            temp = document.createElement('div'),
+            insertion = document.createDocumentFragment();
+
+        temp.innerHTML = html;
+
+        while (temp.firstChild) {
+            insertion.appendChild(temp.firstChild);
+        }
+
+        range.deleteContents();
+        range.insertNode(insertion);
+    } catch (z) {
+        try {
+            document.selection.createRange().pasteHTML(html);
+        } catch (z) {}
+    }
+}
