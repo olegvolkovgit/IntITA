@@ -46,10 +46,6 @@ if (!isset($tab)) $tab = 0;
     )); ?>
     <?php
     if (!isset($tempEmail)) $tempEmail = $_POST['StudentReg']['email'];
-    if (!isset($tempPass)) {
-        $tempPass = $_POST['StudentReg']['password'];
-        $tempPass2 = $_POST['StudentReg']['password_repeat'];
-    } else $tempPass2 = $tempPass;
     ?>
     <div class="studProf">
         <table class="titleProfile">
@@ -114,13 +110,13 @@ if (!isset($tab)) $tab = 0;
                     <div class="rowPass">
                         <?php echo $form->labelEx($model, 'password'); ?>
                         <span
-                            class="passEye"><?php echo $form->passwordField($model, 'password', array('value' => $tempPass, 'maxlength' => 20)); ?></span>
+                            class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20)); ?></span>
                         <?php echo $form->error($model, 'password'); ?>
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'password_repeat'); ?>
                         <span
-                            class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('value' => $tempPass2, 'maxlength' => 20)); ?></span>
+                            class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20)); ?></span>
                         <?php echo $form->error($model, 'password_repeat'); ?>
                     </div>
                 </div>

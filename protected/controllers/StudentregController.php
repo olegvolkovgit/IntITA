@@ -93,7 +93,7 @@ class StudentRegController extends Controller
      * Lists all models.
      */
 
-    public function actionIndex($tempEmail='',$tempPass='')
+    public function actionIndex($tempEmail='')
     {
         $tab=0;
         $model=new StudentReg('reguser');
@@ -185,7 +185,7 @@ class StudentRegController extends Controller
             }
         }else {
             $model->addError('empty', 'Дані не введені');
-            $this->render("studentreg", array('model'=>$model, 'tempEmail'=>$tempEmail, 'tempPass'=>$tempPass));
+            $this->render("studentreg", array('model'=>$model, 'tempEmail'=>$tempEmail));
         }
     }
 
