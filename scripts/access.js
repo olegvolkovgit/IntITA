@@ -1,56 +1,83 @@
 /**
  * Created by Ivanna on 25.05.2015.
  */
-function addAccess(){
+function addAccess() {
     document.getElementById('addAccess').style.display = 'block';
 }
 
-function addTeacherAccess(){
+function addTeacherAccess() {
     document.getElementById('addTeacherAccess').style.display = 'block';
 }
 
-function changeUserStatus(){
+function cancelTeacherAccess() {
+    document.getElementById('cancelTeacherAccess').style.display = 'block';
+}
+
+function selectTeacherModules() {
+    var teacher = $('select[name="teacher"]').val();
+    if (!teacher) {
+        $('div[name="teacherModules"]').html('');
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/_admin/permissions/showTeacherModules",
+            data: {teacher: teacher},
+            cache: false,
+            success: function (response) {
+                $('div[name="teacherModules"]').html(response);
+            }
+        });
+    }
+}
+
+function changeUserStatus() {
     document.getElementById('').style.display = 'block';
 }
 
-function selectModule(){
+function selectModule() {
     var course = $('select[name="course"]').val();
-    if(!course){
+    if (!course) {
         $('div[name="selectModule"]').html('');
         $('div[name="selectLecture"]').html('');
-    }else{
+    } else {
         $.ajax({
             type: "POST",
             url: "/_admin/permissions/showModules",
             data: {course: course},
             cache: false,
-            success: function(response){ $('div[name="selectModule"]').html(response); }
+            success: function (response) {
+                $('div[name="selectModule"]').html(response);
+            }
         });
     }
 }
 
-function selectModule1(){
+function selectModule1() {
     var course = $('select[name="course1"]').val();
-    if(!course){
+    if (!course) {
         $('div[name="selectModule1"]').html('');
-    }else{
+    } else {
         $.ajax({
             type: "POST",
             url: "/_admin/permissions/showModules",
             data: {course: course},
             cache: false,
-            success: function(response){ $('div[name="selectModule1"]').html(response); }
+            success: function (response) {
+                $('div[name="selectModule1"]').html(response);
+            }
         });
     }
 }
 
-function selectLecture(){
+function selectLecture() {
     var module = $('select[name="module"]').val();
     $.ajax({
         type: "POST",
         url: "/_admin/permissions/showLectures",
         data: {module: module},
         cache: false,
-        success: function(response){ $('div[name="selectLecture"]').html(response); }
+        success: function (response) {
+            $('div[name="selectLecture"]').html(response);
+        }
     });
 }

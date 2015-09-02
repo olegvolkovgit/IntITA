@@ -28,6 +28,10 @@ $('.search-form form').submit(function(){
     <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
 </a>
 
+<a href="#cancelFormTeacher">
+    <div id="cancelAuthorModule" onclick="cancelTeacherAccess()">Скасувати автора модуля</div>
+</a>
+
 <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus');?>">
     <div id="changeUserStatus">Змінити статус користувача</div>
 </a>
@@ -123,5 +127,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
 <?php $this->renderPartial('_add', array('model' => $model));?>
 <?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
+<?php $this->renderPartial('_cancelTeacherAccess', array('model' => $model));?>
 
 

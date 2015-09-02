@@ -129,6 +129,7 @@ class TeacherModule extends CActiveRecord
             }
         }
     }
+
     public static function getAuthorModules($author){
         $modules = Yii::app()->db->createCommand(array(
             'select' => array('idModule'),
@@ -158,5 +159,14 @@ class TeacherModule extends CActiveRecord
         }
 
         return (!empty($modules))?$modules:[];
+    }
+
+    public static function cancelTeacherAccess($teacher, $module){
+        if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
+            ':teacher' => $teacher,
+            ':module' => $module,
+        ))){
+            TeacherModule::model()->deleteAllByAttributes(array('idTeacher' => $teacher, 'idModule' => $module));
+        }
     }
 }
