@@ -17,7 +17,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             },
             sendContent: function()
             {
-                OpenLatexEditor('newTextBlock','latex','uk_uk', 'true');
+                OpenLatexEditor('formulaContainer','latex','uk_uk', 'true');
             }
         };
     };

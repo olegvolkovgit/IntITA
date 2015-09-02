@@ -6,7 +6,7 @@
    recipients have a valid number of commercial licenses. You must retain a
    copy of this licence in all copies you make.
    This program is distributed WITHOUT ANY WARRANTY; without even the implied
-   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
    See the CodeCogs Commercial Licence for more details.
 */
 var editorwindow = null;
@@ -27,7 +27,7 @@ function Set_Cookie(name,value,expires) {
   document.cookie = cookieString;
 }
 
-function OpenLatexEditor(target,mode,language,inline,latex, design, SID) 
+function OpenLatexEditor(target,mode,language,inline,latex, design, SID)
 {
 	var host='latex.codecogs.com';
 	var url='http://'+host+'/eqneditor/editor_json.php?target='+target+'&type='+mode;
@@ -36,11 +36,11 @@ function OpenLatexEditor(target,mode,language,inline,latex, design, SID)
 	if(design!=undefined && design!='') url+='&design='+design;
 
 	if(latex!=undefined && latex!='')
-	{ 
+	{
 		latex=latex.replace(/\+/g,'&plus;');
 	  url+='&latex='+encodeURIComponent(latex);
 	} else latex='';
-	
+
   // check to see if open editor compatible with new request
   if(lasteditormode!=url)
 	{
@@ -48,11 +48,11 @@ function OpenLatexEditor(target,mode,language,inline,latex, design, SID)
 		if(editorwindow!=null) editorwindow.close();
 		editorwindow=null;
 	}
-	
+
 	if(SID=='') SID="Common";
 	url+='&sid='+SID;
-	
-  if (editorwindow==null || editorwindow.closed || !editorwindow.location) 
+
+  if (editorwindow==null || editorwindow.closed || !editorwindow.location)
 	{
 		editorwindow=window.open('','LaTexEditor','width=700,height=450,status=1,scrollbars=yes,resizable=1');
 		if (!editorwindow.opener) editorwindow.opener = self;

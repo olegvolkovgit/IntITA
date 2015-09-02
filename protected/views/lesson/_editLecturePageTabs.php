@@ -75,7 +75,7 @@ if($page->video == null) {?>
     <button onclick="addTextBlock('3')"> Код </button>
     <button onclick="addTextBlock('4')"> Приклад </button>
     <button onclick="addTextBlock('7')"> Інструкція </button>
-    <button onclick="addFormula()"> Формула LaTeX </button>
+    <button onclick="addFormula('1')"> Формула LaTeX </button>
 
 </fieldset>
 <h3><label for="pageQuiz">Завдання (тест)</label></h3>

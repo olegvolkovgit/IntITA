@@ -36,7 +36,8 @@ window.onload = function () {
                 'imagemanager',
                 'fullscreen',
                 'save',
-                'close'],
+                'close',
+                'closefullscreen'],
             formattingAdd: [
                 {
                     tag: 'pre',

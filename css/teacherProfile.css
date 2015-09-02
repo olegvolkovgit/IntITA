@@ -237,3 +237,9 @@ img.lessonBut  {
     word-wrap: break-word;
     white-space: normal;
 }
+.TeacherProfileblock1 .re-closefullscreen{
+    display: none;
+}
+.redactor-box-fullscreen .redactor-toolbar li a.re-close{
+    display: none;
+}
