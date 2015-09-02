@@ -1,12 +1,12 @@
 <?php
 
-class MessagesController extends Controller
+class MessagesController extends CController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='main';
 
 	/**
 	 * @return array action filters
@@ -120,6 +120,11 @@ class MessagesController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $model=new Messages('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Messages']))
+            $model->attributes=$_GET['Messages'];
+
 		$dataProvider=new CActiveDataProvider('Messages', array(
             'pagination'=>array(
                 'pageSize'=>30,
@@ -127,6 +132,7 @@ class MessagesController extends Controller
         ));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+            'model' => $model,
 		));
 	}
 
