@@ -19,6 +19,7 @@ for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $
 }?>
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
+    idLecture = '<?php echo $_GET['id'];?>';
 </script>
 
 <h1 class="lessonPart">

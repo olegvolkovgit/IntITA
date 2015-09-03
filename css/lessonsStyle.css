@@ -259,6 +259,7 @@ div.lessonButFinal
     margin: 10px 30px 20px 30px;
     float:right;
     border:none;
+    cursor:pointer;
 }
 #taskSubmit {
     margin-right: 0;

@@ -31,6 +31,7 @@ function insertHTML(html) {
 
         range.deleteContents();
         range.insertNode(insertion);
+        $('#newTextBlock').val($('[data-target="insert"]').html());
     } catch (z) {
         try {
             document.selection.createRange().pasteHTML(html);

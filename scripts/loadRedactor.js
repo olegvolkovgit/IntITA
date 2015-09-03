@@ -78,7 +78,7 @@ function getIdName() {
                      '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer"></textarea>'+
                      '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
                  '</div>'+
-            '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте формулу</div>'+
+            '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
             '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
             '</div>'
         );
@@ -86,7 +86,15 @@ function getIdName() {
 }
         function loadTextRedactor()
         {
-
+            orderBlock=order.replace("#t","");
+            $.ajax({
+                type: "POST",
+                url: "/lesson/editBlock",
+                data: {'order':orderBlock, 'lecture':idLecture},
+                success: function(result){
+                    $(order).html(result);
+                }
+            });
             $(order).redactor({
                 preSpaces: true,
                 cleanStyleOnEnter: false,
@@ -199,6 +207,7 @@ function insertHTMLE(html) {
 
         range.deleteContents();
         range.insertNode(insertion);
+        $('[data-target="insertE"]').next('textarea').val($('[data-target="insertE"]').html());
     } catch (z) {
         try {
             document.selection.createRange().pasteHTML(html);

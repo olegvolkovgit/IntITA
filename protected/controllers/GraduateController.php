@@ -107,7 +107,11 @@ class GraduateController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Graduate');
+        $dataProvider=new CActiveDataProvider('Graduate', array(
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
+        ));
         $this->render('index',array(
             'dataProvider'=>$dataProvider,
         ));

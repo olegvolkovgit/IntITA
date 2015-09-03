@@ -227,6 +227,11 @@ div.image{
     float: left;
     font-size: smaller;
 }
+#registration{
+    color:#4b75a4;
+    float: right;
+    font-size: smaller;
+}
 input[type="submit"]#signInButtonM    {
      width:195px;
      height:52px;

@@ -616,4 +616,11 @@ class LessonController extends Controller
         }
 
     }
+    public function actionEditBlock()
+    {
+        $order = Yii::app()->request->getPost('order');
+        $lecture = Yii::app()->request->getPost('lecture');
+        $html = LectureElement::model()->findByAttributes(array('block_order' => $order, 'id_lecture' => $lecture))->html_block;
+        echo $html;
+    }
 }

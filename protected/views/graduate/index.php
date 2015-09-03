@@ -34,6 +34,14 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
         'itemView'=>'_graduateBlock',
         'summaryText' => '',
         'columns'=>array("one","two"),
+        'pager' => array(
+            'firstPageLabel'=>'&#171;&#171;',
+            'lastPageLabel'=>'&#187;&#187;',
+            'prevPageLabel'=>'&#171;',
+            'nextPageLabel'=>'&#187;',
+            'header'=>'',
+            'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        ),
     ));
     ?>
 </div>

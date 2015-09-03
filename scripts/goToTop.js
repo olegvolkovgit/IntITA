@@ -4,7 +4,7 @@
 /*рух ракети вгору і зникання вихлопу*/
 function rocketMove(element,w) {
     element.animate({
-        top:-250,
+        top:-210,
         left:w
     }, 3000);
 
@@ -14,10 +14,10 @@ function rocketMove(element,w) {
 }
 /*Якщо на сторінці є ракета - запускаємо її, якщо нема - скролимся вгору*/
 function goUp(){
-        var hPosR=$(document).outerHeight()-375;
-        var wPosR=$(document).outerWidth()/2-300;
-        var hPosE=$(document).outerHeight()-200;
-        var wPosE=$(document).outerWidth()/2-445;
+        var hPosR=$(document).outerHeight()-500;
+        var wPosR=$(document).outerWidth()/2-270;
+        var hPosE=$(document).outerHeight()-320;
+        var wPosE=$(document).outerWidth()/2-500;
         $('#rocket').offset({top:hPosR, left:wPosR});
         $('#exhaust').show();
         $('#exhaust').offset({top:hPosE, left:wPosE});

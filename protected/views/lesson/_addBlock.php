@@ -16,14 +16,14 @@
                 <input name="type" value="" id="blockType" hidden="hidden">
                 <input name="page" value="<?php echo $pageOrder;?>" id="page" hidden="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
-                          placeholder="Введіть контент нового блока" required form="addBlockForm" rows="10">
+                          required form="addBlockForm" rows="10">
                 </textarea>
                 <div class="container">
                     <div class="inner">
                         <textarea placeholder="Формула для вставки в блок" class="source" data-source="insert" id="formulaContainer"></textarea>
                         <label><input id="inlineFormula" type="checkbox" checked/>Формула в тексті</label>
                     </div>
-                    <div style="font-size: 12px">Поставте курсор в текстовий блок та вставте формулу</div>
+                    <div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>
                     <button type="button" class="action" data-action="insert">Вставити формулу</button>
                 </div>
                 <br>
