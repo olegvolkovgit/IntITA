@@ -23,6 +23,7 @@ div.subLinks{
 }
 .lessonBlock p{
     font-size: 16px;
+    word-break: break-word;
 }
 .lessonBlock h3{
     margin-top: 20px;
