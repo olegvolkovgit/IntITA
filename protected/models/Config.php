@@ -10,6 +10,7 @@
  * @property string $default
  * @property string $label
  * @property string $type
+ * @property integer $hidden
  */
 class Config extends CActiveRecord
 {
@@ -29,7 +30,7 @@ class Config extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('param, value, default, label, type', 'required'),
+			array('param, value, default, label, type, hidden', 'required'),
 			array('param, type', 'length', 'max'=>128),
 			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -60,6 +61,7 @@ class Config extends CActiveRecord
 			'default' => 'За замовчуванням',
 			'label' => 'Опис',
 			'type' => 'Тип',
+            'hidden' => 'Прихований',
 		);
 	}
 
@@ -77,9 +79,7 @@ class Config extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('param',$this->param,true);
@@ -87,6 +87,7 @@ class Config extends CActiveRecord
 		$criteria->compare('default',$this->default,true);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('type',$this->type,true);
+        $criteria->addCondition('hidden=0');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -122,5 +123,21 @@ class Config extends CActiveRecord
 
     public static function getImagesPath(){
         return Yii::app()->config->get('imagesPath');
+    }
+
+    public static function getCommonPath(){
+        return Yii::app()->config->get('commonPath');
+    }
+
+    public static function getAvatarsPath(){
+        return Yii::app()->config->get('avatarsPath');
+    }
+
+    public static function getInterpreterServer(){
+        return Yii::app()->config->get('interpreterServer');
+    }
+
+    public static function getMaintenanceMode(){
+        return Yii::app()->config->get('maintenanceMode');
     }
 }

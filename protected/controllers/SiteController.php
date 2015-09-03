@@ -38,8 +38,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // renders the view file 'protected/views/site/index1.php'
-        // using the default layout 'protected/views/layouts/main.php'
         $mainpage = Mainpage::model()->findByPk(0);
 
         $arraySteps = $this->initSteps();
@@ -599,5 +597,10 @@ class SiteController extends Controller
     public function actionActivationaccount()
     {
         $this->render('activationaccount');
+    }
+
+    public function actionNotice()
+    {
+        $this->renderPartial('notice');
     }
 }

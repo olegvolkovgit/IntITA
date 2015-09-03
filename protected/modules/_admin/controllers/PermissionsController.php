@@ -4,6 +4,14 @@ class PermissionsController extends Controller
 {
     public $layout='main';
     public $menu = array();
+
+    public function init()
+    {
+        if (Config::getMaintenanceMode() == 1) {
+            $this->renderPartial('/default/notice');
+            die();
+        }
+    }
     /**
      * @return array action filters
      */

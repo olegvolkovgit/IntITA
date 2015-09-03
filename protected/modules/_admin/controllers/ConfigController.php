@@ -10,6 +10,13 @@ class ConfigController extends CController
 	 */
 	public $layout='main';
 
+    public function init()
+    {
+        if (Config::getMaintenanceMode() == 1) {
+            $this->renderPartial('/default/notice');
+            die();
+        }
+    }
 	/**
 	 * @return array action filters
 	 */
@@ -49,6 +56,10 @@ class ConfigController extends CController
 	 */
 	public function actionView($id)
 	{
+        if (Config::model()->findByPk($id)->hidden == 1){
+            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього параметра.');
+        }
+
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -63,6 +74,9 @@ class ConfigController extends CController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+        if ($model->hidden == 1){
+            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього параметра.');
+        }
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -84,33 +98,11 @@ class ConfigController extends CController
 	 */
 	public function actionIndex()
 	{
-        $model=new Config('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Config']))
-            $model->attributes=$_GET['Config'];
-
-        $dataProvider=new CActiveDataProvider('Config');
+        $model = new Config('search');
 
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
             'model' => $model,
 		), false, true);
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Config('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Config']))
-			$model->attributes=$_GET['Config'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-            'noLayout' => true,
-		));
 	}
 
 	/**

@@ -10,6 +10,15 @@ class GraduateController extends CController
     /**
      * @return array action filters
      */
+
+    public function init()
+    {
+        if (Config::getMaintenanceMode() == 1) {
+            $this->renderPartial('/default/notice');
+            die();
+        }
+    }
+
     public function filters()
     {
         return array(
@@ -67,10 +76,16 @@ class GraduateController extends CController
         {
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model,'avatar');
+
             if($model->save()){
-                $path=Yii::getPathOfAlias('webroot').'/images/graduates/'.$model->avatar->getName();
-                $model->avatar->saveAs($path);
-                $this->redirect('/_admin/graduate/index');
+                if(!empty($model->avatar)) {
+                    $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
+                    $model->avatar->saveAs($path);
+                } else {
+                    $model->avatar = 'noname2.png';
+                    $model->save();
+                }
+                $this->redirect('/IntITA/_admin/graduate/index');
             }
         }
         $this->render('create',array(

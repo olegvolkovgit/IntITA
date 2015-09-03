@@ -8,6 +8,13 @@ class CarouselController extends CController
 	 */
 	public $layout='main';
 
+    public function init()
+    {
+        if (Config::getMaintenanceMode() == 1) {
+            $this->renderPartial('/default/notice');
+            die();
+        }
+    }
 	/**
 	 * @return array action filters
 	 */

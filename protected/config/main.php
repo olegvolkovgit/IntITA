@@ -31,8 +31,6 @@ return array(
 	),
 
 	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'generatorPaths' => array(
@@ -143,8 +141,8 @@ return array(
 		),
 
         'config'=>array(
-            'class' => 'DConfig',
-            'cache'=>3600,
+            'class' => 'DConfig'
+
         ),
 
         //X-editable config
@@ -172,11 +170,6 @@ return array(
         'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
         'baseUrlWithoutHeader' => 'intita.itatests.com',
-        //xampp - localhost
-        //'forumSessionId' => 'ec7fd6d0888e50ffcc52f32a58d6e345__id',
-        //intita.itatests.com
-        'forumSessionId' => '8eee65c9aae96d768a096ddf87b0e43c__id',
-        //qa.intita.com
-        //'forumSessionId' => 'f4e01dcc57f3005f5da0efc4c5ff6d26__id',
+        'maintenance' => 1,
 	),
 );

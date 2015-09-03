@@ -5,7 +5,7 @@
 <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Список випускників</a>
+<a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Список налаштувань</a>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_admin/config/view', array('id' => $model->id));?>">Переглянути налаштування</a>
 
