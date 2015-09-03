@@ -1,15 +1,15 @@
 <?php
 /* @var $this CarouselController */
 /* @var $model Carousel */
-
-//$this->menu=array(
-//	array('label'=>'List Carousel', 'url'=>array('index')),
-//	array('label'=>'Create Carousel', 'url'=>array('create')),
-//	array('label'=>'Update Carousel', 'url'=>array('update', 'id'=>$model->order)),
-//	array('label'=>'Delete Carousel', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->order),'confirm'=>'Are you sure you want to delete this item?')),
-//	array('label'=>'Manage Carousel', 'url'=>array('admin')),
-//);
 ?>
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
+<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index');?>">Список фото</a>
 
-<h1>View Carousel #<?php echo $model->order; ?></h1>
+<h1>Зображення #<?php echo $model->order; ?></h1>
+<img src="<?php echo StaticFilesHelper::createPath("image", "mainpage", $model->pictureURL);?>" id="pictureLarge" />
 
+<br>
+<br>

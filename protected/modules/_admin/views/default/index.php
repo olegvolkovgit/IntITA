@@ -7,6 +7,7 @@
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/messages/index');?>">Інтерфейсні повідомлення</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index');?>">Слайдер на головній сторінці</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index');?>">Слайдер на сторінці <i>Про нас</i></a></li>
 </ul>
 
 <h2>Контент</h2>
@@ -24,5 +25,5 @@
 
 <h2>Налаштування сайта</h2>
 <ul>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Настройки</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Налаштування</a></li>
 </ul>

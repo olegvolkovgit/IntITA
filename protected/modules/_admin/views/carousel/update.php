@@ -9,7 +9,11 @@
 //	array('label'=>'Manage Carousel', 'url'=>array('admin')),
 //);
 ?>
+    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index');?>">Список фото</a>
 
-<h1>Update Carousel <?php echo $model->order; ?></h1>
+<h1>Змінити зображення <?php echo $model->order; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
