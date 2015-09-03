@@ -4,7 +4,7 @@ class m150902_173409_add_aboutus_slider_table extends CDbMigration
 {
 	public function up()
 	{
-        $this->createTable('config', array(
+        $this->createTable('aboutus_slider', array(
             'image_order' => 'pk',
             'pictureUrl' => 'VARCHAR(255) NOT NULL',
         ));
