@@ -38,18 +38,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // renders the view file 'protected/views/site/index1.php'
-        // using the default layout 'protected/views/layouts/main.php'
         $mainpage = Mainpage::model()->findByPk(0);
 
         $arraySteps = $this->initSteps();
         $arrayAboutUs = $this->initAboutus();
+        $sliderPictures = Carousel::getAllPictures();
 
         $this->render('index', array(
             'mainpageModel' => $mainpage,
             'mainpage' => array(
                 'stepSize' => "958px",
             ),
+            'sliderPictures' => $sliderPictures,
             'block1' => $arrayAboutUs['objAbout1'],
             'block2' => $arrayAboutUs['objAbout2'],
             'block3' => $arrayAboutUs['objAbout3'],
@@ -597,5 +597,10 @@ class SiteController extends Controller
     public function actionActivationaccount()
     {
         $this->render('activationaccount');
+    }
+
+    public function actionNotice()
+    {
+        $this->renderPartial('notice');
     }
 }

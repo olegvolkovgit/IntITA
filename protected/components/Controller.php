@@ -26,6 +26,11 @@ class Controller extends CController
 
 
 	public function init(){
+        if(Config::getMaintenanceMode() == 1){
+            $this->renderPartial('/site/notice');
+            die();
+        }
+
         $header = Header::model()->findByPk(1);
         $footer = Footer::model()->findByPk(1);
         $this->logoURL = Yii::app()->request->baseUrl.$header->logoURL;
@@ -41,6 +46,8 @@ class Controller extends CController
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
+
+
 	}
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',

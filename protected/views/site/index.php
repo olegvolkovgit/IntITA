@@ -1,4 +1,5 @@
 <?php
+/* @var $this SiteController */
 Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag('INTITA-ПРОГРАМУЙ МАЙБУТНЄ!', null, null, array('property' => "og:title"));
 Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
@@ -17,11 +18,8 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 </div>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
-<?php
-/* @var $this SiteController */
-?>
 
-<?php $this->renderPartial('_slider');  ?>
+<?php $this->renderPartial('_slider', array('sliderPictures' => $sliderPictures));  ?>
 
 <?php
 $mainpageModel = new Mainpage();

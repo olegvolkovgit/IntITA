@@ -1,6 +1,6 @@
 <?php
 
-class ResponseController extends CController
+class AboutusSliderController extends CController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -26,30 +26,31 @@ class ResponseController extends CController
 		);
 	}
 
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('delete', 'edit', 'index'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'edit', 'index'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.
@@ -63,23 +64,45 @@ class ResponseController extends CController
 	}
 
 	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate()
+	{
+		$model=new AboutusSlider;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['AboutusSlider']))
+		{
+			$model->attributes=$_POST['AboutusSlider'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->image_order));
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
 	{
-
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Response']))
+		if(isset($_POST['AboutusSlider']))
 		{
-			$model->attributes=$_POST['Response'];
+			$model->attributes=$_POST['AboutusSlider'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('view','id'=>$model->image_order));
 		}
 
 		$this->render('update',array(
@@ -106,16 +129,30 @@ class ResponseController extends CController
 	 */
 	public function actionIndex()
 	{
-        $model=new Response('search');
+        $model=new AboutusSlider('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Response']))
-            $model->attributes=$_GET['Response'];
+        if(isset($_GET['AboutusSlider']))
+            $model->attributes=$_GET['AboutusSlider'];
 
-
-        $dataProvider=new CActiveDataProvider('Response');
+        $dataProvider=new CActiveDataProvider('AboutusSlider');
 		$this->render('index',array(
-            'model' => $model,
 			'dataProvider'=>$dataProvider,
+            'model' => $model,
+		));
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionAdmin()
+	{
+		$model=new AboutusSlider('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['AboutusSlider']))
+			$model->attributes=$_GET['AboutusSlider'];
+
+		$this->render('admin',array(
+			'model'=>$model,
 		));
 	}
 
@@ -123,12 +160,12 @@ class ResponseController extends CController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Response the loaded model
+	 * @return AboutusSlider the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Response::model()->findByPk($id);
+		$model=AboutusSlider::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -136,42 +173,14 @@ class ResponseController extends CController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Response $model the model to be validated
+	 * @param AboutusSlider $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='response-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='aboutus-slider-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-
-    public function actionSetPublish($id)
-    {
-        Response::model()->updateByPk($id, array('is_checked' => 1));
-
-        // if AJAX request, we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionUnsetPublish($id)
-    {
-        Response::model()->updateByPk($id, array('is_checked' => 0));
-
-        // if AJAX request, we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-
-    public function actionUpdateResponseText($id){
-        Response::model()->updateByPk($id, array(
-            'text' => $_POST['Response']['text'],
-            'is_checked' => $_POST['Response']['is_checked']
-        ));
-
-        $this->actionView($id);
-    }
 }

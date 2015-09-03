@@ -1,9 +1,7 @@
 <?php
 
-class ConfigController extends CController
+class CarouselController extends CController
 {
-
-    public $menu = array();
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -23,8 +21,11 @@ class ConfigController extends CController
 	public function filters()
 	{
 		return array(
+			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
+
 
     public function accessRules()
     {
@@ -50,21 +51,40 @@ class ConfigController extends CController
             return false;
     }
 
+
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
-        if (Config::model()->findByPk($id)->hidden == 1){
-            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього параметра.');
-        }
-
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
 
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate()
+	{
+		$model=new Carousel;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Carousel']))
+		{
+			$model->attributes=$_POST['Carousel'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->order));
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -74,18 +94,15 @@ class ConfigController extends CController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-        if ($model->hidden == 1){
-            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього параметра.');
-        }
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Config']))
+		if(isset($_POST['Carousel']))
 		{
-			$model->attributes=$_POST['Config'];
+			$model->attributes=$_POST['Carousel'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('view','id'=>$model->order));
 		}
 
 		$this->render('update',array(
@@ -94,27 +111,61 @@ class ConfigController extends CController
 	}
 
 	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id)
+	{
+		$this->loadModel($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+
+	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
-        $model = new Config('search');
+        $model=new Carousel('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Carousel']))
+            $model->attributes=$_GET['Carousel'];
 
+		$dataProvider=new CActiveDataProvider('Carousel');
 		$this->render('index',array(
-            'model' => $model,
-		), false, true);
+			'dataProvider'=>$dataProvider,
+            'model'=>$model,
+		));
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionAdmin()
+	{
+		$model=new Carousel('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Carousel']))
+			$model->attributes=$_GET['Carousel'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Config the loaded model
+	 * @return Carousel the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Config::model()->findByPk($id);
+		$model=Carousel::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -122,11 +173,11 @@ class ConfigController extends CController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Config $model the model to be validated
+	 * @param Carousel $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='config-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='carousel-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
