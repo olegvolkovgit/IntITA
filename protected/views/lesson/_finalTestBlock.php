@@ -21,11 +21,6 @@ $testType = TestsHelper::getTestType($data['id_block']);
         ?>
 
         <div class="lessonTest">
-<!--            <img class="lessonButFinal"-->
-<!--                 src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'lessButton.png'); ?><!--">-->
-<!---->
-<!--            <div class="lessonButFinal" unselectable="on">--><?php //echo Yii::t('lecture', '0566');?><!--</div>-->
-<!--            <div class="lessonLine"></div>-->
             <div class="lessonBG">
                 <div class="instrTestImg">
                     <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">

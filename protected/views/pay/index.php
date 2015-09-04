@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/access.css" />
 <?php
 /**
  * Created by PhpStorm.
@@ -126,7 +126,6 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-//                url: 'http://localhost/Int/permissions/showModules',
                 url: "/permissions/showModules",
                 data: {course: course},
                 cache: false,

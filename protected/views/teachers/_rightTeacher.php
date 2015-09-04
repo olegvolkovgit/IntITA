@@ -1,15 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 17:04
- */
-//$i=4;
-//$i++;
-//var_dump($i);
-//var_dump($i % 2 == 0);
-//var_dump($post[$i-1]);die;
 ?>
 <div class="rightTeacher">
     <?php $this->renderPartial('_ifYouTeachers', array('post' => $post,'teacherletter'=>$teacherletter)); ?>

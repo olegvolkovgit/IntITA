@@ -18,11 +18,11 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
              data-title="<?php echo Yii::t('mainpage','0002')?>"
              data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg') ?>"
              data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-             data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
+             data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
              data-zero-counter="1">
         </div>
     </div>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
     </body>
 <?php

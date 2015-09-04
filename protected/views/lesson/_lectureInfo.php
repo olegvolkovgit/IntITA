@@ -6,7 +6,7 @@
  * Time: 15:27
  */
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lessonsStyle.css" />
 
 
 <div class="lectureImageMain">
@@ -79,8 +79,6 @@
                 'attribute' => 'idType',
                 'title'     => Yii::t('lecture','0572'),
                 'url'       => $this->createUrl('lesson/updateLectureAttribute'),
-                //    'source'    => Editable::source(Status::model()->findAll(), 'status_id', 'status_text'),
-                //or you can use plain arrays:
                 'source'    => Editable::source(array('1'=> Yii::t('lecture','0568'), '2' => Yii::t('lecture','0569'),'3' => Yii::t('lecture','0570'), '4' => Yii::t('lecture','0571'))),
                 'placement' => 'right',
             ));

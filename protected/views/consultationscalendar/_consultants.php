@@ -9,7 +9,7 @@
 <div class="teacherBlock">
     <div class="leftBlock">
         <div class="photobg">
-            <img class="mask" src="<?php echo Yii::app()->request->baseUrl; ?>/images/common/img.png">
+            <img class="mask" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'img.png'); ?>">
             <img class="teacherphoto" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $data['foto_url'])?>">
         </div>
         <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $data['teacher_id']))?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>

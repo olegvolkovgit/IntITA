@@ -2,7 +2,7 @@
 
 $footNavSize='960px'; // Ширина блоку
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonFooter.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lessonFooter.css" />
 
 <div class="subViewLessons" id="subViewLessons"	>
     <?php

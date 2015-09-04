@@ -28,17 +28,17 @@
             ?>
         </div>
         <ul class="menulist">
-            <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-            <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-            <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-            <li><a href="<?php echo $this->link3; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-            <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
             echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => '$("#mydialog").dialog("open"); return false;',));
         } else {?>
-            <a id="hum_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout">
+            <a id="hum_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout">
                 <?php echo $header->getLogoutButton(); ?>
             </a>
             <?php

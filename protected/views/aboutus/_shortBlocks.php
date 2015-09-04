@@ -50,7 +50,6 @@ $dropName = Yii::t('mainpage','0004');
             }
             ?>
 
-            <! Script for Drop Down text>
             <script type="text/javascript">
                 var width=0;
                 if (self.screen)
@@ -127,19 +126,6 @@ $dropName = Yii::t('mainpage','0004');
                     }
                 }
             </script>
-
-    <!--        <! buttons for dropdown  About Us>-->
-    <!--        <div id="dropButton1" onclick="WindowShow(1)" >-->
-    <!--            --><?php // echo  $dropName;   ?>
-    <!--        </div>-->
-    <!--        <div id="dropButton2" onclick="WindowShow(2)">-->
-    <!--            --><?php // echo  $dropName;   ?>
-    <!--        </div>-->
-    <!--        <div id="dropButton3" onclick="WindowShow(3)">-->
-    <!--            --><?php // echo  $dropName;   ?>
-    <!--        </div>-->
-
-
         </div>
     </div>
 </div>

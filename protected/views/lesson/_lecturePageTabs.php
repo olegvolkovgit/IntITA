@@ -4,7 +4,7 @@
  */
 ?>
 <div name="lecturePage">
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
+    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/cjuitabs.css" />
     <h1 class="lessonPart" >
         <div class="labelBlock">
             <p>Частина <?php echo $page->page_order.'. '.$page->page_title;?></p>

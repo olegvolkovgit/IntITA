@@ -18,14 +18,14 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
+         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lessonsStyle.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lectureStyles.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lessonsStyle.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lectureStyles.css" />
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -39,10 +39,10 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- Spoiler -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SpoilerContent.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
 <!--Sidebar-->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/SidebarLesson.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
 
 <script type="text/javascript">
@@ -61,7 +61,7 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 /* @var $page LecturePage*/
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
     $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
     $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
     LectureHelper::getLectureTitle($lecture->id),
@@ -149,12 +149,12 @@ $this->breadcrumbs=array(
 
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
-<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shCoreEclipse.css'>
-<link type='text/css' rel='stylesheet' href='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/styles/shThemeEclipse.css'>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/XRegExp.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shLegacy.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shCore.js'></script>
-<script class='javascript' src='<?php echo Yii::app()->request->baseUrl; ?>/scripts/sh/scripts/shMegaLang.js'></script>
+<link type='text/css' rel='stylesheet' href='<?php echo Config::getBaseUrl(); ?>/scripts/sh/styles/shCoreEclipse.css'>
+<link type='text/css' rel='stylesheet' href='<?php echo Config::getBaseUrl(); ?>/scripts/sh/styles/shThemeEclipse.css'>
+<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/XRegExp.js'></script>
+<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shLegacy.js'></script>
+<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shCore.js'></script>
+<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shMegaLang.js'></script>
 
 <script>SyntaxHighlighter.all();</script>
 <!--Font Awesome-->
@@ -162,14 +162,13 @@ $this->breadcrumbs=array(
 <!--Font Awesome-->
 <!--Load Redactor-->
 <?php if (isset($_GET['editPage'])){?>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/loadRedactor.js"></script>
-    <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tasks.js"></script>
-    <script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
+    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/loadRedactor.js"></script>
+    <script async src="<?php echo Config::getBaseUrl(); ?>/scripts/tasks.js"></script>
 <?php }?>
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lessonEditor.js"></script>
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/taskAnswer.js"></script>
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/tests.js"></script>
+<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/lessonEditor.js"></script>
+<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/taskAnswer.js"></script>
+<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/tests.js"></script>
 
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lesson.js"></script>
+<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/lesson.js"></script>
 
 

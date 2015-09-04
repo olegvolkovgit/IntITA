@@ -58,8 +58,7 @@ return array(
 
 		'cache'=>array(
 			'class'=>'system.caching.CFileCache',
-            //'servers'=>$local_config['memcache_servers'],
-		),
+        ),
 
         'messages'=>array(
             'class'=>'CDbMessageSource',
@@ -85,7 +84,7 @@ return array(
 			'rules'=>array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
-
+                array('class'=>'CoursesRule'),
                 'courses/course<id:\d+>'=>'course/index',
                 'courses/course<idCourse:\d+>/module<idModule:\d+>'=>'module/index', /*Url for module */
 				'courses/course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
@@ -108,10 +107,6 @@ return array(
                 '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
-//                array(
-//                    'class' => 'application.components.CoursesRule',
-//                    'connectionID' => 'db',
-//                ),
 			),
 
 		),
@@ -141,8 +136,8 @@ return array(
 		),
 
         'config'=>array(
-            'class' => 'DConfig'
-
+            'class' => 'DConfig',
+            //'cache'=>3600,
         ),
 
         //X-editable config

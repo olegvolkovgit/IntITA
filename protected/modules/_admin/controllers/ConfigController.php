@@ -14,6 +14,7 @@ class ConfigController extends CController
     {
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
+            Yii::app()->cache->flush();
             die();
         }
     }
@@ -84,8 +85,10 @@ class ConfigController extends CController
 		if(isset($_POST['Config']))
 		{
 			$model->attributes=$_POST['Config'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()) {
+                Yii::app()->cache->flush();
+                $this->redirect(array('view', 'id' => $model->id));
+            }
 		}
 
 		$this->render('update',array(

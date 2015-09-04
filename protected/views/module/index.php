@@ -10,18 +10,18 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-title="<?php echo ModuleHelper::getModuleName($post->module_ID);?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'module/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/module/share/",'shareModuleImg_',$post->module_ID,'defaultModuleImg.png'));?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
+         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <!-- Module style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/module.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/module.css" />
 
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Yii::app()->request->baseUrl."/courses",CourseHelper::getCourseName($idCourse) =>Yii::app()->createUrl('course/index', array('id' => $idCourse)),ModuleHelper::getModuleName($post->module_ID),
+    Yii::t('breadcrumbs', '0050')=>Config::getBaseUrl()."/courses",CourseHelper::getCourseName($idCourse) =>Yii::app()->createUrl('course/index', array('id' => $idCourse)),ModuleHelper::getModuleName($post->module_ID),
 );
 ?>
 
@@ -33,5 +33,5 @@ $this->breadcrumbs=array(
     </div>
 
 </div>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/module.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/module.js"></script>
 
