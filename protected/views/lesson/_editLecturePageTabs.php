@@ -110,6 +110,6 @@ if($page->video == null) {?>
 <br>
 <script>
     if(typeof <?php echo $_GET['editPage'];?> !== "undefined"){
-        $('#sharing').hide();
+        $('#sharing').remove();
     }
 </script>
