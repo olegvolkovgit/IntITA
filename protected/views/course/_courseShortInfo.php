@@ -5,7 +5,6 @@
  * Date: 12.05.2015
  * Time: 15:20
  */
-//var_dump(CourseHelper::getCoursePricePayments($model->course_price,2,9));die;
 ?>
 <img class="courseImg" style="display: inline-block"
      src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img); ?>"/>

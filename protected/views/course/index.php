@@ -10,20 +10,20 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-title="<?php echo CourseHelper::getCourseName($model->course_ID); ?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'course/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/course/share/",'shareCourseImg_',$model->course_ID,'defaultCourseImg.png')); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
+         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <!-- course style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/course.css"/>
 <!-- course style -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerPay.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
 <!-- BD -))) -->
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
-    Yii::t('breadcrumbs', '0050') => Yii::app()->request->baseUrl . "/courses", CourseHelper::getCourseName($model->course_ID),
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl(). "/courses", CourseHelper::getCourseName($model->course_ID),
 );
 
 ?>

@@ -1,5 +1,5 @@
 <!-- regform -->
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/modalTask.css"/>
+<link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/modalTask.css"/>
 <!-- regform end-->
 <div class="mooda">
 <?php

@@ -49,9 +49,11 @@ class CoursesController extends Controller
         ));
         $coursesLang = CourseLanguages::getCoursesByLang($criteria);
 
-        $total = $dataProvider->getTotalItemCount();
-        $count1 =round($total/2);
-        $count2 = $total - $count1;
+        $total = count(Course::model()->findAllByAttributes(array('language' => "ua")));
+
+        $totalSelector = $dataProvider->getTotalItemCount();
+        $count1 = round($totalSelector/2);
+        $count2 = $totalSelector - $count1;
 
         $this->render('index', array(
             'coursesLangs'=>$coursesLang,

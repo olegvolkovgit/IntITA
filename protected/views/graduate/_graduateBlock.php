@@ -33,7 +33,7 @@
                     </div>
                     <div>
                         <?php echo Yii::t('graduates', '0318') ?>
-                        <a href="<?php echo $data['courses_page'] ?>"
+                        <a href="<?php echo Config::getBaseUrl().$data['courses_page'] ?>"
                            target="_blank"> <?php echo $data['courses'] ?></a>
                     </div>
                 </div>

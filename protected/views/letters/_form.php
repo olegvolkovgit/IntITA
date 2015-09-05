@@ -60,4 +60,4 @@ $list = CHtml::listData($models,
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hideFlash.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/hideFlash.js"></script>

@@ -15,13 +15,13 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <?php
 ?>
 <!-- teachers style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/teachers.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/teachers.css" />
 <!-- teachers style -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hideBlock.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/hideBlock.js"></script>
 <?php
 $this->pageTitle = 'INTITA';
 $post=$dataProvider->getData();
