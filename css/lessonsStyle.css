@@ -442,8 +442,11 @@ div.lessonTest {
 #addBlockForm .re-save, #addBlockForm .re-close, #addBlockForm .re-closefullscreen{
      display: none;
 }
-.redactor-box-fullscreen .redactor-toolbar li a.re-close{
+.redactor-box-fullscreen .redactor-toolbar li a.re-close, .redactor-toolbar .re-closefullscreen{
     display: none;
+}
+.redactor-box-fullscreen .redactor-toolbar .re-closefullscreen{
+    display: block;
 }
 .hideInput{
     position: absolute;

@@ -213,4 +213,31 @@ class LectureHelper {
     public static function isLectureFree($id){
         return Lecture::model()->findByPk($id)->isFree;
     }
+    /*Assign class press pages if there are at*/
+    public static function pressedPageIco($passedPages,$thisPage){
+        if($passedPages==$thisPage)
+            return 'pagePressed';
+    }
+    public static function isPassedLecture($idUser, $idLecture){
+        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
+        if ($finalTask != 0) {
+            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
+            $result = false;
+            switch ($typeFinalTask) {
+                case '6':
+                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
+                    $result = TaskMarks::isTaskDone($idUser, $idTask);
+                    break;
+                case '13':
+                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
+                    $result = TestsMarks::isTestDone($idUser, $idTest);
+                    break;
+                default:
+                    break;
+            }
+            return $result;
+        } else{
+            return false;
+        }
+    }
 }

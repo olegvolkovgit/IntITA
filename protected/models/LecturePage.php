@@ -142,10 +142,11 @@ class LecturePage extends CActiveRecord
         for ($i = 0, $count = count($pages); $i < $count; $i++ ){
             $result[$i]['order'] = $pages[$i]->page_order;
             $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            $result[$i]['title'] = $pages[$i]->page_title;
 
             if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
                 $result[$i]['isDone'] = true;
-                $result = LecturePage::setNoAccessPages($result, $count, $i+1);
+                $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
                 break;
             } else {
 
@@ -154,10 +155,11 @@ class LecturePage extends CActiveRecord
         return $result;
     }
 
-    public static function setNoAccessPages($result, $count, $order){
+    public static function setNoAccessPages($result, $count, $order, $pages){
         for ($i = $order; $i < $count; $i++ ){
             $result[$i]['order'] = ++$order;
             $result[$i]['isDone'] = false;
+            $result[$i]['title'] = $pages[$i]->page_title;
         }
         return $result;
     }

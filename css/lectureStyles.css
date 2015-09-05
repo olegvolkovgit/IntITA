@@ -260,9 +260,20 @@ margin-left:10px;
 #divAddVideo {
     display: none;
 }
-#video, #text{
+#text{
     resize:none;
     height: 400px;
+    border:1px solid #335379;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+#video{
+    resize:none;
+    height: 400px;
+    border:1px solid #335379;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 5px 10px 5px;
 }
 #text{
     overflow: auto;
@@ -291,4 +302,52 @@ textarea#formulaContainer{
     min-width: 310px;
     height: 30px;
     resize: none;
+}
+.pageDone{
+    background: url(/images/common/pageDone.png); /* Путь к файлу с исходным рисунком  */
+    display: inline-block; /*  Рисунок как блочный элемент */
+    width: 40px; /* Ширина рисунка */
+    height: 8px; /*  Высота рисунка */
+}
+a.pageDone,a.pageNoAccess,a#pagePressed{
+    display: inline-block; /*  Рисунок как блочный элемент */
+}
+.pageDone:hover{
+    background: url(/images/common/pageDoneHover.png);
+}
+.labelBlock{
+    border-bottom: 1px solid #335379;
+}
+#tooltip{
+    border-bottom: 1px solid #335379;
+    display: none;
+}
+.pageNoAccess{
+    background: url(/images/common/pageNoAccess.png); /* Путь к файлу с исходным рисунком  */
+    display: inline-block; /*  Рисунок как блочный элемент */
+    width: 40px; /* Ширина рисунка */
+    height: 8px; /*  Высота рисунка */
+    cursor: pointer;
+}
+#pagePressed{
+    background: url(/images/common/pagePressed.png);
+}
+.noAccess{
+    font-size: 14px;
+    color: #ff3333;
+}
+.progress{
+    position: relative;
+}
+.progress a{
+    position: relative;
+    margin-bottom: 10px;
+}
+#arrowCursor{
+    position: absolute;
+    display: none;
+}
+#pointer{
+    position: absolute;
+    display: none;
 }

@@ -3,32 +3,39 @@
  * @var $page LecturePage;
  */
 ?>
+<?php
+if(isset($_GET['page'])) $thisPage=$_GET['page'];
+else $thisPage=1;
+?>
+<img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
+<img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
 <div name="lecturePage">
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/cjuitabs.css" />
     <h1 class="lessonPart" >
-        <div class="labelBlock">
+        <div class="labelBlock" id="labelBlock">
             <p>Частина <?php echo $page->page_order.'. '.$page->page_title;?></p>
         </div>
+        <div id="tooltip"></div>
     </h1>
+    <div class="progress">
 <?php
 for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
     if ($passedPages[$i]['isDone'] ||
         TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
         LectureHelper::isLectureFree($page->id_lecture)) {
         ?>
-        <a href="<?php $args = $_GET;
+        <a class="pageDone pageTitle" id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'],$thisPage)?>" href="<?php $args = $_GET;
              $args['page'] = $passedPages[$i]['order'];
             echo $this->createUrl('', $args);?>"
-            title="Частина <?php echo $passedPages[$i]['order'];?>">
-        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
-        </a>
+            title="Частина <?php echo $passedPages[$i]['order'].'. '.$passedPages[$i]['title'];?>"></a>
     <?php } else {
         ?>
-        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageNoAccess.png');?>"
-        alt="Сторінка <?php echo $passedPages[$i]['order'];?>">
+        <a class="pageNoAccess pageTitle" title="Частина <?php echo $passedPages[$i]['order'].'. '.$passedPages[$i]['title'];?>"></a>
     <?php }
 }?>
-<br>
+    <img style="margin-left: 10px" src="<?php if(LectureHelper::isPassedLecture($user,$page->id_lecture)) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');
+    else echo StaticFilesHelper::createPath('image', 'common', 'medal0.png');?>">
+    </div>
 <div class="tabsWidget">
 <?php
 //if($page->video == null){
@@ -90,3 +97,4 @@ if (!is_null($page->quiz)) {
 </div>
 <br>
 <br>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lectureProgress.js"></script>
