@@ -3,7 +3,8 @@
  */
 $(document).ready(function(){
     $('#pointer').show();
-    $('#pointer').offset({top:$('#pagePressed').offset().top-23, left:$('#pagePressed').offset().left+10});
+    var position = $('#pagePressed').position();
+    $('#pointer').css('margin-left',position.left+10);
 });
 $(document).on('mouseenter', '.pageTitle', function (e) {
     var tooltipHtml='<p>'+$(this).attr("title")+'</p>';
@@ -12,7 +13,9 @@ $(document).on('mouseenter', '.pageTitle', function (e) {
     }
     $('#pointer').hide();
     $('#arrowCursor').show();
-    $('#arrowCursor').offset({top:$(this).offset().top-23, left:$(this).offset().left+10});
+    var position = $(this).position();
+    $('#arrowCursor').css('margin-left',position.left+10);
+    $('#arrowCursor').css('margin-top',position.top-12);
     $('#tooltip').html(tooltipHtml);
     $('#tooltip').show();
     $('#labelBlock').hide();
