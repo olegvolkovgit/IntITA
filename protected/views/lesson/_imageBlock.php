@@ -14,6 +14,6 @@
         ));?>
 
         <div class="video" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
-            <img src="<?php echo Config::getBaseUrl().$data['html_block'];?>"  >
+            <img src="<?php echo $data['html_block'];?>"  >
         </div>
     </div>
