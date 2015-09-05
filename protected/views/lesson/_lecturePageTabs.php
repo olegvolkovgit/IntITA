@@ -7,15 +7,15 @@
 if(isset($_GET['page'])) $thisPage=$_GET['page'];
 else $thisPage=1;
 ?>
-<img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
-<img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
 <div name="lecturePage">
     <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/cjuitabs.css" />
     <h1 class="lessonPart" >
         <div class="labelBlock" id="labelBlock">
             <p>Частина <?php echo $page->page_order.'. '.$page->page_title;?></p>
+            <img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
         </div>
         <div id="tooltip"></div>
+        <img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
     </h1>
     <div class="progress">
 <?php
