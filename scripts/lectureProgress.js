@@ -8,7 +8,7 @@ $(document).ready(function(){
 $(document).on('mouseenter', '.pageTitle', function (e) {
     var tooltipHtml='<p>'+$(this).attr("title")+'</p>';
     if($(this).is('.pageNoAccess')) {
-        tooltipHtml='<p>'+$(this).attr("title")+'<span class="noAccess"> (Закрито! Ви не пройшли попередні кроки)</span></p>';
+        tooltipHtml='<p>'+$(this).attr("title")+'<span class="noAccess"> (Р—Р°РєСЂРёС‚Рѕ! Р’Рё РЅРµ РїСЂРѕР№С€Р»Рё РїРѕРїРµСЂРµРґРЅС– РєСЂРѕРєРё)</span></p>';
     }
     $('#pointer').hide();
     $('#arrowCursor').show();
