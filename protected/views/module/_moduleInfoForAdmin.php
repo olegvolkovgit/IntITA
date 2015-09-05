@@ -83,8 +83,6 @@
                     'model'     => $post,
                     'attribute' => 'level',
                     'url'       => $this->createUrl('module/updateModuleAttribute'),
-                    //    'source'    => Editable::source(Status::model()->findAll(), 'status_id', 'status_text'),
-                    //or you can use plain arrays:
                     'source'    => Editable::source(array('intern'=> Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'),'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236'))),
                     'placement' => 'right',
                 ));

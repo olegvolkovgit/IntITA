@@ -145,7 +145,7 @@ class Teacher extends CActiveRecord
         return parent::model($className);
     }
 
-    public function getHideIp ($ip)
+    public static function getHideIp ($ip)
     {
         $pos =  strripos($ip, '.');
         $arr = str_split($ip);

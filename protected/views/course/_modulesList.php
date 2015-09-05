@@ -7,7 +7,6 @@
  */
 $editMode = ($canEdit) ? 'true' : '';
 ?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
 <div class="courseModules">
     <?php
     if ($canEdit) {
@@ -132,4 +131,4 @@ $editMode = ($canEdit) ? 'true' : '';
         <?php $this->renderPartial('_addLessonForm', array('newmodel' => $model)); ?>
     </div>
 </div>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/modulesList.js"></script>
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/modulesList.js"></script>

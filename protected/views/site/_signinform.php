@@ -1,5 +1,5 @@
 <!-- regform -->
-<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/regform.css"/>
+<link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/regform.css"/>
 <!-- regform -->
 <?php
 $qForm = new StudentReg;
@@ -41,7 +41,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="image" >
             <script src="//ulogin.ru/js/ulogin.js"></script>
             <div id="uLogin" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo_big,city;
-								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/sociallogin'?>">
+								redirect_uri=<?php echo Config::getBaseUrl().'/site/sociallogin'?>">
                 <ul id="uLoginImages">
                     <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>" x-ulogin-button = "facebook" title = "Facebook"/></li>
                     <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'googleplus2.png'); ?>" x-ulogin-button = "googleplus" title = "Google +"/></li>

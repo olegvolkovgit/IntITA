@@ -24,7 +24,7 @@
             'prevPageLabel'=>'&#171;',
             'nextPageLabel'=>'&#187;',
             'header'=>'',
-            'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+            'cssFile'=>Config::getBaseUrl().'/css/pager.css'
         ),
     ));
     ?>

@@ -6,7 +6,6 @@
  * Time: 15:36
  */
 ?>
-<meta charset="UTF-8">
 <h2>
     <?php echo Config::getBaseUrlWithoutSchema(); ?>
 </h2>

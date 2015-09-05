@@ -9,44 +9,43 @@ $header = new Header();
 
     <meta property="og:type" content="website" />
     <meta property="og:image:width" content="200"/>
-<!--    <meta property="og:image:height" content="200"/>-->
 
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
     <!-- fonts -->
-    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/fontface.css"/>
+    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
     <!-- fonts -->
     <!-- layouts style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/hamburgerMenu.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
     <!-- aboutUs style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/aboutusstyles.css"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/step.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/step.css"/>
     <!-- steps style -->
-    <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/css/images/favicon.ico"
+    <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico"
           type="image/x-icon"/>
     <!-- jQuery -->
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openDialog.js"></script>
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl();?>/scripts/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
     <!-- carousel-plugins -->
     <link type="text/css" rel="stylesheet"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
+          href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
     <link type="text/css" rel="stylesheet"
-          href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
+          href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
+    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
     <!-- carousel-plugins -->
     <!-- carousel -->
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/slider.css">
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/slider.js"></script>
+    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/slider.css">
+    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/slider.js"></script>
     <!-- carousel -->
     <!-- passEye, jQuery -->
-    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/jquery.passEye.js"></script>
+    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
     <!-- trimEmail-->
-    <script async type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/trimField.js"></script>
+    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -62,7 +61,7 @@ $header = new Header();
             <div class="main">
                 <div id="logo_img" class="down">
                     <a href="<?php echo Yii::app()->createUrl('site/index'); ?>">
-                        <img id="logo" src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Logo_small.png"/>
+                        <img id="logo" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png'); ?>"/>
                     </a>
                 </div>
                 <div id="lang" class="down">
@@ -82,17 +81,17 @@ $header = new Header();
                         echo CHtml::link($header->getEnterButton(), '#', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
                     } else {
                         ?>
-                        <a id="enter_button" href="<?php echo Yii::app()->request->getBaseUrl(true); ?>/site/logout"
+                        <a id="enter_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout"
                            class="down"><?php echo $header->getLogoutButton(); ?></a>
                     <?php } ?>
                 </div>
                 <div id="menulist">
                     <ul>
-                        <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                        <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                        <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                        <li><a href="<?php echo $this->link3; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                        <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                     </ul>
                 </div>
             </div>
@@ -105,7 +104,7 @@ $header = new Header();
     <?php if (isset($this->breadcrumbs)): ?>
         <?php $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => $this->breadcrumbs,
-            'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Yii::app()->request->getBaseUrl(true)),
+            'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
             'htmlOptions' => array(
                 'class' => 'my-cool-breadcrumbs'
             )
@@ -142,7 +141,7 @@ $header = new Header();
     if (isset($_GET['dialog'])) $openDialog = true;
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'themeUrl' => Config::getBaseUrl().'/css',
         'cssFile' => 'jquery-ui.css',
         'theme' => 'my',
         'options' => array(
@@ -160,7 +159,7 @@ $header = new Header();
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'forgotpass',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'themeUrl' => Config::getBaseUrl().'/css',
         'cssFile' => 'jquery-ui.css',
         'theme' => 'my',
         'options' => array(
@@ -176,7 +175,6 @@ $header = new Header();
     <!--forgot pass modal-->
 </div>
 </div>
-    <?php $footer = new Footer(); ?>
     <div id="mainfooter">
         <div style="height: 90px;display: block;border-bottom: 1px solid #44bdf6;">
             <div class="footercontent">
@@ -232,32 +230,32 @@ $header = new Header();
                     </div>
                     <div class="footercontact">
                         <p>
-                            <?php echo $footer->getTel(); ?><br/>
-                            <?php echo $footer->getMobile(); ?><br/>
-                            <?php echo $footer->getEmail(); ?><br/>
-                            <?php echo $footer->getSkype(); ?><br/>
+                            <?php echo FooterHelper::getTel(); ?><br/>
+                            <?php echo FooterHelper::getMobile(); ?><br/>
+                            <?php echo FooterHelper::getEmail(); ?><br/>
+                            <?php echo FooterHelper::getSkype(); ?><br/>
                         </p>
                     </div>
                     <div class="footermenu">
                         <ul>
-                            <li><a href="<?php echo $this->link1; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
-                            <li><a href="<?php echo $this->link2; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
-                            <li><a href="<?php echo $this->link5; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                            <li><a href="<?php echo $this->link3; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                            <li><a href="<?php echo $this->link4; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="rightfooter">
-                    <a onclick='goUp()' ><img src="<?php echo $this->imageUp; ?>"></a>
+                    <a onclick='goUp()' ><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'go_up.png'); ?>"></a>
                 </div>
             </div>
         </div>
     </div>
     <!-- footer -->
 <!-- Humburger script -->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/hamburgermenu.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/goToTop.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/hamburgermenu.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/goToTop.js"></script>
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
 </div>

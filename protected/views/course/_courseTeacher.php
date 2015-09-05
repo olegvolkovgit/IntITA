@@ -3,10 +3,6 @@ $criteria = new CDbCriteria();
 $criteria->addInCondition('teacher_id', $teachers);
 $teachers = Teacher::model()->findAll($criteria);
 
-//$criteria1 = new CDbCriteria();
-//$criteria1->addInCondition('owners', [3]);
-//$modules = Module::model()->findAll($criteria1);
-
 ?>
     <!-- course style -->
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/course.css" />

@@ -27,6 +27,10 @@ class LessonController extends Controller
         }
     }
 
+    public function actionTest(){
+        $this->render('index');
+    }
+
     public function actionIndex($id, $idCourse, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);

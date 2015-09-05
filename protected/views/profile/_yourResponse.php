@@ -104,7 +104,7 @@ if ($teacherRat && $teacherRat->knowledge !== null && $teacherRat->behavior !== 
 <?php } ?>
 <script type="text/javascript">
 
-    $.fn.raty.defaults.path = "<?php echo Yii::app()->request->baseUrl; ?>/images/rating/";
+    $.fn.raty.defaults.path = "<?php echo Config::getBaseUrl(); ?>/images/rating/";
 
     $('#material').raty({
         score: <?php echo $knowldg; ?>,

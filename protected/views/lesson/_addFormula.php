@@ -7,8 +7,8 @@
  */
 ?>
 <!--<script async src="http://latex.codecogs.com/editor3.js"></script>-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/editor3.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formulaEditor.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/editor3.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/formulaEditor.js"></script>
 <div id="divAddFormula">
     <form id="addFormula" action="<?php echo Yii::app()->createUrl('lesson/addFormula'); ?>" method="post">
         <input name="idLecture" value="<?php echo $idLecture; ?>" hidden="hidden">

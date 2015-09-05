@@ -2,9 +2,9 @@
 /* @var $this SiteController */
 /* @var $error array */
 
-$this->pageTitle=Yii::app()->name . ' - Error';
+$this->pageTitle=Yii::app()->name . ' - Помилка';
 $this->breadcrumbs=array(
-	'Error',
+	'Помилка',
 );
 ?>
 <div class='errorblock'>

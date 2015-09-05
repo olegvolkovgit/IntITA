@@ -9,6 +9,7 @@ class PermissionsController extends Controller
     {
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
+            Yii::app()->cache->flush();
             die();
         }
     }

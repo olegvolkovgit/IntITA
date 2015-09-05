@@ -1,4 +1,4 @@
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sliderAboutUs.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/sliderAboutUs.js"></script>
 
 <div class="aboutusslider">
     <div id="slider" class="owl-carousel">

@@ -5,49 +5,20 @@
  */
 class Controller extends CController
 {
-	public $logoURL;
-	public $menu1;
-	public $link1;
-	public $menu2;
-	public $link2;
-	public $menu3;
-	public $link3;
-	public $menu4;
-	public $link4;
-    public $link5;
-	public $buttonText;
-    public $smallLogoURL;
 
-	public $phone;
-	public $imageUp;
-	public $mobile;
-	public $email;
-	public $imageSotial;
-
-
-	public function init(){
+    public function init(){
         if(Config::getMaintenanceMode() == 1){
             $this->renderPartial('/site/notice');
+            Yii::app()->cache->flush();
             die();
         }
-
-        $header = Header::model()->findByPk(1);
-        $footer = Footer::model()->findByPk(1);
-        $this->logoURL = Yii::app()->request->baseUrl.$header->logoURL;
-        $this->smallLogoURL = Yii::app()->request->baseUrl.$header->smallLogoURL;
-        $this->link1 = Yii::app()->request->baseUrl.$header->item1Link;
-        $this->link2 = Yii::app()->request->baseUrl.$header->item2Link;
-        $this->link3 = Yii::app()->request->baseUrl.$header->item3Link;
-        $this->link4 = Yii::app()->request->baseUrl.$header->item4Link;
-        $this->link5 = Yii::app()->request->baseUrl.'/graduate';
-        $this->imageUp = Yii::app()->request->baseUrl.$footer->imageUp;
 
         $app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
 
-
+        $items = Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
 	}
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
