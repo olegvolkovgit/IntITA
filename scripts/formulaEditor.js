@@ -15,8 +15,11 @@ function insertHTML(html) {
     try {
         $('[data-target="insert"]').focus();
         if($("#inlineFormula").prop("checked")){
-            html = html.replace("\\[","$");
-            html = html.replace("\\]","$");
+            html = '\\(' + html;
+            html = html + '\\)';
+        } else {
+            html = '\\[' + html;
+            html = html + '\\]';
         }
         var selection = window.getSelection(),
             range = selection.getRangeAt(0),

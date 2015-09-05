@@ -89,7 +89,7 @@ function getIdName() {
             orderBlock=order.replace("#t","");
             $.ajax({
                 type: "POST",
-                url: "/lesson/editBlock",
+                url: "/IntITA/lesson/editBlock",
                 data: {'order':orderBlock, 'lecture':idLecture},
                 success: function(result){
                     $(order).html(result);
@@ -193,6 +193,11 @@ function insertHTMLE(html) {
         if($("#inlineFormulaE").prop("checked")){
             html = html.replace("\\[","$");
             html = html.replace("\\]","$");
+            html = '/(' + html;
+            html = html + '/)';
+        } else {
+            html = '/[' + html;
+            html = html + '/]';
         }
         var selection = window.getSelection(),
             range = selection.getRangeAt(0),

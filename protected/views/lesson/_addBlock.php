@@ -19,6 +19,8 @@
                           required form="addBlockForm" rows="10">
                 </textarea>
                 <div class="container">
+                    <div id="toolbar"></div>
+                    <br>
                     <div class="inner">
                         <textarea placeholder="Формула для вставки в блок" class="source" data-source="insert" id="formulaContainer"></textarea>
                         <label><input id="inlineFormula" type="checkbox" checked/>Формула в тексті</label>

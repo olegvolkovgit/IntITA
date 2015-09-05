@@ -7,6 +7,13 @@ if(!$editMode) {
 }
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
 ?>
+<link rel="stylesheet" type="text/css"
+      href="http://latex.codecogs.com/css/equation-embed.css" />
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
+<script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div name="lecturePage">
     <?php
 for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
