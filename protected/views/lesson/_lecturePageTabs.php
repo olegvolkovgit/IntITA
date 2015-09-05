@@ -26,7 +26,7 @@ for ($i = 0, $count = count($passedPages); $i < $count;$i++) {
         ?>
         <a class="pageDone pageTitle" id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'],$thisPage)?>" href="<?php $args = $_GET;
              $args['page'] = $passedPages[$i]['order'];
-            echo $this->createUrl('', $args);?>"
+            echo $this->createUrl('', $args)."#title";?>"
             title="Частина <?php echo $passedPages[$i]['order'].'. '.$passedPages[$i]['title'];?>"></a>
     <?php } else {
         ?>

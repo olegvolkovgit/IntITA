@@ -76,7 +76,7 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
-        <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
+        <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
         <div class="spoilerBody">
             <?php

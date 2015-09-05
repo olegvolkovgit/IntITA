@@ -12,7 +12,7 @@
 }
 
 img {
-    max-width: 760px;
+    max-width: 745px;
 }
 
 .lectureImageMain
@@ -350,4 +350,11 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
 #pointer{
     position: absolute;
     display: none;
+}
+.text, .codeExample{
+    padding: 10px;
+}
+.lessonText fieldset{
+    padding-left: 0;
+    padding-right: 0;
 }
