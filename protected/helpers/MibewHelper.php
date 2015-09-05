@@ -31,6 +31,6 @@ class MibewHelper {
     }
 
     public static function getMibewHostWithoutHeader(){
-        return Yii::app()->params['baseUrlWithoutHeader'];
+        return Config::getBaseUrlWithoutSchema();
     }
 }
