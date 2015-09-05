@@ -171,6 +171,7 @@ function getIdName() {
                 },
                 destroyCallback: function()
                 {
+                    $('#formulaBox').remove();
                     console.log('destroy');
                     $(order).on('click', loadTextRedactor);
                 }
