@@ -39,6 +39,10 @@
             'header'=>'Назва англійською',
         ),
         array(
+            'name'=>'alias',
+            'header'=>'Псевдонім',
+        ),
+        array(
             'name'=>'level',
             'header'=>Yii::t("coursemanage", "0520"),
         ),

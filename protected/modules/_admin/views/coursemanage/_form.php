@@ -39,6 +39,12 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model,'alias'); ?>
+        <?php echo $form->textField($model,'alias',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'alias'); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model,'title_en'); ?>
         <?php echo $form->textField($model,'title_en',array('size'=>45,'maxlength'=>100)); ?>
         <?php echo $form->error($model,'title_en'); ?>
