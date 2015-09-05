@@ -8,15 +8,6 @@
 $temp = substr($data['html_block'], 2, count($data['html_block']) - 5);
 $formulaCode = addcslashes($temp, '\\');
 ?>
-<!--<link rel="stylesheet" type="text/css"-->
-<!--      href="http://latex.codecogs.com/css/equation-embed.css" />-->
-<!--<!--[if lte IE 7]>-->
-<!--<link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>-->
-<!--<![endif]-->
-<!--<script type="text/javascript"-->
-<!--        src="http://latex.codecogs.com/js/eq_config.js" ></script>-->
-<!--<script type="text/javascript"-->
-<!--        src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>-->
     <div class="element">
         <?php $this->renderPartial('_editToolbar', array(
             'idLecture' => $data['id_lecture'],
@@ -34,9 +25,6 @@ $formulaCode = addcslashes($temp, '\\');
             >
             <?php echo $data['html_block'];?>
         </div>
-        <div id="toolbar"></div>
-        <textarea id="latexInput" rows="3" cols="40"></textarea>
-        <img id="equation" align="middle" />
             <form class="editFormula" id="editFormula<?php echo $data['block_order'];?>"
                   action="<?php echo Yii::app()->createUrl('lesson/saveFormula');?>"
                   method="post"
