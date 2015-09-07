@@ -4,21 +4,22 @@
 $(document).ready(function(){
     $('#pointer').show();
     var position = $('#pagePressed').position();
+    $('#pointer').css('margin-top',-12);
     $('#pointer').css('margin-left',position.left+10);
 });
 $(document).on('mouseenter', '.pageTitle', function (e) {
     var tooltipHtml='<p>'+$(this).attr("title")+'</p>';
     if($(this).is('.pageNoAccess')) {
-        tooltipHtml='<p>'+$(this).attr("title")+'<span class="noAccess"> (Закрито!)</span></p>';
+        tooltipHtml='<p class="titleNoAccess">'+$(this).attr("title")+'<span class="noAccess"> (Закрито! Ви не пройшли попередні кроки)</span></p>';
     }
     $('#pointer').hide();
     $('#arrowCursor').show();
     var position = $(this).position();
+    $('#arrowCursor').css('margin-top',-12);
     $('#arrowCursor').css('margin-left',position.left+10);
-    $('#arrowCursor').css('margin-top',position.top-12);
     $('#tooltip').html(tooltipHtml);
-    $('#tooltip').show();
     $('#labelBlock').hide();
+    $('#tooltip').css('display','inline-block');
 });
 $(document).on('mouseleave', '.pageTitle', function (e) {
     $('#pointer').show();

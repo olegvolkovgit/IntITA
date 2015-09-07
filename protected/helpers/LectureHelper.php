@@ -49,26 +49,30 @@ class LectureHelper {
     }
 
     public static function isLectureAvailable($idUser, $idLecture, $defaultForNoExist){
-        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
-        if ($finalTask != 0) {
-            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
-            $result = false;
-            switch ($typeFinalTask) {
-                case '6':
-                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
-                    $result = TaskMarks::isTaskDone($idUser, $idTask);
-                    break;
-                case '13':
-                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
-                    $result = TestsMarks::isTestDone($idUser, $idTest);
-                    break;
-                default:
-                    break;
-            }
-            return $result;
-        } else{
-            return $defaultForNoExist;
-        }
+//        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
+//        if ($finalTask != 0) {
+//            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
+//            $result = false;
+//            switch ($typeFinalTask) {
+//                case '6':
+//                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
+//                    $result = TaskMarks::isTaskDone($idUser, $idTask);
+//                    break;
+//                case '13':
+//                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
+//                    $result = TestsMarks::isTestDone($idUser, $idTest);
+//                    break;
+//                default:
+//                    break;
+//            }
+//            return $result;
+//        } else{
+//            return $defaultForNoExist;
+//        }
+        $passedPages = LecturePage::getAccessPages($idLecture, $idUser);
+        $passedLecture=LectureHelper::isPassedLecture($passedPages);
+
+        return $passedLecture;
     }
 
     public static function getFinalLectureTask($idLecture){
@@ -152,13 +156,13 @@ class LectureHelper {
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lectionsCount=count($sortedLectures);
+        $lecturesCount=count($sortedLectures);
         foreach($sortedLectures as $lecture){
             if(!LectureHelper::isLectureAvailable($user, $lecture->id, true)){
                 return $lecture->order;
             }
         }
-        return $lectionsCount;
+        return $lecturesCount;
     }
     public static function getLanguage(){
         $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
@@ -218,26 +222,10 @@ class LectureHelper {
         if($passedPages==$thisPage)
             return 'pagePressed';
     }
-    public static function isPassedLecture($idUser, $idLecture){
-        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
-        if ($finalTask != 0) {
-            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
-            $result = false;
-            switch ($typeFinalTask) {
-                case '6':
-                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
-                    $result = TaskMarks::isTaskDone($idUser, $idTask);
-                    break;
-                case '13':
-                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
-                    $result = TestsMarks::isTestDone($idUser, $idTest);
-                    break;
-                default:
-                    break;
-            }
-            return $result;
-        } else{
-            return false;
+    public static function isPassedLecture($passedPages){
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if (!$passedPages[$i]['isDone']) return false;
         }
+        return true;
     }
 }

@@ -85,10 +85,10 @@ table.ratingLeson{
 .preLesonLink {
     padding-left:5px;
 }
-.nextLesonLink a {
+.nextLessonLink a {
     text-decoration: none;
 }
-.nextLesonLink input[type="submit"] {
+.nextLessonLink input[type="submit"] {
     margin-top: 10px;
     width: 290px;
     height:55px;
@@ -101,7 +101,7 @@ table.ratingLeson{
     font-family: MyriadPro2;
     cursor: pointer;
 }
-.nextLesonLink input[type="submit"]:hover {
+.nextLessonLink input[type="submit"]:hover {
     background: #454545;
 }
 .subViewLessons{

@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 06.09.2015
+ * Time: 16:09
+ */
+?>
+<div class="lessonPart">
+    <div class="labelBlock" id="labelBlock">
+        <p>Частина <?php echo $page->page_order . '. ' . $page->page_title; ?></p>
+    </div>
+    <div id="tooltip"></div>
+</div>
+<img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
+<img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
+<?php if ($edit == 0) { ?>
+    <div class="progress">
+        <?php
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if ($passedPages[$i]['isDone'] ||
+                TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
+                LectureHelper::isLectureFree($page->id_lecture)
+            ) {
+                ?>
+                <a class="pageDone pageTitle"
+                   id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'], $thisPage) ?>"
+                   href="<?php $args = $_GET;
+                   $args['page'] = $passedPages[$i]['order'];
+                   echo $this->createUrl('', $args) . "#title"; ?>"
+                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+            <?php } else {
+                ?>
+                <a class="pageNoAccess pageTitle"
+                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+            <?php }
+        } ?>
+        <img style="margin-left: 10px"
+             src="<?php if ($passedLecture) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');
+             else echo StaticFilesHelper::createPath('image', 'common', 'medal0.png'); ?>">
+    </div>
+<?php } elseif ($edit == 1) {
+    for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
+        <a class="pageDone pageTitle"
+           id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'], $thisPage) ?>"
+           href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'editPage' => $i + 1)); ?>"
+           title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+        <?php
+    }
+} ?>

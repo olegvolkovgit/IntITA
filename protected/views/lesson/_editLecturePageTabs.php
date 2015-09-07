@@ -6,17 +6,12 @@ if(!$editMode) {
     throw new CHttpException(403, Yii::t('errors', 'Вибачте. Ви не маєте прав редагувати цю лекцію.'));
 }
 $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
+
+if (isset($_GET['editPage'])) $thisPage = $_GET['editPage'];
+else $thisPage = 1;
 ?>
 <div name="lecturePage">
-    <?php
-for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count;$i++) {
-  ?>
-        <a href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'editPage' => $i+1));?>"
-           title="Частина <?php echo ($i+1);?>">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pageDone.png');?>">
-        </a>
-<?php
-}?>
+    <?php $this->renderPartial('_lectureProgress', array('page'=>$page,'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>1)); ?>
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
     idLecture = '<?php echo $_GET['id'];?>';
@@ -24,7 +19,7 @@ for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $
 
 <h1 class="lessonPart">
     <div class="labelBlock">
-        <p>Сторінка <?php echo $page->page_order . '. ';
+        <p>Частина <?php echo $page->page_order . '. ';
                 $this->widget('editable.EditableField', array(
                     'type' => 'textarea',
                     'model' => $page,

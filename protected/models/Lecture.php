@@ -337,7 +337,12 @@ class Lecture extends CActiveRecord
     }
     public static function getLessonCont($id){
         $summary=[];
-        $cont =  LecturePage::model()->findAll("id_lecture=:id", array(':id'=>$id));
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'lecture_page';
+        $criteria->addCondition('id_lecture='.$id);
+        $criteria->order = 'page_order ASC';
+        $cont =  LecturePage::model()->findAll($criteria);
         $i=0;
         foreach($cont as $type){
             $summary[$i] = $type->page_title;

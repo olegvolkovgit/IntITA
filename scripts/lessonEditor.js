@@ -120,7 +120,15 @@ function deletePage(lecture, page, course){
             data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
             success: function(response){
                 $('div[name="lecturePage"]').html(response);
-                return false;
+                $.ajax({
+                    type: "POST",
+                    url: "/lesson/chaptersListUpdate",
+                    data: {'idLecture':idLecture},
+                    success: function(response){
+                        $('#chaptersList').html(response);
+                        return false;
+                    }
+                });
             }
         });
     }
@@ -134,7 +142,15 @@ function upPage(idLecture, pageOrder, course){
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
-            return false;
+            $.ajax({
+                type: "POST",
+                url: "/lesson/chaptersListUpdate",
+                data: {'idLecture':idLecture},
+                success: function(response){
+                    $('#chaptersList').html(response);
+                    return false;
+                }
+            });
         }
     });
 }
@@ -147,7 +163,15 @@ function downPage(idLecture, pageOrder, course){
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
-            return false;
+            $.ajax({
+                type: "POST",
+                url: "/lesson/chaptersListUpdate",
+                data: {'idLecture':idLecture},
+                success: function(response){
+                    $('#chaptersList').html(response);
+                    return false;
+                }
+            });
         }
     });
 }

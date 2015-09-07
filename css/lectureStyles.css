@@ -358,3 +358,62 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     padding-left: 0;
     padding-right: 0;
 }
+/*.labelBlock{*/
+    /*border-bottom: 1px solid #335379;*/
+/*}*/
+#tooltip{
+    /*border-bottom: 1px solid #335379;*/
+    display: none;
+    vertical-align: bottom;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.lessonPart{
+    border-bottom: 1px solid #335379;
+    height: 70px;
+    line-height: 70px;
+    margin-bottom: 10px;
+}
+.lessonPart div{
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+#labelBlock p, #tooltip p{
+    display: inline-block;
+    font-size: 28px;
+    color: #4b75a4;
+    margin: 0;
+}
+h1.lessonPartEdit p img{
+    cursor: pointer;
+}
+.lessonPartEdit a{
+    font-size: 24px;
+    font-weight: normal;
+}
+#tooltip p.titleNoAccess{
+    color: #999999;
+    display: inline-block;
+}
+.spoilerBody a.pageAccess{
+    color: #4b75a4;
+}
+.startVideo, .startVideoHover{
+    position: absolute;
+    margin-left: 315px;
+    margin-top: 120px;
+    cursor: pointer;
+}
+.startVideoHover{
+    opacity: 0;
+}
+.video{
+    position: absolute;
+    background:#072152;
+    width:770px;
+    height:400px;
+    max-width: 770px;
+    cursor: pointer;
+}

@@ -371,21 +371,10 @@ class LessonController extends Controller
         $criteria->condition = 'id_lecture = :id';
         $criteria->params = array(':id'=>$idLecture);
         $max = LectureElement::model()->find($criteria);
-        return $max->block_order+1;
-
+        if($max)
+            return $max->block_order+1;
+        else  return '1';
     }
-    public function reorderBlocks($idLecture, $order)
-    {
-        //count number of blocks in lecture and increment(because we delete one record in actionDeleteElement)
-        $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
-        $countBlocks++;
-        //change orders in blocks of lesson after deleted record(block)
-        for ($i = $order + 1; $i <= $countBlocks; $i++) {
-            $id = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i))->id_block;
-            LectureElement::model()->updateByPk($id, array('block_order' => $i - 1));
-        }
-    }
-
     public function checkEditMode($idModule, $idUser)
     {
         $permission = new PayModules();
@@ -626,5 +615,19 @@ class LessonController extends Controller
         $lecture = Yii::app()->request->getPost('lecture');
         $html = LectureElement::model()->findByAttributes(array('block_order' => $order, 'id_lecture' => $lecture))->html_block;
         echo $html;
+    }
+
+    //chapters list ajax update
+    public function actionChaptersListUpdate()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        if (Yii::app()->user->isGuest) {
+            $user = 0;
+        } else {
+            $user = Yii::app()->user->getId();
+        }
+        $passedPages = LecturePage::getAccessPages($idLecture, $user);
+
+        return $this->renderPartial('_chaptersList', array('idLecture' => $idLecture, 'passedPages' => $passedPages),false,true);
     }
 }

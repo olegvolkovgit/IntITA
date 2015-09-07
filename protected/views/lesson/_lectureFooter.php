@@ -98,8 +98,9 @@ $footNavSize='960px'; // Ширина блоку
                     ?> " style="width:<?php echo $footNavSize*0.035 . 'px';?>"></td>
             </tr>
         </table>
-        <?php if(LectureHelper::isLectureAvailable($user, $lecture['id'], true) || $editMode) { ?>
-            <div class="nextLesonLink">
+        <?php
+        if($passedLecture || $editMode || $lecture->isFree) { ?>
+            <div class="nextLessonLink">
                 <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>
         <?php  }?>
