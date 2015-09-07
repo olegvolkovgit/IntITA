@@ -121,7 +121,7 @@
     <?php } ?>
     <div id="iconImage">
         <img src="<?php
-        if (LectureHelper::isLectureAvailable($user, $lecture->id, false))
+        if (LectureHelper::isLectureFinished($user, $lecture->id, false))
         {
             echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
         } else {

@@ -47,29 +47,8 @@ class LectureHelper {
             }
         }
     }
-
-    public static function isLectureAvailable($idUser, $idLecture, $defaultForNoExist){
-//        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
-//        if ($finalTask != 0) {
-//            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
-//            $result = false;
-//            switch ($typeFinalTask) {
-//                case '6':
-//                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
-//                    $result = TaskMarks::isTaskDone($idUser, $idTask);
-//                    break;
-//                case '13':
-//                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
-//                    $result = TestsMarks::isTestDone($idUser, $idTest);
-//                    break;
-//                default:
-//                    break;
-//            }
-//            return $result;
-//        } else{
-//            return $defaultForNoExist;
-//        }
-        $passedPages = LecturePage::getAccessPages($idLecture, $idUser);
+    public static function isLectureFinished($idUser, $idLecture){
+        $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
         $passedLecture=LectureHelper::isPassedLecture($passedPages);
 
         return $passedLecture;
@@ -158,7 +137,7 @@ class LectureHelper {
 
         $lecturesCount=count($sortedLectures);
         foreach($sortedLectures as $lecture){
-            if(!LectureHelper::isLectureAvailable($user, $lecture->id, true)){
+            if(!LectureHelper::isLectureFinished($user, $lecture->id)){
                 return $lecture->order;
             }
         }

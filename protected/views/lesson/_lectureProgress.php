@@ -34,10 +34,14 @@
                 <a class="pageNoAccess pageTitle"
                    title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php }
-        } ?>
+        }
+        if (!TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)))
+        {?>
         <img style="margin-left: 10px"
-             src="<?php if ($passedLecture) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');
+             src="<?php if ($finishedLecture) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');
              else echo StaticFilesHelper::createPath('image', 'common', 'medal0.png'); ?>">
+        <?php
+        }?>
     </div>
 <?php } elseif ($edit == 1) {
     for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>

@@ -154,6 +154,30 @@ class LecturePage extends CActiveRecord
         }
         return $result;
     }
+    public static function getFinishedPages($idLecture, $user){
+        /*Sort page_order by Ascending*/
+        $criteria= new CDbCriteria;
+        $criteria->alias='lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture='.$idLecture;
+
+        $pages = LecturePage::model()->findAll($criteria);
+
+        $result = [];
+        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+            $result[$i]['order'] = $pages[$i]->page_order;
+            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            $result[$i]['title'] = $pages[$i]->page_title;
+
+            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                $result = LecturePage::setNoAccessPages($result, $count, $i,$pages);
+                break;
+            } else {
+
+            }
+        }
+        return $result;
+    }
 
     public static function setNoAccessPages($result, $count, $order, $pages){
         for ($i = $order; $i < $count; $i++ ){
