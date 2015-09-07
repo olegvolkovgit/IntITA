@@ -5,9 +5,9 @@
  * Date: 13.05.2015
  * Time: 16:22
  */
-$stepHeader =  $mainpageModel->getHeader2();
-$stepSubheader =  $mainpageModel->getSubheader2();
-$stepSize = $mainpage['stepSize'];
+$stepHeader =  MainpageHelper::getHeader2();
+$stepSubheader =  MainpageHelper::getSubheader2();
+$stepSize = "958px";
 
 ?>
 

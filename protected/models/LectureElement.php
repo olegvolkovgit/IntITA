@@ -188,4 +188,18 @@ class LectureElement extends CActiveRecord
             ->order('id_block DESC')
             ->queryRow();
     }
+
+    public static function getPrevElement($textList, $order){
+        $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
+        $result = [];
+        foreach ($elements as $elementOrder) {
+            if ($elementOrder->block_order < $order)
+                array_push($result, $elementOrder->block_order);
+        }
+        if (!empty($result))
+            $prevElement = max($result);
+        else $prevElement=null;
+
+        return $prevElement;
+    }
 }

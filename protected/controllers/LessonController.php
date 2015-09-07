@@ -270,7 +270,7 @@ class LessonController extends Controller
         $order = Yii::app()->request->getPost('order');
         //if exists prev element, reorder current and prev elements
         $textList = $this->getTextList($idLecture, $order);
-        $prevElement=$this->getPrevElement($textList, $order);
+        $prevElement=LectureElement::getPrevElement($textList, $order);
         $this->swapBlock($idLecture, $prevElement, $order);
 
         // if AJAX request, we should not redirect the browser
@@ -309,12 +309,10 @@ class LessonController extends Controller
         $command = Yii::app()->db->createCommand();
         $command->delete('lecture_element_lecture_page', 'element=:id', array(':id'=>$model->id_block));
 
-        //reorder elements after deleted block
-//        $this->reorderBlocks($idLecture, $order);
-        // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function getTextList($idLecture, $order)
     {
         $idElement = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
@@ -326,20 +324,7 @@ class LessonController extends Controller
         $textList = LecturePage::getBlocksListById($page);
         return $textList;
     }
-    public function getPrevElement($textList, $order)
-    {
-        $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
-        $result = [];
-        foreach ($elements as $elementOrder) {
-            if ($elementOrder->block_order < $order)
-                array_push($result, $elementOrder->block_order);
-        }
-        if (!empty($result))
-            $prevElement = max($result);
-        else $prevElement=null;
 
-        return $prevElement;
-    }
     public function getNextElement($textList, $order)
     {
         $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
@@ -366,24 +351,13 @@ class LessonController extends Controller
     }
     public function getNextOrder($idLecture)
     {
-        $criteria = new CDbCriteria;
+         $criteria = new CDbCriteria;
         $criteria->order ='block_order DESC';
         $criteria->condition = 'id_lecture = :id';
         $criteria->params = array(':id'=>$idLecture);
+        $criteria->limit = 1;
         $max = LectureElement::model()->find($criteria);
         return $max->block_order+1;
-
-    }
-    public function reorderBlocks($idLecture, $order)
-    {
-        //count number of blocks in lecture and increment(because we delete one record in actionDeleteElement)
-        $countBlocks = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
-        $countBlocks++;
-        //change orders in blocks of lesson after deleted record(block)
-        for ($i = $order + 1; $i <= $countBlocks; $i++) {
-            $id = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $i))->id_block;
-            LectureElement::model()->updateByPk($id, array('block_order' => $i - 1));
-        }
     }
 
     public function checkEditMode($idModule, $idUser)
@@ -433,9 +407,9 @@ class LessonController extends Controller
 
     public function actionNextPage($id, $idCourse, $page)
     {
-        if ($page >= LectureHelper::getNumberLecturePages($id)) $page = LectureHelper::getNumberLecturePages($id);
-        else $page = $page + 1;
-        $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'view' => '', 'page' => $page)));
+        $nextPage = LecturePage::getNextPage($id, $page);
+
+        $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'view' => '', 'page' => $nextPage)));
     }
 
     public function actionUpdateLectureAttribute()

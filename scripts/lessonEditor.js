@@ -69,7 +69,6 @@ function showBlockForm(){
 }
 
 function addFormula(type){
-    //document.getElementById('divAddFormula').style.display =  "block";
     document.getElementById('addBlock').style.display = 'block';
     document.getElementById('textBlockForm').style.display = 'block';
     document.getElementById('blockForm').style.display = 'block';

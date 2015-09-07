@@ -221,4 +221,14 @@ class LecturePage extends CActiveRecord
         }
         return false;
     }
+
+    public static function getNextPage($id, $page){
+        if ($page >= LectureHelper::getNumberLecturePages($id)) {
+            $page = LectureHelper::getNumberLecturePages($id);
+        }
+        else {
+            $page = $page + 1;
+        }
+        return $page;
+    }
 }

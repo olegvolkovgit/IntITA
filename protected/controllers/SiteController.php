@@ -38,17 +38,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $mainpage = Mainpage::model()->findByPk(0);
-
         $arraySteps = $this->initSteps();
         $arrayAboutUs = $this->initAboutus();
         $sliderPictures = Carousel::getAllPictures();
 
         $this->render('index', array(
-            'mainpageModel' => $mainpage,
-            'mainpage' => array(
-                'stepSize' => "958px",
-            ),
             'sliderPictures' => $sliderPictures,
             'block1' => $arrayAboutUs['objAbout1'],
             'block2' => $arrayAboutUs['objAbout2'],
