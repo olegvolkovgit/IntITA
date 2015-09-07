@@ -335,6 +335,7 @@ class Lecture extends CActiveRecord
         $titleParam = LectureHelper::getTypeTitleParam();
         return $type->$titleParam;
     }
+
     public static function getLessonCont($id){
         $summary=[];
 
@@ -350,4 +351,17 @@ class Lecture extends CActiveRecord
         }
         return $summary;
     }
+
+    public static function getTextList($idLecture, $order)
+    {
+        $idElement = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
+        $page = Yii::app()->db->createCommand()
+            ->select('page')
+            ->from('lecture_element_lecture_page')
+            ->where('element=:element', array(':element'=>$idElement))
+            ->queryScalar();
+        $textList = LecturePage::getBlocksListById($page);
+        return $textList;
+    }
+
 }

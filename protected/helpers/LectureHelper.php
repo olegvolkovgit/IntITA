@@ -22,6 +22,11 @@ class LectureHelper {
         return ($assignment)?$assignment:false;
     }
 
+    public static function startsWith($haystack, $needle)
+    {
+        return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+
     public static function getTaskIcon($user, $idBlock, $editMode){
         if ($editMode || $user == 0){
             return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
@@ -222,10 +227,12 @@ class LectureHelper {
         if($passedPages==$thisPage)
             return 'pagePressed';
     }
+
     public static function isPassedLecture($passedPages){
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
             if (!$passedPages[$i]['isDone']) return false;
         }
         return true;
     }
+
 }

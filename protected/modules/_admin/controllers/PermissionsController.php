@@ -136,18 +136,6 @@ class PermissionsController extends Controller
 
         if(!empty($_POST['module'])) {
             if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
-//                $permissionToBeChanged = Permissions::model()->findByPk(array('id_user'=>$_POST['user'],
-//                                                                            'id_resource'=>$_POST['lecture']));
-//                $permissionToBeChanged->rights = Permissions::setFlags($rights);
-//                var_dump($permissionToBeChanged);
-//                if($permissionToBeChanged->save(false))
-//                {
-//                    var_dump("True");
-//                }
-//                else
-//                {
-//                    var_dump($permissionToBeChanged->getErrors());
-//                }
                 PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
             } else {
                 $user = Yii::app()->db->createCommand()->insert('pay_modules', array(
