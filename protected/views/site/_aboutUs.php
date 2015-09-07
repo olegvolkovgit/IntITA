@@ -19,7 +19,7 @@ $linkName = Yii::t('mainpage', '0004');
         </div>
 
         <div class="line1">
-            <img src="<?php echo $subLineImage;?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line1.png');?>">
         </div>
 
         <?php
