@@ -316,10 +316,10 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     background: url(/images/common/pageDoneHover.png);
 }
 .labelBlock{
-    border-bottom: 1px solid #335379;
+    /*border-bottom: 1px solid #335379;*/
 }
 #tooltip{
-    border-bottom: 1px solid #335379;
+    /*border-bottom: 1px solid #335379;*/
     display: none;
 }
 .pageNoAccess{
