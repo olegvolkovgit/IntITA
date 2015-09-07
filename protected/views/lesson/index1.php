@@ -1,4 +1,16 @@
 <?php
+/* @var $this LessonController */
+/* @var $lecture Lecture*/
+/* @var $page LecturePage*/
+/* @var $teacher Teacher*/
+
+$this->pageTitle = 'INTITA';
+$this->breadcrumbs=array(
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
+    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    LectureHelper::getLectureTitle($lecture->id),
+);
 if (!($lecture->isFree)) {
     Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
 }else{
@@ -46,24 +58,12 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     idLecture = <?php echo $lecture->id;?>;
     idUser = <?php echo $user;?>;
     <?php if($user != 0){?>
-    idTeacher = <?php echo TeacherHelper::getTeacherId($user);?>;
+    idTeacher = <?php echo $teacher->teacher_id;?>;
     <?php }?>
     order = 1;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
 </script>
-<?php
-/* @var $this LessonController */
-/* @var $lecture Lecture*/
-/* @var $page LecturePage*/
-$this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
-    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
-    LectureHelper::getLectureTitle($lecture->id),
-);
-?>
 <?php
 $passedLecture=LectureHelper::isPassedLecture($passedPages);
 $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);

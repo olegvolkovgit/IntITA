@@ -223,4 +223,14 @@ class PayModules extends CActiveRecord
         }
     }
 
+    public static function checkEditMode($idModule, $idUser)
+    {
+        $permission = new PayModules();
+        if ($permission->checkModulePermission($idUser, $idModule, array('edit'))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

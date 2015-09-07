@@ -304,13 +304,13 @@ textarea#formulaContainer{
     resize: none;
 }
 .pageDone{
-    background: url(/images/common/pageDone.png); /* Путь к файлу с исходным рисунком  */
-    display: inline-block; /*  Рисунок как блочный элемент */
-    width: 40px; /* Ширина рисунка */
-    height: 8px; /*  Высота рисунка */
+    background: url(/images/common/pageDone.png); /* пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  */
+    display: inline-block; /*  пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    width: 40px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    height: 8px; /*  пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 a.pageDone,a.pageNoAccess,a#pagePressed{
-    display: inline-block; /*  Рисунок как блочный элемент */
+    display: inline-block; /*  пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 .pageDone:hover{
     background: url(/images/common/pageDoneHover.png);
@@ -323,10 +323,10 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     display: none;
 }
 .pageNoAccess{
-    background: url(/images/common/pageNoAccess.png); /* Путь к файлу с исходным рисунком  */
-    display: inline-block; /*  Рисунок как блочный элемент */
-    width: 40px; /* Ширина рисунка */
-    height: 8px; /*  Высота рисунка */
+    background: url(/images/common/pageNoAccess.png); /* пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  */
+    display: inline-block; /*  пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    width: 40px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    height: 8px; /*  пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     cursor: pointer;
 }
 #pagePressed{

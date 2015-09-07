@@ -202,4 +202,72 @@ class LectureElement extends CActiveRecord
 
         return $prevElement;
     }
+
+    public static function getVideoLink($htmlBlock){
+        //if we want to load video, we finding video link
+        $tempArray = explode(" ", $htmlBlock);
+        for ($i = count($tempArray) - 1; $i > 0; $i--) {
+            if (LectureHelper::startsWith($tempArray[$i], 'src="')) {
+                $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
+                return $link;
+            }
+        }
+        return '';
+    }
+
+    public static function getImageLink($htmlBlock){
+        //search image source link into new block before save
+        $tempArray = explode(" ", $htmlBlock);
+        for ($i = count($tempArray) - 1; $i > 0; $i--) {
+            if (LectureHelper::startsWith($tempArray[$i], 'src="')) {
+                $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 6);
+               return $link;
+            }
+        }return '';
+    }
+
+    public static function getNextElement($textList, $order)
+    {
+        $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
+        $result = [];
+        foreach ($elements as $elementOrder) {
+            if($elementOrder->block_order>$order)
+                array_push($result,$elementOrder->block_order);
+        }
+        if (!empty($result))
+            $nextElement = min($result);
+        else $nextElement=null;
+
+        return $nextElement;
+    }
+
+    public static function getNextOrder($idLecture)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->order ='block_order DESC';
+        $criteria->condition = 'id_lecture = :id';
+        $criteria->params = array(':id'=>$idLecture);
+        $max = LectureElement::model()->find($criteria);
+        if($max)
+            return $max->block_order+1;
+        else  return '1';
+    }
+
+    public static function swapBlock($idLecture, $swapElement, $order)
+    {
+        if($swapElement!=null){
+            $firstId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $swapElement))->id_block;
+            $secondId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
+
+            LectureElement::model()->updateByPk($secondId, array('block_order' => $swapElement));
+            LectureElement::model()->updateByPk($firstId, array('block_order' => $order));
+        }
+    }
+
+    public static function deleteCurrentBlock($idLecture, $order, $idBlock){
+        //delete current block
+        LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+        $command = Yii::app()->db->createCommand();
+        $command->delete('lecture_element_lecture_page', 'element=:id', array(':id'=>$idBlock));
+    }
 }
