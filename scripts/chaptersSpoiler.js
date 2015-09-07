@@ -1,15 +1,16 @@
 /**
  * Created by Wizlight on 06.09.2015.
  */
-/**-------Спойлер змісту і іншого контента--------*/
+/**-------РЎРїРѕР№Р»РµСЂ Р·РјС–СЃС‚Сѓ С– С–РЅС€РѕРіРѕ РєРѕРЅС‚РµРЅС‚Р°--------*/
 $(document).ready(function(){
     $('.spoilerLinks').click(function(){
         var nameSpoiler = $(this).children("span:first").text();
-        if(nameSpoiler=="(показати)"){
-            $(this).children("span:first").text("(сховати)");
+
+        if(nameSpoiler=="(РїРѕРєР°Р·Р°С‚Рё)"){
+            $(this).children("span:first").text("(СЃС…РѕРІР°С‚Рё)");
             $(this).children("span:last").text("\u25B2");
-        } else if(nameSpoiler=="(сховати)"){
-            $(this).children("span:first").text("(показати)");
+        } else if(nameSpoiler=="(СЃС…РѕРІР°С‚Рё)"){
+            $(this).children("span:first").text("(РїРѕРєР°Р·Р°С‚Рё)");
             $(this).children("span:last").text("\u25BC");
         }
         $(this).next('.spoilerBody').toggle('normal');
