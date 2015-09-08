@@ -35,6 +35,7 @@ class LessonController extends Controller
     {
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
+
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         if (Yii::app()->user->isGuest) {

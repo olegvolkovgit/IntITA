@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'carousel':
  * @property integer $order
  * @property string $pictureURL
+ * @property string $slider_text
  */
 class Carousel extends CActiveRecord
 {
@@ -25,12 +26,12 @@ class Carousel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, pictureURL', 'required'),
+			array('order, pictureURL, slider_text', 'required'),
 			array('order', 'numerical', 'integerOnly'=>true),
 			array('pictureURL', 'length', 'max'=>50),
+            array('slider_text', 'length', 'max'=>6),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('order, pictureURL', 'safe', 'on'=>'search'),
+			array('order, pictureURL, slider_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +54,7 @@ class Carousel extends CActiveRecord
 		return array(
 			'order' => 'Порядок відображення',
 			'pictureURL' => 'Фото',
+            'slider_text' => 'Текст слайдера',
 		);
 	}
 
@@ -75,6 +77,7 @@ class Carousel extends CActiveRecord
 
 		$criteria->compare('order',$this->order);
 		$criteria->compare('pictureURL',$this->pictureURL,true);
+        $criteria->compare('slider_text',$this->slider_text,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -94,8 +97,4 @@ class Carousel extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    public static function getAllPictures(){
-        return Carousel::model()->findAll();
-    }
 }
