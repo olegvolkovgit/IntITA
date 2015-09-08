@@ -7,11 +7,11 @@
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
-$enabledLessonOrder=LectureHelper::getLastEnabledLessonOrder($module->module_ID);
+$enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($module->module_ID);
 ?>
 
 <div class="lessonModule" id="lectures">
-    <?php
+     <?php
     if ($canEdit){
         ?>
         <div onclick="enableEdit();">
@@ -102,7 +102,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            //'value' =>'$data->order == 0 ? "Виключено":"'.Yii::t('module', '0381').' {$data->order}."',
             'value' =>function($data) use ($enabledLessonOrder) {
                 if (AccessHelper::accesLecture($data->id,$data->order,$enabledLessonOrder))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));

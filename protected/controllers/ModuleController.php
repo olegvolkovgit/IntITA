@@ -39,9 +39,6 @@ class ModuleController extends Controller
     {
         $model = new Module;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->save())
@@ -61,9 +58,6 @@ class ModuleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
@@ -126,7 +120,7 @@ class ModuleController extends Controller
                     $editMode = 0;
                 }
             } else {
-                $editMode = 0;
+                    $editMode = 0;
             }
         }
 

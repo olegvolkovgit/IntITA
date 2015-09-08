@@ -34,13 +34,17 @@ $('.search-form form').submit(function(){
         'prevPageLabel'=>'&#171;',
         'nextPageLabel'=>'&#187;',
         'header'=>'',
-        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        'cssFile'=> Config::getBaseUrl().'/css/pager.css'
     ),
     'summaryText'=>'',
     'columns'=>array(
         'id',
         'language',
         'translation',
+        array(
+            'header' => 'Коментар',
+            'value' => 'MessagesHelper::getMessageCommentById($data->id)',
+        ),
         array(
             'class'=>'CButtonColumn',
             'template'=>'{view}{update}',

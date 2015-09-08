@@ -68,22 +68,30 @@ class MessagesController extends CController
 	 */
 	public function actionCreate()
 	{
-		$model=new Messages;
+		$model = new Messages;
+        $category = Yii::app()->request->getPost('category', '');
+        $translateUa = Yii::app()->request->getPost('translateUa', '');
+        $translateRu = Yii::app()->request->getPost('translateRu', '');
+        $translateEn = Yii::app()->request->getPost('translateEn', '');
+        $comment = Yii::app()->request->getPost('comment', '');
 
 		if(isset($_POST['category']))
 		{
+            //Last record id
+            $max = Sourcemessages::getMaxId();
 
-            Yii::app()->db->createCommand()->insert(
-                'sourcemessages',
-                array(
-                    'id' => null,
-                    'category' => $_POST['category'],
-                    'message' => $_POST['']
-                )
-            );
-//			$model->attributes=$_POST['Messages'];
-//			if($model->save())
-//				$this->redirect(array('view','id'=>$model->id_record));
+            $newId = ++$max;
+            //add source message
+            $result = Sourcemessages::addSourceMessage($newId, $category, str_pad("".$newId, 4, 0));
+            // if added source message, then add translations
+            if($result){
+                Messages::addNewRecord($newId, 'ua', $translateUa);
+                Messages::addNewRecord($newId, 'ru', $translateRu);
+                Messages::addNewRecord($newId, 'en', $translateEn);
+
+                Messages::addMessageCodeComment($newId, $comment);
+            }
+                $this->actionIndex();
 		}
 
 		$this->render('create',array(

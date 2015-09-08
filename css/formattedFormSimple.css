@@ -1,0 +1,29 @@
+.formatted-form
+{
+    width: 75%;
+    margin: 0 auto;
+}
+
+.formatted-form label
+{
+    display: block;
+}
+.formatted-form .required
+{
+    color: #229922;
+}
+.formatted-form textarea
+{
+    width: 550px;
+    resize: none;
+    overflow: auto;
+}
+.formatted-form input
+{
+    width: 550px;
+}
+.formatted-form input[type="submit"]
+{
+    width: 150px;
+    margin-top: 20px;
+}
