@@ -16,4 +16,14 @@ class ResponseHelper {
     public static function isPublish($idResponse){
         return (Response::model()->findByPk($idResponse)->is_checked)?'опубліковано':'прихований';
     }
+
+    public static function setTeacherRating($response){
+        if(TeacherHelper::isUserTeacher($response->about)){
+            $teacher = Teacher::model()->findByAttributes(array('user_id'=>$response->about));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_knowledge' => $teacher->getAverageRateKnwl($response->about)));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => $teacher->getAverageRateBeh($response->about)));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => $teacher->getAverageRateMot($response->about)));
+            $teacher->updateByPk($teacher->teacher_id, array('rating' => $teacher->getAverageRate($response->about)));
+        }
+    }
 }

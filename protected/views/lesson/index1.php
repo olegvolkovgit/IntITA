@@ -58,7 +58,7 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     idLecture = <?php echo $lecture->id;?>;
     idUser = <?php echo $user;?>;
     <?php if($user != 0){?>
-    idTeacher = <?php echo $teacher->teacher_id;?>;
+    idTeacher = <?php echo TeacherHelper::getTeacherId($user);?>;
     <?php }?>
     order = 1;
     currentTask = 0;

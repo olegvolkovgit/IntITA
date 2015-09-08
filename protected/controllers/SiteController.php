@@ -186,11 +186,13 @@ class SiteController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
             if ($model->validate()) {
+                if (isset($_GET['lg'])) $lang=$_GET['lg'];
+                else $lang='ua';
                 $model->save();
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
-                    " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email;
+                    " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email."&lang=".$lang;
                 mail($model->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
@@ -202,13 +204,15 @@ class SiteController extends Controller
     }
 
     /* Activation account*/
-    public function actionAccActivation($token, $email)
+    public function actionAccActivation($token, $email, $lang)
     {
         $model = $this->getTokenAcc($token);
         $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
         if ($model->token == $modelemail->token) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
+            $app = Yii::app();
+            $app->session['lg'] = $lang;
             $this->redirect(Yii::app()->createUrl('/site/activationaccount'));
         } else {
             throw new CHttpException(404, Yii::t('exception', '0237'));

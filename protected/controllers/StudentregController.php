@@ -172,11 +172,13 @@ class StudentRegController extends Controller
                 if ($model->hasErrors()) {
                     $this->render("studentreg", array('model'=>$model,'tab'=>$tab));
                 } else{
+                    if (isset($_GET['lg'])) $lang=$_GET['lg'];
+                    else $lang='ua';
                     $model->save();
                     $subject=Yii::t('activeemail','0298');
                     $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                     $text=Yii::t('activeemail','0299').
-                        " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                        " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email."&lang=".$lang;;
                     mail($model->email,$subject,$text,$headers);
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 }

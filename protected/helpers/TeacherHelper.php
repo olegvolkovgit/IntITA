@@ -182,4 +182,9 @@ class TeacherHelper
         $idTeacher = TeacherHelper::getTeacherId($user);
         return TeacherHelper::getTeacherName($idTeacher);
     }
+    public static function isUserTeacher($idUser){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser)))
+            return true;
+        else return false;
+    }
 }
