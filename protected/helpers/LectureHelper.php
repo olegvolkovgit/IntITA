@@ -202,9 +202,14 @@ class LectureHelper {
         return Lecture::model()->findByPk($id)->isFree;
     }
     /*Assign class press pages if there are at*/
-    public static function pressedPageIco($passedPages,$thisPage){
-        if($passedPages==$thisPage)
-            return 'pagePressed';
+    public static function lastAccessPage($passedPages){
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if($i == $count-1 && $passedPages[$i]['isDone'])
+                return $i;
+            if($passedPages[$i]['isDone'] && !$passedPages[$i+1]['isDone'])
+                return $i;
+        }
+            return 0;
     }
 
     public static function isPassedLecture($passedPages){

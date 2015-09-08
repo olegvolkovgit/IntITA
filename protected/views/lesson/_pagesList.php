@@ -6,7 +6,7 @@
  * Time: 1:47
  */
 $pagesList = LectureHelper::getPagesList($idLecture);?>
-<div name="lecturePage">
+<div name="lecturePage" class="pagesList">
 <h1 class="lessonPartEdit">
 <?php
 for($i = 0, $count = count($pagesList); $i < $count; $i++){

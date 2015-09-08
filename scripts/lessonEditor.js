@@ -42,8 +42,10 @@ function enableLessonEdit(block, course){
 }
 function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
-        return false;
-    } else {
+        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+    } else if($("div").is('.pagesList')) {
+        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+    } else{
         location.href='/courses/course'+course+'/lecture'+lecture+'/page'+editPage;
     }
 }
@@ -112,6 +114,10 @@ function addVideo(){
 }
 
 function deletePage(lecture, page, course){
+    if($("div.labelBlock").length==1){
+        alert('Ви не можете видалити останю сторінку');
+        return false;
+    }
     if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
         $.ajax({
             type: "POST",
@@ -130,8 +136,8 @@ function deletePage(lecture, page, course){
                 });
             }
         });
+        //location.href='/IntITA/courses/course'+course+'/lecture'+lecture+'/page1';
     }
-    location.href='/courses/course'+course+'/lecture'+lecture+'/page1';
 }
 
 function upPage(idLecture, pageOrder, course){

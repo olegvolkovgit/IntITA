@@ -329,8 +329,8 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     height: 8px; /*  ������ ������� */
     cursor: pointer;
 }
-#pagePressed{
-    background: url(/images/common/pagePressed.png);
+.lastAccessPage{
+    background: url(/images/common/lastAccessPage.png);
 }
 .noAccess{
     font-size: 14px;
@@ -341,7 +341,8 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
 }
 .progress a{
     position: relative;
-    margin-bottom: 10px;
+    vertical-align: top;
+    margin-top: 10px;
 }
 #arrowCursor{
     position: absolute;
@@ -358,11 +359,7 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     padding-left: 0;
     padding-right: 0;
 }
-/*.labelBlock{*/
-    /*border-bottom: 1px solid #335379;*/
-/*}*/
 #tooltip{
-    /*border-bottom: 1px solid #335379;*/
     display: none;
     vertical-align: bottom;
     line-height: 1;

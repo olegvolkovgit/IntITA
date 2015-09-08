@@ -6,6 +6,7 @@
  * Time: 16:09
  */
 ?>
+<?php $lastAccessPage=LectureHelper::lastAccessPage($passedPages) ?>
 <div class="lessonPart">
     <div class="labelBlock" id="labelBlock">
         <p>Частина <?php echo $page->page_order . '. ' . $page->page_title; ?></p>
@@ -23,8 +24,8 @@
                 LectureHelper::isLectureFree($page->id_lecture)
             ) {
                 ?>
-                <a class="pageDone pageTitle"
-                   id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'], $thisPage) ?>"
+                <a class="pageDone pageTitle <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"
+                   id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
                    href="<?php $args = $_GET;
                    $args['page'] = $passedPages[$i]['order'];
                    echo $this->createUrl('', $args) . "#title"; ?>"
@@ -46,7 +47,7 @@
 <?php } elseif ($edit == 1) {
     for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
         <a class="pageDone pageTitle"
-           id="<?php echo LectureHelper::pressedPageIco($passedPages[$i]['order'], $thisPage) ?>"
+           id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
            href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'editPage' => $i + 1)); ?>"
            title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
         <?php
