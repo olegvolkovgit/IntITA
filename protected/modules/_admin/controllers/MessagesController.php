@@ -70,14 +70,20 @@ class MessagesController extends CController
 	{
 		$model=new Messages;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Messages']))
+		if(isset($_POST['category']))
 		{
-			$model->attributes=$_POST['Messages'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_record));
+
+            Yii::app()->db->createCommand()->insert(
+                'sourcemessages',
+                array(
+                    'id' => null,
+                    'category' => $_POST['category'],
+                    'message' => $_POST['']
+                )
+            );
+//			$model->attributes=$_POST['Messages'];
+//			if($model->save())
+//				$this->redirect(array('view','id'=>$model->id_record));
 		}
 
 		$this->render('create',array(

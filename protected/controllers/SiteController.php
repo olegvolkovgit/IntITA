@@ -258,11 +258,13 @@ class SiteController extends Controller
                     );
 
                     if (!$existingForumUser) {
-                        $name = $userModel->firstName . ' ' . $userModel->secondName;
-                        if ($name == ' ') $name = $model->email;
+                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
+                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                            $name = $firstName . ' ' . $secondName;
+                        if ($name == '') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->insert('phpbb_users', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                                 'user_id'=> $userModel->id,
                                 'username'=> $name,
                                 'username_clean' => $name,
@@ -272,7 +274,7 @@ class SiteController extends Controller
                                 'user_lang' => $current_lang
                             ));
 
-                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
                             'group_id'=> 2,
                             'user_id'=> $userModel->id,
                             'group_leader' => 0,
@@ -392,12 +394,15 @@ class SiteController extends Controller
                             ->where('user_id=:id', array(':id' => $userModel->id))
                             ->queryAll()
                     );
+
                     if (!$existingForumUser) {
-                        $name = $userModel->firstName . ' ' . $userModel->secondName;
+                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
+                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                        $name = $firstName . ' ' . $secondName;
                         if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->insert('phpbb_users', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                             'user_id'=> $userModel->id,
                             'username'=> $name,
                             'username_clean' => $name,
@@ -407,7 +412,7 @@ class SiteController extends Controller
                             'user_lang' => $current_lang
                         ));
 
-                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
                             'group_id'=> 2,
                             'user_id'=> $userModel->id,
                             'group_leader' => 0,
