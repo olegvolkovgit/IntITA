@@ -2,13 +2,13 @@
 /* @var $this SiteController */
 /* @var $error array */
 
-$this->pageTitle=Yii::app()->name . ' - '.Yii::t('error','590');
+$this->pageTitle=Yii::app()->name . ' - '.Yii::t('error','0590');
 $this->breadcrumbs=array(
-    Yii::t('error','590'),
+    Yii::t('error','0590'),
 );
 ?>
 <div class='errorblock'>
-    <h1><?php echo Yii::t('error','590')." ".$code; ?></h1>
+    <h1><?php echo Yii::t('error','0590')." ".$code; ?></h1>
 
     <div class="error">
     <?php echo CHtml::encode($message); ?>
