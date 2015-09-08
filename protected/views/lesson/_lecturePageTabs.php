@@ -4,8 +4,12 @@
  */
 ?>
 <?php
-if (isset($_GET['page'])) $thisPage = $_GET['page'];
-else $thisPage = 1;
+if($editMode){
+    $thisPage =1;
+}else{
+    if (isset($_GET['page'])) $thisPage = $_GET['page'];
+    else $thisPage = $lastAccessPage;
+}
 if (!($passedPages[$thisPage-1]['isDone'] ||
     TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
     LectureHelper::isLectureFree($page->id_lecture))

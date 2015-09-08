@@ -42,8 +42,15 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
+
+        $passedPages = LecturePage::getAccessPages($id, $user);
+        $lastAccessPage=LectureHelper::lastAccessPage($passedPages)+1;
+        $page=$lastAccessPage;
         if (isset($_GET['editPage'])) {
             $page = $_GET['editPage'];
+        }
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
         }
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
@@ -69,8 +76,6 @@ class LessonController extends Controller
             $teacher = null;
         }
 
-        $passedPages = LecturePage::getAccessPages($id, $user);
-
         $this->render('index1', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
@@ -80,6 +85,7 @@ class LessonController extends Controller
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $page,
+            'lastAccessPage'=>$lastAccessPage,
         ));
     }
 
@@ -320,7 +326,7 @@ class LessonController extends Controller
     {
         $nextPage = LecturePage::getNextPage($id, $page);
 
-        $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'view' => '', 'page' => $nextPage)));
+        $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
 
     public function actionUpdateLectureAttribute()

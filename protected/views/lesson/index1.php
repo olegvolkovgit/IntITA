@@ -86,7 +86,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
         if (isset($_GET['editPage'])){
             $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
         }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
         }
         ?>
 
@@ -107,7 +107,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
             'resizable' => false,
         ),
     ));
-    $this->renderPartial('/lesson/_modalTask');
+    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
     <!--modal task congratulations end-->

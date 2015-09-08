@@ -359,7 +359,11 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     padding-left: 0;
     padding-right: 0;
 }
+/*.labelBlock{*/
+    /*border-bottom: 1px solid #335379;*/
+/*}*/
 #tooltip{
+    /*border-bottom: 1px solid #335379;*/
     display: none;
     vertical-align: bottom;
     line-height: 1;

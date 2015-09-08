@@ -6,7 +6,7 @@
 $qForm = new StudentReg;
 if(isset($_GET['page']))
     $page = $_GET['page'];
-else $page = 1;
+else $page = $lastAccessPage;
 
 $form = $this->beginWidget('CActiveForm', array(
     'enableClientValidation' => true,
