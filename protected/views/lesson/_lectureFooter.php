@@ -24,30 +24,7 @@ $footNavSize='960px'; // Ширина блоку
                 </tr>
             </table>
             <table class="ratingLeson">
-                <tr>
-                    <?php
-                    for ($i=0; $i<LectureHelper::getLectureRate($prevId); $i++)
-                    {
-                        ?>
-                        <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
-                    <?php
-                    }
-                    for ($j=0; $j<Lecture::MAX_RAIT-LectureHelper::getLectureRate($prevId); $j++)
-                    {
-                        ?>
-                        <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
-                    <?php
-                    }
-                    ?>
-                    <td><img src="<?php
-                        if (LectureHelper::isLectureAvailable($user, $lecture->getPreId(), false) || $editMode)
-                        {
-                            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
-                        } else {
-                            echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
-                        }
-                        ?> " style="width:<?php echo $footNavSize*0.035 . 'px'; ?>"></td>
-                </tr>
+
             </table>
             <div class="preLesonLink">
                 <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $prevId, 'idCourse'=>$idCourse));?>">&#171 <?php echo Yii::t('lecture','0087'); ?></a></p>
@@ -73,30 +50,7 @@ $footNavSize='960px'; // Ширина блоку
             </tr>
         </table>
         <table class="ratingLeson">
-            <tr>
-                <?php
-                for ($i=0; $i<LectureHelper::getLectureRate($nextId); $i++)
-                {
-                    ?>
-                    <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
-                <?php
-                }
-                for ($j=0; $j<Lecture::MAX_RAIT-LectureHelper::getLectureRate($nextId); $j++)
-                {
-                    ?>
-                    <td>	<img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>" style="width:<?php echo $footNavSize*0.015 . 'px';?>; padding:0px;"></td>
-                <?php
-                }
-                ?>
-                <td><img src="<?php
-                    if (LectureHelper::isLectureAvailable($user,$nextId, false))
-                    {
-                        echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
-                    } else {
-                        echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png');
-                    }
-                    ?> " style="width:<?php echo $footNavSize*0.035 . 'px';?>"></td>
-            </tr>
+
         </table>
         <?php
         if($passedLecture || $editMode || $lecture->isFree) { ?>
