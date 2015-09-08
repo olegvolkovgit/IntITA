@@ -19,7 +19,7 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 
-<?php $this->renderPartial('_slider', array('sliderPictures' => $sliderPictures));  ?>
+<?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
 $this->pageTitle = MainpageHelper::getTitle();

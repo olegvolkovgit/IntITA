@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <div class='errorblock'>
-    <h1>Error <?php echo $code; ?></h1>
+    <h1>Помилка <?php echo $code; ?></h1>
 
     <div class="error">
     <?php echo CHtml::encode($message); ?>

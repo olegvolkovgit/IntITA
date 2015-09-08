@@ -176,7 +176,7 @@ class StudentRegController extends Controller
                     $subject=Yii::t('activeemail','0298');
                     $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                     $text=Yii::t('activeemail','0299').
-                        " ".Yii::app()->params['baseUrl']."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                        " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
                     mail($model->email,$subject,$text,$headers);
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 }

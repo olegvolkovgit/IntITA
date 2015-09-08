@@ -49,7 +49,7 @@ class Course extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('language, title_ua, alias', 'required', 'message'=>Yii::t('coursemanage', '0387')),
-			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
+			array('course_duration_hours, course_price, cancelled', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),

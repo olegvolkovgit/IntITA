@@ -71,10 +71,10 @@
 </div>
 <div id="slider" class="owl-carousel">
     <?php
-    foreach($sliderPictures as $key){?>
+    foreach($slider as $key){?>
         <div class="slide">
             <div>
-                <p><?php echo Yii::t('slider','0027'); ?></p>
+                <p><?php echo Yii::t('slider', $key->slider_text); ?></p>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>" />
             </div>
         </div>

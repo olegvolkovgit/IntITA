@@ -26,32 +26,29 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
-
         $criteria= new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
-        $criteria->condition = 'language="ua" and cancelled = 0';
+        $criteria->condition = 'language="ua" and cancelled="0"';
         if ($selector !== 'all'){
             if ($selector == 'junior'){
                 $criteria->addInCondition('level', array('intern','strong junior','junior'));
             } else {
-                $criteria->condition = 'level=:level and language="ua"';
+                $criteria->condition = 'level=:level and language="ua" and cancelled=0';
                 $criteria->params = array(':level'=>$selector);
             }
-
         }
 
         $dataProvider = new CActiveDataProvider('Course', array(
             'criteria' => $criteria,
             'Pagination'=>false,
         ));
+
         $coursesLang = CourseLanguages::getCoursesByLang($criteria);
 
-        $total = count(Course::model()->findAllByAttributes(array('language' => "ua")));
+        $total = count(Course::model()->findAllByAttributes(array('language' => "ua", 'cancelled' => 0)));
 
-        $totalSelector = $dataProvider->getTotalItemCount();
+        $totalSelector = count($coursesLang);
         $count1 = round($totalSelector/2);
         $count2 = $totalSelector - $count1;
 
