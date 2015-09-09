@@ -102,4 +102,24 @@ class Messages extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addNewRecord($id, $language, $translation){
+        $model = new Messages();
+
+        $model->id = $id;
+        $model->language = $language;
+        $model->translation = $translation;
+
+        return $model->save();
+    }
+
+    public static function addMessageCodeComment($code, $comment){
+        return Yii::app()->db->createCommand()->insert(
+            'message_comment',
+            array(
+                'message_code' => $code,
+                'comment' => $comment,
+            )
+        );
+    }
 }

@@ -281,6 +281,9 @@ class AccessHelper
     public static function accesLecture($id,$order,$enabledOrder){
         $lecture = Lecture::model()->findByPk($id);
         $user = Yii::app()->user->getId();
+        if(AccessHelper::isAdmin()){
+            return true;
+        }
         if (!($lecture->isFree)){
             if(Yii::app()->user->isGuest){
                 return false;
