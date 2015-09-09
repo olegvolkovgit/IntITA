@@ -77,8 +77,6 @@ class Messages extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_record',$this->id_record);
@@ -88,7 +86,9 @@ class Messages extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-
+            'pagination'=>array(
+                'pageSize'=>30,
+            ),
 		));
 	}
 

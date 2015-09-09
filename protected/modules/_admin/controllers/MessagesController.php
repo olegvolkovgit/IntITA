@@ -69,6 +69,7 @@ class MessagesController extends CController
 	public function actionCreate()
 	{
 		$model = new Messages;
+        $idMessage = Yii::app()->request->getPost('id', '');
         $category = Yii::app()->request->getPost('category', '');
         $translateUa = Yii::app()->request->getPost('translateUa', '');
         $translateRu = Yii::app()->request->getPost('translateRu', '');
@@ -77,19 +78,19 @@ class MessagesController extends CController
 
 		if(isset($_POST['category']))
 		{
-            //Last record id
-            $max = Sourcemessages::getMaxId();
-
-            $newId = ++$max;
+            if(Sourcemessages::model()->exists('id=:id', array(':id' => $idMessage))){
+                throw new CHttpException(403,
+                    'Запис з таким id вже є в базі даних. Id повідомлення не може повторюватися.');
+            }
             //add source message
-            $result = Sourcemessages::addSourceMessage($newId, $category, str_pad("".$newId, 4, 0));
+            $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0));
             // if added source message, then add translations
             if($result){
-                Messages::addNewRecord($newId, 'ua', $translateUa);
-                Messages::addNewRecord($newId, 'ru', $translateRu);
-                Messages::addNewRecord($newId, 'en', $translateEn);
+                Messages::addNewRecord($idMessage, 'ua', $translateUa);
+                Messages::addNewRecord($idMessage, 'ru', $translateRu);
+                Messages::addNewRecord($idMessage, 'en', $translateEn);
 
-                Messages::addMessageCodeComment($newId, $comment);
+                Messages::addMessageCodeComment($idMessage, $comment);
             }
                 $this->actionIndex();
 		}
