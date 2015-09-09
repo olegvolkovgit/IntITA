@@ -8,12 +8,12 @@ class MessagesHelper
     }
 
     public static function getMessageCommentById($code){
-        $comment = Yii::app()->db->createCommand()
-            ->select('comment')
-            ->from('message_comment')
-            ->where('message_code=:code', array(':code' => $code))
-            ->queryRow();
-        return ($comment['comment'])?$comment['comment']:'';
+        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
+            return MessageComment::model()->findByPk($code)->comment;
+        } else {
+            return '';
+        }
+
     }
 }
 ?>

@@ -44,7 +44,7 @@
     <div class="row">
         <?php echo $form->labelEx($model,'comment'); ?>
         <?php echo $form->textArea($model,'comment',array(
-            'value' => MessageComment::model()->findByPk($model->id)->comment,
+            'value' => MessagesHelper::getMessageCommentById($model->id),
             'rows'=>6,
             'cols'=>50)); ?>
         <?php echo $form->error($model,'comment'); ?>
