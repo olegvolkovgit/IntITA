@@ -93,11 +93,12 @@ class MessagesController extends CController
                 Messages::addMessageCodeComment($idMessage, $comment);
             }
                 $this->actionIndex();
-		}
+		} else {
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+            $this->render('create', array(
+                'model' => $model,
+            ));
+        }
 	}
 
 	/**
@@ -112,11 +113,14 @@ class MessagesController extends CController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+
 		if(isset($_POST['Messages']))
 		{
 			$model->attributes=$_POST['Messages'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_record));
+			if($model->save()) {
+                Messages::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
+                $this->redirect(array('view', 'id' => $model->id_record));
+            }
 		}
 
 		$this->render('update',array(

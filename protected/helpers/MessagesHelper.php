@@ -13,7 +13,7 @@ class MessagesHelper
             ->from('message_comment')
             ->where('message_code=:code', array(':code' => $code))
             ->queryRow();
-        return ($comment)?$comment:'';
+        return ($comment['comment'])?$comment['comment']:'';
     }
 }
 ?>
