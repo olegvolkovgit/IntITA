@@ -90,7 +90,7 @@ class MessagesController extends CController
                 Messages::addNewRecord($idMessage, 'ru', $translateRu);
                 Messages::addNewRecord($idMessage, 'en', $translateEn);
 
-                Messages::addMessageCodeComment($idMessage, $comment);
+                MessageComment::addMessageCodeComment($idMessage, $comment);
             }
                 $this->actionIndex();
 		} else {
@@ -118,7 +118,7 @@ class MessagesController extends CController
 		{
 			$model->attributes=$_POST['Messages'];
 			if($model->save()) {
-                Messages::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
+                MessageComment::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
                 $this->redirect(array('view', 'id' => $model->id_record));
             }
 		}

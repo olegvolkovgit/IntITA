@@ -119,28 +119,5 @@ class Messages extends CActiveRecord
         return $model->save();
     }
 
-    public static function addMessageCodeComment($code, $comment)
-    {
-        return Yii::app()->db->createCommand()->insert(
-            'message_comment',
-            array(
-                'message_code' => $code,
-                'comment' => $comment,
-            )
-        );
-    }
 
-    public static function updateMessageCodeComment($code, $comment)
-    {
-        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
-            MessageComment::model()->updateByPk($code, array('comment' => $comment));
-        } else{
-            $model = new MessageComment();
-
-            $model->message_code = $code;
-            $model->comment = $comment;
-
-            $model->save();
-        }
-     }
 }
