@@ -186,7 +186,7 @@ class SiteController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
             if ($model->validate()) {
-                if (isset($_GET['lg'])) $lang=$_GET['lg'];
+                if (Yii::app()->session['lg']) $lang=Yii::app()->session['lg'];
                 else $lang='ua';
                 $model->save();
                 $subject = Yii::t('activeemail', '0298');

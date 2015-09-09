@@ -172,7 +172,7 @@ class StudentRegController extends Controller
                 if ($model->hasErrors()) {
                     $this->render("studentreg", array('model'=>$model,'tab'=>$tab));
                 } else{
-                    if (isset($_GET['lg'])) $lang=$_GET['lg'];
+                    if (Yii::app()->session['lg']) $lang=Yii::app()->session['lg'];
                     else $lang='ua';
                     $model->save();
                     $subject=Yii::t('activeemail','0298');
@@ -514,9 +514,6 @@ class StudentRegController extends Controller
 
         switch ($tab){
             case '1':
-                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
-                break;
-            case '2':
                 $criteria= new CDbCriteria;
                 $criteria->alias = 'consultationscalendar';
                 if($teacher)
@@ -535,10 +532,32 @@ class StudentRegController extends Controller
                     ),
                 ));
                 break;
-            case '3':
+            case '2':
                 $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
                 break;
+            case '3':
+                $criteria= new CDbCriteria;
+                $criteria->alias = 'consultationscalendar';
+                if($teacher)
+                    $criteria->addCondition('teacher_id='.$teacher->teacher_id);
+                else
+                    $criteria->addCondition('user_id='.$user);
+
+                $data = new CActiveDataProvider('Consultationscalendar', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>100,
+                    ),
+                    'sort'=> array(
+                        'defaultOrder' => 'date_cons DESC',
+                        'attributes'=>array('date_cons'),
+                    ),
+                ));
+                break;
             case '4':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '5':
                 $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
                 break;
         }

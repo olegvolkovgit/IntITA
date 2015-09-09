@@ -6,8 +6,6 @@
  * Time: 2:05
  */
 ?>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!--Render all parts of lesson content-->
 <br>
 <?php
     for ($i = count($data); $i > 0; $i--){

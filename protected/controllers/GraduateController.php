@@ -25,7 +25,7 @@ class GraduateController extends Controller
     {
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view'),
+                'actions'=>array('index','view','UpdateAjaxFilter'),
                 'users'=>array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -154,5 +154,23 @@ class GraduateController extends Controller
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+    public function actionUpdateAjaxFilter()
+    {
+        $selector=$_GET['selector'];
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'graduate';
+        if ($selector == 'az') $criteria->order = 'last_name ASC';
+        if ($selector == 'date') $criteria->order = 'graduate_date DESC';
+        if ($selector == 'rating') $criteria->order = 'rate DESC';
+
+        $dataProvider=new CActiveDataProvider('Graduate', array(
+            'criteria' => $criteria,
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
+        ));
+        $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider), false, true);
     }
 }

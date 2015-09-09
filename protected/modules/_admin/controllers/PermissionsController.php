@@ -214,8 +214,8 @@ class PermissionsController extends Controller
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
         $rows = Module::model()->findAll($criteriaData);
-        $result = $first.'<option value="">Всі модулі</option>
-                   <optgroup label="Виберіть модуль">';
+        $result = $first.'<option value="">'.Yii::t('payments', '0606').'</option>
+                   <optgroup label="'.Yii::t('payments', '0607').'">';
         foreach ($rows as $numRow => $row) {
             if($row[$titleParam] == '')
                 $title = 'title_ua';
@@ -368,8 +368,8 @@ class PermissionsController extends Controller
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
-        $result = $first.'<option value="">Всі модулі</option>
-                   <optgroup label="Виберіть модуль">';
+        $result = $first.'<option value="">'.Yii::t('payments', '0606').'</option>
+                   <optgroup label="'.Yii::t('payments', '0607').'">';
         $rows = Module::model()->findAll($criteriaData);
         foreach ($rows as $numRow => $row) {
             if($row[$titleParam] == '')
