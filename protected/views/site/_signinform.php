@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="forgotPass">
             <?php echo CHtml::link(Yii::t('regform','0092'), '#', array('id'=>'forgotPass','onclick' => 'openForgotpass()')); ?>
-            <?php echo CHtml::link(Yii::t('registration','591'), Yii::app()->createUrl('site/index', array())."#form", array('id'=>'registration')); ?>
+            <?php echo CHtml::link(Yii::t('registration','0591'), Yii::app()->createUrl('site/index', array())."#form", array('id'=>'registration')); ?>
         </div>
 
     <?php $labelButton = Yii::t('regform',Yii::t('regform','0093'));?>

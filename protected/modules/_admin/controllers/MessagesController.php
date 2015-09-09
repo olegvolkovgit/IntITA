@@ -83,7 +83,7 @@ class MessagesController extends CController
                     'Запис з таким id вже є в базі даних. Id повідомлення не може повторюватися.');
             }
             //add source message
-            $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0));
+            $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0, STR_PAD_LEFT));
             // if added source message, then add translations
             if($result){
                 Messages::addNewRecord($idMessage, 'ua', $translateUa);
@@ -148,13 +148,7 @@ class MessagesController extends CController
         if(isset($_GET['Messages']))
             $model->attributes=$_GET['Messages'];
 
-		$dataProvider=new CActiveDataProvider('Messages', array(
-            'pagination'=>array(
-                'pageSize'=>30,
-            ),
-        ));
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
             'model' => $model,
 		));
 	}
