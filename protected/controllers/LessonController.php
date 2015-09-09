@@ -406,7 +406,7 @@ class LessonController extends Controller
         $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         if ($pageOrder > 1) {
-            $this->swapPages($idLecture, $pageOrder - 1, $pageOrder);
+            LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
 
         return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));

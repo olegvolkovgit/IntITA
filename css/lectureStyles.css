@@ -296,7 +296,7 @@ margin-left:10px;
 .container{
     display: block;
     overflow: hidden;
-    height: 80px;
+    height: 85px;
 }
 textarea#formulaContainer{
     min-width: 310px;
@@ -304,13 +304,13 @@ textarea#formulaContainer{
     resize: none;
 }
 .pageDone{
-    background: url(/images/common/pageDone.png); /* ���� � ����� � �������� ��������  */
-    display: inline-block; /*  ������� ��� ������� ������� */
-    width: 40px; /* ������ ������� */
-    height: 8px; /*  ������ ������� */
+    background: url(/images/common/pageDone.png);
+    display: inline-block;
+    width: 40px;
+    height: 8px;
 }
 a.pageDone,a.pageNoAccess,a#pagePressed{
-    display: inline-block; /*  ������� ��� ������� ������� */
+    display: inline-block;
 }
 .pageDone:hover{
     background: url(/images/common/pageDoneHover.png);
@@ -323,10 +323,10 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
     display: none;
 }
 .pageNoAccess{
-    background: url(/images/common/pageNoAccess.png); /* ���� � ����� � �������� ��������  */
-    display: inline-block; /*  ������� ��� ������� ������� */
-    width: 40px; /* ������ ������� */
-    height: 8px; /*  ������ ������� */
+    background: url(/images/common/pageNoAccess.png);
+    display: inline-block;
+    width: 40px;
+    height: 8px;
     cursor: pointer;
 }
 .lastAccessPage{
@@ -354,6 +354,20 @@ a.pageDone,a.pageNoAccess,a#pagePressed{
 }
 .text, .codeExample{
     padding: 10px;
+}
+.text table{
+    margin: 0;
+    margin-bottom: 15px;
+    border: none;
+    background: none;
+    box-shadow: none;
+    width: 100%;
+}
+.text table td{
+    padding: 5px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    height: 16px;
 }
 .lessonText fieldset{
     padding-left: 0;
@@ -417,4 +431,10 @@ h1.lessonPartEdit p img{
     height:400px;
     max-width: 770px;
     cursor: pointer;
+}
+.redactor-box .redactor-editor hr{
+    margin-bottom: 0;
+}
+.redactor-box .redactor-editor{
+    min-height: 100px;
 }

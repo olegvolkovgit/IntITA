@@ -234,8 +234,15 @@ p.courseLevLang{
 }
 /*My Course*/
 /*Timetable*/
+#timetable{
+    padding-left: 0;
+    padding-right: 0;
+}
+#timetable .tabHeader{
+    margin-left: 30px;
+}
 table.exmCons{
-    margin-left: 35px;
+    margin-left: 10px;
 }
 table.exmCons img{
     display: block;
@@ -357,11 +364,11 @@ div#consultation-grid.grid-view td{
     width:250px;
     word-wrap: break-word;
 }
-.selectedTab {
+.formStudProf .selectedTab {
     text-decoration: none;
     color: #999999;
 }
-.selectedTab .unselectedTab {
+.formStudProf .selectedTab .unselectedTab {
     text-decoration: underline;
     color: #4b75a4;
 }

@@ -6,8 +6,16 @@
     position: relative;
     width: 1200px;
     margin: 0 auto;
-    color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
+}
+.graduates h1{
+    font-size: 30px;
+    color: #4B75A4;
+    margin-bottom: 0;
+}
+table.graduatesFilter{
+    display: inline-block;
+    vertical-align: middle;
 }
 .GraduatesBlock {
     position: relative;
@@ -136,4 +144,25 @@ span.spoilerTriangle {
 }
 .rat img{
     margin-left:2px;
+}
+.graduatesFilter td{
+    padding: 0 10px 0 10px;
+    border-left: 1px solid #4b75a4;
+}
+.graduatesFilter td a{
+    font-size: 14px;
+    color:#4b75a4;
+}
+.graduatesFilter td a:visited{
+    color:#4b75a4;
+}
+.graduatesFilter td a:hover{
+    color:#999999;
+}
+.graduatesFilter td:first-child{
+    border-left: none;
+}
+.graduatesFilter td a.selectedFilter{
+    color:#999999;
+    text-decoration: none;
 }

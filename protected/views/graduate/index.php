@@ -16,7 +16,6 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 </div>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/GraduatesStyle.css" />
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
 
 <div class="subNavBlockGraduates">
     <?php
@@ -27,21 +26,11 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     ?>
 </div>
 <div class="graduateBlock">
-    <h1 class="graduates"><?php echo Yii::t('graduates', '0297')?></h1>
-    <?php
-    $this->widget('application.components.ColumnListView', array(
-        'dataProvider'=>$dataProvider,
-        'itemView'=>'_graduateBlock',
-        'summaryText' => '',
-        'columns'=>array("one","two"),
-        'pager' => array(
-            'firstPageLabel'=>'&#171;&#171;',
-            'lastPageLabel'=>'&#187;&#187;',
-            'prevPageLabel'=>'&#171;',
-            'nextPageLabel'=>'&#187;',
-            'header'=>'',
-            'cssFile'=>Config::getBaseUrl().'/css/pager.css'
-        ),
-    ));
-    ?>
+    <div  class="graduates">
+        <h1><?php echo Yii::t('graduates', '0297')?></h1>
+        <?php echo $this->renderPartial('_graduateFilter'); ?>
+    </div>
+    <div id="graduateBlock">
+        <?php echo $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider)); ?>
+    </div>
 </div>
