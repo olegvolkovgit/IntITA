@@ -43,7 +43,10 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'comment'); ?>
-        <?php echo $form->textArea($model,'comment',array('rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->textArea($model,'comment',array(
+            'value' => MessageComment::model()->findByPk($model->id)->comment,
+            'rows'=>6,
+            'cols'=>50)); ?>
         <?php echo $form->error($model,'comment'); ?>
     </div>
 
