@@ -211,6 +211,9 @@ switch ($mode)
         $message = $user->lang['PERMISSIONS_RESTORED'] . '<br /><br />' . sprintf($user->lang['RETURN_INDEX'], '<a href="' . append_sid("{$phpbb_root_path}index.$phpEx") . '">', '</a>');
         trigger_error($message);
         break;
+    case 'avatar':
+        header("location: ../studentreg/edit");
+        break;
     default:
         $default = true;
         break;

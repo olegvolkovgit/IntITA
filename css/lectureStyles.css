@@ -438,3 +438,7 @@ h1.lessonPartEdit p img{
 .redactor-box .redactor-editor{
     min-height: 100px;
 }
+
+/*#toolbar{*/
+    /*display:none;*/
+/*}*/

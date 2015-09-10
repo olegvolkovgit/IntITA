@@ -18,6 +18,7 @@
         <?php echo $data['html_block']; ?>
         <?php $idValue = "#" . $data['block_order']; ?>
     </div>
+    <div id="toolbar<?php echo "#t".$data['block_order'];?>" style="display: none"></div>
 </div>
 
 

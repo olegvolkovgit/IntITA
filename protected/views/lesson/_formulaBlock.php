@@ -35,8 +35,7 @@ $formulaCode = addcslashes($temp, '\\');
                           onclick="buttonEditFormulaEnabled()">
                     <?php echo $data['html_block'];?>
                 </textarea>
-                <div id="toolbar"></div>
-                <img id="equation" align="middle" />
+<!--                <div id="toolbar"></div>-->
                 <br>
                 <input class="editFormulaButton" type="submit" value="Зберегти" onclick="sendContent('<?php echo 'content'.$data['block_order'];?>//')">
                 <input class="editFormulaCancel" type="submit" value="Скасувати" onclick='cancelEditFormula()'>
@@ -78,6 +77,5 @@ $formulaCode = addcslashes($temp, '\\');
         $(".editFormulaCancel").attr('disabled',true);
         location.reload();
     }
-//EqEditor.embed(toolbar);
-//EqEditor.add(new EqTextArea('equation', 'latexInput'),false);
+
 </script>

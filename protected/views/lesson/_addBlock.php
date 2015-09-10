@@ -7,6 +7,7 @@
  */
 ?>
 
+
 <a name="newBlockForm">
     <div id="blockForm">
         <div id="textBlockForm">
@@ -24,6 +25,7 @@
                     <div class="inner">
                         <textarea placeholder="Формула для вставки в блок" class="source" data-source="insert" id="formulaContainer"></textarea>
                         <label><input id="inlineFormula" type="checkbox" checked/>Формула в тексті</label>
+                        <img id="equation" align="center"/>
                     </div>
                     <div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>
                     <button type="button" class="action" data-action="insert">Вставити формулу</button>
@@ -78,3 +80,11 @@
         ));
 
     ?>
+    <script type="text/javascript">
+        $(window).load(function() {
+            document.getElementById('toolbar').style.display = "block";
+            EqEditor.embed('toolbar', '', 'full', 'uk-uk');
+            var a = new EqTextArea('equation', 'formulaContainer');
+            EqEditor.add(a, false);
+        })
+    </script>
