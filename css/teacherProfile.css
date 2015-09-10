@@ -6,6 +6,7 @@
     font-size:16px;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 410px;
 }
 .TeacherProfiletitles img
 {
@@ -21,6 +22,9 @@
 {
     float:left;
     width:583px;
+}
+.TeacherProfileblock1 .redactor-editor {
+    padding: 5px;
 }
 .TeacherProfileblock1 table td:last-child{
     width: 100%;
@@ -47,6 +51,7 @@ td img.icons {
     color:#4B75A4;
     font-size:26px;
     margin-bottom:0px;
+    width: 410px;
 }
 
 .TeacherProfilename a

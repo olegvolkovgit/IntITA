@@ -78,7 +78,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <div class="lessonText">
         <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <div id="chaptersList">
-            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'passedPages' => $passedPages)); ?>
+            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'passedPages' => $passedPages, 'editMode' =>$editMode)); ?>
         </div>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));

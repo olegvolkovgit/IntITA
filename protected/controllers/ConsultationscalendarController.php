@@ -110,7 +110,8 @@ class ConsultationscalendarController extends Controller
 
         $criteriaData= new CDbCriteria;
         $criteriaData->alias = 'teacher';
-        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'OR');
+		$criteriaData->condition = 'isPrint = 1';
+        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'AND');
 
         $dataProvider=new CActiveDataProvider('Teacher', array(
             'criteria' =>$criteriaData,

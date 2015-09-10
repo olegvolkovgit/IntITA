@@ -31,7 +31,7 @@ class LecturePage extends CActiveRecord
 		return array(
 			array('id_lecture', 'required'),
 			array('id_lecture, page_order, video, quiz', 'numerical', 'integerOnly'=>true),
-            array('page_title', 'length', 'max' => 255),
+            array('page_title', 'length', 'max' => 85),
 
 			array('id, id_lecture, page_order, video, quiz, page_title', 'safe', 'on'=>'search'),
 		);
