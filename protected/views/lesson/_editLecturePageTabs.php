@@ -10,6 +10,13 @@ $page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id']
 if (isset($_GET['editPage'])) $thisPage = $_GET['editPage'];
 else $thisPage = 1;
 ?>
+<link rel="stylesheet" type="text/css"
+      href="http://latex.codecogs.com/css/equation-embed.css" />
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
+<script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div name="lecturePage">
     <?php $this->renderPartial('_lectureProgress', array('page'=>$page,'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>1)); ?>
 <script type="text/javascript">
@@ -63,7 +70,7 @@ if($page->video == null) {?>
         $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
         ?>
     </div>
-    <?php $this->renderPartial('_addFormula', array('idLecture' => $lecture->id, 'pageOrder' => $page->page_order));?>
+<!--    --><?php //$this->renderPartial('_addFormula', array('idLecture' => $lecture->id, 'pageOrder' => $page->page_order));?>
     <br>
     Додати:
     <br>
@@ -71,7 +78,7 @@ if($page->video == null) {?>
     <button onclick="addTextBlock('3')"> Код </button>
     <button onclick="addTextBlock('4')"> Приклад </button>
     <button onclick="addTextBlock('7')"> Інструкція </button>
-    <button onclick="addFormula('1')"> Формула LaTeX </button>
+<!--    <button onclick="addFormula('1')"> Формула LaTeX </button>-->
 
 </fieldset>
 <h3><label for="pageQuiz">Завдання (тест)</label></h3>

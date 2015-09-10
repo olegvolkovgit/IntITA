@@ -171,6 +171,7 @@ class TeacherHelper
     }
 
     public static function getTeacherId($user){
+
         if ($user != 0 && Teacher::model()->exists('user_id=:user', array(':user' => $user))){
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         } else {

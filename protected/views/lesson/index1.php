@@ -46,10 +46,14 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     }
   });
 </script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript"
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
+<!-- Spoiler -->
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
+<!-- Spoiler -->
 <!--Sidebar-->
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/SidebarLesson.js"></script>
 <!--Sidebar-->
@@ -142,6 +146,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shMegaLang.js'></script>
 
 <script>SyntaxHighlighter.all();</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <!--Font Awesome-->

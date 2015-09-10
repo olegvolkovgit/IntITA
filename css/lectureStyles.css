@@ -296,7 +296,7 @@ margin-left:10px;
 .container{
     display: block;
     overflow: hidden;
-    height: 85px;
+    height: 250px;
 }
 textarea#formulaContainer{
     min-width: 310px;
@@ -438,3 +438,7 @@ h1.lessonPartEdit p img{
 .redactor-box .redactor-editor{
     min-height: 100px;
 }
+
+/*#toolbar{*/
+    /*display:none;*/
+/*}*/

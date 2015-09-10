@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/lesson/showPagesList",
+        url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -76,7 +76,10 @@ function addFormula(type){
     document.getElementById('blockForm').style.display = 'block';
     document.getElementById('blockType').value = type;
     $('#addBlock').find('.redactor-editor').attr('data-target','insert');
-    OpenLatexEditor('formulaContainer','latex','uk_uk', true);
+
+    EqEditor.embed('toolbar','','full','uk-uk');
+    EqEditor.add(new EqTextArea('equation', 'formulaContainer'),false);
+    //OpenLatexEditor('formulaContainer','latex','uk_uk', true);
 }
 
 function cancelAddFormula(){

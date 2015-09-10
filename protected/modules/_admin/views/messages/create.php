@@ -11,6 +11,10 @@
 <h1>Додати повідомлення</h1>
 
 <form method="post" action="<?php echo Yii::app()->createUrl('/_admin/messages/create');?>" class="formatted-form">
+    <label for="id">ID повідомлення</label>
+    <input type="text" name="id" required>
+    <br>
+    <br>
     <label for="category">Категорія повідомлення</label>
     <input type="text" name="category" required>
     <br>

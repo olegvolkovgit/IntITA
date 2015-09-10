@@ -40,6 +40,10 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         'id',
         'language',
+        array(
+            'header' => 'Категорія',
+            'value' => 'MessagesHelper::getMessageCategory($data->id)',
+        ),
         'translation',
         array(
             'header' => 'Коментар',

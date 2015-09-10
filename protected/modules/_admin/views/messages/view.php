@@ -19,3 +19,9 @@
 		'translation',
 	),
 )); ?>
+<br>
+<b>Коментар:</b>   <?php echo MessagesHelper::getMessageCommentById($model->id);?>
+<br>
+<br>
+<b>Категорія:</b>  <?php echo MessagesHelper::getMessageCategory($model->id);?>
+

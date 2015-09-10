@@ -26,13 +26,9 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
     </body>
 <?php
-/*$this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0051'),
-);*/
 $this->pageTitle = MainpageHelper::getTitle();
 $headerText = MainpageHelper::getHeader1();
 $subheaderText = MainpageHelper::getSubheader1();
-//$dropName = MainpageHelper::getLinkName();
 $massAbout = array($block1, $block2, $block3);
 ?>
 

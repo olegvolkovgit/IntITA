@@ -15,10 +15,6 @@
                 // done
                 $this->renderPartial('_textBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
-            case 2:
-                // done
-                //$this->renderPartial('_videoBlock', array('data'=>$data, 'editMode' => $editMode));
-                break;
             case 3:
                 // done
                 $this->renderPartial('_exampleBlock', array('data'=>$data, 'editMode' => $editMode));

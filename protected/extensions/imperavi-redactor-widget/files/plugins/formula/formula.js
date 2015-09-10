@@ -15,9 +15,16 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 this.button.addCallback(button, this.formula.sendContent);
 
             },
-            sendContent: function()
-            {
-                OpenLatexEditor('formulaContainer','latex','uk_uk', 'true');
+            sendContent: function() {
+                id = "toolbar" + order;
+                alert(id);
+                document.getElementById('formulaContainer').focus();
+                $(document).ready(function () {
+                    EqEditor.embed(id, '', 'full', 'uk-uk');
+                    var a = new EqTextArea('equation', 'formulaContainer');
+                    EqEditor.add(a, false);
+                    document.getElementById(id).style.display = 'block';
+                })
             }
         };
     };

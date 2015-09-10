@@ -31,10 +31,11 @@ $formulaCode = addcslashes($temp, '\\');
                   style="display:none;">
                 <input id="idLecture" name="idLecture" value="<?php echo $data['id_lecture'];?>" hidden="hidden">
                 <input id="order" name="order" value="<?php echo $data['block_order'];?>" hidden="hidden">
-                <textarea name="content"
-                          id="content<?php echo $data['block_order'];?>" cols="108" rows="10" required onclick="buttonEditFormulaEnabled()">
+                <textarea name="content" id="content<?php echo $data['block_order'];?>" cols="108" rows="10" required
+                          onclick="buttonEditFormulaEnabled()">
                     <?php echo $data['html_block'];?>
                 </textarea>
+<!--                <div id="toolbar"></div>-->
                 <br>
                 <input class="editFormulaButton" type="submit" value="Зберегти" onclick="sendContent('<?php echo 'content'.$data['block_order'];?>//')">
                 <input class="editFormulaCancel" type="submit" value="Скасувати" onclick='cancelEditFormula()'>
@@ -76,6 +77,5 @@ $formulaCode = addcslashes($temp, '\\');
         $(".editFormulaCancel").attr('disabled',true);
         location.reload();
     }
-//EqEditor.embed(toolbar);
-//EqEditor.add(new EqTextArea('equation', 'latexInput'),false);
+
 </script>
