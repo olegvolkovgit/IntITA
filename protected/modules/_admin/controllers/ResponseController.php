@@ -150,16 +150,22 @@ class ResponseController extends CController
 
     public function actionSetPublish($id)
     {
+		$response=Response::model()->findByPk($id);
         Response::model()->updateByPk($id, array('is_checked' => 1));
 
-        // if AJAX request, we should not redirect the browser
+		ResponseHelper::setTeacherRating($response);
+
+		// if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUnsetPublish($id)
     {
+		$response=Response::model()->findByPk($id);
         Response::model()->updateByPk($id, array('is_checked' => 0));
+
+		ResponseHelper::setTeacherRating($response);
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

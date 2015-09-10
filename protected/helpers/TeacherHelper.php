@@ -171,6 +171,7 @@ class TeacherHelper
     }
 
     public static function getTeacherId($user){
+
         if ($user != 0 && Teacher::model()->exists('user_id=:user', array(':user' => $user))){
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         } else {
@@ -181,5 +182,10 @@ class TeacherHelper
     public static function getTeacherNameByUserId($user){
         $idTeacher = TeacherHelper::getTeacherId($user);
         return TeacherHelper::getTeacherName($idTeacher);
+    }
+    public static function isUserTeacher($idUser){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser)))
+            return true;
+        else return false;
     }
 }

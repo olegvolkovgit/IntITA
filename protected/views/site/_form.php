@@ -1,6 +1,5 @@
 <?php
     $model=new StudentReg();
-    $mainpage = new Mainpage();
 ?>
 
 <a name="form" ></a>
@@ -45,14 +44,14 @@
             </div>
 
 			<div class="rowButtons">
-				<?php $labelButton = $mainpage->getButtonStart();?>
+				<?php $labelButton = MainpageHelper::getButtonStart();?>
 				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'onclick' => 'trimUpEmail()')); ?>
 			</div>
 
-			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
+			<div class="linesignInForm"><?php echo MainpageHelper::getSocialText(); ?></div>
 			<div class="image" >
                     <div id="uReg" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo,city;
-								redirect_uri=<?php echo Yii::app()->request->baseUrl.'/site/sociallogin'?>">
+								redirect_uri=<?php echo Config::getBaseUrl().'/site/sociallogin'?>">
 							<ul id="uLoginImages">
 								<li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>" x-ulogin-button = "facebook" title = "Facebook"/></li>
                                 <li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'googleplus2.png'); ?>" x-ulogin-button = "googleplus" title = "Google +"/></li>

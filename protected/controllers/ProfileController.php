@@ -13,7 +13,7 @@ class ProfileController extends Controller
         $teacher = Teacher::model()->findByPk($idTeacher);
 
         $response = new Response();
-        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID and is_checked = 1', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
+        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
 
 
         if (isset($_POST['Response'])) {
@@ -57,10 +57,6 @@ class ProfileController extends Controller
 
                 $response->save();
 
-                $teacher->updateByPk($idTeacher, array('rate_knowledge' => $teacher->getAverageRateKnwl($teacher->user_id)));
-                $teacher->updateByPk($idTeacher, array('rate_efficiency' => $teacher->getAverageRateBeh($teacher->user_id)));
-                $teacher->updateByPk($idTeacher, array('rate_relations' => $teacher->getAverageRateMot($teacher->user_id)));
-                $teacher->updateByPk($idTeacher, array('rating' => $teacher->getAverageRate($teacher->user_id)));
                 Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
                 $this->refresh();
             }

@@ -27,10 +27,10 @@ class MibewHelper {
     }
 
     public static function getMibewHost(){
-        return Yii::app()->params['baseUrl'];
+        return Config::getBaseUrl();
     }
 
     public static function getMibewHostWithoutHeader(){
-        return Yii::app()->params['baseUrlWithoutHeader'];
+        return Config::getBaseUrlWithoutSchema();
     }
 }

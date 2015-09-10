@@ -3,7 +3,7 @@
 /* @var $model Messages */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+<link rel="stylesheet" type="text/css" href="<?php Config::getBaseUrl();?>/css/formattedForm.css"/>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -40,6 +40,15 @@
 		<?php echo $form->textArea($model,'translation',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'translation'); ?>
 	</div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'comment'); ?>
+        <?php echo $form->textArea($model,'comment',array(
+            'value' => MessagesHelper::getMessageCommentById($model->id),
+            'rows'=>6,
+            'cols'=>50)); ?>
+        <?php echo $form->error($model,'comment'); ?>
+    </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Зберегти'); ?>

@@ -29,15 +29,14 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 /*$this->breadcrumbs=array(
     Yii::t('breadcrumbs', '0051'),
 );*/
-$this->pageTitle = Yii::t('mainpage', '0001');
-$headerText = Yii::t('mainpage', '0002');
-$subheaderText = Yii::t('mainpage', '0006');
-$subLineImage = $mainpage['subLineImage'];
-$dropName = Yii::t('mainpage', '0004');
+$this->pageTitle = MainpageHelper::getTitle();
+$headerText = MainpageHelper::getHeader1();
+$subheaderText = MainpageHelper::getSubheader1();
+//$dropName = MainpageHelper::getLinkName();
 $massAbout = array($block1, $block2, $block3);
 ?>
 
 <?php $this->renderPartial("_slider"); ?>
 
-<?php $this->renderPartial('_shortBlocks', array('subLineImage' => $subLineImage, 'massAbout' => $massAbout)); ?>
+<?php $this->renderPartial('_shortBlocks', array('massAbout' => $massAbout)); ?>
 <?php $this->renderPartial('_aboutDetail', array('block1' => $block1, 'block2' => $block2, 'block3' => $block3)); ?>

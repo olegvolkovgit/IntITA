@@ -94,8 +94,22 @@ class Sourcemessages extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Sourcemessages the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
+
+    public static function addSourceMessage($id, $category, $message){
+        $model = new Sourcemessages();
+
+        $model->id = $id;
+        $model->category = $category;
+        $model->message = $message;
+
+        return $model->save();
+    }
+
+    public static function getMaxId(){
+        return  Yii::app()->db->createCommand("SELECT MAX(id) FROM sourcemessages")->queryScalar();
+    }
 }

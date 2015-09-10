@@ -19,6 +19,7 @@ $('.search-form form').submit(function(){
 <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/messages/create');?>">Додати повідомлення</a>
 
 <h1>Інтерфейс сайта</h1>
 
@@ -33,13 +34,21 @@ $('.search-form form').submit(function(){
         'prevPageLabel'=>'&#171;',
         'nextPageLabel'=>'&#187;',
         'header'=>'',
-        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        'cssFile'=> Config::getBaseUrl().'/css/pager.css'
     ),
     'summaryText'=>'',
     'columns'=>array(
         'id',
         'language',
+        array(
+            'header' => 'Категорія',
+            'value' => 'MessagesHelper::getMessageCategory($data->id)',
+        ),
         'translation',
+        array(
+            'header' => 'Коментар',
+            'value' => 'MessagesHelper::getMessageCommentById($data->id)',
+        ),
         array(
             'class'=>'CButtonColumn',
             'template'=>'{view}{update}',

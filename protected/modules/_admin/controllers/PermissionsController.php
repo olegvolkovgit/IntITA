@@ -7,6 +7,10 @@ class PermissionsController extends Controller
 
     public function init()
     {
+        $app = Yii::app();
+        if (isset($app->session['lg'])) {
+            $app->language = $app->session['lg'];
+        }
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
@@ -136,18 +140,6 @@ class PermissionsController extends Controller
 
         if(!empty($_POST['module'])) {
             if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
-//                $permissionToBeChanged = Permissions::model()->findByPk(array('id_user'=>$_POST['user'],
-//                                                                            'id_resource'=>$_POST['lecture']));
-//                $permissionToBeChanged->rights = Permissions::setFlags($rights);
-//                var_dump($permissionToBeChanged);
-//                if($permissionToBeChanged->save(false))
-//                {
-//                    var_dump("True");
-//                }
-//                else
-//                {
-//                    var_dump($permissionToBeChanged->getErrors());
-//                }
                 PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
             } else {
                 $user = Yii::app()->db->createCommand()->insert('pay_modules', array(
@@ -226,8 +218,8 @@ class PermissionsController extends Controller
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
         $rows = Module::model()->findAll($criteriaData);
-        $result = $first.'<option value="">Всі модулі</option>
-                   <optgroup label="Виберіть модуль">';
+        $result = $first.'<option value="">'.Yii::t('payments', '0606').'</option>
+                   <optgroup label="'.Yii::t('payments', '0607').'">';
         foreach ($rows as $numRow => $row) {
             if($row[$titleParam] == '')
                 $title = 'title_ua';
@@ -380,8 +372,8 @@ class PermissionsController extends Controller
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
-        $result = $first.'<option value="">Всі модулі</option>
-                   <optgroup label="Виберіть модуль">';
+        $result = $first.'<option value="">'.Yii::t('payments', '0606').'</option>
+                   <optgroup label="'.Yii::t('payments', '0607').'">';
         $rows = Module::model()->findAll($criteriaData);
         foreach ($rows as $numRow => $row) {
             if($row[$titleParam] == '')

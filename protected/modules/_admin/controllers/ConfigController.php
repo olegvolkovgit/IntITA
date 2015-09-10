@@ -24,6 +24,8 @@ class ConfigController extends CController
 	public function filters()
 	{
 		return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 

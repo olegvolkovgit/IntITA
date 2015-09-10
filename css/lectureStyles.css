@@ -12,7 +12,7 @@
 }
 
 img {
-    max-width: 760px;
+    max-width: 745px;
 }
 
 .lectureImageMain
@@ -260,9 +260,20 @@ margin-left:10px;
 #divAddVideo {
     display: none;
 }
-#video, #text{
+#text{
     resize:none;
     height: 400px;
+    border:1px solid #335379;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+#video{
+    resize:none;
+    height: 400px;
+    border:1px solid #335379;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 5px 10px 5px;
 }
 #text{
     overflow: auto;
@@ -291,4 +302,139 @@ textarea#formulaContainer{
     min-width: 310px;
     height: 30px;
     resize: none;
+}
+.pageDone{
+    background: url(/images/common/pageDone.png);
+    display: inline-block;
+    width: 40px;
+    height: 8px;
+}
+a.pageDone,a.pageNoAccess,a#pagePressed{
+    display: inline-block;
+}
+.pageDone:hover{
+    background: url(/images/common/pageDoneHover.png);
+}
+.labelBlock{
+    /*border-bottom: 1px solid #335379;*/
+}
+#tooltip{
+    /*border-bottom: 1px solid #335379;*/
+    display: none;
+}
+.pageNoAccess{
+    background: url(/images/common/pageNoAccess.png);
+    display: inline-block;
+    width: 40px;
+    height: 8px;
+    cursor: pointer;
+}
+.lastAccessPage{
+    background: url(/images/common/lastAccessPage.png);
+}
+.noAccess{
+    font-size: 14px;
+    color: #ff3333;
+}
+.progress{
+    position: relative;
+}
+.progress a{
+    position: relative;
+    vertical-align: top;
+    margin-top: 10px;
+}
+#arrowCursor{
+    position: absolute;
+    display: none;
+}
+#pointer{
+    position: absolute;
+    display: none;
+}
+.text, .codeExample{
+    padding: 10px;
+}
+.text table{
+    margin: 0;
+    margin-bottom: 15px;
+    border: none;
+    background: none;
+    box-shadow: none;
+    width: 100%;
+}
+.text table td{
+    padding: 5px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    height: 16px;
+}
+.lessonText fieldset{
+    padding-left: 0;
+    padding-right: 0;
+}
+/*.labelBlock{*/
+    /*border-bottom: 1px solid #335379;*/
+/*}*/
+#tooltip{
+    /*border-bottom: 1px solid #335379;*/
+    display: none;
+    vertical-align: bottom;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.lessonPart{
+    border-bottom: 1px solid #335379;
+    height: 70px;
+    line-height: 70px;
+    margin-bottom: 10px;
+}
+.lessonPart div{
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+#labelBlock p, #tooltip p{
+    display: inline-block;
+    font-size: 28px;
+    color: #4b75a4;
+    margin: 0;
+}
+h1.lessonPartEdit p img{
+    cursor: pointer;
+}
+.lessonPartEdit a{
+    font-size: 24px;
+    font-weight: normal;
+}
+#tooltip p.titleNoAccess{
+    color: #999999;
+    display: inline-block;
+}
+.spoilerBody a.pageAccess{
+    color: #4b75a4;
+}
+.startVideo, .startVideoHover{
+    position: absolute;
+    margin-left: 315px;
+    margin-top: 120px;
+    cursor: pointer;
+}
+.startVideoHover{
+    opacity: 0;
+}
+.video{
+    position: absolute;
+    background:#072152;
+    width:770px;
+    height:400px;
+    max-width: 770px;
+    cursor: pointer;
+}
+.redactor-box .redactor-editor hr{
+    margin-bottom: 0;
+}
+.redactor-box .redactor-editor{
+    min-height: 100px;
 }

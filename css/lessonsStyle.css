@@ -53,9 +53,6 @@ h1.lessonPart p{
     margin-bottom: 0px;
     font-weight: normal;
 }
-h1.lessonPart p img{
-    cursor: pointer;
-}
 span.listTheme{
     font-size: 20px;
     font-weight: normal;
@@ -442,8 +439,11 @@ div.lessonTest {
 #addBlockForm .re-save, #addBlockForm .re-close, #addBlockForm .re-closefullscreen{
      display: none;
 }
-.redactor-box-fullscreen .redactor-toolbar li a.re-close{
+.redactor-box-fullscreen .redactor-toolbar li a.re-close, .redactor-toolbar .re-closefullscreen{
     display: none;
+}
+.redactor-box-fullscreen .redactor-toolbar .re-closefullscreen{
+    display: block;
 }
 .hideInput{
     position: absolute;

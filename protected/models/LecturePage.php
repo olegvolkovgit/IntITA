@@ -142,10 +142,35 @@ class LecturePage extends CActiveRecord
         for ($i = 0, $count = count($pages); $i < $count; $i++ ){
             $result[$i]['order'] = $pages[$i]->page_order;
             $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            $result[$i]['title'] = $pages[$i]->page_title;
 
             if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
                 $result[$i]['isDone'] = true;
-                $result = LecturePage::setNoAccessPages($result, $count, $i+1);
+                $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
+                break;
+            } else {
+
+            }
+        }
+        return $result;
+    }
+    public static function getFinishedPages($idLecture, $user){
+        /*Sort page_order by Ascending*/
+        $criteria= new CDbCriteria;
+        $criteria->alias='lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture='.$idLecture;
+
+        $pages = LecturePage::model()->findAll($criteria);
+
+        $result = [];
+        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+            $result[$i]['order'] = $pages[$i]->page_order;
+            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            $result[$i]['title'] = $pages[$i]->page_title;
+
+            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                $result = LecturePage::setNoAccessPages($result, $count, $i,$pages);
                 break;
             } else {
 
@@ -154,10 +179,11 @@ class LecturePage extends CActiveRecord
         return $result;
     }
 
-    public static function setNoAccessPages($result, $count, $order){
+    public static function setNoAccessPages($result, $count, $order, $pages){
         for ($i = $order; $i < $count; $i++ ){
             $result[$i]['order'] = ++$order;
             $result[$i]['isDone'] = false;
+            $result[$i]['title'] = $pages[$i]->page_title;
         }
         return $result;
     }
@@ -218,5 +244,71 @@ class LecturePage extends CActiveRecord
             return $model->save();
         }
         return false;
+    }
+
+    public static function getNextPage($id, $page){
+        if ($page >= LectureHelper::getNumberLecturePages($id)) {
+            $page = LectureHelper::getNumberLecturePages($id);
+        }
+        else {
+            $page = $page + 1;
+        }
+        return $page;
+    }
+
+    public static function getPageTextList($idLecture, $page){
+
+        $textList = LecturePage::getBlocksListById($page->id);
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id_block', $textList);
+
+        $dataProvider = new CActiveDataProvider('LectureElement');
+        $dataProvider->criteria = $criteria;
+        $criteria->order = 'block_order ASC';
+        $dataProvider->setPagination(array(
+                'pageSize' => '200',
+            )
+        );
+
+        return $dataProvider;
+    }
+
+    public static function swapLecturePages($lecture, $page)
+    {
+        $pagesCount = LecturePage::model()->count('id_lecture=:id', array(':id' => $lecture));
+        for ($i = $page; $i <= $pagesCount; $i++) {
+            $model = LecturePage::model()->findByAttributes(array('id_lecture' => $lecture, 'page_order' => $i));
+            $model->attributes = array('page_order' => $i + 1);
+            $model->save();
+        }
+    }
+
+    public static function swapPages($idLecture, $first, $second)
+    {
+        //find blocks id's for first and second pages
+        $firstId = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $first))->id;
+        $secondId = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $second))->id;
+        //swap blocks - rewrite page order in DB
+        LecturePage::model()->updateByPk($secondId, array('page_order' => $first));
+        LecturePage::model()->updateByPk($firstId, array('page_order' => $second));
+    }
+
+    public static function reorderPages($idLecture, $pageOrder)
+    {
+        $countPages = LecturePage::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $countPages++;
+
+        for ($i = $pageOrder + 1; $i <= $countPages; $i++) {
+            $id = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $i))->id;
+            LecturePage::model()->updateByPk($id, array('page_order' => $i - 1));
+        }
+    }
+
+    //reorder blocks on lesson page - up block
+    public static function reorderLecturePagesDown($lecture, $page)
+    {
+        if ($page > 1) {
+            LecturePage::swapLecturePages($lecture, $page);
+        }
     }
 }

@@ -10,16 +10,8 @@ class AboutusController extends Controller{
 
     public function actionIndex()
     {
-        $mainpage = Mainpage::model()->findByPk(0);
         $arrayAboutUs = $this->initAboutus();
         $this->render('index', array(
-            'mainpage'=>array(
-                'title'=>$mainpage->title,
-                'header1'=>$mainpage->header1,
-                'linkName'=>$mainpage->linkName,
-                'subLineImage'=>$mainpage->subLineImage,
-                'subheader1'=>$mainpage->subheader1,
-            ),
             'block1'=>$arrayAboutUs['objAbout1'],
             'block2'=>$arrayAboutUs['objAbout2'],
             'block3'=>$arrayAboutUs['objAbout3'],

@@ -19,18 +19,16 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 
-<?php $this->renderPartial('_slider', array('sliderPictures' => $sliderPictures));  ?>
+<?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
-$mainpageModel = new Mainpage();
-$this->pageTitle = $mainpageModel->getTitle();
-$subLineImage = StaticFilesHelper::createPath('image', 'mainpage', 'line1.png');
+$this->pageTitle = MainpageHelper::getTitle();
 $massAbout=array($block1,$block2,$block3);
 ?>
-<?php $this->renderPartial('_aboutUs', array('massAbout' => $massAbout, 'subLineImage' => $subLineImage));?>
+<?php $this->renderPartial('_aboutUs', array('massAbout' => $massAbout));?>
 
 <?php $stepsArray=array($step1,$step2,$step3,$step4,$step5);?>
-<?php $this->renderPartial('_steps', array('mainpageModel' => $mainpageModel, 'mainpage' => $mainpage, 'stepsArray' =>$stepsArray)); ?>
+<?php $this->renderPartial('_steps', array('stepsArray' =>$stepsArray)); ?>
 
 <?php if(Yii::app()->user->isGuest) {
     $this->renderPartial('_form');

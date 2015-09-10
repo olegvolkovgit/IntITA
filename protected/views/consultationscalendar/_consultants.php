@@ -61,7 +61,12 @@
                         <div id="<?php echo 'consultationInfo'.$data['teacher_id']?>">
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation',array('idCourse'=>$idCourse));?>" method="post">
                                 <p class="consInfHeader">
-                                    <?php echo Yii::t("consultation", "0498"); $titleParam = LectureHelper::getTypeTitleParam();?>
+                                    <?php echo Yii::t("consultation", "0498");
+                                    $titleParam = LectureHelper::getTypeTitleParam();
+                                    if($lecture->$titleParam==''){
+                                        $titleParam="title_ua";
+                                    }
+                                    ?>
                                 </p>
                                 <input type="hidden" class='consInfText' id="<?php echo 'consInfText'.$data['teacher_id']?>" value="<?php echo ' '.Yii::t('consultation', '0493').' '.$lecture->$titleParam.', '.Yii::t('consultation', '0494').' '.$data['last_name'].' '.$data['first_name'].' '.$data['middle_name'].'. '.Yii::t('consultation', '0495') ?>" />
                                 <p class='consInfText' id="<?php echo 'constext'.$data['teacher_id']?>"></p>

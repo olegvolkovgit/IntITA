@@ -16,6 +16,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			},
 			enable: function()
 			{
+				if($("div").is("#sharing")) $('#sharing').hide();
 				this.button.changeIcon('fullscreen', 'normalscreen');
 				this.button.setActive('fullscreen');
 				this.fullscreen.isOpen = true;
@@ -53,6 +54,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			},
 			disable: function()
 			{
+				if($("div").is("#sharing")) $('#sharing').show();
 				this.button.removeIcon('fullscreen', 'normalscreen');
 				this.button.setInactive('fullscreen');
 				this.fullscreen.isOpen = false;

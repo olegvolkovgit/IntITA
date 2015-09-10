@@ -1,4 +1,16 @@
 <?php
+/* @var $this LessonController */
+/* @var $lecture Lecture*/
+/* @var $page LecturePage*/
+/* @var $teacher Teacher*/
+
+$this->pageTitle = 'INTITA';
+$this->breadcrumbs=array(
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
+    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    LectureHelper::getLectureTitle($lecture->id),
+);
 if (!($lecture->isFree)) {
     Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
 }else{
@@ -36,6 +48,9 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 </script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <!-- Spoiler -->
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
 <!-- Spoiler -->
@@ -54,18 +69,9 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     editMode = <?php echo ($editMode)?1:0;?>;
 </script>
 <?php
-/* @var $this LessonController */
-/* @var $lecture Lecture*/
-/* @var $page LecturePage*/
-$this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
-    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
-    LectureHelper::getLectureTitle($lecture->id),
-);
+$passedLecture=LectureHelper::isPassedLecture($passedPages);
+$finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
-
 <div class="lectureMainBlock" >
     <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
     <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
@@ -74,38 +80,23 @@ $this->breadcrumbs=array(
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
-        <h1 class="lessonTheme"><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
-        <span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks"><span class="spoilerClick">(показати)</span><span class="spoilerTriangle"> &#9660;</span></span>
-        <div class="spoilerBody">
-            <?php
-            $summary =  Lecture::getLessonCont($lecture->id);
-            for($i=0; $i<count($summary);$i++){
-                ?>
-                <p>
-                    <a href="<?php $args = $_GET;
-                    $args['page'] = $passedPages[$i]['order'];
-                    echo $this->createUrl('', $args);?>"
-                       title="Частина <?php echo $passedPages[$i]['order'];?>">
-                        <?php echo 'Частина '.$passedPages[$i]['order'].'. '.strip_tags($summary[$i]);?>
-                    </a>
-                </p>
-                <?php
-            }
-            ?>
+        <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
+        <div id="chaptersList">
+            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'passedPages' => $passedPages)); ?>
         </div>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));
         }
         if (isset($_GET['editPage'])){
-            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
+            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
         }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page, 'dataProvider' => $dataProvider, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
         }
         ?>
 
     </div>
     <!-- lesson footer ----congratulations-->
-    <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user'=>$user, 'editMode' => $editMode));?>
+    <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>
     <!--modal task congratulations-->
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -120,7 +111,7 @@ $this->breadcrumbs=array(
             'resizable' => false,
         ),
     ));
-    $this->renderPartial('/lesson/_modalTask');
+    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
     <!--modal task congratulations end-->
@@ -169,5 +160,6 @@ $this->breadcrumbs=array(
 <script async src="<?php echo Config::getBaseUrl(); ?>/scripts/tests.js"></script>
 
 <script async src="<?php echo Config::getBaseUrl(); ?>/scripts/lesson.js"></script>
+<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lectureProgress.js"></script>
 
 

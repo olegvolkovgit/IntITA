@@ -156,31 +156,31 @@ class Teacher extends CActiveRecord
     }
     public function getAverageRateKnwl ($id)
     {
-        $countKn = Response::model()->count("knowledge>0 and about=$id");
+        $countKn = Response::model()->count("knowledge>0 and about=$id and is_checked=1");
         $sum = Yii::app()->db->createCommand()
             ->select('sum(knowledge)')
             ->from('response')
-            ->where('about=:id', array(':id'=>$id))
+            ->where('about=:id and is_checked=1', array(':id'=>$id))
             ->queryRow();
         return round($sum['sum(knowledge)']/$countKn);
     }
     public function getAverageRateBeh ($id)
     {
-        $countBeh = Response::model()->count("behavior>0 and about=$id");
+        $countBeh = Response::model()->count("behavior>0 and about=$id and is_checked=1");
         $sum = Yii::app()->db->createCommand()
             ->select('sum(behavior)')
             ->from('response')
-            ->where('about=:id', array(':id'=>$id))
+            ->where('about=:id and is_checked=1', array(':id'=>$id))
             ->queryRow();
         return round($sum['sum(behavior)']/$countBeh);
     }
     public function getAverageRateMot ($id)
     {
-        $countMot = Response::model()->count("motivation>0 and about=$id");
+        $countMot = Response::model()->count("motivation>0 and about=$id and is_checked=1");
         $sum = Yii::app()->db->createCommand()
             ->select('sum(motivation)')
             ->from('response')
-            ->where('about=:id', array(':id'=>$id))
+            ->where('about=:id and is_checked=1', array(':id'=>$id))
             ->queryRow();
         return round($sum['sum(motivation)']/$countMot);
     }

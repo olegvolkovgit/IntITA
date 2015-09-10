@@ -172,11 +172,13 @@ class StudentRegController extends Controller
                 if ($model->hasErrors()) {
                     $this->render("studentreg", array('model'=>$model,'tab'=>$tab));
                 } else{
+                    if (Yii::app()->session['lg']) $lang=Yii::app()->session['lg'];
+                    else $lang='ua';
                     $model->save();
                     $subject=Yii::t('activeemail','0298');
                     $headers="Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                     $text=Yii::t('activeemail','0299').
-                        " ".Yii::app()->params['baseUrl']."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email;
+                        " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email."&lang=".$lang;;
                     mail($model->email,$subject,$text,$headers);
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 }
@@ -249,7 +251,7 @@ class StudentRegController extends Controller
     {
         $model=StudentReg::model()->findByPk($idUser);
         if ($idUser!==Yii::app()->user->getId())
-            throw new CHttpException(403, 'Вибачте, Ви не можете переглядати чужий профіль.');
+            throw new CHttpException(403, Yii::t('error', '0612'));
         $letter = new Letters();
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
@@ -512,9 +514,6 @@ class StudentRegController extends Controller
 
         switch ($tab){
             case '1':
-                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
-                break;
-            case '2':
                 $criteria= new CDbCriteria;
                 $criteria->alias = 'consultationscalendar';
                 if($teacher)
@@ -533,10 +532,32 @@ class StudentRegController extends Controller
                     ),
                 ));
                 break;
-            case '3':
+            case '2':
                 $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
                 break;
+            case '3':
+                $criteria= new CDbCriteria;
+                $criteria->alias = 'consultationscalendar';
+                if($teacher)
+                    $criteria->addCondition('teacher_id='.$teacher->teacher_id);
+                else
+                    $criteria->addCondition('user_id='.$user);
+
+                $data = new CActiveDataProvider('Consultationscalendar', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>100,
+                    ),
+                    'sort'=> array(
+                        'defaultOrder' => 'date_cons DESC',
+                        'attributes'=>array('date_cons'),
+                    ),
+                ));
+                break;
             case '4':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '5':
                 $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
                 break;
         }

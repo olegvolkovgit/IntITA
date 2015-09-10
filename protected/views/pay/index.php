@@ -9,7 +9,7 @@
 /* @var $this PayController */
 $this->pageTitle=Yii::app()->name;
 $this->breadcrumbs=array(
-    'Сплатити зараз',
+    Yii::t('payments', '0592'),
 );
 ?>
 
@@ -18,9 +18,9 @@ $this->breadcrumbs=array(
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('pay/payModule');?>" method="POST" name="add-accessModule">
         <fieldset>
-            <legend id="label">Оплатити модуль:</legend>
-            Користувач:<br>
-            <select name="user" placeholder="(Виберіть користувача)" autofocus>
+            <legend id="label"><?php echo Yii::t('payments', '0593'); ?>:</legend>
+            <?php echo Yii::t('payments', '0595'); ?>:<br>
+            <select name="user" placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -32,10 +32,10 @@ $this->breadcrumbs=array(
             </select>
             <br>
             <br>
-            Курс:<br>
-            <select name="course" placeholder="(Виберіть курс)" onchange="javascript:selectModule();">
-                <option value="">Всі курси</option>
-                <optgroup label="Виберіть курс">
+            <?php echo Yii::t('payments', '0605'); ?>:<br>
+            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="javascript:selectModule();">
+                <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
+                <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
@@ -48,12 +48,12 @@ $this->breadcrumbs=array(
             <br>
             <br>
 
-            Модуль:<br>
+            <?php echo Yii::t('payments', '0598'); ?>:<br>
             <div name="selectModule" style="float:left;"></div>
             <br>
             <br>
 
-            <input type="submit" value="Сплатити зараз">
+            <input type="submit" value="<?php echo Yii::t('payments', '0599'); ?>">
     </form>
     <?php if(Yii::app()->user->hasFlash('errorModule')){?>
         <div style="color: red">
@@ -72,9 +72,9 @@ $this->breadcrumbs=array(
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('pay/payCourse');?>" method="POST" name="add-accessCourse">
         <fieldset>
-            <legend id="label">Оплатити курс:</legend>
-            Користувач:<br>
-            <select name="user" placeholder="(Виберіть користувача)" autofocus>
+            <legend id="label"><?php echo Yii::t('payments', '0600'); ?>:</legend>
+            <?php echo Yii::t('payments', '0600'); ?><?php echo Yii::t('payments', '0595'); ?>:<br>
+            <select name="user" placeholder="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -86,10 +86,10 @@ $this->breadcrumbs=array(
             </select>
             <br>
             <br>
-            Курс:<br>
-            <select name="course" placeholder="(Виберіть курс)" >
-                <option value="">Всі курси</option>
-                <optgroup label="Виберіть курс">
+            <?php echo Yii::t('payments', '0605'); ?>:<br>
+            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" >
+                <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
+                <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
@@ -103,7 +103,7 @@ $this->breadcrumbs=array(
             <br>
 
 
-            <input type="submit" value="Сплатити зараз">
+            <input type="submit" value="<?php echo Yii::t('payments', '0604'); ?>">
     </form>
     <?php if(Yii::app()->user->hasFlash('errorCourse')){?>
         <div style="color: red">
@@ -126,7 +126,7 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/permissions/showModules",
+                url: "/_admin/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

@@ -22,6 +22,11 @@ class LectureHelper {
         return ($assignment)?$assignment:false;
     }
 
+    public static function startsWith($haystack, $needle)
+    {
+        return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+
     public static function getTaskIcon($user, $idBlock, $editMode){
         if ($editMode || $user == 0){
             return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
@@ -47,28 +52,11 @@ class LectureHelper {
             }
         }
     }
+    public static function isLectureFinished($idUser, $idLecture){
+        $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
+        $passedLecture=LectureHelper::isPassedLecture($passedPages);
 
-    public static function isLectureAvailable($idUser, $idLecture, $defaultForNoExist){
-        $finalTask = LectureHelper::getFinalLectureTask($idLecture);
-        if ($finalTask != 0) {
-            $typeFinalTask = LectureElement::model()->findByPk($finalTask)->id_type;
-            $result = false;
-            switch ($typeFinalTask) {
-                case '6':
-                    $idTask = Task::model()->findByAttributes(array('condition' => $finalTask))->id;
-                    $result = TaskMarks::isTaskDone($idUser, $idTask);
-                    break;
-                case '13':
-                    $idTest = Tests::model()->findByAttributes(array('block_element' => $finalTask))->id;
-                    $result = TestsMarks::isTestDone($idUser, $idTest);
-                    break;
-                default:
-                    break;
-            }
-            return $result;
-        } else{
-            return $defaultForNoExist;
-        }
+        return $passedLecture;
     }
 
     public static function getFinalLectureTask($idLecture){
@@ -152,13 +140,13 @@ class LectureHelper {
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lectionsCount=count($sortedLectures);
+        $lecturesCount=count($sortedLectures);
         foreach($sortedLectures as $lecture){
-            if(!LectureHelper::isLectureAvailable($user, $lecture->id, true)){
+            if(!LectureHelper::isLectureFinished($user, $lecture->id)){
                 return $lecture->order;
             }
         }
-        return $lectionsCount;
+        return $lecturesCount;
     }
     public static function getLanguage(){
         $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
@@ -213,4 +201,22 @@ class LectureHelper {
     public static function isLectureFree($id){
         return Lecture::model()->findByPk($id)->isFree;
     }
+    /*Assign class press pages if there are at*/
+    public static function lastAccessPage($passedPages){
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if($i == $count-1 && $passedPages[$i]['isDone'])
+                return $i;
+            if($passedPages[$i]['isDone'] && !$passedPages[$i+1]['isDone'])
+                return $i;
+        }
+            return 0;
+    }
+
+    public static function isPassedLecture($passedPages){
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if (!$passedPages[$i]['isDone']) return false;
+        }
+        return true;
+    }
+
 }

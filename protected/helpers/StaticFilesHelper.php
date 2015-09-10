@@ -102,16 +102,16 @@ class StaticFilesHelper {
     }
 
     public static function createTxtPath($name){
-        return Yii::app()->params['commonPath'].'/'.$name;
+        return Config::getCommonPath().'/'.$name;
     }
 
     public static function createAvatarsPath(){
-        $path = Yii::app()->params['avatarsPath'];
+        $path = Config::getAvatarsPath();
         return $path;
     }
 
     public static function createCommonPath($name){
-        return Yii::app()->params['commonPath'].'/'.$name;
+        return Config::getCommonPath().'/'.$name;
     }
 
 }

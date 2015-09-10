@@ -49,7 +49,7 @@ class Course extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('language, title_ua, alias', 'required', 'message'=>Yii::t('coursemanage', '0387')),
-			array('course_duration_hours, course_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
+			array('course_duration_hours, course_price, cancelled', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
@@ -58,7 +58,6 @@ class Course extends CActiveRecord
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
 			array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled', 'safe', 'on'=>'search'),

@@ -38,18 +38,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $mainpage = Mainpage::model()->findByPk(0);
-
         $arraySteps = $this->initSteps();
         $arrayAboutUs = $this->initAboutus();
-        $sliderPictures = Carousel::getAllPictures();
+        $slider = Carousel::model()->findAll();
 
         $this->render('index', array(
-            'mainpageModel' => $mainpage,
-            'mainpage' => array(
-                'stepSize' => "958px",
-            ),
-            'sliderPictures' => $sliderPictures,
+            'slider' => $slider,
             'block1' => $arrayAboutUs['objAbout1'],
             'block2' => $arrayAboutUs['objAbout2'],
             'block3' => $arrayAboutUs['objAbout3'],
@@ -192,11 +186,13 @@ class SiteController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
             if ($model->validate()) {
+                if (Yii::app()->session['lg']) $lang=Yii::app()->session['lg'];
+                else $lang='ua';
                 $model->save();
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
-                    " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email;
+                    " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email."&lang=".$lang;
                 mail($model->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
@@ -208,13 +204,15 @@ class SiteController extends Controller
     }
 
     /* Activation account*/
-    public function actionAccActivation($token, $email)
+    public function actionAccActivation($token, $email, $lang)
     {
         $model = $this->getTokenAcc($token);
         $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
         if ($model->token == $modelemail->token) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
+            $app = Yii::app();
+            $app->session['lg'] = $lang;
             $this->redirect(Yii::app()->createUrl('/site/activationaccount'));
         } else {
             throw new CHttpException(404, Yii::t('exception', '0237'));
@@ -260,11 +258,13 @@ class SiteController extends Controller
                     );
 
                     if (!$existingForumUser) {
-                        $name = $userModel->firstName . ' ' . $userModel->secondName;
-                        if ($name == ' ') $name = $model->email;
+                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
+                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                            $name = $firstName . ' ' . $secondName;
+                        if ($name == '') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->insert('phpbb_users', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                                 'user_id'=> $userModel->id,
                                 'username'=> $name,
                                 'username_clean' => $name,
@@ -274,7 +274,7 @@ class SiteController extends Controller
                                 'user_lang' => $current_lang
                             ));
 
-                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
                             'group_id'=> 2,
                             'user_id'=> $userModel->id,
                             'group_leader' => 0,
@@ -394,12 +394,15 @@ class SiteController extends Controller
                             ->where('user_id=:id', array(':id' => $userModel->id))
                             ->queryAll()
                     );
+
                     if (!$existingForumUser) {
-                        $name = $userModel->firstName . ' ' . $userModel->secondName;
+                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
+                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                        $name = $firstName . ' ' . $secondName;
                         if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->insert('phpbb_users', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                             'user_id'=> $userModel->id,
                             'username'=> $name,
                             'username_clean' => $name,
@@ -409,7 +412,7 @@ class SiteController extends Controller
                             'user_lang' => $current_lang
                         ));
 
-                        Yii::app()->dbForum->insert('phpbb_user_group', array(
+                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
                             'group_id'=> 2,
                             'user_id'=> $userModel->id,
                             'group_leader' => 0,
