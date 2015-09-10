@@ -46,7 +46,9 @@ class LessonController extends Controller
 
         $passedPages = LecturePage::getAccessPages($id, $user);
         $lastAccessPage=LectureHelper::lastAccessPage($passedPages)+1;
-        $page=$lastAccessPage;
+        if($editMode)$page=1;
+        else $page=$lastAccessPage;
+
         if (isset($_GET['editPage'])) {
             $page = $_GET['editPage'];
         }

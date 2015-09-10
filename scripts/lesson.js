@@ -1,9 +1,6 @@
 /**
  * Created by Wizlight on 19.08.2015.
  */
-/**
- * Created by Wizlight on 19.08.2015.
- */
 /*Імітуєм клік по схованому input[file]*/
 function selectLogo(){
     var img=$("#logoLecture");
