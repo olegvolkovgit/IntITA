@@ -14,6 +14,9 @@ class CourseRule extends CBaseUrlRule
 
         if (preg_match('#^([\w-]+)#i', $pathInfo, $matches)){
             $pathParts = explode('/', $pathInfo);
+            if($pathParts[0] == 'site'){
+                return false;
+            }
 
             if($pathParts[0] == 'ru' || $pathParts[0] == 'en' || $pathParts[0] == 'ua') {
                 $course = Course::model()->find(array(

@@ -84,13 +84,12 @@ return array(
 			'rules'=>array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
-                //rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
-                array('class'=>'CourseRule'),
-				'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+
+                array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
+                'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 				'consultations/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
                 'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
                 'user_profile/<idUser:\d+>' => 'studentreg/profile', /* Url for user profile */
-
 
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
@@ -103,6 +102,7 @@ return array(
                 '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
+
 			),
 
 		),
