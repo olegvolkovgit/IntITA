@@ -1,6 +1,7 @@
 <?php
 ?>
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/SidebarLesson.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/horizontalscroll.js"></script>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
         <ul>
