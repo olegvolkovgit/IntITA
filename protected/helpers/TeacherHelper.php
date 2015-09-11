@@ -17,20 +17,26 @@ class TeacherHelper
             'order' => 'idModule',
             'params' => array(':id' => $id),
         ))->queryAll();
-        $count = count($modules);
-        $titleParam = ModuleHelper::getModuleTitleParam();
-
-        for($i = 0;$i < $count;$i++){
-            $modules[$i]["title"] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
-            $modules[$i]["language"] = Module::model()->findByPk($modules[$i]["idModule"])->language;
-            $modules[$i]["idCourse"] = Yii::app()->db->createCommand()
-                 ->select('id_course')
-                 ->from('course_modules')
-                 ->where('id_module=:id', array(':id'=>$modules[$i]["idModule"]))
-                 ->queryScalar();
+        $modulesId = [];
+        for($j= 0; $j < count($modules);$j++){
+            array_push($modulesId, $modules[$j]["idModule"]);
         }
 
-        return (!empty($modules))?$modules:[];
+        $titleParam = ModuleHelper::getModuleTitleParam();
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->addInCondition('id_module', $modulesId, 'OR');
+        $criteria->order='id_course ASC, `order` ASC';
+        $courseModules = CourseModules::model()->findAll($criteria);
+
+        for($i = 0; $i < count($modulesId);$i++){
+            $module[$i]["idModule"] = $courseModules[$i]["id_module"];
+            $module[$i]["title"] = Module::model()->findByPk($courseModules[$i]["id_module"])->$titleParam;
+            $module[$i]["language"] = Module::model()->findByPk($courseModules[$i]["id_module"])->language;
+            $module[$i]["idCourse"] = $courseModules[$i]["id_course"];
+        }
+        return (!empty($module))?$module:[];
     }
 
     public static function getTeacherName($id){

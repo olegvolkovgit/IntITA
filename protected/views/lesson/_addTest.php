@@ -13,7 +13,7 @@
 </script>
 <div id="addTest">
     <br>
-    <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>">
+    <form onSubmit="return checkAnswers($('#answersList input:checkbox:checked'));" name="add-test" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>">
         <fieldset>
             Питання теста:
             <br>
@@ -44,7 +44,7 @@
             <input type="text" name="testType" id="testType" hidden="hidden" value="plain"/>
             <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
-        <input type="submit" value="Додати тест" id='addtests' onclick="checkAnswers($('#answersList input:checkbox:checked'));">
+        <input type="submit" value="Додати тест" id='addtests'>
     </form>
     <button onclick='cancelTest()'>Скасувати</button>
 </div>

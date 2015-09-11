@@ -170,7 +170,7 @@ function checkAnswers(answers){
     }
     if(answers.length==0){
         alert('Виберіть хоч один правильний варіант перед створенням тесту');
-        document.getElementById("addtests").disabled = true;
+        return false;
     }
 }
 function editCheckAnswers(answers, idblock){
