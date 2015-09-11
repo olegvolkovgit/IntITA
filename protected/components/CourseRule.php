@@ -14,7 +14,9 @@ class CourseRule extends CBaseUrlRule
 
         if (preg_match('#^([\w-]+)#i', $pathInfo, $matches)){
             $pathParts = explode('/', $pathInfo);
-            if($pathParts[0] == 'site'){
+
+            if($pathParts[0] == 'site' || $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' ||
+                $pathParts[0] == 'consultationscalendar'){
                 return false;
             }
 
@@ -109,7 +111,6 @@ class CourseRule extends CBaseUrlRule
                 }
             }
         }
-
-            return false;
+        return false;
     }
 }
