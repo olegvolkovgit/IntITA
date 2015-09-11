@@ -364,4 +364,10 @@ class Lecture extends CActiveRecord
         return $textList;
     }
 
+    public static function getLectureIdByModuleOrder($idModule, $order){
+        return Lecture::model()->findByAttributes(array(
+            'idModule' => $idModule,
+            'order' => $order
+        ));
+    }
 }

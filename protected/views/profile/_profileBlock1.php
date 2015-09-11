@@ -20,7 +20,7 @@ if ($editMode){
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
                 <?php if ($editMode) {?>
                 <div class="avatarUpdateForm">
-                    <?php if($model->foto_url!=='noname.png') {
+                    <?php if($model->foto_url!=='noname2.png') {
                         ?>
                         <div>
                             <a href="<?php echo Yii::app()->createUrl('profile/deleteAvatar');?>">
