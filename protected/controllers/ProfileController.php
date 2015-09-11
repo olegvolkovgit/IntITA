@@ -199,9 +199,9 @@ class ProfileController extends Controller
     public function actionDeleteAvatar()
     {
         $model=Teacher::model()->findByAttributes(array('user_id'=>Yii::app()->user->id));
-        if($model->foto_url!=='noname.png'){
+        if($model->foto_url!=='noname2.png'){
             unlink(Yii::getpathOfAlias('webroot').'/images/teachers/'.$model->foto_url);
-            $model->updateByPk($model->teacher_id, array('foto_url' => 'noname.png'));
+            $model->updateByPk($model->teacher_id, array('foto_url' => 'noname2.png'));
             $this->redirect(Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)));
         } else {
             $this->redirect(Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)));

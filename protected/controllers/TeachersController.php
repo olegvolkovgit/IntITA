@@ -230,7 +230,7 @@ class TeachersController extends Controller
                     $_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])) {
                         $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
-                        if (is_file($src) && $model->oldAvatar!='noname.png')
+                        if (is_file($src) && $model->oldAvatar!='noname2.png')
                             unlink($src);
                     }
                     $model->updateByPk($id, array('foto_url' => $_FILES['Teacher']['name']['foto_url']));
