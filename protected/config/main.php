@@ -84,17 +84,11 @@ return array(
 			'rules'=>array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
-                array('class'=>'CoursesRule'),
-                'courses/course<id:\d+>'=>'course/index',
-                'courses/course<idCourse:\d+>/module<idModule:\d+>'=>'module/index', /*Url for module */
-				'courses/course<idCourse:\d+>/lecture<id:\d+>/editPage<editPage:\d+>'=>'lesson/index', /*Url for lecture */
-				'courses/course<idCourse:\d+>/lecture<id:\d+>/page<page:\d+>'=>'lesson/index', /*Url for lecture */
-				'courses/course<idCourse:\d+>/lecture<id:\d+>'=>'lesson/index', /*Url for lecture */
-				'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
-				'consultations/course<idCourse:\d+>/lecture<lectureId:\d+>'=>'consultationscalendar/index', /*Url for consultations */
-                'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
-                'user_profile/<idUser:\d+>' => 'studentreg/profile', /* Url for user profile */
+                'courses/<selector:\w+>' => 'courses/index', /* Url for teacher page */
 
+                array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
+                'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+			    'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
 
 				'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
@@ -107,6 +101,7 @@ return array(
                 '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
+
 			),
 
 		),
