@@ -251,4 +251,30 @@ class Module extends CActiveRecord
         }
         return $result;
     }
+
+    public static function getModuleAlias($idModule, $idCourse){
+        if($alias = Module::model()->findByPk($idModule)->alias){
+            return $alias;
+        } else{
+            return CourseModules::model()->findByAttributes(array(
+                'id_course' => $idCourse,
+                'id_module' => $idModule
+            ))->order;
+        }
+    }
+
+    public static function getModuleByAlias($alias, $idCourse){
+        if ($module = Module::model()->find(array(
+            'condition' => 'alias = :alias',
+            'params' => array('alias' => $alias),
+        ))){
+            return $module;
+        } else {
+            $idModule = CourseModules::model()->findByAttributes(array(
+                'id_course' => $idCourse,
+                'order' => $alias
+            ))->id_module;
+            return Module::model()->findByPk($idModule);
+        }
+    }
 }
