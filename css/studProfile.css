@@ -147,6 +147,7 @@ table.profileInfo {
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     text-align: center;
+    padding-bottom: 140px;
 }
 .profileActivity{
     display:inline-block;
@@ -237,7 +238,7 @@ table.titleProfileAv{
 }
 #avatarInfo{
     color:#666666;
-    margin:0 0 140px 0;
+    margin:0 0 20px 0;
     height:20px;
 }
 #photoForm {
@@ -484,4 +485,32 @@ p.courseLevLang{
 }
 #changepassword:hover{
     color: #666666;
+}
+#indicators{
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
+    width:300px;
+    height: 8px;
+    overflow: hidden;
+}
+#progressMask{
+    position: absolute;
+    top:0;
+    left:-300px;
+}
+#progressLine{
+    position: absolute;
+    top:0;
+    left:0;
+}
+table#emptyFieldList{
+    margin: 0 auto;
+}
+table#emptyFieldList img{
+    cursor: pointer;
+}
+table#emptyFieldList td{
+    text-align: left;
+    padding: 5px;
 }
