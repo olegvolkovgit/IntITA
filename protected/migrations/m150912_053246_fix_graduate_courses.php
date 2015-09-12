@@ -12,7 +12,7 @@ class m150912_053246_fix_graduate_courses extends CDbMigration
         for ($i = 0, $count = count($courses); $i < $count; $i++) {
             if ($courses[$i]["courses_page"] != '') {
                 $oldValue = explode('/', $courses[$i]["courses_page"]);
-                $this->update('graduate', array('courses_page' => array_pop($oldValue)),
+                $this->update('graduate', array('courses_page' => $oldValue[count($oldValue)-2]),
                     'courses_page=:old', array(':old' => $courses[$i]["courses_page"])
                 );
             }
