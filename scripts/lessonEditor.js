@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/lesson/showPagesList",
+        url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -42,11 +42,11 @@ function enableLessonEdit(block, course){
 }
 function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
-        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+        location.href = document.location.href;
     } else if($("div").is('.pagesList')) {
-        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+        location.href = document.location.href + '/?page=' + editPage + '&editPage' + editPage;
     } else{
-        location.href='/courses/course'+course+'/lecture'+lecture+'/page'+editPage;
+        location.href = document.location.href + '/?page=' + editPage + '&editPage' + editPage;
     }
 }
 
