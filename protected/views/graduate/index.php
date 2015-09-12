@@ -23,7 +23,8 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     $this->breadcrumbs=array(
         Yii::t('breadcrumbs', '0296'),
     );
-    ?>
+
+     ?>
 </div>
 <div class="graduateBlock">
     <div  class="graduates">

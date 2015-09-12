@@ -42,11 +42,11 @@ function enableLessonEdit(block, course){
 }
 function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
-        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+        location.href = document.location.href;
     } else if($("div").is('.pagesList')) {
-        location.href='/courses/course'+course+'/lecture'+lecture+'/';
+        location.href = window.location.href.slice(0,window.location.href.indexOf('\?')) + '?page=' + editPage + '&editPage=' + editPage;
     } else{
-        location.href='/courses/course'+course+'/lecture'+lecture+'/page'+editPage;
+        location.href = window.location.href.slice(0,window.location.href.indexOf('\?')) + '?page=' + editPage;
     }
 }
 
@@ -139,7 +139,6 @@ function deletePage(lecture, page, course){
                 });
             }
         });
-        //location.href='/IntITA/courses/course'+course+'/lecture'+lecture+'/page1';
     }
 }
 

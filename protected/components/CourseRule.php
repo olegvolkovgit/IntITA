@@ -12,11 +12,17 @@ class CourseRule extends CBaseUrlRule
         $module = null;
         $lecture = null;
 
+
         if (preg_match('#^([\w-]+)#i', $pathInfo, $matches)){
             $pathParts = explode('/', $pathInfo);
+            //var_dump($pathParts);die();
 
-            if($pathParts[0] == 'site' || $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' ||
-                $pathParts[0] == 'consultationscalendar'){
+            if( $pathParts[0] == 'site' || $pathParts[0] == 'tests' || $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' ||
+                $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||
+                ($pathParts[0] == 'lesson' && $pathParts[1] == 'showPagesList') ||
+                ($pathParts[0] == 'lesson' && $pathParts[1] == 'addNewPage') ||
+                ($pathParts[0] == 'lesson' && $pathParts[1] == 'nextPage'))
+            {
                 return false;
             }
 
@@ -31,9 +37,14 @@ class CourseRule extends CBaseUrlRule
 
                     if(isset($pathParts[3])) {
                         $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[3]);
+                        if(isset($pathParts[4])) {
+                            $_GET['page'] = $pathParts[4];
+                        }
                     }
-                }
 
+
+
+                }
             } else {
                 $course = Course::model()->find(array(
                     'condition' => 'alias = :alias',
@@ -44,6 +55,10 @@ class CourseRule extends CBaseUrlRule
 
                     if(isset($pathParts[2])) {
                         $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[2]);
+
+                        if(isset($pathParts[4])) {
+                            $_GET['page'] = $pathParts[4];
+                        }
                     }
                 }
             }
@@ -81,12 +96,14 @@ class CourseRule extends CBaseUrlRule
                 if ($lecture = Lecture::model()->findByPk($params['id'])) {
                     $course = Course::model()->findByPk($params['idCourse']);
                     if(!isset($params['page'])){
-                        $params['page'] = 1;
+                        $pageString = '';
+                    } else {
+                        $pageString =  $params['page'];
                     }
 
                     return $course->language.'/'.$course->alias.'/'.Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                    .'/'.$lecture->order.
-                    '/?page='.$params['page'];
+                    .'/'.$lecture->order.'/'.$pageString;
+
                 }
             }
         }

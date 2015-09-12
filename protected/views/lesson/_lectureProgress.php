@@ -28,7 +28,7 @@
                    id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
                    href="<?php $args = $_GET;
                    $args['page'] = $passedPages[$i]['order'];
-                   echo $this->createUrl('', $args) . "#title"; ?>"
+                   echo $this->createUrl('', $args) . "/#title"; ?>"
                    title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php } else {
                 ?>
