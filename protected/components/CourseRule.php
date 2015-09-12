@@ -16,7 +16,8 @@ class CourseRule extends CBaseUrlRule
             $pathParts = explode('/', $pathInfo);
 
             if($pathParts[0] == 'site' || $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' ||
-                $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||  $pathParts[1] == 'showPagesList'){
+                $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||
+                ($pathParts[0] == 'lesson' && $pathParts[1] == 'showPagesList')){
                 return false;
             }
 
