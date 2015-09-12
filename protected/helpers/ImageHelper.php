@@ -39,6 +39,5 @@ class ImageHelper
             return $basePartName.$id.'.gif';
 
         return $defaultName;
-
     }
 }
