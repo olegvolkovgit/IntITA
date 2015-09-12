@@ -89,7 +89,7 @@ function getIdName() {
             orderBlock=order.replace("#t","");
             $.ajax({
                 type: "POST",
-                url: "/IntITA/lesson/editBlock",
+                url: "/lesson/editBlock",
                 data: {'order':orderBlock, 'lecture':idLecture},
                 success: function(result){
                     $(order).html(result);
