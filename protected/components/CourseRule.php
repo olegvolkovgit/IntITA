@@ -12,8 +12,10 @@ class CourseRule extends CBaseUrlRule
         $module = null;
         $lecture = null;
 
+
         if (preg_match('#^([\w-]+)#i', $pathInfo, $matches)){
             $pathParts = explode('/', $pathInfo);
+            //var_dump($pathParts);die();
 
             if( $pathParts[0] == 'site' || $pathParts[0] == 'tests' || $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' ||
                 $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||
@@ -35,7 +37,12 @@ class CourseRule extends CBaseUrlRule
 
                     if(isset($pathParts[3])) {
                         $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[3]);
+                        if(isset($pathParts[4])) {
+                            $_GET['page'] = $pathParts[4];
+                        }
                     }
+
+
 
                 }
             } else {
@@ -48,6 +55,10 @@ class CourseRule extends CBaseUrlRule
 
                     if(isset($pathParts[2])) {
                         $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[2]);
+
+                        if(isset($pathParts[4])) {
+                            $_GET['page'] = $pathParts[4];
+                        }
                     }
                 }
             }
@@ -57,6 +68,9 @@ class CourseRule extends CBaseUrlRule
                     if($lecture != null){
                         $_GET['id'] = $lecture->getPrimaryKey();
                         $_GET['idCourse'] = $course->getPrimaryKey();
+                        if(!isset($_GET['page'])){
+                            $_GET['page'] = 1;
+                        };
 
                         return 'lesson/index';
                     }
