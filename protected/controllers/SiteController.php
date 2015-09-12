@@ -260,8 +260,8 @@ class SiteController extends Controller
                     if (!$existingForumUser) {
                         $firstName = ($userModel->firstName)?$userModel->firstName:'';
                         $secondName = ($userModel->secondName)?$userModel->secondName:'';
-                            $name = $firstName . ' ' . $secondName;
-                        if ($name == '') $name = $model->email;
+                        $name = $firstName . ' ' . $secondName;
+                        if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
