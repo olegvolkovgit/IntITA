@@ -103,8 +103,8 @@ class CoursemanageController extends CController
             $model->logo=$_FILES['Course'];
             if($model->save())
                 ImageHelper::uploadAndResizeImg(
-                    Yii::getPathOfAlias('webroot')."/images/course/".$_FILES['Course']['name']['course_img'],
-                    Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_".$id.'.'.$fileInfo->getExtension(),
+                    Config::getBaseUrl()."/images/course/".$_FILES['Course']['name']['course_img'],
+                    Config::getBaseUrl(). "/images/course/share/shareCourseImg_".$id.'.'.$fileInfo->getExtension(),
                     200
                 );
             $this->redirect(array('view','id'=>$model->course_ID));
