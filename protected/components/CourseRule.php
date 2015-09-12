@@ -57,9 +57,6 @@ class CourseRule extends CBaseUrlRule
                     if($lecture != null){
                         $_GET['id'] = $lecture->getPrimaryKey();
                         $_GET['idCourse'] = $course->getPrimaryKey();
-//                        if(!isset($_GET['page'])){
-//                            $_GET['page'] = 1;
-//                        };
 
                         return 'lesson/index';
                     }
