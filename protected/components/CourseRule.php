@@ -20,28 +20,9 @@ class CourseRule extends CBaseUrlRule
                 $pathParts[0] == 'studentreg' || $pathParts[0] == 'graduate' || $pathParts[0] == 'files' ||
                 $pathParts[0] == 'letters' ||  $pathParts[0] == 'pay' ||  $pathParts[0] == 'profile' ||
                 $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'showPagesList') ||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'addNewPage') ||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'createNewBlock') ||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'addVideo')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'updateLecturePageAttribute')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'updateLectureImage')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'updateLectureAttribute')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'upPage')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'downPage')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'deletePage')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'chaptersListUpdate')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'updateModuleAttribute')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'updateModuleImage')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'saveLesson')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'upLesson')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'downLesson')||
-                ($pathParts[0] == 'module' && $pathParts[1] == 'unableLesson')||
-                ($pathParts[0] == 'course' && $pathParts[1] == 'upModule')||
-                ($pathParts[0] == 'course' && $pathParts[1] == 'downModule')||
-                ($pathParts[0] == 'course' && $pathParts[1] == 'unableModule')||
-                ($pathParts[0] == 'lesson' && $pathParts[1] == 'nextPage'))
-            {
+                ($pathParts[0] == 'lesson' && !($pathParts[1] == 'index')) ||
+                ($pathParts[0] == 'module' && !($pathParts[1] == 'index'))||
+                ($pathParts[0] == 'course' && !($pathParts[1] == 'index'))){
                 return false;
             }
 

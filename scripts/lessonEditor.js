@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/lesson/showPagesList",
+        url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
