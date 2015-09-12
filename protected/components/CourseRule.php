@@ -22,6 +22,7 @@ class CourseRule extends CBaseUrlRule
                 $pathParts[0] == 'consultationscalendar' || $pathParts[0] == '_admin' ||
                 ($pathParts[0] == 'lesson' && $pathParts[1] == 'showPagesList') ||
                 ($pathParts[0] == 'lesson' && $pathParts[1] == 'addNewPage') ||
+                ($pathParts[0] == 'lesson' && $pathParts[1] == 'createNewBlock') ||
                 ($pathParts[0] == 'lesson' && $pathParts[1] == 'nextPage'))
             {
                 return false;
