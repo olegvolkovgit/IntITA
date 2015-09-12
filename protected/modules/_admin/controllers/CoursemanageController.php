@@ -73,11 +73,13 @@ class CoursemanageController extends CController
             $model->attributes=$_POST['Course'];
             $model->logo=$_FILES['Course'];
             if($model->save())
-                ImageHelper::uploadAndResizeImg(
-                    Yii::getPathOfAlias('webroot')."/images/course/".$_FILES['Course']['name']['course_img'],
-                    Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_".$model->course_ID.'.'.$fileInfo->getExtension(),
-                    200
-                );
+                if (!empty($_POST['Course']['course_img'])) {
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $model->course_ID . '.' . $fileInfo->getExtension(),
+                        200
+                    );
+                }
             $this->redirect(array('view','id'=>$model->course_ID));
         }
         $this->render('create',array(
@@ -102,11 +104,13 @@ class CoursemanageController extends CController
             $model->attributes=$_POST['Course'];
             $model->logo=$_FILES['Course'];
             if($model->save())
+            if (!empty($_POST['Course']['course_img'])) {
                 ImageHelper::uploadAndResizeImg(
-                    Config::getBaseUrl()."/images/course/".$_FILES['Course']['name']['course_img'],
-                    Config::getBaseUrl(). "/images/course/share/shareCourseImg_".$id.'.'.$fileInfo->getExtension(),
+                    Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                    Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
                     200
                 );
+            }
             $this->redirect(array('view','id'=>$model->course_ID));
         }
         $this->render('update',array(
