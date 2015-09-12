@@ -198,8 +198,7 @@ function unableTest(pageId){
             url: "/tests/unableTest",
             data: {'pageId':pageId},
             success: function(){
-                $('div[name="lecturePage"]').html(response);
-                return false;
+                location.reload();
             }
         });
     }
