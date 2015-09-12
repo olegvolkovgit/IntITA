@@ -32,9 +32,10 @@
                            target="_blank"> <?php echo $data['work_place'] ?> </a>
                     </div>
                     <div>
-                        <?php echo Yii::t('graduates', '0318'); ?>
+                        <?php if(!empty($data['courses_page'])){ echo Yii::t('graduates', '0318'); ?>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data['courses_page'])); ?>"
                            target="_blank"> <?php echo $data['courses'] ?></a>
+                        <?php }?>
                     </div>
                 </div>
                 <?php echo $this->renderPartial('_educateHistory', array('data' => $data)); ?>
