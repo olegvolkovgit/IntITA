@@ -44,9 +44,9 @@ function enableLessonPreview(lecture, course, editPage){
     if(editPage===0) {
         location.href = document.location.href;
     } else if($("div").is('.pagesList')) {
-        location.href = document.location.href + '/?page=' + editPage + '&editPage' + editPage;
+        location.href = window.location.href.slice(0,window.location.href.indexOf('\?')) + '?page=' + editPage + '&editPage=' + editPage;
     } else{
-        location.href = document.location.href + '/?page=' + editPage + '&editPage' + editPage;
+        location.href = window.location.href.slice(0,window.location.href.indexOf('\?')) + '?page=' + editPage;
     }
 }
 

@@ -54,9 +54,9 @@ class CourseRule extends CBaseUrlRule
                     if($lecture != null){
                         $_GET['id'] = $lecture->getPrimaryKey();
                         $_GET['idCourse'] = $course->getPrimaryKey();
-                        if(!isset($_GET['page'])){
-                            $_GET['page'] = 1;
-                        };
+//                        if(!isset($_GET['page'])){
+//                            $_GET['page'] = 1;
+//                        };
 
                         return 'lesson/index';
                     }
@@ -82,12 +82,14 @@ class CourseRule extends CBaseUrlRule
                 if ($lecture = Lecture::model()->findByPk($params['id'])) {
                     $course = Course::model()->findByPk($params['idCourse']);
                     if(!isset($params['page'])){
-                        $params['page'] = 1;
+                        $pageString = '';
+                    } else {
+                        $pageString =  $params['page'];
                     }
 
                     return $course->language.'/'.$course->alias.'/'.Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                    .'/'.$lecture->order.
-                    '/?page='.$params['page'];
+                    .'/'.$lecture->order.'/'.$pageString;
+
                 }
             }
         }
