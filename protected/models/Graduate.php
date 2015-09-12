@@ -40,7 +40,6 @@ class Graduate extends CActiveRecord
             array('graduate_date, recall', 'safe'),
             array('avatar', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true, 'safe' => false),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, first_name, last_name, graduate_date, position, work_place, work_site, courses, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
         );
     }
@@ -89,7 +88,6 @@ class Graduate extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
         $criteria=new CDbCriteria;
         $criteria->compare('id',$this->id);
         $criteria->compare('first_name',$this->first_name,true);

@@ -27,10 +27,6 @@ class LessonController extends Controller
         }
     }
 
-    public function actionTest(){
-        $this->render('index');
-    }
-
     public function actionIndex($id, $idCourse, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
@@ -98,11 +94,6 @@ class LessonController extends Controller
         $data["day"] = $_POST['dateconsajax'];
         $data["teacherId"] = $_POST['teacherIdajax'];
         $this->renderPartial('_timeConsult', $data, false, true);
-    }
-
-    public function actionUnableLesson()
-    {
-        $this->render('unableLesson');
     }
 
     public function actionSave()
