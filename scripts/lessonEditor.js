@@ -139,7 +139,6 @@ function deletePage(lecture, page, course){
                 });
             }
         });
-        //location.href='/IntITA/courses/course'+course+'/lecture'+lecture+'/page1';
     }
 }
 
