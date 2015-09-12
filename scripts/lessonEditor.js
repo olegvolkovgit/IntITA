@@ -118,7 +118,7 @@ function addVideo(){
 
 function deletePage(lecture, page, course){
     if($("div.labelBlock").length==1){
-        alert('Ви не можете видалити останю сторінку');
+        alert('Ви не можете видалити останню сторінку');
         return false;
     }
     if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
