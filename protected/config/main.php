@@ -86,11 +86,12 @@ return array(
 				''=>array('site/index', 'urlSuffix' => ''),
                 'courses/<selector:\w+>' => 'courses/index', /* Url for teacher page */
 
+                array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
-                array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
+
                 'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
 
