@@ -5402,10 +5402,10 @@
 					this.buffer.set();
 
 					var blocks = this.selection.getBlocks();
- 					if (blocks[0] !== false && this.line.isExceptLastOrFirst(blocks))
-	 				{
-	 					if (!this.utils.browser('msie')) this.$editor.focus();
-	 					return;
+					if (blocks[0] !== false && this.line.isExceptLastOrFirst(blocks))
+					{
+						if (!this.utils.browser('msie')) this.$editor.focus();
+						return;
 					}
 
 					if (this.utils.browser('msie'))
@@ -5451,7 +5451,7 @@
 					var extra = '<p id="redactor-insert-line"><br /></p>';
 					if (this.opts.linebreaks) extra = '<br id="redactor-insert-line">';
 
-					document.execCommand('insertHTML', false, '<hr>' + extra);
+					document.execCommand('insertHtml', false, '<hr>' + extra);
 
 					this.line.setFocus();
 					this.code.sync();
@@ -5460,16 +5460,43 @@
 				{
 					var node = this.$editor.find('#redactor-insert-line');
 					var next = $(node).next()[0];
-
-					if (next)
+					var target = next;
+					if (this.utils.browser('mozilla') && next && next.innerHTML === '')
 					{
-						this.caret.setAfter(node);
+						target = $(next).next()[0];
+						$(next).remove();
+					}
+
+					if (target)
+					{
 						node.remove();
+
+						if (!this.opts.linebreaks)
+						{
+							this.$editor.focus();
+							this.line.setStart(target);
+						}
+
 					}
 					else
 					{
+
 						node.removeAttr('id');
+						this.line.setStart(node[0]);
 					}
+				},
+				setStart: function(node)
+				{
+					if (typeof node === 'undefined') return;
+
+					var textNode = document.createTextNode('\u200B');
+
+					this.selection.get();
+					this.range.setStart(node, 0);
+					this.range.insertNode(textNode);
+					this.range.collapse(true);
+					this.selection.addRange();
+
 				}
 			};
 		},
