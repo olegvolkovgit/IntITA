@@ -840,8 +840,14 @@ body .ui-tooltip {
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: Verdana,Arial,sans-serif;
+	font-family: "MyriadPro";
+	padding-left: 8px;
+	width: 444px;
+	height: 50px;
+	border-radius: 5px;
+	border: 1px solid #d8d8d8;
 	font-size: 1em;
+	font-weight: 400;
 }
 .ui-widget-content {
 	border: 1px solid #aaaaaa;

@@ -216,13 +216,11 @@ function insertHTMLE(html) {
     try {
         $('[data-target="insertE"]').focus();
         if($("#inlineFormulaE").prop("checked")){
-            html = html.replace("\\[","$");
-            html = html.replace("\\]","$");
-            html = '/(' + html;
-            html = html + '/)';
+            html = '\\(' + html;
+            html = html + '\\)';
         } else {
-            html = '/[' + html;
-            html = html + '/]';
+            html = '\\[' + html;
+            html = html + '\\]';
         }
         var selection = window.getSelection(),
             range = selection.getRangeAt(0),

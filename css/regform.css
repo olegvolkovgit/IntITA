@@ -29,6 +29,8 @@
     height:50px;
     border-radius:5px;
     border:1px solid #d8d8d8;
+    font-size: 1em;
+    font-weight:400;
 }
 .rowChPass input{
     margin-bottom: 28px;
