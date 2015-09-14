@@ -83,7 +83,7 @@ class CourseRule extends CBaseUrlRule
                 if ($lecture = Lecture::model()->findByPk($params['id'])) {
                     $course = Course::model()->findByPk($params['idCourse']);
                     if (!isset($params['page'])) {
-                        $pageString = 'page=1';
+                        $pageString = '';
                     } else {
                         $pageString = 'page=' . $params['page'];
                     }
