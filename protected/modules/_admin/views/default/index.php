@@ -21,6 +21,7 @@
 <h2>Доступ</h2>
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступа</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/index');?>">Сплатити курс/модуль</a></li>
 </ul>
 
 <h2>Налаштування сайта</h2>

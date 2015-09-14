@@ -1,16 +1,6 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/access.css" />
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 04.06.2015
- * Time: 16:04
- */
 /* @var $this PayController */
-$this->pageTitle=Yii::app()->name;
-$this->breadcrumbs=array(
-    Yii::t('payments', '0592'),
-);
 ?>
 
 <div id="addAccessModule">

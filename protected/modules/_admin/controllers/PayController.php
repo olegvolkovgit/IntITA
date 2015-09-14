@@ -6,7 +6,19 @@
  * Time: 16:06
  */
 
-class PayController extends Controller{
+class PayController extends CController
+{
+
+    public $layout='main';
+
+    public function init()
+    {
+        if (Config::getMaintenanceMode() == 1) {
+            $this->renderPartial('/default/notice');
+            Yii::app()->cache->flush();
+            die();
+        }
+    }
 
     public function actionIndex()
     {

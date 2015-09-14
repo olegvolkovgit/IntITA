@@ -114,4 +114,30 @@ class StaticFilesHelper {
         return Config::getCommonPath().'/'.$name;
     }
 
+    public static function fullPathTo($type, $name){
+        switch($type){
+            case 'script':
+                return StaticFilesHelper::fullPathToJs($name);
+                break;
+            case 'css':
+                return StaticFilesHelper::fullPathToCss($name);
+                break;
+            default:
+                return StaticFilesHelper::fullPathToFiles($name);
+                break;
+        }
+    }
+
+    public static function fullPathToJs($name){
+      return Config::getBaseUrl().'/scripts/'.$name;
+    }
+
+    public static function fullPathToCss($name){
+        return Config::getBaseUrl().'/css/'.$name;
+    }
+
+    public static function fullPathToFiles($name){
+        return Config::getBaseUrl().'/files/'.$name;
+    }
+
 }
