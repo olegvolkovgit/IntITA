@@ -84,6 +84,7 @@ return array(
 			'rules'=>array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
+                '<action:login|logout|error|rapidReg>' => 'site/<action>',
                 'courses/<selector:\w+>' => 'courses/index', /* Url for teacher page */
 
                 array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
