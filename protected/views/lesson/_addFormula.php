@@ -6,7 +6,6 @@
  * Time: 14:01
  */
 ?>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/formulaEditor.js"></script>
 <div id="divAddFormula">
     <form id="addFormula" action="<?php echo Yii::app()->createUrl('lesson/addFormula'); ?>" method="post">
         <input name="idLecture" value="<?php echo $idLecture; ?>" hidden="hidden">

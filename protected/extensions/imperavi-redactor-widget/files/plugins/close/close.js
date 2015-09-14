@@ -16,6 +16,8 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			},
 			testButton: function(buttonName)
 			{
+				var id = "#toolbar" + order.substr(1);
+				$(id).hide();
 				$('#formulaBox').remove();
 				this.core.destroy();
 			}

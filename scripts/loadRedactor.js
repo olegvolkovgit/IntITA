@@ -73,15 +73,39 @@ function getIdName() {
     if(edit == false){
         loadTextRedactor();
         $(order).attr('data-target','insertE');
-        $(order).parent().after('<div class="container" id="formulaBox">'+
-                 '<div class="inner">'+
-                     '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer"></textarea>'+
-                     '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
-                 '</div>'+
-            '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
-            '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
-            '</div>'
-        );
+        if($("div").is("#toolbar"+idName)){
+            $(order).parent().next('#toolbar'+idName).after('<div class="container" id="formulaBox">'+
+                '<div class="inner">'+
+                '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer'+idName+'"></textarea>'+
+                '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
+                '</div>'+
+                '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
+                '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
+                '</div>'
+            );
+            $('#toolbar'+idName).show();
+            var id = "toolbar" + idName;
+            EqEditor.embed(id, '', 'full', 'uk-uk');
+            var a = new EqTextArea('equation', 'formulaContainer'+idName);
+            EqEditor.add(a, false);
+            document.getElementById('formulaContainer'+idName).focus();
+        }else{
+            $(order).parent().after('<div class="container" id="formulaBox">'+
+                '<div class="inner">'+
+                '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer'+idName+'"></textarea>'+
+                '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
+                '</div>'+
+                '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
+                '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
+                '</div>'
+            );
+            var id = "toolbar" + idName;
+            $(order).parent().after('<div id="toolbar'+idName+'" style="display: block"></div>');
+            EqEditor.embed(id, '', 'full', 'uk-uk');
+            var a = new EqTextArea('equation', 'formulaContainer'+idName);
+            EqEditor.add(a, false);
+            document.getElementById('formulaContainer'+idName).focus();
+        }
     }
 }
         function loadTextRedactor()
