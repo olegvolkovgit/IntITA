@@ -45,7 +45,7 @@
         </div>
         <div class="paymentsForm">
             <?php $form = $this->beginWidget('CActiveForm', array(
-                'action' => Yii::app()->createUrl('pay/index'),
+                'action' => '#',
                 'id' => 'payments-form',
                 'enableAjaxValidation' => false,
             )); ?>

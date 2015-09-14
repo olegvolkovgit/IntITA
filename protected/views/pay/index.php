@@ -73,7 +73,7 @@ $this->breadcrumbs=array(
     <form action="<?php echo Yii::app()->createUrl('pay/payCourse');?>" method="POST" name="add-accessCourse">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0600'); ?>:</legend>
-            <?php echo Yii::t('payments', '0600'); ?><?php echo Yii::t('payments', '0595'); ?>:<br>
+            <?php echo Yii::t('payments', '0595'); ?>:<br>
             <select name="user" placeholder="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);

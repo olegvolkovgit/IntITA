@@ -109,6 +109,7 @@ function addTextBlock(type){
     document.getElementById('blockForm').style.display = 'block';
     document.getElementById('blockType').value = type;
     $('#addBlock').find('.redactor-editor').attr('data-target','insert');
+    document.getElementById('formulaContainer').focus();
 }
 
 function addVideo(){
