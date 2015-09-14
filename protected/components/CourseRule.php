@@ -85,11 +85,11 @@ class CourseRule extends CBaseUrlRule
                     if (!isset($params['page'])) {
                         $pageString = '';
                     } else {
-                        $pageString = 'page=' . $params['page'];
+                        $pageString = '?page=' . $params['page'];
                     }
 
                     return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                    . '/' . $lecture->order . '?' . $pageString;
+                    . '/' . $lecture->order . $pageString;
 
                 }
             }
