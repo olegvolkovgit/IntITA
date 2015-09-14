@@ -180,28 +180,31 @@ if (!isset($tab)) $tab = 0;
             endif; ?>
         </div>
     </div>
-    <div class="studPhoto">
-        <table class="titleProfileAv">
-            <tr>
-                <td>
-                    <h2><?php echo Yii::t('regexp', '0156'); ?></h2>
-                </td>
-            </tr>
-        </table>
-        <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
+    <div class="rightProfileColumn">
+        <div class="studPhoto">
+            <table class="titleProfileAv">
+                <tr>
+                    <td>
+                        <h2><?php echo Yii::t('regexp', '0156'); ?></h2>
+                    </td>
+                </tr>
+            </table>
+            <img class='avatarimg'
+                 src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
 
-        <div class="fileform">
-            <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-            <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);"
-                   accept="image/jpeg/gif">
-            <input tabindex="-1" class="uploadAvatar" type="submit">
-        </div>
-        <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
-        <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
-        <div class="avatarError">
-            <?php if (Yii::app()->user->hasFlash('avatarmessage')):
-                echo Yii::app()->user->getFlash('avatarmessage');
-            endif; ?>
+            <div class="fileform">
+                <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
+                <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);"
+                       accept="image/jpeg/gif">
+                <input tabindex="-1" class="uploadAvatar" type="submit">
+            </div>
+            <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
+            <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
+            <div class="avatarError">
+                <?php if (Yii::app()->user->hasFlash('avatarmessage')):
+                    echo Yii::app()->user->getFlash('avatarmessage');
+                endif; ?>
+            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>

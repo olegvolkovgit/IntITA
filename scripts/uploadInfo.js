@@ -9,6 +9,7 @@ function getName (str){
     var filename = str.slice(i);
     var uploaded = document.getElementById("avatarInfo");
     uploaded.innerHTML = filename;
+    $('[data-target="avatar"]').parent().parent().hide();
 }
 $(document).ready(function(e) {
     $('.avatar').bind('click',function(e) {

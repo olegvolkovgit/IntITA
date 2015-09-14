@@ -1,5 +1,5 @@
 <!-- studprofile style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
 <!-- studprofile style -->
 <!-- uploadInfo, jQuery -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
@@ -11,214 +11,254 @@
 ?>
 <?php
 $this->pageTitle = 'INTITA';
-$post=StudentReg::model()->findByPk(Yii::app()->user->id);
-if (!isset($tab)) $tab=0;
+$post = StudentReg::model()->findByPk(Yii::app()->user->id);
+if (!isset($tab)) $tab = 0;
 ?>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.date.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.phone.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.numeric.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.regex.extensions.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.extensions.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.date.extensions.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.phone.extensions.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.numeric.extensions.js"></script>
+<script type="text/javascript"
+        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.regex.extensions.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
 <!--StyleForm Check and radio box-->
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.css" rel="stylesheet" />
+<link href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.css" rel="stylesheet"/>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/inputstyler.js"></script>
 <!--StyleForm Check and radio box-->
 <div class="formStudProfNav">
     <?php
-    $this->breadcrumbs=array(
-        Yii::t('breadcrumbs', '0054')=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)),Yii::t('breadcrumbs', '0055')
+    $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0054') => Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)), Yii::t('breadcrumbs', '0055')
     );
     ?>
 
 </div>
 <div class="formStudProf">
-    <?php $form=$this->beginWidget('CActiveForm', array(
-        'id'=>'studentreg-form',
-        'action'=> Yii::app()->createUrl('studentreg/rewrite'),
+    <?php $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'studentreg-form',
+        'action' => Yii::app()->createUrl('studentreg/rewrite'),
 // Please note: When you enable ajax validation, make sure the corresponding
 // controller action is handling ajax validation correctly.
 // There is a call to performAjaxValidation() commented in generated controller code.
 // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation'=>false,
+        'enableAjaxValidation' => false,
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     )); ?>
     <div class="studProf">
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php $post::getProfileRole($post->id);?></h2>
+                    <h2><?php $post::getProfileRole($post->id); ?></h2>
                 </td>
             </tr>
         </table>
         <div class="tabs">
             <ul>
                 <li>
-                    <?php echo Yii::t('regexp', '0562');?>
+                    <?php echo Yii::t('regexp', '0562'); ?>
                 </li>
                 <li>
-                    <?php echo Yii::t('regexp', '0563');?>
+                    <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="mainreg">
                     <div class="row">
-                        <?php echo $form->label($model,'firstName'); ?>
-                        <?php echo $form->textField($model,'firstName',array('value'=>$post->firstName,'maxlength'=>20)); ?>
-                        <span><?php echo $form->error($model,'firstName'); ?></span>
+                        <?php echo $form->label($model, 'firstName'); ?>
+                        <?php echo $form->textField($model, 'firstName', array('value' => $post->firstName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'ім\'я')); ?>
+                        <span><?php echo $form->error($model, 'firstName'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->label($model,'secondName'); ?>
-                        <?php echo $form->textField($model,'secondName',array('value'=>$post->secondName,'maxlength'=>20)); ?>
-                        <span><?php echo $form->error($model,'secondName'); ?></span>
+                        <?php echo $form->label($model, 'secondName'); ?>
+                        <?php echo $form->textField($model, 'secondName', array('value' => $post->secondName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'прізвище')); ?>
+                        <span><?php echo $form->error($model, 'secondName'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->label($model,'nickname'); ?>
-                        <?php echo $form->textField($model,'nickname',array('value'=>$post->nickname,'maxlength'=>20)); ?>
-                        <span><?php echo $form->error($model,'nickname'); ?></span>
+                        <?php echo $form->label($model, 'nickname'); ?>
+                        <?php echo $form->textField($model, 'nickname', array('value' => $post->nickname, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'нік')); ?>
+                        <span><?php echo $form->error($model, 'nickname'); ?></span>
                     </div>
                     <div class="rowDate">
-                        <?php echo $form->label($model,'birthday'); ?>
-                        <?php echo $form->textField($model,'birthday',array('value'=>$post->birthday, 'class'=>'date','maxlength'=>11, 'placeholder'=>Yii::t('regexp', '0152'))); ?>
-                        <span><?php echo $form->error($model,'birthday'); ?></span>
+                        <?php echo $form->label($model, 'birthday'); ?>
+                        <?php echo $form->textField($model, 'birthday', array('value' => $post->birthday, 'class' => 'date indicator', 'maxlength' => 11, 'placeholder' => Yii::t('regexp', '0152'), 'data-source' => 'дату народження')); ?>
+                        <span><?php echo $form->error($model, 'birthday'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->labelEx($model,'phone'); ?>
-                        <?php echo $form->textField($model,'phone',array('value'=>$post->phone,'class'=>'phone','maxlength'=>15)); ?>
-                        <span><?php echo $form->error($model,'phone'); ?></span>
+                        <?php echo $form->labelEx($model, 'phone'); ?>
+                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15, 'data-source' => 'телефон')); ?>
+                        <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
-                    <?php if($post::getRole($post->id)==False){
+                    <?php if ($post::getRole($post->id) == False) {
                         ?>
                         <div class="rowRadioButton" id="rowEducForm">
-                            <?php echo $form->labelEx($model,'educform'); ?>
+                            <?php echo $form->labelEx($model, 'educform'); ?>
 
                             <div class="radiolabel">
                                 <label><input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>online</label>
-                                <label><input class="checkstyle" type="checkbox" name="educformOff" value="1" <?php echo $post::getEdForm($post->educform)?> />offline</label>
+                                <label><input class="checkstyle" type="checkbox" name="educformOff"
+                                              value="1" <?php echo $post::getEdForm($post->educform) ?> />offline</label>
                             </div>
                         </div>
                         <?php
                     }
                     ?>
                     <div class="row">
-                        <?php echo $form->label($model,'email'); ?>
-                        <?php echo $form->textField($model,'email',array('value'=>$post->email,'maxlength'=>40,"disabled"=>"disabled" )); ?>
-                        <span><?php echo $form->error($model,'email'); ?></span>
+                        <?php echo $form->label($model, 'email'); ?>
+                        <?php echo $form->textField($model, 'email', array('value' => $post->email, 'maxlength' => 40, "disabled" => "disabled", 'class' => 'indicator')); ?>
+                        <span><?php echo $form->error($model, 'email'); ?></span>
                     </div>
-                    <?php if(is_null($post->password)){
+                    <?php if (is_null($post->password)) {
                         ?>
                         <div class="rowPass">
-                            <?php echo $form->label($model,'password'); ?>
-                            <span class="passEye"><?php echo $form->passwordField($model,'password',array('maxlength'=>20)); ?></span>
-                            <?php echo $form->error($model,'password'); ?>
+                            <?php echo $form->label($model, 'password'); ?>
+                            <span
+                                class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20)); ?></span>
+                            <?php echo $form->error($model, 'password'); ?>
                         </div>
                         <div class="row">
-                            <?php echo $form->label($model,'password_repeat'); ?>
-                            <span class="passEye"> <?php echo $form->passwordField($model,'password_repeat',array('maxlength'=>20)); ?></span>
-                            <?php echo $form->error($model,'password_repeat'); ?>
+                            <?php echo $form->label($model, 'password_repeat'); ?>
+                            <span
+                                class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20)); ?></span>
+                            <?php echo $form->error($model, 'password_repeat'); ?>
                         </div>
-                    <?php }?>
+                    <?php } ?>
                 </div>
                 <div id="addreg">
                     <div class="row">
-                        <?php echo $form->label($model,'address'); ?>
-                        <?php echo $form->textField($model,'address',array('value'=>$post->address,'maxlength'=>100)); ?>
-                        <span><?php echo $form->error($model,'address'); ?></span>
+                        <?php echo $form->label($model, 'address'); ?>
+                        <?php echo $form->textField($model, 'address', array('value' => $post->address, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'адресу')); ?>
+                        <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->label($model,'education'); ?>
-                        <?php echo $form->textField($model,'education',array('value'=>$post->education,'maxlength'=>100)); ?>
-                        <span><?php echo $form->error($model,'education'); ?></span>
+                        <?php echo $form->label($model, 'education'); ?>
+                        <?php echo $form->textField($model, 'education', array('value' => $post->education, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'освіту')); ?>
+                        <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
 
                     <div class="row">
-                        <?php echo $form->label($model,'aboutMy'); ?>
-                        <?php echo $form->textArea($model,'aboutMy',array('value'=>$post->aboutMy,'maxlength'=>500)); ?>
-                        <?php echo $form->error($model,'aboutMy'); ?>
+                        <?php echo $form->label($model, 'aboutMy'); ?>
+                        <?php echo $form->textArea($model, 'aboutMy', array('value' => $post->aboutMy, 'maxlength' => 500, 'class' => 'indicator', 'data-source' => 'про себе')); ?>
+                        <?php echo $form->error($model, 'aboutMy'); ?>
                     </div>
                     <div class="row">
-                        <?php echo $form->label($model,'interests'); ?>
-                        <?php echo $form->textField($model,'interests',array('value'=>$post->interests,'maxlength'=>255, 'placeholder'=>Yii::t('regexp', '0153'))); ?>
-                        <span><?php echo $form->error($model,'interests'); ?></span>
+                        <?php echo $form->label($model, 'interests'); ?>
+                        <?php echo $form->textField($model, 'interests', array('value' => $post->interests, 'maxlength' => 255, 'placeholder' => Yii::t('regexp', '0153'), 'class' => 'indicator', 'data-source' => 'захоплення')); ?>
+                        <span><?php echo $form->error($model, 'interests'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->textField($model,'aboutUs',array('placeholder'=>Yii::t('regexp', '0154'), 'id'=>'aboutUs','maxlength'=>100)); ?>
-                        <span><?php echo $form->error($model,'aboutUs'); ?></span>
+                        <?php echo $form->textField($model, 'aboutUs', array('value' => $post->aboutUs, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs', 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'звідки про нас дізналися')); ?>
+                        <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
 
                     <div class="rowNetwork">
-                        <?php echo $form->label($model,'facebook'); ?>
-                        <?php echo $form->textField($model,'facebook',array('placeholder'=>Yii::t('regexp', '0243'), 'value'=>$post::getFacebooknameProfile($post->facebook), 'maxlength'=>30,'id'=>'trimF')); ?>
-                        <?php echo $form->error($model,'facebook'); ?>
+                        <?php echo $form->label($model, 'facebook'); ?>
+                        <?php echo $form->textField($model, 'facebook', array('placeholder' => Yii::t('regexp', '0243'), 'value' => $post::getFacebooknameProfile($post->facebook), 'maxlength' => 30, 'id' => 'trimF', 'class' => 'indicator', 'data-source' => 'посилання на facebook')); ?>
+                        <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
-                        <?php echo $form->label($model,'googleplus'); ?>
-                        <?php echo $form->textField($model,'googleplus',array('placeholder'=>Yii::t('regexp', '0244'), 'value'=>$post::getGooglenameProfile($post->googleplus), 'maxlength'=>30,'id'=>'trimG')); ?>
-                        <?php echo $form->error($model,'googleplus'); ?>
+                        <?php echo $form->label($model, 'googleplus'); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('placeholder' => Yii::t('regexp', '0244'), 'value' => $post::getGooglenameProfile($post->googleplus), 'maxlength' => 30, 'id' => 'trimG', 'class' => 'indicator', 'data-source' => 'посилання на googleplus')); ?>
+                        <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
-                        <?php echo $form->label($model,'linkedin'); ?>
-                        <?php echo $form->textField($model,'linkedin',array('placeholder'=>Yii::t('regexp', '0245'), 'value'=>$post::getLinkedinId($post->linkedin), 'maxlength'=>30,'id'=>'trimL')); ?>
-                        <?php echo $form->error($model,'linkedin'); ?>
+                        <?php echo $form->label($model, 'linkedin'); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('placeholder' => Yii::t('regexp', '0245'), 'value' => $post::getLinkedinId($post->linkedin), 'maxlength' => 30, 'id' => 'trimL', 'class' => 'indicator', 'data-source' => 'посилання на linkedin')); ?>
+                        <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
-                        <?php echo $form->label($model,'vkontakte'); ?>
-                        <?php echo $form->textField($model,'vkontakte',array('placeholder'=>Yii::t('regexp', '0246'), 'value'=>$post::getVkId($post->vkontakte), 'maxlength'=>30,'id'=>'trimV')); ?>
-                        <?php echo $form->error($model,'vkontakte'); ?>
+                        <?php echo $form->label($model, 'vkontakte'); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('placeholder' => Yii::t('regexp', '0246'), 'value' => $post::getVkId($post->vkontakte), 'maxlength' => 30, 'id' => 'trimV', 'class' => 'indicator', 'data-source' => 'посилання на vkontakte')); ?>
+                        <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
-                        <?php echo $form->label($model,'twitter'); ?>
-                        <?php echo $form->textField($model,'twitter',array('placeholder'=>Yii::t('regexp', '0247'), 'value'=>$post::getTwitternameProfile($post->twitter), 'maxlength'=>30,'id'=>'trimT')); ?>
-                        <?php echo $form->error($model,'twitter'); ?>
+                        <?php echo $form->label($model, 'twitter'); ?>
+                        <?php echo $form->textField($model, 'twitter', array('placeholder' => Yii::t('regexp', '0247'), 'value' => $post::getTwitternameProfile($post->twitter), 'maxlength' => 30, 'id' => 'trimT', 'class' => 'indicator', 'data-source' => 'посилання на twitter')); ?>
+                        <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
             </div>
         </div>
-        <?php if(!is_null($post->password)){
-         echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id'=>'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
+        <?php if (!is_null($post->password)) {
+            echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id' => 'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
         }
-            ?>
-        <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id'=>'changepassword','onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
+        ?>
+        <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id' => 'changepassword', 'onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
             <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()')); ?>
         </div>
-        <?php if(Yii::app()->user->hasFlash('message')):
+        <?php if (Yii::app()->user->hasFlash('message')):
             echo Yii::app()->user->getFlash('message');
         endif; ?>
     </div>
-    <div class="studPhoto">
-        <table class="titleProfileAv">
-            <tr>
-                <td>
-                    <h2><?php echo Yii::t('regexp', '0156');?></h2>
-                </td>
-            </tr>
-        </table>
-        <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
-        <?php if($post->avatar!=='noname.png') {
-        ?>
-            <div>
-            <a href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar');?>">
-                <?php echo Yii::t('regexp', '0561');?>
-            </a>
+    <div class="rightProfileColumn">
+        <div class="studPhoto">
+            <table class="titleProfileAv">
+                <tr>
+                    <td>
+                        <h2><?php echo Yii::t('regexp', '0156'); ?></h2>
+                    </td>
+                </tr>
+            </table>
+            <img class='avatarimg'
+                 src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
+            <?php if ($post->avatar !== 'noname.png') {
+                ?>
+                <div>
+                    <a href="<?php echo Yii::app()->createUrl('studentreg/deleteavatar'); ?>">
+                        <?php echo Yii::t('regexp', '0561'); ?>
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="fileform">
+                <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
+                <input id='ddd' tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);"
+                       accept="image/jpeg">
+                <input tabindex="-1" class="uploadAvatar" type="submit">
             </div>
-        <?php
-        }
-        ?>
-        <div class="fileform">
-            <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157');?>">
-            <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);" accept="image/jpeg">
-            <input tabindex="-1" class="uploadAvatar" type="submit">
+            <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
+            <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
+            <div class="avatarError">
+                <?php if (Yii::app()->user->hasFlash('avatarmessage')):
+                    echo Yii::app()->user->getFlash('avatarmessage');
+                endif; ?>
+            </div>
+            <div id="progressBar">
+                <div id="profileIndicator">Ваш профіль заповнено на <span id="percent"></span>%</div>
+                <div id="indicators">
+                    <img id='progressLine'
+                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline0.png'); ?>'>
+                    <img id='progressMask'
+                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline1.png'); ?>'>
+                </div>
+                <div id="twoCrowns">
+                    <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crown.png'); ?>'>
+                </div>
+                <div>
+                    <table id="emptyFieldList">
+                    </table>
+                </div>
+            </div>
         </div>
-        <div id="avatarHelp"><?php echo Yii::t('regexp', '0158');?></div>
-        <div id="avatarInfo"><?php echo Yii::t('regexp', '0159');?></div>
-        <div class="avatarError">
-            <?php if(Yii::app()->user->hasFlash('avatarmessage')):
-                echo Yii::app()->user->getFlash('avatarmessage');
-            endif; ?>
+        <div id="gridBlock">
+            <div id="gridProgress">
+                <img id='fullGrid'
+                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
+                <img id='gridMask'
+                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
+            </div>
+            <div id="crowns">
+                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
+            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>
@@ -228,14 +268,14 @@ if (!isset($tab)) $tab=0;
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'changePasswordDialog',
-    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-    'cssFile'=>'jquery-ui.css',
-    'theme'=>'my',
+    'themeUrl' => Yii::app()->request->baseUrl . '/css',
+    'cssFile' => 'jquery-ui.css',
+    'theme' => 'my',
     'options' => array(
-        'width'=>540,
+        'width' => 540,
         'autoOpen' => false,
         'modal' => true,
-        'resizable'=> false
+        'resizable' => false
     ),
 ));
 $this->renderPartial('/studentreg/_changepassword');
@@ -246,14 +286,14 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'changeemail',
-    'themeUrl'=>Yii::app()->request->baseUrl.'/css',
-    'cssFile'=>'jquery-ui.css',
-    'theme'=>'my',
+    'themeUrl' => Yii::app()->request->baseUrl . '/css',
+    'cssFile' => 'jquery-ui.css',
+    'theme' => 'my',
     'options' => array(
-        'width'=>540,
+        'width' => 540,
         'autoOpen' => false,
         'modal' => true,
-        'resizable'=> false
+        'resizable' => false
     ),
 ));
 $this->renderPartial('_changeemail');
@@ -261,16 +301,76 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change email modal-->
 <script>
-$(document).ready(function(){
-    var today = new Date();
-    var yr = today.getFullYear();
-    $(".date").inputmask("dd/mm/yyyy", {yearrange: { minyear: 1900, maxyear: yr-3 }, "placeholder": "<?php echo Yii::t('regexp', '0262');?>"}); //specify year range
-});
-<!-- Script for open tabs-->
-$(document).ready(function(){
-    $(".tabs").lightTabs(<?php echo $tab?>);
-});
+    $(document).ready(function () {
+        var today = new Date();
+        var yr = today.getFullYear();
+        $(".date").inputmask("dd/mm/yyyy", {
+            yearrange: {minyear: 1900, maxyear: yr - 3},
+            "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
+        }); //specify year range
+    });
+    <!-- Script for open tabs-->
+    $(document).ready(function () {
+        $(".tabs").lightTabs(<?php echo $tab?>);
+    });
 </script>
 <!-- OpenTab-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
 <!-- OpenTab -->
+<script type="text/javascript">
+    window.onload = function () {
+        $('#progressBar').show();
+        $('#gridBlock').show();
+        var progress = 1;
+        if ('<?php echo $post->avatar ?>'=='noname.png') {
+            progress--;
+            $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='avatar' onclick='focusAvatar()'></td><td>Додати аватар</td></tr>");
+        }
+        $('.indicator').each(function () {
+            if ($(this).val() != '') {
+                progress++;
+            } else {
+                $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='"+$(this).attr('id')+"' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td>Додати " + $(this).attr('data-source') + "</td></tr>");
+            }
+        });
+        var percent = Math.round(progress * (100 / 17)).toFixed(0);
+        var percentForGrid=percent-1;
+        var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
+        $('#percent').text(percent);
+        $("#progressMask").css('margin-left', maskMargin);
+        $("#indicators").append("<img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crown.png');?>'>");
+
+        var gridML = (percent % 10) * 30;
+        var gridMT = (percent - (percent % 10));
+        var marginCrowns = (percentForGrid - (percentForGrid % 10)) / 10 * 25 + 25;
+        if (percent == 100) {
+            $("#twoCrowns img").css('margin-left', -25);
+            marginCrowns = 250;
+        }
+
+        $("#gridMask").css('margin-left', gridML).css('margin-top', -gridMT);
+        $("#crowns img").css('margin-left', -marginCrowns);
+    };
+    function focusAvatar() {
+        $('.chooseAvatar').trigger('click');
+    }
+    function focusEmptyField(emptyField) {
+        if ($(emptyField).parent().parent().is("#addreg")) {
+            $('.tabs').children("ul").children("li:last-child").trigger('click');
+            $(emptyField).focus();
+        } else {
+            $('.tabs').children("ul").children("li:first-child").trigger('click');
+            $(emptyField).focus();
+        }
+    }
+    $('.indicator').focusout(function(){
+        var thistarget=$(this);
+        if($.trim(thistarget.val())=='')
+            setTimeout(function () {
+                $('[data-target="'+thistarget.attr('id')+'"]').parent().parent().show();
+            }, 500);
+    });
+    $('.indicator').focusin(function(){
+        $('[data-target="'+$(this).attr('id')+'"]').parent().parent().hide();
+    });
+</script>
