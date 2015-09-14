@@ -154,6 +154,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <?php if (isset($_GET['editPage'])){?>
     <script src="<?php echo Config::getBaseUrl(); ?>/scripts/loadRedactor.js"></script>
     <script src="<?php echo Config::getBaseUrl(); ?>/scripts/tasks.js"></script>
+    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/formulaEditor.js"></script>
 <?php }?>
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/lessonEditor.js"></script>
 <script async src="<?php echo Config::getBaseUrl(); ?>/scripts/taskAnswer.js"></script>
