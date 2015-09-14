@@ -1,8 +1,9 @@
 /**
  * Created by Andrii N. on 12.05.2015.
  */
+window.onload = loadRedactorJs();
 
-window.onload = function () {
+function loadRedactorJs() {
     var tBl = document.getElementsByClassName("text");
     for (var i = 0; i < tBl.length; i++) {
         tBl[i].onclick = getIdName;
@@ -43,179 +44,176 @@ window.onload = function () {
     /*���� ���������� �� ����� ��� ����������� ��� ���� �� ������� ����� ���� �����������(������� �������) ����� ����������� �����*/
     function getTestIdName() {
         var idName = this.getAttribute('id');
-        order = '#'+ idName;
+        order = '#' + idName;
 
         var edit = this.hasAttribute("contenteditable");
-        if(edit == false){
-            $('#'+ idName).closest(".element").hide();
-            var content=$('#'+ idName).closest(".element").next('.editTest')
+        if (edit == false) {
+            $('#' + idName).closest(".element").hide();
+            var content = $('#' + idName).closest(".element").next('.editTest')
             content.show();
         }
     }
+
     /*���� ���������� �� ����� ��� ����������� ��� ���� �� ������� ����� ���� �����������(������� �������) ����� ����������� �����*/
     function getTaskIdName() {
         var idName = this.getAttribute('id');
-        order = '#'+ idName;
+        order = '#' + idName;
 
         var edit = this.hasAttribute("contenteditable");
-        if(edit == false){
-            $('#'+ idName).closest(".element").hide();
-            var content=$('#'+ idName).closest(".element").next('.editTask');
+        if (edit == false) {
+            $('#' + idName).closest(".element").hide();
+            var content = $('#' + idName).closest(".element").next('.editTask');
             content.show();
         }
     }
 
-function getIdName() {
-    var idName = this.getAttribute('id');
-    order = '#'+ idName;
+    function getIdName() {
+        var idName = this.getAttribute('id');
+        order = '#' + idName;
 
-    var edit = this.hasAttribute("contenteditable");
-    if(edit == false){
-        loadTextRedactor();
-        $(order).attr('data-target','insertE');
-        if($("div").is("#toolbar"+idName)){
-            $(order).parent().next('#toolbar'+idName).after('<div class="container" id="formulaBox">'+
-                '<div class="inner">'+
-                '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer'+idName+'"></textarea>'+
-                '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
-                '</div>'+
-                '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
-                '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
-                '</div>'
-            );
-            $('#toolbar'+idName).show();
-            var id = "toolbar" + idName;
-            EqEditor.embed(id, '', 'full', 'uk-uk');
-            var a = new EqTextArea('equation', 'formulaContainer'+idName);
-            EqEditor.add(a, false);
-            document.getElementById('formulaContainer'+idName).focus();
-        }else{
-            $(order).parent().after('<div class="container" id="formulaBox">'+
-                '<div class="inner">'+
-                '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer'+idName+'"></textarea>'+
-                '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>'+
-                '</div>'+
-                '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>'+
-                '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>'+
-                '</div>'
-            );
-            var id = "toolbar" + idName;
-            $(order).parent().after('<div id="toolbar'+idName+'" style="display: block"></div>');
-            EqEditor.embed(id, '', 'full', 'uk-uk');
-            var a = new EqTextArea('equation', 'formulaContainer'+idName);
-            EqEditor.add(a, false);
-            document.getElementById('formulaContainer'+idName).focus();
+        var edit = this.hasAttribute("contenteditable");
+        if (edit == false) {
+            loadTextRedactor();
+            $(order).attr('data-target', 'insertE');
+            if ($("div").is("#toolbar" + idName)) {
+                $(order).parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
+                    '<div class="inner">' +
+                    '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
+                    '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
+                    '</div>' +
+                    '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
+                    '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
+                    '</div>'
+                );
+                $('#toolbar' + idName).show();
+                var id = "toolbar" + idName;
+                EqEditor.embed(id, '', 'full', 'uk-uk');
+                var a = new EqTextArea('equation', 'formulaContainer' + idName);
+                EqEditor.add(a, false);
+                document.getElementById('formulaContainer' + idName).focus();
+            } else {
+                $(order).parent().after('<div class="container" id="formulaBox">' +
+                    '<div class="inner">' +
+                    '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
+                    '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
+                    '</div>' +
+                    '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
+                    '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
+                    '</div>'
+                );
+                var id = "toolbar" + idName;
+                $(order).parent().after('<div id="toolbar' + idName + '" style="display: block"></div>');
+                EqEditor.embed(id, '', 'full', 'uk-uk');
+                var a = new EqTextArea('equation', 'formulaContainer' + idName);
+                EqEditor.add(a, false);
+                document.getElementById('formulaContainer' + idName).focus();
+            }
         }
     }
-}
-        function loadTextRedactor()
-        {
-            orderBlock=order.replace("#t","");
-            $.ajax({
-                type: "POST",
-                url: "/lesson/editBlock",
-                data: {'order':orderBlock, 'lecture':idLecture},
-                success: function(result){
-                    $(order).html(result);
-                }
-            });
-            $(order).redactor({
-                preSpaces: true,
-                cleanStyleOnEnter: false,
-                replaceDivs: false,
-                lang:lang,
-                autoclear: false,
-                pastePlainText: false,
-                convertVideoLinks: true,
-                convertImageLinks: true,
-                convertUrlLinks: true,
-                convertLinks: true,
-                imageUpload: '/lesson/uploadImage',
-                plugins: ['table',
-                          'fontfamily',
-                          'fontsize',
-                          'fontcolor',
-                          'video',
-                          'imagemanager',
-                          'fullscreen',
-                          'formula',
-                          'save',
-                          'close',
-                          'closefullscreen'],
-                formattingAdd: [
-                    {
-                        tag: 'pre',
-                        title: 'Code php',
-                        class: 'brush:php'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code js',
-                        class: 'brush:js'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code css',
-                        class: 'brush:css'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code sql',
-                        class: 'brush:sql'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code html',
-                        class: 'brush:html'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code C++',
-                        class: 'brush:c'
-                    },
-                    {
-                        tag: 'pre',
-                        title: 'Code C#',
-                        class: 'brush:c#'
-                    },
-                    {
-                        title: 'Clear Format',
-                        func: 'inline.removeFormat'
-                    }],
-                startCallback: function()
-                {
 
-                    var marker = this.selection.getMarker();
-                    //this.insert.node(marker);
-                },
-                initCallback: function()
+    function loadTextRedactor() {
+        orderBlock = order.replace("#t", "");
+        $.ajax({
+            type: "POST",
+            url: "/lesson/editBlock",
+            data: {'order': orderBlock, 'lecture': idLecture},
+            success: function (result) {
+                $(order).html(result);
+            }
+        });
+        $(order).redactor({
+            preSpaces: true,
+            cleanStyleOnEnter: false,
+            replaceDivs: false,
+            lang: lang,
+            autoclear: false,
+            pastePlainText: false,
+            convertVideoLinks: true,
+            convertImageLinks: true,
+            convertUrlLinks: true,
+            convertLinks: true,
+            imageUpload: '/lesson/uploadImage',
+            plugins: ['table',
+                'fontfamily',
+                'fontsize',
+                'fontcolor',
+                'video',
+                'imagemanager',
+                'fullscreen',
+                'formula',
+                'save',
+                'close',
+                'closefullscreen'],
+            formattingAdd: [
                 {
-                    //this.selection.restore();
-                    $(order).off('click', loadTextRedactor);
+                    tag: 'pre',
+                    title: 'Code php',
+                    class: 'brush:php'
                 },
-                destroyCallback: function()
                 {
-                    $('#formulaBox').remove();
-                    console.log('destroy');
-                    $(order).on('click', loadTextRedactor);
-                }
-            });
-        }
+                    tag: 'pre',
+                    title: 'Code js',
+                    class: 'brush:js'
+                },
+                {
+                    tag: 'pre',
+                    title: 'Code css',
+                    class: 'brush:css'
+                },
+                {
+                    tag: 'pre',
+                    title: 'Code sql',
+                    class: 'brush:sql'
+                },
+                {
+                    tag: 'pre',
+                    title: 'Code html',
+                    class: 'brush:html'
+                },
+                {
+                    tag: 'pre',
+                    title: 'Code C++',
+                    class: 'brush:c'
+                },
+                {
+                    tag: 'pre',
+                    title: 'Code C#',
+                    class: 'brush:c#'
+                },
+                {
+                    title: 'Clear Format',
+                    func: 'inline.removeFormat'
+                }],
+            startCallback: function () {
+
+                var marker = this.selection.getMarker();
+                //this.insert.node(marker);
+            },
+            initCallback: function () {
+                //this.selection.restore();
+                $(order).off('click', loadTextRedactor);
+            },
+            destroyCallback: function () {
+                $('#formulaBox').remove();
+                console.log('destroy');
+                $(order).on('click', loadTextRedactor);
+            }
+        });
+    }
 }
 
-
-function insertFormulaE(){
+function insertFormulaE() {
     var $content = $('[data-target="insertE"]'),
         $source = $('[data-source="insertE"]');
 
-        $content.trigger('focus');
-        insertHTMLE($source.val());
+    $content.trigger('focus');
+    insertHTMLE($source.val());
 }
 
 function insertHTMLE(html) {
     try {
         $('[data-target="insertE"]').focus();
-        if($("#inlineFormulaE").prop("checked")){
+        if ($("#inlineFormulaE").prop("checked")) {
             html = '\\(' + html;
             html = html + '\\)';
         } else {
@@ -239,6 +237,7 @@ function insertHTMLE(html) {
     } catch (z) {
         try {
             document.selection.createRange().pasteHTML(html);
-        } catch (z) {}
+        } catch (z) {
+        }
     }
 }
