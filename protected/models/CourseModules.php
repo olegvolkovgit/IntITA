@@ -7,6 +7,7 @@
  * @property integer $id_course
  * @property integer $id_module
  * @property integer $order
+ * @property integer $mandatory_modules
  *
  * The followings are the available model relations:
  * @property Course $idCourse
@@ -31,10 +32,9 @@ class CourseModules extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_course, id_module, order', 'required'),
-			array('id_course, id_module, order', 'numerical', 'integerOnly'=>true),
+			array('id_course, id_module, order, mandatory_modules', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id_course, id_module, order', 'safe', 'on'=>'search'),
+			array('id_course, id_module, order, mandatory_modules', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +61,7 @@ class CourseModules extends CActiveRecord
 		return array(
 			'id_course' => 'Id Course',
 			'id_module' => 'Id Module',
+            'mandatory_modules' => 'Попередні модулі(обов`язкові)',
 			'order' => 'Order',
 		);
 	}
@@ -79,7 +80,6 @@ class CourseModules extends CActiveRecord
 	 */
 	public function search($id)
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -88,6 +88,7 @@ class CourseModules extends CActiveRecord
 		$criteria->compare('id_course',$this->id_course);
 		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('order',$this->order);
+        $criteria->compare('mandatory_modules',$this->mandatory_modules);
         $criteria->with = array('moduleInCourse');
 
 		return new CActiveDataProvider($this, array(
