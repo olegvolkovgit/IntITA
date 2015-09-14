@@ -48,7 +48,7 @@ class LessonController extends Controller
         if (isset($_GET['editPage'])) {
             $page = $_GET['editPage'];
         }
-        if (isset($_GET['page'])) {
+        if (is_string($_GET['page'])) {
             $page = $_GET['page'];
         }
 

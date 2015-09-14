@@ -16,7 +16,7 @@
         <p>
             <a href="<?php $args = $_GET;
             $args['page'] = $passedPages[$i]['order'];
-            echo $this->createUrl('', $args);?>" class="<?php if($passedPages[$i]['isDone'] || $editMode) echo 'pageAccess' ?>"
+            echo $this->createUrl('', $args);?>" class="<?php if($isFree || $passedPages[$i]['isDone'] || $editMode) echo 'pageAccess' ?>"
                title="Частина <?php echo $passedPages[$i]['order'];?>">
                 <?php echo 'Частина '.$passedPages[$i]['order'].'. '.strip_tags($summary[$i]);?>
             </a>

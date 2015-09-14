@@ -4,7 +4,7 @@
  */
 ?>
 <?php
-if (isset($_GET['page'])) $thisPage = $_GET['page'];
+if (is_string($_GET['page'])) $thisPage = $_GET['page'];
 else if($editMode) $thisPage = 1;
 else $thisPage = $lastAccessPage;
 
