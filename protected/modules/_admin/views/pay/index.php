@@ -6,7 +6,7 @@
 <div id="addAccessModule">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('pay/payModule');?>" method="POST" name="add-accessModule">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/pay/payModule');?>" method="POST" name="add-accessModule">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0593'); ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
@@ -60,7 +60,7 @@
 <div id="addAccessModule">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('pay/payCourse');?>" method="POST" name="add-accessCourse">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/pay/payCourse');?>" method="POST" name="add-accessCourse">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0600'); ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
