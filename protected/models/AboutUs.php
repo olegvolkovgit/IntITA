@@ -8,17 +8,17 @@
  * @property string $iconImage
  * @property string $titleText
  * @property string $textAbout
+ * @property string $titleTextExp
  */
 class Aboutus extends CActiveRecord
 {
-    public $titleTextExp;
     public $line2Image;
     public $titleText;
     public $textAbout;
     public $drop1Text;
     public $drop2Text;
     public $drop3Text;
-    public $tab;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,9 +37,9 @@ class Aboutus extends CActiveRecord
 		return array(
 			array('iconImage, titleText, textAbout', 'required'),
 			array('iconImage', 'length', 'max'=>255),
-            array('titleText, textAbout', 'length', 'max'=>6),
+            array('titleText, textAbout, titleTextExp', 'length', 'max'=>6),
 			// The following rule is used by search().
-			array('block_id, titleText, textAbout, iconImage', 'safe', 'on'=>'search'),
+			array('block_id, titleText, textAbout, iconImage, titleTextExp', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +93,7 @@ class Aboutus extends CActiveRecord
 		$criteria->compare('iconImage',$this->iconImage,true);
         $criteria->compare('titleText',$this->titleText,true);
         $criteria->compare('textAbout',$this->textAbout,true);
+        $criteria->compare('titleTextExp',$this->titleText,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -29,10 +29,9 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
 $this->pageTitle = MainpageHelper::getTitle();
 $headerText = MainpageHelper::getHeader1();
 $subheaderText = MainpageHelper::getSubheader1();
-$massAbout = array($block1, $block2, $block3);
 ?>
 
 <?php $this->renderPartial("_slider"); ?>
 
-<?php $this->renderPartial('_shortBlocks', array('massAbout' => $massAbout)); ?>
-<?php $this->renderPartial('_aboutDetail', array('block1' => $block1, 'block2' => $block2, 'block3' => $block3)); ?>
+<?php $this->renderPartial('_shortBlocks', array('massAbout' => $arrayAboutUs)); ?>
+<?php $this->renderPartial('_aboutDetail', array('block1' => $arrayAboutUs[0], 'block2' => $arrayAboutUs[1], 'block3' => $arrayAboutUs[2])); ?>

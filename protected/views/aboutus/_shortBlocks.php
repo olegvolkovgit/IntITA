@@ -5,22 +5,19 @@
  * Date: 13.05.2015
  * Time: 15:33
  */
-$headerText = Yii::t('mainpage','0002');
-$subheaderText = Yii::t('mainpage','0006');
-$dropName = Yii::t('mainpage','0004');
 ?>
 <div class="fullpageaboutus">
     <div class="mainAboutBlock">
         <div class="mainAbout">
-            <div class="header" id="anchorAboutUs">
-                <?php echo $headerText; ?>
+            <div class="header">
+                <?php echo Yii::t('mainpage','0002'); ?>
                 <p>
-                    <?php echo $subheaderText; ?>
+                    <?php echo Yii::t('mainpage', '0006'); ?>
                 </p>
             </div>
 
             <div class="line1">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', 'line1.png');?>">
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line1.png');?>">
             </div>
 
             <?php
@@ -31,15 +28,15 @@ $dropName = Yii::t('mainpage','0004');
                 $index++;
 
                 ?>
-                <div class="block" id="<?php echo AboutUsHelper::getIdTabAboutUs($index) ?>" onclick="showAboutUs('<?php echo $index ?>',this)">
+                <div class="block" id="<?php echo AboutUsHelper::getIdTabAboutUs($index) ?>" onclick="showAboutUs('<?php echo $index; ?>',this)">
                     <ul>
                         <li>
                             <div class="icon">
-                                <img src="<?php echo $val->iconImage;?>">
+                                <img src="<?php echo  StaticFilesHelper::createImagePath('aboutus', $val->iconImage);?>">
                             </div>
                             <div class="title" >
                                 <div class="aboutTitleLink" >
-                                    <?php echo $val->titleTextExp; ?>
+                                    <?php echo Yii::t('aboutus', $val->titleTextExp); ?>
                                 </div>
                             </div>
                         </li>
