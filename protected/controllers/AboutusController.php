@@ -10,7 +10,7 @@ class AboutusController extends Controller{
 
     public function actionIndex()
     {
-        $arrayAboutUs = Aboutus::model()->findAll();
+        $arrayAboutUs = AboutUs::model()->findAll();
 
         $this->render('index', array(
             'arrayAboutUs'=>$arrayAboutUs,
