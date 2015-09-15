@@ -6,8 +6,6 @@
  * The followings are the available columns in table 'aboutus':
  * @property integer $block_id
  * @property string $iconImage
- * @property string $linkAddress
-
  */
 class Aboutus extends CActiveRecord
 {
@@ -18,6 +16,7 @@ class Aboutus extends CActiveRecord
     public $drop1Text;
     public $drop2Text;
     public $drop3Text;
+    public $tab;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -34,7 +33,7 @@ class Aboutus extends CActiveRecord
 	{
 		$this->line2Image = StaticFilesHelper::createPath('image', 'aboutus', 'line2.png');
 		$this->iconImage = StaticFilesHelper::createPath('image', 'aboutus', $this->findByPk($id)->iconImage);
-		$this->linkAddress = Yii::app()->request->baseUrl.$this->findByPk($id)->linkAddress;
+        $this->tab = $id;
         return 'aboutus';
 	}
 	/**
@@ -45,10 +44,10 @@ class Aboutus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('iconImage, linkAddress', 'required'),
-			array('iconImage, linkAddress', 'length', 'max'=>255),
+			array('iconImage', 'required'),
+			array('iconImage', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('block_id, iconImage, linkAddress', 'safe', 'on'=>'search'),
+			array('block_id, iconImage', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,7 +75,6 @@ class Aboutus extends CActiveRecord
 		return array(
 			'block_id' => 'Block',
 			'iconImage' => 'Icon Image',
-			'linkAddress' => 'Link Address',
 		);
 	}
 
@@ -94,13 +92,11 @@ class Aboutus extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('block_id',$this->block_id);
 		$criteria->compare('iconImage',$this->iconImage,true);
-		$criteria->compare('linkAddress',$this->linkAddress,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

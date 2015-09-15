@@ -40,7 +40,7 @@ $linkName = Yii::t('mainpage', '0004');
                                 <?php echo $val->textAbout;?>
                             </p>
                         </div>
-                        <a href="<?php echo $val->linkAddress ?>">
+                        <a href="<?php echo Yii::app()->createUrl('aboutus/index', array('id' => $val->tab)); ?>">
                             <?php echo $linkName; ?>
                         </a>
                     </li>
