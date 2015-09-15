@@ -16,18 +16,16 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 
 <?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
 $this->pageTitle = MainpageHelper::getTitle();
-$massAbout=array($block1,$block2,$block3);
 ?>
-<?php $this->renderPartial('_aboutUs', array('massAbout' => $massAbout));?>
+<?php $this->renderPartial('_aboutUs_list', array('aboutUsDataProvider' => $aboutUsDataProvider));?>
 
-<?php //$stepsArray=array($step1,$step2,$step3,$step4,$step5);?>
 <?php $this->renderPartial('_steps_list', array('stepsDataProvider' =>$stepsDataProvider)); ?>
 
 <?php if(Yii::app()->user->isGuest) {

@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'aboutus':
  * @property integer $block_id
  * @property string $iconImage
+ * @property string $titleText
+ * @property string $textAbout
  */
 class Aboutus extends CActiveRecord
 {
@@ -25,17 +27,6 @@ class Aboutus extends CActiveRecord
 		return 'aboutus';
 	}
 
-	function AboutUs($id){
-
-	}
-
-	public function setValuesById($id)
-	{
-		$this->line2Image = StaticFilesHelper::createPath('image', 'aboutus', 'line2.png');
-		$this->iconImage = StaticFilesHelper::createPath('image', 'aboutus', $this->findByPk($id)->iconImage);
-        $this->tab = $id;
-        return 'aboutus';
-	}
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -44,10 +35,11 @@ class Aboutus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('iconImage', 'required'),
+			array('iconImage, titleText, textAbout', 'required'),
 			array('iconImage', 'length', 'max'=>255),
+            array('titleText, textAbout', 'length', 'max'=>6),
 			// The following rule is used by search().
-			array('block_id, iconImage', 'safe', 'on'=>'search'),
+			array('block_id, titleText, textAbout, iconImage', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +67,8 @@ class Aboutus extends CActiveRecord
 		return array(
 			'block_id' => 'Block',
 			'iconImage' => 'Icon Image',
+            'titleText' => 'Title Text',
+            'textAbout' => 'Text About',
 		);
 	}
 
@@ -97,9 +91,16 @@ class Aboutus extends CActiveRecord
 
 		$criteria->compare('block_id',$this->block_id);
 		$criteria->compare('iconImage',$this->iconImage,true);
+        $criteria->compare('titleText',$this->titleText,true);
+        $criteria->compare('textAbout',$this->textAbout,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array('attributes'=>array(
+                'defaultOrder'=>array(
+                    'block_id'=>CSort::SORT_ASC,
+                ),
+            )),
 		));
 	}
 
