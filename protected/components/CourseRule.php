@@ -8,54 +8,25 @@
  */
 class CourseRule extends CBaseUrlRule
 {
+    public $path;
+
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
         $module = null;
         $lecture = null;
-        $pathParts = explode('/', $pathInfo);
+        $path = PathFactory::factory($pathInfo);
+        if(is_null($path)){
+            return false;
+        }
 
-        if ($pathParts[0] == 'course') {
-            if ($pathParts[1] == 'ru' || $pathParts[1] == 'en' || $pathParts[1] == 'ua') {
-                $course = Course::model()->find(array(
-                    'condition' => 'alias = :alias',
-                    'params' => array('alias' => $pathParts[2]),
-                ));
+        $path = $path->parseUrl();
 
-                if (isset($pathParts[3])) {
-                    $module = Module::getModuleByAlias($pathParts[3], $course->course_ID);
-
-                    if (isset($pathParts[4])) {
-                        $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[4]);
-                        if (isset($pathParts[5])) {
-                            $_GET['page'] = $pathParts[5];
-                        }
-                    }
-
-
-                }
-            } else {
-                $course = Course::model()->find(array(
-                    'condition' => 'alias = :alias',
-                    'params' => array('alias' => $pathParts[1]),
-                ));
-                if (isset($pathParts[2])) {
-                    $module = Module::getModuleByAlias($pathParts[2], $course->course_ID);
-
-                    if (isset($pathParts[3])) {
-                        $lecture = Lecture::getLectureIdByModuleOrder($module->module_ID, $pathParts[3]);
-
-                        if (isset($pathParts[4])) {
-                            $_GET['page'] = $pathParts[4];
-                        }
-                    }
-                }
-            }
-
-            if ($course !== null) {
-                if ($module !== null) {
-                    if ($lecture != null) {
-                        $_GET['id'] = $lecture->getPrimaryKey();
-                        $_GET['idCourse'] = $course->getPrimaryKey();
+        if ($path->getType() == 'course') {
+            if ($path->course !== null) {
+                if ($path->module !== null) {
+                    if ($path->lecture != null) {
+                        $_GET['id'] = $path->lecture->getPrimaryKey();
+                        $_GET['idCourse'] = $path->course->getPrimaryKey();
                         if (!isset($_GET['page'])) {
                             $_GET['page'] = 1;
                         };
@@ -63,13 +34,13 @@ class CourseRule extends CBaseUrlRule
                         return 'lesson/index';
                     }
 
-                    $_GET['idCourse'] = $course->getPrimaryKey();
-                    $_GET['idModule'] = $module->getPrimaryKey();
+                    $_GET['idCourse'] = $path->course->getPrimaryKey();
+                    $_GET['idModule'] = $path->module->getPrimaryKey();
                     return 'module/index';
                 }
 
 
-                $_GET['id'] = $course->getPrimaryKey();
+                $_GET['id'] = $path->course->getPrimaryKey();
                 return 'course/index';
             }
         }
