@@ -2,7 +2,7 @@
 <?php
 /* @var $this PayController */
 ?>
-
+<h2>Автоматична оплата курса/модуля</h2>
 <div id="addAccessModule">
     <br>
     <a name="form"></a>

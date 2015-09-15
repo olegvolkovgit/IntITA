@@ -9,7 +9,6 @@
 abstract class Path
 {
     public $pathArray;
-    public $type;
 
     function __construct($pathArray) {
         $this->pathArray = $pathArray;

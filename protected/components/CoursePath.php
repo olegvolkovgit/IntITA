@@ -53,9 +53,6 @@ class CoursePath extends Path{
 
         if (!is_null($lectureOrder)) {
             $this->lecture = Lecture::getLectureIdByModuleOrder($this->module->module_ID, $lectureOrder);
-//            if (isset($this->pathArray[5])) {
-//                $_GET['page'] = $this->pathArray[5];
-//            }
         }
     }
 
