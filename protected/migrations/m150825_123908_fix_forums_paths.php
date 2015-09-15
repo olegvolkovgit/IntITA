@@ -21,14 +21,4 @@ class m150825_123908_fix_forums_paths extends CDbMigration
 		return false;
 	}
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

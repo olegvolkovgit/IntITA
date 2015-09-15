@@ -38,20 +38,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $arraySteps = $this->initSteps();
         $arrayAboutUs = $this->initAboutus();
         $slider = Carousel::model()->findAll();
+        $stepsDataProvider = new CActiveDataProvider('Step');
 
         $this->render('index', array(
             'slider' => $slider,
             'block1' => $arrayAboutUs['objAbout1'],
             'block2' => $arrayAboutUs['objAbout2'],
             'block3' => $arrayAboutUs['objAbout3'],
-            'step1' => $arraySteps['step1'],
-            'step2' => $arraySteps['step2'],
-            'step3' => $arraySteps['step3'],
-            'step4' => $arraySteps['step4'],
-            'step5' => $arraySteps['step5'],
+            'stepsDataProvider' => $stepsDataProvider,
         ));
     }
 
@@ -73,36 +69,6 @@ class SiteController extends Controller
             'objAbout1' => $objAbout1,
             'objAbout2' => $objAbout2,
             'objAbout3' => $objAbout3,
-        );
-    }
-
-    public function initSteps()
-    {
-        $step1 = Step::model()->findByPk(1);
-        $step2 = Step::model()->findByPk(2);
-        $step3 = Step::model()->findByPk(3);
-        $step4 = Step::model()->findByPk(4);
-        $step5 = Step::model()->findByPk(5);
-
-        $step1->stepTitle = Yii::t('step', '0038');
-        $step2->stepTitle = Yii::t('step', '0039');
-        $step3->stepTitle = Yii::t('step', '0040');
-        $step4->stepTitle = Yii::t('step', '0041');
-        $step5->stepTitle = Yii::t('step', '0042');
-
-        $step1->stepText = Yii::t('step', '0044');
-        $step2->stepText = Yii::t('step', '0045');
-        $step3->stepText = Yii::t('step', '0046');
-        $step4->stepText = Yii::t('step', '0047');
-        $step5->stepText = Yii::t('step', '0048');
-
-
-        return $arraySteps = array(
-            'step1' => $step1,
-            'step2' => $step2,
-            'step3' => $step3,
-            'step4' => $step4,
-            'step5' => $step5,
         );
     }
 
@@ -162,9 +128,6 @@ class SiteController extends Controller
         else $this->redirect(Yii::app()->homeUrl);
     }
 
-    /**
-     * Displays the login page
-     */
     /* Express registration, check-sending on email adresses token to activate your account */
     public function actionRapidReg()
     {

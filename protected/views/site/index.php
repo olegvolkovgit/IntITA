@@ -27,8 +27,8 @@ $massAbout=array($block1,$block2,$block3);
 ?>
 <?php $this->renderPartial('_aboutUs', array('massAbout' => $massAbout));?>
 
-<?php $stepsArray=array($step1,$step2,$step3,$step4,$step5);?>
-<?php $this->renderPartial('_steps', array('stepsArray' =>$stepsArray)); ?>
+<?php //$stepsArray=array($step1,$step2,$step3,$step4,$step5);?>
+<?php $this->renderPartial('_steps_list', array('stepsDataProvider' =>$stepsDataProvider)); ?>
 
 <?php if(Yii::app()->user->isGuest) {
     $this->renderPartial('_form');
