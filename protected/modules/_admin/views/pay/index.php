@@ -23,7 +23,7 @@
             <br>
             <br>
             <?php echo Yii::t('payments', '0605'); ?>:<br>
-            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="javascript:selectModule();">
+            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="selectModule();">
                 <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
