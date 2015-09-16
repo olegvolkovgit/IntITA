@@ -16,6 +16,8 @@
  * @property string $history
  * @property integer $rate
  * @property string $recall
+ * @property string $first_name_en
+ * @property string $last_name_en
  */
 class Graduate extends CActiveRecord
 {
@@ -38,9 +40,10 @@ class Graduate extends CActiveRecord
             array('rate', 'numerical', 'integerOnly'=>true),
             array('first_name, last_name, avatar, position, work_place, work_site, courses, courses_page, history', 'length', 'max'=>255),
             array('graduate_date, recall', 'safe'),
+            array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
             array('avatar', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true, 'safe' => false),
             // The following rule is used by search().
-            array('id, first_name, last_name, graduate_date, position, work_place, work_site, courses, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
+            array('id, first_name, last_name, graduate_date, avatar, position, work_place, work_site, courses, first_name_en, last_name_en, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
         );
     }
     /**
@@ -72,6 +75,8 @@ class Graduate extends CActiveRecord
             'history' => 'Історія (не відображається)',
             'rate' => 'Рейтинг',
             'recall' => 'Відгук',
+            'first_name_en' => "Ім'я (англійською)",
+            'last_name_en' => 'Прізвище (англійською)',
         );
     }
     /**
@@ -102,6 +107,8 @@ class Graduate extends CActiveRecord
         $criteria->compare('history',$this->history,true);
         $criteria->compare('rate',$this->rate);
         $criteria->compare('recall',$this->recall,true);
+        $criteria->compare('first_name_en',$this->first_name_en,true);
+        $criteria->compare('last_name_en',$this->last_name_en,true);
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));

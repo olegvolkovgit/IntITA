@@ -3,7 +3,9 @@
 /* @var $model Graduate */
 /* @var $form CActiveForm */
 ?>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/translateTeacherName.js"></script>
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+
 <div class="form">
 
     <?php $form=$this->beginWidget('CActiveForm', array(
