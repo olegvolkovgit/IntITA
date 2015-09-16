@@ -2,11 +2,11 @@
 <?php
 /* @var $this PayController */
 ?>
-
+<h2>Автоматична оплата курса/модуля</h2>
 <div id="addAccessModule">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('pay/payModule');?>" method="POST" name="add-accessModule">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/pay/payModule');?>" method="POST" name="add-accessModule">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0593'); ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
@@ -23,7 +23,7 @@
             <br>
             <br>
             <?php echo Yii::t('payments', '0605'); ?>:<br>
-            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="javascript:selectModule();">
+            <select name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="selectModule();">
                 <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
@@ -60,7 +60,7 @@
 <div id="addAccessModule">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('pay/payCourse');?>" method="POST" name="add-accessCourse">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/pay/payCourse');?>" method="POST" name="add-accessCourse">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0600'); ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>

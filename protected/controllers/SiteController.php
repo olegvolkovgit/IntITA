@@ -2,15 +2,6 @@
 
 class SiteController extends Controller
 {
-    /* @var $mainpage Mainpage */
-    /* @var $step1 Step */
-    /* @var $step2 Step */
-    /* @var $step3 Step */
-    /* @var $step4 Step */
-    /* @var $step5 Step */
-    /* @var $objAbout1 AboutUs */
-    /* @var $objAbout2 AboutUs */
-    /* @var $objAbout3 AboutUs */
     /*
 	 * Declares class-based actions.
 	 */
@@ -38,72 +29,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $arraySteps = $this->initSteps();
-        $arrayAboutUs = $this->initAboutus();
         $slider = Carousel::model()->findAll();
+        $aboutUsDataProvider = new CActiveDataProvider('AboutUs');
+        $stepsDataProvider = new CActiveDataProvider('Step');
 
         $this->render('index', array(
             'slider' => $slider,
-            'block1' => $arrayAboutUs['objAbout1'],
-            'block2' => $arrayAboutUs['objAbout2'],
-            'block3' => $arrayAboutUs['objAbout3'],
-            'step1' => $arraySteps['step1'],
-            'step2' => $arraySteps['step2'],
-            'step3' => $arraySteps['step3'],
-            'step4' => $arraySteps['step4'],
-            'step5' => $arraySteps['step5'],
+            'aboutUsDataProvider' => $aboutUsDataProvider,
+            'stepsDataProvider' => $stepsDataProvider,
         ));
-    }
-
-    public function initAboutus()
-    {
-        $objAbout1 = new AboutUs(1);
-        $objAbout1->setValuesById(1);
-        $objAbout1->titleText = Yii::t('aboutus', '0032');
-        $objAbout1->textAbout = Yii::t('aboutus', '0035');
-        $objAbout2 = new AboutUs(2);
-        $objAbout2->setValuesById(2);
-        $objAbout2->titleText = Yii::t('aboutus', '0033');
-        $objAbout2->textAbout = Yii::t('aboutus', '0036');
-        $objAbout3 = new AboutUs(3);
-        $objAbout3->setValuesById(3);
-        $objAbout3->titleText = Yii::t('aboutus', '0034');
-        $objAbout3->textAbout = Yii::t('aboutus', '0037');
-        return $arrayAboutUs = array(
-            'objAbout1' => $objAbout1,
-            'objAbout2' => $objAbout2,
-            'objAbout3' => $objAbout3,
-        );
-    }
-
-    public function initSteps()
-    {
-        $step1 = Step::model()->findByPk(1);
-        $step2 = Step::model()->findByPk(2);
-        $step3 = Step::model()->findByPk(3);
-        $step4 = Step::model()->findByPk(4);
-        $step5 = Step::model()->findByPk(5);
-
-        $step1->stepTitle = Yii::t('step', '0038');
-        $step2->stepTitle = Yii::t('step', '0039');
-        $step3->stepTitle = Yii::t('step', '0040');
-        $step4->stepTitle = Yii::t('step', '0041');
-        $step5->stepTitle = Yii::t('step', '0042');
-
-        $step1->stepText = Yii::t('step', '0044');
-        $step2->stepText = Yii::t('step', '0045');
-        $step3->stepText = Yii::t('step', '0046');
-        $step4->stepText = Yii::t('step', '0047');
-        $step5->stepText = Yii::t('step', '0048');
-
-
-        return $arraySteps = array(
-            'step1' => $step1,
-            'step2' => $step2,
-            'step3' => $step3,
-            'step4' => $step4,
-            'step5' => $step5,
-        );
     }
 
     /**
@@ -162,9 +96,6 @@ class SiteController extends Controller
         else $this->redirect(Yii::app()->homeUrl);
     }
 
-    /**
-     * Displays the login page
-     */
     /* Express registration, check-sending on email adresses token to activate your account */
     public function actionRapidReg()
     {

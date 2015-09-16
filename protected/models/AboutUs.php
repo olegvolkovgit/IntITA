@@ -6,18 +6,19 @@
  * The followings are the available columns in table 'aboutus':
  * @property integer $block_id
  * @property string $iconImage
- * @property string $linkAddress
-
+ * @property string $titleText
+ * @property string $textAbout
+ * @property string $titleTextExp
  */
 class Aboutus extends CActiveRecord
 {
-    public $titleTextExp;
     public $line2Image;
     public $titleText;
     public $textAbout;
     public $drop1Text;
     public $drop2Text;
     public $drop3Text;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -26,17 +27,6 @@ class Aboutus extends CActiveRecord
 		return 'aboutus';
 	}
 
-	function AboutUs($id){
-
-	}
-
-	public function setValuesById($id)
-	{
-		$this->line2Image = StaticFilesHelper::createPath('image', 'aboutus', 'line2.png');
-		$this->iconImage = StaticFilesHelper::createPath('image', 'aboutus', $this->findByPk($id)->iconImage);
-		$this->linkAddress = Yii::app()->request->baseUrl.$this->findByPk($id)->linkAddress;
-        return 'aboutus';
-	}
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -45,10 +35,11 @@ class Aboutus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('iconImage, linkAddress', 'required'),
-			array('iconImage, linkAddress', 'length', 'max'=>255),
+			array('iconImage, titleText, textAbout', 'required'),
+			array('iconImage', 'length', 'max'=>255),
+            array('titleText, textAbout, titleTextExp', 'length', 'max'=>6),
 			// The following rule is used by search().
-			array('block_id, iconImage, linkAddress', 'safe', 'on'=>'search'),
+			array('block_id, titleText, textAbout, iconImage, titleTextExp', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,7 +67,8 @@ class Aboutus extends CActiveRecord
 		return array(
 			'block_id' => 'Block',
 			'iconImage' => 'Icon Image',
-			'linkAddress' => 'Link Address',
+            'titleText' => 'Title Text',
+            'textAbout' => 'Text About',
 		);
 	}
 
@@ -94,16 +86,22 @@ class Aboutus extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('block_id',$this->block_id);
 		$criteria->compare('iconImage',$this->iconImage,true);
-		$criteria->compare('linkAddress',$this->linkAddress,true);
+        $criteria->compare('titleText',$this->titleText,true);
+        $criteria->compare('textAbout',$this->textAbout,true);
+        $criteria->compare('titleTextExp',$this->titleText,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array('attributes'=>array(
+                'defaultOrder'=>array(
+                    'block_id'=>CSort::SORT_ASC,
+                ),
+            )),
 		));
 	}
 

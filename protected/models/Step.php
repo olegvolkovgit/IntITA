@@ -5,19 +5,11 @@
  *
  * The followings are the available columns in table 'step':
  * @property integer $step_id
- * @property string $stepName
  * @property integer $stepNumber
  * @property string $stepTitle
- * @property string $stepImagePath
  * @property string $stepImage
  * @property string $stepText
  *
- * The followings are the available model relations:
- * @property Mainpage[] $mainpages
- * @property Mainpage[] $mainpages1
- * @property Mainpage[] $mainpages2
- * @property Mainpage[] $mainpages3
- * @property Mainpage[] $mainpages4
  */
 class Step extends CActiveRecord
 {
@@ -39,12 +31,9 @@ class Step extends CActiveRecord
 		return array(
 			array('stepNumber, stepTitle, stepImage, stepText', 'required'),
 			array('stepNumber', 'numerical', 'integerOnly'=>true),
-			array('stepName', 'length', 'max'=>30),
 			array('stepTitle, stepImage', 'length', 'max'=>50),
-			array('stepImagePath', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('step_id, stepName, stepNumber, stepTitle, stepImagePath, stepImage, stepText', 'safe', 'on'=>'search'),
+			array('step_id, stepNumber, stepTitle, stepImage, stepText', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,11 +45,6 @@ class Step extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'mainpages' => array(self::HAS_MANY, 'Mainpage', 'step1'),
-			'mainpages1' => array(self::HAS_MANY, 'Mainpage', 'step2'),
-			'mainpages2' => array(self::HAS_MANY, 'Mainpage', 'step3'),
-			'mainpages3' => array(self::HAS_MANY, 'Mainpage', 'step4'),
-			'mainpages4' => array(self::HAS_MANY, 'Mainpage', 'step5'),
 		);
 	}
 
@@ -71,10 +55,8 @@ class Step extends CActiveRecord
 	{
 		return array(
 			'step_id' => 'Step',
-			'stepName' => 'Step Name',
 			'stepNumber' => 'Step Number',
 			'stepTitle' => 'Step Title',
-			'stepImagePath' => 'Step Image Path',
 			'stepImage' => 'Step Image',
 			'stepText' => 'Step Text',
 		);
@@ -94,20 +76,21 @@ class Step extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('step_id',$this->step_id);
-		$criteria->compare('stepName',$this->stepName,true);
 		$criteria->compare('stepNumber',$this->stepNumber);
 		$criteria->compare('stepTitle',$this->stepTitle,true);
-		$criteria->compare('stepImagePath',$this->stepImagePath,true);
 		$criteria->compare('stepImage',$this->stepImage,true);
 		$criteria->compare('stepText',$this->stepText,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array('attributes'=>array(
+                'defaultOrder'=>array(
+                    'stepNumber'=>CSort::SORT_ASC,
+                ),
+            )),
 		));
 	}
 
