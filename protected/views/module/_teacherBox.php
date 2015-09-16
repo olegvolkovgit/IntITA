@@ -15,7 +15,7 @@ for ($i = 0; $i < count($teachers); $i++) {
                 <h2><?php echo Yii::t('module', '0227'); ?></h2>
 
                 <div style="line-height: 1.2;">
-                    <?php echo $teachers[$i]->last_name . " " . $teachers[$i]->first_name; ?>
+                    <?php echo TeacherHelper::getTeacherLastName($teachers[$i]->teacher_id) . " " . TeacherHelper::getTeacherFirstName($teachers[$i]->teacher_id); ?>
                     <br>
                     <?php echo $teachers[$i]->email; ?>
                     <br>

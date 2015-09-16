@@ -67,6 +67,21 @@
     </div>
 
     <div class="row">
+        <?php echo $form->label($model,'first_name_en'); ?>
+        <?php echo $form->textField($model,'first_name_en',array('size'=>35,'maxlength'=>35)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->label($model,'middle_name_en'); ?>
+        <?php echo $form->textField($model,'middle_name_en',array('size'=>35,'maxlength'=>35)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->label($model,'last_name_en'); ?>
+        <?php echo $form->textField($model,'last_name_en',array('size'=>35,'maxlength'=>35)); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->label($model,'user_id'); ?>
         <?php echo $form->textField($model,'user_id'); ?>
     </div>

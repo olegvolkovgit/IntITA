@@ -23,8 +23,9 @@
                             <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0059'); ?>&#187;</a>
                         </td>
                         <td>
-                            <h2><?php echo $teacherValue->last_name ?></h2>
-                            <h2><?php echo $teacherValue->first_name ?> <?php echo $teacherValue->middle_name ?></h2>
+                            <h2><?php echo TeacherHelper::getTeacherLastName($teacherValue->teacher_id); ?></h2>
+                            <h2><?php echo TeacherHelper::getTeacherFirstName($teacherValue->teacher_id); ?>
+                                <?php echo TeacherHelper::getTeacherMiddleName($teacherValue->teacher_id); ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
                             <?php $modules = TeacherHelper::getModulesByTeacher($teacherValue->teacher_id);
                             if (!empty($modules)){?>

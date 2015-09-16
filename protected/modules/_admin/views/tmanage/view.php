@@ -40,13 +40,14 @@
             'type'=>'raw',
         ),
         'readMoreLink',
-        'email',
         'tel',
         'skype',
         'rate_knowledge',
         'rate_efficiency',
         'rate_relations',
+        'first_name_en',
+        'middle_name_en',
+        'last_name_en',
+        'isPrint'
     ),
-
-
 )); ?>
