@@ -522,7 +522,7 @@ table#emptyFieldList img{
 }
 table#emptyFieldList td{
     text-align: left;
-    padding: 25px 5px;
+    padding: 0 5px;
 }
 #gridProgress{
     display: inline-block;

@@ -258,7 +258,7 @@ class SiteController extends Controller
 
     public function actionSocialLogin()
     {
-        $model = new StudentReg();
+        $model = new StudentReg('socialLogin');
 
         $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
         $user = json_decode($s, true);
@@ -317,7 +317,6 @@ class SiteController extends Controller
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
                     Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
-
                     $existingForumUser = count(
                         Yii::app()->dbForum->createCommand()
                             ->select('user_id')
@@ -325,7 +324,6 @@ class SiteController extends Controller
                             ->where('user_id=:id', array(':id' => $userModel->id))
                             ->queryAll()
                     );
-
                     if (!$existingForumUser) {
                         $firstName = ($userModel->firstName)?$userModel->firstName:'';
                         $secondName = ($userModel->secondName)?$userModel->secondName:'';
@@ -354,7 +352,7 @@ class SiteController extends Controller
                             'user_lang'=> $current_lang,
                         ), 'user_id=:id', array(':id' => $userModel->id));
                     }
-                    mysql_close();
+
                     if (!$_COOKIE['cookie_key']) {
                         foreach ($_SESSION as $key => $value) {
                             if (strpos($key, '__id')) {

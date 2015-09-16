@@ -1,7 +1,8 @@
 <?php
+
 class TmanageController extends Controller
 {
-    public $layout='main';
+    public $layout = 'main';
     public $menu = array();
 
     public function init()
@@ -12,6 +13,7 @@ class TmanageController extends Controller
             die();
         }
     }
+
     /**
      * @return array action filters
      */
@@ -22,6 +24,7 @@ class TmanageController extends Controller
             'postOnly + delete', // we only allow deletion via POST request
         );
     }
+
     public function accessRules()
     {
         return array(
@@ -39,6 +42,7 @@ class TmanageController extends Controller
             ),
         );
     }
+
     function isAdministrator()
     {
         if (AccessHelper::isAdmin())
@@ -46,6 +50,7 @@ class TmanageController extends Controller
         else
             return false;
     }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -56,6 +61,7 @@ class TmanageController extends Controller
             'model' => $this->loadModel($id),
         ));
     }
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -67,15 +73,17 @@ class TmanageController extends Controller
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
             $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo=new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save()) {
-                ImageHelper::uploadAndResizeImg(
-                    Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
-                    Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$model->teacher_id.'.'.$fileInfo->getExtension(),
-                    200
-                );
+                if (!empty($_POST['Teacher']['foto_url'])) {
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
+                        200
+                    );
+                }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
                 $this->redirect(array('view', 'id' => $model->teacher_id));
             }
@@ -84,6 +92,7 @@ class TmanageController extends Controller
             'model' => $model,
         ));
     }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -97,21 +106,24 @@ class TmanageController extends Controller
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
             $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo=new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save())
-                ImageHelper::uploadAndResizeImg(
-                    Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
-                    Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$model->teacher_id.'.'.$fileInfo->getExtension(),
-                    200
-                );
+                if (!empty($_POST['Teacher']['foto_url'])) {
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
+                        200
+                    );
+                }
             $this->redirect(array('view', 'id' => $model->teacher_id));
         }
         $this->render('update', array(
             'model' => $model,
         ));
     }
+
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -125,6 +137,7 @@ class TmanageController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
+
     /**
      * Lists all models.
      */
@@ -135,6 +148,7 @@ class TmanageController extends Controller
             'dataProvider' => $dataProvider,
         ), false, true);
     }
+
     /**
      * Manages all models.
      */
@@ -148,6 +162,7 @@ class TmanageController extends Controller
             'model' => $model,
         ));
     }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -162,6 +177,7 @@ class TmanageController extends Controller
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+
     /**
      * Performs the AJAX validation.
      * @param Teacher $model the model to be validated
@@ -173,6 +189,7 @@ class TmanageController extends Controller
             Yii::app()->end();
         }
     }
+
     public function actionRoles()
     {
         $dataProvider = new CActiveDataProvider('Roles');
@@ -180,6 +197,7 @@ class TmanageController extends Controller
             'dataProvider' => $dataProvider,
         ));
     }
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -199,6 +217,7 @@ class TmanageController extends Controller
             'model' => $model,
         ));
     }
+
     public function actionShowRoles($id)
     {
         $roles = TeacherRoles::model()->findAllByAttributes(array('teacher' => $id));
@@ -209,19 +228,21 @@ class TmanageController extends Controller
             'teacherId' => $id,
         ));
     }
+
     public function actionAddRoleAttribute($role)
     {
         $model = new RoleAttribute;
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect(array('showAttributes', 'role'=>$model->role));
+                $this->redirect(array('showAttributes', 'role' => $model->role));
         }
         $model->role = $role;
         $this->render('addRoleAttribute', array(
             'model' => $model,
         ));
     }
+
     public function actionShowAttributes($role)
     {
         $criteria = new CDbCriteria();
@@ -235,33 +256,38 @@ class TmanageController extends Controller
             'dataProvider' => $dataProvider,
         ));
     }
-    public function actionAddTeacherRole($teacher){
+
+    public function actionAddTeacherRole($teacher)
+    {
         $this->render('addTeacherRole', array(
             'teacher' => $teacher,
         ));
     }
-    public function actionAddTeacherRoleAttribute($teacher){
+
+    public function actionAddTeacherRoleAttribute($teacher)
+    {
         $this->render('addTeacherRoleAttribute', array(
             'teacher' => $teacher,
         ));
     }
+
     public function actionViewRole($id)
     {
-        $this->render('viewRole',array(
-            'model'=>$this->loadModel($id),
+        $this->render('viewRole', array(
+            'model' => $this->loadModel($id),
         ));
     }
+
     public function actionUpdateRole($id)
     {
-        $model= Roles::model()->findByPk($id);
-        if(isset($_POST['Roles']))
-        {
-            $model->attributes=$_POST['Roles'];
-            if($model->save())
+        $model = Roles::model()->findByPk($id);
+        if (isset($_POST['Roles'])) {
+            $model->attributes = $_POST['Roles'];
+            if ($model->save())
                 $this->redirect(array('/_admin/tmanage/roles'));
         }
-        $this->render('updateRole',array(
-            'model'=>$model,
+        $this->render('updateRole', array(
+            'model' => $model,
         ));
     }
 }

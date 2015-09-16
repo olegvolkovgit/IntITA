@@ -50,7 +50,7 @@ if (!isset($tab)) $tab = 0;
 // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
-            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else $(".tabs").lightTabs("0"); return true;}',),
+            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     )); ?>
     <div class="studProf">
@@ -162,31 +162,31 @@ if (!isset($tab)) $tab = 0;
 
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo CHtml::textField('', $post::getFacebooknameProfile($post->facebook), array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 30, 'id' => 'tempFBLink', 'class' => 'indicator', 'data-source' => 'посилання на facebook')); ?>
+                        <?php echo CHtml::textField('', $post::getFacebooknameProfile($post->facebook), array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 255, 'id' => 'tempFBLink', 'class' => 'indicator', 'data-source' => 'посилання на facebook')); ?>
                         <?php echo $form->hiddenField($model, 'facebook'); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo CHtml::textField('', $post::getGooglenameProfile($post->googleplus), array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 30, 'id' => 'tempGPLink', 'class' => 'indicator', 'data-source' => 'посилання на googleplus')); ?>
+                        <?php echo CHtml::textField('', $post::getGooglenameProfile($post->googleplus), array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 255, 'id' => 'tempGPLink', 'class' => 'indicator', 'data-source' => 'посилання на googleplus')); ?>
                         <?php echo $form->hiddenField($model, 'googleplus'); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo CHtml::textField('', $post::getLinkedinId($post->linkedin), array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 30, 'id' => 'tempLILink', 'class' => 'indicator', 'data-source' => 'посилання на linkedin')); ?>
+                        <?php echo CHtml::textField('', $post::getLinkedinId($post->linkedin), array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 255, 'id' => 'tempLILink', 'class' => 'indicator', 'data-source' => 'посилання на linkedin')); ?>
                         <?php echo $form->hiddenField($model, 'linkedin'); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo CHtml::textField('', $post::getVkId($post->vkontakte), array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 30, 'id' => 'tempVKLink', 'class' => 'indicator', 'data-source' => 'посилання на vkontakte')); ?>
+                        <?php echo CHtml::textField('', $post::getVkId($post->vkontakte), array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 255, 'id' => 'tempVKLink', 'class' => 'indicator', 'data-source' => 'посилання на vkontakte')); ?>
                         <?php echo $form->hiddenField($model, 'vkontakte'); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo CHtml::textField('', $post::getTwitternameProfile($post->twitter), array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 30, 'id' => 'tempTWLink', 'class' => 'indicator', 'data-source' => 'посилання на twitter')); ?>
+                        <?php echo CHtml::textField('', $post::getTwitternameProfile($post->twitter), array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 255, 'id' => 'tempTWLink', 'class' => 'indicator', 'data-source' => 'посилання на twitter')); ?>
                         <?php echo $form->hiddenField($model, 'twitter'); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
