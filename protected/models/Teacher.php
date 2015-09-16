@@ -22,6 +22,10 @@
  * @property integer $user_id
  * @property integer $rating
  * @property integer $isPrint
+ * @property string $first_name_en
+ * @property string $middle_name_en
+ * @property string $last_name_en
+ *
  */
 class Teacher extends CActiveRecord
 {
@@ -44,17 +48,19 @@ class Teacher extends CActiveRecord
             array('first_name, middle_name, last_name, user_id', 'required', 'message'=>'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly'=>true),
             array('first_name, middle_name, last_name', 'length', 'max'=>35),
-            array('first_name, middle_name, last_name', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
+            array('first_name, middle_name, last_name, first_name_en, middle_name_en, last_name_en', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
             array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!', 'except'=>'imageUpload',),
             array('tel', 'length', 'max'=>13, 'message'=>'Недопустимі символи!', 'except'=>'imageUpload'),
             array('subjects', 'length', 'max'=>100),
             array('foto_url', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('readMoreLink', 'length', 'max'=>255),
-            array('email, skype', 'length', 'max'=>50),
+            array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max'=>50),
             array('email','email', 'message'=>'Невірна електронна адреса'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
-            array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first, profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'safe', 'on'=>'search'),
+            array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first,
+            profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency,
+            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en', 'safe', 'on'=>'search'),
         );
     }
     /**
@@ -91,6 +97,9 @@ class Teacher extends CActiveRecord
             'rate_relations' => 'Рівень відношення',
             'user_id' => 'ID користувача',
             'isPrint' => 'Статус',
+            'first_name_en' => 'Ім&#8217;я (англійською)',
+            'middle_name_en' => 'По батькові (англійською)',
+            'last_name_en' => 'Прізвище (англійською)',
         );
     }
     /**
@@ -107,7 +116,6 @@ class Teacher extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
         $criteria=new CDbCriteria;
         $criteria->compare('teacher_id',$this->teacher_id);
         $criteria->compare('first_name',$this->first_name,true);
@@ -127,6 +135,9 @@ class Teacher extends CActiveRecord
         $criteria->compare('rate_relations',$this->rate_relations);
         $criteria->compare('user_id',$this->user_id);
         $criteria->compare('isPrint',$this->isPrint);
+        $criteria->compare('first_name_en',$this->first_name_en,true);
+        $criteria->compare('middle_name_en',$this->middle_name_en,true);
+        $criteria->compare('last_name_en',$this->last_name_en,true);
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
             'pagination'=>array(

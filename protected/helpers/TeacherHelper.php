@@ -40,6 +40,11 @@ class TeacherHelper
     }
 
     public static function getTeacherName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en'){
+                return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
+            }
+        }
         return Teacher::model()->findByPk($id)->last_name." ".Teacher::model()->findByPk($id)->first_name;
     }
 
@@ -193,5 +198,32 @@ class TeacherHelper
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser)))
             return true;
         else return false;
+    }
+
+    public static function getTeacherLastName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->last_name_en != ''){
+                return Teacher::model()->findByPk($id)->last_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->last_name;
+    }
+
+    public static function getTeacherFirstName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''){
+                return Teacher::model()->findByPk($id)->first_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->first_name;
+    }
+
+    public static function getTeacherMiddleName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->middle_name_en != ''){
+                return Teacher::model()->findByPk($id)->middle_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->middle_name;
     }
 }

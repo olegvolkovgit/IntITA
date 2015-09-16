@@ -18,7 +18,9 @@ if($teacher != null){
                             <?php echo Yii::t('lecture','0077'); ?></div>
                     </li>
                     <li>
-                        <?php echo $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;?>
+                        <?php echo TeacherHelper::getTeacherLastName($teacher->teacher_id)." ".
+        TeacherHelper::getTeacherFirstName($teacher->teacher_id)." ".
+        TeacherHelper::getTeacherMiddleName($teacher->teacher_id);?>
                     </li>
                     <li>
                         <?php echo $teacher->email; ?>
