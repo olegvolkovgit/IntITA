@@ -1,57 +1,88 @@
 /*Видаляємо пробіли спочатку і в кінці*/
 function trimUpEmail() {
-    em=document.getElementsByClassName('signInEmail')[0];
+    var em=document.getElementsByClassName('signInEmail')[0];
     em.value=$.trim(em.value);
     }
 function trimInEmail() {
-    em=document.getElementsByClassName('signInEmailM')[0];
+    var em=document.getElementsByClassName('signInEmailM')[0];
     em.value=$.trim(em.value);
 }
 function trimExpEmail() {
-    em=document.getElementById('trimEm');
-    em.value=$.trim(em.value);
+    var em=$('.trimEm');
+    em.val(em.val());
+    /*reset old link*/
+    $("#StudentReg_facebook").val('');
+    $("#StudentReg_googleplus").val('');
+    $("#StudentReg_linkedin").val('');
+    $("#StudentReg_vkontakte").val('');
+    $("#StudentReg_twitter").val('');
+    /*full link of network*/
+    var fbLink=$("#tempFBLink").val();
+    if(fbLink!='')
+        $("#StudentReg_facebook").val($.trim('https://www.facebook.com/'+fbLink));
 
-    f=document.getElementById('trimF');
-    f.value=$.trim(f.value);
-    g=document.getElementById('trimG');
-    g.value=$.trim(g.value);
-    l=document.getElementById('trimL');
-    l.value=$.trim(l.value);
-    v=document.getElementById('trimV');
-    v.value=$.trim(v.value);
-    t=document.getElementById('trimT');
-    t.value=$.trim(t.value);
+    var gpLink=$("#tempGPLink").val();
+    if(gpLink!='')
+        $("#StudentReg_googleplus").val($.trim('https://plus.google.com/'+gpLink));
+
+    var liLink=$("#tempLILink").val();
+    if(liLink!='')
+        $("#StudentReg_linkedin").val($.trim('https://www.linkedin.com/'+liLink));
+
+    var vkLink=$("#tempVKLink").val();
+    if(vkLink!='')
+        $("#StudentReg_vkontakte").val($.trim('http://vk.com/'+vkLink));
+
+    var twLink=$("#tempTWLink").val();
+    if(twLink!='')
+        $("#StudentReg_twitter").val($.trim('https://twitter.com/'+twLink));
 }
 function trimNetwork() {
-    f=document.getElementById('trimF');
-    f.value=$.trim(f.value);
-    g=document.getElementById('trimG');
-    g.value=$.trim(g.value);
-    l=document.getElementById('trimL');
-    l.value=$.trim(l.value);
-    v=document.getElementById('trimV');
-    v.value=$.trim(v.value);
-    t=document.getElementById('trimT');
-    t.value=$.trim(t.value);
+    /*reset old link*/
+    $("#StudentReg_facebook").val('');
+    $("#StudentReg_googleplus").val('');
+    $("#StudentReg_linkedin").val('');
+    $("#StudentReg_vkontakte").val('');
+    $("#StudentReg_twitter").val('');
+    /*full link of network*/
+    var fbLink=$("#tempFBLink").val();
+    if(fbLink!='')
+        $("#StudentReg_facebook").val($.trim('https://www.facebook.com/'+fbLink));
+
+    var gpLink=$("#tempGPLink").val();
+    if(gpLink!='')
+        $("#StudentReg_googleplus").val($.trim('https://plus.google.com/'+gpLink));
+
+    var liLink=$("#tempLILink").val();
+    if(liLink!='')
+        $("#StudentReg_linkedin").val($.trim('https://www.linkedin.com/'+liLink));
+
+    var vkLink=$("#tempVKLink").val();
+    if(vkLink!='')
+        $("#StudentReg_vkontakte").val($.trim('http://vk.com/'+vkLink));
+
+    var twLink=$("#tempTWLink").val();
+    if(twLink!='')
+        $("#StudentReg_twitter").val($.trim('https://twitter.com/'+twLink));
 }
 function trimModuleName() {
-    m=document.getElementById('titleUa');
+    var m=document.getElementById('titleUa');
     m.value=$.trim(m.value);
 
-    m=document.getElementById('titleRu');
+    var m=document.getElementById('titleRu');
     m.value=$.trim(m.value);
 
-    m=document.getElementById('titleEn');
+    var m=document.getElementById('titleEn');
     m.value=$.trim(m.value);
 }
 function trimLectureName() {
-    lec=document.getElementById('titleUa');
+    var lec=document.getElementById('titleUa');
     lec.value=$.trim(lec.value);
 
-    lec=document.getElementById('titleRu');
+    var lec=document.getElementById('titleRu');
     lec.value=$.trim(lec.value);
 
-    lec=document.getElementById('titleEn');
+    var lec=document.getElementById('titleEn');
     lec.value=$.trim(lec.value);
 }
 function trimLetterEmail() {

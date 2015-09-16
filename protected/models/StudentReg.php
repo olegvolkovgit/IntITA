@@ -31,6 +31,7 @@
  * @property string $activkey_lifetime
  * @property string $status
  * property string $reg_time
+ * @property string $avatar
  */
 class StudentReg extends CActiveRecord
 {
@@ -64,6 +65,8 @@ class StudentReg extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
+            array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
             array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
             array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery,resetemail'),
             array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail,fromraptoext'),
@@ -90,6 +93,15 @@ class StudentReg extends CActiveRecord
             // @todo Please remove those attributes that should not be searched.
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time', 'safe', 'on'=>'search'),
         );
+    }
+    public function networkValidation($attribute)
+    {
+        /*if value not Roman alphabet or url not validation = error*/
+        $value = $this->$attribute;
+        if(!empty($this->$attribute)){
+            if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
+                $this->addError($attribute,'Ви ввели не коректну сторінку');
+        }
     }
     public function authenticate($attribute,$params)
     {

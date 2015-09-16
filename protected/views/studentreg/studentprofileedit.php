@@ -42,13 +42,15 @@ if (!isset($tab)) $tab = 0;
 </div>
 <div class="formStudProf">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'studentreg-form',
+        'id' => 'editProfile-form',
         'action' => Yii::app()->createUrl('studentreg/rewrite'),
 // Please note: When you enable ajax validation, make sure the corresponding
 // controller action is handling ajax validation correctly.
 // There is a call to performAjaxValidation() commented in generated controller code.
 // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
+        'enableAjaxValidation' => true,
+        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
+            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else $(".tabs").lightTabs("0"); return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     )); ?>
     <div class="studProf">
@@ -160,27 +162,32 @@ if (!isset($tab)) $tab = 0;
 
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('placeholder' => Yii::t('regexp', '0243'), 'value' => $post::getFacebooknameProfile($post->facebook), 'maxlength' => 30, 'id' => 'trimF', 'class' => 'indicator', 'data-source' => 'посилання на facebook')); ?>
+                        <?php echo CHtml::textField('', $post::getFacebooknameProfile($post->facebook), array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 30, 'id' => 'tempFBLink', 'class' => 'indicator', 'data-source' => 'посилання на facebook')); ?>
+                        <?php echo $form->hiddenField($model, 'facebook'); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('placeholder' => Yii::t('regexp', '0244'), 'value' => $post::getGooglenameProfile($post->googleplus), 'maxlength' => 30, 'id' => 'trimG', 'class' => 'indicator', 'data-source' => 'посилання на googleplus')); ?>
+                        <?php echo CHtml::textField('', $post::getGooglenameProfile($post->googleplus), array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 30, 'id' => 'tempGPLink', 'class' => 'indicator', 'data-source' => 'посилання на googleplus')); ?>
+                        <?php echo $form->hiddenField($model, 'googleplus'); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('placeholder' => Yii::t('regexp', '0245'), 'value' => $post::getLinkedinId($post->linkedin), 'maxlength' => 30, 'id' => 'trimL', 'class' => 'indicator', 'data-source' => 'посилання на linkedin')); ?>
+                        <?php echo CHtml::textField('', $post::getLinkedinId($post->linkedin), array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 30, 'id' => 'tempLILink', 'class' => 'indicator', 'data-source' => 'посилання на linkedin')); ?>
+                        <?php echo $form->hiddenField($model, 'linkedin'); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('placeholder' => Yii::t('regexp', '0246'), 'value' => $post::getVkId($post->vkontakte), 'maxlength' => 30, 'id' => 'trimV', 'class' => 'indicator', 'data-source' => 'посилання на vkontakte')); ?>
+                        <?php echo CHtml::textField('', $post::getVkId($post->vkontakte), array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 30, 'id' => 'tempVKLink', 'class' => 'indicator', 'data-source' => 'посилання на vkontakte')); ?>
+                        <?php echo $form->hiddenField($model, 'vkontakte'); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('placeholder' => Yii::t('regexp', '0247'), 'value' => $post::getTwitternameProfile($post->twitter), 'maxlength' => 30, 'id' => 'trimT', 'class' => 'indicator', 'data-source' => 'посилання на twitter')); ?>
+                        <?php echo CHtml::textField('', $post::getTwitternameProfile($post->twitter), array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 30, 'id' => 'tempTWLink', 'class' => 'indicator', 'data-source' => 'посилання на twitter')); ?>
+                        <?php echo $form->hiddenField($model, 'twitter'); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
@@ -221,16 +228,13 @@ if (!isset($tab)) $tab = 0;
             ?>
             <div class="fileform">
                 <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <input id='ddd' tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);"
-                       accept="image/jpeg">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", "onchange" => "getName(this.value)")); ?>
                 <input tabindex="-1" class="uploadAvatar" type="submit">
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
             <div class="avatarError">
-                <?php if (Yii::app()->user->hasFlash('avatarmessage')):
-                    echo Yii::app()->user->getFlash('avatarmessage');
-                endif; ?>
+                <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar">
                 <div id="profileIndicator">Ваш профіль заповнено на <span id="percent"></span>%</div>

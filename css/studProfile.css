@@ -297,9 +297,12 @@ span.interestBG{
     color: red;
     font-size: 0.9em;
 }
+.avatarError .errorMessage
+{
+    margin-left: 0;
+}
 .avatarError
 {
-    margin-left: 22px;
     color: red;
     font-size: 0.9em;
 }

@@ -13,7 +13,6 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0056'),
 );
-if (!isset($tab)) $tab = 0;
 ?>
 <!--Role-->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rolesReg.js"></script>
@@ -36,16 +35,16 @@ if (!isset($tab)) $tab = 0;
 <!--StyleForm Check and radio box-->
 <div class="formStudProf">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'studentreg-form',
-// Please note: When you enable ajax validation, make sure the corresponding
-// controller action is handling ajax validation correctly.
-// There is a call to performAjaxValidation() commented in generated controller code.
-// See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
+        'id' => 'registration-form',
+        'action' => array('studentreg/registration'),
+//        'enableClientValidation'=>true,
+        'enableAjaxValidation' => true,
+        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
+            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else $(".tabs").lightTabs("0"); return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     )); ?>
     <?php
-    if (!isset($tempEmail)) $tempEmail = $_POST['StudentReg']['email'];
+    if (!isset($email)) $email = $_POST['StudentReg']['email'];
     ?>
     <div class="studProf">
         <table class="titleProfile">
@@ -104,7 +103,7 @@ if (!isset($tab)) $tab = 0;
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'email'); ?>
-                        <?php echo $form->textField($model, 'email', array('value' => $tempEmail, 'id' => 'trimEm', 'maxlength' => 40)); ?>
+                        <?php echo $form->textField($model, 'email', array('value' => $email, 'class' => 'trimEm', 'maxlength' => 40)); ?>
                         <span><?php echo $form->error($model, 'email'); ?></span>
                     </div>
                     <div class="rowPass">
@@ -147,27 +146,32 @@ if (!isset($tab)) $tab = 0;
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 30, 'id' => 'trimF')); ?>
-                        <?php echo $form->error($model, 'facebook'); ?>
+                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 30, 'id' => 'tempFBLink')); ?>
+                        <?php echo $form->hiddenField($model, 'facebook'); ?>
+                        <span><?php echo $form->error($model, 'facebook'); ?></span>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 30, 'id' => 'trimG')); ?>
+                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 30, 'id' => 'tempGPLink')); ?>
+                        <?php echo $form->hiddenField($model, 'googleplus'); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 30, 'id' => 'trimL')); ?>
+                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 30, 'id' => 'tempLILink')); ?>
+                        <?php echo $form->hiddenField($model, 'linkedin'); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 30, 'id' => 'trimV')); ?>
+                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 30, 'id' => 'tempVKLink')); ?>
+                        <?php echo $form->hiddenField($model, 'vkontakte'); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 30, 'id' => 'trimT')); ?>
+                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 30, 'id' => 'tempTWLink')); ?>
+                        <?php echo $form->hiddenField($model, 'twitter'); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
@@ -194,16 +198,13 @@ if (!isset($tab)) $tab = 0;
 
             <div class="fileform">
                 <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <input tabindex="-1" type="file" name="upload" class="chooseAvatar" onchange="getName(this.value);"
-                       accept="image/jpeg/gif">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", "onchange" => "getName(this.value)")); ?>
                 <input tabindex="-1" class="uploadAvatar" type="submit">
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
             <div class="avatarError">
-                <?php if (Yii::app()->user->hasFlash('avatarmessage')):
-                    echo Yii::app()->user->getFlash('avatarmessage');
-                endif; ?>
+                <?php echo $form->error($model, 'avatar'); ?>
             </div>
         </div>
     </div>
@@ -221,7 +222,7 @@ if (!isset($tab)) $tab = 0;
     });
     <!-- Script for open tabs-->
     $(document).ready(function () {
-        $(".tabs").lightTabs(<?php echo $tab?>);
+        $(".tabs").lightTabs(0);
     });
 </script>
 <!-- OpenTab-->
