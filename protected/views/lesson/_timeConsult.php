@@ -31,4 +31,4 @@
 <button id="consultationBack" onclick="goBack('<?php echo $teacherId; ?>')"><?php echo Yii::t("consultation", "0501") ?></button>
 <button id="consultationNext" onclick="goNext('<?php echo $teacherId; ?>')"><?php echo Yii::t("consultation", "0502") ?></button>
 
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/timeSelect.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'timeSelect.js'); ?>"></script>

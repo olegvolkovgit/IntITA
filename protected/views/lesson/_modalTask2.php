@@ -1,5 +1,5 @@
 <!-- regform -->
-<link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/modalTask2.css"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask2.css'); ?>"/>
 <!-- regform end -->
 <div class="mooda2">
 

@@ -69,12 +69,6 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'courses'); ?>
-        <?php echo $form->textField($model,'courses',array('size'=>60,'maxlength'=>255)); ?>
-        <?php echo $form->error($model,'courses'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model,'courses_page'); ?>
         <?php echo $form->textField($model,'courses_page',array('size'=>60,'maxlength'=>255)); ?>
         <?php echo $form->error($model,'courses_page'); ?>
@@ -98,6 +92,18 @@
         <?php echo $form->error($model,'recall'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model,'first_name_en'); ?>
+        <?php echo $form->textField($model,'first_name_en'); ?>
+        <?php echo $form->error($model,'first_name_en'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'last_name_en'); ?>
+        <?php echo $form->textField($model,'last_name_en'); ?>
+        <?php echo $form->error($model,'last_name_en'); ?>
+    </div>
+
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
@@ -105,3 +111,16 @@
     <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+    $(window).load(
+        function () {
+            if (document.getElementById("Graduate_first_name_en").value == '') {
+                $("#Graduate_first_name_en").val(toEnglish(document.getElementById("Graduate_first_name").value));
+            }
+            if (document.getElementById("Graduate_last_name_en").value == '') {
+                $("#Graduate_last_name_en").val(toEnglish(document.getElementById("Graduate_last_name").value));
+            }
+        }
+    );
+</script>

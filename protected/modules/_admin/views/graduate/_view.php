@@ -33,13 +33,8 @@
 	<?php echo CHtml::encode($data->work_place); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('work_site')); ?>:</b>
 	<?php echo CHtml::encode($data->work_site); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('courses')); ?>:</b>
-	<?php echo CHtml::encode($data->courses); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('courses_page')); ?>:</b>
@@ -58,6 +53,12 @@
 	<?php echo CHtml::encode($data->recall); ?>
 	<br />
 
-	*/ ?>
+    <b><?php echo CHtml::encode($data->getAttributeLabel('first_name_en')); ?>:</b>
+    <?php echo CHtml::encode($data->rate); ?>
+    <br />
+
+    <b><?php echo CHtml::encode($data->getAttributeLabel('last_name_en')); ?>:</b>
+    <?php echo CHtml::encode($data->recall); ?>
+    <br />
 
 </div>

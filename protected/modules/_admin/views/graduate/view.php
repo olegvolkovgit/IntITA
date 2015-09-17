@@ -28,9 +28,10 @@
 		'position',
 		'work_place',
 		'work_site',
-		'courses',
 		'courses_page',
 		'rate',
 		'recall',
+        'first_name_en',
+        'last_name_en',
 	),
 )); ?>

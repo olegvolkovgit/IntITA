@@ -14,7 +14,7 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
 <?php
 /* @var $this ProfileController */
 $this->pageTitle = 'INTITA';
@@ -28,7 +28,7 @@ if (isset($_GET['div'])){
 }
 ?>
 
-<script type="text/javascript" charset="utf-8" src="<?php echo Config::getBaseUrl(); ?>/scripts/rating/js/jquery.raty.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?php echo StaticFilesHelper::fullPathTo('js', 'rating/js/jquery.raty.js'); ?>"></script>
 
 <div class="TeacherProfilemainBlock">
     <?php $this->renderPartial('_profileBlock1', array('model' => $model, 'editMode' => $editMode)); ?>
@@ -37,16 +37,17 @@ if (isset($_GET['div'])){
 </div>
 
     <!--<!-- Підключення BBCode WysiBB -->
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/wysibb/jquery.wysibb.min.js"></script>
-    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/scripts/wysibb/theme/default/wbbtheme.css" type="text/css" />
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/wysibb/lang/ua.js"></script>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/wysibb/BBCode.js"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/jquery.wysibb.min.js'); ?>"></script>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>"
+          type="text/css" />
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/lang/ua.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js',  'wysibb/BBCode.js'); ?>"></script>
     <!-- Підключення BBCode WysiBB -->
     <!-- Spoiler -->
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/teacherProfile.js"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'teacherProfile.js'); ?>"></script>
     <!-- teacherProfile style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/teacherProfile.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teacherProfile.css'); ?>" />
     <!-- steps style -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/loadRedactorProfile.js"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactorProfile.js'); ?>"></script>

@@ -6,7 +6,7 @@
  * Time: 15:27
  */
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lessonsStyle.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
 
 
 <div class="lectureImageMain">

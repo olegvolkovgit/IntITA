@@ -16,9 +16,9 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
 <!-- Module style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/module.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>" />
 
 <?php
 $this->pageTitle = 'INTITA';
@@ -35,5 +35,5 @@ $this->breadcrumbs=array(
     </div>
 
 </div>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/module.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>
 

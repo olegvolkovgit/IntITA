@@ -16,7 +16,7 @@ class PathFactory {
                 $pathObject = new CoursePath($pathParts);
                  break;
             case 'module':
-                $pathObject = new ModulePath($pathParts);
+                $pathObject = null;// ModulePath($pathParts);
                 break;
             default:
                 $pathObject = null;
