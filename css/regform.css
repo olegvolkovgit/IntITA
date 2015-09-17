@@ -277,7 +277,7 @@ select.error
     margin: 10px 0 5px 30px;
     color: #c72929;
     font-size: 14px;
-    font:"MyriadPro";
+    font-family: "MyriadPro";
 }
 .signInForm .errorMessage {
     float:left;
