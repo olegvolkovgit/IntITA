@@ -18,8 +18,8 @@
 
             <div class="line1">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line1.png');?>">
+                <div id="anchorAboutUs"></div>
             </div>
-
             <?php
             $index=0;
             $anchor=0;

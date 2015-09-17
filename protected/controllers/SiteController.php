@@ -251,6 +251,12 @@ class SiteController extends Controller
         Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=:id', array(':id'=>$id));
 
         Yii::app()->user->logout();
+
+        /*delete cookies*/
+        setcookie("openProfileTab", '', 1,'/');
+        setcookie("openEditTab", '', 1,'/');
+        setcookie("openRegistrationTab", '', 1,'/');
+
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
         else $this->redirect(Yii::app()->homeUrl);;

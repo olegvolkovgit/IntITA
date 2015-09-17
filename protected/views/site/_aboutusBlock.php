@@ -9,9 +9,6 @@
 <div class="block">
     <ul>
         <li>
-            <div class="line2">
-                <img src="<?php echo $data->line2Image; ?>">
-            </div>
             <div class="icon">
                 <img src="<?php echo StaticFilesHelper::createImagePath('aboutus', $data->iconImage); ?>">
             </div>

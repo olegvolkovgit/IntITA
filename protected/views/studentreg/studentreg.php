@@ -220,11 +220,9 @@ $this->breadcrumbs = array(
             "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
         }); //specify year range
     });
-    <!-- Script for open tabs-->
-    $(document).ready(function () {
-        $(".tabs").lightTabs(0);
-    });
 </script>
-<!-- OpenTab-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
-<!-- OpenTab -->
+<!-- Scripts for open tabs-->
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openRegistrationTab.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
+<!-- Scripts for open tabs -->

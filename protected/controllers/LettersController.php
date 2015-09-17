@@ -136,7 +136,6 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
-        $tab=3;
         $model= new Letters();
         if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
         {
@@ -151,10 +150,10 @@ class LettersController extends Controller
             {
                 $model->save();
                 Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
             } else {
                 Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
             }
         }
     }

@@ -197,7 +197,7 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser, $tab = 0)
+    public function actionProfile($idUser)
     {
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser !== Yii::app()->user->getId())
@@ -287,7 +287,6 @@ class StudentRegController extends Controller
             'letter' => $letter,
             'sentLettersProvider' => $sentLettersProvider,
             'receivedLettersProvider' => $receivedLettersProvider,
-            'tab' => $tab,
             'paymentsCourses' => $paymentsCourses,
             'paymentsModules' => $paymentsModules,
             'markProvider' => $markProvider,

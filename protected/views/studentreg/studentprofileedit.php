@@ -318,9 +318,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
         $(".tabs").lightTabs(<?php echo $tab?>);
     });
 </script>
-<!-- OpenTab-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
-<!-- OpenTab -->
+<!-- Scripts for open tabs -->
 <script type="text/javascript">
     window.onload = function () {
         $('#progressBar').show();
@@ -378,3 +376,8 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
         $('[data-target="'+$(this).attr('id')+'"]').parent().parent().hide();
     });
 </script>
+<!-- Scripts for open tabs-->
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openEditTab.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
+<!-- Scripts for open tabs-->

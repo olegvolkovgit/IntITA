@@ -13,7 +13,6 @@ $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
 );
 ?>
-<?php if (!isset($tab)) $tab=0; ?>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">
@@ -151,12 +150,8 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         </div>
     </div>
 </div><!-- form -->
-<!-- Script for open tabs-->
-<script>
-    $(document).ready(function(){
-    $(".tabs").lightTabs(<?php echo $tab?>);
-    });
-</script>
-<!-- OpenTab-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
-<!-- OpenTab -->
+<!-- Scripts for open tabs-->
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
+<!-- Scripts for open tabs -->
