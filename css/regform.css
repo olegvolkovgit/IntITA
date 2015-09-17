@@ -232,15 +232,15 @@ div.image{
     margin-top: 27px;
     margin-bottom: 27px;
 }
-#forgotPass{
+a#forgotPass{
     color:#4b75a4;
     float: left;
-    font-size: smaller;
+    font-size: 16px;
 }
-#registration{
+a#registration{
     color:#4b75a4;
     float: right;
-    font-size: smaller;
+    font-size: 16px;
 }
 input[type="submit"]#signInButtonM    {
      width:195px;
