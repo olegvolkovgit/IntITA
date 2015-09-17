@@ -11,7 +11,6 @@
  * @property string $position
  * @property string $work_place
  * @property string $work_site
- * @property string $courses
  * @property string $courses_page
  * @property string $history
  * @property integer $rate
@@ -38,12 +37,12 @@ class Graduate extends CActiveRecord
         return array(
             array('first_name, last_name, work_place', 'required', 'message'=>'Поле не може бути пустим'),
             array('rate', 'numerical', 'integerOnly'=>true),
-            array('first_name, last_name, avatar, position, work_place, work_site, courses, courses_page, history', 'length', 'max'=>255),
+            array('first_name, last_name, avatar, position, work_place, work_site, courses_page, history', 'length', 'max'=>255),
             array('graduate_date, recall', 'safe'),
             array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
             array('avatar', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true, 'safe' => false),
             // The following rule is used by search().
-            array('id, first_name, last_name, graduate_date, avatar, position, work_place, work_site, courses, first_name_en, last_name_en, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
+            array('id, first_name, last_name, graduate_date, avatar, position, work_place, work_site, first_name_en, last_name_en, courses_page, history, rate, recall', 'safe', 'on'=>'search'),
         );
     }
     /**
@@ -70,7 +69,6 @@ class Graduate extends CActiveRecord
             'position' => 'Посада',
             'work_place' => 'Місце роботи',
             'work_site' => 'Сайт',
-            'courses' => 'Пройдені курси',
             'courses_page' => 'Сторінка курсів',
             'history' => 'Історія (не відображається)',
             'rate' => 'Рейтинг',
@@ -102,7 +100,6 @@ class Graduate extends CActiveRecord
         $criteria->compare('position',$this->position,true);
         $criteria->compare('work_place',$this->work_place,true);
         $criteria->compare('work_site',$this->work_site,true);
-        $criteria->compare('courses',$this->courses,true);
         $criteria->compare('courses_page',$this->courses_page,true);
         $criteria->compare('history',$this->history,true);
         $criteria->compare('rate',$this->rate);
