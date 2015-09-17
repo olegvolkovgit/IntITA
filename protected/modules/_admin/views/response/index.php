@@ -29,7 +29,10 @@ $('.search-form form').submit(function(){
             'header' => 'Автор',
             'value' => 'ResponseHelper::getResponseAuthorName($data->who)',
         ),
-        'about',
+        array(
+            'header' => 'Про кого',
+            'value' => 'ResponseHelper::getResponseAboutTeacherName($data->about)',
+        ),
         'date',
         'text',
         array(
