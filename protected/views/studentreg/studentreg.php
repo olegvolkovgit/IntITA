@@ -1,8 +1,8 @@
 <!-- studprofile style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'studProfile.css'); ?>"/>
 <!-- studprofile style -->
 <!-- uploadInfo, jQuery -->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'uploadInfo.js'); ?>"></script>
 <!-- uploadInfo, jQuery -->
 <?php
 /* @var $this StudentRegController */
@@ -14,24 +14,18 @@ $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0056'),
 );
 ?>
-<!--Role-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/rolesReg.js"></script>
-<!--Role-->
-<script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.js"></script>
-<script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.extensions.js"></script>
-<script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.date.extensions.js"></script>
-<script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.numeric.extensions.js"></script>
-<script type="text/javascript"
-        src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/jquery.inputmask.custom.extensions.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/inputmask/mask.js"></script>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'rolesReg.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.date.extensions.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.numeric.extensions.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.custom.extensions.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/mask.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
-<link href="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.css" rel="stylesheet"/>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/jquery.formstyler.js"></script>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/formstyler/inputstyler.js"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.css'); ?>" rel="stylesheet"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/inputstyler.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
 <div class="formStudProf">
     <?php $form = $this->beginWidget('CActiveForm', array(

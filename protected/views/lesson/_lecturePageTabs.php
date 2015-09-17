@@ -15,7 +15,7 @@ if (!($passedPages[$thisPage-1]['isDone'] ||
     throw new CHttpException(403, 'В доступі відмовлено. Ви не пройшли попередні кроки');
 }
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/cjuitabs.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'cjuitabs.css'); ?>"/>
 <div name="lecturePage">
     <?php $this->renderPartial('_lectureProgress', array('page'=>$page, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture, 'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode)); ?>
     <div class="tabsWidget">

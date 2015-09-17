@@ -6,7 +6,7 @@
  * Time: 16:28
  */
 ?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/sliderMainpage.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderMainpage.js');?>"></script>
 
 <script>
     var width=0;

@@ -26,4 +26,12 @@ class ResponseHelper {
             $teacher->updateByPk($teacher->teacher_id, array('rating' => $teacher->getAverageRate($response->about)));
         }
     }
+
+    public static function getResponseAboutTeacherName($idUser){
+        if (TeacherHelper::getTeacherId($idUser) != 0) {
+           return TeacherHelper::getTeacherNameByUserId($idUser);
+        } else {
+            return 'викладача видалено';
+        }
+    }
 }

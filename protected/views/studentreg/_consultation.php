@@ -2,25 +2,25 @@
 <table class="exmCons">
     <tr>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/exam.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('lecture', 'exam.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0111'); ?></span>
         </td>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/consultation.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('lecture', 'consultation.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0110'); ?></span>
         </td>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/imp.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('lecture', 'imp.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0124'); ?></span>
         </td>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/kdp.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('lecture', 'kdp.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeTabs(this)"><?php echo Yii::t('profile', '0125'); ?></span>

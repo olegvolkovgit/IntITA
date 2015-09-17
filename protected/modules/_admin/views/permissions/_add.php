@@ -11,7 +11,7 @@
 <div id="addAccess">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('permissions/newPermission');?>" method="POST" name="add-access">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newPermission');?>" method="POST" name="add-access">
         <fieldset>
             <legend id="label">Додати новий запис:</legend>
         Користувач:<br>
@@ -28,7 +28,7 @@
         <br>
         <br>
         Курс:<br>
-        <select name="course" placeholder="(Виберіть курс)" onchange="javascript:selectModule();">
+        <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();">
             <option value="">Всі курси</option>
             <optgroup label="Виберіть курс">
             <?php $courses = AccessHelper::generateCoursesList();

@@ -15,7 +15,7 @@ Yii 1.1.16 <br/>
 12. [forum] (http://intita.itatests.com/forum/) - http://intita.itatests.com/forum/ <br />
 
 ###Admin pages
-1. [teacher manage] (http://intita.itatests.com/tmanage) - http://intita.itatests.com/_admin/  <br/>
+1. [IntITA CMS] (http://intita.itatests.com/tmanage) - http://intita.itatests.com/_admin/  <br/>
 
 
 

@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/profile.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css'); ?>" />
 
 <div>
 <p class="tabHeader">Завантаження</p>
@@ -6,9 +6,9 @@
 
 <div class="download_tabs">
     <ul class="download_tab-links">
-        <li class="active"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Do1.jpg"/>
+        <li class="active"><img src="<?php echo StaticFilesHelper::createImagePath('common', 'Do1.jpg'); ?>"/>
             <a href="#download_tab1" style="border-right: 1px solid gray;">Ви скачали</a></li>
-        <li><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/Do2.jpg"/><a href="#download_tab2">Ви завантажили</a></li>
+        <li><img src="<?php echo StaticFilesHelper::createImagePath('common', 'Do2.jpg');?>"/><a href="#download_tab2">Ви завантажили</a></li>
     </ul>
 
     <div class="download_tab-content">
@@ -18,7 +18,7 @@
                 <table>
                     <tr>
                         <td>
-                <p class="disabled"><img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/HTML.jpg"/>Upload119.psd</p>
+                <p class="disabled"><img src="<?php echo StaticFilesHelper::createImagePath('common', 'HTML.jpg'); ?>"/>Upload119.psd</p>
                         </td>
                         <td>
                 <p  style="margin-left: 398px">14 марта 2015</p>

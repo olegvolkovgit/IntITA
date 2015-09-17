@@ -8,7 +8,7 @@ if($teacher != null){
     ?>
 <div class="teacherBlock">
     <div class="photobg">
-        <img class="mask" src="<?php echo Config::getBaseUrl(); ?>/images/common/img.png">
+        <img class="mask" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'img.png'); ?>">
         <img class="teacherphoto" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url)?>">
     </div>
     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher['teacher_id']));?>"><?php echo Yii::t('teachers','0059'); ?>&#187;</a>

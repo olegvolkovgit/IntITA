@@ -34,10 +34,10 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-zero-counter="1">
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
 <!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lessonsStyle.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/lectureStyles.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>" />
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -52,10 +52,10 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <!-- Spoiler -->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <!-- Spoiler -->
 <!--Sidebar-->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SidebarLesson.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 <!--Sidebar-->
 
 <script type="text/javascript">
@@ -138,12 +138,12 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
-<link type='text/css' rel='stylesheet' href='<?php echo Config::getBaseUrl(); ?>/scripts/sh/styles/shCoreEclipse.css'>
-<link type='text/css' rel='stylesheet' href='<?php echo Config::getBaseUrl(); ?>/scripts/sh/styles/shThemeEclipse.css'>
-<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/XRegExp.js'></script>
-<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shLegacy.js'></script>
-<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shCore.js'></script>
-<script class='javascript' src='<?php echo Config::getBaseUrl(); ?>/scripts/sh/scripts/shMegaLang.js'></script>
+<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">
+<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shThemeEclipse.css'); ?>">
+<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/XRegExp.js"); ?>'></script>
+<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shLegacy.js"); ?>'></script>
+<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shCore.js"); ?>'></script>
+<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shMegaLang.js"); ?>'></script>
 
 <script>SyntaxHighlighter.all();</script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -152,15 +152,15 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <!--Font Awesome-->
 <!--Load Redactor-->
 <?php if (isset($_GET['editPage'])){?>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/loadRedactor.js"></script>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/tasks.js"></script>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/formulaEditor.js"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
 <?php }?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/lessonEditor.js"></script>
-<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/taskAnswer.js"></script>
-<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/tests.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'lessonEditor.js'); ?>"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 
-<script async src="<?php echo Config::getBaseUrl(); ?>/scripts/lesson.js"></script>
-<script async src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lectureProgress.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureProgress.js'); ?>"></script>
 
 

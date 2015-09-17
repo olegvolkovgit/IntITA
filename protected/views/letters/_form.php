@@ -60,4 +60,4 @@ $list = CHtml::listData($models,
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/hideFlash.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'hideFlash.js'); ?>"></script>

@@ -1,5 +1,5 @@
 <!-- regform -->
-<link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/regform.css"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
 <!-- regform -->
 <?php
 $qForm = new StudentReg;
