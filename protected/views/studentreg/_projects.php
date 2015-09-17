@@ -3,13 +3,13 @@
 <table class="exmCons">
     <tr>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/exam.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('common', 'exam.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeProject(this)"><?php echo Yii::t('profile', '0124'); ?></span>
         </td>
         <td>
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/consultation.png"/>
+            <img src="<?php echo StaticFilesHelper::createImagePath('common', 'consultation.png');?>"/>
         </td>
         <td>
             <span class='selectedTab' onclick="changeProject(this)"><?php echo Yii::t('profile', '0125'); ?></span>

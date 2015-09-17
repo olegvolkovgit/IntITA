@@ -1,4 +1,5 @@
 <?php
+/* @var $data Step*/
 if ($data->stepNumber % 2 <> 0)
 {
     ?>

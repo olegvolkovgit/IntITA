@@ -26,5 +26,5 @@
     ?>
 </div>
 <!-- Spoiler -->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/chaptersSpoiler.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'chaptersSpoiler.js'); ?>"></script>
 <!-- Spoiler -->

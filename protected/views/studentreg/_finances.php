@@ -4,11 +4,11 @@
     <table class="payInfo">
         <tr>
             <td>
-                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeicoGreen.png"/>
+                <img src="<?php echo StaticFilesHelper::createImagePath('common',  'financeicoGreen.png') ?>"/>
                 <span id="full" class='selectedTab' onclick="showFullPay(this)"><?php echo Yii::t('profile', '0256'); ?></span>
             </td>
             <td>
-                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/financeicoRed.png"/>
+                <img src="<?php echo StaticFilesHelper::createImagePath('common', 'financeicoRed.png'); ?>"/>
                 <span id="notfull" class='unselectedTab' onclick="showNotfullPay(this)"><?php echo Yii::t('profile', '0257'); ?></span>
             </td>
         </tr>

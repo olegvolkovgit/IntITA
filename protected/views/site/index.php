@@ -12,11 +12,11 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
          data-title="INTITA-ПРОГРАМУЙ МАЙБУТНЄ!"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
+         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
 </div>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js');?>"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
 
 <?php $this->renderPartial('_slider', array('slider' => $slider));  ?>

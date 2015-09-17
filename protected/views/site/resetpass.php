@@ -1,5 +1,5 @@
 <!-- regform -->
-<link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/recovery.css"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'recovery.css'); ?>"/>
 <!-- regform -->
 <?php
 $this->pageTitle = 'INTITA';

@@ -1,8 +1,8 @@
 <!-- studprofile style -->
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/profile.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css');?>" />
 <!-- studprofile style -->
 <?php
-/* @var $this StudentprofileController */
+/* @var $this StudentregController */
 /* @var $post Studentprofile */
 /* @var $form CActiveForm */
 ?>
@@ -22,10 +22,10 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <h2><?php $post::getProfileRole($post->id);?></h2>
                 </td>
                 <td>
-                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/profileedit.png"/>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
                 </td>
                 <td>
-                    <a href="<?php echo Yii::app()->request->baseUrl; ?>/studentreg/edit"><?php echo Yii::t('profile', '0096'); ?></a>
+                    <a href="<?php echo Config::getBaseUrl(); ?>/studentreg/edit"><?php echo Yii::t('profile', '0096'); ?></a>
                 </td>
             </tr>
         </table>
@@ -158,5 +158,5 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
     });
 </script>
 <!-- OpenTab-->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/openTab.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openTab.js') ?>"></script>
 <!-- OpenTab -->

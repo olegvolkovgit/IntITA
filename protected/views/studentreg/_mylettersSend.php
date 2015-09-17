@@ -1,4 +1,4 @@
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/spoilerLetter.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerLetter.js');?>"></script>
 <p class="tabHeader"><?php echo Yii::t("letter", "0531") ?></p>
 
 <div class="box_tabs">
@@ -7,7 +7,7 @@
         <li><a href="#box_tab2"><?php echo Yii::t("letter", "0533") ?></a></li>
         <li class="active_box">
             <a class='createLetter' href="#box_tab5">
-                <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/send.jpg"/><?php echo Yii::t("letter", "0534") ?>
+                <img src="<?php echo StaticFilesHelper::createImagePath('common', 'send.jpg');?>"/><?php echo Yii::t("letter", "0534") ?>
             </a>
         </li>
     </ul>
