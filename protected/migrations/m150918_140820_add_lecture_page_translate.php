@@ -15,7 +15,7 @@ class m150918_140820_add_lecture_page_translate extends CDbMigration
             'message' => '0614'
         ));
         $this->insert('sourcemessages', array(
-            'id' => '614',
+            'id' => '615',
             'category' => 'lecture',
             'message' => '0615'
         ));
