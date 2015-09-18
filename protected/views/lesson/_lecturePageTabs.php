@@ -37,11 +37,11 @@ if (!($passedPages[$thisPage-1]['isDone'] ||
         //}else {
         $this->widget('zii.widgets.jui.CJuiTabs', array(
             'tabs' => array(
-                'Відео' => array('id' => 'video', 'content' => $this->renderPartial(
+                Yii::t('lecture', '0613') => array('id' => 'video', 'content' => $this->renderPartial(
                     '_videoTab',
                     array('page' => $page), true
                 )),
-                'Текст' => array('id' => 'text', 'content' => $this->renderPartial(
+                Yii::t('lecture', '0614') => array('id' => 'text', 'content' => $this->renderPartial(
                     '_textListTab',
                     array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
                 )),

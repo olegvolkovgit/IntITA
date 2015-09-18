@@ -1,0 +1,49 @@
+table#accountTable {
+    border: none;
+    border-collapse: collapse;
+    width: 60%;
+    align: center;
+}
+table#accountTable tr {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table#accountTable td{
+    border: none;
+    border-collapse: collapse;
+}
+
+table#accountTable td {
+     border: 1px solid black;
+     border-collapse: collapse;
+     padding: 10px;
+     text-align: center;
+ }
+#account{
+    margin-left: 30px;
+    margin-bottom: 100px;
+}
+#bankTitle{
+    margin-left: 100px;
+}
+#accountTitle{
+    margin-left: 170px;
+}
+#count, #pdv, #all, #visaPlace{
+    display:inline-block;
+}
+#count{
+    margin-left: 370px;
+}
+#pdv{
+    margin-left: 350px;
+}
+#all{
+    margin-left: 100px;
+}
+#visaPlace{
+    margin-left: 95px;
+}
+
+

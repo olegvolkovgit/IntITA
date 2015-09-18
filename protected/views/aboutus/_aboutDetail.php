@@ -7,7 +7,7 @@
  */
 $imagesPath = StaticFilesHelper::createPath('image', 'aboutus', '');
 if (Yii::app()->user->isGuest)
-    $buttonStart = '<div class="buutt" style=""><a class="butstart" href="site#form">' . Yii::t('slider', '0008') . '</a></div>';
+    $buttonStart = '<div class="buutt" style=""><a class="butstart" href="'.Config::getBaseUrl().'/site#form">' . Yii::t('slider', '0008') . '</a></div>';
 else $buttonStart = '';
 $block1->drop1Text = '<div  class="aboutStepBlock">
 <div style=" " class="oned">
