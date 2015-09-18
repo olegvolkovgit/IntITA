@@ -19,26 +19,27 @@ $('.search-form form').submit(function(){
 <br>
 
 <h2>Права доступу</h2>
+<div class="permissionButton">
+    <a href="#form">
+        <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
+    </a>
 
-<a href="#form">
-    <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
-</a>
+    <a href="#formTeacher">
+        <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
+    </a>
 
-<a href="#formTeacher">
-    <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
-</a>
+    <a href="#cancelFormTeacher">
+        <div id="cancelAuthorModule" onclick="cancelTeacherAccess()">Скасувати автора модуля</div>
+    </a>
 
-<a href="#cancelFormTeacher">
-    <div id="cancelAuthorModule" onclick="cancelTeacherAccess()">Скасувати автора модуля</div>
-</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus');?>">
+        <div id="changeUserStatus">Змінити статус користувача</div>
+    </a>
 
-<a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus');?>">
-    <div id="changeUserStatus">Змінити статус користувача</div>
-</a>
-
-<a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons');?>">
-    <div id="manageFreeLessons">Безкоштовні заняття</div>
-</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons');?>">
+        <div id="manageFreeLessons">Безкоштовні заняття</div>
+    </a>
+</div>
 
 <?php
 $dataProvider = $model->search();
