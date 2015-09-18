@@ -4,16 +4,16 @@ class m150918_140820_add_lecture_page_translate extends CDbMigration
 {
 	public function up()
 	{
-        $this->insert('sourcemessages', array(
-            'id' => '613',
-            'category' => 'lecture',
-            'message' => '0613'
-        ));
-        $this->insert('sourcemessages', array(
-            'id' => '614',
-            'category' => 'lecture',
-            'message' => '0614'
-        ));
+//        $this->insert('sourcemessages', array(
+//            'id' => '613',
+//            'category' => 'lecture',
+//            'message' => '0613'
+//        ));
+//        $this->insert('sourcemessages', array(
+//            'id' => '614',
+//            'category' => 'lecture',
+//            'message' => '0614'
+//        ));
         $this->insert('sourcemessages', array(
             'id' => '615',
             'category' => 'lecture',
