@@ -9,7 +9,7 @@
 <?php $lastAccessPage=LectureHelper::lastAccessPage($passedPages) ?>
 <div class="lessonPart">
     <div class="labelBlock" id="labelBlock">
-        <p>Частина <?php echo $page->page_order . '. ' . $page->page_title; ?></p>
+        <p><?php echo Yii::t('lecture', '0615')." ".$page->page_order . '. ' . $page->page_title; ?></p>
     </div>
     <div id="tooltip"></div>
 </div>
