@@ -441,10 +441,6 @@ h1.lessonPartEdit p img{
 .redactor-box .redactor-editor{
     min-height: 100px;
 }
-
-/*#toolbar{*/
-    /*display:none;*/
-/*}*/
 #bar1 .toolbar_wrapper:first-child{
     display: none;
 }

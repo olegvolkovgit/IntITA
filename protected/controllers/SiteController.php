@@ -81,8 +81,8 @@ class SiteController extends Controller
 
             if (count($result) > 0) {
                 Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                    'user_lang'=> $new_lang,
-                ), 'user_id=:id', array(':id'=>$id));
+                    'user_lang' => $new_lang,
+                ), 'user_id=:id', array(':id' => $id));
             }
 
         }
@@ -117,13 +117,13 @@ class SiteController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
             if ($model->validate()) {
-                if (Yii::app()->session['lg']) $lang=Yii::app()->session['lg'];
-                else $lang='ua';
+                if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
+                else $lang = 'ua';
                 $model->save();
                 $subject = Yii::t('activeemail', '0298');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
-                    " ".Config::getBaseUrl()."/index.php?r=site/AccActivation/view&token=".$model->token."&email=".$model->email."&lang=".$lang;
+                    " " . Config::getBaseUrl() . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
                 mail($model->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
@@ -189,31 +189,31 @@ class SiteController extends Controller
                     );
 
                     if (!$existingForumUser) {
-                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
-                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                        $firstName = ($userModel->firstName) ? $userModel->firstName : '';
+                        $secondName = ($userModel->secondName) ? $userModel->secondName : '';
                         $name = $firstName . ' ' . $secondName;
                         if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
-                                'user_id'=> $userModel->id,
-                                'username'=> $name,
-                                'username_clean' => $name,
-                                'user_timezone' => 'Europe/Kiev',
-                                'user_dateformat' => 'd M Y H:i',
-                                'user_regdate' => $reg_time,
-                                'user_lang' => $current_lang
-                            ));
+                            'user_id' => $userModel->id,
+                            'username' => $name,
+                            'username_clean' => $name,
+                            'user_timezone' => 'Europe/Kiev',
+                            'user_dateformat' => 'd M Y H:i',
+                            'user_regdate' => $reg_time,
+                            'user_lang' => $current_lang
+                        ));
 
                         Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
-                            'group_id'=> 2,
-                            'user_id'=> $userModel->id,
+                            'group_id' => 2,
+                            'user_id' => $userModel->id,
                             'group_leader' => 0,
                             'user_pending' => 0
                         ));
                     } else {
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                            'user_lang'=> $current_lang,
+                            'user_lang' => $current_lang,
                         ), 'user_id=:id', array(':id' => $userModel->id));
                     }
 
@@ -248,14 +248,14 @@ class SiteController extends Controller
                 break;
             }
         }
-        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=:id', array(':id'=>$id));
+        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=:id', array(':id' => $id));
 
         Yii::app()->user->logout();
 
         /*delete cookies*/
-        setcookie("openProfileTab", '', 1,'/');
-        setcookie("openEditTab", '', 1,'/');
-        setcookie("openRegistrationTab", '', 1,'/');
+        setcookie("openProfileTab", '', 1, '/');
+        setcookie("openEditTab", '', 1, '/');
+        setcookie("openRegistrationTab", '', 1, '/');
 
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -270,6 +270,10 @@ class SiteController extends Controller
         $user = json_decode($s, true);
         $model->email = $user['email'];
         if ($model->socialLogin()) {
+            if (isset($user['network']) && StudentReg::isNewNetwork($user['network'], $user['profile'], $model)) {
+                $modelId=$model->findByAttributes(array('email' => $model->email))->id;
+                $model->updateByPk($modelId, array($user['network'] => $user['profile']));
+            }
             if (isset($_SERVER["HTTP_REFERER"])) {
                 if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -331,15 +335,15 @@ class SiteController extends Controller
                             ->queryAll()
                     );
                     if (!$existingForumUser) {
-                        $firstName = ($userModel->firstName)?$userModel->firstName:'';
-                        $secondName = ($userModel->secondName)?$userModel->secondName:'';
+                        $firstName = ($userModel->firstName) ? $userModel->firstName : '';
+                        $secondName = ($userModel->secondName) ? $userModel->secondName : '';
                         $name = $firstName . ' ' . $secondName;
                         if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
-                            'user_id'=> $userModel->id,
-                            'username'=> $name,
+                            'user_id' => $userModel->id,
+                            'username' => $name,
                             'username_clean' => $name,
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
@@ -348,14 +352,14 @@ class SiteController extends Controller
                         ));
 
                         Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
-                            'group_id'=> 2,
-                            'user_id'=> $userModel->id,
+                            'group_id' => 2,
+                            'user_id' => $userModel->id,
                             'group_leader' => 0,
                             'user_pending' => 0
                         ));
                     } else {
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                            'user_lang'=> $current_lang,
+                            'user_lang' => $current_lang,
                         ), 'user_id=:id', array(':id' => $userModel->id));
                     }
 
@@ -461,7 +465,7 @@ class SiteController extends Controller
         }
         if ($getModel->validate()) {
             $subject = Yii::t('recovery', '0281');
-            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
+            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
             $text = Yii::t('recovery', '0239') .
                 " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
@@ -489,7 +493,7 @@ class SiteController extends Controller
             }
             if ($model->validate()) {
                 $subject = Yii::t('recovery', '0282');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
+                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('recovery', '0283') .
                     " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));

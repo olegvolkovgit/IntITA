@@ -525,6 +525,35 @@ class StudentReg extends CActiveRecord
         }
         return $result;
     }
+    public static function isNewNetwork ($network,$profile, $model)
+    {
+        $result=false;
+            switch ($network) {
+                case 'facebook':
+                    if($model->facebook != $profile)
+                        $result=true;
+                    break;
+                case 'googleplus':
+                    if($model->googleplus != $profile)
+                        $result=true;
+                    break;
+                case 'linkedin':
+                    if($model->linkedin != $profile)
+                        $result=true;
+                    break;
+                case 'vkontakte':
+                    if($model->vkontakte != $profile)
+                        $result=true;
+                    break;
+                case 'twitter':
+                    if($model->twitter != $profile)
+                        $result=true;
+                    break;
+                default:
+                    $result=false;
+            }
+        return $result;
+    }
     public function validatePassword($password)
     {
         return CPasswordHelper::verifyPassword($password,$this->password);
