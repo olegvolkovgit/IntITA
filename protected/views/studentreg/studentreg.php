@@ -140,32 +140,27 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0243'), 'maxlength' => 255, 'id' => 'tempFBLink')); ?>
-                        <?php echo $form->hiddenField($model, 'facebook'); ?>
-                        <span><?php echo $form->error($model, 'facebook'); ?></span>
+                        <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на facebook','placeholder' => Yii::t('regexp', '0243'))); ?>
+                        <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0244'), 'maxlength' => 255, 'id' => 'tempGPLink')); ?>
-                        <?php echo $form->hiddenField($model, 'googleplus'); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на googleplus','placeholder' => Yii::t('regexp', '0244'))); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0245'), 'maxlength' => 255, 'id' => 'tempLILink')); ?>
-                        <?php echo $form->hiddenField($model, 'linkedin'); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на linkedin','placeholder' => Yii::t('regexp', '0245'))); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0246'), 'maxlength' => 255, 'id' => 'tempVKLink')); ?>
-                        <?php echo $form->hiddenField($model, 'vkontakte'); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на vkontakte','placeholder' => Yii::t('regexp', '0246'))); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo CHtml::textField('', '', array('placeholder' => Yii::t('regexp', '0247'), 'maxlength' => 255, 'id' => 'tempTWLink')); ?>
-                        <?php echo $form->hiddenField($model, 'twitter'); ?>
+                        <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на twitter','placeholder' => Yii::t('regexp', '0247'))); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>

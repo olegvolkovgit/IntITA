@@ -98,8 +98,11 @@ class StudentReg extends CActiveRecord
     {
         /*if value not Roman alphabet or url not validation = error*/
         $value = $this->$attribute;
-        if(!empty($this->$attribute)){
-            if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
+        if(!empty($value)){
+            if(!StudentReg::isNetworkURL($value,$attribute))
+                $this->addError($attribute,'Ви ввели не коректну сторінку');
+            else
+                if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
                 $this->addError($attribute,'Ви ввели не коректну сторінку');
         }
     }
@@ -170,12 +173,12 @@ class StudentReg extends CActiveRecord
             'avatar'=> 'Аватар',
             'upload'=> 'Up',
             'role'=>  Yii::t('regexp', '0161'),
-            'network' => 'Network',
-            'facebook' => 'http://www.facebook.com/',
-            'googleplus' => 'https://plus.google.com/',
-            'linkedin' => 'http://www.linkedin.com/',
-            'vkontakte' => 'http://vk.com/',
-            'twitter' => 'http://twitter.com/',
+            'network' => 'Network:',
+            'facebook' => 'Facebook',
+            'googleplus' => 'Google+',
+            'linkedin' => 'LinkedIn',
+            'vkontakte' => 'VK',
+            'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
         );
     }
@@ -487,6 +490,40 @@ class StudentReg extends CActiveRecord
         # Возвращаем результат
         return
             !substr_count($headers[0], '404');
+    }
+    public static function isNetworkURL ($value, $network)
+    {
+        $result=false;
+        switch ($network){
+            case 'facebook':
+                $domainPartPos=strpos($value, 'https://www.facebook.com/');
+                if($domainPartPos===0)
+                    $result=true;
+                break;
+            case 'googleplus':
+                $domainPartPos=strpos($value, 'https://plus.google.com/');
+                if($domainPartPos===0)
+                    $result=true;
+                break;
+            case 'linkedin':
+                $domainPartPos=strpos($value, 'https://www.linkedin.com/');
+                if($domainPartPos===0)
+                    $result=true;
+                break;
+            case 'vkontakte':
+                $domainPartPos=strpos($value, 'http://vk.com/');
+                if($domainPartPos===0)
+                    $result=true;
+                break;
+            case 'twitter':
+                $domainPartPos=strpos($value, 'https://twitter.com/');
+                if($domainPartPos===0)
+                    $result=true;
+                break;
+            default:
+                $result=false;
+        }
+        return $result;
     }
     public function validatePassword($password)
     {

@@ -72,11 +72,6 @@ table.profileInfo {
      color: #828282;
      white-space: nowrap;
  }
-.studProf .rowNetwork label
-{
-    width: 205px;
-    margin-right: 0;
-}
 .studProf input, .studProf .rowPass input
 {
     padding-left: 8px;
@@ -85,6 +80,7 @@ table.profileInfo {
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     font-family: "MyriadPro";
+    font-size: 16px;
 }
 #aboutUs{
     margin-left: 215px;
@@ -100,6 +96,7 @@ table.profileInfo {
     margin-bottom: -4px;
     resize: none;
     font-family: "MyriadPro";
+    font-size: 16px;
 }
 .studProf input:hover,
 .studProf textarea:hover{

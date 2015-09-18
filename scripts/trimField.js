@@ -10,60 +10,20 @@ function trimInEmail() {
 function trimExpEmail() {
     var em=$('.trimEm');
     em.val(em.val());
-    /*reset old link*/
-    $("#StudentReg_facebook").val('');
-    $("#StudentReg_googleplus").val('');
-    $("#StudentReg_linkedin").val('');
-    $("#StudentReg_vkontakte").val('');
-    $("#StudentReg_twitter").val('');
-    /*full link of network*/
-    var fbLink=$("#tempFBLink").val();
-    if(fbLink!='')
-        $("#StudentReg_facebook").val($.trim('https://www.facebook.com/'+fbLink));
-
-    var gpLink=$("#tempGPLink").val();
-    if(gpLink!='')
-        $("#StudentReg_googleplus").val($.trim('https://plus.google.com/'+gpLink));
-
-    var liLink=$("#tempLILink").val();
-    if(liLink!='')
-        $("#StudentReg_linkedin").val($.trim('https://www.linkedin.com/'+liLink));
-
-    var vkLink=$("#tempVKLink").val();
-    if(vkLink!='')
-        $("#StudentReg_vkontakte").val($.trim('http://vk.com/'+vkLink));
-
-    var twLink=$("#tempTWLink").val();
-    if(twLink!='')
-        $("#StudentReg_twitter").val($.trim('https://twitter.com/'+twLink));
+    var vkLink=$("#StudentReg_vkontakte");
+    if(vkLink.val()!=''){
+        if(vkLink.val().indexOf('vk.com/')===0){
+            vkLink.val('http://'+vkLink.val());
+        }
+    }
 }
 function trimNetwork() {
-    /*reset old link*/
-    $("#StudentReg_facebook").val('');
-    $("#StudentReg_googleplus").val('');
-    $("#StudentReg_linkedin").val('');
-    $("#StudentReg_vkontakte").val('');
-    $("#StudentReg_twitter").val('');
-    /*full link of network*/
-    var fbLink=$("#tempFBLink").val();
-    if(fbLink!='')
-        $("#StudentReg_facebook").val($.trim('https://www.facebook.com/'+fbLink));
-
-    var gpLink=$("#tempGPLink").val();
-    if(gpLink!='')
-        $("#StudentReg_googleplus").val($.trim('https://plus.google.com/'+gpLink));
-
-    var liLink=$("#tempLILink").val();
-    if(liLink!='')
-        $("#StudentReg_linkedin").val($.trim('https://www.linkedin.com/'+liLink));
-
-    var vkLink=$("#tempVKLink").val();
-    if(vkLink!='')
-        $("#StudentReg_vkontakte").val($.trim('http://vk.com/'+vkLink));
-
-    var twLink=$("#tempTWLink").val();
-    if(twLink!='')
-        $("#StudentReg_twitter").val($.trim('https://twitter.com/'+twLink));
+var vkLink=$("#StudentReg_vkontakte");
+    if(vkLink.val()!=''){
+        if(vkLink.val().indexOf('vk.com/')===0){
+            vkLink.val('http://'+vkLink.val());
+        }
+    }
 }
 function trimModuleName() {
     var m=document.getElementById('titleUa');

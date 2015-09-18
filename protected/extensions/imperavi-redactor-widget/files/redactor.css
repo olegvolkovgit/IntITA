@@ -17,7 +17,6 @@
 .redactor-box {
   position: relative;
   overflow: visible;
-  margin-bottom: 24px;
 }
 .redactor-box textarea {
   display: block;
