@@ -95,13 +95,14 @@ $editMode = ($canEdit) ? 'true' : '';
             ),
             array(
                 'class' => 'DataColumn',
-                'name' => 'alias',
+                'name' => 'order',
                 'type' => 'raw',
                 'value' => function ($data) {
                     if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
                         $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                     else $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-                    $data->order == 0 ? $value = "Виключено" : $value = $img . Yii::t('course', '0364') . ' ' . $data->order . '.';
+                    //$data->order == 0 ? $value = "Виключено" :
+                        $value = $img . Yii::t('course', '0364') . ' ' . $data->order . '.';
                     return $value;
                 },
                 'header' => false,
