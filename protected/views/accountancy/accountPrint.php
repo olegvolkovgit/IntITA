@@ -1,12 +1,11 @@
 <?php
+
 /*
  * @var $course Course
  * */
+
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
-<?php if (!isset($_GET['print'])) {
-    Yii::app()->clientScript->registerScriptFile(StaticFilesHelper::fullPathTo('js', 'account.js'));
-} ?>
 
 <div id="account">
     <div>
@@ -20,12 +19,7 @@
         Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
-        “<?php echo date("d"); ?>” <span id="month"><?php
-            if (isset($_GET['month'])) {
-                echo $_GET['month'];
-            } else {
-                echo date("F");
-            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № _______</span>
+        “<?php echo date("d"); ?>” <span id="month"><?php echo date("F"); ?></span> 2015 р. <span id="accountTitle">РАХУНОК № _______</span>
         <br>
         Платник:
         <br>
@@ -44,9 +38,7 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (Курс
-                №2777001- <?php echo CourseHelper::getCourseName($course->course_ID) . ', ' . CourseHelper::translateLevel($course->level); ?>
-                )
+                грамотність (Курс №2777001- <?php echo CourseHelper::getCourseName($course->course_ID).', '.CourseHelper::translateLevel($course->level);?>)
             </td>
             <td></td>
             <td>1</td>
@@ -100,22 +92,27 @@
     <br>
     <br>
     <br>
-    <?php if (!isset($_GET['print'])){ ?>
-    <button onclick="sendData('courseId=<?php echo $course->course_ID; ?>&print=true&month=' + month)">
-        Надрукувати
-    </button>
 </div>
-<?php } ?>
 
-<?php if (isset($_GET['print'])) { ?>
-    <script>
-        $(window).load(
-            function () {
-                window.print();
-            }
-        )
-    </script>
-<?php } ?>
-
-
-
+<script>
+    $(document).ready(
+        function(){
+            var ukrMonthTitles = {
+                'January':'січня',
+                'February':'лютого',
+                'March':'березня',
+                'April':'квітня',
+                'May':'травня',
+                'June':'червня',
+                'July':'липня',
+                'August':'серпня',
+                'September':'вересня',
+                'October':'жовтня',
+                'November':'листопада',
+                'December':'грудня'
+            };
+            document.getElementById('month').innerHTML = ukrMonthTitles[document.getElementById('month').innerHTML];
+            window.print();
+        }
+    );
+</script>
