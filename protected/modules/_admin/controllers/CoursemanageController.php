@@ -189,6 +189,9 @@ class CoursemanageController extends CController
 
         CourseModules::addNewRecord($_POST['module'], $_POST['course']);
 
-        $this->render('index');
+        $dataProvider=new CActiveDataProvider('Course');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider
+        ));
     }
 }

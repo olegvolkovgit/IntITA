@@ -123,17 +123,16 @@ class CourseModules extends CActiveRecord
 
         $model->id_course = $idCourse;
         $model->id_module = $idModule;
-        $model->order = CourseModules::getLastModuleOrder($idModule, $idCourse);
+        $model->order = CourseModules::getLastModuleOrder($idModule, $idCourse) + 1;
 
         return $model->save();
     }
 
     public static function getLastModuleOrder($idModule, $idCourse){
         $lastOrder = Yii::app()->db->createCommand()
-            ->select('`order`')
+            ->select('order')
             ->from('course_modules')
-            ->where('id_course=:course and id_module=:module',
-                array(':course' => $idCourse, ';module' => $idModule))
+            ->where('id_course=:course and id_module=:module', array(':course' => $idCourse, ':module' => $idModule))
             ->queryScalar();
         return $lastOrder;
     }
