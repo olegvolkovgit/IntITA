@@ -57,7 +57,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 				$elNone.on('click', $.proxy(function(e)
 				{
 					e.preventDefault();
-					//this.fontcolor.remove(rule);
+					this.fontcolor.remove(rule);
 
 				}, this));
 
