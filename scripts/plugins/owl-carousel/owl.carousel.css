@@ -17,7 +17,12 @@
 	display: none;
 	position: relative;
 	width: 100%;
+	min-width: 1200px;
+	min-height: 550px;
 	-ms-touch-action: pan-y;
+}
+.aboutusslider .owl-carousel{
+	min-height: 450px;
 }
 .owl-carousel .owl-wrapper{
 	display: none;
@@ -67,5 +72,16 @@
   -webkit-transform: translate3d(0,0,0);
   -moz-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
+	min-height: 550px;
+}
+.aboutusslider .owl-carousel  .owl-wrapper,
+.owl-carousel  .owl-item{
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	-ms-backface-visibility:     hidden;
+	-webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	min-height: 450px;
 }
 
