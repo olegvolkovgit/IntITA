@@ -129,7 +129,7 @@ class ConsultantModules extends CActiveRecord
             $model->consultant = $teacher;
             $model->module = $attribute;
         }
-        $model->value = $value;
+        //$model->value = $value;
         if ($model->validate()){
             $model->save();
             $result = true;

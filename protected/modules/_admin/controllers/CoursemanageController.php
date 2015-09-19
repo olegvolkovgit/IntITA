@@ -29,13 +29,15 @@ class CoursemanageController extends CController
     {
         return array(
             array('allow',
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'addExistModule' ,
+                    'addModuleToCourse'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin',  'addExistModule' ,
+                    'addModuleToCourse'),
                 'users'=>array('*'),
             ),
         );
@@ -177,5 +179,16 @@ class CoursemanageController extends CController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionAddExistModule(){
+        $this->render('addExistModule');
+    }
+
+    public function actionAddModuleToCourse(){
+
+        CourseModules::addNewRecord($_POST['module'], $_POST['course']);
+
+        $this->render('index');
     }
 }
