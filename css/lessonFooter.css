@@ -21,7 +21,7 @@ p.lesname{
     color:#363636;
 }
 .subViewLessons p, h1, h2, h3, h4, h5, h6, span{
-    font-size:100%;
+    /*font-size:100%;*/
 }
 .subViewLessons p,.subViewLessons span{
     font-size:18px;
