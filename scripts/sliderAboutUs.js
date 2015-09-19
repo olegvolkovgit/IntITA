@@ -7,44 +7,45 @@ $(function(){
         $('.owl-item').height(document.body.clientWidth/3);
     });
 });
-function fontSize() { /* Маштабування тексту слайдера*/
-    var width = 1440;
-    var fontSize = 42;
-    var fontHeaderSize = 32;
-    var fontTextSize = 18;
-    var bodyWidth = $('html').width();
-    var bodyText = 425;
-    var multiplier = bodyWidth / width;
-    fontHeaderSize = Math.floor(fontHeaderSize * multiplier);
-    bodyText = Math.floor(bodyText * multiplier);
-    fontTextSize = Math.floor(fontTextSize * multiplier);
-    $('.abouttext').children("div").css({width: bodyText+'px'});
-    $('.headerAbout').css({fontSize: fontHeaderSize+'px'});
-    $('.sliderCenterBoxLine').css({fontSize: fontHeaderSize+'px'});
-    $('.textabout').css({fontSize: fontTextSize+'px'});
-    if (document.body.clientWidth <= width)
-        fontSize = Math.floor(fontSize * multiplier);
-    $('#slider').css({fontSize: fontSize+'px'});
-    $('.sliderSnake .button ').css({fontSize: fontSize+'px'});
-}
-$(function() { fontSize(); });
-$(window).resize(function() { fontSize(); });
+//function fontSize() { /* Маштабування тексту слайдера*/
+//    var width = 1440;
+//    var fontSize = 42;
+//    var fontHeaderSize = 32;
+//    var fontTextSize = 18;
+//    var bodyWidth = $('html').width();
+//    var bodyText = 425;
+//    var multiplier = bodyWidth / width;
+//    fontHeaderSize = Math.floor(fontHeaderSize * multiplier);
+//    bodyText = Math.floor(bodyText * multiplier);
+//    fontTextSize = Math.floor(fontTextSize * multiplier);
+//    $('.abouttext').children("div").css({width: bodyText+'px'});
+//    $('.headerAbout').css({fontSize: fontHeaderSize+'px'});
+//    $('.sliderCenterBoxLine').css({fontSize: fontHeaderSize+'px'});
+//    $('.textabout').css({fontSize: fontTextSize+'px'});
+//    if (document.body.clientWidth <= width)
+//        fontSize = Math.floor(fontSize * multiplier);
+//    $('#slider').css({fontSize: fontSize+'px'});
+//    $('.sliderSnake .button ').css({fontSize: fontSize+'px'});
+//}
+//$(function() { fontSize(); });
+//$(window).resize(function() { fontSize(); });
 
 function textSliderCentr() { /* Центрування тексту картинки слайдеру*/
     $('.slideAbout p').width(document.body.clientWidth);
     $('.slideAbout p').css('margin-left', (document.body.clientWidth/2-document.body.clientWidth)+'px');
-    $('.slideAbout p').css('top', document.body.clientWidth/4.05+'px');
+    $('.slideAbout p').css('top', (document.body.clientWidth/3/2)+110+'px');
     $('.slideAbout p.about').css('top', document.body.clientWidth/10+'px');
 }
 $(function() { textSliderCentr(); });
 $(window).resize(function() { textSliderCentr(); });
 
 function sliderBoxCentr() { /* Центрування центрального боксу слайдера*/
-    if ( document.body.clientWidth <= 1440 ){
-        $('#sliderCenterBox').css('margin-top', document.body.clientWidth/3/2+'px');
-    } else {
-        $('#sliderCenterBox').css('margin-top', document.body.clientWidth/4.05-120+'px');
-    }
+    $('#sliderCenterBox').css('margin-top', document.body.clientWidth/3/2+'px');
+    //if ( document.body.clientWidth <= 1440 ){
+    //    $('#sliderCenterBox').css('margin-top', document.body.clientWidth/3/2+'px');
+    //} else {
+    //    $('#sliderCenterBox').css('margin-top', document.body.clientWidth/4.05-120+'px');
+    //}
 }
 $(function() { sliderBoxCentr(); });
 $(window).resize(function() { sliderBoxCentr(); });

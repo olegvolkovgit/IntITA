@@ -42,9 +42,12 @@
 }
 .owl-theme .owl-controls .owl-page span{
 	display: block;
-	width: 0.4em;
-	height: 0.4em;
-	margin: 0.1em 0.1em ;
+	/*width: 0.4em;*/
+	/*height: 0.4em;*/
+	width: 15px;
+	height: 15px;
+	/*margin: 0.1em 0.1em ;*/
+	margin: 4px;
 	filter: Alpha(Opacity=50);/*IE7 fix*/
 	opacity: 0.5;
 	-webkit-border-radius: 0.4em;
