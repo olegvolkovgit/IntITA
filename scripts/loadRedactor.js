@@ -119,84 +119,84 @@ function loadRedactorJs() {
             data: {'order': orderBlock, 'lecture': idLecture},
             success: function (result) {
                 $(order).html(result);
-            }
-        });
-        $(order).redactor({
-            preSpaces: true,
-            cleanStyleOnEnter: false,
-            replaceDivs: false,
-            lang: lang,
-            autoclear: false,
-            pastePlainText: false,
-            convertVideoLinks: true,
-            convertImageLinks: true,
-            convertUrlLinks: true,
-            convertLinks: true,
-            imageUpload: '/lesson/uploadImage',
-            plugins: ['table',
-                'fontfamily',
-                'fontsize',
-                'fontcolor',
-                'video',
-                'imagemanager',
-                'fullscreen',
-                'formula',
-                'save',
-                'close',
-                'closefullscreen'],
-            formattingAdd: [
-                {
-                    tag: 'pre',
-                    title: 'Code php',
-                    class: 'brush:php'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code js',
-                    class: 'brush:js'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code css',
-                    class: 'brush:css'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code sql',
-                    class: 'brush:sql'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code html',
-                    class: 'brush:html'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code C++',
-                    class: 'brush:c'
-                },
-                {
-                    tag: 'pre',
-                    title: 'Code C#',
-                    class: 'brush:c#'
-                },
-                {
-                    title: 'Clear Format',
-                    func: 'inline.removeFormat'
-                }],
-            startCallback: function () {
+                $(order).redactor({
+                    preSpaces: true,
+                    cleanStyleOnEnter: false,
+                    replaceDivs: false,
+                    lang: lang,
+                    autoclear: false,
+                    pastePlainText: false,
+                    convertVideoLinks: true,
+                    convertImageLinks: true,
+                    convertUrlLinks: true,
+                    convertLinks: true,
+                    imageUpload: '/lesson/uploadImage',
+                    plugins: ['table',
+                        'fontfamily',
+                        'fontsize',
+                        'fontcolor',
+                        'video',
+                        'imagemanager',
+                        'fullscreen',
+                        'formula',
+                        'save',
+                        'close',
+                        'closefullscreen'],
+                    formattingAdd: [
+                        {
+                            tag: 'pre',
+                            title: 'Code php',
+                            class: 'brush:php'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code js',
+                            class: 'brush:js'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code css',
+                            class: 'brush:css'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code sql',
+                            class: 'brush:sql'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code html',
+                            class: 'brush:html'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code C++',
+                            class: 'brush:c'
+                        },
+                        {
+                            tag: 'pre',
+                            title: 'Code C#',
+                            class: 'brush:c#'
+                        },
+                        {
+                            title: 'Clear Format',
+                            func: 'inline.removeFormat'
+                        }],
+                    startCallback: function () {
 
-                var marker = this.selection.getMarker();
-                //this.insert.node(marker);
-            },
-            initCallback: function () {
-                //this.selection.restore();
-                $(order).off('click', loadTextRedactor);
-            },
-            destroyCallback: function () {
-                $('#formulaBox').remove();
-                console.log('destroy');
-                $(order).on('click', loadTextRedactor);
+                        var marker = this.selection.getMarker();
+                        //this.insert.node(marker);
+                    },
+                    initCallback: function () {
+                        //this.selection.restore();
+                        $(order).off('click', loadTextRedactor);
+                    },
+                    destroyCallback: function () {
+                        $('#formulaBox').remove();
+                        console.log('destroy');
+                        $(order).on('click', loadTextRedactor);
+                    }
+                });
             }
         });
     }

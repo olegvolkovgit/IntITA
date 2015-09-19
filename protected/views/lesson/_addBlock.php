@@ -64,9 +64,6 @@
                 'fontcolor' => array(
                     'js' => array('fontcolor.js',),
                 ),
-//                'formula' => array(
-//                    'js' => array('formula.js',),
-//                ),
                 'save' => array(
                     'js' => array('save.js',),
                 ),
