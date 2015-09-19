@@ -27,7 +27,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			},
 			reset: function()
 			{
-				this.inline.removeStyleRule('font-size');
+				//this.inline.removeStyleRule('font-size');
 			}
 		};
 	};
