@@ -19,6 +19,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 				var id = "#toolbar" + order.substr(1);
 				$(id).hide();
 				$('#formulaBox').remove();
+				$(".redactor-editor").removeAttr("data-target");
 				this.core.destroy();
 			}
 		};

@@ -68,45 +68,50 @@ function loadRedactorJs() {
     }
 
     function getIdName() {
-        var idName = this.getAttribute('id');
-        order = '#' + idName;
+        if($('div').is('[data-target="insertE"]') && $(this).attr('data-target')!="insertE"){
+            alert('Перед редагуванням нового блоку, відредагуйте і закрийте попередній');
+        } else {
+            var idName = this.getAttribute('id');
+            order = '#' + idName;
 
-        var edit = this.hasAttribute("contenteditable");
-        if (edit == false) {
-            loadTextRedactor();
-            $(order).attr('data-target', 'insertE');
-            if ($("div").is("#toolbar" + idName)) {
-                $(order).parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
-                    '<div class="inner">' +
-                    '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
-                    '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
-                    '</div>' +
-                    '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
-                    '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
-                    '</div>'
-                );
-                $('#toolbar' + idName).show();
-                var id = "toolbar" + idName;
-                EqEditor.embed(id, '', 'full', 'uk-uk');
-                var a = new EqTextArea('equation', 'formulaContainer' + idName);
-                EqEditor.add(a, false);
-                document.getElementById('formulaContainer' + idName).focus();
-            } else {
-                $(order).parent().after('<div class="container" id="formulaBox">' +
-                    '<div class="inner">' +
-                    '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
-                    '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
-                    '</div>' +
-                    '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
-                    '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
-                    '</div>'
-                );
-                var id = "toolbar" + idName;
-                $(order).parent().after('<div id="toolbar' + idName + '" style="display: block"></div>');
-                EqEditor.embed(id, '', 'full', 'uk-uk');
-                var a = new EqTextArea('equation', 'formulaContainer' + idName);
-                EqEditor.add(a, false);
-                document.getElementById('formulaContainer' + idName).focus();
+            var edit = this.hasAttribute("contenteditable");
+            if (edit == false) {
+                loadTextRedactor();
+                $(order).attr('data-target', 'insertE');
+                if ($("div").is("#toolbar" + idName)) {
+                    $(order).parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
+                        '<div class="inner">' +
+                        '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
+                        '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
+                        '</div>' +
+                        '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
+                        '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
+                        '</div>'
+                    );
+                    $('#toolbar' + idName).show();
+                    var id = "toolbar" + idName;
+                    EqEditor.embed(id, '', 'full', 'uk-uk');
+                    var a = new EqTextArea('equation', 'formulaContainer' + idName);
+                    EqEditor.add(a, false);
+                    document.getElementById('formulaContainer' + idName).focus();
+                } else {
+                    $(order).parent().after('<div class="container" id="formulaBox">' +
+                        '<div class="inner">' +
+                        '<textarea placeholder="Формула для вставки в блок" class="source" data-source="insertE" id="formulaContainer' + idName + '"></textarea>' +
+                        '<label><input id="inlineFormulaE" type="checkbox" checked/>Формула в тексті</label>' +
+                        '</div>' +
+                        '<div style="font-size: 12px">Поставте курсор в текстовий блок та вставте LaTeX формулу</div>' +
+                        '<button type="button" class="action" onclick="insertFormulaE()">Вставити формулу</button>' +
+                        '</div>'
+                    );
+                    var id = "toolbar" + idName;
+                    $(order).parent().after('<div id="toolbar' + idName + '" style="display: block"></div>');
+                    EqEditor.embed(id, '', 'full', 'uk-uk');
+                    var a = new EqTextArea('equation', 'formulaContainer' + idName);
+                    EqEditor.add(a, false);
+                    document.getElementById('formulaContainer' + idName).focus();
+                }
+
             }
         }
     }
@@ -118,85 +123,86 @@ function loadRedactorJs() {
             url: "/lesson/editBlock",
             data: {'order': orderBlock, 'lecture': idLecture},
             success: function (result) {
-                $(order).html(result);
-                $(order).redactor({
-                    preSpaces: true,
-                    cleanStyleOnEnter: false,
-                    replaceDivs: false,
-                    lang: lang,
-                    autoclear: false,
-                    pastePlainText: false,
-                    convertVideoLinks: true,
-                    convertImageLinks: true,
-                    convertUrlLinks: true,
-                    convertLinks: true,
-                    imageUpload: '/lesson/uploadImage',
-                    plugins: ['table',
-                        'fontfamily',
-                        'fontsize',
-                        'fontcolor',
-                        'video',
-                        'imagemanager',
-                        'fullscreen',
-                        'formula',
-                        'save',
-                        'close',
-                        'closefullscreen'],
-                    formattingAdd: [
-                        {
-                            tag: 'pre',
-                            title: 'Code php',
-                            class: 'brush:php'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code js',
-                            class: 'brush:js'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code css',
-                            class: 'brush:css'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code sql',
-                            class: 'brush:sql'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code html',
-                            class: 'brush:html'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code C++',
-                            class: 'brush:c'
-                        },
-                        {
-                            tag: 'pre',
-                            title: 'Code C#',
-                            class: 'brush:c#'
-                        },
-                        {
-                            title: 'Clear Format',
-                            func: 'inline.removeFormat'
-                        }],
-                    startCallback: function () {
+                if ($(order).html(result)) {
+                    $(order).redactor({
+                        preSpaces: true,
+                        cleanStyleOnEnter: false,
+                        replaceDivs: false,
+                        lang: lang,
+                        autoclear: false,
+                        pastePlainText: false,
+                        convertVideoLinks: true,
+                        convertImageLinks: true,
+                        convertUrlLinks: true,
+                        convertLinks: true,
+                        imageUpload: '/lesson/uploadImage',
+                        plugins: ['table',
+                            'fontfamily',
+                            'fontsize',
+                            'fontcolor',
+                            'video',
+                            'imagemanager',
+                            'fullscreen',
+                            'formula',
+                            'save',
+                            'close',
+                            'closefullscreen'],
+                        formattingAdd: [
+                            {
+                                tag: 'pre',
+                                title: 'Code php',
+                                class: 'brush:php'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code js',
+                                class: 'brush:js'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code css',
+                                class: 'brush:css'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code sql',
+                                class: 'brush:sql'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code html',
+                                class: 'brush:html'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code C++',
+                                class: 'brush:c'
+                            },
+                            {
+                                tag: 'pre',
+                                title: 'Code C#',
+                                class: 'brush:c#'
+                            },
+                            {
+                                title: 'Clear Format',
+                                func: 'inline.removeFormat'
+                            }],
+                        startCallback: function () {
 
-                        var marker = this.selection.getMarker();
-                        //this.insert.node(marker);
-                    },
-                    initCallback: function () {
-                        //this.selection.restore();
-                        $(order).off('click', loadTextRedactor);
-                    },
-                    destroyCallback: function () {
-                        $('#formulaBox').remove();
-                        console.log('destroy');
-                        $(order).on('click', loadTextRedactor);
-                    }
-                });
+                            var marker = this.selection.getMarker();
+                            //this.insert.node(marker);
+                        },
+                        initCallback: function () {
+                            //this.selection.restore();
+                            $(order).off('click');
+                        },
+                        destroyCallback: function () {
+                            $('#formulaBox').remove();
+                            console.log('destroy');
+                            $(order).on('click');
+                        }
+                    });
+                }
             }
         });
     }
