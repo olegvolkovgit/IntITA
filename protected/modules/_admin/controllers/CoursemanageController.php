@@ -70,6 +70,23 @@ class CoursemanageController extends CController
         // $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
+            if (isset($_POST['Course']['course_number'])) {
+                if (Course::model()->exists('course_number=:course_number', array(
+                        ':course_number' => $_POST['Course']['course_number'])
+                )
+                ) {
+                    throw new CHttpException(400, 'Номер курса повинен бути унікальним. Такий номер курса вже
+                    існує.');
+                }
+            }
+
+            if (isset($_POST['Course']['alias'])) {
+                if (Module::model()->exists('alias=:alias', array(':alias' => $_POST['Course']['alias']))) {
+                    throw new CHttpException(400, 'Alias курса повинен бути унікальним. Такий псевдонім курса вже
+                    зайнятий.');
+                }
+            }
+
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes=$_POST['Course'];

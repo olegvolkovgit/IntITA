@@ -52,7 +52,8 @@ class Module extends CActiveRecord
 			array('language', 'required'),
 			array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week, module_number', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
 			array('level', 'length', 'max'=>45),
-			array('alias, module_price', 'length', 'max'=>10),
+			array('module_price', 'length', 'max'=>10),
+            array('alias', 'length', 'max'=>30),
 			array('language', 'length', 'max'=>6),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max'=>255),
             array('module_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
@@ -61,7 +62,6 @@ class Module extends CActiveRecord
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
             array('module_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('module_ID, title_ua, title_ru, title_en, alias, language, module_duration_hours,
 			module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img,
 			about_module, owners, days_in_week, hours_in_day, level, module_number', 'safe', 'on'=>'search'),
@@ -120,8 +120,6 @@ class Module extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('module_ID',$this->module_ID);

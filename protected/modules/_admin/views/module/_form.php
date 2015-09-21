@@ -25,6 +25,11 @@
 
     <?php echo $form->errorSummary($model); ?>
 
+    <div class="row" style="visibility: hidden; height:0px">
+        <?php echo $form->labelEx($model,'module_ID'); ?>
+        <?php echo $form->textField($model,'module_ID',array('size'=>60,'maxlength'=>255)); ?>
+    </div>
+
     <div class="row">
         <?php echo $form->labelEx($model,'module_number'); ?>
         <?php echo $form->textField($model,'module_number',array('size'=>60,'maxlength'=>255)); ?>

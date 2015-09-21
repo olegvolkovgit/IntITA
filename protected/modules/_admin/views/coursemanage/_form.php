@@ -51,6 +51,12 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model,'course_number'); ?>
+        <?php echo $form->textField($model,'course_number',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'course_number'); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model,'level'); ?>
         <?php echo $form->dropDownList($model, 'level', array('intern'=> Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'),'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236')),array('options'=>array('intern'=>array('selected'=>true))));?>
         <?php echo $form->error($model,'level'); ?>

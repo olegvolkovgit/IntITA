@@ -24,6 +24,7 @@
  * @property string $course_img
  * @property integer $rating
  * @property integer $cancelled
+ * @property integer $course_number
  *
  * The followings are the available model relations:
  * @property Modules[] $modules
@@ -49,18 +50,21 @@ class Course extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('language, title_ua, alias', 'required', 'message'=>Yii::t('coursemanage', '0387')),
-			array('course_duration_hours, course_price, cancelled', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
+			array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly'=>true,
+                'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
 			array('course_img', 'length', 'max'=>255),
             array('course_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
             array('start', 'date', 'format'=>'yyyy-MM-dd','message'=>Yii::t('coursemanage', '0389')),
-			array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
+			array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
+			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
-			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count, course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
+			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count,
+			course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
-			 course_img, cancelled', 'safe', 'on'=>'search'),
+			 course_img, cancelled, course_number', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -104,6 +108,7 @@ class Course extends CActiveRecord
             'start' => Yii::t('course', '0410'),
             'status' => Yii::t('course', '0411'),
             'cancelled' => 'Видалений',
+            'course_number' => 'Номер курса',
 		);
 	}
 
@@ -121,7 +126,6 @@ class Course extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -145,6 +149,7 @@ class Course extends CActiveRecord
         $criteria->compare('what_you_get_en',$this->what_you_get_en,true);
 		$criteria->compare('course_img',$this->course_img,true);
         $criteria->compare('cancelled',$this->cancelled,true);
+        $criteria->compare('cancelled',$this->course_number);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

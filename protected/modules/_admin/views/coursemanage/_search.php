@@ -17,6 +17,11 @@
 		<?php echo $form->textField($model,'course_ID'); ?>
 	</div>
 
+    <div class="row">
+        <?php echo $form->label($model,'course_number'); ?>
+        <?php echo $form->textField($model,'course_number'); ?>
+    </div>
+
 	<div class="row">
 		<?php echo $form->label($model,'language'); ?>
 		<?php echo $form->textField($model,'language',array('size'=>6,'maxlength'=>6)); ?>
