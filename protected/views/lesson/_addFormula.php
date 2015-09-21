@@ -20,3 +20,5 @@
     </form>
     <button onclick='cancelAddFormula()'>Скасувати</button>
 </div>
+
+

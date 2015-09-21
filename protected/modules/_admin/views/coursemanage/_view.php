@@ -13,6 +13,10 @@
 	<?php echo CHtml::encode($data->alias); ?>
 	<br />
 
+    <b><?php echo CHtml::encode($data->getAttributeLabel('course_number')); ?>:</b>
+    <?php echo CHtml::encode($data->course_number); ?>
+    <br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('language')); ?>:</b>
 	<?php echo CHtml::encode($data->language); ?>
 	<br />
