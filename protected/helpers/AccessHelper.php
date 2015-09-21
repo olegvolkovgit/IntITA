@@ -216,8 +216,8 @@ class AccessHelper
         return $result;
     }
 
-    public static function generateModulesList($course=1){
-        $modules = Module::model()->findAllByAttributes(array('course' => $course));
+    public static function generateModulesList(){
+        $modules = Module::model()->findAll();
         $count = count($modules);
         $result = [];
         $titleParam = LectureHelper::getTypeTitleParam();

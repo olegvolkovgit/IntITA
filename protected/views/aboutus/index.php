@@ -22,7 +22,7 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
              data-zero-counter="1">
         </div>
     </div>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/share42/share42.js"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
     </body>
 <?php

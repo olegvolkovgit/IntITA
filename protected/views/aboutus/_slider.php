@@ -1,4 +1,4 @@
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/sliderAboutUs.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderAboutUs.js'); ?>"></script>
 
 <div class="aboutusslider">
     <div id="slider" class="owl-carousel">

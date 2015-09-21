@@ -216,7 +216,7 @@ class Module extends CActiveRecord
 
         $order = CourseModules::model()->count("id_course=$idCourse");
 
-        $module->alias = 'module'.++$order;
+        $module->alias = "";
         $module->language = $lang;
         $module->title_ua = $titleUa;
         $module->title_ru = $titleRu;
@@ -229,7 +229,7 @@ class Module extends CActiveRecord
 
         $coursemodule->id_course = $idCourse;
         $coursemodule->id_module = $idModule;
-        $coursemodule->order = $order;
+        $coursemodule->order = $order + 1;
 
         if($coursemodule->validate()) {
             $coursemodule->save();
