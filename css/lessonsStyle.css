@@ -536,3 +536,22 @@ blockquote cite {
     display: block;
     font-size: 0.9em;
 }
+
+.codebox {
+    padding: 3px;
+    border: #C9D2D8 1px solid;
+    background: #FFF;
+    margin: 2px 0;
+}
+
+.codebox code {
+    overflow: auto;
+    display: block;
+    height: auto;
+    max-height: 200px;
+    white-space: normal;
+    padding-top: 5px;
+    font: 12px Monaco,"Andale Mono","Courier New",Courier,mono;
+    margin: 2px 0;
+    color: #2E8B57;
+}

@@ -46,6 +46,7 @@ $(document).ready(function(){
                 );
                 $("blockquote + br").remove();
                 $("blockquote").prev("br").remove();
+                $("div.codebox p").remove();
             }
         }
     );
