@@ -33,7 +33,7 @@ $this->breadcrumbs=array(
             <br>
             <br>
             Роль:<br>
-            <select name="role" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
+            <select name="role" placeholder="(Виберіть роль)" onchange="selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
                     <?php $courses = AccessHelper::generateRolesList();

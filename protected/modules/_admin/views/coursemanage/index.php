@@ -27,6 +27,7 @@
             'name'=>'course_ID',
             'header'=>'ID',
         ),
+        'course_number',
         array(
             'name'=>'title_ua',
             'header'=>Yii::t("coursemanage", "0519"),

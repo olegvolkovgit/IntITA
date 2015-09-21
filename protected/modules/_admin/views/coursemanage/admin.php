@@ -54,6 +54,7 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         'course_ID',
         'alias',
+        'course_number',
         'language',
         'title_ua',
         'level',
