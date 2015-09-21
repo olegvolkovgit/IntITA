@@ -488,15 +488,18 @@ div.lessonTest {
 }
 #discussion {
     height: 150px;
-    background: #f5f9fb;
+    /*background: #f5f9fb;*/
     margin-left: 10px;
     overflow: auto;
-    padding: 3px;
+    padding: 3px 2px;
     border: solid 1px #335379;
 }
 
-#discussion > div {
-    margin-bottom: 5px;
+.post {
+    padding: 3px 7px;
+    margin-bottom: 4px;
+    background: #E1EBF2;
+    border-radius: 5px;
 }
 
 .author {
@@ -511,4 +514,25 @@ div.lessonTest {
 .postText {
     font-size: 13px;
     line-height: 18px;
+}
+
+blockquote {
+    background: #EBEADD url("/forum/styles/prosilver/theme/images/quote.gif") no-repeat scroll 6px 3px;
+    border: #DBDBCE 1px solid;
+    font-size: 0.95em;
+    margin: 5px 0 5px 10px;
+    overflow: hidden;
+    padding: 1px 5px;
+}
+
+blockquote.uncited {
+    padding-top: 20px;
+}
+
+blockquote cite {
+    font-style: normal;
+    font-weight: bold;
+    margin-left: 20px;
+    display: block;
+    font-size: 0.9em;
 }
