@@ -1,7 +1,5 @@
 <?php
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'horizontalscroll.js'); ?>"></script>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
         <ul>
@@ -70,5 +68,7 @@
         </p>
 
     </div>
+
+    <div id="discussion"></div>
 </div>
 <!--navigation vertical-->

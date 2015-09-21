@@ -20,6 +20,7 @@ div.subLinks{
     margin-top: 20px;
     margin-bottom: 20px;
     padding-left: 20px;
+    position: relative;
 }
 .lessonBlock p{
     font-size: 16px;
@@ -272,11 +273,11 @@ div.lessonButFinal
 /*vertical navigation*/
 #sidebarLesson {
     display: none;
-    position: absolute;
-    padding-top: 50px;
-    margin-left: 800px;
+    position: fixed;
+    margin: 20px 0 20px 800px;
     z-index: 1;
-    width: 33%;
+    width: 400px;
+    /*top: 0;*/
 }
 #sidebarLesson div.titlesBlock
 {
@@ -484,4 +485,30 @@ div.lessonTest {
     height: 90px;
     border-radius: 150px;
     border:1px solid #4B75A4;
+}
+#discussion {
+    height: 150px;
+    background: #f5f9fb;
+    margin-left: 10px;
+    overflow: auto;
+    padding: 3px;
+    border: solid 1px #335379;
+}
+
+#discussion > div {
+    margin-bottom: 5px;
+}
+
+.author {
+    font-size: 10px;
+}
+
+.author span {
+    color: #4B75A4;
+    font-weight: bold;
+}
+
+.postText {
+    font-size: 13px;
+    line-height: 18px;
 }
