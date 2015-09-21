@@ -497,26 +497,31 @@ class StudentReg extends CActiveRecord
         switch ($network){
             case 'facebook':
                 $domainPartPos=strpos($value, 'https://www.facebook.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.facebook.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'googleplus':
                 $domainPartPos=strpos($value, 'https://plus.google.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://plus.google.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'linkedin':
                 $domainPartPos=strpos($value, 'https://www.linkedin.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.linkedin.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'vkontakte':
                 $domainPartPos=strpos($value, 'http://vk.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'https://vk.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'twitter':
                 $domainPartPos=strpos($value, 'https://twitter.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://twitter.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
