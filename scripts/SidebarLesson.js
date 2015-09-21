@@ -31,17 +31,22 @@ function adjust(){
 }
 
 $(document).ready(function(){
-    console.log ("ready");
     $.get(
         '/forum/getPosts.php',
         {topic: idLecture},
         function(result){
             var posts = JSON.parse(result);
             for (var i = 0; i < posts.length; i++){
+                var post_text = posts[i]['text'];
+                if (post_text.indexOf('src="./images/smilies') >= 0)
+                    post_text = post_text.replace(/.\/images\/smilies/g, '/forum/images/smilies');
                 $("#discussion").append(
-                    "<div><div class='author'><span>" + posts[i]['author'] + "</span> &raquo; " + posts[i]['date'] +
-                    "</div><div class='postText'>" + posts[i]['text'] + "</div></div>"
+                    "<div class='post'><div class='author'><span>" + posts[i]['author'] + "</span> &raquo; " + posts[i]['date'] +
+                    "</div><div class='postText'>" + post_text + "</div></div>"
                 );
+                $("blockquote + br").remove();
+                $("blockquote").prev("br").remove();
+                $("div.codebox p").remove();
             }
         }
     );
