@@ -8,8 +8,6 @@ $header = new Header();
     <meta name="language" content="en">
 
     <meta property="og:type" content="website" />
-    <meta property="og:image:width" content="200"/>
-
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
