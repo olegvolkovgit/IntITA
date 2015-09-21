@@ -68,4 +68,12 @@ class ModuleHelper {
             return 'title_ua';
         else return $title;
     }
+    public static function getCourseOfModule($moduleId){
+        if (CourseModules::model()->exists('id_module=:id', array(':id' => $moduleId))){
+            $courseId = CourseModules::model()->find('id_module ='.$moduleId)->id_course;
+            return $courseId;
+        } else{
+            return false;
+        }
+    }
 }
