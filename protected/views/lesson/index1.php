@@ -46,6 +46,13 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     }
   });
 </script>
+<!--"HTML-CSS": {-->
+<!--availableFonts: [],-->
+<!--preferredFonts: "TeX",-->
+<!--webFont:"",-->
+<!--imageFont:"",-->
+<!--undefinedFamily:"'MyriadPro'"-->
+<!--}-->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript"
