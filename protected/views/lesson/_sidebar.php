@@ -68,7 +68,7 @@
         </p>
 
     </div>
-
+    <span>Форум</span>
     <div id="discussion"></div>
 </div>
 <!--navigation vertical-->
