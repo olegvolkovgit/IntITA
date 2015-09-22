@@ -49,7 +49,10 @@ $this->breadcrumbs=array(
             <br>
 
             Атрибути ролі:<br>
-            <div name="selectAttribute" style="float:left;"></div>
+            <div name="selectAttribute" style="float:left;" onchange="selectAttribute();"></div>
+            <br>
+            <br>
+            <div name="inputValue"  style="float:left;"></div>
             <br>
             <br>
             <br>
@@ -68,23 +71,30 @@ $this->breadcrumbs=array(
         }else{
             $.ajax({
                 type: "POST",
-                url: "/_admin/permissions/showAttributes",
+                url: "/IntITA/_admin/permissions/showAttributes",
                 data: {role: role},
                 cache: false,
-                success: function(response){ $('div[name="selectAttribute"]').html(response); }
+                success: function(response){
+                    $('div[name="selectAttribute"]').html(response);
+                }
             });
         }
     }
 
     function selectAttribute(){
         var attribute = $('select[name="attribute"]').val();
-        alert(attribute);
-        $.ajax({
-            type: "POST",
-            url: "/permissions/show",
-            data: {role: role},
-            cache: false,
-            success: function(response){ $('div[name="selectAttribute"]').html(response); }
-        });
+        if(!attribute){
+            $('div[name="inputValue"]').html('');
+        }else {
+            $.ajax({
+                type: "POST",
+                url: "/IntITA/_admin/permissions/showAttributeInput",
+                data: {attribute: attribute},
+                cache: false,
+                success: function (response) {
+                    $('div[name="inputValue"]').html(response);
+                }
+            });
+        }
     }
 </script>
