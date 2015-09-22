@@ -216,6 +216,21 @@ class AccessHelper
         return $result;
     }
 
+    public static function generateTeacherRolesList($id){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'role';
+        $criteria->distinct = true;
+        $criteria->order = 'role';
+        $criteria->condition = 'teacher='.$id;
+        $roles = TeacherRoles::model()->findAll($criteria);
+        $result = [];
+        for($i = 0, $count = count($roles); $i < $count; $i++){
+            $result[$i]['id'] = $roles[$i]->role;
+            $result[$i]['alias'] = Roles::model()->findByPk($roles[$i]->role)->title_ua;
+        }
+        return $result;
+    }
+
     public static function generateModulesList(){
         $modules = Module::model()->findAll();
         $count = count($modules);
