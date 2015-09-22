@@ -259,7 +259,18 @@ class TmanageController extends Controller
 
     public function actionAddTeacherRole($teacher)
     {
+        $model = Teacher::model()->findByPk($teacher);
+
         $this->render('addTeacherRole', array(
+            'teacher' => $model,
+        ));
+    }
+
+    public function actionCancelTeacherRole()
+    {
+        $teacher = Teacher::model()->findByPk($_GET['id']);
+
+        $this->render('cancelTeacherRole', array(
             'teacher' => $teacher,
         ));
     }

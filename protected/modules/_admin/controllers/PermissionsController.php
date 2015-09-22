@@ -34,14 +34,16 @@ class PermissionsController extends Controller
         return array(
             array('allow',
                 'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons', 'userStatus'),
+                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
+                    'userStatus', 'cancelTeacherRole'),
                 'expression' => array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons', 'userStatus'),
+                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
+                    'userStatus', 'cancelTeacherRole'),
                 'users' => array('*'),
             ),
         );
@@ -443,5 +445,14 @@ class PermissionsController extends Controller
             array('read', 'edit'));
 
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCancelTeacherRole()
+    {
+        $teacher = Yii::app()->request->getPost('teacher');
+        $role = Yii::app()->request->getPost('role');
+
+        TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
+        $this->redirect('/_admin/tmanage/showRoles?id='.$teacher);
     }
 }
