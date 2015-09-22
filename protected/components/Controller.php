@@ -7,6 +7,7 @@ class Controller extends CController
 {
 
     public function init(){
+		date_default_timezone_set('UTC');
         if(Config::getMaintenanceMode() == 1){
             $this->renderPartial('/site/notice');
             Yii::app()->cache->flush();
