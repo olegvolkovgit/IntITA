@@ -110,17 +110,25 @@ class GraduateController extends CController
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
+        $avatarOld = Graduate::model()->findByPk($id)->avatar;
+
         if (isset($_POST['Graduate'])) {
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
 
             if ($model->save()) {
                 if (!empty($model->avatar)) {
+                    //$model->avatar = $avatar;
                     $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
                     $model->avatar->saveAs($path);
                 } else {
-                    $model->avatar = 'noname2.png';
-                    $model->save();
+                    if ($avatarOld != null) {
+                        $model->avatar = $avatarOld;
+                        $model->save();
+                    } else {
+                        $model->avatar = 'noname2.png';
+                        $model->save();
+                    }
                 }
                 $this->redirect(array('view', 'id' => $model->id));
             }

@@ -31,7 +31,7 @@
             </li>
             <br>
             <li>
-                <?php echo '(' . $lecture->order . ' з ' . $lecture->getModuleInfoById($idCourse)['countLessons'] . ' занять)'; ?>
+                <?php echo '(' . $lecture->order . ' з ' . $lecture->getModuleInfoById($idCourse)['countLessons'] .' '. Yii::t('lecture', '0616').')'; ?>
             </li>
             <div id="counter">
                 <?php
