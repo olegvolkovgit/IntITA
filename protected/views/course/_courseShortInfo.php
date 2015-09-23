@@ -94,7 +94,7 @@
                             </span>
                         </div>
                         <div class="startCourse">
-                            <?php echo CHtml::submitButton(Yii::t('course', '0328'), array('id' => "paymentButton")); ?>
+                            <?php echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton")); ?>
                         </div>
                     </div>
                 </div>
