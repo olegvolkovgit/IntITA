@@ -19,9 +19,7 @@
     <div class="progress">
         <?php
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
-            if ($passedPages[$i]['isDone'] ||
-                TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
-                LectureHelper::isLectureFree($page->id_lecture)
+            if ($passedPages[$i]['isDone'] || $editMode
             ) {
                 ?>
                 <a class="pageDone pageTitle <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"
@@ -36,7 +34,7 @@
                    title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php }
         }
-        if (!TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)))
+        if (!$editMode)
         {?>
         <img style="margin-left: 10px"
              src="<?php if ($finishedLecture) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');

@@ -8,9 +8,7 @@ if (is_string($_GET['page'])) $thisPage = $_GET['page'];
 else if($editMode) $thisPage = 1;
 else $thisPage = $lastAccessPage;
 
-if (!($passedPages[$thisPage-1]['isDone'] ||
-    TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
-    LectureHelper::isLectureFree($page->id_lecture))
+if (!($passedPages[$thisPage-1]['isDone'] || $editMode)
 ){
     throw new CHttpException(403, 'В доступі відмовлено. Ви не пройшли попередні кроки');
 }

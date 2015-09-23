@@ -2,7 +2,7 @@
 
 class m150921_124606_add_unique_index_course_module_tables extends CDbMigration
 {
-	public function up()
+	public function safeUp()
 	{
         $this->createIndex('course_number', 'course', 'course_number', true);
         $this->createIndex('module_number', 'module', 'module_number', true);
@@ -10,7 +10,7 @@ class m150921_124606_add_unique_index_course_module_tables extends CDbMigration
         $this->createIndex('module', 'module', 'alias', true);
 	}
 
-	public function down()
+	public function safeDown()
 	{
         $this->dropIndex('course_number', 'course');
         $this->dropIndex('module_number', 'module');
