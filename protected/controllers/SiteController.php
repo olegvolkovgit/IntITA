@@ -195,6 +195,10 @@ class SiteController extends Controller
                         if ($name == ' ') $name = $model->email;
                         $reg_time = $userModel->reg_time;
                         if ($reg_time == 0) $reg_time = time();
+                        $birthday = $userModel->birthday;
+                        $birthday = str_replace("/", "-", $birthday);
+                        if($birthday[0] == "0") $birthday[0] = ' ';
+                        if($birthday[3] == "0") $birthday[3] = ' ';
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                             'user_id' => $userModel->id,
                             'username' => $name,
@@ -202,7 +206,8 @@ class SiteController extends Controller
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
                             'user_regdate' => $reg_time,
-                            'user_lang' => $current_lang
+                            'user_lang' => $current_lang,
+                            'user_birthday' => $birthday
                         ));
 
                         Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
