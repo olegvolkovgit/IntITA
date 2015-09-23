@@ -7,7 +7,7 @@ class m150921_142735_update_forum_topics_posts_tables_data extends CDbMigration
 	{
         $this->setDbConnection(Yii::app()->dbForum);
 
-        //$this->addColumn('phpbb_topics', 'lecture_id', 'MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL');
+        $this->addColumn('phpbb_topics', 'lecture_id', 'MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL');
         $this->truncateTable('phpbb_topics');
         $this->truncateTable('phpbb_posts');
         $sqlPosts = "INSERT INTO `phpbb_posts` (`post_id`, `topic_id`, `forum_id`, `poster_id`, `icon_id`, `poster_ip`, `post_time`, `post_reported`, `enable_bbcode`, `enable_smilies`, `enable_magic_url`, `enable_sig`, `post_username`, `post_subject`, `post_text`, `post_checksum`, `post_attachment`, `bbcode_bitfield`, `bbcode_uid`, `post_postcount`, `post_edit_time`, `post_edit_reason`, `post_edit_user`, `post_edit_count`, `post_edit_locked`, `post_visibility`, `post_delete_time`, `post_delete_reason`, `post_delete_user`) VALUES

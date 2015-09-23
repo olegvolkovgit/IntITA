@@ -251,9 +251,12 @@ class ModuleController extends Controller
         $order = Lecture::model()->findByPk($idLecture)->order;
 
         if ($order > 1) {
-            $idPrev = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $order - 1))->id;
+            $orderPrev = $order - 1;
+            $idPrev = Lecture::model()->findByAttributes(array(
+                'idModule' => $idModule,
+                'order' => $orderPrev))->id;
 
-            Lecture::model()->updateByPk($idLecture, array('order' => $order - 1));
+            Lecture::model()->updateByPk($idLecture, array('order' => $orderPrev));
             Lecture::model()->updateByPk($idPrev, array('order' => $order));
         }
 

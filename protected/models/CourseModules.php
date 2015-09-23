@@ -136,4 +136,28 @@ class CourseModules extends CActiveRecord
 
         return $lastOrder;
     }
+
+    public static function getPrevModule($idCourse, $order){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id_module, `order`';
+        $criteria->condition = 'id_course='.$idCourse.' and `order`<'.$order;
+        $criteria->order = '`order` DESC';
+        $criteria->limit = 1;
+
+        $result = CourseModules::model()->find($criteria)->order;
+
+        return $result;
+    }
+
+    public static function getNextModule($idCourse, $order){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id_module, `order`';
+        $criteria->condition = 'id_course='.$idCourse.' and `order`>'.$order;
+        $criteria->order = '`order` ASC';
+        $criteria->limit = 1;
+
+        $result = CourseModules::model()->find($criteria)->order;
+
+        return $result;
+    }
 }
