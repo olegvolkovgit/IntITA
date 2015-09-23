@@ -20,8 +20,7 @@
         <?php
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
             if ($passedPages[$i]['isDone'] ||
-                TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
-                LectureHelper::isLectureFree($page->id_lecture)
+                TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture))
             ) {
                 ?>
                 <a class="pageDone pageTitle <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"
