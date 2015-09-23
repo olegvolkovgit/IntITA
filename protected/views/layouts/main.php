@@ -2,7 +2,7 @@
 $header = new Header();
 ?>
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#">
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://ogp.me/ns/fb#" >
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
