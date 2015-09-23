@@ -1,3 +1,5 @@
+var topic_id;
+var forum_id;
 var pageXOffset_current;
 
 function horizontalAdjust (sidebarLesson) {
@@ -35,7 +37,10 @@ $(document).ready(function(){
         '/forum/getPosts.php',
         {topic: idLecture},
         function(result){
-            var posts = JSON.parse(result);
+            var information = JSON.parse(result);
+            topic_id = information['topic_id'];
+            forum_id = information['forum_id'];
+            var posts = information['posts'];
             for (var i = 0; i < posts.length; i++){
                 var post_text = posts[i]['text'];
                 if (post_text.indexOf('src="./images/smilies') >= 0)
@@ -52,5 +57,21 @@ $(document).ready(function(){
     );
 });
 
+function scroll_discussion () {
+    var discussion = $("#discussion");
+    var current_scroll = discussion.scrollTop();
+    if (current_scroll >= discussion[0].scrollHeight - discussion[0].clientHeight) {
+        discussion.scrollTop(0);
+    }else{
+        discussion.animate({scrollTop: current_scroll + 150}, 500);
+    }
+}
+
 $(window).load(adjust);
 $(window).scroll(adjust);
+
+setInterval (scroll_discussion, 5000);
+
+$(document).on ("click", "#discussion", function(){
+    window.open("/forum/viewtopic.php?f=" + forum_id + "&t=" + topic_id, "_blank");
+});

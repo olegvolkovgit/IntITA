@@ -170,10 +170,13 @@ class CourseController extends Controller
         $order = CourseModules::model()->findByPk(array('id_course'=>$idCourse,'id_module'=> $idModule))->order;
 
         if($order > 1) {
-            $idPrev = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'order' => $order - 1))->id_module;
+            $idPrev = CourseModules::getPrevModule($idCourse, $order);
+            $prevRecord = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=> $idPrev));
 
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $order-1));
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idPrev), array('order' => $order));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule),
+                array('order' => $prevRecord->order));
+            $prevRecord->order = $order;
+            $prevRecord->save();
         }
 //        // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
@@ -188,10 +191,15 @@ class CourseController extends Controller
         $order = CourseModules::model()->findByPk(array('id_course'=>$idCourse,'id_module'=> $idModule))->order;
 
         if($order < $count) {
-            $idNext = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'order' => $order + 1))->id_module;
+            $idNext = CourseModules::getNextModule($idCourse, $order);
+            $nextRecord = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=> $idNext));
 
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $order+1));
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idNext), array('order' => $order));
+            CourseModules::model()->updateByPk(array(
+                'id_course'=>$idCourse,
+                'id_module'=> $idModule),
+                array('order' => $nextRecord->order));
+            $nextRecord->order = $order;
+            $nextRecord->save();
         }
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

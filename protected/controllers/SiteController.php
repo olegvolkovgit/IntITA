@@ -274,50 +274,6 @@ class SiteController extends Controller
                 $modelId=$model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
-            if (isset($_SERVER["HTTP_REFERER"])) {
-                if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
-                $this->redirect($_SERVER["HTTP_REFERER"]);
-            } else $this->redirect(Yii::app()->homeUrl);
-        } else {
-            if (isset($user['first_name'])) $model->firstName = $user['first_name'];
-            if (isset($user['last_name'])) $model->secondName = $user['last_name'];
-            if (isset($user['nickname'])) $model->nickname = $user['nickname'];
-            if (isset($user['bdate'])) $model->birthday = $user['bdate'];
-            if (isset($user['phone'])) $model->phone = $user['phone'];
-            if (isset($user['photo_big'])) {
-                $arrContextOptions = array(
-                    "ssl" => array(
-                        "verify_peer" => false,
-                        "verify_peer_name" => false,
-                    ),
-                );
-                $filesName = uniqid() . '.jpg';
-                file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
-                $model->avatar = $filesName;
-            }
-            if (isset($user['city'])) $model->address = $user['city'];
-            if (isset($user['network'])) {
-                switch ($user['network']) {
-                    case 'facebook':
-                        $model->facebook = $user['profile'];
-                        break;
-                    case 'googleplus':
-                        $model->googleplus = $user['profile'];
-                        break;
-                    case 'linkedin':
-                        $model->linkedin = $user['profile'];
-                        break;
-                    case 'vkontakte':
-                        $model->vkontakte = $user['profile'];
-                        break;
-                    case 'twitter':
-                        $model->twitter = $user['profile'];
-                        break;
-                    default:
-                        break;
-                }
-            }
-            $model->status = 1;
             if ($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
@@ -379,6 +335,51 @@ class SiteController extends Controller
                     } else $this->redirect(Yii::app()->homeUrl);
                 }
             }
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
+                $this->redirect($_SERVER["HTTP_REFERER"]);
+                echo 150;
+            } else $this->redirect(Yii::app()->homeUrl);
+        } else {
+            if (isset($user['first_name'])) $model->firstName = $user['first_name'];
+            if (isset($user['last_name'])) $model->secondName = $user['last_name'];
+            if (isset($user['nickname'])) $model->nickname = $user['nickname'];
+            if (isset($user['bdate'])) $model->birthday = $user['bdate'];
+            if (isset($user['phone'])) $model->phone = $user['phone'];
+            if (isset($user['photo_big'])) {
+                $arrContextOptions = array(
+                    "ssl" => array(
+                        "verify_peer" => false,
+                        "verify_peer_name" => false,
+                    ),
+                );
+                $filesName = uniqid() . '.jpg';
+                file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
+                $model->avatar = $filesName;
+            }
+            if (isset($user['city'])) $model->address = $user['city'];
+            if (isset($user['network'])) {
+                switch ($user['network']) {
+                    case 'facebook':
+                        $model->facebook = $user['profile'];
+                        break;
+                    case 'googleplus':
+                        $model->googleplus = $user['profile'];
+                        break;
+                    case 'linkedin':
+                        $model->linkedin = $user['profile'];
+                        break;
+                    case 'vkontakte':
+                        $model->vkontakte = $user['profile'];
+                        break;
+                    case 'twitter':
+                        $model->twitter = $user['profile'];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $model->status = 1;
         }
     }
 
