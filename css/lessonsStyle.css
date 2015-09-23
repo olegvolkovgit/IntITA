@@ -488,11 +488,11 @@ div.lessonTest {
 }
 #discussion {
     height: 150px;
-    /*background: #f5f9fb;*/
-    margin-left: 10px;
+    margin: 7px 0 0 10px;
     overflow: auto;
     padding: 3px 2px;
     border: solid 1px #335379;
+    cursor: pointer;
 }
 
 .post {
@@ -554,4 +554,21 @@ blockquote cite {
     font: 12px Monaco,"Andale Mono","Courier New",Courier,mono;
     margin: 2px 0;
     color: #2E8B57;
+}
+
+.postText ul, ol{
+    margin: 2px 0;
+}
+
+a.postlink {
+    color: #368AD2;
+    text-decoration: none;
+    border-bottom: #368AD2 1px solid;
+    padding-bottom: 0;
+}
+
+#sidebarLesson > span {
+    margin-left: 13px;
+    color: #4B75A4;
+    font-size: 17px;
 }
