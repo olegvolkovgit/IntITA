@@ -101,7 +101,7 @@ if($page->video == null) {?>
     } else{
         ?>
         <button onclick="showAddTestForm('plain')"> Додати тест </button>
-        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>
+<!--        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>-->
         <?php
     }
 ?>

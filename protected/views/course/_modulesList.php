@@ -23,12 +23,14 @@ $editMode = ($canEdit) ? 'true' : '';
         <a href="#moduleForm">
             <?php echo CHtml::hiddenField('idcourse', $model->course_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'), array('update' => '#moduleForm'), array('id' => 'addModule', 'title' => Yii::t('course', '0336')));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'),
+                array('update' => '#moduleForm'),
+                array('id' => 'addModule', 'title' => Yii::t('course', '0336')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
     </div>
-    <h2><?php echo Yii::t('course', '0330') ?></h2>
+    <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <?php $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'modules-grid',
         'dataProvider' => $dataProvider->search($model->course_ID),
