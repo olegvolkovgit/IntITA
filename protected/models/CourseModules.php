@@ -144,7 +144,7 @@ class CourseModules extends CActiveRecord
         $criteria->order = '`order` DESC';
         $criteria->limit = 1;
 
-        $result = CourseModules::model()->find($criteria)->order;
+        $result = CourseModules::model()->find($criteria)->id_module;
 
         return $result;
     }
@@ -156,7 +156,7 @@ class CourseModules extends CActiveRecord
         $criteria->order = '`order` ASC';
         $criteria->limit = 1;
 
-        $result = CourseModules::model()->find($criteria)->order;
+        $result = CourseModules::model()->find($criteria)->id_module;
 
         return $result;
     }

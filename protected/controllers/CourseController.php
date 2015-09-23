@@ -173,7 +173,8 @@ class CourseController extends Controller
             $idPrev = CourseModules::getPrevModule($idCourse, $order);
             $prevRecord = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=> $idPrev));
 
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $idPrev));
+            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule),
+                array('order' => $prevRecord->order));
             $prevRecord->order = $order;
             $prevRecord->save();
         }
@@ -193,7 +194,10 @@ class CourseController extends Controller
             $idNext = CourseModules::getNextModule($idCourse, $order);
             $nextRecord = CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=> $idNext));
 
-            CourseModules::model()->updateByPk(array('id_course'=>$idCourse,'id_module'=> $idModule), array('order' => $idNext));
+            CourseModules::model()->updateByPk(array(
+                'id_course'=>$idCourse,
+                'id_module'=> $idModule),
+                array('order' => $nextRecord->order));
             $nextRecord->order = $order;
             $nextRecord->save();
         }
