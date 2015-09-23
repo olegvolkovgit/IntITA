@@ -114,17 +114,13 @@ class GraduateController extends CController
 
         if (isset($_POST['Graduate'])) {
             $model->attributes = $_POST['Graduate'];
-            $avatar = CUploadedFile::getInstance($model, 'avatar');
+            $model->avatar = CUploadedFile::getInstance($model, 'avatar');
 
             if ($model->save()) {
-                if (!empty($avatar)) {
-                    $model->avatar = $avatar;
+                if (!empty($model->avatar)) {
+                    //$model->avatar = $avatar;
                     $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
                     $model->avatar->saveAs($path);
-                    if ($avatarOld != "") {
-                        $model->avatar = $avatarOld;
-                        $model->save();
-                    }
                 } else {
                     if ($avatarOld != null) {
                         $model->avatar = $avatarOld;
