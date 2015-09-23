@@ -72,6 +72,11 @@ $(window).scroll(adjust);
 
 setInterval (scroll_discussion, 5000);
 
+$(document).on ("click", "#discussion a", function (){
+    window.open(this.href, "_blank");
+    return false;
+});
+
 $(document).on ("click", "#discussion", function(){
     window.open("/forum/viewtopic.php?f=" + forum_id + "&t=" + topic_id, "_blank");
 });
