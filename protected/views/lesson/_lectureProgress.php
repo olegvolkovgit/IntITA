@@ -19,7 +19,7 @@
     <div class="progress">
         <?php
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
-            if ($passedPages[$i]['isDone'] || $editMode
+            if ($passedPages[$i]['isDone'] || $editMode || AccessHelper::isAdmin()
             ) {
                 ?>
                 <a class="pageDone pageTitle <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"
