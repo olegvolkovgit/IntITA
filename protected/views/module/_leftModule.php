@@ -18,14 +18,13 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
             <tr>
                 <td>
                     <div class="startModule">
-                        <?php $labelButton = Yii::t('module', '0279')?>
-                        <?php echo CHtml::link($labelButton, '#'); ?>
+                        <?php echo CHtml::button(Yii::t('module', '0279'),  array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
+                        ?>
                     </div>
                 </td>
                 <td>
                     <div class="startCourse">
-                        <?php $labelButton = Yii::t('module', '0280')?>
-                        <?php echo CHtml::link($labelButton, '#'); ?>
+                        <?php echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButton", 'onclick' => 'openSignIn();')); ?>
                     </div>
                 </td>
             </tr>
