@@ -7,4 +7,4 @@
 
 <h1>Редагувати інформацію про <?php echo $model->module_number." ".$model->title_ua; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_formAddModule', array('model'=>$model)); ?>

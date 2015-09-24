@@ -18,9 +18,7 @@
  * @property string $what_you_learn
  * @property string $what_you_get
  * @property string $module_img
- * @property string $about_module
- * @property string $owners
- * @property integer $hours_in_day
+  * @property integer $hours_in_day
  * @property integer $days_in_week
  * @property integer $level
  * @property integer $rating
@@ -49,7 +47,7 @@ class Module extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('language', 'required'),
+			array('alias, language, title_ua, level', 'required'),
 			array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week, module_number', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('module', '0413')),
 			array('level', 'length', 'max'=>45),
 			array('module_price', 'length', 'max'=>10),
@@ -57,14 +55,14 @@ class Module extends CActiveRecord
 			array('language', 'length', 'max'=>6),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max'=>255),
             array('module_img', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
-			array('for_whom, what_you_learn, what_you_get, about_module, owners,days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required','message'=>Yii::t('module', '0412'),'on'=>'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly'=>true, 'min'=>1,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
             array('module_price', 'numerical', 'integerOnly'=>true, 'min'=>0,"tooSmall"=>Yii::t('module', '0413'),'message'=>Yii::t('module', '0413'), 'on'=>'canedit'),
 			// The following rule is used by search().
 			array('module_ID, title_ua, title_ru, title_en, alias, language, module_duration_hours,
 			module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img,
-			about_module, owners, days_in_week, hours_in_day, level, module_number', 'safe', 'on'=>'search'),
+			days_in_week, hours_in_day, level, module_number', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,18 +88,16 @@ class Module extends CActiveRecord
 			'title_ua' => 'Назва українською',
             'title_ru' => 'Назва російською',
             'title_en' => 'Назва англійською',
-			'alias' => 'Alias',
-			'language' => 'Language',
-			'module_duration_hours' => 'Module Duration Hours',
-			'module_duration_days' => 'Module Duration Days',
-			'lesson_count' => 'Lesson Count',
-			'module_price' => 'Module Price',
-			'for_whom' => 'For Whom',
-			'what_you_learn' => 'What You Learn',
-			'what_you_get' => 'What You Get',
-			'module_img' => 'Module Img',
-			'about_module' => 'About Module',
-			'owners' => 'Owners',
+			'alias' => 'Псевдонім',
+			'language' => 'Мова',
+			'module_duration_hours' => 'Тривалість модуля (години)',
+			'module_duration_days' => 'Тривалість модуля (дні)',
+			'lesson_count' => 'Кількість лекцій',
+			'module_price' => 'Ціна',
+			'for_whom' => 'Для кого',
+			'what_you_learn' => 'Що ти вивчиш',
+			'what_you_get' => 'Що ти отримаєш',
+			'module_img' => 'Фото',
             'module_number' => 'Номер модуля',
 		);
 	}
@@ -136,8 +132,6 @@ class Module extends CActiveRecord
 		$criteria->compare('what_you_learn',$this->what_you_learn,true);
 		$criteria->compare('what_you_get',$this->what_you_get,true);
 		$criteria->compare('module_img',$this->module_img,true);
-		$criteria->compare('about_module',$this->about_module,true);
-		$criteria->compare('owners',$this->owners,true);
         $criteria->compare('days_in_week',$this->days_in_week,true);
         $criteria->compare('hours_in_day',$this->hours_in_day,true);
         $criteria->compare('level',$this->level,true);

@@ -68,7 +68,7 @@
         </p>
 
     </div>
-    <span>Форум</span>
+    <span><?php echo Yii::t('lecture', '0617');?></span>
     <div id="discussion"></div>
 </div>
 <!--navigation vertical-->
