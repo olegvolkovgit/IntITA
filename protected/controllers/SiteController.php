@@ -274,67 +274,7 @@ class SiteController extends Controller
                 $modelId=$model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
-            if ($model->validate()) {
-                $model->save();
-                $model = new StudentReg();
-                $model->email = $user['email'];
-                if ($model->socialLogin()) {
-                    $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-                    $current_lang = Yii::app()->session['lg'];
-                    if ($current_lang == "ua") $current_lang = "uk";
-                    Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
-                    $existingForumUser = count(
-                        Yii::app()->dbForum->createCommand()
-                            ->select('user_id')
-                            ->from('phpbb_users')
-                            ->where('user_id=:id', array(':id' => $userModel->id))
-                            ->queryAll()
-                    );
-                    if (!$existingForumUser) {
-                        $firstName = ($userModel->firstName) ? $userModel->firstName : '';
-                        $secondName = ($userModel->secondName) ? $userModel->secondName : '';
-                        $name = $firstName . ' ' . $secondName;
-                        if ($name == ' ') $name = $model->email;
-                        $reg_time = $userModel->reg_time;
-                        if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
-                            'user_id' => $userModel->id,
-                            'username' => $name,
-                            'username_clean' => $name,
-                            'user_timezone' => 'Europe/Kiev',
-                            'user_dateformat' => 'd M Y H:i',
-                            'user_regdate' => $reg_time,
-                            'user_lang' => $current_lang
-                        ));
-
-                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
-                            'group_id' => 2,
-                            'user_id' => $userModel->id,
-                            'group_leader' => 0,
-                            'user_pending' => 0
-                        ));
-                    } else {
-                        Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                            'user_lang' => $current_lang,
-                        ), 'user_id=:id', array(':id' => $userModel->id));
-                    }
-
-                    if (!$_COOKIE['cookie_key']) {
-                        foreach ($_SESSION as $key => $value) {
-                            if (strpos($key, '__id')) {
-                                $cookie_key = substr($key, 0, strpos($key, '_'));
-                                setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
-                                break;
-                            }
-                        }
-                    };
-
-                    if (isset($_SERVER["HTTP_REFERER"])) {
-                        if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
-                        $this->redirect($_SERVER["HTTP_REFERER"]);
-                    } else $this->redirect(Yii::app()->homeUrl);
-                }
-            }
+            $this->forumAuthentication($model);
             if (isset($_SERVER["HTTP_REFERER"])) {
                 if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -380,7 +320,22 @@ class SiteController extends Controller
                 }
             }
             $model->status = 1;
+            if ($model->validate()) {
+                $model->save();
+                $model = new StudentReg();
+                $model->email = $user['email'];
+                if ($model->socialLogin()) {
+                    $this->forumAuthentication($model);
+
+                    if (isset($_SERVER["HTTP_REFERER"])) {
+                        if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
+                        $this->redirect($_SERVER["HTTP_REFERER"]);
+                    } else $this->redirect(Yii::app()->homeUrl);
+                }
+            }
+
         }
+
     }
 
     /* Checking the existence of a token  and lifetime*/
@@ -545,5 +500,57 @@ class SiteController extends Controller
     public function actionNotice()
     {
         $this->renderPartial('notice');
+    }
+
+    public function forumAuthentication ($model) {
+        $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $current_lang = Yii::app()->session['lg'];
+        if ($current_lang == "ua") $current_lang = "uk";
+        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
+        $existingForumUser = count(
+            Yii::app()->dbForum->createCommand()
+                ->select('user_id')
+                ->from('phpbb_users')
+                ->where('user_id=:id', array(':id' => $userModel->id))
+                ->queryAll()
+        );
+        if (!$existingForumUser) {
+            $firstName = ($userModel->firstName) ? $userModel->firstName : '';
+            $secondName = ($userModel->secondName) ? $userModel->secondName : '';
+            $name = $firstName . ' ' . $secondName;
+            if ($name == ' ') $name = $model->email;
+            $reg_time = $userModel->reg_time;
+            if ($reg_time == 0) $reg_time = time();
+            Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
+                'user_id' => $userModel->id,
+                'username' => $name,
+                'username_clean' => $name,
+                'user_timezone' => 'Europe/Kiev',
+                'user_dateformat' => 'd M Y H:i',
+                'user_regdate' => $reg_time,
+                'user_lang' => $current_lang
+            ));
+
+            Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
+                'group_id' => 2,
+                'user_id' => $userModel->id,
+                'group_leader' => 0,
+                'user_pending' => 0
+            ));
+        } else {
+            Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
+                'user_lang' => $current_lang,
+            ), 'user_id=:id', array(':id' => $userModel->id));
+        }
+
+        if (!$_COOKIE['cookie_key']) {
+            foreach ($_SESSION as $key => $value) {
+                if (strpos($key, '__id')) {
+                    $cookie_key = substr($key, 0, strpos($key, '_'));
+                    setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
+                    break;
+                }
+            }
+        };
     }
 }
