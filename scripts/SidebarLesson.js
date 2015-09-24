@@ -38,20 +38,25 @@ $(document).ready(function(){
         {topic: idLecture},
         function(result){
             var information = JSON.parse(result);
-            topic_id = information['topic_id'];
-            forum_id = information['forum_id'];
-            var posts = information['posts'];
-            for (var i = 0; i < posts.length; i++){
-                var post_text = posts[i]['text'];
-                if (post_text.indexOf('src="./images/smilies') >= 0)
-                    post_text = post_text.replace(/.\/images\/smilies/g, '/forum/images/smilies');
-                $("#discussion").append(
-                    "<div class='post'><div class='author'><span>" + posts[i]['author'] + "</span> &raquo; " + posts[i]['date'] +
-                    "</div><div class='postText'>" + post_text + "</div></div>"
-                );
-                $("blockquote + br").remove();
-                $("blockquote").prev("br").remove();
-                $("div.codebox p").remove();
+            if (information) {
+                topic_id = information['topic_id'];
+                forum_id = information['forum_id'];
+                var posts = information['posts'];
+                $("#discussionHeader").show();
+                $("#discussion").show();
+                adjust();
+                for (var i = 0; i < posts.length; i++){
+                    var post_text = posts[i]['text'];
+                    if (post_text.indexOf('src="./images/smilies') >= 0)
+                        post_text = post_text.replace(/.\/images\/smilies/g, '/forum/images/smilies');
+                    $("#discussion").append(
+                        "<div class='post'><div class='author'><span>" + posts[i]['author'] + "</span> &raquo; " + posts[i]['date'] +
+                        "</div><div class='postText'>" + post_text + "</div></div>"
+                    );
+                    $("blockquote + br").remove();
+                    $("blockquote").prev("br").remove();
+                    $("div.codebox p").remove();
+                }
             }
         }
     );
