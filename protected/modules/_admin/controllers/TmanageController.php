@@ -81,7 +81,7 @@ class TmanageController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
@@ -114,7 +114,7 @@ class TmanageController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
             $this->redirect(array('view', 'id' => $model->teacher_id));

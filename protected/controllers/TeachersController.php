@@ -237,7 +237,7 @@ class TeachersController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
-                        200
+                        210
                     );
                     $this->redirect(Yii::app()->request->urlReferrer);
                 } else {
