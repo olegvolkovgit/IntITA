@@ -1,9 +1,9 @@
-<?php
-Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
-Yii::app()->clientScript->registerMetaTag(CourseHelper::getCourseName($model->course_ID), null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
-Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'course/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/course/share/",'shareCourseImg_',$model->course_ID,'defaultCourseImg.png')), null, null, array('property' => "og:image"));
-?>
+<?php //$this->renderPartial('/site/_shareMetaTag', array(
+//    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+//    'title'=>CourseHelper::getCourseName($model->course_ID),
+//    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+//    'image'=>StaticFilesHelper::createPath('image', 'course/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/course/share/",'shareCourseImg_',$model->course_ID,'defaultCourseImg.png'))));
+//?>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
          data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"

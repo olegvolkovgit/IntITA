@@ -3,12 +3,11 @@
 <!-- regform end-->
 <div class="mooda">
     <?php
-
     $form = $this->beginWidget('CActiveForm', array(
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-        'action' => Yii::app()->createUrl("/lesson/nextPage", array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'page' => $page)),
+        'action' => Yii::app()->createUrl("/lesson/nextLecture", array('lectureId'=>$lectureId, 'idCourse'=>$idCourse)),
     ));
     ?>
     <div class="signIn2">
