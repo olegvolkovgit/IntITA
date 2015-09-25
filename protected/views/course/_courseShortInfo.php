@@ -6,6 +6,9 @@
  * Time: 15:20
  */
 ?>
+<script>
+        profilePath = "<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>";
+</script>
 <img class="courseImg" style="display: inline-block"
      src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img); ?>"/>
 <div class="courseShortInfoTable">
@@ -94,7 +97,12 @@
                             </span>
                         </div>
                         <div class="startCourse">
-                            <?php echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'openSignIn();')); ?>
+                            <?php
+                            if(Yii::app()->user->isGuest) {
+                                echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
+                            } else{
+                                echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile(profilePath);'));
+                            }?>
                     </div>
                     </div>
                 </div>
@@ -103,3 +111,12 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
+
+<script>
+    function redirectToProfile(profilePath){
+        $.cookie('openProfileTab', 5, {'path': "/"});
+        document.location.href = profilePath;
+    }
+</script>

@@ -100,7 +100,6 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
         ?>
 
     </div>
-    <!-- lesson footer ----congratulations-->
     <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>
     <!--modal task congratulations-->
     <?php
