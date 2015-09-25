@@ -12,6 +12,7 @@
     <p itemprop="description"><?php echo $description ?></p>
 </div>
 <?php
+
 Yii::app()->clientScript->registerMetaTag($url, null, null, array('property' => "og:url"));
 Yii::app()->clientScript->registerMetaTag($title, null, null, array('property' => "og:title"));
 Yii::app()->clientScript->registerMetaTag($description, null, null, array('property' => "og:description"));
