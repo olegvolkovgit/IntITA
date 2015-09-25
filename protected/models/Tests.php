@@ -108,4 +108,21 @@ class Tests extends CActiveRecord
             LecturePage::addQuiz($pageId, $blockElement);
         }
     }
+	public static function isLastTest($testId)
+	{
+		$quiz = Tests::model()->findByPk($testId)->block_element;
+		$lecturePage=LecturePage::model()->findByAttributes(array('quiz' => $quiz));
+		$pageOrder = $lecturePage->page_order;
+		$lectureId = $lecturePage->id_lecture;
+
+		$criteria=new CDbCriteria;
+		$criteria->alias='lecture_page';
+		$criteria->select='page_order';
+		$criteria->condition = 'id_lecture = '.$lectureId;
+		$criteria->order = 'page_order DESC';
+		$lastPage=LecturePage::model()->find($criteria)->page_order;
+
+		if($pageOrder!=$lastPage) return 0;
+		else return 1;
+	}
 }

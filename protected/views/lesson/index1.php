@@ -135,22 +135,22 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
 
-<!--    --><?php
-//    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//        'id' => 'dialogNextLecture',
-//        'themeUrl'=>Config::getBaseUrl().'/css',
-//        'cssFile'=>'jquery-ui.css',
-//        'theme'=>'my',
-//        'options' => array(
-//            'width'=>540,
-//            'autoOpen' => false,
-//            'modal' => true,
-//            'resizable'=> false
-//        ),
-//    ));
-//    $this->renderPartial('/lesson/_passLectureModal', array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse));
-//    $this->endWidget('zii.widgets.jui.CJuiDialog');
-//    ?>
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'dialogNextLecture',
+        'themeUrl'=>Config::getBaseUrl().'/css',
+        'cssFile'=>'jquery-ui.css',
+        'theme'=>'my',
+        'options' => array(
+            'width'=>540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable'=> false
+        ),
+    ));
+    $this->renderPartial('/lesson/_passLectureModal', array('lecture'=>$lecture, 'idCourse'=>$idCourse));
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
 </div>
 
 <!-- lesson style -->
