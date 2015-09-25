@@ -23,3 +23,4 @@ $(document).ready(function () {
         $(this).next('span').find('img.icoCheck').show();
     });
 });
+
