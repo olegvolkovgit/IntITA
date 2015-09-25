@@ -6,38 +6,32 @@
 /* @var integer $idCourse*/
 
 $this->pageTitle = 'INTITA';
-if(!isset($idCourse) || $idCourse != 0) {
-    $this->breadcrumbs = array(
-        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        LectureHelper::getLectureTitle($lecture->id),
-    );
-} else {
-    $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
-        LectureHelper::getLectureTitle($lecture->id),
-    );
-}
+$this->breadcrumbs=array(
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
+    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    LectureHelper::getLectureTitle($lecture->id),
+);
 if (!($lecture->isFree)) {
     Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
 }else{
     Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
 }
-Yii::app()->clientScript->registerMetaTag($lecture->title_ua,  null, null, array('property' => "og:title") );
+Yii::app()->clientScript->registerMetaTag( $lecture->getCourseInfoById($idCourse)['courseTitle'], null, null, array('property' => "og:title"));
 Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')), null, null, array('property' => "og:image"));
-
 ?>
+<?php //$this->renderPartial('/site/_shareMetaTag', array(
+//    'url'=>Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+//    'title'=>$lecture->getCourseInfoById($idCourse)['courseTitle'],
+//    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+//    'image'=>StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png'))));
+//?>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php if (!($lecture->isFree)) {
-             echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse));
-         }else{
-             echo Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse));
-         } ?>"
-         data-title="<?php echo $lecture->title_ua;?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')); ?>"
+         data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?>"
+         data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
+         data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
          data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
@@ -149,25 +143,23 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     $this->renderPartial('/lesson/_modalTask2');
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
-    <!--<!--modal task ---error-->
 
-<!--    --><?php
-
-//    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-//        'id' => 'mydialog2',
-//        'themeUrl' => Config::getBaseUrl() . '/css',
-//        'cssFile' => 'jquery-ui.css',
-//        'theme' => 'my',
-//        'options' => array(
-//            'width' => 540,
-//            'autoOpen' => false,
-//            'modal' => true,
-//            'resizable' => false,
-//        ),
-//    ));
-//    $this->renderPartial('/lesson/_passLectureModal', array('id'=>$lecture->id));
-//    $this->endWidget('zii.widgets.jui.CJuiDialog');
-//    ?>
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'dialogNextLecture',
+        'themeUrl'=>Config::getBaseUrl().'/css',
+        'cssFile'=>'jquery-ui.css',
+        'theme'=>'my',
+        'options' => array(
+            'width'=>540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable'=> false
+        ),
+    ));
+    $this->renderPartial('/lesson/_passLectureModal', array('lecture'=>$lecture, 'idCourse'=>$idCourse));
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+    ?>
 </div>
 
 <!-- lesson style -->

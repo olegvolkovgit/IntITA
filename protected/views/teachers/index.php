@@ -1,9 +1,9 @@
-<?php
-Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
-Yii::app()->clientScript->registerMetaTag(Yii::t('teachers', '0058'), null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.", null, null, array('property' => "og:description"));
-Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'), null, null, array('property' => "og:image"));
-?>
+<?php //$this->renderPartial('/site/_shareMetaTag', array(
+//    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+//    'title'=>Yii::t('teachers', '0058'),
+//    'description'=>'Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.',
+//    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
+//?>
 <body>
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"

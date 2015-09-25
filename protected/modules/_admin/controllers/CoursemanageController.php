@@ -96,7 +96,7 @@ class CoursemanageController extends CController
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $model->course_ID . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
             $this->redirect(array('view','id'=>$model->course_ID));
@@ -127,7 +127,7 @@ class CoursemanageController extends CController
                 ImageHelper::uploadAndResizeImg(
                     Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
                     Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
-                    200
+                    210
                 );
             }
             $this->redirect(array('view','id'=>$model->course_ID));

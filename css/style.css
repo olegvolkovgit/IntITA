@@ -633,7 +633,7 @@ div.minavatar{
 #teacher-view img{
     width: 150px;
 }
-#mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3{
+#mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3, #dialogNextLecture{
     display: none;
 }
 .forumLink{

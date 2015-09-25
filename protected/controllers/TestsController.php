@@ -94,6 +94,8 @@ class TestsController extends Controller
         $user = $request->user;
         $test =  $request->test;
 
+        $lastTest=Tests::model()->isLastTest($test);
+
         if (TestsMarks::model()->exists('id_user =:user and id_test =:test', array(':user' => $user, ':test' => $test))){
             $criteria = new CDbCriteria;
             $criteria->order = 'id DESC';
@@ -113,29 +115,7 @@ class TestsController extends Controller
             "user" => $user,
             "test" => $test,
             "status" => $result,
-        );
-        echo json_encode($resultJSON);
-    }
-    public function actionGetGuestTestResult(){
-        $rawdata = file_get_contents('php://input');
-
-        $request = json_decode($rawdata);
-        $user = $request->user;
-        $test =  $request->test;
-        $answers=  $request->answers;
-        if (TestsAnswers::checkTestAnswer($test, $answers)){
-            $result = 1;
-        } else {
-            $result = 0;
-        }
-
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-
-        $resultJSON = array(
-            "user" => $user,
-            "test" => $test,
-            "status" => $result,
+            "lastTest" => $lastTest,
         );
         echo json_encode($resultJSON);
     }

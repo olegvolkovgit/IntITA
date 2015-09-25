@@ -288,7 +288,17 @@ class LessonController extends Controller
 
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
-
+    public function actionNextLecture($lectureId, $idCourse)
+    {
+        $lecture=Lecture::model()->findByPk($lectureId);
+        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+            $nextId = LectureHelper::getNextId($lecture['id']);
+            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
+        }
+        else{
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        }
+    }
     public function actionUpdateLectureAttribute()
     {
         $up = new EditableSaver('Lecture');
@@ -405,7 +415,7 @@ class LessonController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'],
                         Yii::getPathOfAlias('webroot') . "/images/lecture/share/shareLectureImg_" . $id . '.' . $ext,
-                        200
+                        210
                     );
 
                     $this->redirect(Yii::app()->request->urlReferrer);

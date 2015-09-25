@@ -3,17 +3,15 @@
 <!-- regform end-->
 <div class="mooda">
     <?php
-
     $form = $this->beginWidget('CActiveForm', array(
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-        'action' => Yii::app()->createUrl("/lesson/nextPage", array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse'], 'page' => $page)),
+        'action' => Yii::app()->createUrl("/lesson/nextLecture", array('lectureId'=>$lecture->id, 'idCourse'=>$idCourse)),
     ));
     ?>
     <div class="signIn2">
-        <div id="heedd"
-        ">
+        <div id="heedd">
         <table>
             <tr>
                 <td>
@@ -25,29 +23,19 @@
         </table>
 
         <div class="happily">
-            <p>Ти успішно пройшов(ла) заняття!<br>
-                Тепер ти можеш перейти до наступного заняття!</p>
-
-            <p id="haa">а також</p>
-
-            <p>Поділитися успіхом у соціальних мережах:</p>
+            <p>Ти успішно пройшов(ла) заняття!</p>
+            <p id="haa">Також можеш</p>
+            <p>поділитися успіхом у соціальних мережах:</p>
         </div>
-        <div style="width: 300px; margin-left: 0px;" class="image">
-            <div id="uLogin2" x-ulogin-params="display=buttons;fields=email;
-        						redirect_uri=<?php echo Yii::app()->request->baseUrl . '/site/sociallogin' ?> ">
-                <ul id="uLoginImages">
-                    <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>"
-                             x-ulogin-button="facebook" title="Facebook"/></li>
-                    <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'googleplus2.png'); ?>"
-                             x-ulogin-button="googleplus" title="Google +"/></li>
-                    <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'linkedin2.png'); ?>"
-                             x-ulogin-button="linkedin" title="LinkedIn"/></li>
-                    <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'vkontakte2.png'); ?>"
-                             x-ulogin-button="vkontakte" title="Вконтакте"/></li>
-                    <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'twitter2.png'); ?>"
-                             x-ulogin-button="twitter" title="Twitter"/></li>
-                </ul>
+        <div style="width: 300px; margin: 10px 0 0 10px;" class="image">
+            <div class="lectureShare42init"
+                data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?>"
+                data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
+                data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
+                data-description="Я успішно завершив заняття <?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']?>. INTITA - програмуй майбутнє."
+                data-path="<?php echo Config::getBaseUrl(); ?>/scripts/lectureShare42/">
             </div>
+            <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureShare42/share42.js'); ?>"></script>
         </div>
 
         <input id="signInButtonM2" type="submit" value="ЗАКРИТИ">
