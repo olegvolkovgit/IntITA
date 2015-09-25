@@ -314,7 +314,7 @@ class ModuleController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot')."/images/module/".$_FILES['Module']['name']['module_img'],
                         Yii::getPathOfAlias('webroot') . "/images/module/share/shareModuleImg_".$id.'.'.$ext,
-                        200
+                        210
                     );
 
                     $this->redirect(Yii::app()->request->urlReferrer);
