@@ -1,15 +1,15 @@
-<?php //$this->renderPartial('/site/_shareMetaTag', array(
-//    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-//    'title'=>ModuleHelper::getModuleName($post->module_ID),
-//    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
-//    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
-//?>
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>ModuleHelper::getModuleName($post->module_ID),
+    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
+?>
+<!--data-url="--><?php //echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?><!--"-->
+<!--data-title="--><?php //echo ModuleHelper::getModuleName($post->module_ID);?><!--"-->
+<!--data-image="--><?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?><!--"-->
+<!--data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"-->
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
-         data-title="<?php echo ModuleHelper::getModuleName($post->module_ID);?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
-         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
          data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>

@@ -13,18 +13,18 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<?php //$this->renderPartial('/site/_shareMetaTag', array(
-//    'url'=>Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
-//    'title'=>$lecture->getCourseInfoById($idCourse)['courseTitle'],
-//    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
-//    'image'=>StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png'))));
-//?>
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
+    'title'=>$lecture->getCourseInfoById($idCourse)['courseTitle'],
+    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
+?>
+<!--data-url="--><?php //echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?><!--"-->
+<!--data-title="--><?php //echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?><!--"-->
+<!--data-image="--><?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?><!--"-->
+<!--data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"-->
 <div id="sharing">
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?>"
-         data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
-         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
          data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
     </div>
