@@ -27,13 +27,11 @@ if (!($lecture->isFree)) {
 ?>
 
 <?php
-
-    $this->renderPartial('/site/_shareMetaTag', array(
+$this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
         'title' => ModuleHelper::getModuleName($lecture->idModule),
         'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
         'image' => StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
-
 ?>
 
 <div id="sharing">
@@ -126,7 +124,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
             'resizable' => false,
         ),
     ));
-    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage));
+    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage, 'idCourse'=>$idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
     <!--modal task congratulations end-->
