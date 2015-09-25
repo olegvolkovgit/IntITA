@@ -120,6 +120,7 @@ class SiteController extends Controller
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
+                $model->updateByPk($model->id, array('avatar' => 'noname.png'));
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
