@@ -100,10 +100,10 @@ class StudentReg extends CActiveRecord
         $value = $this->$attribute;
         if(!empty($value)){
             if(!StudentReg::isNetworkURL($value,$attribute))
-                $this->addError($attribute,'Ви ввели не коректну сторінку');
+                $this->addError($attribute,Yii::t('validation','0636'));
             else
                 if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
-                $this->addError($attribute,'Ви ввели не коректну сторінку');
+                $this->addError($attribute,Yii::t('validation','0636'));
         }
     }
     public function authenticate($attribute,$params)

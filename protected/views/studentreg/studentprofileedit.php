@@ -68,27 +68,27 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <div id="mainreg">
                     <div class="row">
                         <?php echo $form->label($model, 'firstName'); ?>
-                        <?php echo $form->textField($model, 'firstName', array('value' => $post->firstName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'ім\'я')); ?>
+                        <?php echo $form->textField($model, 'firstName', array('value' => $post->firstName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'))); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'secondName'); ?>
-                        <?php echo $form->textField($model, 'secondName', array('value' => $post->secondName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'прізвище')); ?>
+                        <?php echo $form->textField($model, 'secondName', array('value' => $post->secondName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'))); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'nickname'); ?>
-                        <?php echo $form->textField($model, 'nickname', array('value' => $post->nickname, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => 'нік')); ?>
+                        <?php echo $form->textField($model, 'nickname', array('value' => $post->nickname, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0623'))); ?>
                         <span><?php echo $form->error($model, 'nickname'); ?></span>
                     </div>
                     <div class="rowDate">
                         <?php echo $form->label($model, 'birthday'); ?>
-                        <?php echo $form->textField($model, 'birthday', array('value' => $post->birthday, 'class' => 'date indicator', 'maxlength' => 11, 'placeholder' => Yii::t('regexp', '0152'), 'data-source' => 'дату народження')); ?>
+                        <?php echo $form->textField($model, 'birthday', array('value' => $post->birthday, 'class' => 'date indicator', 'maxlength' => 11, 'placeholder' => Yii::t('regexp', '0152'), 'data-source' => Yii::t('edit', '0624'))); ?>
                         <span><?php echo $form->error($model, 'birthday'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15, 'data-source' => 'телефон')); ?>
+                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
                     <?php if ($post::getRole($post->id) == False) {
@@ -129,53 +129,53 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <div id="addreg">
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
-                        <?php echo $form->textField($model, 'address', array('value' => $post->address, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'адресу')); ?>
+                        <?php echo $form->textField($model, 'address', array('value' => $post->address, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0626'))); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'education'); ?>
-                        <?php echo $form->textField($model, 'education', array('value' => $post->education, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'освіту')); ?>
+                        <?php echo $form->textField($model, 'education', array('value' => $post->education, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0627'))); ?>
                         <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
 
                     <div class="row">
                         <?php echo $form->label($model, 'aboutMy'); ?>
-                        <?php echo $form->textArea($model, 'aboutMy', array('value' => $post->aboutMy, 'maxlength' => 500, 'class' => 'indicator', 'data-source' => 'про себе')); ?>
+                        <?php echo $form->textArea($model, 'aboutMy', array('value' => $post->aboutMy, 'maxlength' => 500, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0628'))); ?>
                         <?php echo $form->error($model, 'aboutMy'); ?>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'interests'); ?>
-                        <?php echo $form->textField($model, 'interests', array('value' => $post->interests, 'maxlength' => 255, 'placeholder' => Yii::t('regexp', '0153'), 'class' => 'indicator', 'data-source' => 'захоплення')); ?>
+                        <?php echo $form->textField($model, 'interests', array('value' => $post->interests, 'maxlength' => 255, 'placeholder' => Yii::t('regexp', '0153'), 'class' => 'indicator', 'data-source' => Yii::t('edit', '0629'))); ?>
                         <span><?php echo $form->error($model, 'interests'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->textField($model, 'aboutUs', array('value' => $post->aboutUs, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs', 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'звідки про нас дізналися')); ?>
+                        <?php echo $form->textField($model, 'aboutUs', array('value' => $post->aboutUs, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs', 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0630'))); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
 
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('value' => $post->facebook, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на facebook','placeholder' => Yii::t('regexp', '0243'))); ?>
+                        <?php echo $form->textField($model, 'facebook', array('value' => $post->facebook, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0631'),'placeholder' => Yii::t('regexp', '0243'))); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('value' => $post->googleplus, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на googleplus','placeholder' => Yii::t('regexp', '0244'))); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('value' => $post->googleplus, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0632'),'placeholder' => Yii::t('regexp', '0244'))); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('value' => $post->linkedin, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на linkedin','placeholder' => Yii::t('regexp', '0245'))); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('value' => $post->linkedin, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0633'),'placeholder' => Yii::t('regexp', '0245'))); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('value' => $post->vkontakte, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на vkontakte','placeholder' => Yii::t('regexp', '0246'))); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('value' => $post->vkontakte, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'),'placeholder' => Yii::t('regexp', '0246'))); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('value' => $post->twitter, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => 'посилання на twitter','placeholder' => Yii::t('regexp', '0247'))); ?>
+                        <?php echo $form->textField($model, 'twitter', array('value' => $post->twitter, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'),'placeholder' => Yii::t('regexp', '0247'))); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
@@ -225,7 +225,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar">
-                <div id="profileIndicator">Ваш профіль заповнено на <span id="percent"></span>%</div>
+                <div id="profileIndicator"><?php echo Yii::t('edit', '0618').' '; ?><span id="percent"></span>%</div>
                 <div id="indicators">
                     <img id='progressLine'
                          src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline0.png'); ?>'>
@@ -310,13 +310,13 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
         var progress = 1;
         if ('<?php echo $post->avatar ?>'=='noname.png') {
             progress--;
-            $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='avatar' onclick='focusAvatar()'></td><td>Додати аватар</td></tr>");
+            $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='avatar' onclick='focusAvatar()'></td><td><?php echo Yii::t('edit', '0619');?></td></tr>");
         }
         $('.indicator').each(function () {
             if ($(this).val() != '') {
                 progress++;
             } else {
-                $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='"+$(this).attr('id')+"' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td>Додати " + $(this).attr('data-source') + "</td></tr>");
+                $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='"+$(this).attr('id')+"' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td><?php echo Yii::t('edit', '0620');?> " + $(this).attr('data-source') + "</td></tr>");
             }
         });
         var percent = Math.round(progress * (100 / 17)).toFixed(0);
