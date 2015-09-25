@@ -2,7 +2,7 @@
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
     'title'=>Yii::t('courses', '0066'),
     'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
-    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
+));
 ?>
 <!--data-url="--><?php //echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?><!--"-->
 <!--data-title="--><?php //echo Yii::t('courses', '0066'); ?><!--"-->

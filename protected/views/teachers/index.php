@@ -2,7 +2,7 @@
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
     'title'=>Yii::t('teachers', '0058'),
     'description'=>'Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.',
-    'image'=>StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg')));
+));
 ?>
 <!--data-url="--><?php //echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?><!--"-->
 <!--data-title="--><?php //echo Yii::t('teachers', '0058'); ?><!--"-->
