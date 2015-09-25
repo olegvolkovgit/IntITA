@@ -10,32 +10,36 @@
 class TeacherHelper
 {
     public static function getModulesByTeacher($id){
-        $modules = Yii::app()->db->createCommand(array(
-            'select' => array('idModule'),
-            'from' => 'teacher_module',
-            'where' => 'idTeacher=:id',
-            'order' => 'idModule',
-            'params' => array(':id' => $id),
-        ))->queryAll();
-        $modulesId = [];
-        for($j= 0; $j < count($modules);$j++){
-            array_push($modulesId, $modules[$j]["idModule"]);
+        $modulelist = [];
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'teacher_modules';
+        $criteria->select = 'idModule';
+        $criteria->distinct = true;
+        $criteria->addCondition('idTeacher=' . $id);
+        $temp = TeacherModule::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->idModule);
         }
 
         $titleParam = ModuleHelper::getModuleTitleParam();
 
-        $criteria= new CDbCriteria;
-        $criteria->alias = 'course_modules';
-        $criteria->addInCondition('id_module', $modulesId, 'OR');
-        $criteria->order='id_course ASC, `order` ASC';
-        $courseModules = CourseModules::model()->findAll($criteria);
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
-        for($i = 0; $i < count($modulesId);$i++){
-            $module[$i]["idModule"] = $courseModules[$i]["id_module"];
-            $module[$i]["title"] = Module::model()->findByPk($courseModules[$i]["id_module"])->$titleParam;
-            $module[$i]["language"] = Module::model()->findByPk($courseModules[$i]["id_module"])->language;
-            $module[$i]["idCourse"] = $courseModules[$i]["id_course"];
-        }
+        $rows = Module::model()->findAll($criteriaData);
+
+        $j=0;
+        foreach ($rows as $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $module[$j]["idModule"] = $row['module_ID'];
+            $module[$j]["title"] = $row[$title];
+            $module[$j]["language"] = $row['language'];
+            $j++;
+        };
+
         return (!empty($module))?$module:[];
     }
 
