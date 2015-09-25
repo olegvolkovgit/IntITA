@@ -26,7 +26,7 @@ class LessonController extends Controller
         }
     }
 
-    public function actionIndex($id, $idCourse, $page = 1)
+    public function actionIndex($id, $idCourse=0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
         $this->initialize($id);
@@ -41,6 +41,7 @@ class LessonController extends Controller
 
         $passedPages = LecturePage::getAccessPages($id, $user);
         $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+
         if ($editMode) $page = 1;
         else $page = $lastAccessPage;
 
@@ -113,17 +114,6 @@ class LessonController extends Controller
         $order = Yii::app()->request->getPost('order');
 
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
-//        if (strpos($htmlBlock, '$\displaystyle ') === 0) {
-//            $temp = substr_replace($htmlBlock, '\[', 0, 15);
-//            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//        } elseif (strpos($htmlBlock, '$') === 0) {
-//            $temp = substr_replace($htmlBlock, '\[', 0, 1);
-//            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//        } elseif (strpos($htmlBlock, '\[\inline') === 0) {
-//            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//        } else {
-//            $model->html_block = $htmlBlock;
-//        }
         $model->html_block = $htmlBlock;
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -159,19 +149,6 @@ class LessonController extends Controller
 
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
-
-//        if(strpos($htmlBlock,'$\displaystyle ')===0) {
-//            $temp=substr_replace($htmlBlock,'\[',0,15);
-//            $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
-//        }
-//        elseif(strpos($htmlBlock,'$')===0) {
-//            $temp = substr_replace($htmlBlock, '\(', 0, 1);
-//            $model->html_block = substr_replace($temp, '\)', strrpos($temp, '$'), 1);
-//        }elseif(strpos($htmlBlock,'\[\inline')===0) {
-//            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//        } else {
-//            $model->html_block = $htmlBlock;
-//        }
         $model->html_block = $htmlBlock;
 
         $model->id_type = 10;
@@ -206,17 +183,6 @@ class LessonController extends Controller
             case '10':
 
                 break;
-//                if (strpos($htmlBlock, '$\displaystyle ') === 0) {
-//                    $temp = substr_replace($htmlBlock, '\[', 0, 15);
-//                    $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//                } elseif (strpos($htmlBlock, '$') === 0) {
-//                    $temp = substr_replace($htmlBlock, '\[', 0, 1);
-//                    $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//                } elseif (strpos($htmlBlock, '\[\inline') === 0) {
-//                    $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//                } else {
-//                    $model->html_block = $htmlBlock;
-//                }
             default:
                 $model->html_block = $htmlBlock;
         }
@@ -316,7 +282,7 @@ class LessonController extends Controller
         $this->render('formulaRedactor');
     }
 
-    public function actionNextPage($id, $idCourse, $page)
+    public function actionNextPage($id, $idCourse=0, $page)
     {
         $nextPage = LecturePage::getNextPage($id, $page);
 

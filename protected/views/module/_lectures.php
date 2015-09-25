@@ -12,6 +12,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($module->module_I
 
 <div class="lessonModule" id="lectures">
      <?php
+
     if ($canEdit){
         ?>
         <div onclick="enableEdit();">

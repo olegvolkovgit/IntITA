@@ -76,4 +76,8 @@ class ModuleHelper {
             return false;
         }
     }
+
+    public static function getModuleLang($idModule){
+        return Module::model()->findByPk($idModule)->language;
+    }
 }

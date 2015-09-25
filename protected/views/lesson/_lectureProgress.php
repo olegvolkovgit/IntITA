@@ -26,6 +26,7 @@
                    id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
                    href="<?php $args = $_GET;
                    $args['page'] = $passedPages[$i]['order'];
+                   $args['idCourse'] = ($idCourse)?$idCourse:'0';
                    echo $this->createUrl('', $args) . "#title"; ?>"
                    title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php } else {
@@ -46,7 +47,7 @@
     for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
         <a class="pageDone pageTitle"
            id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
-           href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse']));?>?editPage=<?php echo $i+1; ?>"
+           href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $idCourse));?>?editPage=<?php echo $i+1; ?>"
            title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
         <?php
     }

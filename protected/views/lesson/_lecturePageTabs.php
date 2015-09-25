@@ -15,7 +15,7 @@ if (!($passedPages[$thisPage-1]['isDone'] || $editMode)
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'cjuitabs.css'); ?>"/>
 <div name="lecturePage">
-    <?php $this->renderPartial('_lectureProgress', array('page'=>$page, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture, 'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode)); ?>
+    <?php $this->renderPartial('_lectureProgress', array('page'=>$page, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture, 'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode, 'idCourse' => $idCourse)); ?>
     <div class="tabsWidget">
         <?php
         //if($page->video == null){
