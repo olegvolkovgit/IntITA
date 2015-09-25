@@ -211,17 +211,11 @@ class ModuleController extends Controller
         $newOrder = Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => $newOrder));
 
-//        $model = new TeacherModule();
-//        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder))->module_ID;
-//        $model->idTeacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
-//        $model->save();
-
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
         $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
-        //$this->render('saveLesson');
     }
 
     public function actionUnableLesson($idLecture)

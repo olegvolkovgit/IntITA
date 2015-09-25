@@ -207,4 +207,12 @@ class GraduateController extends CController
             Yii::app()->end();
         }
     }
+
+    public function actionDeletePhoto(){
+        $id = Yii::app()->request->getPost('id', '0');
+        if($id != 0){
+           echo Graduate::model()->updateByPk($id, array('avatar' => 'noname2.png'));
+        }
+        //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/_admin/graduate/'.$id);
+    }
 }

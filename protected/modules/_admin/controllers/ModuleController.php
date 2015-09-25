@@ -20,6 +20,38 @@ class ModuleController extends CController
         }
     }
 
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('create', 'update', 'view', 'index'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'actions'=>array('create', 'update', 'view', 'index'),
+                'users'=>array('*'),
+            ),
+        );
+    }
+
+    function isAdministrator()
+    {
+        if(AccessHelper::isAdmin())
+            return true;
+        else
+            return false;
+    }
+
     public function actionIndex()
     {
 
@@ -38,6 +70,25 @@ class ModuleController extends CController
         $model = Module::model()->findByPk($id);
 
         $this->render('view', array(
+            'model' => $model,
+        ));
+    }
+
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate()
+    {
+        $model = new Module;
+
+        if (isset($_POST['Module'])) {
+            $model->attributes = $_POST['Module'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->module_ID));
+        }
+
+        $this->render('create', array(
             'model' => $model,
         ));
     }
