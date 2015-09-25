@@ -3,6 +3,7 @@
 /* @var $lecture Lecture*/
 /* @var $page LecturePage*/
 /* @var $teacher Teacher*/
+/* @var integer $idCourse*/
 
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs=array(
@@ -11,6 +12,14 @@ $this->breadcrumbs=array(
     $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
     LectureHelper::getLectureTitle($lecture->id),
 );
+if (!($lecture->isFree)) {
+    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
+}else{
+    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
+}
+Yii::app()->clientScript->registerMetaTag( $lecture->getCourseInfoById($idCourse)['courseTitle'], null, null, array('property' => "og:title"));
+Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
+Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')), null, null, array('property' => "og:image"));
 ?>
 
 <?php $this->renderPartial('/site/_shareMetaTag', array(
@@ -53,12 +62,8 @@ $this->breadcrumbs=array(
 <script type="text/javascript"
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-<!-- Spoiler -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
-<!-- Spoiler -->
-<!--Sidebar-->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
-<!--Sidebar-->
 
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
@@ -71,6 +76,7 @@ $this->breadcrumbs=array(
     editMode = <?php echo ($editMode)?1:0;?>;
 </script>
 <?php
+
 $passedLecture=LectureHelper::isPassedLecture($passedPages);
 $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
@@ -84,16 +90,19 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <div class="lessonText">
         <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <div id="chaptersList">
-            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode)); ?>
+            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
         </div>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));
         }
+
         if (isset($_GET['editPage'])){
-            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
+           $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $idCourse, 'editMode' => $editMode));
         }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         }
+
+
         ?>
 
     </div>

@@ -2,15 +2,16 @@
 ?>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
-        <ul>
+        <ul><?php if($idCourse != 0){?>
             <li>
                 <?php echo Yii::t('lecture', '0070'); ?>
                 <span><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']; ?></span>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>
                 )
             </li>
+            <?php }?>
             <li>
                 <?php echo Yii::t('lecture', '0072'); ?>
-                <span><?php echo $lecture->getModuleInfoById($idCourse)['moduleTitle']; ?></span>
+                <span><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></span>
             </li>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
@@ -31,14 +32,14 @@
             </li>
             <br>
             <li>
-                <?php echo '(' . $lecture->order . ' з ' . $lecture->getModuleInfoById($idCourse)['countLessons'] .' '. Yii::t('lecture', '0616').')'; ?>
+                <?php echo '(' . $lecture->order . ' з ' . LectureHelper::getLessonsCount($lecture->idModule) .' '. Yii::t('lecture', '0616').')'; ?>
             </li>
             <div id="counter">
                 <?php
                 for ($i = 0; $i < $lecture->order; $i++) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>">
                 <?php }
-                for ($i = 0; $i < $lecture->getModuleInfoById($idCourse)['countLessons'] - $lecture->order; $i++) { ?>
+                for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule) - $lecture->order; $i++) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
                 <?php } ?>
                 <div id="iconImage">

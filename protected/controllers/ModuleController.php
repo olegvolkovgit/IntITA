@@ -73,7 +73,7 @@ class ModuleController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex($idModule, $idCourse)
+    public function actionIndex($idModule, $idCourse=0)
     {
         $model = Module::model()->findByPk($idModule);
         $owners = [];

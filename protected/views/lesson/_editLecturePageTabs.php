@@ -18,7 +18,7 @@ else $thisPage = 1;
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div name="lecturePage">
-    <?php $this->renderPartial('_lectureProgress', array('page'=>$page,'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>1)); ?>
+    <?php $this->renderPartial('_lectureProgress', array('page'=>$page,'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>1, 'idCourse' => $idCourse)); ?>
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
     idLecture = '<?php echo $_GET['id'];?>';
@@ -78,8 +78,6 @@ if($page->video == null) {?>
     <button onclick="addTextBlock('3')"> Код </button>
     <button onclick="addTextBlock('4')"> Приклад </button>
     <button onclick="addTextBlock('7')"> Інструкція </button>
-<!--    <button onclick="addFormula('1')"> Формула LaTeX </button>-->
-
 </fieldset>
 <h3><label for="pageQuiz">Завдання (тест)</label></h3>
 <?php

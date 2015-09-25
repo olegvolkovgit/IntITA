@@ -219,4 +219,8 @@ class LectureHelper {
         return true;
     }
 
+    public static function getLessonsCount($idModule){
+        return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
+    }
+
 }

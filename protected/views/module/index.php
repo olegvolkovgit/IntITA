@@ -20,9 +20,17 @@
 
 <?php
 $this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050')=>Config::getBaseUrl()."/courses",CourseHelper::getCourseName($idCourse) =>Yii::app()->createUrl('course/index', array('id' => $idCourse)),ModuleHelper::getModuleName($post->module_ID),
-);
+
+if($idCourse != 0) {
+    $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
+        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)), ModuleHelper::getModuleName($post->module_ID),
+    );
+} else {
+    $this->breadcrumbs = array(
+        ModuleHelper::getModuleName($post->module_ID),
+    );
+}
 ?>
 
 <div class="ModuleBlock">
