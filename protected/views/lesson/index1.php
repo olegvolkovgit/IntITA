@@ -12,6 +12,7 @@ $this->breadcrumbs=array(
     LectureHelper::getLectureTitle($lecture->id),
 );
 ?>
+
 <?php //$this->renderPartial('/site/_shareMetaTag', array(
 //    'url'=>Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
 //    'title'=>$lecture->getCourseInfoById($idCourse)['courseTitle'],
