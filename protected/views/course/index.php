@@ -8,7 +8,7 @@
     <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
          data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
          data-title="<?php echo CourseHelper::getCourseName($model->course_ID); ?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'course/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/course/share/",'shareCourseImg_',$model->course_ID,'defaultCourseImg.png')); ?>"
+         data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
          data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
          data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
          data-zero-counter="1">
