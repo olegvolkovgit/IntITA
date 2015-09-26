@@ -6,6 +6,7 @@
 /* @var integer $idCourse*/
 
 $this->pageTitle = 'INTITA';
+if(!isset($idCourse)) $idCourse=0;
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
@@ -15,15 +16,24 @@ if($idCourse != 0) {
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->id) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => '0')),
+        ModuleHelper::getModuleName($lecture->id) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
         LectureHelper::getLectureTitle($lecture->id),
     );
 }
+
+if($idCourse != 0) {
 $this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
         'title' => ModuleHelper::getModuleName($lecture->idModule),
         'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
 ));
+}else{
+    $this->renderPartial('/site/_shareMetaTag', array(
+        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])),
+        'title' => ModuleHelper::getModuleName($lecture->idModule),
+        'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+    ));
+}
 ?>
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />

@@ -29,11 +29,15 @@
         </div>
         <div style="width: 300px; margin: 10px 0 0 10px;" class="image">
             <div class="lectureShare42init"
-                data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?>"
-                data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
-                data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
-                data-description="Я успішно завершив заняття <?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']?>. INTITA - програмуй майбутнє."
-                data-path="<?php echo Config::getBaseUrl(); ?>/scripts/lectureShare42/">
+                <?php if($idCourse != 0) { ?>
+                 data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)); ?>"
+                <?php }else{ ?>
+                 data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>"
+                <?php }?>
+                 data-title="<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>"
+                 data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
+                 data-description="Я успішно завершив заняття! INTITA - програмуй майбутнє."
+                 data-path="<?php echo Config::getBaseUrl(); ?>/scripts/lectureShare42/">
             </div>
             <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureShare42/share42.js'); ?>"></script>
         </div>
