@@ -77,22 +77,17 @@
         <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: justify">
                 Всього до сплати (прописом):
-                <div id="count">Сума без ПДВ</div>
             </td>
         </tr>
         <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: justify">
                 <b>Вісімнадцять тисяч грн., 00 коп.</b>
-
-                <div id="pdv">ПДВ _____ %</div>
             </td>
             <td></td>
         </tr>
         <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: justify">
-                Підпис відповідальної особи
-                <div id="visaPlace">_______________</div>
-                <div id="all">Разом з ПДВ до сплати</div>
+                 <div id="all">Разом з ПДВ до сплати</div>
             </td>
             <td>40 020,00</td>
         </tr>

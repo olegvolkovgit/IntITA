@@ -19,7 +19,11 @@
 */
 
 //include "yiiapp.php";
-if ($_GET['reload']!="no") header("Location: index.php?reload=no");
+if(!isset($_GET['reload'])) {
+    header("Location: index.php?reload=no");
+} else {
+    if ($_GET['reload'] != "no") header("Location: index.php?reload=no");
+}
 //
 //$controller = new Controller('bbforum'); // bbforum - произвольное название
 //Yii::app()->controller = $controller;

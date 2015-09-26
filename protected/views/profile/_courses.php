@@ -22,7 +22,7 @@ if (!empty($modules)){?>
                 for ($i = 0; $i < $count; $i++) {
                     ?>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>$modules[$i]["idModule"], 'idCourse'=>$modules[$i]["idCourse"]));?>"><?php echo $modules[$i]["title"].', '.$modules[$i]["language"]; ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>$modules[$i]["idModule"]));?>"><?php echo $modules[$i]["title"].', '.$modules[$i]["language"]; ?></a>
                     </li>
                 <?php
                 }
