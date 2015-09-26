@@ -4,19 +4,6 @@
     'description'=>'Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.',
 ));
 ?>
-<!--data-url="--><?php //echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?><!--"-->
-<!--data-title="--><?php //echo Yii::t('teachers', '0058'); ?><!--"-->
-<!--data-image="--><?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?><!--"-->
-<!--data-description="Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа."-->
-<div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-path="<?php echo Yii::app()->request->baseUrl; ?>/scripts/share42/"
-         data-zero-counter="1">
-    </div>
-</div>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js') ?>"></script>
-<?php
-?>
 <!-- teachers style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teachers.css'); ?>" />
 <!-- teachers style -->
