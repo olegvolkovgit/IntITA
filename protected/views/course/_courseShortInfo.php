@@ -53,8 +53,11 @@
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 
 <script>
+    $(function() {
+        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+    });
     function redirectToProfile(profilePath){
-        //alert($("input[name='payment']:checked").val());
+        $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
         document.location.href = profilePath;
     }
