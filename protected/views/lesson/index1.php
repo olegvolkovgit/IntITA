@@ -16,7 +16,7 @@ if($idCourse != 0) {
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->id) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
+        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
         LectureHelper::getLectureTitle($lecture->id),
     );
 }
