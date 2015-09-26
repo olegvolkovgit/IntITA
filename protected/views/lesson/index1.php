@@ -15,12 +15,13 @@ if($idCourse != 0) {
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->id) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => '0')),
+        ModuleHelper::getModuleName($lecture->id) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
         LectureHelper::getLectureTitle($lecture->id),
     );
+
 }
 $this->renderPartial('/site/_shareMetaTag', array(
-        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => '0')),
         'title' => ModuleHelper::getModuleName($lecture->idModule),
         'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
 ));

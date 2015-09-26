@@ -5,7 +5,11 @@
  * Date: 26.09.2015
  * Time: 11:02
  */
+$model = Course::model()->findByPk($_COOKIE['idCourse']);
 ?>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
+
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'action' => '#',
@@ -19,7 +23,7 @@
         ?>
         <span class="spoilerLinks"
               onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span
-                id="spoilerClick"><?php echo Yii::t('course', '0414'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
+                id="spoilerClick"><?php echo Yii::t('course', '0415'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
         <div id="rowRadio">
             <div class="paymentsListOdd"><input id='firstRadio' type="radio" class="paymentPlan_value"
                                                 name="payment"
@@ -48,24 +52,11 @@
                                                      value="8"><span><?php echo CourseHelper::getCoursePriceCredit(StaticFilesHelper::createPath('image', 'course', 'percent.png'), StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'), round(($model->course_price / 60) * 2.3276,2), 5) ?></span>
                 </div>
             </div>
-
-            <div class="markAndButton">
-                <div class="markCourse">
-                    <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
-                            <span>
-                                <?php echo RatingHelper::getRating($model->rating); ?>
-                            </span>
-                </div>
-                <div class="startCourse">
-                    <?php
-                    if(Yii::app()->user->isGuest) {
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
-                    } else{
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile(profilePath);'));
-                    }?>
-                </div>
-            </div>
         </div>
     <?php } ?>
     <?php $this->endWidget(); ?>
 </div>
+<br>
+    <a href="<?php echo Yii::app()->createUrl('accountancy/index', array('courseId' => $model->course_ID));?>">
+        <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
+    </a>

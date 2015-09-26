@@ -61,7 +61,7 @@
                     if(Yii::app()->user->isGuest) {
                         echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
                     } else{
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile(profilePath);'));
+                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile();'));
                     }?>
                 </div>
             </div>

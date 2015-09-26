@@ -288,7 +288,7 @@ class LessonController extends Controller
 
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
-    public function actionNextLecture($lectureId, $idCourse)
+    public function actionNextLecture($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
         if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){

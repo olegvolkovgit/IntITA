@@ -1,5 +1,10 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0254'); ?></p>
 <div class="FinancesPay">
+    <p class="payments">Виберіть схему оплати:</p>
+
+    <?php $this->renderPartial('_paymentsForm');?>
+    <br>
+    <br>
     <p class="payments"><?php echo Yii::t('profile', '0255'); ?></p>
     <table class="payInfo">
         <tr>
@@ -49,13 +54,7 @@
         ?>
     </div>
 
-<!--<div class="studPay">-->
-<!--    <p>--><?php //echo Yii::t('profile', '0121'); ?><!-- 30.12.2015</p>-->
-<!--    <p>--><?php //echo Yii::t('profile', '0122'); ?><!-- 1000 --><?php //echo Yii::t('profile', '0123'); ?><!--</p>-->
-<!--</div>-->
-<!--    <a href="--><?php //echo Yii::app()->createUrl('pay/index');?><!--">-->
-<!--        <button class="ButtonFinances" style=" float:right; cursor:pointer">--><?php //echo Yii::t('profile', '0261'); ?><!--</button>-->
-<!--    </a>-->
+
 </div>
 <script>
     function showFullPay(n){
