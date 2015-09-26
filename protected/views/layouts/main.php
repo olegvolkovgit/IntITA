@@ -8,6 +8,7 @@ $header = new Header();
     <meta name="language" content="en">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="<?php echo Config::getBaseUrl(); ?>">
     <meta name="twitter:image" content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
     <meta property="og:image" content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
     <!-- for tabs -->

@@ -18,4 +18,6 @@ Yii::app()->clientScript->registerMetaTag($title, null, null, array('property' =
 Yii::app()->clientScript->registerMetaTag($description, null, null, array('property' => "og:description"));
 Yii::app()->clientScript->registerMetaTag($url, null, null, array('property' => "twitter:url"));
 Yii::app()->clientScript->registerMetaTag($title, null, null, array('property' => "twitter:title"));
+Yii::app()->clientScript->registerMetaTag($title, null, null, array('name' => "title"));
+Yii::app()->clientScript->registerMetaTag($description, null, null, array('name' => "description"));
 ?>
