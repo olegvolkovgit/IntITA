@@ -183,6 +183,7 @@ class SiteController extends Controller
                     if($birthday[0] == "0") $birthday[0] = ' ';
                     if($birthday[3] == "0") $birthday[3] = ' ';
                     $avatar = $userModel->avatar;
+                    if ($avatar == null || $avatar == "") $avatar = "noname.png";
 
                     Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
 
