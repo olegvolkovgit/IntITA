@@ -9,6 +9,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
 ?>
 <script>
     profilePath = "<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>";
+    course = "1";
 </script>
 <div class="leftModule">
     <div class="headerLeftModule">
@@ -52,6 +53,8 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
 
 <script>
     function redirectToProfile(profilePath){
+        $.cookie('idCourse', course, {'path': "/"});
+        $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
         document.location.href = profilePath;
     }

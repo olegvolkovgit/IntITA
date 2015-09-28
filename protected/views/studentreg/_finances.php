@@ -53,8 +53,8 @@
         ));
         ?>
     </div>
-
-
+<br>
+<br>
 </div>
 <script>
     function showFullPay(n){

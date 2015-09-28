@@ -1,13 +1,4 @@
-<?php
-
-/*
- * @var $course Course
- * */
-
-?>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
-
-<div id="account">
+    <div id="account">
     <div>
         <br>
         Отримувач коштів: ТОВ «Вінницька ІТ-Академія»
@@ -19,13 +10,17 @@
         Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
-        “<?php echo date("d"); ?>” <span id="month"><?php echo date("F"); ?></span> 2015 р. <span id="accountTitle">РАХУНОК № _______</span>
+        “<?php echo date("d"); ?>” <span id="month"><?php
+            if (isset($_GET['month'])) {
+                echo $_GET['month'];
+            } else {
+                echo date("F");
+            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № _______</span>
         <br>
         Платник:
         <br>
     </div>
     <br>
-
     <table id="accountTable">
         <tr>
             <td style="width: 30px">№ п/п</td>
@@ -39,49 +34,23 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (Курс №2777001- <?php echo CourseHelper::getCourseName($course->course_ID).', '.CourseHelper::translateLevel($course->level);?>)
+                грамотність (Курс
+                №2777001- <?php echo CourseHelper::getCourseName($course->course_ID) . ', ' . CourseHelper::translateLevel($course->level); ?>
+                )
             </td>
             <td></td>
             <td>1</td>
             <td></td>
             <td></td>
-            <td><?php echo "\$".$course->course_price.",00 ";?></td>
+            <td><span id="summa"><?php echo "\$".$course->course_price.",00 ";?></span></td>
         </tr>
-        <tr style="border: none;">
+         <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: left">
                 Всього до сплати (прописом):
                 <br>
-                <b>Вісімнадцять тисяч грн., 00 коп.</b>
+                <b><span id="summaLetters"></span></b>
                 <div id="all">Разом з ПДВ до сплати</div>
             </td>
             <td><?php echo "\$".$course->course_price.",00 ";?></td>
         </tr>
     </table>
-    <br>
-    <br>
-    <br>
-</div>
-
-<script>
-    $(document).ready(
-        function(){
-            var ukrMonthTitles = {
-                'January':'січня',
-                'February':'лютого',
-                'March':'березня',
-                'April':'квітня',
-                'May':'травня',
-                'June':'червня',
-                'July':'липня',
-                'August':'серпня',
-                'September':'вересня',
-                'October':'жовтня',
-                'November':'листопада',
-                'December':'грудня'
-            };
-            document.getElementById('month').innerHTML = ukrMonthTitles[document.getElementById('month').innerHTML];
-            window.print();
-        }
-    );
-
-</script>
