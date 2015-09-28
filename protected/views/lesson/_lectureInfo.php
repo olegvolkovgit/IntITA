@@ -40,8 +40,8 @@
 </div>
 
 <div class="titlesBlock" id="titlesBlock">
+    <ul>
     <?php if ($idCourse != 0){?>
-        <ul>
             <li>
                 <?php echo Yii::t('lecture','0070'); ?>
 <span><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?></span>(<?php echo Yii::t('lecture','0071').strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>)
