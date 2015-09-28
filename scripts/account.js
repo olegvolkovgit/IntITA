@@ -17,17 +17,30 @@ $(window).load(
         month = ukrMonthTitles[document.getElementById('month').innerHTML];
         document.getElementById('month').innerHTML = ukrMonthTitles[document.getElementById('month').innerHTML];
 
-        //summa = document.getElementById('summaLetters').innerText;
-        document.getElementById('summaLetters').innerText = toPhrase(summa, 'UAH');
+        document.getElementById('summaLetters').innerText = toPhrase(summa);
     }
 );
-function sendData(dat)
+function sendData(dat, course, module)
 {
+    $.ajax({
+        type: "POST",
+        url: "/IntITA/accountancy/newAccount",
+        data: {
+            'user': user,
+            'module': module,
+            'course': course,
+            'summa': summa
+        },
+        cache: false,
+        success: function () {
+
+        }
+    });
     window.location.search = dat;
 }
 
-function toPhrase(summa, c) {
-    var x = Math.round(summa);
+function toPhrase(summa) {
+    var x = parseFloat(summa).toFixed(2);
     if (x < 0 || x > 999999999999999.99) return false;
 
     var currency = 'UAH';
@@ -44,12 +57,12 @@ function toPhrase(summa, c) {
 
 // рубли
 // по умолчанию
-    groups[0][-1] = {'RUB': 'рублів', 'USD': 'доларів США', 'EUR': 'євро', 'UAH': 'гривень,'};
+    groups[0][-1] = {'RUB': 'рублів', 'USD': 'доларів США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
 //исключения
-    groups[0][1] = {'RUB': 'рубль', 'USD': 'долар США', 'EUR': 'євро', 'UAH': 'гривня,'};
-    groups[0][2] = {'RUB': 'рубля', 'USD': 'доларів США', 'EUR': 'євро', 'UAH': 'гривень,'};
-    groups[0][3] = {'RUB': 'рубля', 'USD': 'долара США', 'EUR': 'євро', 'UAH': 'гривень,'};
-    groups[0][4] = {'RUB': 'рубля', 'USD': 'долара США', 'EUR': 'євро', 'UAH': 'гривень,'};
+    groups[0][1] = {'RUB': 'рубль', 'USD': 'долар США, ', 'EUR': 'євро', 'UAH': 'гривня,'};
+    groups[0][2] = {'RUB': 'рубля', 'USD': 'доларів США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
+    groups[0][3] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
+    groups[0][4] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
 
 // тысячи
 // по умолчанию
@@ -89,12 +102,12 @@ function toPhrase(summa, c) {
 
 // копейки
 // по умолчанию
-    groups[9][-1] = {'RUB': 'копеек', 'USD': 'центов', 'EUR': 'центов', 'UAH': 'копійок'};
+    groups[9][-1] = {'RUB': 'копеек', 'USD': 'центів', 'EUR': 'центів', 'UAH': 'копійок'};
 //исключения
     groups[9][1] = {'RUB': 'копейка', 'USD': 'цент', 'EUR': 'цент', 'UAH': 'копійка'};
-    groups[9][2] = {'RUB': 'копейки', 'USD': 'цента', 'EUR': 'цента', 'UAH': 'копійки'};
-    groups[9][3] = {'RUB': 'копейки', 'USD': 'цента', 'EUR': 'цента', 'UAH': 'копійки'};
-    groups[9][4] = {'RUB': 'копейки', 'USD': 'цента', 'EUR': 'цента', 'UAH': 'копійки'};
+    groups[9][2] = {'RUB': 'копейки', 'USD': 'центи', 'EUR': 'центи', 'UAH': 'копійки'};
+    groups[9][3] = {'RUB': 'копейки', 'USD': 'центи', 'EUR': 'центи', 'UAH': 'копійки'};
+    groups[9][4] = {'RUB': 'копейки', 'USD': 'центи', 'EUR': 'центи', 'UAH': 'копійки'};
 
 // цифры и числа
 // либо просто строка, либо 4 строки в хэше
