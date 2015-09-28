@@ -34,7 +34,7 @@
                 <?php }else{ ?>
                  data-url="<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>"
                 <?php }?>
-                 data-title="<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>"
+                 data-title="<?php echo ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643') ?>"
                  data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>"
                  data-description="Я успішно завершив заняття! INTITA - програмуй майбутнє."
                  data-path="<?php echo Config::getBaseUrl(); ?>/scripts/lectureShare42/">

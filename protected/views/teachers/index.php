@@ -1,7 +1,7 @@
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('teachers', '0058'),
-    'description'=>'Якщо ви професійний ІТ-шник і бажаєте викладати окремі ІТ теми чи модулі і співпрацювати з нами в напрямку підготовки програмістів, напишіть нам листа.',
+    'title'=>Yii::t('teachers', '0058').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0645'),
 ));
 ?>
 <!-- teachers style -->

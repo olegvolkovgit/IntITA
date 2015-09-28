@@ -8,8 +8,8 @@
 ?>
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('mainpage','0002'),
-    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+    'title'=>Yii::t('mainpage','0002').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
 ));
 ?>
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
