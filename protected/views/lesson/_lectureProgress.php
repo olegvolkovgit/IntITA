@@ -28,11 +28,11 @@
                    $args['page'] = $passedPages[$i]['order'];
                    $args['idCourse'] = ($idCourse)?$idCourse:'0';
                    echo $this->createUrl('', $args) . "#title"; ?>"
-                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php } else {
                 ?>
                 <a class="pageNoAccess pageTitle"
-                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php }
         }
         if (!$editMode)

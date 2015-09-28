@@ -10,7 +10,7 @@ else $thisPage = $lastAccessPage;
 
 if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())
 ){
-    throw new CHttpException(403, 'В доступі відмовлено. Ви не пройшли попередні кроки');
+    throw new CHttpException(403, Yii::t('lecture', '0640'));
 }
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'cjuitabs.css'); ?>"/>

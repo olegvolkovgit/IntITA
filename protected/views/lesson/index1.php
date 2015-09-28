@@ -70,6 +70,9 @@ $this->renderPartial('/site/_shareMetaTag', array(
     order = 1;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
+
+    partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
+
 </script>
 <?php
 
@@ -158,7 +161,6 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 
     ?>
 </div>
-
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">

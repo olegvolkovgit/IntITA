@@ -18,6 +18,6 @@ if ($page->video){
         });
     </script>
 <?php } else{
-    echo "На жаль, відео для цієї сторінки ще не завантажено.";
+    echo Yii::t('lecture', '0639');
 }?>
 

@@ -32,7 +32,7 @@
             </li>
             <br>
             <li>
-                <?php echo '(' . $lecture->order . ' з ' . LectureHelper::getLessonsCount($lecture->idModule) .' '. Yii::t('lecture', '0616').')'; ?>
+                <?php echo '(' . $lecture->order . ' / ' . LectureHelper::getLessonsCount($lecture->idModule) .' '. Yii::t('lecture', '0616').')'; ?>
             </li>
             <div id="counter">
                 <?php
