@@ -634,7 +634,7 @@ a.createLetter{
     color: red;
     text-align: center;
 }
-.spoilerBody {
+.letter .spoilerBody {
     display:none;
     word-wrap: break-word;
 }
