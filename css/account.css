@@ -45,9 +45,8 @@ table#accountTable td {
 #visaPlace{
     margin-left: 95px;
 }
-#printAccount a    {
+#printAccount {
     display: inline-block;
-    position: relative;
     width:160px;
     height:30px;
     border-radius: 7px;
@@ -61,8 +60,9 @@ table#accountTable td {
     letter-spacing:1px;
     line-height: 32px;
     text-decoration: none;
+    margin-left: 300px;
 }
-#printAccount a:hover {
+#printAccount :hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;

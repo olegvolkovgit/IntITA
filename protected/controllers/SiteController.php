@@ -257,6 +257,8 @@ class SiteController extends Controller
         setcookie("openProfileTab", '', 1, '/');
         setcookie("openEditTab", '', 1, '/');
         setcookie("openRegistrationTab", '', 1, '/');
+        setcookie("idModule", '', 1, '/');
+        setcookie("idCourse", '', 1, '/');
 
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
