@@ -11,23 +11,39 @@ class CourseHelper {
         switch ($level){
             case 'intern':
                 $level = Yii::t('courses', '0232');
-                //$rate = 1;
                 break;
             case 'junior':
                 $level = Yii::t('courses', '0233');
-                //$rate = 2;
-                break;
+                 break;
             case 'strong junior':
                 $level = Yii::t('courses', '0234');
-                //$rate = 3;
                 break;
             case 'middle':
                 $level = Yii::t('courses', '0235');
-                //$rate = 4;
                 break;
             case 'senior':
                 $level = Yii::t('courses', '0236');
-                //$rate = 5;
+                break;
+        }
+        return $level;
+    }
+
+    public static function translateLevelUa($level){
+        switch ($level){
+            case 'intern':
+                $level = 'стажер';
+                break;
+            case 'junior':
+                $level = 'початківець';
+                break;
+            case 'strong junior':
+                $level = 'сильний початківець';
+                break;
+            case 'middle':
+                $level = 'середній';
+                break;
+            case 'senior':
+                $level = 'високий';
                 break;
         }
         return $level;
@@ -228,5 +244,13 @@ class CourseHelper {
             $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'];
         }
         return $result;
+    }
+
+    public static function getCourseNumber($id){
+        return Course::model()->findByPk($id)->course_number;
+    }
+
+    public static function getPriceUah($id){
+       return round(Course::model()->findByPk($id)->course_price * CommonHelper::getDollarExchangeRate(), 2);
     }
 }

@@ -8,6 +8,7 @@
 $model = Course::model()->findByPk($_COOKIE['idCourse']);
 ?>
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
+
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
 
 <div class="paymentsForm">
@@ -57,6 +58,6 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
     <?php $this->endWidget(); ?>
 </div>
 <br>
-    <a href="<?php echo Yii::app()->createUrl('accountancy/index', array('courseId' => $model->course_ID));?>">
+    <a href="<?php echo Yii::app()->createUrl('accountancy/index', array('courseId' => $model->course_ID, 'moduleId' => '0', 'summa' => '1000'));?>">
         <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
     </a>

@@ -9,7 +9,8 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
 ?>
 <script>
     profilePath = "<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>";
-    course = "1";
+    course = "<?php (isset($_GET['idCourse']))?$_GET['idCourse']:0;?>";
+    module = "<?php echo $post->module_ID; ?>";
 </script>
 <div class="leftModule">
     <div class="headerLeftModule">
@@ -32,6 +33,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         ?>
                     </div>
                 </td>
+                <?php if(isset($_GET['idCourse']) && $_GET['idCourse'] > 0){?>
                 <td>
                     <div class="startCourse">
                         <?php
@@ -43,6 +45,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         ?>
                     </div>
                 </td>
+                <?php }?>
             </tr>
         </table>
         <?php  $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post, "idCourse"=>$idCourse));?>
@@ -54,6 +57,13 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
 <script>
     function redirectToProfile(profilePath){
         $.cookie('idCourse', course, {'path': "/"});
+        $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
+        $.cookie('openProfileTab', 5, {'path': "/"});
+        document.location.href = profilePath;
+    }
+    function redirectToProfileModule(profilePath){
+        $.cookie('idCourse', course, {'path': "/"});
+        $.cookie('idModule', module, {'path': "/"});
         $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
         document.location.href = profilePath;

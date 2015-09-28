@@ -8,8 +8,6 @@
 
 class ShareController extends Controller{
 
-
-
     public function actionIndex(){
         if (AccessHelper::isHasAccessFileShare()) {
             $this->render('index');
