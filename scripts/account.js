@@ -22,7 +22,7 @@ $(window).load(
 );
 function sendData(account, month)
 {
-    window.location.href = '/IntITA/accountancy/accountPrint?account=' + account + '&print=true&month=' + month;
+    window.location.href = '/accountancy/accountPrint?account=' + account + '&print=true&month=' + month;
 }
 
 function toPhrase(summa) {
