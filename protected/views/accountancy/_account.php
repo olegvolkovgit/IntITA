@@ -15,7 +15,7 @@
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № _______</span>
+            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
         <br>
         Платник:
         <br>
@@ -42,7 +42,7 @@
             <td>1</td>
             <td></td>
             <td></td>
-            <td><span id="summa"><?php echo CourseHelper::getPriceUah($account->id_course);?></span></td>
+            <td><span id="summa"><?php echo CourseHelper::getPriceUah($account->summa);?></span></td>
         </tr>
          <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: left">
@@ -51,6 +51,6 @@
                 <b><span id="summaLetters"></span></b>
                 <div id="all">Разом з ПДВ до сплати</div>
             </td>
-            <td><?php echo CourseHelper::getPriceUah($account->id_course);?></td>
+            <td><?php echo CourseHelper::getPriceUah($account->summa);?></td>
         </tr>
     </table>
