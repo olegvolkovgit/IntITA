@@ -86,7 +86,7 @@ if (isset($_COOKIE['idModule'])){
             },
             cache: false,
             success: function(data){
-                location.href = '/IntITA/accountancy/index?account=' + data;
+                location.href = '/accountancy/index?account=' + data;
             }
         });
     }
