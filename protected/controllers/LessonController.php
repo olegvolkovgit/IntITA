@@ -4,34 +4,33 @@
 class LessonController extends Controller
 {
 
-    public function initialize($id)
+    public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
         if (Yii::app()->user->isGuest) {
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
+        if (AccessHelper::isAdmin() || $editMode) {
+            return true;
+        }
         if (!($lecture->isFree)) {
-            if (AccessHelper::isAdmin()) {
-                return true;
-            }
-            if (AccessHelper::getRole(Yii::app()->user->getId()) == 'викладач') {
-                if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule))
-                    return true;
-            }
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) || $lecture->order > $enabledLessonOrder) {
                 throw new CHttpException(403, Yii::t('errors', '0139'));
             }
+        }else {
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
         }
     }
 
     public function actionIndex($id, $idCourse=0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $this->initialize($id);
-
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+        $this->initialize($id,$editMode);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;
