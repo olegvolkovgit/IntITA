@@ -35,14 +35,14 @@
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
                 грамотність (Курс
-                №2777001- <?php echo Course::model()->findByPk($course->course_ID)->title_ua . ', ' .
-                    CourseHelper::translateLevelUa($course->level); ?>)
+                №2777001- <?php echo Course::model()->findByPk($account->id_course)->title_ua . ', '.
+                    CourseHelper::translateLevelUa($account->id_course); ?>)
             </td>
             <td></td>
             <td>1</td>
             <td></td>
             <td></td>
-            <td><span id="summa"><?php echo CourseHelper::getPriceUah($course->course_ID);?></span></td>
+            <td><span id="summa"><?php echo CourseHelper::getPriceUah($account->id_course);?></span></td>
         </tr>
          <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: left">
@@ -51,6 +51,6 @@
                 <b><span id="summaLetters"></span></b>
                 <div id="all">Разом з ПДВ до сплати</div>
             </td>
-            <td><?php echo CourseHelper::getPriceUah($course->course_ID);?></td>
+            <td><?php echo CourseHelper::getPriceUah($account->id_course);?></td>
         </tr>
     </table>

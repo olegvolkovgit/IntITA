@@ -115,11 +115,13 @@ class TempPay extends CActiveRecord
         $model = new TempPay();
 
         $model->id_user = $user;
-        $model->id_course = $course;
-        $model->id_module = $module;
+        $model->id_course = ($course != 0)?$course:null;
+        $model->id_module = ($module != 0)?$module:null;
         $model->summa = $summa;
         $model->date = time();
 
-        return $model->save();
+        $model->save();
+
+        return TempPay::model()->findByAttributes(array('date'=>$model->date))->id_account;
     }
 }

@@ -22,20 +22,7 @@ $(window).load(
 );
 function sendData(dat, course, module)
 {
-    $.ajax({
-        type: "POST",
-        url: "/IntITA/accountancy/newAccount",
-        data: {
-            'user': user,
-            'module': module,
-            'course': course,
-            'summa': summa
-        },
-        cache: false,
-        success: function () {
 
-        }
-    });
     window.location.search = dat;
 }
 
