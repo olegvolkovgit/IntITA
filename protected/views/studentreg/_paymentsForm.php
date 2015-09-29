@@ -5,7 +5,15 @@
  * Date: 26.09.2015
  * Time: 11:02
  */
-$model = Course::model()->findByPk($_COOKIE['idCourse']);
+$module = null;
+$course = null;
+if (isset($_COOKIE['idModule'])){
+    $module = Module::model()->findByPk($_COOKIE['idModule']);
+} else {
+    $course = Course::model()->findByPk($_COOKIE['idCourse']);
+    $model = Course::model()->findByPk($_COOKIE['idCourse']);
+}
+
 ?>
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPayProfile.js"></script>
 
@@ -57,9 +65,9 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
     <?php $this->endWidget(); ?>
 </div>
 <br>
-        <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount(<?php echo Yii::app()->user->getId();?>,
-            '0',
-            '<?php echo $model->course_ID;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
+            '<?php echo ($module != null)?$module->module_ID:null;?>',
+            '<?php echo ($course != null)?$course->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 
 <script>
     $(function() {

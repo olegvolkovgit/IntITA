@@ -251,8 +251,8 @@ class CourseHelper {
         return Course::model()->findByPk($id)->course_number;
     }
 
-    public static function getPriceUah($id){
-       return round(Course::model()->findByPk($id)->course_price * CommonHelper::getDollarExchangeRate(), 2);
+    public static function getPriceUah($summa){
+       return round($summa * CommonHelper::getDollarExchangeRate(), 2);
     }
 
     public static function getSummaBySchemaNum($courseId, $summaNum){
