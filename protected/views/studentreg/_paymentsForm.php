@@ -77,7 +77,7 @@ if (isset($_COOKIE['idModule'])){
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/IntITA/accountancy/newAccount",
+            url: "/accountancy/newAccount",
             data: {
                 'user': user,
                 'module': module,
