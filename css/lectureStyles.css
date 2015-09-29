@@ -445,3 +445,10 @@ h1.lessonPartEdit p img{
     display: none;
 
 }
+.finishedShare{
+    margin-top: 10px;
+}
+.finishedShare img{
+    margin-right: 10px;
+    cursor: pointer;
+}
