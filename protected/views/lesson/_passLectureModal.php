@@ -49,16 +49,17 @@
             <!--            <script type="text/javascript" src="-->
             <?php //echo StaticFilesHelper::fullPathTo('js', 'lectureShare42/share42.js'); ?><!--"></script>-->
             <!--        </div>-->
+<!--            --><?php //var_dump($lecture->id);die; ?>
             <div class='finishedShare'>
-                <a onclick="Share.facebook('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття!')">
+                <a onclick="Share.facebook('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'facebook.png'); ?>"></a>
-                <a onclick="Share.googleplus('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття!')">
+                <a onclick="Share.googleplus('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'googleplus.png'); ?>"></a>
-                <a onclick="Share.linkedin('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття!')">
+                <a onclick="Share.linkedin('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'linkedin.png'); ?>"></a>
-                <a onclick="Share.vkontakte('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття!')">
+                <a onclick="Share.vkontakte('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'vkontakte.png'); ?>"></a>
-                <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. Я успішно завершив(ла) заняття! INTITA - програмуй майбутнє.')">
+                <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?> INTITA - програмуй майбутнє!')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'twitter.png'); ?>"></a>
             </div>
             <input id="signInButtonM2" type="submit" value="ЗАКРИТИ">
@@ -70,10 +71,10 @@
 <script>
     Share = {
         facebook: function (purl, ptitle, pimg, text) {
-            url = 'http://www.facebook.com/sharer.php?s=100';
+            url = 'https://www.facebook.com/sharer/sharer.php?m2w&s=100';
+            url += '&p[url]=' + encodeURIComponent(purl);
             url += '&p[title]=' + encodeURIComponent(ptitle);
             url += '&p[summary]=' + encodeURIComponent(text);
-            url += '&p[url]=' + encodeURIComponent(purl);
             url += '&p[images][0]=' + encodeURIComponent(pimg);
             Share.popup(url);
         },
@@ -86,10 +87,10 @@
             Share.popup(url);
         },
         linkedin: function (purl, ptitle, pimg, text) {
-            url = 'https://www.linkedin.com/shareArticle?';
+            url = 'https://www.linkedin.com/shareArticle?mini=true&';
             url += 'url=' + encodeURIComponent(purl);
             url += '&title=' + encodeURIComponent(ptitle);
-            url += '&description=' + encodeURIComponent(text);
+            url += '&summary=' + encodeURIComponent(text);
             url += '&image=' + encodeURIComponent(pimg);
             Share.popup(url);
         },
