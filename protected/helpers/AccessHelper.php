@@ -303,6 +303,9 @@ class AccessHelper
         if (Yii::app()->user->isGuest) {
             return false;
         }
+        if (AccessHelper::isAdmin()) {
+            return true;
+        }
         if (AccessHelper::getRole(Yii::app()->user->getId()) == 'викладач') {
             if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $id))
                 return true;
