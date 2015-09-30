@@ -5,9 +5,17 @@
  * Date: 26.09.2015
  * Time: 11:02
  */
-$model = Course::model()->findByPk($_COOKIE['idCourse']);
+$module = null;
+$course = null;
+if (isset($_COOKIE['idModule'])){
+    $module = Module::model()->findByPk($_COOKIE['idModule']);
+} else {
+    $course = Course::model()->findByPk($_COOKIE['idCourse']);
+    $model = Course::model()->findByPk($_COOKIE['idCourse']);
+}
+
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPayProfile.js"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
 
@@ -26,8 +34,7 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
               onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span
                 id="spoilerClick"><?php echo Yii::t('course', '0415'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
         <div id="rowRadio">
-            <div class="paymentsListOdd"><input id='firstRadio' type="radio" class="paymentPlan_value"
-                                                name="payment"
+            <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                 value="1"><span><?php echo CourseHelper::getCoursePrice(StaticFilesHelper::createPath('image', 'course', 'wallet.png'), StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'), $model->course_price, 30) ?></span>
             </div>
             <div class="spoilerBody">
@@ -58,6 +65,29 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
     <?php $this->endWidget(); ?>
 </div>
 <br>
-    <a href="<?php echo Yii::app()->createUrl('accountancy/index', array('courseId' => $model->course_ID, 'moduleId' => '0', 'summa' => '1000'));?>">
-        <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
-    </a>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
+            '<?php echo ($module != null)?$module->module_ID:null;?>',
+            '<?php echo ($course != null)?$course->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+
+<script>
+    $(function() {
+        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+    });
+    function printAccount(user, module, course){
+        var summaNum = $("input[name='payment']:checked").val();
+        $.ajax({
+            type: "POST",
+            url: "/accountancy/newAccount",
+            data: {
+                'user': user,
+                'module': module,
+                'course': course,
+                'summaNum': summaNum
+            },
+            cache: false,
+            success: function(data){
+                location.href = '/accountancy/index?account=' + data;
+            }
+        });
+    }
+</script>

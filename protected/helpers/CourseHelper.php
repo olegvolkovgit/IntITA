@@ -28,7 +28,8 @@ class CourseHelper {
         return $level;
     }
 
-    public static function translateLevelUa($level){
+    public static function translateLevelUa($course){
+        $level = Course::model()->findByPk($course)->level;
         switch ($level){
             case 'intern':
                 $level = 'стажер';
@@ -250,7 +251,46 @@ class CourseHelper {
         return Course::model()->findByPk($id)->course_number;
     }
 
-    public static function getPriceUah($id){
-       return round(Course::model()->findByPk($id)->course_price * CommonHelper::getDollarExchangeRate(), 2);
+    public static function getPriceUah($summa){
+       return round($summa * CommonHelper::getDollarExchangeRate(), 2);
+    }
+
+    public static function getSummaBySchemaNum($courseId, $summaNum){
+
+        switch($summaNum){
+            case '1':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '2':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '3':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '4':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '5':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '6':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '7':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '8':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            default :
+                throw new CHttpException(400, 'Неправильно вибрана схема оплати!');
+                break;
+        }
+        return $summa;
+    }
+
+    //discount 30 percent - first pay schema
+    public static function getSummaWholeCourse($idCourse){
+        return Course::model()->findByPk($idCourse)->course_price * 0.7;
     }
 }

@@ -90,7 +90,7 @@ class ModuleHelper {
         return Module::model()->findByPk($idModule)->module_number;
     }
 
-    public static function getPriceUah($id){
-        return round(Module::model()->findByPk($id)->module_price * CommonHelper::getDollarExchangeRate(), 2);
+    public static function getPriceUah($summa){
+        return round($summa * CommonHelper::getDollarExchangeRate(), 2);
     }
 }

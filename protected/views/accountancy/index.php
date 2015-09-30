@@ -1,6 +1,6 @@
 <?php
 /*
- * @var $course Course
+ * @var TempPay $account
  * */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
@@ -8,17 +8,15 @@
     Yii::app()->clientScript->registerScriptFile(StaticFilesHelper::fullPathTo('js', 'account.js'));
 } ?>
 <script>
-    summa = "<?php echo CourseHelper::getPriceUah($course->course_ID);?>";
-    user = "<?php echo Yii::app()->user->getId();?>";
+    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
+    user = "<?php echo $account->id_user;?>";
 </script>
 
-<?php $this->renderPartial('_account', array('course' => $course, 'module' => $module));?>
+<?php $this->renderPartial('_account', array('account' => $account));?>
     <br>
     <br>
     <?php if (!isset($_GET['print'])){ ?>
-    <button onclick="sendData('courseId=<?php echo $course->course_ID; ?>&print=true&month=' + month, $course->course_ID, $module)" id="printAccount">
-        Надрукувати
-    </button>
+    <button onclick="sendData('<?php echo $account->id_account; ?>', month)" id="printAccount">Надрукувати</button>
 <?php } ?>
 <br>
 <br>

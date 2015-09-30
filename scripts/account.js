@@ -20,23 +20,9 @@ $(window).load(
         document.getElementById('summaLetters').innerText = toPhrase(summa);
     }
 );
-function sendData(dat, course, module)
+function sendData(account, month)
 {
-    $.ajax({
-        type: "POST",
-        url: "/IntITA/accountancy/newAccount",
-        data: {
-            'user': user,
-            'module': module,
-            'course': course,
-            'summa': summa
-        },
-        cache: false,
-        success: function () {
-
-        }
-    });
-    window.location.search = dat;
+    window.location.href = '/accountancy/accountPrint?account=' + account + '&print=true&month=' + month;
 }
 
 function toPhrase(summa) {
