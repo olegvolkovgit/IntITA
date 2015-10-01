@@ -1,19 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 26.09.2015
- * Time: 11:02
- */
+$model = Course::model()->findByPk($course);
 $module = null;
-$course = null;
-if (isset($_COOKIE['idModule'])){
-    $module = Module::model()->findByPk($_COOKIE['idModule']);
-} else {
-    $course = Course::model()->findByPk($_COOKIE['idCourse']);
-    $model = Course::model()->findByPk($_COOKIE['idCourse']);
-}
-
 ?>
 <script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPayProfile.js"></script>
 
@@ -27,7 +14,7 @@ if (isset($_COOKIE['idModule'])){
     )); ?>
     <?php
     $payment = new PaymentPlan();
-    if ($model->course_price == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($model->course_price, 25);
+    if ($model['course_price'] == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($model['course_price'], 25);
     else {
         ?>
         <span class="spoilerLinks"
@@ -66,21 +53,20 @@ if (isset($_COOKIE['idModule'])){
 </div>
 <br>
         <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
-            '<?php echo ($module != null)?$module->module_ID:null;?>',
-            '<?php echo ($course != null)?$course->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+            '<?php echo ($model != null)?$model->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
-    function printAccount(user, module, course){
+    function printAccount(user,course){
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
             url: "/accountancy/newAccount",
             data: {
                 'user': user,
-                'module': module,
+                'module': '0',
                 'course': course,
                 'summaNum': summaNum
             },
