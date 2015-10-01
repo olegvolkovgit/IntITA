@@ -7,7 +7,9 @@
 <?php if (!isset($_GET['print'])) {
     Yii::app()->clientScript->registerScriptFile(StaticFilesHelper::fullPathTo('js', 'account.js'));
 } ?>
-
+<head>
+    <meta charset="UTF-8">
+</head>
 <?php $this->renderPartial('_account', array('account' => $account), false, true);?>
     <br>
     <br>
