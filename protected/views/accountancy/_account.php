@@ -1,7 +1,7 @@
-<script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->id_user;?>";
-</script>
+<!--<script>-->
+<!--    summa = "--><?php //echo CourseHelper::getPriceUah($account->summa);?><!--";
+//    user = "<?php //echo $account->id_user;?>//";
+</script>-->
 
 <div id="account">
     <div>
@@ -15,7 +15,7 @@
         Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
-        “<?php echo date("d"); ?>” <span id="month"><?php
+        “<?php echo date("d"); var_dump($account);die();?>” <span id="month"><?php
             if (isset($_GET['month'])) {
                 echo $_GET['month'];
             } else {
