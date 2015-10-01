@@ -10,12 +10,8 @@ class CommonHelper {
 
     public static function getDollarExchangeRate(){
 
-        $header  = array(
-            "Content-type: text/xml",
-            "Content-length: ".strlen("https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=3"),
-            "Content-transfer-encoding: text",
-            "Connection: close"
-        );
+
+        $header = array("Accept: application/json");
 
         $ch = curl_init();
 
