@@ -47,7 +47,7 @@
             <td>1</td>
             <td></td>
             <td></td>
-            <td><span id="summa"><?php echo CourseHelper::getPriceUah($account->summa);?></span></td>
+            <td><span id="summa"><?php //echo CourseHelper::getPriceUah($account->summa);?></span></td>
         </tr>
          <tr style="border: none;">
             <td colspan="6" style="border: none;text-align: left">
@@ -56,6 +56,6 @@
                 <b><span id="summaLetters"></span></b>
                 <div id="all">Разом з ПДВ до сплати</div>
             </td>
-            <td><?php echo CourseHelper::getPriceUah($account->summa);?></td>
+            <td><?php //echo CourseHelper::getPriceUah($account->summa);?></td>
         </tr>
     </table>
