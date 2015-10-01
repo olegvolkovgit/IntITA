@@ -8,7 +8,7 @@
     Yii::app()->clientScript->registerScriptFile(StaticFilesHelper::fullPathTo('js', 'account.js'));
 } ?>
 
-<?php $this->renderPartial('_account', array('account' => $_GET['account']), false, true);?>
+<?php $this->renderPartial('_account', array('account' => $account), false, true);?>
     <br>
     <br>
     <?php if (!isset($_GET['print'])){ ?>
