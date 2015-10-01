@@ -20,9 +20,7 @@
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            } var_dump($account);die();?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php
-            var_dump($account);die();
-            echo $account->id_account;?></span>
+            }?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
         <br>
         Платник:
         <br>
@@ -42,7 +40,7 @@
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
                 грамотність (Курс
-                №2777001- <?php echo Course::model()->findByPk($account->id_course)->title_ua . ', '.
+                №2777001- <?php var_dump($account);die(); echo Course::model()->findByPk($account->id_course)->title_ua . ', '.
                     CourseHelper::translateLevelUa($account->id_course); ?>)
             </td>
             <td></td>
