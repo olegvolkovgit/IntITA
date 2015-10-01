@@ -14,7 +14,7 @@ $(window).load(
             'November': 'листопада',
             'December': 'грудня'
         };
-        month = ukrMonthTitles[document.getElementById('month').innerHTML];
+        month = ukrMonthTitles[$('#month').text()];
         document.getElementById('month').innerHTML = ukrMonthTitles[document.getElementById('month').innerHTML];
 
         document.getElementById('summaLetters').innerText = toPhrase(summa);
