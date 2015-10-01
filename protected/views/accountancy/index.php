@@ -7,12 +7,8 @@
 <?php if (!isset($_GET['print'])) {
     Yii::app()->clientScript->registerScriptFile(StaticFilesHelper::fullPathTo('js', 'account.js'));
 } ?>
-<script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->id_user;?>";
-</script>
 
-<?php $this->renderPartial('_account', array('account' => $account), false, true);?>
+<?php $this->renderPartial('_account', array('account' => $_GET['account']), false, true);?>
     <br>
     <br>
     <?php if (!isset($_GET['print'])){ ?>
