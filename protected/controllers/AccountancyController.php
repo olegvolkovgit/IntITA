@@ -13,7 +13,7 @@ class AccountancyController extends Controller
             $this->layout = false;
         }
         $model = TempPay::model()->findByPk($account);
-        var_dump($model);die();
+
         setcookie("idModule", '', 1, '/');
         setcookie("idCourse", '', 1, '/');
         $this->render('index', array('account'=>$model));

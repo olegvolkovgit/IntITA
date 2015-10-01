@@ -20,7 +20,9 @@
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
+            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php
+            var_dump($account);die();
+            echo $account->id_account;?></span>
         <br>
         Платник:
         <br>
