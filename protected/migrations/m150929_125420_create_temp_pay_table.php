@@ -10,7 +10,7 @@ class m150929_125420_create_temp_pay_table extends CDbMigration
             'date' => 'INT(11) NOT NULL',
             'id_course' => 'INT(11) NULL DEFAULT NULL',
             'id_module' => 'INT(11) NULL DEFAULT NULL',
-            'summa' => 'INT(11) NOT NULL',
+            'summa' => 'FLOAT NOT NULL',
         ));
 	}
 
