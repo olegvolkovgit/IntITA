@@ -31,7 +31,6 @@ class CommonHelper {
         if (curl_error($ch)) die("Connection Error: ".curl_errno($ch).' - '.curl_error($ch));
         curl_close($ch);
         $arr = json_decode($jsondata);
-        var_dump($jsondata);
 
         if ($arr != null) return $arr[2]->buy;
         else return 22;
