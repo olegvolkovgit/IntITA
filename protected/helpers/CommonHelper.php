@@ -23,6 +23,8 @@ class CommonHelper {
         curl_close($ch);
         $arr = json_decode($jsondata);
 
+        if($arr[2]->buy != null)
         return $arr[2]->buy;
+        else return 22;
     }
 }
