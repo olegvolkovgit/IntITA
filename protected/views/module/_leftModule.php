@@ -9,7 +9,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
 ?>
 <script>
     profilePath = "<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>";
-    course = "<?php (isset($_GET['idCourse']))?$_GET['idCourse']:0;?>";
+    course = "<?php echo (isset($_GET['idCourse']))?$_GET['idCourse']:'0';?>";
     module = "<?php echo $post->module_ID; ?>";
 </script>
 <div class="leftModule">
@@ -28,7 +28,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         if(Yii::app()->user->isGuest) {
                             echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
                         } else{
-                            echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile(profilePath);'));
+                            echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButton", 'onclick' => 'redirectToProfileModule();'));
                         }
                         ?>
                     </div>
@@ -40,7 +40,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         if(Yii::app()->user->isGuest) {
                             echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
                         } else{
-                            echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile(profilePath);'));
+                            echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile();'));
                         }
                         ?>
                     </div>
@@ -58,13 +58,14 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
-    function redirectToProfile(profilePath){
-        $.cookie('idCourse', 1, {'path': "/"});
+    function redirectToProfile(){
+        $.cookie('idCourse', course, {'path': "/"});
+        $.cookie('idModule', '0', {'path': "/"});
         $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
         document.location.href = profilePath;
     }
-    function redirectToProfileModule(profilePath){
+    function redirectToProfileModule(){
         $.cookie('idCourse', course, {'path': "/"});
         $.cookie('idModule', module, {'path': "/"});
         $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
