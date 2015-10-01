@@ -16,7 +16,7 @@ $(window).load(
         };
         $('#month').text(ukrMonthTitles[$('#month').text()]);
 
-        document.getElementById('summaLetters').innerText = toPhrase(summa);
+        document.getElementById('summaLetters').innerText = toPhrase($('#summa').text());
     }
 );
 function sendData(account, month)
