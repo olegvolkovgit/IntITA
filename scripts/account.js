@@ -15,8 +15,7 @@ $(window).load(
             'December': 'грудня'
         };
         $('#month').text(ukrMonthTitles[$('#month').text()]);
-
-        document.getElementById('summaLetters').innerText = toPhrase($('#summa').text());
+        $('#summaLetters').text(toPhrase($('#summa').text()));
     }
 );
 function sendData(account, month)
