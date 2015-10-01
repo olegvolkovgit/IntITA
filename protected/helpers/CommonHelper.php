@@ -10,6 +10,13 @@ class CommonHelper {
 
     public static function getDollarExchangeRate(){
 
+        $header  = array(
+            "Content-type: text/xml",
+            "Content-length: ".strlen("https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=3"),
+            "Content-transfer-encoding: text",
+            "Connection: close"
+        );
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=3");
@@ -17,6 +24,7 @@ class CommonHelper {
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)');
         $jsondata = curl_exec($ch);
