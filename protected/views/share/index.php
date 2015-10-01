@@ -17,6 +17,4 @@
             https://docs.google.com/document/d/1diaMLtBRRN4rTW0s1UyFHG_TD0IF7m3t6GtyPriNAhg/edit#heading=h.gjdgxs
             </a>
     </li>
-
 </ul>
-<a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 77));?>">Link</a>
