@@ -1,7 +1,4 @@
-<script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->id_user;?>";
-</script>
+
 
 <div id="account">
     <div>
