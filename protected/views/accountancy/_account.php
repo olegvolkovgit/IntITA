@@ -1,7 +1,7 @@
-<script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->id_user;?>";
-</script>
+<!--<script>-->
+<!--    summa = "--><?php //echo CourseHelper::getPriceUah($account->summa);?><!--";
+//    user = "<?php //echo $account->id_user;?>//";
+</script>-->
 
 <div id="account">
     <div>
@@ -15,12 +15,12 @@
         Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
-        “<?php echo date("d"); ?>” <span id="month"><?php
+        “<?php echo date("d");?>” <span id="month"><?php
             if (isset($_GET['month'])) {
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
+            }?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
         <br>
         Платник:
         <br>
