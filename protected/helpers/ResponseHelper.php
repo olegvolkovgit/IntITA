@@ -18,18 +18,25 @@ class ResponseHelper {
     }
 
     public static function setTeacherRating($response){
-        if(TeacherHelper::isUserTeacher($response->about)){
-            $teacher = Teacher::model()->findByAttributes(array('user_id'=>$response->about));
-            $teacher->updateByPk($teacher->teacher_id, array('rate_knowledge' => $teacher->getAverageRateKnwl($response->about)));
-            $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => $teacher->getAverageRateBeh($response->about)));
-            $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => $teacher->getAverageRateMot($response->about)));
-            $teacher->updateByPk($teacher->teacher_id, array('rating' => $teacher->getAverageRate($response->about)));
-        }
+        $teacherId = Yii::app()->db->createCommand()
+            ->select('id_teacher')
+            ->from('teacher_response')
+            ->where('id_response=:id', array(':id'=>$response->id))
+            ->queryScalar();
+
+        $responsesIdList = Response::getTeachersResponseId($teacherId);
+        Teacher::setAverageTeacherRatings($teacherId, $responsesIdList);
     }
 
-    public static function getResponseAboutTeacherName($idUser){
-        if (TeacherHelper::getTeacherId($idUser) != 0) {
-           return TeacherHelper::getTeacherNameByUserId($idUser);
+    public static function getResponseAboutTeacherName($idResponse){
+        $teacherId = Yii::app()->db->createCommand()
+            ->select('id_teacher')
+            ->from('teacher_response')
+            ->where('id_response=:id', array(':id'=>$idResponse))
+            ->queryScalar();
+
+        if ($teacherId) {
+           return TeacherHelper::getTeacherNameByUserId($teacherId);
         } else {
             return 'викладача видалено';
         }

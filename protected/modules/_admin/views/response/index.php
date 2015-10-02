@@ -31,7 +31,7 @@ $('.search-form form').submit(function(){
         ),
         array(
             'header' => 'Про кого',
-            'value' => 'ResponseHelper::getResponseAboutTeacherName($data->about)',
+            'value' => 'ResponseHelper::getResponseAboutTeacherName($data->id)',
         ),
         'date',
         'text',

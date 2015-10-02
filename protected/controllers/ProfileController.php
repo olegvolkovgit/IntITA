@@ -1,4 +1,5 @@
 <?php
+
 class ProfileController extends Controller
 {
     /**
@@ -13,49 +14,31 @@ class ProfileController extends Controller
         $teacher = Teacher::model()->findByPk($idTeacher);
 
         $response = new Response();
-//        $response->setScenario('emptyrating');
-//        $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$teacher->user_id));
-
 
         if (isset($_POST['Response'])) {
-            $response->attributes=$_POST["Response"];
+            $response->attributes = $_POST["Response"];
             $response->who = Yii::app()->user->id;
-            $response->about = $teacher->user_id;
             $response->date = date("Y-m-d H:i:s");
-            $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194).chr(160).chr(32)." \t\n\r\0\x0B");
-            $str = trim($_POST['Response']['text'], chr(194).chr(160).chr(32)." \t\n\r\0\x0B");
-            if( $str==''){
-                $response->text=NULL;
+            $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
+            $str = trim($_POST['Response']['text'], chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
+            if ($str == '') {
+                $response->text = NULL;
             }
-            if ($response->validate())
-            {
-//                if($teacherRat && $teacherRat->knowledge==$_POST['Response']['knowledge'] && $teacherRat->behavior==$_POST['Response']['behavior'] && $teacherRat->motivation==$_POST['Response']['motivation']){
-//                    $response->knowledge = Null;
-//                    $response->behavior = Null;
-//                    $response->motivation = Null;
-//                    $response->rate = Null;
-//                }
-//                if($teacherRat && ($teacherRat->knowledge!==$_POST['Response']['knowledge'] || $teacherRat->behavior!==$_POST['Response']['behavior'] || $teacherRat->motivation!==$_POST['Response']['motivation']))
-//                {
-//                    $response->knowledge = Null;
-//                    $response->behavior = Null;
-//                    $response->motivation = Null;
-//                    $response->rate = Null;
-//                    $teacherRat->knowledge = $_POST['Response']['knowledge'];
-//                    $teacherRat->behavior = $_POST['Response']['behavior'];
-//                    $teacherRat->motivation = $_POST['Response']['motivation'];
-//                    $teacherRat->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
-//                    $teacherRat->save();
-//                }
-//                if(!$teacherRat) {
-                    $response->knowledge = $_POST['Response']['knowledge'];
-                    $response->behavior = $_POST['Response']['behavior'];
-                    $response->motivation = $_POST['Response']['motivation'];
-                    $response->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
-//                }
+            if ($response->validate()) {
+
+                $response->knowledge = $_POST['Response']['knowledge'];
+                $response->behavior = $_POST['Response']['behavior'];
+                $response->motivation = $_POST['Response']['motivation'];
+                $response->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
+
                 $response->who_ip = $_SERVER["REMOTE_ADDR"];
 
                 $response->save();
+                $command = Yii::app()->db->createCommand();
+                $command->insert('teacher_response', array(
+                    'id_teacher'=>$teacher->user_id,
+                    'id_response'=>$response->id,
+                ));
 
                 Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
                 $this->refresh();
@@ -67,18 +50,23 @@ class ProfileController extends Controller
         } else {
             $editMode = 0;
         }
-        $criteria= new CDbCriteria;
+
+        $responsesIdList = Response::getTeachersResponseId($teacher->user_id);
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'response';
         $criteria->order = 'date DESC';
-        $criteria->condition = 'about='.$teacher->user_id." and is_checked = 1";
+        $criteria->condition = "is_checked = 1";
+        $criteria->addInCondition('id', $responsesIdList);
 
-        $dataProvider = new CActiveDataProvider('Response', array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-                'pageSize'=>5,
-            ),
-        ));
+        $dataProvider = new CActiveDataProvider('Response');
+        $dataProvider->criteria = $criteria;
+        $dataProvider->setPagination(array(
+                'pageSize' => 5,
+            )
+        );
 
-        $this->render('index', array (
+        $this->render('index', array(
             'model' => $teacher,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
@@ -86,12 +74,13 @@ class ProfileController extends Controller
         ));
     }
 
-    public function actionSave(){
+    public function actionSave()
+    {
         if (isset($_POST['id'])) {
-            if ($_POST['block'] == 't1' || $_POST['block'] == '1' ) {
+            if ($_POST['block'] == 't1' || $_POST['block'] == '1') {
                 Teacher::updateFirstText($_POST['id'], $_POST['content']);
             }
-            if ($_POST['block'] == 't2' || $_POST['block'] == '2' ) {
+            if ($_POST['block'] == 't2' || $_POST['block'] == '2') {
                 Teacher::updateSecondText($_POST['id'], $_POST['content']);
             }
         }
@@ -106,66 +95,65 @@ class ProfileController extends Controller
         // using the default layout 'protected/views/layouts/main.php'
         $this->render('aboutdetail');
     }
+
     /**
      * This is the action to handle external exceptions.
      */
     public function actionError()
     {
-        if($error=Yii::app()->errorHandler->error)
-        {
-            if(Yii::app()->request->isAjaxRequest)
+        if ($error = Yii::app()->errorHandler->error) {
+            if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
                 $this->render('error', $error);
         }
     }
+
     /**
      * Displays the contact page
      */
     public function actionContact()
     {
-        $model=new ContactForm;
-        if(isset($_POST['ContactForm']))
-        {
-            $model->attributes=$_POST['ContactForm'];
-            if($model->validate())
-            {
-                $name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-                $subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-                $headers="From: $name <{$model->email}>\r\n".
-                    "Reply-To: {$model->email}\r\n".
-                    "MIME-Version: 1.0\r\n".
+        $model = new ContactForm;
+        if (isset($_POST['ContactForm'])) {
+            $model->attributes = $_POST['ContactForm'];
+            if ($model->validate()) {
+                $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
+                $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
+                $headers = "From: $name <{$model->email}>\r\n" .
+                    "Reply-To: {$model->email}\r\n" .
+                    "MIME-Version: 1.0\r\n" .
                     "Content-Type: text/plain; charset=UTF-8";
-                mail(Config::getAdminEmail(),$subject,$model->body,$headers);
-                Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+                mail(Config::getAdminEmail(), $subject, $model->body, $headers);
+                Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
                 $this->refresh();
             }
         }
-        $this->render('contact',array('model'=>$model));
+        $this->render('contact', array('model' => $model));
     }
+
     /**
      * Displays the login page
      */
     public function actionLogin()
     {
-        $model=new LoginForm;
+        $model = new LoginForm;
         // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
         // collect user input data
-        if(isset($_POST['LoginForm']))
-        {
-            $model->attributes=$_POST['LoginForm'];
+        if (isset($_POST['LoginForm'])) {
+            $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
-            if($model->validate() && $model->login())
+            if ($model->validate() && $model->login())
                 $this->redirect(Yii::app()->user->returnUrl);
         }
         // display the login form
-        $this->render('login',array('model'=>$model));
+        $this->render('login', array('model' => $model));
     }
+
     /**
      * Logs out the current user and redirect to homepage.
      */
@@ -175,9 +163,10 @@ class ProfileController extends Controller
         $this->redirect(Yii::app()->homeUrl);
     }
 
-    public function getCourses(){
+    public function getCourses()
+    {
 //        $modules = TeacherModule::model()->findAllBySql('select idModule from teacher_module where idTeacher = :idTeacher;',array(':idTeacher' => $this->idTeacher));
-        $modules =[1,3, 7, 10];
+        $modules = [1, 3, 7, 10];
         $criteria = new CDbCriteria();
         $criteria->select = 'course';
         $criteria->distinct = true;
@@ -188,9 +177,10 @@ class ProfileController extends Controller
         return $courses;
     }
 
-    public function getTitles($courses){
-        $titles =[];
-        for($i = 0; $i < count($courses); $i++ ){
+    public function getTitles($courses)
+    {
+        $titles = [];
+        for ($i = 0; $i < count($courses); $i++) {
             $titles[$i]['title'] = CourseHelper::getCourseName($courses[$i]["course"]);
         }
         return $titles;
@@ -198,9 +188,9 @@ class ProfileController extends Controller
 
     public function actionDeleteAvatar()
     {
-        $model=Teacher::model()->findByAttributes(array('user_id'=>Yii::app()->user->id));
-        if($model->foto_url!=='noname2.png'){
-            unlink(Yii::getpathOfAlias('webroot').'/images/teachers/'.$model->foto_url);
+        $model = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+        if ($model->foto_url !== 'noname2.png') {
+            unlink(Yii::getpathOfAlias('webroot') . '/images/teachers/' . $model->foto_url);
             $model->updateByPk($model->teacher_id, array('foto_url' => 'noname2.png'));
             $this->redirect(Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)));
         } else {

@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'response':
  * @property integer $id
  * @property integer $who
- * @property integer $about
  * @property string $date
  * @property string $text
  * @property integer $rate
@@ -38,16 +37,16 @@ class Response extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('who, about, date', 'required'),
+			array('who, date', 'required'),
             array('knowledge', 'required', 'message'=>'знання викладача','except'=>'emptyrating'),
             array('behavior', 'required', 'message'=>'ефективність викладача','except'=>'emptyrating'),
             array('motivation', 'required', 'message'=>'ставлення викладача до студента','except'=>'emptyrating'),
             array('text', 'required', 'message'=>Yii::t("response", "0544")),
-			array('who, about, rate,  is_checked', 'numerical', 'integerOnly'=>true),
+			array('who, rate,  is_checked', 'numerical', 'integerOnly'=>true),
             array('knowledge,behavior,motivation,who_ip','safe'),
 			// The following rule is used by search().
 
-			array('id, who, about, date, text, rate, is_checked', 'safe', 'on'=>'search'),
+			array('id, who, date, text, rate, is_checked', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,7 +71,6 @@ class Response extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'who' => 'Автор відгука',
-			'about' => 'Про кого',
 			'date' => 'Дата',
 			'text' => 'Відгук',
 			'rate' => 'Оцінка',
@@ -100,7 +98,6 @@ class Response extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('who',$this->who);
-		$criteria->compare('about',$this->about);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('rate',$this->rate);
@@ -195,5 +192,17 @@ class Response extends CActiveRecord
             $bbtext = preg_replace($match, $replacement, $bbtext);
         }
         return $bbtext;
+    }
+    public static function getTeachersResponseId($id){
+        $teacherResponse = Yii::app()->db->createCommand()
+            ->select('id_response')
+            ->from('teacher_response')
+            ->where('id_teacher=:id', array(':id'=>$id))
+            ->queryAll();
+        $result = [];
+        for ($i = 0, $count = count($teacherResponse); $i < $count; $i++ ){
+            $result[$i] = $teacherResponse[$i]["id_response"];
+        }
+        return $result;
     }
 }
