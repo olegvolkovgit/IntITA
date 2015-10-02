@@ -293,4 +293,6 @@ class CourseHelper {
     public static function getSummaWholeCourse($idCourse){
         return Course::model()->findByPk($idCourse)->course_price * 0.7;
     }
+
+
 }

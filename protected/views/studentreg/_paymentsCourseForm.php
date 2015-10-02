@@ -6,6 +6,8 @@ $module = null;
 
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
 
+<p class="payments"><?php echo Yii::t('payment', '0637');?></p>
+
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'action' => '#',

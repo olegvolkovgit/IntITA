@@ -14,8 +14,6 @@ class AccountancyController extends Controller
         }
         $model = TempPay::model()->findByPk($account);
 
-        setcookie("idModule", '', 1, '/');
-        setcookie("idCourse", '', 1, '/');
         $this->render('index', array('account'=>$model));
     }
 
@@ -25,17 +23,19 @@ class AccountancyController extends Controller
         $moduleId = Yii::app()->request->getPost('module', '0');
         $summaNum = Yii::app()->request->getPost('summaNum', '0');
 
+
         if($courseId != 0) {
             if($moduleId != 0){
-                $module = Module::model()->findByPk($moduleId);
-                $summa = ModuleHelper::getSummaBySchemaNum($moduleId, $summaNum);
+                $summa = ModuleHelper::getModuleSumma($moduleId);
             } else {
-                $course = Course::model()->findByPk($courseId);
                 $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
             }
         } else {
-            $course = 0;
-            $summa = 0;
+            if($moduleId != 0){
+                $summa = ModuleHelper::getModuleSumma($moduleId);
+            } else {
+                $summa = 0;
+            }
         }
         $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
 

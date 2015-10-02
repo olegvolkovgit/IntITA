@@ -1,7 +1,7 @@
-<!--<script>-->
-<!--    summa = "--><?php //echo CourseHelper::getPriceUah($account->summa);?><!--";
-//    user = "<?php //echo $account->id_user;?>//";
-</script>-->
+<script>
+    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
+    user = "<?php echo $account->id_user;?>";
+</script>
 
 <div id="account">
     <div>
@@ -39,9 +39,7 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (Курс
-                №2777001- <?php echo Course::model()->findByPk($account->id_course)->title_ua . ', '.
-                    CourseHelper::translateLevelUa($account->id_course); ?>)
+                грамотність (<?php echo PaymentHelper::getAccountProductTitle($account);?>)
             </td>
             <td></td>
             <td>1</td>
