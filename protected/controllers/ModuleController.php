@@ -208,6 +208,7 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+
         $newOrder = Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => $newOrder));
 

@@ -7,12 +7,12 @@
  */
 class AccountancyController extends Controller
 {
-    public function actionIndex($account)
+    public function actionIndex($account, $nolayout = false)
     {
-        if (isset($_GET['print'])) {
+        $model = TempPay::model()->findByPk($account);
+        if($nolayout){
             $this->layout = false;
         }
-        $model = TempPay::model()->findByPk($account);
 
         $this->render('index', array('account'=>$model));
     }
@@ -23,16 +23,15 @@ class AccountancyController extends Controller
         $moduleId = Yii::app()->request->getPost('module', '0');
         $summaNum = Yii::app()->request->getPost('summaNum', '0');
 
-
         if($courseId != 0) {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId);
+                $summa = ModuleHelper::getModuleSumma($moduleId, true);
             } else {
                 $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
             }
         } else {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId);
+                $summa = ModuleHelper::getModuleSumma($moduleId, false);
             } else {
                 $summa = 0;
             }
@@ -40,13 +39,5 @@ class AccountancyController extends Controller
         $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
 
         echo (isset($accountId))?$accountId:'0';
-    }
-
-    public function actionAccountPrint($account){
-        $model = TempPay::model()->findByPk($account);
-        setcookie("idModule", '', 1, '/');
-        setcookie("idCourse", '', 1, '/');
-        $this->layout = false;
-        $this->renderPartial('index', array('account'=>$model));
     }
 }
