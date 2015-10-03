@@ -102,9 +102,12 @@ class ModuleHelper {
         }
     }
 
-    public static function getModulePricePayment($image, $image2, $text, $price,$discount=0){
+    public static function getModulePricePayment($image, $image2, $text, $price,$discount=0, $isIndependent){
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
+        }
+        if($isIndependent){
+            $price = $price * (1 + Config::getCoeffIndependentModule());
         }
         if ($discount == 0){
             return

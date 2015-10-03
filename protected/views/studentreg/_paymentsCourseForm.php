@@ -65,7 +65,7 @@ $module = null;
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/accountancy/newAccount",
+            url: "/IntITA/accountancy/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -74,7 +74,7 @@ $module = null;
             },
             cache: false,
             success: function(data){
-                location.href = '/accountancy/index?account=' + data;
+                location.href = '/IntITA/accountancy/index?account=' + data;
             }
         });
     }

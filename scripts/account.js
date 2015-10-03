@@ -20,7 +20,7 @@ $(window).load(
 );
 function sendData(account)
 {
-    window.location.href = "/accountancy/index?account=" + account + "&nolayout=true";
+    window.location.search = 'account=' + account + '&nolayout=true';
 }
 
 function toPhrase(summa) {
