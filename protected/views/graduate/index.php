@@ -1,7 +1,7 @@
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('graduates', '0297'),
-    'description'=>'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+    'title'=>Yii::t('graduates', '0297').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
 ));
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/GraduatesStyle.css" />

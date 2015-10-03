@@ -1,14 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 26.09.2015
- * Time: 11:02
- */
-$model = Course::model()->findByPk($_COOKIE['idCourse']);
+$model = Course::model()->findByPk($course);
+$module = null;
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPayProfile.js"></script>
+
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
+
+<p class="payments"><?php echo Yii::t('payment', '0637');?></p>
 
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
@@ -18,15 +16,14 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
     )); ?>
     <?php
     $payment = new PaymentPlan();
-    if ($model->course_price == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($model->course_price, 25);
+    if ($model['course_price'] == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($model['course_price'], 25);
     else {
         ?>
         <span class="spoilerLinks"
               onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span
                 id="spoilerClick"><?php echo Yii::t('course', '0415'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
         <div id="rowRadio">
-            <div class="paymentsListOdd"><input id='firstRadio' type="radio" class="paymentPlan_value"
-                                                name="payment"
+            <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                 value="1"><span><?php echo CourseHelper::getCoursePrice(StaticFilesHelper::createPath('image', 'course', 'wallet.png'), StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'), $model->course_price, 30) ?></span>
             </div>
             <div class="spoilerBody">
@@ -57,6 +54,28 @@ $model = Course::model()->findByPk($_COOKIE['idCourse']);
     <?php $this->endWidget(); ?>
 </div>
 <br>
-    <a href="<?php echo Yii::app()->createUrl('accountancy/index', array('courseId' => $model->course_ID));?>">
-        <button class="ButtonFinances" style=" float:right; cursor:pointer"><?php echo Yii::t('profile', '0261'); ?></button>
-    </a>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
+            '<?php echo ($model != null)?$model->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+
+<script>
+    $(function() {
+        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+    });
+    function printAccount(user,course){
+        var summaNum = $("input[name='payment']:checked").val();
+        $.ajax({
+            type: "POST",
+            url: "/accountancy/newAccount",
+            data: {
+                'user': user,
+                'module': '0',
+                'course': course,
+                'summaNum': summaNum
+            },
+            cache: false,
+            success: function(data){
+                location.href = '/accountancy/index?account=' + data;
+            }
+        });
+    }
+</script>

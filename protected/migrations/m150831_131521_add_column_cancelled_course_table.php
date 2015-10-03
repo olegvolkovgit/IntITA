@@ -12,14 +12,4 @@ class m150831_131521_add_column_cancelled_course_table extends CDbMigration
         $this->dropColumn('course', 'cancelled');
 	}
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

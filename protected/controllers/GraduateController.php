@@ -108,6 +108,9 @@ class GraduateController extends Controller
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('Graduate', array(
+            'sort'=>array(
+                'defaultOrder'=>'rate DESC',
+            ),
             'pagination'=>array(
                 'pageSize'=>50,
             ),
@@ -161,7 +164,7 @@ class GraduateController extends Controller
 
         $criteria= new CDbCriteria;
         $criteria->alias = 'graduate';
-        if ($selector == 'az') $criteria->order = 'last_name ASC';
+        if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
         if ($selector == 'date') $criteria->order = 'graduate_date DESC';
         if ($selector == 'rating') $criteria->order = 'rate DESC';
 

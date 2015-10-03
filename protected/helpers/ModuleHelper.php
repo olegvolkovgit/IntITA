@@ -48,11 +48,16 @@ class ModuleHelper {
         }
         return ", ".Yii::t('module', '0217')." - <b>".ceil($hours/($hInDay*$daysInWeek))." ".Yii::t('module', '0218')."</b> (".$hInDay." ".Yii::t('module', '0219').", ".$daysInWeek." ".Yii::t('module', '0220').")";
     }
-    public static function getModulePrice($price){
+    public static function getModulePrice($price, $isCourse){
         if ($price == 0){
             return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
-        return '<span id="oldPrice">'.$price.' '.Yii::t('module', '0222').'</span> '.ModuleHelper::getDiscountedPrice($price, 50).Yii::t('module', '0222').'('.Yii::t('module', '0223').')';
+        $result = '<span id="oldPrice">'.$price.' '.Yii::t('module', '0222').'</span> '.ModuleHelper::getDiscountedPrice($price, 50).Yii::t('module', '0222');
+        if($isCourse){
+            return $result.'('.Yii::t('module', '0223').')';
+        } else {
+            return $result;
+        }
     }
 
     public static function getModuleTitleParam(){
@@ -79,5 +84,61 @@ class ModuleHelper {
 
     public static function getModuleLang($idModule){
         return Module::model()->findByPk($idModule)->language;
+    }
+
+    public static function getModuleNumber($idModule){
+        return Module::model()->findByPk($idModule)->module_number;
+    }
+
+    public static function getPriceUah($summa){
+        return round($summa * CommonHelper::getDollarExchangeRate(), 2);
+    }
+
+    public static function getModuleSumma($moduleId, $isIndependent = false){
+        if($isIndependent){
+            return Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule());
+        } else {
+            return Module::model()->findByPk($moduleId)->module_price;
+        }
+    }
+
+    public static function getModulePricePayment($image, $image2, $text, $price,$discount=0, $isIndependent){
+        if ($price == 0){
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
+        }
+        if($isIndependent){
+            $price = $price * (1 + Config::getCoeffIndependentModule());
+        }
+        if ($discount == 0){
+            return
+                '<table class="mainPay">
+                    <tr>
+                    <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                    <td>
+                        <table>
+                            <tr><td><div>'.$text.'</div></td></tr>
+                            <tr><td><span class="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').'</span></td></tr>
+                        </table>
+                    </td>
+                    </tr>
+                </table>';
+        }
+        return
+            '<table class="mainPay">
+                <tr>
+                <td class="icoPay"><img class="icoNoCheck" src="'.$image.'"><img class="icoCheck" src="'.$image2.'"></td>
+                <td>
+                    <table>
+                        <tr><td><div>'.Yii::t('course', '0197').'</div></td></tr>
+                        <tr><td>
+                            <div class="numbers"><span class="coursePriceStatus1">'.$price." ".Yii::t('courses', '0322').'</span>
+                            &nbsp<span class="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'</span><br>
+                            <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').'">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
+                            </div>
+                        </td></tr>
+                    </table>
+                </td>
+                </tr>
+            </table>';
     }
 }

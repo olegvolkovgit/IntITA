@@ -45,14 +45,16 @@
 	<?php echo CHtml::encode($data->status); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('course_duration_hours')); ?>:</b>
+	<?php echo CHtml::encode($data->course_duration_hours); ?>
+	<br />
+
 	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('modules_count')); ?>:</b>
 	<?php echo CHtml::encode($data->modules_count); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('course_duration_hours')); ?>:</b>
-	<?php echo CHtml::encode($data->course_duration_hours); ?>
-	<br />
+
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('course_price')); ?>:</b>
 	<?php echo CHtml::encode($data->course_price); ?>

@@ -6,7 +6,6 @@
  * Date: 22.05.2015
  * Time: 14:35
  */
-
 class AccessHelper
 {
 
@@ -304,6 +303,9 @@ class AccessHelper
         if (Yii::app()->user->isGuest) {
             return false;
         }
+        if (AccessHelper::isAdmin()) {
+            return true;
+        }
         if (AccessHelper::getRole(Yii::app()->user->getId()) == 'викладач') {
             if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $id))
                 return true;
@@ -321,8 +323,9 @@ class AccessHelper
     public static function accesLecture($id, $order, $enabledOrder)
     {
         $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
         $user = Yii::app()->user->getId();
-        if (AccessHelper::isAdmin()) {
+        if (AccessHelper::isAdmin()  || $editMode) {
             return true;
         }
         if (Yii::app()->user->isGuest) {
@@ -337,6 +340,9 @@ class AccessHelper
             if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
                 return false;
             }
+        } else {
+            if ($order > $enabledOrder)
+                return false;
         }
         return true;
     }

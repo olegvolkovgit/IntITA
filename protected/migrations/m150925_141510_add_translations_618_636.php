@@ -2,7 +2,7 @@
 
 class m150925_141510_add_translations_618_636 extends CDbMigration
 {
-	public function up()
+	public function safeUp()
 	{
         $sqlSourceMessages = "
         INSERT INTO `sourcemessages` VALUES ('618', 'edit', '0618');

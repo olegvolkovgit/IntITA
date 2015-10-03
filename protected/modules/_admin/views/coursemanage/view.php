@@ -35,5 +35,6 @@
         'what_you_learn_en',
         'what_you_get_en',
         'course_img',
+        'course_duration_hours'
     ),
 )); ?>

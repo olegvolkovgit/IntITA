@@ -1,10 +1,23 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0254'); ?></p>
 <div class="FinancesPay">
-    <p class="payments">Виберіть схему оплати:</p>
-
-    <?php $this->renderPartial('_paymentsForm');?>
+    <?php if(isset($_COOKIE['idCourse']) || isset($_COOKIE['idModule'])){
+        if(isset($_COOKIE['idModule']) && $_COOKIE['idModule'] != 0){
+            echo "<h3> Модуль  №" . ModuleHelper::getModuleNumber($_COOKIE['idModule']).". ".
+                ModuleHelper::getModuleName($_COOKIE['idModule']). "</h3>";
+            $this->renderPartial('_paymentsModuleForm', array('module' => $_COOKIE['idModule'],
+                'course' => $_COOKIE['idCourse']));
+        }
+        else {
+            if (isset($_COOKIE['idCourse'])) {
+                echo "<h3> Курс №" . CourseHelper::getCourseNumber($_COOKIE['idCourse']) . ". " .
+                    CourseHelper::getCourseName($_COOKIE['idCourse']) . "</h3>";
+                $this->renderPartial('_paymentsCourseForm', array('course' => $_COOKIE['idCourse']));
+            }
+        }
+        ?>
     <br>
     <br>
+    <?php }?>
     <p class="payments"><?php echo Yii::t('profile', '0255'); ?></p>
     <table class="payInfo">
         <tr>
@@ -53,8 +66,8 @@
         ));
         ?>
     </div>
-
-
+<br>
+<br>
 </div>
 <script>
     function showFullPay(n){

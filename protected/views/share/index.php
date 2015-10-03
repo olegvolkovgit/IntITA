@@ -8,6 +8,7 @@
 ?>
 <h3>Ресурси для викладачів</h3>
 <ul>
+
     <?php
     foreach($shareLink as $share)
     {
@@ -15,5 +16,5 @@
     }
     ?>
 
+
 </ul>
-<a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => 77));?>">Link</a>

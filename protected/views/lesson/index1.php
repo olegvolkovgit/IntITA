@@ -24,14 +24,14 @@ if($idCourse != 0) {
 if($idCourse != 0) {
 $this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        'title' => ModuleHelper::getModuleName($lecture->idModule),
-        'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
+        'description' =>Yii::t('sharing','0644'),
 ));
 }else{
     $this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])),
-        'title' => ModuleHelper::getModuleName($lecture->idModule),
-        'description' => 'Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали',
+        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
+        'description' =>Yii::t('sharing','0644'),
     ));
 }
 ?>
@@ -70,6 +70,9 @@ $this->renderPartial('/site/_shareMetaTag', array(
     order = 1;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
+
+    partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
+
 </script>
 <?php
 
@@ -158,7 +161,6 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 
     ?>
 </div>
-
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">

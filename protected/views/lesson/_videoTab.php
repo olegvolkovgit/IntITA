@@ -14,10 +14,10 @@ if ($page->video){
             $('.startVideoHover').css('opacity',0);
         });
         $('.video').click(function(){
-            $('.video').html('<iframe width="770" height="400" src="<?php echo LectureHelper::getLecturePageVideo($page->id);?>?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+            $('.video').html('<iframe width="770" height="400" src="<?php echo LectureHelper::getLecturePageVideo($page->id);?>?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
         });
     </script>
 <?php } else{
-    echo "На жаль, відео для цієї сторінки ще не завантажено.";
+    echo Yii::t('lecture', '0639');
 }?>
 

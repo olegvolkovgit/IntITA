@@ -66,7 +66,7 @@ input.paymentPlan_value{
     white-space: nowrap;
 }
 #firstRadio{
-    display: none;
+    display: block;
 }
 #rowRadio input:checked+span > .mainPay{
     color: #264b73;
@@ -94,22 +94,42 @@ input.paymentPlan_value{
     background: #454545;
     cursor: pointer;
 }
-.courseShortInfoTable table.mainPay{
+.paymentsListOdd table.mainPay, .paymentsListEven table.mainPay{
     display: inline-block;
 }
-.courseShortInfoTable table.mainPay,.courseShortInfoTable table.mainPay table{
+
+#payments-form table.mainPay,#payments-form table.mainPay table{
     border-collapse: collapse;
     border-spacing: 0;
     line-height: 1;
 }
-.courseShortInfoTable table.mainPay td {
+#payments-form table.mainPay td {
     position: relative;
     vertical-align: top;
 }
-.courseShortInfoTable table.mainPay img {
+#payments-form table.mainPay img {
     margin-top: 5px;
     margin-right: 5px;
 }
-.courseShortInfoTable table.mainPay table img {
+#payments-form table.mainPay table img {
     margin-top: 0;
+}
+.colorGreen{
+    color: green;
+}
+.coursePriceStatus {
+    color: #e41818;
+    text-decoration: line-through;
+}
+.coursePriceStatus1 {
+    color: #e41818;
+    text-decoration: line-through;
+}
+.coursePriceStatus2 {
+    color: #666666;
+    font-weight: bold;
+}
+#discount{
+    color: #078a0d;
+    margin-left: 85px;
 }
