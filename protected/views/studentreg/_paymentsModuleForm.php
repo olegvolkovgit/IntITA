@@ -41,7 +41,7 @@
     function printAccount(user, module){
         $.ajax({
             type: "POST",
-            url: "/IntITA/accountancy/newAccount",
+            url: "/accountancy/newAccount",
             data: {
                 'user': user,
                 'module': module,
@@ -49,7 +49,7 @@
             },
             cache: false,
             success: function(data){
-                location.href = '/IntITA/accountancy/index?account=' + data;
+                location.href = '/accountancy/index?account=' + data;
             }
         });
     }
