@@ -252,7 +252,7 @@ class CourseHelper {
     }
 
     public static function getPriceUah($summa){
-       return round($summa * CommonHelper::getDollarExchangeRate(), 2);
+       return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
     }
 
     public static function getSummaBySchemaNum($courseId, $summaNum){
