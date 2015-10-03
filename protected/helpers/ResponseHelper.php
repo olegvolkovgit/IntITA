@@ -41,4 +41,13 @@ class ResponseHelper {
             return 'викладача видалено';
         }
     }
+
+    public static function getTeacherId($idResponse){
+        $teacherId = Yii::app()->db->createCommand()
+            ->select('id_teacher')
+            ->from('teacher_response')
+            ->where('id_response=:id', array(':id'=>$idResponse))
+            ->queryScalar();
+        return $teacherId;
+    }
 }

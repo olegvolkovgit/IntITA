@@ -17,7 +17,6 @@
  *
  * The followings are the available model relations:
  * @property User $who0
- * @property User $about0
  */
 class Response extends CActiveRecord
 {
@@ -59,7 +58,6 @@ class Response extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'who0' => array(self::BELONGS_TO, 'User', 'who'),
-			'about0' => array(self::BELONGS_TO, 'User', 'about'),
 		);
 	}
 
