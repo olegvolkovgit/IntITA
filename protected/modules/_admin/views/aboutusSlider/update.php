@@ -9,7 +9,6 @@
 //	array('label'=>'Manage AboutusSlider', 'url'=>array('admin')),
 //);
 ?>
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index');?>">Список фото</a>

@@ -12,7 +12,10 @@ class ShareController extends Controller{
 
     public function actionIndex(){
         if (AccessHelper::isHasAccessFileShare()) {
-            $this->render('index');
+
+            $shareLink = ShareLink::model()->findAll();
+
+            $this->render('index',array('shareLink' => $shareLink));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для доступу до цієї сторінки');
         }

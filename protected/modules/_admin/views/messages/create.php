@@ -3,7 +3,6 @@
 /* @var $model Messages */
 ?>
 <link rel="stylesheet" type="text/css" href="<?php Config::getBaseUrl();?>/css/formattedFormSimple.css"/>
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_admin/messages/index');?>">Інтерфейсні повідомлення</a>

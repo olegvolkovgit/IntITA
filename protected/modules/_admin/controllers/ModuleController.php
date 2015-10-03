@@ -6,19 +6,19 @@
  * Date: 21.09.2015
  * Time: 0:33
  */
-class ModuleController extends CController
+class ModuleController extends AdminController
 {
 
-    public $layout = 'main';
+//    public $layout = 'main';
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 
     public function filters()
     {
