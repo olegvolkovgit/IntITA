@@ -8,7 +8,7 @@
 ?>
 <h3>Ресурси для викладачів</h3>
 <ul>
-    <li>OpenBoard - <a href="https://drive.google.com/file/d/0B3EvwBQUMP1Ya0VUWXhxVjNfRWc/view" target="_blank">
+    <li>OpenBoard - <a href=https://drive.google.com/file/d/0B3EvwBQUMP1YMDBYd0ZNR3cyenM/view" target="_blank">
             https://drive.google.com/file/d/0B3EvwBQUMP1Ya0VUWXhxVjNfRWc/view</a>
     </li>
     <li>Інструкція по openBoard -

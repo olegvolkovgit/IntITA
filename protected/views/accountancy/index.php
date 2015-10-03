@@ -3,6 +3,7 @@
  * @var TempPay $account
  * */
 ?>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl();?>/scripts/jquery-1.8.3.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js');?>"></script>
 
@@ -12,7 +13,7 @@
 <?php $this->renderPartial('_account', array('account' => $account), false, true);?>
     <br>
     <br>
-    <?php if (!isset($_GET['print'])){ ?>
+    <?php if (!isset($_GET['nolayout'])){ ?>
     <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">Надрукувати</button>
 <?php } ?>
 <br>
@@ -21,7 +22,7 @@
 
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 
-<?php if (isset($_GET['print']) && $_GET['print'] == true) { ?>
+<?php if (isset($_GET['nolayout']) && $_GET['nolayout'] == 'true') { ?>
     <script>
         $(window).load(
             function () {
@@ -30,6 +31,8 @@
         )
     </script>
 <?php } ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js');?>"></script>
+
 
 
 

@@ -13,7 +13,8 @@ class AccountancyController extends Controller
         if($nolayout){
             $this->layout = false;
         }
-
+        setcookie("idModule", '', 1, '/');
+        setcookie("idCourse", '', 1, '/');
         $this->render('index', array('account'=>$model));
     }
 
