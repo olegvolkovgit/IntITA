@@ -24,3 +24,7 @@ $(document).ready(function () {
     });
 });
 
+function showSchema(){
+        document.getElementById("schema").style.display = "block";
+}
+

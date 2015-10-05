@@ -91,18 +91,18 @@ class ModuleHelper {
     }
 
     public static function getPriceUah($summa){
-        return round($summa * CommonHelper::getDollarExchangeRate(), 2);
+        return round($summa * 22);//CommonHelper::getDollarExchangeRate());
     }
 
     public static function getModuleSumma($moduleId, $isIndependent = false){
         if($isIndependent == true){
-            return Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule());
+            return round(Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule()));
         } else {
-            return Module::model()->findByPk($moduleId)->module_price;
+            return round(Module::model()->findByPk($moduleId)->module_price);
         }
     }
 
-    public static function getModulePricePayment($image, $image2, $text, $price,$discount=0, $isIndependent){
+    public static function getModulePricePayment($image, $image2, $text, $price,$discount=0, $isIndependent=false){
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
