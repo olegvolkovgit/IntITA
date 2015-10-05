@@ -3,9 +3,9 @@
 /* @var $model ShareLink */
 
 $this->breadcrumbs=array(
-	'Share Links'=>array('index'),
+	'Ресурси для викладачів'=>array('index'),
 	$model->name=>array('view','id'=>$model->id),
-	'Update',
+	'Редагувати',
 );
 
 $this->menu=array(
@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update ShareLink <?php echo $model->id; ?></h1>
+<h1>Редагувати ресурс <?php echo $model->name; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
