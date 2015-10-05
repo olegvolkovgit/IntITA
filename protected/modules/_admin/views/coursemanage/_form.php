@@ -51,6 +51,13 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model,'course_duration_hours'); ?>
+        <?php echo $form->textField($model,'course_duration_hours',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'course_duration_hours'); ?>
+    </div>
+
+
+    <div class="row">
         <?php echo $form->labelEx($model,'course_number'); ?>
         <?php echo $form->textField($model,'course_number',array('size'=>45,'maxlength'=>100)); ?>
         <?php echo $form->error($model,'course_number'); ?>

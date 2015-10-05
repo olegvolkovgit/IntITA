@@ -22,7 +22,10 @@
                         StaticFilesHelper::createPath('image', 'course', 'wallet.png'),
                         StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'),
                         'Ціна за модуль',
-                        $module->module_price) ?></span>
+                        $module->module_price,
+                        0,
+                        (isset($_COOKIE['idCourse']))?true:false
+                        ) ?></span>
             </div>
         </div>
     <?php } ?>

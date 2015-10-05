@@ -23,6 +23,7 @@
  * @property string $what_you_get_en
  * @property string $course_img
  * @property integer $rating
+ * @property string $level
  * @property integer $cancelled
  * @property integer $course_number
  *

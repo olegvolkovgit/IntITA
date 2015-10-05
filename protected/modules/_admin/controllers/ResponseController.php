@@ -96,6 +96,7 @@ class ResponseController extends CController
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();
+		Yii::app()->db->createCommand("DELETE FROM teacher_response WHERE id_response=".$id)->execute();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

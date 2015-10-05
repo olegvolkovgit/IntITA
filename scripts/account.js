@@ -18,9 +18,9 @@ $(window).load(
         $('#summaLetters').text(toPhrase($('#summa').text()));
     }
 );
-function sendData(account, month)
+function sendData(account)
 {
-    window.location.href = '/accountancy/accountPrint?account=' + account + '&print=true&month=' + month;
+    window.location.search = 'account=' + account + '&nolayout=true';
 }
 
 function toPhrase(summa) {
