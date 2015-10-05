@@ -95,7 +95,7 @@ class ModuleHelper {
     }
 
     public static function getModuleSumma($moduleId, $isIndependent = false){
-        if($isIndependent){
+        if($isIndependent == true){
             return Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule());
         } else {
             return Module::model()->findByPk($moduleId)->module_price;

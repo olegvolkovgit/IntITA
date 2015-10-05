@@ -122,6 +122,7 @@ class TeacherRoles extends CActiveRecord
             $model->teacher = $teacherId;
             $model->role = $roleId;
         }
+		date_default_timezone_set('UTC');
         $model->start_date = date("Y-m-d H:i");
 
         if ($model->validate()){
