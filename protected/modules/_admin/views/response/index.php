@@ -14,7 +14,6 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 
 <h1>Відгуки про викладачів</h1>

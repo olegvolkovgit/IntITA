@@ -41,7 +41,13 @@
         </tr>
     </table>
     <div class="courseDetail">
-        <div class="colorP"><?php echo Yii::t('course', '0194'); ?></div>
+        <div class="colorP"><?php echo Yii::t('course', '0194'); ?>
+            <span id="demo">
+                <a href='<?php echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?>' id="fancyzoom">Схема курса</a>
+            </span>
+<!--            <div id="schema">--><?php //$this->renderPartial('_schema', array('idCourse' => $model->course_ID));?>
+<!--            </div>-->
+            </div>
         <div>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
             - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>

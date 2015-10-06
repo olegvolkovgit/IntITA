@@ -7,7 +7,11 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/course.css"/>
 <!-- course style -->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPay.js'); ?>"></script>
+<!---->
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'fancyzoom/jquery.shadow.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'fancyzoom/jquery.fancyzoom.js'); ?>"></script>
+
 <!-- BD -))) -->
 <?php
 $this->pageTitle = 'INTITA';

@@ -16,7 +16,6 @@ $('.search-form form').submit(function(){
 ?>
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_admin/messages/create');?>">Додати повідомлення</a>

@@ -256,31 +256,30 @@ class CourseHelper {
     }
 
     public static function getSummaBySchemaNum($courseId, $summaNum){
-
         switch($summaNum){
             case '1':
                 $summa = CourseHelper::getSummaWholeCourse($courseId);
                 break;
             case '2':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseTwoPays($courseId);
                 break;
             case '3':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseFourPays($courseId);
                 break;
             case '4':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseMonthly($courseId);
                 break;
             case '5':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseCreditTwoYears($courseId);
                 break;
             case '6':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseCreditThreeYears($courseId);
                 break;
             case '7':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseCreditFourYears($courseId);
                 break;
             case '8':
-                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                $summa = CourseHelper::getSummaCourseCreditFiveYears($courseId);
                 break;
             default :
                 throw new CHttpException(400, 'Неправильно вибрана схема оплати!');
@@ -291,8 +290,50 @@ class CourseHelper {
 
     //discount 30 percent - first pay schema
     public static function getSummaWholeCourse($idCourse){
-        return Course::model()->findByPk($idCourse)->course_price * 0.7;
+        return round(Course::model()->findByPk($idCourse)->course_price * 0.7);
     }
 
+    //discount 10 percent - second pay schema
+    public static function getSummaCourseTwoPays($idCourse){
+        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.9;
+        $toPay = round($discountedSumma / 2);
+        return $toPay;
+    }
 
+    //discount 8 percent - third pay schema
+    public static function getSummaCourseFourPays($idCourse){
+        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.92;
+        $toPay = round($discountedSumma / 2);
+        return $toPay;
+    }
+
+    //monthly - forth pay schema
+    public static function getSummaCourseMonthly($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 12);
+        return $toPay;
+    }
+
+    //credit two years - fifth pay schema
+    public static function getSummaCourseCreditTwoYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 24);
+        return $toPay;
+    }
+
+    //credit three years - sixth pay schema
+    public static function getSummaCourseCreditThreeYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 36);
+        return $toPay;
+    }
+
+    //credit four years - seventh pay schema
+    public static function getSummaCourseCreditFourYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 48);
+        return $toPay;
+    }
+
+    //credit five years - eight pay schema
+    public static function getSummaCourseCreditFiveYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 60);
+        return $toPay;
+    }
 }

@@ -2,9 +2,9 @@
 $model = Course::model()->findByPk($course);
 $module = null;
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPayProfile.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/spoilerPay.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
 
 <p class="payments"><?php echo Yii::t('payment', '0637');?></p>
 
@@ -54,9 +54,13 @@ $module = null;
     <?php $this->endWidget(); ?>
 </div>
 <br>
+<?php if ($model->course_price > 0){?>
         <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
             '<?php echo ($model != null)?$model->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-
+<?php }else{
+    setcookie("idModule", '', 1, '/');
+    setcookie("idCourse", '', 1, '/');
+}?>
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
@@ -65,7 +69,7 @@ $module = null;
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/accountancy/newAccount",
+            url: "/IntITA/accountancy/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -74,7 +78,7 @@ $module = null;
             },
             cache: false,
             success: function(data){
-                location.href = '/accountancy/index?account=' + data;
+                location.href = '/IntITA/accountancy/index?account=' + data;
             }
         });
     }

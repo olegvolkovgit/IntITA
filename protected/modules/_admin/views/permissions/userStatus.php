@@ -1,7 +1,6 @@
 <?php
 ?>
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступу</a>
 

@@ -426,7 +426,7 @@ class SiteController extends Controller
             $subject = Yii::t('recovery', '0281');
             $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
             $text = Yii::t('recovery', '0239') .
-                " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
+                " " . Config::getBaseUrl() . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
             mail($getModel->email, $subject, $text, $headers);
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
@@ -454,7 +454,7 @@ class SiteController extends Controller
                 $subject = Yii::t('recovery', '0282');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('recovery', '0283') .
-                    " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
+                    " " . Config::getBaseUrl() . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
                 mail($modelReset->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));

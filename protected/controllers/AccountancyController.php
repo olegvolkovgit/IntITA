@@ -26,13 +26,13 @@ class AccountancyController extends Controller
 
         if($courseId != 0) {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, true);
+                $summa = ModuleHelper::getModuleSumma($moduleId, false);
             } else {
                 $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
             }
         } else {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, false);
+                $summa = ModuleHelper::getModuleSumma($moduleId, true);
             } else {
                 $summa = 0;
             }

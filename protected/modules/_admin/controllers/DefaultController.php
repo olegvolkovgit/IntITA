@@ -1,15 +1,15 @@
 <?php
 
-class DefaultController extends CController
+class DefaultController extends AdminController
 {
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 
     public function actionIndex()
     {

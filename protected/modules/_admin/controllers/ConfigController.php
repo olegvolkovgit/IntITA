@@ -1,6 +1,6 @@
 <?php
 
-class ConfigController extends CController
+class ConfigController extends AdminController
 {
 
     public $menu = array();
@@ -8,16 +8,16 @@ class ConfigController extends CController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='main';
+//	public $layout='main';
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 	/**
 	 * @return array action filters
 	 */

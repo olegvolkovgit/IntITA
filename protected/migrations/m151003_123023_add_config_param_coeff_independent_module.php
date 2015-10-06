@@ -5,7 +5,8 @@ class m151003_123023_add_config_param_coeff_independent_module extends CDbMigrat
 	public function up()
 	{
 		$this->insert('config', array('id' => null, 'param' => 'coeffIndependentModule', 'value' => '0.2',
-            'default' => '0.2', 'label' => 'Êîýôôèöèåíò íåçàâèñèìîãî ìîäóëÿ', 'type' => 'float', 'hidden' => '0'));
+            'default' => '0.2', 'label' => 'ÐšÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ Ð½ÐµÐ·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾Ð³Ð¾ Ð¼Ð¾Ð´ÑƒÐ»Ñ', 'type' => 'float', 'hidden' => '0'));
+            
 	}
 
 	public function down()
