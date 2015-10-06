@@ -87,7 +87,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>Yii::t('error','0416')),
+            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u','message'=>Yii::t('error','0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -558,6 +558,29 @@ class StudentReg extends CActiveRecord
                     $result=false;
             }
         return $result;
+    }
+    public static function getDaysTermination ($num)
+    {
+        //Оставляем две последние цифры от $num
+        $number = substr($num, -2);
+
+        //Если 2 последние цифры входят в диапазон от 11 до 14
+        //Тогда подставляем окончание
+        if($number > 10 and $number < 15)
+        {
+            $term = 'днів';
+        }
+        else
+        {
+
+            $number = substr($number, -1);
+
+            if($number == 0) {$term = 'днів';}
+            if($number == 1 ) {$term = 'день';}
+            if($number > 1 ) {$term = 'дні';}
+            if($number > 4 ) {$term = 'днів';}
+        }
+        return  $term;
     }
     public function validatePassword($password)
     {
