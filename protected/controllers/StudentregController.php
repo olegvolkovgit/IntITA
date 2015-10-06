@@ -16,7 +16,21 @@ class StudentRegController extends Controller
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+    public function accessRules()
+    {
+        return array(
+            array('deny',
+                'actions'=>array('profile', 'edit'),
+                'users'=>array('?'),
+            ),
+        );
+    }
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
