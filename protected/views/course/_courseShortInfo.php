@@ -43,7 +43,7 @@
     <div class="courseDetail">
         <div class="colorP"><?php echo Yii::t('course', '0194'); ?>
             <span id="demo">
-                <a href='/IntITA/images/course/course_1_table.jpg' id="fancyzoom">Схема курса</a>
+                <a href='<?php echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?>' id="fancyzoom">Схема курса</a>
             </span>
 <!--            <div id="schema">--><?php //$this->renderPartial('_schema', array('idCourse' => $model->course_ID));?>
 <!--            </div>-->
