@@ -7,8 +7,7 @@
 <!-- course style -->
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/course.css"/>
 <!-- course style -->
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/spoilerPay.js"></script>
-<!-- BD -))) -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPay.js'); ?>"></script>
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(

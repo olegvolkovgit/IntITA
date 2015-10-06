@@ -41,8 +41,10 @@
         </tr>
     </table>
     <div class="courseDetail">
-        <div class="colorP"><?php echo Yii::t('course', '0194'); ?> <a href="#" onclick="showSchema()">Схема курса</a></div>
-        <div id="schema"><?php $this->renderPartial('_schema', array('idCourse' => $model->course_ID));?></div>
+        <div class="colorP"><?php echo Yii::t('course', '0194'); ?>
+            <a href="#" onclick="showSchema()">Схема курса</a></div>
+        <div id="schema"><?php $this->renderPartial('_schema', array('idCourse' => $model->course_ID));?>
+            </div>
         <div>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
             - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>
