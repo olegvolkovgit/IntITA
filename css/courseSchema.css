@@ -1,0 +1,22 @@
+#schema{
+    border:none;
+    border-collapse: collapse;
+    padding: 0;
+    font-family:MyriadPro;
+}
+
+#schema td{
+    border:1px solid black;
+    border-spacing: 0;
+    padding: 7px;
+}
+#courseSchema{
+    margin-left: 50px;
+}
+#courseName{
+    text-align: right;
+}
+#monthTitle{
+    text-align: right;
+    border:none;
+}

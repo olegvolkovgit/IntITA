@@ -30,14 +30,14 @@ class CoursemanageController extends AdminController
         return array(
             array('allow',
                 'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'addExistModule' ,
-                    'addModuleToCourse'),
+                    'addModuleToCourse', 'schema'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin',  'addExistModule' ,
-                    'addModuleToCourse'),
+                    'addModuleToCourse', 'schema'),
                 'users'=>array('*'),
             ),
         );
@@ -209,6 +209,15 @@ class CoursemanageController extends AdminController
         $dataProvider=new CActiveDataProvider('Course');
         $this->render('index', array(
             'dataProvider' => $dataProvider
+        ));
+    }
+
+    public function actionSchema($idCourse){
+        $modules = CourseModules::model()->findAllByAttributes(array('id_course' => $idCourse));
+
+        $this->render('_schema', array(
+            'modules' => $modules,
+            'idCourse' => $idCourse
         ));
     }
 }

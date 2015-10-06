@@ -3,7 +3,7 @@
 /* @var $model Course */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+<link rel="stylesheet" type="text/css" href="<?php StaticFilesHelper::fullPathTo('css', 'formattedForm.css');?>"/>
 <div class="form">
 
     <?php $form=$this->beginWidget('CActiveForm', array(

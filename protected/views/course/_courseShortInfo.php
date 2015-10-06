@@ -45,8 +45,6 @@
             <span id="demo">
                 <a href='<?php echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?>' id="fancyzoom">Схема курса</a>
             </span>
-<!--            <div id="schema">--><?php //$this->renderPartial('_schema', array('idCourse' => $model->course_ID));?>
-<!--            </div>-->
             </div>
         <div>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
