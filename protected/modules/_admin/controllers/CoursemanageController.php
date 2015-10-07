@@ -213,11 +213,16 @@ class CoursemanageController extends AdminController
     }
 
     public function actionSchema($idCourse){
-        $modules = CourseModules::model()->findAllByAttributes(array('id_course' => $idCourse));
+
+        $modules = CourseModules::getCourseModulesSchema($idCourse);
+        $tableCells = CourseModules::getTableCells($modules, $idCourse);
+        $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
 
         $this->render('_schema', array(
             'modules' => $modules,
-            'idCourse' => $idCourse
+            'idCourse' => $idCourse,
+            'tableCells' => $tableCells,
+            'courseDuration' => $courseDurationInMonths,
         ));
     }
 }

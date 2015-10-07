@@ -8,14 +8,16 @@
 <br>
 <table id="schema">
     <tr>
-        <td id="monthTitle">місяці</td>
-        <?php for($i = 0, $count = count($modules); $i < $count; $i++){?>
-            <td><?php echo $i + 1;?></td>
+        <td class="monthTitle">місяці</td>
+        <?php for($i = 0; $i < $courseDuration; $i++){?>
+            <td class="monthsCell"><?php echo $i + 1;?></td>
         <?php }?>
     </tr>
 
     <tr>
-        <td colspan="<?php echo $count+1;?>" id="courseName">
+        <td class="monthTitle">модулі</td>
+        <td class="monthTitle" colspan="<?php echo $courseDuration - 5;?>"></td>
+        <td colspan="5" id="courseName">
         <?php echo CourseHelper::getCourseName($idCourse);?>
         </td>
     </tr>
@@ -23,16 +25,27 @@
     <?php for($i = 0, $count = count($modules); $i < $count; $i++){?>
     <tr>
         <td class="hours"><?php echo ModuleHelper::getModuleName($modules[$i]['id_module']);?></td>
-        <?php for($j = 0; $j < $count; $j++){?>
-            <td>8</td>
-        <?php }?>
+        <?php
+        $countCells = count($tableCells[$i]) - 1;
+        for($j = 0; $j < $countCells; $j++){
+            if ($tableCells[$i][$j] == 0){
+            ?>
+            <td class="emptyMonthsCell"></td>
+        <?php } else {
+                ?>
+                <td class="fullMonthsCell">
+                    <?php echo $tableCells[$i][$j];?></td>
+                <?php
+            }
+        }
+        ?>
     </tr>
     <?php }?>
 
     <tr>
-    <td id="monthTitle">місяці</td>
-    <?php for($i = 0, $count = count($modules); $i < $count; $i++){?>
-        <td><?php echo $i + 1;?></td>
+    <td class="monthTitle">місяці</td>
+    <?php for($i = 0; $i < $courseDuration; $i++){?>
+        <td class="monthsCell"><?php echo $i + 1;?></td>
     <?php }?>
     </tr>
 </table>

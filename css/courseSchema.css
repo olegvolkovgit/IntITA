@@ -4,19 +4,30 @@
     padding: 0;
     font-family:MyriadPro;
 }
-
 #schema td{
     border:1px solid black;
     border-spacing: 0;
     padding: 7px;
 }
+#schema td:first-child{
+    width:300px;
+}
 #courseSchema{
     margin-left: 50px;
 }
 #courseName{
-    text-align: right;
+    text-align: center;
+    background-color:#a4c2f4;
 }
-#monthTitle{
+#schema td.monthTitle {
     text-align: right;
-    border:none;
+    border: none;
+    color:#4b75a4;
+}
+.fullMonthsCell{
+    background-color:#f6f6f6;
+}
+.monthsCell, .emptyMonthsCell, .fullMonthsCell{
+    width: 45px;
+    text-align: center;
 }

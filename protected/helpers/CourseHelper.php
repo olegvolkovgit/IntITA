@@ -336,4 +336,5 @@ class CourseHelper {
         $toPay = round(Course::model()->findByPk($idCourse)->course_price / 60);
         return $toPay;
     }
+
 }
