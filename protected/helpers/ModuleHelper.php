@@ -46,7 +46,7 @@ class ModuleHelper {
         if ($countless == 0){
             return 0;
         }
-        return ", ".Yii::t('module', '0217')." - <b>".ceil($hours/($hInDay*$daysInWeek))." ".Yii::t('module', '0218')."</b> (".$hInDay." ".Yii::t('module', '0219').", ".$daysInWeek." ".Yii::t('module', '0220').")";
+        return ", ".Yii::t('module', '0217')." - <b>".round($countless*7/($hInDay*$daysInWeek))." ".Yii::t('module', '0218')."</b> (".$hInDay." ".Yii::t('module', '0219').", ".$daysInWeek." ".Yii::t('module', '0220').")";
     }
     public static function getModulePrice($price, $isCourse){
         if ($price == 0){
@@ -140,5 +140,8 @@ class ModuleHelper {
                 </td>
                 </tr>
             </table>';
+    }
+    public static function getAverageModuleDuration($lesson_count, $hours_in_day,$days_in_week){
+        return round($lesson_count*7/($hours_in_day*$days_in_week));
     }
 }

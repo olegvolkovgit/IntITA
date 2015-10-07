@@ -4,7 +4,7 @@
 <div class="mooda">
 <?php
 $qForm = new StudentReg;
-if(isset($_GET['page']))
+if(is_string($_GET['page']))
     $page = $_GET['page'];
 else $page = $lastAccessPage;
 
