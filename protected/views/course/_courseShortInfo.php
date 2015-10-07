@@ -42,9 +42,9 @@
     </table>
     <div class="courseDetail">
         <div class="colorP"><?php echo Yii::t('course', '0194'); ?>
-            <span id="demo">
-                <a href='<?php echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?>' id="fancyzoom">Схема курса</a>
-            </span>
+<!--            <span id="demo">-->
+<!--                <a href='--><?php //echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?><!--' id="fancyzoom">Схема курса</a>-->
+<!--            </span>-->
             </div>
         <div>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
