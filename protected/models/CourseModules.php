@@ -160,4 +160,65 @@ class CourseModules extends CActiveRecord
 
         return $result;
     }
+
+    public static function getCourseModulesSchema($idCourse){
+        $criteria =  new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->order = '`mandatory_modules` DESC';
+        $criteria->condition = 'id_course='.$idCourse;
+        $criteria->toArray();
+
+        $modules = CourseModules::model()->findAll($criteria);
+        return $modules;
+    }
+
+    public static function getTableCells($modules, $idCourse){
+        $cells = [];
+        for ($i = 0, $count = count($modules); $i < $count; $i++){
+            $cells[$i]['idModule'] = $modules[$i]['id_module'];
+            $start = CourseModules::startMonth($idCourse, $modules[$i]['id_module']);
+            $duration =  CourseModules::getModuleDurationMonths($modules[$i]['id_module']);
+            $end = $start + $duration;
+            for($j = 0; $j < $start; $j++){
+                $cells[$i][$j] = 0;
+            }
+            for ($k = $start; $k < $end; $k++){
+                if ($end - $k > 1) {
+                    $cells[$i][$k] = 8;
+                } else {
+                    $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']), 8);
+                }
+            }
+        }
+        return $cells;
+    }
+
+    public static function startMonth($idCourse, $idModule){
+        $mandatory_module = CourseModules::model()->findByAttributes(array(
+            'id_course' => $idCourse,
+            'id_module' => $idModule
+        ))->mandatory_modules;
+        if ($mandatory_module == 0){
+            return 0;
+        } else {
+            return CourseModules::startMonth($idCourse, $mandatory_module) +
+            CourseModules::getModuleDurationMonths($mandatory_module);
+        }
+    }
+
+    public static function getModuleDurationMonths($idModule){
+        $lectureHoursInMonth = 8;//TO DO: count from module data
+
+        $lectureCount = LectureHelper::getLessonsCount($idModule);
+        return ceil($lectureCount/$lectureHoursInMonth);
+    }
+
+    public static function getCourseDuration($tableCells){
+        $count = count($tableCells);
+        $arr = [];
+        for ($i = 0; $i < $count; $i++){
+            $arr[$i] = count($tableCells[$i]) - 2;
+        }
+        return max($arr) + 1;
+    }
 }
