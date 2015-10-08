@@ -4,7 +4,8 @@
 
 <div id="courseSchema">
 <br>
-<h3>Схема проходження курса <?php echo CourseHelper::getCourseName($idCourse);?></h3>
+<h3>Схема проходження курса
+    <?php echo CourseHelper::getCourseName($idCourse).", ".CourseHelper::getCourseLevel($idCourse);?></h3>
 <br>
 <table id="schema">
     <tr>
@@ -22,20 +23,36 @@
         </td>
     </tr>
 
-    <?php for($i = 0, $count = count($modules); $i < $count; $i++){?>
-    <tr>
-        <td class="hours"><?php echo ModuleHelper::getModuleName($modules[$i]['id_module']);?></td>
-        <?php
-        $countCells = count($tableCells[$i]) - 1;
-        for($j = 0; $j < $countCells; $j++){
-            if ($tableCells[$i][$j] == 0){
+    <?php for($i = 0, $count = count($modules); $i < $count; $i++){
+        if(LectureHelper::getLessonsCount($modules[$i]['id_module']) > 0) {
             ?>
-            <td class="emptyMonthsCell"></td>
-        <?php } else {
+            <tr>
+            <td class="hours"><?php echo ModuleHelper::getModuleName($modules[$i]['id_module']); ?></td>
+            <?php
+            $countCells = count($tableCells[$i]) - 1;
+            for ($j = 0; $j < $countCells; $j++) {
+                if ($tableCells[$i][$j] == 0) {
+                    ?>
+                    <td class="emptyMonthsCell"></td>
+                <?php } else {
+                    ?>
+                    <td class="fullMonthsCell">
+                        <?php echo $tableCells[$i][$j]; ?></td>
+                    <?php
+                }
+            }
+            ?>
+            <td class="examCell">E</td>
+            <?php
+            if(CourseModules::getCourseDuration($tableCells) == $j){
                 ?>
-                <td class="fullMonthsCell">
-                    <?php echo $tableCells[$i][$j];?></td>
+                <td class="trainee" colspan="4">Стажування</td>
                 <?php
+            } else {
+                for(; $j < $courseDuration - 1;$j++){?>
+                    <td class="lastCell"></td>
+                <?php
+                }
             }
         }
         ?>

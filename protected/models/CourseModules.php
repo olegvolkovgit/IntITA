@@ -175,20 +175,21 @@ class CourseModules extends CActiveRecord
     public static function getTableCells($modules, $idCourse){
         $cells = [];
         for ($i = 0, $count = count($modules); $i < $count; $i++){
-            $cells[$i]['idModule'] = $modules[$i]['id_module'];
-            $start = CourseModules::startMonth($idCourse, $modules[$i]['id_module']);
-            $duration =  CourseModules::getModuleDurationMonths($modules[$i]['id_module']);
-            $end = $start + $duration;
-            for($j = 0; $j < $start; $j++){
-                $cells[$i][$j] = 0;
-            }
-            for ($k = $start; $k < $end; $k++){
-                if ($end - $k > 1) {
-                    $cells[$i][$k] = 8;
-                } else {
-                    $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']), 8);
+                $cells[$i]['idModule'] = $modules[$i]['id_module'];
+                $start = CourseModules::startMonth($idCourse, $modules[$i]['id_module']);
+                $duration = CourseModules::getModuleDurationMonths($modules[$i]['id_module']);
+                $end = $start + $duration;
+                for ($j = 0; $j < $start; $j++) {
+                    $cells[$i][$j] = 0;
                 }
-            }
+                for ($k = $start; $k < $end; $k++) {
+                    if ($end - $k > 1) {
+                        $cells[$i][$k] = 8;
+                    } else {
+                        $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']), 8);
+                    }
+                }
+
         }
         return $cells;
     }
