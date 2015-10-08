@@ -65,8 +65,8 @@ img.courseImg{
     vertical-align: top;
     width: 115px;
     height: 115px;
-    border-radius: 150px;
-    border: 1px solid #4B75A4;
+    /*border-radius: 150px;*/
+    /*border: 1px solid #4B75A4;*/
 }
 div.courseShortInfo{
     display: block;
@@ -566,3 +566,4 @@ input.paymentPlan_value{
     background: #454545;
     cursor: pointer;
 }
+

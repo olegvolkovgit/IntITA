@@ -14,6 +14,7 @@ return array(
 
 		// database settings are configured in database.php
 		'db'=>$local_config['db'],
+        'dbForum'=>$local_config['dbForum'],
 
 		'log'=>array(
 			'class'=>'CLogRouter',

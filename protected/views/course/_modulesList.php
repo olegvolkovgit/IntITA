@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 08.05.2015
- * Time: 17:50
- */
 $editMode = ($canEdit) ? 'true' : '';
 ?>
 <div class="courseModules">
@@ -29,12 +23,14 @@ $editMode = ($canEdit) ? 'true' : '';
         <a href="#moduleForm">
             <?php echo CHtml::hiddenField('idcourse', $model->course_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'), array('update' => '#moduleForm'), array('id' => 'addModule', 'title' => Yii::t('course', '0336')));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'),
+                array('update' => '#moduleForm'),
+                array('id' => 'addModule', 'title' => Yii::t('course', '0336')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
     </div>
-    <h2><?php echo Yii::t('course', '0330') ?></h2>
+    <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <?php $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'modules-grid',
         'dataProvider' => $dataProvider->search($model->course_ID),
@@ -101,7 +97,6 @@ $editMode = ($canEdit) ? 'true' : '';
                     if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
                         $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                     else $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-                    //$data->order == 0 ? $value = "Виключено" :
                         $value = $img . Yii::t('course', '0364') . ' ' . $data->order . '.';
                     return $value;
                 },

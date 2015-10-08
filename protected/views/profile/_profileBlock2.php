@@ -7,7 +7,6 @@
  */
 ?>
 
-<?php $teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>Yii::app()->user->getId(),':aboutID'=>$model->user_id));?>
 <div class="TeacherProfileblock2">
     <?php $this->renderPartial('_teacherRate', array('model' => $model)); ?>
 
@@ -31,5 +30,5 @@
 
 
     <div style="position:relative;"><a name="resp" ></a></div>
-    <?php $this->renderPartial('_yourResponse', array('model' => $model,'teacherRat'=>$teacherRat,'response' => $response));?>
+    <?php $this->renderPartial('_yourResponse', array('model' => $model, 'response' => $response));?>
 </div>

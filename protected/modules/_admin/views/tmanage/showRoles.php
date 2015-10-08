@@ -4,7 +4,6 @@
  */
 ?>
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
@@ -12,9 +11,12 @@
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRole/teacher/', array(
         'id' => $teacherId));?>">Призначити роль</a>
     <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/cancelTeacherRole/', array('id' => $teacherId));?>">
+        Скасувати роль</a>
+    <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRoleAttribute/teacher/', array(
         'id' => $teacherId));?>">Призначити атрибут ролі</a>
-
+    <br>
     <p class="header">Ролі викладача <?php echo $name;?></p>
 <?php
 for ($i = count($roles)-1; $i >= 0; $i--){

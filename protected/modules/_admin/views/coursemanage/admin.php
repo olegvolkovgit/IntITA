@@ -2,7 +2,6 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index');?>"><?php echo Yii::t("coursemanage", "0510");?></a>
@@ -54,6 +53,7 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         'course_ID',
         'alias',
+        'course_number',
         'language',
         'title_ua',
         'level',

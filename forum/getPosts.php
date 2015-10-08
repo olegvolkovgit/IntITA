@@ -19,10 +19,10 @@ $db->sql_freeresult($result);
 if ($information != false) {
     $sql="SELECT p.post_text, p.bbcode_uid, p.bbcode_bitfield, p.post_time, u.username
       FROM `phpbb_posts` p, `phpbb_users` u
-      WHERE p.topic_id=".$information['topic_id']." AND u.user_id=p.poster_id";
-    $result = $db->sql_query($sql);
-    $posts_array = $db->sql_fetchrowset($result);
-    $db->sql_freeresult($result);
+      WHERE p.topic_id=".$information['topic_id']." AND u.user_id=p.poster_id AND p.post_visibility=1";
+$result = $db->sql_query($sql);
+$posts_array = $db->sql_fetchrowset($result);
+$db->sql_freeresult($result);
 
     $information['posts'] = [];
 

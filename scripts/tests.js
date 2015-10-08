@@ -80,8 +80,6 @@ function sendTestAnswer(checkAnswers, user, test, testType, editMode){
             success: function () {
                 if (editMode == 0 && user!=0) {
                     isTrueTestAnswer(user, test);
-                } else if(user==0){
-                    isTrueGuestTestAnswer(user, test, answers);
                 }
             }
         });
@@ -115,10 +113,15 @@ function isTrueTestAnswer(user, test){
         };
         var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){})
             .done(function(data) {
-                if (data['status'] == '1') {
+                if (data['status'] == '1' && data['lastTest']=='0') {
                     $("#mydialog2").dialog("open");
                     $("#mydialog2").parent().css('border', '4px solid #339900');
                     $("#mydialog2").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
+                    return false;
+                } else if(data['status'] == '1' && data['lastTest']=='1'){
+                    $("#dialogNextLecture").dialog("open");
+                    $("#dialogNextLecture").parent().css('border', '4px solid #339900');
+                    $("#dialogNextLecture").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
                     return false;
                 } else {
                     $("#mydialog3").dialog("open");
@@ -133,34 +136,6 @@ function isTrueTestAnswer(user, test){
             })
             .always(function() {
             }, "json");
-}
-function isTrueGuestTestAnswer(user, test, answers){
-        var command = {
-            "user": user,
-            "test" : test,
-            "answers" : answers
-        };
-        var jqxhr = $.post( "/tests/getGuestTestResult", JSON.stringify(command), function(){})
-            .done(function(data) {
-                if (data['status'] == '1') {
-                    $("#mydialog2").dialog("open");
-                    $("#mydialog2").parent().css('border', '4px solid #339900');
-                    $("#mydialog2").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
-                    return false;
-                } else {
-                    $("#mydialog3").dialog("open");
-                    $("#mydialog3").parent().css('border', '4px solid #cc0000');
-                    $("#mydialog3").parent().children(".ui-dialog-titlebar").children("button").css('display', 'none');
-                    return false;
-                }
-            })
-            .fail(function() {
-                alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
-                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
-            })
-            .always(function() {
-            }, "json");
-
 }
 /*перевіряємо чи вибраний хоч один варіант відповіді тесту як правильний, якщо ні - інфоповідомлення і неактивна кнопка*/
 function checkAnswers(answers){

@@ -1,26 +1,26 @@
 <?php
 
-class GraduateController extends CController
+class GraduateController extends AdminController
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = 'main';
+//    public $layout = 'main';
     public $menu = array();
 
     /**
      * @return array action filters
      */
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 
     public function filters()
     {
@@ -110,17 +110,25 @@ class GraduateController extends CController
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
+        $avatarOld = Graduate::model()->findByPk($id)->avatar;
+
         if (isset($_POST['Graduate'])) {
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
 
             if ($model->save()) {
                 if (!empty($model->avatar)) {
+                    //$model->avatar = $avatar;
                     $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
                     $model->avatar->saveAs($path);
                 } else {
-                    $model->avatar = 'noname2.png';
-                    $model->save();
+                    if ($avatarOld != null) {
+                        $model->avatar = $avatarOld;
+                        $model->save();
+                    } else {
+                        $model->avatar = 'noname2.png';
+                        $model->save();
+                    }
                 }
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -198,5 +206,13 @@ class GraduateController extends CController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionDeletePhoto(){
+        $id = Yii::app()->request->getPost('id', '0');
+        if($id != 0){
+           echo Graduate::model()->updateByPk($id, array('avatar' => 'noname2.png'));
+        }
+        //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/_admin/graduate/'.$id);
     }
 }

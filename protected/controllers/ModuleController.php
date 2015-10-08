@@ -73,7 +73,7 @@ class ModuleController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex($idModule, $idCourse)
+    public function actionIndex($idModule, $idCourse=0)
     {
         $model = Module::model()->findByPk($idModule);
         $owners = [];
@@ -208,20 +208,15 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+
         $newOrder = Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
         Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => $newOrder));
-
-//        $model = new TeacherModule();
-//        $model->idModule = Module::model()->findByAttributes(array('course' => $_POST['idCourse'], 'order' => $newOrder))->module_ID;
-//        $model->idTeacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()))->teacher_id;
-//        $model->save();
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
         $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
-        //$this->render('saveLesson');
     }
 
     public function actionUnableLesson($idLecture)
@@ -251,9 +246,12 @@ class ModuleController extends Controller
         $order = Lecture::model()->findByPk($idLecture)->order;
 
         if ($order > 1) {
-            $idPrev = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $order - 1))->id;
+            $orderPrev = $order - 1;
+            $idPrev = Lecture::model()->findByAttributes(array(
+                'idModule' => $idModule,
+                'order' => $orderPrev))->id;
 
-            Lecture::model()->updateByPk($idLecture, array('order' => $order - 1));
+            Lecture::model()->updateByPk($idLecture, array('order' => $orderPrev));
             Lecture::model()->updateByPk($idPrev, array('order' => $order));
         }
 
@@ -311,7 +309,7 @@ class ModuleController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot')."/images/module/".$_FILES['Module']['name']['module_img'],
                         Yii::getPathOfAlias('webroot') . "/images/module/share/shareModuleImg_".$id.'.'.$ext,
-                        200
+                        210
                     );
 
                     $this->redirect(Yii::app()->request->urlReferrer);

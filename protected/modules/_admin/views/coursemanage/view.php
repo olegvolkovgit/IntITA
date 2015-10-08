@@ -2,7 +2,6 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create');?>">Додати курс</a>
@@ -36,5 +35,6 @@
         'what_you_learn_en',
         'what_you_get_en',
         'course_img',
+        'course_duration_hours'
     ),
 )); ?>

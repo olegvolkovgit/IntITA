@@ -2,8 +2,6 @@
 /* @var $this CoursemanageController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-    <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
-    <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create');?>"><?php echo Yii::t("coursemanage", "0511");?></a>
     <br>
@@ -27,6 +25,7 @@
             'name'=>'course_ID',
             'header'=>'ID',
         ),
+        'course_number',
         array(
             'name'=>'title_ua',
             'header'=>Yii::t("coursemanage", "0519"),

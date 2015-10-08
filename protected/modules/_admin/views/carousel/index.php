@@ -3,7 +3,6 @@
 /* @var $dataProvider CActiveDataProvider */
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_admin/carousel/create');?>">Додати фото</a>

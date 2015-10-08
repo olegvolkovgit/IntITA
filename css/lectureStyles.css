@@ -443,4 +443,12 @@ h1.lessonPartEdit p img{
 }
 #bar1 .toolbar_wrapper:first-child{
     display: none;
+
+}
+.finishedShare{
+    margin-top: 10px;
+}
+.finishedShare img{
+    margin-right: 10px;
+    cursor: pointer;
 }

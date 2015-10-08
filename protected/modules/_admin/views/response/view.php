@@ -10,7 +10,6 @@
 
 //);
 ?>
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки викладачів - Головна</a>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is the model class for table "teacher".
  *
@@ -29,7 +30,8 @@
  */
 class Teacher extends CActiveRecord
 {
-    public $avatar=array(),$oldAvatar;
+    public $avatar = array(), $oldAvatar;
+
     /**
      * @return string the associated database table name
      */
@@ -37,6 +39,7 @@ class Teacher extends CActiveRecord
     {
         return 'teacher';
     }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -45,24 +48,25 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('first_name, middle_name, last_name, user_id', 'required', 'message'=>'Поле не може бути пустим'),
-            array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly'=>true),
-            array('first_name, middle_name, last_name', 'length', 'max'=>35),
-            array('first_name, middle_name, last_name, first_name_en, middle_name_en, last_name_en', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>'Недопустимі символи!'),
-            array('tel', 'match','pattern'=>'/^[0-9]+$/u', 'message'=>'Недопустимі символи!', 'except'=>'imageUpload',),
-            array('tel', 'length', 'max'=>13, 'message'=>'Недопустимі символи!', 'except'=>'imageUpload'),
-            array('subjects', 'length', 'max'=>100),
-            array('foto_url', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
-            array('readMoreLink', 'length', 'max'=>255),
-            array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max'=>50),
-            array('email','email', 'message'=>'Невірна електронна адреса'),
+            array('first_name, middle_name, last_name, user_id', 'required', 'message' => 'Поле не може бути пустим'),
+            array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
+            array('first_name, middle_name, last_name', 'length', 'max' => 35),
+            array('first_name, middle_name, last_name, first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u', 'message' => 'Недопустимі символи!'),
+            array('tel', 'match', 'pattern' => '/^[0-9]+$/u', 'message' => 'Недопустимі символи!', 'except' => 'imageUpload',),
+            array('tel', 'length', 'max' => 13, 'message' => 'Недопустимі символи!', 'except' => 'imageUpload'),
+            array('subjects', 'length', 'max' => 100),
+            array('foto_url', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('readMoreLink', 'length', 'max' => 255),
+            array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max' => 50),
+            array('email', 'email', 'message' => 'Невірна електронна адреса'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first,
             profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency,
-            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en', 'safe', 'on'=>'search'),
+            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en', 'safe', 'on' => 'search'),
         );
     }
+
     /**
      * @return array relational rules.
      */
@@ -70,9 +74,9 @@ class Teacher extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return array();
     }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -102,6 +106,7 @@ class Teacher extends CActiveRecord
             'last_name_en' => 'Прізвище (англійською)',
         );
     }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
@@ -116,115 +121,124 @@ class Teacher extends CActiveRecord
      */
     public function search()
     {
-        $criteria=new CDbCriteria;
-        $criteria->compare('teacher_id',$this->teacher_id);
-        $criteria->compare('first_name',$this->first_name,true);
-        $criteria->compare('middle_name',$this->middle_name,true);
-        $criteria->compare('last_name',$this->last_name,true);
-        $criteria->compare('foto_url',$this->foto_url,true);
-        $criteria->compare('subjects',$this->subjects,true);
-        $criteria->compare('profile_text_first',$this->profile_text_first,true);
-        $criteria->compare('profile_text_short',$this->profile_text_short,true);
-        $criteria->compare('profile_text_last',$this->profile_text_last,true);
-        $criteria->compare('readMoreLink',$this->readMoreLink,true);
-        $criteria->compare('email',$this->email,true);
-        $criteria->compare('tel',$this->tel,true);
-        $criteria->compare('skype',$this->skype,true);
-        $criteria->compare('rate_knowledge',$this->rate_knowledge);
-        $criteria->compare('rate_efficiency',$this->rate_efficiency);
-        $criteria->compare('rate_relations',$this->rate_relations);
-        $criteria->compare('user_id',$this->user_id);
-        $criteria->compare('isPrint',$this->isPrint);
-        $criteria->compare('first_name_en',$this->first_name_en,true);
-        $criteria->compare('middle_name_en',$this->middle_name_en,true);
-        $criteria->compare('last_name_en',$this->last_name_en,true);
+        $criteria = new CDbCriteria;
+        $criteria->compare('teacher_id', $this->teacher_id);
+        $criteria->compare('first_name', $this->first_name, true);
+        $criteria->compare('middle_name', $this->middle_name, true);
+        $criteria->compare('last_name', $this->last_name, true);
+        $criteria->compare('foto_url', $this->foto_url, true);
+        $criteria->compare('subjects', $this->subjects, true);
+        $criteria->compare('profile_text_first', $this->profile_text_first, true);
+        $criteria->compare('profile_text_short', $this->profile_text_short, true);
+        $criteria->compare('profile_text_last', $this->profile_text_last, true);
+        $criteria->compare('readMoreLink', $this->readMoreLink, true);
+        $criteria->compare('email', $this->email, true);
+        $criteria->compare('tel', $this->tel, true);
+        $criteria->compare('skype', $this->skype, true);
+        $criteria->compare('rate_knowledge', $this->rate_knowledge);
+        $criteria->compare('rate_efficiency', $this->rate_efficiency);
+        $criteria->compare('rate_relations', $this->rate_relations);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('isPrint', $this->isPrint);
+        $criteria->compare('first_name_en', $this->first_name_en, true);
+        $criteria->compare('middle_name_en', $this->middle_name_en, true);
+        $criteria->compare('last_name_en', $this->last_name_en, true);
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
+            'criteria' => $criteria,
+            'pagination' => array(
                 'pageSize' => 20,
             ),
         ));
     }
+
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
      * @return Teacher the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
-    public static function getHideIp ($ip)
+    public static function getHideIp($ip)
     {
-        $pos =  strripos($ip, '.');
+        $pos = strripos($ip, '.');
         $arr = str_split($ip);
-        for($i=0;$i<$pos;$i++){
-            if($arr[$i]!=='.') $arr[$i]='*';
+        for ($i = 0; $i < $pos; $i++) {
+            if ($arr[$i] !== '.') $arr[$i] = '*';
         }
         return implode("", $arr);
     }
-    public function getAverageRateKnwl ($id)
+
+    public static function setAverageTeacherRatings($teacherId, $responsesIdList)
     {
-        $countKn = Response::model()->count("knowledge>0 and about=$id and is_checked=1");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(knowledge)')
-            ->from('response')
-            ->where('about=:id and is_checked=1', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(knowledge)']/$countKn);
-    }
-    public function getAverageRateBeh ($id)
-    {
-        $countBeh = Response::model()->count("behavior>0 and about=$id and is_checked=1");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(behavior)')
-            ->from('response')
-            ->where('about=:id and is_checked=1', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(behavior)']/$countBeh);
-    }
-    public function getAverageRateMot ($id)
-    {
-        $countMot = Response::model()->count("motivation>0 and about=$id and is_checked=1");
-        $sum = Yii::app()->db->createCommand()
-            ->select('sum(motivation)')
-            ->from('response')
-            ->where('about=:id and is_checked=1', array(':id'=>$id))
-            ->queryRow();
-        return round($sum['sum(motivation)']/$countMot);
-    }
-    public function getAverageRate ($id)
-    {
-        return round(($this->getAverageRateBeh($id)+$this->getAverageRateMot($id)+$this->getAverageRateKnwl($id))/3);
+        $teacher = Teacher::model()->findByAttributes(array('user_id' => $teacherId));
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'response';
+        $criteria->condition = "is_checked = 1";
+        $criteria->addInCondition('id', $responsesIdList);
+
+        $count = 'SELECT * FROM response WHERE ' . $criteria->condition;
+        $commandCount = Yii::app()->db->createCommand($count);
+        $countField = count($commandCount->queryAll(true, $criteria->params));
+        if ($countField != 0) {
+            $sqlKn = 'SELECT sum(knowledge) FROM response WHERE ' . $criteria->condition;
+            $commandKn = Yii::app()->db->createCommand($sqlKn);
+            $resultsKn = $commandKn->queryRow(true, $criteria->params);
+            $knowledgeAve = round($resultsKn['sum(knowledge)'] / $countField);
+
+            $sqlBh = 'SELECT sum(behavior) FROM response WHERE ' . $criteria->condition;
+            $commandBh = Yii::app()->db->createCommand($sqlBh);
+            $resultsBh = $commandBh->queryRow(true, $criteria->params);
+            $behaviorAve = round($resultsBh['sum(behavior)'] / $countField);
+
+            $sqlMt = 'SELECT sum(motivation) FROM response WHERE ' . $criteria->condition;
+            $commandMt = Yii::app()->db->createCommand($sqlMt);
+            $resultsMt = $commandMt->queryRow(true, $criteria->params);
+            $motivationAve = round($resultsMt['sum(motivation)'] / $countField);
+
+            $teacher->updateByPk($teacher->teacher_id, array('rate_knowledge' => $knowledgeAve));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => $behaviorAve));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => $motivationAve));
+            $teacher->updateByPk($teacher->teacher_id, array('rating' => round(($knowledgeAve + $behaviorAve + $motivationAve) / 3)));
+        }else{
+            $teacher->updateByPk($teacher->teacher_id, array('rate_knowledge' => 0));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => 0));
+            $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => 0));
+            $teacher->updateByPk($teacher->teacher_id, array('rating' => 0));
+        }
     }
 
-    public static function isTeacher($user){
-        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))){
+    public static function isTeacher($user)
+    {
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))) {
             return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
         }
         return false;
     }
-    public static function isTeacherCanEdit($user, $modules){
+
+    public static function isTeacherCanEdit($user, $modules)
+    {
         $criteria = new CDbCriteria();
         $criteria->addInCondition('idModule', $modules);
-        $criteria->addCondition('idTeacher='.$user);
+        $criteria->addCondition('idTeacher=' . $user);
         return TeacherModule::model()->exists($criteria);
     }
+
     protected function beforeSave()
     {
-        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['foto_url']))
-        {
-            $this->foto_url=$this->oldAvatar;
-        } else if(($this->scenario=="update") && (!empty($this->avatar['tmp_name']['foto_url']))){
-            $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->oldAvatar;
+        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['foto_url'])) {
+            $this->foto_url = $this->oldAvatar;
+        } else if (($this->scenario == "update") && (!empty($this->avatar['tmp_name']['foto_url']))) {
+            $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->oldAvatar;
             if (is_file($src))
                 unlink($src);
         }
-        if (($this->scenario=="insert" || $this->scenario=="update")&& !empty($this->avatar['tmp_name']['foto_url']))
-        {
-            if(!copy($this->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/teachers/".$this->avatar['name']['foto_url']))
+        if (($this->scenario == "insert" || $this->scenario == "update") && !empty($this->avatar['tmp_name']['foto_url'])) {
+            if (!copy($this->avatar['tmp_name']['foto_url'], Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->avatar['name']['foto_url']))
                 throw new CHttpException(500);
         }
         return true;
@@ -232,48 +246,54 @@ class Teacher extends CActiveRecord
 
     protected function beforeDelete()
     {
-        $src=Yii::getPathOfAlias('webroot')."/images/teachers/".$this->foto_url;
+        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->foto_url;
         if (is_file($src))
             unlink($src);
         return true;
     }
 
 
-    public static function updateFirstText($id, $firstText){
+    public static function updateFirstText($id, $firstText)
+    {
         return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
     }
 
-    public static function updateSecondText($id, $secondText){
+    public static function updateSecondText($id, $secondText)
+    {
         return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
     }
 
 
-    public static function getAllTeachersId(){
+    public static function getAllTeachersId()
+    {
         $teachers = Teacher::model()->findAllBySql('select teacher_id from teacher order by teacher_id');
         $result = [];
-        for($i = 0; $i < count($teachers); $i++){
+        for ($i = 0; $i < count($teachers); $i++) {
             array_push($result, $teachers[$i]['teacher_id']);
         }
         return $result;
     }
 
-    public static function getFullName($id){
+    public static function getFullName($id)
+    {
         $teacher = Teacher::model()->findByPk($id);
-        return $teacher->last_name." ".$teacher->first_name." ".$teacher->middle_name;
+        return $teacher->last_name . " " . $teacher->first_name . " " . $teacher->middle_name;
     }
 
-    public static function getLectureTeacher($idLecture){
+    public static function getLectureTeacher($idLecture)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "teacher_id";
         $criteria->addCondition("isPrint=1");
         $criteria->order = 'rating ASC';
         $teachers = Teacher::model()->findAll($criteria);
 
-        foreach($teachers as $key){
-            if(TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
+        foreach ($teachers as $key) {
+            if (TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
                 ':idTeacher' => $key->teacher_id,
                 ':idModule' => Lecture::model()->findByPk($idLecture)->idModule
-            ))){
+            ))
+            ) {
                 return $key->teacher_id;
             }
         }

@@ -1,18 +1,18 @@
 <?php
 
-class TmanageController extends Controller
+class TmanageController extends AdminController
 {
-    public $layout = 'main';
+//    public $layout = 'main';
     public $menu = array();
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 
     /**
      * @return array action filters
@@ -81,7 +81,7 @@ class TmanageController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
@@ -114,7 +114,7 @@ class TmanageController extends Controller
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
             $this->redirect(array('view', 'id' => $model->teacher_id));
@@ -259,7 +259,18 @@ class TmanageController extends Controller
 
     public function actionAddTeacherRole($teacher)
     {
+        $model = Teacher::model()->findByPk($teacher);
+
         $this->render('addTeacherRole', array(
+            'teacher' => $model,
+        ));
+    }
+
+    public function actionCancelTeacherRole()
+    {
+        $teacher = Teacher::model()->findByPk($_GET['id']);
+
+        $this->render('cancelTeacherRole', array(
             'teacher' => $teacher,
         ));
     }

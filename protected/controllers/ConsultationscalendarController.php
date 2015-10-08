@@ -17,7 +17,20 @@ class ConsultationscalendarController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-
+	public function filters()
+	{
+		return array(
+			'accessControl',
+		);
+	}
+	public function accessRules()
+	{
+		return array(
+			array('deny',
+				'users'=>array('?'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.

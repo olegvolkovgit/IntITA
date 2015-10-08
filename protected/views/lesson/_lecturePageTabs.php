@@ -8,16 +8,14 @@ if (is_string($_GET['page'])) $thisPage = $_GET['page'];
 else if($editMode) $thisPage = 1;
 else $thisPage = $lastAccessPage;
 
-if (!($passedPages[$thisPage-1]['isDone'] ||
-    TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
-    LectureHelper::isLectureFree($page->id_lecture))
+if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())
 ){
-    throw new CHttpException(403, 'В доступі відмовлено. Ви не пройшли попередні кроки');
+    throw new CHttpException(403, Yii::t('lecture', '0640'));
 }
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'cjuitabs.css'); ?>"/>
 <div name="lecturePage">
-    <?php $this->renderPartial('_lectureProgress', array('page'=>$page, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture, 'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode)); ?>
+    <?php $this->renderPartial('_lectureProgress', array('page'=>$page, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture, 'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode, 'idCourse' => $idCourse)); ?>
     <div class="tabsWidget">
         <?php
         //if($page->video == null){

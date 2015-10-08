@@ -3,38 +3,38 @@
 /* @var $lecture Lecture*/
 /* @var $page LecturePage*/
 /* @var $teacher Teacher*/
+/* @var integer $idCourse*/
 
 $this->pageTitle = 'INTITA';
-$this->breadcrumbs=array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl()."/courses",
-    $lecture->getCourseInfoById($idCourse)['courseTitle']=>Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-    $lecture->getModuleInfoById($idCourse)['moduleTitle']=>Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)),
-    LectureHelper::getLectureTitle($lecture->id),
-);
-if (!($lecture->isFree)) {
-    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse)), null, null, array('property' => "og:url"));
-}else{
-    Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse)), null, null, array('property' => "og:url"));
+if(!isset($idCourse)) $idCourse=0;
+if($idCourse != 0) {
+    $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
+        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+        LectureHelper::getLectureTitle($lecture->id),
+    );
+} else {
+    $this->breadcrumbs = array(
+        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
+        LectureHelper::getLectureTitle($lecture->id),
+    );
 }
-Yii::app()->clientScript->registerMetaTag( $lecture->getCourseInfoById($idCourse)['courseTitle'], null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
-Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')), null, null, array('property' => "og:image"));
+
+if($idCourse != 0) {
+$this->renderPartial('/site/_shareMetaTag', array(
+        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
+        'description' =>Yii::t('sharing','0644'),
+));
+}else{
+    $this->renderPartial('/site/_shareMetaTag', array(
+        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])),
+        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
+        'description' =>Yii::t('sharing','0644'),
+    ));
+}
 ?>
-<div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php if (!($lecture->isFree)) {
-             echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'],'idCourse' => $idCourse));
-         }else{
-             echo Yii::app()->createAbsoluteUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse));
-         } ?>"
-         data-title="<?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'lecture/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/lecture/share/",'shareLectureImg_',$lecture->id,'defaultLectureImg.png')); ?>"
-         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
-         data-zero-counter="1">
-    </div>
-</div>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>" />
@@ -47,16 +47,8 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
   });
 </script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- Spoiler -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
-<!-- Spoiler -->
-<!--Sidebar-->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
-<!--Sidebar-->
 
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
@@ -67,8 +59,12 @@ Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image',
     order = 1;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
+
+    partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
+
 </script>
 <?php
+
 $passedLecture=LectureHelper::isPassedLecture($passedPages);
 $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
@@ -82,26 +78,28 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <div class="lessonText">
         <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
         <div id="chaptersList">
-            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode)); ?>
+            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
         </div>
         <?php if($editMode) {
             $this->renderPartial('_startEditButton', array('block' => 1));
         }
+
         if (isset($_GET['editPage'])){
-            $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $_GET['idCourse'], 'editMode' => $editMode));
+           $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $idCourse, 'editMode' => $editMode));
         }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order));
+            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         }
+
+
         ?>
 
     </div>
-    <!-- lesson footer ----congratulations-->
     <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>
     <!--modal task congratulations-->
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog2',
-        'themeUrl' => Yii::app()->request->baseUrl . '/css',
+        'themeUrl' => Config::getBaseUrl().'/css',
         'cssFile' => 'jquery-ui.css',
         'theme' => 'my',
         'options' => array(
@@ -111,7 +109,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
             'resizable' => false,
         ),
     ));
-    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage));
+    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage, 'idCourse'=>$idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
     <!--modal task congratulations end-->
@@ -120,7 +118,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog3',
-        'themeUrl'=>Yii::app()->request->baseUrl.'/css',
+        'themeUrl'=>Config::getBaseUrl().'/css',
         'cssFile'=>'jquery-ui.css',
         'theme'=>'my',
         'options' => array(
@@ -133,9 +131,25 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     $this->renderPartial('/lesson/_modalTask2');
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
-    <!--<!--modal task ---error-->
-</div>
 
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'dialogNextLecture',
+        'themeUrl'=>Config::getBaseUrl().'/css',
+        'cssFile'=>'jquery-ui.css',
+        'theme'=>'my',
+        'options' => array(
+            'width'=>540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable'=> false
+        ),
+    ));
+    $this->renderPartial('/lesson/_passLectureModal', array('lecture'=>$lecture, 'idCourse'=>$idCourse));
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+
+    ?>
+</div>
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">

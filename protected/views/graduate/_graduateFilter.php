@@ -26,7 +26,7 @@
             <td>
                 <div>
                     <?php
-                    echo CHtml::ajaxLink(Yii::t('graduates', '0611'), CController::createUrl('graduate/UpdateAjaxFilter', array('selector' => 'rating')), array('update' => '#graduateBlock'), array('class'=>'unselectedFilter', "onclick"=>"selectFilter(this)"));
+                    echo CHtml::ajaxLink(Yii::t('graduates', '0611'), CController::createUrl('graduate/UpdateAjaxFilter', array('selector' => 'rating')), array('update' => '#graduateBlock'), array('class'=>'unselectedFilter selectedFilter', "onclick"=>"selectFilter(this)"));
                     ?>
                 </div>
             </td>

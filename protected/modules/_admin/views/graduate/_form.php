@@ -63,14 +63,8 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'work_site'); ?>
-        <?php echo $form->textField($model,'work_site',array('size'=>60,'maxlength'=>255)); ?>
-        <?php echo $form->error($model,'work_site'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model,'courses_page'); ?>
-        <?php echo $form->textField($model,'courses_page',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->dropDownList($model, 'courses_page', CourseHelper::getCourseTitlesList());?>
         <?php echo $form->error($model,'courses_page'); ?>
     </div>
 

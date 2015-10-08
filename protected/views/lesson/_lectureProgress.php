@@ -19,24 +19,23 @@
     <div class="progress">
         <?php
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
-            if ($passedPages[$i]['isDone'] ||
-                TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)) ||
-                LectureHelper::isLectureFree($page->id_lecture)
+            if ($passedPages[$i]['isDone'] || $editMode || AccessHelper::isAdmin()
             ) {
                 ?>
                 <a class="pageDone pageTitle <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"
                    id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
                    href="<?php $args = $_GET;
                    $args['page'] = $passedPages[$i]['order'];
+                   $args['idCourse'] = ($idCourse)?$idCourse:'0';
                    echo $this->createUrl('', $args) . "#title"; ?>"
-                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php } else {
                 ?>
                 <a class="pageNoAccess pageTitle"
-                   title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
             <?php }
         }
-        if (!TeacherHelper::isTeacherAuthorModule($user, LectureHelper::getModuleByLecture($page->id_lecture)))
+        if (!$editMode)
         {?>
         <img style="margin-left: 10px"
              src="<?php if ($finishedLecture) echo StaticFilesHelper::createPath('image', 'common', 'medal1.png');
@@ -48,7 +47,7 @@
     for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
         <a class="pageDone pageTitle"
            id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
-           href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $_GET['idCourse']));?>?editPage=<?php echo $i+1; ?>"
+           href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $idCourse));?>?editPage=<?php echo $i+1; ?>"
            title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
         <?php
     }

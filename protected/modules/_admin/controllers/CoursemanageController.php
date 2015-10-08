@@ -1,20 +1,20 @@
 <?php
-class CoursemanageController extends CController
+class CoursemanageController extends AdminController
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout='main';
+//    public $layout='main';
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
     /**
      * @return array action filters
      */
@@ -30,14 +30,14 @@ class CoursemanageController extends CController
         return array(
             array('allow',
                 'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'addExistModule' ,
-                    'addModuleToCourse'),
+                    'addModuleToCourse', 'schema'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin',  'addExistModule' ,
-                    'addModuleToCourse'),
+                    'addModuleToCourse', 'schema'),
                 'users'=>array('*'),
             ),
         );
@@ -70,6 +70,23 @@ class CoursemanageController extends CController
         // $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
+            if (isset($_POST['Course']['course_number'])) {
+                if (Course::model()->exists('course_number=:course_number', array(
+                        ':course_number' => $_POST['Course']['course_number'])
+                )
+                ) {
+                    throw new CHttpException(400, 'Номер курса повинен бути унікальним. Такий номер курса вже
+                    існує.');
+                }
+            }
+
+            if (isset($_POST['Course']['alias'])) {
+                if (Module::model()->exists('alias=:alias', array(':alias' => $_POST['Course']['alias']))) {
+                    throw new CHttpException(400, 'Alias курса повинен бути унікальним. Такий псевдонім курса вже
+                    зайнятий.');
+                }
+            }
+
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes=$_POST['Course'];
@@ -79,7 +96,7 @@ class CoursemanageController extends CController
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $model->course_ID . '.' . $fileInfo->getExtension(),
-                        200
+                        210
                     );
                 }
             $this->redirect(array('view','id'=>$model->course_ID));
@@ -110,7 +127,7 @@ class CoursemanageController extends CController
                 ImageHelper::uploadAndResizeImg(
                     Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
                     Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
-                    200
+                    210
                 );
             }
             $this->redirect(array('view','id'=>$model->course_ID));
@@ -192,6 +209,20 @@ class CoursemanageController extends CController
         $dataProvider=new CActiveDataProvider('Course');
         $this->render('index', array(
             'dataProvider' => $dataProvider
+        ));
+    }
+
+    public function actionSchema($idCourse){
+
+        $modules = CourseModules::getCourseModulesSchema($idCourse);
+        $tableCells = CourseModules::getTableCells($modules, $idCourse);
+        $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
+
+        $this->render('_schema', array(
+            'modules' => $modules,
+            'idCourse' => $idCourse,
+            'tableCells' => $tableCells,
+            'courseDuration' => $courseDurationInMonths,
         ));
     }
 }

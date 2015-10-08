@@ -2,14 +2,15 @@
 $header = new Header();
 ?>
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#">
+<html xmlns:og="http://ogp.me/ns#" >
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-
-    <meta property="og:type" content="website" />
-    <meta property="og:image:width" content="200"/>
-
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="<?php echo Config::getBaseUrl(); ?>">
+    <meta name="twitter:image" content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
+    <meta property="og:image" content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
@@ -47,11 +48,13 @@ $header = new Header();
     <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
-
+    <!-- Placeholder for old browser -->
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
+    <!-- Placeholder for old browser -->
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body>
+<body itemscope itemtype="http://schema.org/Product" >
 
 <div id="main-wrapper">
 <div id="mainheader">

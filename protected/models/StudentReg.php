@@ -66,7 +66,7 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
-            array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302'), 'except'=>'socialLogin'),
+            array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302'),'on'=>'reguser,edit', 'except'=>'socialLogin'),
             array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
             array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery,resetemail'),
             array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail,fromraptoext'),
@@ -87,7 +87,7 @@ class StudentReg extends CActiveRecord
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
             array('educform', 'length', 'max'=>60),
-            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁ\s\'’]+$/u','message'=>Yii::t('error','0416')),
+            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u','message'=>Yii::t('error','0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -100,10 +100,10 @@ class StudentReg extends CActiveRecord
         $value = $this->$attribute;
         if(!empty($value)){
             if(!StudentReg::isNetworkURL($value,$attribute))
-                $this->addError($attribute,'Ви ввели не коректну сторінку');
+                $this->addError($attribute,Yii::t('validation','0636'));
             else
                 if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
-                $this->addError($attribute,'Ви ввели не коректну сторінку');
+                $this->addError($attribute,Yii::t('validation','0636'));
         }
     }
     public function authenticate($attribute,$params)
@@ -497,26 +497,31 @@ class StudentReg extends CActiveRecord
         switch ($network){
             case 'facebook':
                 $domainPartPos=strpos($value, 'https://www.facebook.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.facebook.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'googleplus':
                 $domainPartPos=strpos($value, 'https://plus.google.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://plus.google.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'linkedin':
                 $domainPartPos=strpos($value, 'https://www.linkedin.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.linkedin.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'vkontakte':
                 $domainPartPos=strpos($value, 'http://vk.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'https://vk.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
             case 'twitter':
                 $domainPartPos=strpos($value, 'https://twitter.com/');
+                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://twitter.com/');
                 if($domainPartPos===0)
                     $result=true;
                 break;
@@ -553,6 +558,29 @@ class StudentReg extends CActiveRecord
                     $result=false;
             }
         return $result;
+    }
+    public static function getDaysTermination ($num)
+    {
+        //Оставляем две последние цифры от $num
+        $number = substr($num, -2);
+
+        //Если 2 последние цифры входят в диапазон от 11 до 14
+        //Тогда подставляем окончание
+        if($number > 10 and $number < 15)
+        {
+            $term = 'днів';
+        }
+        else
+        {
+
+            $number = substr($number, -1);
+
+            if($number == 0) {$term = 'днів';}
+            if($number == 1 ) {$term = 'день';}
+            if($number > 1 ) {$term = 'дні';}
+            if($number > 4 ) {$term = 'днів';}
+        }
+        return  $term;
     }
     public function validatePassword($password)
     {

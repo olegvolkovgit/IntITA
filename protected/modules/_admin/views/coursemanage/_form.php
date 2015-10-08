@@ -3,9 +3,8 @@
 /* @var $model Course */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl().'/css/formattedForm.css';?>"/>
 <div class="form">
-
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'course-form',
         'htmlOptions'=>array(
@@ -48,6 +47,19 @@
         <?php echo $form->labelEx($model,'alias'); ?>
         <?php echo $form->textField($model,'alias',array('size'=>45,'maxlength'=>100)); ?>
         <?php echo $form->error($model,'alias'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'course_duration_hours'); ?>
+        <?php echo $form->textField($model,'course_duration_hours',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'course_duration_hours'); ?>
+    </div>
+
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'course_number'); ?>
+        <?php echo $form->textField($model,'course_number',array('size'=>45,'maxlength'=>100)); ?>
+        <?php echo $form->error($model,'course_number'); ?>
     </div>
 
     <div class="row">

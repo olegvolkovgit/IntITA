@@ -12,37 +12,55 @@ class CourseRule extends CBaseUrlRule
 
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
-        $module = null;
-        $lecture = null;
         $path = PathFactory::factory($pathInfo);
-        if(is_null($path)){
+        if (is_null($path)) {
             return false;
         }
 
         $path = $path->parseUrl();
 
-        if ($path->getType() == 'course') {
-            if ($path->course !== null) {
-                if ($path->module !== null) {
-                    if ($path->lecture != null) {
-                        $_GET['id'] = $path->lecture->getPrimaryKey();
+
+        switch ($path->getType()) {
+            case 'course':
+                if ($path->course !== null) {
+                    if ($path->module !== null) {
+                        if ($path->lecture != null) {
+                            $_GET['id'] = $path->lecture->getPrimaryKey();
+                            $_GET['idCourse'] = $path->course->getPrimaryKey();
+                            if (!isset($_GET['page'])) {
+                                $_GET['page'] = 1;
+                            };
+                            return 'lesson/index';
+                        }
                         $_GET['idCourse'] = $path->course->getPrimaryKey();
-                        if (!isset($_GET['page'])) {
-                            $_GET['page'] = 1;
-                        };
-
-                        return 'lesson/index';
+                        $_GET['idModule'] = $path->module->getPrimaryKey();
+                        return 'module/index';
                     }
-
-                    $_GET['idCourse'] = $path->course->getPrimaryKey();
-                    $_GET['idModule'] = $path->module->getPrimaryKey();
-                    return 'module/index';
+                    $_GET['id'] = $path->course->getPrimaryKey();
+                    return 'course/index';
                 }
+                break;
+            case 'module':
+                if ($path->lang) {
 
+                    if ($path->module !== null) {
 
-                $_GET['id'] = $path->course->getPrimaryKey();
-                return 'course/index';
-            }
+                        if ($path->lecture != null) {
+
+                            $_GET['id'] = $path->lecture->getPrimaryKey();
+                            if (!isset($_GET['page'])) {
+                                $_GET['page'] = 1;
+                            };
+                            return 'lesson/index';
+                        } else {
+                            $_GET['idModule'] = $path->module->module_ID;
+                            return 'module/index';
+                        }
+                    }
+                }
+                break;
+            default:
+                return false;
         }
         return false;
     }
@@ -52,28 +70,36 @@ class CourseRule extends CBaseUrlRule
         if ($route == 'lesson/index') {
             if (!empty($params['id'])) {
                 if ($lecture = Lecture::model()->findByPk($params['id'])) {
-                    $course = Course::model()->findByPk($params['idCourse']);
                     if (!isset($params['page'])) {
                         $pageString = '';
                     } else {
                         $pageString = '?page=' . $params['page'];
                     }
+                    if ($params['idCourse'] != 0) {
+                        $course = Course::model()->findByPk($params['idCourse']);
 
-                    return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                    . '/' . $lecture->order . $pageString;
-
+                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
+                        . '/' . $lecture->order . $pageString;
+                    } else {
+                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        . '/' . $lecture->order . $pageString;
+                    }
                 }
             }
         }
         if ($route == 'module/index') {
-            if (!empty($params['idModule'])) {
+            if (isset($params['idModule'])) {
                 if ($module = Module::model()->findByPk($params['idModule'])) {
-                    $course = Course::model()->findByPk($params['idCourse']);
+                    if (isset($params['idCourse'])) {
+                        $course = Course::model()->findByPk($params['idCourse']);
 
-                    if (!empty($params['idCourse'])) {
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias(
                             $params['idModule'],
                             $params['idCourse']
+                        );
+                    } else {
+                        return 'module/' . $module->language . '/' . Module::getModuleAlias(
+                            $params['idModule'], null
                         );
                     }
                 }

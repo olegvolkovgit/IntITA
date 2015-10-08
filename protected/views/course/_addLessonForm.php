@@ -9,13 +9,13 @@
     <input name="order" value="<?php echo $order+1?>" hidden="hidden">
     <input name="lang" value="<?php echo $newmodel->language;?>" hidden="hidden">
     <span>Назва (UA)</span>
-    <input type="text" name="titleUA" id="titleUA" required pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
+    <input type="text" name="titleUA" id="titleUA" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
     <span>Назва (RU)</span>
-    <input type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
+    <input type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
     <span>Назва (EN)</span>
-    <input type="text" name="titleEN" id="titleEN" pattern="^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
+    <input type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
     <input type="submit"  value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()">
 </form>

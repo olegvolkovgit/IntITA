@@ -11,23 +11,45 @@ class CourseHelper {
         switch ($level){
             case 'intern':
                 $level = Yii::t('courses', '0232');
-                //$rate = 1;
                 break;
             case 'junior':
                 $level = Yii::t('courses', '0233');
-                //$rate = 2;
-                break;
+                 break;
             case 'strong junior':
                 $level = Yii::t('courses', '0234');
-                //$rate = 3;
                 break;
             case 'middle':
                 $level = Yii::t('courses', '0235');
-                //$rate = 4;
                 break;
             case 'senior':
                 $level = Yii::t('courses', '0236');
-                //$rate = 5;
+                break;
+        }
+        return $level;
+    }
+
+    public static function getCourseLevel($idCourse){
+        $level = Course::model()->findByPk($idCourse)->level;
+        return CourseHelper::translateLevel($level);
+    }
+
+    public static function translateLevelUa($course){
+        $level = Course::model()->findByPk($course)->level;
+        switch ($level){
+            case 'intern':
+                $level = 'стажер';
+                break;
+            case 'junior':
+                $level = 'початківець';
+                break;
+            case 'strong junior':
+                $level = 'сильний початківець';
+                break;
+            case 'middle':
+                $level = 'середній';
+                break;
+            case 'senior':
+                $level = 'високий';
                 break;
         }
         return $level;
@@ -129,7 +151,7 @@ class CourseHelper {
                     <table>
                         <tr><td><div style="color:#4b75a4">'.$number.' '.Yii::t('course', '0198').'</div></td></tr>
                         <tr><td>
-                            <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span>'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'=</span><span class="coursePriceStatus2"> '.ModuleHelper::getDiscountedPrice($price, $discount)/$number.' '.Yii::t('courses', '0322').'</span></div>
+                            <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span class="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'=</span><span> '.ModuleHelper::getDiscountedPrice($price, $discount)/$number.' '.Yii::t('courses', '0322').' x '.$number.' '.Yii::t('course', '0323').'</span></div>
                             <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').'">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
                         </td></tr>
                     </table>
@@ -215,4 +237,109 @@ class CourseHelper {
     public static function getCourseLang($id){
         return Course::model()->findByPk($id)->language;
     }
+
+    public static function getCourseTitlesList(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'course_ID, title_ua';
+        $criteria->distinct = true;
+        $criteria->toArray();
+
+        $result = '';
+        $titles = Course::model()->findAll($criteria);
+        for($i = 0; $i < count($titles); $i++){
+            $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'];
+        }
+        return $result;
+    }
+
+    public static function getCourseNumber($id){
+        return Course::model()->findByPk($id)->course_number;
+    }
+
+    public static function getPriceUah($summa){
+       return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
+    }
+
+    public static function getSummaBySchemaNum($courseId, $summaNum){
+        switch($summaNum){
+            case '1':
+                $summa = CourseHelper::getSummaWholeCourse($courseId);
+                break;
+            case '2':
+                $summa = CourseHelper::getSummaCourseTwoPays($courseId);
+                break;
+            case '3':
+                $summa = CourseHelper::getSummaCourseFourPays($courseId);
+                break;
+            case '4':
+                $summa = CourseHelper::getSummaCourseMonthly($courseId);
+                break;
+            case '5':
+                $summa = CourseHelper::getSummaCourseCreditTwoYears($courseId);
+                break;
+            case '6':
+                $summa = CourseHelper::getSummaCourseCreditThreeYears($courseId);
+                break;
+            case '7':
+                $summa = CourseHelper::getSummaCourseCreditFourYears($courseId);
+                break;
+            case '8':
+                $summa = CourseHelper::getSummaCourseCreditFiveYears($courseId);
+                break;
+            default :
+                throw new CHttpException(400, 'Неправильно вибрана схема оплати!');
+                break;
+        }
+        return $summa;
+    }
+
+    //discount 30 percent - first pay schema
+    public static function getSummaWholeCourse($idCourse){
+        return round(Course::model()->findByPk($idCourse)->course_price * 0.7);
+    }
+
+    //discount 10 percent - second pay schema
+    public static function getSummaCourseTwoPays($idCourse){
+        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.9;
+        $toPay = round($discountedSumma / 2);
+        return $toPay;
+    }
+
+    //discount 8 percent - third pay schema
+    public static function getSummaCourseFourPays($idCourse){
+        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.92;
+        $toPay = round($discountedSumma / 2);
+        return $toPay;
+    }
+
+    //monthly - forth pay schema
+    public static function getSummaCourseMonthly($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 12);
+        return $toPay;
+    }
+
+    //credit two years - fifth pay schema
+    public static function getSummaCourseCreditTwoYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 24);
+        return $toPay;
+    }
+
+    //credit three years - sixth pay schema
+    public static function getSummaCourseCreditThreeYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 36);
+        return $toPay;
+    }
+
+    //credit four years - seventh pay schema
+    public static function getSummaCourseCreditFourYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 48);
+        return $toPay;
+    }
+
+    //credit five years - eight pay schema
+    public static function getSummaCourseCreditFiveYears($idCourse){
+        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 60);
+        return $toPay;
+    }
+
 }

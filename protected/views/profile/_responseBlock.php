@@ -5,13 +5,7 @@
  * Date: 24.04.2015
  * Time: 23:47
  */
-$teacherRat=Response::model()->find('who=:whoID and about=:aboutID', array(':whoID'=>$data['who'],':aboutID'=>$teacher->user_id));
 $user=StudentReg::model()->findByPk($data['who']);
-if($teacherRat){
-    $rat= $teacherRat->rate;
-} else{
-    $rat= Null;
-}
 ?>
 <div class="TeacherProfiletitles">
     <?php echo $user->firstName." ".$user->secondName; ?>
@@ -27,9 +21,9 @@ if($teacherRat){
 <div class="border">
     <div class="TeacherProfiletitles">
         <?php
-        if ($rat!==Null){
+        if ($data['rate']!==Null){
             echo Yii::t('teacher', '0186');
-            echo RatingHelper::getRating($rat);
+            echo RatingHelper::getRating($data['rate']);
         }
         ?>
     </div>

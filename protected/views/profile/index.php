@@ -1,20 +1,9 @@
-<?php
-Yii::app()->clientScript->registerMetaTag(Yii::app()->createAbsoluteUrl(Yii::app()->request->url), null, null, array('property' => "og:url"));
-Yii::app()->clientScript->registerMetaTag($model->first_name." ".$model->last_name, null, null, array('property' => "og:title"));
-Yii::app()->clientScript->registerMetaTag("Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали", null, null, array('property' => "og:description"));
-Yii::app()->clientScript->registerMetaTag(StaticFilesHelper::createPath('image', 'teachers/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/teachers/share/",'shareTeacherAvatar_',$model->teacher_id,'noname.png')), null, null, array('property' => "og:image"));
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>$model->first_name." ".$model->last_name.'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
 ?>
-<div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
-         data-url="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->request->url) ?>"
-         data-title="<?php echo $model->first_name." ".$model->last_name;?>"
-         data-image="<?php echo StaticFilesHelper::createPath('image', 'teachers/share', ImageHelper::setOpenGraphImage(Yii::getPathOfAlias('webroot')."/images/teachers/share/",'shareTeacherAvatar_',$model->teacher_id,'noname.png'));?>"
-         data-description="Бажаєте стати висококласним програмістом і гарантовано отримати престижну, високооплачувану роботу? INTITA - те, що ви шукали"
-         data-path="<?php echo Config::getBaseUrl(); ?>/scripts/share42/"
-         data-zero-counter="1">
-    </div>
-</div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'share42/share42.js'); ?>"></script>
 <?php
 /* @var $this ProfileController */
 $this->pageTitle = 'INTITA';

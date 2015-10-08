@@ -3,36 +3,47 @@
 /* @var $lecture Lecture */
 class LessonController extends Controller
 {
-
-    public function initialize($id)
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+    public function accessRules()
+    {
+        return array(
+            array('deny',
+                'users'=>array('?'),
+            ),
+        );
+    }
+    public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
+        if (Yii::app()->user->isGuest) {
+            throw new CHttpException(403, Yii::t('errors', '0138'));
+        }
+        if (AccessHelper::isAdmin() || $editMode) {
+            return true;
+        }
         if (!($lecture->isFree)) {
-            if (Yii::app()->user->isGuest) {
-                throw new CHttpException(403, Yii::t('errors', '0138'));
-            } else {
-                if(AccessHelper::isAdmin()){
-                    return true;
-                }
-                if (AccessHelper::getRole(Yii::app()->user->getId()) == 'викладач') {
-                    if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule))
-                        return true;
-                }
-                $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) || $lecture->order > $enabledLessonOrder) {
-                    throw new CHttpException(403, Yii::t('errors', '0139'));
-                }
+            $modulePermission = new PayModules();
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) || $lecture->order > $enabledLessonOrder) {
+                throw new CHttpException(403, Yii::t('errors', '0139'));
             }
+        }else {
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
         }
     }
 
-    public function actionIndex($id, $idCourse, $page = 1)
+    public function actionIndex($id, $idCourse=0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $this->initialize($id);
-
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+        $this->initialize($id,$editMode);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;
@@ -41,9 +52,10 @@ class LessonController extends Controller
         }
 
         $passedPages = LecturePage::getAccessPages($id, $user);
-        $lastAccessPage=LectureHelper::lastAccessPage($passedPages)+1;
-        if($editMode)$page=1;
-        else $page=$lastAccessPage;
+        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+
+        if ($editMode) $page = 1;
+        else $page = $lastAccessPage;
 
         if (isset($_GET['editPage'])) {
             $page = $_GET['editPage'];
@@ -69,7 +81,7 @@ class LessonController extends Controller
 
         $teacherId = Teacher::getLectureTeacher($id);
 
-        if ($teacherId != 0){
+        if ($teacherId != 0) {
             $teacher = Teacher::model()->findByPk($teacherId);
         } else {
             $teacher = null;
@@ -84,7 +96,7 @@ class LessonController extends Controller
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $page,
-            'lastAccessPage'=>$lastAccessPage,
+            'lastAccessPage' => $lastAccessPage,
         ));
     }
 
@@ -114,17 +126,6 @@ class LessonController extends Controller
         $order = Yii::app()->request->getPost('order');
 
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
-//        if (strpos($htmlBlock, '$\displaystyle ') === 0) {
-//            $temp = substr_replace($htmlBlock, '\[', 0, 15);
-//            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//        } elseif (strpos($htmlBlock, '$') === 0) {
-//            $temp = substr_replace($htmlBlock, '\[', 0, 1);
-//            $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//        } elseif (strpos($htmlBlock, '\[\inline') === 0) {
-//            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//        } else {
-//            $model->html_block = $htmlBlock;
-//        }
         $model->html_block = $htmlBlock;
         $model->save();
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -160,19 +161,6 @@ class LessonController extends Controller
 
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
-
-//        if(strpos($htmlBlock,'$\displaystyle ')===0) {
-//            $temp=substr_replace($htmlBlock,'\[',0,15);
-//            $model->html_block = substr_replace($temp,'\]',strrpos($temp,'$'),1);
-//        }
-//        elseif(strpos($htmlBlock,'$')===0) {
-//            $temp = substr_replace($htmlBlock, '\(', 0, 1);
-//            $model->html_block = substr_replace($temp, '\)', strrpos($temp, '$'), 1);
-//        }elseif(strpos($htmlBlock,'\[\inline')===0) {
-//            $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//        } else {
-//            $model->html_block = $htmlBlock;
-//        }
         $model->html_block = $htmlBlock;
 
         $model->id_type = 10;
@@ -207,17 +195,6 @@ class LessonController extends Controller
             case '10':
 
                 break;
-//                if (strpos($htmlBlock, '$\displaystyle ') === 0) {
-//                    $temp = substr_replace($htmlBlock, '\[', 0, 15);
-//                    $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//                } elseif (strpos($htmlBlock, '$') === 0) {
-//                    $temp = substr_replace($htmlBlock, '\[', 0, 1);
-//                    $model->html_block = substr_replace($temp, '\]', strrpos($temp, '$'), 1);
-//                } elseif (strpos($htmlBlock, '\[\inline') === 0) {
-//                    $model->html_block = substr_replace($htmlBlock, '\[', 0, 10);
-//                } else {
-//                    $model->html_block = $htmlBlock;
-//                }
             default:
                 $model->html_block = $htmlBlock;
         }
@@ -240,13 +217,14 @@ class LessonController extends Controller
         $order = Yii::app()->request->getPost('order');
         //if exists prev element, reorder current and prev elements
         $textList = Lecture::getTextList($idLecture, $order);
-        $prevElement=LectureElement::getPrevElement($textList, $order);
+        $prevElement = LectureElement::getPrevElement($textList, $order);
         LectureElement::swapBlock($idLecture, $prevElement, $order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     //reorder blocks on lesson page - down block
     public function actionDownElement()
     {
@@ -254,8 +232,8 @@ class LessonController extends Controller
         $order = Yii::app()->request->getPost('order');
         //if exists next element, reorder current and next elements
         $textList = Lecture::getTextList($idLecture, $order);
-        $nextElement=LectureElement::getNextElement($textList, $order);
-        LectureElement::swapBlock($idLecture,$nextElement, $order);
+        $nextElement = LectureElement::getNextElement($textList, $order);
+        LectureElement::swapBlock($idLecture, $nextElement, $order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -316,13 +294,23 @@ class LessonController extends Controller
         $this->render('formulaRedactor');
     }
 
-    public function actionNextPage($id, $idCourse, $page)
+    public function actionNextPage($id, $idCourse=0, $page)
     {
         $nextPage = LecturePage::getNextPage($id, $page);
 
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
-
+    public function actionNextLecture($lectureId, $idCourse=0)
+    {
+        $lecture=Lecture::model()->findByPk($lectureId);
+        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+            $nextId = LectureHelper::getNextId($lecture['id']);
+            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
+        }
+        else{
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        }
+    }
     public function actionUpdateLectureAttribute()
     {
         $up = new EditableSaver('Lecture');
@@ -431,15 +419,15 @@ class LessonController extends Controller
                     $_FILES['Lecture']['name']['image'] = uniqid() . '.' . $ext;
                     if (copy($_FILES['Lecture']['tmp_name']['image'], Yii::getpathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'])) {
                         $src = Yii::getPathOfAlias('webroot') . "/images/lecture/" . $model->oldLogo;
-                        if (is_file($src) && $model->oldLogo!='lectureImage.png')
+                        if (is_file($src) && $model->oldLogo != 'lectureImage.png')
                             unlink($src);
                     }
                     $model->updateByPk($id, array('image' => $_FILES['Lecture']['name']['image']));
 
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot')."/images/lecture/".$_FILES['Lecture']['name']['image'],
-                        Yii::getPathOfAlias('webroot') . "/images/lecture/share/shareLectureImg_".$id.'.'.$ext,
-                        200
+                        Yii::getPathOfAlias('webroot') . "/images/lecture/" . $_FILES['Lecture']['name']['image'],
+                        Yii::getPathOfAlias('webroot') . "/images/lecture/share/shareLectureImg_" . $id . '.' . $ext,
+                        210
                     );
 
                     $this->redirect(Yii::app()->request->urlReferrer);
@@ -452,6 +440,7 @@ class LessonController extends Controller
         }
 
     }
+
     public function actionEditBlock()
     {
         $order = Yii::app()->request->getPost('order');
@@ -471,6 +460,6 @@ class LessonController extends Controller
         }
         $passedPages = LecturePage::getAccessPages($idLecture, $user);
 
-        return $this->renderPartial('_chaptersList', array('idLecture' => $idLecture, 'passedPages' => $passedPages),false,true);
+        return $this->renderPartial('_chaptersList', array('idLecture' => $idLecture, 'passedPages' => $passedPages), false, true);
     }
 }
