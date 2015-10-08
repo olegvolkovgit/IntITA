@@ -46,18 +46,7 @@ $this->renderPartial('/site/_shareMetaTag', array(
     }
   });
 </script>
-<!--"HTML-CSS": {-->
-<!--availableFonts: [],-->
-<!--preferredFonts: "TeX",-->
-<!--webFont:"",-->
-<!--imageFont:"",-->
-<!--undefinedFamily:"'MyriadPro'"-->
-<!--}-->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 

@@ -14,15 +14,13 @@ $(window).load(
             'November': 'листопада',
             'December': 'грудня'
         };
-        month = ukrMonthTitles[document.getElementById('month').innerHTML];
-        document.getElementById('month').innerHTML = ukrMonthTitles[document.getElementById('month').innerHTML];
-
-        document.getElementById('summaLetters').innerText = toPhrase(summa);
+        $('#month').text(ukrMonthTitles[$('#month').text()]);
+        $('#summaLetters').text(toPhrase($('#summa').text()));
     }
 );
-function sendData(account, month)
+function sendData(account)
 {
-    window.location.href = '/accountancy/accountPrint?account=' + account + '&print=true&month=' + month;
+    window.location.search = 'account=' + account + '&nolayout=true';
 }
 
 function toPhrase(summa) {
@@ -47,8 +45,8 @@ function toPhrase(summa) {
 //исключения
     groups[0][1] = {'RUB': 'рубль', 'USD': 'долар США, ', 'EUR': 'євро', 'UAH': 'гривня,'};
     groups[0][2] = {'RUB': 'рубля', 'USD': 'доларів США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
-    groups[0][3] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
-    groups[0][4] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривень,'};
+    groups[0][3] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривні,'};
+    groups[0][4] = {'RUB': 'рубля', 'USD': 'долара США, ', 'EUR': 'євро', 'UAH': 'гривні,'};
 
 // тысячи
 // по умолчанию

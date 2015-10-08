@@ -32,10 +32,10 @@ $(function(){
 
 function textSliderCentr() { /* Центрування тексту картинки слайдеру*/
     $('.slide p').width(document.body.clientWidth);
-    $('.slide p').css('margin-left', (document.body.clientWidth/2-document.body.clientWidth)+'px');
     $('.slide p').css('top', (document.body.clientWidth/3/2)+110+'px');
-    if(document.body.clientWidth>=1200)
-    $('.slide p.about').css('top', document.body.clientWidth/10+'px');
+    if(document.body.clientWidth>=1200){
+        $('.slide p.about').css('top', document.body.clientWidth/10+'px');
+    }
 }
 $(function() { textSliderCentr(); });
 $(window).resize(function() { textSliderCentr(); });

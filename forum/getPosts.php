@@ -16,23 +16,25 @@ $result = $db->sql_query($sql);
 $information = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
 
-$sql="SELECT p.post_text, p.bbcode_uid, p.bbcode_bitfield, p.post_time, u.username
+if ($information != false) {
+    $sql="SELECT p.post_text, p.bbcode_uid, p.bbcode_bitfield, p.post_time, u.username
       FROM `phpbb_posts` p, `phpbb_users` u
-      WHERE p.topic_id=".$information['topic_id']." AND u.user_id=p.poster_id";
+      WHERE p.topic_id=".$information['topic_id']." AND u.user_id=p.poster_id AND p.post_visibility=1";
 $result = $db->sql_query($sql);
 $posts_array = $db->sql_fetchrowset($result);
 $db->sql_freeresult($result);
 
-$information['posts'] = [];
+    $information['posts'] = [];
 
-foreach ($posts_array as $post){
-    $parse_flags = ($post['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
-    array_push($information['posts'], array(
-        "text"=>generate_text_for_display($post['post_text'], $post['bbcode_uid'], $post['bbcode_bitfield'],
-            $parse_flags, true),
-        "author"=>$post['username'],
-        "date"=>$user->format_date($post['post_time'])
-    ));
+    foreach ($posts_array as $post){
+        $parse_flags = ($post['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+        array_push($information['posts'], array(
+            "text"=>generate_text_for_display($post['post_text'], $post['bbcode_uid'], $post['bbcode_bitfield'],
+                $parse_flags, true),
+            "author"=>$post['username'],
+            "date"=>$user->format_date($post['post_time'])
+        ));
+    }
 }
 
 echo json_encode($information);

@@ -7,13 +7,14 @@
  */
 class AccountancyController extends Controller
 {
-    public function actionIndex($account)
+    public function actionIndex($account, $nolayout = false)
     {
-        if (isset($_GET['print'])) {
+        $model = TempPay::model()->findByPk($account);
+        if($nolayout){
             $this->layout = false;
         }
-        $model = TempPay::model()->findByPk($account);
-
+        setcookie("idModule", '', 1, '/');
+        setcookie("idCourse", '', 1, '/');
         $this->render('index', array('account'=>$model));
     }
 
@@ -25,30 +26,19 @@ class AccountancyController extends Controller
 
         if($courseId != 0) {
             if($moduleId != 0){
-                $module = Module::model()->findByPk($moduleId);
-                $summa = ModuleHelper::getSummaBySchemaNum($moduleId, $summaNum);
+                $summa = ModuleHelper::getModuleSumma($moduleId, false);
             } else {
-                $course = Course::model()->findByPk($courseId);
                 $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
             }
         } else {
-            $course = 0;
-            $summa = 0;
+            if($moduleId != 0){
+                $summa = ModuleHelper::getModuleSumma($moduleId, true);
+            } else {
+                $summa = 0;
+            }
         }
-
-
-
-            $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
-
+        $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
 
         echo (isset($accountId))?$accountId:'0';
-    }
-
-    public function actionAccountPrint($account){
-        $model = TempPay::model()->findByPk($account);
-        setcookie("idModule", '', 1, '/');
-        setcookie("idCourse", '', 1, '/');
-        $this->layout = false;
-        $this->renderPartial('index', array('account'=>$model));
     }
 }

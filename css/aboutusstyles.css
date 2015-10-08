@@ -449,7 +449,7 @@
 }
 .slideAbout img
 {
-    position: absolute;
+    /*position: absolute;*/
     width: 100%;
     height: 100%;
     z-index: 0;
@@ -476,9 +476,9 @@ div.about1{
     text-shadow: none;
     font-weight: 400;
     color: white;
-    left:55%;
     top: 25%;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .headerAbout{
     font-size: 32px;
@@ -494,10 +494,10 @@ div.about2{
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    left:20%;
     top: 35%;
     color: #32567d;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .about2 .sliderCenterBoxLine hr{
     border: 1px solid #32567d;
@@ -510,10 +510,10 @@ div.about3{
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    left:35%;
     top: 4%;
     color: #000000;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .about3 .sliderCenterBoxLine hr{
     border: 1px solid #000000;
@@ -526,10 +526,10 @@ div.about4{
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    left:25%;
     top: 10%;
     color: #000000;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .about4 .sliderCenterBoxLine hr{
     border: 1px solid #000000;
@@ -543,11 +543,10 @@ div.about5{
     text-shadow: none;
     font-weight: 400;
     margin: 0 auto;
-    /*left:35%;*/
-    top: 70%;
-    width: 100%;
+    top: 60%;
     color: #ffffff;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .about5 .sliderCenterBoxLine hr{
     border: 1px solid white;
@@ -560,13 +559,11 @@ div.about6{
     font-size: 32px;
     text-shadow: none;
     font-weight: 400;
-    /*left:35%;*/
     margin: 0 auto;
-    /*left:35%;*/
-    width: 100%;
     top: 4%;
     color: #ffffff;
     line-height: 1.1;
+    min-width: 1200px;
 }
 .about6 .sliderCenterBoxLine hr{
     border: 1px solid white;
@@ -765,4 +762,9 @@ h3.benefitheader{
 td.freelife{
     width: 340px;
 }
-
+.slide{
+    height: 100%;
+}
+.slide div{
+    height: 100%;
+}

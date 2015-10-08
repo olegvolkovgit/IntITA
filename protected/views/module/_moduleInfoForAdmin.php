@@ -109,7 +109,7 @@
                 <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b>
                 <?php
                 if($post->lesson_count!=='0'){
-                    echo  ", ".Yii::t('module', '0217')." - <b>".ceil($post->module_duration_hours/($post->hours_in_day*$post->days_in_week))." ".Yii::t('module', '0218')."</b> (";
+                    echo  ", ".Yii::t('module', '0217')." - <b>".round($post->lesson_count*7/($post->hours_in_day*$post->days_in_week))." ".Yii::t('module', '0218')."</b> (";
                     $this->widget('editable.EditableField', array(
                         'type'      => 'text',
                         'model'     => $post,

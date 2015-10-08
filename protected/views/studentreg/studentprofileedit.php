@@ -41,6 +41,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
 // controller action is handling ajax validation correctly.
 // There is a call to performAjaxValidation() commented in generated controller code.
 // See class documentation of CActiveForm for details on this.
+        'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
             'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),

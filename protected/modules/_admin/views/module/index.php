@@ -6,7 +6,6 @@
  * Time: 0:35
  */
 ?>
-    <a href="<?php echo Yii::app()->createUrl('/_admin'); ?>">Система управління контентом IntITA - Головна</a>
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/create');?>">Створити модуль</a>

@@ -733,7 +733,12 @@ fieldset.polls dd div {
 .postprofile .avatar img {
 	display: block;
 	height: auto !important;
-	max-width: 100%;
+	max-width: 80%;
+	max-height: 150px;
+}
+
+.postprofile .avatar img[src="http://intita/images/avatars/noname.png"] {
+	max-height: 74px;
 }
 
 .postprofile .profile-posts a {

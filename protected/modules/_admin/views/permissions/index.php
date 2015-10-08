@@ -15,7 +15,6 @@ $('.search-form form').submit(function(){
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
 
-<a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
 <br>
 
 <h2>Права доступу</h2>

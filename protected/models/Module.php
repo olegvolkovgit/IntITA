@@ -48,7 +48,7 @@ class Module extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('alias, language, title_ua, level', 'required'),
+            array('language, title_ua, level', 'required'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week, module_number', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
             array('module_price', 'length', 'max' => 10),
@@ -227,7 +227,7 @@ class Module extends CActiveRecord
 
         $order = CourseModules::model()->count("id_course=$idCourse");
 
-        $module->alias = "";
+        $module->level = Course::model()->findByPk($idCourse)->level;
         $module->language = $lang;
         $module->title_ua = $titleUa;
         $module->title_ru = $titleRu;
@@ -237,6 +237,8 @@ class Module extends CActiveRecord
         }
 
         $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+        $module->alias = $idModule;
+        $module->save();
 
         $coursemodule->id_course = $idCourse;
         $coursemodule->id_module = $idModule;

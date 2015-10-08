@@ -179,6 +179,13 @@ class SiteController extends Controller
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
+                    $birthday = $userModel->birthday;
+                    $birthday = str_replace("/", "-", $birthday);
+                    if($birthday[0] == "0") $birthday[0] = ' ';
+                    if($birthday[3] == "0") $birthday[3] = ' ';
+                    $avatar = $userModel->avatar;
+                    if ($avatar == null || $avatar == "") $avatar = "noname.png";
+
                     Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
 
                     $existingForumUser = count(
@@ -203,7 +210,10 @@ class SiteController extends Controller
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
                             'user_regdate' => $reg_time,
-                            'user_lang' => $current_lang
+                            'user_lang' => $current_lang,
+                            'user_birthday' => $birthday,
+                            'user_avatar' => $avatar,
+                            'user_avatar_type' => "avatar.driver.upload"
                         ));
 
                         Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
@@ -215,6 +225,9 @@ class SiteController extends Controller
                     } else {
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
                             'user_lang' => $current_lang,
+                            'user_birthday' =>$birthday,
+                            'user_avatar' =>$avatar,
+                            'user_avatar_type' => "avatar.driver.upload"
                         ), 'user_id=:id', array(':id' => $userModel->id));
                     }
 
@@ -426,7 +439,7 @@ class SiteController extends Controller
             $subject = Yii::t('recovery', '0281');
             $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
             $text = Yii::t('recovery', '0239') .
-                " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
+                " " . Config::getBaseUrl() . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
             $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
             mail($getModel->email, $subject, $text, $headers);
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
@@ -454,7 +467,7 @@ class SiteController extends Controller
                 $subject = Yii::t('recovery', '0282');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('recovery', '0283') .
-                    " " . Yii::app()->params['baseUrl'] . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
+                    " " . Config::getBaseUrl() . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
                 mail($modelReset->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));

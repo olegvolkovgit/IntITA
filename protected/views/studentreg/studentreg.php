@@ -31,7 +31,7 @@ $this->breadcrumbs = array(
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'registration-form',
         'action' => array('studentreg/registration'),
-//        'enableClientValidation'=>true,
+        'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
             'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),

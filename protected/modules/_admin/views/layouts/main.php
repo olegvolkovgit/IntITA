@@ -111,11 +111,14 @@ $header = new Header();
             )); ?><!-- breadcrumbs -->
         <?php endif ?>
 
+        <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
+
         <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site'
                 && Yii::app()->controller->action->id == 'index') && !(Yii::app()->controller->id == 'aboutus')
         ) {
             $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             ?>
+
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>

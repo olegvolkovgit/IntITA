@@ -1,4 +1,9 @@
-    <div id="account">
+<script>
+    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
+    user = "<?php echo $account->id_user;?>";
+</script>
+
+<div id="account">
     <div>
         <br>
         Отримувач коштів: ТОВ «Вінницька ІТ-Академія»
@@ -10,12 +15,12 @@
         Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
-        “<?php echo date("d"); ?>” <span id="month"><?php
+        “<?php echo date("d");?>” <span id="month"><?php
             if (isset($_GET['month'])) {
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            } ?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
+            }?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id_account;?></span>
         <br>
         Платник:
         <br>
@@ -34,9 +39,7 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (Курс
-                №2777001- <?php echo Course::model()->findByPk($account->id_course)->title_ua . ', '.
-                    CourseHelper::translateLevelUa($account->id_course); ?>)
+                грамотність (<?php echo PaymentHelper::getAccountProductTitle($account);?>)
             </td>
             <td></td>
             <td>1</td>

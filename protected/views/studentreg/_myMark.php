@@ -1,6 +1,6 @@
 <?php
-if(Teacher::model()->exists('user_id=:ID', array(':ID'=>$data['about'])))
-    $teacher = Teacher::model()->find('user_id=:ID', array(':ID'=>$data['about']));
+if(Teacher::model()->exists('user_id=:ID', array(':ID'=>ResponseHelper::getTeacherId($data['id']))))
+    $teacher = Teacher::model()->find('user_id=:ID', array(':ID'=>ResponseHelper::getTeacherId($data['id'])));
 else return;
 ?>
 <div class="mymark">

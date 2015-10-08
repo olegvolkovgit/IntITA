@@ -1,18 +1,18 @@
 <?php
 
-class AboutusSliderController extends CController
+class AboutusSliderController extends AdminController
 {
 
-	public $layout='main';
+	//public $layout='main';
 
-    public function init()
-    {
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
+//    public function init()
+//    {
+//        if (Config::getMaintenanceMode() == 1) {
+//            $this->renderPartial('/default/notice');
+//            Yii::app()->cache->flush();
+//            die();
+//        }
+//    }
 	/**
 	 * @return array action filters
 	 */

@@ -7,21 +7,21 @@
  */
 ?>
 <?php
-if ($teacherRat && $teacherRat->knowledge !== null && $teacherRat->behavior !== null && $teacherRat->motivation !== null) {
-    $knowldg = $teacherRat->knowledge;
-    $behvr = $teacherRat->behavior;
-    $motivtn = $teacherRat->motivation;
-    $knowval = $knowldg;
-    $behval = $behvr;
-    $motivval = $motivtn;
-} else {
+//if ($teacherRat && $teacherRat->knowledge !== null && $teacherRat->behavior !== null && $teacherRat->motivation !== null) {
+//    $knowldg = $teacherRat->knowledge;
+//    $behvr = $teacherRat->behavior;
+//    $motivtn = $teacherRat->motivation;
+//    $knowval = $knowldg;
+//    $behval = $behvr;
+//    $motivval = $motivtn;
+//} else {
     $knowldg = '0';
     $behvr = '0';
     $motivtn = '0';
     $knowval = Null;
     $behval = Null;
     $motivval = Null;
-}
+//}
 ?>
 <?php if (AccessHelper::canAddResponse()) { ?>
     <div class="lessonTask">

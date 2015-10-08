@@ -48,6 +48,9 @@ $header = new Header();
     <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
     <!-- trimEmail -->
+    <!-- Placeholder for old browser -->
+    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
+    <!-- Placeholder for old browser -->
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
