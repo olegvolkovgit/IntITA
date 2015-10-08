@@ -169,7 +169,54 @@ class CourseModules extends CActiveRecord
         $criteria->toArray();
 
         $modules = CourseModules::model()->findAll($criteria);
+
+        //$modules = CourseModules::sortByModuleDuration($modules);
         return $modules;
+    }
+
+    public static function sortByModuleDuration($modules)
+    {
+        $count = count($modules);
+        $result = [];
+        $tempArray = [];
+        $currentMandatory = $modules[$count-1]['mandatory_modules'];
+        for($i = $count - 1; $i > 0; $i--){
+            if ($modules[$i]['mandatory_modules'] == $currentMandatory){
+                array_push($tempArray, $modules[$i]);
+            } else {
+                array_push($result, CourseModules::sortByDuration($tempArray, 0, count($tempArray) - 1));
+                $tempArray = [];
+               $currentMandatory -= 1;
+            }
+        }
+        return $modules;//$result;
+    }
+
+    public static function sortByDuration($tempArray, $first, $last){
+        $i = $first;
+        $j = $last;
+        $medium = (integer)(($first + $last)/2);
+        $x = $tempArray[$medium];
+        do {
+            while ($tempArray[$i] < $x) $i++;
+            while ($tempArray[$j] > $x) $j--;
+
+            if($i <= $j) {
+                if ($i < $j)
+                    CourseModules::swapModules($tempArray[$i], $tempArray[$j]);
+            $i++;
+            $j--;
+        }
+        } while ($i <= $j);
+        if ($i < $last)
+            CourseModules::sortByDuration($tempArray, $i, $last);
+        if ($first < $j)
+            CourseModules::sortByDuration($tempArray, $first, $j);
+        return $tempArray;
+    }
+
+    public static function swapModules($tempArrayFirst, $tempArrayLast){
+
     }
 
     public static function getTableCells($modules, $idCourse){
