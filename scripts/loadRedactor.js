@@ -246,6 +246,7 @@ function loadRedactorJs() {
                         },
                         destroyCallback: function () {
                             $('#formulaBox').remove();
+                            $(".redactor-editor").removeAttr("data-target");
                             console.log('destroy');
                             $(order).on('click');
                         }
