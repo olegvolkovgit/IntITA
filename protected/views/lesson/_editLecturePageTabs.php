@@ -99,12 +99,12 @@ if($page->video == null) {?>
     } else{
         ?>
         <button onclick="showAddTestForm('plain')"> Додати тест </button>
-        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>
+<!--        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>-->
         <?php
     }
 ?>
 <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
-<?php $this->renderPartial('_addTask', array('pageId' => $page->id));?>
+<?php //$this->renderPartial('_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
 <br>

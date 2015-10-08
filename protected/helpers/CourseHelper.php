@@ -28,6 +28,11 @@ class CourseHelper {
         return $level;
     }
 
+    public static function getCourseLevel($idCourse){
+        $level = Course::model()->findByPk($idCourse)->level;
+        return CourseHelper::translateLevel($level);
+    }
+
     public static function translateLevelUa($course){
         $level = Course::model()->findByPk($course)->level;
         switch ($level){
