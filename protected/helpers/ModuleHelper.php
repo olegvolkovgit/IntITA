@@ -106,9 +106,10 @@ class ModuleHelper
         return Module::model()->findByPk($idModule)->module_number;
     }
 
-    public static function getPriceUah($summa){
+    public static function getPriceUah($summa)
+    {
         return round($summa * 22);//CommonHelper::getDollarExchangeRate());
-    
+    }
 
     public static function getModuleSumma($moduleId, $isIndependent = false)
     {
