@@ -90,33 +90,17 @@ $editMode = ($canEdit) ? 'true' : '';
                 ),
             ),
             array(
-                'class' => 'DataColumn',
-                'name' => 'order',
-                'type' => 'raw',
-                'value' => function ($data) {
-                    if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
-                        $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
-                    else $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-                        $value = $img . Yii::t('course', '0364') . ' ' . $data->order . '.';
-                    return $value;
-                },
-                'header' => false,
-                'htmlOptions' => array('class' => 'aliasColumn'),
-                'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
-            ),
-            array(
                 'name' => 'title_ua',
                 'type' => 'raw',
                 'header' => false,
                 'htmlOptions' => array('class' => 'titleColumn'),
+                'cssClassExpression'=>'AccessHelper::moduleAccessStyle($data)',
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
                     $title = ModuleHelper::getModuleTitleParam();
                     $moduleTitle = ModuleHelper::getDefaultModuleName($data->moduleInCourse->$title);
-                    if (AccessHelper::accesModule($data->moduleInCourse->module_ID))
-                        return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
-                    else
-                        return CHtml::link(CHtml::encode($data->moduleInCourse->$moduleTitle), Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)), array('class' => 'disableModule'));
+                    $value = '<span class="moduleOrder">'. Yii::t('course', '0364') . ' ' . $data->order . '.</span><span class="moduleLink"> '.CHtml::encode($data->moduleInCourse->$moduleTitle).'</span>';
+                    return AccessHelper::moduleProgressDescription($data, $value);
                 }
             ),
         ),
