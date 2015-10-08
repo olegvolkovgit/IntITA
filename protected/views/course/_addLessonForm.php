@@ -15,7 +15,7 @@
     <input type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
     <span>Назва (EN)</span>
-    <input type="text" name="titleEN" id="titleEN" pattern="^[=zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
+    <input type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
     <input type="submit"  value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()">
 </form>
