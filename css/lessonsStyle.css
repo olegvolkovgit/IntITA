@@ -487,6 +487,7 @@ div.lessonTest {
     border:1px solid #4B75A4;
 }
 #discussion {
+    display: none;
     height: 150px;
     margin: 7px 0 0 10px;
     overflow: auto;
@@ -567,7 +568,8 @@ a.postlink {
     padding-bottom: 0;
 }
 
-#sidebarLesson > span {
+#discussionHeader {
+    display: none;
     margin-left: 13px;
     color: #4B75A4;
     font-size: 17px;

@@ -95,7 +95,7 @@ return array(
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
                 'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
-			    'teacher<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
+			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

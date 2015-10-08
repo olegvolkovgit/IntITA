@@ -67,9 +67,8 @@
             </script>
             <!-- / mibew button -->
         </p>
-
     </div>
-    <span><?php echo Yii::t('lecture', '0617');?></span>
+    <span id="discussionHeader"><?php echo Yii::t('lecture', '0617');?></span>
     <div id="discussion"></div>
 </div>
 <!--navigation vertical-->
