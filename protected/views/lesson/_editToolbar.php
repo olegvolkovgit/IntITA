@@ -51,18 +51,20 @@
     }
 
     function deleteBlock(idLecture, order) {
-        $.ajax({
-            type: "POST",
-            url: "/lesson/deleteElement",
-            data: {'idLecture': idLecture, 'order': order},
-            success: function () {
-                $.fn.yiiListView.update('blocks_list', {
-                    complete: function () {
-                        loadRedactorJs();
-                    }
-                });
-                return false;
-            }
-        });
+        if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
+            $.ajax({
+                type: "POST",
+                url: "/lesson/deleteElement",
+                data: {'idLecture': idLecture, 'order': order},
+                success: function () {
+                    $.fn.yiiListView.update('blocks_list', {
+                        complete: function () {
+                            loadRedactorJs();
+                        }
+                    });
+                    return false;
+                }
+            });
+        }
     }
 </script>
