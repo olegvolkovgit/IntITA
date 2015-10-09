@@ -179,10 +179,12 @@ class SiteController extends Controller
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
-                    $birthday = $userModel->birthday;
-                    $birthday = str_replace("/", "-", $birthday);
-                    if($birthday[0] == "0") $birthday[0] = ' ';
-                    if($birthday[3] == "0") $birthday[3] = ' ';
+                    if(!empty($userModel->birthday)){
+                        $birthday = $userModel->birthday;
+                        $birthday = str_replace("/", "-", $birthday);
+                        if($birthday[0] == "0") $birthday[0] = ' ';
+                        if($birthday[3] == "0") $birthday[3] = ' ';
+                    }else $birthday=' ';
                     $avatar = $userModel->avatar;
                     if ($avatar == null || $avatar == "") $avatar = "noname.png";
 
