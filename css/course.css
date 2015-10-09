@@ -85,6 +85,20 @@ div.courseShortInfoTable{
 }
 .courseShortInfoTable table.courseLevelInfo{
     width: 100%;
+    border: none;
+    border-collapse:collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+.courseShortInfoTable table.courseLevelInfo td{
+    vertical-align: bottom;
+    border: none;
+    border-collapse:collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+.courseLevel div{
+    height: 20px;
 }
 .courseShortInfo div.courseLevelName {
     display: inline-block;
@@ -92,6 +106,8 @@ div.courseShortInfoTable{
 }
 .courseLevel{
     text-align: right;
+    line-height: 18px;
+
 }
 /*Short Info*/
 
