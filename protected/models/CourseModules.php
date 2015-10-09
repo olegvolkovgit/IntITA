@@ -15,6 +15,9 @@
  */
 class CourseModules extends CActiveRecord
 {
+    public $durationInMonths;
+    public $lessonCount;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -32,9 +35,9 @@ class CourseModules extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_course, id_module, order', 'required'),
-			array('id_course, id_module, order, mandatory_modules', 'numerical', 'integerOnly'=>true),
+			array('id_course, id_module, order, mandatory_modules, lessonCount, durationInMonths', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id_course, id_module, order, mandatory_modules', 'safe', 'on'=>'search'),
+			array('id_course, id_module, order, mandatory_modules, durationInMonths, lessonCount', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -164,59 +167,37 @@ class CourseModules extends CActiveRecord
     public static function getCourseModulesSchema($idCourse){
         $criteria =  new CDbCriteria();
         $criteria->select = '*';
-        $criteria->order = '`mandatory_modules` DESC';
         $criteria->condition = 'id_course='.$idCourse;
         $criteria->toArray();
 
         $modules = CourseModules::model()->findAll($criteria);
 
-        //$modules = CourseModules::sortByModuleDuration($modules);
+        $modules = CourseModules::sortByModuleDuration($modules);
         return $modules;
     }
 
     public static function sortByModuleDuration($modules)
     {
-        $count = count($modules);
-        $result = [];
-        $tempArray = [];
-        $currentMandatory = $modules[$count-1]['mandatory_modules'];
-        for($i = $count - 1; $i > 0; $i--){
-            if ($modules[$i]['mandatory_modules'] == $currentMandatory){
-                array_push($tempArray, $modules[$i]);
-            } else {
-                array_push($result, CourseModules::sortByDuration($tempArray, 0, count($tempArray) - 1));
-                $tempArray = [];
-               $currentMandatory -= 1;
-            }
+        for($i = 0,  $count = count($modules); $i < $count; $i++){
+            $modules[$i]['lessonCount'] = LectureHelper::getLessonsCount($modules[$i]["id_module"]);
+            $modules[$i]['durationInMonths'] = (integer)CourseModules::getModuleDurationMonths($modules[$i]["id_module"]);
+
         }
-        return $modules;//$result;
+        usort($modules, 'CourseModules::sortByMandatoryModules');
+
+        return $modules;
     }
 
-    public static function sortByDuration($tempArray, $first, $last){
-        $i = $first;
-        $j = $last;
-        $medium = (integer)(($first + $last)/2);
-        $x = $tempArray[$medium];
-        do {
-            while ($tempArray[$i] < $x) $i++;
-            while ($tempArray[$j] > $x) $j--;
-
-            if($i <= $j) {
-                if ($i < $j)
-                    CourseModules::swapModules($tempArray[$i], $tempArray[$j]);
-            $i++;
-            $j--;
+    public static function sortByMandatoryModules($a, $b)
+    {
+        $mandatoryA = $a->mandatory_modules;
+        $mandatoryB = $b->mandatory_modules;
+        if ($mandatoryA == $mandatoryB) {
+//
+            return 0;
+        } else {
+            return ($mandatoryA < $mandatoryB) ? +1 : -1;
         }
-        } while ($i <= $j);
-        if ($i < $last)
-            CourseModules::sortByDuration($tempArray, $i, $last);
-        if ($first < $j)
-            CourseModules::sortByDuration($tempArray, $first, $j);
-        return $tempArray;
-    }
-
-    public static function swapModules($tempArrayFirst, $tempArrayLast){
-
     }
 
     public static function getTableCells($modules, $idCourse){
@@ -231,9 +212,10 @@ class CourseModules extends CActiveRecord
                 }
                 for ($k = $start; $k < $end; $k++) {
                     if ($end - $k > 1) {
-                        $cells[$i][$k] = 8;
+                        $cells[$i][$k] = ModuleHelper::lessonsInMonth($modules[$i]['id_module']);
                     } else {
-                        $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']), 8);
+                        $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']),
+                            ModuleHelper::lessonsInMonth($modules[$i]['id_module']));
                     }
                 }
 
@@ -255,10 +237,14 @@ class CourseModules extends CActiveRecord
     }
 
     public static function getModuleDurationMonths($idModule){
-        $lectureHoursInMonth = 8;//TO DO: count from module data
+        $lectureHoursInMonth = ModuleHelper::lessonsInMonth($idModule);
 
         $lectureCount = LectureHelper::getLessonsCount($idModule);
-        return ceil($lectureCount/$lectureHoursInMonth);
+        if($lectureHoursInMonth != 0){
+            return ceil($lectureCount/$lectureHoursInMonth);
+        } else {
+            return 0;
+        }
     }
 
     public static function getCourseDuration($tableCells){

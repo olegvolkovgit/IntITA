@@ -160,7 +160,7 @@ class CourseController extends Controller
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+			$this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUpModule(){

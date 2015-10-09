@@ -1,5 +1,8 @@
 <?php
 ?>
+<head>
+    <meta charset="UTF-8">
+</head>
 <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl().'/css/courseSchema.css';?>"/>
 
 <div id="courseSchema">
@@ -66,6 +69,16 @@
     <?php }?>
     </tr>
 </table>
+    <?php if(!$save){?>
+    <br>
+    <br>
+    <button id="saveButton"><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
+            array('idCourse' => $idCourse)
+        );?>">Зберегти cхему</a></button>
 <br>
 <br>
+    <br>
+    <?php }?>
     </div>
+
+

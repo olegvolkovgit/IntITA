@@ -233,7 +233,17 @@ class ModuleHelper
     }
     public static function getHoursColor($finishedTime, $averageTime)
     {
-        if($finishedTime<=$averageTime) return 'greenFinished';
+        if($finishedTime <= $averageTime) return 'greenFinished';
         else return 'redFinished';
+    }
+
+    public static function lessonsInMonth($idModule){
+        $model = Module::model()->findByPk($idModule);
+        $hours = ($model->hours_in_day != 0)?$model->hours_in_day:3;
+        $days = ($model->days_in_week != 0)?$model->days_in_week:2;
+        if (LectureHelper::getLessonsCount($idModule) != 0){
+            return round(LectureHelper::getLessonsCount($idModule)* 7 / ($hours * $days));
+        }
+        return 0;
     }
 }
