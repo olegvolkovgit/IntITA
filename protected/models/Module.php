@@ -52,6 +52,7 @@ class Module extends CActiveRecord
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week, module_number', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
             array('module_price', 'length', 'max' => 10),
+            array('module_number','unique','message'=>'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
             array('language', 'length', 'max' => 6),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),

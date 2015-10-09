@@ -2,20 +2,6 @@
 class CoursemanageController extends AdminController
 {
     /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-//    public $layout='main';
-
-//    public function init()
-//    {
-//        if (Config::getMaintenanceMode() == 1) {
-//            $this->renderPartial('/default/notice');
-//            Yii::app()->cache->flush();
-//            die();
-//        }
-//    }
-    /**
      * @return array action filters
      */
     public function filters()
@@ -208,7 +194,6 @@ class CoursemanageController extends AdminController
     }
 
     public function actionSchema($idCourse){
-
         $modules = CourseModules::getCourseModulesSchema($idCourse);
         $tableCells = CourseModules::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
@@ -218,6 +203,26 @@ class CoursemanageController extends AdminController
             'idCourse' => $idCourse,
             'tableCells' => $tableCells,
             'courseDuration' => $courseDurationInMonths,
+            'save' => false,
         ));
+    }
+
+    public function actionSaveSchema($idCourse){
+        $modules = CourseModules::getCourseModulesSchema($idCourse);
+        $tableCells = CourseModules::getTableCells($modules, $idCourse);
+        $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
+
+        $schema = Yii::app()->controller->renderPartial('_schema', array(
+            'modules' => $modules,
+            'idCourse' => $idCourse,
+            'tableCells' => $tableCells,
+            'courseDuration' => $courseDurationInMonths,
+            'save' => true,
+        ), true);
+
+        $name = 'schema_course_'.$idCourse.'.html';
+        $file = StaticFilesHelper::pathToCourseSchema($name);
+        file_put_contents($file, $schema);
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

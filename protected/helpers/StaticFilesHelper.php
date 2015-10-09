@@ -41,8 +41,8 @@ class StaticFilesHelper {
         return Config::getCommonPath().'/'.$name;
     }
 
-    public static function createAvatarsPath(){
-        $path = Config::getAvatarsPath();
+    public static function createAvatarsPath($name){
+        $path = Config::getAvatarsPath().'/'.$name;
         return $path;
     }
 
@@ -62,6 +62,10 @@ class StaticFilesHelper {
                 return StaticFilesHelper::fullPathToFiles($name);
                 break;
         }
+    }
+
+    public static function pathToCourseSchema($name){
+        return 'files/course_schemas/'.$name;
     }
 
     public static function fullPathToJs($name){
