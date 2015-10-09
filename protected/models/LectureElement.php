@@ -112,7 +112,13 @@ class LectureElement extends CActiveRecord
     public static function addNewTaskBlock($idLecture, $condition, $taskType){
         $model = new LectureElement();
 
-        $order = LectureElement::model()->count('id_lecture = :id', array(':id' => $idLecture));
+        $criteria=new CDbCriteria;
+        $criteria->alias='lecture_element';
+        $criteria->select='block_order';
+        $criteria->condition = 'id_lecture = '.$idLecture;
+        $criteria->order = 'block_order DESC';
+        $order=LectureElement::model()->find($criteria)->block_order;
+
         $model->block_order = ++$order;
 
         if ($taskType == 'final'){
