@@ -17,6 +17,7 @@ class CourseModules extends CActiveRecord
 {
     public $durationInMonths;
     public $lessonCount;
+    public $start;
 
 	/**
 	 * @return string the associated database table name
@@ -172,16 +173,16 @@ class CourseModules extends CActiveRecord
 
         $modules = CourseModules::model()->findAll($criteria);
 
-        $modules = CourseModules::sortByModuleDuration($modules);
+        $modules = CourseModules::sortByModuleDuration($idCourse, $modules);
         return $modules;
     }
 
-    public static function sortByModuleDuration($modules)
+    public static function sortByModuleDuration($idCourse, $modules)
     {
         for($i = 0,  $count = count($modules); $i < $count; $i++){
             $modules[$i]['lessonCount'] = LectureHelper::getLessonsCount($modules[$i]["id_module"]);
             $modules[$i]['durationInMonths'] = (integer)CourseModules::getModuleDurationMonths($modules[$i]["id_module"]);
-
+            $modules[$i]['start'] = CourseModules::startMonth($idCourse, $modules[$i]["id_module"]);
         }
         usort($modules, 'CourseModules::sortByMandatoryModules');
 
@@ -190,13 +191,24 @@ class CourseModules extends CActiveRecord
 
     public static function sortByMandatoryModules($a, $b)
     {
-        $mandatoryA = $a->mandatory_modules;
-        $mandatoryB = $b->mandatory_modules;
-        if ($mandatoryA == $mandatoryB) {
-//
-            return 0;
+        $startA = $a->start;
+        $startB = $b->start;
+        if ($startA == $startB) {
+            $lessonCountA = $a->lessonCount;
+            $lessonCountB = $b->lessonCount;
+            if ($lessonCountA == $lessonCountB){
+                $durationA = $a->durationInMonths;
+                $durationB = $b->durationInMonths;
+                if ($durationA == $durationB){
+                    return ($lessonCountA < $lessonCountB) ? +1 : -1;
+                } else {
+                    return ($durationA < $durationB) ? +1 : -1;
+                }
+            } else {
+                return 0;
+            }
         } else {
-            return ($mandatoryA < $mandatoryB) ? +1 : -1;
+            return ($startA < $startB) ? +1 : -1;
         }
     }
 
