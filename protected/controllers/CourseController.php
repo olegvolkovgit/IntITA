@@ -226,7 +226,7 @@ class CourseController extends Controller
     }
 
 	public function actionCourseSchema($idCourse){
-        $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+        $filename = StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
 
         if (file_exists($filename)) {
             echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
