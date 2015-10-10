@@ -299,4 +299,31 @@ class Teacher extends CActiveRecord
         }
         return 0;
     }
+
+    public function getTeacherConsult($lectureId)
+    {
+        $lecture = Lecture::model()->findByPk($lectureId);
+        $teachersconsult = [];
+
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'consultant_modules';
+        $criteria->select = 'consultant';
+        $criteria->addCondition('module='.$lecture->idModule);
+        $temp = ConsultantModules::model()->findAll($criteria);
+        for($i = 0; $i < count($temp);$i++){
+            array_push($teachersconsult, $temp[$i]->consultant);
+        }
+
+        $criteriaData= new CDbCriteria;
+        $criteriaData->alias = 'teacher';
+        $criteriaData->condition = 'isPrint = 1';
+        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'AND');
+
+        $dataProvider=new CActiveDataProvider('Teacher', array(
+            'criteria' =>$criteriaData,
+            'pagination'=>false,
+        ));
+
+        return $dataProvider;
+    }
 }

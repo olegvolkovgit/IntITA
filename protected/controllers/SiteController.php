@@ -1,7 +1,7 @@
 <?php
 
 class SiteController extends Controller
-{
+{//http://localhost/IntIta/
     /*
 	 * Declares class-based actions.
 	 */

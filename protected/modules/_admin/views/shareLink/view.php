@@ -15,7 +15,9 @@ $this->menu=array(
 	array('label'=>'Manage ShareLink', 'url'=>array('admin')),
 );
 ?>
-
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/sharelink/index');?>">Перегляд посиланнь на ресурси</a>
+<br>
 <h1>Управління ресурсами для викладачів №<?php echo $model->id; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(

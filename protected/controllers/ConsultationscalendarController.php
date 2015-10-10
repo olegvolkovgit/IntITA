@@ -2,6 +2,7 @@
 
 class ConsultationscalendarController extends Controller
 {
+    //LOGIN student  plane consult in http://localhost/IntIta/consultationscalendar/
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -110,26 +111,8 @@ class ConsultationscalendarController extends Controller
 	public function actionIndex($lectureId, $idCourse)
 	{
         $lecture = Lecture::model()->findByPk($lectureId);
-        $teachersconsult = [];
 
-        $criteria= new CDbCriteria;
-        $criteria->alias = 'consultant_modules';
-        $criteria->select = 'consultant';
-        $criteria->addCondition('module='.$lecture->idModule);
-        $temp = ConsultantModules::model()->findAll($criteria);
-        for($i = 0; $i < count($temp);$i++){
-            array_push($teachersconsult, $temp[$i]->consultant);
-        }
-
-        $criteriaData= new CDbCriteria;
-        $criteriaData->alias = 'teacher';
-		$criteriaData->condition = 'isPrint = 1';
-        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'AND');
-
-        $dataProvider=new CActiveDataProvider('Teacher', array(
-            'criteria' =>$criteriaData,
-            'pagination'=>false,
-    ));
+        $dataProvider = Teacher::getTeacherConsult($lectureId);
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

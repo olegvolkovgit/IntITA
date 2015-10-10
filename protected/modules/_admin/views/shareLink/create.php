@@ -12,7 +12,9 @@ $this->menu=array(
 	array('label'=>'Manage ShareLink', 'url'=>array('admin')),
 );
 ?>
-
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/sharelink/index');?>">Перегляд посиланнь на ресурси</a>
+    <br>
 <h1>Створити посилання для викладачів</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

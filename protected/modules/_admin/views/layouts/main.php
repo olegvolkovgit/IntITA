@@ -136,7 +136,7 @@ $header = new Header();
         }
         ?>
     </div>
-    <div id="contentBoxMain">
+    <div id="contentBoxMain" style="margin-left: 50px">
         <?php echo $content; ?>
         <!--SingIn modal-->
         <?php

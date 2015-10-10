@@ -29,6 +29,8 @@ class ShareLink extends CActiveRecord
 			array('name', 'length', 'max'=>255 ),
             array('name', 'required' ),
             array('link', 'safe'),
+            array('link', 'url'),
+            array('link','required'),
 			// The following rule is used by search().
 			array('id, name, link', 'safe', 'on'=>'search'),
 		);

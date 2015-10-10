@@ -591,4 +591,47 @@ class StudentReg extends CActiveRecord
     {
         return CPasswordHelper::hashPassword($password);
     }
+
+    public function getDataProfile($idUser)
+    {
+
+        if ($idUser !== Yii::app()->user->getId())
+            throw new CHttpException(403, Yii::t('error', '0612'));
+        $letter = new Letters();
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'consultationscalendar';
+        if ($teacher)
+            $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+        else
+            $criteria->addCondition('user_id=' . $idUser);
+
+        $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
+            'sort' => array(
+                'defaultOrder' => 'date_cons DESC',
+                'attributes' => array('date_cons'),
+            ),
+        ));
+
+        return $dataProvider;
+    }
+
+    public function getMarkProviderData($idUser)
+    {
+        $markCriteria = new CDbCriteria;
+        $markCriteria->alias = 'response';
+        $markCriteria->addCondition('who=' . $idUser);
+        $markCriteria->addCondition('rate>0');
+
+        $markProvider = new CActiveDataProvider('Response', array(
+            'criteria' => $markCriteria,
+            'pagination' => false,
+        ));
+
+        return $markProvider;
+    }
 }

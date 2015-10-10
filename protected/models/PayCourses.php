@@ -207,4 +207,18 @@ class PayCourses extends CActiveRecord
         }
     }
 
+    public function getPaymentsCourses($idUser)
+    {
+        $coursesCriteria = new CDbCriteria;
+        $coursesCriteria->alias = 'pay_courses';
+        $coursesCriteria->addCondition('id_user=' . $idUser);
+
+        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
+            'criteria' => $coursesCriteria,
+            'pagination' => false,
+        ));
+
+        return $paymentsCourses;
+    }
+
 }

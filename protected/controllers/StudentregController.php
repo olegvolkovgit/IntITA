@@ -213,87 +213,99 @@ class StudentRegController extends Controller
 
     public function actionProfile($idUser)
     {
+
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser !== Yii::app()->user->getId())
             throw new CHttpException(403, Yii::t('error', '0612'));
         $letter = new Letters();
-        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
+//        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
+//        $criteria = new CDbCriteria;
+//        $criteria->alias = 'consultationscalendar';
+//        if ($teacher)
+//            $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+//        else
+//            $criteria->addCondition('user_id=' . $idUser);
+//
+//        $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
+//            'criteria' => $criteria,
+//            'pagination' => array(
+//                'pageSize' => 100,
+//            ),
+//            'sort' => array(
+//                'defaultOrder' => 'date_cons DESC',
+//                'attributes' => array('date_cons'),
+//            ),
+//        ));
 
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'consultationscalendar';
-        if ($teacher)
-            $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
-        else
-            $criteria->addCondition('user_id=' . $idUser);
+        $dataProvider = StudentReg::getDataProfile($idUser);
 
-        $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
-            'criteria' => $criteria,
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'date_cons DESC',
-                'attributes' => array('date_cons'),
-            ),
-        ));
+//        $sentLettersCriteria = new CDbCriteria;
+//        $sentLettersCriteria->alias = 'letters';
+//        $sentLettersCriteria->addCondition('sender_id=' . $idUser);
+//
+//        $sentLettersProvider = new CActiveDataProvider('Letters', array(
+//            'criteria' => $sentLettersCriteria,
+//            'pagination' => array(
+//                'pageSize' => 100,
+//            ),
+//            'sort' => array(
+//                'defaultOrder' => 'date DESC',
+//                'attributes' => array('date'),
+//            ),
+//        ));
 
-        $sentLettersCriteria = new CDbCriteria;
-        $sentLettersCriteria->alias = 'letters';
-        $sentLettersCriteria->addCondition('sender_id=' . $idUser);
+        $sentLettersProvider = Letters::getSentLettersData($idUser);
 
-        $sentLettersProvider = new CActiveDataProvider('Letters', array(
-            'criteria' => $sentLettersCriteria,
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'date DESC',
-                'attributes' => array('date'),
-            ),
-        ));
+//        $receivedLettersCriteria = new CDbCriteria;
+//        $receivedLettersCriteria->alias = 'letters';
+//        $receivedLettersCriteria->addCondition('addressee_id=' . $idUser);
+//
+//        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
+//            'criteria' => $receivedLettersCriteria,
+//            'pagination' => array(
+//                'pageSize' => 100,
+//            ),
+//            'sort' => array(
+//                'defaultOrder' => 'date DESC',
+//                'attributes' => array('date'),
+//            ),
+//        ));
 
-        $receivedLettersCriteria = new CDbCriteria;
-        $receivedLettersCriteria->alias = 'letters';
-        $receivedLettersCriteria->addCondition('addressee_id=' . $idUser);
+        $receivedLettersProvider = Letters::getReceivedLettersData($idUser);
 
-        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
-            'criteria' => $receivedLettersCriteria,
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'date DESC',
-                'attributes' => array('date'),
-            ),
-        ));
+//        $coursesCriteria = new CDbCriteria;
+//        $coursesCriteria->alias = 'pay_courses';
+//        $coursesCriteria->addCondition('id_user=' . $idUser);
+//
+//        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
+//            'criteria' => $coursesCriteria,
+//            'pagination' => false,
+//        ));
 
-        $coursesCriteria = new CDbCriteria;
-        $coursesCriteria->alias = 'pay_courses';
-        $coursesCriteria->addCondition('id_user=' . $idUser);
+        $paymentsCourses = PayCourses::getPaymentsCourses($idUser);
 
-        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
-            'criteria' => $coursesCriteria,
-            'pagination' => false,
-        ));
+//        $modulesCriteria = new CDbCriteria;
+//        $modulesCriteria->alias = 'pay_modules';
+//        $modulesCriteria->addCondition('id_user=' . $idUser);
+//
+//        $paymentsModules = new CActiveDataProvider('PayModules', array(
+//            'criteria' => $modulesCriteria,
+//            'pagination' => false,
+//        ));
 
-        $modulesCriteria = new CDbCriteria;
-        $modulesCriteria->alias = 'pay_modules';
-        $modulesCriteria->addCondition('id_user=' . $idUser);
+        $paymentsModules = Modules::getPaymentsModules($idUser);
 
-        $paymentsModules = new CActiveDataProvider('PayModules', array(
-            'criteria' => $modulesCriteria,
-            'pagination' => false,
-        ));
+//        $markCriteria = new CDbCriteria;
+//        $markCriteria->alias = 'response';
+//        $markCriteria->addCondition('who=' . $idUser);
+//        $markCriteria->addCondition('rate>0');
+//
+//        $markProvider = new CActiveDataProvider('Response', array(
+//            'criteria' => $markCriteria,
+//            'pagination' => false,
+//        ));
 
-        $markCriteria = new CDbCriteria;
-        $markCriteria->alias = 'response';
-        $markCriteria->addCondition('who=' . $idUser);
-        $markCriteria->addCondition('rate>0');
-
-        $markProvider = new CActiveDataProvider('Response', array(
-            'criteria' => $markCriteria,
-            'pagination' => false,
-        ));
+        $markProvider = StudentReg::getMarkProviderData($idUser);
 
         $this->render("studentprofile", array(
             'dataProvider' => $dataProvider,

@@ -52,7 +52,7 @@ class m151001_130056_update_response_table_create_teacher_response_table extends
         $sql = "SELECT id, about FROM response";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $this->dropForeignKey('FK__user_2', 'response');
+        //$this->dropForeignKey('FK__user_2', 'response');
         $this->dropColumn('response', 'about');
         $this->createTable('teacher_response', array(
             'id_teacher' => 'INT(11) NOT NULL',

@@ -1,7 +1,7 @@
 <?php
 
 class LettersController extends Controller
-{
+{//http://localhost/IntIta/studentreg/profile/?idUser=22 вкладка листування
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.

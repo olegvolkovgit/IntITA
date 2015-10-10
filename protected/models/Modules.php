@@ -103,4 +103,18 @@ class Modules extends CActiveRecord
         }
         return $r;
     }
+
+    public function getPaymentsModules($idUser)
+    {
+        $modulesCriteria = new CDbCriteria;
+        $modulesCriteria->alias = 'pay_modules';
+        $modulesCriteria->addCondition('id_user=' . $idUser);
+
+        $paymentsModules = new CActiveDataProvider('PayModules', array(
+            'criteria' => $modulesCriteria,
+            'pagination' => false,
+        ));
+
+        return $paymentsModules;
+    }
 }
