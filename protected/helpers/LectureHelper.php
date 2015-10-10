@@ -1,25 +1,28 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ivanna
  * Date: 16.07.2015
  * Time: 18:42
  */
+class LectureHelper
+{
 
-class LectureHelper {
-
-    public static function getTaskId($idBlock){
+    public static function getTaskId($idBlock)
+    {
         //if (Task::model()->exists('condition=:idBlock', array(':idBlock' => $idBlock))){
         $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
-            return ($assignment)?$assignment:false;
+        return ($assignment) ? $assignment : false;
 //        } else {
 //            return false;
 //        }
     }
 
-    public static function getTaskLang($idBlock){
+    public static function getTaskLang($idBlock)
+    {
         $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->language;
-        return ($assignment)?$assignment:false;
+        return ($assignment) ? $assignment : false;
     }
 
     public static function startsWith($haystack, $needle)
@@ -27,12 +30,13 @@ class LectureHelper {
         return substr($haystack, 0, strlen($needle)) === $needle;
     }
 
-    public static function getTaskIcon($user, $idBlock, $editMode){
-        if ($editMode || $user == 0){
+    public static function getTaskIcon($user, $idBlock, $editMode)
+    {
+        if ($editMode || $user == 0) {
             return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
         } else {
             $idTask = Task::model()->findByAttributes(array('condition' => $idBlock))->id;
-            if (TaskMarks::isTaskDone($user, $idTask)){
+            if (TaskMarks::isTaskDone($user, $idTask)) {
                 return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
             } else {
                 return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
@@ -40,83 +44,91 @@ class LectureHelper {
         }
     }
 
-    public static function getTestIcon($user, $idBlock, $editMode){
-        if ($editMode || Yii::app()->user->isGuest){
+    public static function getTestIcon($user, $idBlock, $editMode)
+    {
+        if ($editMode || Yii::app()->user->isGuest) {
             return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
         } else {
             $idTest = Tests::model()->findByAttributes(array('block_element' => $idBlock))->id;
-            if (TestsMarks::isTestDone($user, $idTest)){
+            if (TestsMarks::isTestDone($user, $idTest)) {
                 return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
             } else {
                 return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
             }
         }
     }
-    public static function isLectureFinished($idUser, $idLecture){
+
+    public static function isLectureFinished($idUser, $idLecture)
+    {
         $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
-        $passedLecture=LectureHelper::isPassedLecture($passedPages);
+        $passedLecture = LectureHelper::isPassedLecture($passedPages);
 
         return $passedLecture;
     }
 
-    public static function getFinalLectureTask($idLecture){
+    public static function getFinalLectureTask($idLecture)
+    {
         $finalTask = 0;
-        if (LectureElement::model()->exists('(id_type = 6 or id_type = 13) and id_lecture=:id_lecture', array(':id_lecture' => $idLecture))){
+        if (LectureElement::model()->exists('(id_type = 6 or id_type = 13) and id_lecture=:id_lecture', array(':id_lecture' => $idLecture))) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition('(id_type=6 or id_type=13) and id_lecture='.$idLecture);
+            $criteria->addCondition('(id_type=6 or id_type=13) and id_lecture=' . $idLecture);
             $criteria->limit = 1;
             $criteria->order = 'block_order';
 
             $finalTask = LectureElement::model()->find($criteria);
 
             return $finalTask->id_block;
-        }else{
+        } else {
             return 0;
         }
 
     }
 
-    public static function isFinalFirst($idLecture){
+    public static function isFinalFirst($idLecture)
+    {
         $count = LectureElement::model()->exists('id_lecture=:id_lecture and (id_type=6 or id_type=13)', array('id_lecture' => $idLecture));
-        if ($count){
+        if ($count) {
             return 0;
-        }else{
+        } else {
             return 1;
         }
     }
 
-    public static function getLectureTypeTitle($idType){
-        if(LectureType::model()->exists('id=:idType', array(':idType' => $idType))){
+    public static function getLectureTypeTitle($idType)
+    {
+        if (LectureType::model()->exists('id=:idType', array(':idType' => $idType))) {
             $titleParam = LectureHelper::getTypeTitleParam();
             return LectureType::model()->findByPk($idType)->$titleParam;
-        }else {
+        } else {
             return '';
         }
     }
 
-    public static function getTypeTitleParam(){
-        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
-        $title = "title_".$lang;
+    public static function getTypeTitleParam()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
         return $title;
     }
 
-    public static function getNextId($id){
+    public static function getNextId($id)
+    {
         $current = Lecture::model()->findByPk($id);
-        return Lecture::model()->findByAttributes(array('order'=>$current->order+1,'idModule'=>$current->idModule))->id;
+        return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
     }
 
-    public  static function getLectureDuration($id)
+    public static function getLectureDuration($id)
     {
-        return Lecture::model()->findByPk($id)->durationInMinutes.Yii::t('lecture','0076');
+        return Lecture::model()->findByPk($id)->durationInMinutes . Yii::t('lecture', '0076');
     }
 
     public static function getLectureTitle($id)
     {
         $titleParam = LectureHelper::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
-        if ($title == ''){
+        if ($title == '') {
             return Lecture::model()->findByPk($id)->title_ua;
-        } else{
+        } else {
             return $title;
         }
     }
@@ -126,102 +138,156 @@ class LectureHelper {
         return Lecture::model()->findByPk($id)->rate;
     }
 
-    public static function getPreId($order, $idModule){
-        return Lecture::model()->findByAttributes(array('order'=>$order-1,'idModule'=>$idModule))->id;
+    public static function getPreId($order, $idModule)
+    {
+        return Lecture::model()->findByAttributes(array('order' => $order - 1, 'idModule' => $idModule))->id;
     }
+
     /* ������ �� ������� �� ������������� � �����, ������� �� �������� ����������� ������ � ���������
    ���������� ����� ������� ������� �� �� ������ ���������� ����� �� �������� */
-    public static function getLastEnabledLessonOrder($idModule){
+    public static function getLastEnabledLessonOrder($idModule)
+    {
         $user = Yii::app()->user->getId();
 
         $criteria = new CDbCriteria();
-        $criteria->alias='lectures';
-        $criteria->addCondition('idModule='.$idModule.' and `order`>0');
+        $criteria->alias = 'lectures';
+        $criteria->addCondition('idModule=' . $idModule . ' and `order`>0');
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lecturesCount=count($sortedLectures);
-        foreach($sortedLectures as $lecture){
-            if(!LectureHelper::isLectureFinished($user, $lecture->id)){
+        $lecturesCount = count($sortedLectures);
+        foreach ($sortedLectures as $lecture) {
+            if (!LectureHelper::isLectureFinished($user, $lecture->id)) {
                 return $lecture->order;
             }
         }
         return $lecturesCount;
     }
-    public static function getLanguage(){
-        $lang = (Yii::app()->session['lg'])?Yii::app()->session['lg']:'ua';
+
+    public static function getLanguage()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         return $lang;
     }
 
-    public static function getLecturePageVideo($idLecturePage){
+    public static function getLecturePageVideo($idLecturePage)
+    {
         $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
         $videoLink = str_replace("watch?v=", "embed/", LectureElement::model()->findByPk($lectureElement)->html_block);
         $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
         return $videoLink;
     }
 
-    public static function getQuizType($id){
+    public static function getQuizType($id)
+    {
         return LectureElement::model()->findByPk($id)->id_type;
     }
 
-    public static function getPageVideoUrl($pageId){
+    public static function getPageVideoUrl($pageId)
+    {
         $element = LecturePage::model()->findByPk($pageId)->video;
         if ($element) {
             return LectureElement::model()->findByPk($element)->html_block;
-        }else{
+        } else {
             return '';
         }
     }
 
-    public static function getPageQuiz($pageId){
+    public static function getPageQuiz($pageId)
+    {
         $element = LecturePage::model()->findByPk($pageId)->quiz;
         if ($element) {
             return LectureElement::model()->findByPk($element);
-        }else{
+        } else {
             return '';
         }
     }
 
-    public static function getNumberLecturePages($idLecture){
+    public static function getNumberLecturePages($idLecture)
+    {
         return LecturePage::model()->count('id_lecture=:id', array(':id' => $idLecture));
     }
 
-    public static function getPagesList($idLecture){
+    public static function getPagesList($idLecture)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = 'page_title, page_order';
-        $criteria->addCondition('id_lecture='.$idLecture);
+        $criteria->addCondition('id_lecture=' . $idLecture);
         $criteria->order = 'page_order ASC';
         $list = LecturePage::model()->findAll($criteria);
         return $list;
     }
 
-    public static function getModuleByLecture($idLecture){
+    public static function getModuleByLecture($idLecture)
+    {
         return Lecture::model()->findByPk($idLecture)->idModule;
     }
 
-    public static function isLectureFree($id){
+    public static function isLectureFree($id)
+    {
         return Lecture::model()->findByPk($id)->isFree;
     }
+
     /*Assign class press pages if there are at*/
-    public static function lastAccessPage($passedPages){
+    public static function lastAccessPage($passedPages)
+    {
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
-            if($i == $count-1 && $passedPages[$i]['isDone'])
+            if ($i == $count - 1 && $passedPages[$i]['isDone'])
                 return $i;
-            if($passedPages[$i]['isDone'] && !$passedPages[$i+1]['isDone'])
+            if ($passedPages[$i]['isDone'] && !$passedPages[$i + 1]['isDone'])
                 return $i;
         }
-            return 0;
+        return 0;
     }
 
-    public static function isPassedLecture($passedPages){
+    public static function isPassedLecture($passedPages)
+    {
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
             if (!$passedPages[$i]['isDone']) return false;
         }
         return true;
     }
 
-    public static function getLessonsCount($idModule){
+    public static function getLessonsCount($idModule)
+    {
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
     }
 
+    public static function getFirstLectureID($idModule)
+    {
+        if(isset(Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id))
+            return Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id;
+        else return false;
+    }
+    public static function getLastLectureID($idModule)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $idModule . ' and `order`>0';
+        if(isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
+    }
+
+    public static function getFirstQuiz($firstLectureId)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture=' . $firstLectureId . ' and quiz>0';
+        if(isset(LecturePage::model()->find($criteria)->quiz))
+            return LecturePage::model()->find($criteria)->quiz;
+        else return false;
+    }
+    public static function getLastQuiz($lastLectureId)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture_page';
+        $criteria->order = 'page_order DESC';
+        $criteria->condition = 'id_lecture=' . $lastLectureId . ' and quiz>0';
+        if(isset(LecturePage::model()->find($criteria)->quiz))
+            return LecturePage::model()->find($criteria)->quiz;
+        else return false;
+    }
 }

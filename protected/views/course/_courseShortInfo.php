@@ -41,12 +41,19 @@
         </tr>
     </table>
     <div class="courseDetail">
-        <div class="colorP"><?php echo Yii::t('course', '0194'); ?>
-            <span id="demo">
-                <a href='<?php echo StaticFilesHelper::createPath('image', 'course', 'course_1_table.jpg');?>' id="fancyzoom">Схема курса</a>
-            </span>
-            </div>
         <div>
+            <span id="demo">
+                <a href='<?php
+//                $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+//                if (file_exists($filename)) {
+                    echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+//                } else {
+//                    echo Yii::app()->createUrl('course/schemaError');
+//                }
+                ?>' id="fancyzoom">Схема курса</a>
+            </span>
+            <br>
+            <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
             - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>
             (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)

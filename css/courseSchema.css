@@ -1,22 +1,72 @@
 #schema{
     border:none;
     border-collapse: collapse;
-    padding: 0;
+    border-spacing: 0px;
+    padding:0px;
     font-family:MyriadPro;
 }
-
 #schema td{
     border:1px solid black;
     border-spacing: 0;
-    padding: 7px;
+}
+#schema td:first-child{
+    width:180px;
 }
 #courseSchema{
     margin-left: 50px;
 }
 #courseName{
-    text-align: right;
+    text-align: center;
+    background-color:#a4c2f4;
+    height: 58px;
 }
-#monthTitle{
+#schema td.monthTitle {
     text-align: right;
-    border:none;
+    border: none;
+    color:#4b75a4;
+    padding-right: 7px;
+}
+.fullMonthsCell{
+    background-color:#cdffcc;
+}
+.emptyMonthsCell, .fullMonthsCell, .examCell, .trainee, .lastCell{
+    width: 50px;
+    height: 58px;
+    text-align: center;
+}
+.monthsCell{
+    width: 50px;
+    height: 30px;
+    text-align: center;
+}
+.examCell{
+    background-color:#ffcccb;
+    color:red;
+}
+.trainee{
+    background-color: #ffcc80;
+}
+.lastCell{
+    background-color:#f6f6f6;
+}
+#saveButton{
+    display: inline-block;
+    position: relative;
+    width: 160px;
+    height: 30px;
+    border-radius: 7px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 32px;
+    margin-left: 200px;
+}
+
+#saveButton a{
+    color: #ffffff;
+    text-decoration: none
 }

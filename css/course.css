@@ -85,6 +85,20 @@ div.courseShortInfoTable{
 }
 .courseShortInfoTable table.courseLevelInfo{
     width: 100%;
+    border: none;
+    border-collapse:collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+.courseShortInfoTable table.courseLevelInfo td{
+    vertical-align: bottom;
+    border: none;
+    border-collapse:collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+.courseLevel div{
+    height: 20px;
 }
 .courseShortInfo div.courseLevelName {
     display: inline-block;
@@ -92,6 +106,8 @@ div.courseShortInfoTable{
 }
 .courseLevel{
     text-align: right;
+    line-height: 18px;
+
 }
 /*Short Info*/
 
@@ -243,8 +259,8 @@ p.subCourseInfo, p.courseAboutTeacher{
     vertical-align: top;
 }
 .courseModules .grid-view table.items td {
-    font-size: 18px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 16px;
 }
 .cModule {
     margin: -7px 0 10px -3px;
@@ -387,13 +403,14 @@ body .grid-view table.items td.button-column{
 }
 
 body .grid-view table.items td.aliasColumn{
+    vertical-align: top;
     white-space: nowrap;
-    background-color: white;
+    background-color: #efefef;
     width: 1%;
-    margin-left: 0px;!important;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left: 0px;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #000000;
+    min-height: 64px;
 }
 body .grid-view table.items td.aliasColumn img {
     position: relative;
@@ -401,15 +418,13 @@ body .grid-view table.items td.aliasColumn img {
     margin-right: 5px;
 }
 
-body .grid-view table.items td.titleColumn{
+body .grid-view table.items td.moduleLink{
     vertical-align: top;
-    background-color: white;
-    padding-left: 0;
     float:left;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0;!important;
-    width:450px;
+    margin: 0;
+    padding: 0;
+    width:590px;
+    min-height: 64px;
 }
 .grid-view table.items td.titleColumn a{
     width: 100%;
@@ -487,6 +502,11 @@ body .grid-view table.items td.titleColumn{
     color: #4b75a4;
     text-decoration:none;
     float:left;
+}
+.titleColumn img {
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 5px 5px 0 5px;
 }
 .grid-view table.items tr td{
     /*padding: 0;*/
@@ -566,4 +586,76 @@ input.paymentPlan_value{
     background: #454545;
     cursor: pointer;
 }
+.grid-view table.items th, .grid-view table.items td
+{
+    border:none;
+}
+.grid-view table.items
+{
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+.moduleProgress{
+    text-align: right;
+    margin-top: 20px;
+}
+.disableModuleStyle .moduleLink{
+    color:#666666;
+    font-weight: 500;
+}
+body .grid-view table.items td.disableModuleStyle,body .grid-view table.items td.availableModuleStyle {
+    background-color: #efefef;
+    border-bottom: 1px solid #666666;
+}
+body .grid-view table.items td.titleColumn {
+    padding: 5px;
+}
+body .grid-view table.items td.titleColumn .moduleOrder{
+    color:#666666;
+    font-weight: 500;
+}
+body .grid-view table.items td.titleColumn .moduleLink{
+    font-weight: 500;
+}
 
+body .grid-view table.items td.availableModuleStyle .moduleLink{
+    color:#4e739e;
+    font-weight: 500;
+}
+body .grid-view table.items td.inlineModuleStyle{
+    background-color: #efefef;
+    border-bottom: 1px solid #666666;
+}
+body .grid-view table.items td.inProgressModuleStyle{
+    background-color: #cce0eb;
+    border-bottom: 1px solid #4b75a4;
+}
+table.items td.inlineModuleStyle .moduleProgress{
+    color:#666666;
+}
+
+table.items td.inProgressModuleStyle .moduleProgress{
+    color:#7a8e98;
+}
+table.items td.inProgressModuleStyle .moduleLink{
+    color:#3c72a2;
+    font-weight: 500;
+}
+
+body .grid-view table.items td.inFinishedModuleStyle{
+    background-color: #eaf5e5;
+    border-bottom: 1px solid #666666;
+}
+table.items td.inFinishedModuleStyle .moduleProgress{
+    color:#7a8e98;
+}
+table.items td.inFinishedModuleStyle .moduleLink{
+    color:#3c72a2;
+    font-weight: 500;
+}
+table.items td.inFinishedModuleStyle .greenFinished{
+    color:#339900;
+}
+table.items td.inFinishedModuleStyle .redFinished{
+    color:#bc1000;
+}

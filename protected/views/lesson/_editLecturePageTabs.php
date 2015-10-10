@@ -104,7 +104,7 @@ if($page->video == null) {?>
     }
 ?>
 <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
-<?php $this->renderPartial('_addTask', array('pageId' => $page->id));?>
+<?php //$this->renderPartial('_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
 <br>

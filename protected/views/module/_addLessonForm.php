@@ -16,7 +16,7 @@
     <br>
     <br>
     <span>Назва (EN):</span>
-    <input type="text" name="titleEn" id="titleEn" pattern="^[=zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70">
+    <input type="text" name="titleEn" id="titleEn" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70">
     <br><br>
     <input type="submit"  value=<?php echo Yii::t('module', '0383'); ?> id="submitButton" onclick="trimLectureName()">
 </form>

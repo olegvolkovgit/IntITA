@@ -185,19 +185,7 @@ class LessonController extends Controller
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
 
-        switch ($idType) {
-            case '2':
-                $model->html_block = LectureElement::getVideoLink($htmlBlock);
-                break;
-            case '9':
-                $model->html_block = LectureElement::getVideoLink($htmlBlock);
-                break;
-            case '10':
-
-                break;
-            default:
-                $model->html_block = $htmlBlock;
-        }
+        $model->html_block = $htmlBlock;
         $model->id_type = $idType;
 
         $model->save();

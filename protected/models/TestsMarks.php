@@ -112,4 +112,10 @@ class TestsMarks extends CActiveRecord
         return TestsMarks::model()->exists('id_user =:user and id_test =:test and mark = 1',
             array(':user' => $user, ':test' => $idTest));
     }
+	public static function testTime($user, $idTest){
+		if(TestsMarks::model()->exists('id_user =:user and id_test =:test and mark = 1',
+			array(':user' => $user, ':test' => $idTest))){
+			return TestsMarks::model()->findByAttributes(array('id_user' => $user,'id_test' => $idTest,'mark' => 1))->time;
+		}else return false;
+	}
 }

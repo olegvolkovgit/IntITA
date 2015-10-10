@@ -568,17 +568,17 @@ class StudentReg extends CActiveRecord
         //Тогда подставляем окончание
         if($number > 10 and $number < 15)
         {
-            $term = 'днів';
+            $term = Yii::t('module', '0653');
         }
         else
         {
 
             $number = substr($number, -1);
 
-            if($number == 0) {$term = 'днів';}
-            if($number == 1 ) {$term = 'день';}
-            if($number > 1 ) {$term = 'дні';}
-            if($number > 4 ) {$term = 'днів';}
+            if($number == 0) {$term = Yii::t('module', '0653');}
+            if($number == 1 ) {$term = Yii::t('module', '0654');}
+            if($number > 1 ) {$term = Yii::t('module', '0655');}
+            if($number > 4 ) {$term = Yii::t('module', '0653');}
         }
         return  $term;
     }

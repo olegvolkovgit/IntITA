@@ -62,7 +62,7 @@ table#accountTable td {
     text-decoration: none;
     margin-left: 300px;
 }
-#printAccount :hover {
+#printAccount:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;

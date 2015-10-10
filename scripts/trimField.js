@@ -1,11 +1,11 @@
 /*Видаляємо пробіли спочатку і в кінці*/
 function trimUpEmail() {
-    var em=document.getElementsByClassName('signInEmail')[0];
-    em.value=$.trim(em.value);
+    var em=$('.signInEmail');
+    em.val($.trim(em.val()));
     }
 function trimInEmail() {
-    var em=document.getElementsByClassName('signInEmailM')[0];
-    em.value=$.trim(em.value);
+    var em=$('.signInEmailM');
+    em.val($.trim(em.val()));
 }
 function trimExpEmail() {
     var em=$('.trimEm');
@@ -46,11 +46,11 @@ function trimLectureName() {
     lec.value=$.trim(lec.value);
 }
 function trimLetterEmail() {
-    var letEm=document.getElementsByClassName('letterEmail')[0];
-    letEm.value=$.trim(letEm.value);
-    var letP=document.getElementsByClassName('letterPhone')[0];
-    letP.value=$.trim(letP.value);
-    var letA=document.getElementsByClassName('letterAge')[0];
-    letA.value=$.trim(letA.value);
+    var letEm=$('.letterEmail');
+    letEm.val($.trim(letEm.val()));
+    var letP=$('.letterPhone');
+    letP.val($.trim(letP.val()));
+    var letA=$('.letterAge');
+    letA.val($.trim(letA.val()));
     $("div#letterFlash").hide();
 }

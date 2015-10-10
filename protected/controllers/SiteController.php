@@ -179,6 +179,15 @@ class SiteController extends Controller
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                     $current_lang = Yii::app()->session['lg'];
                     if ($current_lang == "ua") $current_lang = "uk";
+                    if(!empty($userModel->birthday)){
+                        $birthday = $userModel->birthday;
+                        $birthday = str_replace("/", "-", $birthday);
+                        if($birthday[0] == "0") $birthday[0] = ' ';
+                        if($birthday[3] == "0") $birthday[3] = ' ';
+                    }else $birthday=' ';
+                    $avatar = $userModel->avatar;
+                    if ($avatar == null || $avatar == "") $avatar = "noname.png";
+
                     Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
 
                     $existingForumUser = count(
@@ -203,7 +212,10 @@ class SiteController extends Controller
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
                             'user_regdate' => $reg_time,
-                            'user_lang' => $current_lang
+                            'user_lang' => $current_lang,
+                            'user_birthday' => $birthday,
+                            'user_avatar' => $avatar,
+                            'user_avatar_type' => "avatar.driver.upload"
                         ));
 
                         Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
@@ -215,6 +227,9 @@ class SiteController extends Controller
                     } else {
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
                             'user_lang' => $current_lang,
+                            'user_birthday' =>$birthday,
+                            'user_avatar' =>$avatar,
+                            'user_avatar_type' => "avatar.driver.upload"
                         ), 'user_id=:id', array(':id' => $userModel->id));
                     }
 

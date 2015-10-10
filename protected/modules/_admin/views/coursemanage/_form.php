@@ -3,9 +3,8 @@
 /* @var $model Course */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?php StaticFilesHelper::fullPathTo('css', 'formattedForm.css');?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl().'/css/formattedForm.css';?>"/>
 <div class="form">
-
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'course-form',
         'htmlOptions'=>array(

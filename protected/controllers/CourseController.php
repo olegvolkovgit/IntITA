@@ -160,7 +160,7 @@ class CourseController extends Controller
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+			$this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUpModule(){
@@ -223,5 +223,18 @@ class CourseController extends Controller
         } else {
             throw new CHttpException(400, 'Invalid request');
         }
+    }
+
+	public function actionCourseSchema($idCourse){
+        $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+        if (file_exists($filename)) {
+            echo '/IntITA/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+        } else {
+            $this->render('_schemaError');
+        }
+    }
+
+    public function actionSchemaError(){
+        $this->render('_schemaError');
     }
 }
