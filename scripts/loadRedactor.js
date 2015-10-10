@@ -75,8 +75,11 @@ function loadRedactorJs() {
             order = '#' + idName;
 
             var edit = this.hasAttribute("contenteditable");
-            if (edit == false) {
+            var flag = this.hasAttribute("data-flag");
+            if (edit == false && flag ==false) {
+                $(order).attr('data-flag', 'true');
                 loadTextRedactor();
+                $(order).attr('data-flag', 'true');
                 $(order).attr('data-target', 'insertE');
                 if ($("div").is("#toolbar" + idName)) {
                     $(order).parent().parent().parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
@@ -123,8 +126,11 @@ function loadRedactorJs() {
             order = '#' + idName;
 
             var edit = this.hasAttribute("contenteditable");
-            if (edit == false) {
+            var flag = this.hasAttribute("data-flag");
+            if (edit == false && flag ==false ) {
+                $(order).attr('data-flag', 'true');
                 loadTextRedactor();
+                $(order).removeAttr('data-flag');
                 $(order).attr('data-target', 'insertE');
                 if ($("div").is("#toolbar" + idName)) {
                     $(order).parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
