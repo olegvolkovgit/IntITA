@@ -229,7 +229,7 @@ class CourseController extends Controller
         $filename = StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
 
         if (file_exists($filename)) {
-            echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+            echo StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
         } else {
             $this->render('_schemaError');
         }
