@@ -227,8 +227,6 @@ class CourseController extends Controller
 
 	public function actionCourseSchema($idCourse){
         $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
-
-        echo $filename;
         if (file_exists($filename)) {
             echo '/IntITA/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
         } else {
