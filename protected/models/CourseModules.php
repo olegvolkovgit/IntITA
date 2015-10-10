@@ -191,18 +191,24 @@ class CourseModules extends CActiveRecord
 
     public static function sortByMandatoryModules($a, $b)
     {
-        $mandatoryA = $a->start;
-        $mandatoryB = $b->start;
-        if ($mandatoryA == $mandatoryB) {
+        $startA = $a->start;
+        $startB = $b->start;
+        if ($startA == $startB) {
             $lessonCountA = $a->lessonCount;
             $lessonCountB = $b->lessonCount;
             if ($lessonCountA == $lessonCountB){
-                return ($lessonCountA < $lessonCountB) ? +1 : -1;
+                $durationA = $a->durationInMonths;
+                $durationB = $b->durationInMonths;
+                if ($durationA == $durationB){
+                    return ($lessonCountA < $lessonCountB) ? +1 : -1;
+                } else {
+                    return ($durationA < $durationB) ? +1 : -1;
+                }
             } else {
                 return 0;
             }
         } else {
-            return ($mandatoryA < $mandatoryB) ? +1 : -1;
+            return ($startA < $startB) ? +1 : -1;
         }
     }
 
