@@ -43,8 +43,14 @@
     <div class="courseDetail">
         <div>
             <span id="demo">
-                <a href='<?php echo Yii::app()->createUrl('course/courseSchema', array(
-                    'idCourse' => $model->course_ID)); ?>' id="fancyzoom">Схема курса</a>
+                <a href='<?php
+                $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                if (file_exists($filename)) {
+                    echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                } else {
+                    echo Yii::app()->createUrl('course/schemaError');
+                }
+                ?>' id="fancyzoom">Схема курса</a>
             </span>
             <br>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>

@@ -226,12 +226,17 @@ class CourseController extends Controller
     }
 
 	public function actionCourseSchema($idCourse){
-        $filename = StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+        $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
 
+        echo $filename;
         if (file_exists($filename)) {
-            echo StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+            echo '/IntITA/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
         } else {
             $this->render('_schemaError');
         }
+    }
+
+    public function actionSchemaError(){
+        $this->render('_schemaError');
     }
 }
