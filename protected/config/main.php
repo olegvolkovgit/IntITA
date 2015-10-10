@@ -85,7 +85,7 @@ return array(
 
 				''=>array('site/index', 'urlSuffix' => ''),
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',
-                'courses/<selector:\w+>' => 'courses/index', /* Url for teacher page */
+                'courses/<selector:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>'=>'aboutus/index',
                 'account/<courseId:\d+>'=>'accountancy/index',
 

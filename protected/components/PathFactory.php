@@ -11,17 +11,24 @@ class PathFactory {
     public static function factory($pathInfo){
 
         $pathParts = explode('/', $pathInfo);
-        //var_dump($pathParts);die();
 
         switch($pathParts[0]){
             case 'course':
-                $pathObject = new CoursePath($pathParts);
+                if (isset($pathParts[1])) {
+                    $pathObject = new CoursePath($pathParts);
+                } else{
+                    $pathObject = new CourseListPath($pathParts);
+                }
                  break;
             case 'module':
-                if(in_array($pathParts[1], array('ru', 'ua', 'en'))) {
-                    $pathObject = new ModulePath($pathParts);
+                if (isset($pathParts[1])) {
+                    if (in_array($pathParts[1], array('ru', 'ua', 'en'))) {
+                        $pathObject = new ModulePath($pathParts);
+                    } else {
+                        $pathObject = null;
+                    }
                 } else {
-                    return null;
+                    $pathObject = new ModuleListPath($pathParts);
                 }
                 break;
             default:

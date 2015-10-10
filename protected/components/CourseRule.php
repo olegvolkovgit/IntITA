@@ -13,12 +13,12 @@ class CourseRule extends CBaseUrlRule
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
         $path = PathFactory::factory($pathInfo);
+
         if (is_null($path)) {
             return false;
         }
 
         $path = $path->parseUrl();
-
 
         switch ($path->getType()) {
             case 'course':
@@ -58,6 +58,12 @@ class CourseRule extends CBaseUrlRule
                         }
                     }
                 }
+                break;
+            case 'courses_list':
+                return $path->url;
+                break;
+            case 'modules_list':
+                return $path->url;
                 break;
             default:
                 return false;
