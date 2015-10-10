@@ -43,8 +43,8 @@
     <div class="courseDetail">
         <div>
             <span id="demo">
-                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');?>'
-                   id="fancyzoom">Схема курса</a>
+                <a href='<?php echo Yii::app()->createUrl('course/courseSchema', array(
+                    'idCourse' => $model->course_ID)); ?>' id="fancyzoom">Схема курса</a>
             </span>
             <br>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>

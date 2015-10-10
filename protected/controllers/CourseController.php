@@ -224,4 +224,14 @@ class CourseController extends Controller
             throw new CHttpException(400, 'Invalid request');
         }
     }
+
+	public function actionCourseSchema($idCourse){
+        $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+
+        if (file_exists($filename)) {
+            echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+        } else {
+            $this->render('_schemaError');
+        }
+    }
 }
