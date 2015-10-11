@@ -15,7 +15,11 @@ class PathFactory {
         switch($pathParts[0]){
             case 'course':
                 if (isset($pathParts[1])) {
-                    $pathObject = new CoursePath($pathParts);
+                    if (in_array($pathParts[1], array('junior', 'middle', 'senior', 'all'))){
+                        $pathObject = new CourseListPath($pathParts);
+                    } else {
+                        $pathObject = new CoursePath($pathParts);
+                    }
                 } else{
                     $pathObject = new CourseListPath($pathParts);
                 }
