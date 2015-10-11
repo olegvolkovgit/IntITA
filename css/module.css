@@ -314,13 +314,16 @@ td.button-column{
     background: #454545;
     cursor: pointer;
 }
-.moduleTitle h1{
+.moduleTitle h1, #modulesHeader{
     font-weight: inherit;
     font-size: 36px;
     color: #4B75A4;
     margin: 24px 0 20px 0;
     line-height: 100%;
     word-wrap: break-word;
+}
+#modulesHeader{
+    margin-left: 115px;
 }
 .colorGreen{
     color: green;

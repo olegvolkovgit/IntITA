@@ -9,7 +9,6 @@
 class ModulesController extends Controller{
     public function actionIndex()
     {
-
         $dataProvider = new CActiveDataProvider('Module', array(
             'pagination'=>array('pageSize'=>50)
         ));
