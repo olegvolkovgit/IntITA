@@ -9,7 +9,10 @@
 class ModulesController extends Controller{
     public function actionIndex()
     {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'cancelled=0';
         $dataProvider = new CActiveDataProvider('Module', array(
+            'criteria' => $criteria,
             'pagination'=>array('pageSize'=>50)
         ));
 

@@ -34,9 +34,22 @@
         'language',
         'module_price',
         'level',
+        'cancelled',
         array(
             'class' => 'CButtonColumn',
-            'template' => '{view}{update}',
+            'template'=>'{view}{update}{delete}{restore}',
+            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
+            'headerHtmlOptions'=>array('style'=>'width:100px'),
+            'buttons'=>array(
+            'restore' => array
+            (
+                'label'=>'Відновити модуль',
+                'url' => 'Yii::app()->createUrl("/_admin/module/restore", array("id"=>$data->primaryKey))',
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
+                'options'=>array(
+                    'class'=>'controlButtons;',
+                )
+            )),
         ),
     ),
 )); ?>

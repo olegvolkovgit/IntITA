@@ -23,6 +23,7 @@
  * @property integer $level
  * @property integer $rating
  * @property integer $module_number
+ * @property integer $cancelled
  *
  * The followings are the available model relations:
  * @property Course $course0
@@ -49,7 +50,8 @@ class Module extends CActiveRecord
         // will receive user inputs.
         return array(
             array('language, title_ua, level', 'required'),
-            array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week, module_number', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
+            array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
+            module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
             array('module_price', 'length', 'max' => 10),
             array('module_number','unique','message'=>'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
@@ -64,7 +66,7 @@ class Module extends CActiveRecord
             // The following rule is used by search().
             array('module_ID, title_ua, title_ru, title_en, alias, language, module_duration_hours,
 			module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled', 'safe', 'on' => 'search'),
         );
     }
 
@@ -101,6 +103,7 @@ class Module extends CActiveRecord
             'what_you_get' => 'Що ти отримаєш',
             'module_img' => 'Фото',
             'module_number' => 'Номер модуля',
+            'cancelled' => 'Видалений',
         );
     }
 
@@ -139,6 +142,7 @@ class Module extends CActiveRecord
         $criteria->compare('level', $this->level, true);
         $criteria->compare('rating', $this->rating, true);
         $criteria->compare('module_number', $this->module_number, true);
+        $criteria->compare('cancelled', $this->cancelled, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

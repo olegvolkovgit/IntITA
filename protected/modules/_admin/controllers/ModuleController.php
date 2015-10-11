@@ -9,17 +9,6 @@
 class ModuleController extends AdminController
 {
 
-//    public $layout = 'main';
-
-//    public function init()
-//    {
-//        if (Config::getMaintenanceMode() == 1) {
-//            $this->renderPartial('/default/notice');
-//            Yii::app()->cache->flush();
-//            die();
-//        }
-//    }
-
     public function filters()
     {
         return array(
@@ -32,13 +21,13 @@ class ModuleController extends AdminController
     {
         return array(
             array('allow',
-                'actions'=>array('create', 'update', 'view', 'index'),
+                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('create', 'update', 'view', 'index'),
+                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore'),
                 'users'=>array('*'),
             ),
         );
@@ -128,6 +117,15 @@ class ModuleController extends AdminController
         $this->render('update', array(
             'model' => $model
         ));
+    }
+
+    public function actionDelete($id){
+        Module::model()->updateByPk($id, array('cancelled' => 1));
+    }
+
+    public function actionRestore($id){
+        Module::model()->updateByPk($id, array('cancelled' => 0));
+        $this->actionIndex($id);
     }
 
 }
