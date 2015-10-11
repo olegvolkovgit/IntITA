@@ -25,6 +25,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
     ),
     'summaryText' => '',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Config::getBaseUrl().'/css/pager.css'
+    ),
 ));
 ?>
 <br>
