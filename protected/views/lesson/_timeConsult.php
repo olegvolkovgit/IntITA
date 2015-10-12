@@ -7,19 +7,15 @@
         <tr>
             <?php
             for ( $j = 0; $j < 3; $j++) {
-
                 ?>
-
                 <td class='<?php echo Consultationscalendar::classTD($teacherId,Consultationscalendar::timeInterval($i,$j,20),$day); ?>'>
                     <?php  echo Consultationscalendar::timeInterval($i,$j,20); ?>
                 </td>
             <?php
-
             }
             ?>
         </tr>
     <?php
-
     }
     ?>
 </table>

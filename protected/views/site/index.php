@@ -5,7 +5,20 @@
 ));
 ?>
 <body>
+<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/step.css"/>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+<!-- carousel-plugins -->
+<link type="text/css" rel="stylesheet"
+      href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
+<link type="text/css" rel="stylesheet"
+      href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
+<!-- carousel-plugins -->
+<!-- carousel -->
+<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/slider.css">
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/slider.js"></script>
+<!-- carousel -->
 
 <?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 

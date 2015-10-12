@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/showPagesList",
+        url: "/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -53,7 +53,7 @@ function enableLessonPreview(lecture, course, editPage){
 function showPageEdit(lecture, pageOrder){
     $.ajax({
         type: "POST",
-        url: "/IntITA/lesson/showPageEditor",
+        url: "/lesson/showPageEditor",
         data: {'idLecture':lecture, 'pageOrder':pageOrder},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -117,69 +117,3 @@ function addVideo(){
     document.getElementById('addVideoStart').style.display = "none";
 }
 
-function deletePage(lecture, page, course){
-    if($("div.labelBlock").length==1){
-        alert('Ви не можете видалити останню сторінку');
-        return false;
-    }
-    if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
-        $.ajax({
-            type: "POST",
-            url: "/lesson/deletePage",
-            data: {'idLecture':lecture, 'pageOrder':page, 'idCourse':course},
-            success: function(response){
-                $('div[name="lecturePage"]').html(response);
-                $.ajax({
-                    type: "POST",
-                    url: "/lesson/chaptersListUpdate",
-                    data: {'idLecture':idLecture},
-                    success: function(response){
-                        $('#chaptersList').html(response);
-                        return false;
-                    }
-                });
-            }
-        });
-    }
-}
-
-function upPage(idLecture, pageOrder, course){
-    $.ajax({
-        type: "POST",
-        url: "/lesson/upPage",
-        data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(response){
-            $('div[name="lecturePage"]').html(response);
-            $.ajax({
-                type: "POST",
-                url: "/lesson/chaptersListUpdate",
-                data: {'idLecture':idLecture},
-                success: function(response){
-                    $('#chaptersList').html(response);
-                    return false;
-                }
-            });
-        }
-    });
-}
-
-
-function downPage(idLecture, pageOrder, course){
-    $.ajax({
-        type: "POST",
-        url: "/lesson/downPage",
-        data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(response){
-            $('div[name="lecturePage"]').html(response);
-            $.ajax({
-                type: "POST",
-                url: "/lesson/chaptersListUpdate",
-                data: {'idLecture':idLecture},
-                success: function(response){
-                    $('#chaptersList').html(response);
-                    return false;
-                }
-            });
-        }
-    });
-}

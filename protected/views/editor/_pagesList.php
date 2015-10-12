@@ -5,8 +5,30 @@
  * Date: 12.08.2015
  * Time: 1:47
  */
-$pagesList = LectureHelper::getPagesList($idLecture);?>
+$pagesList = LectureHelper::getPagesList($idLecture);
+$module = LectureHelper::getModuleByLecture($idLecture);
+if($idCourse != 0) {
+    $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
+        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        LectureHelper::getLectureTitle($idLecture) =>
+            Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
+    );
+} else {
+    $this->breadcrumbs = array(
+        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        LectureHelper::getLectureTitle($idLecture) =>
+            Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
+    );
+}
+?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>" />
+
+
 <div name="lecturePage" class="pagesList">
+    <div class="lessonTheme"><?php echo LectureHelper::getLectureTitle($idLecture);?></div>
 <h3 class="lessonPartEdit">
 <?php
 for($i = 0, $count = count($pagesList); $i < $count; $i++){
