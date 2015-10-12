@@ -47,6 +47,11 @@ if($idCourse != 0) {
             ?></p>
     </div>
         <div>
+            <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
+                'idCourse' => $idCourse));?>">
+                <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
+                     class="editButton" title="Список частин заняття"/>
+            </a>
             <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture,
                 'idCourse' => $idCourse));?>">
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
