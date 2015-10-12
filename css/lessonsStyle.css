@@ -17,9 +17,9 @@ div.subLinks{
 .lessonBlock {
     margin: 0 auto;
     width: 1200px;
-    margin-bottom: 20px;
     padding-left: 20px;
     position: relative;
+    overflow: hidden;
 }
 .lessonBlock p{
     font-size: 16px;
@@ -114,31 +114,18 @@ div.code {
     width: 84%;
     padding: 0 20px 0 20px;
 }
-div.lessonBG {
-    border-top:3px solid #ffffff;
-    background-color: #dbe3ed;
-    overflow:hidden;
-    background-image: -webkit-linear-gradient(left,
-    #becdde 0%,
-    #becdde 11%,
-    #dbe3ed 11%,
-    #dbe3ed 100%);
-    background-image: -moz-linear-gradient(left,
-    #becdde 0%,
-    #becdde 11%,
-    #dbe3ed 11%,
-    #dbe3ed 100%);
-    background-image: -o-linear-gradient(left,
-    #becdde 0%,
-    #becdde 11%,
-    #dbe3ed 11%,
-    #dbe3ed 100%);
-    background-image: linear-gradient(left,
-    #becdde 0%,
-    #becdde 11%,
-    #dbe3ed 11%,
-    #dbe3ed 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#becdde', endColorstr='#dbe3ed',GradientType=1 );//Ie6-9
+.ui-widget input.answer{
+    margin: 0 3px 0 4px;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+.contentTest label{
+    font-size: 16px;
+    line-height: 16px;
+    margin: 3px 3px 3px 3px;
+    vertical-align: bottom;
 }
 span.colorO {
     color:#de5940;
@@ -383,7 +370,6 @@ pre {
 /*Test Block*/
 div.lessonTest {
     position: relative;
-    margin-bottom: 40px;
 }
 .instrTestImg {
     display: inline-block;
@@ -397,10 +383,10 @@ div.lessonTest {
 .instrTestText {
     display: inline-block;
     width: 92%;
-    font-size: 16px;
+    font-size: 20px;
     margin: 20px 0 20px 30px;
 }
-.testSubmit {
+.ui-widget button.testSubmit {
     width: 90px;
     height:28px;
     border-radius: 10px;
@@ -410,11 +396,18 @@ div.lessonTest {
     float:right;
     border:none;
 }
-.testSubmit:hover{
+.tabsWidget .ui-widget button.testSubmit {
+    font-size: 12px;
+    cursor: pointer;
+}
+.ui-widget button.testSubmit:hover{
     cursor: pointer;
     border-top-color: #454545;
     background: #454545;
     color: #fcfcfc;
+}
+.ui-widget button.testSubmit:focus {
+    outline: none;
 }
 .ansnumber{
     display:inline-block;

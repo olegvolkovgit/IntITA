@@ -7,19 +7,6 @@
 
 $this->pageTitle = 'INTITA';
 if(!isset($idCourse)) $idCourse=0;
-//if($idCourse != 0) {
-//    $this->breadcrumbs = array(
-//        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-//        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-//        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-//        LectureHelper::getLectureTitle($lecture->id),
-//    );
-//} else {
-//    $this->breadcrumbs = array(
-//        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
-//        LectureHelper::getLectureTitle($lecture->id),
-//    );
-//}
 
 if($idCourse != 0) {
 $this->renderPartial('/site/_shareMetaTag', array(
@@ -82,9 +69,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
         <?php
         $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
-
     </div>
-    <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>
     <!--modal task congratulations-->
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(

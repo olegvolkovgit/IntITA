@@ -56,8 +56,7 @@
     </div>
     <br>
     <div style="clear: both">
-        <p><a href="skype:<?php echo '#' ?>?chat"><input type="submit" value="Skype"></a></p>
-
+        <p><a href="skype:<?php echo '#' ?>?chat"><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skype.png');?>" ></a></p>
         <p>
             <!-- mibew button -->
             <a id="mibew-agent-button" href="<?php echo MibewHelper::getMibewHost(); ?>/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>;style=default" target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">

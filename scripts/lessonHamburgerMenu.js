@@ -1,8 +1,10 @@
 /**
+ * Created by Wizlight on 12.10.2015.
+ */
+/**
  * Created by Wizlight on 17.07.2015.
  */
 $(document).ready(function(){
-    if ($(window).scrollTop() > 80) {
         if($(window).height()<$("#hambMenu").height()){
             $("#hambMenu").css("overflow-y", "scroll");
             $("#hambMenu").css({height: 100+'%'});
@@ -11,11 +13,9 @@ $(document).ready(function(){
             $("#hambMenu").css("height", "inherit");
         }
         $("#hambNav").css({display: "block"});
-    }
 });
 
 $(window).scroll(function() {
-    if ($(window).scrollTop() > 80 ) {
         if($(window).height()<$("#hambMenu").height()){
             $("#hambMenu").css("overflow-y", "scroll");
             $("#hambMenu").css({height: 100+'%'});
@@ -24,10 +24,6 @@ $(window).scroll(function() {
             $("#hambMenu").css("height", "inherit");
         }
         $("#hambNav").css({display: "block"});
-    }else{
-        $("#hambNav").css({display: "none"});
-        $("#hambMenu").hide();
-    }
 });
 $(document).click(function () {
     $("#hambMenu").hide();

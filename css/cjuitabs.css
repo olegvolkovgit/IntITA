@@ -822,7 +822,7 @@ body .tabsWidget .ui-tooltip {
 /* Component containers
 ----------------------------------*/
 .tabsWidget .ui-widget {
-    font-family: Verdana,Arial,sans-serif;
+    font-family: "MyriadPro";
     font-size: 1.1em;
 }
 .tabsWidget .ui-widget .tabsWidget .ui-widget {
@@ -832,7 +832,7 @@ body .tabsWidget .ui-tooltip {
 .tabsWidget .ui-widget select,
 .tabsWidget .ui-widget textarea,
 .tabsWidget .ui-widget button {
-    font-family: Verdana,Arial,sans-serif;
+    font-family: "MyriadPro";
     font-size: 1em;
 }
 .tabsWidget .ui-widget-content {

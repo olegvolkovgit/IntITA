@@ -3,6 +3,7 @@
 /* @var $lecture Lecture */
 class LessonController extends Controller
 {
+    public $layout = 'lessonlayout';
     public function filters()
     {
         return array(
