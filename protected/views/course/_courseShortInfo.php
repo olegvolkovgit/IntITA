@@ -44,7 +44,7 @@
         <div>
             <span id="demo">
                 <a href='<?php
-//                $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+//                $filename = '//IntITA/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
 //                if (file_exists($filename)) {
                     echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
 //                } else {

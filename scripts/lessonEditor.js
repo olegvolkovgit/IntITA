@@ -32,7 +32,7 @@ function enableLessonEdit(block, course){
     document.getElementById(editButton).style.display = 'none';
     $.ajax({
         type: "POST",
-        url: "/lesson/showPagesList",
+        url: "/IntITA/lesson/showPagesList",
         data: {'idLecture':idLecture, 'idCourse':course},
         success: function(response){
             $('div[name="lecturePage"]').html(response);
@@ -53,7 +53,7 @@ function enableLessonPreview(lecture, course, editPage){
 function showPageEdit(lecture, pageOrder){
     $.ajax({
         type: "POST",
-        url: "/lesson/showPageEditor",
+        url: "/IntITA/lesson/showPageEditor",
         data: {'idLecture':lecture, 'pageOrder':pageOrder},
         success: function(response){
             $('div[name="lecturePage"]').html(response);

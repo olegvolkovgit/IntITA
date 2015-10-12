@@ -317,14 +317,11 @@ class LessonController extends Controller
         $up->update();
     }
 
-    public function actionShowPagesList()
+    public function actionShowPagesList($idLecture, $idCourse)
     {
-        $idLecture = Yii::app()->request->getPost('idLecture', 0);
-        $idCourse = Yii::app()->request->getPost('idCourse', 0);
-
         $idModule = Lecture::model()->findByPk($idLecture)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
-            return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+            return $this->render('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
@@ -449,5 +446,29 @@ class LessonController extends Controller
         $passedPages = LecturePage::getAccessPages($idLecture, $user);
 
         return $this->renderPartial('_chaptersList', array('idLecture' => $idLecture, 'passedPages' => $passedPages), false, true);
+    }
+
+    public function actionEditPage($pageId, $idCourse){
+        $textList = LecturePage::getBlocksListById($pageId);
+
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id_block', $textList);
+
+        $dataProvider = new CActiveDataProvider('LectureElement');
+        $dataProvider->criteria = $criteria;
+        $criteria->order = 'block_order ASC';
+        $dataProvider->setPagination(array(
+                'pageSize' => '200',
+            )
+        );
+        $page = LecturePage::model()->findByPk($pageId);
+
+        $this->render('editLecturePageTabs', array(
+                'user' => Yii::app()->user->getId(),
+                'page' => $page,
+                'dataProvider' => $dataProvider,
+                'idCourse' => $idCourse,
+            )
+        );
     }
 }

@@ -46,7 +46,6 @@ $this->renderPartial('/site/_shareMetaTag', array(
     }
   });
 </script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
@@ -59,39 +58,30 @@ $this->renderPartial('/site/_shareMetaTag', array(
     order = 1;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
-
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
-
 </script>
 <?php
 
 $passedLecture=LectureHelper::isPassedLecture($passedPages);
 $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
-<div class="lectureMainBlock" >
-    <?php $this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
-    <?php $this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
-</div>
+<!--<div class="lectureMainBlock" >-->
+<!--    --><?php //$this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
+<!--    --><?php //$this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
+<!--</div>-->
 
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
         <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
-        <div id="chaptersList">
-            <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
-        </div>
+<!--        <div id="chaptersList">-->
+<!--            --><?php //$this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
+<!--        </div>-->
         <?php if($editMode) {
-            $this->renderPartial('_startEditButton', array('block' => 1));
+            $this->renderPartial('_startEditButton', array('pageId' => $page->id, 'idCourse'=>$idCourse));
         }
-
-        if (isset($_GET['editPage'])){
-           $this->renderPartial('_editLecturePageTabs', array('page' => $_GET['editPage'], 'dataProvider'=>$dataProvider, 'passedPages' => $passedPages, 'editMode' => 0, 'user' => Yii::app()->user->getId(), 'idCourse' => $idCourse, 'editMode' => $editMode));
-        }else {
-            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
-        }
-
-
-        ?>
+           $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+       ?>
 
     </div>
     <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>
@@ -164,13 +154,6 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <!--Font Awesome-->
-<!--Load Redactor-->
-<?php if (isset($_GET['editPage'])){?>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
-<?php }?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'lessonEditor.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 

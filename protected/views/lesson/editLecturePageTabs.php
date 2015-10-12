@@ -2,29 +2,42 @@
 /* @var $this LessonController */
 /* @var $page LecturePage */
 /* @var $lectureElement LectureElement */
-if(!$editMode) {
-    throw new CHttpException(403, Yii::t('errors', 'Вибачте. Ви не маєте прав редагувати цю лекцію.'));
+$module = LectureHelper::getModuleByLecture($page->id_lecture);
+if($idCourse != 0) {
+    $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
+        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        LectureHelper::getLectureTitle($page->id_lecture) =>
+            Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
+    );
+} else {
+    $this->breadcrumbs = array(
+        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        LectureHelper::getLectureTitle($page->id_lecture) =>
+            Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
+    );
 }
-$page = LecturePage::model()->findByAttributes(array('id_lecture' => $_GET['id'], 'page_order' => $_GET['editPage']));
-
-if (isset($_GET['editPage'])) $thisPage = $_GET['editPage'];
-else $thisPage = 1;
 ?>
-<link rel="stylesheet" type="text/css"
-      href="http://latex.codecogs.com/css/equation-embed.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css" />
 <!--[if lte IE 7]>
 <link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
 <![endif]-->
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
-<div name="lecturePage">
-    <?php $this->renderPartial('_lectureProgress', array('page'=>$page,'passedPages'=>$passedPages,'user'=>$user, 'thisPage'=>$thisPage, 'edit'=>1, 'idCourse' => $idCourse)); ?>
+<div id="lecturePage">
+    <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
+        'idCourse' => $idCourse));?>">Список частин заняття</a>
+    <?php $this->renderPartial('_lectureProgressEdit', array('page'=>$page,'user'=>$user, 'idCourse' => $idCourse)); ?>
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
-    idLecture = '<?php echo $_GET['id'];?>';
+    idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 
-<h1 class="lessonPart">
+    <h1 class="lessonPart">
     <div class="labelBlock">
         <p>Частина <?php echo $page->page_order . '. ';
                 $this->widget('editable.EditableField', array(
@@ -46,7 +59,6 @@ if($page->video == null) {?>
 <?php
 } else {
     $lectureElement = LectureElement::model()->findByPk($page->video);
-
     $this->widget('editable.EditableField', array(
         'type' => 'textarea',
         'model' => $lectureElement,
@@ -67,10 +79,9 @@ if($page->video == null) {?>
     <div id="addBlock">
         <?php
         $lecture = Lecture::model()->findByPk($page->id_lecture);
-        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => $editMode, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
+        $this->renderPartial('_addBlock', array('lecture'=>$lecture, 'editMode' => 1, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
         ?>
     </div>
-<!--    --><?php //$this->renderPartial('_addFormula', array('idLecture' => $lecture->id, 'pageOrder' => $page->page_order));?>
     <br>
     Додати:
     <br>
@@ -104,12 +115,13 @@ if($page->video == null) {?>
     }
 ?>
 <?php $this->renderPartial('_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
-<?php //$this->renderPartial('_addTask', array('pageId' => $page->id));?>
+<?php $this->renderPartial('_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
 <br>
-<script>
-    if(typeof <?php echo $_GET['editPage'];?> !== "undefined"){
-        $('#sharing').remove();
-    }
-</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'lessonEditor.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
+

@@ -211,7 +211,7 @@ class LectureHelper
     public static function getPagesList($idLecture)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = 'page_title, page_order';
+        $criteria->select = 'page_title, page_order, id';
         $criteria->addCondition('id_lecture=' . $idLecture);
         $criteria->order = 'page_order ASC';
         $list = LecturePage::model()->findAll($criteria);

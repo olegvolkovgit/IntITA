@@ -43,8 +43,13 @@ if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin(
                     '_textListTab',
                     array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
                 )),
+                'Завдання' => array('id' => 'quiz', 'content' => $this->renderPartial(
+                    '_quiz',
+                    array('page' => $page, 'editMode' => 0, 'user' => $user), true
+                )
+
+                ),
             ),
-            // additional javascript options for the tabs plugin
             'options' => array(
                 'collapsible' => true,
             ),
@@ -55,24 +60,24 @@ if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin(
     </div>
 
     <?php
-    if (!is_null($page->quiz)) {
-        switch (lectureHelper::getQuizType($page->quiz)) {
-            case '5':
-                $this->renderPartial('_taskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
-                break;
-            case '6':
-                $this->renderPartial('_taskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
-                break;
-            case '12':
-                $this->renderPartial('_testBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
-                break;
-            case '13':
-                $this->renderPartial('_testBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
-                break;
-            default:
-                break;
-        }
-    }
+//    if (!is_null($page->quiz)) {
+//        switch (lectureHelper::getQuizType($page->quiz)) {
+//            case '5':
+//                $this->renderPartial('_taskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+//                break;
+//            case '6':
+//                $this->renderPartial('_taskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+//                break;
+//            case '12':
+//                $this->renderPartial('_testBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+//                break;
+//            case '13':
+//                $this->renderPartial('_testBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+//                break;
+//            default:
+//                break;
+//        }
+//    }
     ?>
 </div>
 <br>

@@ -7,11 +7,11 @@
  */
 $pagesList = LectureHelper::getPagesList($idLecture);?>
 <div name="lecturePage" class="pagesList">
-<h1 class="lessonPartEdit">
+<h3 class="lessonPartEdit">
 <?php
 for($i = 0, $count = count($pagesList); $i < $count; $i++){
     ?>
-    <div class="labelBlock" >
+    <div class="labelBlock">
         <p>
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco"
                  onclick="upPage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>);">
@@ -19,14 +19,14 @@ for($i = 0, $count = count($pagesList); $i < $count; $i++){
                  onclick="downPage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>);">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco"
              onclick="deletePage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>, <?php echo $idCourse;?>);">
-       <a href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse));?>?page=<?php echo $pagesList[$i]["page_order"]?>&editPage=<?php echo $pagesList[$i]["page_order"]?>">
+       <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $pagesList[$i]["id"], 'idCourse' => $idCourse));?>">
    <?php echo 'Частина '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
 ?>
   </a></p></div>
 <?php }?>
-</h1>
+</h3>
 <br>
-<h1 class="lessonPartEdit"><p>
+<h3 class="lessonPartEdit"><p>
 <a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> Додати нову частину </a>
-</p></h1>
+</p></h3>
 </div>
