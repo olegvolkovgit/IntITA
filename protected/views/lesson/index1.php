@@ -154,9 +154,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 
 <script>SyntaxHighlighter.all();</script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<!--Font Awesome-->
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 

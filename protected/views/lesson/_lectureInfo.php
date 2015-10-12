@@ -1,13 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 09.04.2015
- * Time: 15:27
- */
-?>
-
-
 <div class="lectureImageMain">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->image); ?>">
     <?php if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){ ?>

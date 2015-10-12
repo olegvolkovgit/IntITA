@@ -13,10 +13,7 @@
         for ($i = 0, $count = 5; $i < $count; $i++) {
                 ?>
                 <a class="pageDone pageTitle"
-                   href="<?php $args = $_GET;
-                   $args['page'] = $i;
-                   $args['idCourse'] = ($idCourse)?$idCourse:'0';
-                   echo $this->createUrl('', $args) . "#title"; ?>"
+                   href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $i+1, 'idCourse' => $idCourse));?>"
                    title="<?php echo Yii::t('lecture', '0615')." ".$i. '. '; ?>"></a>
             <?php }
 

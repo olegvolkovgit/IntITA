@@ -1,3 +1,17 @@
 #lecturePage{
     margin: 30px;
 }
+.pagesList{
+    margin-left: 75px;
+}
+.lessonTheme{
+    color: #4b75a4;
+    font-size:28px;
+    margin-left: 0px;
+    font-weight: normal;
+}
+.editButton{
+    float:right;
+    display:inline;
+    cursor: pointer;
+}

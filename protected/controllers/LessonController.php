@@ -321,7 +321,7 @@ class LessonController extends Controller
     {
         $idModule = Lecture::model()->findByPk($idLecture)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
-            return $this->render('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+            return $this->render('/editor/_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
@@ -331,12 +331,9 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
         $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
-        $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         LecturePage::deletePage($idLecture, $pageOrder);
         LecturePage::reorderPages($idLecture, $pageOrder);
-
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function actionShowPageEditor()
@@ -434,19 +431,6 @@ class LessonController extends Controller
         echo $html;
     }
 
-    //chapters list ajax update
-    public function actionChaptersListUpdate()
-    {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        if (Yii::app()->user->isGuest) {
-            $user = 0;
-        } else {
-            $user = Yii::app()->user->getId();
-        }
-        $passedPages = LecturePage::getAccessPages($idLecture, $user);
-
-        return $this->renderPartial('_chaptersList', array('idLecture' => $idLecture, 'passedPages' => $passedPages), false, true);
-    }
 
     public function actionEditPage($pageId, $idCourse){
         $textList = LecturePage::getBlocksListById($pageId);
@@ -463,7 +447,7 @@ class LessonController extends Controller
         );
         $page = LecturePage::model()->findByPk($pageId);
 
-        $this->render('editLecturePageTabs', array(
+        $this->render('/editor/index', array(
                 'user' => Yii::app()->user->getId(),
                 'page' => $page,
                 'dataProvider' => $dataProvider,

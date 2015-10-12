@@ -12,27 +12,20 @@
 
         switch ($data['id_type']){
             case 1:
-                // done
                 $this->renderPartial('_textBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 3:
-                // done
                 $this->renderPartial('_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 4:
-                // done
                 $this->renderPartial('_codeBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 5:
-                // done
                // $this->renderPartial('_taskBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
             case 6:
-                // done
-               // $this->renderPartial('_finalTaskBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
             case 7:
-                // done
                 $this->renderPartial('_instructionBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 8:
@@ -51,7 +44,6 @@
                 //$this->renderPartial('_testBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
             case 13:
-               // $this->renderPartial('_finalTestBlock', array('data'=>$data, 'editMode' => $editMode, 'user' => $user));
                 break;
             default:
                 echo $data['html_block'];
