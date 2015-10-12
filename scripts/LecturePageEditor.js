@@ -21,17 +21,8 @@ function upPage(idLecture, pageOrder, course){
         type: "POST",
         url: "/lesson/upPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(response){
-            $('div[name="lecturePage"]').html(response);
-            $.ajax({
-                type: "POST",
-                url: "/lesson/chaptersListUpdate",
-                data: {'idLecture':idLecture},
-                success: function(response){
-                    $('#chaptersList').html(response);
-                    return false;
-                }
-            });
+        success: function(){
+            location.reload();
         }
     });
 }
@@ -42,17 +33,8 @@ function downPage(idLecture, pageOrder, course){
         type: "POST",
         url: "/lesson/downPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
-        success: function(response){
-            $('div[name="lecturePage"]').html(response);
-            $.ajax({
-                type: "POST",
-                url: "/lesson/chaptersListUpdate",
-                data: {'idLecture':idLecture},
-                success: function(response){
-                    $('#chaptersList').html(response);
-                    return false;
-                }
-            });
+        success: function(){
+            location.reload();
         }
     });
 }
