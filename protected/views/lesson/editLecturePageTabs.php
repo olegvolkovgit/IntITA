@@ -19,6 +19,10 @@ if($idCourse != 0) {
     );
 }
 ?>
+<script type="text/javascript">
+    lang = '<?php echo LectureHelper::getLanguage();?>';
+    idLecture = '<?php echo $page->id_lecture;?>';
+</script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>" />
@@ -31,12 +35,6 @@ if($idCourse != 0) {
 <div id="lecturePage">
     <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
         'idCourse' => $idCourse));?>">Список частин заняття</a>
-    <?php $this->renderPartial('_lectureProgressEdit', array('page'=>$page,'user'=>$user, 'idCourse' => $idCourse)); ?>
-<script type="text/javascript">
-    lang = '<?php echo LectureHelper::getLanguage();?>';
-    idLecture = '<?php echo $page->id_lecture;?>';
-</script>
-
     <h1 class="lessonPart">
     <div class="labelBlock">
         <p>Частина <?php echo $page->page_order . '. ';
@@ -51,6 +49,7 @@ if($idCourse != 0) {
             ?></p>
     </div>
 </h1>
+    <?php $this->renderPartial('_lectureProgressEdit', array('page'=>$page,'user'=>$user, 'idCourse' => $idCourse)); ?>
 <h3><label for="pageVideo">Відео</label></h3>
 <?php
 if($page->video == null) {?>

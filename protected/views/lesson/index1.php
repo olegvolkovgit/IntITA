@@ -77,8 +77,14 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <!--        <div id="chaptersList">-->
 <!--            --><?php //$this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
 <!--        </div>-->
-        <?php if($editMode) {
-            $this->renderPartial('_startEditButton', array('pageId' => $page->id, 'idCourse'=>$idCourse));
+        <?php if($editMode) {?>
+            <div>
+        <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse));?>">
+        <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+             id="editIco1" class="editButton" title="Редагувати сторінку"/>
+            </a>
+    </div>
+        <?php
         }
            $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
        ?>
@@ -151,9 +157,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 
 <script>SyntaxHighlighter.all();</script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!--Font Awesome-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<!--Font Awesome-->
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 
