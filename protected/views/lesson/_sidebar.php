@@ -5,14 +5,18 @@
         <ul><?php if($idCourse != 0){?>
             <li>
                 <?php echo Yii::t('lecture', '0070'); ?>
-                <span><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']; ?></span>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>
-                )
+                <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $idCourse))?>"><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']; ?></a>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>)
             </li>
+                <li>
+                    <?php echo Yii::t('lecture', '0072'); ?>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse))?>"><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></a>
+                </li>
+            <?php } else {?>
+                <li>
+                    <?php echo Yii::t('lecture', '0072'); ?>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule']))?>"><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></a>
+                </li>
             <?php }?>
-            <li>
-                <?php echo Yii::t('lecture', '0072'); ?>
-                <span><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></span>
-            </li>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
             </li>
@@ -22,7 +26,6 @@
                         src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getTypeInfo()['image']); ?>">
                 </div>
             </li>
-            <br>
             <li>
                 <div id="subTitle"><?php echo Yii::t('lecture', '0075'); ?></div>
                 <div id="lectureTimeText"><?php echo $lecture->durationInMinutes . Yii::t('lecture', '0076'); ?></div>
@@ -30,17 +33,20 @@
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>">
                 </div>
             </li>
-            <br>
             <li>
                 <?php echo '(' . $lecture->order . ' / ' . LectureHelper::getLessonsCount($lecture->idModule) .' '. Yii::t('lecture', '0616').')'; ?>
             </li>
             <div id="counter">
                 <?php
-                for ($i = 0; $i < $lecture->order; $i++) { ?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>">
+                for ($i = 0; $i < $lecture->order; $i++) {
+                    $lectureId=Lecture::getLectureIdByModuleOrder($lecture->idModule,$i+1)->id;
+                    ?>
+                    <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>" ><img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>" title="<?php echo LectureHelper::getLectureTitle($lectureId); ?>"></a>
                 <?php }
-                for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule) - $lecture->order; $i++) { ?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
+                for ($i = $lecture->order; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
+                    $lectureId=Lecture::getLectureIdByModuleOrder($lecture->idModule,$i+1)->id;
+                    ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>" title="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
                 <?php } ?>
                 <div id="iconImage">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png'); ?>">

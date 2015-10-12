@@ -7,19 +7,19 @@
 
 $this->pageTitle = 'INTITA';
 if(!isset($idCourse)) $idCourse=0;
-if($idCourse != 0) {
-    $this->breadcrumbs = array(
-        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        LectureHelper::getLectureTitle($lecture->id),
-    );
-} else {
-    $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
-        LectureHelper::getLectureTitle($lecture->id),
-    );
-}
+//if($idCourse != 0) {
+//    $this->breadcrumbs = array(
+//        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
+//        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+//        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+//        LectureHelper::getLectureTitle($lecture->id),
+//    );
+//} else {
+//    $this->breadcrumbs = array(
+//        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
+//        LectureHelper::getLectureTitle($lecture->id),
+//    );
+//}
 
 if($idCourse != 0) {
 $this->renderPartial('/site/_shareMetaTag', array(
@@ -73,15 +73,18 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
-        <h1 class="lessonTheme"><a name="title" ></a><?php echo LectureHelper::getLectureTitle($lecture->id);?></h1>
+        <div class="lessonTheme">
+            <?php echo LectureHelper::getLectureTitle($lecture->id);?>
+            <div style="display: inline-block; float: right; margin-top: 10px">
+                <?php if($editMode) $this->renderPartial('_startEditButton', array('pageId' => $page->id, 'idCourse'=>$idCourse)); ?>
+            </div>
+        </div>
 <!--        <div id="chaptersList">-->
 <!--            --><?php //$this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
 <!--        </div>-->
-        <?php if($editMode) {
-            $this->renderPartial('_startEditButton', array('pageId' => $page->id, 'idCourse'=>$idCourse));
-        }
-           $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
-       ?>
+        <?php
+        $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        ?>
 
     </div>
     <?php $this->renderPartial('_lectureFooter', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'finishedLecture' => $finishedLecture, 'user'=>$user, 'editMode' => $editMode));?>

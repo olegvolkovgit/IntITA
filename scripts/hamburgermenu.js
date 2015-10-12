@@ -25,8 +25,8 @@ $(window).scroll(function() {
         }
         $("#hambNav").css({display: "block"});
     }else{
-        $("#hambNav").css({display: "none"});
-        $("#hambMenu").hide();
+        $("#defaultHumMenu #hambNav").css({display: "none"});
+        $("#defaultHumMenu #hambMenu").hide();
     }
 });
 //    $(window).resize(function(){

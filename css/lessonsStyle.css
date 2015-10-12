@@ -17,14 +17,13 @@ div.subLinks{
 .lessonBlock {
     margin: 0 auto;
     width: 1200px;
-    margin-top: 20px;
     margin-bottom: 20px;
     padding-left: 20px;
     position: relative;
 }
 .lessonBlock p{
     font-size: 16px;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 .lessonBlock h3{
     margin-top: 20px;
@@ -41,11 +40,13 @@ div.subLinks{
     z-index: 0;
     word-wrap: break-word;
 }
-h1.lessonTheme{
+.lessonTheme{
     color: #4b75a4;
-    font-size:36px;
-    margin: 0px;
+    font-size:32px;
+    margin: 0;
     font-weight: normal;
+    display: inline-block;
+    width: 100%;
 }
 h1.lessonPart p{
     color: #4b75a4;
@@ -305,6 +306,8 @@ div.lessonButFinal
 }
 #sidebarLesson a {
     text-decoration: none;
+    color: #4B75A4;
+    font-weight: bold;
 }
 #sidebarLesson .titlesBlock{
     margin-bottom: 10px;
