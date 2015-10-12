@@ -126,6 +126,7 @@ if($page->video == null) {?>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'lessonEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
 
