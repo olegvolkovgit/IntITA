@@ -65,23 +65,20 @@ $this->renderPartial('/site/_shareMetaTag', array(
 $passedLecture=LectureHelper::isPassedLecture($passedPages);
 $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
-<!--<div class="lectureMainBlock" >-->
-<!--    --><?php //$this->renderPartial('_lectureInfo', array('lecture'=>$lecture, 'idCourse'=>$idCourse, 'user' => $user));?>
-<!--    --><?php //$this->renderPartial('_teacherInfo', array('lecture'=>$lecture,'teacher'=>$teacher, 'idCourse'=>$idCourse));?>
-<!--</div>-->
-
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
     <div class="lessonText">
         <div class="lessonTheme">
             <?php echo LectureHelper::getLectureTitle($lecture->id);?>
             <div style="display: inline-block; float: right; margin-top: 10px">
-                <?php if($editMode) $this->renderPartial('_startEditButton', array('pageId' => $page->id, 'idCourse'=>$idCourse)); ?>
+                <?php if($editMode){?>
+        <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse));?>">
+        <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+             id="editIco1" class="editButton" title="Редагувати сторінку"/>
+            </a>
+                <?php } ?>
             </div>
         </div>
-<!--        <div id="chaptersList">-->
-<!--            --><?php //$this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
-<!--        </div>-->
         <?php
         $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
