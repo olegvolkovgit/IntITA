@@ -447,11 +447,14 @@ class LessonController extends Controller
         );
         $page = LecturePage::model()->findByPk($pageId);
 
+        $lecture = Lecture::model()->findByPk($page->id_lecture);
+
         $this->render('/editor/index', array(
                 'user' => Yii::app()->user->getId(),
                 'page' => $page,
                 'dataProvider' => $dataProvider,
                 'idCourse' => $idCourse,
+                'lecture' =>$lecture,
             )
         );
     }
