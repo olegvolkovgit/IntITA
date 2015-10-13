@@ -11,19 +11,15 @@ function horizontalAdjust (sidebarLesson) {
 function adjust(){
     var sidebarLesson = $("#sidebarLesson");
     var lessonBlock = $("#lessonBlock");
-
     if (sidebarLesson.is(":hidden") && lessonBlock[0].getBoundingClientRect().top < 40)
         sidebarLesson.show().css("top", "0");
-
     if (sidebarLesson.is(":visible")){
         if (lessonBlock[0].getBoundingClientRect().top >= 40) sidebarLesson.hide();
-
             if (sidebarLesson.css("position") == "absolute") {
                 sidebarLesson.css({position: "fixed", top: "0", bottom: ""});
                 horizontalAdjust(sidebarLesson);
             }
             if (window.pageXOffset != pageXOffset_current) horizontalAdjust(sidebarLesson);
-
     }
 }
 
