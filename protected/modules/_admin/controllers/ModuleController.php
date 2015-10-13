@@ -125,7 +125,7 @@ class ModuleController extends AdminController
 
     public function actionRestore($id){
         Module::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionIndex($id);
+        $this->actionIndex();
     }
 
 }

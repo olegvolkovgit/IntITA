@@ -246,4 +246,15 @@ class ModuleHelper
         }
         return 0;
     }
+
+    //true if $pathString is a module alias
+    public static function checkModuleAlias($pathString){
+        if (in_array($pathString, array('index', 'saveLesson', 'saveModule', 'unableLesson', 'upLesson',
+            'downLesson', 'lecturesUpdate', 'updateModuleAttribute', 'updateModuleImage'
+        ))){
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

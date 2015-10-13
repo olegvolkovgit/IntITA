@@ -318,11 +318,11 @@ class LessonController extends Controller
         $up->update();
     }
 
-    public function actionShowPagesList($idLecture, $idCourse)
+    public function actionShowPagesList($id, $idCourse)
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
+        $idModule = Lecture::model()->findByPk($id)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
-            return $this->render('/editor/_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+            return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
