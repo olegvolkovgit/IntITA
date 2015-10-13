@@ -34,6 +34,19 @@ if($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div id="lecturePage">
     <h1 class="lessonPart">
+    <?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';
+    $title = LectureHelper::getTypeTitleParam();
+    $this->widget('editable.EditableField', array(
+    'type'      => 'text',
+    'model'     => $lecture,
+    'attribute' => $title,
+    'emptytext' => Yii::t('config','0575'),
+    'url'       => $this->createUrl('lesson/updateLectureAttribute'),
+    'title'     => Yii::t('lecture','0567'),
+    'placement' => 'right',
+    ));?>
+        </h1>
+    <h1 class="lessonPart">
     <div class="labelBlock">
         <p>Частина <?php echo $page->page_order . '. ';
                 $this->widget('editable.EditableField', array(
@@ -52,7 +65,7 @@ if($idCourse != 0) {
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                      class="editButton" title="Список частин заняття"/>
             </a>
-            <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture,
+            <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'page' =>$page->id,
                 'idCourse' => $idCourse));?>">
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                      id="editIco1" class="editButton" title="Режим перегляду"/>
