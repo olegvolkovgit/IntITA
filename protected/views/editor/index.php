@@ -33,6 +33,7 @@ if($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div id="lecturePage">
+    <br>
     <h1 class="lessonPart">
     <?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';
     $title = LectureHelper::getTypeTitleParam();

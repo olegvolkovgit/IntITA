@@ -30,6 +30,10 @@ class CourseRule extends CBaseUrlRule
                             if (!isset($_GET['page'])) {
                                 $_GET['page'] = 1;
                             };
+
+                            if (isset($_GET['edit'])) {
+                                return 'lesson/editPage';
+                            };
                             return 'lesson/index';
                         }
                         $_GET['idCourse'] = $path->course->getPrimaryKey();
@@ -50,6 +54,9 @@ class CourseRule extends CBaseUrlRule
                             $_GET['id'] = $path->lecture->getPrimaryKey();
                             if (!isset($_GET['page'])) {
                                 $_GET['page'] = 1;
+                            };
+                            if (isset($_GET['editPage'])) {
+                                return 'lesson/editPage';
                             };
                             return 'lesson/index';
                         } else {
@@ -89,6 +96,22 @@ class CourseRule extends CBaseUrlRule
                     } else {
                         return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order . $pageString;
+                    }
+                }
+            }
+        }
+        if ($route == 'lesson/editPage') {
+            if (!empty($params['pageId'])) {
+                $page = LecturePage::model()->findByPk($params['pageId']);
+                if ($lecture = Lecture::model()->findByPk($page->id_lecture)) {
+                      if ($params['idCourse'] != 0) {
+                        $course = Course::model()->findByPk($params['idCourse']);
+
+                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
+                        . '/' . $lecture->order .'/'.$page->page_order.'?edit';
+                    } else {
+                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        . '/' . $lecture->order  .'/'.$page->page_order.'?edit';
                     }
                 }
             }
