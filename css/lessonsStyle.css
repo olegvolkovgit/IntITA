@@ -73,8 +73,8 @@ span.spoilerClick:hover{
 span.spoilerClick {
     text-decoration:underline;
     color:#4b75a4;
-    font-size: small;
-    font-weight: normal;
+    font-size: 16px;
+    font-weight: bold;
 }
 span.spoilerTriangle {
     font-size: xx-small;
@@ -126,6 +126,8 @@ div.code {
     line-height: 16px;
     margin: 3px 3px 3px 3px;
     vertical-align: bottom;
+    display: inline;
+    font-weight: normal;
 }
 span.colorO {
     color:#de5940;

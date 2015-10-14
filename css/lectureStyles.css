@@ -295,9 +295,12 @@ img {
 #newTextBlock, #header, #etalon, #taskFooter, #condition {
     resize: none;
 }
-
-.calendar {
-    margin-left: 110px;
+#sidebarLesson .calendar{
+    margin: 5px 0;
+}
+#sidebarLesson .calendar a{
+    text-decoration: underline;
+    font-weight: normal;
 }
 
 #divAddFormula {
@@ -385,19 +388,37 @@ img {
     resize: none;
 }
 
-.pageDone {
-    background: url(/images/common/pageDone.png);
+.lectureProgress {
+    position: relative;
+}
+
+.lectureProgress a {
+    position: relative;
+    vertical-align: top;
     display: inline-block;
-    width: 40px;
+    padding: 5px 0;
+}
+div.spotDone {
+    background: #4b75a4;
+    display: inline-block;
+    width: 32px;
     height: 8px;
 }
 
-a.pageDone, a.pageNoAccess, a#pagePressed {
+div.spotDisabled {
+    background: #cecece;
     display: inline-block;
+    width: 32px;
+    height: 8px;
+    cursor: pointer;
+}
+a.pageDone, a.pageNoAccess, a#pagePressed,div.spotDone, div.spotDisabled, div#pagePressed  {
+    display: inline-block;
+    cursor: pointer;
 }
 
-.pageDone:hover {
-    background: url(/images/common/pageDoneHover.png);
+div.spotDone:hover {
+    background: #003366;
 }
 
 .labelBlock {
@@ -408,32 +429,13 @@ a.pageDone, a.pageNoAccess, a#pagePressed {
     /*border-bottom: 1px solid #335379;*/
     display: none;
 }
-
-.pageNoAccess {
-    background: url(/images/common/pageNoAccess.png);
-    display: inline-block;
-    width: 40px;
-    height: 8px;
-    cursor: pointer;
-}
-
-.lastAccessPage {
-    background: url(/images/common/lastAccessPage.png);
+div.lastAccessPage {
+    background: green;
 }
 
 .noAccess {
     font-size: 14px;
     color: #ff3333;
-}
-
-.progress {
-    position: relative;
-}
-
-.progress a {
-    position: relative;
-    vertical-align: top;
-    margin-top: 10px;
 }
 
 #arrowCursor {
@@ -562,3 +564,57 @@ h1.lessonPartEdit p img {
     margin-right: 10px;
     cursor: pointer;
 }
+/*bootstrap tooltips css*/
+#counter .popover {
+    max-width: 300px;
+    font-family: "MyriadPro";
+    font-size: 14px;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: none;
+    border-bottom: 1px solid #335379;
+    border-radius:0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 3px;
+}
+#counter .popover.top > .arrow {
+    border-top-color: #335379;
+    border-bottom-width: 0;
+}
+#counter .popover-content {
+    padding: 2px 2px;
+}
+/*tooltips css*/
+/*sidebar lectures */
+div.lectureAccess{
+    display: inline-block;
+    width: 20px;
+    height: 6px;
+    background: #4B75A4;
+}
+div.lectureDisabled{
+    display: inline-block;
+    width: 20px;
+    height: 6px;
+    background: #cccccc;
+}
+a.lectureDisabled{
+    cursor: default;
+    pointer-events: none;
+}
+#sidebarLesson .spoilerBody a{
+    font-weight: normal;
+    font-size: 14px;
+    pointer-events: none;
+    cursor: default;
+    color: #666666;
+}
+#sidebarLesson .spoilerBody a.pageAccess{
+    font-weight: normal;
+    pointer-events:inherit;;
+    cursor: pointer;
+    color: #4B75A4;
+}
+/*sidebar lectures */

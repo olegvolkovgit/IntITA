@@ -16,7 +16,7 @@
 <img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
 <img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
 <?php if ($edit == 0) { ?>
-    <div class="progress">
+    <div class="lectureProgress">
         <?php
         for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
             if ($passedPages[$i]['isDone'] || $editMode || AccessHelper::isAdmin()
@@ -28,11 +28,13 @@
                    $args['page'] = $passedPages[$i]['order'];
                    $args['idCourse'] = ($idCourse)?$idCourse:'0';
                    echo $this->createUrl('', $args) . "#title"; ?>"
-                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>">
+                    <div class="spotDone <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"></div></a>
             <?php } else {
                 ?>
                 <a class="pageNoAccess pageTitle"
-                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>">
+                    <div class="spotDisabled"></div></a>
             <?php }
         }
         if (!$editMode)
@@ -48,7 +50,8 @@
         <a class="pageDone pageTitle"
            id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
            href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $idCourse));?>?editPage=<?php echo $i+1; ?>"
-           title="Частина <?php echo $passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>"></a>
+           title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>">
+            <div class="spotDone"></div></a>
         <?php
     }
 } ?>

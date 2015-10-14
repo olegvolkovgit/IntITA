@@ -229,7 +229,7 @@ div.image{
 }
 #signInButtonM{
     margin: 0 auto;
-    margin-top: 27px;
+    margin-top: 5px;
     margin-bottom: 27px;
 }
 a#forgotPass{
@@ -349,6 +349,7 @@ select.error
 #recovery-form div.rowRecovButt,#resetemail-form div.rowRecovButt {
     margin: 0 auto;
     margin-top: 10px;
+    padding-top: 20px;
 }
 #recovery-form .errorMessage, #resetemail-form .errorMessage{
     margin-bottom: 0;

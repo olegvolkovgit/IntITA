@@ -58,6 +58,9 @@ class StaticFilesHelper {
             case 'css':
                 return StaticFilesHelper::fullPathToCss($name);
                 break;
+            case 'angular':
+                return StaticFilesHelper::fullPathToAngular($name);
+                break;
             default:
                 return StaticFilesHelper::fullPathToFiles($name);
                 break;
@@ -75,7 +78,9 @@ class StaticFilesHelper {
     public static function fullPathToCss($name){
         return Config::getBaseUrl().'/css/'.$name;
     }
-
+    public static function fullPathToAngular($name){
+        return Config::getBaseUrl().'/angular/'.$name;
+    }
     public static function fullPathToFiles($name){
         return Config::getBaseUrl().'/files/'.$name;
     }
