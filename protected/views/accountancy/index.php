@@ -14,7 +14,9 @@
     <br>
     <br>
     <?php if (!isset($_GET['nolayout'])){ ?>
-    <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">Надрукувати</button>
+    <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">
+        <?php echo Yii::t('payment','0658');?>
+    </button>
 <?php } ?>
 <br>
 <br>

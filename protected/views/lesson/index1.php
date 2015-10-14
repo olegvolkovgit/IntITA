@@ -84,6 +84,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     ));
     $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage, 'idCourse'=>$idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
+
     ?>
     <!--modal task congratulations end-->
 
