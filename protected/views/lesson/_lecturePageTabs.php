@@ -43,7 +43,7 @@ if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin(
                     '_textListTab',
                     array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
                 )),
-                'Завдання' => array('id' => 'quiz', 'content' => $this->renderPartial(
+                Yii::t('lecture', '0659') => array('id' => 'quiz', 'content' => $this->renderPartial(
                     '_quiz',
                     array('page' => $page, 'editMode' => 0, 'user' => $user), true
                 )
