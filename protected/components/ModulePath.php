@@ -11,6 +11,8 @@ class ModulePath extends Path
     public $module;
     public $lecture;
     public $lang;
+    public $isPageDefined;
+    public $page;
 
     function init()
     {
@@ -25,6 +27,9 @@ class ModulePath extends Path
 
         if ($this->module != null) {
             $this->getLecture();
+            if($this->lecture != null) {
+                $this->checkPageDefined();
+            }
         }
 
         return $this;
@@ -76,5 +81,24 @@ class ModulePath extends Path
     public function getType()
     {
         return 'module';
+    }
+
+    public function checkPageDefined(){
+        if (is_null($this->lang)){
+            if (count($this->pathArray) == 4) {
+                $this->page = $this->pathArray[3];
+                $this->isPageDefined = true;
+            } else {
+                $this->isPageDefined = false;
+            }
+        } else {
+            if (count($this->pathArray) == 5) {
+                $this->page = $this->pathArray[4];
+                $this->isPageDefined = true;
+            } else {
+                $this->isPageDefined = false;
+            }
+        }
+        return false;
     }
 }

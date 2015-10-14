@@ -30,6 +30,17 @@ class CourseRule extends CBaseUrlRule
                             if (!isset($_GET['page'])) {
                                 $_GET['page'] = 1;
                             };
+
+                            if($path->isPageDefined) {
+                                $_GET['page'] = $path->page;
+                                if (isset($_GET['edit'])) {
+                                    return 'lesson/editPage';
+                                }
+                            } else {
+                                if (isset($_GET['edit'])) {
+                                    return 'lesson/showPagesList';
+                                }
+                            }
                             return 'lesson/index';
                         }
                         $_GET['idCourse'] = $path->course->getPrimaryKey();
@@ -42,15 +53,23 @@ class CourseRule extends CBaseUrlRule
                 break;
             case 'module':
                 if ($path->lang) {
-
                     if ($path->module !== null) {
-
                         if ($path->lecture != null) {
-
                             $_GET['id'] = $path->lecture->getPrimaryKey();
                             if (!isset($_GET['page'])) {
                                 $_GET['page'] = 1;
                             };
+
+                            if($path->isPageDefined) {
+                                $_GET['page'] = $path->page;
+                                if (isset($_GET['edit'])) {
+                                    return 'lesson/editPage';
+                                }
+                            } else {
+                                if (isset($_GET['edit'])) {
+                                    return 'lesson/showPagesList';
+                                }
+                            }
                             return 'lesson/index';
                         } else {
                             $_GET['idModule'] = $path->module->module_ID;
@@ -89,6 +108,37 @@ class CourseRule extends CBaseUrlRule
                     } else {
                         return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order . $pageString;
+                    }
+                }
+            }
+        }
+        if ($route == 'lesson/editPage') {
+            if (!empty($params['pageId'])) {
+                $page = LecturePage::model()->findByPk($params['pageId']);
+                if ($lecture = Lecture::model()->findByPk($page->id_lecture)) {
+                      if ($params['idCourse'] != 0) {
+                        $course = Course::model()->findByPk($params['idCourse']);
+
+                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
+                        . '/' . $lecture->order .'/'.$page->page_order.'?edit';
+                    } else {
+                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        . '/' . $lecture->order  .'/'.$page->page_order.'?edit';
+                    }
+                }
+            }
+        }
+        if ($route == 'lesson/showPagesList') {
+            if (!empty($params['idLecture'])) {
+                if ($lecture = Lecture::model()->findByPk($params['idLecture'])) {
+                    if ($params['idCourse'] != 0) {
+                        $course = Course::model()->findByPk($params['idCourse']);
+
+                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
+                        . '/' . $lecture->order .'?edit';
+                    } else {
+                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        . '/' . $lecture->order  .'?edit';
                     }
                 }
             }

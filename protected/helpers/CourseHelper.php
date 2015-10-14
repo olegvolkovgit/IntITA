@@ -295,51 +295,65 @@ class CourseHelper {
 
     //discount 30 percent - first pay schema
     public static function getSummaWholeCourse($idCourse){
-        return round(Course::model()->findByPk($idCourse)->course_price * 0.7);
+        return round(Course::getCoursePrice($idCourse) * 0.7);
     }
 
     //discount 10 percent - second pay schema
     public static function getSummaCourseTwoPays($idCourse){
-        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.9;
+        $discountedSumma = Course::getCoursePrice($idCourse) * 0.9;
         $toPay = round($discountedSumma / 2);
         return $toPay;
     }
 
     //discount 8 percent - third pay schema
     public static function getSummaCourseFourPays($idCourse){
-        $discountedSumma = Course::model()->findByPk($idCourse)->course_price * 0.92;
+        $discountedSumma = Course::getCoursePrice($idCourse) * 0.92;
         $toPay = round($discountedSumma / 2);
         return $toPay;
     }
 
     //monthly - forth pay schema
     public static function getSummaCourseMonthly($idCourse){
-        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 12);
+        $toPay = round(Course::getCoursePrice($idCourse) / 12);
         return $toPay;
     }
 
     //credit two years - fifth pay schema
     public static function getSummaCourseCreditTwoYears($idCourse){
-        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 24);
+        $toPay = round(Course::getCoursePrice($idCourse) / 24);
         return $toPay;
     }
 
     //credit three years - sixth pay schema
     public static function getSummaCourseCreditThreeYears($idCourse){
-        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 36);
+        $toPay = round(Course::getCoursePrice($idCourse) / 36);
         return $toPay;
     }
 
     //credit four years - seventh pay schema
     public static function getSummaCourseCreditFourYears($idCourse){
-        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 48);
+        $toPay = round(Course::getCoursePrice($idCourse) / 48);
         return $toPay;
     }
 
     //credit five years - eight pay schema
     public static function getSummaCourseCreditFiveYears($idCourse){
-        $toPay = round(Course::model()->findByPk($idCourse)->course_price / 60);
+        $toPay = round(Course::getCoursePrice($idCourse) / 60);
         return $toPay;
+    }
+
+    public static function generateModuleCoursesList($idModule)
+    {
+        $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
+        $count = count($courses);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $courses[$i]->id_course;
+            $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->id_course);
+            $result[$i]['language'] = CourseHelper::getCourseLang($courses[$i]->id_course);
+            $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
+        }
+        return $result;
     }
 
 }

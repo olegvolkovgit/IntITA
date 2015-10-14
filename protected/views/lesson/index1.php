@@ -34,8 +34,6 @@ if ($idCourse != 0) {
   });
 
 </script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
@@ -88,6 +86,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
     ));
     $this->renderPartial('/lesson/_modalTask', array('lastAccessPage' => $lastAccessPage, 'idCourse' => $idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
+
     ?>
     <!--modal task congratulations end-->
 
@@ -147,5 +146,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureProgress.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
 

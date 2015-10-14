@@ -14,7 +14,7 @@
                 ?>
                 <a class="pageDone pageTitle"
                    href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $i+1, 'idCourse' => $idCourse));?>"
-                   title="<?php echo Yii::t('lecture', '0615')." ".$i. '. '; ?>"></a>
+                   title="<?php echo Yii::t('lecture', '0615')." ".($i+1). '. '; ?>"></a>
             <?php }
 
 ?>

@@ -2,14 +2,14 @@
 <div class="FinancesPay">
     <?php if(isset($_COOKIE['idCourse']) || isset($_COOKIE['idModule'])){
         if(isset($_COOKIE['idModule']) && $_COOKIE['idModule'] != 0){
-            echo "<h3> Модуль  №" . ModuleHelper::getModuleNumber($_COOKIE['idModule']).". ".
+            echo "<h3>".Yii::t('payment', '0656')." №" . ModuleHelper::getModuleNumber($_COOKIE['idModule']).". ".
                 ModuleHelper::getModuleName($_COOKIE['idModule']). "</h3>";
             $this->renderPartial('_paymentsModuleForm', array('module' => $_COOKIE['idModule'],
                 'course' => $_COOKIE['idCourse']));
         }
         else {
             if (isset($_COOKIE['idCourse'])) {
-                echo "<h3> Курс №" . CourseHelper::getCourseNumber($_COOKIE['idCourse']) . ". " .
+                echo "<h3>".Yii::t('payment', '0657')." №" . CourseHelper::getCourseNumber($_COOKIE['idCourse']) . ". " .
                     CourseHelper::getCourseName($_COOKIE['idCourse']) . "</h3>";
                 $this->renderPartial('_paymentsCourseForm', array('course' => $_COOKIE['idCourse']));
             }

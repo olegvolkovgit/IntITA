@@ -318,11 +318,11 @@ class LessonController extends Controller
         $up->update();
     }
 
-    public function actionShowPagesList($idLecture, $idCourse)
+    public function actionShowPagesList($id, $idCourse)
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
+        $idModule = Lecture::model()->findByPk($id)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
-            return $this->render('/editor/_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
+            return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
@@ -433,8 +433,8 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($pageId, $idCourse){
-        $textList = LecturePage::getBlocksListById($pageId);
+    public function actionEditPage($page, $idCourse){
+        $textList = LecturePage::getBlocksListById($page);
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
@@ -446,13 +446,13 @@ class LessonController extends Controller
                 'pageSize' => '200',
             )
         );
-        $page = LecturePage::model()->findByPk($pageId);
+        $pageModel = LecturePage::model()->findByPk($page);
 
-        $lecture = Lecture::model()->findByPk($page->id_lecture);
+        $lecture = Lecture::model()->findByPk($pageModel->id_lecture);
 
         $this->render('/editor/index', array(
                 'user' => Yii::app()->user->getId(),
-                'page' => $page,
+                'page' => $pageModel,
                 'dataProvider' => $dataProvider,
                 'idCourse' => $idCourse,
                 'lecture' =>$lecture,
