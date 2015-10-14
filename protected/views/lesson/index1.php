@@ -1,30 +1,30 @@
 <?php
 /* @var $this LessonController */
-/* @var $lecture Lecture*/
-/* @var $page LecturePage*/
-/* @var $teacher Teacher*/
-/* @var integer $idCourse*/
+/* @var $lecture Lecture */
+/* @var $page LecturePage */
+/* @var $teacher Teacher */
+/* @var integer $idCourse */
 
 $this->pageTitle = 'INTITA';
-if(!isset($idCourse)) $idCourse=0;
+if (!isset($idCourse)) $idCourse = 0;
 
-if($idCourse != 0) {
-$this->renderPartial('/site/_shareMetaTag', array(
+if ($idCourse != 0) {
+    $this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
-        'description' =>Yii::t('sharing','0644'),
-));
-}else{
+        'title' => ModuleHelper::getModuleName($lecture->idModule) . '. ' . Yii::t('sharing', '0643'),
+        'description' => Yii::t('sharing', '0644'),
+    ));
+} else {
     $this->renderPartial('/site/_shareMetaTag', array(
         'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])),
-        'title' => ModuleHelper::getModuleName($lecture->idModule).'. '.Yii::t('sharing','0643'),
-        'description' =>Yii::t('sharing','0644'),
+        'title' => ModuleHelper::getModuleName($lecture->idModule) . '. ' . Yii::t('sharing', '0643'),
+        'description' => Yii::t('sharing', '0644'),
     ));
 }
 ?>
 <!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -32,6 +32,7 @@ $this->renderPartial('/site/_shareMetaTag', array(
       processEscapes: true
     }
   });
+
 </script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
@@ -49,32 +50,33 @@ $this->renderPartial('/site/_shareMetaTag', array(
 </script>
 <?php
 
-$passedLecture=LectureHelper::isPassedLecture($passedPages);
-$finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
+$passedLecture = LectureHelper::isPassedLecture($passedPages);
+$finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
 <div class="lessonBlock" id="lessonBlock">
-    <?php $this->renderPartial('_sidebar', array('lecture'=>$lecture, 'idCourse'=>$idCourse));?>
+    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
-            <?php echo LectureHelper::getLectureTitle($lecture->id);?>
+            <?php echo LectureHelper::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
-                <?php if($editMode){?>
-        <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse));?>">
-        <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-             id="editIco1" class="editButton" title="Редагувати сторінку"/>
-            </a>
+                <?php if ($editMode) { ?>
+                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                             id="editIco1" class="editButton" title="Редагувати сторінку"/>
+                    </a>
                 <?php } ?>
             </div>
         </div>
         <?php
-        $this->renderPartial('_lecturePageTabs', array('page' => $page,'lastAccessPage'=>$lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture'=>$passedLecture,'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        $this->renderPartial('_lecturePageTabs', array('page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
     </div>
     <!--modal task congratulations-->
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog2',
-        'themeUrl' => Config::getBaseUrl().'/css',
+        'themeUrl' => Config::getBaseUrl() . '/css',
         'cssFile' => 'jquery-ui.css',
         'theme' => 'my',
         'options' => array(
@@ -84,7 +86,7 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
             'resizable' => false,
         ),
     ));
-    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage'=>$lastAccessPage, 'idCourse'=>$idCourse));
+    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage' => $lastAccessPage, 'idCourse' => $idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
     ?>
     <!--modal task congratulations end-->
@@ -93,14 +95,14 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'mydialog3',
-        'themeUrl'=>Config::getBaseUrl().'/css',
-        'cssFile'=>'jquery-ui.css',
-        'theme'=>'my',
+        'themeUrl' => Config::getBaseUrl() . '/css',
+        'cssFile' => 'jquery-ui.css',
+        'theme' => 'my',
         'options' => array(
-            'width'=>540,
+            'width' => 540,
             'autoOpen' => false,
             'modal' => true,
-            'resizable'=> false
+            'resizable' => false
         ),
     ));
     $this->renderPartial('/lesson/_modalTask2');
@@ -110,29 +112,32 @@ $finishedLecture=LectureHelper::isLectureFinished($user, $lecture->id);
     <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id' => 'dialogNextLecture',
-        'themeUrl'=>Config::getBaseUrl().'/css',
-        'cssFile'=>'jquery-ui.css',
-        'theme'=>'my',
+        'themeUrl' => Config::getBaseUrl() . '/css',
+        'cssFile' => 'jquery-ui.css',
+        'theme' => 'my',
         'options' => array(
-            'width'=>540,
+            'width' => 540,
             'autoOpen' => false,
             'modal' => true,
-            'resizable'=> false
+            'resizable' => false
         ),
     ));
-    $this->renderPartial('/lesson/_passLectureModal', array('lecture'=>$lecture, 'idCourse'=>$idCourse));
+    $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
 
     ?>
 </div>
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shThemeEclipse.css'); ?>">
+<link type='text/css' rel='stylesheet'
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">
+<link type='text/css' rel='stylesheet'
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shThemeEclipse.css'); ?>">
 <script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/XRegExp.js"); ?>'></script>
 <script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shLegacy.js"); ?>'></script>
 <script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shCore.js"); ?>'></script>
-<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shMegaLang.js"); ?>'></script>
+<script class='javascript'
+        src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shMegaLang.js"); ?>'></script>
 
 <script>SyntaxHighlighter.all();</script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

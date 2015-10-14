@@ -7,8 +7,8 @@
  */
 ?>
 <?php if(!isset($editMode)) $editMode=1; ?>
-<span class="listTheme"><?php echo Yii::t('lecture', '0321');?> </span><span class="spoilerLinks" onclick="chapterSpoiler(this,'<?php echo Yii::t('lecture', '0641') ?>','<?php echo Yii::t('lecture', '0642') ?>');"><span class="spoilerClick" ><?php echo Yii::t('lecture', '0641') ?></span><span class="spoilerTriangle"> &#9660;</span></span>
-<div class="spoilerBody">
+<span class="spoilerLinks" onclick="chapterSpoiler(this);"><span class="spoilerClick" ><?php echo LectureHelper::getLectureTitle($idLecture); ?></span><span class="spoilerTriangle" id="spoilerTriangle">&#9660;</span></span>
+<div class="spoilerBody" id="spoilerBody">
     <?php
 
     $summary =  Lecture::getLessonCont($idLecture);

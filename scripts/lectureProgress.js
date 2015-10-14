@@ -5,7 +5,7 @@ $(document).ready(function(){
     $('#pointer').show();
     var position = $('#pagePressed').position();
     $('#pointer').css('margin-top',-12);
-    $('#pointer').css('margin-left',position.left+10);
+    $('#pointer').css('margin-left',position.left+6);
 });
 $(document).on('mouseenter', '.pageTitle', function (e) {
     var tooltipHtml='<p>'+$(this).attr("title")+'</p>';
@@ -16,7 +16,7 @@ $(document).on('mouseenter', '.pageTitle', function (e) {
     $('#arrowCursor').show();
     var position = $(this).position();
     $('#arrowCursor').css('margin-top',-12);
-    $('#arrowCursor').css('margin-left',position.left+10);
+    $('#arrowCursor').css('margin-left',position.left+6);
     $('#tooltip').html(tooltipHtml);
     $('#labelBlock').hide();
     $('#tooltip').css('display','inline-block');

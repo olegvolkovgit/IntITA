@@ -78,7 +78,7 @@ class StudentReg extends CActiveRecord
             array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
             array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
             array('email', 'email', 'message'=>Yii::t('error','0271')),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'repidreg,reguser,edit,fromraptoext'),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'resetemail, repidreg,reguser,edit,fromraptoext'),
             array('password', 'authenticate','on'=>'loginuser'),
             array('password_repeat', 'passdiff','on'=>'edit'),
             array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>Yii::t('error','0427'),'on'=>'reguser,edit'),
