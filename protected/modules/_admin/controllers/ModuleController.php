@@ -13,7 +13,7 @@ class ModuleController extends AdminController
     {
         return array(
             'accessControl',
-            'postOnly + delete', // we only allow deletion via POST request
+            'postOnly + delete',
         );
     }
 
@@ -21,13 +21,15 @@ class ModuleController extends AdminController
     {
         return array(
             array('allow',
-                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore'),
+                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
+                    'addMandatoryModule'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore'),
+                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
+                    'addMandatoryModule'),
                 'users'=>array('*'),
             ),
         );
@@ -126,6 +128,23 @@ class ModuleController extends AdminController
     public function actionRestore($id){
         Module::model()->updateByPk($id, array('cancelled' => 0));
         $this->actionIndex();
+    }
+
+    public function actionMandatory($id){
+
+        $this->render('mandatory', array(
+            'id' => $id
+        ));
+    }
+
+    public function actionAddMandatoryModule(){
+        $idModule = Yii::app()->request->getPost('module', 0);
+        $idCourse = Yii::app()->request->getPost('course', 0);
+        $mandatory = Yii::app()->request->getPost('mandatory', 0);
+
+        Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules='.$mandatory.' WHERE id_module='.
+            $idModule.' and id_course='.$idCourse)->query();
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
 }

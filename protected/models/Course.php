@@ -247,11 +247,14 @@ class Course extends CActiveRecord
         }
         return true;
     }
-//    protected function beforeDelete()
-//    {
-//        $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->course_img;
-//        if (is_file($src))
-//            unlink($src);
-//        return true;
-//    }
+
+	public static function getCoursePrice($idCourse){
+        $modules = Yii::app()->db->createCommand("SELECT id_module FROM course_modules WHERE id_course =".$idCourse
+        )->queryAll();
+        $summa = 0;
+        for ($i = 0, $count = count($modules); $i < $count; $i++){
+            $summa += (integer) Module::model()->findByPk($modules[$i]["id_module"])->module_price;
+        }
+        return $summa;
+    }
 }

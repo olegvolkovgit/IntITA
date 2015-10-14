@@ -20,6 +20,11 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                'category' => 'payment',
                'message' => '0658'
             ),
+            array(
+                'id' => '659',
+                'category' => 'lecture',
+                'message' => '0659'
+            ),
         ));
 
 		$this->insertMultiple('messages', array(
@@ -77,6 +82,24 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'language' => 'en',
                 'translation' => 'Print'
             ),
+            array(
+                'id_record' => null,
+                'id' => '0659',
+                'language' => 'ua',
+                'translation' => 'Завдання'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0658',
+                'language' => 'ru',
+                'translation' => 'Задание'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0658',
+                'language' => 'en',
+                'translation' => 'Quiz'
+            ),
 		));
 	}
 
@@ -88,5 +111,7 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
         $this->delete('sourcemessages', 'id=657');
         $this->delete('messages', 'id=658');
         $this->delete('sourcemessages', 'id=658');
+        $this->delete('messages', 'id=659');
+        $this->delete('sourcemessages', 'id=659');
 	}
 }

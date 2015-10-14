@@ -182,9 +182,9 @@ class SiteController extends Controller
                     if(!empty($userModel->birthday)){
                         $birthday = $userModel->birthday;
                         $birthday = str_replace("/", "-", $birthday);
-                        if($birthday[0] == "0") $birthday[0] = ' ';
-                        if($birthday[3] == "0") $birthday[3] = ' ';
-                    }else $birthday=' ';
+                        if($birthday[0] == "0") $birthday[0] = '';
+                        if($birthday[3] == "0") $birthday[3] = '';
+                    }else $birthday='';
                     $avatar = $userModel->avatar;
                     if ($avatar == null || $avatar == "") $avatar = "noname.png";
 
