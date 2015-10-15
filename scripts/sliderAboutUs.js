@@ -30,9 +30,9 @@ $(window).resize(function() { sliderBoxCentr(); });
 
 
 function centrSliderButtons() { /* центрування кнопок прокрутки слайдеру*/
-    $('.owl-controls').css('margin-left', '0')
-    $('.owl-controls').css('left', '8%')
-    $('.owl-controls').css('width', 'auto')
+    $('.owl-controls').css('margin-left', '0');
+    $('.owl-controls').css('left', '8%');
+    $('.owl-controls').css('width', 'auto');
 }
 $(function() { centrSliderButtons(); });
 $(window).resize(function() { centrSliderButtons(); });

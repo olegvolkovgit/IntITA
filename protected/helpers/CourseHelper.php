@@ -293,6 +293,17 @@ class CourseHelper {
         return $summa;
     }
 
+    public static function getCreditCoursePrice($idCourse, $years){
+        $modules = Yii::app()->db->createCommand("SELECT id_module FROM course_modules WHERE id_course =".$idCourse
+        )->queryAll();
+        $summa = 0;
+        for ($i = 0, $count = count($modules); $i < $count; $i++){
+            $summa += (integer) Module::model()->findByPk($modules[$i]["id_module"])->module_price;
+        }
+        $toPaySumma = $summa * pow((1 + 0.3), $years);
+        return $summa;
+    }
+
     //discount 30 percent - first pay schema
     public static function getSummaWholeCourse($idCourse){
         return round(Course::getCoursePrice($idCourse) * 0.7);
@@ -308,7 +319,7 @@ class CourseHelper {
     //discount 8 percent - third pay schema
     public static function getSummaCourseFourPays($idCourse){
         $discountedSumma = Course::getCoursePrice($idCourse) * 0.92;
-        $toPay = round($discountedSumma / 2);
+        $toPay = round($discountedSumma / 4);
         return $toPay;
     }
 
@@ -320,25 +331,25 @@ class CourseHelper {
 
     //credit two years - fifth pay schema
     public static function getSummaCourseCreditTwoYears($idCourse){
-        $toPay = round(Course::getCoursePrice($idCourse) / 24);
+        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 2) / 24);
         return $toPay;
     }
 
     //credit three years - sixth pay schema
     public static function getSummaCourseCreditThreeYears($idCourse){
-        $toPay = round(Course::getCoursePrice($idCourse) / 36);
+        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 3) / 36);
         return $toPay;
     }
 
     //credit four years - seventh pay schema
     public static function getSummaCourseCreditFourYears($idCourse){
-        $toPay = round(Course::getCoursePrice($idCourse) / 48);
+        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 4) / 48);
         return $toPay;
     }
 
     //credit five years - eight pay schema
     public static function getSummaCourseCreditFiveYears($idCourse){
-        $toPay = round(Course::getCoursePrice($idCourse) / 60);
+        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 5) / 60);
         return $toPay;
     }
 
@@ -352,6 +363,7 @@ class CourseHelper {
             $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->id_course);
             $result[$i]['language'] = CourseHelper::getCourseLang($courses[$i]->id_course);
             $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
+            $result[$i]['price'] = $courses[$i]->price_in_course;
         }
         return $result;
     }

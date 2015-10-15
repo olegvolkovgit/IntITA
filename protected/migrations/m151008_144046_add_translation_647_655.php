@@ -28,7 +28,7 @@ class m151008_144046_add_translation_647_655 extends CDbMigration
 		INSERT INTO `messages` VALUES ('2108', '649', 'ru', 'Завершен!');
 		INSERT INTO `messages` VALUES ('2109', '649', 'en', 'Finished!');
 		INSERT INTO `messages` VALUES ('2110', '650', 'ua', 'Затрачено');
-		INSERT INTO `messages` VALUES ('2111', '650', 'ru', 'Ушло');
+		INSERT INTO `messages` VALUES ('2111', '650', 'ru', 'Прошло');
 		INSERT INTO `messages` VALUES ('2112', '650', 'en', 'Spent');
 		INSERT INTO `messages` VALUES ('2113', '651', 'ua', 'Модуль в роботі!');
 		INSERT INTO `messages` VALUES ('2114', '651', 'ru', 'Модуль в работе!');

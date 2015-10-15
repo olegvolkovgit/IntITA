@@ -1,4 +1,6 @@
 <br>
+<a href="<?php echo Yii::app()->createUrl('/_admin/module/index');?>">Список модулів</a>
+<br>
 <h2>Модуль #<?php echo $id." ".ModuleHelper::getModuleName($id);?></h2>
 <br>
 <form action="<?php echo Yii::app()->createUrl('/_admin/module/addMandatoryModule');?>" method="POST" name="add-accessModule">
@@ -12,10 +14,14 @@
                 <?php $courses = CourseHelper::generateModuleCoursesList($id);
                 $count = count($courses);
                 for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?>
-                        - попередній модуль #<?php echo ModuleHelper::getModuleName($courses[$i]["mandatory"]); ?></option>
+                        ?>
+                        <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];
+                    if ($courses[$i]["mandatory"] != 0) {
+                            ?>
+                            - попередній модуль
+                            #<?php echo ModuleHelper::getModuleName($courses[$i]["mandatory"]); ?></option>
                     <?php
+                    }
                 }
                 ?>
         </select>
@@ -29,6 +35,7 @@
                 <optgroup label="Модулі">
                     <?php $modules = AccessHelper::generateModulesList();
                     $count = count($modules);
+
                     for($i = 0; $i < $count; $i++){
                         ?>
                         <option value="<?php echo $modules[$i]['id'];?>"><?php echo $modules[$i]['alias'];?></option>
@@ -37,6 +44,7 @@
                     ?>
             </select>
         </div>
+
         <br>
         <br>
 

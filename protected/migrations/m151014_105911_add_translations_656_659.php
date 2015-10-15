@@ -25,6 +25,16 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'category' => 'lecture',
                 'message' => '0659'
             ),
+            array(
+                'id' => '660',
+                'category' => 'lecture',
+                'message' => '0660'
+            ),
+            array(
+                'id' => '661',
+                'category' => 'payment',
+                'message' => '0661'
+            ),
         ));
 
 		$this->insertMultiple('messages', array(
@@ -32,13 +42,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
 				'id_record' => null,
 				'id' => '0656',
 				'language' => 'ua',
-				'translation' => 'Ìîäóëü'
+				'translation' => 'ÐœÐ¾Ð´ÑƒÐ»ÑŒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0656',
 				'language' => 'ru',
-				'translation' => 'Ìîäóëü'
+				'translation' => 'ÐœÐ¾Ð´ÑƒÐ»ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -50,13 +60,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0657',
                 'language' => 'ua',
-                'translation' => 'Êóðñ'
+                'translation' => 'ÐšÑƒÑ€Ñ'
             ),
             array(
                 'id_record' => null,
                 'id' => '0657',
                 'language' => 'ru',
-                'translation' => 'Êóðñ'
+                'translation' => 'ÐšÑƒÑ€Ñ'
             ),
             array(
                 'id_record' => null,
@@ -68,13 +78,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0658',
                 'language' => 'ua',
-                'translation' => 'Íàäðóêóâàòè'
+                'translation' => 'ÐÐ°Ð´Ñ€ÑƒÐºÑƒÐ²Ð°Ñ‚Ð¸'
             ),
             array(
                 'id_record' => null,
                 'id' => '0658',
                 'language' => 'ru',
-                'translation' => 'Íàïå÷àòàòü'
+                'translation' => 'ÐÐ°Ð¿ÐµÑ‡Ð°Ñ‚Ð°Ñ‚ÑŒ'
             ),
             array(
                 'id_record' => null,
@@ -86,19 +96,55 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0659',
                 'language' => 'ua',
-                'translation' => 'Çàâäàííÿ'
+                'translation' => 'Ð—Ð°Ð²Ð´Ð°Ð½Ð½Ñ'
             ),
             array(
                 'id_record' => null,
-                'id' => '0658',
+                'id' => '0659',
                 'language' => 'ru',
-                'translation' => 'Çàäàíèå'
+                'translation' => 'Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ'
             ),
             array(
                 'id_record' => null,
-                'id' => '0658',
+                'id' => '0659',
                 'language' => 'en',
                 'translation' => 'Quiz'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0660',
+                'language' => 'ua',
+                'translation' => 'ÐžÐ½Ð»Ð°Ð¹Ð½ Ð´Ð¾Ð¿Ð¾Ð¼Ð¾Ð³Ð°:'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0660',
+                'language' => 'ru',
+                'translation' => 'ÐžÐ½Ð»Ð°Ð¹Ð½ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒ:'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0660',
+                'language' => 'en',
+                'translation' => 'Online help:'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0661',
+                'language' => 'ua',
+                'translation' => 'Ð¦Ñ–Ð½Ð° Ð·Ð° Ð¼Ð¾Ð´ÑƒÐ»ÑŒ'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0661',
+                'language' => 'ru',
+                'translation' => 'Ð¦ÐµÐ½Ð° Ð·Ð° Ð¼Ð¾Ð´ÑƒÐ»ÑŒ'
+            ),
+            array(
+                'id_record' => null,
+                'id' => '0661',
+                'language' => 'en',
+                'translation' => 'Module price'
             ),
 		));
 	}
@@ -113,5 +159,9 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
         $this->delete('sourcemessages', 'id=658');
         $this->delete('messages', 'id=659');
         $this->delete('sourcemessages', 'id=659');
+        $this->delete('messages', 'id=660');
+        $this->delete('sourcemessages', 'id=660');
+        $this->delete('messages', 'id=661');
+        $this->delete('sourcemessages', 'id=661');
 	}
 }

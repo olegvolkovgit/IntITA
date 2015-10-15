@@ -13,18 +13,13 @@
     )); ?>
     <?php
     $payment = new PaymentPlan();
-    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.CourseHelper::getMainCoursePrice($module->module_price, 25);
+    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.ModuleHelper::getMainCoursePrice($module->module_price);
     else {
         ?>
         <div id="rowRadio">
             <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment" value="1">
-                <span><?php echo ModuleHelper::getModulePricePayment(
-                        StaticFilesHelper::createPath('image', 'course', 'wallet.png'),
-                        StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'),
-                        'Ціна за модуль',
-                        $module->module_price,
-                        0,
-                        (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?false:true
+                <span><?php echo ModuleHelper::getModulePricePayment($module->module_ID,0,
+                        (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0
                         ) ?></span>
             </div>
         </div>
