@@ -125,12 +125,17 @@ class ModuleHelper
         return round($summa * 22);//CommonHelper::getDollarExchangeRate());
     }
 
-    public static function getModuleSumma($moduleId, $isIndependent = false)
+    public static function getModuleSumma($moduleId, $idCourse=0)
     {
-        if ($isIndependent) {
-            return Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule());
-        } else {
+        if ($idCourse > 0) {
+            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
+                'id_course' => $idCourse))->price_in_course;
+            if ($price <= 0){
+                return round(Module::model()->findByPk($moduleId)->module_price);
+            }
             return round(Module::model()->findByPk($moduleId)->module_price);
+        } else {
+            return round(Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule());
         }
     }
 
