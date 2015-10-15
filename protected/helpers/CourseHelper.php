@@ -352,6 +352,7 @@ class CourseHelper {
             $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->id_course);
             $result[$i]['language'] = CourseHelper::getCourseLang($courses[$i]->id_course);
             $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
+            $result[$i]['price'] = $courses[$i]->price_in_course;
         }
         return $result;
     }
