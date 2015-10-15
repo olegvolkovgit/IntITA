@@ -16,7 +16,7 @@
                 for($i = 0; $i < $count; $i++){
                         ?>
                         <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];
-                    if ($courses[$i]["mandatory"] != 0 || $courses[$i]["mandatory"] != null) {
+                    if ($courses[$i]["mandatory"] != 0) {
                             ?>
                             - попередній модуль
                             #<?php echo ModuleHelper::getModuleName($courses[$i]["mandatory"]); ?></option>
