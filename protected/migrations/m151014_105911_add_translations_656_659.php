@@ -32,13 +32,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
 				'id_record' => null,
 				'id' => '0656',
 				'language' => 'ua',
-				'translation' => 'Ìîäóëü'
+				'translation' => 'ÐœÐ¾Ð´ÑƒÐ»ÑŒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0656',
 				'language' => 'ru',
-				'translation' => 'Ìîäóëü'
+				'translation' => 'ÐœÐ¾Ð´ÑƒÐ»ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -50,13 +50,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0657',
                 'language' => 'ua',
-                'translation' => 'Êóðñ'
+                'translation' => 'ÐšÑƒÑ€Ñ'
             ),
             array(
                 'id_record' => null,
                 'id' => '0657',
                 'language' => 'ru',
-                'translation' => 'Êóðñ'
+                'translation' => 'ÐšÑƒÑ€Ñ'
             ),
             array(
                 'id_record' => null,
@@ -68,13 +68,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0658',
                 'language' => 'ua',
-                'translation' => 'Íàäðóêóâàòè'
+                'translation' => 'ÐÐ°Ð´Ñ€ÑƒÐºÑƒÐ²Ð°Ñ‚Ð¸'
             ),
             array(
                 'id_record' => null,
                 'id' => '0658',
                 'language' => 'ru',
-                'translation' => 'Íàïå÷àòàòü'
+                'translation' => 'ÐÐ°Ð¿ÐµÑ‡Ð°Ñ‚Ð°Ñ‚ÑŒ'
             ),
             array(
                 'id_record' => null,
@@ -86,13 +86,13 @@ class m151014_105911_add_translations_656_658 extends CDbMigration
                 'id_record' => null,
                 'id' => '0659',
                 'language' => 'ua',
-                'translation' => 'Çàâäàííÿ'
+                'translation' => 'Ð—Ð°Ð²Ð´Ð°Ð½Ð½Ñ'
             ),
             array(
                 'id_record' => null,
                 'id' => '0658',
                 'language' => 'ru',
-                'translation' => 'Çàäàíèå'
+                'translation' => 'Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ'
             ),
             array(
                 'id_record' => null,

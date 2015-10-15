@@ -12,6 +12,8 @@
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
+
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
     </body>
 <?php
