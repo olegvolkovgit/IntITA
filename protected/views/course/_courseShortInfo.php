@@ -43,8 +43,7 @@
     <div class="courseDetail">
         <div>
             <span id="demo">
-                <a href='<?php
-                    echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
                 ?>'>Схема курса</a>
             </span>
             <br>
