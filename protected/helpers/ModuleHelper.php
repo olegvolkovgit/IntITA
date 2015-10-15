@@ -132,15 +132,17 @@ class ModuleHelper
                 'id_course' => $idCourse))->price_in_course;
             if ($price <= 0){
                 return round(Module::model()->findByPk($moduleId)->module_price);
+            } else {
+                return $price;
             }
-            return round(Module::model()->findByPk($moduleId)->module_price);
         } else {
             return round(Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule());
         }
     }
 
-    public static function getModulePricePayment($image, $image2, $text, $price, $discount = 0, $isIndependent)
+    public static function getModulePricePayment($idModule, $discount = 0, $idCourse)
     {
+        $price = ModuleHelper::getModuleSumma($idModule, $idCourse);
         if ($price == 0) {
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '<span>';
         }
@@ -148,10 +150,12 @@ class ModuleHelper
             return
                 '<table class="mainPay">
                     <tr>
-                    <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
+                    <td class="icoPay"><img class="icoNoCheck" src="' .
+                StaticFilesHelper::createPath('image', 'course', 'wallet.png'). '"><img class="icoCheck" src="' .
+                StaticFilesHelper::createPath('image', 'course', 'checkWallet.png') . '"></td>
                     <td>
                         <table>
-                            <tr><td><div>' . $text . '</div></td></tr>
+                            <tr><td><div>' . Yii::t('payment', '0661') . '</div></td></tr>
                             <tr><td><span class="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span></td></tr>
                         </table>
                     </td>
@@ -161,7 +165,9 @@ class ModuleHelper
         return
             '<table class="mainPay">
                 <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
+                <td class="icoPay"><img class="icoNoCheck" src="' .
+            StaticFilesHelper::createPath('image', 'course', 'wallet.png') . '"><img class="icoCheck" src="' .
+            StaticFilesHelper::createPath('image', 'course', 'checkWallet.png') . '"></td>
                 <td>
                     <table>
                         <tr><td><div>' . Yii::t('course', '0197') . '</div></td></tr>
