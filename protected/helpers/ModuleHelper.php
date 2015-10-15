@@ -33,14 +33,15 @@ class ModuleHelper
 
     public static function getModuleName($id)
     {
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+            $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
 
-        $title = "title_" . $lang;
-        $moduleTitle = Module::model()->findByPk($id)->$title;
-        if ($moduleTitle == "") {
-            $moduleTitle = Module::model()->findByPk($id)->title_ua;
-        }
-        return $moduleTitle;
+            $title = "title_" . $lang;
+            $moduleTitle = Module::model()->findByPk($id)->$title;
+            if ($moduleTitle == "") {
+                $moduleTitle = Module::model()->findByPk($id)->title_ua;
+            }
+            return $moduleTitle;
+
     }
 
     public static function getModuleOrder($id)
@@ -61,10 +62,12 @@ class ModuleHelper
         if ($price == 0) {
             return '<span class="colorGreen">' . Yii::t('module', '0421') . '<span>';
         }
-        $result = '<span id="oldPrice">' . $price . ' ' . Yii::t('module', '0222') . '</span> ' . ModuleHelper::getDiscountedPrice($price, 50) . Yii::t('module', '0222');
+
         if ($isCourse) {
-            return $result . '(' . Yii::t('module', '0223') . ')';
+            $result = '<span id="oldPrice">' . $price . ' ' . Yii::t('module', '0222') . '</span> ';
+            return $result.ModuleHelper::getDiscountedPrice($price, 50) . Yii::t('module', '0222'). '(' . Yii::t('module', '0223') . ')';
         } else {
+            $result = '<span>' . $price . ' ' . Yii::t('module', '0222') . '</span> ';
             return $result;
         }
     }

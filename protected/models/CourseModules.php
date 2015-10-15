@@ -8,6 +8,7 @@
  * @property integer $id_module
  * @property integer $order
  * @property integer $mandatory_modules
+ * @property integer $price_in_course
  *
  * The followings are the available model relations:
  * @property Course $idCourse
@@ -36,9 +37,11 @@ class CourseModules extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_course, id_module, order', 'required'),
-			array('id_course, id_module, order, mandatory_modules, lessonCount, durationInMonths', 'numerical', 'integerOnly'=>true),
+			array('id_course, id_module, order, mandatory_modules, lessonCount, durationInMonths,
+			price_in_course', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id_course, id_module, order, mandatory_modules, durationInMonths, lessonCount', 'safe', 'on'=>'search'),
+			array('id_course, id_module, order, mandatory_modules, durationInMonths, lessonCount, price_in_course',
+                'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +70,7 @@ class CourseModules extends CActiveRecord
 			'id_module' => 'Id Module',
             'mandatory_modules' => 'Попередні модулі(обов`язкові)',
 			'order' => 'Order',
+            'price_in_course' => 'Ціна модуля у курсі'
 		);
 	}
 
@@ -93,6 +97,7 @@ class CourseModules extends CActiveRecord
 		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('order',$this->order);
         $criteria->compare('mandatory_modules',$this->mandatory_modules);
+        $criteria->compare('price_in_course',$this->price_in_course);
         $criteria->with = array('moduleInCourse');
 
 		return new CActiveDataProvider($this, array(
