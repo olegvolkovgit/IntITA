@@ -1,9 +1,8 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderAboutUs.js'); ?>"></script>
-<link type="text/css" rel="stylesheet"
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.theme.css'); ?>"/>
-<link type="text/css" rel="stylesheet"
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.carousel.css') ?>"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.theme.css'); ?>"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.carousel.css') ?>"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.carousel.js'); ?>"></script>
+<script src="<?php echo Config::getBaseUrl(); ?>/scripts/slider.js"></script>
 
 <div class="aboutusslider">
     <div id="slider" class="owl-carousel">
