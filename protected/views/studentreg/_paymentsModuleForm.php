@@ -13,7 +13,7 @@
     )); ?>
     <?php
     $payment = new PaymentPlan();
-    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.CourseHelper::getMainCoursePrice($module->module_price, 25);
+    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.ModuleHelper::getMainCoursePrice($module->module_price);
     else {
         ?>
         <div id="rowRadio">

@@ -22,14 +22,14 @@ class ModuleController extends AdminController
         return array(
             array('allow',
                 'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-                    'addMandatoryModule'),
+                    'addMandatoryModule', 'coursePrice', 'addCoursePrice'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
                 'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-                    'addMandatoryModule'),
+                    'addMandatoryModule', 'coursePrice', 'addCoursePrice'),
                 'users'=>array('*'),
             ),
         );
@@ -131,7 +131,6 @@ class ModuleController extends AdminController
     }
 
     public function actionMandatory($id){
-
         $this->render('mandatory', array(
             'id' => $id
         ));
@@ -147,4 +146,19 @@ class ModuleController extends AdminController
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionCoursePrice($id){
+        $this->render('coursePrice', array(
+            'id' => $id
+        ));
+    }
+
+    public function actionAddCoursePrice(){
+        $idModule = Yii::app()->request->getPost('module', 0);
+        $idCourse = Yii::app()->request->getPost('course', 0);
+        $price = Yii::app()->request->getPost('price', 0);
+
+        Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course='.$price.' WHERE id_module='.
+            $idModule.' and id_course='.$idCourse)->query();
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

@@ -133,7 +133,7 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <span id="oldPrice">
+                <span>
                     <?php
                     $this->widget('editable.EditableField', array(
                         'type'      => 'text',
@@ -146,7 +146,6 @@
                     ?>
                     <?php echo Yii::t('module', '0222'); ?>
                 </span>
-                <?php echo ModuleHelper::getDiscountedPrice($post->module_price, 50).Yii::t('module', '0222'); ?> (<?php echo Yii::t('module', '0223'); ?>)
             </div>
             </br>
             <div class="moduleRating">

@@ -33,14 +33,15 @@ class ModuleHelper
 
     public static function getModuleName($id)
     {
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+            $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
 
-        $title = "title_" . $lang;
-        $moduleTitle = Module::model()->findByPk($id)->$title;
-        if ($moduleTitle == "") {
-            $moduleTitle = Module::model()->findByPk($id)->title_ua;
-        }
-        return $moduleTitle;
+            $title = "title_" . $lang;
+            $moduleTitle = Module::model()->findByPk($id)->$title;
+            if ($moduleTitle == "") {
+                $moduleTitle = Module::model()->findByPk($id)->title_ua;
+            }
+            return $moduleTitle;
+
     }
 
     public static function getModuleOrder($id)
@@ -56,18 +57,31 @@ class ModuleHelper
         return ", " . Yii::t('module', '0217') . " - <b>" . round($countless * 7 / ($hInDay * $daysInWeek)) . " " . Yii::t('module', '0218') . "</b> (" . $hInDay . " " . Yii::t('module', '0219') . ", " . $daysInWeek . " " . Yii::t('module', '0220') . ")";
     }
 
-    public static function getModulePrice($price, $isCourse)
+    public static function getModulePrice($moduleId, $idCourse=0)
     {
+        if ($idCourse > 0){
+            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
+                'id_course' => $idCourse))->price_in_course;
+            if ($price <= 0){
+                $price = Module::model()->findByPk($moduleId)->module_price;
+            }
+        } else {
+            $price = Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule();
+        }
         if ($price == 0) {
             return '<span class="colorGreen">' . Yii::t('module', '0421') . '<span>';
         }
-        $result = '<span id="oldPrice">' . $price . ' ' . Yii::t('module', '0222') . '</span> ' . ModuleHelper::getDiscountedPrice($price, 50) . Yii::t('module', '0222');
-        if ($isCourse) {
-            return $result . '(' . Yii::t('module', '0223') . ')';
+
+        if ($idCourse > 0) {
+            $result = '<span id="oldPrice">'.($price * Config::getCoeffIndependentModule()). ' ' . Yii::t('module', '0222') . '</span> ';
+            return $result.$price. Yii::t('module', '0222'). '(' . Yii::t('module', '0223') . ')';
         } else {
+            $result = '<span>' . $price . ' ' . Yii::t('module', '0222') . '</span> ';
             return $result;
         }
     }
+
+
 
     public static function getModuleTitleParam()
     {
@@ -111,12 +125,17 @@ class ModuleHelper
         return round($summa * 22);//CommonHelper::getDollarExchangeRate());
     }
 
-    public static function getModuleSumma($moduleId, $isIndependent = false)
+    public static function getModuleSumma($moduleId, $idCourse=0)
     {
-        if ($isIndependent) {
-            return Module::model()->findByPk($moduleId)->module_price * (1 + Config::getCoeffIndependentModule());
-        } else {
+        if ($idCourse > 0) {
+            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
+                'id_course' => $idCourse))->price_in_course;
+            if ($price <= 0){
+                return round(Module::model()->findByPk($moduleId)->module_price);
+            }
             return round(Module::model()->findByPk($moduleId)->module_price);
+        } else {
+            return round(Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule());
         }
     }
 
@@ -124,9 +143,6 @@ class ModuleHelper
     {
         if ($price == 0) {
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '<span>';
-        }
-        if ($isIndependent) {
-            $price = $price * (1 + Config::getCoeffIndependentModule());
         }
         if ($discount == 0) {
             return
@@ -163,7 +179,7 @@ class ModuleHelper
 
     public static function getAverageModuleDuration($lesson_count, $hours_in_day, $days_in_week)
     {
-        return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
+        return round($lesson_count / (4 * $hours_in_day * $days_in_week));
     }
 
     public static function getModuleProgress($module_ID, $user)
@@ -256,5 +272,12 @@ class ModuleHelper
         } else {
             return true;
         }
+    }
+
+    public static function getModulePaymentFormPrice($price){
+        if ($price == 0){
+            return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
+        }
+        return '<span id="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').'</span>';
     }
 }
