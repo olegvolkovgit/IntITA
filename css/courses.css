@@ -338,11 +338,11 @@ span.courseNum{
     line-height: 18px;
 }
 .selectedSelector a{
-    color:#85a0be;
+    color:#999999;
     text-decoration: none;
 }
 .selectedSelector .courseNum{
-    color:#85a0be;
+    color:#999999;
 }
 .coursesType{
     float: right;

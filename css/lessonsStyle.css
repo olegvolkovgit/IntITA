@@ -34,19 +34,23 @@ div.subLinks{
     display:none;
 }
 .lessonText {
+    display: inline-block;
     position: relative;
+    padding-right: 5px;
     float: left;
     width:66%;
     z-index: 0;
     word-wrap: break-word;
+    border-right: solid 2px #DCDCDC;
 }
 .lessonTheme{
     color: #4b75a4;
-    font-size:32px;
+    font-size:28px;
     margin: 0;
     font-weight: normal;
     display: inline-block;
     width: 100%;
+    margin-bottom: 4px;
 }
 h1.lessonPart p{
     color: #4b75a4;
@@ -79,7 +83,6 @@ span.spoilerClick {
 span.spoilerTriangle {
     font-size: xx-small;
     color: #4b75a4;
-    margin-left: 3px;
 }
 span.subChapter{
     color: #4b75a4;
@@ -239,7 +242,7 @@ div.lessonButFinal
     width: 99%;
     resize: none;
 }
-.taskSubmit, #taskSubmit {
+#taskSubmit {
     width: 90px;
     height:28px;
     border-radius: 10px;
@@ -250,10 +253,11 @@ div.lessonButFinal
     border:none;
     cursor:pointer;
 }
+
 #taskSubmit {
     margin-right: 0;
   }
-.taskSubmit :hover, #taskSubmit:hover {
+#taskSubmit:hover {
     cursor: pointer;
     border-top-color: #454545;
     background: #454545;
@@ -262,11 +266,12 @@ div.lessonButFinal
 
 /*vertical navigation*/
 #sidebarLesson {
-    display: none;
-    position: fixed;
-    margin: 20px 0 20px 800px;
+    /*display: none;*/
+    display: inline-block;
+    /*position: fixed;*/
+    margin: 20px 0 20px 10px;
     z-index: 1;
-    width: 400px;
+    width: 30%;
     /*top: 0;*/
 }
 #sidebarLesson div.titlesBlock
@@ -389,17 +394,17 @@ div.lessonTest {
     margin: 20px 0 20px 30px;
 }
 .ui-widget button.testSubmit {
-    width: 90px;
-    height:28px;
-    border-radius: 10px;
+    width: 120px;
+    height:30px;
+    border-radius: 5px;
     color:#ffffff;
     background-color:#4b75a4;
-    margin: 10px 30px 20px 30px;
+    margin: 20px 30px 20px 30px;
     float:right;
     border:none;
 }
 .tabsWidget .ui-widget button.testSubmit {
-    font-size: 12px;
+    font-size: 16px;
     cursor: pointer;
 }
 .ui-widget button.testSubmit:hover{
@@ -409,6 +414,29 @@ div.lessonTest {
     color: #fcfcfc;
 }
 .ui-widget button.testSubmit:focus {
+    outline: none;
+}
+.ui-widget button.taskSubmit {
+    width: 120px;
+    height:30px;
+    border-radius: 5px;
+    color:#ffffff;
+    background-color:#4b75a4;
+    margin: 20px 30px 20px 30px;
+    float:right;
+    border:none;
+}
+.tabsWidget .ui-widget button.taskSubmit {
+    font-size: 16px;
+    cursor: pointer;
+}
+.ui-widget button.taskSubmit:hover{
+    cursor: pointer;
+    border-top-color: #454545;
+    background: #454545;
+    color: #fcfcfc;
+}
+.ui-widget button.taskSubmit:focus {
     outline: none;
 }
 .ansnumber{

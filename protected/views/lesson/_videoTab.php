@@ -14,7 +14,7 @@ if ($page->video){
             $('.startVideoHover').css('opacity',0);
         });
         $('.video').click(function(){
-            $('.video').html('<iframe width="770" height="400" src="<?php echo LectureHelper::getLecturePageVideo($page->id);?>?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
+            $('.video').html('<iframe width="750" height="380" src="<?php echo LectureHelper::getLecturePageVideo($page->id);?>?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
         });
     </script>
 <?php } else{

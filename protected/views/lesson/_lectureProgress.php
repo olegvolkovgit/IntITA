@@ -27,7 +27,7 @@
                    href="<?php $args = $_GET;
                    $args['page'] = $passedPages[$i]['order'];
                    $args['idCourse'] = ($idCourse)?$idCourse:'0';
-                   echo $this->createUrl('', $args) . "#title"; ?>"
+                   echo $this->createUrl('', $args); ?>"
                    title="<?php echo Yii::t('lecture', '0615')." ".$passedPages[$i]['order'] . '. ' . $passedPages[$i]['title']; ?>">
                     <div class="spotDone <?php if($i==$lastAccessPage && !$editMode) echo 'lastAccessPage' ?>"></div></a>
             <?php } else {

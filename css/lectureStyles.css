@@ -23,7 +23,6 @@ img {
 }
 
 .titlesBlock {
-    border-left: solid 2px #DCDCDC;
     float: left;
     left: 0px;
     display: inline-block;
@@ -296,11 +295,25 @@ img {
     resize: none;
 }
 #sidebarLesson .calendar{
-    margin: 5px 0;
+    margin-top:25px;
 }
 #sidebarLesson .calendar a{
-    text-decoration: underline;
+    padding: 5px;
+    text-align: center;
     font-weight: normal;
+    margin-left: 15px;
+    font-size: 18px;
+    line-height: 18px;
+    height: 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #4b75a4;
+    font-family: MyriadPro2;
+    cursor: pointer;
+}
+#sidebarLesson .calendar a:hover{
+    background-color: #666666;
 }
 
 #divAddFormula {
@@ -312,11 +325,27 @@ img {
 }
 
 #text, #quiz {
+    box-sizing: border-box;
     resize: none;
     height: 400px;
     border: 1px solid #335379;
     border-top: none;
     border-radius: 0 0 10px 10px;
+}
+
+#video {
+    box-sizing: border-box;
+    resize: none;
+    height: 400px;
+    border: 1px solid #335379;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 5px 10px 5px;
+}
+
+#text, #quiz {
+    overflow: auto;
+    padding: 0;
 }
 
 #quiz {
@@ -344,20 +373,6 @@ img {
     #dbe3ed 11%,
     #dbe3ed 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#becdde', endColorstr='#dbe3ed', GradientType=1);  / / Ie6-9
-}
-
-#video {
-    resize: none;
-    height: 400px;
-    border: 1px solid #335379;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 10px 5px 10px 5px;
-}
-
-#text, #quiz {
-    overflow: auto;
-    padding: 0;
 }
 
 .addTest, .removeTest, .editRemoveTest, .editAddTest {
@@ -486,8 +501,8 @@ div.lastAccessPage {
 
 .lessonPart {
     border-bottom: 1px solid #335379;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     margin-bottom: 10px;
 }
 
@@ -500,7 +515,7 @@ div.lastAccessPage {
 
 #labelBlock p, #tooltip p {
     display: inline-block;
-    font-size: 26px;
+    font-size: 22px;
     color: #4b75a4;
     margin: 0;
 }
@@ -537,8 +552,8 @@ h1.lessonPartEdit p img {
 .video {
     position: absolute;
     background: #072152;
-    width: 770px;
-    height: 400px;
+    width: 750px;
+    height: 380px;
     max-width: 770px;
     cursor: pointer;
 }
@@ -594,6 +609,9 @@ div.lectureAccess{
     height: 6px;
     background: #4B75A4;
 }
+div.lectureAccess:hover{
+    background: #003366;
+}
 div.lectureDisabled{
     display: inline-block;
     width: 20px;
@@ -613,8 +631,16 @@ a.lectureDisabled{
 }
 #sidebarLesson .spoilerBody a.pageAccess{
     font-weight: normal;
-    pointer-events:inherit;;
+    pointer-events:inherit;
     cursor: pointer;
     color: #4B75A4;
+}
+#sidebarLesson .spoilerBody a.pageAccess:hover{
+    color: #666666;
+}
+.helpHeader{
+    color:#c54b37;
+    font-size: 16px;
+    margin-left: 15px;
 }
 /*sidebar lectures */

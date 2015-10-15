@@ -20,8 +20,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </li>
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
-                <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
-<!--                <span>--><?php //$this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?><!--</span>-->
+                <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
             </li>
             <li><?php echo Yii::t('lecture', '0074'); ?>
                 <div id="lectionTypeText"><?php echo $lecture->getTypeInfo()['text']; ?></div>
@@ -74,16 +73,11 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                     </div>
                 <?php } ?>
             </div>
-            <?php if (AccessHelper::canAddConsultation()) {?>
-                <div class="calendar">
-                    <?php echo CHtml::link(Yii::t('lecture', '0079'), Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse))); ?>
-                </div>
-            <?php } ?>
         </ul>
     </div>
     <br>
-
-    <div style="clear: both">
+    <div class="helpHeader"><?php echo Yii::t('lecture', '0660'); ?></div>
+    <div style="clear: both;margin-left: 15px;">
         <div style="display: inline-block; margin-right: 10px;">
             <!-- mibew button -->
             <a id="mibew-agent-button"
@@ -113,6 +107,11 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                     src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skype.png'); ?>"></a>
         </div>
     </div>
+    <?php if (AccessHelper::canAddConsultation()) {?>
+        <div class="calendar">
+            <?php echo CHtml::link(Yii::t('lecture', '0079'), Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse))); ?>
+        </div>
+    <?php } ?>
     <span id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></span>
 
     <div id="discussion"></div>
