@@ -1,3 +1,8 @@
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/controllers.js'); ?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?><!--"></script>-->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'); ?>"></script>
+<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php
 /* @var $this LessonController */
 /* @var $lecture Lecture */

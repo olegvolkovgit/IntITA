@@ -9,11 +9,6 @@
 <!DOCTYPE html>
 <html xmlns:og="http://ogp.me/ns#" ng-app="lessonApp">
 <head>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/controllers.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'); ?>"></script>
-    <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -49,7 +44,7 @@
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body itemscope itemtype="http://schema.org/Product">
+<body style="overflow-y: scroll" itemscope itemtype="http://schema.org/Product">
 
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/site/_hamburgermenu'); ?>

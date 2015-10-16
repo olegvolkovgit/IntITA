@@ -11,6 +11,13 @@ html, body {
     font-family: "MyriadPro";
     box-sizing: border-box;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "MyriadPro";
+    box-sizing: border-box;
+}
 input[type="submit"]{
     outline: none;
 }

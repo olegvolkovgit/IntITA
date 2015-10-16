@@ -117,7 +117,11 @@ class LectureElement extends CActiveRecord
         $criteria->select='block_order';
         $criteria->condition = 'id_lecture = '.$idLecture;
         $criteria->order = 'block_order DESC';
-        $order=LectureElement::model()->find($criteria)->block_order;
+        if(LectureElement::model()->find($criteria)->block_order){
+            $order=LectureElement::model()->find($criteria)->block_order;
+        }else{
+            $order=0;
+        }
 
         $model->block_order = ++$order;
 
@@ -147,9 +151,13 @@ class LectureElement extends CActiveRecord
         $criteria->select='block_order';
         $criteria->condition = 'id_lecture = '.$idLecture;
         $criteria->order = 'block_order DESC';
-        $order=LectureElement::model()->find($criteria)->block_order;
+        if(LectureElement::model()->find($criteria)){
+            $order=LectureElement::model()->find($criteria)->block_order;
+        }else{
+            $order=0;
+        }
 
-        $model->block_order = ++$order;
+        $model->block_order=++$order;
 
         if ($testType == 'final'){
             //$model->type = 'final test';
