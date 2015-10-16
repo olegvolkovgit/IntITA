@@ -185,7 +185,7 @@ class ModuleHelper
 
     public static function getAverageModuleDuration($lesson_count, $hours_in_day, $days_in_week)
     {
-        return round($lesson_count / (4 * $hours_in_day * $days_in_week));
+        return round($lesson_count*7 / ($hours_in_day * $days_in_week));
     }
 
     public static function getModuleProgress($module_ID, $user)
