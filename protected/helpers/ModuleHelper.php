@@ -286,10 +286,7 @@ class ModuleHelper
         $model = Module::model()->findByPk($idModule);
         $hours = ($model->hours_in_day != 0)?$model->hours_in_day:3;
         $days = ($model->days_in_week != 0)?$model->days_in_week:2;
-        if (LectureHelper::getLessonsCount($idModule) != 0){
-            return round(LectureHelper::getLessonsCount($idModule)* 7 / ($hours * $days));
-        }
-        return 0;
+        return round($hours * $days * 4);
     }
 
     //true if $pathString is a module alias
