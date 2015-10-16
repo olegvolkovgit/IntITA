@@ -183,6 +183,7 @@ class CourseHelper {
     }
     //    $image-іконка проплати, $price-ціна проплати за місяць, $year-на скільки років кредит
     public static function getCoursePriceCredit($image, $image2, $price=0, $year=2, $idCourse){
+        $price = round($price);
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
