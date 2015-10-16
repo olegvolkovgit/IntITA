@@ -107,13 +107,13 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                     src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skype.png'); ?>"></a>
         </div>
     </div>
+    <span id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></span>
+
+    <div id="discussion"></div>
     <?php if (AccessHelper::canAddConsultation()) {?>
         <div class="calendar">
             <?php echo CHtml::link(Yii::t('lecture', '0079'), Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse))); ?>
         </div>
     <?php } ?>
-    <span id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></span>
-
-    <div id="discussion"></div>
 </div>
 <!--navigation vertical-->
