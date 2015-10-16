@@ -123,7 +123,7 @@ class CourseHelper {
             </table>';
     }
     //    $price-ціна курсу, $number - кількість проплат, $discount - знижка
-    public static function getCoursePricePayments($image, $image2, $price, $number=2,$discount=0,$text=''){
+    public static function getCoursePricePayments($image, $image2, $price, $number=2,$discount=0){
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
@@ -160,7 +160,7 @@ class CourseHelper {
             </table>';
     }
     //    $image-іконка проплати, $text - текст проплати, $price-ціна проплати за місяць, $number - кількість проплат
-    public static function getCoursePriceMonths($image, $image2, $text, $price=0,$months=12){
+    public static function getCoursePriceMonths($image, $image2, $text, $price=0,$months=12, $idCourse){
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
@@ -172,7 +172,9 @@ class CourseHelper {
                     <table>
                         <tr><td><div>'.$text.'</div></td></tr>
                         <tr><td>
-                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.$months.' '.Yii::t('course', '0323').'<b> = '.$price*$months.' '.Yii::t('courses', '0322').'</b></span></div>
+                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.
+            Yii::t('module', '0218').' х '.$months.' '.Yii::t('course', '0323').'<b> = '.
+            CourseHelper::getSummaBySchemaNum($idCourse, 4, true).' '.Yii::t('courses', '0322').'</b></span></div>
                         </td></tr>
                     </table>
                 </td>
@@ -180,7 +182,7 @@ class CourseHelper {
             </table>';
     }
     //    $image-іконка проплати, $price-ціна проплати за місяць, $year-на скільки років кредит
-    public static function getCoursePriceCredit($image, $image2, $price=0, $year=2){
+    public static function getCoursePriceCredit($image, $image2, $price=0, $year=2, $idCourse){
         if ($price == 0){
             return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">'.Yii::t('module', '0421').'<span>';
         }
@@ -192,7 +194,9 @@ class CourseHelper {
                     <table>
                         <tr><td><div>'.Yii::t('course', '0425').' '.$year.' '.Yii::t('course', '0426').'</div></td></tr>
                         <tr><td>
-                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.round($price*12*$year).' '.Yii::t('courses', '0322').'</b></span></div>
+                           <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.
+            Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.
+            CourseHelper::getSummaBySchemaNum($idCourse, 4, true).' '.Yii::t('courses', '0322').'</b></span></div>
                         </td></tr>
                     </table>
                 </td>
@@ -260,31 +264,31 @@ class CourseHelper {
        return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
     }
 
-    public static function getSummaBySchemaNum($courseId, $summaNum){
+    public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false){
         switch($summaNum){
             case '1':
                 $summa = CourseHelper::getSummaWholeCourse($courseId);
                 break;
             case '2':
-                $summa = CourseHelper::getSummaCourseTwoPays($courseId);
+                $summa = CourseHelper::getSummaCourseTwoPays($courseId, $isWhole);
                 break;
             case '3':
-                $summa = CourseHelper::getSummaCourseFourPays($courseId);
+                $summa = CourseHelper::getSummaCourseFourPays($courseId, $isWhole);
                 break;
             case '4':
-                $summa = CourseHelper::getSummaCourseMonthly($courseId);
+                $summa = CourseHelper::getSummaCourseMonthly($courseId, $isWhole);
                 break;
             case '5':
-                $summa = CourseHelper::getSummaCourseCreditTwoYears($courseId);
+                $summa = CourseHelper::getSummaCourseCreditTwoYears($courseId, $isWhole);
                 break;
             case '6':
-                $summa = CourseHelper::getSummaCourseCreditThreeYears($courseId);
+                $summa = CourseHelper::getSummaCourseCreditThreeYears($courseId, $isWhole);
                 break;
             case '7':
-                $summa = CourseHelper::getSummaCourseCreditFourYears($courseId);
+                $summa = CourseHelper::getSummaCourseCreditFourYears($courseId, $isWhole);
                 break;
             case '8':
-                $summa = CourseHelper::getSummaCourseCreditFiveYears($courseId);
+                $summa = CourseHelper::getSummaCourseCreditFiveYears($courseId, $isWhole);
                 break;
             default :
                 throw new CHttpException(400, 'Неправильно вибрана схема оплати!');
@@ -310,46 +314,72 @@ class CourseHelper {
     }
 
     //discount 10 percent - second pay schema
-    public static function getSummaCourseTwoPays($idCourse){
+    public static function getSummaCourseTwoPays($idCourse, $isWhole){
         $discountedSumma = Course::getCoursePrice($idCourse) * 0.9;
+        if ($isWhole){
+            return $discountedSumma;
+        }
         $toPay = round($discountedSumma / 2);
         return $toPay;
     }
 
     //discount 8 percent - third pay schema
-    public static function getSummaCourseFourPays($idCourse){
+    public static function getSummaCourseFourPays($idCourse, $isWhole){
         $discountedSumma = Course::getCoursePrice($idCourse) * 0.92;
+        if ($isWhole){
+            return $discountedSumma;
+        }
         $toPay = round($discountedSumma / 4);
         return $toPay;
     }
 
     //monthly - forth pay schema
-    public static function getSummaCourseMonthly($idCourse){
-        $toPay = round(Course::getCoursePrice($idCourse) / 12);
+    public static function getSummaCourseMonthly($idCourse, $isWhole){
+        $wholePrice = Course::getCoursePrice($idCourse);
+        if ($isWhole){
+            return $wholePrice;
+        }
+        $toPay = round($wholePrice / 12);
         return $toPay;
     }
 
     //credit two years - fifth pay schema
-    public static function getSummaCourseCreditTwoYears($idCourse){
-        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 2) / 24);
+    public static function getSummaCourseCreditTwoYears($idCourse, $isWhole){
+        $wholePrice = CourseHelper::getCreditCoursePrice($idCourse, 2);
+        if ($isWhole){
+            return $wholePrice;
+        }
+        $toPay = round($wholePrice / 24);
         return $toPay;
     }
 
     //credit three years - sixth pay schema
-    public static function getSummaCourseCreditThreeYears($idCourse){
-        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 3) / 36);
+    public static function getSummaCourseCreditThreeYears($idCourse, $isWhole){
+        $wholePrice = CourseHelper::getCreditCoursePrice($idCourse, 3);
+        if ($isWhole){
+            return $wholePrice;
+        }
+        $toPay = round($wholePrice / 36);
         return $toPay;
     }
 
     //credit four years - seventh pay schema
-    public static function getSummaCourseCreditFourYears($idCourse){
-        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 4) / 48);
+    public static function getSummaCourseCreditFourYears($idCourse, $isWhole){
+        $wholePrice = CourseHelper::getCreditCoursePrice($idCourse, 4);
+        if ($isWhole){
+            return $wholePrice;
+        }
+        $toPay = round($wholePrice / 48);
         return $toPay;
     }
 
     //credit five years - eight pay schema
-    public static function getSummaCourseCreditFiveYears($idCourse){
-        $toPay = round(CourseHelper::getCreditCoursePrice($idCourse, 5) / 60);
+    public static function getSummaCourseCreditFiveYears($idCourse, $isWhole){
+        $wholePrice = CourseHelper::getCreditCoursePrice($idCourse, 5);
+        if ($isWhole){
+            return $wholePrice;
+        }
+        $toPay = round($wholePrice / 60);
         return $toPay;
     }
 
