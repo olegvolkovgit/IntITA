@@ -13,7 +13,8 @@
     )); ?>
     <?php
     $payment = new PaymentPlan();
-    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.ModuleHelper::getMainCoursePrice($module->module_price);
+    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.ModuleHelper::getModuleSumma(
+            $module->module_price, (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0);
     else {
         ?>
         <div id="rowRadio">
