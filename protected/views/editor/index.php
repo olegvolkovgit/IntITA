@@ -3,6 +3,7 @@
 /* @var $page LecturePage */
 /* @var $lectureElement LectureElement */
 $module = LectureHelper::getModuleByLecture($page->id_lecture);
+$this->setPageTitle('IntITA');
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
@@ -66,18 +67,20 @@ if($idCourse != 0) {
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                      class="editButton" title="Список частин заняття"/>
             </a>
-            <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'page' =>$page->id,
-                'idCourse' => $idCourse));?>">
+            <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'page' =>
+                $page->page_order, 'idCourse' => $idCourse));?>">
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                      id="editIco1" class="editButton" title="Режим перегляду"/>
             </a>
         </div>
     </h1>
-    <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page'=>$page,'user'=>$user, 'idCourse' => $idCourse)); ?>
+    <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page'=>$page,'user'=>$user,
+        'idCourse' => $idCourse)); ?>
 <h3><label for="pageVideo">Відео</label></h3>
 <?php
 if($page->video == null) {?>
-    <?php $this->renderPartial('/editor/_addVideo', array('idLecture' => $page->id_lecture, 'pageOrder' => $page->page_order));?>
+    <?php $this->renderPartial('/editor/_addVideo', array('idLecture' => $page->id_lecture, 'pageOrder' =>
+        $page->page_order));?>
     <button onclick="addVideo()" id="addVideoStart">Додати відео</button>
 <?php
 } else {
@@ -97,12 +100,14 @@ if($page->video == null) {?>
 <br>
 <fieldset>
     <legend>Текстовий блок:</legend>
-    <?php $this->renderPartial('/lesson/_blocks_list', array('dataProvider' => $dataProvider, 'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
+    <?php $this->renderPartial('/lesson/_blocks_list', array('dataProvider' => $dataProvider,
+        'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
 
     <div id="addBlock">
         <?php
         $lecture = Lecture::model()->findByPk($page->id_lecture);
-        $this->renderPartial('/editor/_addBlock', array('lecture'=>$lecture, 'editMode' => 1, 'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
+        $this->renderPartial('/editor/_addBlock', array('lecture'=>$lecture, 'editMode' => 1,
+            'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
         ?>
     </div>
     <br>
@@ -121,11 +126,13 @@ if($page->video == null) {?>
         switch (LectureHelper::getQuizType($data['id_block'])) {
             case '5':
             case '6':
-                $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'], 'pageId' => $page->id));
+                $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
+                    'pageId' => $page->id));
                 break;
             case '12':
             case '13':
-                $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'], 'pageId' => $page->id));
+                $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],
+                    'pageId' => $page->id));
                 break;
             default:
                 break;
@@ -137,7 +144,8 @@ if($page->video == null) {?>
         <?php
     }
 ?>
-<?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
+<?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
+    'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
 <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id));?>
 </div>
 <br>
