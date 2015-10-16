@@ -22,11 +22,6 @@ $(document).ready(function () {
         $(this).next('span').find('img.icoNoCheck').hide();
         $(this).next('span').find('img.icoCheck').show();
     });
-    $.fn.fancyzoom.defaultsOptions.imgDir='/scripts/fancyzoom/ressources/';
-    $("#demo > a").fancyzoom();
 });
 
-function showSchema(){
-        document.getElementById("schema").style.display = "block";
-}
 
