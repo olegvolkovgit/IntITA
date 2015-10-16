@@ -2,7 +2,6 @@ table#accountTable {
     border: none;
     border-collapse: collapse;
     width: 60%;
-    align: center;
 }
 table#accountTable tr {
     border: 1px solid black;
@@ -40,7 +39,7 @@ table#accountTable td {
     margin-left: 350px;
 }
 #all{
-    margin-left: 520px;
+    margin-left: 70%;
 }
 #visaPlace{
     margin-left: 95px;

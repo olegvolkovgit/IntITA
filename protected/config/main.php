@@ -23,7 +23,9 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
-		'application.components.*',
+            'application.models.quiz.*',
+            'application.models.accountancy.*',
+        'application.components.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
