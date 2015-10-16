@@ -1,6 +1,7 @@
 <?php
     $module = Module::model()->findByPk($_COOKIE['idModule']);
-?>
+    $idCourse = (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0;
+    $price = ModuleHelper::getModuleSumma($module->module_ID, $idCourse);?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
@@ -12,22 +13,23 @@
         'enableAjaxValidation' => false,
     )); ?>
     <?php
-    $payment = new PaymentPlan();
-    if ($module->module_price == 0) echo Yii::t('courses', '0147').' '.ModuleHelper::getModuleSumma(
-            $module->module_price, (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0);
+
+    if ($price == 0) echo Yii::t('courses', '0147').' '.
+        ModuleHelper::getModulePricePayment($module->module_ID, 0, $idCourse);
     else {
+
         ?>
         <div id="rowRadio">
-            <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment" value="1">
-                <span><?php echo ModuleHelper::getModulePricePayment($module->module_ID,0,
-                        (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0
-                        ) ?></span>
+            <div class="paymentsListOdd">
+                <input type="radio" class="paymentPlan_value" name="payment" value="1">
+                <span><?php echo ModuleHelper::getModulePricePayment($module->module_ID, 0, $idCourse); ?>
+                </span>
             </div>
         </div>
     <?php } ?>
-    <?php $this->endWidget(); ?>
+    <?php $this->endWidget();?>
 </div>
-<?php if ($module->module_price > 0){?>
+<?php if ($price > 0){?>
 <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
     '<?php echo ($module != null)?$module->module_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } else{

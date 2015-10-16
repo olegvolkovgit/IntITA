@@ -14,7 +14,6 @@ $price = Course::getCoursePrice($model->course_ID);
         'enableAjaxValidation' => false,
     )); ?>
     <?php
-    $payment = new PaymentPlan();
     if ($price == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($price, 30);
     else {
         ?>
