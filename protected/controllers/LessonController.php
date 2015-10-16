@@ -41,6 +41,7 @@ class LessonController extends Controller
 
     public function actionIndex($id, $idCourse=0, $page = 1)
     {
+        //var_dump($_GET);die();
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
@@ -289,6 +290,7 @@ class LessonController extends Controller
 
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
+
     public function actionNextLecture($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
@@ -320,6 +322,7 @@ class LessonController extends Controller
 
     public function actionShowPagesList($id, $idCourse)
     {
+
         $idModule = Lecture::model()->findByPk($id)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
             return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse));
@@ -355,7 +358,6 @@ class LessonController extends Controller
 
     public function actionAddNewPage($lecture, $page)
     {
-
         LecturePage::reorderLecturePagesDown($lecture, $page + 1);
         LecturePage::addNewPage($lecture, $page + 1);
 
@@ -433,8 +435,10 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($page, $idCourse){
-        $textList = LecturePage::getBlocksListById($page);
+    public function actionEditPage($id, $page, $idCourse){
+        $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+
+        $textList = LecturePage::getBlocksListById($pageModel->id);
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
@@ -446,9 +450,8 @@ class LessonController extends Controller
                 'pageSize' => '200',
             )
         );
-        $pageModel = LecturePage::model()->findByPk($page);
 
-        $lecture = Lecture::model()->findByPk($pageModel->id_lecture);
+        $lecture = Lecture::model()->findByPk($id);
 
         $this->render('/editor/index', array(
                 'user' => Yii::app()->user->getId(),
