@@ -12,7 +12,7 @@
                 array(
                     'update' => '#timetablecontent'
                 ),
-                array('class'=>'unselectedTab', 'onclick'=>'selectTab(this)')
+                array('class'=>'unselectedTab selectedTab', 'onclick'=>'selectTab(this)')
             );
             ?>
         </td>
@@ -79,7 +79,7 @@
     </tr>
 </table>
 <div class="consult" id="timetablecontent">
-    <div style="display: none">
+    <div>
         <?php $this->renderPartial('_timetableprovider', array('dataProvider' => $dataProvider, 'userId' => $user->id)); ?>
     </div>
 </div>
