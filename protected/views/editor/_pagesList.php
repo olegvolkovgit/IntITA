@@ -7,7 +7,7 @@
  */
 $pagesList = LectureHelper::getPagesList($idLecture);
 $module = LectureHelper::getModuleByLecture($idLecture);
-$this->setPageTitle('IntITA');
+$this->setPageTitle('INTITA');
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",

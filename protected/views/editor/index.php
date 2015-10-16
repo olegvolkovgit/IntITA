@@ -3,7 +3,7 @@
 /* @var $page LecturePage */
 /* @var $lectureElement LectureElement */
 $module = LectureHelper::getModuleByLecture($page->id_lecture);
-$this->setPageTitle('IntITA');
+$this->setPageTitle('INTITA');
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
@@ -155,5 +155,6 @@ if($page->video == null) {?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
 
