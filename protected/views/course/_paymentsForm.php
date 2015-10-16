@@ -27,20 +27,20 @@ $price = Course::getCoursePrice($model->course_ID);
                                                 value="1"><span><?php echo CourseHelper::getCoursePrice(
                         StaticFilesHelper::createPath('image', 'course', 'wallet.png'),
                         StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'),
-                        CourseHelper::getSummaBySchemaNum($model->course_ID, 1), 30) ?></span>
+                        CourseHelper::getSummaWholeCourse($model->course_ID), 30) ?></span>
             </div>
             <div class="spoilerBody">
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="2"><span><?php echo CourseHelper::getCoursePricePayments(
                             StaticFilesHelper::createPath('image', 'course', 'coins.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkCoins.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 2), 2, 10); ?></span>
+                            CourseHelper::getSummaWholeCourse($model->course_ID), 2, 10); ?></span>
                 </div>
                 <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                     value="3"><span><?php echo CourseHelper::getCoursePricePayments(
                             StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 3), 4, 8) ?></span>
+                            CourseHelper::getSummaWholeCourse($model->course_ID), 4, 8) ?></span>
                 </div>
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="4"><span><?php echo CourseHelper::getCoursePriceMonths(
