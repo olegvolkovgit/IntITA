@@ -1,8 +1,3 @@
-<?php
-/*
- * @var TempPay $account
- * */
-?>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl();?>/scripts/jquery-1.8.3.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js');?>"></script>
@@ -21,9 +16,6 @@
 <br>
 <br>
 <br>
-
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
-
 <?php if (isset($_GET['nolayout']) && $_GET['nolayout'] == 'true') { ?>
     <script>
         $(window).load(
@@ -34,6 +26,7 @@
     </script>
 <?php } ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>
 
 
 

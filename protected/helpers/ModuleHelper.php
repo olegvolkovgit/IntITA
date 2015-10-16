@@ -8,6 +8,29 @@
 class ModuleHelper
 {
 
+    public static function translateLevelUa($module){
+        $level = Module::model()->findByPk($module)->level;
+        switch ($level){
+            case 'intern':
+                $level = 'стажер';
+                break;
+            case 'junior':
+                $level = 'початківець';
+                break;
+            case 'strong junior':
+                $level = 'сильний початківець';
+                break;
+            case 'middle':
+                $level = 'середній';
+                break;
+            case 'senior':
+                $level = 'високий';
+                break;
+        }
+        return $level;
+    }
+
+
     public static function getDiscountedPrice($price, $discount)
     {
         if ($discount == 0) {

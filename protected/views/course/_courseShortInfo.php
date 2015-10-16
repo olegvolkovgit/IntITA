@@ -44,7 +44,7 @@
         <div>
             <span id="demo">
                 <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
-                ?>'>Схема курса</a>
+                ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
