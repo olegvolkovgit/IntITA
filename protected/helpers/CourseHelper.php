@@ -196,7 +196,7 @@ class CourseHelper {
                         <tr><td>
                            <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.
             Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.
-            CourseHelper::getCreditCoursePrice($idCourse, $year).' '.Yii::t('courses', '0322').'</b></span></div>
+            round(CourseHelper::getCreditCoursePrice($idCourse, $year)).' '.Yii::t('courses', '0322').'</b></span></div>
                         </td></tr>
                     </table>
                 </td>
