@@ -53,25 +53,25 @@ $price = Course::getCoursePrice($model->course_ID);
                                                     value="5"><span><?php echo CourseHelper::getCoursePriceCredit(
                             StaticFilesHelper::createPath('image', 'course', 'percent.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 5), 2, $model->course_ID) ?></span>
+                            CourseHelper::getCreditCoursePrice($model->course_ID, 2), 2, $model->course_ID) ?></span>
                 </div>
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="6"><span><?php echo CourseHelper::getCoursePriceCredit(
                             StaticFilesHelper::createPath('image', 'course', 'percent.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 6), 3, $model->course_ID) ?></span>
+                            CourseHelper::getCreditCoursePrice($model->course_ID, 3), 3, $model->course_ID) ?></span>
                 </div>
                 <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                     value="7"><span><?php echo CourseHelper::getCoursePriceCredit(
                             StaticFilesHelper::createPath('image', 'course', 'percent.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 7), 4, $model->course_ID) ?></span>
+                            CourseHelper::getCreditCoursePrice($model->course_ID, 4), 4, $model->course_ID) ?></span>
                 </div>
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="8"><span><?php echo CourseHelper::getCoursePriceCredit(
                             StaticFilesHelper::createPath('image', 'course', 'percent.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkPercent.png'),
-                            CourseHelper::getSummaBySchemaNum($model->course_ID, 8), 5, $model->course_ID) ?></span>
+                            CourseHelper::getCreditCoursePrice($model->course_ID, 5), 5, $model->course_ID) ?></span>
                 </div>
             </div>
 

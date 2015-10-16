@@ -196,7 +196,7 @@ class CourseHelper {
                         <tr><td>
                            <div class="numbers"><span>'.$price.' '.Yii::t('courses', '0322').'/'.
             Yii::t('module', '0218').' х '.(12*$year).' '.Yii::t('course', '0324').' <b>= '.
-            CourseHelper::getSummaBySchemaNum($idCourse, 4, true).' '.Yii::t('courses', '0322').'</b></span></div>
+            CourseHelper::getCreditCoursePrice($idCourse, $year).' '.Yii::t('courses', '0322').'</b></span></div>
                         </td></tr>
                     </table>
                 </td>
@@ -305,7 +305,7 @@ class CourseHelper {
             $summa += (integer) Module::model()->findByPk($modules[$i]["id_module"])->module_price;
         }
         $toPaySumma = $summa * pow((1 + 0.3), $years);
-        return $summa;
+        return $toPaySumma;
     }
 
     //discount 30 percent - first pay schema
