@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
 </head>
 <?php $this->renderPartial('_account', array('account' => $account), false, true);?>
-    <br>
-    <br>
-    <?php if (!isset($_GET['nolayout'])){ ?>
+<br>
+<br>
+<?php if (!isset($_GET['nolayout'])){ ?>
     <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">
         <?php echo Yii::t('payment','0658');?>
     </button>
@@ -27,7 +27,3 @@
 <?php } ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>
-
-
-
-

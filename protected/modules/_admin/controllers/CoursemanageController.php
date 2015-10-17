@@ -195,6 +195,9 @@ class CoursemanageController extends AdminController
 
     public function actionSchema($idCourse){
         $modules = CourseModules::getCourseModulesSchema($idCourse);
+        if(count($modules) <= 0){
+            $this->render('schemaError');
+        }
         $tableCells = CourseModules::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
 

@@ -10,26 +10,8 @@ class ModuleHelper
 
     public static function translateLevelUa($module){
         $level = Module::model()->findByPk($module)->level;
-        switch ($level){
-            case 'intern':
-                $level = 'стажер';
-                break;
-            case 'junior':
-                $level = 'початківець';
-                break;
-            case 'strong junior':
-                $level = 'сильний початківець';
-                break;
-            case 'middle':
-                $level = 'середній';
-                break;
-            case 'senior':
-                $level = 'високий';
-                break;
-        }
-        return $level;
+        return CommonHelper::translateLevelUa($level);
     }
-
 
     public static function getDiscountedPrice($price, $discount)
     {
@@ -64,7 +46,6 @@ class ModuleHelper
                 $moduleTitle = Module::model()->findByPk($id)->title_ua;
             }
             return $moduleTitle;
-
     }
 
     public static function getModuleOrder($id)
@@ -103,8 +84,6 @@ class ModuleHelper
             return $result;
         }
     }
-
-
 
     public static function getModuleTitleParam()
     {

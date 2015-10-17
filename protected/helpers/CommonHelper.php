@@ -9,10 +9,7 @@
 class CommonHelper {
 
     public static function getDollarExchangeRate(){
-
-
         $header = array("Accept: application/json");
-
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=3");
@@ -31,5 +28,26 @@ class CommonHelper {
         if ($arr != null)
             return $arr[2]->buy;
         else return 22;
+    }
+
+    public static function translateLevelUa($level){
+        switch ($level){
+            case 'intern':
+                $level = 'стажер';
+                break;
+            case 'junior':
+                $level = 'початківець';
+                break;
+            case 'strong junior':
+                $level = 'сильний початківець';
+                break;
+            case 'middle':
+                $level = 'середній';
+                break;
+            case 'senior':
+                $level = 'високий';
+                break;
+        }
+        return $level;
     }
 }

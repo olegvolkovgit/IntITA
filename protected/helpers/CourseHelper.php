@@ -35,24 +35,7 @@ class CourseHelper {
 
     public static function translateLevelUa($course){
         $level = Course::model()->findByPk($course)->level;
-        switch ($level){
-            case 'intern':
-                $level = 'стажер';
-                break;
-            case 'junior':
-                $level = 'початківець';
-                break;
-            case 'strong junior':
-                $level = 'сильний початківець';
-                break;
-            case 'middle':
-                $level = 'середній';
-                break;
-            case 'senior':
-                $level = 'високий';
-                break;
-        }
-        return $level;
+        return CommonHelper::translateLevelUa($level);
     }
 
     public static function getCourseRate($level){

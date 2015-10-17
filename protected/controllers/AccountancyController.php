@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of AccountancyController
- *
- * @author alterego4
- */
 class AccountancyController extends Controller
 {
     public function actionIndex($account, $nolayout = false)
