@@ -96,7 +96,7 @@ $price = Course::getCoursePrice($course);
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/IntITA/accountancy/newAccount",
+            url: "/accountancy/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -105,7 +105,7 @@ $price = Course::getCoursePrice($course);
             },
             cache: false,
             success: function(data){
-                location.href = '/IntITA/accountancy/index?account=' + data;
+                location.href = '/accountancy/index?account=' + data;
             }
         });
     }
