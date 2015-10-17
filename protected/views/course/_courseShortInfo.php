@@ -42,11 +42,13 @@
     </table>
     <div class="courseDetail">
         <div>
+            <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
                 <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>
+            <?php }?>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
             - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>

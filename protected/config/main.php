@@ -23,8 +23,8 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
-            'application.models.quiz.*',
             'application.models.accountancy.*',
+        //'application.controllers.accountancy.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
