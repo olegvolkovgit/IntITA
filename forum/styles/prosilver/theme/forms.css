@@ -84,11 +84,13 @@ fieldset dd {
 fieldset.fields1 dt {
 	width: 15em;
 	border-right-width: 0;
+	display: block;
 }
 
 fieldset.fields1 dd {
 	/*margin-left: 15em;*/
 	border-left-width: 0;
+	display: inline-block;
 }
 
 fieldset.fields1 div {
@@ -276,6 +278,19 @@ input.tiny	{ width: 150px; }
 textarea.inputbox {
     width: 85%;
     resize: none;
+}
+.fields1.column2 dd select{
+	width: 100px;
+}
+#sk, #sd{
+	width: 100px;
+}
+input#username{
+	display: block;
+	width: 197px;
+}
+#search_group_id{
+	width: 200px;
 }
 
 /*.autowidth {*/

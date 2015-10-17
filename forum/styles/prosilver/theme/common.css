@@ -718,7 +718,7 @@ table.info tbody th {
 .column1 {
 	float: left;
 	clear: left;
-	width: 49%;
+	/*width: 49%;*/
 }
 
 .column2 {
