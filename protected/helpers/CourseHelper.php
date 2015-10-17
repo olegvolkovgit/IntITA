@@ -134,8 +134,12 @@ class CourseHelper {
                     <table>
                         <tr><td><div style="color:#4b75a4">'.$number.' '.Yii::t('course', '0198').'</div></td></tr>
                         <tr><td>
-                            <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').'</span>&nbsp<span class="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".Yii::t('courses', '0322').'=</span><span> '.ModuleHelper::getDiscountedPrice($price, $discount)/$number.' '.Yii::t('courses', '0322').' x '.$number.' '.Yii::t('course', '0323').'</span></div>
-                            <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').'">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
+                            <div class="numbers"><span class="coursePriceStatus">'.$price." ".Yii::t('courses', '0322').
+            '</span>&nbsp<span class="coursePriceStatus2">'.ModuleHelper::getDiscountedPrice($price, $discount)." ".
+            Yii::t('courses', '0322').'=</span><span> '.round(ModuleHelper::getDiscountedPrice($price, $discount)/$number).
+            ' '.Yii::t('courses', '0322').' x '.$number.' '.Yii::t('course', '0323').'</span></div>
+                            <span id="discount"> <img style="text-align:right" src="'.StaticFilesHelper::createPath('image', 'course', 'pig.png').
+            '">('.Yii::t('courses', '0144').' - '.$discount.'%)</span>
                         </td></tr>
                     </table>
                 </td>

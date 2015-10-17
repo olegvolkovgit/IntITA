@@ -18,7 +18,7 @@ class ModuleHelper
         if ($discount == 0) {
             return $price;
         }
-        return round($price * (1 - $discount / 100), 2);
+        return round($price * (1 - $discount / 100));
     }
 
     public static function getTeacherModules($teacher, $modules)
