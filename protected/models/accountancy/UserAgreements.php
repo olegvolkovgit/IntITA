@@ -119,4 +119,8 @@ class UserAgreements extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function addNewAgreement(){
+
+    }
 }

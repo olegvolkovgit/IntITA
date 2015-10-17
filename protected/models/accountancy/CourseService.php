@@ -7,7 +7,7 @@
  * @property string $service_id
  * @property integer $course_id
  */
-class CourseService extends CActiveRecord
+class CourseService extends AbstractIntITAService
 {
 	/**
 	 * @return string the associated database table name
@@ -92,4 +92,27 @@ class CourseService extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function primaryKey() {
+        return 'course_id';
+    }
+
+    protected function beforeValidate()
+    {
+        $this->course = Course::model()->findByPk($this->course_id);
+        if(!isset($this->service))
+        {
+            $service = new Service;
+            $service->description = "Курс ".$this->course->title_ua." ";
+            $service->save();
+            $this->service = $service;
+            $this->service_id = $service->service_id;
+        }
+        return parent::beforeValidate();
+    }
+
+    public static function createCourseService($course_id)
+    {
+        return parent::createService(__CLASS__,'course_id',$course_id);
+    }
 }
