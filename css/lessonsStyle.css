@@ -75,14 +75,17 @@ span.spoilerClick:hover{
     margin-left: 44px;
 }
 span.spoilerClick {
-    text-decoration:underline;
     color:#4b75a4;
     font-size: 16px;
     font-weight: bold;
 }
-span.spoilerTriangle {
-    font-size: xx-small;
+div.spoilerTriangle {
+    display: inline-block;
+    font-size: x-small;
     color: #4b75a4;
+}
+span.spoilerTitle{
+    text-decoration:underline;
 }
 span.subChapter{
     color: #4b75a4;
@@ -541,7 +544,7 @@ div.lessonTest {
 #discussion {
     display: none;
     height: 150px;
-    margin: 7px 0 0 10px;
+    margin: 7px 0 0 15px;
     overflow: auto;
     padding: 3px 2px;
     border: solid 1px #335379;

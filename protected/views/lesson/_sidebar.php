@@ -107,6 +107,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                     src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skype.png'); ?>"></a>
         </div>
     </div>
+    <br>
     <span id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></span>
 
     <div id="discussion"></div>

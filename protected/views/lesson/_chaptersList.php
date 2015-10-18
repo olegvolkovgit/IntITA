@@ -7,7 +7,7 @@
  */
 ?>
 <?php if(!isset($editMode)) $editMode=1; ?>
-<span class="spoilerLinks" onclick="chapterSpoiler(this);"><span class="spoilerClick" ><?php echo LectureHelper::getLectureTitle($idLecture); ?><span class="spoilerTriangle" id="spoilerTriangle">&#9660;</span></span></span>
+<span class="spoilerLinks" onclick="chapterSpoiler(this);"><span class="spoilerClick" ><span class="spoilerTitle" ><?php echo LectureHelper::getLectureTitle($idLecture); ?></span><div class="spoilerTriangle" id="spoilerTriangle">&#9660;</div></span></span>
 <div class="spoilerBody" id="spoilerBody">
     <?php
 
