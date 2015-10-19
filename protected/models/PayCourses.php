@@ -207,7 +207,7 @@ class PayCourses extends CActiveRecord
         }
     }
 
-    public function getPaymentsCourses($idUser)
+    public static function getPaymentsCourses($idUser)
     {
         $coursesCriteria = new CDbCriteria;
         $coursesCriteria->alias = 'pay_courses';

@@ -592,7 +592,7 @@ class StudentReg extends CActiveRecord
         return CPasswordHelper::hashPassword($password);
     }
 
-    public function getDataProfile($idUser)
+    public static function getDataProfile($idUser)
     {
 
         if ($idUser !== Yii::app()->user->getId())
@@ -620,7 +620,7 @@ class StudentReg extends CActiveRecord
         return $dataProvider;
     }
 
-    public function getMarkProviderData($idUser)
+    public static function getMarkProviderData($idUser)
     {
         $markCriteria = new CDbCriteria;
         $markCriteria->alias = 'response';
