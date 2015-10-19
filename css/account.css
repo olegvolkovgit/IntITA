@@ -34,11 +34,8 @@ table#accountTable td {
 #count{
     margin-left: 370px;
 }
-#pdv{
-    margin-left: 350px;
-}
-#visaPlace{
-    margin-left: 95px;
+#accountContainer{
+    width:70%;
 }
 #printAccount {
     display: inline-block;

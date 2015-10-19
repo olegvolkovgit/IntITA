@@ -204,7 +204,7 @@ class Teacher extends CActiveRecord
             $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => $behaviorAve));
             $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => $motivationAve));
             $teacher->updateByPk($teacher->teacher_id, array('rating' => round(($knowledgeAve + $behaviorAve + $motivationAve) / 3)));
-        }else{
+        } else {
             $teacher->updateByPk($teacher->teacher_id, array('rate_knowledge' => 0));
             $teacher->updateByPk($teacher->teacher_id, array('rate_efficiency' => 0));
             $teacher->updateByPk($teacher->teacher_id, array('rate_relations' => 0));
@@ -305,25 +305,110 @@ class Teacher extends CActiveRecord
         $lecture = Lecture::model()->findByPk($lectureId);
         $teachersconsult = [];
 
-        $criteria= new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'consultant_modules';
         $criteria->select = 'consultant';
-        $criteria->addCondition('module='.$lecture->idModule);
+        $criteria->addCondition('module=' . $lecture->idModule);
         $temp = ConsultantModules::model()->findAll($criteria);
-        for($i = 0; $i < count($temp);$i++){
+        for ($i = 0; $i < count($temp); $i++) {
             array_push($teachersconsult, $temp[$i]->consultant);
         }
 
-        $criteriaData= new CDbCriteria;
+        $criteriaData = new CDbCriteria;
         $criteriaData->alias = 'teacher';
         $criteriaData->condition = 'isPrint = 1';
         $criteriaData->addInCondition('teacher_id', $teachersconsult, 'AND');
 
-        $dataProvider=new CActiveDataProvider('Teacher', array(
-            'criteria' =>$criteriaData,
-            'pagination'=>false,
+        $dataProvider = new CActiveDataProvider('Teacher', array(
+            'criteria' => $criteriaData,
+            'pagination' => false,
+        ));
+       //var_dump($dataProvider);
+        return $dataProvider;
+    }
+
+    public function addConsult($idteacher,$numcon,$date,$idlecture)
+    {
+        $calendar = new Consultationscalendar();
+
+            if (Consultationscalendar::consultationFree($idteacher, $numcon, $date)) {
+                $calendar->start_cons = substr($numcon, 0, 5);
+                $calendar->end_cons = substr($numcon, 6, 5);
+                $calendar->date_cons = $date;
+                $calendar->teacher_id = $idteacher;
+                $calendar->user_id = Yii::app()->request->getPost('userid');
+                $calendar->lecture_id = $idlecture;
+                $calendar->save();
+                $calendar = new Consultationscalendar();
+            }
+        }
+
+    public function getTeacherSchedule($teacher,$user,$tab)
+    {
+        switch ($tab) {
+            case '1':
+                $criteria = new CDbCriteria;
+                $criteria->alias = 'consultationscalendar';
+                if ($teacher)
+                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+                else
+                    $criteria->addCondition('user_id=' . $user);
+
+                $data = new CActiveDataProvider('Consultationscalendar', array(
+                    'criteria' => $criteria,
+                    'pagination' => array(
+                        'pageSize' => 100,
+                    ),
+                    'sort' => array(
+                        'defaultOrder' => 'date_cons DESC',
+                        'attributes' => array('date_cons'),
+                    ),
+                ));
+                break;
+            case '2':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '3':
+                $criteria = new CDbCriteria;
+                $criteria->alias = 'consultationscalendar';
+                if ($teacher)
+                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+                else
+                    $criteria->addCondition('user_id=' . $user);
+
+                $data = new CActiveDataProvider('Consultationscalendar', array(
+                    'criteria' => $criteria,
+                    'pagination' => array(
+                        'pageSize' => 100,
+                    ),
+                    'sort' => array(
+                        'defaultOrder' => 'date_cons DESC',
+                        'attributes' => array('date_cons'),
+                    ),
+                ));
+                break;
+            case '4':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+            case '5':
+                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
+                break;
+        }
+
+        return $data;
+    }
+
+    public function getTeacherAsPrint()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'teacher';
+        $criteria->order = 'rating DESC';
+        $criteria->condition = 'isPrint=1';
+        $dataProvider = new CActiveDataProvider('Teacher', array(
+            'criteria' => $criteria,
+            'Pagination' => false,
         ));
 
         return $dataProvider;
     }
-}
+    }

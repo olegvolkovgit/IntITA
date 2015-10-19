@@ -107,7 +107,7 @@ class Letters extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function getReceivedLettersData($idUser)
+    public static function getReceivedLettersData($idUser)
     {
         $receivedLettersCriteria = new CDbCriteria;
         $receivedLettersCriteria->alias = 'letters';
@@ -126,7 +126,7 @@ class Letters extends CActiveRecord
         return $receivedLettersProvider;
     }
 
-    public function getSentLettersData($idUser)
+    public static function getSentLettersData($idUser)
     {
         $sentLettersCriteria = new CDbCriteria;
         $sentLettersCriteria->alias = 'letters';

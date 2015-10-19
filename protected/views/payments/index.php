@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
 </head>
+<div id="accountContainer">
 <?php $this->renderPartial('_account', array('account' => $account), false, true);?>
+    <div>
 <br>
 <br>
 <?php if (!isset($_GET['nolayout'])){ ?>

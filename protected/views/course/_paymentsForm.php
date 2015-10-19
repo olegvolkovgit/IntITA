@@ -84,9 +84,14 @@ $price = Course::getCoursePrice($model->course_ID);
                 <div class="startCourse">
                     <?php
                     if(Yii::app()->user->isGuest) {
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'openSignIn();'));
+                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
+                            'onclick' => 'openSignIn();'));
                     } else{
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton", 'onclick' => 'redirectToProfile();'));
+                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
+                            'onclick' => 'redirectToProfile();',
+                            'submit' => array('studentreg/profile'),
+                            'params' => array('idUser' => Yii::app()->user->getId(), 'course' => $model->course_ID,
+                            'schema' => '5')));
                     }?>
                 </div>
             </div>

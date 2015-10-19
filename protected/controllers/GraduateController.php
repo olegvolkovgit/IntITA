@@ -162,18 +162,8 @@ class GraduateController extends Controller
     {
         $selector=$_GET['selector'];
 
-        $criteria= new CDbCriteria;
-        $criteria->alias = 'graduate';
-        if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
-        if ($selector == 'date') $criteria->order = 'graduate_date DESC';
-        if ($selector == 'rating') $criteria->order = 'rate DESC';
+        $dataProvider = Graduate::getGraduateBySelector($selector);
 
-        $dataProvider=new CActiveDataProvider('Graduate', array(
-            'criteria' => $criteria,
-            'pagination'=>array(
-                'pageSize'=>50,
-            ),
-        ));
         $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider), false, true);
     }
 }

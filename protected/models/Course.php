@@ -257,4 +257,32 @@ class Course extends CActiveRecord
         }
         return $summa;
     }
+
+    public static function getCoursesByLevel($selector)
+    {
+        $criteria = Course::getCriteriaBySelector($selector);
+        $dataProvider = new CActiveDataProvider('Course', array(
+            'criteria' => $criteria,
+            'Pagination'=>false,
+        ));
+
+        return $dataProvider;
+    }
+
+    public static function getCriteriaBySelector($selector)
+    {
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'course';
+        $criteria->order = 'rating DESC';
+        $criteria->condition = 'language="ua" and cancelled="0"';
+        if ($selector !== 'all'){
+            if ($selector == 'junior'){
+                $criteria->addInCondition('level', array('intern','strong junior','junior'));
+            } else {
+                $criteria->condition = 'level=:level and language="ua" and cancelled=0';
+                $criteria->params = array(':level'=>$selector);
+            }
+        }
+        return $criteria;
+    }
 }

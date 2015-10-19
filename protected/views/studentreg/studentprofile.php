@@ -1,9 +1,7 @@
-<!-- studprofile style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css');?>" />
-<!-- studprofile style -->
 <?php
 /* @var $this StudentregController */
-/* @var $post Studentprofile */
+/* @var $post StudentReg */
 /* @var $form CActiveForm */
 ?>
 <?php
@@ -37,7 +35,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <h1><?php echo $post->secondName;?></h1>
                     <div class="aboutInfo">
                         <p>
-                            <?php echo $post::getAdressYears($post->birthday,$post->address); ?>
+                            <?php $post::getAdressYears($post->birthday,$post->address); ?>
                         </p>
                     </div>
                     <div class="aboutInfo">
@@ -144,7 +142,12 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     ?>
                 </div>
                 <div id="finances">
-                    <?php $this->renderPartial('_finances', array('paymentsCourses'=>$paymentsCourses,'paymentsModules'=>$paymentsModules)); ?>
+                    <?php $this->renderPartial('_finances', array('paymentsCourses'=>$paymentsCourses,
+                        'paymentsModules'=>$paymentsModules,
+                        'course' => $course,
+                        'module' => $module,
+                        'schema' => $schema,
+                        )); ?>
                 </div>
             </div>
         </div>

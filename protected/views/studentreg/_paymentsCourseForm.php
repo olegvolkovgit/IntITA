@@ -3,6 +3,11 @@ $model = Course::model()->findByPk($course);
 $module = null;
 $price = Course::getCoursePrice($course);
 ?>
+<script>
+    $(document).ready(function(){
+        $(".tabs").lightTabs(<?php echo $schema;?>,'profile');
+    });
+</script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
@@ -84,10 +89,7 @@ $price = Course::getCoursePrice($course);
 <?php if ($model->course_price > 0){?>
         <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
             '<?php echo ($model != null)?$model->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php }else{
-    setcookie("idModule", '', 1, '/');
-    setcookie("idCourse", '', 1, '/');
-}?>
+<?php }?>
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
@@ -96,7 +98,7 @@ $price = Course::getCoursePrice($course);
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/accountancy/newAccount",
+            url: "/payments/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -105,7 +107,7 @@ $price = Course::getCoursePrice($course);
             },
             cache: false,
             success: function(data){
-                location.href = '/accountancy/index?account=' + data;
+                location.href = '/payments/index?account=' + data;
             }
         });
     }
