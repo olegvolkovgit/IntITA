@@ -104,7 +104,7 @@ class Modules extends CActiveRecord
         return $r;
     }
 
-    public function getPaymentsModules($idUser)
+    public static function getPaymentsModules($idUser)
     {
         $modulesCriteria = new CDbCriteria;
         $modulesCriteria->alias = 'pay_modules';

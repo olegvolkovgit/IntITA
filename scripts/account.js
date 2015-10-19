@@ -21,6 +21,7 @@ $(window).load(
 function sendData(account)
 {
     window.location.search = 'account=' + account + '&nolayout=true';
+    document.getElementById("accountContainer").style.width = "100%";
 }
 
 function toPhrase(summa) {

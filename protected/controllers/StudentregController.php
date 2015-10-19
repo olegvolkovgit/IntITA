@@ -211,8 +211,14 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser)
+    public function actionProfile($idUser=0)
     {
+        if ($idUser == 0){
+            $idUser = Yii::app()->request->getPost('idUser', '0');
+        }
+        $idCourse = Yii::app()->request->getPost('course', '0');
+        $idModule = Yii::app()->request->getPost('module', '0');
+        $schema = Yii::app()->request->getPost('schema', '1');
 
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser !== Yii::app()->user->getId())
@@ -316,6 +322,9 @@ class StudentRegController extends Controller
             'paymentsCourses' => $paymentsCourses,
             'paymentsModules' => $paymentsModules,
             'markProvider' => $markProvider,
+            'course' => $idCourse,
+            'schema' => $schema,
+            'module' => $idModule,
         ));
 
     }

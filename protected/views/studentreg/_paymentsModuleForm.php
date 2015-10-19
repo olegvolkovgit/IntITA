@@ -1,7 +1,6 @@
 <?php
-    $module = Module::model()->findByPk($_COOKIE['idModule']);
-    $idCourse = (isset($_COOKIE['idCourse']) && $_COOKIE['idCourse'] != '0')?$_COOKIE['idCourse']:0;
-    $price = ModuleHelper::getModuleSumma($module->module_ID, $idCourse);?>
+    $module = Module::model()->findByPk($module);
+     $price = ModuleHelper::getModuleSumma($module->module_ID, $idCourse);?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
@@ -15,7 +14,7 @@
     <?php
 
     if ($price == 0) echo Yii::t('courses', '0147').' '.
-        ModuleHelper::getModulePricePayment($module->module_ID, 0, $idCourse);
+        ModuleHelper::getModulePricePayment($module->module_ID, 0, $course);
     else {
 
         ?>
@@ -43,7 +42,7 @@
     function printAccount(user, module){
         $.ajax({
             type: "POST",
-            url: "/accountancy/newAccount",
+            url: "/IntITA/payments/newAccount",
             data: {
                 'user': user,
                 'module': module,
@@ -51,7 +50,7 @@
             },
             cache: false,
             success: function(data){
-                location.href = '/accountancy/index?account=' + data;
+                location.href = '/IntITA/payments/index?account=' + data;
             }
         });
     }

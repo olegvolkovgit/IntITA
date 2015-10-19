@@ -31,12 +31,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'about'); ?>
-		<?php echo $form->textField($model,'about'); ?>
-		<?php echo $form->error($model,'about'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'date'); ?>
 		<?php echo $form->textField($model,'date'); ?>
 		<?php echo $form->error($model,'date'); ?>
