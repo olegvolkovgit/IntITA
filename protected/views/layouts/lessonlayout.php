@@ -46,9 +46,6 @@
 
 <body style="overflow-y: scroll" itemscope itemtype="http://schema.org/Product">
 
-<div id="lessonHumMenu">
-    <?php $this->renderPartial('/site/_hamburgermenu'); ?>
-</div>
 <div id="contentBoxMain">
     <?php echo $content; ?>
     <!--SingIn modal-->

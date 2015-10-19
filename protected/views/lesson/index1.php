@@ -12,20 +12,6 @@
 
 $this->pageTitle = 'INTITA';
 if (!isset($idCourse)) $idCourse = 0;
-
-if ($idCourse != 0) {
-    $this->renderPartial('/site/_shareMetaTag', array(
-        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        'title' => ModuleHelper::getModuleName($lecture->idModule) . '. ' . Yii::t('sharing', '0643'),
-        'description' => Yii::t('sharing', '0644'),
-    ));
-} else {
-    $this->renderPartial('/site/_shareMetaTag', array(
-        'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])),
-        'title' => ModuleHelper::getModuleName($lecture->idModule) . '. ' . Yii::t('sharing', '0643'),
-        'description' => Yii::t('sharing', '0644'),
-    ));
-}
 ?>
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
@@ -56,6 +42,9 @@ if ($idCourse != 0) {
 $passedLecture = LectureHelper::isPassedLecture($passedPages);
 $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
+<div id="lessonHumMenu">
+    <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
+</div>
 <div class="lessonBlock" id="lessonBlock">
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
