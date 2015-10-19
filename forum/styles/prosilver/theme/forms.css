@@ -279,10 +279,7 @@ textarea.inputbox {
     width: 85%;
     resize: none;
 }
-.fields1.column2 dd select{
-	width: 100px;
-}
-#sk, #sd{
+.fields1.column2 dd select,.fields1.column2 dd input.medium{
 	width: 100px;
 }
 input#username{
