@@ -31,10 +31,7 @@
 <?php if ($price > 0){?>
 <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
     '<?php echo ($module != null)?$module->module_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php } else{
-    setcookie("idModule", '', 1, '/');
-    setcookie("idCourse", '', 1, '/');
-}?>
+<?php }?>
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
@@ -42,7 +39,7 @@
     function printAccount(user, module){
         $.ajax({
             type: "POST",
-            url: "/IntITA/payments/newAccount",
+            url: "/payments/newAccount",
             data: {
                 'user': user,
                 'module': module,
@@ -50,7 +47,7 @@
             },
             cache: false,
             success: function(data){
-                location.href = '/IntITA/payments/index?account=' + data;
+                location.href = '/payments/index?account=' + data;
             }
         });
     }
