@@ -6,8 +6,12 @@
  * The followings are the available columns in table 'acc_module_service':
  * @property string $service_id
  * @property integer $module_id
+ *
+ * The followings are the available model relations:
+ * @property Service $service
+ * @property Course $course
  */
-class ModuleService extends CActiveRecord
+class ModuleService extends AbstractIntITAService
 {
 	/**
 	 * @return string the associated database table name
@@ -24,14 +28,14 @@ class ModuleService extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('service_id, module_id', 'required'),
-			array('module_id', 'numerical', 'integerOnly'=>true),
-			array('service_id', 'length', 'max'=>10),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('service_id, module_id', 'safe', 'on'=>'search'),
-		);
+        return array(
+            array('service_id, module_id', 'required'),
+            array('module_id', 'numerical', 'integerOnly'=>true),
+            array('service_id', 'length', 'max'=>10),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('service_id, module_id', 'safe', 'on'=>'search'),
+        );
 	}
 
 	/**
@@ -41,8 +45,14 @@ class ModuleService extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+        return array(
+            array('service_id, course_id', 'required'),
+            array('course_id', 'numerical', 'integerOnly'=>true),
+            array('service_id', 'length', 'max'=>10),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('service_id, course_id', 'safe', 'on'=>'search'),
+        );
 	}
 
 	/**

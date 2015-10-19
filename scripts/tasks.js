@@ -79,7 +79,6 @@ function editTask() {
     var name = document.getElementById('name').value;
     condition = condition.trim();
     var editTask = {
-
         "task": 210,
         "lang": "c++",
         "operation": "edittask",

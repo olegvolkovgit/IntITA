@@ -7,8 +7,7 @@
 
 <div id="courseSchema">
 <br>
-<h3>Схема проходження курса
-    <?php echo CourseHelper::getCourseName($idCourse).", ".CourseHelper::getCourseLevel($idCourse);?></h3>
+<h3><?php echo Yii::t('course', '0663')." ".CourseHelper::getCourseName($idCourse).", ".CourseHelper::getCourseLevel($idCourse);?></h3>
 <br>
 <table id="schema">
     <tr>
