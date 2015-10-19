@@ -13,10 +13,12 @@
 	/*width: 140px;*/
 	/*height: 55px;*/
 	margin-top: 20px;
+	z-index: 4;
 }
 .aboutusslider .owl-wrapper-outer
 {
     margin-top: 0;
+	z-index: 0;
 }
 #slider
 {
