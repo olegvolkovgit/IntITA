@@ -289,4 +289,38 @@ class LectureElement extends CActiveRecord
         $command = Yii::app()->db->createCommand();
         $command->delete('lecture_element_lecture_page', 'element=:id', array(':id'=>$idBlock));
     }
+
+    public function addVideo($htmlBlock,$pageOrder,$lectureId)
+    {
+        $model = new LectureElement();
+
+        $model->id_lecture = $lectureId;
+        $model->block_order = 0;
+        $model->html_block = $htmlBlock;
+        $model->id_type = 2;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::getLastVideoId($model->id_lecture);
+
+        LecturePage::addVideo($pageId, $id["id_block"]);
+
+    }
+
+    public static function getLectureText($textList)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id_block', $textList);
+
+        $dataProvider = new CActiveDataProvider('LectureElement');
+        $dataProvider->criteria = $criteria;
+        $criteria->order = 'block_order ASC';
+        $dataProvider->setPagination(array(
+                'pageSize' => '200',
+            )
+        );
+
+        return $dataProvider;
+    }
+
 }

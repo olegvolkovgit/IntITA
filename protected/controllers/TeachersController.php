@@ -199,14 +199,8 @@ class TeachersController extends Controller
 
     private function renderIndex($teacherLetter)
     {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'teacher';
-        $criteria->order = 'rating DESC';
-        $criteria->condition = 'isPrint=1';
-        $dataProvider = new CActiveDataProvider('Teacher', array(
-            'criteria' => $criteria,
-            'Pagination' => false,
-        ));
+
+        $dataProvider = Teacher::getTeacherAsPrint();
         //var_dump($dataProvider);die;
         $teachers = Teacher::getAllTeachersId();
 

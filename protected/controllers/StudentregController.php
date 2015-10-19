@@ -218,92 +218,16 @@ class StudentRegController extends Controller
         if ($idUser !== Yii::app()->user->getId())
             throw new CHttpException(403, Yii::t('error', '0612'));
         $letter = new Letters();
-//        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
-//        $criteria = new CDbCriteria;
-//        $criteria->alias = 'consultationscalendar';
-//        if ($teacher)
-//            $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
-//        else
-//            $criteria->addCondition('user_id=' . $idUser);
-//
-//        $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
-//            'criteria' => $criteria,
-//            'pagination' => array(
-//                'pageSize' => 100,
-//            ),
-//            'sort' => array(
-//                'defaultOrder' => 'date_cons DESC',
-//                'attributes' => array('date_cons'),
-//            ),
-//        ));
 
         $dataProvider = StudentReg::getDataProfile($idUser);
 
-//        $sentLettersCriteria = new CDbCriteria;
-//        $sentLettersCriteria->alias = 'letters';
-//        $sentLettersCriteria->addCondition('sender_id=' . $idUser);
-//
-//        $sentLettersProvider = new CActiveDataProvider('Letters', array(
-//            'criteria' => $sentLettersCriteria,
-//            'pagination' => array(
-//                'pageSize' => 100,
-//            ),
-//            'sort' => array(
-//                'defaultOrder' => 'date DESC',
-//                'attributes' => array('date'),
-//            ),
-//        ));
-
         $sentLettersProvider = Letters::getSentLettersData($idUser);
-
-//        $receivedLettersCriteria = new CDbCriteria;
-//        $receivedLettersCriteria->alias = 'letters';
-//        $receivedLettersCriteria->addCondition('addressee_id=' . $idUser);
-//
-//        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
-//            'criteria' => $receivedLettersCriteria,
-//            'pagination' => array(
-//                'pageSize' => 100,
-//            ),
-//            'sort' => array(
-//                'defaultOrder' => 'date DESC',
-//                'attributes' => array('date'),
-//            ),
-//        ));
 
         $receivedLettersProvider = Letters::getReceivedLettersData($idUser);
 
-//        $coursesCriteria = new CDbCriteria;
-//        $coursesCriteria->alias = 'pay_courses';
-//        $coursesCriteria->addCondition('id_user=' . $idUser);
-//
-//        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
-//            'criteria' => $coursesCriteria,
-//            'pagination' => false,
-//        ));
-
         $paymentsCourses = PayCourses::getPaymentsCourses($idUser);
 
-//        $modulesCriteria = new CDbCriteria;
-//        $modulesCriteria->alias = 'pay_modules';
-//        $modulesCriteria->addCondition('id_user=' . $idUser);
-//
-//        $paymentsModules = new CActiveDataProvider('PayModules', array(
-//            'criteria' => $modulesCriteria,
-//            'pagination' => false,
-//        ));
-
         $paymentsModules = Modules::getPaymentsModules($idUser);
-
-//        $markCriteria = new CDbCriteria;
-//        $markCriteria->alias = 'response';
-//        $markCriteria->addCondition('who=' . $idUser);
-//        $markCriteria->addCondition('rate>0');
-//
-//        $markProvider = new CActiveDataProvider('Response', array(
-//            'criteria' => $markCriteria,
-//            'pagination' => false,
-//        ));
 
         $markProvider = StudentReg::getMarkProviderData($idUser);
 
@@ -373,22 +297,8 @@ class StudentRegController extends Controller
                 $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
                 $model->updateByPk($id, array('avatar' => $fileName));
             }
-            $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
-            $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
-            $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));
-            $model->updateByPk($id, array('birthday' => $_POST['StudentReg']['birthday']));
-            $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
-            $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
-            $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
-            $model->updateByPk($id, array('educform' => $_POST['StudentReg']['educform']));
-            $model->updateByPk($id, array('interests' => $_POST['StudentReg']['interests']));
-            $model->updateByPk($id, array('aboutUs' => $_POST['StudentReg']['aboutUs']));
-            $model->updateByPk($id, array('aboutMy' => $_POST['StudentReg']['aboutMy']));
-            $model->updateByPk($id, array('facebook' => $_POST['StudentReg']['facebook']));
-            $model->updateByPk($id, array('googleplus' => $_POST['StudentReg']['googleplus']));
-            $model->updateByPk($id, array('linkedin' => $_POST['StudentReg']['linkedin']));
-            $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
-            $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
+
+            $model->save();
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
@@ -438,55 +348,8 @@ class StudentRegController extends Controller
     {
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $user));
 
-        switch ($tab) {
-            case '1':
-                $criteria = new CDbCriteria;
-                $criteria->alias = 'consultationscalendar';
-                if ($teacher)
-                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
-                else
-                    $criteria->addCondition('user_id=' . $user);
+        $data = Teacher::getTeacherSchedule($teacher,$user,$tab);
 
-                $data = new CActiveDataProvider('Consultationscalendar', array(
-                    'criteria' => $criteria,
-                    'pagination' => array(
-                        'pageSize' => 100,
-                    ),
-                    'sort' => array(
-                        'defaultOrder' => 'date_cons DESC',
-                        'attributes' => array('date_cons'),
-                    ),
-                ));
-                break;
-            case '2':
-                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
-                break;
-            case '3':
-                $criteria = new CDbCriteria;
-                $criteria->alias = 'consultationscalendar';
-                if ($teacher)
-                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
-                else
-                    $criteria->addCondition('user_id=' . $user);
-
-                $data = new CActiveDataProvider('Consultationscalendar', array(
-                    'criteria' => $criteria,
-                    'pagination' => array(
-                        'pageSize' => 100,
-                    ),
-                    'sort' => array(
-                        'defaultOrder' => 'date_cons DESC',
-                        'attributes' => array('date_cons'),
-                    ),
-                ));
-                break;
-            case '4':
-                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
-                break;
-            case '5':
-                $data = new CActiveDataProvider('Consultationscalendar', array('data' => array()));
-                break;
-        }
         $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user));
     }
 }

@@ -14,7 +14,9 @@ class ShareController extends Controller{
             $shareLink = ShareLink::model()->findAll();
 
             $this->render('index',array('shareLink' => $shareLink));
-        } else {
+        }
+        else
+        {
             throw new CHttpException(403, 'У вас недостатньо прав для доступу до цієї сторінки');
         }
     }
