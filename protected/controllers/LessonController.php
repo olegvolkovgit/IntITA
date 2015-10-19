@@ -70,16 +70,7 @@ class LessonController extends Controller
 
         $textList = LecturePage::getBlocksListById($page->id);
 
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('id_block', $textList);
-
-        $dataProvider = new CActiveDataProvider('LectureElement');
-        $dataProvider->criteria = $criteria;
-        $criteria->order = 'block_order ASC';
-        $dataProvider->setPagination(array(
-                'pageSize' => '200',
-            )
-        );
+        $dataProvider = LectureElement::getLectureText($textList);
 
         $teacherId = Teacher::getLectureTeacher($id);
 
@@ -135,21 +126,25 @@ class LessonController extends Controller
 
     public function actionAddVideo()
     {
-        $model = new LectureElement();
-
         $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
         $pageOrder = Yii::app()->request->getPost('page');
-
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = 0;
-        $model->html_block = $htmlBlock;
-        $model->id_type = 2;
-        $model->save();
-
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::getLastVideoId($model->id_lecture);
-
-        LecturePage::addVideo($pageId, $id["id_block"]);
+        $lectureId = Yii::app()->request->getPost('idLecture');
+        LectureElement::addVideo($htmlBlock,$pageOrder,$lectureId);
+//        $model = new LectureElement();
+//
+//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+//        $pageOrder = Yii::app()->request->getPost('page');
+//
+//        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+//        $model->block_order = 0;
+//        $model->html_block = $htmlBlock;
+//        $model->id_type = 2;
+//        $model->save();
+//
+//        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+//        $id = LectureElement::getLastVideoId($model->id_lecture);
+//
+//        LecturePage::addVideo($pageId, $id["id_block"]);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }

@@ -130,4 +130,22 @@ class Graduate extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getGraduateBySelector($selector)
+    {
+        $criteria= new CDbCriteria;
+        $criteria->alias = 'graduate';
+        if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
+        if ($selector == 'date') $criteria->order = 'graduate_date DESC';
+        if ($selector == 'rating') $criteria->order = 'rate DESC';
+
+        $dataProvider=new CActiveDataProvider('Graduate', array(
+            'criteria' => $criteria,
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
+        ));
+
+        return $dataProvider;
+    }
 }
