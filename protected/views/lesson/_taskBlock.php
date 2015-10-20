@@ -11,7 +11,7 @@
             <?php echo $data['html_block'];?>
             </div>
             <form class="sendAnswer" id="sendAnswer">
-                <textarea name="code" id="code<?php echo $data['block_order'];?>"></textarea>
+                <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
 
             <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>

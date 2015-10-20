@@ -190,7 +190,7 @@ span.colorGreen {
     display: inline-block;
     /*float:right;*/
     width: 92%;
-    font-size: 16px;
+    font-size: 20px;
     margin: 20px 0 0 30px;
 }
 .instructionText {
@@ -216,9 +216,14 @@ span.colorAlert {
     background-color: #ff560c;
     color:#ffffff;
 }
-div.lessonInstr,div.lessonTask {
+div.lessonInstr{
     position: relative;
     margin-top: 20px;
+    margin-bottom: 40px;
+}
+div.lessonTask {
+    position: relative;
+    margin-top: -2px;
     margin-bottom: 40px;
 }
 img.lessonBut  {
