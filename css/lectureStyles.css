@@ -1,5 +1,12 @@
 /* stylesheet for lesson top */
-
+.lessonBlock a, #lessonHumMenu a,.lessonBlock button,
+.lessonBlock input[type="submit"], #lessonHumMenu button,
+#lessonHumMenu input[type="submit"]{
+    outline: none;
+}
+#lessonBlock a:hover{
+    color: #666666;
+}
 .lectureMainBlock {
     border-bottom: solid 2px #DCDCDC;
     width: 1200px;

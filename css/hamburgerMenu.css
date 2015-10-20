@@ -64,6 +64,10 @@
     padding-left: 8px;
     padding-right: 8px;
 }
+#hambMenu .humblang a:hover
+{
+    color: #666666;
+}
 #hambMenu .humblang a:first-child
 {
     border-left:none;
