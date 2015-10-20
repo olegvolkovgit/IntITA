@@ -92,7 +92,12 @@ $price = Course::getCoursePrice($course);
 <?php }?>
 <script>
     $(function() {
-        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+        schema = $.cookie('courseSchema');
+        if (schema > 0){
+            $('input:radio[name="payment"]').filter('[value="'+schema+'"]').attr('checked', true);
+        } else {
+            $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+        }
     });
     function printAccount(user,course){
         var summaNum = $("input[name='payment']:checked").val();

@@ -43,7 +43,7 @@
         <div>
             <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
-                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                <a href='<?php echo StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>
@@ -64,6 +64,8 @@
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
     function redirectToProfile(){
+        schema = $('input:radio[name="payment"]:checked').val();
+        $.cookie('courseSchema', schema, {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
     }
 </script>
