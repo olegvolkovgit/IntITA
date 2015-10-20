@@ -30,6 +30,8 @@
  * The followings are the available model relations:
  * @property Modules[] $modules
  */
+
+
 class Course extends CActiveRecord
 {
 	const MAX_LEVEL = 5;
@@ -76,7 +78,8 @@ class Course extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'modules' => array(self::HAS_MANY, 'Modules', 'course'),
+			'modules' => array(self::HAS_MANY, 'Modules' , 'course'),
+            'module' => array(self::MANY_MANY, 'Module' ,'course_modules(id_course,id_module)')
 		);
 	}
 

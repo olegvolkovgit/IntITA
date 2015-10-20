@@ -272,4 +272,9 @@ class CourseModules extends CActiveRecord
         }
         return max($arr) + 1;
     }
+
+    public static function getCourseByModule($moduleId)
+    {
+
+    }
 }

@@ -68,10 +68,10 @@ class CoursemanageController extends AdminController
                 }
             }
 
-            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
-            $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
-            $model->attributes=$_POST['Course'];
-            $model->logo=$_FILES['Course'];
+            $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+            $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            $model->attributes = $_POST['Course'];
+            $model->logo = $_FILES['Course'];
             if($model->save())
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
