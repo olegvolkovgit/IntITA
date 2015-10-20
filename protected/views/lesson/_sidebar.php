@@ -118,3 +118,9 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
     <?php } ?>
 </div>
 <!--navigation vertical-->
+<script>
+    $("#send-message").click(function (e) {
+        var mibewMessage=$('[name="message"]');
+        mibewMessage.val($.trim(mibewMessage.val()));
+    });
+</script>

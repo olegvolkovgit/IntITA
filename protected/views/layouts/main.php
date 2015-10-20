@@ -2,8 +2,22 @@
 $header = new Header();
 ?>
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#">
+<html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
 <head>
+    <!--[if lte IE 8]>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-switch');
+        document.createElement('ng-if');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+
+        // needed to enable CSS reference
+        document.createElement('ng:view');
+    </script>
+    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -16,6 +30,8 @@ $header = new Header();
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/controllers.js'); ?>"></script>
     <!-- fonts -->
     <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
     <!-- fonts -->
@@ -30,9 +46,6 @@ $header = new Header();
     <!-- passEye, jQuery -->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
-    <!-- trimEmail-->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
-    <!-- trimEmail -->
     <!-- Placeholder for old browser -->
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
     <!-- Placeholder for old browser -->
@@ -266,6 +279,9 @@ $header = new Header();
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/hamburgermenu.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/goToTop.js"></script>
+<!-- trimEmail-->
+<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+<!-- trimEmail -->
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
 </div>

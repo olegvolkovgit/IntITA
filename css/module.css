@@ -189,7 +189,10 @@ img.mask{
     text-decoration: none;
     display: inline-block;
 }
-
+#submitButton:hover, #cancelButton:hover{
+    background: #454545;
+    cursor: pointer;
+}
 .controlButtons{
     width: 20px;
     height: 20px;
@@ -375,3 +378,18 @@ td.button-column{
     word-wrap: break-word;
     white-space: normal;
 }
+/*addlesson validation*/
+#addLessonForm input.ng-invalid.ng-dirty, #addLessonForm input.ng-invalid.ng-dirty:focus{
+    box-shadow: 0 0 4px #c72929;
+    border:1px solid #c72929;
+}
+
+#addLessonForm .clientValidationError{
+    margin-left: 215px;
+    color: red;
+    font-size: 0.9em;
+}
+#addLessonForm input[type="submit"][disabled]{
+    background: #666666;
+}
+/*addlesson validation*/

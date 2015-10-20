@@ -45,7 +45,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
             'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
-        'htmlOptions' => array('enctype' => 'multipart/form-data'),
+        'htmlOptions' => array('enctype' => 'multipart/form-data', 'name'=>'profileForm', 'ng-controller'=>"validationController", 'novalidate'=>true),
     )); ?>
     <div class="studProf">
         <table class="titleProfile">
@@ -69,13 +69,19 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <div id="mainreg">
                     <div class="row">
                         <?php echo $form->label($model, 'firstName'); ?>
-                        <?php echo $form->textField($model, 'firstName', array('value' => $post->firstName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'))); ?>
+                        <?php echo $form->textField($model, 'firstName', array('ng-init'=>"firstName='$post->firstName'" , 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'),'ng-model'=>"firstName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
+                        <div class="clientValidationError" ng-show="profileForm['StudentReg[firstName]'].$invalid">
+                            <span ng-cloak ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                        </div>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'secondName'); ?>
-                        <?php echo $form->textField($model, 'secondName', array('value' => $post->secondName, 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'))); ?>
+                        <?php echo $form->textField($model, 'secondName', array('ng-init'=>"secondName='$post->secondName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'),'ng-model'=>"secondName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
+                        <div class="clientValidationError" ng-show="profileForm['StudentReg[secondName]'].$invalid">
+                            <span ng-cloak ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                        </div>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'nickname'); ?>
@@ -115,15 +121,16 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                         ?>
                         <div class="rowPass">
                             <?php echo $form->label($model, 'password'); ?>
-                            <span
-                                class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20)); ?></span>
+                            <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, 'ng-model'=>"pw1")); ?></span>
                             <?php echo $form->error($model, 'password'); ?>
                         </div>
                         <div class="row">
                             <?php echo $form->label($model, 'password_repeat'); ?>
-                            <span
-                                class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20)); ?></span>
+                            <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model'=>"pw2", 'pw-check'=>"pw1")); ?></span>
                             <?php echo $form->error($model, 'password_repeat'); ?>
+                            <div class="clientValidationError" ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
+                                <span ng-cloak ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
+                            </div>
                         </div>
                     <?php } ?>
                 </div>
@@ -188,11 +195,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
         ?>
         <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id' => 'changepassword', 'onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()')); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()', 'ng-disabled'=>'profileForm.$invalid')); ?>
         </div>
-        <?php if (Yii::app()->user->hasFlash('message')):
-            echo Yii::app()->user->getFlash('message');
-        endif; ?>
     </div>
     <div class="rightProfileColumn">
         <div class="studPhoto">

@@ -18,8 +18,11 @@ html, body {
     font-family: "MyriadPro";
     box-sizing: border-box;
 }
-input[type="submit"]{
+a, button, input[type="submit"]{
     outline: none;
+}
+a:hover{
+    color: #666666;
 }
 #main-wrapper {
     box-sizing: border-box;

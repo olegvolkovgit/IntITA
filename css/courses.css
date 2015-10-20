@@ -289,6 +289,9 @@ a#coursesLangs {
 #coursesMainBox .bgBlue table td{
    vertical-align: middle;
 }
+#coursesMainBox a:hover{
+    color: #666666;
+}
 .bgBlue{
     background-color:#4B75A4;
     color: #ffffff;

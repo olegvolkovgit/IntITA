@@ -242,6 +242,9 @@ a#registration{
     float: right;
     font-size: 16px;
 }
+a#forgotPass:hover, a#registration:hover{
+    color: #666666;
+}
 input[type="submit"]#signInButtonM    {
      width:195px;
      height:52px;
@@ -276,7 +279,7 @@ select.error
     float:left;
     margin: 10px 0 5px 30px;
     color: #c72929;
-    font-size: 14px;
+    font-size: 16px;
     font-family: "MyriadPro";
 }
 .signInForm .errorMessage {
@@ -285,7 +288,7 @@ select.error
     margin: 10px 0 5px 45px;
     color: #c72929;
     font-size: 16px;
-    font:"MyriadPro";
+    font-family:"MyriadPro";
 }
 #studentreg-form{
     padding-bottom: 30px;
@@ -305,7 +308,7 @@ select.error
     margin: 0 0 5px 45px;
     color: #c72929;
     font-size: 16px;
-    font:"MyriadPro";
+    font-family:"MyriadPro";
 }/* PassEye */
 
  /*Slider Registration Form */
@@ -354,3 +357,37 @@ select.error
 #recovery-form .errorMessage, #resetemail-form .errorMessage{
     margin-bottom: 0;
 }
+/*validation regForm css*/
+input:focus {
+    outline: none;
+}
+input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus{
+    box-shadow: 0 0 4px #c72929;
+    border:1px solid #c72929;
+}
+.clientValidationError{
+    color: #c72929;
+    font-size: 16px;
+    font-family: "MyriadPro";
+}
+.studProf .clientValidationError, .formStudProf .clientValidationError{
+    margin-left: 215px;
+}
+input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton {
+    background: #666666;
+}
+
+#studentreg-form .clientValidationError{
+    text-align: left;
+    margin-left: 45px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.signIn .clientValidationError{
+    text-align: left;
+    margin-left: 30px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/*validation form css*/

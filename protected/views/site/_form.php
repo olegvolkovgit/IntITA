@@ -18,34 +18,37 @@
                 'enableClientValidation'=>true,
                 'enableAjaxValidation'=>true,
                 'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
+				'htmlOptions' => array('name'=>'rapidReg','novalidate'=>true),
             )); ?>
 			<div class="rowemail">
 				<?php $placeHolderEmail = Yii::t('regform','0014');?>
-				<?php echo $form->textField($model,'email',array('class'=>'signInEmail','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40)); ?>
+				<?php echo $form->emailField($model,'email',array('class'=>'signInEmail','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40,'ng-model'=>"email", "ng-required"=> "true && !regChecked", 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
 				<?php echo $form->error($model,'email',array('id'=>'emailErr')); ?>
+				<div class="clientValidationError" ng-show="rapidReg['StudentReg[email]'].$dirty && rapidReg['StudentReg[email]'].$invalid">
+					<span ng-cloak ng-show="rapidReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+					<span ng-cloak ng-show="rapidReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
+					<span ng-cloak ng-show="rapidReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
+				</div>
 			</div>
 
 			<div class="rowpass">
 				<?php $placeHolderPassword = Yii::t('regform','0015');?>
-				<span class="passEye"> <?php echo $form->passwordField($model,'password',array('class'=>'signInPass','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
+				<span class="passEye"> <?php echo $form->passwordField($model,'password',array('class'=>'signInPass','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20,'ng-model'=>"rapidRegPass", "ng-required"=>"true && !regChecked" )); ?></span>
 				<?php echo $form->error($model,'password',array('id'=>'passErr')); ?>
-                <div class="forminfo">
-                    <?php if(Yii::app()->user->hasFlash('forminfo')):
-                        echo Yii::app()->user->getFlash('forminfo');
-                    endif; ?>
-                </div>
+				<div class="clientValidationError" ng-show="rapidReg['StudentReg[password]'].$dirty && rapidReg['StudentReg[password]'].$invalid">
+					<span ng-cloak ng-show="rapidReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+				</div>
 			</div>
 
             <div class="regCheckboxW">
                 <div class="regCheckbox">
-                    <input type="checkbox" id="regCheckbox" value="" name="isExtended" />
+                    <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
                     <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
                 </div>
             </div>
-
 			<div class="rowButtons">
 				<?php $labelButton = MainpageHelper::getButtonStart();?>
-				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'onclick' => 'trimUpEmail()')); ?>
+				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'ng-disabled'=>'rapidReg["StudentReg[password]"].$dirty && rapidReg.$invalid')); ?>
 			</div>
 
 			<div class="linesignInForm"><?php echo MainpageHelper::getSocialText(); ?></div>

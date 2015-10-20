@@ -5,27 +5,32 @@
 $qForm = new StudentReg;
 
 $form = $this->beginWidget('CActiveForm', array(
-'id' => 'quick-form',
-'enableClientValidation' => true,
-'enableAjaxValidation'=>true,
-'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
-'action' => array('site/login'),
+    'id' => 'quick-form',
+    'enableClientValidation' => true,
+    'enableAjaxValidation'=>true,
+    'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
+    'action' => array('site/login'),
+    'htmlOptions' => array('name'=>'signIn','novalidate'=>true),
 ));
 ?>
 <div class="signIn">
     <div class="rowemail">
         <?php $placeHolderEmail = Yii::t('regform','0014');?>
-        <?php echo $form->textField($qForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40)); ?>
-        <span><?php echo $form->error($qForm,'email'); ?></span>
+        <?php echo $form->emailField($qForm,'email',array('class'=>'signInEmailM','placeholder'=>$placeHolderEmail,'size'=>60,'maxlength'=>40, 'onKeyUp'=>"hideSignServerValidationMes(this)", 'ng-model'=>"dialogEmail", "ng-required"=> "true")); ?>
+        <?php echo $form->error($qForm,'email'); ?>
+        <div class="clientValidationError" ng-show="signIn['StudentReg[email]'].$dirty && signIn['StudentReg[email]'].$invalid">
+            <span ng-cloak ng-show="signIn['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+            <span ng-cloak ng-show="signIn['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
+            <span ng-cloak ng-show="signIn['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
+        </div>
     </div>
 
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regform','0015');?>
-        <span class="passEye"> <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
-        <span><?php echo $form->error($qForm,'password'); ?></span>
-        <?php if(Yii::app()->user->hasFlash('info')):
-            echo Yii::app()->user->getFlash('info');
-        endif; ?>
+        <span class="passEye">
+            <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20, 'onKeyUp'=>"hideSignServerValidationMes(this)")); ?>
+        </span>
+        <?php echo $form->error($qForm,'password'); ?>
     </div>
 
         <div class="forgotPass">
@@ -34,7 +39,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
     <?php $labelButton = Yii::t('regform',Yii::t('regform','0093'));?>
-    <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'onclick' => 'trimInEmail()')); ?>
+    <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled'=>'signIn.$invalid')); ?>
 
 
     <div class="linesignInForm"><?php echo Yii::t('regform','0091'); ?></div>

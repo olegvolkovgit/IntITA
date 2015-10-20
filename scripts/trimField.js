@@ -54,3 +54,17 @@ function trimLetterEmail() {
     letA.val($.trim(letA.val()));
     $("div#letterFlash").hide();
 }
+function hideServerValidationMes(el) {
+    if($(el).next('.errorMessage').is(":visible"))
+        $(el).next('.errorMessage').hide();
+}
+function hidePassServerValidationMes(el) {
+    if($(el).parent().next('.errorMessage').is(":visible"))
+        $(el).parent().next('.errorMessage').hide();
+}
+function hideSignServerValidationMes(el) {
+    if($(el).next('.errorMessage').is(":visible"))
+        $(el).next('.errorMessage').hide();
+    if($('#mydialog #StudentReg_password_em_').is(":visible"))
+        $('#mydialog #StudentReg_password_em_').hide();
+}
