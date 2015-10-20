@@ -28,9 +28,12 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regform','0015');?>
         <span class="passEye">
-            <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20, 'onKeyUp'=>"hideSignServerValidationMes(this)")); ?>
+            <?php echo $form->passwordField($qForm,'password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20, 'onKeyUp'=>"hideSignServerValidationMes(this)", 'ng-model'=>"dialogPass", "ng-required"=> "true")); ?>
         </span>
         <?php echo $form->error($qForm,'password'); ?>
+        <div class="clientValidationError" ng-show="signIn['StudentReg[password]'].$dirty && signIn['StudentReg[password]'].$invalid">
+            <span ng-cloak ng-show="signIn['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+        </div>
     </div>
 
         <div class="forgotPass">
