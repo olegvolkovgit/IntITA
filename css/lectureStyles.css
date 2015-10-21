@@ -642,8 +642,9 @@ a.lectureDisabled{
 }
 #counter a{
     display: inline-block;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
+    margin: 0 1px;
     vertical-align: middle;
 }
 #sidebarLesson .spoilerBody a.pageAccess{
