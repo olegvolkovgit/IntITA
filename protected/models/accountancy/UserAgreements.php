@@ -14,6 +14,7 @@
  * @property string $cancel_date
  * @property string $close_date
  * @property string $payment_scheme
+ * @property string $number
  *
  * @property Service $service
  */
@@ -38,9 +39,10 @@ class UserAgreements extends CActiveRecord
 			array('user_id, service_id, create_date, payment_scheme', 'required'),
 			array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly'=>true),
 			array('service_id, payment_scheme', 'length', 'max'=>10),
+            array('number', 'length', 'max'=>50),
 			array('approval_date, cancel_date, close_date', 'safe'),
 			// The following rule is used by search().
-			array('id, user_id, service_id, create_date, approval_user, approval_date, cancel_user, cancel_date, close_date, payment_scheme', 'safe', 'on'=>'search'),
+			array('id, user_id, service_id, number, create_date, approval_user, approval_date, cancel_user, cancel_date, close_date, payment_scheme', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,16 +64,17 @@ class UserAgreements extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-            'id' => 'User account',
-            'user_id' => 'User which have agreement',
-            'service_id' => 'Service for this agreement',
-            'create_date' => 'Create Date',
-            'approval_user' => 'user who underscribe agreement',
-            'approval_date' => 'date when agreement was approved',
-            'cancel_user' => 'Is agreement cancelled',
-            'cancel_date' => 'date when agreement was cancelled',
-            'close_date' => 'Date when agreement should be closed',
-            'payment_scheme' => 'Payment scheme',
+            'id' => 'ID договору',//'User account',
+            'user_id' => 'Користувач',//'User which have agreement',
+            'service_id' => 'Сервіс',//'Service for this agreement',
+            'create_date' => 'Дата створення',//'Create Date',
+            'approval_user' => 'Підтверджено користувачем',//'user who underscribe agreement',
+            'approval_date' => 'Дата заведення',//'date when agreement was approved',
+            'cancel_user' => 'Закрив договір',//'Is agreement cancelled',
+            'cancel_date' => 'Дата відміни',//'date when agreement was cancelled',
+            'close_date' => 'Дата закриття',//'Date when agreement should be closed',
+            'payment_scheme' => 'Схема оплати',//'Payment scheme',
+            'number'=> 'Номер',
 		);
 	}
 
@@ -100,6 +103,7 @@ class UserAgreements extends CActiveRecord
 		$criteria->compare('approval_user',$this->approval_user);
 		$criteria->compare('approval_date',$this->approval_date,true);
 		$criteria->compare('cancel_user',$this->cancel_user);
+        $criteria->compare('number',$this->number);
 		$criteria->compare('cancel_date',$this->cancel_date,true);
 		$criteria->compare('close_date',$this->close_date,true);
 		$criteria->compare('payment_scheme',$this->payment_scheme,true);
@@ -120,7 +124,13 @@ class UserAgreements extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function addNewAgreement(){
+    public function addNewAgreement($user, $type, $id, $schema){
+        $model = new UserAgreements();
 
+        $model->user_id = $user;
+        $model->payment_scheme = $schema;
+        $model->service_id = Service::getService($type, $id);
+
+        $model->save();
     }
 }

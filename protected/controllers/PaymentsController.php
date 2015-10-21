@@ -32,6 +32,8 @@ class PaymentsController extends Controller
         }
         $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
 
+        $userAgreement = UserAgreements::addAgreement($user, $type, $id);
+
         echo (isset($accountId))?$accountId:'0';
     }
 }

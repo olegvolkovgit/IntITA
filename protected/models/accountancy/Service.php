@@ -101,4 +101,8 @@ class Service extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getService($type, $id){
+        return 1;
+    }
 }
