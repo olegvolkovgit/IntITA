@@ -6,9 +6,7 @@
  * Time: 18:12
  */
 ?>
-<?php
-    if(!isset($editMode)) $editMode=1;
-?>
+<?php if(!isset($editMode)) $editMode=1; ?>
 <span class="spoilerLinks" onclick="chapterSpoiler(this);"><span class="spoilerClick" ><span class="spoilerTitle" ><?php echo LectureHelper::getLectureTitle($idLecture); ?></span><div class="spoilerTriangle" id="spoilerTriangle">(<span><?php echo Yii::t('lecture', '0080') ?></span><span id='trg'>&#9660;</span>)</div></span></span>
 <div class="spoilerBody" id="spoilerBody">
     <?php
