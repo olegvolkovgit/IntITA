@@ -31,6 +31,8 @@ if($idCourse != 0) {
 <!--[if lte IE 7]>
 <link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
 <![endif]-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
 <div id="lecturePage">

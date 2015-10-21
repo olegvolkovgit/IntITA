@@ -82,7 +82,7 @@ fieldset dd {
 
 /* Specific layout 1 */
 fieldset.fields1 dt {
-	width: 15em;
+	/*width: 15em;*/
 	border-right-width: 0;
 	display: block;
 }
@@ -279,10 +279,7 @@ textarea.inputbox {
     width: 85%;
     resize: none;
 }
-.fields1.column2 dd select{
-	width: 100px;
-}
-#sk, #sd{
+.fields1.column2 dd select,.fields1.column2 dd input.medium{
 	width: 100px;
 }
 input#username{

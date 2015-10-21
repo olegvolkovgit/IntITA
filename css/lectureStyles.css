@@ -350,7 +350,7 @@ img {
 
 #quiz {
     border-top: 3px solid #ffffff;
-    background-color: #dbe3ed;
+    background: #dbe3ed;
     overflow: hidden;
     background-image: -webkit-linear-gradient(left,
     #becdde 0%,

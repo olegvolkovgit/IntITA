@@ -73,7 +73,7 @@ class ModuleHelper
             $price = Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule();
         }
         if ($price == 0) {
-            return '<span class="colorGreen">' . Yii::t('module', '0421') . '<span>';
+            return '<span class="colorGreen">' . Yii::t('module', '0421') . '</span>';
         }
 
         if ($idCourse > 0) {
@@ -146,7 +146,7 @@ class ModuleHelper
     {
         $price = ModuleHelper::getModuleSumma($idModule, $idCourse);
         if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '<span>';
+            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
         }
         if ($discount == 0) {
             return
@@ -281,7 +281,7 @@ class ModuleHelper
 
     public static function getModulePaymentFormPrice($price){
         if ($price == 0){
-            return '<span class="colorGreen">'.Yii::t('module', '0421').'<span>';
+            return '<span class="colorGreen">'.Yii::t('module', '0421').'</span>';
         }
         return '<span id="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').'</span>';
     }
