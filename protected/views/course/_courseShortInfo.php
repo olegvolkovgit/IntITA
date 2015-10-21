@@ -50,7 +50,7 @@
             <?php }?>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
             <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
-            - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?><?php echo Yii::t('module', '0218'); ?></b>
+            - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?> <?php echo Yii::t('course', '0664'); ?></b>
             (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
         </div>
        <?php $this->renderPartial('_paymentsForm', array('model' => $model));?>
