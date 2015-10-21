@@ -14,4 +14,29 @@ abstract class AbstractIntITAService extends CActiveRecord
         $service->save();
         return $service;
     }
+
+    protected  static function getService($serviceClass,$service_param,$service_param_value)
+    {
+        if (!$serviceClass::model()->exists($service_param.'='.$service_param_value))
+        {
+            return self::createService($serviceClass,$service_param,$service_param_value);
+        }
+        return $serviceClass::model()->findByAttributes(array($service_param => $service_param_value));
+    }
+
+    protected function beforeValidate()
+    {
+        $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
+        if(!isset($this->service))
+        {
+            $service = new Service();
+            $service->description = $this->descriptionFormatted();
+            $service->save();
+            $this->service = $service;
+            $this->service_id = $service->service_id;
+        }
+        return parent::beforeValidate();
+    }
+
+
 }

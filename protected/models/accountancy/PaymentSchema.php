@@ -105,4 +105,6 @@ class PaymentSchema extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
 }

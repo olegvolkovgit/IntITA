@@ -15,6 +15,7 @@
  * @property string $close_date
  * @property string $payment_scheme
  * @property string $number
+ * @property float $summa
  *
  * @property Service $service
  */
@@ -36,13 +37,13 @@ class UserAgreements extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, service_id, create_date, payment_scheme', 'required'),
+			array('user_id, service_id, payment_scheme', 'required'),
 			array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly'=>true),
 			array('service_id, payment_scheme', 'length', 'max'=>10),
             array('number', 'length', 'max'=>50),
 			array('approval_date, cancel_date, close_date', 'safe'),
 			// The following rule is used by search().
-			array('id, user_id, service_id, number, create_date, approval_user, approval_date, cancel_user, cancel_date, close_date, payment_scheme', 'safe', 'on'=>'search'),
+			array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user, cancel_date, close_date, payment_scheme', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +76,7 @@ class UserAgreements extends CActiveRecord
             'close_date' => 'Дата закриття',//'Date when agreement should be closed',
             'payment_scheme' => 'Схема оплати',//'Payment scheme',
             'number'=> 'Номер',
+            'summa'=> 'Сумма',
 		);
 	}
 
@@ -107,6 +109,7 @@ class UserAgreements extends CActiveRecord
 		$criteria->compare('cancel_date',$this->cancel_date,true);
 		$criteria->compare('close_date',$this->close_date,true);
 		$criteria->compare('payment_scheme',$this->payment_scheme,true);
+        $criteria->compare('summa',$this->summa,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -124,13 +127,31 @@ class UserAgreements extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function addNewAgreement($user, $type, $id, $schema){
+    public static function courseAgreement($user, $course, $schema)
+    {
+        return self::newAgreement($user, 'CourseService',$course, $schema);
+    }
+
+    public static function moduleAgreement($user, $module, $schema)
+    {
+        return self::newAgreement($user, 'ModuleService',$module, $schema);
+    }
+
+    private static function newAgreement($user, $modelFactory, $param_id , $schema)
+    {
         $model = new UserAgreements();
 
         $model->user_id = $user;
         $model->payment_scheme = $schema;
-        $model->service_id = Service::getService($type, $id);
+        $model->summa = 0;
+        $model->service_id = $modelFactory::getService($param_id)->service_id;
 
-        $model->save();
+        if ($model->service_id) {
+            $model->save();
+        }else {
+            throw new CHttpException(403, "Договір не заведено!");
+        }
+        return $model;
     }
+
 }

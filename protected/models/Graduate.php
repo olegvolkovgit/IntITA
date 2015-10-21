@@ -66,19 +66,19 @@ class Graduate extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'first_name' => 'First Name',
-			'last_name' => 'Last Name',
-			'avatar' => 'Avatar',
-			'graduate_date' => 'Graduate Date',
-			'position' => 'Position',
-			'work_place' => 'Work Place',
-			'work_site' => 'Work Site',
-			'courses_page' => 'Courses Page',
-			'history' => 'History',
-			'rate' => 'Rate',
-			'recall' => 'Recall',
-			'first_name_en' => 'First Name En',
-			'last_name_en' => 'Last Name En',
+			'first_name' => "І'мя",
+			'last_name' => 'Прізвище',
+			'avatar' => 'Фото',
+			'graduate_date' => 'Дата випуску',
+			'position' => 'Посада',
+			'work_place' => 'Місце роботи',
+			'work_site' => 'Сайт',
+			'courses_page' => 'Закінчив(ла) курс',
+			'history' => 'Історія',
+			'rate' => 'Рейтинг',
+			'recall' => 'Відгук',
+			'first_name_en' => "І'мя англійською",
+			'last_name_en' => 'Прізвище англійською',
 		);
 	}
 
