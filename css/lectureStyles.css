@@ -302,22 +302,25 @@ img {
     resize: none;
 }
 #sidebarLesson .calendar{
-    margin-top:25px;
+    margin-top:15px;
 }
 #sidebarLesson .calendar a{
-    padding: 5px;
+    display: inline-block;
+    padding: 4px 10px 0 10px;
+    height: 50px;
+    text-shadow: 0.1em 0.1em 0.1em black;
+    color: white;
+    font: normal 400 0.54em/2.16em "MyriadPro2";
+    line-height: 300% vertical-align: middle;
     text-align: center;
-    font-weight: normal;
-    margin-left: 15px;
-    font-size: 18px;
-    line-height: 18px;
-    height: 40px;
-    border-radius: 5px;
     text-decoration: none;
-    color: #ffffff;
-    background-color: #4b75a4;
-    font-family: MyriadPro2;
-    cursor: pointer;
+    font-weight: 300;
+    border-top: 0.05em solid #007cbf;
+    background: #4b70a3;
+    border-radius: 0.3em;
+    box-shadow: 0em 0.1em 0em black;
+    font-size: 20px;
+    margin-left: 15px;
 }
 #sidebarLesson .calendar a:hover{
     background-color: #666666;

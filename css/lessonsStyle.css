@@ -310,7 +310,7 @@ div.lessonButFinal
     /*position: fixed;*/
     margin: 5px 0 20px 10px;
     z-index: 1;
-    width: 30%;
+    width: 390px;
     /*top: 0;*/
 }
 #sidebarLesson div.titlesBlock
@@ -551,14 +551,38 @@ div.lessonTest {
     border-radius: 150px;
     border:1px solid #4B75A4;
 }
+
+#discussionHeader {
+    position: relative;
+    display: none;
+    width: 60px;
+    height: 30px;
+    margin-left: 15px;
+    color: #4B75A4;
+    font-size: 17px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: 1px solid #335379;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #fff;
+    padding: 4px 2px 4px 2px;
+}
+div#discussionHeader {
+    background: #fff;
+    z-index: 2;
+}
 #discussion {
+    position: relative;
     display: none;
     height: 150px;
-    margin: 7px 0 0 15px;
+    margin: -2px 0 0 15px;
     overflow: auto;
-    padding: 3px 2px;
-    border: solid 1px #335379;
     cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid #335379;
+    border-radius: 0 0 10px 10px;
+    padding: 4px 2px 4px 2px;
+    z-index: 0;
 }
 
 .post {
@@ -631,12 +655,4 @@ a.postlink {
     text-decoration: none;
     border-bottom: #368AD2 1px solid;
     padding-bottom: 0;
-}
-
-#discussionHeader {
-    display: none;
-    margin-left: 13px;
-    color: #4B75A4;
-    font-size: 17px;
-    margin-top: 20px;
 }
