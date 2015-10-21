@@ -25,6 +25,7 @@
 <?php
 $this->pageTitle = MainpageHelper::getTitle();
 ?>
+
 <?php $this->renderPartial('_aboutUs_list', array('aboutUsDataProvider' => $aboutUsDataProvider));?>
 
 <?php $this->renderPartial('_steps_list', array('stepsDataProvider' =>$stepsDataProvider)); ?>

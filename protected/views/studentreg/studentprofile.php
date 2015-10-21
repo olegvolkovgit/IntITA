@@ -39,43 +39,43 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getAboutMy($post->aboutMy);?></p>
+                        <p><?php echo UserHelper::getUserData($post->aboutMy,'0100');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p> <span class="colorP"><?php echo Yii::t('profile', '0101'); ?></span><?php echo $post->email;?></p>
+                        <p><?php echo UserHelper::getUserData($post->email,'0101');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getPhone($post->phone);?></p>
+                        <p><?php echo UserHelper::getUserData($post->phone,'0102');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getEducation($post->education);?></p>
+                        <p><?php echo UserHelper::getUserData($post->education,'0103');?></p>
                     </div>
                     <div class="aboutInfo">
                         <p><?php $post::getInterests($post->interests);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getAboutUs($post->aboutUs);?></p>
+                        <p><?php echo UserHelper::getUserData($post->aboutUs,'0105');?></p>
                     </div>
                     <div class="aboutInfo">
                         <p><?php $post::getEducform($post->educform);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getNetwork($post);?>
+                        <?php echo UserHelper::getNetwork($post);?>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getFacebookLink($post->facebook);?>
+                        <?php echo UserHelper::getLink($post->facebook,'Facebook');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getGoogleLink($post->googleplus);?>
+                        <?php echo UserHelper::getLink($post->googleplus,'Google');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getLinkedinLink($post->linkedin);?>
+                        <?php echo UserHelper::getLink($post->linkedin,'Linkedin');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getVkLink($post->vkontakte);?>
+                        <?php echo UserHelper::getLink($post->vkontakte,'Vkontakte');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php $post::getTwitterLink($post->twitter);?>
+                        <?php echo UserHelper::getLink($post->twitter,'Twitter');?>
                     </div>
 <!--                    <div class="aboutInfo">-->
 <!--                        <p>--><?php //$post::getCourses('Курси самогоних апаратів 6-го рівня');?><!--</p>-->

@@ -328,18 +328,18 @@ class StudentReg extends CActiveRecord
         if($interval->format("%y")!=='0' ){
             $brthAdr=$brthAdr.$interval->format("%y").' '.StudentReg::getYearsTermination($interval->format("%Y"));
         }
-        echo $brthAdr;
+        return $brthAdr;
     }
 
     public static function getAboutMy ($aboutMy)
     {
         if($aboutMy)
-            echo  '<span class="colorP">'.Yii::t('profile', '0100').'</span>'.$aboutMy;
+            return  '<span class="colorP">'.Yii::t('profile', '0100').'</span>'.$aboutMy;
     }
     public static function getPhone ($phone)
     {
         if($phone)
-            echo  '<span class="colorP">'.Yii::t('profile', '0102').'</span>'.$phone;
+            return  '<span class="colorP">'.Yii::t('profile', '0102').'</span>'.$phone;
     }
     public static function getEducation ($education)
     {
@@ -368,7 +368,7 @@ class StudentReg extends CActiveRecord
     {
         $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>Yii::app()->user->id));
         if($educform && !$user)
-            echo  '<span class="colorP">'.Yii::t('profile', '0106').'</span>'.$educform;
+           return UserHelper::getUserData($educform,'0106');
     }
     public static function getCourses ($courses)
     {
@@ -385,36 +385,7 @@ class StudentReg extends CActiveRecord
         }
         return  $val;
     }
-    public static function getNetwork ($post)
-    {
-        if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
-            echo  '<span class="colorP">'."Соціальні мережі:".'</span>';
-    }
-    public static function getFacebookLink ($link)
-    {
-        if($link)
-            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Facebook"."</a>"."</span>";
-    }
-    public static function getGoogleLink ($link)
-    {
-        if($link)
-            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Google"."</a>"."</span>";
-    }
-    public static function getLinkedinLink ($link)
-    {
-        if($link)
-            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Linkedin"."</a>"."</span>";
-    }
-    public static function getVkLink ($link)
-    {
-        if($link)
-            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Vkontakte"."</a>"."</span>";
-    }
-    public static function getTwitterLink ($link)
-    {
-        if($link)
-            echo  "<span class='networkLink'>"."<a href='$link' target='_blank'>"."Twitter"."</a>"."</span>";
-    }
+
     public static function getFacebooknameProfile ($facebook)
     {
         if($facebook){

@@ -131,7 +131,7 @@ class Graduate extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function getGraduateBySelector($selector)
+    public static function getGraduateBySelector($selector)
     {
         $criteria= new CDbCriteria;
         $criteria->alias = 'graduate';

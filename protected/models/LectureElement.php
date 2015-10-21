@@ -290,7 +290,7 @@ class LectureElement extends CActiveRecord
         $command->delete('lecture_element_lecture_page', 'element=:id', array(':id'=>$idBlock));
     }
 
-    public function addVideo($htmlBlock,$pageOrder,$lectureId)
+    public static function addVideo($htmlBlock,$pageOrder,$lectureId)
     {
         $model = new LectureElement();
 

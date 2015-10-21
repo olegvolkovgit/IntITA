@@ -300,7 +300,7 @@ class Teacher extends CActiveRecord
         return 0;
     }
 
-    public function getTeacherConsult($lectureId)
+    public static function getTeacherConsult($lectureId)
     {
         $lecture = Lecture::model()->findByPk($lectureId);
         $teachersconsult = [];
@@ -327,7 +327,7 @@ class Teacher extends CActiveRecord
         return $dataProvider;
     }
 
-    public function addConsult($idteacher,$numcon,$date,$idlecture)
+    public static function addConsult($idteacher,$numcon,$date,$idlecture)
     {
         $calendar = new Consultationscalendar();
 
@@ -343,7 +343,7 @@ class Teacher extends CActiveRecord
             }
         }
 
-    public function getTeacherSchedule($teacher,$user,$tab)
+    public static function getTeacherSchedule($teacher,$user,$tab)
     {
         switch ($tab) {
             case '1':
@@ -398,7 +398,7 @@ class Teacher extends CActiveRecord
         return $data;
     }
 
-    public function getTeacherAsPrint()
+    public static function getTeacherAsPrint()
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 'teacher';

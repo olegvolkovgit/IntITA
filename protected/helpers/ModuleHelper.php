@@ -285,4 +285,11 @@ class ModuleHelper
         }
         return '<span id="coursePriceStatus2">'.$price." ".Yii::t('courses', '0322').'</span>';
     }
+
+    public static function getModulesViaCourse($courseId)
+    {
+        $data = Course::model()->findAll();
+
+        return $data;
+    }
 }

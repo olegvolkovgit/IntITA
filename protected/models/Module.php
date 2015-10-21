@@ -77,8 +77,10 @@ class Module extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
+
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
+            'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
         );
     }
 
@@ -308,4 +310,6 @@ class Module extends CActiveRecord
             }
         }
     }
+
+
 }
