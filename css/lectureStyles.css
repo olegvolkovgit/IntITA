@@ -612,21 +612,20 @@ h1.lessonPartEdit p img {
 /*sidebar lectures */
 div.lectureAccess{
     display: inline-block;
-    width: 20px;
-    height: 6px;
     background: #4B75A4;
-    /*width: 12px;*/
-    /*height: 12px;*/
-    /*border-radius: 150px;*/
+    width: 12px;
+    height: 12px;
+    border-radius: 150px;
 }
 div.lectureAccess:hover{
     background: #003366;
 }
 div.lectureDisabled{
     display: inline-block;
-    width: 20px;
-    height: 6px;
     background: #cccccc;
+    width: 12px;
+    height: 12px;
+    border-radius: 150px;
 }
 a.lectureDisabled{
     cursor: default;
@@ -638,6 +637,12 @@ a.lectureDisabled{
     pointer-events: none;
     cursor: default;
     color: #666666;
+}
+#counter a{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    padding: 0 1px;
 }
 #sidebarLesson .spoilerBody a.pageAccess{
     font-weight: normal;

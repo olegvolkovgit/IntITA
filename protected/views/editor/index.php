@@ -35,6 +35,7 @@ if($idCourse != 0) {
 
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js" ></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js" ></script>
+<?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div id="lecturePage">
     <br>
     <h1 class="lessonPart">
