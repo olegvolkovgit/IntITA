@@ -100,7 +100,7 @@ img {
 
 #iconImage {
     display: inline-block;
-    margin-left: 10px;
+    width: 20px;
 }
 
 #counter {
@@ -645,7 +645,6 @@ a.lectureDisabled{
     display: inline-block;
     width: 14px;
     height: 14px;
-    padding: 0 1px;
     vertical-align: middle;
 }
 #sidebarLesson .spoilerBody a.pageAccess{
