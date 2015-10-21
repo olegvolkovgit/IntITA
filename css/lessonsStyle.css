@@ -575,7 +575,7 @@ div#discussionHeader {
     position: relative;
     display: none;
     height: 150px;
-    margin: -2px 0 0 15px;
+    margin: -1px 0 0 15px;
     overflow: auto;
     cursor: pointer;
     box-sizing: border-box;
@@ -583,6 +583,7 @@ div#discussionHeader {
     border-radius: 0 0 10px 10px;
     padding: 4px 2px 4px 2px;
     z-index: 0;
+    background: #fff;
 }
 
 .post {
