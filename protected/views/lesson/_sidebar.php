@@ -22,7 +22,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
             </li>
-            <li><?php echo Yii::t('lecture', '0074'); ?>
+            <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
                 <div id="lectionTypeText"><?php echo $lecture->getTypeInfo()['text']; ?></div>
                 <div id="lectionTypeImage"><img
                         src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getTypeInfo()['image']); ?>">
