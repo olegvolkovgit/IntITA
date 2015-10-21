@@ -8,7 +8,7 @@
         <legend id="label">Задати попередній модуль у курсі:</legend>
         Виберіть курс:<br>
         <input type="text" hidden="hidden" value="<?php echo $id;?>" name="module">
-        <select name="course" id="courseList">
+        <select name="course" id="courseList" onchange="selectModule()">
             <option value="">Виберіть курс</option>
             <optgroup label="Курси">
                 <?php $courses = CourseHelper::generateModuleCoursesList($id);
@@ -30,19 +30,7 @@
 
         Попередній модуль:<br>
         <div name="selectModule" style="float:left;">
-            <select name="mandatory" id="moduleList">
-                <option value="">Виберіть модуль</option>
-                <optgroup label="Модулі">
-                    <?php $modules = AccessHelper::generateModulesList();
-                    $count = count($modules);
-
-                    for($i = 0; $i < $count; $i++){
-                        ?>
-                        <option value="<?php echo $modules[$i]['id'];?>"><?php echo $modules[$i]['alias'];?></option>
-                        <?php
-                    }
-                    ?>
-            </select>
+            <?php $this->renderPartial('_ajaxModule', array('modules'=>'')); ?>
         </div>
 
         <br>
@@ -50,4 +38,8 @@
 
         <input type="submit" value="Задати попередній модуль">
 </form>
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?117"></script>
 
+<!-- VK Widget -->
+<div id="vk_groups"></div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ajaxModule.js'); ?>"></script>

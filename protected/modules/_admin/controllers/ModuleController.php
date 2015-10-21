@@ -45,7 +45,6 @@ class ModuleController extends AdminController
 
     public function actionIndex()
     {
-
         $model = new Module('search');
         $model->unsetAttributes();
         if (isset($_GET['Module']))
@@ -160,5 +159,23 @@ class ModuleController extends AdminController
         Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course='.$price.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionGetModuleByCourse()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+        if(empty($_POST['course']))
+        {
+            $modules = '';
+        }
+        else
+        {
+            $id =  (int)($_POST['course']);
+            $modules = Course::model()->findByPk($id)->module;
+        }
+
+        return $this->renderPartial('_ajaxModule',array('modules' => $modules));
+        }
     }
 }
