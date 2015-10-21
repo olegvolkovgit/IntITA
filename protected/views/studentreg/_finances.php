@@ -1,17 +1,17 @@
-<p class="tabHeader"><?php echo Yii::t('profile', '0254'); ?></p>
+<p class="tabHeader"><?php echo Yii::t('profile', '0254');?></p>
 <div class="FinancesPay">
-    <?php if(isset($_COOKIE['idCourse']) || isset($_COOKIE['idModule'])){
-        if(isset($_COOKIE['idModule']) && $_COOKIE['idModule'] != 0){
-            echo "<h3>".Yii::t('payment', '0656')." №" . ModuleHelper::getModuleNumber($_COOKIE['idModule']).". ".
-                ModuleHelper::getModuleName($_COOKIE['idModule']). "</h3>";
-            $this->renderPartial('_paymentsModuleForm', array('module' => $_COOKIE['idModule'],
-                'course' => $_COOKIE['idCourse']));
+    <?php
+    if($course > 0){
+        if($module > 0){
+            echo "<h3>".Yii::t('payment', '0656')." №" . ModuleHelper::getModuleNumber($module).". ".
+                ModuleHelper::getModuleName($module). "</h3>";
+            $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
         }
         else {
-            if (isset($_COOKIE['idCourse'])) {
-                echo "<h3>".Yii::t('payment', '0657')." №" . CourseHelper::getCourseNumber($_COOKIE['idCourse']) . ". " .
-                    CourseHelper::getCourseName($_COOKIE['idCourse']) . "</h3>";
-                $this->renderPartial('_paymentsCourseForm', array('course' => $_COOKIE['idCourse']));
+            if ($course > 0) {
+                echo "<h3>".Yii::t('payment', '0657')." №" . CourseHelper::getCourseNumber($course) . ". " .
+                    CourseHelper::getCourseName($course)."</h3>";
+                $this->renderPartial('_paymentsCourseForm', array('course' => $course, 'schema' => $schema));
             }
         }
         ?>

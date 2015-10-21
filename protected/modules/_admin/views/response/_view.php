@@ -13,10 +13,6 @@
 	<?php echo CHtml::encode($data->who); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('about')); ?>:</b>
-	<?php echo CHtml::encode($data->about); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date')); ?>:</b>
 	<?php echo CHtml::encode($data->date); ?>
 	<br />

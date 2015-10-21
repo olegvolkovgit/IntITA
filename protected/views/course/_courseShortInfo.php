@@ -7,7 +7,6 @@
  */
 ?>
 <script>
-        profilePath = "<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>";
         course = "<?php echo $model->course_ID;?>";
 </script>
 <img class="courseImg" style="display: inline-block"
@@ -65,9 +64,6 @@
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
     function redirectToProfile(){
-        $.cookie('idCourse', course, {'path': "/"});
-        $.cookie('checkedSchemaPay', $("input[name='payment']:checked").val(), {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});
-        document.location.href = profilePath;
     }
 </script>

@@ -565,7 +565,6 @@ class StudentReg extends CActiveRecord
 
     public static function getDataProfile($idUser)
     {
-
         if ($idUser !== Yii::app()->user->getId())
             throw new CHttpException(403, Yii::t('error', '0612'));
         $letter = new Letters();

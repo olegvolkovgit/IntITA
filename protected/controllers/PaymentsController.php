@@ -1,6 +1,6 @@
 <?php
 
-class AccountancyController extends Controller
+class PaymentsController extends Controller
 {
     public function actionIndex($account, $nolayout = false)
     {
@@ -8,8 +8,6 @@ class AccountancyController extends Controller
         if($nolayout){
             $this->layout = false;
         }
-        setcookie("idModule", '', 1, '/');
-        setcookie("idCourse", '', 1, '/');
         $this->render('index', array('account'=>$model));
     }
 
