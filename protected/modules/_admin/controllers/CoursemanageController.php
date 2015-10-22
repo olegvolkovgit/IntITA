@@ -214,6 +214,7 @@ class CoursemanageController extends AdminController
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $lang = $_SESSION['lg'];
 
         $schema = Yii::app()->controller->renderPartial('_schema', array(
             'modules' => $modules,
@@ -222,10 +223,11 @@ class CoursemanageController extends AdminController
             'courseDuration' => $courseDurationInMonths,
             'save' => true,
         ), true);
+        $name = 'schema_course_'.$idCourse.'_'.$lang.'.html';
 
-        $name = 'schema_course_'.$idCourse.'.html';
         $file = StaticFilesHelper::pathToCourseSchema($name);
         file_put_contents($file, $schema);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

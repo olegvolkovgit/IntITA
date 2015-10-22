@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<link rel="stylesheet" type="text/css" href="<?php echo '/css/courseSchema.css';?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl() . '/css/courseSchema.css';?>"/>
 
 <div id="courseSchema">
 <br>
@@ -71,9 +71,9 @@
     <?php if(!$save){?>
     <br>
     <br>
-    <button id="saveButton"><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
+    <button id="saveButton" onclick="alert('Ваша схема збережена!!!')"><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
             array('idCourse' => $idCourse)
-        );?>">Зберегти cхему</a></button>
+        );?>"  >Зберегти cхему</a></button>
 <br>
 <br>
     <br>
