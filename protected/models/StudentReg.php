@@ -534,7 +534,7 @@ class StudentReg extends CActiveRecord
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 100,
+                'pageSize' => 50,
             ),
             'sort' => array(
                 'defaultOrder' => 'date_cons DESC',
