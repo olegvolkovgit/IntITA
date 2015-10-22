@@ -1,28 +1,5 @@
 var topic_id;
 var forum_id;
-var pageXOffset_current;
-
-//function horizontalAdjust (sidebarLesson) {
-//    var margin_left = 800 - window.pageXOffset;
-//    sidebarLesson.css("margin-left", margin_left);
-//    pageXOffset_current = window.pageXOffset;
-//}
-
-//function adjust(){
-//    var sidebarLesson = $("#sidebarLesson");
-//    var lessonBlock = $("#lessonBlock");
-//    if (sidebarLesson.is(":hidden") && lessonBlock[0].getBoundingClientRect().top < 40)
-//        sidebarLesson.show().css("top", "0");
-//    if (sidebarLesson.is(":visible")){
-//        if (lessonBlock[0].getBoundingClientRect().top >= 40) sidebarLesson.hide();
-//            if (sidebarLesson.css("position") == "absolute") {
-//                sidebarLesson.css({position: "fixed", top: "0", bottom: ""});
-//                horizontalAdjust(sidebarLesson);
-//            }
-//            if (window.pageXOffset != pageXOffset_current) horizontalAdjust(sidebarLesson);
-//    }
-//}
-
 $(document).ready(function(){
     $.get(
         '/forum/getPosts.php',
@@ -62,10 +39,6 @@ function scroll_discussion () {
         discussion.animate({scrollTop: current_scroll + 150}, 500);
     }
 }
-
-//$(window).load(adjust);
-//$(window).scroll(adjust);
-
 setInterval (scroll_discussion, 5000);
 
 $(document).on ("click", "#discussion a", function (){

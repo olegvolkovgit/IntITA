@@ -50,4 +50,52 @@ class CommonHelper {
         }
         return $level;
     }
+
+    public static function getYearsTermination ($num)
+    {
+        //Оставляем две последние цифры от $num
+        $number = substr($num, -2);
+
+        //Если 2 последние цифры входят в диапазон от 11 до 14
+        //Тогда подставляем окончание "ЕВ"
+        if($number > 10 and $number < 15)
+        {
+            $term = Yii::t('profile', '0097');
+        }
+        else
+        {
+
+            $number = substr($number, -1);
+
+            if($number == 0) {$term = Yii::t('profile', '0097');}
+            if($number == 1 ) {$term = Yii::t('profile', '0098');}
+            if($number > 1 ) {$term = Yii::t('profile', '0099');}
+            if($number > 4 ) {$term = Yii::t('profile', '0097');}
+        }
+        return  $term;
+    }
+
+    public static function getDaysTermination ($num)
+    {
+        //Оставляем две последние цифры от $num
+        $number = substr($num, -2);
+
+        //Если 2 последние цифры входят в диапазон от 11 до 14
+        //Тогда подставляем окончание
+        if($number > 10 and $number < 15)
+        {
+            $term = Yii::t('module', '0653');
+        }
+        else
+        {
+
+            $number = substr($number, -1);
+
+            if($number == 0) {$term = Yii::t('module', '0653');}
+            if($number == 1 ) {$term = Yii::t('module', '0654');}
+            if($number > 1 ) {$term = Yii::t('module', '0655');}
+            if($number > 4 ) {$term = Yii::t('module', '0653');}
+        }
+        return  $term;
+    }
 }

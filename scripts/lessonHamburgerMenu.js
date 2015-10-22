@@ -26,13 +26,22 @@ $(window).scroll(function() {
         $("#hambNav").css({display: "block"});
 });
 $(document).click(function () {
-    $("#hambMenu").hide();
+    setTimeout(function () {
+        $("#hambMenu").hide();
+    }, 200);
 });
 $("#hambMenu").click(function (e) {
     e.stopPropagation();
 });
 $('#hambButton').click(function (e) {
     e.stopPropagation();
-    if ($("#hambMenu").css('display') == "none") $("#hambMenu").css({display: "block"});
-    else $("#hambMenu").css({display: "none"});
+    if ($("#hambMenu").css('display') == "none")
+        setTimeout(function () {
+            $("#hambMenu").css({display: "block"});
+        }, 200);
+    else
+        setTimeout(function () {
+            $("#hambMenu").css({display: "none"});
+        }, 200);
+
 });
