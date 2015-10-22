@@ -32,7 +32,7 @@
             <br>
             Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>
             <br>
-            <input type="text" name="idTaskBlock" hidden="hidden" value="<?php echo $idBlock;?>"/>
+            <input name="idTaskBlock" type="hidden" value="<?php echo $idBlock;?>"/>
         </fieldset>
     </form>
     <button onclick='editTask()'>Додати задачу</button>

@@ -7,7 +7,7 @@
     <fieldset>
         <legend id="label">Задати ціну модуля у курсі:</legend>
         Виберіть курс:<br>
-        <input type="text" hidden="hidden" value="<?php echo $id;?>" name="module">
+        <input type="hidden" value="<?php echo $id;?>" name="module">
         <select name="course" id="courseList" required>
             <option value="">Виберіть курс</option>
             <optgroup label="Курси">

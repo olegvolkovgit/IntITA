@@ -5,9 +5,9 @@
     <br>
     <span><?php echo Yii::t('course', '0366')." ".($order + 1).". "; ?></span>
     <br>
-    <input name="idCourse" value="<?php echo $newmodel->course_ID;?>" hidden="hidden">
-    <input name="order" value="<?php echo $order+1?>" hidden="hidden">
-    <input name="lang" value="<?php echo $newmodel->language;?>" hidden="hidden">
+    <input name="idCourse" value="<?php echo $newmodel->course_ID;?>" type="hidden">
+    <input name="order" value="<?php echo $order+1?>" type="hidden">
+    <input name="lang" value="<?php echo $newmodel->language;?>" type="hidden">
     <span>Назва (UA)</span>
     <input type="text" name="titleUA" id="titleUA" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60">
     <br>
