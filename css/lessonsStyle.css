@@ -91,6 +91,7 @@ div.spoilerTriangle {
 }
 span.spoilerTitle{
     text-decoration:underline;
+    color:#666666;
 }
 span.subChapter{
     color: #4b75a4;
@@ -560,7 +561,7 @@ div.lessonTest {
     margin-left: 15px;
     color: #4B75A4;
     font-size: 17px;
-    margin-top: 10px;
+    margin-top: 15px;
     box-sizing: border-box;
     border: 1px solid #335379;
     border-radius: 10px 10px 0 0;

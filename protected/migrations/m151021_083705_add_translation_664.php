@@ -38,7 +38,5 @@ class m151021_083705_add_translation_664 extends CDbMigration
 	{
 		$this->delete('messages', 'id=664');
 		$this->delete('sourcemessages', 'id=664');
-		$this->delete('messages', 'id=664');
-		$this->delete('sourcemessages', 'id=664');
 	}
 }
