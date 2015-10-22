@@ -13,6 +13,7 @@
  */
 class ModuleService extends AbstractIntITAService
 {
+    public $module;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -102,4 +103,35 @@ class ModuleService extends AbstractIntITAService
 	{
 		return parent::model($className);
 	}
+
+
+    protected function primaryKeyValue()
+    {
+        return $this->module_id;
+    }
+
+    protected function descriptionFormatted()
+    {
+        return "Модуль ".$this->module->title_ua." ";
+    }
+
+    protected function mainModel()
+    {
+        return Module::model();
+    }
+
+    public static function getService($idCourse)
+    {
+        return parent::getService(__CLASS__,"module_id",$idCourse);
+    }
+
+    protected function setMainModel($course)
+    {
+        $this->module = $course;
+    }
+
+    public function getDuration()
+    {
+        return $this->module->getDuration();
+    }
 }

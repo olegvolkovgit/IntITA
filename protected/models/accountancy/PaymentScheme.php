@@ -11,8 +11,13 @@
  * @property string $name
  * @property integer $monthpay
  */
-class PaymentSchema extends CActiveRecord
+abstract class PaymentScheme extends CActiveRecord
 {
+    abstract public function getSumma();
+
+    abstract public function getCloseDate();
+
+    abstract public function getInvoicesList();
 	/**
 	 * @return string the associated database table name
 	 */
@@ -99,10 +104,15 @@ class PaymentSchema extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaymentSchema the static model class
+	 * @return PaymentScheme the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+    public static function getSchema($id){
+        return PaymentScheme::model()->findByPk($id);
+    }
+
 }

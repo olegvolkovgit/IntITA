@@ -9,6 +9,9 @@
  */
 class CourseService extends AbstractIntITAService
 {
+    public $course;
+    public $service;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -97,22 +100,33 @@ class CourseService extends AbstractIntITAService
         return 'course_id';
     }
 
-    protected function beforeValidate()
+    protected function primaryKeyValue()
     {
-        $this->course = Course::model()->findByPk($this->course_id);
-        if(!isset($this->service))
-        {
-            $service = new Service;
-            $service->description = "Курс ".$this->course->title_ua." ";
-            $service->save();
-            $this->service = $service;
-            $this->service_id = $service->service_id;
-        }
-        return parent::beforeValidate();
+        return $this->course_id;
     }
 
-    public static function createCourseService($course_id)
+    protected function descriptionFormatted()
     {
-        return parent::createService(__CLASS__,'course_id',$course_id);
+        return "Курс ".$this->course->title_ua." ";
+    }
+
+    protected function mainModel()
+    {
+        return Course::model();
+    }
+
+    public static function getService($idCourse)
+    {
+        return parent::getService(__CLASS__,"course_id",$idCourse);
+    }
+
+    protected function setMainModel($course)
+    {
+        $this->course = $course;
+    }
+
+    public function getDuration()
+    {
+        return $this->course->getDuration();
     }
 }

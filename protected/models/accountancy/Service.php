@@ -7,7 +7,6 @@
  * @property string $service_id
  * @property string $description
  * @property string $create_date
- * @property integer $cancelled
  * @property integer $billable
  */
 class Service extends CActiveRecord
@@ -28,12 +27,12 @@ class Service extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, create_date', 'required'),
-			array('cancelled, billable', 'numerical', 'integerOnly'=>true),
+			array('description', 'required'),
+			array('billable', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('service_id, description, create_date, cancelled, billable', 'safe', 'on'=>'search'),
+			array('service_id, description, create_date, billable', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +56,6 @@ class Service extends CActiveRecord
             'service_id' => 'Service code',
             'description' => 'service description',
             'create_date' => 'service creation date',
-            'cancelled' => 'Is cancelled',
             'billable' => 'Is billable',
 		);
 	}
@@ -83,7 +81,6 @@ class Service extends CActiveRecord
 		$criteria->compare('service_id',$this->service_id,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('cancelled',$this->cancelled);
 		$criteria->compare('billable',$this->billable);
 
 		return new CActiveDataProvider($this, array(
@@ -101,4 +98,6 @@ class Service extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
 }

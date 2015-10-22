@@ -85,6 +85,7 @@ $price = Course::getCoursePrice($course);
     <?php } ?>
     <?php $this->endWidget(); ?>
 </div>
+<div id="kalebas"></div>
 <br>
 <?php if ($model->course_price > 0){?>
         <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
@@ -103,7 +104,7 @@ $price = Course::getCoursePrice($course);
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/payments/newAccount",
+            url: "/IntITA/payments/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -112,7 +113,7 @@ $price = Course::getCoursePrice($course);
             },
             cache: false,
             success: function(data){
-                location.href = '/payments/index?account=' + data;
+                location.href = '/IntITA/payments/index?account=' + data;
             }
         });
     }
