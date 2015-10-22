@@ -17,6 +17,7 @@ $price = Course::getCoursePrice($model->course_ID);
     if ($price == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($price, 30);
     else {
         ?>
+        <input type="number" value="1" hidden="hidden" name="schema"/>
         <span class="spoilerLinks"
               onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span
                 id="spoilerClick"><?php echo Yii::t('course', '0414'); ?></span><span id="spoilerTriangle"> &#9660;</span></span>
