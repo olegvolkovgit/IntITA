@@ -127,6 +127,6 @@ class CourseService extends AbstractIntITAService
 
     public function getDuration()
     {
-        return 1;
+        return $this->course->getDuration();
     }
 }

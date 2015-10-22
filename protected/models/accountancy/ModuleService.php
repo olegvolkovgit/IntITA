@@ -129,4 +129,9 @@ class ModuleService extends AbstractIntITAService
     {
         $this->module = $course;
     }
+
+    public function getDuration()
+    {
+        return $this->module->getDuration();
+    }
 }
