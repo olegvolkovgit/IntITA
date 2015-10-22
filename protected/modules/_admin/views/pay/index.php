@@ -116,7 +116,7 @@
         }else{
             $.ajax({
                 type: "POST",
-                url: "/_admin/permissions/showModules",
+                url:  "_admin/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

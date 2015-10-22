@@ -195,7 +195,7 @@ class CourseHelper
                 <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
                 <td>
                     <table>
-                        <tr><td><div>' . Yii::t('course', '0425') . ' ' . $year . ' ' . Yii::t('course', '0426') . '</div></td></tr>
+                        <tr><td><div>' . Yii::t('course', '0425') . ' ' . $year . ' ' . CommonHelper::getYearsTermination($year) . '</div></td></tr>
                         <tr><td>
                            <div class="numbers"><span>' . $price . ' ' . Yii::t('courses', '0322') . '/' .
             Yii::t('module', '0218') . ' х ' . (12 * $year) . ' ' . Yii::t('course', '0324') . ' <b>= ' .

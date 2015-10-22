@@ -20,9 +20,9 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </li>
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
-                <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id,'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' =>$editMode, 'idCourse' => $idCourse)); ?>
+                <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse)); ?>
             </li>
-            <li><?php echo Yii::t('lecture', '0074'); ?>
+            <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
                 <div id="lectionTypeText"><?php echo $lecture->getTypeInfo()['text']; ?></div>
                 <div id="lectionTypeImage"><img
                         src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getTypeInfo()['image']); ?>">
@@ -47,7 +47,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                         <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
                            popover-trigger="mouseenter"
                            uib-popover="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
-                            <div class="lectureAccess"></div>
+                            <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                         </a>
                     <?php }
                 } else {
@@ -58,7 +58,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
                                popover-trigger="mouseenter"
                                uib-popover="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
-                                <div class="lectureAccess"></div>
+                                <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                             </a>
                         <?php } else { ?>
                             <a popover-trigger="mouseenter"
@@ -76,6 +76,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
         </ul>
     </div>
     <br>
+
     <div class="helpHeader"><?php echo Yii::t('lecture', '0660'); ?></div>
     <div style="clear: both;margin-left: 15px;">
         <div style="display: inline-block; margin-right: 10px;">
@@ -83,7 +84,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
             <a id="mibew-agent-button"
                href="<?php echo MibewHelper::getMibewHost(); ?>/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>;style=default"
                target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
-                <img
+                <img class='consultationButtons'
                     src="<?php echo MibewHelper::getMibewHost(); ?>/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>"
                     border="0" alt=""/>
             </a>
@@ -103,24 +104,33 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
             <!-- / mibew button -->
         </div>
         <div style="display: inline-block">
-            <a href="skype:<?php echo '#' ?>?chat"><img
-                    src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skype.png'); ?>"></a>
+            <a class='consultationButtons' href="skype:<?php echo '#' ?>?chat">
+                <div id="skypeAssistance">
+                    <img class="consultationLogos" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skypeLogo.png'); ?>">
+                    <div class="consultationText"><?php echo Yii::t('lecture', '0665'); ?></div>
+                </div>
+            </a>
         </div>
     </div>
-    <br>
-    <span id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></span>
+
+    <div id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></div>
 
     <div id="discussion"></div>
-    <?php if (AccessHelper::canAddConsultation()) {?>
-        <div class="calendar">
-            <?php echo CHtml::link(Yii::t('lecture', '0079'), Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse))); ?>
+    <?php if (AccessHelper::canAddConsultation()) { ?>
+        <div style="display: inline-block;margin-left: 15px">
+            <a class='consultationButtons' href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
+                <div id="consultationAssistance">
+                    <img class="consultationLogos" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'consultationLogo.png'); ?>">
+                    <div class="consultationText"><?php echo Yii::t('lecture', '0079') ?></div>
+                </div>
+            </a>
         </div>
     <?php } ?>
 </div>
 <!--navigation vertical-->
 <script>
     $("#send-message").click(function (e) {
-        var mibewMessage=$('[name="message"]');
+        var mibewMessage = $('[name="message"]');
         mibewMessage.val($.trim(mibewMessage.val()));
     });
 </script>

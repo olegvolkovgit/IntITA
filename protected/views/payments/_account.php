@@ -48,3 +48,4 @@
             <td><?php echo CourseHelper::getPriceUah($account->summa).",00";?></td>
         </tr>
     </table>
+</div>

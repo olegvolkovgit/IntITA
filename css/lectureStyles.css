@@ -100,7 +100,7 @@ img {
 
 #iconImage {
     display: inline-block;
-    margin-left: 10px;
+    width: 20px;
 }
 
 #counter {
@@ -301,28 +301,6 @@ img {
 #newTextBlock, #header, #etalon, #taskFooter, #condition {
     resize: none;
 }
-#sidebarLesson .calendar{
-    margin-top:25px;
-}
-#sidebarLesson .calendar a{
-    padding: 5px;
-    text-align: center;
-    font-weight: normal;
-    margin-left: 15px;
-    font-size: 18px;
-    line-height: 18px;
-    height: 40px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #4b75a4;
-    font-family: MyriadPro2;
-    cursor: pointer;
-}
-#sidebarLesson .calendar a:hover{
-    background-color: #666666;
-}
-
 #divAddFormula {
     display: none;
 }
@@ -358,7 +336,6 @@ img {
 #quiz {
     border-top: 3px solid #ffffff;
     background: #dbe3ed;
-    overflow: hidden;
     background-image: -webkit-linear-gradient(left,
     #becdde 0%,
     #becdde 11%,
@@ -640,9 +617,9 @@ a.lectureDisabled{
 }
 #counter a{
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    padding: 0 1px;
+    width: 12px;
+    height: 12px;
+    margin: 0 1px;
     vertical-align: middle;
 }
 #sidebarLesson .spoilerBody a.pageAccess{
@@ -658,5 +635,48 @@ a.lectureDisabled{
     color:#c54b37;
     font-size: 16px;
     margin-left: 15px;
+}
+#skypeAssistance{
+    display: inline-block;
+    width: 155px;
+    height: 50px;
+    border-radius: 10px;
+    background: #4b75a4;
+}
+#consultationAssistance{
+    display: inline-block;
+    width: 182px;
+    height: 50px;
+    margin-top: 15px;
+    border-radius: 10px;
+    background: #4b75a4;
+}
+.consultationLogos{
+    margin-top: 9px;
+    margin-left: 7px;
+    vertical-align: top;
+}
+.consultationText{
+    display: inline-block;
+    color:#fff;
+    margin-left: 30px;
+    margin-top: 9px;
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 16px;
+    width: 70px;
+}
+#consultationAssistance .consultationText{
+    margin-left: 10px;
+}
+.consultationButtons{
+    opacity: 1;
+}
+.consultationButtons:hover{
+    opacity: 0.7;
+}
+#thisLecture{
+    background: green;
 }
 /*sidebar lectures */

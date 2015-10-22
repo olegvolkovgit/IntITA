@@ -281,7 +281,7 @@ input[type="button"].avatar,input[type="submit"].avatar{
 }
 span.required
 {
-    color:red;
+    color: red;
 }
 span.interestBG{
     background-color: #edf1f6;
@@ -291,8 +291,9 @@ span.interestBG{
 .formStudProf .errorMessage
 {
     margin-left: 215px;
-    color: red;
-    font-size: 0.9em;
+    color: #c72929;
+    font-size: 16px;
+    font-family: "MyriadPro";
 }
 .avatarError .errorMessage
 {
@@ -300,8 +301,8 @@ span.interestBG{
 }
 .avatarError
 {
-    color: red;
-    font-size: 0.9em;
+    color: #c72929;
+    font-size: 16px;
 }
 label.avatarInfo{
     color:#4b75a4;

@@ -306,8 +306,22 @@ class StudentRegController extends Controller
                 $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
                 $model->updateByPk($id, array('avatar' => $fileName));
             }
-
-            $model->save();
+            $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
+            $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
+            $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));
+            $model->updateByPk($id, array('birthday' => $_POST['StudentReg']['birthday']));
+            $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
+            $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
+            $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
+            $model->updateByPk($id, array('educform' => $_POST['StudentReg']['educform']));
+            $model->updateByPk($id, array('interests' => $_POST['StudentReg']['interests']));
+            $model->updateByPk($id, array('aboutUs' => $_POST['StudentReg']['aboutUs']));
+            $model->updateByPk($id, array('aboutMy' => $_POST['StudentReg']['aboutMy']));
+            $model->updateByPk($id, array('facebook' => $_POST['StudentReg']['facebook']));
+            $model->updateByPk($id, array('googleplus' => $_POST['StudentReg']['googleplus']));
+            $model->updateByPk($id, array('linkedin' => $_POST['StudentReg']['linkedin']));
+            $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
+            $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);

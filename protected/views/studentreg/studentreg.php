@@ -106,7 +106,7 @@ $this->breadcrumbs = array(
                     <div class="row">
                         <?php echo $form->labelEx($model, 'email'); ?>
                         <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
-                        <span><?php echo $form->error($model, 'email'); ?></span>
+                        <?php echo $form->error($model, 'email'); ?>
                         <div class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
                             <span ng-cloak ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
                             <span ng-cloak ng-show="StudentReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
@@ -160,27 +160,27 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� facebook','placeholder' => Yii::t('regexp', '0243'))); ?>
+                        <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� facebook','placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� googleplus','placeholder' => Yii::t('regexp', '0244'))); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� googleplus','placeholder' => Yii::t('regexp', '0244'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� linkedin','placeholder' => Yii::t('regexp', '0245'))); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� linkedin','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� vkontakte','placeholder' => Yii::t('regexp', '0246'))); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� vkontakte','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� twitter','placeholder' => Yii::t('regexp', '0247'))); ?>
+                        <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� twitter','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <h1><?php echo $post->secondName;?></h1>
                     <div class="aboutInfo">
                         <p>
-                            <?php $post::getAdressYears($post->birthday,$post->address); ?>
+                            <?php echo $post::getAdressYears($post->birthday,$post->address); ?>
                         </p>
                     </div>
                     <div class="aboutInfo">
@@ -57,7 +57,7 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                         <p><?php echo UserHelper::getUserData($post->aboutUs,'0105');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getEducform($post->educform);?></p>
+                        <p><?php echo $post::getEducform($post->educform);?></p>
                     </div>
                     <div class="aboutInfo">
                         <?php echo UserHelper::getNetwork($post);?>
