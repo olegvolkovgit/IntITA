@@ -3,7 +3,6 @@
  */
 function selectModule(){
     var course = $('select[name="course"]').val();
-    alert(course);
     $.ajax({
         type: "POST",
         url:  "../getModuleByCourse",
