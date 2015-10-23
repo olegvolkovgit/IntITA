@@ -207,11 +207,18 @@ $this->breadcrumbs = array(
 
             <div class="fileform">
                 <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", "onchange" => "getName(this.value)")); ?>
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
                 <input tabindex="-1" class="uploadAvatar" type="submit">
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
+            <div class="clientValidationError"
+                 ng-show="StudentReg['StudentReg[avatar]'].$error.size || StudentReg['StudentReg[avatar]'].$error.fileType">
+                <div ng-cloak
+                     ng-show="StudentReg['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
+                <div ng-cloak
+                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo 'Невірний тип файлу' ?></div>
+            </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
