@@ -3,25 +3,22 @@
  * Created by PhpStorm.
  * User: Ivanna
  * Date: 22.10.2015
- * Time: 14:39
+ * Time: 14:41
  */
 
-class LoanPaymentSchema implements IPaymentCalculator{
+class BasePaymentSchema implements IPaymentCalculator{
 
-    private $loanValue;
-    private $payCount;
+    public $payCount;
 
-    function __construct($loan, $payCount){
-        $this->loanValue = $loan;
+    function __construct($payCount){
         $this->payCount = $payCount;
-     }
+    }
 
     public function getSumma(IBillableObject $payObject){
-        return $payObject->getBasePrice() * (1 + $this->loanValue/100);
+        return $payObject->getBasePrice();
     }
 
     public function getCloseDate(IBillableObject $payObject, $startDate){
-        var_dump($startDate);die();
         return $startDate + $payObject->getDuration();
     }
 

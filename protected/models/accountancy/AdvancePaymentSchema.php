@@ -6,18 +6,25 @@
  * Time: 14:35
  */
 
-class AdvancePaymentSchema extends PaymentScheme{
+class AdvancePaymentSchema implements IPaymentCalculator{
 
-    public function getSumma(){
-        return 100;
+    public $payCount;
+    public $discount;
+
+    function __construct($discount, $payCount){
+        $this->discount = $discount;
+        $this->payCount = $payCount;
     }
 
-    public function getCloseDate(){
-        return date(DateTime::W3C);
+    public function getSumma(IBillableObject $payObject){
+        return $payObject->getBasePrice() * (1 - $this->discount/100);
     }
 
-    public function getInvoicesList(){
+    public function getCloseDate(IBillableObject $payObject, $startDate){
+        return $startDate + $payObject->getDuration();
+    }
+
+    public function getInvoicesList(IBillableObject $payObject, $startDate){
         return [];
     }
-
 }

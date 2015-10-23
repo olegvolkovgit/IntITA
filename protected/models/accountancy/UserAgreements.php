@@ -138,16 +138,21 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'ModuleService',$module, $schema);
     }
 
-    private static function newAgreement($user,AbstractIntITAService $modelFactory, $param_id , $schema)
+    private static function newAgreement($user, $modelFactory, $param_id , $schemaId)
     {
+        $schema = PaymentScheme::getSchema($schemaId);
+        $serviceModel = $modelFactory::getService($param_id);
+        $billableObject = $serviceModel->getBillableObject();
+
         $model = new UserAgreements();
-
         $model->user_id = $user;
-        $model->payment_schema= $schema;
-        $model->summa = 0;
-        $model->service_id = $modelFactory::getService($param_id)->service_id;
+        $model->payment_schema = $schemaId;
+        $model->service_id = $serviceModel->service_id;
 
-        if ($model->service_id) {
+        $model->summa = $schema->getSumma($billableObject);
+        $model->close_date = $schema->getCloseDate($billableObject, date('Y-m-d'));
+
+       if ($model->service_id) {
             $model->save();
         }else {
             throw new CHttpException(403, "Договір не заведено!");

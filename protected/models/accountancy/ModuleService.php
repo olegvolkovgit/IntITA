@@ -14,6 +14,8 @@
 class ModuleService extends AbstractIntITAService
 {
     public $module;
+    public $service;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -47,12 +49,7 @@ class ModuleService extends AbstractIntITAService
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
         return array(
-            array('service_id, course_id', 'required'),
-            array('module_id', 'numerical', 'integerOnly'=>true),
-            array('service_id', 'length', 'max'=>10),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('service_id, module_id', 'safe', 'on'=>'search'),
+
         );
 	}
 
@@ -120,9 +117,9 @@ class ModuleService extends AbstractIntITAService
         return Module::model();
     }
 
-    public static function getService($idCourse)
+    public static function getService($idModule)
     {
-        return parent::getService(__CLASS__,"module_id",$idCourse);
+        return parent::getService(__CLASS__,"module_id",$idModule);
     }
 
     protected function setMainModel($module)
@@ -133,5 +130,12 @@ class ModuleService extends AbstractIntITAService
     public function getDuration()
     {
         return $this->module->getDuration();
+    }
+
+    public function getBillableObject(){
+        if(!$this->module){
+            $this->setModelIfNeeded();
+        }
+        return $this->module;
     }
 }

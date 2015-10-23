@@ -13,35 +13,24 @@ class PaymentsController extends Controller
 
     public function actionNewAccount(){
         $user = Yii::app()->request->getPost('user', '0');
-        $courseId = Yii::app()->request->getPost('course', '0');
-        $moduleId = Yii::app()->request->getPost('module', '0');
+        $course = Yii::app()->request->getPost('course', '0');
+        $module = Yii::app()->request->getPost('module', '0');
         $summaNum = Yii::app()->request->getPost('summaNum', '0');
 
-        $typeBillableObject = TempPay::checkBillableObjectType($courseId, $moduleId);
-        echo $typeBillableObject;die();
-        if($courseId != 0) {
-            if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, $courseId);
-             } else {
-                $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
-            }
-        } else {
-            if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, $courseId);
-            } else {
-                $summa = 0;
-            }
-        }
-        $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
+        $typeBillableObject = TempPay::checkBillableObjectType($course, $module);
+        $summa = 0;
+        if ($typeBillableObject == 'Module')
 
-        if($moduleId != 0) {
-            UserAgreements::moduleAgreement($user, $moduleId, 1);
-        } else{
-            if($courseId != 0) {
-                UserAgreements::courseAgreement($user, $courseId, $summaNum);
-            }
+        if($typeBillableObject == 'Module') {
+            $summa = $typeBillableObject::model()->findByPk($module)->getBasePrice();
+            UserAgreements::moduleAgreement($user, $module, 1);
+        }
+        if($typeBillableObject == 'Course') {
+            $summa = $typeBillableObject::model()->findByPk($course)->getBasePrice();
+            UserAgreements::courseAgreement($user, $course, $summaNum);
         }
 
+        $accountId = TempPay::addAccount($user, $course, $module, $summa);
         echo (isset($accountId))?$accountId:'0';
     }
 }

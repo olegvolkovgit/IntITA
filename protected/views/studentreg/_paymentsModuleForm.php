@@ -29,6 +29,7 @@
     <?php } ?>
     <?php $this->endWidget();?>
 </div>
+<div id="kalebas"></div>
 <?php if ($price > 0){?>
 <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
     '<?php echo ($module != null)?$module->module_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>

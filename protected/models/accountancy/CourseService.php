@@ -129,4 +129,11 @@ class CourseService extends AbstractIntITAService
     {
         return $this->course->getDuration();
     }
+
+    public function getBillableObject(){
+        if(!$this->course){
+            $this->setModelIfNeeded();
+        }
+        return $this->course;
+    }
 }

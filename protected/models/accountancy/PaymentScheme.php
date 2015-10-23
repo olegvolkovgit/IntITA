@@ -11,13 +11,8 @@
  * @property string $name
  * @property integer $monthpay
  */
-abstract class PaymentScheme extends CActiveRecord
+class PaymentScheme extends CActiveRecord
 {
-    abstract public function getSumma();
-
-    abstract public function getCloseDate();
-
-    abstract public function getInvoicesList();
 	/**
 	 * @return string the associated database table name
 	 */
@@ -112,7 +107,19 @@ abstract class PaymentScheme extends CActiveRecord
 	}
 
     public static function getSchema($id){
-     //   return PaymentScheme::model()->findByPk($id);
+        $schema = null;
+        $model = PaymentScheme::model()->findByPk($id);
+        if ($model->loan > 0){
+            $schema = new LoanPaymentSchema($model->loan, $model->pay_count);
+        } else{
+            if ($model->monthpay > 0){
+                $schema = new BasePaymentSchema($model->pay_count);
+            } else {
+                $schema = new AdvancePaymentSchema($model->discount, $model->pay_count);
+            }
+        }
+
+        return $schema;
     }
 
 }

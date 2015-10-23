@@ -11,6 +11,7 @@ abstract class AbstractIntITAService extends CActiveRecord
     abstract protected function mainModel();
     abstract protected function primaryKeyValue();
     abstract protected function descriptionFormatted();
+    abstract public function getBillableObject();
 
     protected static function createService($serviceClass,$service_param,$service_param_value)
     {
@@ -31,6 +32,11 @@ abstract class AbstractIntITAService extends CActiveRecord
 
     protected function beforeValidate()
     {
+        $this->setModelIfNeeded();
+        return parent::beforeValidate();
+    }
+
+    protected function setModelIfNeeded(){
         $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
         if(!isset($this->service))
         {
@@ -40,8 +46,5 @@ abstract class AbstractIntITAService extends CActiveRecord
             $this->service = $service;
             $this->service_id = $service->service_id;
         }
-        return parent::beforeValidate();
     }
-
-
 }
