@@ -79,7 +79,7 @@ function loadRedactorJs() {
             if (edit == false && flag ==false) {
                 $(order).attr('data-flag', 'true');
                 loadTextRedactor();
-                $(order).attr('data-flag', 'true');
+                $(order).removeAttr('data-flag');
                 $(order).attr('data-target', 'insertE');
                 if ($("div").is("#toolbar" + idName)) {
                     $(order).parent().parent().parent().next('#toolbar' + idName).after('<div class="container" id="formulaBox">' +
