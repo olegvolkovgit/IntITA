@@ -39,7 +39,7 @@
     function printAccount(user, module){
         $.ajax({
             type: "POST",
-            url: "/payments/newAccount",
+            url: "/IntITA/payments/newAccount",
             data: {
                 'user': user,
                 'module': module,
@@ -47,7 +47,8 @@
             },
             cache: false,
             success: function(data){
-                location.href = '/payments/index?account=' + data;
+                $('#kalebas').html(data);
+                //location.href = '/payments/index?account=' + data;
             }
         });
     }

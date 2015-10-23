@@ -14,7 +14,7 @@
  * The followings are the available model relations:
  * @property Course $idCourse
  * @property Module $idModule
- * @property User $idUser
+ * @property StudentReg $idUser
  */
 class TempPay extends CActiveRecord
 {
@@ -131,5 +131,20 @@ class TempPay extends CActiveRecord
         }
         parent::beforeSave();
         return true;
+    }
+
+    public static function checkBillableObjectType($course, $module){
+        if($course != 0) {
+            if($module != 0){
+                return 'Module';
+            } else {
+                return 'Course';
+            }
+        } else {
+            if($module != 0) {
+                return 'Module';
+            }
+        }
+        return false;
     }
 }

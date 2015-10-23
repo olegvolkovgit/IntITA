@@ -7,6 +7,11 @@
  */
 abstract class AbstractIntITAService extends CActiveRecord
 {
+    abstract protected function setMainModel($model);
+    abstract protected function mainModel();
+    abstract protected function primaryKeyValue();
+    abstract protected function descriptionFormatted();
+
     protected static function createService($serviceClass,$service_param,$service_param_value)
     {
         $service = new $serviceClass();

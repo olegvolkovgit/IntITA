@@ -112,7 +112,7 @@ abstract class PaymentScheme extends CActiveRecord
 	}
 
     public static function getSchema($id){
-        return PaymentScheme::model()->findByPk($id);
+     //   return PaymentScheme::model()->findByPk($id);
     }
 
 }

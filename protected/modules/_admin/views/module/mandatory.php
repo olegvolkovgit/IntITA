@@ -38,8 +38,5 @@
 
         <input type="submit" value="Задати попередній модуль">
 </form>
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?117"></script>
 
-<!-- VK Widget -->
-<div id="vk_groups"></div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ajaxModule.js'); ?>"></script>

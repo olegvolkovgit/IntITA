@@ -113,7 +113,8 @@ $price = Course::getCoursePrice($course);
             },
             cache: false,
             success: function(data){
-                location.href = '/IntITA/payments/index?account=' + data;
+                $('#kalebas').html(data);
+                //location.href = '/IntITA/payments/index?account=' + data;
             }
         });
     }

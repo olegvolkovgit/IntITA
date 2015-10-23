@@ -9,7 +9,7 @@
  *
  * The followings are the available model relations:
  * @property Service $service
- * @property Course $course
+ * @property Module $module
  */
 class ModuleService extends AbstractIntITAService
 {
@@ -48,11 +48,11 @@ class ModuleService extends AbstractIntITAService
 		// class name for the relations automatically generated below.
         return array(
             array('service_id, course_id', 'required'),
-            array('course_id', 'numerical', 'integerOnly'=>true),
+            array('module_id', 'numerical', 'integerOnly'=>true),
             array('service_id', 'length', 'max'=>10),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('service_id, course_id', 'safe', 'on'=>'search'),
+            array('service_id, module_id', 'safe', 'on'=>'search'),
         );
 	}
 
@@ -125,9 +125,9 @@ class ModuleService extends AbstractIntITAService
         return parent::getService(__CLASS__,"module_id",$idCourse);
     }
 
-    protected function setMainModel($course)
+    protected function setMainModel($module)
     {
-        $this->module = $course;
+        $this->module = $module;
     }
 
     public function getDuration()

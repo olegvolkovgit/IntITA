@@ -138,7 +138,7 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'ModuleService',$module, $schema);
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id , $schema)
+    private static function newAgreement($user,AbstractIntITAService $modelFactory, $param_id , $schema)
     {
         $model = new UserAgreements();
 
