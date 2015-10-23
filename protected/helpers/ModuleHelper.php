@@ -261,13 +261,6 @@ class ModuleHelper
         else return 'redFinished';
     }
 
-    public static function lessonsInMonth($idModule){
-        $model = Module::model()->findByPk($idModule);
-        $hours = ($model->hours_in_day != 0)?$model->hours_in_day:3;
-        $days = ($model->days_in_week != 0)?$model->days_in_week:2;
-        return round($hours * $days * 4);
-    }
-
     //true if $pathString is a module alias
     public static function checkModuleAlias($pathString){
         if (in_array($pathString, array('index', 'saveLesson', 'saveModule', 'unableLesson', 'upLesson',

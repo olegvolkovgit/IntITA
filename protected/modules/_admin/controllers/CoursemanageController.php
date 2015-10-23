@@ -194,12 +194,12 @@ class CoursemanageController extends AdminController
     }
 
     public function actionSchema($idCourse){
-        $modules = CourseModules::getCourseModulesSchema($idCourse);
+        $modules = Course::getCourseModulesSchema($idCourse);
         if(count($modules) <= 0){
             $this->render('schemaError');
         }
-        $tableCells = CourseModules::getTableCells($modules, $idCourse);
-        $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
+        $tableCells = Course::getTableCells($modules, $idCourse);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
 
         $this->render('_schema', array(
             'modules' => $modules,
@@ -211,9 +211,9 @@ class CoursemanageController extends AdminController
     }
 
     public function actionSaveSchema($idCourse){
-        $modules = CourseModules::getCourseModulesSchema($idCourse);
-        $tableCells = CourseModules::getTableCells($modules, $idCourse);
-        $courseDurationInMonths =  CourseModules::getCourseDuration($tableCells) + 5;
+        $modules = Course::getCourseModulesSchema($idCourse);
+        $tableCells = Course::getTableCells($modules, $idCourse);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
 
         $schema = Yii::app()->controller->renderPartial('_schema', array(
             'modules' => $modules,

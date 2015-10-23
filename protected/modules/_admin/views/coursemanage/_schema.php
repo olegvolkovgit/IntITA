@@ -46,7 +46,7 @@
             ?>
             <td class="examCell">E</td>
             <?php
-            if(CourseModules::getCourseDuration($tableCells) == $j){
+            if(Course::getCourseDuration($tableCells) == $j){
                 ?>
                 <td class="trainee" colspan="4">Стажування</td>
                 <?php

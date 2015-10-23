@@ -32,10 +32,13 @@
  */
 
 
-class Course extends CActiveRecord
+class Course extends CActiveRecord implements IBillableObject
 {
 	const MAX_LEVEL = 5;
     public $logo=array(),$oldLogo;
+
+
+
     /**
 	 * @return string the associated database table name
 	 */
@@ -171,7 +174,30 @@ class Course extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public function getHoursTermination ($num)
+    public function getBasePrice()
+    {
+        $price = 0;
+        $modules = $this->module;
+
+        foreach($modules as $module)
+        {
+            $price += $module->module_price;
+        }
+
+        return $price;
+    }
+
+    public function getDuration()
+    {
+        $modules = $this->getCourseModulesSchema($this->course_ID);
+        $tableCells = $this->getTableCells($modules, $this->course_ID);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
+
+        return $courseDurationInMonths;
+
+    }
+
+    public function getHoursTermination ($num)
 	{
 		//Оставляем две последние цифры от $num
 		$number = substr($num, -2);
@@ -287,5 +313,54 @@ class Course extends CActiveRecord
             }
         }
         return $criteria;
+    }
+
+    public static function getCourseModulesSchema($idCourse)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->condition = 'id_course=' . $idCourse;
+        $criteria->toArray();
+
+        $modules = CourseModules::model()->findAll($criteria);
+
+        $modules = CourseModules::sortByModuleDuration($idCourse, $modules);
+        return $modules;
+    }
+
+    public static function getTableCells($modules, $idCourse)
+    {
+        $cells = [];
+        for ($i = 0, $count = count($modules); $i < $count; $i++) {
+            $cells[$i]['idModule'] = $modules[$i]['id_module'];
+            $start = CourseModules::startMonth($idCourse, $modules[$i]['id_module']);
+            $duration = CourseModules::getModuleDurationMonths($modules[$i]['id_module']);
+            $end = $start + $duration;
+            for ($j = 0; $j < $start; $j++) {
+                $cells[$i][$j] = 0;
+            }
+            for ($k = $start; $k < $end; $k++) {
+                if ($end - $k > 1) {
+                    $cells[$i][$k] = Module::lessonsInMonth($modules[$i]['id_module']);
+                } else {
+                    $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']),
+                        Module::lessonsInMonth($modules[$i]['id_module']));
+                }
+            }
+
+        }
+        return $cells;
+    }
+
+    public static function getCourseDuration($tableCells)
+    {
+        var_dump($tableCells);die;
+        $count = count($tableCells);
+        $arr = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr[$i] = count($tableCells[$i]) - 2;
+        }
+        //var_dump(max($arr) + 1);die;
+        return max($arr) + 1;
     }
 }

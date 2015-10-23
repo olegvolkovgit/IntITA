@@ -28,10 +28,11 @@
  * The followings are the available model relations:
  * @property Course $course0
  */
-class Module extends CActiveRecord
+class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
     public $oldLogo;
+
 
     /**
      * @return string the associated database table name
@@ -160,6 +161,16 @@ class Module extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    public function getBasePrice()
+    {
+        return $this->module_price;
+    }
+
+    public function getDuration()
+    {
+       return $this->getModuleDuration($this);
     }
 
     public function getHoursTermination($num)
@@ -311,5 +322,22 @@ class Module extends CActiveRecord
         }
     }
 
+    public static function lessonsInMonth($idModule)
+    {
+        $model = Module::model()->findByPk($idModule);
 
+        $lesson = Module::getModuleDuration($model) * 4; //умножаем на уроки в день
+
+        return $lesson;
+
+    }
+
+    private static function getModuleDuration($module)
+    {
+        $hours = ($module->hours_in_day != 0) ? $module->hours_in_day : 3;
+        $days = ($module->days_in_week != 0) ? $module->days_in_week : 2;
+
+        return round($hours * $days);
+
+    }
 }
