@@ -42,15 +42,16 @@ div.subLinks{
     z-index: 0;
     word-wrap: break-word;
     border-right: solid 2px #DCDCDC;
+    margin-top: 8px;
 }
 .lessonTheme{
     color: #4b75a4;
     font-size:28px;
-    margin: 0;
+    margin: 0 0 10px 0;
+    line-height: 28px;
     font-weight: normal;
     display: inline-block;
     width: 100%;
-    margin-bottom: 4px;
 }
 h1.lessonPart p{
     color: #4b75a4;
@@ -311,7 +312,7 @@ div.lessonButFinal
     /*position: fixed;*/
     margin: 5px 0 20px 10px;
     z-index: 1;
-    width: 390px;
+    width: 380px;
     /*top: 0;*/
 }
 #sidebarLesson div.titlesBlock

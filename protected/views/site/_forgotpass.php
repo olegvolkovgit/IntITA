@@ -33,6 +33,6 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled'=>'recoveryForm.$invalid')); ?>
     </div>
 
-
-    <?php $this->endWidget(); ?>
 </div><!-- form -->
+<?php $this->endWidget(); ?>
+

@@ -5,20 +5,23 @@
 
     <div class="signIn22">
         <div id="heedd2">
-        <table>
-            <tr>
-                <td>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'errorLess.jpg'); ?>"></td>
-                <td>
-                    <h1>Помилка!</h1>
-                </td>
-            </tr>
-        </table>
-        <div class="happily2">
-            <p>Щось пішло неправильно, виправ помилку<br>
-            та переходь до наступного матеріалу.</p>
+            <table>
+                <tr>
+                    <td>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'errorLess.jpg'); ?>">
+                    </td>
+                    <td>
+                        <h1>Помилка!</h1>
+                    </td>
+                </tr>
+            </table>
+            <div class="happily2">
+                <p>Щось пішло неправильно, виправ помилку<br>
+                    та переходь до наступного матеріалу.</p>
+            </div>
+            <input id="signInButtonM22" type="submit" value="ЗАКРИТИ"
+                   onclick="$('#mydialog3').dialog('close');return false;">
         </div>
-        <input id="signInButtonM22" type="submit" value="ЗАКРИТИ" onclick="$('#mydialog3').dialog('close');return false;">
     </div>
-</div><!-- form -->
+    <!-- form -->
 </div>
