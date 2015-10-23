@@ -297,7 +297,7 @@ td.button-column{
 .headerLeftModule div.startCourse{
     float:right;
 }
-#paymentButton{
+#paymentButtonModule, #paymentButtonCourse{
     display: inline-block;
     position: relative;
     width: 160px;
@@ -313,7 +313,7 @@ td.button-column{
     letter-spacing: 1px;
     line-height: 32px;
 }
-#paymentButton:hover {
+#paymentButtonModule:hover ,  #paymentButtonCourse:hover {
     background: #454545;
     cursor: pointer;
 }
