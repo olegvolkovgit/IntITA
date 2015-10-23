@@ -343,6 +343,8 @@ div.lessonButFinal
     text-decoration: none;
     color: #4B75A4;
     font-weight: bold;
+    display: inline-block;
+    vertical-align: top;
 }
 #sidebarLesson .titlesBlock{
     margin-bottom: 10px;
