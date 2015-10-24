@@ -111,7 +111,7 @@ class PaymentScheme extends CActiveRecord
         $model = PaymentScheme::model()->findByPk($id);
         if ($model->loan > 0){
             $schema = new LoanPaymentSchema($model->loan, $model->pay_count);
-        } else{
+        }else{
             if ($model->monthpay > 0){
                 $schema = new BasePaymentSchema($model->pay_count);
             } else {

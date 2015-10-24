@@ -150,9 +150,11 @@ class UserAgreements extends CActiveRecord
         $model->service_id = $serviceModel->service_id;
 
         $model->summa = $schema->getSumma($billableObject);
-        $model->close_date = $schema->getCloseDate($billableObject, date('Y-m-d'));
+        $startDate = new DateTime();
+        $model->close_date = $schema->getCloseDate($billableObject, $startDate);
 
-       if ($model->service_id) {
+        var_dump($schema->getInvoicesList($billableObject, $startDate));die();
+        if ($model->service_id) {
             $model->save();
         }else {
             throw new CHttpException(403, "Договір не заведено!");

@@ -37,7 +37,7 @@ class Invoice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('agreement_id, date_created, date_cancelled', 'required'),
+			array('date_created', 'required'),
 			array('agreement_id, user_created, user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			array('payment_date, expiration_date', 'safe'),
@@ -122,4 +122,15 @@ class Invoice extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function createInvoice($summa,DateTime $paymentDate){
+        $model = new Invoice();
+
+        $model->date_created = time();
+        $model->payment_date = $paymentDate;
+        $model->summa = $summa;
+        $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days');
+
+        return $model;
+    }
 }

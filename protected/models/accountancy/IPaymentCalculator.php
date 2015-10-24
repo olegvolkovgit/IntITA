@@ -9,6 +9,6 @@
 interface IPaymentCalculator {
 
     public function getSumma(IBillableObject $payObject);
-    public function getCloseDate(IBillableObject $payObject, $startDate);
-    public function getInvoicesList(IBillableObject $payObject, $startDate);
+    public function getCloseDate(IBillableObject $payObject,  DateTime $startDate);
+    public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate);
 }
