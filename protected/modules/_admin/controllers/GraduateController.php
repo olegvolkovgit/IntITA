@@ -88,8 +88,7 @@ class GraduateController extends AdminController
                     $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
                     $model->avatar->saveAs($path);
                 } else {
-                    $model->avatar = 'noname2.png';
-                    $model->save();
+                    $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                 }
                 $this->redirect('/_admin/graduate/index');
             }
@@ -118,16 +117,13 @@ class GraduateController extends AdminController
 
             if ($model->save()) {
                 if (!empty($model->avatar)) {
-                    //$model->avatar = $avatar;
                     $path = Yii::getPathOfAlias('webroot') . '/images/graduates/' . $model->avatar->getName();
                     $model->avatar->saveAs($path);
                 } else {
                     if ($avatarOld != null) {
-                        $model->avatar = $avatarOld;
-                        $model->save();
+                        $model->updateByPk($model->id, array('avatar' => $avatarOld));
                     } else {
-                        $model->avatar = 'noname2.png';
-                        $model->save();
+                        $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                     }
                 }
                 $this->redirect(array('view', 'id' => $model->id));

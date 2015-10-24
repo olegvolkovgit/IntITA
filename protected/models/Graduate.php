@@ -38,6 +38,7 @@ class Graduate extends CActiveRecord
 		// will receive user inputs.
 		return array(
             array('first_name', 'required', 'message'=>'Введіть ім\'я випускника.'),
+			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
             array('last_name', 'required', 'message'=>'Введіть прізвище випускника.'),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>'Рейтинг повинен бути числовим значенням.'),
 			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
