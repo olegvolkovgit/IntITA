@@ -13,9 +13,9 @@
         <div id="textBlockForm">
             <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>"
                   method="post">
-                <input name="idLecture" value="<?php echo $lecture->id; ?>" hidden="hidden">
-                <input name="type" value="" id="blockType" hidden="hidden">
-                <input name="page" value="<?php echo $pageOrder;?>" id="page" hidden="hidden">
+                <input name="idLecture" value="<?php echo $lecture->id; ?>" type="hidden">
+                <input name="type" value="" id="blockType" type="hidden">
+                <input name="page" value="<?php echo $pageOrder;?>" id="page" type="hidden">
                 <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
                           required form="addBlockForm" rows="10">
                 </textarea>

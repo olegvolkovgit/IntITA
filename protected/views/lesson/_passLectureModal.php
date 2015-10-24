@@ -44,9 +44,9 @@
             </div>
             <input id="signInButtonM2" type="submit" value="ЗАКРИТИ">
         </div>
-        <?php $this->endWidget(); ?>
     </div>
     <!-- form -->
+    <?php $this->endWidget(); ?>
 </div>
 <script>
     Share = {

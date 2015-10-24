@@ -10,9 +10,7 @@
     <div class="TeacherProfiletitles">
         <?php echo Yii::t('teacher', '0181'); ?>
         <b>
-            <?php echo $model->last_name; ?>
-            <?php echo $model->first_name; ?>
-            <?php echo $model->middle_name; ?>
+            <?php echo TeacherHelper::getTeacherLastName($model->teacher_id).' '.TeacherHelper::getTeacherFirstName($model->teacher_id)." ".TeacherHelper::getTeacherMiddleName($model->teacher_id);?>
         </b>
     </div>
 </div>

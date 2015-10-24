@@ -10,7 +10,7 @@
                     <span><?php echo $data['graduate_date'] ?></span>
                 </div>
                 <div class="text1"><?php echo GraduateHelper::getGraduateName($data['id']); ?></div>
-
+                <?php if(!empty($data['recall'])){?>
                 <div class="spoiler-title closed"> <?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?> </div>
                 <div class="spoiler-body">
                     <form name=form_recall>
@@ -20,6 +20,7 @@
                     <img onclick="hideRecall(this)" src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
                     <?php echo $data['recall'] ?>
                 </div>
+                <?php }?>
 
                 <div class="text">
                     <div>

@@ -1,6 +1,7 @@
 <?php
     $module = Module::model()->findByPk($module);
-     $price = ModuleHelper::getModuleSumma($module->module_ID, $idCourse);?>
+    $price = ModuleHelper::getModuleSumma($module->module_ID, $course);
+?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
@@ -21,7 +22,7 @@
         <div id="rowRadio">
             <div class="paymentsListOdd">
                 <input type="radio" class="paymentPlan_value" name="payment" value="1">
-                <span><?php echo ModuleHelper::getModulePricePayment($module->module_ID, 0, $idCourse); ?>
+                <span><?php echo ModuleHelper::getModulePricePayment($module->module_ID, 0, $course); ?>
                 </span>
             </div>
         </div>

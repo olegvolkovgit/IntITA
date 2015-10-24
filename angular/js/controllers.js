@@ -29,4 +29,22 @@ angular.module('mainApp.directives', [])
             }
         }
     }])
+    .directive('fileCheck', function() {
+        var validFormats = ['jpg', 'png', 'gif'];
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attributes, ngModelController) {
+                var maxFileSize = Number(attributes.maxFileSize) || Number.MAX_VALUE;
+                element.bind('change', function() {
+                    var file = this.files[0];
+                    ngModelController.$setValidity('size', file.size <= maxFileSize);
+                    var value = element.val(),
+                        ext = value.substring(value.lastIndexOf('.') + 1).toLowerCase();
+                    ngModelController.$setValidity('fileType', validFormats.indexOf(ext) !== -1);
+                    //console.log(ngModelController);
+                    scope.$apply();
+                });
+            }
+        };
+    })
     .controller('validationController', validationController);

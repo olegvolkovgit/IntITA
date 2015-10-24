@@ -3,8 +3,8 @@
     <br>
     <span id="formLabel"><?php echo Yii::t('module', '0382'); ?></span>
     <span><?php echo Yii::t('module', '0226')." ".($newmodel->lesson_count + 1)."."; ?></span>
-    <input name="idModule" value="<?php echo $newmodel->module_ID;?>" hidden="hidden">
-    <input name="order" value="<?php echo $order+1;?>" hidden="hidden">
+    <input name="idModule" value="<?php echo $newmodel->module_ID;?>" type="hidden">
+    <input name="order" value="<?php echo $order+1;?>" type="hidden">
     <br>
     <br>
     <span>Назва (UA):</span>
