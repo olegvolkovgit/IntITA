@@ -1,6 +1,6 @@
 <?php
 
-class m151024_085328_add_translation_672 extends CDbMigration
+class m151024_085328_add_translation_672_673 extends CDbMigration
 {
 	public function safeUp()
 	{
