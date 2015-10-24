@@ -217,7 +217,7 @@ $this->breadcrumbs = array(
                 <div ng-cloak
                      ng-show="StudentReg['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
                 <div ng-cloak
-                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo 'Невірний тип файлу' ?></div>
+                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
             </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>

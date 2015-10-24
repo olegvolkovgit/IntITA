@@ -239,7 +239,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <div ng-cloak
                       ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
                 <div ng-cloak
-                      ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo 'Невірний тип файлу' ?></div>
+                      ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
             </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>
