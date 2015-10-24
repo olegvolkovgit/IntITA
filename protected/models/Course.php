@@ -363,4 +363,5 @@ class Course extends CActiveRecord implements IBillableObject
 
         return max($arr) + 1;
     }
+
 }
