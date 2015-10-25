@@ -43,7 +43,7 @@
         <div>
             <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
-                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'.$_SESSION['lg'].'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>

@@ -118,6 +118,30 @@ class Messages extends CActiveRecord
 
         return $model->save();
     }
+    // create messages for create international schema of course
+    public static function getMessagesForSchemabyLang($lang)
+    {
+        $arr = [];
 
+        $startMessages = 667;
+        $endMessages = 671;
 
+        for ($i = $startMessages; $i <= $endMessages; $i++)
+        {
+            $messages = Messages::model()->findAllByAttributes(array('id'=>$i,'language' => $lang));
+            //var_dump($messages[0]->translation);die;
+            array_push($arr,$messages[0]->translation);
+        }
+        $exam = Messages::model()->findAllByAttributes(array('id'=>'0673','language' => $lang));
+        array_push($arr,$exam[0]->translation);
+
+        return $arr;
+    }
+
+    public static function getMessagesByLevel($idMessages,$lang)
+    {
+        $messages = Messages::model()->findAllByAttributes(array('id' => $idMessages,'language' => $lang));
+
+        return $messages[0]->translation;
+    }
 }

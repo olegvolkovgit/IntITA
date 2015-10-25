@@ -10,23 +10,25 @@ class CourseHelper
 {
     public static function translateLevel($level)
     {
+
         switch ($level) {
             case 'intern':
-                $level = Yii::t('courses', '0232');
+                $level = Messages::getMessagesByLevel('0232',Yii::app()->session['lg']);
                 break;
             case 'junior':
-                $level = Yii::t('courses', '0233');
+                $level = Messages::getMessagesByLevel('0233',Yii::app()->session['lg']);
                 break;
             case 'strong junior':
-                $level = Yii::t('courses', '0234');
+                $level = Messages::getMessagesByLevel('0234',Yii::app()->session['lg']);
                 break;
             case 'middle':
-                $level = Yii::t('courses', '0235');
+                $level = Messages::getMessagesByLevel('0235',Yii::app()->session['lg']);
                 break;
             case 'senior':
-                $level = Yii::t('courses', '0236');
+                $level = Messages::getMessagesByLevel('0236',Yii::app()->session['lg']);
                 break;
         }
+
         return $level;
     }
 
@@ -210,7 +212,6 @@ class CourseHelper
     public static function getCourseName($idCourse)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-
         $title = "title_" . $lang;
         $courseTitle = Course::model()->findByPk($idCourse)->$title;
         return $courseTitle;
@@ -404,8 +405,12 @@ class CourseHelper
         return $toPay;
     }
 
-    public static function generateModuleCoursesList($idModule)
+    public static function generateModuleCoursesList($idModule,$messages = null)
     {
+        if($messages !== null)
+        {
+            return ;
+        }
         $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
         $count = count($courses);
         $result = [];
@@ -419,4 +424,34 @@ class CourseHelper
         return $result;
     }
 
+    public static function printTitle($idCourse,$messages = null)
+    {
+        $courseHelper = new CourseHelper();
+        $chartSchema = $courseHelper->getMessage($messages,'chart');
+       return $chartSchema . ' ' . CourseHelper::getCourseName($idCourse).", ".CourseHelper::getCourseLevel($idCourse);
+    }
+
+    public static function getMessage($message = null,$type = null)
+    {
+        if ($message !== null){
+        switch($type){
+            case 'months' : return $message[0];
+            case 'module' : return $message[1];
+            case 'trainee' : return $message[2];
+            case 'chart' : return $message[3];
+            case 'save' ; return $message[4];
+        }
+        }
+        else{
+            switch($type)
+            {
+                case 'months' : return Yii::t('course', '0667');
+                case 'module' : return Yii::t('course', '0668');
+                case 'trainee' : return Yii::t('course', '0669');
+                case 'chart' : return Yii::t('course', '0670');
+                case 'save' : return Yii::t('course', '0671');
+                case 'exam' : return Yii::t('course','0673');
+            }
+        }
+    }
 }
