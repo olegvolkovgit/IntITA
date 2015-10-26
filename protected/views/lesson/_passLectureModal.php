@@ -18,17 +18,17 @@
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'LessFinish.jpg'); ?>">
                     </td>
                     <td>
-                        <h1 style="">Вітаємо!</h1>
+                        <h1 style=""><?php echo Yii::t('lecture', '0675'); ?></h1>
                     </td>
                 </tr>
             </table>
 
             <div class="happily">
-                <p>Ти успішно пройшов(ла) заняття!</p>
+                <p><?php echo Yii::t('lecture', '0676'); ?></p>
 
-                <p id="haa">Також можеш</p>
+                <p id="haa"><?php echo Yii::t('lecture', '0677'); ?></p>
 
-                <p>поділитися успіхом у соціальних мережах:</p>
+                <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>
             <div class='finishedShare'>
                 <a onclick="Share.facebook('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?>')">
@@ -42,7 +42,7 @@
                 <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo ModuleHelper::getModuleName($lecture->idModule) ?>. Я успішно завершив(ла) заняття <?php echo addslashes(LectureHelper::getLectureTitle($lecture->id)) ?> INTITA - програмуй майбутнє!')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'twitter.png'); ?>"></a>
             </div>
-            <input id="signInButtonM2" type="submit" value="ЗАКРИТИ">
+            <input id="nextLecture" type="submit" value="<?php echo Yii::t('lecture', '0674'); ?>">
         </div>
     </div>
     <!-- form -->
