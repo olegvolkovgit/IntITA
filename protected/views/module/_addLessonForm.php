@@ -8,15 +8,15 @@
     <br>
     <br>
     <span>Назва (UA):</span>
-    <input type="text" name="titleUa" id="titleUa" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70">
+    <input type="text" name="titleUa" id="titleUa" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70" oninput="validateComments(this,'Введіть назву в потрібному форматі або заповніть поле')">
     <br>
     <br>
     <span>Назва (RU):</span>
-    <input type="text" name="titleRu" id="titleRu" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70">
+    <input type="text" name="titleRu" id="titleRu" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70" oninput="validateComments(this,'Введіть назву в потрібному форматі')">
     <br>
     <br>
     <span>Назва (EN):</span>
-    <input type="text" name="titleEn" id="titleEn" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70">
+    <input type="text" name="titleEn" id="titleEn" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70" oninput="validateComments(this,'Введіть назву в потрібному форматі')">
     <br><br>
     <input type="submit"  value=<?php echo Yii::t('module', '0383'); ?> id="submitButton" onclick="trimLectureName()">
 </form>

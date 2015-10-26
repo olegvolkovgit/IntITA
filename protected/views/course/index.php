@@ -33,4 +33,6 @@ $this->breadcrumbs = array(
         <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' => $canEdit, 'model' => $model)); ?>
     </div>
 </div>
-
+<?php if ($canEdit) { ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
+<?php } ?>
