@@ -1,6 +1,6 @@
 <?php
 
-class m151024_085328_add_translation_672 extends CDbMigration
+class m151024_085328_add_translation_672_673 extends CDbMigration
 {
 	public function safeUp()
 	{
@@ -22,13 +22,13 @@ class m151024_085328_add_translation_672 extends CDbMigration
 				'id_record' => null,
 				'id' => '0672',
 				'language' => 'ua',
-				'translation' => 'Íåâ³ðíèé ôîðìàò ôàéëó'
+				'translation' => 'ÐÐµÐ²Ñ–Ñ€Ð½Ð¸Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ñ„Ð°Ð¹Ð»Ñƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0672',
 				'language' => 'ru',
-				'translation' => 'Íåâåðíûé ôîðìàò ôàéëà'
+				'translation' => 'ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ñ„Ð°Ð¹Ð»Ð°'
 			),
 			array(
 				'id_record' => null,
@@ -40,13 +40,13 @@ class m151024_085328_add_translation_672 extends CDbMigration
 				'id_record' => null,
 				'id' => '0673',
 				'language' => 'ua',
-				'translation' => 'Åêçàìåí'
+				'translation' => 'Ð•ÐºÐ·Ð°Ð¼ÐµÐ½'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0673',
 				'language' => 'ru',
-				'translation' => 'Ýêçàìåí'
+				'translation' => 'Ð­ÐºÐ·Ð°Ð¼ÐµÐ½'
 			),
 			array(
 				'id_record' => null,

@@ -59,8 +59,20 @@ $('.search-form form').submit(function(){
         'level',
         'start',
         array(
-            'class'=>'CButtonColumn',
-            'deleteConfirmation'=>'Yii::t("coursemanage", "0518")',
+            'class' => 'CButtonColumn',
+            'template'=>'{view}{update}{delete}{restore}',
+            'deleteConfirmation'=>Yii::t("coursemanage", "0518"),
+            'headerHtmlOptions'=>array('style'=>'width:100px'),
+            'buttons'=>array(
+                'restore' => array
+                (
+                    'label'=>'Відновити курс',
+                    'url' => 'Yii::app()->createUrl("/_admin/coursemanage/restore", array("id"=>$data->primaryKey))',
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
+                    'options'=>array(
+                        'class'=>'controlButtons;',
+                    )
+                )),
         ),
     ),
 )); ?>

@@ -244,4 +244,9 @@ class CoursemanageController extends AdminController
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    public function actionRestore($id){
+        Course::model()->updateByPk($id, array('cancelled' => 0));
+        $this->actionIndex();
+    }
 }

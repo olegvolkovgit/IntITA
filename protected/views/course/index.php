@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
 <div class="courseBlock">
     <div class="courseTitle">
         <h1>
-            <?php echo CourseHelper::getCourseName($model->course_ID); ?>
+            <?php echo CourseHelper::getCourseName($model->course_ID);  ?>
         </h1>
     </div>
     <div class="courseShortInfo">
