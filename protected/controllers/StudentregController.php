@@ -29,6 +29,11 @@ class StudentRegController extends Controller
                 'actions'=>array('profile', 'edit'),
                 'users'=>array('?'),
             ),
+            array('deny',
+                'actions'=>array('index', 'registration'),
+                'users'=>array('@'),
+                'deniedCallback'=>function() { Yii::app()->controller->redirect(array ('/site/index')); },
+            ),
         );
     }
     /**

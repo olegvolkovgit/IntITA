@@ -4,7 +4,6 @@
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
-<body>
 <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
 <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/step.css"/>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
@@ -34,4 +33,3 @@ $this->pageTitle = MainpageHelper::getTitle();
     $this->renderPartial('_form');
 }
 ?>
-</body>
