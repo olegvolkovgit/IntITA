@@ -140,6 +140,7 @@ class Messages extends CActiveRecord
 
     public static function getMessagesByLevel($idMessages,$lang)
     {
+        if(empty($lang)) $lang = 'ua';
         $messages = Messages::model()->findAllByAttributes(array('id' => $idMessages,'language' => $lang));
 
         return $messages[0]->translation;

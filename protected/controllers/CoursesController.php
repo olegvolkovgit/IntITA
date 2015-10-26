@@ -26,6 +26,7 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
+
 //        $criteria= new CDbCriteria;
 //        $criteria->alias = 'course';
 //        $criteria->order = 'rating DESC';
