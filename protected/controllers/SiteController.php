@@ -208,6 +208,7 @@ class SiteController extends Controller
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                             'user_id' => $userModel->id,
                             'username' => $name,
+                            'user_email' => $model->email,
                             'username_clean' => $name,
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
@@ -228,6 +229,7 @@ class SiteController extends Controller
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
                             'user_lang' => $current_lang,
                             'user_birthday' =>$birthday,
+                            'user_email' => $model->email,
                             'user_avatar' =>$avatar,
                             'user_avatar_type' => "avatar.driver.upload"
                         ), 'user_id=:id', array(':id' => $userModel->id));
