@@ -42,7 +42,7 @@
         $this->widget('ImperaviRedactorWidget', array(
             'selector' => "#newTextBlock",
             'options' => array(
-                'imageUpload' => $this->createUrl('files/upload'),
+                'imageUpload' => $this->createUrl('lesson/uploadImage'),
                 'lang' => LectureHelper::getLanguage(),
                 'toolbar' => true,
                 'iframe' => true,
