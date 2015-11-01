@@ -144,4 +144,8 @@ class Config extends CActiveRecord
 	public static function getCoeffIndependentModule(){
 		return Yii::app()->config->get('coeffIndependentModule');
 	}
+
+    public static function getExpirationTimeInterval(){
+        return Yii::app()->config->get('expirationTimeInterval');
+    }
 }
