@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Created by PhpStorm.
  * User: Ivanna
@@ -108,11 +109,35 @@ class ModuleController extends AdminController
                     }
                 }
             }
-
+            $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
 
-            if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->module_ID));
+            $imageName = array_shift($_FILES['Module']['name']);
+
+            if(!empty($imageName)){
+
+            $tmpName = array_shift($_FILES['Module']['tmp_name']);
+
+            if (!empty($imageName)) {
+                $model->logo = $_FILES['Module'];
+
+                if ($model->validate()) {
+                    $model->save();
+
+                   if(Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
+                    $this->redirect(array('view', 'id' => $model->module_ID));
+
+                    else throw new \application\components\Exceptions\IntItaException('Avatar not SAVE');
+                }
+            }
+            }
+            else{
+                $model->save();
+
+                $model->module_img = $model->oldLogo;
+
+                if(!Module::model()->updateByPk($id,array('module_img' => $model->module_img))) //Костиль
+                    throw new \application\components\Exceptions\IntItaException('Avatar not save');
             }
         }
         $this->render('update', array(
@@ -121,12 +146,14 @@ class ModuleController extends AdminController
     }
 
     public function actionDelete($id){
-        Module::model()->updateByPk($id, array('cancelled' => 1));
+       Module::model()->updateByPk($id,array('cancelled' => 1));
     }
 
     public function actionRestore($id){
-        Module::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionIndex();
+
+        $model = Module::model()->findByPk($id);
+        $model->cancelled = 0;
+        $this->saveModel($model);
     }
 
     public function actionMandatory($id){
@@ -177,5 +204,29 @@ class ModuleController extends AdminController
 
         return $this->renderPartial('_ajaxModule',array('modules' => $modules));
         }
+    }
+
+    public function actionUpStatus($id)
+    {
+
+        $model = Module::model()->findByPk($id);
+        $model->status = 0;
+        $this->saveModel($model);
+    }
+    public function actionDownStatus($id)
+    {
+        $model = Module::model()->findByPk($id);
+        $model->status = 1;
+        $this->saveModel($model);
+    }
+
+    private function saveModel($model)
+    {
+        if ($model->save())
+        {
+            $this->actionIndex();
+        }
+        else throw new \Stash\Exception\RuntimeException('Model not save!!!');
+
     }
 }

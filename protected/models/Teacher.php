@@ -230,17 +230,11 @@ class Teacher extends CActiveRecord
 
     protected function beforeSave()
     {
-        if (($this->scenario == "update") && empty($this->avatar['tmp_name']['foto_url'])) {
-            $this->foto_url = $this->oldAvatar;
-        } else if (($this->scenario == "update") && (!empty($this->avatar['tmp_name']['foto_url']))) {
-            $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->oldAvatar;
-            if (is_file($src))
-                unlink($src);
+
+        if(!Avatar::saveCourseLogo($this,'foto')){
+            return false;
         }
-        if (($this->scenario == "insert" || $this->scenario == "update") && !empty($this->avatar['tmp_name']['foto_url'])) {
-            if (!copy($this->avatar['tmp_name']['foto_url'], Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->avatar['name']['foto_url']))
-                throw new CHttpException(500);
-        }
+
         return true;
     }
 
