@@ -19,13 +19,13 @@
 
                 <div class='courseName'><a
                         href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php
-                        echo CourseHelper::getCourseName($val->course_ID);?></a>
+                        echo  CourseHelper::getCourseName($val->course_ID);?></a>
                 </div>
                 <!--Рівень курсу-->
                 <div class="courseLevelBox">
                     <?php echo Yii::t('courses', '0068'); ?>
                     <span class="courseLevel">
-                        <?php echo CourseHelper::translateLevel($val->level);?>
+                        <?php echo  CourseHelper::translateLevel($val->level);?>
 			        </span>
 
                     <div class='courseLevelIndex'>
@@ -47,7 +47,7 @@
                 <!--Стан курсу-->
                 <div class="courseStatusBox">
                     <?php echo Yii::t('courses', '0094'); ?>
-                    <span id="courseStatus<?php echo $val->status; ?>">
+                    <span id="courseStatus<?php echo  $val->status; ?>">
                                     <?php if ($val->status == 0) {?>
                                          <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png');?>">
                                     <?php

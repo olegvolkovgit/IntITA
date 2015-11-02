@@ -1,9 +1,16 @@
 <?php
+
+//use AccountancyException;
 class CoursemanageController extends AdminController
 {
     /**
      * @return array action filters
      */
+    public function init()
+    {
+        parent::init();
+
+    }
     public function filters()
     {
         return array(
@@ -214,18 +221,32 @@ class CoursemanageController extends AdminController
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $lang = $_SESSION['lg'];
+        $lg = ['ua','ru','en'];
+        for($i = 0;$i < 3;$i++)
+        {
 
-        $schema = Yii::app()->controller->renderPartial('_schema', array(
-            'modules' => $modules,
-            'idCourse' => $idCourse,
-            'tableCells' => $tableCells,
-            'courseDuration' => $courseDurationInMonths,
-            'save' => true,
-        ), true);
+            Yii::app()->session['lg'] = $lg[$i];
+            $messages = Messages::model()->getMessagesForSchemabyLang($lg[$i]);
 
-        $name = 'schema_course_'.$idCourse.'.html';
-        $file = StaticFilesHelper::pathToCourseSchema($name);
-        file_put_contents($file, $schema);
+            $schema = $this->renderPartial('_schema', array(
+                'modules' => $modules,
+                'idCourse' => $idCourse,
+                'tableCells' => $tableCells,
+                'courseDuration' => $courseDurationInMonths,
+                'messages' => $messages,
+                'save' => true,
+            ), true);
+            $name = 'schema_course_'.$idCourse.'_'.$lg[$i].'.html';
+            $file = StaticFilesHelper::pathToCourseSchema($name);
+            file_put_contents($file, $schema);
+        }
+        Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionRestore($id){
+        Course::model()->updateByPk($id, array('cancelled' => 0));
+        $this->actionIndex();
     }
 }

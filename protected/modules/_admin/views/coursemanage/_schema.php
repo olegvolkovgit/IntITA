@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<link rel="stylesheet" type="text/css" href="<?php echo '/css/courseSchema.css';?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl() . '/css/courseSchema.css';?>"/>
 
 <div id="courseSchema">
 <br>
-<h3><?php echo "Схема проходження курсу ".CourseHelper::getCourseName($idCourse).", ".CourseHelper::getCourseLevel($idCourse);?></h3>
+    <?php if(isset($messages)?$message = $messages:$message=null);?>
+<h3><?php   echo CourseHelper::printTitle($idCourse,$message); ?></h3>
 <br>
 <table id="schema">
     <tr>
-        <td class="monthTitle">місяці</td>
+        <td class="monthTitle"><?php echo CourseHelper::getMessage($message,'months')?></td>
         <?php for($i = 0; $i < $courseDuration; $i++){?>
             <td class="monthsCell"><?php echo $i + 1;?></td>
         <?php }?>
     </tr>
 
     <tr>
-        <td class="monthTitle">модулі</td>
+        <td class="monthTitle"><?php echo CourseHelper::getMessage($message,'months') ?></td>
         <td class="monthTitle" colspan="<?php echo $courseDuration - 5;?>"></td>
         <td colspan="5" id="courseName">
         <?php echo CourseHelper::getCourseName($idCourse);?>
@@ -44,11 +45,11 @@
                 }
             }
             ?>
-            <td class="examCell">E</td>
+            <td class="examCell" title=<?php echo CourseHelper::getMessage($message,'exam') ?>>E</td>
             <?php
             if(Course::getCourseDuration($tableCells) == $j){
                 ?>
-                <td class="trainee" colspan="4">Стажування</td>
+                <td class="trainee" colspan="4"><?php echo CourseHelper::getMessage($message,'trainee'); ?></td>
                 <?php
             } else {
                 for(; $j < $courseDuration - 1;$j++){?>
@@ -62,7 +63,7 @@
     <?php }?>
 
     <tr>
-    <td class="monthTitle">місяці</td>
+    <td class="monthTitle"><?php echo CourseHelper::getMessage($message,'months'); ?></td>
     <?php for($i = 0; $i < $courseDuration; $i++){?>
         <td class="monthsCell"><?php echo $i + 1;?></td>
     <?php }?>
@@ -71,9 +72,9 @@
     <?php if(!$save){?>
     <br>
     <br>
-    <button id="saveButton"><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
+    <button id="saveButton" onclick="alert('Ваша схема збережена!!!')"><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
             array('idCourse' => $idCourse)
-        );?>">Зберегти cхему</a></button>
+        );?>"  ><?php echo CourseHelper::getMessage($message,'save'); ?></a></button>
 <br>
 <br>
     <br>

@@ -88,3 +88,16 @@ function deleteBlock(idLecture, order) {
         });
     }
 }
+function deleteVideo(idLecture, pageOrder) {
+    if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
+        $.ajax({
+            type: "POST",
+            url: "/lesson/deleteVideo",
+            data: {'idLecture': idLecture, 'pageOrder': pageOrder},
+            success: function () {
+               location.reload();
+                return false;
+            }
+        });
+    }
+}

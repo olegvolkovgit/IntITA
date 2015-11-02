@@ -31,9 +31,9 @@ $valid=TestsHelper::getTestValid($idBlock);
                 </div>
             </fieldset>
             <br>
-            <input type="text" name="optionsNum" class="optionsNum" hidden="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
-            <input type="text" name="idBlock" hidden="hidden" value="<?php echo $idBlock;?>"/>
-            <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="optionsNum" class="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
+            <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <br>
         <input type="submit" value="Редагувати" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">

@@ -208,6 +208,7 @@ class SiteController extends Controller
                         Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
                             'user_id' => $userModel->id,
                             'username' => $name,
+                            'user_email' => $model->email,
                             'username_clean' => $name,
                             'user_timezone' => 'Europe/Kiev',
                             'user_dateformat' => 'd M Y H:i',
@@ -228,6 +229,7 @@ class SiteController extends Controller
                         Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
                             'user_lang' => $current_lang,
                             'user_birthday' =>$birthday,
+                            'user_email' => $model->email,
                             'user_avatar' =>$avatar,
                             'user_avatar_type' => "avatar.driver.upload"
                         ), 'user_id=:id', array(':id' => $userModel->id));
@@ -411,6 +413,15 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('email' => $email));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
+
+            $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+            $firstName = ($userModel->firstName) ? $userModel->firstName : '';
+            $secondName = ($userModel->secondName) ? $userModel->secondName : '';
+            $name = $firstName . ' ' . $secondName;
+            Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
+                'username_clean' => $name,
+            ), 'user_id=:id', array(':id' => $userModel->id));
+
             if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
             else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));

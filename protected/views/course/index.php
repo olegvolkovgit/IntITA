@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
 <div class="courseBlock">
     <div class="courseTitle">
         <h1>
-            <?php echo CourseHelper::getCourseName($model->course_ID); ?>
+            <?php echo CourseHelper::getCourseName($model->course_ID);  ?>
         </h1>
     </div>
     <div class="courseShortInfo">
@@ -33,4 +33,6 @@ $this->breadcrumbs = array(
         <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' => $canEdit, 'model' => $model)); ?>
     </div>
 </div>
-
+<?php if ($canEdit) { ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
+<?php } ?>

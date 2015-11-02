@@ -35,6 +35,12 @@
 		<?php echo $form->error($model,'pictureURL'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'slider_text'); ?>
+		<?php echo $form->textField($model,'slider_text'); ?>
+		<?php echo $form->error($model,'slider_text'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
 	</div>

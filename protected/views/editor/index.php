@@ -96,8 +96,12 @@ if($page->video == null) {?>
         'url' => $this->createUrl('lesson/updateLectureElementAttribute'),
         'placement' => 'right',
     ));
-}
 ?>
+    <div class="videoDeleteButton">
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>" class="editIco"
+             onclick="deleteVideo(<?php echo $page->id_lecture; ?>, <?php echo $page->page_order; ?>);">
+    </div>
+<?php } ?>
 
 <br>
 <br>

@@ -31,4 +31,7 @@ if($idCourse != 0) {
 
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>
+<?php if ($editMode) { ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
+<?php } ?>
 

@@ -323,6 +323,7 @@ a:hover .image-close-window {
 #messages-region .message-user {
     font-size: 1.1em;
     color: #000;
+    word-wrap: break-word;
 }
 
 /* message area (#message) */

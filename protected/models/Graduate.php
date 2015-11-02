@@ -38,10 +38,12 @@ class Graduate extends CActiveRecord
 		// will receive user inputs.
 		return array(
             array('first_name', 'required', 'message'=>'Введіть ім\'я випускника.'),
+			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
             array('last_name', 'required', 'message'=>'Введіть прізвище випускника.'),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>'Рейтинг повинен бути числовим значенням.'),
 			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
+			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>'Введіть дату в форматі РРРР-ММ-ДД'),
 			array('graduate_date, recall', 'safe'),
 			// The following rule is used by search().
 			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page, history, rate, recall, first_name_en, last_name_en', 'safe', 'on'=>'search'),

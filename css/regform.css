@@ -373,6 +373,10 @@ input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus{
 .studProf .clientValidationError, .formStudProf .clientValidationError{
     margin-left: 215px;
 }
+.formStudProf .rightProfileColumn .clientValidationError{
+    margin-left: 0;
+    margin-bottom: 15px;
+}
 input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton {
     background: #666666;
 }

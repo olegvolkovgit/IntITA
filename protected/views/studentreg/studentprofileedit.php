@@ -15,10 +15,14 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.date.extensions.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.phone.extensions.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.numeric.extensions.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.regex.extensions.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.date.extensions.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.phone.extensions.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.numeric.extensions.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.regex.extensions.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/mask.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
 <link href="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.css'); ?>" rel="stylesheet"/>
@@ -37,15 +41,11 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'editProfile-form',
         'action' => Yii::app()->createUrl('studentreg/rewrite'),
-// Please note: When you enable ajax validation, make sure the corresponding
-// controller action is handling ajax validation correctly.
-// There is a call to performAjaxValidation() commented in generated controller code.
-// See class documentation of CActiveForm for details on this.
-        'enableClientValidation'=>true,
+        'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
             'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
-        'htmlOptions' => array('enctype' => 'multipart/form-data', 'name'=>'profileForm', 'ng-controller'=>"validationController", 'novalidate'=>true),
+        'htmlOptions' => array('enctype' => 'multipart/form-data', 'ng-controller' => "validationController", 'name' => 'profileForm', 'novalidate' => true),
     )); ?>
     <div class="studProf">
         <table class="titleProfile">
@@ -69,18 +69,22 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                 <div id="mainreg">
                     <div class="row">
                         <?php echo $form->label($model, 'firstName'); ?>
-                        <?php echo $form->textField($model, 'firstName', array('ng-init'=>"firstName='$post->firstName'" , 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'),'ng-model'=>"firstName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
+                        <?php echo $form->textField($model, 'firstName', array('ng-init' => "firstName='$post->firstName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'), 'ng-model' => "firstName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
+
                         <div class="clientValidationError" ng-show="profileForm['StudentReg[firstName]'].$invalid">
-                            <span ng-cloak ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                            <span ng-cloak
+                                  ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'secondName'); ?>
-                        <?php echo $form->textField($model, 'secondName', array('ng-init'=>"secondName='$post->secondName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'),'ng-model'=>"secondName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
+                        <?php echo $form->textField($model, 'secondName', array('ng-init' => "secondName='$post->secondName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'), 'ng-model' => "secondName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
+
                         <div class="clientValidationError" ng-show="profileForm['StudentReg[secondName]'].$invalid">
-                            <span ng-cloak ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                            <span ng-cloak
+                                  ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
@@ -121,15 +125,19 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                         ?>
                         <div class="rowPass">
                             <?php echo $form->label($model, 'password'); ?>
-                            <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, 'ng-model'=>"pw1")); ?></span>
+                            <span
+                                class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, 'ng-model' => "pw1")); ?></span>
                             <?php echo $form->error($model, 'password'); ?>
                         </div>
                         <div class="row">
                             <?php echo $form->label($model, 'password_repeat'); ?>
-                            <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model'=>"pw2", 'pw-check'=>"pw1")); ?></span>
+                            <span
+                                class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model' => "pw2", 'pw-check' => "pw1")); ?></span>
                             <?php echo $form->error($model, 'password_repeat'); ?>
-                            <div class="clientValidationError" ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
-                                <span ng-cloak ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
+                            <div class="clientValidationError"
+                                 ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
+                                <span ng-cloak
+                                      ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
                             </div>
                         </div>
                     <?php } ?>
@@ -163,27 +171,27 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
 
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('value' => $post->facebook, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0631'),'placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'facebook', array('value' => $post->facebook, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0631'), 'placeholder' => Yii::t('regexp', '0243'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('value' => $post->googleplus, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0632'),'placeholder' => Yii::t('regexp', '0244'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('value' => $post->googleplus, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0632'), 'placeholder' => Yii::t('regexp', '0244'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('value' => $post->linkedin, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0633'),'placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('value' => $post->linkedin, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0633'), 'placeholder' => Yii::t('regexp', '0245'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('value' => $post->vkontakte, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'),'placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('value' => $post->vkontakte, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'), 'placeholder' => Yii::t('regexp', '0246'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('value' => $post->twitter, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'),'placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'twitter', array('value' => $post->twitter, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'), 'placeholder' => Yii::t('regexp', '0247'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
@@ -195,7 +203,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
         ?>
         <?php echo CHtml::link(Yii::t('regexp', '0295'), '#', array('id' => 'changepassword', 'onclick' => '$("#changeemail").dialog("open"); return false;')); ?>
         <div class="rowbuttons">
-            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()', 'ng-disabled'=>'profileForm.$invalid')); ?>
+            <?php echo CHtml::submitButton(Yii::t('regexp', '0249'), array('id' => "submitEdit", 'onclick' => 'trimNetwork()', 'ng-disabled' => 'profileForm.$invalid')); ?>
         </div>
     </div>
     <div class="rightProfileColumn">
@@ -221,16 +229,23 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             ?>
             <div class="fileform">
                 <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", "onchange" => "getName(this.value)")); ?>
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
                 <input tabindex="-1" class="uploadAvatar" type="submit">
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
+            <div class="clientValidationError"
+                 ng-show="profileForm['StudentReg[avatar]'].$error.size || profileForm['StudentReg[avatar]'].$error.fileType">
+                <div ng-cloak
+                      ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
+                <div ng-cloak
+                      ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
+            </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar">
-                <div id="profileIndicator"><?php echo Yii::t('edit', '0618').' '; ?><span id="percent"></span>%</div>
+                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span>%</div>
                 <div id="indicators">
                     <img id='progressLine'
                          src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline0.png'); ?>'>
@@ -260,7 +275,6 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
     </div>
     <?php $this->endWidget(); ?>
 </div><!-- form -->
-</div>
 <!--Change modal-->
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -313,7 +327,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
         $('#progressBar').show();
         $('#gridBlock').show();
         var progress = 1;
-        if ('<?php echo $post->avatar ?>'=='noname.png') {
+        if ('<?php echo $post->avatar ?>' == 'noname.png') {
             progress--;
             $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='avatar' onclick='focusAvatar()'></td><td><?php echo Yii::t('edit', '0619');?></td></tr>");
         }
@@ -321,11 +335,11 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
             if ($(this).val() != '') {
                 progress++;
             } else {
-                $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='"+$(this).attr('id')+"' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td><?php echo Yii::t('edit', '0620');?> " + $(this).attr('data-source') + "</td></tr>");
+                $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='" + $(this).attr('id') + "' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td><?php echo Yii::t('edit', '0620');?> " + $(this).attr('data-source') + "</td></tr>");
             }
         });
         var percent = Math.round(progress * (100 / 17)).toFixed(0);
-        var percentForGrid=percent-1;
+        var percentForGrid = percent - 1;
         var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
         $('#percent').text(percent);
         $("#progressMask").css('margin-left', maskMargin);
@@ -354,15 +368,15 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
             $(emptyField).focus();
         }
     }
-    $('.indicator').focusout(function(){
-        var thistarget=$(this);
-        if($.trim(thistarget.val())=='')
+    $('.indicator').focusout(function () {
+        var thistarget = $(this);
+        if ($.trim(thistarget.val()) == '')
             setTimeout(function () {
-                $('[data-target="'+thistarget.attr('id')+'"]').parent().parent().show();
+                $('[data-target="' + thistarget.attr('id') + '"]').parent().parent().show();
             }, 500);
     });
-    $('.indicator').focusin(function(){
-        $('[data-target="'+$(this).attr('id')+'"]').parent().parent().hide();
+    $('.indicator').focusin(function () {
+        $('[data-target="' + $(this).attr('id') + '"]').parent().parent().hide();
     });
 </script>
 <!-- Scripts for open tabs-->

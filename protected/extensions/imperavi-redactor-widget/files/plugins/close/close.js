@@ -20,6 +20,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 				$(id).hide();
 				$('#formulaBox').remove();
 				$(".redactor-editor").removeAttr("data-target");
+				$(order).removeAttr('data-flag');
 				this.core.destroy();
 			}
 		};

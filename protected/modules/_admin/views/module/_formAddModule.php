@@ -72,6 +72,14 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model,'status'); ?>
+        <?php echo $form->dropDownList($model,'status',array(
+            '0'=>Yii::t('coursemanage', '0396'),'1'=>Yii::t('coursemanage', '0397')),
+            array('options'=>array('0'=>array('selected'=>true)))); ?>
+        <?php echo $form->error($model,'status'); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model,'for_whom'); ?>
         <?php echo $form->textArea($model,'for_whom',array('rows'=>6, 'cols'=>50)); ?>
         <?php echo $form->error($model,'for_whom'); ?>

@@ -24,6 +24,9 @@ a, button, input[type="submit"]{
 a:hover{
     color: #666666;
 }
+span{
+    font-weight: normal;
+}
 #main-wrapper {
     box-sizing: border-box;
     min-height: 100%;
@@ -37,6 +40,7 @@ a:hover{
 h1, h2, h3, h4, html{
     font-family: "MyriadPro";
     color: #333333;
+    font-weight: normal;
 }
 p {
     font-family: "MyriadPro";

@@ -38,11 +38,11 @@
                 </div>
             </fieldset>
             <br>
-            <input type="text" name="optionsNum" id="optionsNum" hidden="hidden" value="1"/>
-            <input type="text" name="pageId" id="pageId" hidden="hidden" value="<?php echo $pageId;?>"/>
-            <input type="text" name="lectureId" id="lectureId" hidden="hidden" value="<?php echo $lecture;?>"/>
-            <input type="text" name="testType" id="testType" hidden="hidden" value="plain"/>
-            <input type="text" name="author" id="author" hidden="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="optionsNum" id="optionsNum" type="hidden" value="1"/>
+            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
+            <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
+            <input name="testType" id="testType" type="hidden" value="plain"/>
+            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <input type="submit" value="Додати тест" id='addtests'>
     </form>

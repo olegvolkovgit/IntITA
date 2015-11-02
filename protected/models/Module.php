@@ -50,6 +50,7 @@ class Module extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('status','required'),
             array('language, title_ua, level', 'required'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
@@ -107,6 +108,7 @@ class Module extends CActiveRecord implements IBillableObject
             'module_img' => 'Фото',
             'module_number' => 'Номер модуля',
             'cancelled' => 'Видалений',
+            'status' => 'Статус',
         );
     }
 

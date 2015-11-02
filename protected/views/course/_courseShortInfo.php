@@ -43,17 +43,22 @@
         <div>
             <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
-                <a href='<?php echo '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'.html');
+                <a href='<?php echo Config::getBaseUrl(). '/' . StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'.$_SESSION['lg'].'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>
             <?php }?>
             <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
-            <b><?php echo CourseHelper::getLessonsCount($model->course_ID); ?><?php echo ' '.Yii::t('module', '0216'); ?></b>, <?php echo Yii::t('course', '0209'); ?>
-            - <b><?php echo ceil(CourseHelper::getLessonsCount($model->course_ID)/ 36); ?> <?php echo Yii::t('course', '0664'); ?></b>
-            (3 <?php echo Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220'); ?>)
+            <b><?php echo CourseHelper::getLessonsCount($model->course_ID).' ' . Yii::t('module', '0216');?></b>
+            <?php if(CourseHelper::getLessonsCount($model->course_ID)!=0){
+                echo ', '.Yii::t('course', '0209'); ?>
+                -<b>
+                    <?php echo ceil(CourseHelper::getLessonsCount($model->course_ID) / 36); ?><?php echo Yii::t('course', '0664'); ?>
+                </b>
+                <?php echo '(3 '.Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220').')';
+            }?>
         </div>
-       <?php $this->renderPartial('_paymentsForm', array('model' => $model));?>
+       <?php if($model->status != 0){$this->renderPartial('_paymentsForm', array('model' => $model));}?>
     </div>
 </div>
 

@@ -54,7 +54,7 @@ class Carousel extends CActiveRecord
 		return array(
 			'order' => 'Порядок відображення',
 			'pictureURL' => 'Фото',
-            'slider_text' => 'Текст слайдера',
+            'slider_text' => 'Код тексту для слайдера',
 		);
 	}
 
