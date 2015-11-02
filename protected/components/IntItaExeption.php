@@ -8,8 +8,6 @@
 
 class IntItaExeption extends Exception {
 
-
-
     public function __construct($value) {
 
         if($value == 5)

@@ -115,4 +115,11 @@ class CourseService extends AbstractIntITAService
     {
         return parent::createService(__CLASS__,'course_id',$course_id);
     }
+
+    public function getBillableObject(){
+        if(!$this->course){
+            $this->setModelIfNeeded();
+        }
+        return $this->course;
+    }
 }
