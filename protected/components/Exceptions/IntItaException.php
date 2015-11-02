@@ -12,13 +12,7 @@ class IntItaExeption extends Exception {
 
     public function __construct($value) {
 
-        if($value == 5)
-        {
-            $this->message = 'Not found';
-            $this->code = 300;
-            throw new Exception('5',3);
-        }
-
+        parent::__construct('IntItaException',$value);
     }
 
     public function __toString() {
