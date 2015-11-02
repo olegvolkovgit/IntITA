@@ -34,12 +34,19 @@
         'language',
         'module_price',
         'level',
-        'cancelled',
+        array(
+            'name' => 'cancelled',
+            'value' => 'Module::getCancelledName($data->cancelled)',
+        ),
+        array(
+          'name' => 'status',
+            'value' => 'Module::getStatusName($data->status)',
+        ),
         array(
             'class' => 'CButtonColumn',
-            'template'=>'{view}{update}{delete}{restore}',
+            'template'=>'{view}{update}{delete}{restore}{statusUp}{statusDown}',
             'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
-            'headerHtmlOptions'=>array('style'=>'width:100px'),
+            'headerHtmlOptions'=>array('style'=>'width:120px'),
             'buttons'=>array(
             'restore' => array
             (
@@ -49,7 +56,27 @@
                 'options'=>array(
                     'class'=>'controlButtons;',
                 )
-            )),
+            ),
+            'statusUp' => array
+            (
+                'label'=>'Статус модуля',
+                'url' => 'Yii::app()->createUrl("/_admin/module/upStatus", array("id"=>$data->primaryKey))',
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                'options'=>array(
+                    'class'=>'controlButtons;',
+                )
+            ),
+            'statusDown' => array
+            (
+                'label'=>'Статус модуля',
+                'url' => 'Yii::app()->createUrl("/_admin/module/downStatus", array("id"=>$data->primaryKey))',
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
+                'options'=>array(
+                    'class'=>'controlButtons;',
+                )
+            )
+
+            ),
         ),
     ),
 )); ?>

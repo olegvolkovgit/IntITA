@@ -62,6 +62,7 @@ class Avatar {
             if (is_file($src) && $oldLogo!='courseimg1.png')
                 unlink($src);
         }
+
         Module::model()->updateByPk($id, array('module_img' => $imageName));
         ImageHelper::uploadAndResizeImg(
             Yii::getPathOfAlias('webroot')."/images/module/".$imageName,
