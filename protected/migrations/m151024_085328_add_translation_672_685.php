@@ -1,6 +1,6 @@
 <?php
 
-class m151024_085328_add_translation_672_673 extends CDbMigration
+class m151024_085328_add_translation_672_685 extends CDbMigration
 {
 	public function safeUp()
 	{
@@ -82,7 +82,7 @@ class m151024_085328_add_translation_672_673 extends CDbMigration
 				'id_record' => null,
 				'id' => '0672',
 				'language' => 'ua',
-				'translation' => 'Невірний формат файлу'
+				'translation' => 'Неправильний формат файла'
 			),
 			array(
 				'id_record' => null,
