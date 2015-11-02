@@ -37,13 +37,13 @@ class Invoice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date_created', 'required'),
+			array('user_created, summa, agreement_id', 'required'),
 			array('agreement_id, user_created, user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
-			array('payment_date, expiration_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date, user_cancelled', 'safe', 'on'=>'search'),
+			array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date,
+			user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -126,10 +126,10 @@ class Invoice extends CActiveRecord
     public static function createInvoice($summa,DateTime $paymentDate){
         $model = new Invoice();
 
-        $model->date_created = time();
-        $model->payment_date = $paymentDate;
+        $model->payment_date = $paymentDate->format('Y-m-d H:i:s');
         $model->summa = $summa;
-        $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days');
+        $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days')
+            ->format('Y-m-d H:i:s');
 
         return $model;
     }

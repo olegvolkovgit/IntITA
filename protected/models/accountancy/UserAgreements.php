@@ -153,13 +153,33 @@ class UserAgreements extends CActiveRecord
         $startDate = new DateTime();
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
 
-        var_dump($schema->getInvoicesList($billableObject, $startDate));die();
         if ($model->service_id) {
             $model->save();
+            $invoicesList = $schema->getInvoicesList($billableObject, $startDate);
+            $agreementId = $model->id;
+            UserAgreements::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
         }else {
             throw new CHttpException(403, "Договір не заведено!");
         }
+
+
         return $model;
+    }
+
+    private static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
+
+        foreach ($invoicesList as $invoice) {
+            $invoice->user_created = $user;
+            $invoice->agreement_id = $agreementId;
+            $invoice->save();
+        }
+
+    }
+
+    public function afterSave()
+    {
+        parent::afterSave();
+        $this->id = Yii::app()->db->getLastInsertID();
     }
 
 }

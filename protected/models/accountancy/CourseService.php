@@ -136,11 +136,4 @@ class CourseService extends AbstractIntITAService
         }
         return $this->course;
     }
-
-    public function getBillableObject(){
-        if(!$this->course){
-            $this->setModelIfNeeded();
-        }
-        return $this->course;
-    }
 }
