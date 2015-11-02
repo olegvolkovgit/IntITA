@@ -243,6 +243,22 @@ class LessonController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+    //delete block on lesson page
+    public function actionDeleteVideo()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $pageOrder = Yii::app()->request->getPost('pageOrder');
+
+        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
+        if($modelLecturePage->video){
+            $elementId=$modelLecturePage->video;
+            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
+            LectureElement::model()->deleteByPk($elementId);
+        }
+
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionUploadImage()
     {

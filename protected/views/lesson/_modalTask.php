@@ -23,17 +23,16 @@
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'LessFinish.jpg'); ?>">
                     </td>
                     <td>
-                        <h1 style="">Вітаємо!</h1>
+                        <h1 style=""><?php echo Yii::t('lecture', '0675'); ?></h1>
                     </td>
                 </tr>
             </table>
 
             <div class="happily">
-                <p>Ти успішно вирішив(ла) завдання!<br>
-                    Тепер ти можеш перейти до наступного матеріалу!</p>
+                <p><?php echo Yii::t('lecture', '0679'); ?></p>
             </div>
 
-            <input id="signInButtonM2" type="submit" value="ЗАКРИТИ">
+            <input id="signInButtonM2" type="submit" value="<?php echo Yii::t('lecture', '0681'); ?>">
         </div>
     </div>
     <!-- form -->

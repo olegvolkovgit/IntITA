@@ -680,3 +680,10 @@ a.lectureDisabled{
     background: green;
 }
 /*sidebar lectures */
+.videoDeleteButton{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+}

@@ -56,7 +56,7 @@ class ModuleHelper
     public static function getModuleDuration($countless, $hours, $hInDay, $daysInWeek)
     {
         if ($countless == 0) {
-            return 0;
+            return '';
         }
         return ", " . Yii::t('module', '0217') . " - <b>" . round($countless * 7 / ($hInDay * $daysInWeek)) . " " . Yii::t('module', '0218') . "</b> (" . $hInDay . " " . Yii::t('module', '0219') . ", " . $daysInWeek . " " . Yii::t('module', '0220') . ")";
     }
