@@ -1,4 +1,7 @@
 <?php
+namespace application\components\Exceptions;
+use UAParser\Exception\FileNotFoundException;
+
 /**
  * Created by PhpStorm.
  * User: Quicks
@@ -6,25 +9,11 @@
  * Time: 14:56
  */
 
-class IntItaExeption extends Exception {
+class IntItaException extends \Exception {
 
-
-
-    public function __construct($value) {
-
-        parent::__construct('IntItaException',$value);
-    }
-
-    public function __toString() {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
-
-
-    public function checkData()
-    {
-       throw new Exception($this->__toString(),300);
-    }
-
+    protected $view = '/site/error';
+    protected $message  ;
+    protected $code;
 
 
 }

@@ -111,6 +111,7 @@ class SiteController extends Controller
             $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $_POST['StudentReg']['email'])));
         }
 // collect user input data
+
         if (isset($_POST['StudentReg'])) {
             $model->attributes = $_POST['StudentReg'];
             $getToken = rand(0, 99999);
@@ -120,6 +121,7 @@ class SiteController extends Controller
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
+
                 $model->updateByPk($model->id, array('avatar' => 'noname.png'));
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
@@ -413,6 +415,7 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('email' => $email));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
+
             if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
             else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));

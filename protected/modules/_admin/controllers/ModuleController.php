@@ -111,7 +111,17 @@ class ModuleController extends AdminController
 
             $model->attributes = $_POST['Module'];
 
-            if ($model->save()) {
+            $model->oldLogo = $model->module_img;
+            $imageName = $_FILES['Module']['name']['module_img'];
+            $tmpName = $_FILES['Module']['tmp_name']['module_img'];
+            if (!empty($imageName)) {
+                $model->logo = $_FILES['Module'];
+                if ($model->validate()) {
+                    Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo);
+                }
+            }
+
+                    if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->module_ID));
             }
         }

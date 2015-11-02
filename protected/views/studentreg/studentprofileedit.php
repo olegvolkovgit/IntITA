@@ -99,8 +99,12 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
+                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15,'min' => '6', 'data-source' => Yii::t('edit', '0625'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
+                    </div>
+                    <div class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
+                            <span ng-cloak
+                                  ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
                     </div>
                     <?php if ($post::getRole($post->id) == False) {
                         ?>
@@ -312,14 +316,14 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change email modal-->
 <script>
-    $(document).ready(function () {
-        var today = new Date();
-        var yr = today.getFullYear();
-        $(".date").inputmask("dd/mm/yyyy", {
-            yearrange: {minyear: 1900, maxyear: yr - 3},
-            "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
-        }); //specify year range
-    });
+//    $(document).ready(function () {
+//        var today = new Date();
+//        var yr = today.getFullYear();
+//        $(".date").inputmask("dd/mm/yyyy", {
+//            yearrange: {minyear: 1900, maxyear: yr - 3},
+//            "placeholder": "<?php //echo Yii::t('regexp', '0262');?>//"
+//        }); //specify year range
+//    });
 </script>
 <!-- Scripts for open tabs -->
 <script type="text/javascript">

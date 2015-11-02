@@ -103,7 +103,7 @@ $price = Course::getCoursePrice($course);
         var summaNum = $("input[name='payment']:checked").val();
         $.ajax({
             type: "POST",
-            url: "/payments/newAccount",
+            url: "/IntIta/payments/newAccount",
             data: {
                 'user': user,
                 'module': '0',
@@ -112,7 +112,7 @@ $price = Course::getCoursePrice($course);
             },
             cache: false,
             success: function(data){
-                location.href = '/payments/index?account=' + data;
+                location.href = '/IntIta/payments/index?account=' + data;
             }
         });
     }
