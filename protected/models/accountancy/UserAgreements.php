@@ -157,23 +157,12 @@ class UserAgreements extends CActiveRecord
             $model->save();
             $invoicesList = $schema->getInvoicesList($billableObject, $startDate);
             $agreementId = $model->id;
-            UserAgreements::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
+            Invoice::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
         }else {
             throw new CHttpException(403, "Договір не заведено!");
         }
 
-
         return $model;
-    }
-
-    private static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
-
-        foreach ($invoicesList as $invoice) {
-            $invoice->user_created = $user;
-            $invoice->agreement_id = $agreementId;
-            $invoice->save();
-        }
-
     }
 
     public function afterSave()

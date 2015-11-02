@@ -15,12 +15,12 @@ class BasePaymentSchema implements IPaymentCalculator{
     }
 
     public function getSumma(IBillableObject $payObject){
-        return $payObject->getBasePrice() * $this->discount;
+        return $payObject->getBasePrice();
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
         $closeDate = $startDate->modify('+'.$payObject->getDuration().' days' );
-        return $closeDate;
+        return $closeDate->getTimestamp();
     }
 
     public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate){
@@ -33,7 +33,6 @@ class BasePaymentSchema implements IPaymentCalculator{
         for($i = 0; $i < $this->payCount; $i++){
             $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
-            var_dump($arrayInvoiceSumma[$i]);
         }
         return $invoicesList;
     }

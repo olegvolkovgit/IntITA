@@ -5,7 +5,8 @@ trait GracefulDivision
     public static function getArrayInvoiceSumma($summa, $payCount){
         $arrayInvoiceSumma = [];
 
-        $pay = round($summa / $payCount, 2);
+        $pay = ceil($summa * 100 / $payCount);
+        $pay /= 100;
         for($i = 0; $i < ($payCount - 1); $i++){
             $arrayInvoiceSumma[$i] = $pay;
         }
