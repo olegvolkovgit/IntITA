@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <div class='errorblock'>
-    <h1><?php echo Yii::t('error','0590')." ".$errorCode; ?></h1>
+    <h1><?php echo Yii::t('error','0590')." ".$code ; ?></h1>
 
 
     <div class="error">

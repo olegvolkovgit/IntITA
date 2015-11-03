@@ -522,7 +522,7 @@ class StudentReg extends CActiveRecord
     public static function getDataProfile($idUser)
     {
         if ($idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403, Yii::t('error', '0612'));
+          return false;
         $letter = new Letters();
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
         $criteria = new CDbCriteria;

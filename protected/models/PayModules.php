@@ -130,8 +130,8 @@ class PayModules extends CActiveRecord
                     $flag |= 1 << 3; // add to mask bit for right DELETE
                     break;
                 default:
-                    throw new CHttpException(500, 'PayModule::setRight:  Invalid param $rights');
-            }
+                    $flag = 0;
+                }
         }
         return $flag;
     }

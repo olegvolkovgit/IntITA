@@ -326,7 +326,7 @@ class PermissionsController extends AdminController
         $roleId = $request->getPost('role', 0);
         $attributeId = $request->getPost('attribute', 0);
         $value = $request->getPost('attributeValue', 0);
-        //var_dump($attributeId);die();
+
         if ($teacherId && $attributeId && $value) {
             $result = false;
             switch ($attributeId) {

@@ -59,7 +59,7 @@
                 <?php echo '(3 '.Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220').')';
             }?>
         </div>
-       <?php if($model->status != 0){$this->renderPartial('_paymentsForm', array('model' => $model));}?>
+       <?php  if($model->status !== 0){$this->renderPartial('_paymentsForm', array('model' => $model));}?>
     </div>
 </div>
 
