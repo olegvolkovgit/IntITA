@@ -17,7 +17,7 @@ class Avatar {
     {
         $name = $imgName . '_img';
         $folder = ($imgName == 'course')?'course':'teachers';
-        //var_dump($folder);die;
+
         if($model->start=='') $model->start=null;
         if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
         {
@@ -30,7 +30,7 @@ class Avatar {
         if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->logo['tmp_name']['course_img']))
         {
             if(!copy($model->logo['tmp_name'][$name],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->logo['name'][$name]))
-                throw new CHttpException(500);
+                return false;
         }
         return true;
     }
@@ -74,4 +74,21 @@ class Avatar {
 
     }
 
+    public static function updateTeacherAvatar($filename,$tmpName,$id,$oldAvatar)
+    {
+                    $ext = substr(strrchr($filename, '.'), 1);
+                    $filename = uniqid() . '.' . $ext;
+                    if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/teachers/" . $filename)) {
+                        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $oldAvatar;
+                        if (is_file($src) && $oldAvatar!='noname2.png')
+                            unlink($src);
+                    }
+                    Teacher::model()->updateByPk($id, array('foto_url' => $filename));
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot')."/images/teachers/".$filename,
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
+                        210
+                    );
+                    return true;
+    }
 }

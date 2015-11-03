@@ -13,9 +13,9 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                 <td>
                     <div class="startModule">
                         <?php
-                        if(Yii::app()->user->isGuest) {
+                        if(Yii::app()->user->isGuest && $post->status == 0 && $post->cancelled == 0) {
                             echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                        } else{
+                        } elseif($post->status == 0 && $post->cancelled == 0){
                              echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule",
                                 'onclick' => 'redirectToProfile();',
                                 'submit' => array('studentreg/profile'),
@@ -51,7 +51,8 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                 <?php }?>
             </tr>
         </table>
-        <?php  $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post, "idCourse"=>$idCourse));?>
+        <?php
+        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' =>$post, "idCourse"=>$idCourse));?>
     </div>
 </div>
 

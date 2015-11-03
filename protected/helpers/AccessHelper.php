@@ -97,23 +97,6 @@ class AccessHelper
         return $result;
     }
 
-    public static function setModuleAccess($idUser, $idModule, $rights)
-    {
-        if (!empty($rights)) {
-            $criteria = new CDbCriteria();
-            $criteria->select = 'id';
-            $criteria->addCondition('idModule=' . $idModule);
-            $criteria->toArray();
-
-            $lectures = Lecture::model()->findAll($criteria);
-            $count = count($lectures);
-            $model = new Permissions();
-            for ($i = 0; $i < $count; $i++) {
-                $model->setPermission($idUser, $lectures[$i]['id'], $rights);
-            }
-        }
-    }
-
     public static function getCourses()
     {
         $criteria = new CDbCriteria();

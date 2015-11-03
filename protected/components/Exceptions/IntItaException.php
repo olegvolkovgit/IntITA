@@ -12,7 +12,7 @@ use UAParser\Exception\FileNotFoundException;
 class IntItaException extends \Exception {
 
     protected $view = '/site/error';
-    protected $message  ;
+    protected $message;
     protected $code;
 
 

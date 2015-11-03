@@ -1,6 +1,6 @@
 <?php
 use application\components\Exceptions\IntItaException as IntitaException;
-use application\components\Exceptions\IntUnexpectedValueException;
+
 class StudentRegController extends Controller
 {
     /**
@@ -141,9 +141,7 @@ class StudentRegController extends Controller
             if ($model->validate()) {
                 if (isset($model->avatar)) {
                     Avatar::saveStudentAvatar($model);
-//                    $fileName = FileUploadHelper::getFileName($model->avatar);
-//                    $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-//                    $model->avatar = $fileName;
+
                 }
 
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
@@ -153,6 +151,9 @@ class StudentRegController extends Controller
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
                 }
+
+
+
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
@@ -207,21 +208,9 @@ class StudentRegController extends Controller
         }
     }
 
-    public function checkAccess($id = 1, $right, $code1, $code2)
-    {
-        if (Yii::app()->user->isGuest) {
-            throw new CHttpException(403, Yii::t('errors', $code1));
-        } else {
-            $permission = new Permissions();
-            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array($right))) {
-                throw new CHttpException(403, Yii::t('errors', $code2));
-            }
-        }
-    }
-
     public function actionProfile($idUser = 0)
     {
-
+        var_dump(ForumUser::model()->findAll());die;
         if ($idUser == 0){
             $idUser = Yii::app()->request->getPost('idUser', '0');
         }
@@ -231,10 +220,11 @@ class StudentRegController extends Controller
 
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser !== Yii::app()->user->getId())
-            throw new IntUnexpectedValueException('That not your user');
+            throw new IntItaException('That not your user');
         $letter = new Letters();
 
-        $dataProvider = StudentReg::getDataProfile($idUser);
+        if(!$dataProvider = StudentReg::getDataProfile($idUser))
+            throw new CHttpException(403, Yii::t('error', '0612'));
 
         $sentLettersProvider = Letters::getSentLettersData($idUser);
 

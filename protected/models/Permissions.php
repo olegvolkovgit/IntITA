@@ -107,103 +107,15 @@ class Permissions extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    
-
     /*
      * Returns bit mask for change user permissions
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
-    public static function setFlags($rights){
-        $flag = 0;
-        for ($i = 0; $i < count($rights); $i++) {
-            $right = $rights[$i];
-            switch ($right) {
-                case 'read':
-                    $flag |= 1 << 0;  // add to mask bit for right READ
-                    break;
-                case 'edit':
-                    $flag |= 2 << 0;  // add to mask bit for right EDIT
-                    break;
-                case 'create':
-                    $flag |= 3 << 0; // add to mask bit for right CREATE
-                    break;
-                case 'delete':
-                    $flag |= 4 << 0; // add to mask bit for right DELETE
-                    break;
-                default:
-                    throw new CHttpException(500, 'Permisssions::setRight:  Invalid param $rights');
-            }
-        }
-        return $flag;
-    }
-
-    public static function getFlags($rights){
-        $rightsString = [];
-        for ($i = 0; $i < count($rights); $i++) {
-            if ($rights[$i] == 1){
-                array_push($rightsString, Permissions::model()->stringRight([$i]));
-            }
-        }
-        return $rightsString;
-    }
-
-
-    /*
-     * Returns true if user has permission to do requested operations with resource
-     * @param integer $idUser user
-     * @param integer $idResource resource
-     * @param array $rights array of rights for user (allowed read, edit, create, delete)
-     * */
-    public function checkPermission($idUser, $idResource, $rights){
-        $record = $this->findByAttributes(array('id_user' => $idUser,
-                'id_resource' => $idResource));
-        if (is_null($record)) {
-            return false;
-        } else {
-            $mask = $this->setFlags($rights);
-            if ($record->rights & $mask){
-                return true;
-            }else {
-                return false;
-            }
-
-        }
-    }
 
     public function primaryKey()
     {
         return array('id_user', 'id_resource');
     }
 
-    /*
- * Set permission for one user to do defined operations with one resource.
- * @param integer $idUser unique user - getting access
- * @param integer $idResource
- * @param array $rights array of rights for user (allowed read, edit, create, delete)
- * */
-    public function setPermission($idUser, $idResource, $rights){
-        if(Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $idUser, ':resource' => $idResource)))
-        {
-            Permissions::model()->updateByPk(array('id_user'=>$idUser,'id_resource'=> $idResource), array('rights' => Permissions::setFlags($rights)));
-        }
-        else
-        {
-            Yii::app()->db->createCommand()->insert('permissions', array(
-                'id_user' => $idUser,
-                'id_resource' => $idResource,
-                'rights' => Permissions::setFlags($rights),
-            ));
-        }
-}
-    public function setRead($idUser, $idResource){
-        $model = new Permissions();
-        if(Permissions::model()->exists('id_user=:user and id_resource=:resource', array(':user' => $idUser, ':resource' => $idResource))) {
-            $model = Permissions::model()->findByAttributes(array('id_user' => $idUser, 'id_resource' => $idResource));
-            $rights = $model->rights | 1 << 0;
-             Permissions::model()->updateByPk(array('id_user'=>$idUser,'id_resource'=> $idResource), array('rights' => $rights));
-        } else {
-            $model->setPermission($idUser, $idResource, array('read'));
-        }
-    }
+
 }
