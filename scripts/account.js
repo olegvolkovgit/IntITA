@@ -18,10 +18,9 @@ $(window).load(
         $('#summaLetters').text(toPhrase($('#summa').text()));
     }
 );
-function sendData(account)
+function sendData()
 {
-    window.location.search = 'account=' + account + '&nolayout=true';
-    document.getElementById("accountContainer").style.width = "100%";
+    window.location.search = '&nolayout=true';
 }
 
 function toPhrase(summa) {

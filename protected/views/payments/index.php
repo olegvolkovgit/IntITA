@@ -1,33 +1,50 @@
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js'); ?>"></script>
+<?php
+    $this->pageTitle = 'IntITA';
+?>
 
-<head>
-    <meta charset="UTF-8">
-</head>
-<div id="accountContainer">
-    <?php $this->renderPartial('_account', array('account' => $account), false, true); ?>
-    <div>
-        <br>
-        <br>
-        <?php if (!isset($_GET['nolayout'])) { ?>
-            <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">
-                <?php echo Yii::t('payment', '0658'); ?>
-            </button>
-        <?php } ?>
-        <br>
-        <br>
-        <br>
-        <?php if (isset($_GET['nolayout']) && $_GET['nolayout'] == 'true') { ?>
-            <script>
-                $(window).load(
-                    function () {
-                        window.print();
-                    }
-                )
-            </script>
-        <?php } ?>
-    </div>
-</div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>
+<h1>Рахунки до сплати за договором №<?php echo UserAgreements::getNumber($agreement);?> від
+    <?php echo  UserAgreements::getCreateDate($agreement);?></h1>
+
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'invoices-grid',
+    'dataProvider' => $dataProvider,
+    'emptyText' => 'Рахунків не виставлено.',
+    'summaryText' => '',
+    'template'=>'{items}{pager}',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Config::getBaseUrl().'/css/pager.css'
+    ),
+    'columns' => array(
+        array(
+            'header' => 'Договір',
+            'value' => 'UserAgreements::getNumber($data->agreement_id)',
+        ),
+        array(
+            'header' => 'Сума до сплати',
+            'value' => 'PaymentHelper::getPriceUah($data->summa)." грн."',
+        ),
+        'payment_date',
+        'expiration_date',
+        array(
+            'class'=>'CButtonColumn',
+            'header'=>'Надрукувати',
+            'template'=>'{account}',
+            'buttons'=>array
+            (
+                'account' => array
+                (
+                    'label'=>'  Надрукувати рахунок  ',
+                    'url'=>'Yii::app()->createUrl("payments/account", array("id"=>$data->id))',
+                ),
+            ),
+        ),
+
+    ),
+));
+    ?>

@@ -153,13 +153,15 @@ class UserAgreements extends CActiveRecord
         $startDate = new DateTime();
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
 
-        if ($model->service_id) {
-            $model->save();
+        if ($model->save()) {
             $invoicesList = $schema->getInvoicesList($billableObject, $startDate);
             $agreementId = $model->id;
+            $model->updateByPk($agreementId, array(
+                'number' => UserAgreements::generateNumber($billableObject, $agreementId
+                )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
-        }else {
-            throw new CHttpException(403, "Договір не заведено!");
+        } else {
+            throw new CException('Договір не заведено!');
         }
 
         return $model;
@@ -171,4 +173,15 @@ class UserAgreements extends CActiveRecord
         $this->id = Yii::app()->db->getLastInsertID();
     }
 
+    private static function generateNumber(IBillableObject $billableObject, $agreement){
+        return $billableObject->getNumber().' - '.sprintf("%06d", $agreement).' - '.$billableObject->getType();
+    }
+
+    public static function getNumber($id){
+        return UserAgreements::model()->findByPk($id)->number;
+    }
+
+    public static function getCreateDate($id){
+        return UserAgreements::model()->findByPk($id)->create_date;
+    }
 }

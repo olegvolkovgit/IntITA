@@ -16,13 +16,15 @@ $price = Course::getCoursePrice($course);
 
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'action' => '#',
+        'action' => Yii::app()->createUrl('payments/index'),
         'id' => 'payments-form',
+        'method' => 'post',
         'enableAjaxValidation' => false,
     )); ?>
     <?php
     if ($price == 0) echo Yii::t('courses', '0147') . ' ' . CourseHelper::getMainCoursePrice($price, 25);
     else {
+
         ?>
         <span class="spoilerLinks"
               onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>')"><span
@@ -81,16 +83,19 @@ $price = Course::getCoursePrice($course);
                             CourseHelper::getSummaBySchemaNum($model->course_ID, 8), 5, $model->course_ID) ?></span>
                 </div>
             </div>
+            <input name="module" type="hidden" value="0">
+            <input name="course" type="hidden" value="<?php echo $model->course_ID; ?>">
+            <input name="user" type="hidden" value="<?php echo Yii::app()->user->getId(); ?>">
+            <input name="type" type="hidden" value="Course">
         </div>
     <?php } ?>
+    <div class="ButtonFinances">
+        <?php echo CHtml::submitButton(Yii::t('profile', '0261')); ?>
+    </div>
     <?php $this->endWidget(); ?>
 </div>
 <div id="kalebas"></div>
-<br>
-<?php if ($model->course_price > 0){?>
-        <button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
-            '<?php echo ($model != null)?$model->course_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php }?>
+
 <script>
     $(function() {
         schema = $.cookie('courseSchema');
@@ -100,22 +105,7 @@ $price = Course::getCoursePrice($course);
             $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
         }
     });
-    function printAccount(user,course){
-        var summaNum = $("input[name='payment']:checked").val();
-        $.ajax({
-            type: "POST",
-            url: "/IntITA/payments/newAccount",
-            data: {
-                'user': user,
-                'module': '0',
-                'course': course,
-                'summaNum': summaNum
-            },
-            cache: false,
-            success: function(data){
-                $('#kalebas').html(data);
-                //location.href = '/IntITA/payments/index?account=' + data;
-            }
-        });
+    function printAccount(){
+        return $("input[name='payment']:checked").val();
     }
 </script>

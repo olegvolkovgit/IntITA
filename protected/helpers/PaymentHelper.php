@@ -16,4 +16,9 @@ class PaymentHelper
             CourseHelper::translateLevelUa($account->id_course);
         }
     }
+
+    public static function getPriceUah($summa)
+    {
+        return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
+    }
 }

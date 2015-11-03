@@ -356,4 +356,12 @@ class Module extends CActiveRecord implements IBillableObject
         if($status == 1) return 'Видалений';
         else return false;
     }
+
+    public function getNumber(){
+        return $this->module_number;
+    }
+
+    public function getType(){
+        return 'M';
+    }
 }

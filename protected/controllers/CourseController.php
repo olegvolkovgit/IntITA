@@ -89,7 +89,7 @@ class CourseController extends Controller
         $canEdit = AccessHelper::isAdmin();
         $model = Course::model()->findByPk($id);
 
-        $dataProvider=new CourseModules('search');
+        $dataProvider = new CourseModules('search');
 
 		$this->render('index',array(
 			'model'=>$model,

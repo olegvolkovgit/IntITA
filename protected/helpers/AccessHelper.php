@@ -8,7 +8,6 @@
  */
 class AccessHelper
 {
-
     public static function getFlag($rights, $type)
     {
         $result = false;

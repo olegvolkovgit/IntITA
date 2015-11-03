@@ -133,18 +133,4 @@ class TempPay extends CActiveRecord
         return true;
     }
 
-    public static function checkBillableObjectType($course, $module){
-        if($course != 0) {
-            if($module != 0){
-                return 'Module';
-            } else {
-                return 'Course';
-            }
-        } else {
-            if($module != 0) {
-                return 'Module';
-            }
-        }
-        return false;
-    }
 }

@@ -797,6 +797,9 @@ div.errorMessage{
     border-bottom-width: 0px;
     font-size: 11px;
     margin-top: 10px;
+    text-align: center;
+    float:right;
+    cursor:pointer;
 }
 /*mymark*/
 .mymark{

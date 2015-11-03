@@ -67,15 +67,15 @@ class Invoice extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'agreement_id' => 'Agreement',
-			'date_created' => 'Date Created',
-			'date_cancelled' => 'Date Cancelled',
-			'summa' => 'Summa',
-			'payment_date' => 'Payment Date',
-			'user_created' => 'User Created',
-			'expiration_date' => 'Expiration Date',
-			'user_cancelled' => 'User Cancelled',
+			'id' => 'Номер рахунка',
+			'agreement_id' => 'Номер договору',
+			'date_created' => 'Дата заведення',
+			'date_cancelled' => 'Дата відміни',
+			'summa' => 'Сумма до сплати',
+			'payment_date' => 'Дата оплати',
+			'user_created' => 'Користувач',
+			'expiration_date' => 'Оплатити до',
+			'user_cancelled' => 'Хто відмінив',
 		);
 	}
 
@@ -141,6 +141,9 @@ class Invoice extends CActiveRecord
             $invoice->agreement_id = $agreementId;
             $invoice->save();
         }
+    }
 
+    public static function getProductTitle($invoice){
+        return ;
     }
 }

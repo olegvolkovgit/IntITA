@@ -352,4 +352,11 @@ class Course extends CActiveRecord implements IBillableObject
         return max($arr) + 1;
     }
 
+    public function getNumber(){
+        return $this->course_number;
+    }
+
+    public function getType(){
+        return 'K';
+    }
 }
