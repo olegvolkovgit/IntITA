@@ -336,7 +336,6 @@ class Course extends CActiveRecord implements IBillableObject
                         Module::lessonsInMonth($modules[$i]['id_module']));
                 }
             }
-
         }
         return $cells;
     }

@@ -29,12 +29,13 @@ class LoanPaymentSchema implements IPaymentCalculator{
     public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate){
         $invoicesList = [];
         $currentTimeInterval = $startDate;
-        $timeInterval = $payObject->getDuration() / $this->payCount; //days
+
         $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject, $startDate),
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
-            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
+            $currentTimeInterval = $currentTimeInterval->modify(' +1 month');
+            //var_dump($currentTimeInterval);die();
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
         }
 
