@@ -260,20 +260,11 @@ class Course extends CActiveRecord implements IBillableObject
 
     protected function beforeSave()
     {
+        if(!Avatar::saveCourseLogo($this,'course'))
+                    return false;
+
         if($this->start=='') $this->start=null;
-        if (($this->scenario=="update") && (empty($this->logo['tmp_name']['course_img'])))
-        {
-            $this->course_img=$this->oldLogo;
-        } else if(($this->scenario=="update") && (!empty($this->logo['tmp_name']['course_img']))){
-            $src=Yii::getPathOfAlias('webroot')."/images/course/".$this->oldLogo;
-            if (is_file($src))
-                unlink($src);
-        }
-        if (($this->scenario=="insert" || $this->scenario=="update") && !empty($this->logo['tmp_name']['course_img']))
-        {
-            if(!copy($this->logo['tmp_name']['course_img'],Yii::getPathOfAlias('webroot')."/images/course/".$this->logo['name']['course_img']))
-                throw new CHttpException(500);
-        }
+
         return true;
     }
 

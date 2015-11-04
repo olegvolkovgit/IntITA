@@ -340,6 +340,20 @@ class Module extends CActiveRecord implements IBillableObject
         $days = ($module->days_in_week != 0) ? $module->days_in_week : 2;
 
         return round($hours * $days);
+    }
 
+    public static function getStatusName($status)
+    {
+        if($status == 0) return 'Розроблений';
+        if($status == 1) return 'В Розробці';
+        else return false;
+
+    }
+
+    public function getCancelledName($status)
+    {
+        if($status == 0) return 'Не Видалений';
+        if($status == 1) return 'Видалений';
+        else return false;
     }
 }

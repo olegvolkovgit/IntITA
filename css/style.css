@@ -684,3 +684,8 @@ div#exhaust{
     background: none;
 }
 /* share */
+
+#module-grid .grid-view table.items td
+{
+    width: 100px;
+}

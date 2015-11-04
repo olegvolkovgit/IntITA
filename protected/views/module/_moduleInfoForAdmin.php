@@ -24,6 +24,7 @@
 <table>
     <tr>
         <td>
+<!--            --><?php //var_dump($post);die; ?>
             <img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'module', $post->module_img);?>" />
             <div class="imageUpdateForm">
                 <?php $form=$this->beginWidget('CActiveForm', array(

@@ -1,7 +1,7 @@
 <?php
 
 class SiteController extends Controller
-{//http://localhost/IntIta/
+{
     /*
 	 * Declares class-based actions.
 	 */
@@ -73,17 +73,14 @@ class SiteController extends Controller
         }
 
         if ($id) {
-            $result = Yii::app()->dbForum->createCommand()
-                ->select('user_id')
-                ->from('phpbb_users')
-                ->where('user_id=:id', array(':id' => $id))
-                ->queryRow();
+            $forumUser = ForumUser::model()->findByPk($id);
 
-            if (count($result) > 0) {
-                Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                    'user_lang' => $new_lang,
-                ), 'user_id=:id', array(':id' => $id));
+            if($forumUser){
+                $forumUser->user_lang = $new_lang;
+                $forumUser->save();
             }
+            else
+                throw new \application\components\Exceptions\ForumException('In forum user not change language');
 
         }
 
@@ -111,6 +108,7 @@ class SiteController extends Controller
             $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $_POST['StudentReg']['email'])));
         }
 // collect user input data
+
         if (isset($_POST['StudentReg'])) {
             $model->attributes = $_POST['StudentReg'];
             $getToken = rand(0, 99999);
@@ -120,6 +118,7 @@ class SiteController extends Controller
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
+
                 $model->updateByPk($model->id, array('avatar' => 'noname.png'));
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
@@ -177,64 +176,12 @@ class SiteController extends Controller
             if ($statusmodel->status == 1) {
                 if ($model->login()) {
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-                    $current_lang = Yii::app()->session['lg'];
-                    if ($current_lang == "ua") $current_lang = "uk";
-                    if(!empty($userModel->birthday)){
-                        $birthday = $userModel->birthday;
-                        $birthday = str_replace("/", "-", $birthday);
-                        if($birthday[0] == "0") $birthday[0] = '';
-                        if($birthday[3] == "0") $birthday[3] = '';
-                    }else $birthday='';
-                    $avatar = $userModel->avatar;
-                    if ($avatar == null || $avatar == "") $avatar = "noname.png";
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                    Forum login
 
-                    Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
-
-                    $existingForumUser = count(
-                        Yii::app()->dbForum->createCommand()
-                            ->select('user_id')
-                            ->from('phpbb_users')
-                            ->where('user_id=:id', array(':id' => $userModel->id))
-                            ->queryAll()
-                    );
-
-                    if (!$existingForumUser) {
-                        $firstName = ($userModel->firstName) ? $userModel->firstName : '';
-                        $secondName = ($userModel->secondName) ? $userModel->secondName : '';
-                        $name = $firstName . ' ' . $secondName;
-                        if ($name == ' ') $name = $model->email;
-                        $reg_time = $userModel->reg_time;
-                        if ($reg_time == 0) $reg_time = time();
-                        Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
-                            'user_id' => $userModel->id,
-                            'username' => $name,
-                            'user_email' => $model->email,
-                            'username_clean' => $name,
-                            'user_timezone' => 'Europe/Kiev',
-                            'user_dateformat' => 'd M Y H:i',
-                            'user_regdate' => $reg_time,
-                            'user_lang' => $current_lang,
-                            'user_birthday' => $birthday,
-                            'user_avatar' => $avatar,
-                            'user_avatar_type' => "avatar.driver.upload"
-                        ));
-
-                        Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
-                            'group_id' => 2,
-                            'user_id' => $userModel->id,
-                            'group_leader' => 0,
-                            'user_pending' => 0
-                        ));
-                    } else {
-                        Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                            'user_lang' => $current_lang,
-                            'user_birthday' =>$birthday,
-                            'user_email' => $model->email,
-                            'user_avatar' =>$avatar,
-                            'user_avatar_type' => "avatar.driver.upload"
-                        ), 'user_id=:id', array(':id' => $userModel->id));
-                    }
-
+                   if(!ForumUser::login($userModel))
+                       throw new \application\components\Exceptions\ForumException('Forum user not save!!!');
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (!isset($_COOKIE['cookie_key'])) {
                         foreach ($_SESSION as $key => $value) {
                             if (strpos($key, '__id')) {
@@ -266,7 +213,8 @@ class SiteController extends Controller
                 break;
             }
         }
-        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=:id', array(':id' => $id));
+
+        ForumUser::logout();
 
         Yii::app()->user->logout();
 
@@ -295,7 +243,9 @@ class SiteController extends Controller
                 $modelId=$model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
+
             $this->forumAuthentication($model);
+
             if (isset($_SERVER["HTTP_REFERER"])) {
                 if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                 $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -423,6 +373,7 @@ class SiteController extends Controller
                 'username_clean' => $name,
             ), 'user_id=:id', array(':id' => $userModel->id));
 
+
             if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
             else $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
@@ -534,44 +485,9 @@ class SiteController extends Controller
 
     public function forumAuthentication ($model) {
         $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        $current_lang = Yii::app()->session['lg'];
-        if ($current_lang == "ua") $current_lang = "uk";
-        Yii::app()->dbForum->createCommand()->delete('phpbb_sessions', 'session_user_id=1');
-        $existingForumUser = count(
-            Yii::app()->dbForum->createCommand()
-                ->select('user_id')
-                ->from('phpbb_users')
-                ->where('user_id=:id', array(':id' => $userModel->id))
-                ->queryAll()
-        );
-        if (!$existingForumUser) {
-            $firstName = ($userModel->firstName) ? $userModel->firstName : '';
-            $secondName = ($userModel->secondName) ? $userModel->secondName : '';
-            $name = $firstName . ' ' . $secondName;
-            if ($name == ' ') $name = $model->email;
-            $reg_time = $userModel->reg_time;
-            if ($reg_time == 0) $reg_time = time();
-            Yii::app()->dbForum->createCommand()->insert('phpbb_users', array(
-                'user_id' => $userModel->id,
-                'username' => $name,
-                'username_clean' => $name,
-                'user_timezone' => 'Europe/Kiev',
-                'user_dateformat' => 'd M Y H:i',
-                'user_regdate' => $reg_time,
-                'user_lang' => $current_lang
-            ));
 
-            Yii::app()->dbForum->createCommand()->insert('phpbb_user_group', array(
-                'group_id' => 2,
-                'user_id' => $userModel->id,
-                'group_leader' => 0,
-                'user_pending' => 0
-            ));
-        } else {
-            Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                'user_lang' => $current_lang,
-            ), 'user_id=:id', array(':id' => $userModel->id));
-        }
+        if(!ForumUser::login($userModel))
+            throw new \application\components\Exceptions\ForumException('Forum user not save !!!');
 
         if (!$_COOKIE['cookie_key']) {
             foreach ($_SESSION as $key => $value) {

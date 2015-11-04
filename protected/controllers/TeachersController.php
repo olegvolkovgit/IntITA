@@ -201,7 +201,7 @@ class TeachersController extends Controller
     {
 
         $dataProvider = Teacher::getTeacherAsPrint();
-        //var_dump($dataProvider);die;
+
         $teachers = Teacher::getAllTeachersId();
 
         $this->render('index', array(
@@ -217,22 +217,13 @@ class TeachersController extends Controller
         $model->setScenario('imageUpload');
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
-            if (!empty($_FILES['Teacher']['name']['foto_url'])) {
+            $filename = $_FILES['Teacher']['name']['foto_url'];
+            if (!empty($filename)) {
+                $tmpName = $_FILES['Teacher']['tmp_name']['foto_url'];
                 $model->avatar = $_FILES['Teacher'];
                 if ($model->validate()) {
-                    $ext = substr(strrchr($_FILES['Teacher']['name']['foto_url'], '.'), 1);
-                    $_FILES['Teacher']['name']['foto_url'] = uniqid() . '.' . $ext;
-                    if (copy($_FILES['Teacher']['tmp_name']['foto_url'], Yii::getpathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'])) {
-                        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $model->oldAvatar;
-                        if (is_file($src) && $model->oldAvatar!='noname2.png')
-                            unlink($src);
-                    }
-                    $model->updateByPk($id, array('foto_url' => $_FILES['Teacher']['name']['foto_url']));
-                    ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot')."/images/teachers/".$_FILES['Teacher']['name']['foto_url'],
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
-                        210
-                    );
+                    Avatar::updateTeacherAvatar($filename,$tmpName,$id,$model->oldAvatar);
+
                     $this->redirect(Yii::app()->request->urlReferrer);
                 } else {
                     $this->redirect(Yii::app()->request->urlReferrer);

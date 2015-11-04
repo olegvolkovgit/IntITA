@@ -86,6 +86,7 @@ class StudentReg extends CActiveRecord
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
             array('birthday', 'length', 'max'=>11),
             array('phone', 'length', 'max'=>15),
+            array('phone', 'length', 'min'=>15),
             array('educform', 'length', 'max'=>60),
             array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u','message'=>Yii::t('error','0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
@@ -521,7 +522,7 @@ class StudentReg extends CActiveRecord
     public static function getDataProfile($idUser)
     {
         if ($idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403, Yii::t('error', '0612'));
+          return false;
         $letter = new Letters();
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
         $criteria = new CDbCriteria;
@@ -541,7 +542,7 @@ class StudentReg extends CActiveRecord
                 'attributes' => array('date_cons'),
             ),
         ));
-
+        
         return $dataProvider;
     }
 

@@ -1,4 +1,5 @@
 <?php
+use application\components\Exceptions\IntItaException as IntitaException;
 
 class StudentRegController extends Controller
 {
@@ -112,6 +113,7 @@ class StudentRegController extends Controller
 
     public function actionIndex($email = '')
     {
+
         $model = new StudentReg('reguser');
         $this->render("studentreg", array('model' => $model, 'email' => $email));
     }
@@ -138,9 +140,8 @@ class StudentRegController extends Controller
             if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
             if ($model->validate()) {
                 if (isset($model->avatar)) {
-                    $fileName = FileUploadHelper::getFileName($model->avatar);
-                    $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-                    $model->avatar = $fileName;
+                    Avatar::saveStudentAvatar($model);
+
                 }
 
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
@@ -150,6 +151,9 @@ class StudentRegController extends Controller
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
                 }
+
+
+
                 $subject = Yii::t('activeemail', '0298');
                 $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
                 $text = Yii::t('activeemail', '0299') .
@@ -204,20 +208,9 @@ class StudentRegController extends Controller
         }
     }
 
-    public function checkAccess($id = 1, $right, $code1, $code2)
+    public function actionProfile($idUser = 0)
     {
-        if (Yii::app()->user->isGuest) {
-            throw new CHttpException(403, Yii::t('errors', $code1));
-        } else {
-            $permission = new Permissions();
-            if (!$permission->checkPermission(Yii::app()->user->getId(), $id, array($right))) {
-                throw new CHttpException(403, Yii::t('errors', $code2));
-            }
-        }
-    }
-
-    public function actionProfile($idUser=0)
-    {
+        var_dump(ForumUser::model()->findAll());die;
         if ($idUser == 0){
             $idUser = Yii::app()->request->getPost('idUser', '0');
         }
@@ -227,10 +220,11 @@ class StudentRegController extends Controller
 
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403, Yii::t('error', '0612'));
+            throw new IntItaException('That not your user');
         $letter = new Letters();
 
-        $dataProvider = StudentReg::getDataProfile($idUser);
+        if(!$dataProvider = StudentReg::getDataProfile($idUser))
+            throw new CHttpException(403, Yii::t('error', '0612'));
 
         $sentLettersProvider = Letters::getSentLettersData($idUser);
 
@@ -241,6 +235,7 @@ class StudentRegController extends Controller
         $paymentsModules = Modules::getPaymentsModules($idUser);
 
         $markProvider = StudentReg::getMarkProviderData($idUser);
+
 
         $this->render("studentprofile", array(
             'dataProvider' => $dataProvider,
@@ -306,10 +301,11 @@ class StudentRegController extends Controller
         $model->attributes = $_POST['StudentReg'];
         if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
         if ($model->validate()) {
-            if (isset($model->avatar)) {
-                $fileName = FileUploadHelper::getFileName($model->avatar);
-                $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-                $model->updateByPk($id, array('avatar' => $fileName));
+            if (isset($model->avatar)){
+                Avatar::saveStudentAvatar($model);
+//                $fileName = FileUploadHelper::getFileName($model->avatar);
+//                $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
+//                $model->updateByPk($id, array('avatar' => $fileName));
             }
             $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
             $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
@@ -360,16 +356,9 @@ class StudentRegController extends Controller
 
     public function actionDeleteavatar()
     {
-        $id = Yii::app()->user->id;
-        $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if ($model->avatar !== 'noname.png') {
-            unlink(Yii::getpathOfAlias('webroot') . '/images/avatars/' . $model->avatar);
-            $model->updateByPk($id, array('avatar' => 'noname.png'));
-            $this->redirect(Yii::app()->createUrl('studentreg/edit'));
-        } else {
-            $this->redirect(Yii::app()->createUrl('studentreg/edit'));
-        }
+        Avatar::deleteStudentAvatar();
 
+        $this->redirect(Yii::app()->createUrl('studentreg/edit'));
     }
 
     public function actionTimetableProvider($user, $tab)

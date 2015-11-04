@@ -105,6 +105,7 @@ class CoursemanageController extends AdminController
         // $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
+
             $model->oldLogo=$model->course_img;
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
@@ -118,6 +119,7 @@ class CoursemanageController extends AdminController
                     210
                 );
             }
+
             $this->redirect(array('view','id'=>$model->course_ID));
         }
         $this->render('update',array(

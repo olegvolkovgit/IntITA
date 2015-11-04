@@ -99,7 +99,7 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'module_img'); ?>
-        <?php echo $form->textField($model,'module_img',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->fileField($model,'module_img'); ?>
         <?php echo $form->error($model,'module_img'); ?>
     </div>
 
