@@ -89,9 +89,9 @@ $price = Course::getCoursePrice($course);
             <input name="type" type="hidden" value="Course">
         </div>
     <?php } ?>
-    <div class="ButtonFinances">
-        <?php echo CHtml::submitButton(Yii::t('profile', '0261')); ?>
-    </div>
+
+        <?php echo CHtml::submitButton(Yii::t('profile', '0261'), array('class' => 'ButtonFinances')); ?>
+
     <?php $this->endWidget(); ?>
 </div>
 <div id="kalebas"></div>

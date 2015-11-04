@@ -12,11 +12,12 @@ class PaymentsController extends Controller
     }
 
     public function actionIndex(){
-        $user = Yii::app()->request->getPost('user', '0');
-        $course = Yii::app()->request->getPost('course', '0');
-        $module = Yii::app()->request->getPost('module', '0');
-        $type = Yii::app()->request->getPost('type', '');
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
+        $request = Yii::app()->request;
+        $user = $request->getPost('user', '0');
+        $course = $request->getPost('course', '0');
+        $module =$request->getPost('module', '0');
+        $type = $request->getPost('type', '');
+        $schemaNum = $request->getPost('payment', '0');
 
         switch ($type){
             case 'Module':
@@ -36,7 +37,7 @@ class PaymentsController extends Controller
         $dataProvider = new CActiveDataProvider('Invoice');
         $dataProvider->criteria = $criteria;
         $dataProvider->setPagination(array(
-                'pageSize' => 24,
+                'pageSize' => 60,
             )
         );
 

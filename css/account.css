@@ -28,11 +28,11 @@ table#accountTable td {
 #accountTitle{
     margin-left: 170px;
 }
-#count, #pdv, #all, #visaPlace{
+#count, #all{
     display:inline-block;
 }
 #count{
-    margin-left: 370px;
+    margin-left: 30%;
 }
 #accountContainer{
     width:70%;
@@ -58,5 +58,8 @@ table#accountTable td {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;
+}
+#summaLetters{
+    font-weight: bold;
 }
 

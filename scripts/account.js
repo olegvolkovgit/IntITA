@@ -15,7 +15,7 @@ $(window).load(
             'December': 'грудня'
         };
         $('#month').text(ukrMonthTitles[$('#month').text()]);
-        $('#summaLetters').text(toPhrase($('#summa').text()));
+        $('#summaLetters').text(toPhrase(summa));
     }
 );
 function sendData()

@@ -1,11 +1,12 @@
 <?php
-    $this->pageTitle = 'IntITA';
+    $this->pageTitle = 'INTITA';
 ?>
 
 <h1>Рахунки до сплати за договором №<?php echo UserAgreements::getNumber($agreement);?> від
     <?php echo  UserAgreements::getCreateDate($agreement);?></h1>
 
 <?php
+$counter = 0;
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'invoices-grid',
     'dataProvider' => $dataProvider,
@@ -22,14 +23,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
     'columns' => array(
         array(
-            'header' => 'Договір',
-            'value' => 'UserAgreements::getNumber($data->agreement_id)',
+            'header' => 'Рахунок',
+            'value' =>  '"Рахунок №".($row+1)',
         ),
         array(
             'header' => 'Сума до сплати',
-            'value' => 'PaymentHelper::getPriceUah($data->summa)." грн."',
+            'value' => 'number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн."',
         ),
-        'payment_date',
+        array(
+            'name' => 'payment_date',
+            'value' => '$data->payment_date',
+        ),
         'expiration_date',
         array(
             'class'=>'CButtonColumn',
