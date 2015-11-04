@@ -1,6 +1,8 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/controllers.js'); ?>"></script>
-<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?><!--"></script>-->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-route/angular-route.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'); ?>"></script>
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php
@@ -36,9 +38,9 @@ if (!isset($idCourse)) $idCourse = 0;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
+    lastAccessPage = <?php echo $lastAccessPage ?>;
 </script>
 <?php
-
 $passedLecture = LectureHelper::isPassedLecture($passedPages);
 $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 ?>
@@ -61,28 +63,19 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
             </div>
         </div>
         <?php
-        $this->renderPartial('_lecturePageTabs', array('page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        $browser = CommonHelper::detectBrowser($_SERVER['HTTP_USER_AGENT']);
+        $cmp = CommonHelper::checkForBrowserVersion($browser, array(
+            'Internet Explorer' => array(9, 0)
+        ));
+        if ($cmp < 0) {
+            $this->renderPartial('_lecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        }
+        else {
+//            angular lecture PageTabs
+            $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        }
         ?>
     </div>
-    <!--modal task congratulations-->
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'mydialog2',
-        'themeUrl' => Config::getBaseUrl() . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false,
-        ),
-    ));
-    $this->renderPartial('/lesson/_modalTask', array('lastAccessPage' => $lastAccessPage, 'idCourse' => $idCourse));
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-
-    ?>
-    <!--modal task congratulations end-->
 
     <!--modal task error1-->
     <?php
@@ -139,7 +132,6 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureProgress.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
