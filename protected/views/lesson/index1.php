@@ -39,6 +39,7 @@ if (!isset($idCourse)) $idCourse = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
     lastAccessPage = <?php echo $lastAccessPage ?>;
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
 <?php
 $passedLecture = LectureHelper::isPassedLecture($passedPages);
