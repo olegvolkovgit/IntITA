@@ -1,20 +1,3 @@
-'use strict';
-
-/* Controllers */
-var app = angular.module('lessonApp', ['ui.bootstrap']);
-
-app.controller('sidebarCtrl', function($scope) {
-
-});
-
-// Declare app level module which depends on filters, and services
-angular.module('mainApp', ['mainApp.directives']);
-
-/* Controllers */
-function validationController($scope) {
-
-}
-
 /* Directives */
 angular.module('mainApp.directives', [])
     .directive('pwCheck', [function () {
@@ -41,10 +24,15 @@ angular.module('mainApp.directives', [])
                     var value = element.val(),
                         ext = value.substring(value.lastIndexOf('.') + 1).toLowerCase();
                     ngModelController.$setValidity('fileType', validFormats.indexOf(ext) !== -1);
-                    //console.log(ngModelController);
                     scope.$apply();
                 });
             }
         };
     })
     .controller('validationController', validationController);
+
+
+/* Controllers */
+function validationController($scope) {
+
+}

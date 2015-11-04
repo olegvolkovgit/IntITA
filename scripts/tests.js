@@ -114,15 +114,18 @@ function isTrueTestAnswer(user, test){
         var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){})
             .done(function(data) {
                 if (data['status'] == '1' && data['lastTest']=='0') {
-                    $("#mydialog2").dialog("open");
+                    jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                    $("#mydialog2").dialog().dialog("open");
                     $("#mydialog2").parent().css('border', '4px solid #339900');
                     return false;
                 } else if(data['status'] == '1' && data['lastTest']=='1'){
-                    $("#dialogNextLecture").dialog("open");
+                    jQuery('#dialogNextLecture').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                    $("#dialogNextLecture").dialog().dialog("open");
                     $("#dialogNextLecture").parent().css('border', '4px solid #339900');
                     return false;
                 } else {
-                    $("#mydialog3").dialog("open");
+                    jQuery('#mydialog3').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                    $("#mydialog3").dialog().dialog("open");
                     $("#mydialog3").parent().css('border', '4px solid #cc0000');
                     return false;
                 }
