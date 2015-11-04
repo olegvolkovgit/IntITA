@@ -8,11 +8,11 @@ angular
     .config(['$routeProvider','$locationProvider', function($routeProvider){
         $routeProvider
             .when('/page:page',{
-                templateUrl:function(params) {return '/lesson/pageAjaxUpdate?page='+ params.page+'&lectureId='+idLecture;},
+                templateUrl:function(params) {return basePath+'/lesson/pageAjaxUpdate?page='+ params.page+'&lectureId='+idLecture;},
                 controller: 'lessonPageCtrl'
             })
             .when('/',{
-                templateUrl:function() {return '/lesson/pageAjaxUpdate?page='+lastAccessPage+'&lectureId='+idLecture;},
+                templateUrl:function() {return basePath+'/lesson/pageAjaxUpdate?page='+lastAccessPage+'&lectureId='+idLecture;},
                 controller: function($scope, $http){
                     $http({method: 'GET', url: ''})
                         .success(function() {

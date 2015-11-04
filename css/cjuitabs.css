@@ -835,6 +835,9 @@ body .tabsWidget .ui-tooltip {
     font-family: "MyriadPro";
     font-size: 1em;
 }
+.tabsWidget .ui-widget textarea{
+    min-height: 150px;
+}
 .tabsWidget .ui-widget-content {
     /*border: 1px solid #aaaaaa;*/
     border:none;
