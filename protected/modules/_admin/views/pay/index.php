@@ -5,12 +5,20 @@
 <h2>Автоматична оплата курса/модуля</h2>
 <div id="addAccessModule">
     <br>
+    <div id="findModule">
+        <form name = 'findUsers' method="POST" >
+            <input type="text" id = 'find' name = "find" placeholder="Введіть e-mail користувача">
+            <input type="button" onclick = "findUserByEmail()" value="Знайти користувача">
+
+        </form>
+
+    </div>
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('/_admin/pay/payModule');?>" method="POST" name="add-accessModule">
         <fieldset>
             <legend id="label"><?php echo Yii::t('payments', '0593'); ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
-            <select name="user" placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
+            <select name="user" id="user"  placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -45,6 +53,7 @@
 
             <input type="submit" value="<?php echo Yii::t('payments', '0599'); ?>">
     </form>
+
     <?php if(Yii::app()->user->hasFlash('errorModule')){?>
         <div style="color: red">
             <?php echo Yii::app()->user->getFlash('errorModule'); ?>
@@ -106,7 +115,7 @@
         </div>
     <?php } ?>
 </div>
-
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'findUserInPay.js'); ?>"></script>
 <script type="text/javascript">
     function selectModule(){
         var course = $('select[name="course"]').val();
@@ -116,10 +125,48 @@
         }else{
             $.ajax({
                 type: "POST",
-                url:  "_admin/permissions/showModules",
+                url:  "/_admin/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }
+            });
+        }
+    }
+
+    function findUserByEmail() {
+        var find = $('#find');
+        var email = find.val();
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!filter.test(find.val())) {
+            alert('Please provide a valid email address');
+            return false;
+        }
+        else
+        {
+            $.ajax({
+                type: "POST",
+                url: "/_admin/permissions/showUsers",
+                data : {email : email},
+                success: function(JSON){
+
+                    if(JSON == false) alert('Kористувач с таким email не знайдено');
+                    else{
+                    var select = document.getElementsByName('user');
+
+                    for(var i = 0; i < select.length; i++)
+                    {
+                        var nodeList = select[i];
+
+                        for(var k = 0; k < nodeList.length; k++)
+                        {
+                            if (nodeList.options[k].value == JSON)
+                            {
+                                select[i].selectedIndex = k;
+                            }
+                        }
+                    }
+                    }
+                }
             });
         }
     }

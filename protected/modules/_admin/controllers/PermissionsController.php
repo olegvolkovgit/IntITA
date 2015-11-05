@@ -452,4 +452,22 @@ class PermissionsController extends AdminController
         TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
         $this->redirect('/_admin/tmanage/showRoles?id='.$teacher);
     }
+
+    public function actionShowUsers()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            if(isset($_POST['email']))
+            {
+                $email = $_POST['email'];
+
+                $result = StudentReg::model()->findByAttributes(array('email'=>$email));
+
+               if(!empty ($result))
+               echo $result->id;
+
+                else return false;
+            }
+        }
+    }
 }

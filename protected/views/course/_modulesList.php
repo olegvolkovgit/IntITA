@@ -30,10 +30,11 @@ $editMode = ($canEdit) ? 'true' : '';
         </a>
         <?php $this->endWidget(); ?>
     </div>
+
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <?php $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'modules-grid',
-        'dataProvider' => $dataProvider->search($model->course_ID),
+        'dataProvider' => $dataProvider->activeModules($model->course_ID),
         'emptyText' => Yii::t('course', '0331'),
         'columns' => array(
             array(
@@ -89,6 +90,7 @@ $editMode = ($canEdit) ? 'true' : '';
                     ),
                 ),
             ),
+
             array(
                 'name' => 'title_ua',
                 'type' => 'raw',
@@ -97,6 +99,7 @@ $editMode = ($canEdit) ? 'true' : '';
                 'cssClassExpression'=>'AccessHelper::moduleAccessStyle($data)',
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
+
                     $title = ModuleHelper::getModuleTitleParam();
                     $moduleTitle = ModuleHelper::getDefaultModuleName($data->moduleInCourse->$title);
                     $value = '<span class="moduleOrder">'. Yii::t('course', '0364') . ' ' . $data->order . '.</span><span class="moduleLink"> '.CHtml::encode($data->moduleInCourse->$moduleTitle).'</span>';

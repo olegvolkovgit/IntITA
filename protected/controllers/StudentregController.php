@@ -141,7 +141,6 @@ class StudentRegController extends Controller
             if ($model->validate()) {
                 if (isset($model->avatar)) {
                     Avatar::saveStudentAvatar($model);
-
                 }
 
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
@@ -152,13 +151,9 @@ class StudentRegController extends Controller
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
                 }
 
+                if(!Mail::sendRegistrationMail($model))
+                    throw new \application\components\Exceptions\MailException('The letter was not sent ');
 
-
-                $subject = Yii::t('activeemail', '0298');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
-                $text = Yii::t('activeemail', '0299') .
-                    " " . Config::getBaseUrl() . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;;
-                mail($model->email, $subject, $text, $headers);
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
                 $this->render("studentreg", array('model' => $model));
@@ -211,7 +206,7 @@ class StudentRegController extends Controller
     public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
     {
         $model = StudentReg::model()->findByPk($idUser);
-        if ($idUser !== Yii::app()->user->getId())
+        if ($idUser > 0 && $idUser !== Yii::app()->user->getId())
             throw new IntItaException('That not your user');
         $letter = new Letters();
 
@@ -245,26 +240,6 @@ class StudentRegController extends Controller
 
     }
 
-    public function actionSendletter()
-    {
-        $model = StudentReg::model()->findByPk(1);
-
-        if ($_POST['submit']) {
-            if (!empty($_POST['send_letter'])) {
-                $title = $_POST['letterTheme'];
-                $mess = $_POST['send_letter'];
-                // $to - кому отправляем
-                $to = 'Wizlightdragon@gmail.com';
-                // $from - от кого
-                $from = $model->email;
-                // функция, которая отправляет наше письмо.
-                mail($to, $title, $mess, "Content-type: text/html; charset=utf-8 \r\n" . "From:" . $from . "\r\n");
-                Yii::app()->user->setFlash('messagemail', 'Ваше повідомлення відправлено');
-            }
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
-    }
-
     public function actionEdit()
     {
         if (Yii::app()->user->isGuest)
@@ -295,10 +270,8 @@ class StudentRegController extends Controller
         if ($model->validate()) {
             if (isset($model->avatar)){
                 Avatar::saveStudentAvatar($model);
-//                $fileName = FileUploadHelper::getFileName($model->avatar);
-//                $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-//                $model->updateByPk($id, array('avatar' => $fileName));
             }
+
             $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
             $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
             $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));

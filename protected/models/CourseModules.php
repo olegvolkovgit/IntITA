@@ -42,6 +42,7 @@ class CourseModules extends CActiveRecord
 			// The following rule is used by search().
 			array('id_course, id_module, order, mandatory_modules, durationInMonths, lessonCount, price_in_course',
                 'safe', 'on'=>'search'),
+            array('on' => 'activeModule'),
 		);
 	}
 
@@ -89,7 +90,7 @@ class CourseModules extends CActiveRecord
 	public function search($id)
 	{
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
         $criteria->addCondition('id_course='.$id);
 
@@ -100,7 +101,7 @@ class CourseModules extends CActiveRecord
         $criteria->compare('price_in_course',$this->price_in_course);
         $criteria->with = array('moduleInCourse');
 
-		return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
             'pagination'=>false,
             'sort'=>array(
@@ -109,7 +110,35 @@ class CourseModules extends CActiveRecord
                 )
             )
 		));
+
 	}
+
+    public function activeModules($id)
+    {
+        $criteria = new CDbCriteria;
+
+        $criteria->addCondition('id_course='.$id);
+
+        $criteria->compare('id_course',$this->id_course);
+        $criteria->compare('id_module',$this->id_module);
+        $criteria->compare('order',$this->order);
+        $criteria->compare('mandatory_modules',$this->mandatory_modules);
+        $criteria->compare('price_in_course',$this->price_in_course);
+        $criteria->with = array('moduleInCourse');
+        $criteria->alias = 'module';
+        $criteria->addCondition('cancelled = 0');
+
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+            'pagination'=>false,
+            'sort'=>array(
+                'defaultOrder'=>array(
+                    'order'=>CSort::SORT_ASC,
+                )
+            )
+        ));
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.

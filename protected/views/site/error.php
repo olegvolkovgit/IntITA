@@ -8,12 +8,12 @@ $this->breadcrumbs=array(
 );
 ?>
 <div class='errorblock'>
-    <h1><?php echo Yii::t('error','0590')." ".$errorCode; ?></h1>
+    <h1><?php echo Yii::t('error','0590')." ".$code; ?></h1>
 
 
     <div class="error">
     <?php echo CHtml::encode($message)?><br>
-<!--    --><?php //echo 'File : ' . CHtml::encode($file) ?><!--<br>-->
-<!--    --><?php //echo 'Line : ' . CHtml::encode($line) ?><!--<br>-->
+    <?php echo 'File : ' . CHtml::encode($file) ?><br>
+    <?php echo 'Line : ' . CHtml::encode($line) ?><br>
     </div>
 </div>

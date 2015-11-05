@@ -44,7 +44,7 @@
             <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
                 <?php if(isset($_SESSION['lg'])?$lg = $_SESSION['lg']: $lg = 'ua'); ?>
-                <a href='<?php echo Config::getBaseUrl(). '/' . StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'. $lg  .'.html');
+                <a href='<?php echo Yii::app()->createUrl('course/schema',['id' => $model->course_ID]); // тот же контроллер, другой экшн //Config::getBaseUrl(). '/' . 'course/schema';  //. StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'. $lg  .'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>

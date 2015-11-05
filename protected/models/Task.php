@@ -13,7 +13,7 @@
  *
  * The followings are the available model relations:
  */
-class Task extends CActiveRecord
+class Task extends Quiz
 {
 	/**
 	 * @return string the associated database table name
