@@ -45,12 +45,22 @@ class TeacherHelper
 
     public static function getTeacherName($id){
         if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en'  && Teacher::model()->findByPk($id)->first_name_en != ''
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''
                 && Teacher::model()->findByPk($id)->last_name_en != ''){
                 return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
             }
         }
         return Teacher::model()->findByPk($id)->last_name." ".Teacher::model()->findByPk($id)->first_name;
+    }
+
+    public static function getTeacherNameConsultation($id, $lg = 'ua'){
+        if($lg != 'ua'){
+            if($lg == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''
+                && Teacher::model()->findByPk($id)->last_name_en != ''){
+                return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->first_name." ".Teacher::model()->findByPk($id)->last_name;
     }
 
     public static function getTeachersRoles($id){

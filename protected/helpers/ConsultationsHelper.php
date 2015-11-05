@@ -33,6 +33,7 @@ class ConsultationsHelper
 
         return $result;
     }
+
     public static function getTheme($dp)
     {
         if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
@@ -41,5 +42,4 @@ class ConsultationsHelper
 
         return $result;
     }
-
 }

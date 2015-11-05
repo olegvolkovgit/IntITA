@@ -31,10 +31,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => 'number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн."',
         ),
         array(
-            'name' => 'payment_date',
+            'name' => 'Сплатити до',
             'value' => '$data->payment_date',
         ),
-        'expiration_date',
+
         array(
             'class'=>'CButtonColumn',
             'header'=>'Надрукувати',
