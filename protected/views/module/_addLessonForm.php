@@ -8,7 +8,7 @@
     <br>
     <br>
     <span>Назва (UA):</span>
-    <input type="text" name="titleUa" id="titleUa" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70" oninput="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')">
+    <input type="text" name="titleUa" id="titleUa" required pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="70" oninvalid="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')" oninput="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')">
     <br>
     <br>
     <span>Назва (RU):</span>

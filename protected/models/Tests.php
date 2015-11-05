@@ -10,7 +10,7 @@
  *
  * The followings are the available model relations:
  */
-class Tests extends CActiveRecord
+class Tests extends Quiz
 {
 	/**
 	 * @return string the associated database table name

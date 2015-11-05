@@ -260,7 +260,9 @@ class Course extends CActiveRecord implements IBillableObject
 
     protected function beforeSave()
     {
-        Avatar::saveCourseLogo($this,'course');
+        if(!Avatar::saveCourseLogo($this,'course'))
+                    return false;
+
         if($this->start=='') $this->start=null;
 
         return true;

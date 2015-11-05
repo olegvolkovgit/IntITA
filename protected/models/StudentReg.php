@@ -85,6 +85,7 @@ class StudentReg extends CActiveRecord
             array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'reguser'),
             array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
             array('birthday', 'length', 'max'=>11),
+            array('phone',  'match', 'pattern'=>'^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^','message'=>'Введіть коректний номер'),
             array('phone', 'length', 'max'=>15),
             array('phone', 'length', 'min'=>15),
             array('educform', 'length', 'max'=>60),
@@ -522,7 +523,7 @@ class StudentReg extends CActiveRecord
     public static function getDataProfile($idUser)
     {
         if ($idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403, Yii::t('error', '0612'));
+          return false;
         $letter = new Letters();
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
         $criteria = new CDbCriteria;

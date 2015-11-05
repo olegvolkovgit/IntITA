@@ -26,10 +26,10 @@ class ConsultationsHelper
                 if($result==' ')
                     $result=StudentReg::model()->findByPk($dp->user_id)->email;
             } else {
-                $result = Teacher::model()->findByPk($dp->teacher_id)->first_name . " " . Teacher::model()->findByPk($dp->teacher_id)->last_name;
+                $result = TeacherHelper::getTeacherFirstName($dp->teacher_id) . " " . TeacherHelper::getTeacherLastName($dp->teacher_id);
             }
         } else
-            $result = Teacher::model()->findByPk($dp->teacher_id)->first_name . " " . Teacher::model()->findByPk($dp->teacher_id)->last_name;
+            $result = TeacherHelper::getTeacherFirstName($dp->teacher_id) . " " . TeacherHelper::getTeacherLastName($dp->teacher_id);
 
         return $result;
     }
@@ -37,7 +37,7 @@ class ConsultationsHelper
     public static function getTheme($dp)
     {
         if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
-            $result=Lecture::model()->findByPk($dp->lecture_id)->title_ua;
+            $result=LectureHelper::getLectureTitle($dp->lecture_id);
         else $result='Видалена лекція';
 
         return $result;

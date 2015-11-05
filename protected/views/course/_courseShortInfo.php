@@ -44,7 +44,7 @@
             <?php if(CourseHelper::getLessonsCount($model->course_ID) > 0){?>
             <span id="demo">
                 <?php if(isset($_SESSION['lg'])?$lg = $_SESSION['lg']: $lg = 'ua'); ?>
-                <a href='<?php echo Config::getBaseUrl(). '/' . StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'. $lg  .'.html');
+                <a href='<?php echo Yii::app()->createUrl('course/schema',['id' => $model->course_ID]); // тот же контроллер, другой экшн //Config::getBaseUrl(). '/' . 'course/schema';  //. StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'. $lg  .'.html');
                 ?>'><?php echo Yii::t('course', '0662');?></a>
             </span>
             <br>
@@ -59,19 +59,8 @@
                 <?php echo '(3 '.Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220').')';
             }?>
         </div>
-       <?php if($model->status != 0){$this->renderPartial('_paymentsForm', array('model' => $model));}?>
+       <?php  if($model->status !== 0){$this->renderPartial('_paymentsForm', array('model' => $model));}?>
     </div>
 </div>
 
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
-
-<script>
-    $(function() {
-        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
-    });
-    function redirectToProfile(){
-        schema = $('input:radio[name="payment"]:checked').val();
-        $.cookie('courseSchema', schema, {'path': "/"});
-        $.cookie('openProfileTab', 5, {'path': "/"});
-    }
-</script>

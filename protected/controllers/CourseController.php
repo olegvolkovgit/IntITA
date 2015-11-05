@@ -225,16 +225,16 @@ class CourseController extends Controller
         }
     }
 
-	public function actionCourseSchema($idCourse){
-        $filename = '/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
+    public function actionSchema($id)
+    {
+        $lg = Yii::app()->session['lg'];
+        $filename = StaticFilesHelper::pathToCourseSchema('schema_course_'.$id.'_'. $lg  .'.html');
         if (file_exists($filename)) {
-            echo '/IntITA/'.StaticFilesHelper::pathToCourseSchema('schema_course_'.$idCourse.'.html');
-        } else {
-            $this->render('_schemaError');
+            $path = Config::getBaseUrl() .$filename;
+            $this->redirect($path);
         }
+        else
+            throw new \application\components\Exceptions\IntItaException('The scheme has not been created!!!'); //$this->render('_schemaError');
     }
 
-    public function actionSchemaError(){
-        $this->render('_schemaError');
-    }
 }

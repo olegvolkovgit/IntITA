@@ -85,11 +85,13 @@ $price = $model->getBasePrice();
                         echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
                             'onclick' => 'openSignIn();'));
                     } else{
-                        echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
-                            'onclick' => 'redirectToProfile();',
-                            'submit' => array('studentreg/profile'),
-                            'params' => array('idUser' => Yii::app()->user->getId(), 'course' => $model->course_ID,
-                            'schema' => '5')));
+                        ?>
+                        <a id="paymentButton" onclick="redirectToProfile()"
+                           href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                            'idUser' => Yii::app()->user->getId(),
+                            'course' => $model->course_ID,
+                        ));?>"><?php echo Yii::t('course', '0328');?></a>
+                    <?php
                     }?>
                 </div>
             </div>
@@ -97,3 +99,15 @@ $price = $model->getBasePrice();
     <?php } ?>
     <?php $this->endWidget(); ?>
 </div>
+
+
+<script>
+    $(function() {
+        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+    });
+    function redirectToProfile(){
+        schema = $('input:radio[name="payment"]:checked').val();
+        $.cookie('courseSchema', schema, {'path': "/"});
+        $.cookie('openProfileTab', 5, {'path': "/"});
+    }
+</script>

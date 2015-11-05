@@ -18,7 +18,7 @@
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRole');?>" method="POST" name="add-access">
         <fieldset>
-            <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
+            <legend id="label">Призначити роль викладачу <?php  echo $teacher->last_name. ' ' . $teacher->first_name . ' ' . $teacher->middle_name;?>:</legend>
             Викладач:<br>
             <select name="teacher" placeholder="(Виберіть викладача)" autofocus>
                 <?php $users = AccessHelper::generateTeachersList();

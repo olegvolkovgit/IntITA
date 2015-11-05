@@ -661,3 +661,9 @@ a.postlink {
     border-bottom: #368AD2 1px solid;
     padding-bottom: 0;
 }
+
+#addPlainTask
+{
+    display: none;
+}
+

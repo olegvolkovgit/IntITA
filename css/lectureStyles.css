@@ -396,12 +396,14 @@ img {
     vertical-align: top;
     display: inline-block;
     padding: 5px 0;
+    margin-right: 3px;
 }
 div.spotDone {
     background: #4b75a4;
     display: inline-block;
     width: 32px;
     height: 8px;
+    cursor: pointer;
 }
 
 div.spotDisabled {
@@ -411,7 +413,7 @@ div.spotDisabled {
     height: 8px;
     cursor: pointer;
 }
-a.pageDone, a.pageNoAccess, a#pagePressed,div.spotDone, div.spotDisabled, div#pagePressed  {
+a.pageDone, a.pageNoAccess, a#pagePressed, div.spotDisabled, div#pagePressed  {
     display: inline-block;
     cursor: pointer;
 }
