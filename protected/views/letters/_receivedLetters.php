@@ -11,7 +11,7 @@ if(StudentReg::model()->exists('id=:user', array(':user' => $data['sender_id']))
 $sender = StudentReg::model()->findByPk($data['sender_id']);
 if ($data['status'] == 1) $style = 'completed'; else $style = '';
 ?>
-<div class="letter">
+<div class="letter <?php if($data['status']==1) echo 'completed' ?>">
     <span onclick="letterSpoiler(this)">
     <?php
     echo CHtml::ajaxLink(
