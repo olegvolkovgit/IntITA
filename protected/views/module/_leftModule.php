@@ -15,17 +15,15 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         <?php
                         if(Yii::app()->user->isGuest && $post->status == 0 && $post->cancelled == 0) {
                             echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                        } elseif($post->status == 0 && $post->cancelled == 0){
-                             echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule",
-                                'onclick' => 'redirectToProfile();',
-                                'submit' => array('studentreg/profile'),
-                                'params' => array(
-                                    'module' => $post->module_ID,
-                                    'idUser' => Yii::app()->user->getId(),
-                                    'course' => (isset($_GET['idCourse'])?$_GET['idCourse']:0
-                                    )
-                                )
-                             ));
+                        } elseif($post->status == 1 && $post->cancelled == 0){
+                            ?>
+                            <a id="paymentButtonModule" onclick="redirectToProfile()"
+                               href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                                   'idUser' => Yii::app()->user->getId(),
+                                   'course' => (isset($_GET['idCourse']))?$_GET['idCourse']:0,
+                                   'module' => $post->module_ID
+                               ));?>"><?php echo Yii::t('module', '0279');?></a>
+                        <?php
                         }
                         ?>
                     </div>
@@ -37,13 +35,13 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         if(Yii::app()->user->isGuest) {
                             echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse", 'onclick' => 'openSignIn();'));
                         } else{
-                            echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse",
-                                'onclick' => 'redirectToProfile();',
-                                'submit' => array('studentreg/profile'),
-                                'params' => array(
-                                    'idUser' => Yii::app()->user->getId(),
-                                    'course' => $_GET['idCourse'])
-                            ));
+                            ?>
+                            <a id="paymentButtonCourse" onclick="redirectToProfile()"
+                               href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                                   'idUser' => Yii::app()->user->getId(),
+                                   'course' => $_GET['idCourse'],
+                               ));?>"><?php echo Yii::t('course', '0328');?></a>
+                        <?php
                         }
                         ?>
                     </div>
