@@ -1,5 +1,7 @@
 <?php
 
+use application\components\Exceptions\ForumException;
+use \application\components\Exceptions\MailException;
 class SiteController extends Controller
 {
     /*
@@ -115,16 +117,14 @@ class SiteController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
             if ($model->validate()) {
-                if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
-                else $lang = 'ua';
+
                 $model->save();
 
                 $model->updateByPk($model->id, array('avatar' => 'noname.png'));
-                $subject = Yii::t('activeemail', '0298');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
-                $text = Yii::t('activeemail', '0299') .
-                    " " . Config::getBaseUrl() . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
-                mail($model->email, $subject, $text, $headers);
+
+                if(Mail::sendRapidReg($model))
+                    throw new MailException('The letter was not sent');
+
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
                 Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
@@ -180,7 +180,7 @@ class SiteController extends Controller
 //                    Forum login
 
                    if(!ForumUser::login($userModel))
-                       throw new \application\components\Exceptions\ForumException('Forum user not save!!!');
+                       throw new ForumException('Forum user not save!!!');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (!isset($_COOKIE['cookie_key'])) {
                         foreach ($_SESSION as $key => $value) {
@@ -395,17 +395,16 @@ class SiteController extends Controller
         $model->attributes = Yii::app()->request->getPost('StudentReg');
         $getModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
         if (Yii::app()->request->getPost('StudentReg')) {
-            $getToken = rand(0, 99999);
-            $getTime = date("Y-m-d H:i:s");
-            $getModel->token = sha1($getToken . $getTime);
+
+            $getTime = $this->setToken($model);
+
         }
         if ($getModel->validate()) {
-            $subject = Yii::t('recovery', '0281');
-            $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
-            $text = Yii::t('recovery', '0239') .
-                " " . Config::getBaseUrl() . "/index.php?r=site/vertoken/view&token=" . $getModel->token;
-            $getModel->updateByPk($getModel->id, array('token' => $getModel->token, 'activkey_lifetime' => $getTime));
-            mail($getModel->email, $subject, $text, $headers);
+
+
+            if(!Mail::sendRecoveryPassMail($getModel,$getTime))
+                throw new MailException('The letter was not sent ');
+
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
         }
     }
@@ -423,17 +422,14 @@ class SiteController extends Controller
             // collect user input data
             $modelReset->attributes = Yii::app()->request->getPost('StudentReg');
             if (Yii::app()->request->getPost('StudentReg')) {
-                $getToken = rand(0, 99999);
-                $getTime = date("Y-m-d H:i:s");
-                $model->token = sha1($getToken . $getTime);
+                $getTime = $this->setToken($model);
+
             }
             if ($model->validate()) {
-                $subject = Yii::t('recovery', '0282');
-                $headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@" . Config::getBaseUrlWithoutSchema();
-                $text = Yii::t('recovery', '0283') .
-                    " " . Config::getBaseUrl() . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
-                $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
-                mail($modelReset->email, $subject, $text, $headers);
+
+                if (!Mail::sendResetMail($model, $modelReset, $getTime))
+                    throw new MailException('The letter was not sent');
+
                 $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
             }
         }
@@ -497,5 +493,14 @@ class SiteController extends Controller
                 }
             }
         };
+    }
+
+    private static function setToken($model)
+    {
+        $getToken = rand(0, 99999);
+        $getTime = date("Y-m-d H:i:s");
+        $model->token = sha1($getToken . $getTime);
+
+        return $getTime;
     }
 }

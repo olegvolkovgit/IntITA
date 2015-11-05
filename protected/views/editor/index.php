@@ -147,6 +147,7 @@ if($page->video == null) {?>
     } else{
         ?>
         <button onclick="showAddTestForm('plain')"> Додати тест </button>
+        <button onclick="showAddPlainTaskForm('plainTask')">Додати просту задачу</button>
 <!--        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>-->
         <?php
     }
@@ -154,6 +155,8 @@ if($page->video == null) {?>
 <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
     'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
 <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id));?>
+    <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
+        'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
 </div>
 <br>
 <br>

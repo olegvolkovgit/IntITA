@@ -26,6 +26,13 @@ function showAddTestForm(testType){
         document.getElementById('addBlockForm').style.display = 'none';
         document.getElementById('cancelButton').style.display = 'none';
 }
+function showAddPlainTaskForm(testType){
+    document.getElementById('testType').value = testType;
+    document.getElementById('addPlainTask').style.display = 'block';
+    document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+}
+
 
 function enableLessonEdit(block, course){
     editButton = 'editIco' + block;
