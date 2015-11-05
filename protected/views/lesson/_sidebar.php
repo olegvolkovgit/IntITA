@@ -1,7 +1,7 @@
 <?php
 $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
 ?>
-<div id="sidebarLesson" ng-controller="sidebarCtrl">
+<div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
         <ul><?php if ($idCourse != 0) { ?>
                 <li>
@@ -20,7 +20,17 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </li>
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
-                <?php $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse)); ?>
+                <?php
+                $browser = CommonHelper::detectBrowser($_SERVER['HTTP_USER_AGENT']);
+                $cmp = CommonHelper::checkForBrowserVersion($browser, array(
+                    'Internet Explorer' => array(9, 0)
+                ));
+                if ($cmp < 0) {
+                    $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
+                }else {
+                    $this->renderPartial('_jsChaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
+                }
+                ?>
             </li>
             <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
                 <div id="lectionTypeText"><?php echo $lecture->getTypeInfo()['text']; ?></div>

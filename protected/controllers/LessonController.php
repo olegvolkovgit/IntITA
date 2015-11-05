@@ -41,7 +41,6 @@ class LessonController extends Controller
 
     public function actionIndex($id, $idCourse=0, $page = 1)
     {
-        //var_dump($_GET);die();
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
@@ -472,5 +471,39 @@ class LessonController extends Controller
                 'lecture' =>$lecture,
             )
         );
+    }
+    public function actionPageAjaxUpdate()
+    {
+
+        $user=Yii::app()->user->getId();
+        $id=$_GET['lectureId'];
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+        $this->initialize($id,$editMode);
+
+        $passedPages = LecturePage::getAccessPages($id, $user);
+        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+
+        if (is_string($_GET['page'])) $thisPage = $_GET['page'];
+        else if($editMode) $thisPage = 1;
+        else $thisPage = $lastAccessPage;
+
+        $passedLecture = LectureHelper::isPassedLecture($passedPages);
+        $finishedLecture = LectureHelper::isLectureFinished($user, $id);
+
+        $page_order=$_GET['page'];
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+
+        $textList = LecturePage::getBlocksListById($page->id);
+
+        $dataProvider = LectureElement::getLectureText($textList);
+
+        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
+            echo Yii::t('lecture', '0640');
+        }
+        else{
+            echo $this->renderPartial('/lesson/_page',array('page'=>$page,'dataProvider'=>$dataProvider,'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
+        }
     }
 }

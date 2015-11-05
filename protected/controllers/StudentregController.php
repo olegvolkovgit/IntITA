@@ -203,16 +203,8 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser = 0)
+    public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
     {
-
-        if ($idUser == 0){
-            $idUser = Yii::app()->request->getPost('idUser', '0');
-        }
-        $idCourse = Yii::app()->request->getPost('course', '0');
-        $idModule = Yii::app()->request->getPost('module', '0');
-        $schema = Yii::app()->request->getPost('schema', '1');
-
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser > 0 && $idUser !== Yii::app()->user->getId())
             throw new IntItaException('That not your user');
@@ -241,9 +233,9 @@ class StudentRegController extends Controller
             'paymentsCourses' => $paymentsCourses,
             'paymentsModules' => $paymentsModules,
             'markProvider' => $markProvider,
-            'course' => $idCourse,
+            'course' => $course,
             'schema' => $schema,
-            'module' => $idModule,
+            'module' => $module,
         ));
 
     }

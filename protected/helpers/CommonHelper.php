@@ -98,4 +98,50 @@ class CommonHelper {
         }
         return  $term;
     }
+
+    static function detectBrowser($userAgent = null)
+    {
+        is_null($userAgent) && ($userAgent = $_SERVER['HTTP_USER_AGENT']);
+        $name = null;
+        $version = array(null, null, null, null);
+
+        if (false !== strpos($userAgent, 'MSIE '))
+        {
+            //http://www.useragentstring.com/pages/Internet%20Explorer/
+            $name = 'Internet Explorer';
+            preg_match('#MSIE (\d{1,2})\.(\d{1,2})#i', $userAgent, $versionMatch);
+            isset($versionMatch[1]) && $version[0] = (int)$versionMatch[1];
+            isset($versionMatch[2]) && $version[1] = (int)$versionMatch[2];
+        }
+
+        return array('name' => $name, 'version' => $version);
+    }
+    static public function checkForBrowserVersion(array $browser, array $conditions)
+    {
+        if (!isset($browser['name']) || !isset($conditions[$browser['name']])
+            || !isset($browser['version']) || count($browser['version']) < 1)
+        {
+            return null;
+        }
+
+        $cnd = $conditions[$browser['name']]; // 0=>, 1=>, 2=>
+        if (!is_array($cnd))
+        {
+            return null;
+        }
+
+        for ($i = 0; $i < count($cnd); $i++)
+        {
+            if ($browser['version'][$i] < $cnd[$i])
+            {
+                return -1;
+            }
+            else if ($browser['version'][$i] > $cnd[$i])
+            {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
 }

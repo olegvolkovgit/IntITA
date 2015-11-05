@@ -64,14 +64,3 @@
 </div>
 
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
-
-<script>
-    $(function() {
-        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
-    });
-    function redirectToProfile(){
-        schema = $('input:radio[name="payment"]:checked').val();
-        $.cookie('courseSchema', schema, {'path': "/"});
-        $.cookie('openProfileTab', 5, {'path': "/"});
-    }
-</script>
