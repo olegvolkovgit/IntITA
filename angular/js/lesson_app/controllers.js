@@ -33,7 +33,11 @@ angular
     }]);
 
 /* Controllers */
-function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
+function lessonPageCtrl($rootScope,$http, $scope, ipCookie, $templateCache) {
+    $rootScope.$on('$routeChangeStart', function(event, current) {
+            $templateCache.remove(current['loadedTemplateUrl']);
+    });
+
     $http({method: 'GET', url: ''})
         .success(function(data) {
             if($('[aria-describedby="mydialog2"]').length==2){
