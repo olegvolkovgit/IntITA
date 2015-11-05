@@ -13,6 +13,7 @@
  * @property integer $user_created
  * @property string $expiration_date
  * @property integer $user_cancelled
+ * @property string $pay_date
  *
  * The followings are the available model relations:
  * @property UserAgreements $agreement
@@ -43,7 +44,7 @@ class Invoice extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date,
-			user_cancelled', 'safe', 'on'=>'search'),
+			user_cancelled, pay_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,10 +73,11 @@ class Invoice extends CActiveRecord
 			'date_created' => 'Дата заведення',
 			'date_cancelled' => 'Дата відміни',
 			'summa' => 'Сумма до сплати',
-			'payment_date' => 'Дата оплати',
+			'payment_date' => 'Дата виставлення рахунка',
 			'user_created' => 'Користувач',
 			'expiration_date' => 'Оплатити до',
 			'user_cancelled' => 'Хто відмінив',
+            'pay_date' => 'Дата оплати (фактично оплачено)',
 		);
 	}
 
@@ -102,6 +104,7 @@ class Invoice extends CActiveRecord
 		$criteria->compare('date_created',$this->date_created,true);
 		$criteria->compare('date_cancelled',$this->date_cancelled,true);
 		$criteria->compare('summa',$this->summa,true);
+        $criteria->compare('pay_date',$this->pay_date,true);
 		$criteria->compare('payment_date',$this->payment_date,true);
 		$criteria->compare('user_created',$this->user_created);
 		$criteria->compare('expiration_date',$this->expiration_date,true);

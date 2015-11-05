@@ -1,0 +1,23 @@
+.breadcrumbs{
+    position: relative;
+    margin: 0 auto;
+    width: 1200px;
+    clear: both;
+    color: #666666;
+}
+.titleAgreement {
+    padding: 0;
+    margin-bottom: 30px;
+}
+.titleAgreement h1 {
+    font-weight: inherit;
+    color: #4B75A4;
+    margin: 0 0 10px 0;
+    line-height: 100%;
+}
+.grid-view table.items td:first-child a
+{
+    color: #4B75A4;
+    font-size: large;
+    margin-left: 100px;
+}

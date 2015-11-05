@@ -26,8 +26,9 @@ abstract class AbstractIntITAService extends CActiveRecord
         if (!$serviceClass::model()->exists($service_param.'='.$service_param_value))
         {
             return self::createService($serviceClass,$service_param,$service_param_value);
+        } else {
+            return $serviceClass::model()->findByAttributes(array($service_param => $service_param_value));
         }
-        return $serviceClass::model()->findByAttributes(array($service_param => $service_param_value));
     }
 
     protected function beforeValidate()

@@ -9,6 +9,4 @@ interface IBillableObject
 {
     public function getBasePrice();
     public function getDuration();
-    public function getNumber();
-    public function getType();
 }

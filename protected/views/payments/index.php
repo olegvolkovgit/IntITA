@@ -1,16 +1,24 @@
 <?php
     $this->pageTitle = 'INTITA';
 ?>
-
-<h1>Рахунки до сплати за договором №<?php echo UserAgreements::getNumber($agreement);?> від
-    <?php echo  UserAgreements::getCreateDate($agreement);?></h1>
+    <link type="text/css" rel="stylesheet" href="<?php
+    echo StaticFilesHelper::fullPathTo('css', 'paymentsInvoicesList.css'); ?>" />
+    <div class="breadcrumbs">
+        <?php
+        $this->breadcrumbs=array(
+            'Договір');
+        ?>
+    </div>
+    <div class="titleAgreement">
+        <h1>Рахунки до сплати за договором №<?php echo UserAgreements::getNumber($agreement);?> від
+            <?php echo  UserAgreements::getCreateDate($agreement);?></h1>
+    </div>
 
 <?php
-$counter = 0;
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'invoices-grid',
     'dataProvider' => $dataProvider,
-    'emptyText' => 'Рахунків не виставлено.',
+    'emptyText' => 'Рахунків немає.',
     'summaryText' => '',
     'template'=>'{items}{pager}',
     'pager' => array(
@@ -23,32 +31,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
     'columns' => array(
         array(
-            'header' => 'Рахунок',
-            'value' =>  '"Рахунок №".($row+1)',
+            'header' => false,
+            'class'=>'CLinkColumn',
+            'urlExpression'=>'Yii::app()->createUrl("payments/invoice", array("id"=>$data->id))',
+            'htmlOptions'=>array('style'=>'cursor: pointer;'),
+            'headerHtmlOptions' => array('style' => 'display:none'),
+            'labelExpression' => '"Рахунок №".($row+1).". Сплатити ".
+                number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".$data->payment_date'
         ),
-        array(
-            'header' => 'Сума до сплати',
-            'value' => 'number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн."',
-        ),
-        array(
-            'name' => 'Сплатити до',
-            'value' => '$data->payment_date',
-        ),
-
-        array(
-            'class'=>'CButtonColumn',
-            'header'=>'Надрукувати',
-            'template'=>'{account}',
-            'buttons'=>array
-            (
-                'account' => array
-                (
-                    'label'=>'  Надрукувати рахунок  ',
-                    'url'=>'Yii::app()->createUrl("payments/account", array("id"=>$data->id))',
-                ),
-            ),
-        ),
-
     ),
 ));
     ?>

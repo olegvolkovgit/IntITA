@@ -130,11 +130,27 @@ class UserAgreements extends CActiveRecord
 
     public static function courseAgreement($user, $course, $schema)
     {
-        return self::newAgreement($user, 'CourseService',$course, $schema);
+        $service = CourseService::getService($course)->service_id;
+        if ($service) {
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
+            if ($model){
+                //var_dump($model);die();
+                return $model;
+            }
+        }
+        return self::newAgreement($user, 'CourseService', $course, $schema);
+
     }
 
     public static function moduleAgreement($user, $module, $schema)
     {
+        $service = ModuleService::getService($module);
+        if ($service) {
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
+            if ($model){
+                return $model;
+            }
+        }
         return self::newAgreement($user, 'ModuleService',$module, $schema);
     }
 
@@ -173,8 +189,8 @@ class UserAgreements extends CActiveRecord
         $this->id = Yii::app()->db->getLastInsertID();
     }
 
-    private static function generateNumber(IBillableObject $billableObject, $agreement){
-        return $billableObject->getNumber().' - '.sprintf("%06d", $agreement).' - '.$billableObject->getType();
+    private static function generateNumber($serviceModel, $agreement){
+        return $serviceModel->getNumber().' - '.sprintf("%06d", $agreement).' - '.$serviceModel->getType();
     }
 
     public static function getNumber($id){

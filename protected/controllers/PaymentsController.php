@@ -2,13 +2,13 @@
 
 class PaymentsController extends Controller
 {
-    public function actionAccount($id, $nolayout = false)
+    public function actionInvoice($id, $nolayout = false)
     {
         $model = Invoice::model()->findByPk($id);
         if($nolayout){
             $this->layout = false;
         }
-        $this->render('account', array('invoice'=>$model));
+        $this->render('invoice', array('invoice'=>$model));
     }
 
     public function actionIndex(){

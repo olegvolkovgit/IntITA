@@ -24,7 +24,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
             'application.models.accountancy.*',
-        //'application.controllers.accountancy.*',
+        'application.controllers.accountancy.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
