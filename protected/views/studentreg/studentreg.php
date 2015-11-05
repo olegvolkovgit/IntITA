@@ -91,7 +91,7 @@ $this->breadcrumbs = array(
                     <div class="rowPhone">
                         <?php echo $form->labelEx($model, 'phone'); ?>
                         <div class="user_phone">
-                            <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15)); ?>
+                            <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15)); ?>
                         </div>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
