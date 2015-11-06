@@ -1,26 +1,24 @@
 <?php
+
 /**
- * This is the model class for table "acc_operation".
+ * This is the model class for table "acc_operation_type".
  *
- * The followings are the available columns in table 'acc_operation':
+ * The followings are the available columns in table 'acc_operation_type':
  * @property integer $id
- * @property string $date_create
- * @property integer $user_create
- * @property integer $type_id
- * @property integer $invoice_id
- * @property string $summa
+ * @property string $description
+ * @property integer $negative_summa
  *
  * The followings are the available model relations:
- * @property OperationType $type
+ * @property Operation[] $accOperations
  */
-class Operation extends CActiveRecord
+class OperationType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_operation';
+		return 'acc_operation_type';
 	}
 
 	/**
@@ -31,12 +29,11 @@ class Operation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date_create, user_create, type_id, invoice_id, summa', 'required'),
-			array('user_create, type_id, invoice_id', 'numerical', 'integerOnly'=>true),
-			array('summa', 'length', 'max'=>10),
+			array('negative_summa', 'numerical', 'integerOnly'=>true),
+			array('description', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date_create, user_create, type_id, invoice_id, summa', 'safe', 'on'=>'search'),
+			array('id, description, negative_summa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +45,7 @@ class Operation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'type' => array(self::BELONGS_TO, 'OperationType', 'type_id'),
+			'operations' => array(self::HAS_MANY, 'Operation', 'type_id'),
 		);
 	}
 
@@ -59,11 +56,8 @@ class Operation extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'date_create' => 'Date Create',
-			'user_create' => 'User Create',
-			'type_id' => 'Type',
-			'invoice_id' => 'Invoice',
-			'summa' => 'Summa',
+			'description' => 'Description',
+			'negative_summa' => 'Negative Summa',
 		);
 	}
 
@@ -86,11 +80,8 @@ class Operation extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('date_create',$this->date_create,true);
-		$criteria->compare('user_create',$this->user_create);
-		$criteria->compare('type_id',$this->type_id);
-		$criteria->compare('invoice_id',$this->invoice_id);
-		$criteria->compare('summa',$this->summa,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('negative_summa',$this->negative_summa);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,7 +92,7 @@ class Operation extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Operation the static model class
+	 * @return OperationType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
