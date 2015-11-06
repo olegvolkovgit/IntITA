@@ -80,6 +80,10 @@ class CoursemanageController extends AdminController
             $model->attributes = $_POST['Course'];
             $model->logo = $_FILES['Course'];
             if($model->save())
+                if ($model->course_img == Null) {
+                    $thisModel = new Course;
+                    $thisModel->updateByPk($model->course_ID, array('course_img' => 'courseImage.png'));
+                }
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],

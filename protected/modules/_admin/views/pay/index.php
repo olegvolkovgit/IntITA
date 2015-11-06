@@ -38,7 +38,8 @@
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>
-                        <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+                        <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'].' ('.
+                                $courses[$i]['language'].')'?></option>
                     <?php
                     }
                     ?>

@@ -62,7 +62,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     else $page = $lastAccessPage;
 
     if (!isset($thisPage)) $thisPage = 1;
-    $nextPage = LecturePage::getNextPage(117, $thisPage);
+    $nextPage = LecturePage::getNextPage($id, $thisPage);
     ?>
     <div class="signIn2">
         <div id="heedd">
