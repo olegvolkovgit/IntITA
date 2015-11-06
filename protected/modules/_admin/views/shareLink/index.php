@@ -9,7 +9,7 @@ $this->menu=array(
 //print_r($this->menu[1]['url'])
 ?>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/sharelink/create');?>">Створити посилання на ресурс</a>
+<a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/create');?>">Створити посилання на ресурс</a>
 <br>
 <?php
 
