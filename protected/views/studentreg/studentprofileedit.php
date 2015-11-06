@@ -232,9 +232,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             }
             ?>
             <div class="fileform">
-                <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                <input tabindex="-1" class="uploadAvatar" type="submit">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
