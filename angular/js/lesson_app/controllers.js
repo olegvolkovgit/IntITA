@@ -34,8 +34,8 @@ angular
 
 /* Controllers */
 function lessonPageCtrl($rootScope,$http, $scope, ipCookie, $templateCache) {
-    $rootScope.$on('$routeChangeStart', function(event, current) {
-            $templateCache.remove(current['loadedTemplateUrl']);
+    $rootScope.$on('$routeChangeStart', function(event, current, next) {
+            $templateCache.remove(next['loadedTemplateUrl']);
     });
 
     $http({method: 'GET', url: ''})
