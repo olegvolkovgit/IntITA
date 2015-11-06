@@ -327,7 +327,7 @@ class CourseHelper
     //discount 30 percent - first pay schema
     public static function getSummaWholeCourse($idCourse)
     {
-        return round(Course::getCoursePrice($idCourse) * 0.7);
+        return round(Course::getCoursePrice($idCourse));
     }
 
     //discount 10 percent - second pay schema
