@@ -68,7 +68,7 @@ class StaticFilesHelper {
     }
 
     public static function pathToCourseSchema($name){
-        return  '/files/course_schemas/'.$name;
+        return  'files/course_schemas/'.$name;
     }
 
     public static function fullPathToJs($name){
