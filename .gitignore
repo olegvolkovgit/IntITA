@@ -6,5 +6,4 @@ forum/cache/*
 local.php
 assets/*
 files/course_schemas/*
-images/*
 protected/views/site/error.php

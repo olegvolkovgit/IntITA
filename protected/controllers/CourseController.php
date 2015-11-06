@@ -229,8 +229,9 @@ class CourseController extends Controller
     {
         $lg = Yii::app()->session['lg'];
         $filename = StaticFilesHelper::pathToCourseSchema('schema_course_'.$id.'_'. $lg  .'.html');
+
         if (file_exists($filename)) {
-            $path = Config::getBaseUrl() .$filename;
+            $path = Config::getBaseUrl() .'/'.$filename;
             $this->redirect($path);
         }
         else
