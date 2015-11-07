@@ -79,7 +79,7 @@ class CoursemanageController extends AdminController
             $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes = $_POST['Course'];
             $model->logo = $_FILES['Course'];
-            if($model->save())
+            if($model->save()){
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
                     $thisModel->updateByPk($model->course_ID, array('course_img' => 'courseImage.png'));
@@ -91,7 +91,8 @@ class CoursemanageController extends AdminController
                         210
                     );
                 }
-            $this->redirect(array('view','id'=>$model->course_ID));
+                $this->redirect(array('view','id'=>$model->course_ID));
+            }
         }
         $this->render('create',array(
             'model'=>$model,
@@ -115,16 +116,16 @@ class CoursemanageController extends AdminController
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes=$_POST['Course'];
             $model->logo=$_FILES['Course'];
-            if($model->save())
-            if (!empty($_POST['Course']['course_img'])) {
-                ImageHelper::uploadAndResizeImg(
-                    Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
-                    Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
-                    210
-                );
+            if($model->save()){
+                if (!empty($_POST['Course']['course_img'])) {
+                    ImageHelper::uploadAndResizeImg(
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
+                        210
+                    );
+                }
+                $this->redirect(array('view','id'=>$model->course_ID));
             }
-
-            $this->redirect(array('view','id'=>$model->course_ID));
         }
         $this->render('update',array(
             'model'=>$model,
