@@ -43,13 +43,13 @@ for($i = 0, $count = count($pagesList); $i < $count; $i++){
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco"
              onclick="deletePage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>, <?php echo $idCourse;?>);">
        <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $pagesList[$i]["id"], 'idCourse' => $idCourse));?>">
-   <?php echo 'Частина '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
+   <?php echo Yii::t('lecture', '0615').' '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
 ?>
   </a></p></div>
 <?php }?>
 </h3>
 <br>
 <h3 class="lessonPartEdit"><p>
-<a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> Додати нову частину </a>
+<a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i));?>"> <?php echo Yii::t('lecture', '0711'); ?></a>
 </p></h3>
 </div>

@@ -7,7 +7,7 @@ class ConsultationsHelper
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
 
         if($teacher)
-            $result='Студент';
+            $result=Yii::t('profile', '0715');
         else
             $result=Yii::t('profile', '0129');
 
@@ -16,7 +16,7 @@ class ConsultationsHelper
     public static function getUserName($id,$dp)
     {
         if(!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
-            $result='Видалений користувач';
+            $result=Yii::t('profile', '0716');
             return $result;
         }
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
@@ -37,7 +37,7 @@ class ConsultationsHelper
     {
         if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
             $result=LectureHelper::getLectureTitle($dp->lecture_id);
-        else $result='Видалена лекція';
+        else $result=Yii::t('profile', '0717');
 
         return $result;
     }

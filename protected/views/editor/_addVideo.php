@@ -11,9 +11,9 @@
         <input name="idLecture" value="<?php echo $idLecture; ?>" type="hidden">
         <input name="page" value="<?php echo $pageOrder; ?>" type="hidden">
         <input name="type" value="2" type="hidden">
-        <input name="newVideoUrl" id="newVideoUrl" required onclick='buttonFormulaEnabled()' size="80" placeholder="Посилання youtube"/>
+        <input name="newVideoUrl" id="newVideoUrl" required onclick='buttonFormulaEnabled()' size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>"/>
         <br> <br>
-        <input id="addVideoButton" type="submit" value="Додати відео">
+        <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>">
     </form>
-    <button onclick='cancelAddVideo()'>Скасувати</button>
+    <button onclick='cancelAddVideo()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>

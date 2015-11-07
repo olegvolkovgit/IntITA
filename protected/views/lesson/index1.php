@@ -58,7 +58,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                             id="editIco1" class="editButton" title="Редагувати сторінку"/>
+                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture','0686')?>"/>
                     </a>
                 <?php } ?>
             </div>

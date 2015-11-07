@@ -53,7 +53,7 @@ if($idCourse != 0) {
         </h1>
     <h1 class="lessonPart">
     <div class="labelBlock">
-        <p>Частина <?php echo $page->page_order . '. ';
+        <p><?php echo Yii::t('lecture', '0615').' '.$page->page_order . '. ';
                 $this->widget('editable.EditableField', array(
                     'type' => 'textarea',
                     'model' => $page,
@@ -68,23 +68,23 @@ if($idCourse != 0) {
             <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
                 'idCourse' => $idCourse));?>">
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
-                     class="editButton" title="Список частин заняття"/>
+                     class="editButton" title="<?php echo Yii::t('lecture','0688'); ?>"/>
             </a>
             <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'page' =>
                 $page->page_order, 'idCourse' => $idCourse));?>">
                 <img style="margin-left: 5px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
-                     id="editIco1" class="editButton" title="Режим перегляду"/>
+                     id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>
             </a>
         </div>
     </h1>
     <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page'=>$page,'user'=>$user,
         'idCourse' => $idCourse)); ?>
-<h3><label for="pageVideo">Відео</label></h3>
+<h3><label for="pageVideo"><?php echo Yii::t('lecture', '0613'); ?></label></h3>
 <?php
 if($page->video == null) {?>
     <?php $this->renderPartial('/editor/_addVideo', array('idLecture' => $page->id_lecture, 'pageOrder' =>
         $page->page_order));?>
-    <button onclick="addVideo()" id="addVideoStart">Додати відео</button>
+    <button onclick="addVideo()" id="addVideoStart"><?php echo Yii::t('lecture', '0689'); ?></button>
 <?php
 } else {
     $lectureElement = LectureElement::model()->findByPk($page->video);
@@ -106,7 +106,7 @@ if($page->video == null) {?>
 <br>
 <br>
 <fieldset>
-    <legend>Текстовий блок:</legend>
+    <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
     <?php $this->renderPartial('/lesson/_blocks_list', array('dataProvider' => $dataProvider,
         'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
 
@@ -118,14 +118,14 @@ if($page->video == null) {?>
         ?>
     </div>
     <br>
-    Додати:
+    <?php echo Yii::t('lecture', '0691'); ?>
     <br>
-    <button onclick="addTextBlock('1')"> Текст </button>
-    <button onclick="addTextBlock('3')"> Код </button>
-    <button onclick="addTextBlock('4')"> Приклад </button>
-    <button onclick="addTextBlock('7')"> Інструкція </button>
+    <button onclick="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+    <button onclick="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+    <button onclick="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+    <button onclick="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
 </fieldset>
-<h3><label for="pageQuiz">Завдання (тест)</label></h3>
+<h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
 <?php
     if($page->quiz != null) {
         $data = LectureHelper::getPageQuiz($page->id);
@@ -146,9 +146,9 @@ if($page->video == null) {?>
         }
     } else{
         ?>
-        <button onclick="showAddTestForm('plain')"> Додати тест </button>
-        <button onclick="showAddPlainTaskForm('plainTask')">Додати просту задачу</button>
-<!--        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>-->
+        <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
+        <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
+<!--        <button onclick="showAddTaskForm('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
         <?php
     }
 ?>

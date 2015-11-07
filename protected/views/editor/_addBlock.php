@@ -32,7 +32,7 @@
                 </div>
                 <br>
                 <br>
-                <input type="submit" value="Додати" id="addBlockSubmit" onclick="saveNewBlock();">
+                <input type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit" onclick="saveNewBlock();">
             </form>
             <button id="cancelButton"
                     onclick="hideForm('blockForm', 'newTextBlock')"><?php echo Yii::t('course', '0368') ?></button>
