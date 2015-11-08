@@ -13,15 +13,7 @@ angular
             })
             .when('/',{
                 templateUrl:function() {return basePath+'/lesson/pageAjaxUpdate?page='+lastAccessPage+'&lectureId='+idLecture;},
-                controller: function($scope, $http){
-                    $http({method: 'GET', url: ''})
-                        .success(function() {
-                            var position = $('#pagePressed').position();
-                            $('#pointer').css('margin-top',-12);
-                            $('#pointer').css('margin-left',position.left+6);
-                            $('#pointer').show();
-                        })
-                }
+                controller: 'lessonPageCtrl'
             })
     }]);
 
@@ -70,11 +62,6 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie, $templateCache) {
             case 'text':
                 ipCookie('lessonTab', 1, { path: '/' });
                 break;
-            //case 'quiz':
-            //    ipCookie('lessonTab', 2, { path: '/' });
-            //    break;
-            //default:
-            //ipCookie('lessonTab', 0, { path: '/' });
         }
     });
 }

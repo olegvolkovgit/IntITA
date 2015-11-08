@@ -13,7 +13,7 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                 <td>
                     <div class="startModule">
                         <?php
-                        if(Yii::app()->user->isGuest && $post->status == 0 && $post->cancelled == 0) {
+                        if(Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
                             echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
                         } elseif($post->status == 1 && $post->cancelled == 0){
                             ?>

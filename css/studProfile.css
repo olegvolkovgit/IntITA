@@ -223,6 +223,29 @@ table.titleProfileAv{
     background: #454545;
     cursor: pointer;
 }
+#avatar {
+    position:absolute;
+    float: left;
+    z-index:2;
+    left:0;
+    display: block;
+    width: 235px;
+    height:50px;
+    border-radius: 10px;
+    border:none;
+    color:#ffffff;
+    background:#4b75a4;
+    margin-bottom: 30px;
+    box-shadow:0px 2px 0px #7f7f7f;
+    font-size: 24px;
+    font-family: MyriadPro2;
+    line-height: 50px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+#avatar:hover {
+    background: #454545;
+}
 /*������ ��� �����*/
 .studProf input[type="submit"] {
     margin:16px 0px 32px 435px;
@@ -268,15 +291,10 @@ table.titleProfileAv{
     z-index:1;
     cursor: pointer;
 }
-input[type="file"].chooseAvatar{
+input[type="file"]#chooseAvatar{
     position:absolute;
     top:4px;
     left:2px;
-}
-input[type="button"].avatar,input[type="submit"].avatar{
-    position:absolute;
-    z-index:2;
-    left:0;
 }
 span.required
 {

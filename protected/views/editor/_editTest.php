@@ -6,27 +6,27 @@ $valid=TestsHelper::getTestValid($idBlock);
     <br>
     <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>">
         <fieldset>
-            <legend>Редагування теста:</legend>
-            Питання:
+            <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
+            <?php echo Yii::t('lecture', '0710'); ?>
             <br>
             <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста" value="<?php echo TestsHelper::getTestCondition($idBlock);?>" required/>
             <br>
             <br>
             <fieldset id="optionsField<?php echo $idBlock?>">
-                <legend id="label1">Варіанти відповіді:</legend>
+                <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <ol  id="optionsList" class="inputs">
                     <?php for($i=0;$i<count(TestsHelper::getTestAnswers($idBlock));$i++){?>
                         <li><input class="testVariant" type="text" name="option<?php echo $i+1?>" id="option<?php echo $i+1?>" value="<?php echo $answers[$i]?>" size="80" required></li>
                     <?php } ?>
                 </ol>
-                <div class="editAddTest">Додати відповідь</div>
-                <div class="editRemoveTest">Видалити (останню відповідь)</div>
+                <div class="editAddTest"><?php echo Yii::t('lecture', '0702'); ?></div>
+                <div class="editRemoveTest"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <fieldset id="answersField<?php echo $idBlock?>" onclick="editButtonEnabled('<?php echo $idBlock?>');">
-                <legend id="label2">Правильні відповіді:</legend>
+                <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                 <div id="answersList<?php echo $idBlock?>" class="answersCheckbox">
                     <?php for($j=0;$j<count(TestsHelper::getTestAnswers($idBlock));$j++){?>
-                        <div><input type="checkbox" name="answer<?php echo $j+1?>" value="<?php echo $j+1?>" <?php echo $valid[$j] ?>><span><?php echo $j+1?> відповідь</span></div>
+                        <div><input type="checkbox" name="answer<?php echo $j+1?>" value="<?php echo $j+1?>" <?php echo $valid[$j] ?>><span><?php echo $j+1?> <?php echo Yii::t('lecture', '0705'); ?></span></div>
                     <?php } ?>
                 </div>
             </fieldset>
@@ -36,11 +36,11 @@ $valid=TestsHelper::getTestValid($idBlock);
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <br>
-        <input type="submit" value="Редагувати" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
+        <input type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
     </form>
     <br>
-    <button onclick='cancelTest()'>Скасувати</button>
-    <button onclick='unableTest(<?php echo $pageId;?>)'>Видалити тест</button>
+    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
+    <button onclick='unableTest(<?php echo $pageId;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>
 
 

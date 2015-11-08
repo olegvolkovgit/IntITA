@@ -30,5 +30,5 @@
 <!--        </fieldset>-->
 <!--        <input type="submit" value="Додати тест" id='addtests'>-->
 <!--    </form>-->
-    <button onclick='cancelTest()'>Скасувати</button>
+    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
