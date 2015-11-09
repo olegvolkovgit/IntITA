@@ -91,7 +91,7 @@ $this->breadcrumbs = array(
                     <div class="rowPhone">
                         <?php echo $form->labelEx($model, 'phone'); ?>
                         <div class="user_phone">
-                            <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15)); ?>
+                            <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15)); ?>
                         </div>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
@@ -206,9 +206,8 @@ $this->breadcrumbs = array(
                  src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
 
             <div class="fileform">
-                <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                <input tabindex="-1" class="uploadAvatar" type="submit">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>

@@ -2,7 +2,6 @@
 
 class PermissionsController extends AdminController
 {
-//    public $layout = 'main';
     public $menu = array();
 
     public function init()

@@ -837,6 +837,7 @@ body .tabsWidget .ui-tooltip {
 }
 .tabsWidget .ui-widget textarea{
     min-height: 150px;
+    width: 620px;
 }
 .tabsWidget .ui-widget-content {
     /*border: 1px solid #aaaaaa;*/

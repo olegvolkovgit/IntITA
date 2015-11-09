@@ -6,6 +6,7 @@
         <fieldset>
            <textarea name="block_element" class="plainTaskCondition"></textarea>
 
+
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>
@@ -13,5 +14,7 @@
         </fieldset>
         <input type="submit" value="Додати завдання" id='addtests'>
     </form>
-    <button onclick='cancelTest()'>Скасувати</button>
+
+    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
+
 </div>

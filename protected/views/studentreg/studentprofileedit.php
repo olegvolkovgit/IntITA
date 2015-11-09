@@ -99,7 +99,7 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15,'min' => '6', 'data-source' => Yii::t('edit', '0625'))); ?>
+                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15,'minlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
                     <div class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
@@ -232,9 +232,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             }
             ?>
             <div class="fileform">
-                <input class="avatar" type="button" value="<?php echo Yii::t('regexp', '0157'); ?>">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "class" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                <input tabindex="-1" class="uploadAvatar" type="submit">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
@@ -316,14 +315,14 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--Change email modal-->
 <script>
-//    $(document).ready(function () {
-//        var today = new Date();
-//        var yr = today.getFullYear();
-//        $(".date").inputmask("dd/mm/yyyy", {
-//            yearrange: {minyear: 1900, maxyear: yr - 3},
-//            "placeholder": "<?php //echo Yii::t('regexp', '0262');?>//"
-//        }); //specify year range
-//    });
+    $(document).ready(function () {
+        var today = new Date();
+        var yr = today.getFullYear();
+        $(".date").inputmask("dd/mm/yyyy", {
+            yearrange: {minyear: 1900, maxyear: yr - 3},
+            "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
+        }); //specify year range
+    });
 </script>
 <!-- Scripts for open tabs -->
 <script type="text/javascript">

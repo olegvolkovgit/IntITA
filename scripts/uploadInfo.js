@@ -11,8 +11,3 @@ function getName (str){
     uploaded.innerHTML = filename;
     $('[data-target="avatar"]').parent().parent().hide();
 }
-$(document).ready(function(e) {
-    $('.avatar').bind('click',function(e) {
-        $('.chooseAvatar').click();
-    });
-    });

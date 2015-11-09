@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Created by PhpStorm.
  * User: Ivanna
@@ -76,6 +74,10 @@ class ModuleController extends AdminController
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->save())
+                if ($model->module_img == Null) {
+                    $thisModel = new Module;
+                    $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
+                }
                 $this->redirect(array('view', 'id' => $model->module_ID));
         }
 

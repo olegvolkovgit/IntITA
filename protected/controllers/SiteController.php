@@ -485,7 +485,7 @@ class SiteController extends Controller
         if(!ForumUser::login($userModel))
             throw new \application\components\Exceptions\ForumException('Forum user not save !!!');
 
-        if (!$_COOKIE['cookie_key']) {
+        if (!isset($_COOKIE['cookie_key']) || !$_COOKIE['cookie_key']) {
             foreach ($_SESSION as $key => $value) {
                 if (strpos($key, '__id')) {
                     $cookie_key = substr($key, 0, strpos($key, '_'));
