@@ -35,7 +35,6 @@ class LoanPaymentSchema implements IPaymentCalculator{
 
         for($i = 0; $i < $this->payCount; $i++){
             $currentTimeInterval = $currentTimeInterval->modify(' +1 month');
-            //var_dump($currentTimeInterval);die();
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
         }
 

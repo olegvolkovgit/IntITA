@@ -26,15 +26,44 @@ $('.search-form form').submit(function(){
     'summaryText'=>'',
     'emptyText'=>'Рахунків немає',
     'columns'=>array(
-        'id',
-        'agreement_id',
-        'date_created',
-        'summa',
-        'user_created',
-        'payment_date',
-        'expiration_date',
-        'user_cancelled',
-        'pay_date',
+        //'id',
+        array(
+            'header' => 'agreement_id',
+            'class'=>'CLinkColumn',
+            'urlExpression'=>'Yii::app()->createUrl("/_accountancy/userAgreements/agreement",
+            array("id"=>$data->agreement_id))',
+            'htmlOptions'=>array('style'=>'cursor: pointer;'),
+            'headerHtmlOptions' => array('style' => 'display:none'),
+            'labelExpression' => 'UserAgreements::getNumber($data->agreement_id)'
+        ),
+        array(
+            'name' => 'date_created',
+            'value' => 'UserAgreements::getFormatDate($data->date_created)',
+        ),
+        array(
+            'name' => 'summa',
+            'value' => '$data->summa',
+        ),
+        array(
+            'name' => 'user_created',
+            'value' => 'StudentReg::getUserName($data->user_created)',
+        ),
+        array(
+            'name' => 'payment_date',
+            'value' => 'UserAgreements::getFormatDate($data->payment_date)',
+        ),
+        array(
+            'name' => 'expiration_date',
+            'value' => 'UserAgreements::getFormatDate($data->expiration_date)',
+        ),
+        array(
+            'name' => 'user_cancelled',
+            'value' => 'StudentReg::getUserName($data->user_cancelled)',
+        ),
+        array(
+            'name' => 'pay_date',
+            'value' => 'UserAgreements::getFormatDate($data->pay_date)',
+        ),
         array(
             'class'=>'CButtonColumn',
             'template'=>'{confirm}{cancel}',

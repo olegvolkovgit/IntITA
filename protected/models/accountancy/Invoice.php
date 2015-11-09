@@ -72,7 +72,7 @@ class Invoice extends CActiveRecord
 			'agreement_id' => 'Номер договору',
 			'date_created' => 'Дата заведення',
 			'date_cancelled' => 'Дата відміни',
-			'summa' => 'Сумма до сплати',
+			'summa' => 'Сума до сплати',
 			'payment_date' => 'Дата виставлення рахунка',
 			'user_created' => 'Користувач',
 			'expiration_date' => 'Оплатити до',

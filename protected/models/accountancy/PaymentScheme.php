@@ -122,4 +122,7 @@ class PaymentScheme extends CActiveRecord
         return $schema;
     }
 
+    public static function getName($id){
+        return PaymentScheme::model()->findByPk($id)->name;
+    }
 }

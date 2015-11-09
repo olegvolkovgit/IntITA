@@ -561,4 +561,17 @@ class StudentReg extends CActiveRecord
 
         return $markProvider;
     }
+
+    public static function getUserName($id){
+        if ($id) {
+            $model = StudentReg::model()->findByPk($id);
+            if($model->secondName == '' && $model->firstName == ''){
+                return $model->email;
+            } else {
+                return $model->secondName . " " . $model->firstName . ", " . $model->email;
+            }
+        } else {
+            return '';
+        }
+    }
 }

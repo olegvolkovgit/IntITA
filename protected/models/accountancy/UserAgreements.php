@@ -16,6 +16,7 @@
  * @property string $payment_schema
  * @property string $number
  * @property float $summa
+ * @property integer $cancel_reason_type
  *
  * @property Service $service
  */
@@ -44,7 +45,7 @@ class UserAgreements extends CActiveRecord
 			array('approval_date, cancel_date, close_date', 'safe'),
 			// The following rule is used by search().
 			array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
-			cancel_date, close_date, payment_schema', 'safe', 'on'=>'search'),
+			cancel_date, close_date, payment_schema, cancel_reason_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,13 +72,14 @@ class UserAgreements extends CActiveRecord
             'service_id' => 'Сервіс',//'Service for this agreement',
             'create_date' => 'Дата створення',//'Create Date',
             'approval_user' => 'Підтверджено користувачем',//'user who underscribe agreement',
-            'approval_date' => 'Дата заведення',//'date when agreement was approved',
+            'approval_date' => 'Дата підтвердження',//'date when agreement was approved',
             'cancel_user' => 'Закрив договір',//'Is agreement cancelled',
             'cancel_date' => 'Дата відміни',//'date when agreement was cancelled',
             'close_date' => 'Дата закриття',//'Date when agreement should be closed',
             'payment_schema' => 'Схема оплати',//'Payment scheme',
             'number'=> 'Номер',
             'summa'=> 'Сумма',
+            'cancel_reason_type' => 'Причина закриття',
 		);
 	}
 
@@ -111,9 +113,13 @@ class UserAgreements extends CActiveRecord
 		$criteria->compare('close_date',$this->close_date,true);
 		$criteria->compare('payment_schema',$this->payment_schema,true);
         $criteria->compare('summa',$this->summa,true);
+        $criteria->compare('cancel_reason_type',$this->cancel_reason_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
 		));
 	}
 
@@ -133,12 +139,7 @@ class UserAgreements extends CActiveRecord
         $service = CourseService::getService($course)->service_id;
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
-//            var_dump($user);
-//            var_dump($service);
-//            var_dump($model);
-//            die();
             if ($model){
-                //var_dump($model);die();
                 return $model;
             }
         }
@@ -203,5 +204,10 @@ class UserAgreements extends CActiveRecord
 
     public static function getCreateDate($id){
         return date("d.m.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
+    }
+
+    public static function getFormatDate($date){
+        if($date == NULL) return '';
+        return date("d.m.y", strtotime($date));
     }
 }
