@@ -28,20 +28,20 @@ if (AccessHelper::isAdmin()) $post->setScenario('canedit');
                         ?>
                     </div>
                 </td>
-                <?php if(isset($_GET['idCourse']) && $_GET['idCourse'] > 0){?>
+                <?php if(isset($_GET['idCourse']) && $_GET['idCourse'] > 0 && Course::getStatus($_GET['idCourse']) == 1){?>
                 <td>
                     <div class="startCourse">
                         <?php
                         if(Yii::app()->user->isGuest) {
                             echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse", 'onclick' => 'openSignIn();'));
                         } else{
-                            ?>
-                            <a id="paymentButtonCourse" onclick="redirectToProfile()"
-                               href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                                   'idUser' => Yii::app()->user->getId(),
-                                   'course' => $_GET['idCourse'],
-                               ));?>"><?php echo Yii::t('course', '0328');?></a>
-                        <?php
+                                ?>
+                                <a id="paymentButtonCourse" onclick="redirectToProfile()"
+                                   href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                                       'idUser' => Yii::app()->user->getId(),
+                                       'course' => $_GET['idCourse'],
+                                   ));?>"><?php echo Yii::t('course', '0328');?></a>
+                            <?php
                         }
                         ?>
                     </div>
