@@ -37,7 +37,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('style'=>'cursor: pointer;'),
             'headerHtmlOptions' => array('style' => 'display:none'),
             'labelExpression' => '"Рахунок №".($row+1).". Сплатити ".
-                number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".$data->payment_date'
+                number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".
+                date("m.d.y", strtotime($data->payment_date));'
         ),
     ),
 ));

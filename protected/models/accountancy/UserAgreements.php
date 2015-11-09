@@ -198,6 +198,6 @@ class UserAgreements extends CActiveRecord
     }
 
     public static function getCreateDate($id){
-        return UserAgreements::model()->findByPk($id)->create_date;
+        return date("m.d.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
     }
 }
