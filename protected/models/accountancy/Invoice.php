@@ -73,11 +73,11 @@ class Invoice extends CActiveRecord
 			'date_created' => 'Дата заведення',
 			'date_cancelled' => 'Дата відміни',
 			'summa' => 'Сума до сплати',
-			'payment_date' => 'Дата виставлення рахунка',
+			'payment_date' => 'Оплатити до',
 			'user_created' => 'Користувач',
-			'expiration_date' => 'Оплатити до',
+			'expiration_date' => 'Дійсний до',
 			'user_cancelled' => 'Хто відмінив',
-            'pay_date' => 'Дата оплати (фактично оплачено)',
+            'pay_date' => 'Сплачено',
 		);
 	}
 
@@ -112,6 +112,9 @@ class Invoice extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>50,
+            ),
 		));
 	}
 

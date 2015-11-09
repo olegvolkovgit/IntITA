@@ -25,7 +25,7 @@ class InvoicesController extends CController{
     public function accessRules()
     {
         return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
+            array('allow',
                 'actions'=>array('index'),
                 'expression'=>array($this, 'isAccountant'),
             ),
@@ -59,6 +59,17 @@ class InvoicesController extends CController{
     {
         $model=new Invoice('search');
         $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Invoice']))
+            $model->attributes=$_GET['Invoice'];
+
+        $this->render('index',array(
+            'model'=>$model,
+        ));
+    }
+
+    public function actionAgreementList($id){
+        $model= new Invoice('search');
+        $model->unsetAttributes();
         if(isset($_GET['Invoice']))
             $model->attributes=$_GET['Invoice'];
 

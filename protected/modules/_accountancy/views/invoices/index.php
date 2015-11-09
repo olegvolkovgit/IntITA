@@ -16,6 +16,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/invoicesList.css" />
 
 <h1>Список рахунків</h1>
 
@@ -26,23 +27,22 @@ $('.search-form form').submit(function(){
     'summaryText'=>'',
     'emptyText'=>'Рахунків немає',
     'columns'=>array(
-        //'id',
         array(
-            'header' => 'agreement_id',
+            'header' => 'Договір',
             'class'=>'CLinkColumn',
             'urlExpression'=>'Yii::app()->createUrl("/_accountancy/userAgreements/agreement",
             array("id"=>$data->agreement_id))',
             'htmlOptions'=>array('style'=>'cursor: pointer;'),
-            'headerHtmlOptions' => array('style' => 'display:none'),
             'labelExpression' => 'UserAgreements::getNumber($data->agreement_id)'
         ),
         array(
             'name' => 'date_created',
+            'htmlOptions'=>array('class'=>'date'),
             'value' => 'UserAgreements::getFormatDate($data->date_created)',
         ),
         array(
             'name' => 'summa',
-            'value' => '$data->summa',
+            'value' => '$data->summa." грн."',
         ),
         array(
             'name' => 'user_created',
@@ -50,36 +50,39 @@ $('.search-form form').submit(function(){
         ),
         array(
             'name' => 'payment_date',
+            'htmlOptions'=>array('class'=>'date'),
             'value' => 'UserAgreements::getFormatDate($data->payment_date)',
         ),
         array(
+            'name' => 'pay_date',
+            'htmlOptions'=>array('class'=>'date'),
+            'value' => 'UserAgreements::getFormatDate($data->pay_date)',
+        ),
+        array(
             'name' => 'expiration_date',
+            'htmlOptions'=>array('class'=>'date'),
             'value' => 'UserAgreements::getFormatDate($data->expiration_date)',
         ),
         array(
             'name' => 'user_cancelled',
             'value' => 'StudentReg::getUserName($data->user_cancelled)',
         ),
-        array(
-            'name' => 'pay_date',
-            'value' => 'UserAgreements::getFormatDate($data->pay_date)',
-        ),
-        array(
-            'class'=>'CButtonColumn',
-            'template'=>'{confirm}{cancel}',
-            'buttons' => array
-            (
-                'confirm'=>array(
-                    'label' => 'Сплатити',
-                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/confirm", array("id"=>$data->id));',
-                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'confirm.png'),
-                ),
-                'cancel'=>array(
-                    'label' => 'Скасувати',
-                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/cancel", array("id"=>$data->id));',
-                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'cancel.png'),
-                ),
-            ),
-        ),
+//        array(
+//            'class'=>'CButtonColumn',
+//            'template'=>'{confirm}{cancel}',
+//            'buttons' => array
+//            (
+//                'confirm'=>array(
+//                    'label' => 'Сплатити',
+//                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/confirm", array("id"=>$data->id));',
+//                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'confirm.png'),
+//                ),
+//                'cancel'=>array(
+//                    'label' => 'Скасувати',
+//                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/cancel", array("id"=>$data->id));',
+//                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'cancel.png'),
+//                ),
+//            ),
+//        ),
     ),
 )); ?>

@@ -69,7 +69,7 @@ class UserAgreements extends CActiveRecord
 		return array(
             'id' => 'ID договору',//'User account',
             'user_id' => 'Користувач',//'User which have agreement',
-            'service_id' => 'Сервіс',//'Service for this agreement',
+            'service_id' => 'Service',//'Service for this agreement',
             'create_date' => 'Дата створення',//'Create Date',
             'approval_user' => 'Підтверджено користувачем',//'user who underscribe agreement',
             'approval_date' => 'Дата підтвердження',//'date when agreement was approved',
