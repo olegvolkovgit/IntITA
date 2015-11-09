@@ -99,7 +99,7 @@ if($page->video == null) {?>
 ?>
     <div class="videoDeleteButton">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>" class="editIco"
-             onclick="deleteVideo(<?php echo $page->id_lecture; ?>, <?php echo $page->page_order; ?>);">
+             onclick="deleteVideo(<?php echo $page->id_lecture; ?>//, <?php echo $page->page_order; ?>//);">
     </div>
 <?php } ?>
 
@@ -148,7 +148,7 @@ if($page->video == null) {?>
         ?>
         <button onclick="showAddTestForm('plain')"> Додати тест </button>
         <button onclick="showAddPlainTaskForm('plainTask')">Додати просту задачу</button>
-<!--        <button onclick="showAddTaskForm('plain')"> Додати задачу </button>-->
+        <button onclick="showAddTaskForm('plain')"> Додати задачу</button>
         <?php
     }
 ?>

@@ -5,7 +5,7 @@
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl().'/css/formattedForm.css';?>"/>
 <div class="form">
-    <?php $form=$this->beginWidget('CActiveForm', array(
+    <?php $form = $this->beginWidget('CActiveForm', array(
         'id'=>'course-form',
         'htmlOptions'=>array(
             'class'=>'formatted-form',

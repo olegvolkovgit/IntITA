@@ -1,23 +1,27 @@
 <?php
 
+
 /**
- * This is the model class for table "tests".
+ * This is the model class for table "task1".
  *
- * The followings are the available columns in table 'tests':
+ * The followings are the available columns in table 'task1':
  * @property integer $id
- * @property integer $block_element
+ * @property string $language
+ * @property integer $assignment
+ * @property integer $condition
  * @property integer $author
+ * @property string $table
  *
  * The followings are the available model relations:
  */
-class Tests extends Quiz
+class Task extends Quiz
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tests';
+		return 'task1';
 	}
 
 	/**
@@ -28,11 +32,13 @@ class Tests extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, block_element', 'required'),
-			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
+			//array('condition', 'required'),
+			array('assignment, condition, author', 'numerical', 'integerOnly'=>true),
+			array('language', 'length', 'max'=>15),
+			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, language, assignment, condition, author, table', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +61,11 @@ class Tests extends Quiz
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => 'Block Element',
+			'language' => 'Language',
+			'assignment' => 'Assignment',
+			'condition' => 'Condition',
 			'author' => 'Author',
+			'table' => 'Table',
 		);
 	}
 
@@ -79,8 +88,11 @@ class Tests extends Quiz
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('block_element',$this->block_element);
+		$criteria->compare('language',$this->language,true);
+		$criteria->compare('assignment',$this->assignment);
+		$criteria->compare('condition',$this->condition);
 		$criteria->compare('author',$this->author);
+		$criteria->compare('table',$this->table,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,38 +103,43 @@ class Tests extends Quiz
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Tests the static model class
+	 * @return Task the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public static function addNewTest($blockElement, $title, $author, $pageId){
-        $model = new Tests();
+//    public static function addNewTask($condition, $language, $author, $assignment, $table, $pageId)
+//    {
+//        $model = new Task();
+//        $model->condition = $condition;
+//        $model->author = $author;
+//        $model->language = $language;
+//        $model->assignment = $assignment;
+//        $model->table = $table;
+//
+//        if($model->save()){
+//            LecturePage::addQuiz($pageId, $condition);
+//        }
+//    }
 
-        $model->block_element = $blockElement;
-        $model->author = $author;
+    public static function deleteTask($condition){
+        $task = Task::model()->findByAttributes(array('condition' => $condition));
+        $task->delete();
+    }
 
-        if ($model->save()){
-            LecturePage::addQuiz($pageId, $blockElement);
+    public function addTask($arr)
+    {
+        $model = new Task();
+        $model->condition = $arr['condition'];
+        $model->author = $arr['author'];
+        $model->language = $arr['language'];
+        $model->assignment = $arr['assignment'] ;
+        $model->table = $arr['table'];
+
+        if($model->save()){
+            LecturePage::addQuiz($arr['pageId'], $arr['condition']);
         }
     }
-	public static function isLastTest($testId)
-	{
-		$quiz = Tests::model()->findByPk($testId)->block_element;
-		$lecturePage=LecturePage::model()->findByAttributes(array('quiz' => $quiz));
-		$pageOrder = $lecturePage->page_order;
-		$lectureId = $lecturePage->id_lecture;
-
-		$criteria=new CDbCriteria;
-		$criteria->alias='lecture_page';
-		$criteria->select='page_order';
-		$criteria->condition = 'id_lecture = '.$lectureId;
-		$criteria->order = 'page_order DESC';
-		$lastPage=LecturePage::model()->find($criteria)->page_order;
-
-		if($pageOrder!=$lastPage) return 0;
-		else return 1;
-	}
 }

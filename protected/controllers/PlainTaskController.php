@@ -1,5 +1,6 @@
 <?php
 
+use application\components\Exceptions\PlainTaskException as PlainTaskException;
 class PlainTaskController extends Controller
 {
 	public function actionIndex()
@@ -36,12 +37,18 @@ class PlainTaskController extends Controller
 
     public function actionAddTask()
     {
-        if(isset($_POST['condition']))
-        {
-            $condition = $_POST['condition'];
-            $author = $_POST['author'];
-            PlainTask::saveTask($condition,$author);
-        }
+
+        $arr['pageId'] =  Yii::app()->request->getPost('pageId');
+        $arr['lecture'] = Yii::app()->request->getPost('lectureId');
+        $arr['block_element'] = Yii::app()->request->getPost('block_element');
+        $arr['author'] = Yii::app()->request->getPost('author');
+        $arr['type'] = 'plain_task';
+
+        if (QuizFactory::factory($arr))
+            $this->redirect(Yii::app()->request->urlReferrer);
+        else echo 'Task was not saved';
 
     }
+
+
 }

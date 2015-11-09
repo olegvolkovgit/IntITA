@@ -667,3 +667,10 @@ a.postlink {
     display: none;
 }
 
+.plainTaskCondition
+{
+    border-width: 2px;
+    resize: none;
+    width: 600px;
+    height: 300px;
+}

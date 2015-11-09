@@ -112,18 +112,7 @@ class LectureElement extends CActiveRecord
     public static function addNewTaskBlock($idLecture, $condition, $taskType){
         $model = new LectureElement();
 
-        $criteria=new CDbCriteria;
-        $criteria->alias='lecture_element';
-        $criteria->select='block_order';
-        $criteria->condition = 'id_lecture = '.$idLecture;
-        $criteria->order = 'block_order DESC';
-        if(LectureElement::model()->find($criteria)->block_order){
-            $order=LectureElement::model()->find($criteria)->block_order;
-        }else{
-            $order=0;
-        }
-
-        $model->block_order = ++$order;
+        $model->getOrder($idLecture);
 
         if ($taskType == 'final'){
             //$model->type = 'final task';
@@ -137,7 +126,7 @@ class LectureElement extends CActiveRecord
         $model->id_lecture = $idLecture;
 
         if ($model->save(true)) {
-            return LectureElement::model()->findByAttributes(array('block_order'=>$order, 'id_lecture' => $idLecture))->id_block;
+            return LectureElement::model()->findByAttributes(array('block_order'=>$model->block_order, 'id_lecture' => $idLecture))->id_block;
         } else {
             return false;
         }
@@ -146,18 +135,7 @@ class LectureElement extends CActiveRecord
     public static function addNewTestBlock($idLecture, $condition, $testType){
         $model = new LectureElement();
 
-        $criteria=new CDbCriteria;
-        $criteria->alias='lecture_element';
-        $criteria->select='block_order';
-        $criteria->condition = 'id_lecture = '.$idLecture;
-        $criteria->order = 'block_order DESC';
-        if(LectureElement::model()->find($criteria)){
-            $order=LectureElement::model()->find($criteria)->block_order;
-        }else{
-            $order=0;
-        }
-
-        $model->block_order=++$order;
+        $model->getOrder($idLecture);
 
         if ($testType == 'final'){
             //$model->type = 'final test';
@@ -170,7 +148,7 @@ class LectureElement extends CActiveRecord
         $model->id_lecture = $idLecture;
 
         if ($model->save()) {
-            return LectureElement::model()->findByAttributes(array('block_order'=>$order, 'id_lecture' => $idLecture))->id_block;
+            return LectureElement::model()->findByAttributes(array('block_order'=>$model->block_order, 'id_lecture' => $idLecture))->id_block;
         } else {
             return false;
         }
@@ -323,4 +301,41 @@ class LectureElement extends CActiveRecord
         return $dataProvider;
     }
 
+    public static function addNewPlainTask($lecture,$block_element)
+    {
+        $type = 5;
+
+        $model = new LectureElement();
+
+        $model->getOrder($lecture);
+
+        $model->id_type = $type;
+        $model->html_block = $block_element;
+        $model->id_lecture = $lecture;
+
+        if($model->validate())
+        {
+            $model->save();
+
+            return $model->id_block;
+        }
+
+        else return false;
+    }
+
+    private function getOrder($idLecture)
+    {
+        $criteria=new CDbCriteria;
+        $criteria->alias='lecture_element';
+        $criteria->select='block_order';
+        $criteria->condition = 'id_lecture = '.$idLecture;
+        $criteria->order = 'block_order DESC';
+        if(LectureElement::model()->find($criteria)->block_order){
+            $order=LectureElement::model()->find($criteria)->block_order;
+        }else{
+            $order=0;
+        }
+
+        $this->block_order = ++$order;
+    }
 }

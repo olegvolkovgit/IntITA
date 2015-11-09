@@ -1,21 +1,24 @@
 <?php
 
+
 /**
- * This is the model class for table "plain_task".
+ * This is the model class for table "tests".
  *
- * The followings are the available columns in table 'plain_task':
+ * The followings are the available columns in table 'tests':
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
+ *
+ * The followings are the available model relations:
  */
-class PlainTask extends Quiz
+class Tests extends Quiz
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'plain_task';
+		return 'tests';
 	}
 
 	/**
@@ -26,8 +29,8 @@ class PlainTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('block_element, author', 'required'),
-			array('block_element, author', 'numerical', 'integerOnly'=>true),
+			array('author, block_element', 'required'),
+			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, block_element, author', 'safe', 'on'=>'search'),
@@ -42,6 +45,7 @@ class PlainTask extends Quiz
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+
 		);
 	}
 
@@ -52,7 +56,7 @@ class PlainTask extends Quiz
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => 'Завдання',
+			'block_element' => 'Block Element',
 			'author' => 'Author',
 		);
 	}
@@ -88,15 +92,44 @@ class PlainTask extends Quiz
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PlainTask the static model class
+	 * @return Tests the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public function saveTask($condition,$author)
-    {
+	public static function isLastTest($testId)
+	{
+		$quiz = Tests::model()->findByPk($testId)->block_element;
+		$lecturePage=LecturePage::model()->findByAttributes(array('quiz' => $quiz));
+		$pageOrder = $lecturePage->page_order;
+		$lectureId = $lecturePage->id_lecture;
 
+		$criteria=new CDbCriteria;
+		$criteria->alias='lecture_page';
+		$criteria->select='page_order';
+		$criteria->condition = 'id_lecture = '.$lectureId;
+		$criteria->order = 'page_order DESC';
+		$lastPage=LecturePage::model()->find($criteria)->page_order;
+
+		if($pageOrder!=$lastPage) return 0;
+		else return 1;
+	}
+
+    public function addTask($arr)
+    {
+        $model = new Tests();
+
+        $model->block_element = $arr['lectureElementId'];
+        $model->author = $arr['author'];
+
+        if ($model->save()) {
+            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $arr['lectureElementId']))->id;
+            TestsAnswers::addOptions($idTest, $arr['options']);
+            return true;
+        }
+        else return false;
     }
 }
