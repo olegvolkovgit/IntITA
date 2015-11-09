@@ -172,13 +172,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0686',
 				'language' => 'ua',
-				'translation' => 'Ðåäàãóâàòè ñòîð³íêó'
+				'translation' => 'Ð ÐµÐ´Ð°Ð³ÑƒÐ²Ð°Ñ‚Ð¸ ÑÑ‚Ð¾Ñ€Ñ–Ð½ÐºÑƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0686',
 				'language' => 'ru',
-				'translation' => 'Ðåäàêòèðîâàòü ñòðàíèöó'
+				'translation' => 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñƒ'
 			),
 			array(
 				'id_record' => null,
@@ -190,13 +190,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0687',
 				'language' => 'ua',
-				'translation' => 'Ðåæèì ïåðåãëÿäó'
+				'translation' => 'Ð ÐµÐ¶Ð¸Ð¼ Ð¿ÐµÑ€ÐµÐ³Ð»ÑÐ´Ñƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0687',
 				'language' => 'ru',
-				'translation' => 'Ðåæèì ïðîñìîòðà'
+				'translation' => 'Ð ÐµÐ¶Ð¸Ð¼ Ð¿Ñ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€Ð°'
 			),
 			array(
 				'id_record' => null,
@@ -208,13 +208,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0688',
 				'language' => 'ua',
-				'translation' => 'Ñïèñîê ÷àñòèí çàíÿòòÿ'
+				'translation' => 'Ð¡Ð¿Ð¸ÑÐ¾Ðº Ñ‡Ð°ÑÑ‚Ð¸Ð½ Ð·Ð°Ð½ÑÑ‚Ñ‚Ñ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0688',
 				'language' => 'ru',
-				'translation' => 'Ñïèñîê ÷àñòåé çàíÿòèÿ'
+				'translation' => 'Ð¡Ð¿Ð¸ÑÐ¾Ðº Ñ‡Ð°ÑÑ‚ÐµÐ¹ Ð·Ð°Ð½ÑÑ‚Ð¸Ñ'
 			),
 			array(
 				'id_record' => null,
@@ -226,13 +226,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0689',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè â³äåî'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ÐµÐ¾'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0689',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü âèäåî'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð²Ð¸Ð´ÐµÐ¾'
 			),
 			array(
 				'id_record' => null,
@@ -244,13 +244,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0690',
 				'language' => 'ua',
-				'translation' => 'Òåêñòîâèé áëîê:'
+				'translation' => 'Ð¢ÐµÐºÑÑ‚Ð¾Ð²Ð¸Ð¹ Ð±Ð»Ð¾Ðº:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0690',
 				'language' => 'ru',
-				'translation' => 'Òåêñòîâûé áëîê:'
+				'translation' => 'Ð¢ÐµÐºÑÑ‚Ð¾Ð²Ñ‹Ð¹ Ð±Ð»Ð¾Ðº:'
 			),
 			array(
 				'id_record' => null,
@@ -262,13 +262,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0691',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè:'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0691',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü:'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ:'
 			),
 			array(
 				'id_record' => null,
@@ -280,13 +280,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0692',
 				'language' => 'ua',
-				'translation' => 'Òåêñò'
+				'translation' => 'Ð¢ÐµÐºÑÑ‚'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0692',
 				'language' => 'ru',
-				'translation' => 'Òåêñò'
+				'translation' => 'Ð¢ÐµÐºÑÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -298,13 +298,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0693',
 				'language' => 'ua',
-				'translation' => 'Êîä'
+				'translation' => 'ÐšÐ¾Ð´'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0693',
 				'language' => 'ru',
-				'translation' => 'Êîä'
+				'translation' => 'ÐšÐ¾Ð´'
 			),
 			array(
 				'id_record' => null,
@@ -316,13 +316,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0694',
 				'language' => 'ua',
-				'translation' => 'Ïðèêëàä'
+				'translation' => 'ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0694',
 				'language' => 'ru',
-				'translation' => 'Ïðèìåð'
+				'translation' => 'ÐŸÑ€Ð¸Ð¼ÐµÑ€'
 			),
 			array(
 				'id_record' => null,
@@ -334,13 +334,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0695',
 				'language' => 'ua',
-				'translation' => '²íñòðóêö³ÿ'
+				'translation' => 'Ð†Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ñ–Ñ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0695',
 				'language' => 'ru',
-				'translation' => 'Èíñòðóêöèÿ'
+				'translation' => 'Ð˜Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ñ'
 			),
 			array(
 				'id_record' => null,
@@ -352,13 +352,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0696',
 				'language' => 'ua',
-				'translation' => 'Çàâäàííÿ (òåñò)'
+				'translation' => 'Ð—Ð°Ð²Ð´Ð°Ð½Ð½Ñ (Ñ‚ÐµÑÑ‚)'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0696',
 				'language' => 'ru',
-				'translation' => 'Çàäà÷à (òåñò)'
+				'translation' => 'Ð—Ð°Ð´Ð°Ñ‡Ð° (Ñ‚ÐµÑÑ‚)'
 			),
 			array(
 				'id_record' => null,
@@ -370,13 +370,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0697',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè òåñò'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ñ‚ÐµÑÑ‚'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0697',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü òåñò'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ñ‚ÐµÑÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -388,13 +388,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0698',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè ïðîñòó çàäà÷ó'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ð¿Ñ€Ð¾ÑÑ‚Ñƒ Ð·Ð°Ð´Ð°Ñ‡Ñƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0698',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü ïðîñòóþ çàäà÷ó'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¾ÑÑ‚ÑƒÑŽ Ð·Ð°Ð´Ð°Ñ‡Ñƒ'
 			),
 			array(
 				'id_record' => null,
@@ -406,13 +406,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0699',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè çàäà÷ó'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ð·Ð°Ð´Ð°Ñ‡Ñƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0699',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü çàäà÷ó'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð·Ð°Ð´Ð°Ñ‡Ñƒ'
 			),
 			array(
 				'id_record' => null,
@@ -424,13 +424,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0700',
 				'language' => 'ua',
-				'translation' => 'Ðåäàãóâàííÿ òåñòà:'
+				'translation' => 'Ð ÐµÐ´Ð°Ð³ÑƒÐ²Ð°Ð½Ð½Ñ Ñ‚ÐµÑÑ‚Ð°:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0700',
 				'language' => 'ru',
-				'translation' => 'Ðåäàêòèðîâàíèå òåñòà:'
+				'translation' => 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ñ‚ÐµÑÑ‚Ð°:'
 			),
 			array(
 				'id_record' => null,
@@ -442,13 +442,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0701',
 				'language' => 'ua',
-				'translation' => 'Âàð³àíòè â³äïîâ³ä³:'
+				'translation' => 'Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚Ð¸ Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´Ñ–:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0701',
 				'language' => 'ru',
-				'translation' => 'Âàðèàíòû îòâåòà:'
+				'translation' => 'Ð’Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ñ‹ Ð¾Ñ‚Ð²ÐµÑ‚Ð°:'
 			),
 			array(
 				'id_record' => null,
@@ -460,13 +460,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0702',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè â³äïîâ³äü'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´ÑŒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0702',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü îòâåò'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¾Ñ‚Ð²ÐµÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -478,13 +478,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0703',
 				'language' => 'ua',
-				'translation' => 'Âèäàëèòè îñòàííþ â³äïîâ³äü'
+				'translation' => 'Ð’Ð¸Ð´Ð°Ð»Ð¸Ñ‚Ð¸ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŽ Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´ÑŒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0703',
 				'language' => 'ru',
-				'translation' => 'Óäàëèòü ïîñëåäíèé îòâåò'
+				'translation' => 'Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -496,13 +496,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0704',
 				'language' => 'ua',
-				'translation' => 'Ïðàâèëüí³ â³äïîâ³ä³:'
+				'translation' => 'ÐŸÑ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ– Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´Ñ–:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0704',
 				'language' => 'ru',
-				'translation' => 'Ïðàâèëüíûå îòâåòû:'
+				'translation' => 'ÐŸÑ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ðµ Ð¾Ñ‚Ð²ÐµÑ‚Ñ‹:'
 			),
 			array(
 				'id_record' => null,
@@ -514,13 +514,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0705',
 				'language' => 'ua',
-				'translation' => 'â³äïîâ³äü'
+				'translation' => 'Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´ÑŒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0705',
 				'language' => 'ru',
-				'translation' => 'îòâåò'
+				'translation' => 'Ð¾Ñ‚Ð²ÐµÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -532,13 +532,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0706',
 				'language' => 'ua',
-				'translation' => 'Ðåäàãóâàòè'
+				'translation' => 'Ð ÐµÐ´Ð°Ð³ÑƒÐ²Ð°Ñ‚Ð¸'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0706',
 				'language' => 'ru',
-				'translation' => 'Ðåäàêòèðîâàòü'
+				'translation' => 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -550,13 +550,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0707',
 				'language' => 'ua',
-				'translation' => 'Ñêàñóâàòè'
+				'translation' => 'Ð¡ÐºÐ°ÑÑƒÐ²Ð°Ñ‚Ð¸'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0707',
 				'language' => 'ru',
-				'translation' => 'Îòìåíèòü'
+				'translation' => 'ÐžÑ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -568,13 +568,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0708',
 				'language' => 'ua',
-				'translation' => 'Âèäàëèòè òåñò'
+				'translation' => 'Ð’Ð¸Ð´Ð°Ð»Ð¸Ñ‚Ð¸ Ñ‚ÐµÑÑ‚'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0708',
 				'language' => 'ru',
-				'translation' => 'Óäàëèòü òåñò'
+				'translation' => 'Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ñ‚ÐµÑÑ‚'
 			),
 			array(
 				'id_record' => null,
@@ -586,13 +586,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0709',
 				'language' => 'ua',
-				'translation' => 'Ïîñèëàííÿ youtube'
+				'translation' => 'ÐŸÐ¾ÑÐ¸Ð»Ð°Ð½Ð½Ñ youtube'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0709',
 				'language' => 'ru',
-				'translation' => 'Ññûëêà youtube'
+				'translation' => 'Ð¡ÑÑ‹Ð»ÐºÐ° youtube'
 			),
 			array(
 				'id_record' => null,
@@ -604,13 +604,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0710',
 				'language' => 'ua',
-				'translation' => 'Ïèòàííÿ:'
+				'translation' => 'ÐŸÐ¸Ñ‚Ð°Ð½Ð½Ñ:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0710',
 				'language' => 'ru',
-				'translation' => 'Âîïðîñ:'
+				'translation' => 'Ð’Ð¾Ð¿Ñ€Ð¾Ñ:'
 			),
 			array(
 				'id_record' => null,
@@ -622,13 +622,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0711',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè íîâó ÷àñòèíó'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸ Ð½Ð¾Ð²Ñƒ Ñ‡Ð°ÑÑ‚Ð¸Ð½Ñƒ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0711',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü íîâóþ ÷àñòü'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð½Ð¾Ð²ÑƒÑŽ Ñ‡Ð°ÑÑ‚ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -640,13 +640,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0712',
 				'language' => 'ua',
-				'translation' => 'Äîäàòè'
+				'translation' => 'Ð”Ð¾Ð´Ð°Ñ‚Ð¸'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0712',
 				'language' => 'ru',
-				'translation' => 'Äîáàâèòü'
+				'translation' => 'Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -658,13 +658,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0713',
 				'language' => 'ua',
-				'translation' => 'Ïèòàííÿ òåñòà:'
+				'translation' => 'ÐŸÐ¸Ñ‚Ð°Ð½Ð½Ñ Ñ‚ÐµÑÑ‚Ð°:'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0713',
 				'language' => 'ru',
-				'translation' => 'Âîïðîñ òåñòà:'
+				'translation' => 'Ð’Ð¾Ð¿Ñ€Ð¾Ñ Ñ‚ÐµÑÑ‚Ð°:'
 			),
 			array(
 				'id_record' => null,
@@ -676,13 +676,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0714',
 				'language' => 'ua',
-				'translation' => 'óìîâà òåñòà'
+				'translation' => 'ÑƒÐ¼Ð¾Ð²Ð° Ñ‚ÐµÑÑ‚Ð°'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0714',
 				'language' => 'ru',
-				'translation' => 'óñëîâèå òåñòà'
+				'translation' => 'ÑƒÑÐ»Ð¾Ð²Ð¸Ðµ Ñ‚ÐµÑÑ‚Ð°'
 			),
 			array(
 				'id_record' => null,
@@ -694,13 +694,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0715',
 				'language' => 'ua',
-				'translation' => 'Ñòóäåíò'
+				'translation' => 'Ð¡Ñ‚ÑƒÐ´ÐµÐ½Ñ‚'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0715',
 				'language' => 'ru',
-				'translation' => 'Ñòóäåíò'
+				'translation' => 'Ð¡Ñ‚ÑƒÐ´ÐµÐ½Ñ‚'
 			),
 			array(
 				'id_record' => null,
@@ -712,13 +712,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0716',
 				'language' => 'ua',
-				'translation' => 'Âèäàëåíèé êîðèñòóâà÷'
+				'translation' => 'Ð’Ð¸Ð´Ð°Ð»ÐµÐ½Ð¸Ð¹ ÐºÐ¾Ñ€Ð¸ÑÑ‚ÑƒÐ²Ð°Ñ‡'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0716',
 				'language' => 'ru',
-				'translation' => 'Óäàëåííûé ïîëüçîâàòåëü'
+				'translation' => 'Ð£Ð´Ð°Ð»ÐµÐ½Ð½Ñ‹Ð¹ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ'
 			),
 			array(
 				'id_record' => null,
@@ -730,13 +730,13 @@ class m151107_110327_add_translations_686_717 extends CDbMigration
 				'id_record' => null,
 				'id' => '0717',
 				'language' => 'ua',
-				'translation' => 'Âèäàëåíà ëåêö³ÿ'
+				'translation' => 'Ð’Ð¸Ð´Ð°Ð»ÐµÐ½Ð° Ð»ÐµÐºÑ†Ñ–Ñ'
 			),
 			array(
 				'id_record' => null,
 				'id' => '0717',
 				'language' => 'ru',
-				'translation' => 'Ëåêöèÿ óäàëåíà'
+				'translation' => 'Ð›ÐµÐºÑ†Ð¸Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð°'
 			),
 			array(
 				'id_record' => null,
