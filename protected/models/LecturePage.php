@@ -196,7 +196,8 @@ class LecturePage extends CActiveRecord
             switch(LectureElement::model()->findByPk($quiz)->id_type){
                 case '5':
                 case '6':
-                    return TaskMarks::isTaskDone($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                    $testMark = TaskMarks::isTaskDone($user, Task::model()->findByAttributes(array('condition' => $quiz)));
+                    if($testMark) return $testMark->id;
                     break;
                 case '12':
                 case '13':

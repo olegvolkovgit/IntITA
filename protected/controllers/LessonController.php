@@ -51,8 +51,8 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
-
         $passedPages = LecturePage::getAccessPages($id, $user);
+
         $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
 
         if ($editMode) $page = 1;

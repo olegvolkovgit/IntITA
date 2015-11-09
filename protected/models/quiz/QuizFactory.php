@@ -36,7 +36,10 @@ class QuizFactory  {
                 if ($lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition'], $arr['taskType'])) {
                     $arr['lectureElementId'] = $lectureElementId;
                     $task = new Task();
-                    $task->addTask($arr);
+                    if ($task->addTask($arr))
+                        return true;
+                    else return false;
+
                 }
         }
     }

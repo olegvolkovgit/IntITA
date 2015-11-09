@@ -105,7 +105,7 @@ class PlainTask extends Quiz
         if($model->validate())
         {
             $model->save();
-            LecturePage::addQuiz($arr['pageId'], $arr['block_element']);
+            LecturePage::addQuiz($arr['pageId'], $arr['block']);
         }
 
     }
