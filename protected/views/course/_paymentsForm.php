@@ -5,7 +5,9 @@
 $price = $model->getBasePrice();
 ?>
 <div class="paymentsForm">
-    <?php $form = $this->beginWidget('CActiveForm', array(
+    <?php
+    if($model->status != 0){
+    $form = $this->beginWidget('CActiveForm', array(
         'action' => '#',
         'id' => 'payments-form',
         'enableAjaxValidation' => false,
@@ -24,20 +26,20 @@ $price = $model->getBasePrice();
                                                 value="1"><span><?php echo CourseHelper::getCoursePrice(
                         StaticFilesHelper::createPath('image', 'course', 'wallet.png'),
                         StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'), Yii::t('course', '0197'),
-                        $model->getBasePrice(), 30) ?></span>
+                        CourseHelper::getSummaWholeCourse($model->course_ID), 30) ?></span>
             </div>
             <div class="spoilerBody">
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="2"><span><?php echo CourseHelper::getCoursePricePayments(
                             StaticFilesHelper::createPath('image', 'course', 'coins.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkCoins.png'),
-                            $model->getBasePrice(), 2, 10); ?></span>
+                            CourseHelper::getSummaWholeCourse($model->course_ID), 2, 10); ?></span>
                 </div>
                 <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
                                                     value="3"><span><?php echo CourseHelper::getCoursePricePayments(
                             StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
                             StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'),
-                            $model->getBasePrice(), 4, 8) ?></span>
+                            CourseHelper::getSummaWholeCourse($model->course_ID), 4, 8) ?></span>
                 </div>
                 <div class="paymentsListEven"><input type="radio" class="paymentPlan_value" name="payment"
                                                      value="4"><span><?php echo CourseHelper::getCoursePriceMonths(
@@ -98,8 +100,9 @@ $price = $model->getBasePrice();
                 </div>
             </div>
         </div>
-    <?php } ?>
-    <?php $this->endWidget(); ?>
+    <?php if($model->status != 0) {
+        $this->endWidget();
+    } ?>
 </div>
 
 

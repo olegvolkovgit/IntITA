@@ -12,6 +12,7 @@
  * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
+ * @property integer $status
  * @property string $for_whom_ua
  * @property string $what_you_learn_ua
  * @property string $what_you_get_ua
@@ -68,7 +69,7 @@ class Course extends CActiveRecord implements IBillableObject
 			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
 			// The following rule is used by search().
 			array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count,
-			course_price, for_whom_ua, what_you_learn_ua,what_you_get_ua,
+			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled, course_number', 'safe', 'on'=>'search'),
 		);
@@ -156,7 +157,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('what_you_get_en',$this->what_you_get_en,true);
 		$criteria->compare('course_img',$this->course_img,true);
         $criteria->compare('cancelled',$this->cancelled,true);
-        $criteria->compare('cancelled',$this->course_number);
+        $criteria->compare('status',$this->status,true);
+        $criteria->compare('course_number',$this->course_number);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -360,5 +362,8 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getType(){
         return 'K';
+    }
+    public static function getStatus($id){
+        return Course::model()->findByPk($id)->status;
     }
 }
