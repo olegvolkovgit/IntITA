@@ -147,9 +147,9 @@ if($page->video == null) {?>
     } else{
         ?>
 
-        <button onclick="showAddTestForm('plain')"> Додати тест </button>
-        <button onclick="showAddPlainTaskForm('plainTask')">Додати просту задачу</button>
-        <button onclick="showAddTaskForm('plain')"> Додати задачу</button>
+        <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture','0738') ?></button>
+        <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture','0719') ?></php></button>
+        <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture','0729') ?></button>
 
         <?php
     }

@@ -60,6 +60,7 @@ class LectureHelper
 
     public static function isLectureFinished($idUser, $idLecture)
     {
+
         $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
         $passedLecture = LectureHelper::isPassedLecture($passedPages);
 
