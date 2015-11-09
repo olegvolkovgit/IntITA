@@ -133,6 +133,10 @@ class UserAgreements extends CActiveRecord
         $service = CourseService::getService($course)->service_id;
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
+//            var_dump($user);
+//            var_dump($service);
+//            var_dump($model);
+//            die();
             if ($model){
                 //var_dump($model);die();
                 return $model;
@@ -198,6 +202,6 @@ class UserAgreements extends CActiveRecord
     }
 
     public static function getCreateDate($id){
-        return date("m.d.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
+        return date("d.m.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
     }
 }

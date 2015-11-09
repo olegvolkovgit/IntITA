@@ -85,13 +85,15 @@ $price = $model->getBasePrice();
                         echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
                             'onclick' => 'openSignIn();'));
                     } else{
-                        ?>
-                        <a id="paymentButton" onclick="redirectToProfile()"
-                           href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                            'idUser' => Yii::app()->user->getId(),
-                            'course' => $model->course_ID,
-                        ));?>"><?php echo Yii::t('course', '0328');?></a>
-                    <?php
+                        if($model->status != 0) {
+                            ?>
+                            <a id="paymentButton" onclick="redirectToProfile()"
+                               href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                                   'idUser' => Yii::app()->user->getId(),
+                                   'course' => $model->course_ID,
+                               ));?>"><?php echo Yii::t('course', '0328');?></a>
+                        <?php
+                        }
                     }?>
                 </div>
             </div>

@@ -14,10 +14,23 @@
     color: #4B75A4;
     margin: 0 0 10px 0;
     line-height: 100%;
+    margin-left: 100px;
 }
 .grid-view table.items td:first-child a
 {
     color: #4B75A4;
     font-size: large;
     margin-left: 100px;
+}
+span.payed{
+    color: green;
+}
+span.waiting{
+    color: darkorange;
+}
+span.overdue{
+    color: red;
+}
+span.waitPaymentDate{
+    color: #696969;
 }

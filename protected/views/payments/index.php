@@ -36,9 +36,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'urlExpression'=>'Yii::app()->createUrl("payments/invoice", array("id"=>$data->id))',
             'htmlOptions'=>array('style'=>'cursor: pointer;'),
             'headerHtmlOptions' => array('style' => 'display:none'),
-            'labelExpression' => '"Рахунок №".($row+1).". Сплатити ".
-                number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".
-                date("m.d.y", strtotime($data->payment_date));'
+            'labelExpression' => 'Invoice::getPayLink($row, $data);'
         ),
     ),
 ));

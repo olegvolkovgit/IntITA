@@ -48,4 +48,6 @@
             <td><?php echo number_format(PaymentHelper::getPriceUah($account->summa), 2, ",", " ");?></td>
         </tr>
     </table>
+    <br>
+    <br>
 </div>
