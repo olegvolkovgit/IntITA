@@ -2,7 +2,7 @@
 /* @var $this SiteController */
 /* @var $error array */
 
-$this->pageTitle=Yii::app()->name . ' - '.Yii::t('error','0590');
+$this->pageTitle=Yii::app()->name;
 $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );
