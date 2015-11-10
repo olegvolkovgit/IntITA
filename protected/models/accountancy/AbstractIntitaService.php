@@ -21,7 +21,7 @@ abstract class AbstractIntITAService extends CActiveRecord
         return $service;
     }
 
-    protected  static function getService($serviceClass,$service_param,$service_param_value)
+    protected static function getService($serviceClass,$service_param,$service_param_value)
     {
         if (!$serviceClass::model()->exists($service_param.'='.$service_param_value))
         {
@@ -39,7 +39,7 @@ abstract class AbstractIntITAService extends CActiveRecord
 
     protected function setModelIfNeeded(){
         $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
-        if(!isset($this->service))
+        if(!$this->service)
         {
             $service = new Service();
             $service->description = $this->descriptionFormatted();

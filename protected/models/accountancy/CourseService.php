@@ -122,6 +122,9 @@ class CourseService extends AbstractIntITAService
 
     protected function setMainModel($course)
     {
+        if( $courseService = CourseService::model()->findByAttributes(array('course_id' => $course->course_ID))){
+            $this->service = Service::model()->findByPk($courseService->service_id);
+        }
         $this->course = $course;
     }
 

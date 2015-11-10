@@ -124,6 +124,9 @@ class ModuleService extends AbstractIntITAService
 
     protected function setMainModel($module)
     {
+        if( $moduleService = ModuleService::model()->findByAttributes(array('module_id' => $module->module_ID))){
+            $this->service = Service::model()->findByPk($moduleService->service_id);
+        }
         $this->module = $module;
     }
 

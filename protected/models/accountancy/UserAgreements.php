@@ -136,22 +136,21 @@ class UserAgreements extends CActiveRecord
 
     public static function courseAgreement($user, $course, $schema)
     {
-        $service = CourseService::getService($course)->service_id;
+        $service = CourseService::getService($course);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model){
                 return $model;
             }
         }
         return self::newAgreement($user, 'CourseService', $course, $schema);
-
-    }
+   }
 
     public static function moduleAgreement($user, $module, $schema)
     {
         $service = ModuleService::getService($module);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model){
                 return $model;
             }
@@ -161,10 +160,12 @@ class UserAgreements extends CActiveRecord
 
     private static function newAgreement($user, $modelFactory, $param_id , $schemaId)
     {
+
         $schema = PaymentScheme::getSchema($schemaId);
         $serviceModel = $modelFactory::getService($param_id);
         $billableObject = $serviceModel->getBillableObject();
 
+        //var_dump($serviceModel->service_id);die();
         $model = new UserAgreements();
         $model->user_id = $user;
         $model->payment_schema = $schemaId;
