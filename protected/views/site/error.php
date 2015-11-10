@@ -1,6 +1,7 @@
 <?php
 /* @var $this SiteController */
-/* @var $error array */
+/* @var $message string */
+/* @var $code integer */
 
 $this->pageTitle=Yii::app()->name;
 $this->breadcrumbs=array(
