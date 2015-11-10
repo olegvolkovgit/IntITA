@@ -78,6 +78,7 @@ class TmanageController extends AdminController
                 $this->redirect(array('view', 'id' => $model->teacher_id));
             }
         }
+
         $this->render('create', array(
             'model' => $model,
         ));
