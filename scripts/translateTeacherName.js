@@ -11,6 +11,7 @@ function toEnglish(name){
     var newName = '';
     result.forEach(function(item, i, result) {
         if(item != undefined){
+            if(english[item] == undefined) return;
             newName = newName + english[item];
         }
     });
