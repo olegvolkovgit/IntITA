@@ -1,6 +1,6 @@
 <?php
 
-class m151109_141543_add_translations_718_738 extends CDbMigration
+class m151109_141543_add_translations_718_739 extends CDbMigration
 {
 
 	// Use safeUp/safeDown to do migration with transaction
