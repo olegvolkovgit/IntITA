@@ -46,4 +46,24 @@ class PaymentsController extends Controller
            'agreement' => $agreement->id,
         ));
     }
+
+    public function actionAgreement($user, $course, $schemaNum = 1){
+
+        $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('agreement_id='.$agreement->id);
+
+        $dataProvider = new CActiveDataProvider('Invoice');
+        $dataProvider->criteria = $criteria;
+        $dataProvider->setPagination(array(
+                'pageSize' => 60,
+            )
+        );
+
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+            'agreement' => $agreement->id,
+        ));
+    }
 }

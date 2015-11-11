@@ -1,7 +1,7 @@
 <?php
 /* @var $this UserAgreementsController */
 /* @var $dataProvider CActiveDataProvider */
-$this->pageTitle = 'INTITA - Список договорів';
+//$this->pageTitle = 'INTITA - Список договорів';
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();

@@ -146,6 +146,17 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'CourseService', $course, $schema);
    }
 
+    public static function courseAgreementExist($user, $course){
+        $service = CourseService::getService($course);
+        if ($service) {
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            if ($model){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function moduleAgreement($user, $module, $schema)
     {
         $service = ModuleService::getService($module);
@@ -158,9 +169,19 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'ModuleService',$module, $schema);
     }
 
+    public static function moduleAgreementExist($user, $module){
+        $service = ModuleService::getService($module);
+        if ($service) {
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            if ($model){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static function newAgreement($user, $modelFactory, $param_id , $schemaId)
     {
-
         $schema = PaymentScheme::getSchema($schemaId);
         $serviceModel = $modelFactory::getService($param_id);
         $billableObject = $serviceModel->getBillableObject();
@@ -184,7 +205,6 @@ class UserAgreements extends CActiveRecord
         } else {
             throw new CException('Договір не заведено!');
         }
-
         return $model;
     }
 

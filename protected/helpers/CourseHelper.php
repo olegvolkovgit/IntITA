@@ -213,6 +213,7 @@ class CourseHelper
 
     public static function getCourseName($idCourse)
     {
+
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         $courseTitle = Course::model()->findByPk($idCourse)->$title;
@@ -455,5 +456,11 @@ class CourseHelper
                 case 'exam' : return Yii::t('course','0673');
             }
         }
+    }
+
+
+    public static function getAgreementLink($course, $user){
+        return "<a href=".Yii::app()->createUrl('payments/agreement', array('user' => $user, 'course' => $course)).
+        ">договір</a>";
     }
 }

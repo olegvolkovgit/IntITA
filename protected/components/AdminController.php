@@ -30,6 +30,7 @@ class AdminController extends CController
             Yii::app()->cache->flush();
             die();
         }
+        $this->pageTitle = Yii::app()->name;
     }
 	// Uncomment the following methods and override them if needed
 	/*

@@ -6,7 +6,8 @@
  * Time: 17:09
  */
 
-class InvoicesController extends CController{
+class InvoicesController extends AccountancyController
+{
 
     public $layout = 'main';
 
@@ -38,20 +39,6 @@ class InvoicesController extends CController{
         );
     }
 
-    //if user account has role 2 (accountant)
-    function isAccountant()
-    {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 2) {
-
-            return true;
-        }
-        return false;
-    }
-
     /**
      * Lists all models.
      */
@@ -67,7 +54,7 @@ class InvoicesController extends CController{
         ));
     }
 
-    public function actionAgreementList($id){
+    public function actionAgreementList(){
         $model= new Invoice('search');
         $model->unsetAttributes();
         if(isset($_GET['Invoice']))
