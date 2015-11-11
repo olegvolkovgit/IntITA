@@ -106,9 +106,6 @@ function fieldValidation(){
         $("#addFormulaButton").attr('disabled',true);
     }
 }
-function buttonFormulaEnabled(){
-    $("#addFormulaButton").removeAttr('disabled');
-}
 
 function addTextBlock(type){
     document.getElementById('addBlock').style.display = 'block';

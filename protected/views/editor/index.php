@@ -44,6 +44,15 @@ if ($idCourse != 0) {
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit">
     <div ng-controller="CKEditorCtrl">
+        <div data-ng-init='
+        deleteMsg=<?php echo Yii::t('lecture', '0740'); ?>;
+        errorMsg=<?php echo Yii::t('lecture', '0741'); ?>;
+        editMsg=<?php echo Yii::t('lecture', '0742'); ?>;
+        saveMsg=<?php echo Yii::t('lecture', '0743'); ?>;
+        saveBtn=<?php echo Yii::t('lecture', '0744'); ?>;
+        closeBtn=<?php echo Yii::t('lecture', '0745'); ?>;
+            '>
+        </div>
         <div id="lecturePage">
             <br>
             <h1 class="lessonPart">
