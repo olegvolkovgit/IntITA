@@ -1,4 +1,8 @@
-<?php/* @var $form CActiveForm */?>
+<?php
+/**
+ * @var $form CActiveForm
+ */
+?>
 
 <div id="addPlainTask">
     <br>
