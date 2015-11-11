@@ -150,14 +150,11 @@ class Invoice extends CActiveRecord
     }
 
     public static function getProductTitle($invoice){
-        $service = null;
         if ($invoice->agreement_id != null){
             $agreement = UserAgreements::model()->findByPk($invoice->agreement_id);
-            $service = AbstractIntitaService::getServiceById($agreement->service_id);
-
-            var_dump($service);die;
+            return AbstractIntitaService::getServiceTitle($agreement->service_id);
         }
-        return $service->getProductTitle();
+        return '';
     }
 
     public static function getInvoiceService(Invoice $invoice){

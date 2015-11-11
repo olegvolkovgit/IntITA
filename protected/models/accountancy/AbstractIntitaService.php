@@ -51,13 +51,17 @@ abstract class AbstractIntITAService extends CActiveRecord
     }
 
     public static function getServiceById($serviceId){
-        if (CourseService::model()->exists(array('service_id' => $serviceId))){
-            return CourseService::model()->findByPk($serviceId);
+        if (CourseService::model()->exists('service_id = :id', array(':id' => $serviceId))){
+            return CourseService::model()->findByAttributes(array('service_id' => $serviceId));
         } else {
-            if(ModuleService::model()->exists(array('service_id' => $serviceId))){
-                return ModuleService::model()->findByPk($serviceId);
+            if(ModuleService::model()->exists('service_id = :id', array(':id' => $serviceId))){
+                return ModuleService::model()->findByAttributes(array('service_id' => $serviceId));
             }
         }
         return null;
+    }
+
+    public static function getServiceTitle($serviceId){
+        return AbstractIntITAService::getServiceById($serviceId)->getProductTitle();
     }
 }
