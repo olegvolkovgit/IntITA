@@ -23,8 +23,7 @@
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
             </div>
             <div class="content">
-                <div edit-block class="instructionText" id="<?php echo "t" . $data['block_order']; ?>"
-                     onclick="function(){order = this.id;}">
+                <div edit-block class="instructionText" id="<?php echo "t" . $data['block_order']; ?>" >
                     <?php echo $data['html_block']; ?>
                 </div>
             </div>

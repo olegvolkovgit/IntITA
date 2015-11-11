@@ -43,8 +43,8 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit">
-    <div ng-controller="CKEditorCtrl" >
-        <div id="lecturePage" >
+    <div ng-controller="CKEditorCtrl">
+        <div id="lecturePage">
             <br>
             <h1 class="lessonPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': ';
@@ -80,8 +80,7 @@ if ($idCourse != 0) {
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                              class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
                     </a>
-                    <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'page' =>
-                        $page->page_order, 'idCourse' => $idCourse)); ?>">
+                    <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>
@@ -114,7 +113,6 @@ if ($idCourse != 0) {
                          onclick="deleteVideo(<?php echo $page->id_lecture; ?>, <?php echo $page->page_order; ?>);">
                 </div>
             <?php } ?>
-
             <br>
             <br>
             <fieldset>
@@ -172,52 +170,10 @@ if ($idCourse != 0) {
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
         </div>
     </div>
-    <br>
-    <?php echo Yii::t('lecture', '0691'); ?>
-    <br>
-    <button onclick="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-    <button onclick="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-    <button onclick="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-    <button onclick="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
-</fieldset>
-<h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
-<?php
-    if($page->quiz != null) {
-        $data = LectureHelper::getPageQuiz($page->id);
-
-        switch (LectureHelper::getQuizType($data['id_block'])) {
-            case '5':
-            case '6':
-                $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
-                    'pageId' => $page->id));
-                break;
-            case '12':
-            case '13':
-                $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],
-                    'pageId' => $page->id));
-                break;
-            default:
-                break;
-        }
-    } else{
-        ?>
-        <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
-        <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-<!--        <button onclick="showAddTaskForm('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
-        <?php
-    }
-?>
-<?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
-    'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
-<?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id));?>
-    <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
-        'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));?>
 </div>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'lessonEditor.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
 

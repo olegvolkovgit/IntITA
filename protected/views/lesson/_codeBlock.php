@@ -13,7 +13,7 @@
         'editMode' => $editMode,
     ));?>
 
-    <div edit-block class="code" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+    <div edit-block class="code" id="<?php echo "t" . $data['block_order'];?>" >
     <?php echo $data['html_block'];?>
     </div>
 </div>
