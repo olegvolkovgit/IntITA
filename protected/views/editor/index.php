@@ -52,6 +52,7 @@ if ($idCourse != 0) {
 <!--        saveBtn=--><?php //echo Yii::t('lecture', '0744'); ?><!--;-->
 <!--        closeBtn=--><?php //echo Yii::t('lecture', '0745'); ?><!--;-->
 <!--            '>-->
+
         </div>
         <div id="lecturePage">
             <br>
