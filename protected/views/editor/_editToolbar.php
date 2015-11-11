@@ -1,10 +1,10 @@
 <?php if($editMode){?>
-<div class="editToolbar">
+    <div class="editToolbar" id="<?php echo 'p'.$order; ?>" >
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png'); ?>" class="editIco"
-             onclick="upBlock(<?php echo $idLecture; ?>, <?php echo $order; ?>);">
+             up-block >
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png'); ?>" class="editIco"
-             onclick="downBlock(<?php echo $idLecture; ?>, <?php echo $order; ?>);">
+             down-block >
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>" class="editIco"
-             onclick="deleteBlock(<?php echo $idLecture; ?>, <?php echo $order; ?>);">
+             delete-block >
     </div>
 <?php }?>
