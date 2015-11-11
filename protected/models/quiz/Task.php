@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This is the model class for table "task1".
  *
@@ -109,22 +110,36 @@ class Task extends Quiz
 		return parent::model($className);
 	}
 
-    public static function addNewTask($condition, $language, $author, $assignment, $table, $pageId)
-    {
-        $model = new Task();
-        $model->condition = $condition;
-        $model->author = $author;
-        $model->language = $language;
-        $model->assignment = $assignment;
-        $model->table = $table;
-
-        if($model->save()){
-            LecturePage::addQuiz($pageId, $condition);
-        }
-    }
+//    public static function addNewTask($condition, $language, $author, $assignment, $table, $pageId)
+//    {
+//        $model = new Task();
+//        $model->condition = $condition;
+//        $model->author = $author;
+//        $model->language = $language;
+//        $model->assignment = $assignment;
+//        $model->table = $table;
+//
+//        if($model->save()){
+//            LecturePage::addQuiz($pageId, $condition);
+//        }
+//    }
 
     public static function deleteTask($condition){
         $task = Task::model()->findByAttributes(array('condition' => $condition));
         $task->delete();
+    }
+
+    public function addTask($arr)
+    {
+        $model = new Task();
+        $model->condition = $arr['condition'];
+        $model->author = $arr['author'];
+        $model->language = $arr['language'];
+        $model->assignment = $arr['assignment'] ;
+        $model->table = $arr['table'];
+
+        if($model->save()){
+            LecturePage::addQuiz($arr['pageId'], $arr['condition']);
+        }
     }
 }

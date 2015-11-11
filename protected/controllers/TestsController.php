@@ -4,33 +4,28 @@ class TestsController extends Controller
 {
 	public function actionAddTest()
 	{
-        $lecture = Yii::app()->request->getPost('lectureId', 0);
-        $condition =  Yii::app()->request->getPost('condition', '');
-        $testTitle = Yii::app()->request->getPost('testTitle', '');
-        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
-        $isFinal = Yii::app()->request->getPost('testType', 'plain');
-        $pageId = Yii::app()->request->getPost('pageId', 0);
+
+        $arr['lecture'] = Yii::app()->request->getPost('lectureId', 0);
+        $arr['condition'] = Yii::app()->request->getPost('condition', '');
+        $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');
+        $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0);
+        $arr['isFinal'] = Yii::app()->request->getPost('testType', 'plain');
+        $arr['pageId'] = Yii::app()->request->getPost('pageId', 0);
+        $arr['author'] = Yii::app()->request->getPost('author', 0);
+        $arr['type'] = 'tests';
 
         $options = [];
-
-        for ($i = 0; $i < $optionsNum; $i++){
+        for ($i = 0; $i < $arr['optionsNum']; $i++){
             $temp = "option".($i+1);
             $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
             $options[$i]["isTrue"] = Yii::app()->request->getPost("answer".($i+1), 0);
         }
-        $author = Yii::app()->request->getPost('author', 0);
 
-        if ($lectureElementId = LectureElement::addNewTestBlock($lecture, $condition, $isFinal)) {
-            Tests::addNewTest($lectureElementId, $testTitle, $author, $pageId);
-            $idTest = Tests::model()->findByAttributes(array('block_element' => $lectureElementId))->id;
-            TestsAnswers::addOptions($idTest, $options);
+        $arr['options'] = $options;
 
+        if(QuizFactory::factory($arr))
 
-        }
-
-
-
-        $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirect(Yii::app()->request->urlReferrer);
 	}
     public function actionEditTest()
     {

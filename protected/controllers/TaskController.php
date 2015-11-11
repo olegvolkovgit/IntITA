@@ -15,19 +15,21 @@ class TaskController extends Controller
 
 	public function actionAddTask()
 	{
-        $condition = Yii::app()->request->getPost('condition', '');
-        $lecture =  Yii::app()->request->getPost('lecture', 0);
-        $author = Yii::app()->request->getPost('author', null);
-        $language = Yii::app()->request->getPost('language', 'C++');
-        $assignment = Yii::app()->request->getPost('assignment', 0);
-        $table = Yii::app()->request->getPost('table', '');
-        $taskType = Yii::app()->request->getPost('taskType', 'plain');
-        $pageId = Yii::app()->request->getPost('pageId', 1);
 
-        if ($condition){
-            if ($lectureElementId = LectureElement::addNewTaskBlock($lecture, $condition, $taskType)) {
-                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table, $pageId);
-            }
+        $arr['condition'] = Yii::app()->request->getPost('condition', '');
+        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
+        $arr['author'] = Yii::app()->request->getPost('author', null);
+        $arr['language'] = Yii::app()->request->getPost('language', 'C++');
+        $arr['assignment'] = Yii::app()->request->getPost('assignment', 0);
+        $arr['table'] = Yii::app()->request->getPost('table', '');
+        $arr['taskType'] = Yii::app()->request->getPost('taskType', 'plain');
+        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
+        $arr['type'] = 'task';
+
+        if ($arr['condition']){
+            if(QuizFactory::factory($arr))
+              return true;
+            else return false;
         }
         $this->redirect(Yii::app()->request->urlReferrer);
 	}

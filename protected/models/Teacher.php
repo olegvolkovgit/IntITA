@@ -230,8 +230,7 @@ class Teacher extends CActiveRecord
 
     protected function beforeSave()
     {
-
-        if(!Avatar::saveCourseLogo($this,'foto')){
+        if(!Avatar::saveTeachersAvatar($this,'foto')){
             return false;
         }
 

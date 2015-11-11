@@ -192,19 +192,29 @@ class LecturePage extends CActiveRecord
         if (!$quiz){
             return true;
         }
+
         if ($user != 0){
+
+            if(LectureElement::model()->findByPk($quiz)){
             switch(LectureElement::model()->findByPk($quiz)->id_type){
                 case '5':
                 case '6':
-                    return TaskMarks::isTaskDone($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                    $test = Task::model()->findByAttributes(array('condition' => $quiz));
+                    $testMark = TaskMarks::isTaskDone($user,$test->id);
+                    if($testMark) return $testMark;
                     break;
                 case '12':
                 case '13':
-                    return TestsMarks::isTestDone($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
-                    break;
+
+                    $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
+                    $testMark = TestsMarks::isTestDone($user, $test->id);
+                    if($testMark)  return $testMark;
+                break;
+
                 default:
                     break;
             }
+        }
         }
         return false;
     }

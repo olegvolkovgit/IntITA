@@ -19,6 +19,7 @@ class Avatar {
         $folder = ($imgName == 'course')?'course':'teachers';
 
         if($model->start=='') $model->start=null;
+
         if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
         {
             $model->course_img=$model->oldLogo;
@@ -90,5 +91,27 @@ class Avatar {
                         210
                     );
                     return true;
+    }
+
+
+    public static function saveTeachersAvatar($model,$imgName)
+    {
+        $name = $imgName . '_img';
+        $folder = ($imgName == 'course')?'course':'teachers';
+
+        if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
+        {
+            $model->course_img=$model->oldLogo;
+        } else if(($model->scenario=="update") && (!empty($model->logo['tmp_name'][$name]))){
+            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldLogo;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->foto_url['tmp_name']['course_img']))
+        {
+            if(!copy($model->foto_url['tmp_name'][$name],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url['name'][$name]))
+                return false;
+        }
+        return true;
     }
 }

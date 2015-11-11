@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This is the model class for table "tests".
  *
@@ -98,16 +99,6 @@ class Tests extends Quiz
 		return parent::model($className);
 	}
 
-    public static function addNewTest($blockElement, $title, $author, $pageId){
-        $model = new Tests();
-
-        $model->block_element = $blockElement;
-        $model->author = $author;
-
-        if ($model->save()){
-            LecturePage::addQuiz($pageId, $blockElement);
-        }
-    }
 	public static function isLastTest($testId)
 	{
 		$quiz = Tests::model()->findByPk($testId)->block_element;
@@ -125,4 +116,20 @@ class Tests extends Quiz
 		if($pageOrder!=$lastPage) return 0;
 		else return 1;
 	}
+
+    public function addTask($arr)
+    {
+        $model = new Tests();
+
+        $model->block_element = $arr['lectureElementId'];
+        $model->author = $arr['author'];
+
+        if ($model->save()) {
+            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $arr['lectureElementId']))->id;
+            TestsAnswers::addOptions($idTest, $arr['options']);
+            return true;
+        }
+        else return false;
+    }
 }

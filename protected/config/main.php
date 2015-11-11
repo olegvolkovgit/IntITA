@@ -22,14 +22,17 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
+
 		'application.models.*',
             'application.models.accountancy.*',
         //'application.controllers.accountancy.*',
+        'application.models.quiz.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
+        'application.components.Exceptions.*',
 	),
 
 	'modules'=>array(

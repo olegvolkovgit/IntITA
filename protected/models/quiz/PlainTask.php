@@ -95,8 +95,18 @@ class PlainTask extends Quiz
 		return parent::model($className);
 	}
 
-    public function saveTask($condition,$author)
+    public function addTask($arr)
     {
+        $model = new PlainTask();
+
+        $model->author = $arr['author'];
+        $model->block_element = $arr['block'];
+
+        if($model->validate())
+        {
+            $model->save();
+            LecturePage::addQuiz($arr['pageId'], $arr['block']);
+        }
 
     }
 }
