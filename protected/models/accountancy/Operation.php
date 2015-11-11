@@ -59,11 +59,11 @@ class Operation extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'date_create' => 'Date Create',
-			'user_create' => 'User Create',
-			'type_id' => 'Type',
-			'invoice_id' => 'Invoice',
-			'summa' => 'Summa',
+			'date_create' => 'Дата',
+			'user_create' => 'Користувач',
+			'type_id' => 'Тип',
+			'invoice_id' => 'Рахунок',
+			'summa' => 'Сума',
 		);
 	}
 
