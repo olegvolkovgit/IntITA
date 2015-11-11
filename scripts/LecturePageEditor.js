@@ -38,56 +38,56 @@ function downPage(idLecture, pageOrder, course){
         }
     });
 }
-
-function upBlock(idLecture, order) {
-    $.ajax({
-        type: "POST",
-        url: "/lesson/upElement",
-        data: {'idLecture': idLecture, 'order': order},
-        success: function () {
-            $.fn.yiiListView.update('blocks_list', {
-                complete: function () {
-                    loadRedactorJs();
-                }
-            });
-            return false;
-        }
-    });
-}
-
-function downBlock(idLecture, order) {
-    $.ajax({
-        type: "POST",
-        url: "/lesson/downElement",
-        data: {'idLecture': idLecture, 'order': order},
-        success: function () {
-            $.fn.yiiListView.update('blocks_list', {
-                complete: function () {
-                    loadRedactorJs();
-                }
-            });
-            return false;
-        }
-    });
-}
-
-function deleteBlock(idLecture, order) {
-    if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
-        $.ajax({
-            type: "POST",
-            url: "/lesson/deleteElement",
-            data: {'idLecture': idLecture, 'order': order},
-            success: function () {
-                $.fn.yiiListView.update('blocks_list', {
-                    complete: function () {
-                        loadRedactorJs();
-                    }
-                });
-                return false;
-            }
-        });
-    }
-}
+//
+//function upBlock(idLecture, order) {
+//    $.ajax({
+//        type: "POST",
+//        url: "/lesson/upElement",
+//        data: {'idLecture': idLecture, 'order': order},
+//        success: function () {
+//            $.fn.yiiListView.update('blocks_list', {
+//                complete: function () {
+//                    loadRedactorJs();
+//                }
+//            });
+//            return false;
+//        }
+//    });
+//}
+//
+//function downBlock(idLecture, order) {
+//    $.ajax({
+//        type: "POST",
+//        url: "/lesson/downElement",
+//        data: {'idLecture': idLecture, 'order': order},
+//        success: function () {
+//            $.fn.yiiListView.update('blocks_list', {
+//                complete: function () {
+//                    loadRedactorJs();
+//                }
+//            });
+//            return false;
+//        }
+//    });
+//}
+//
+//function deleteBlock(idLecture, order) {
+//    if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
+//        $.ajax({
+//            type: "POST",
+//            url: "/lesson/deleteElement",
+//            data: {'idLecture': idLecture, 'order': order},
+//            success: function () {
+//                $.fn.yiiListView.update('blocks_list', {
+//                    complete: function () {
+//                        loadRedactorJs();
+//                    }
+//                });
+//                return false;
+//            }
+//        });
+//    }
+//}
 function deleteVideo(idLecture, pageOrder) {
     if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
         $.ajax({
