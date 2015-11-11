@@ -5,7 +5,7 @@
             'editMode' => $editMode,
         ));?>
 
-        <div class="image" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+        <div class="image" id="<?php echo "t" . $data['block_order'];?>" >
             <img src="<?php echo $data['html_block'];?>"  >
         </div>
     </div>

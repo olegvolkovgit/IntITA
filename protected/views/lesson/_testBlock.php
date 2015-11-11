@@ -9,8 +9,7 @@ $testType = TestsHelper::getTestType($data['id_block']);
             <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">
         </div>
         <div class="contentTest">
-            <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>"
-                 onclick="function(){order = this.id;}">
+            <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>" >
                 <?php echo $data['html_block']; ?>
             </div>
             <br>
