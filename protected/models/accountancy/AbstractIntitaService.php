@@ -11,6 +11,7 @@ abstract class AbstractIntITAService extends CActiveRecord
     abstract protected function mainModel();
     abstract protected function primaryKeyValue();
     abstract protected function descriptionFormatted();
+    abstract public function getProductTitle();
     abstract public function getBillableObject();
 
     protected static function createService($serviceClass,$service_param,$service_param_value)
@@ -47,5 +48,16 @@ abstract class AbstractIntITAService extends CActiveRecord
             $this->service = $service;
             $this->service_id = $service->service_id;
         }
+    }
+
+    public static function getServiceById($serviceId){
+        if (CourseService::model()->exists(array('service_id' => $serviceId))){
+            return CourseService::model()->findByPk($serviceId);
+        } else {
+            if(ModuleService::model()->exists(array('service_id' => $serviceId))){
+                return ModuleService::model()->findByPk($serviceId);
+            }
+        }
+        return null;
     }
 }

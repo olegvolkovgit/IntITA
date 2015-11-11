@@ -150,7 +150,19 @@ class Invoice extends CActiveRecord
     }
 
     public static function getProductTitle($invoice){
-        return ;
+        $service = null;
+        if ($invoice->agreement_id != null){
+            $agreement = UserAgreements::model()->findByPk($invoice->agreement_id);
+            $service = AbstractIntitaService::getServiceById($agreement->service_id);
+
+            var_dump($service);die;
+        }
+        return $service->getProductTitle();
+    }
+
+    public static function getInvoiceService(Invoice $invoice){
+
+        return null;
     }
 
     public static function getPayLink($row,Invoice $data){

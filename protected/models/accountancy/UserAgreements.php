@@ -165,7 +165,6 @@ class UserAgreements extends CActiveRecord
         $serviceModel = $modelFactory::getService($param_id);
         $billableObject = $serviceModel->getBillableObject();
 
-        //var_dump($serviceModel->service_id);die();
         $model = new UserAgreements();
         $model->user_id = $user;
         $model->payment_schema = $schemaId;

@@ -139,4 +139,12 @@ class CourseService extends AbstractIntITAService
         }
         return $this->course;
     }
+
+    public function getProductTitle(){
+        if(!$this->course){
+            $this->setModelIfNeeded();
+        }
+        return "Курс №".$this->course->course_number.". ".$this->course->title_ua . ', '.
+        CommonHelper::translateLevelUa($this->course->level);
+    }
 }

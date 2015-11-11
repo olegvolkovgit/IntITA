@@ -141,4 +141,12 @@ class ModuleService extends AbstractIntITAService
         }
         return $this->module;
     }
+
+    public function getProductTitle(){
+        if(!$this->module){
+            $this->setModelIfNeeded();
+        }
+        return "Модуль №".$this->module->module_number.". ".$this->module->title_ua . ', '.
+        CommonHelper::translateLevelUa($this->module->level);
+    }
 }
