@@ -25,4 +25,5 @@ class PaymentHelper
     public static function getInvoiceLink($title, $id){
         return '<a href="'.Yii::app()->createUrl("payments/invoice", array("id"=>$id)).'">'.$title.'</a>';
     }
+
 }

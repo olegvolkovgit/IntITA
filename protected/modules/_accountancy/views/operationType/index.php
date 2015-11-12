@@ -1,14 +1,13 @@
 <?php
-/* @var $this OperationController */
-/* @var $model Operation */
-
+/* @var $this OperationTypeController */
+/* @var $model OperationType */
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#operation-grid').yiiGridView('update', {
+	$('#operation-type-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -16,9 +15,10 @@ $('.search-form form').submit(function(){
 ");
 ?>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/operation/create');?>">Нова операція</a>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_accountancy/operationType/create');?>">Додати операцію</a>
 
-<h1>Операції</h1>
+<h1>Типи операцій</h1>
 
 <?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -28,18 +28,15 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'operation-grid',
+	'id'=>'operation-type-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-    'emptyText'=>'Операцій не знайдено.',
     'summaryText'=>'',
+    'emptyText'=>'Типів операцій не знайдено.',
 	'columns'=>array(
 		'id',
-		'date_create',
-		'user_create',
-		'type_id',
-		'invoice_id',
-		'summa',
+		'description',
+		'negative_summa',
 		array(
 			'class'=>'CButtonColumn',
 		),

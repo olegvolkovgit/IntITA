@@ -27,7 +27,7 @@ class UserAgreementsController extends AccountancyController
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',
 				'actions'=>array('index','view', 'admin', 'delete', 'create', 'update', 'confirm', 'cancel'),
                 'expression'=>array($this, 'isAccountant'),
             ),
@@ -151,8 +151,8 @@ class UserAgreementsController extends AccountancyController
                 'approval_user' => Yii::app()->user->getId(),
                 'approval_date' => date("Y-m-d H:i:s"),
             ));
-            $this->redirect(Yii::app()->request->urlReferrer);
         }
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCancel($id){

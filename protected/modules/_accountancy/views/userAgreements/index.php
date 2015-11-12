@@ -26,11 +26,10 @@ $('.search-form form').submit(function(){
     'emptyText'=>'Договорів не знайдено',
     'columns'=>array(
         array(
-            'header' => 'number',
+            'header' => 'Номер',
             'class'=>'CLinkColumn',
             'urlExpression'=>'Yii::app()->createUrl("/_accountancy/userAgreements/agreement", array("id"=>$data->id))',
             'htmlOptions'=>array('style'=>'cursor: pointer;'),
-            'headerHtmlOptions' => array('style' => 'display:none'),
             'labelExpression' => '$data->number'
         ),
         array(

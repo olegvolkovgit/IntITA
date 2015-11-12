@@ -55,8 +55,8 @@ class OperationType extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'description' => 'Description',
+			'id' => 'Код типу',
+			'description' => 'Опис',
 			'negative_summa' => 'Negative Summa',
 		);
 	}
@@ -98,4 +98,14 @@ class OperationType extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+    public static function getTypesList(){
+        $types = OperationType::model()->findAll();
+        $result = [];
+        foreach ($types as $key){
+            $result[$key['id']] = $key['description'];
+        }
+        return $result;
+    }
 }

@@ -78,7 +78,7 @@ class UserAgreements extends CActiveRecord
             'close_date' => 'Дата закриття',//'Date when agreement should be closed',
             'payment_schema' => 'Схема оплати',//'Payment scheme',
             'number'=> 'Номер',
-            'summa'=> 'Сумма',
+            'summa'=> 'Сума',
             'cancel_reason_type' => 'Причина закриття',
 		);
 	}

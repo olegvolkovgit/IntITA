@@ -1,6 +1,6 @@
 <?php
 
-class OperationController extends AccountancyController
+class OperationTypeController extends AccountancyController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -15,7 +15,6 @@ class OperationController extends AccountancyController
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 
@@ -24,21 +23,21 @@ class OperationController extends AccountancyController
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-    public function accessRules()
-    {
+	public function accessRules()
+	{
         return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view', 'admin', 'delete', 'create', 'update'),
+            array('allow',
+                'actions'=>array('index','view', 'admin', 'create', 'update', 'confirm', 'cancel'),
                 'expression'=>array($this, 'isAccountant'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'actions'=>array('create', 'update', 'view', 'index', 'admin', 'confirm', 'cancel'),
                 'users'=>array('*'),
             ),
         );
-    }
+	}
 
 	/**
 	 * Displays a particular model.
@@ -57,20 +56,20 @@ class OperationController extends AccountancyController
 	 */
 	public function actionCreate()
 	{
-		$model=new Operation;
+		$model=new OperationType;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Operation']))
+		if(isset($_POST['OperationType']))
 		{
-			$model->attributes=$_POST['Operation'];
+			$model->attributes=$_POST['OperationType'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
-			'model'=>$model
+			'model'=>$model,
 		));
 	}
 
@@ -86,9 +85,9 @@ class OperationController extends AccountancyController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Operation']))
+		if(isset($_POST['OperationType']))
 		{
-			$model->attributes=$_POST['Operation'];
+			$model->attributes=$_POST['OperationType'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -117,10 +116,10 @@ class OperationController extends AccountancyController
 	 */
 	public function actionIndex()
 	{
-		$model=new Operation('search');
+		$model=new OperationType('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Operation']))
-			$model->attributes=$_GET['Operation'];
+		if(isset($_GET['OperationType']))
+			$model->attributes=$_GET['OperationType'];
 
 		$this->render('index',array(
 			'model'=>$model,
@@ -131,12 +130,12 @@ class OperationController extends AccountancyController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Operation the loaded model
+	 * @return OperationType the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Operation::model()->findByPk($id);
+		$model=OperationType::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -144,11 +143,11 @@ class OperationController extends AccountancyController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Operation $model the model to be validated
+	 * @param OperationType $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='operation-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='operation-type-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

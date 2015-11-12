@@ -3,6 +3,6 @@
 /* @var $model Operation */
 ?>
 
-<h1>Create Operation</h1>
+<h1>Додати операцію</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

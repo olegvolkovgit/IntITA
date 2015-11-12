@@ -1,14 +1,14 @@
 <?php
-/* @var $this OperationController */
-/* @var $model Operation */
+/* @var $this OperationTypeController */
+/* @var $model OperationType */
 /* @var $form CActiveForm */
-$listValues = OperationType::getTypesList();
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/formattedForm.css"/>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'operation-form',
+	'id'=>'operation-type-form',
     'htmlOptions' => array(
         'class' => 'formatted-form',
         'enctype' => 'multipart/form-data',
@@ -25,22 +25,16 @@ $listValues = OperationType::getTypesList();
 
 	<?php echo $form->errorSummary($model); ?>
 
-    <div class="row">
-        <?php echo $form->labelEx($model,'type_id'); ?>
-        <?php echo $form->dropDownList($model, 'type_id', $listValues);?>
-        <?php echo $form->error($model,'type_id'); ?>
-    </div>
-
 	<div class="row">
-		<?php echo $form->labelEx($model,'invoice_id'); ?>
-		<?php echo $form->textField($model,'invoice_id'); ?>
-		<?php echo $form->error($model,'invoice_id'); ?>
+		<?php echo $form->labelEx($model,'description'); ?>
+		<?php echo $form->textField($model,'description',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->error($model,'description'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'summa'); ?>
-		<?php echo $form->textField($model,'summa',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'summa'); ?>
+		<?php echo $form->labelEx($model,'negative_summa'); ?>
+		<?php echo $form->textField($model,'negative_summa'); ?>
+		<?php echo $form->error($model,'negative_summa'); ?>
 	</div>
 
 	<div class="row buttons">
