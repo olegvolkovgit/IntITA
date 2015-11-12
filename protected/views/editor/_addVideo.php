@@ -11,7 +11,7 @@
         <input name="idLecture" value="<?php echo $idLecture; ?>" type="hidden">
         <input name="page" value="<?php echo $pageOrder; ?>" type="hidden">
         <input name="type" value="2" type="hidden">
-        <input name="newVideoUrl" id="newVideoUrl" required size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>" oninvalid="validateRequired(this,'<?php echo Yii::t('validation', '0773'); ?>')"/>
+        <input name="newVideoUrl" id="newVideoUrl" required size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>" oninvalid="validateRequired(this,'<?php echo Yii::t('validation', '0773'); ?>')" oninput="validateRequired(this,'<?php echo Yii::t('validation', '0773'); ?>')"/>
         <br> <br>
         <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>">
     </form>

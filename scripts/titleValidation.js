@@ -11,5 +11,10 @@ function validateComments(input, text) {
     }
 }
 function validateRequired(input, text) {
-    input.setCustomValidity(text);
+    if ($.trim(input.value)=='') {
+        input.setCustomValidity(text);
+    }
+    else {
+        input.setCustomValidity("");
+    }
 }
