@@ -13,6 +13,10 @@ function hideForm(id, title) {
     $form.style.display = 'none';
     document.getElementById(title).innerHTML = '';
 }
+function hideFormCKE(id) {
+    $form = document.getElementById(id);
+    $form.style.display = 'none';
+}
 function showAddTaskForm(taskType){
         task = taskType;
         document.getElementById('addTask').style.display = 'block';
@@ -106,9 +110,6 @@ function fieldValidation(){
         $("#addFormulaButton").attr('disabled',true);
     }
 }
-function buttonFormulaEnabled(){
-    $("#addFormulaButton").removeAttr('disabled');
-}
 
 function addTextBlock(type){
     document.getElementById('addBlock').style.display = 'block';
@@ -117,6 +118,12 @@ function addTextBlock(type){
     document.getElementById('blockType').value = type;
     $('#addBlock').find('.redactor-editor').attr('data-target','insert');
     document.getElementById('formulaContainer').focus();
+}
+
+function addTextBlockCKE(type){
+    document.getElementById('addBlock').style.display = 'block';
+    document.getElementById('blockForm').style.display = 'block';
+    document.getElementById('blockType').value = type;
 }
 
 function addVideo(){

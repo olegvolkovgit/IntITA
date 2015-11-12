@@ -48,7 +48,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
 </div>
-<div class="lessonBlock" id="lessonBlock">
+<div class="lessonBlock" id="lessonBlock"  ng-app="lessonApp">
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">

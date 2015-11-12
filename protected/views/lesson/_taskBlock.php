@@ -6,7 +6,7 @@
             <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">
         </div>
         <div class="content">
-        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
             <br/>
             <?php echo $data['html_block'];?>
             </div>
