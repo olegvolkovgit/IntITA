@@ -10,3 +10,6 @@ function validateComments(input, text) {
         input.setCustomValidity("");
     }
 }
+function validateRequired(input, text) {
+    input.setCustomValidity(text);
+}

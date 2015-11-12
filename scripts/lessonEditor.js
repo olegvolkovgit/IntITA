@@ -100,7 +100,7 @@ function cancelAddFormula(){
 
 function cancelAddVideo(){
     document.getElementById('divAddVideo').style.display =  "none";
-    location.reload();
+    document.getElementById('addVideoStart').style.display = "block";
 }
 
 function fieldValidation(){
