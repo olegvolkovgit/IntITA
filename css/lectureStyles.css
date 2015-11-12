@@ -674,6 +674,7 @@ a.lectureDisabled{
 }
 .consultationButtons{
     opacity: 1;
+    float: left;
 }
 .consultationButtons:hover{
     opacity: 0.7;
