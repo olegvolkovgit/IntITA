@@ -15,7 +15,7 @@ function CKEditorCtrl($compile, $scope, $http) {
 
     $scope.getBlockHtml = function (blockOrder, idLecture) {
         $http({
-            url: '/lesson/editBlock',
+            url: basePath+'/lesson/editBlock',
             method: "POST",
             data: $.param({order: blockOrder, lecture: idLecture}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -24,27 +24,27 @@ function CKEditorCtrl($compile, $scope, $http) {
                 $scope.editRedactor = response;
             })
             .error(function () {
-                alert('Шось пішло не так');
+                alert($scope.errorMsg);
             })
     };
     $scope.save = function (order) {
         $http({
-            url: '/lesson/saveBlock',
+            url: basePath+'/lesson/saveBlock',
             method: "POST",
             data: $.param({content: $scope.editRedactor, idLecture: idLecture, order: order}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         })
             .success(function () {
-                alert('Saved');
+                alert($scope.saveMsg);
             })
             .error(function () {
-                alert('Error');
+                alert($scope.errorMsg);
             })
     };
 
     $scope.upBlock = function (idLecture, order) {
         $http({
-            url: '/lesson/upElement',
+            url: basePath+'/lesson/upElement',
             method: "POST",
             data: $.param({idLecture: idLecture, order: order}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -60,10 +60,9 @@ function CKEditorCtrl($compile, $scope, $http) {
                         alert(template);
                     }
                 });
-                alert('update');
             })
             .error(function () {
-                alert('Error');
+                alert(scope.errorMsg);
             })
     };
 }
@@ -96,7 +95,7 @@ angular
             link: function (scope, element) {
                 element.bind('click', function () {
                     if (angular.element('.openCKE').length) {
-                        alert('Відредагуйте, збережіть та закрийте попередні блоки перед редагуванням нового');
+                        alert(scope.editMsg);
                         return;
                     }
                     var orderBlock = element.attr('id').substring(1);
@@ -104,8 +103,8 @@ angular
                         'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
                         'ckeditor="editorOptions1" name="editor" ng-model="editRedactor">' +
                         '</textarea>' +
-                        '<div id=buttons' + orderBlock + '><button ng-click="save(' + orderBlock + ')">Save</button>' +
-                        '<button close-redactor id=c' + orderBlock + '>Close</button></div>';
+                        '<div id=buttons' + orderBlock + '><button ng-click="save(' + orderBlock + ')">{{saveBtn}}</button>' +
+                        '<button close-redactor id=c' + orderBlock + '>{{closeBtn}}</button></div>';
                     ($compile(template)(scope)).insertAfter(element);
                     element.hide();
                 });
@@ -118,7 +117,7 @@ angular
                 element.bind('click', function () {
                     var order = element.parent().attr('id').substring(1);
                     $http({
-                        url: '/lesson/upElement',
+                        url: basePath+'/lesson/upElement',
                         method: "POST",
                         data: $.param({idLecture: idLecture, order: order}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -133,7 +132,7 @@ angular
                             });
                         })
                         .error(function () {
-                            alert('Щось пішло не так');
+                            alert(scope.errorMsg);
                         });
                 });
             }
@@ -145,7 +144,7 @@ angular
                 element.bind('click', function () {
                     var order = element.parent().attr('id').substring(1);
                     $http({
-                        url: '/lesson/downElement',
+                        url: basePath+'/lesson/downElement',
                         method: "POST",
                         data: $.param({idLecture: idLecture, order: order}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -160,7 +159,7 @@ angular
                             });
                         })
                         .error(function () {
-                            alert('Щось пішло не так');
+                            alert(scope.errorMsg);
                         });
                 });
             }
@@ -170,10 +169,10 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    if (confirm("Ви впевнені, що хочете видалити цей блок?")) {
+                    if (confirm(scope.deleteMsg)) {
                         var order = element.parent().attr('id').substring(1);
                         $http({
-                            url: '/lesson/deleteElement',
+                            url: basePath+'/lesson/deleteElement',
                             method: "POST",
                             data: $.param({idLecture: idLecture, order: order}),
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -188,7 +187,7 @@ angular
                                 });
                             })
                             .error(function () {
-                                alert('Щось пішло не так');
+                                alert(scope.errorMsg);
                             });
                     }
                 });

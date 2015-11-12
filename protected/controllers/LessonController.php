@@ -177,7 +177,24 @@ class LessonController extends Controller
 
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
-//        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
+        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+        LecturePage::addTextBlock($id, $pageId);
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionCreateNewBlockCKE()
+    {
+        $model = new LectureElement();
+
+        $pageOrder = Yii::app()->request->getPost('page');
+        $idType = Yii::app()->request->getPost('type');
+
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
@@ -479,7 +496,7 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($id, $page, $idCourse){
+    public function actionEditPage($id, $page, $idCourse, $cke = false){
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
         $textList = LecturePage::getBlocksListById($pageModel->id);
@@ -497,7 +514,10 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
 
-        $this->render('/editor/index', array(
+        if($cke) $editorView='indexCKE';
+        else $editorView='index';
+
+        $this->render('/editor/'.$editorView, array(
                 'user' => Yii::app()->user->getId(),
                 'page' => $pageModel,
                 'dataProvider' => $dataProvider,
@@ -506,6 +526,7 @@ class LessonController extends Controller
             )
         );
     }
+
     public function actionPageAjaxUpdate()
     {
 
