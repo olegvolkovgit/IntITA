@@ -10,7 +10,6 @@
         <fieldset>
            <textarea name="block_element" class="plainTaskCondition"></textarea>
 
-
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>

@@ -137,6 +137,9 @@ if($idCourse != 0) {
 
         switch (LectureHelper::getQuizType($data['id_block'])) {
             case '5':
+                $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
+                    'pageId' => $page->id));
+                break;
             case '6':
                 $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
                     'pageId' => $page->id));
@@ -171,5 +174,6 @@ if($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'plainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formulaEditor.js'); ?>"></script>
 

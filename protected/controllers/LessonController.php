@@ -531,7 +531,7 @@ class LessonController extends Controller
     {
 
         $user=Yii::app()->user->getId();
-        $id=$_GET['lectureId'];
+        $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 

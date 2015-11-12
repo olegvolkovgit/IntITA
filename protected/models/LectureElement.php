@@ -48,6 +48,7 @@ class LectureElement extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
+            'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
 		);
 	}
 
@@ -326,16 +327,33 @@ class LectureElement extends CActiveRecord
     private function getOrder($idLecture)
     {
         $criteria=new CDbCriteria;
-        $criteria->alias='lecture_element';
-        $criteria->select='block_order';
+        $criteria->alias = 'lecture_element';
+        $criteria->select = 'block_order';
         $criteria->condition = 'id_lecture = '.$idLecture;
         $criteria->order = 'block_order DESC';
-        if(LectureElement::model()->find($criteria)->block_order){
-            $order=LectureElement::model()->find($criteria)->block_order;
+
+        if(LectureElement::model()->find($criteria)){
+            $order = LectureElement::model()->find($criteria)->block_order;
         }else{
-            $order=0;
+            $order = 0;
         }
 
         $this->block_order = ++$order;
+    }
+
+    public static function editPlainTask($id_block,$block_element)
+    {
+        $model = self::model()->findByPk($id_block);
+
+        $model->html_block = $block_element;
+
+        if($model->validate())
+        {
+            $model->save();
+
+            return $model->id_block;
+        }
+
+        else return false;
     }
 }
