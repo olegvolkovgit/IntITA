@@ -7,7 +7,7 @@
  */
 ?>
 <div id="blockForm">
-    <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>" method="post">
+    <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlockCKE'); ?>" method="post">
         <input name="idLecture" value="<?php echo $lecture->id; ?>" type="hidden">
         <input name="type" value="" id="blockType" type="hidden">
         <input name="page" value="<?php echo $pageOrder; ?>" id="page" type="hidden">
