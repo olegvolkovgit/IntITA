@@ -1,24 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "plain_task".
+ * This is the model class for table "plain_task_answer".
  *
- * The followings are the available columns in table 'plain_task':
+ * The followings are the available columns in table 'plain_task_answer':
  * @property integer $id
- * @property integer $block_element
- * @property integer $author
+ * @property string $answer
+ * @property integer $id_student
+ * @property integer $id_plain_task
+ * @property string $date
+ *
  */
-class PlainTask extends Quiz
+class PlainTaskAnswer extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'plain_task';
+		return 'plain_task_answer';
 	}
 
-	/**
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -26,11 +29,12 @@ class PlainTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('block_element, author', 'required'),
-			array('block_element, author', 'numerical', 'integerOnly'=>true),
+			array('id_student, id_plain_task', 'required'),
+			array('id_student, id_plain_task', 'numerical', 'integerOnly'=>true),
+			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, answer, id_student, id_plain_task, date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +56,9 @@ class PlainTask extends Quiz
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => 'Завдання',
-			'author' => 'Author',
+			'answer' => 'Answer',
+			'id_student' => 'Id Student',
+			'id_plain_task' => 'Id Plain Task',
 		);
 	}
 
@@ -76,8 +81,10 @@ class PlainTask extends Quiz
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('block_element',$this->block_element);
-		$criteria->compare('author',$this->author);
+		$criteria->compare('answer',$this->answer,true);
+		$criteria->compare('id_student',$this->id_student);
+		$criteria->compare('id_plain_task',$this->id_plain_task);
+        $criteria->compare('date',$this->date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -88,44 +95,20 @@ class PlainTask extends Quiz
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PlainTask the static model class
+	 * @return PlainTaskAnswer the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public function addTask($arr)
+    public static function fillHole($answer,$id_student,$id_plain_task)
     {
-        $model = new PlainTask();
+        $plainTaskAnswer = new PlainTaskAnswer();
+        $plainTaskAnswer->answer = $answer;
+        $plainTaskAnswer->id_student = $id_student;
+        $plainTaskAnswer->id_plain_task = $id_plain_task;
 
-        $model->author = $arr['author'];
-        $model->block_element = $arr['block'];
-
-        if($model->validate())
-        {
-            $model->save();
-            LecturePage::addQuiz($arr['pageId'], $arr['block']);
-        }
-    }
-
-    public static function getPlainTaskIcon($user, $id_block, $editMode)
-    {
-        if ($editMode || $user == 0) {
-            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-        } else {
-
-            $idTask = self::model()->findByAttributes(array('block_element' => $id_block))->id;
-            if (TaskMarks::isTaskDone($user, $idTask)) {
-                return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
-            } else {
-                return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-            }
-        }
-    }
-
-    public static function getPlainTaskByLectureId($lectureId)
-    {
-        return LectureElement::model()->findByPk($lectureId)->plainTask;
+        return $plainTaskAnswer;
     }
 }

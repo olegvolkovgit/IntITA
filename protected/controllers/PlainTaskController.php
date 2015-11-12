@@ -37,12 +37,7 @@ class PlainTaskController extends Controller
 
     public function actionAddTask()
     {
-
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId');
-        $arr['lecture'] = Yii::app()->request->getPost('lectureId');
-        $arr['block_element'] = Yii::app()->request->getPost('block_element');
-        $arr['author'] = Yii::app()->request->getPost('author');
-        $arr['type'] = 'plain_task';
+        $arr = self::fillArr();
 
         if (QuizFactory::factory($arr))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -50,5 +45,57 @@ class PlainTaskController extends Controller
 
     }
 
+    public function actionEditTask()
+    {
+        $arr = self::fillArr();
 
+        if(LectureElement::editPlainTask($arr['id_block'],$arr['block_element']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+
+        else echo 'Task was not saved';
+    }
+
+    private static function fillArr()
+    {
+        $arr['pageId'] =  Yii::app()->request->getPost('pageId');
+        $arr['lecture'] = Yii::app()->request->getPost('lectureId');
+        $arr['block_element'] = Yii::app()->request->getPost('block_element');
+        $arr['author'] = Yii::app()->request->getPost('author');
+        $arr['type'] = 'plain_task';
+
+        if(isset($_POST['id_block']))
+            $arr['id_block'] = Yii::app()->request->getPost('id_block');
+
+
+        return $arr;
+    }
+
+    public function actionUnablePlainTask()
+    {
+        $lecture =  Yii::app()->request->getPost('pageId');
+
+        if($lecture != 0){
+            LecturePage::unableQuiz($lecture);
+        }
+    }
+
+    public function actionSaveAnswer()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $answer = Yii::app()->request->getPost('answer');
+            $lectureId = Yii::app()->request->getPost('idLecture');
+            $plainTask = PlainTask::getPlainTaskByLectureId($lectureId);
+            $user = Yii::app()->user->id;
+
+            $plainTaskAnswer = PlainTaskAnswer::fillHole($answer,$user,$plainTask->id);
+                if($plainTaskAnswer->save())
+                    return true;
+
+                else
+                    throw new PlainTaskException('Plain task was not saved');
+        }
+
+
+    }
 }

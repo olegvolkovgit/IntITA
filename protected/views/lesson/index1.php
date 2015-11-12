@@ -131,6 +131,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'plainTask.js'); ?>"></script>
 
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
