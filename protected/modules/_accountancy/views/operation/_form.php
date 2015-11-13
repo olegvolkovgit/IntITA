@@ -3,80 +3,50 @@
 /* @var $model Operation */
 /* @var $type OperationType*/
 /* @var $form CActiveForm */
-
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/formattedForm.css"/>
-    <div id="newOperation">
-        <br>
-        <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/create');?>"
-              method="POST" name="newOperation" class="formatted-form">
-            <fieldset>
-                <legend id="label">Нова операція:</legend>
-                Тип операції:<br>
-                <select name="type" id="type" autofocus onchange="selectType()">
-                    <?php
-                    $listValues = OperationType::getTypesList();
-                    foreach($listValues as $type){
-                        ?>
-                        <option value="<?php echo $type->id;?>"><?php echo $type->description;?></option>
-                    <?php
-                     }
-                    ?>
-                </select>
-                <br>
-                <br>
-<!--                <select name="course1" placeholder="(Виберіть курс)" onchange="selectModule1();">-->
-<!--                    <option value="">Всі курси</option>-->
-<!--                    <optgroup label="Виберіть курс">-->
-<!--                        --><?php //$courses = AccessHelper::generateCoursesList();
-//                        $count = count($courses);
-//                        for($i = 0; $i < $count; $i++){
-//                            ?>
-<!--                            <option value="--><?php //echo $courses[$i]['id'];?><!--">-->
-<!--                                --><?php //echo $courses[$i]['alias']." (".$courses[$i]['language'].")";?>
-<!--                            </option>-->
-<!--                        --><?php
-//                        }
-//                        ?>
-<!--                </select>-->
-<!--                <br>-->
-<!--                <br>-->
-<!---->
-<!--                Модуль:<br>-->
-<!--                <div name="selectModule1" style="float:left;"></div>-->
-<!--                <br>-->
-<!--                <br>-->
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/operation.css"/>
 
-                <input type="submit" value="Додати">
-        </form>
+<div class="notebook2">
+    <input type="radio" name="notebook2a" id="notebook2a_1" checked="checked">
+    <input type="radio" name="notebook2a" id="notebook2a_2">
+    <input type="radio" name="notebook2a" id="notebook2a_3">
+    <input type="radio" name="notebook2a" id="notebook2a_4">
+
+    <div>
+        <label for="notebook2a_1">Оплата по договору</label>
+        <?php echo $this->renderPartial('_operationForm1');?>
     </div>
-
-<!--    <div class="row">-->
-<!--        --><?php //echo $form->labelEx($model,'type_id'); ?>
-<!--        --><?php //echo $form->dropDownList($model, 'type_id', $listValues);?>
-<!--        --><?php //echo $form->error($model,'type_id'); ?>
-<!--    </div>-->
-<!---->
-<!--	<div class="row">-->
-<!--		--><?php //echo $form->labelEx($model,'invoice_id'); ?>
-<!--		--><?php //echo $form->textField($model,'invoice_id'); ?>
-<!--		--><?php //echo $form->error($model,'invoice_id'); ?>
-<!--	</div>-->
-<!---->
-<!--	<div class="row">-->
-<!--		--><?php //echo $form->labelEx($model,'summa'); ?>
-<!--		--><?php //echo $form->textField($model,'summa',array('size'=>10,'maxlength'=>10)); ?>
-<!--		--><?php //echo $form->error($model,'summa'); ?>
-<!--	</div>-->
-<!---->
-<!--	<div class="row buttons">-->
-<!--		--><?php //echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
-<!--	</div>-->
+    <div>
+        <label for="notebook2a_2">Оплата по счету</label>
+        <?php echo $this->renderPartial('_operationForm2');?>
+    </div>
+    <div>
+        <label for="notebook2a_3">Оплата по</label>
+    </div>
+</div>
+<br>
+<br>
 
 <script>
-    function selectType(){
-        $( "#type" ).click(function() {
-            $("#type:checked").val();
+    $(document).ready(function(){
+        $('#type').change(function(){
+            type = $('#type option:selected').val();
+            id = 'operationForm' + type;
+            document.getElementById(id).style.display = 'block';
+        });
+    });
+    function getOperationForm(type){
+        $.ajax({
+            type: "POST",
+            url: "/IntITA/_accountancy/operation/getForm",
+            data: {
+                'type': type
+            },
+            cache: false,
+            success: function (data) {
+                 $("#operationForm").text(data);
+            }
         });
     }
 </script>

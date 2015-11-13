@@ -27,13 +27,13 @@ class InvoicesController extends AccountancyController
     {
         return array(
             array('allow',
-                'actions'=>array('index'),
+                'actions'=>array('index', 'agreementList'),
                 'expression'=>array($this, 'isAccountant'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном бухгалтера сайту.",
-                'actions'=>array('index'),
+                'actions'=>array('index', 'agreementList'),
                 'users'=>array('*'),
             ),
         );

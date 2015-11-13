@@ -27,14 +27,16 @@ class OperationController extends AccountancyController
     public function accessRules()
     {
         return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view', 'admin', 'delete', 'create', 'update'),
+            array('allow',
+                'actions'=>array('index','view', 'admin', 'delete', 'create', 'update', 'createByInvoice',
+                    'createByAgreement'),
                 'expression'=>array($this, 'isAccountant'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin',  'createByInvoice',
+                    'createByAgreement'),
                 'users'=>array('*'),
             ),
         );
@@ -154,4 +156,37 @@ class OperationController extends AccountancyController
 			Yii::app()->end();
 		}
 	}
+
+    public function actionCreateByInvoice(){
+        $type = Yii::app()->request->getPost('type', 0);
+
+        $model=new Operation;
+        if(isset($_POST['Operation']))
+        {
+            $model->attributes=$_POST['Operation'];
+            if($model->save())
+                $this->redirect(array('view','id'=>$model->id));
+        }
+
+        $this->render('create',array(
+            'model'=>$model
+        ));
+    }
+
+    public function actionCreateByAgreement(){
+        $type = Yii::app()->request->getPost('type', 0);
+
+        $model=new Operation;
+
+        if(isset($_POST['Operation']))
+        {
+            $model->attributes=$_POST['Operation'];
+            if($model->save())
+                $this->redirect(array('view','id'=>$model->id));
+        }
+
+        $this->render('create',array(
+            'model'=>$model
+        ));
+    }
 }

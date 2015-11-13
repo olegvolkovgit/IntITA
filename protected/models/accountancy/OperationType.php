@@ -102,11 +102,6 @@ class OperationType extends CActiveRecord
 
     public static function getTypesList(){
         $types = OperationType::model()->findAll();
-//        $result = [];
-//        foreach ($types as $key){
-//            $result[$key['id']] =
-//                $key['description'];
-//        }
         return $types;
     }
 }

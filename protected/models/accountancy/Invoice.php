@@ -186,4 +186,8 @@ class Invoice extends CActiveRecord
             }
         }
     }
+
+    public static function getAllInvoices(){
+        return Invoice::model()->findAll();
+    }
 }

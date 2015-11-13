@@ -230,4 +230,8 @@ class UserAgreements extends CActiveRecord
         if($date == NULL) return '';
         return date("d.m.y", strtotime($date));
     }
+
+    public static function getAllAgreements(){
+        return UserAgreements::model()->findAll();
+    }
 }
