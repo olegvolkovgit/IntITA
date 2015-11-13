@@ -16,17 +16,8 @@ $('.search-form form').submit(function(){
 ?>
 <br>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/operationType/create');?>">Додати операцію</a>
-
+<a href="<?php echo Yii::app()->createUrl('/_accountancy/operationType/create');?>">Додати тип операції</a>
 <h1>Типи операцій</h1>
-
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'operation-type-grid',
 	'dataProvider'=>$model->search(),

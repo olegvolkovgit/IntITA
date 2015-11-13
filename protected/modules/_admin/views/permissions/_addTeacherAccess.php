@@ -27,7 +27,7 @@
             <br>
             <br>
             Курс:<br>
-            <select name="course1" placeholder="(Виберіть курс)" onchange="javascript:selectModule1();">
+            <select name="course1" placeholder="(Виберіть курс)" onchange="selectModule1();">
                 <option value="">Всі курси</option>
                 <optgroup label="Виберіть курс">
                     <?php $courses = AccessHelper::generateCoursesList();
