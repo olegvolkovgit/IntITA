@@ -1,6 +1,6 @@
 <?php
 
-class m151113_114517_add_translation_773_775 extends CDbMigration
+class m151113_114517_add_translation_773_778 extends CDbMigration
 {
 	public function up()
 	{
