@@ -1,164 +1,26 @@
-#hambNav
-{
-    position: fixed;
-    display: none;
-    left: 0;
-    top:0;
-    z-index: 101;
-}
-#lessonHumMenu #hambNav
-{
-    display: block;
-}
-
-#hambButton
-{
-    position: absolute;
-    margin-top: 10px;
-    margin-left: 15px;
-    z-index: 3;
-}
-#hambButton:hover
-{
-    cursor: pointer;
-}
-#hambButton img
-{
-}
-
-#hambMenu
-{
-    display: none;
-    position: fixed;
-    top: 0;
-    width: 250px;
-    background: #ffffff;
-    z-index: 2;
-    box-shadow: 0 0 2px 2px #999999;
-}
-
-#hambMenu a.logo
-{
-    display: block;
-    overflow: hidden;
-    margin-left: 90px;
-    margin-top: 10px;
-}
-
-#hambMenu a.logo img
-{
-    display: block;
-}
-
-#hambMenu .humblang
-{
-    display: block;
-    margin-left: 90px;
-    margin-top: 10px;
-    clear: both;
-}
-#hambMenu .humblang a
-{
-    color: #4b70a4;
-    border-left: 1px solid #999999;
-    padding-left: 8px;
-    padding-right: 8px;
-}
-#hambMenu .humblang a:hover
-{
-    color: #666666;
-}
-#hambMenu .humblang a:first-child
-{
-    border-left:none;
-    padding-left: 0;
-}
-#hambMenu .humblang a.selectedLang
-{
-    color: #999999;
-    text-decoration: none;
-}
-#hambMenu .menulist
-{
-    list-style: none;
-    font-size: 18px;
-    line-height: 2;
-    clear: both;
-    margin: 25px 0 50px 90px;
-    padding: 0;
-}
-#hambMenu .menulist a
-{
-    color: #333333;
-    text-decoration: none;
-}
-#hambMenu .menulist a:hover
-{
-    color: #4b70a4;
-}
-#hambMenu .menulist li
-{
-    display: block;
-}
-#hambNav .humundline
-{
-    width: 85%;
-    margin: 0 auto;
-    border: 1px solid #4b75a4;
-    clear: both;
-}
-a#hum_button {
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    height: 33px;
-    width: 70px;
-    background: #4b70a3;
-    border-radius:   10px;
-    border: 2px solid #ffffff;
-    color: white;
-    vertical-align: middle;
-    font: 16px/30px "MyriadPro";
-    text-align:      center;
-    text-decoration: none;
-    z-index: 6;
-}
-a#hum_button:hover {
-    background: #454545;
-}
-a#hum_button:active {
-    background: #363636;
-}
-div.humStatus{
-    position: relative;
-    margin: 0 auto;
-    top:10px;
-    right:0;
-    display:block;
-    overflow: hidden;
-    text-align: center;
-    margin-bottom: 10px;
-}
-.humStatus div {
-    display: inline-block;
-    color:#4b75a4;
-    font-family: MyriadPro;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 100%;
-}
-div.humavatar{
-    width:70px;
-    height:70px;
-    margin-right: 10px;
-    overflow: hidden;
-}
-.humavatar img{
-    width: 70px;
-    min-height: 70px;
-}
-.humName{
-    text-align: left;
-}
+#hambNav{position:fixed;display:none;left:0;top:0;z-index:101;}
+#lessonHumMenu #hambNav{display:block;}
+#hambButton{position:absolute;margin-top:10px;margin-left:15px;z-index:3;}
+#hambButton:hover{cursor:pointer;}
+#hambButton img{}
+#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;}
+#hambMenu a.logo{display:block;overflow:hidden;margin-left:90px;margin-top:10px;}
+#hambMenu a.logo img{display:block;}
+#hambMenu .humblang{display:block;margin-left:90px;margin-top:10px;clear:both;}
+#hambMenu .humblang a{color:#4b70a4;border-left:1px solid #999999;padding-left:8px;padding-right:8px;}
+#hambMenu .humblang a:hover{color:#666666;}
+#hambMenu .humblang a:first-child{border-left:none;padding-left:0;}
+#hambMenu .humblang a.selectedLang{color:#999999;text-decoration:none;}
+#hambMenu .menulist{list-style:none;font-size:18px;line-height:2;clear:both;margin:25px 0 50px 90px;padding:0;}
+#hambMenu .menulist a{color:#333333;text-decoration:none;}
+#hambMenu .menulist a:hover{color:#4b70a4;}
+#hambMenu .menulist li{display:block;}
+#hambNav .humundline{width:85%;margin:0 auto;border:1px solid #4b75a4;clear:both;}
+a#hum_button{position:relative;display:block;margin:0 auto;margin-top:20px;margin-bottom:20px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;}
+a#hum_button:hover{background:#454545;}
+a#hum_button:active{background:#363636;}
+div.humStatus{position:relative;margin:0 auto;top:10px;right:0;display:block;overflow:hidden;text-align:center;margin-bottom:10px;}
+.humStatus div{display:inline-block;color:#4b75a4;font-family:MyriadPro;font-weight:normal;font-size:18px;line-height:100%;}
+div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
+.humavatar img{width:70px;min-height:70px;}
+.humName{text-align:left;}
