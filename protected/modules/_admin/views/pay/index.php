@@ -126,7 +126,7 @@
         }else{
             $.ajax({
                 type: "POST",
-                url:  "/IntIta/_admin/permissions/showModules",
+                url:  "/_admin/permissions/showModules",
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }
