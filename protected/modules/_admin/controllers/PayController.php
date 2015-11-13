@@ -14,6 +14,8 @@ class PayController extends AdminController
         $this->render('index');
     }
 
+
+
     public function actionPayModule(){
         if (empty($_POST['module']) ) {
             Yii::app()->user->setFlash('errorModule', "<br>Будь-ласка, оберіть курс та модуль для оплати.");
@@ -65,6 +67,7 @@ class PayController extends AdminController
         }
 
         }
+
 
 
 }
