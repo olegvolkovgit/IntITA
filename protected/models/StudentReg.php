@@ -32,6 +32,7 @@
  * @property string $status
  * property string $reg_time
  * @property string $avatar
+ * @property string $identity
  */
 class StudentReg extends CActiveRecord
 {
@@ -78,7 +79,7 @@ class StudentReg extends CActiveRecord
             array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
             array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
             array('email', 'email', 'message'=>Yii::t('error','0271')),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'resetemail, repidreg,reguser,edit,fromraptoext'),
+            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'resetemail, repidreg,reguser,edit,fromraptoext, network_identity'),
             array('password', 'authenticate','on'=>'loginuser'),
             array('password_repeat', 'passdiff','on'=>'edit'),
             array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>Yii::t('error','0427'),'on'=>'reguser,edit'),
@@ -90,10 +91,10 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min'=>15),
             array('educform', 'length', 'max'=>60),
             array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u','message'=>Yii::t('error','0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status','safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity','safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time', 'safe', 'on'=>'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on'=>'search'),
         );
     }
     public function networkValidation($attribute)

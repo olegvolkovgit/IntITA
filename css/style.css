@@ -689,3 +689,48 @@ div#exhaust{
 {
     width: 100px;
 }
+#emailVerification-form {
+    margin: 50px auto;
+    width: 540px;
+}
+#emailVerification-form p{
+    text-align: justify;
+}
+#emailVerification-form .errorMessage{
+    margin-bottom: 0;
+    margin-left: 45px;
+}
+input#identityButton:hover {
+    background: #454545;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    cursor: pointer;
+}
+input#identityButton {
+    width: 195px;
+    height: 52px;
+    border-radius: 10px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    color: #ffffff;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 25px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px black;
+    text-shadow: 1px 2px 1px rgba(0,0,0,.5);
+}
+#identityButton {
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 27px;
+}
+#emailVerification-form .clientValidationError {
+    margin-left: 45px;
+}
+input[type="submit"][disabled]#identityButton{
+    background: #666666;
+}
+.emailVerButt{
+    margin-top: 15px;
+}

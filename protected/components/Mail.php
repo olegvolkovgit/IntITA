@@ -86,4 +86,17 @@ class Mail {
 
         return $lang;
     }
+
+    public static function sendVerificationEmailMail($model)
+    {
+        $mail = new Mail();
+        $lang = Mail::setLang();
+        $subject = Yii::t('activeemail', '0298');
+        $text = Yii::t('activeemail', '0299') .
+            " " . Config::getBaseUrl() . "/index.php?r=site/successVerification/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
+        if( mail($model->email, $subject, $text, $mail->headers))
+            return true;
+
+        else return false;
+    }
 }

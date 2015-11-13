@@ -2,6 +2,7 @@
 
 use application\components\Exceptions\ForumException;
 use \application\components\Exceptions\MailException;
+
 class SiteController extends Controller
 {
     /*
@@ -77,11 +78,10 @@ class SiteController extends Controller
         if ($id) {
             $forumUser = ForumUser::model()->findByPk($id);
 
-            if($forumUser){
+            if ($forumUser) {
                 $forumUser->user_lang = $new_lang;
                 $forumUser->save();
-            }
-            else
+            } else
                 throw new \application\components\Exceptions\ForumException('In forum user not change language');
 
         }
@@ -122,7 +122,7 @@ class SiteController extends Controller
 
                 $model->updateByPk($model->id, array('avatar' => 'noname.png'));
 
-                if(Mail::sendRapidReg($model))
+                if (Mail::sendRapidReg($model))
                     throw new MailException('The letter was not sent');
 
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
@@ -179,8 +179,8 @@ class SiteController extends Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                    Forum login
 
-                   if(!ForumUser::login($userModel))
-                       throw new ForumException('Forum user not save!!!');
+                    if (!ForumUser::login($userModel))
+                        throw new ForumException('Forum user not save!!!');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (!isset($_COOKIE['cookie_key'])) {
                         foreach ($_SESSION as $key => $value) {
@@ -237,10 +237,34 @@ class SiteController extends Controller
 
         $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
         $user = json_decode($s, true);
+
+        /*network validation when network don't have email(have number phone)*/
+        if (!isset($user['email']) && $model->exists('identity=:identity', array(':identity' => $user['identity']))) {
+            $model = $model->findByAttributes(array('identity' => $user['identity']));
+            if ($model->status == 1 && $model->socialLogin()) {
+
+                $this->setNetworkData($user, $model);
+                if ($model->validate()) $model->save();
+
+                $this->forumAuthentication($model);
+
+                if (isset($_SERVER["HTTP_REFERER"])) {
+                    if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
+                    $this->redirect($_SERVER["HTTP_REFERER"]);
+                    echo 150;
+                } else $this->redirect(Yii::app()->homeUrl);
+            } else {
+                $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
+            }
+        } else if (!isset($user['email']) && !$model->exists('identity=:identity', array(':identity' => $user['identity']))) {
+            $this->redirect(Yii::app()->createUrl('/site/networkIdentity', array('identity' => $user['identity'])));
+        }
+        /*network validation when network don't have email(have number phone)*/
+
         $model->email = $user['email'];
         if ($model->socialLogin()) {
             if (isset($user['network']) && StudentReg::isNewNetwork($user['network'], $user['profile'], $model)) {
-                $modelId=$model->findByAttributes(array('email' => $model->email))->id;
+                $modelId = $model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
 
@@ -252,44 +276,7 @@ class SiteController extends Controller
                 echo 150;
             } else $this->redirect(Yii::app()->homeUrl);
         } else {
-            if (isset($user['first_name'])) $model->firstName = $user['first_name'];
-            if (isset($user['last_name'])) $model->secondName = $user['last_name'];
-            if (isset($user['nickname'])) $model->nickname = $user['nickname'];
-            if (isset($user['bdate'])) $model->birthday = $user['bdate'];
-            if (isset($user['phone'])) $model->phone = $user['phone'];
-            if (isset($user['photo_big'])) {
-                $arrContextOptions = array(
-                    "ssl" => array(
-                        "verify_peer" => false,
-                        "verify_peer_name" => false,
-                    ),
-                );
-                $filesName = uniqid() . '.jpg';
-                file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
-                $model->avatar = $filesName;
-            }
-            if (isset($user['city'])) $model->address = $user['city'];
-            if (isset($user['network'])) {
-                switch ($user['network']) {
-                    case 'facebook':
-                        $model->facebook = $user['profile'];
-                        break;
-                    case 'googleplus':
-                        $model->googleplus = $user['profile'];
-                        break;
-                    case 'linkedin':
-                        $model->linkedin = $user['profile'];
-                        break;
-                    case 'vkontakte':
-                        $model->vkontakte = $user['profile'];
-                        break;
-                    case 'twitter':
-                        $model->twitter = $user['profile'];
-                        break;
-                    default:
-                        break;
-                }
-            }
+            $this->setNetworkData($user, $model);
             $model->status = 1;
             if ($model->validate()) {
                 $model->save();
@@ -403,7 +390,7 @@ class SiteController extends Controller
         if ($getModel->validate()) {
 
 
-            if(!Mail::sendRecoveryPassMail($getModel,$getTime))
+            if (!Mail::sendRecoveryPassMail($getModel, $getTime))
                 throw new MailException('The letter was not sent ');
 
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
@@ -434,6 +421,13 @@ class SiteController extends Controller
                 $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
             }
         }
+    }
+
+    public function actionNetworkIdentity($identity)
+    {
+        $this->render('networkIdentity', array(
+            'identity' => $identity,
+        ));
     }
 
     public function actionActivationinfo($email)
@@ -479,10 +473,16 @@ class SiteController extends Controller
         $this->renderPartial('notice');
     }
 
-    public function forumAuthentication ($model) {
+    public function actionNetworkActivation()
+    {
+        $this->render('networkActivation');
+    }
+
+    public function forumAuthentication($model)
+    {
         $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
 
-        if(!ForumUser::login($userModel))
+        if (!ForumUser::login($userModel))
             throw new \application\components\Exceptions\ForumException('Forum user not save !!!');
 
         if (!isset($_COOKIE['cookie_key']) || !$_COOKIE['cookie_key']) {
@@ -503,5 +503,97 @@ class SiteController extends Controller
         $model->token = sha1($getToken . $getTime);
 
         return $getTime;
+    }
+
+    /*verification email when network do not have email */
+    public function actionEmailVerification()
+    {
+        $model = new StudentReg('network_identity');
+
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'emailVerification-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (isset($_POST['StudentReg'])) {
+            $model->attributes = $_POST['StudentReg'];
+            $getToken = rand(0, 99999);
+            $getTime = date("Y-m-d H:i:s");
+            $model->token = sha1($getToken . $getTime);
+
+            if ($model->validate()) {
+                $model->save();
+                if (Mail::sendVerificationEmailMail($model))
+                    throw new MailException('The letter was not sent');
+
+                $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
+            } else {
+                Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
+                $this->redirect(Yii::app()->request->baseUrl . '/site#form');
+            }
+        }
+    }
+
+    public function actionSuccessVerification($token, $email, $lang)
+    {
+        $model = $this->getTokenAcc($token);
+
+        $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
+        if ($model->token == $modelEmail->token) {
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('status' => 1));
+
+            $app = Yii::app();
+            $app->session['lg'] = $lang;
+
+            $this->redirect(Yii::app()->createUrl('/site/networkActivation'));
+        } else {
+            throw new CHttpException(404, Yii::t('exception', '0237'));
+        }
+    }
+
+    /* set data from network*/
+    public function setNetworkData($user, $model)
+    {
+        if (isset($user['first_name'])) $model->firstName = $user['first_name'];
+        if (isset($user['last_name'])) $model->secondName = $user['last_name'];
+        if (isset($user['nickname'])) $model->nickname = $user['nickname'];
+        if (isset($user['bdate'])) $model->birthday = $user['bdate'];
+        if (isset($user['phone'])) $model->phone = $user['phone'];
+        if (isset($user['photo_big'])) {
+            $arrContextOptions = array(
+                "ssl" => array(
+                    "verify_peer" => false,
+                    "verify_peer_name" => false,
+                ),
+            );
+            $filesName = uniqid() . '.jpg';
+            file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $filesName, file_get_contents($user['photo_big'], false, stream_context_create($arrContextOptions)));
+            $model->avatar = $filesName;
+        }
+        if (isset($user['city'])) $model->address = $user['city'];
+        if (isset($user['network'])) {
+            switch ($user['network']) {
+                case 'facebook':
+                    $model->facebook = $user['profile'];
+                    break;
+                case 'googleplus':
+                    $model->googleplus = $user['profile'];
+                    break;
+                case 'linkedin':
+                    $model->linkedin = $user['profile'];
+                    break;
+                case 'vkontakte':
+                    $model->vkontakte = $user['profile'];
+                    break;
+                case 'twitter':
+                    $model->twitter = $user['profile'];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return $model;
     }
 }
