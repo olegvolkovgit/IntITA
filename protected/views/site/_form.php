@@ -53,7 +53,7 @@
 
 			<div class="linesignInForm"><?php echo MainpageHelper::getSocialText(); ?></div>
 			<div class="image" >
-                    <div id="uReg" x-ulogin-params="display=buttons;fields=email;optional=first_name,last_name,nickname,bdate,phone,photo,city;
+                    <div id="uReg" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,bdate,phone,photo,city;
 								redirect_uri=<?php echo Config::getBaseUrl().'/site/sociallogin'?>">
 							<ul id="uLoginImages">
 								<li><img src="<?php echo  StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>" x-ulogin-button = "facebook" title = "Facebook"/></li>

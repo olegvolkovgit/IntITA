@@ -99,12 +99,12 @@ angular
                         return;
                     }
                     var orderBlock = element.attr('id').substring(1);
-                    var template = '<textarea ng-cloak class="openCKE" ' +
+                    var template = '<textarea data-ng-cloak class="openCKE" ' +
                         'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
                         'ckeditor="editorOptions1" name="editor" ng-model="editRedactor">' +
                         '</textarea>' +
-                        '<div id=buttons' + orderBlock + '><button ng-click="save(' + orderBlock + ')">{{saveBtn}}</button>' +
-                        '<button close-redactor id=c' + orderBlock + '>{{closeBtn}}</button></div>';
+                        '<div id=buttons' + orderBlock + '><button data-ng-cloak ng-click="save(' + orderBlock + ')">{{saveBtn}}</button>' +
+                        '<button data-ng-cloak close-redactor id=c' + orderBlock + '>{{closeBtn}}</button></div>';
                     ($compile(template)(scope)).insertAfter(element);
                     element.hide();
                 });

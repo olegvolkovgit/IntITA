@@ -75,5 +75,12 @@ class m151112_113620_add_translations_767_772 extends CDbMigration
 			$this->delete('messages', 'id='.$i);
 			$this->delete('sourcemessages', 'id='.$i);
 		}
+
+		$this->delete('messages', 'id=776');
+		$this->delete('sourcemessages', 'id=776');
+		$this->delete('messages', 'id=777');
+		$this->delete('sourcemessages', 'id=777');
+		$this->delete('messages', 'id=778');
+		$this->delete('sourcemessages', 'id=778');
 	}
 }

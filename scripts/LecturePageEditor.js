@@ -7,7 +7,7 @@ function deletePage(lecture, page, course){
     if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
         $.ajax({
             type: "POST",
-            url: "/lesson/deletePage",
+            url: basePath+"/lesson/deletePage",
             data: {'idLecture':lecture, 'pageOrder':page},
             success: function(){
                 location.reload();
@@ -19,7 +19,7 @@ function deletePage(lecture, page, course){
 function upPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/lesson/upPage",
+        url: basePath+"/lesson/upPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             location.reload();
@@ -31,7 +31,7 @@ function upPage(idLecture, pageOrder, course){
 function downPage(idLecture, pageOrder, course){
     $.ajax({
         type: "POST",
-        url: "/lesson/downPage",
+        url: basePath+"/lesson/downPage",
         data: {'idLecture':idLecture, 'pageOrder':pageOrder, 'idCourse':course},
         success: function(){
             location.reload();
@@ -42,7 +42,7 @@ function downPage(idLecture, pageOrder, course){
 function upBlock(idLecture, order) {
     $.ajax({
         type: "POST",
-        url: "/lesson/upElement",
+        url: basePath+"/lesson/upElement",
         data: {'idLecture': idLecture, 'order': order},
         success: function () {
             $.fn.yiiListView.update('blocks_list', {
@@ -58,7 +58,7 @@ function upBlock(idLecture, order) {
 function downBlock(idLecture, order) {
     $.ajax({
         type: "POST",
-        url: "/lesson/downElement",
+        url: basePath+"/lesson/downElement",
         data: {'idLecture': idLecture, 'order': order},
         success: function () {
             $.fn.yiiListView.update('blocks_list', {
@@ -75,7 +75,7 @@ function deleteBlock(idLecture, order) {
     if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
         $.ajax({
             type: "POST",
-            url: "/lesson/deleteElement",
+            url: basePath+"/lesson/deleteElement",
             data: {'idLecture': idLecture, 'order': order},
             success: function () {
                 $.fn.yiiListView.update('blocks_list', {
@@ -92,7 +92,7 @@ function deleteVideo(idLecture, pageOrder) {
     if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
         $.ajax({
             type: "POST",
-            url: "/lesson/deleteVideo",
+            url: basePath+"/lesson/deleteVideo",
             data: {'idLecture': idLecture, 'pageOrder': pageOrder},
             success: function () {
                location.reload();
