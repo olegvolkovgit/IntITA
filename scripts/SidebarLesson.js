@@ -2,7 +2,7 @@ var topic_id;
 var forum_id;
 $(document).ready(function(){
     $.get(
-        '/IntITA/forum/getPosts.php',
+        '/forum/getPosts.php',
         {topic: idLecture},
         function(result){
             var information = JSON.parse(result);
@@ -16,7 +16,7 @@ $(document).ready(function(){
                 for (var i = 0; i < posts.length; i++){
                     var post_text = posts[i]['text'];
                     if (post_text.indexOf('src="./images/smilies') >= 0)
-                        post_text = post_text.replace(/.\/images\/smilies/g, '/IntITA/forum/images/smilies');
+                        post_text = post_text.replace(/.\/images\/smilies/g, '/forum/images/smilies');
                     $("#discussion").append(
                         "<div class='post'><div class='author'><span>" + posts[i]['author'] + "</span> &raquo; " + posts[i]['date'] +
                         "</div><div class='postText'>" + post_text + "</div></div>"
@@ -47,5 +47,5 @@ $(document).on ("click", "#discussion a", function (){
 });
 
 $(document).on ("click", "#discussion", function(){
-    window.open("/IntITA/forum/viewtopic.php?f=" + forum_id + "&t=" + topic_id, "_blank");
+    window.open("/forum/viewtopic.php?f=" + forum_id + "&t=" + topic_id, "_blank");
 });
