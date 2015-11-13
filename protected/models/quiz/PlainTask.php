@@ -52,8 +52,8 @@ class PlainTask extends Quiz
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => 'Завдання',
-			'author' => 'Author',
+			'block_element' => Yii::t('lecture','0774'),
+			'author' => Yii::t('lecture','0775'),
 		);
 	}
 

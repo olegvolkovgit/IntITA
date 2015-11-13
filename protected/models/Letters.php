@@ -144,4 +144,10 @@ class Letters extends CActiveRecord
         ));
         return $sentLettersProvider;
     }
+
+
+    protected function afterSave()
+    {
+        parent::afterSave(); 
+    }
 }
