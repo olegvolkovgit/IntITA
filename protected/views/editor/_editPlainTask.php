@@ -2,7 +2,9 @@
     <br>
     <form  name="plainTask" method="post" action="<?php echo Yii::app()->createUrl('plainTask/editTask');?>">
         <fieldset>
-            <textarea name="block_element" class="plainTaskCondition" ><?php echo $data['html_block'] ?></textarea>
+            <label><?php echo Yii::t('lecture','0774'); ?></label>
+            <br>
+            <textarea name="block_element" class="plainTaskCondition"  placeholder="<?php echo Yii::t('lecture','0773'); ?>" ><?php echo $data['html_block'] ?></textarea>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $data->id_lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>

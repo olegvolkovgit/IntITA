@@ -1,694 +1,115 @@
-body {
-    margin: 0 auto;
-}
-img {
-    border-style:none;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: "MyriadPro";
-    box-sizing: border-box;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: "MyriadPro";
-    box-sizing: border-box;
-}
-a, button, input[type="submit"]{
-    outline: none;
-}
-a:hover{
-    color: #666666;
-}
-span{
-    font-weight: normal;
-}
-#main-wrapper {
-    box-sizing: border-box;
-    min-height: 100%;
-    padding-bottom: 105px;
-}
-.main {
-    position: relative;
-    width: 1200px;
-    margin: 0 auto;
-}
-h1, h2, h3, h4, html{
-    font-family: "MyriadPro";
-    color: #333333;
-    font-weight: normal;
-}
-p {
-    font-family: "MyriadPro";
-    color: #666666;
-}
-/*******navigations-top******/
-#mainheader {
-    border-bottom: 2px solid #4b75a4;
-}
-#navigation {
-    display: block;
-    position:relative;
-    width: 1200px;
-    height: 100px;
-    margin: 0 auto;
-    border-bottom: 2px solid #4b75a4;
-    background-color: white;
-}
-#navigation.down {
-    height: 60px;
-}
-#navigation.downmain {
-    height: 60px;
-}
-#navigation.downmain div#menulist{
-    width: 940px;
-    margin: 0 auto;
-    text-align: center;
-}
-#navigation ul {
-    display: inline-block;
-    float: right;
-    margin-top: 60px;
-    margin-bottom: 0;
-    padding: 0;
-}
-#navigation.down ul {
-    display: inline-block;
-    margin-top: 16px;
-    float: right;
-    margin-right: 75px;
-    margin-bottom: 0;
-}
-#navigation.downmain ul {
-    float: none;
-    display: inline-block;
-    margin: 0 auto;
-    margin-top: 16px;
-}
-#navigation li {
-    display:inline;
-    padding: 10px;
-}
-#navigation ul a {
-    text-decoration:none;
-    font-family: "MyriadPro";
-    font-size: 18px;
-    font-weight: normal;
-    color: black;
-}
-#navigation ul a:hover{
-    color: #003399;
-}
-#logo_img{
-    float: left;
-    margin-top: 13px;
-}
-#logo_img img {
-    max-width: 232px;
-    max-height: 75px;
-}
-#logo_img.down{
-    margin-top: 7px;
-}
-#logo_img.downmain{
-    margin-top: 7px;
-    max-height: 46px;
-    max-width: 142px;
-}
-#logo_img.down img {
-    max-height: 46px;
-    max-width: 142px;
-    margin-left: 40px;
-}
-#logo_img.downmain img {
-    max-height: 46px;
-    max-width: 142px;
-    margin-left: 40px;
-}
-#logo_img.downmain a {
-    display: block;
-    height: 0;
-}
-/******************enter button***************/
-#enterButton, .enterButton{
-    display: inline-block;
-    position: relative;
-    float: right;
-    height: 33px;
-    width: 70px;
-    margin-right: 35px;
-}
-#enterButton.downmain, .enterButton.downmain{
-    margin-right: 23px;
-}
-#button_border, .button_border {
-    position: absolute;
-    border: 2px solid #4b70a3;
-    border-radius: 10px 10px 0 0;
-    margin-left: 118px;
-    margin-top: 78px;
-    z-index: 6;
-    height: 20px;
-    width: 74px;
-
-}
-#button_border.down, .button_border.down{
-     display: none;
- }
-#button_border.downmain, .button_border.downmain{
-    display: none;
-}
-#enter_button, .enter_button {
-    position: absolute;
-    margin-left: 120px;
-    margin-top: 80px;
-    height: 33px;
-    width: 70px;
-    background: #4b70a3;
-    border-radius:   10px;
-    border: 2px solid #ffffff;
-    color: white;
-    vertical-align: middle;
-    font: 16px/30px "MyriadPro";
-    text-align:      center;
-    text-decoration: none;
-    z-index: 6;
-}
-#enter_button:hover, .enter_button:hover {
-    background: #454545;
-}
-#enter_button:active, .enter_button:active {
-    background: #363636;
-}
-#enter_button.down, .enter_button.down {
-    display: inline-block;
-    margin-left: 0;
-    z-index: 6;
-    height: 33px;
-    width: 70px;
-    background: #4b70a3;
-    border-radius:   10px;
-    border: 2px solid #ffffff;
-    color: white;
-    vertical-align: middle;
-    font: 16px/30px "MyriadPro";
-    text-align:      center;
-    text-decoration: none;
-    margin-top: 12px;
-}
-#enter_button.downmain, .enter_button.downmain {
-    position: absolute;
-    float:right;
-    margin-left:0;
-    margin-top: 14px;
-    height: 33px;
-    width: 70px;
-    background: #4b70a3;
-    border-radius:   10px;
-    border: 2px solid #ffffff;
-    color: white;
-    vertical-align: middle;
-    font: 16px/30px "MyriadPro";
-    text-align:      center;
-    text-decoration: none;
-    z-index: 6;
-}
-#enter_button.down:hover, .enter_button.down:hover{
-    background: #454545;
-}
-#enter_button.downmain:hover, .enter_button.downmain:hover{
-    background: #454545;
-}
-/*********************enter button end****************/
-/*************languages buttons*************/
-#lang, .lang {
-    display: inline-block;
-    position: relative;
-    float: right;
-    margin-top: 13px;
-    margin-right: 5px;
-    z-index: 6;
-}
-#lang.down {
-    display: inline-block;
-    position: relative;
-    float: right;
-    margin-top: 16px;
-    margin-right: 5px;
-    z-index: 6;
-}
-#lang.downmain {
-    display: none;
-}
-#lang a {
-    border-left: 1px solid #999999;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-#lang a:first-child {
-    border-left: none;
-}
-#lang a{
-    background:none!important;
-    cursor: pointer;
-    color: #4b70a3;
-    font-size: 18px;
-    font-family: "MyriadPro";
-    text-decoration: underline;
-}
-#lang a:hover{
-    color: #666666;
-}
-#lang a.selectedLang {
-    text-decoration: none;
-    color: #999999;
-}
-#headerUnderline{
-    height: 60px;
-}
-#headerUnderline.downmain {
-    height: 100px;
-}
-/*************languages buttons*************/
-/************************************/
-
-/************navigation-bottom***********/
-#mainfooter{
-    padding-top: 5px;
-    height: 90px;
-    border-bottom: 1px solid #44bdf6;
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 5px;
-    clear: both;
-    margin-top: -105px;
-}
-.footercontent{
-    display: block;
-    position: relative;
-    width: 1200px;
-    height: 90px;
-    margin: 0 auto;
-    border-left: 1px solid #33ccff;
-    border-right: 1px solid #33ccff;
-    border-bottom: 1px solid #44bdf6;
-}
-.leftfooter{
-    vertical-align: top;
-    position: relative;
-    display: inline-block;
-    float: left;
-    width: 14%;
-    height: 90px;
-}
-#mainfooter .leftfooter table{
-    margin: 0 auto;
-    border-collapse: separate;
-    border-spacing: 2px 2px;
-    margin-top: 10px;
-}
-#mainfooter .leftfooter table img{
-    vertical-align: middle;
-}
-#mainfooter .leftfooter table img:hover{
-    border-radius: 50px;
-    box-shadow: 0 0 10px #4b75a4;
-}
-.centerfooter{
-    position: relative;
-    display: inline-block;
-    width: 74%;
-    height: 90px;
-    padding-left: 10px;
-    color: #4b75a4;
-    border-left: 1px solid #33ccff;
-}
-#mainfooter .centerfooter div{
-    display: inline-block;
-    position: relative;
-}
-#mainfooter .footerlogo img{
-    width: 140px;
-    display: block;
-    margin-top: 12px;
-}
-#mainfooter div.footerlogo {
-    margin-left: 20px;
-    vertical-align: top;
-}
-#mainfooter div.footercontact {
-    display: inline-block;
-    position: relative;
-    width: 200px;
-    height: 80px;
-}
-#mainfooter .footercontact p{
-    position: absolute;
-    left:0;
-    bottom:0;
-    line-height: 14px;
-    margin: 0;
-    margin-left: 15px;
-    font-size: 0.8em;
-    color: #114988;
-}
-.footermenu{
-    display: inline-block;
-    position: relative;
-    float: right;
-    max-width: 450px;
-    font-size: 1em;
-    margin-top: 5px;
-}
-#mainfooter .footermenu ul {
-    margin-top: 10px;
-    margin-left: 0;
-    padding-left: 0;
-}
-#mainfooter .footermenu li {
-    display:inline;
-    padding: 8px;
-}
-#mainfooter .footermenu li a {
-    text-decoration:none;
-    font-family: "MyriadPro";
-    font-size: 15px;
-    color: #336699;
-}
-#mainfooter .footermenu li a:hover{
-    color: #666666;
-}
-.rightfooter{
-    float: right;
-    vertical-align: top;
-    position: relative;
-    display: inline-block;
-    width: 8%;
-    height: 90px;
-    border-left: 1px solid #33ccff;
-}
-#mainfooter .rightfooter img{
-    width: 40px;
-    height: 40px;
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    top: 23px;
-    cursor: pointer;
-}
-/****************************************/
-
-
-
-/*************registration*************/
-.fon
-{
-    width:auto;
-    height: 675px;
-    position:relative;
-    margin-top:0px;
-    margin-left:auto;
-    margin-right:auto;
-    border:none;
-    z-index: 2;
-}
-#fon{
-    z-index: 0;
-}
-.textFon{
-    position:absolute;
-    width:390px;
-    height:100px;
-    margin-top:5px;
-    margin-left:468px;
-    padding-top:0px;
-    line-height:1;
-    text-align:center;
-    font-family:Calibri;
-    color: #ffffff;
-}
-.formFon{
-    position:absolute;
-    width:548px;
-    height:428px;
-    margin-top:145px;
-    margin-left:408px;
-}
-.zagolovok
-{
-    font-size: 35px;
-    letter-spacing: 1px;
-    margin:0;
-    padding: 0;
-    color:#ffffff;
-    line-height: 100%;
-}
-.zagolovok2
-{
-    font-weight: 300;
-    font-size: 21px;
-    margin-top:0;
-    padding-top: 0;
-    margin-bottom: 35px;
-    color:#ffffff;
-}
-.email-password{
-    width:440px;
-    height:110px;
-    margin-left:50px;
-    margin-top:50px;
-}
-.email1{
-    float:left;
-    width:440px;
-    height:50px;
-    margin-bottom:10px;
-    border: 1px solid #999;
-    border-radius: 7px;
-    padding-left:20px;
-    font:22px Arial, Helvetica, sans-serif;
-    color:black;
-    font-size: 16pt;
-}
-.password1{
-    float:left;
-    width:440px;
-    height:50px;
-    border-radius: 7px;
-    border: 1px solid #999;
-    padding-left:20px;
-    font:22px Arial, Helvetica, sans-serif;
-    color:black;
-    font-size: 16pt;
-}
-.email1:hover { /* при наведении курсора мышки */
-    box-shadow: 0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset;
-}
-.email1:focus { /* при фокусе, когда поле input активно */
-    outline: none;
-    box-shadow: 0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset, 0 0 10px rgba(35,146,243,.5);
-    transition: .2s linear;
-}
-.password1:hover { /* при наведении курсора мышки */
-    box-shadow: 0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset;
-}
-.password1:focus { /* при фокусе, когда поле input активно */
-    outline: none;
-    box-shadow: 0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset, 0 0 10px rgba(35,146,243,.5);
-    transition: .2s linear;
-}
-.extendedRegistration{
-    width:440px;
-    height:25px;
-    background-color:#ffffff;
-    margin-top:15px;
-    font:18px Arial, Helvetica, sans-serif;
-    font-size: 14pt;
-    margin-left:50px;
-    padding-left:20px;
-}
-.extendedRegistration a{
-    color:#4b75a4;
-    text-decoration:none;
-}
-.extendedRegistration a:hover { /* при наведении курсора мышки */
-    outline: none;
-    color:#114988;
-    transition: .2s linear;
-}
-.button1{
-    width:195px;
-    height:52px;
-    border-radius: 10px;
-    border:none;
-    border-top:1px solid #9fb5ce;
-    color:#ffffff;
-    background:#4b75a4;
-    margin-bottom: 30px;
-    box-shadow:0px 2px 0px #7f7f7f;
-    font: normal 400 28px/50px "MyriadPro";
-    font-size: 25px;
-    letter-spacing:1px;
-    margin-left: 177px;
-    margin-top: 15px;
-    padding-top: 0px;
-    padding-right: 30px;
-    text-shadow:1px 1px 1px black;
-}
-input[type="submit"]::-moz-focus-inner { /* убираем внутренний отступ у кнопки в FF, который зарезервирован для рамки при фокусе */
-    padding:0;
-    border:0;
-}
-.button1:hover { /* при наведении курсора мышки */
-    background: #454545;
-    cursor: pointer;
-}
-.lineForm{
-    width:440px;
-    height:161px; /***crutches. make form!!!***/
-    margin-left:50px;
-    margin-top:15px;
-}
-.social{
-    width:400px;
-    height:16px;
-    margin-left:70px;
-    margin-top:-150px;
-    font:16px Arial, Helvetica, sans-serif;
-    color:#959595;
-}
-.image{
-    width:410px;
-    height:50px;
-    margin-left:70px;
-    margin-top:20px;
-}
-
-/* breadcrumbs */
-.my-cool-breadcrumbs{
-    padding-bottom: 24px;
-    display: inline-block;
-    margin-top: 40px;
-    color: #264b73;
-    width: 80%;
-    word-wrap: break-word;
-}
-.my-cool-breadcrumbs a{
-    color:#4b75a4;
-}
-.my-cool-breadcrumbs a:hover{
-    color: #264b73;
-}
-/* breadcrumbs */
-
-div.profileStatus{
-    position: absolute;
-    top:10px;
-    right:0;
-    float:right;
-    display:block;
-    overflow: hidden;
-    z-index: 0;
-}
-.profileStatus a{
-    text-decoration: none;
-}
-div.minavatar{
-    width:70px;
-    height:70px;
-    float: right;
-    margin-right: 10px;
-    overflow: hidden;
-}
-.profileStatus .minavatar img{
-    width: 70px;
-    min-height: 70px;
-}
-.profileStatus div {
-    float: right;
-    color:#4b75a4;
-    font-family: MyriadPro;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 100%;
-}
-.infoblock{
-    margin:0 auto;
-    margin-bottom: 40vh;
-    width: 540px;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    padding: 20px 20px 20px 20px;
-    text-align: center;
-}
-.infoblock h2{
-    text-align: center;
-    color: #4b75a4;
-}
-/*error page*/
-.errorblock{
-    margin:0 auto;
-    margin-bottom: 37vh;
-    width: 540px;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    padding: 20px 20px 40px 20px;
-    text-align: center;
-}
-.errorblock h1{
-    text-align: center;
-    text-transform: uppercase;
-    color: #4b75a4;
-}
-/*error page*/
-#teacher-view img{
-    width: 150px;
-}
-#mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3, #dialogNextLecture{
-    display: none;
-}
-.forumLink{
-    cursor:pointer;
-}
-/* rocket */
-div#rocket{
-    display: none;
-    position: absolute;
-    z-index: 2000;
-}
-div#exhaust{
-    display: none;
-    position: absolute;
-    z-index: 2000;
-}
-/* rocket */
-/* share */
-#sharing .share42-counter {
-    display: block;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    background: #FFF;
-    border:1px solid #d1d1d1;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    height: 20px;
-    line-height: 20px;
-}
-#sharing .share42-counter:before {
-    background: none;
-}
-/* share */
-
-#module-grid .grid-view table.items td
-{
-    width: 100px;
-}
+body{margin:0 auto;}
+img{border-style:none;}
+html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
+html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
+a, button, input[type="submit"]{outline:none;}
+a:hover{color:#666666;}
+span{font-weight:normal;}
+#main-wrapper{box-sizing:border-box;min-height:100%;padding-bottom:105px;}
+.main{position:relative;width:1200px;margin:0 auto;}
+h1, h2, h3, h4, html{font-family:"MyriadPro";color:#333333;font-weight:normal;}
+p{font-family:"MyriadPro";color:#666666;}
+#mainheader{border-bottom:2px solid #4b75a4;}
+#navigation{display:block;position:relative;width:1200px;height:100px;margin:0 auto;border-bottom:2px solid #4b75a4;background-color:white;}
+#navigation.down{height:60px;}
+#navigation.downmain{height:60px;}
+#navigation.downmain div#menulist{width:940px;margin:0 auto;text-align:center;}
+#navigation ul{display:inline-block;float:right;margin-top:60px;margin-bottom:0;padding:0;}
+#navigation.down ul{display:inline-block;margin-top:16px;float:right;margin-right:75px;margin-bottom:0;}
+#navigation.downmain ul{float:none;display:inline-block;margin:0 auto;margin-top:16px;}
+#navigation li{display:inline;padding:10px;}
+#navigation ul a{text-decoration:none;font-family:"MyriadPro";font-size:18px;font-weight:normal;color:black;}
+#navigation ul a:hover{color:#003399;}
+#logo_img{float:left;margin-top:13px;}
+#logo_img img{max-width:232px;max-height:75px;}
+#logo_img.down{margin-top:7px;}
+#logo_img.downmain{margin-top:7px;max-height:46px;max-width:142px;}
+#logo_img.down img{max-height:46px;max-width:142px;margin-left:40px;}
+#logo_img.downmain img{max-height:46px;max-width:142px;margin-left:40px;}
+#logo_img.downmain a{display:block;height:0;}
+#enterButton, .enterButton{display:inline-block;position:relative;float:right;height:33px;width:70px;margin-right:35px;}
+#enterButton.downmain, .enterButton.downmain{margin-right:23px;}
+#button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:118px;margin-top:78px;z-index:6;height:20px;width:74px;}
+#button_border.down, .button_border.down{display:none;}
+#button_border.downmain, .button_border.downmain{display:none;}
+#enter_button, .enter_button{position:absolute;margin-left:120px;margin-top:80px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;}
+#enter_button:hover, .enter_button:hover{background:#454545;}
+#enter_button:active, .enter_button:active{background:#363636;}
+#enter_button.down, .enter_button.down{display:inline-block;margin-left:0;z-index:6;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;margin-top:12px;}
+#enter_button.downmain, .enter_button.downmain{position:absolute;float:right;margin-left:0;margin-top:14px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;}
+#enter_button.down:hover, .enter_button.down:hover{background:#454545;}
+#enter_button.downmain:hover, .enter_button.downmain:hover{background:#454545;}
+#lang, .lang{display:inline-block;position:relative;float:right;margin-top:13px;margin-right:5px;z-index:6;}
+#lang.down{display:inline-block;position:relative;float:right;margin-top:16px;margin-right:5px;z-index:6;}
+#lang.downmain{display:none;}
+#lang a{border-left:1px solid #999999;padding-left:6px;padding-right:6px;}
+#lang a:first-child{border-left:none;}
+#lang a{background:none!important;cursor:pointer;color:#4b70a3;font-size:18px;font-family:"MyriadPro";text-decoration:underline;}
+#lang a:hover{color:#666666;}
+#lang a.selectedLang{text-decoration:none;color:#999999;}
+#headerUnderline{height:60px;}
+#headerUnderline.downmain{height:100px;}
+#mainfooter{padding-top:5px;height:90px;border-bottom:1px solid #44bdf6;width:100%;margin:0 auto;margin-bottom:5px;clear:both;margin-top:-105px;}
+.footercontent{display:block;position:relative;width:1200px;height:90px;margin:0 auto;border-left:1px solid #33ccff;border-right:1px solid #33ccff;border-bottom:1px solid #44bdf6;}
+.leftfooter{vertical-align:top;position:relative;display:inline-block;float:left;width:14%;height:90px;}
+#mainfooter .leftfooter table{margin:0 auto;border-collapse:separate;border-spacing:2px 2px;margin-top:10px;}
+#mainfooter .leftfooter table img{vertical-align:middle;}
+#mainfooter .leftfooter table img:hover{border-radius:50px;box-shadow:0 0 10px #4b75a4;}
+.centerfooter{position:relative;display:inline-block;width:74%;height:90px;padding-left:10px;color:#4b75a4;border-left:1px solid #33ccff;}
+#mainfooter .centerfooter div{display:inline-block;position:relative;}
+#mainfooter .footerlogo img{width:140px;display:block;margin-top:12px;}
+#mainfooter div.footerlogo{margin-left:20px;vertical-align:top;}
+#mainfooter div.footercontact{display:inline-block;position:relative;width:200px;height:80px;}
+#mainfooter .footercontact p{position:absolute;left:0;bottom:0;line-height:14px;margin:0;margin-left:15px;font-size:0.8em;color:#114988;}
+.footermenu{display:inline-block;position:relative;float:right;max-width:450px;font-size:1em;margin-top:5px;}
+#mainfooter .footermenu ul{margin-top:10px;margin-left:0;padding-left:0;}
+#mainfooter .footermenu li{display:inline;padding:8px;}
+#mainfooter .footermenu li a{text-decoration:none;font-family:"MyriadPro";font-size:15px;color:#336699;}
+#mainfooter .footermenu li a:hover{color:#666666;}
+.rightfooter{float:right;vertical-align:top;position:relative;display:inline-block;width:8%;height:90px;border-left:1px solid #33ccff;}
+#mainfooter .rightfooter img{width:40px;height:40px;position:relative;display:block;margin:0 auto;top:23px;cursor:pointer;}
+.fon{width:auto;height:675px;position:relative;margin-top:0px;margin-left:auto;margin-right:auto;border:none;z-index:2;}
+#fon{z-index:0;}
+.textFon{position:absolute;width:390px;height:100px;margin-top:5px;margin-left:468px;padding-top:0px;line-height:1;text-align:center;font-family:Calibri;color:#ffffff;}
+.formFon{position:absolute;width:548px;height:428px;margin-top:145px;margin-left:408px;}
+.zagolovok{font-size:35px;letter-spacing:1px;margin:0;padding:0;color:#ffffff;line-height:100%;}
+.zagolovok2{font-weight:300;font-size:21px;margin-top:0;padding-top:0;margin-bottom:35px;color:#ffffff;}
+.email-password{width:440px;height:110px;margin-left:50px;margin-top:50px;}
+.email1{float:left;width:440px;height:50px;margin-bottom:10px;border:1px solid #999;border-radius:7px;padding-left:20px;font:22px Arial, Helvetica, sans-serif;color:black;font-size:16pt;}
+.password1{float:left;width:440px;height:50px;border-radius:7px;border:1px solid #999;padding-left:20px;font:22px Arial, Helvetica, sans-serif;color:black;font-size:16pt;}
+.email1:hover{box-shadow:0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset;}
+.email1:focus{outline:none;box-shadow:0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset, 0 0 10px rgba(35,146,243,.5);transition:.2s linear;}
+.password1:hover{box-shadow:0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset;}
+.password1:focus{outline:none;box-shadow:0 0 0 1px #7eb4ea inset, 0 1px 2px rgba(0,0,0,.2) inset, 0 0 10px rgba(35,146,243,.5);transition:.2s linear;}
+.extendedRegistration{width:440px;height:25px;background-color:#ffffff;margin-top:15px;font:18px Arial, Helvetica, sans-serif;font-size:14pt;margin-left:50px;padding-left:20px;}
+.extendedRegistration a{color:#4b75a4;text-decoration:none;}
+.extendedRegistration a:hover{outline:none;color:#114988;transition:.2s linear;}
+.button1{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;margin-bottom:30px;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro";font-size:25px;letter-spacing:1px;margin-left:177px;margin-top:15px;padding-top:0px;padding-right:30px;text-shadow:1px 1px 1px black;}
+input[type="submit"]::-moz-focus-inner{padding:0;border:0;}
+.button1:hover{background:#454545;cursor:pointer;}
+.lineForm{width:440px;height:161px;margin-left:50px;margin-top:15px;}
+.social{width:400px;height:16px;margin-left:70px;margin-top:-150px;font:16px Arial, Helvetica, sans-serif;color:#959595;}
+.image{width:410px;height:50px;margin-left:70px;margin-top:20px;}
+.my-cool-breadcrumbs{padding-bottom:24px;display:inline-block;margin-top:40px;color:#264b73;width:80%;word-wrap:break-word;}
+.my-cool-breadcrumbs a{color:#4b75a4;}
+.my-cool-breadcrumbs a:hover{color:#264b73;}
+div.profileStatus{position:absolute;top:10px;right:0;float:right;display:block;overflow:hidden;z-index:0;}
+.profileStatus a{text-decoration:none;}
+div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidden;}
+.profileStatus .minavatar img{width:70px;min-height:70px;}
+.profileStatus div{float:right;color:#4b75a4;font-family:MyriadPro;font-weight:normal;font-size:18px;line-height:100%;}
+.infoblock{margin:0 auto;margin-bottom:40vh;width:540px;border:1px solid #d8d8d8;border-radius:5px;padding:20px 20px 20px 20px;text-align:center;}
+.infoblock h2{text-align:center;color:#4b75a4;}
+.errorblock{margin:0 auto;margin-bottom:37vh;width:540px;border:1px solid #d8d8d8;border-radius:5px;padding:20px 20px 40px 20px;text-align:center;}
+.errorblock h1{text-align:center;text-transform:uppercase;color:#4b75a4;}
+#teacher-view img{width:150px;}
+#mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3, #dialogNextLecture{display:none;}
+.forumLink{cursor:pointer;}
+div#rocket{display:none;position:absolute;z-index:2000;}
+div#exhaust{display:none;position:absolute;z-index:2000;}
+#sharing .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
+#sharing .share42-counter:before{background:none;}
+#module-grid .grid-view table.items td{width:100px;}
 #emailVerification-form {
     margin: 50px auto;
     width: 540px;

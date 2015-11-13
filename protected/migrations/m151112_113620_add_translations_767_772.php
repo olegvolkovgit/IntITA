@@ -4,6 +4,7 @@ class m151112_113620_add_translations_767_772 extends CDbMigration
 {
 	public function safeUp()
 	{
+
 		$start = 767;
 		$category = 'lecture';
 

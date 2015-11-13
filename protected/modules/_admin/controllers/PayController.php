@@ -24,12 +24,22 @@ class PayController extends AdminController
         $name=ModuleHelper::getModuleTitleParam($module->module_ID);
         $permission->setModuleRead($_POST['user'], $module->module_ID);
 
+        $userId = $_POST['user'];
+
+        if(Mail::sendPayLetter($userId,$module)){
+
         Yii::app()->user->setFlash('payModule', '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
             $module->$name.'</strong> курса <strong>'.
 
             CourseHelper::getCourseName($_POST['course']).'</strong> оплачено.
             <br />Тепер у Вас є доступ до усіх занять цього модуля.');
-        $this->redirect(Yii::app()->request->urlReferrer);
+
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+
+        Yii::app()->user->setFlash('payModule', '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>');
+
+
     }
 
 
@@ -41,10 +51,20 @@ class PayController extends AdminController
         $permission = new PayCourses();
         $course = Course::model()->findByPk($_POST['course']);
         $permission->setCourseRead($_POST['user'], $course->course_ID);
+        $user = $_POST['user'];
 
-        Yii::app()->user->setFlash('payCourse', '<br /><h4>Вітаємо!</h4> Курс '.
-            CourseHelper::getCourseName($course->course_ID).'</strong> оплачено.
+        if(Mail::sendPayLetter($user,$course)){
+            Yii::app()->user->setFlash('payCourse', '<br /><h4>Вітаємо!</h4> Курс '.
+                CourseHelper::getCourseName($course->course_ID).'</strong> оплачено.
             <br />Тепер у Вас є доступ до усіх занять цього курсу.');
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
+
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+        else{
+            Yii::app()->user->setFlash('errorCourse', '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>');
+        }
+
+        }
+
+
 }
