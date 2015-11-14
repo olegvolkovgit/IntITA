@@ -12,6 +12,7 @@ $header = new Header();
 
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
     <!-- for tabs -->
     <!-- layouts style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
