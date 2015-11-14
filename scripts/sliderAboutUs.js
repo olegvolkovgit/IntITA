@@ -11,7 +11,7 @@ function textSliderCentr() { /* Центрування тексту картин
     $('.about1').css('margin-left', (document.body.clientWidth*0.2)+'px');
     $('.about2').css('margin-left', -(document.body.clientWidth*0.2)+'px');
     $('.about3').css('margin-left', -(document.body.clientWidth*0.05)+'px');
-    $('.about4').css('margin-left', -(document.body.clientWidth*0.15)+'px');
+    $('.about4').css('margin-left', -(document.body.clientWidth*0.3)+'px');
     $('.about1').width(document.body.clientWidth);
     $('.about2').width(document.body.clientWidth);
     $('.about3').width(document.body.clientWidth);
