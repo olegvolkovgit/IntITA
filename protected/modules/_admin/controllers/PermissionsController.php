@@ -25,33 +25,25 @@ class PermissionsController extends AdminController
         );
     }
 
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-                    'userStatus', 'cancelTeacherRole'),
-                'expression' => array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-                    'userStatus', 'cancelTeacherRole'),
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if (AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
+//                    'userStatus', 'cancelTeacherRole','showAttributes','showAttributeInput','showModules'),
+//                'expression' => array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
+//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
+//                    'userStatus', 'cancelTeacherRole'),
+//                'users' => array('*'),
+//            ),
+//        );
+//    }
 
     public function actionIndex()
     {

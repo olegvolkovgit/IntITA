@@ -29,15 +29,7 @@ class MessagesController extends AdminController
         );
     }
 
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
-
-		/**
+    /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */

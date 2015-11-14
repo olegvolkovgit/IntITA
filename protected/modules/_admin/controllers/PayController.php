@@ -14,6 +14,22 @@ class PayController extends AdminController
         $this->render('index');
     }
 
+//    public function accessRules()
+//    {
+//
+//        return array(
+//            array('allow',
+//                //'actions'=>array('index', 'payModule','payCourse'),
+//                'expression'=>array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                //'actions'=>array('index','payModule','payCourse'),
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
 
 
     public function actionPayModule(){
