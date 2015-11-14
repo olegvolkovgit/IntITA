@@ -292,4 +292,19 @@ class TmanageController extends AdminController
             'model' => $model,
         ));
     }
+
+    public function actionUpdateRoleAttribute($id){
+        $model=RoleAttribute::model()->findByPk($id);
+
+        if(isset($_POST['RoleAttribute']))
+        {
+            $model->attributes=$_POST['RoleAttribute'];
+            if($model->save())
+                $this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
+        }
+        //var_dump($model);die();
+        $this->render('updateRoleAttribute',array(
+            'model'=>$model,
+        ));
+    }
 }

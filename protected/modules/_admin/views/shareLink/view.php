@@ -2,11 +2,6 @@
 /* @var $this ShareLinkController */
 /* @var $model ShareLink */
 
-//$this->breadcrumbs=array(
-//	'Share Links'=>array('index'),
-//	$model->name,
-//);
-
 $this->menu=array(
 	array('label'=>'List ShareLink', 'url'=>array('index')),
 	array('label'=>'Create ShareLink', 'url'=>array('create')),
@@ -16,7 +11,7 @@ $this->menu=array(
 );
 ?>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/sharelink/index');?>">Перегляд посиланнь на ресурси</a>
+<a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index');?>">Перегляд посиланнь на ресурси</a>
 <br>
 <h1>Управління ресурсами для викладачів №<?php echo $model->id; ?></h1>
 

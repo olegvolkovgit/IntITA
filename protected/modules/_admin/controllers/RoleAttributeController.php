@@ -2,40 +2,6 @@
 
 class RoleAttributeController extends AdminController
 {
-    /**
-     * @return array action filters
-     */
-//    public function filters()
-//    {
-//        return array(
-//            'accessControl',
-//            'postOnly + delete', // we only allow deletion via POST request
-//        );
-//    }
-//
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
-//                'expression'=>array($this, 'isAdministrator'),
-//            ),
-//            array('deny',
-//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
-//                'users'=>array('*'),
-//            ),
-//        );
-//    }
-//
-//    function isAdministrator()
-//    {
-//        if(AccessHelper::isAdmin())
-//            return true;
-//        else
-//            return false;
-//    }
 
 	/**
 	 * Displays a particular model.
@@ -78,21 +44,7 @@ class RoleAttributeController extends AdminController
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['RoleAttribute']))
-		{
-			$model->attributes=$_POST['RoleAttribute'];
-			if($model->save())
-				$this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
-		}
-
-		$this->render('/_admin/tmanage/updateRoleAttribute',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
