@@ -59,7 +59,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 $this->renderPartial('/lesson/_modalTask', array('lastAccessPage' => $lastAccessPage, 'idCourse' => $idCourse));
 $this->endWidget('zii.widgets.jui.CJuiDialog');
-
 ?>
 <!--modal task congratulations end-->
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lectureProgress.js'); ?>"></script>
