@@ -20,6 +20,7 @@ class Controller extends CController
 		}
 
         $items = Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
+        $this->pageTitle = Yii::app()->name;
 	}
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',

@@ -122,7 +122,7 @@ class SiteController extends Controller
 
                 $model->updateByPk($model->id, array('avatar' => 'noname.png'));
 
-                if (Mail::sendRapidReg($model))
+                if(!Mail::sendRapidReg($model))
                     throw new MailException('The letter was not sent');
 
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));

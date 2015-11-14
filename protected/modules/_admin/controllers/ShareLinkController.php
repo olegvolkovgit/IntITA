@@ -5,13 +5,13 @@ class ShareLinkController extends AdminController
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			//'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+//	public function filters()
+//	{
+//		return array(
+//			//'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
 
 	/**
 	 * Specifies the access control rules.

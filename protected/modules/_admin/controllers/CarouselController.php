@@ -5,38 +5,38 @@ class CarouselController extends AdminController
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
+//
+//
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+//                'expression'=>array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
+//
+//    function isAdministrator()
+//    {
+//        if(AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
 
 	/**

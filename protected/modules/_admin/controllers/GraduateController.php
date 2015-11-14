@@ -4,42 +4,34 @@ class GraduateController extends AdminController
 {
     public $menu = array();
 
-    public function filters()
-    {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
-        );
-    }
-
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions' => array('delete', 'create', 'edit', 'index', 'admin'),
-                'expression' => array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions' => array('delete', 'create', 'edit', 'index', 'admin'),
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if (AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//    public function filters()
+//    {
+//        return array(
+//            'accessControl', // perform access control for CRUD operations
+//            'postOnly + delete', // we only allow deletion via POST request
+//        );
+//    }
+//
+//    /**
+//     * Specifies the access control rules.
+//     * This method is used by the 'accessControl' filter.
+//     * @return array access control rules
+//     */
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions' => array('delete', 'create', 'edit', 'index', 'admin','deletePhoto'),
+//                'expression' => array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions' => array('delete', 'create', 'edit', 'index', 'admin','deletePhoto'),
+//                'users' => array('*'),
+//            ),
+//        );
+//    }
 
     /**
      * Displays a particular model.

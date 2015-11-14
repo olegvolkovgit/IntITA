@@ -18,6 +18,13 @@ class AdminController extends CController
 		$this->render('index');
 	}
 
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete',
+        );
+    }
 
     public function init()
     {
@@ -30,6 +37,37 @@ class AdminController extends CController
             Yii::app()->cache->flush();
             die();
         }
+
+        $this->pageTitle = Yii::app()->name;
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+               // 'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+                'expression'=>array($this, 'isAdministrator'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                //'actions'=>array('index'),
+                'users'=>array('*'),
+            ),
+        );
+    }
+
+    public function isAdministrator()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 3) {
+
+            return true;
+        }
+        return false;
     }
 	// Uncomment the following methods and override them if needed
 	/*

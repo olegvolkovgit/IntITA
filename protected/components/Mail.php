@@ -51,9 +51,6 @@ class Mail {
         $mail = new Mail();
 
         $lang = Mail::setLang();
-
-
-
         $subject = Yii::t('activeemail', '0298');
         $text = Yii::t('activeemail', '0299') .
             " " . Config::getBaseUrl() . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
@@ -72,6 +69,7 @@ class Mail {
         $subject = Yii::t('activeemail', '0298');
         $text = Yii::t('activeemail', '0299') .
             " " . Config::getBaseUrl() . "/index.php?r=site/AccActivation/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;;
+
         if(mail($model->email, $subject, $text, $mail->headers))
             return true;
 
@@ -143,9 +141,6 @@ class Mail {
         $model->theme = $theme;
         if($model->validate()) {
             $model->save();
-            $addresse = StudentReg::model()->findByPk($user)->email;
-
-            mail($addresse,$model->theme,$model->text_letter,$this->headers);
 
             return true;
         }
