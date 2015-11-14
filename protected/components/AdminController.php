@@ -37,6 +37,8 @@ class AdminController extends CController
             Yii::app()->cache->flush();
             die();
         }
+
+        $this->pageTitle = Yii::app()->name;
     }
 
     public function accessRules()

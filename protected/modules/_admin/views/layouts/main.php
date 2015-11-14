@@ -28,10 +28,7 @@ $header = new Header();
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
     <!-- passEye, jQuery -->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
-    <!-- passEye, jQuery -->
-    <!-- trimEmail-->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+
     <!-- trimEmail -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -253,3 +250,5 @@ $header = new Header();
 </div>
 </body>
 </html>
+<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
+<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
