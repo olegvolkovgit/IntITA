@@ -41,30 +41,6 @@ function CKEditorCtrl($compile, $scope, $http) {
                 alert($scope.errorMsg);
             })
     };
-
-    $scope.upBlock = function (idLecture, order) {
-        $http({
-            url: basePath+'/lesson/upElement',
-            method: "POST",
-            data: $.param({idLecture: idLecture, order: order}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-            .success(function (scope) {
-                $.fn.yiiListView.update('blocks_list', {
-                    complete: function () {
-                        var template = document.getElementById("blockList").innerHTML;
-                        angular.element('#blockList').remove();
-                        $scope.callMenu(template);
-                        ($compile(template)(scope)).insertAfter(angular.element('#red'));
-                        $scope.$apply();
-                        alert(template);
-                    }
-                });
-            })
-            .error(function () {
-                alert(scope.errorMsg);
-            })
-    };
 }
 
 angular
@@ -84,6 +60,9 @@ angular
                             var template = angular.element('#blockList').html();
                             angular.element('#blockList').empty();
                             angular.element('#blockList').append(($compile(template)(scope)));
+                            setTimeout(function() {
+                                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                            });
                         }
                     });
                 });
@@ -128,6 +107,9 @@ angular
                                     var template = angular.element('#blockList').html();
                                     angular.element('#blockList').empty();
                                     angular.element('#blockList').append(($compile(template)(scope)));
+                                    setTimeout(function() {
+                                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                    });
                                 }
                             });
                         })
@@ -155,6 +137,9 @@ angular
                                     var template = angular.element('#blockList').html();
                                     angular.element('#blockList').empty();
                                     angular.element('#blockList').append(($compile(template)(scope)));
+                                    setTimeout(function() {
+                                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                    });
                                 }
                             });
                         })
@@ -183,6 +168,9 @@ angular
                                         var template = angular.element('#blockList').html();
                                         angular.element('#blockList').empty();
                                         angular.element('#blockList').append(($compile(template)(scope)));
+                                        setTimeout(function() {
+                                            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                        });
                                     }
                                 });
                             })
