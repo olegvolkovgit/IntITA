@@ -23,6 +23,7 @@ if($idCourse != 0) {
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>" />
