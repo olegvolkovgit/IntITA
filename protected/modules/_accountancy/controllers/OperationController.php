@@ -158,35 +158,37 @@ class OperationController extends AccountancyController
 	}
 
     public function actionCreateByInvoice(){
-        $type = Yii::app()->request->getPost('type', 0);
-
-        $model=new Operation;
-        if(isset($_POST['Operation']))
-        {
-            $model->attributes=$_POST['Operation'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
-        }
-
-        $this->render('create',array(
-            'model'=>$model
-        ));
+        var_dump($_POST);die();
+//        $type = Yii::app()->request->getPost('type', 0);
+//
+//        $model=new Operation;
+//        if(isset($_POST['Operation']))
+//        {
+//            $model->attributes=$_POST['Operation'];
+//            if($model->save())
+//                $this->redirect(array('view','id'=>$model->id));
+//        }
+//
+//        $this->render('create',array(
+//            'model'=>$model
+//        ));
     }
 
     public function actionCreateByAgreement(){
-        $type = Yii::app()->request->getPost('type', 0);
-
-        $model=new Operation;
-
-        if(isset($_POST['Operation']))
-        {
-            $model->attributes=$_POST['Operation'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
-        }
-
-        $this->render('create',array(
-            'model'=>$model
-        ));
+        var_dump($_POST);die();
+//        $type = Yii::app()->request->getPost('type', 0);
+//
+//        $model=new Operation;
+//
+//        if(isset($_POST['Operation']))
+//        {
+//            $model->attributes=$_POST['Operation'];
+//            if($model->save())
+//                $this->redirect(array('view','id'=>$model->id));
+//        }
+//
+//        $this->render('create',array(
+//            'model'=>$model
+//        ));
     }
 }
