@@ -71,8 +71,13 @@ class OperationController extends AccountancyController
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
+        $agreements = UserAgreements::getAllAgreements();
+        $invoices = Invoice::getAllInvoices();
+
 		$this->render('create',array(
-			'model'=>$model
+			'model'=>$model,
+            'agreementsList'=>$agreements,
+            'invoicesList'=>$invoices,
 		));
 	}
 
@@ -121,6 +126,7 @@ class OperationController extends AccountancyController
 	{
 		$model=new Operation('search');
 		$model->unsetAttributes();  // clear any default values
+
 		if(isset($_GET['Operation']))
 			$model->attributes=$_GET['Operation'];
 

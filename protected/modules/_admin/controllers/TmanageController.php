@@ -7,39 +7,39 @@ class TmanageController extends AdminController
     /**
      * @return array action filters
      */
-    public function filters()
-    {
-        return array(
-            'accessControl',
-            'postOnly + delete', // we only allow deletion via POST request
-        );
-    }
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
-                    'showRoles', 'addRoleAttribute'),
-                'expression' => array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
-                    'showRoles', 'addRoleAttribute'),
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if (AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//    public function filters()
+//    {
+//        return array(
+//            'accessControl',
+//            'postOnly + delete', // we only allow deletion via POST request
+//        );
+//    }
+//
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
+//                    'showRoles', 'addRoleAttribute'),
+//                'expression' => array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
+//                    'showRoles', 'addRoleAttribute'),
+//                'users' => array('*'),
+//            ),
+//        );
+//    }
+//
+//    function isAdministrator()
+//    {
+//        if (AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
     /**
      * Displays a particular model.
@@ -78,6 +78,7 @@ class TmanageController extends AdminController
                 $this->redirect(array('view', 'id' => $model->teacher_id));
             }
         }
+
         $this->render('create', array(
             'model' => $model,
         ));
@@ -289,6 +290,21 @@ class TmanageController extends AdminController
         }
         $this->render('updateRole', array(
             'model' => $model,
+        ));
+    }
+
+    public function actionUpdateRoleAttribute($id){
+        $model=RoleAttribute::model()->findByPk($id);
+
+        if(isset($_POST['RoleAttribute']))
+        {
+            $model->attributes=$_POST['RoleAttribute'];
+            if($model->save())
+                $this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
+        }
+
+        $this->render('updateRoleAttribute',array(
+            'model'=>$model,
         ));
     }
 }
