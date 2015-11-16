@@ -503,6 +503,7 @@ div.lessonTest {
 .element table td, .element table th {
     padding: 3px;
     border: 1px solid black;
+    text-align: inherit;
 }
 #addBlockForm .re-save, #addBlockForm .re-close, #addBlockForm .re-closefullscreen{
      display: none;
