@@ -63,7 +63,14 @@ class AboutusSliderController extends AdminController
 
 		if(isset($_POST['AboutusSlider']))
 		{
+
+            $picName = $_FILES['AboutusSlider']['name'];
+            $tmpName = $_FILES['AboutusSlider']['tmp_name'];
+
 			$model->attributes=$_POST['AboutusSlider'];
+
+            Avatar::saveAbuotusSlider($model,$picName,$tmpName);
+
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->image_order));
 		}
@@ -170,4 +177,6 @@ class AboutusSliderController extends AdminController
 			Yii::app()->end();
 		}
 	}
+
+
 }

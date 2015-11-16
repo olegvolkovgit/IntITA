@@ -27,6 +27,7 @@ return array(
             'application.models.accountancy.*',
         //'application.controllers.accountancy.*',
         'application.models.quiz.*',
+        'application.models.slider.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
         'application.helpers.*',

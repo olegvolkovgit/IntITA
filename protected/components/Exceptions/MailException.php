@@ -9,10 +9,7 @@
 namespace application\components\Exceptions;
 
 
-class MailException extends \Exception {
+class MailException extends IntItaException {
 
-    protected $view = '/site/error';
-    protected $message;
-    protected $code;
 
 }
