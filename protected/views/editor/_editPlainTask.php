@@ -11,13 +11,10 @@
             <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
-            <button onclick='unablePlainTask(<?php echo $pageId ?>)' > <?php echo Yii::t('lecture','0718'); ?></button>
             <input type="submit" value=<?php echo Yii::t('lecture','0720'); ?> id='addtests'>
-
         </fieldset>
-
-
     </form>
+    <button onclick='unablePlainTask(<?php echo $pageId ?>)' > <?php echo Yii::t('lecture','0718'); ?></button>
 
 
 </div>

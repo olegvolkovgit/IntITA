@@ -6,9 +6,6 @@ function CKEditorCtrl($compile, $scope, $http) {
     $scope.editorOptions = {
         language: lang
     };
-    $scope.editorOptions1 = {
-        language: lang
-    };
     $scope.$on("ckeditor.ready", function (event) {
         $scope.isReady = true;
     });
@@ -41,55 +38,10 @@ function CKEditorCtrl($compile, $scope, $http) {
                 alert($scope.errorMsg);
             })
     };
-
-    $scope.upBlock = function (idLecture, order) {
-        $http({
-            url: basePath+'/lesson/upElement',
-            method: "POST",
-            data: $.param({idLecture: idLecture, order: order}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-            .success(function (scope) {
-                $.fn.yiiListView.update('blocks_list', {
-                    complete: function () {
-                        var template = document.getElementById("blockList").innerHTML;
-                        angular.element('#blockList').remove();
-                        $scope.callMenu(template);
-                        ($compile(template)(scope)).insertAfter(angular.element('#red'));
-                        $scope.$apply();
-                        alert(template);
-                    }
-                });
-            })
-            .error(function () {
-                alert(scope.errorMsg);
-            })
-    };
 }
 
 angular
     .module('lessonEdit')
-    .directive('closeRedactor', function ($compile) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    var order = element.attr('id').substring(1);
-
-                    angular.element('#t' + order).show();
-                    angular.element('#openCKE' + order).remove();
-                    angular.element('#buttons' + order).remove();
-
-                    $.fn.yiiListView.update('blocks_list', {
-                        complete: function () {
-                            var template = angular.element('#blockList').html();
-                            angular.element('#blockList').empty();
-                            angular.element('#blockList').append(($compile(template)(scope)));
-                        }
-                    });
-                });
-            }
-        };
-    })
     .directive('editBlock', function ($compile) {
         return {
             link: function (scope, element) {
@@ -102,9 +54,7 @@ angular
                     var template = '<textarea data-ng-cloak class="openCKE" ' +
                         'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
                         'ckeditor="editorOptions1" name="editor" ng-model="editRedactor">' +
-                        '</textarea>' +
-                        '<div id=buttons' + orderBlock + '><button data-ng-cloak ng-click="save(' + orderBlock + ')">{{saveBtn}}</button>' +
-                        '<button data-ng-cloak close-redactor id=c' + orderBlock + '>{{closeBtn}}</button></div>';
+                        '</textarea>';
                     ($compile(template)(scope)).insertAfter(element);
                     element.hide();
                 });
@@ -128,6 +78,9 @@ angular
                                     var template = angular.element('#blockList').html();
                                     angular.element('#blockList').empty();
                                     angular.element('#blockList').append(($compile(template)(scope)));
+                                    setTimeout(function() {
+                                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                    });
                                 }
                             });
                         })
@@ -155,6 +108,9 @@ angular
                                     var template = angular.element('#blockList').html();
                                     angular.element('#blockList').empty();
                                     angular.element('#blockList').append(($compile(template)(scope)));
+                                    setTimeout(function() {
+                                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                    });
                                 }
                             });
                         })
@@ -183,6 +139,9 @@ angular
                                         var template = angular.element('#blockList').html();
                                         angular.element('#blockList').empty();
                                         angular.element('#blockList').append(($compile(template)(scope)));
+                                        setTimeout(function() {
+                                            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                        });
                                     }
                                 });
                             })
@@ -190,6 +149,17 @@ angular
                                 alert(scope.errorMsg);
                             });
                     }
+                });
+            }
+        };
+    })
+    .directive('selectedButton', function () {
+        return {
+            link: function (scope, element) {
+                element.bind('click', function () {
+                    var button = angular.element(document.querySelector(".selectedButton"));
+                    if(button.length==1) button.removeClass("selectedButton");
+                    element.addClass("selectedButton");
                 });
             }
         };

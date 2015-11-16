@@ -24,6 +24,9 @@ if($idCourse != 0) {
     );
 }
 ?>
+<script type="text/javascript">
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
+</script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>" />
 

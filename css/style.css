@@ -155,3 +155,17 @@ input[type="submit"][disabled]#identityButton{
 .emailVerButt{
     margin-top: 15px;
 }
+/*hide close and save in add block*/
+#addBlock #cke_75, #addBlock #cke_76{
+    display: none;
+}
+.cke_reset_all a.cke_combo_button {
+    display: inline-block;
+    width: 100px;
+}
+.cke_reset_all a.cke_combo_button .cke_combo_text{
+    width: 70px;
+}
+.cke_dialog_tabs a.cke_dialog_tab {
+    padding: 4px 4px;
+}

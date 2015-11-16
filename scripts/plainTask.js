@@ -9,12 +9,11 @@ function unablePlainTask(pageId){
             url: "/plainTask/unablePlainTask",
             data: {'pageId':pageId},
             success: function(){
-                $('div[name="lecturePage"]').html(response);
-                return false;
+                location.reload();
             }
         });
+
     }
-    location.reload();
 }
 
 function sendPlainTaskAnswer(idLecture)
