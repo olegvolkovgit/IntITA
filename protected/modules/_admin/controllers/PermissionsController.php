@@ -222,37 +222,12 @@ class PermissionsController extends AdminController
 
     public function actionShowModules()
     {
-        $first = '<select name="module">';
+        if(isset($_POST['course']))
+            $course = $_POST['course'];
 
-        $modulelist = [];
+        $result = Module::showModule($course);
 
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'course_modules';
-        $criteria->select = 'id_module';
-        $criteria->order = '`order` ASC';
-        $criteria->addCondition('id_course=' . $_POST['course']);
-        $temp = CourseModules::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($modulelist, $temp[$i]->id_module);
-        }
-
-        $titleParam = ModuleHelper::getModuleTitleParam();
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'module';
-        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
-
-        $rows = Module::model()->findAll($criteriaData);
-        $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
-                   <optgroup label="' . Yii::t('payments', '0607') . '">';
-        foreach ($rows as $numRow => $row) {
-            if ($row[$titleParam] == '')
-                $title = 'title_ua';
-            else $title = $titleParam;
-            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title] . '</option>';
-        };
-        $last = '</select>';
-        echo $result . $last;
+        echo $result;
     }
 
     public function actionNewTeacherPermission()
@@ -385,36 +360,12 @@ class PermissionsController extends AdminController
 
     public function actionShowTeacherModules()
     {
-        $first = '<select name="module1">';
+        if (isset($_POST['teacher']))
+            $idTeacher = $_POST['teacher'];
 
-        $modulelist = [];
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'teacher_modules';
-        $criteria->select = 'idModule';
-        $criteria->distinct = true;
-        $criteria->addCondition('idTeacher=' . $_POST['teacher']);
-        $temp = TeacherModule::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($modulelist, $temp[$i]->idModule);
-        }
+        $result = TeacherModule::showTeacherModule($idTeacher);
 
-        $titleParam = ModuleHelper::getModuleTitleParam();
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'module';
-        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
-
-        $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
-                   <optgroup label="' . Yii::t('payments', '0607') . '">';
-        $rows = Module::model()->findAll($criteriaData);
-        foreach ($rows as $numRow => $row) {
-            if ($row[$titleParam] == '')
-                $title = 'title_ua';
-            else $title = $titleParam;
-            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title] . '</option>';
-        };
-        $last = '</select>';
-        echo $result . $last;
+        echo $result;
     }
 
 

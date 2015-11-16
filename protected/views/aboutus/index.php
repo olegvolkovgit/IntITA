@@ -22,7 +22,7 @@ $headerText = MainpageHelper::getHeader1();
 $subheaderText = MainpageHelper::getSubheader1();
 ?>
 
-<?php $this->renderPartial("_slider"); ?>
+<?php $this->renderPartial("_slider",array('slider' => $slider)); ?>
 
 <?php $this->renderPartial('_shortBlocks', array('massAbout' => $arrayAboutUs)); ?>
 <?php $this->renderPartial('_aboutDetail', array('block1' => $arrayAboutUs[0], 'block2' => $arrayAboutUs[1], 'block3' => $arrayAboutUs[2])); ?>

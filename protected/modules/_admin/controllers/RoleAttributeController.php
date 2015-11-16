@@ -78,8 +78,10 @@ class RoleAttributeController extends AdminController
 	 */
 	public function actionUpdate($id)
 	{
+
 		$model=$this->loadModel($id);
 
+        var_dump($model);die;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

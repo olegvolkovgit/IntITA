@@ -12,7 +12,7 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'aboutus-slider-grid',
     'dataProvider'=>$model->search(),
-    'filter'=>$model,
+    //'filter'=>$model,
     'summaryText'=>'',
     'columns'=>array(
         'image_order',
