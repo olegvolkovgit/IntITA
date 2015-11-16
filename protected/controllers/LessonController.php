@@ -565,6 +565,8 @@ class LessonController extends Controller
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
-        $model->save();
+        if($model->validate()){
+            $model->save();
+        }else echo 'Блок не може бути пустий';
     }
 }

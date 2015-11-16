@@ -130,8 +130,9 @@
                                 data: $.param({content: scope.editRedactor, idLecture: idLecture, order: order}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                             })
-                                .success(function () {
-                                    alert(scope.saveMsg);
+                                .success(function (response) {
+                                    if(response.length==0) alert(scope.saveMsg);
+                                    else alert(response);
                                 })
                                 .error(function () {
                                     alert(scope.errorMsg);
