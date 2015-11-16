@@ -166,3 +166,6 @@ input[type="submit"][disabled]#identityButton{
 .cke_reset_all a.cke_combo_button .cke_combo_text{
     width: 70px;
 }
+.cke_dialog_tabs a.cke_dialog_tab {
+    padding: 4px 4px;
+}
