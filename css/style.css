@@ -159,3 +159,10 @@ input[type="submit"][disabled]#identityButton{
 #addBlock #cke_75, #addBlock #cke_76{
     display: none;
 }
+.cke_reset_all a.cke_combo_button {
+    display: inline-block;
+    width: 100px;
+}
+.cke_reset_all a.cke_combo_button .cke_combo_text{
+    width: 70px;
+}
