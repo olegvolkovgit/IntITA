@@ -143,10 +143,10 @@ if ($idCourse != 0) {
                 <br>
                 <?php echo Yii::t('lecture', '0691'); ?>
                 <br>
-                <button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                <button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                <button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                <button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                <button selected-button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                <button selected-button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                <button selected-button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                <button selected-button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php

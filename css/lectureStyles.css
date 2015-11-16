@@ -248,6 +248,11 @@ img {
 
 #cancelButton {
     margin-top: 10px;
+    width: 100px;
+}
+#addBlockSubmit{
+    margin-top: 10px;
+    width: 100px;
 }
 
 .teacherBlock div.photobg {
@@ -699,4 +704,7 @@ a.lectureDisabled{
     height: 20px;
     vertical-align: middle;
     cursor: pointer;
+}
+.selectedButton{
+    background: #4b75a4;
 }

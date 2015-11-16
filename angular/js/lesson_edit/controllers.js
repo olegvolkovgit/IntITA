@@ -6,9 +6,6 @@ function CKEditorCtrl($compile, $scope, $http) {
     $scope.editorOptions = {
         language: lang
     };
-    $scope.editorOptions1 = {
-        language: lang
-    };
     $scope.$on("ckeditor.ready", function (event) {
         $scope.isReady = true;
     });
@@ -45,30 +42,6 @@ function CKEditorCtrl($compile, $scope, $http) {
 
 angular
     .module('lessonEdit')
-    .directive('closeRedactor', function ($compile) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    var order = element.attr('id').substring(1);
-
-                    angular.element('#t' + order).show();
-                    angular.element('#openCKE' + order).remove();
-                    angular.element('#buttons' + order).remove();
-
-                    $.fn.yiiListView.update('blocks_list', {
-                        complete: function () {
-                            var template = angular.element('#blockList').html();
-                            angular.element('#blockList').empty();
-                            angular.element('#blockList').append(($compile(template)(scope)));
-                            setTimeout(function() {
-                                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                            });
-                        }
-                    });
-                });
-            }
-        };
-    })
     .directive('editBlock', function ($compile) {
         return {
             link: function (scope, element) {
@@ -81,9 +54,7 @@ angular
                     var template = '<textarea data-ng-cloak class="openCKE" ' +
                         'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
                         'ckeditor="editorOptions1" name="editor" ng-model="editRedactor">' +
-                        '</textarea>' +
-                        '<div id=buttons' + orderBlock + '><button data-ng-cloak ng-click="save(' + orderBlock + ')">{{saveBtn}}</button>' +
-                        '<button data-ng-cloak close-redactor id=c' + orderBlock + '>{{closeBtn}}</button></div>';
+                        '</textarea>';
                     ($compile(template)(scope)).insertAfter(element);
                     element.hide();
                 });
@@ -178,6 +149,17 @@ angular
                                 alert(scope.errorMsg);
                             });
                     }
+                });
+            }
+        };
+    })
+    .directive('selectedButton', function () {
+        return {
+            link: function (scope, element) {
+                element.bind('click', function () {
+                    var button = angular.element(document.querySelector(".selectedButton"));
+                    if(button.length==1) button.removeClass("selectedButton");
+                    element.addClass("selectedButton");
                 });
             }
         };
