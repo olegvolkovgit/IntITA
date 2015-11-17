@@ -121,16 +121,16 @@
         course = "";
         module = "";
         if($('#1').prop('checked')) {
-            number = $("#numberCriteriaValue:selected").value;
+            number = $('#numberCriteriaValue option:selected').val();
         }
         if($('#2').prop('checked')) {
-            user =  $("#userCriteriaValue:selected").val();
+            user = $('#userCriteriaValue option:selected').val() ;
         }
         if($('#3').prop('checked')) {
-            course =  $("#courseCriteriaValue:selected").val();
+            course = $('#courseCriteriaValue option:selected').val();
         }
         if($('#4').prop('checked')) {
-            module =  $("#moduleCriteriaValue:selected").val();
+            module = $('#moduleCriteriaValue option:selected').val();
         }
         alert(number);
         alert(user);
