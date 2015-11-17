@@ -290,10 +290,6 @@ img {
     display: none;
 }
 
-#addTest fieldset input[type="text"] {
-    width: 95%;
-}
-
 .taskSubmit :disabled {
     background: #dddddd;
     color: #333333;
@@ -744,4 +740,7 @@ a.lectureDisabled{
     -webkit-margin-end: auto;
     border-style: inset;
     border-width: 1px;
+}
+.answersCheckbox input[type='checkbox']{
+    vertical-align: middle;
 }
