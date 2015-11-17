@@ -13,9 +13,6 @@
     </div>
 </div>
 
-
-
-
 <!--<div class="aboutusslider">-->
 <!--    <div id="slider" class="owl-carousel">-->
 <!--        <div class="slideAbout">-->

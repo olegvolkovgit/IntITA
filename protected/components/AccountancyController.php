@@ -37,4 +37,26 @@ class AccountancyController extends CController {
         }
         return false;
     }
+
+    public function filters()
+    {
+        return array(
+            'accessControl',
+            'postOnly + delete',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'expression'=>array($this, 'isAccountant'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном бухгалтера сайту.",
+                'users'=>array('*'),
+            ),
+        );
+    }
 }

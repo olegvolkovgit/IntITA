@@ -8,37 +8,6 @@
 
 class InvoicesController extends AccountancyController
 {
-
-    public $layout = 'main';
-
-    public function filters()
-    {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-        );
-    }
-
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('index', 'agreementList'),
-                'expression'=>array($this, 'isAccountant'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном бухгалтера сайту.",
-                'actions'=>array('index', 'agreementList'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
     /**
      * Lists all models.
      */

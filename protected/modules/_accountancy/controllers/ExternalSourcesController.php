@@ -1,7 +1,8 @@
 <?php
 
-class OperationTypeController extends AccountancyController
+class ExternalSourcesController extends AccountancyController
 {
+
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -19,14 +20,14 @@ class OperationTypeController extends AccountancyController
 	 */
 	public function actionCreate()
 	{
-		$model=new OperationType;
+		$model=new ExternalSources;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['OperationType']))
+		if(isset($_POST['ExternalSources']))
 		{
-			$model->attributes=$_POST['OperationType'];
+			$model->attributes=$_POST['ExternalSources'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -48,9 +49,9 @@ class OperationTypeController extends AccountancyController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['OperationType']))
+		if(isset($_POST['ExternalSources']))
 		{
-			$model->attributes=$_POST['OperationType'];
+			$model->attributes=$_POST['ExternalSources'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -79,10 +80,10 @@ class OperationTypeController extends AccountancyController
 	 */
 	public function actionIndex()
 	{
-		$model=new OperationType('search');
+		$model=new ExternalSources('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['OperationType']))
-			$model->attributes=$_GET['OperationType'];
+		if(isset($_GET['ExternalSources']))
+			$model->attributes=$_GET['ExternalSources'];
 
 		$this->render('index',array(
 			'model'=>$model,
@@ -93,12 +94,12 @@ class OperationTypeController extends AccountancyController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return OperationType the loaded model
+	 * @return ExternalSources the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=OperationType::model()->findByPk($id);
+		$model=ExternalSources::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -106,11 +107,11 @@ class OperationTypeController extends AccountancyController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param OperationType $model the model to be validated
+	 * @param ExternalSources $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='operation-type-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='external-sources-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

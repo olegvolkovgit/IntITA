@@ -4,9 +4,12 @@
  * This is the model class for table "acc_external_sources".
  *
  * The followings are the available columns in table 'acc_external_sources':
- * @property string $source_id
- * @property string $Name
+ * @property string $id
+ * @property string $name
  * @property integer $cash
+ *
+ * The followings are the available model relations:
+ * @property ExternalPays[] $externalPays
  */
 class ExternalSources extends CActiveRecord
 {
@@ -26,12 +29,12 @@ class ExternalSources extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Name', 'required'),
+			array('name', 'required'),
 			array('cash', 'numerical', 'integerOnly'=>true),
-			array('Name', 'length', 'max'=>512),
+			array('name', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('source_id, Name, cash', 'safe', 'on'=>'search'),
+			array('id, name, cash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +46,7 @@ class ExternalSources extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'externalPays' => array(self::HAS_MANY, 'ExternalPays', 'source_id'),
 		);
 	}
 
@@ -52,8 +56,8 @@ class ExternalSources extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'source_id' => 'Source',
-			'Name' => 'Name',
+			'id' => 'ID',
+			'name' => 'Name',
 			'cash' => 'Cash',
 		);
 	}
@@ -76,8 +80,8 @@ class ExternalSources extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('source_id',$this->source_id,true);
-		$criteria->compare('Name',$this->Name,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('cash',$this->cash);
 
 		return new CActiveDataProvider($this, array(
