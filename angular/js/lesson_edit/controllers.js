@@ -24,20 +24,6 @@ function CKEditorCtrl($compile, $scope, $http) {
                 alert($scope.errorMsg);
             })
     };
-    $scope.save = function (order) {
-        $http({
-            url: basePath+'/lesson/saveBlock',
-            method: "POST",
-            data: $.param({content: $scope.editRedactor, idLecture: idLecture, order: order}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function () {
-                alert($scope.saveMsg);
-            })
-            .error(function () {
-                alert($scope.errorMsg);
-            })
-    };
 }
 
 angular

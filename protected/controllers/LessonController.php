@@ -314,30 +314,31 @@ class LessonController extends Controller
         $dir = Yii::getpathOfAlias('webroot') . $path;
 
         $_FILES['upload']['type'] = strtolower($_FILES['upload']['type']);
-        if ($_FILES['upload']['type'] == 'image/png'
-            || $_FILES['upload']['type'] == 'image/jpg'
-            || $_FILES['upload']['type'] == 'image/gif'
-            || $_FILES['upload']['type'] == 'image/jpeg'
-            || $_FILES['upload']['type'] == 'image/pjpeg'
-        ) {
-            $callback = $_GET['CKEditorFuncNum'];
-            $filename = md5(date('YmdHis')) . $_FILES['upload']['name'];
-            $full_path = $dir . $filename;
-            $http_path = Config::getBaseUrl().'/images/lecture/' . $filename;
-            $error = '';
-            if (move_uploaded_file($_FILES['upload']['tmp_name'], $full_path)) {
-            } else {
-                $error = 'Что-то пошло не так!';
-                $http_path = '';
-            }
-            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
-                ",\"" . $http_path . "\", \"" . $error . "\" );</script>";
-        }else{
-            $callback = $_GET['CKEditorFuncNum'];
-            $error = Yii::t('error', '0672');
-            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
-                ",\"" . '' . "\", \"" . $error . "\" );</script>";
-        }
+        var_dump($_FILES['upload']['type']);die;
+//        if ($_FILES['upload']['type'] == 'image/png'
+//            || $_FILES['upload']['type'] == 'image/jpg'
+//            || $_FILES['upload']['type'] == 'image/gif'
+//            || $_FILES['upload']['type'] == 'image/jpeg'
+//            || $_FILES['upload']['type'] == 'image/pjpeg'
+//        ) {
+//            $callback = $_GET['CKEditorFuncNum'];
+//            $filename = md5(date('YmdHis')) . $_FILES['upload']['name'];
+//            $full_path = $dir . $filename;
+//            $http_path = Config::getBaseUrl().'/images/lecture/' . $filename;
+//            $error = '';
+//            if (move_uploaded_file($_FILES['upload']['tmp_name'], $full_path)) {
+//            } else {
+//                $error = 'Что-то пошло не так!';
+//                $http_path = '';
+//            }
+//            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
+//                ",\"" . $http_path . "\", \"" . $error . "\" );</script>";
+//        }else{
+//            $callback = $_GET['CKEditorFuncNum'];
+//            $error = Yii::t('error', '0672');
+//            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
+//                ",\"" . '' . "\", \"" . $error . "\" );</script>";
+//        }
     }
 
     public function actionFormulaRedactor()
@@ -565,6 +566,8 @@ class LessonController extends Controller
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
-        $model->save();
+        if($model->validate()){
+            $model->save();
+        }else echo 'Блок не може бути пустий';
     }
 }

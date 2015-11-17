@@ -155,8 +155,11 @@ input[type="submit"][disabled]#identityButton{
 .emailVerButt{
     margin-top: 15px;
 }
+#addBlockSubmit[disabled]{
+    background: #cccccc;
+}
 /*hide close and save in add block*/
-#addBlock #cke_75, #addBlock #cke_76{
+#addBlock .cke_button__customsave, #addBlock .cke_button__close{
     display: none;
 }
 .cke_reset_all a.cke_combo_button {
@@ -169,3 +172,4 @@ input[type="submit"][disabled]#identityButton{
 .cke_dialog_tabs a.cke_dialog_tab {
     padding: 4px 4px;
 }
+/*hide close and save in add block*/

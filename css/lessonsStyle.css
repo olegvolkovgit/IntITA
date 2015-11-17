@@ -611,7 +611,7 @@ div#discussionHeader {
 }
 
 blockquote {
-    background: #EBEADD url("/forum/styles/prosilver/theme/images/quote.gif") no-repeat scroll 6px 3px;
+    background: #EBEADD;
     border: #DBDBCE 1px solid;
     font-size: 0.95em;
     margin: 5px 0 5px 10px;
