@@ -11,43 +11,43 @@ class RolesController extends AdminController
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'index', 'create', 'showAttributes', 'view', 'update'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('admin','delete', 'index', 'create', 'showAttributes', 'view', 'update'),
-                'users'=>array('*'),
-            ),
-		);
-	}
-
-
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
+//
+//	/**
+//	 * Specifies the access control rules.
+//	 * This method is used by the 'accessControl' filter.
+//	 * @return array access control rules
+//	 */
+//	public function accessRules()
+//	{
+//		return array(
+//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+//				'actions'=>array('admin','delete', 'index', 'create', 'showAttributes', 'view', 'update'),
+//                'expression'=>array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions'=>array('admin','delete', 'index', 'create', 'showAttributes', 'view', 'update'),
+//                'users'=>array('*'),
+//            ),
+//		);
+//	}
+//
+//
+//    function isAdministrator()
+//    {
+//        if(AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
     /**
 	 * Deletes a particular model.

@@ -12,18 +12,40 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'aboutus-slider-grid',
     'dataProvider'=>$model->search(),
-    'filter'=>$model,
+    //'filter'=>$model,
     'summaryText'=>'',
     'columns'=>array(
-        'image_order',
+        'order',
         array(
             'header'=>'Фото',
             'value'=>'StaticFilesHelper::createPath("image", "aboutus", $data->pictureUrl)',
             'type'=>'image',
             'htmlOptions'=>array('id'=>'carouselImage'),
         ),
-        array(
-            'class'=>'CButtonColumn',
-        ),
+            array(
+                'template'=>'{view}{delete}{up}{down}',
+                'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
+                'class'=>'CButtonColumn',
+                'buttons'=>array(
+                    'up' => array
+                    (
+                        'label'=>'Вгору по черзі',
+                        'url' => 'Yii::app()->createUrl("/_admin/aboutusSlider/up", array("order"=>$data->order))',
+                        'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                        'options'=>array(
+                            'class'=>'controlButtons;',
+                        )
+                    ),
+                    'down' => array
+                    (
+                        'label'=>'Вниз по черзі',
+                        'url' => 'Yii::app()->createUrl("/_admin/aboutusSlider/down", array("order"=>$data->order))',
+                        'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
+                        'options'=>array(
+                            'class'=>'controlButtons;',
+                        )
+                    ),
+                ),
+            ),
     ),
 )); ?>

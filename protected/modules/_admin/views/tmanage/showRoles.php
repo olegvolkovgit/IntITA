@@ -8,8 +8,8 @@
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
     <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRole/teacher/', array(
-        'id' => $teacherId));?>">Призначити роль</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRole', array(
+        'teacher' => $teacherId));?>">Призначити роль</a>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/cancelTeacherRole/', array('id' => $teacherId));?>">
         Скасувати роль</a>

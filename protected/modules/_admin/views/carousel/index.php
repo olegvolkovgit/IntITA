@@ -23,7 +23,29 @@
             'htmlOptions'=>array('id'=>'carouselImage'),
         ),
         array(
+            'template'=>'{view}{delete}{up}{down}',
+            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
             'class'=>'CButtonColumn',
-        ),
-    ),
-)); ?>
+            'buttons'=>array(
+                'up' => array
+                (
+                    'label'=>'Відновити модуль',
+                    'url' => 'Yii::app()->createUrl("/_admin/carousel/up", array("order"=>$data->order))',
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                    'options'=>array(
+                        'class'=>'controlButtons;',
+                    )
+                ),
+                'down' => array
+                (
+                    'label'=>'Відновити модуль',
+                    'url' => 'Yii::app()->createUrl("/_admin/carousel/down", array("order"=>$data->order))',
+                    'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
+                    'options'=>array(
+                        'class'=>'controlButtons;',
+                    )
+                ),
+            ),
+         ),
+)));
+?>

@@ -21,17 +21,17 @@
 
 	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'order'); ?>
-		<?php echo $form->textField($model,'order'); ?>
-		<?php echo $form->error($model,'order'); ?>
-	</div>
+<!--	--><?php //echo $form->errorSummary($model); ?>
+<!---->
+<!--	<div class="row">-->
+<!--		--><?php //echo $form->labelEx($model,'order'); ?>
+<!--		--><?php //echo $form->textField($model,'order'); ?>
+<!--		--><?php //echo $form->error($model,'order'); ?>
+<!--	</div>-->
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'pictureURL'); ?>
-		<?php echo $form->textField($model,'pictureURL',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->fileField($model,'pictureURL',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'pictureURL'); ?>
 	</div>
 

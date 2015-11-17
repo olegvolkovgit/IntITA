@@ -7,13 +7,13 @@
  */
 ?>
 <div id="divAddVideo">
-    <form id="addVideo" action="<?php echo Yii::app()->createUrl('lesson/addVideo'); ?>" method="post">
+    <form name="addVideoForm" id="addVideo" action="<?php echo Yii::app()->createUrl('lesson/addVideo'); ?>" method="post">
         <input name="idLecture" value="<?php echo $idLecture; ?>" type="hidden">
         <input name="page" value="<?php echo $pageOrder; ?>" type="hidden">
         <input name="type" value="2" type="hidden">
-        <input name="newVideoUrl" id="newVideoUrl" required size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>" oninvalid="validateRequired(this,'<?php echo Yii::t('validation', '0776'); ?>')" oninput="validateRequired(this,'<?php echo Yii::t('validation', '0776'); ?>')"/>
+        <input name="newVideoUrl" id="newVideoUrl" required size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>" ng-model="videoUrl"/>
         <br> <br>
-        <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>">
+        <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>" ng-disabled=addVideoForm.newVideoUrl.$error.required>
     </form>
     <button onclick='cancelAddVideo()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>

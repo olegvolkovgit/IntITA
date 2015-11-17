@@ -1,21 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "carousel".
+ * This is the model class for table "aboutus_slider".
  *
- * The followings are the available columns in table 'carousel':
+ * The followings are the available columns in table 'aboutus_slider':
+ * @property integer $image_order
+ * @property string $pictureUrl
+ * @property integer $text
  * @property integer $order
- * @property string $pictureURL
- * @property string $slider_text
  */
-class Carousel extends CActiveRecord
+class AboutusSlider extends Slider
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'carousel';
+		return 'aboutus_slider';
 	}
 
 	/**
@@ -26,12 +27,13 @@ class Carousel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, pictureURL, slider_text', 'required'),
-			array('order', 'numerical', 'integerOnly'=>true),
-			array('pictureURL', 'length', 'max'=>50),
-            array('slider_text', 'length', 'max'=>6),
+            array('pictureUrl', 'file', 'types' => 'jpg, gif, png','message' => 'Виберіть файл','except'=>'swapImage'),
+            array('text', 'required','message' => 'Поле має бути заповнено'),
+            array('image_order , text , order', 'numerical', 'integerOnly'=>true),
+//			array('pictureUrl', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('order, pictureURL, slider_text', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('order, pictureUrl, image_order, text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,9 +54,10 @@ class Carousel extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'order' => 'Порядок відображення',
-			'pictureURL' => 'Фото',
-            'slider_text' => 'Код тексту для слайдера',
+			'image_order' => 'Порядок зображення',
+			'pictureUrl' => 'Фото',
+            'order' => 'Порядок зображення',
+            'text' => 'Код тексту'
 		);
 	}
 
@@ -72,14 +75,17 @@ class Carousel extends CActiveRecord
 	 */
 	public function search()
 	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('order',$this->order);
-		$criteria->compare('pictureURL',$this->pictureURL,true);
-        $criteria->compare('slider_text',$this->slider_text,true);
+		$criteria->compare('image_order',$this->image_order);
+		$criteria->compare('pictureUrl',$this->pictureUrl,true);
+        $criteria->compare('text',$this->text,true);
+        $criteria->compare('order',$this->order,true);
 
-		return new CActiveDataProvider($this, array(
+
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
             'sort'=>array(
                 'defaultOrder'=>'`order` ASC',
@@ -91,7 +97,7 @@ class Carousel extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Carousel the static model class
+	 * @return AboutusSlider the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

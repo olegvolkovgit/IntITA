@@ -431,12 +431,9 @@ class LessonController extends Controller
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
         $idCourse = Yii::app()->request->getPost('idCourse', 1);
-
         if ($pageOrder > 1) {
             LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
-
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     //reorder blocks on lesson page - down block
@@ -449,8 +446,6 @@ class LessonController extends Controller
         if ($pageOrder < LecturePage::model()->count('id_lecture=' . $idLecture)) {
             LecturePage::swapPages($idLecture, $pageOrder, $pageOrder + 1);
         }
-
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function actionUpdateLectureImage($id)
@@ -570,6 +565,8 @@ class LessonController extends Controller
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
-        $model->save();
+        if($model->validate()){
+            $model->save();
+        }else echo 'Блок не може бути пустий';
     }
 }

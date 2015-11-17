@@ -1,20 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "aboutus_slider".
+ * This is the model class for table "carousel".
  *
- * The followings are the available columns in table 'aboutus_slider':
- * @property integer $image_order
- * @property string $pictureUrl
+ * The followings are the available columns in table 'carousel':
+ * @property integer $order
+ * @property string $pictureURL
+ * @property string $slider_text
  */
-class AboutusSlider extends CActiveRecord
+class Carousel extends Slider
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'aboutus_slider';
+		return 'carousel';
 	}
 
 	/**
@@ -25,12 +26,13 @@ class AboutusSlider extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('image_order, pictureUrl', 'required'),
-			array('image_order', 'numerical', 'integerOnly'=>true),
-			array('pictureUrl', 'length', 'max'=>255),
+            array('pictureURL', 'file', 'types' => 'jpg, gif, png','message' => 'Виберіть файл','except'=>'swapImage'),
+			array('pictureURL, slider_text', 'required','message' => 'Поле має бути заповнено'),
+			array('order', 'numerical', 'integerOnly'=>true),
+			array('pictureURL', 'length', 'max'=>50),
+            array('slider_text', 'length', 'max'=>6),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('image_order, pictureUrl', 'safe', 'on'=>'search'),
+			array('order, pictureURL, slider_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +53,9 @@ class AboutusSlider extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'image_order' => 'Порядок зображення',
-			'pictureUrl' => 'Фото',
+			'order' => 'Порядок відображення',
+			'pictureURL' => 'Фото',
+            'slider_text' => 'Код тексту для слайдера',
 		);
 	}
 
@@ -70,15 +73,18 @@ class AboutusSlider extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('image_order',$this->image_order);
-		$criteria->compare('pictureUrl',$this->pictureUrl,true);
+		$criteria->compare('order',$this->order);
+		$criteria->compare('pictureURL',$this->pictureURL,true);
+        $criteria->compare('slider_text',$this->slider_text,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array(
+                'defaultOrder'=>'`order` ASC',
+            )
 		));
 	}
 
@@ -86,10 +92,13 @@ class AboutusSlider extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return AboutusSlider the static model class
+	 * @return Carousel the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+
+
 }

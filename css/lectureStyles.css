@@ -18,11 +18,11 @@
 }
 
 img {
-    max-width: 745px;
+    max-width: 730px;
 }
 
 .redactor-editor img {
-    max-width: 745px;
+    max-width: 730px;
 }
 
 .lectureImageMain {
@@ -56,13 +56,9 @@ img {
     text-align: left;
     color: #363636;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     word-wrap: break-word;
     margin-bottom: 8px;
-}
-
-.titlesBlock ul li span {
-    font-weight: bold;
 }
 
 #subTitle {
@@ -75,7 +71,7 @@ img {
     text-align: left;
     color: #363636;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-style: italic;
 }
 
@@ -89,7 +85,7 @@ img {
     text-align: left;
     color: #363636;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-style: italic;
 }
 
@@ -252,6 +248,11 @@ img {
 
 #cancelButton {
     margin-top: 10px;
+    width: 100px;
+}
+#addBlockSubmit{
+    margin-top: 10px;
+    width: 100px;
 }
 
 .teacherBlock div.photobg {
@@ -453,6 +454,10 @@ div.lastAccessPage {
     padding: 10px;
 }
 
+.text, .codeExample, .code {
+    overflow: hidden;
+}
+
 .text table {
     margin: 0;
     margin-bottom: 15px;
@@ -566,10 +571,21 @@ h1.lessonPartEdit p img {
     cursor: pointer;
 }
 /*bootstrap tooltips css*/
-#counter .popover {
+#counter .tooltip.in {
+    opacity: 1;
+}
+#counter .tooltip.top .tooltip-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px 5px 0;
+    border-top-color: #335379;
+}
+#counter .tooltip-inner {
     max-width: 300px;
     font-family: "MyriadPro";
     font-size: 14px;
+    color:#335379;
     background-color: #fff;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
@@ -578,14 +594,17 @@ h1.lessonPartEdit p img {
     border-radius:0;
     -webkit-box-shadow: none;
     box-shadow: none;
-    padding: 3px;
+    padding: 3px 5px;
+    text-align: center;
+    line-height: 14px;
 }
-#counter .popover.top > .arrow {
-    border-top-color: #335379;
-    border-bottom-width: 0;
+.titleNoAccessMin{
+    font-size: 14px;
+    color: #999999;
 }
-#counter .popover-content {
-    padding: 2px 2px;
+.noAccessMin{
+    font-size: 12px;
+    color: #ff3333;
 }
 /*tooltips css*/
 /*sidebar lectures */
@@ -689,4 +708,40 @@ a.lectureDisabled{
     height: 20px;
     vertical-align: middle;
     cursor: pointer;
+}
+.selectedButton{
+    background: #4b75a4;
+}
+#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled]{
+    background: #cccccc;
+}
+/*hide close and save in add block*/
+#addBlock .cke_button__customsave, #addBlock .cke_button__close{
+    display: none;
+}
+.cke_maximized .cke_button__close{
+    display: none;
+}
+.cke_reset_all a.cke_combo_button {
+    display: inline-block;
+    width: 100px;
+}
+.cke_reset_all a.cke_combo_button .cke_combo_text{
+    width: 70px;
+}
+.cke_dialog_tabs a.cke_dialog_tab {
+    padding: 4px 1px;
+}
+/*hide close and save in add block*/
+#addBlockForm{
+    clear: both;
+}
+.lessonText hr {
+    display: block;
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    -webkit-margin-start: auto;
+    -webkit-margin-end: auto;
+    border-style: inset;
+    border-width: 1px;
 }

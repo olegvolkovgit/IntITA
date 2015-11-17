@@ -141,12 +141,14 @@ if ($idCourse != 0) {
                     ?>
                 </div>
                 <br>
-                <?php echo Yii::t('lecture', '0691'); ?>
-                <br>
-                <button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                <button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                <button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                <button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                <div style="display: block; clear: both">
+                    <?php echo Yii::t('lecture', '0691'); ?>
+                    <br>
+                    <button selected-button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php
@@ -154,7 +156,9 @@ if ($idCourse != 0) {
                 $data = LectureHelper::getPageQuiz($page->id);
 
                 switch (LectureHelper::getQuizType($data['id_block'])) {
-                    case '5':
+                    case '5':$this->renderPartial('/editor/_editPlainTask', array('data' => $data,
+                        'pageId' => $page->id));
+                        break;
                     case '6':
                         $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
                             'pageId' => $page->id));
@@ -175,9 +179,11 @@ if ($idCourse != 0) {
                 <?php
             }
             ?>
+            <?php if ($page->quiz == null) { ?>
             <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
             <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+            <?php } ?>
             <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
         </div>

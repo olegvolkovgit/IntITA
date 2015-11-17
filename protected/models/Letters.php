@@ -148,6 +148,20 @@ class Letters extends CActiveRecord
 
     protected function afterSave()
     {
-        parent::afterSave(); 
+        $addresse = StudentReg::model()->findByPk($this->addressee_id)->email;
+
+        $link = Yii::app()->createUrl('/studentreg/profile', array('idUser' => $this->addressee_id));
+
+        $from = Yii::app()->user->name;
+
+        $theme = "У Вас нове повідомлення на INTITA";
+
+        $text = 'У Вас нове повідомлення на INTITA<br>'
+            .'Від користувача '. $from . '<br>
+            Ви зможете його переглянути <a href ='.$link.'>тут</a>';
+
+        mail($addresse,$theme,$text);
+
+        parent::afterSave();
     }
 }

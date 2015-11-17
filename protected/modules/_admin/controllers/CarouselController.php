@@ -5,38 +5,38 @@ class CarouselController extends AdminController
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
+//
+//
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+//                'expression'=>array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
+//
+//    function isAdministrator()
+//    {
+//        if(AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
 
 	/**
@@ -45,7 +45,7 @@ class CarouselController extends AdminController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+        $this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -61,12 +61,21 @@ class CarouselController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Carousel']))
-		{
-			$model->attributes=$_POST['Carousel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->order));
-		}
+		if(isset($_POST['Carousel'])) {
+
+            $picName = $_FILES['Carousel']['name'];
+            $tmpName = $_FILES['Carousel']['tmp_name'];
+
+            $model->attributes = $_POST['Carousel'];
+            $model->pictureURL = $picName['pictureURL'];
+
+            if ($model->validate()) {
+                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
+
+                $model->save();
+                $this->redirect(array('view', 'id' => $model->id));
+            }
+        }
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -87,9 +96,19 @@ class CarouselController extends AdminController
 
 		if(isset($_POST['Carousel']))
 		{
+            $picName = $_FILES['Carousel']['name'];
+            $tmpName = $_FILES['Carousel']['tmp_name'];
+
+
 			$model->attributes=$_POST['Carousel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->order));
+            $model->pictureURL = $picName['pictureURL'];
+
+            if($model->validate()) {
+                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
+
+                if ($model->save())
+                    $this->redirect(array('view', 'id' => $model->id));
+            }
 		}
 
 		$this->render('update',array(
@@ -104,7 +123,10 @@ class CarouselController extends AdminController
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+        $type = 'Carousel';
+        $this->loadModel($id)->delete();
+
+        Slider::sortOrder($type);
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -170,4 +192,59 @@ class CarouselController extends AdminController
 			Yii::app()->end();
 		}
 	}
+
+    public function actionUp($order)
+    {
+        if($order == 1)
+            $this->actionIndex();
+
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+        $prevModel = Carousel::model()->findByAttributes(array('order' => $order-1));
+        $model->setScenario('swapImage');
+        if($prevModel){
+            $model->setScenario('swapImage');
+            $prevModel->setScenario('swapImage');
+            Carousel::swapImage($model,$prevModel);
+
+            if($model->validate() && $prevModel->validate())
+            {
+                $model->save();
+                $prevModel->save();
+            }
+
+            $this->actionIndex();
+        }
+        else return;
+    }
+
+    public function actionDown($order)
+    {
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+
+
+        if($order == $model->getLastOrder())
+            $this->actionIndex();
+
+        else{
+        $nextModel = Carousel::model()->findByAttributes(array('order' => $order + 1));
+
+        if($nextModel){
+
+            $model->setScenario('swapImage');
+            $nextModel->setScenario('swapImage');
+
+            Carousel::swapImage($model,$nextModel);
+
+            if($model->validate() && $nextModel->validate())
+            {
+                $model->save();
+                $nextModel->save();
+            }
+
+            $this->actionIndex();
+        }
+        }
+
+    }
+
 }

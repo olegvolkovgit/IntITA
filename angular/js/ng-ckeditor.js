@@ -32,7 +32,7 @@
         $timeout(checkLoaded, 100);
     }]);
 
-    app.directive('ckeditor', ['$timeout', '$q', function ($timeout, $q) {
+    app.directive('ckeditor', ['$timeout', '$q', '$http','$compile', function ($timeout, $q, $http, $compile) {
 
         return {
             restrict: 'AC',
@@ -52,31 +52,22 @@
 
                 var onLoad = function () {
                     var options = {
-                        //toolbar: 'full',
-                        //toolbar_full: [ //jshint ignore:line
-                        //    {
-                        //        name: 'basicstyles',
-                        //        items: ['Bold', 'Italic', 'Strike', 'Underline']
-                        //    },
-                        //    {name: 'paragraph', items: ['BulletedList', 'NumberedList', 'Blockquote']},
-                        //    {name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
-                        //    {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-                        //    {name: 'tools', items: ['SpellChecker', 'Maximize']},
-                        //    '/',
-                        //    {
-                        //        name: 'styles',
-                        //        items: ['Format', 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord', 'RemoveFormat']
-                        //    },
-                        //    {name: 'insert', items: ['Image', 'Table', 'SpecialChar']},
-                        //    {name: 'forms', items: ['Outdent', 'Indent']},
-                        //    {name: 'clipboard', items: ['Undo', 'Redo']},
-                        //    {name: 'document', items: ['PageBreak', 'Source']}
-                        //],
-                        //filebrowserUploadUrl : '/IntITA/lesson/uploadImage',
-                        //disableNativeSpellChecker: false,
-                        //uiColor: '#FAFAFA',
-                        //height: '400px',
-                        //width: '100%'
+                        toolbar: 'full',
+                        toolbar_full: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                            { name: 'editing', items : [ ] },
+                            { name: 'forms', items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'HiddenField' ] },
+                            '/',
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                            { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                            { name: 'insert', items : [ 'Mathjax','EqnEditor','Image','Table','HorizontalRule','SpecialChar','PageBreak' ] },
+                            '/',
+                            { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                            { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                            { name: 'tools', items : [ 'Maximize', 'ShowBlocks','customSave','close' ] }
+                        ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);
 
@@ -128,6 +119,64 @@
 
                         instance.document.on('keyup', setModelData);
                     });
+                    //custom save
+                    instance.addCommand("customSave", {
+                        exec: function() {
+                            // id=openCKE**** - 7-position *
+                            var order = element.attr('id').substring(7);
+                            $http({
+                                url: basePath+'/lesson/saveBlock',
+                                method: "POST",
+                                data: $.param({content: scope.editRedactor, idLecture: idLecture, order: order}),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                            })
+                                .success(function (response) {
+                                    if(response.length==0) alert(scope.saveMsg);
+                                    else alert(response);
+                                })
+                                .error(function () {
+                                    alert(scope.errorMsg);
+                                })
+                        }
+                    });
+
+                    instance.ui.addButton('customSave', {
+                        label: "Save",
+                        command: 'customSave',
+                        toolbar: 'tools',
+                        icon: 'plugins/save.png'
+                    });
+                    //custom save
+                    //custom close
+                    instance.addCommand("customClose", {
+                        exec: function() {
+                            // id=openCKE**** - 7-position *
+                            var order = element.attr('id').substring(7);
+
+                            angular.element('#t' + order).show();
+                            angular.element('#openCKE' + order).remove();
+                            angular.element('#buttons' + order).remove();
+
+                            $.fn.yiiListView.update('blocks_list', {
+                                complete: function () {
+                                    var template = angular.element('#blockList').html();
+                                    angular.element('#blockList').empty();
+                                    angular.element('#blockList').append(($compile(template)(scope)));
+                                    setTimeout(function() {
+                                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                    instance.ui.addButton('close', {
+                        label: "close",
+                        command: 'customClose',
+                        toolbar: 'tools',
+                        icon: 'plugins/close.png'
+                    });
+                    //custom close
                     instance.on('customConfigLoaded', function () {
                         configLoaderDef.resolve();
                     });

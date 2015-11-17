@@ -7,17 +7,13 @@
  */
 ?>
 <a name="testForm"></a>
-<script type="text/javascript">
-//    document.getElementById("optionsNum").value = 1;
-//    document.getElementById("option1").value = '';
-</script>
 <div id="addTest">
     <br>
-    <form onSubmit="return checkAnswers($('#answersList input:checkbox:checked'));" name="add-test" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>">
+    <form onSubmit="return checkAnswers($('#answersList input:checkbox:checked'));" name="addTestForm" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>" novalidate>
         <fieldset>
             <?php echo Yii::t('lecture', '0713'); ?>
             <br>
-            <input type="text" name="condition" id="conditionTest" size="80" placeholder="<?php echo Yii::t('lecture', '0714'); ?>" required/>
+            <input type="text" name="condition" id="conditionTest" size="80" placeholder="<?php echo Yii::t('lecture', '0714'); ?>" required ng-model="testCondition"/>
             <br>
             <br>
             <fieldset>
@@ -31,7 +27,7 @@
                 <div class="removeTest"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <fieldset onclick="buttonEnabled();">
+            <fieldset>
                 <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?>:</legend>
                 <div id="answersList" class="answersCheckbox">
                 <div><input type="checkbox" name="answer1" value="1"><span>1 <?php echo Yii::t('lecture', '0705'); ?></span></div>
@@ -44,7 +40,7 @@
             <input name="testType" id="testType" type="hidden" value="plain"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
-        <input type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests'>
+        <input type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
     </form>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>

@@ -52,7 +52,7 @@
                 (
                     'label'=>'Редагувати',
                     //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
-                    'url' => 'Yii::app()->createUrl("/_admin/roleAttribute/update", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array
