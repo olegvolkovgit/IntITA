@@ -55,8 +55,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
                         <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                           popover-trigger="mouseenter"
-                           uib-popover="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                           tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
                             <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                         </a>
                     <?php }
@@ -66,13 +65,12 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                         $lectureOrder = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->order;
                         if (AccessHelper::accesLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                               popover-trigger="mouseenter"
-                               uib-popover="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                               tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
                                 <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                             </a>
                         <?php } else { ?>
-                            <a popover-trigger="mouseenter"
-                               uib-popover="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                            <a
+                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo LectureHelper::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
                                 <div class="lectureDisabled"></div>
                             </a>
                         <?php }

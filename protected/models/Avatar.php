@@ -19,6 +19,7 @@ class Avatar {
         $folder = ($imgName == 'course')?'course':'teachers';
 
         if($model->start=='') $model->start=null;
+
         if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
         {
             $model->course_img=$model->oldLogo;
@@ -76,19 +77,88 @@ class Avatar {
 
     public static function updateTeacherAvatar($filename,$tmpName,$id,$oldAvatar)
     {
-                    $ext = substr(strrchr($filename, '.'), 1);
-                    $filename = uniqid() . '.' . $ext;
-                    if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/teachers/" . $filename)) {
-                        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $oldAvatar;
-                        if (is_file($src) && $oldAvatar!='noname2.png')
-                            unlink($src);
-                    }
-                    Teacher::model()->updateByPk($id, array('foto_url' => $filename));
-                    ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot')."/images/teachers/".$filename,
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
-                        210
-                    );
-                    return true;
+        $ext = substr(strrchr($filename, '.'), 1);
+        $filename = uniqid() . '.' . $ext;
+
+        if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/teachers/" . $filename)) {
+            $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $oldAvatar;
+            if (is_file($src) && $oldAvatar!='noname2.png')
+                unlink($src);
+        }
+        Teacher::model()->updateByPk($id, array('foto_url' => $filename));
+        ImageHelper::uploadAndResizeImg(
+            Yii::getPathOfAlias('webroot')."/images/teachers/".$filename,
+            Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_".$id.'.'.$ext,
+            210
+        );
+        return true;
+    }
+
+
+    public static function saveTeachersAvatar($model,$imgName)
+    {
+        $name = $imgName . '_img';
+        $folder = ($imgName == 'course')?'course':'teachers';
+
+        if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
+        {
+            $model->course_img=$model->oldLogo;
+        } else if(($model->scenario=="update") && (!empty($model->logo['tmp_name'][$name]))){
+            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldLogo;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->foto_url['tmp_name']['course_img']))
+        {
+
+            if(!copy($model->foto_url['tmp_name'][$name],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url['name'][$name]))
+                return false;
+        }
+        return true;
+    }
+
+    public static function saveMainSliderPicture($model,$name,$tmpName)
+    {
+
+        if (($model->scenario=="update"))
+        {
+            $model->pictureURL = $name;
+        } else if(($model->scenario=="update")){
+            $src=Yii::getPathOfAlias('webroot')."/images/mainpage/".$model->pictureURL;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($model->scenario == "insert" || $model->scenario == "update"))
+        {
+            $model->pictureURL = $name['pictureURL'];
+            $lastOrder = $model->getLastOrder() + 1;
+
+            $model->order = $lastOrder;
+            if(!copy($tmpName['pictureURL'],Yii::getPathOfAlias('webroot')."/images/mainpage/".$model->pictureURL));
+                return false;
+        }
+        return true;
+    }
+
+    public static function saveAbuotusSlider($model,$name,$tmpName)
+    {
+        if (($model->scenario=="update"))
+        {
+            $model->pictureUrl = $name;
+        } else if(($model->scenario=="update")){
+            $src=Yii::getPathOfAlias('webroot')."/images/aboutus/".$model->pictureUrl;
+            if (is_file($src))
+                unlink($src);
+        }
+        if (($model->scenario == "insert" || $model->scenario == "update"))
+        {
+            $model->pictureUrl = $name['pictureUrl'];
+            $lastOrder = $model->getLastOrder() + 1;
+
+            $model->order = $lastOrder;
+            if(!copy($tmpName['pictureUrl'],Yii::getPathOfAlias('webroot')."/images/aboutus/".$model->pictureUrl));
+            return false;
+        }
+        return true;
     }
 }

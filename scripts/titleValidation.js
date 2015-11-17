@@ -10,3 +10,11 @@ function validateComments(input, text) {
         input.setCustomValidity("");
     }
 }
+function validateRequired(input, text) {
+    if ($.trim(input.value)=='') {
+        input.setCustomValidity(text);
+    }
+    else {
+        input.setCustomValidity("");
+    }
+}

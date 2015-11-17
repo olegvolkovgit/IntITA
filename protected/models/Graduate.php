@@ -37,14 +37,18 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('first_name', 'required', 'message'=>'Введіть ім\'я випускника.'),
+            array('first_name', 'required', 'message'=>Yii::t('graduate','0746')),
 			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
-            array('last_name', 'required', 'message'=>'Введіть прізвище випускника.'),
-			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>'Рейтинг повинен бути числовим значенням.'),
+            array('last_name', 'required', 'message'=>Yii::t('graduate','0747')),
+			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('graduate','0748')),
 			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
-			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>'Введіть дату в форматі РРРР-ММ-ДД'),
+			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>Yii::t('graduate','0749')),
 			array('graduate_date, recall', 'safe'),
+            array('rate', 'compare', 'compareValue' => '0', 'operator' => '>=', 'message'=>Yii::t('graduate','0766')),
+            array('rate', 'compare', 'compareValue' => '10', 'operator' => '<=', 'message'=>Yii::t('graduate','0765')),
+            array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750')),
+            array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751')),
 			// The following rule is used by search().
 			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page, history, rate, recall, first_name_en, last_name_en', 'safe', 'on'=>'search'),
 		);
@@ -68,19 +72,19 @@ class Graduate extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'first_name' => "І'мя",
-			'last_name' => 'Прізвище',
-			'avatar' => 'Фото',
-			'graduate_date' => 'Дата випуску',
-			'position' => 'Посада',
-			'work_place' => 'Місце роботи',
-			'work_site' => 'Сайт',
-			'courses_page' => 'Закінчив(ла) курс',
-			'history' => 'Історія',
-			'rate' => 'Рейтинг',
-			'recall' => 'Відгук',
-			'first_name_en' => "І'мя англійською",
-			'last_name_en' => 'Прізвище англійською',
+			'first_name' => Yii::t('graduate','0752'),
+			'last_name' => Yii::t('graduate','0753'),
+			'avatar' => Yii::t('graduate','0754'),
+			'graduate_date' => Yii::t('graduate','0755'),
+			'position' => Yii::t('graduate','0756'),
+			'work_place' => Yii::t('graduate','0757'),
+			'work_site' => Yii::t('graduate','0758'),
+			'courses_page' => Yii::t('graduate','0759'),
+			'history' => Yii::t('graduate','0760'),
+			'rate' => Yii::t('graduate','0761'),
+			'recall' => Yii::t('graduate','0762'),
+			'first_name_en' => Yii::t('graduate','0763'),
+			'last_name_en' => Yii::t('graduate','0764'),
 		);
 	}
 

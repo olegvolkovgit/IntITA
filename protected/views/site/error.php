@@ -1,8 +1,9 @@
 <?php
 /* @var $this SiteController */
-/* @var $error array */
+/* @var $message string */
+/* @var $code integer */
 
-$this->pageTitle=Yii::app()->name . ' - '.Yii::t('error','0590');
+$this->pageTitle=Yii::app()->name;
 $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );
@@ -13,7 +14,8 @@ $this->breadcrumbs=array(
 
     <div class="error">
     <?php echo CHtml::encode($message)?><br>
-<!--    --><?php //echo 'File : ' . CHtml::encode($file) ?><!--<br>-->
-<!--    --><?php //echo 'Line : ' . CHtml::encode($line) ?><!--<br>-->
+    <?php echo 'File : ' . CHtml::encode($trace) ?><br>
+    <?php echo 'File : ' . CHtml::encode($file) ?><br>
+    <?php echo 'Line : ' . CHtml::encode($line) ?><br>
     </div>
 </div>

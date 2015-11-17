@@ -192,19 +192,37 @@ class LecturePage extends CActiveRecord
         if (!$quiz){
             return true;
         }
+
         if ($user != 0){
+            if(LectureElement::model()->findByPk($quiz)){
             switch(LectureElement::model()->findByPk($quiz)->id_type){
                 case '5':
+                    $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
+                     if($task)
+                     {
+                         $testMark = TaskMarks::isTaskDone($user,$task->id);
+                         if($testMark) return $testMark;
+                     }
+                    break;
                 case '6':
-                    return TaskMarks::isTaskDone($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                    $test = Task::model()->findByAttributes(array('condition' => $quiz));
+                    if($test){
+                    $testMark = TaskMarks::isTaskDone($user,$test->id);
+                    if($testMark) return $testMark;
+                    }
                     break;
                 case '12':
-                case '13':
-                    return TestsMarks::isTestDone($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
                     break;
+                case '13':
+                    $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
+                    $testMark = TestsMarks::isTestDone($user, $test->id);
+                    if($testMark)  return $testMark;
+                break;
+
                 default:
                     break;
             }
+        }
         }
         return false;
     }
@@ -239,9 +257,18 @@ class LecturePage extends CActiveRecord
 
     public static function unableQuiz($pageId){
         if($pageId != 0){
+
             $model = LecturePage::model()->findByPk($pageId);
+
             $model->quiz = null;
-            return $model->save();
+
+            if($model->validate()){
+
+                $model->save();
+
+                return true;
+            }
+
         }
         return false;
     }

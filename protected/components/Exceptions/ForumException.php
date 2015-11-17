@@ -9,10 +9,7 @@
 namespace application\components\Exceptions;
 
 
-class ForumException  extends \Exception{
+class ForumException  extends IntItaException{
 
-    protected $view = '/site/error';
-    protected $message;
-    protected $code;
-
+   
 }

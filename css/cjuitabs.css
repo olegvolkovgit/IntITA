@@ -834,8 +834,17 @@ body .tabsWidget .ui-tooltip {
 .tabsWidget .ui-widget button {
     font-family: "MyriadPro";
     font-size: 1em;
+    /* font-family: "MyriadPro"; */
+    /* padding-left: 8px; */
+    /* width: 444px; */
+    /* height: 50px; */
+    /* border-radius: 5px; */
+    /* border: 1px solid #d8d8d8; */
+    /* font-size: 1em; */
+    /* font-weight: 400; */
 }
-.tabsWidget .ui-widget textarea{
+
+.tabsWidget .ui-widget textarea.lectureTextarea{
     min-height: 150px;
     width: 620px;
 }

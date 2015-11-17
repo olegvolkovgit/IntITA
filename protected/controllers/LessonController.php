@@ -51,8 +51,8 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
-
         $passedPages = LecturePage::getAccessPages($id, $user);
+
         $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
 
         if ($editMode) $page = 1;
@@ -180,6 +180,24 @@ class LessonController extends Controller
         $htmlBlock = Yii::app()->request->getPost('newTextBlock');
         $model->id_lecture = Yii::app()->request->getPost('idLecture');
         $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+        LecturePage::addTextBlock($id, $pageId);
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionCreateNewBlockCKE()
+    {
+        $model = new LectureElement();
+
+        $pageOrder = Yii::app()->request->getPost('page');
+        $idType = Yii::app()->request->getPost('type');
+
+        $htmlBlock = Yii::app()->request->getPost('editorAdd');
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
 
         $model->html_block = $htmlBlock;
         $model->id_type = $idType;
@@ -289,6 +307,40 @@ class LessonController extends Controller
         }
     }
 
+    public function actionCKEUploadImage()
+    {
+        $path = StaticFilesHelper::createLectureImagePath();
+        // files storage folder
+        $dir = Yii::getpathOfAlias('webroot') . $path;
+
+        $_FILES['upload']['type'] = strtolower($_FILES['upload']['type']);
+        var_dump($_FILES['upload']['type']);die;
+//        if ($_FILES['upload']['type'] == 'image/png'
+//            || $_FILES['upload']['type'] == 'image/jpg'
+//            || $_FILES['upload']['type'] == 'image/gif'
+//            || $_FILES['upload']['type'] == 'image/jpeg'
+//            || $_FILES['upload']['type'] == 'image/pjpeg'
+//        ) {
+//            $callback = $_GET['CKEditorFuncNum'];
+//            $filename = md5(date('YmdHis')) . $_FILES['upload']['name'];
+//            $full_path = $dir . $filename;
+//            $http_path = Config::getBaseUrl().'/images/lecture/' . $filename;
+//            $error = '';
+//            if (move_uploaded_file($_FILES['upload']['tmp_name'], $full_path)) {
+//            } else {
+//                $error = 'Что-то пошло не так!';
+//                $http_path = '';
+//            }
+//            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
+//                ",\"" . $http_path . "\", \"" . $error . "\" );</script>";
+//        }else{
+//            $callback = $_GET['CKEditorFuncNum'];
+//            $error = Yii::t('error', '0672');
+//            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" . $callback .
+//                ",\"" . '' . "\", \"" . $error . "\" );</script>";
+//        }
+    }
+
     public function actionFormulaRedactor()
     {
         $this->render('formulaRedactor');
@@ -380,12 +432,9 @@ class LessonController extends Controller
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
         $idCourse = Yii::app()->request->getPost('idCourse', 1);
-
         if ($pageOrder > 1) {
             LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
-
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     //reorder blocks on lesson page - down block
@@ -398,8 +447,6 @@ class LessonController extends Controller
         if ($pageOrder < LecturePage::model()->count('id_lecture=' . $idLecture)) {
             LecturePage::swapPages($idLecture, $pageOrder, $pageOrder + 1);
         }
-
-        return $this->renderPartial('_pagesList', array('idLecture' => $idLecture, 'idCourse' => $idCourse));
     }
 
     public function actionUpdateLectureImage($id)
@@ -445,7 +492,7 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($id, $page, $idCourse){
+    public function actionEditPage($id, $page, $idCourse, $cke = false){
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
         $textList = LecturePage::getBlocksListById($pageModel->id);
@@ -463,7 +510,10 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
 
-        $this->render('/editor/index', array(
+        if($cke) $editorView='indexCKE';
+        else $editorView='index';
+
+        $this->render('/editor/'.$editorView, array(
                 'user' => Yii::app()->user->getId(),
                 'page' => $pageModel,
                 'dataProvider' => $dataProvider,
@@ -472,11 +522,12 @@ class LessonController extends Controller
             )
         );
     }
+
     public function actionPageAjaxUpdate()
     {
 
         $user=Yii::app()->user->getId();
-        $id=$_GET['lectureId'];
+        $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
@@ -505,5 +556,18 @@ class LessonController extends Controller
         else{
             echo $this->renderPartial('/lesson/_page',array('id'=>$id,'page'=>$page,'dataProvider'=>$dataProvider,'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
         }
+    }
+
+    public function actionSaveBlock()
+    {
+        $order = Yii::app()->request->getPost('order');
+        $id = Yii::app()->request->getPost('idLecture');
+
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
+        $model->html_block = Yii::app()->request->getPost('content');
+
+        if($model->validate()){
+            $model->save();
+        }else echo 'Блок не може бути пустий';
     }
 }

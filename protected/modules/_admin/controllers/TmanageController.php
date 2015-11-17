@@ -302,7 +302,7 @@ class TmanageController extends AdminController
             if($model->save())
                 $this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
         }
-
+        //var_dump($model);die();
         $this->render('updateRoleAttribute',array(
             'model'=>$model,
         ));

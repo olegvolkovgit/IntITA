@@ -32,9 +32,11 @@ class LectureHelper
 
     public static function getTaskIcon($user, $idBlock, $editMode)
     {
+
         if ($editMode || $user == 0) {
             return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
         } else {
+
             $idTask = Task::model()->findByAttributes(array('condition' => $idBlock))->id;
             if (TaskMarks::isTaskDone($user, $idTask)) {
                 return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
@@ -60,6 +62,7 @@ class LectureHelper
 
     public static function isLectureFinished($idUser, $idLecture)
     {
+
         $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
         $passedLecture = LectureHelper::isPassedLecture($passedPages);
 

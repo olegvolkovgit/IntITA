@@ -22,10 +22,6 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
-
-    <?php echo $form->errorSummary($model); ?>
-
     <div class="row">
         <?php echo $form->labelEx($model,'first_name'); ?>
         <?php echo $form->textField($model,'first_name',array('size'=>60,'maxlength'=>255)); ?>

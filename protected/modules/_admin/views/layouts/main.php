@@ -12,40 +12,23 @@ $header = new Header();
 
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- for tabs -->
-    <!-- fonts -->
     <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
-    <!-- fonts -->
+    <!-- for tabs -->
     <!-- layouts style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
+
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/admin.css"/>
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
-    <!-- aboutUs style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/step.css"/>
-    <!-- steps style -->
+        <!-- steps style -->
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico"
           type="image/x-icon"/>
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo Config::getBaseUrl();?>/scripts/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <!-- jQuery -->
-    <!-- carousel-plugins -->
-    <link type="text/css" rel="stylesheet"
-          href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
-    <!-- carousel-plugins -->
-    <!-- carousel -->
-    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/slider.css">
-    <script src="<?php echo Config::getBaseUrl(); ?>/scripts/slider.js"></script>
-    <!-- carousel -->
     <!-- passEye, jQuery -->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
-    <!-- passEye, jQuery -->
-    <!-- trimEmail-->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+
     <!-- trimEmail -->
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -267,3 +250,5 @@ $header = new Header();
 </div>
 </body>
 </html>
+<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
+<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>

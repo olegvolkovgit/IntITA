@@ -364,4 +364,39 @@ class Module extends CActiveRecord implements IBillableObject
     public function getType(){
         return 'M';
     }
+
+    public static function showModule($course)
+    {
+        $first = '<select name="module">';
+
+        $modulelist = [];
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('id_course=' . $course);
+        $temp = CourseModules::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+
+        $titleParam = ModuleHelper::getModuleTitleParam();
+
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $rows = Module::model()->findAll($criteriaData);
+        $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
+                   <optgroup label="' . Yii::t('payments', '0607') . '">';
+        foreach ($rows as $numRow => $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title] . '</option>';
+        };
+        $last = '</select>';
+        return $result . $last;
+    }
 }

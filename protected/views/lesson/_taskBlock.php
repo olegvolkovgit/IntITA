@@ -6,12 +6,12 @@
             <img src="<?php echo LectureHelper::getTaskIcon($user, $data['id_block'], $editMode);?>">
         </div>
         <div class="content">
-        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" onclick="function(){order = this.id;}">
+        <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
             <br/>
             <?php echo $data['html_block'];?>
             </div>
             <form class="sendAnswer" id="sendAnswer">
-                <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>"></textarea>
+                <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>"></textarea>
             </form>
 
             <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>

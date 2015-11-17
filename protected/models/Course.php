@@ -60,6 +60,7 @@ class Course extends CActiveRecord implements IBillableObject
 			array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly'=>true,
                 'min'=>0,"tooSmall" => Yii::t('coursemanage', '0388'),'message'=>Yii::t('coursemanage', '0388')),
 			array('alias, course_price', 'length', 'max'=>20),
+            array('alias, course_number','unique','message' => Yii::t('course','0740')),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
 			array('course_img', 'length', 'max'=>255),
@@ -94,11 +95,11 @@ class Course extends CActiveRecord implements IBillableObject
 	{
 		return array(
             'course_ID' => 'ID',
-            'alias' => 'Псевдонім',
+            'alias' => Yii::t('course', '0745'),
             'language' => Yii::t('course', '0400'),
             'title_ua' => Yii::t('course', '0401'),
-            'title_ru' => 'Назва російською',
-            'title_en' => 'Назва англійською',
+            'title_ru' => Yii::t('course', '0744'),
+            'title_en' => Yii::t('course', '0743'),
             'course_duration_hours' => Yii::t('course', '0402'),
             'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
@@ -115,8 +116,8 @@ class Course extends CActiveRecord implements IBillableObject
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
             'status' => Yii::t('course', '0411'),
-            'cancelled' => 'Видалений',
-            'course_number' => 'Номер курса',
+            'cancelled' => Yii::t('course', '0741'),
+            'course_number' => Yii::t('course', '0742'),
 		);
 	}
 

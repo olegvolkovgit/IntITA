@@ -77,7 +77,7 @@ span.spoilerClick:hover{
 }
 span.spoilerClick {
     color:#4b75a4;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 div.spoilerTriangle {
@@ -342,9 +342,7 @@ div.lessonButFinal
 #sidebarLesson a {
     text-decoration: none;
     color: #4B75A4;
-    font-weight: bold;
     display: inline-block;
-    vertical-align: top;
 }
 #sidebarLesson .titlesBlock{
     margin-bottom: 10px;
@@ -505,6 +503,7 @@ div.lessonTest {
 .element table td, .element table th {
     padding: 3px;
     border: 1px solid black;
+    text-align: inherit;
 }
 #addBlockForm .re-save, #addBlockForm .re-close, #addBlockForm .re-closefullscreen{
      display: none;
@@ -585,7 +584,7 @@ div#discussionHeader {
     box-sizing: border-box;
     border: 1px solid #335379;
     border-radius: 0 0 10px 10px;
-    padding: 4px 2px 4px 2px;
+    padding: 6px 6px 4px 6px;
     z-index: 0;
     background: #fff;
 }
@@ -612,7 +611,7 @@ div#discussionHeader {
 }
 
 blockquote {
-    background: #EBEADD url("/forum/styles/prosilver/theme/images/quote.gif") no-repeat scroll 6px 3px;
+    background: #EBEADD;
     border: #DBDBCE 1px solid;
     font-size: 0.95em;
     margin: 5px 0 5px 10px;
@@ -667,3 +666,10 @@ a.postlink {
     display: none;
 }
 
+.plainTaskCondition
+{
+    border-width: 2px;
+    resize: none;
+    width: 600px;
+    height: 300px;
+}
