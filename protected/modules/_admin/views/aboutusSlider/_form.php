@@ -23,7 +23,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'pictureUrl'); ?>
-		<?php echo $form->fileField($model,'pictureUrl',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->fileField($model,'pictureUrl'); ?>
 		<?php echo $form->error($model,'pictureUrl'); ?>
 	</div>
     <br>

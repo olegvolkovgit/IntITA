@@ -61,19 +61,21 @@ class CarouselController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Carousel']))
-		{
+		if(isset($_POST['Carousel'])) {
 
             $picName = $_FILES['Carousel']['name'];
             $tmpName = $_FILES['Carousel']['tmp_name'];
 
-            $model->attributes=$_POST['Carousel'];
+            $model->attributes = $_POST['Carousel'];
+            $model->pictureURL = $picName['pictureURL'];
 
-            Avatar::saveMainSliderPicture($model,$picName,$tmpName);
+            if ($model->validate()) {
+                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
-            $model->save();
-                $this->redirect(array('view','id'=>$model->id));
+                $model->save();
+                $this->redirect(array('view', 'id' => $model->id));
             }
+        }
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -99,11 +101,14 @@ class CarouselController extends AdminController
 
 
 			$model->attributes=$_POST['Carousel'];
-            Avatar::saveMainSliderPicture($model,$picName,$tmpName);
+            $model->pictureURL = $picName['pictureURL'];
 
-            if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            if($model->validate()) {
+                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
+                if ($model->save())
+                    $this->redirect(array('view', 'id' => $model->id));
+            }
 		}
 
 		$this->render('update',array(
@@ -118,8 +123,11 @@ class CarouselController extends AdminController
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-        Carousel::sortOrder();
+        $type = 'Carousel';
+        $this->loadModel($id)->delete();
+
+        Slider::sortOrder($type);
+
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -192,8 +200,10 @@ class CarouselController extends AdminController
 
         $model = Carousel::model()->findByAttributes(array('order' => $order));
         $prevModel = Carousel::model()->findByAttributes(array('order' => $order-1));
+        $model->setScenario('swapImage');
         if($prevModel){
-
+            $model->setScenario('swapImage');
+            $prevModel->setScenario('swapImage');
             Carousel::swapImage($model,$prevModel);
 
             if($model->validate() && $prevModel->validate())
@@ -210,12 +220,18 @@ class CarouselController extends AdminController
     public function actionDown($order)
     {
         $model = Carousel::model()->findByAttributes(array('order' => $order));
+
+
         if($order == $model->getLastOrder())
             $this->actionIndex();
 
         else{
         $nextModel = Carousel::model()->findByAttributes(array('order' => $order + 1));
+
         if($nextModel){
+
+            $model->setScenario('swapImage');
+            $nextModel->setScenario('swapImage');
 
             Carousel::swapImage($model,$nextModel);
 
@@ -231,14 +247,4 @@ class CarouselController extends AdminController
 
     }
 
-
-    private function saveModel($model)
-    {
-        if ($model->save())
-        {
-            $this->actionIndex();
-        }
-        else throw new \Stash\Exception\RuntimeException('Model not save!!!');
-
-    }
 }

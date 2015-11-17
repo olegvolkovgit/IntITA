@@ -131,3 +131,7 @@ function addVideo(){
     document.getElementById('addVideoStart').style.display = "none";
 }
 
+$(document).ready(function(){
+    document.getElementById('addBlock').style.display = 'none';
+});
+

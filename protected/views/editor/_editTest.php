@@ -4,12 +4,12 @@ $valid=TestsHelper::getTestValid($idBlock);
 ?>
 <div class="editTest">
     <br>
-    <form name="add-test" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>">
+    <form name="editTestForm" onSubmit="return checkAnswers($('.answersCheckbox input:checkbox:checked'));" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>" novalidate>
         <fieldset>
             <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
-            <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста" value="<?php echo TestsHelper::getTestCondition($idBlock);?>" required/>
+            <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста" value="<?php echo TestsHelper::getTestCondition($idBlock);?>" required ng-init="testConditionEdit='<?php echo TestsHelper::getTestCondition($idBlock);?>'" ng-model="testConditionEdit"/>
             <br>
             <br>
             <fieldset id="optionsField<?php echo $idBlock?>">
@@ -36,7 +36,7 @@ $valid=TestsHelper::getTestValid($idBlock);
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <br>
-        <input type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>' onclick="editCheckAnswers($('#answersList<?php echo $idBlock?> input:checkbox:checked'),'<?php echo $idBlock?>');">
+        <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>'  ng-disabled=editTestForm.$invalid>
     </form>
     <br>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
