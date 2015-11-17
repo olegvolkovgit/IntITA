@@ -27,12 +27,13 @@ class AboutusSlider extends Slider
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pictureUrl', 'required'),
-			array('image_order , text , order', 'numerical', 'integerOnly'=>true),
-			array('pictureUrl', 'length', 'max'=>255),
+            array('pictureUrl', 'file', 'types' => 'jpg, gif, png','message' => 'Виберіть файл','except'=>'swapImage'),
+            array('text', 'required','message' => 'Поле має бути заповнено'),
+            array('image_order , text , order', 'numerical', 'integerOnly'=>true),
+//			array('pictureUrl', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('image_order, pictureUrl, order, text', 'safe', 'on'=>'search'),
+			array('order, pictureUrl, image_order, text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,9 +55,9 @@ class AboutusSlider extends Slider
 	{
 		return array(
 			'image_order' => 'Порядок зображення',
-			'pictureUrl' => 'Фото *',
+			'pictureUrl' => 'Фото',
             'order' => 'Порядок зображення',
-            'text' => 'Код тексту *'
+            'text' => 'Код тексту'
 		);
 	}
 
@@ -86,6 +87,9 @@ class AboutusSlider extends Slider
 
         return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>array(
+                'defaultOrder'=>'`order` ASC',
+            )
 		));
 	}
 

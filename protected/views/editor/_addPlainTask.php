@@ -10,12 +10,13 @@
         <fieldset>
             <label><?php echo Yii::t('lecture','0774'); ?></label>
             <br>
-           <textarea name="block_element" class="plainTaskCondition" placeholder="<?php echo Yii::t('lecture','0773'); ?>"></textarea>
+           <textarea name="block_element" id="plainTask" class="plainTaskCondition" placeholder="<?php echo Yii::t('lecture','0773'); ?>" required></textarea>
 
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <br>
             <input type="submit" value="Додати завдання" id='addtests'>
         </fieldset>
 

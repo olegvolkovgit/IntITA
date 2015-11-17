@@ -144,6 +144,7 @@ if ($idCourse != 0) {
 
         switch (LectureHelper::getQuizType($data['id_block'])) {
             case '5':
+
                 $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
                     'pageId' => $page->id));
                 break;

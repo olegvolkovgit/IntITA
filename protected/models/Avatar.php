@@ -153,9 +153,10 @@ class Avatar {
         if (($model->scenario == "insert" || $model->scenario == "update"))
         {
             $model->pictureUrl = $name['pictureUrl'];
-            $lastOrder = $model->getLastOrder() + 1;
+            $lastOrder = $model->getLastAboutusOrder() + 1;
 
             $model->order = $lastOrder;
+
             if(!copy($tmpName['pictureUrl'],Yii::getPathOfAlias('webroot')."/images/aboutus/".$model->pictureUrl));
             return false;
         }

@@ -4,8 +4,8 @@
         foreach($slider as $key){?>
             <div class="slide">
                 <div>
-                    <p><?php echo Yii::t('slider', $key->slider_text); ?></p>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>" />
+                    <p><?php echo Yii::t('slider', $key->text); ?></p>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureUrl); ?>" />
                 </div>
             </div>
         <?php }
