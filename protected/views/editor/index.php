@@ -20,6 +20,8 @@ if ($idCourse != 0) {
     );
 }
 ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+
 <script type="text/javascript">
     lang = '<?php echo LectureHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
@@ -37,7 +39,7 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js"></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
-<div id="lecturePage">
+<div id="lecturePage" ng-app>
     <br>
 
     <h1 class="lessonPart">
@@ -168,9 +170,11 @@ if ($idCourse != 0) {
         <?php
     }
     ?>
-    <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
-        'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
-    <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+    <?php if ($page->quiz == null) { ?>
+        <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
+            'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
+        <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+    <?php } ?>
     <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
         'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
 </div>

@@ -712,7 +712,7 @@ a.lectureDisabled{
 .selectedButton{
     background: #4b75a4;
 }
-#addBlockSubmit[disabled]{
+#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled]{
     background: #cccccc;
 }
 /*hide close and save in add block*/

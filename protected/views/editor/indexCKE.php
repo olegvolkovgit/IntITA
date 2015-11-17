@@ -179,9 +179,11 @@ if ($idCourse != 0) {
                 <?php
             }
             ?>
+            <?php if ($page->quiz == null) { ?>
             <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
             <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+            <?php } ?>
             <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
         </div>
