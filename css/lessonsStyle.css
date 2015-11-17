@@ -207,7 +207,7 @@ span.colorGreen {
     margin: 20px 0 0 30px;
 }
 .instructionText img{
-    max-width: 90%;
+    max-width: 9%;
 }
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
@@ -496,9 +496,6 @@ div.lessonTest {
 }
 .element{
     font-family: "MyriadPro";
-}
-#addBlock{
-    display:none;
 }
 .element table{
     border-collapse: collapse;
