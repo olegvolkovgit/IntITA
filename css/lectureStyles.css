@@ -730,7 +730,7 @@ a.lectureDisabled{
     width: 70px;
 }
 .cke_dialog_tabs a.cke_dialog_tab {
-    padding: 4px 4px;
+    padding: 4px 1px;
 }
 /*hide close and save in add block*/
 #addBlockForm{
