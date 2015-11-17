@@ -72,11 +72,13 @@ class PlainTaskController extends Controller
 
     public function actionUnablePlainTask()
     {
-        $lecture =  Yii::app()->request->getPost('pageId');
+        $lecture =  Yii::app()->request->getPost('pageId',0);
 
         if($lecture != 0){
             LecturePage::unableQuiz($lecture);
         }
+        $this->redirect(Yii::app()->request->urlReferrer);
+
     }
 
     public function actionSaveAnswer()
