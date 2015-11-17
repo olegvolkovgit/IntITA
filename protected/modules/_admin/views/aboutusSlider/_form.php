@@ -21,21 +21,19 @@
 
 	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'image_order'); ?>
-		<?php echo $form->textField($model,'image_order'); ?>
-		<?php echo $form->error($model,'image_order'); ?>
-	</div>
-
 	<div class="row">
 		<?php echo $form->labelEx($model,'pictureUrl'); ?>
-		<?php echo $form->textField($model,'pictureUrl',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->fileField($model,'pictureUrl',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'pictureUrl'); ?>
 	</div>
+    <br>
+    <div class="row">
+        <?php echo $form->labelEx($model,'text'); ?>
+        <?php echo $form->textField($model,'text'); ?>
+        <?php echo $form->error($model,'text'); ?>
+    </div>
 
-	<div class="row buttons">
+    <div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
 	</div>
 

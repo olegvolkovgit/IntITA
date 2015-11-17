@@ -45,7 +45,7 @@ class CarouselController extends AdminController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+        $this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -63,10 +63,17 @@ class CarouselController extends AdminController
 
 		if(isset($_POST['Carousel']))
 		{
-			$model->attributes=$_POST['Carousel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->order));
-		}
+
+            $picName = $_FILES['Carousel']['name'];
+            $tmpName = $_FILES['Carousel']['tmp_name'];
+
+            $model->attributes=$_POST['Carousel'];
+
+            Avatar::saveMainSliderPicture($model,$picName,$tmpName);
+
+            $model->save();
+                $this->redirect(array('view','id'=>$model->id));
+            }
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -87,9 +94,16 @@ class CarouselController extends AdminController
 
 		if(isset($_POST['Carousel']))
 		{
+            $picName = $_FILES['Carousel']['name'];
+            $tmpName = $_FILES['Carousel']['tmp_name'];
+
+
 			$model->attributes=$_POST['Carousel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->order));
+            Avatar::saveMainSliderPicture($model,$picName,$tmpName);
+
+            if($model->save())
+				$this->redirect(array('view','id'=>$model->id));
+
 		}
 
 		$this->render('update',array(
@@ -105,7 +119,7 @@ class CarouselController extends AdminController
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();
-
+        Carousel::sortOrder();
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -170,4 +184,61 @@ class CarouselController extends AdminController
 			Yii::app()->end();
 		}
 	}
+
+    public function actionUp($order)
+    {
+        if($order == 1)
+            $this->actionIndex();
+
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+        $prevModel = Carousel::model()->findByAttributes(array('order' => $order-1));
+        if($prevModel){
+
+            Carousel::swapImage($model,$prevModel);
+
+            if($model->validate() && $prevModel->validate())
+            {
+                $model->save();
+                $prevModel->save();
+            }
+
+            $this->actionIndex();
+        }
+        else return;
+    }
+
+    public function actionDown($order)
+    {
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+        if($order == $model->getLastOrder())
+            $this->actionIndex();
+
+        else{
+        $nextModel = Carousel::model()->findByAttributes(array('order' => $order + 1));
+        if($nextModel){
+
+            Carousel::swapImage($model,$nextModel);
+
+            if($model->validate() && $nextModel->validate())
+            {
+                $model->save();
+                $nextModel->save();
+            }
+
+            $this->actionIndex();
+        }
+        }
+
+    }
+
+
+    private function saveModel($model)
+    {
+        if ($model->save())
+        {
+            $this->actionIndex();
+        }
+        else throw new \Stash\Exception\RuntimeException('Model not save!!!');
+
+    }
 }

@@ -1,43 +1,41 @@
 <?php
 
-class AboutusSliderController extends AdminController
+class RoleAttributeController extends AdminController
 {
-	/**
-	 * @return array action filters
-	 */
-//	public function filters()
-//	{
-//		return array(
-//			'accessControl', // perform access control for CRUD operations
-//			'postOnly + delete', // we only allow deletion via POST request
-//		);
-//	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-//	public function accessRules()
-//	{
-//		return array(
-//			array('allow',  // allow all users to perform 'index' and 'view' actions
-//				'actions'=>array('index','view'),
-//				'users'=>array('*'),
-//			),
-//			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-//				'actions'=>array('create','update'),
-//				'users'=>array('@'),
-//			),
-//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-//				'actions'=>array('admin','delete'),
-//				'users'=>array('admin'),
-//			),
-//			array('deny',  // deny all users
-//				'users'=>array('*'),
-//			),
-//		);
-//	}
+    /**
+     * @return array action filters
+     */
+//    public function filters()
+//    {
+//        return array(
+//            'accessControl',
+//            'postOnly + delete', // we only allow deletion via POST request
+//        );
+//    }
+//
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+//                'expression'=>array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
+//
+//    function isAdministrator()
+//    {
+//        if(AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
 	/**
 	 * Displays a particular model.
@@ -56,23 +54,16 @@ class AboutusSliderController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new AboutusSlider;
+		$model=new RoleAttribute;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['AboutusSlider']))
+		if(isset($_POST['RoleAttribute']))
 		{
-
-            $picName = $_FILES['AboutusSlider']['name'];
-            $tmpName = $_FILES['AboutusSlider']['tmp_name'];
-
-			$model->attributes=$_POST['AboutusSlider'];
-
-            Avatar::saveAbuotusSlider($model,$picName,$tmpName);
-
+			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->image_order));
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
@@ -92,14 +83,14 @@ class AboutusSliderController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['AboutusSlider']))
+		if(isset($_POST['RoleAttribute']))
 		{
-			$model->attributes=$_POST['AboutusSlider'];
+			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->image_order));
+				$this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
 		}
 
-		$this->render('update',array(
+		$this->render('/_admin/tmanage/updateRoleAttribute',array(
 			'model'=>$model,
 		));
 	}
@@ -123,15 +114,9 @@ class AboutusSliderController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model=new AboutusSlider('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['AboutusSlider']))
-            $model->attributes=$_GET['AboutusSlider'];
-
-        $dataProvider=new CActiveDataProvider('AboutusSlider');
+		$dataProvider=new CActiveDataProvider('RoleAttribute');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-            'model' => $model,
 		));
 	}
 
@@ -140,10 +125,10 @@ class AboutusSliderController extends AdminController
 	 */
 	public function actionAdmin()
 	{
-		$model=new AboutusSlider('search');
+		$model=new RoleAttribute('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['AboutusSlider']))
-			$model->attributes=$_GET['AboutusSlider'];
+		if(isset($_GET['RoleAttribute']))
+			$model->attributes=$_GET['RoleAttribute'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -154,12 +139,12 @@ class AboutusSliderController extends AdminController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return AboutusSlider the loaded model
+	 * @return RoleAttribute the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=AboutusSlider::model()->findByPk($id);
+		$model=RoleAttribute::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -167,16 +152,14 @@ class AboutusSliderController extends AdminController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param AboutusSlider $model the model to be validated
+	 * @param RoleAttribute $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='aboutus-slider-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='role-attribute-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-
-
 }

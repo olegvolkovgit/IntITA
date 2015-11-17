@@ -152,7 +152,6 @@ class ModuleController extends AdminController
     }
 
     public function actionRestore($id){
-
         $model = Module::model()->findByPk($id);
         $model->cancelled = 0;
         $this->saveModel($model);
