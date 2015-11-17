@@ -68,11 +68,13 @@ class AboutusSliderController extends AdminController
             $tmpName = $_FILES['AboutusSlider']['tmp_name'];
 
 			$model->attributes=$_POST['AboutusSlider'];
-
+            $model->pictureUrl = $picName['pictureUrl'];
+            if($model->validate()){
             Avatar::saveAbuotusSlider($model,$picName,$tmpName);
 
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->image_order));
+            }
 		}
 
 		$this->render('create',array(
@@ -111,7 +113,10 @@ class AboutusSliderController extends AdminController
 	 */
 	public function actionDelete($id)
 	{
+        $type = 'AboutUs';
 		$this->loadModel($id)->delete();
+
+        Slider::sortOrder($type);
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -178,5 +183,58 @@ class AboutusSliderController extends AdminController
 		}
 	}
 
+    public function actionUp($order)
+    {
+        if($order == 1)
+            $this->actionIndex();
+
+        $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
+        $prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
+
+        if($prevModel){
+
+            $model->setScenario('swapImage');
+            $prevModel->setScenario('swapImage');
+
+            AboutusSlider::swapImage($model,$prevModel);
+
+            if($model->validate() && $prevModel->validate())
+            {
+                $model->save();
+                $prevModel->save();
+            }
+
+            $this->actionIndex();
+        }
+        else return;
+    }
+
+    public function actionDown($order)
+    {
+
+        $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
+        if($order == $model->getLastAboutusOrder())
+            $this->actionIndex();
+
+        else{
+            $nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
+
+            if($nextModel){
+
+                $model->setScenario('swapImage');
+                $nextModel->setScenario('swapImage');
+
+                AboutusSlider::swapImage($model,$nextModel);
+
+                if($model->validate() && $nextModel->validate())
+                {
+                    $model->save();
+                    $nextModel->save();
+                }
+
+                $this->actionIndex();
+            }
+        }
+    }
 
 }

@@ -17,9 +17,14 @@ abstract class Slider extends CActiveRecord {
         return $row['ordermax'];
     }
 
-    public static function sortOrder()
+    public static function sortOrder($model)
     {
-        $all = Carousel::model()->findAll();
+        if($model == 'Carousel')
+            $all = Carousel::model()->findAll();
+
+        elseif($model == 'AboutUs')
+            $all = AboutusSlider::model()->findAll();
+
         for($i = 0;$i < count($all);$i++)
         {
             $all[$i]->order = $i + 1;
@@ -35,4 +40,12 @@ abstract class Slider extends CActiveRecord {
         $prevModel->order = $tmp;
     }
 
+    public function getLastAboutusOrder()
+    {
+        $row = Yii::app()->db->createCommand(array(
+            'select' => array('MAX(about.`order`) as ordermax'),
+            'from' => 'aboutus_slider as about',
+        ))->queryRow();
+        return $row['ordermax'];
+    }
 }
