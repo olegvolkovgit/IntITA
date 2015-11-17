@@ -181,10 +181,6 @@ button.ui-button::-moz-focus-inner{border:0;padding:0;}
 body .ui-tooltip{border-width:2px;}
 .ui-widget{font-family:Verdana,Arial,sans-serif;}
 .ui-widget .ui-widget{font-size:1em;}
-.ui-widget input,
-.ui-widget select,
-.ui-widget textarea,
-.ui-widget button{font-family:"MyriadPro";padding-left:8px;width:444px;height:50px;border-radius:5px;border:1px solid #d8d8d8;font-size:1em;font-weight:400;}
 .ui-widget-content{border:1px solid #aaaaaa;background:#ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;color:#222222;}
 .ui-widget-content a{color:#222222;}
 .ui-widget-header{border:1px solid #ffffff;background:#ffffff url("images/ui-bg_highlight-soft_75_ffffff_1x100.png") 50% 50% repeat-x;color:#4b75a4;font-size:28px;}
