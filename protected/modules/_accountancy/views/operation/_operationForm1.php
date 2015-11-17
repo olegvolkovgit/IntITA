@@ -8,8 +8,7 @@
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">
         <!--Search form by agreement criteria-->
-        <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByAgreement'); ?>"
-              method="POST" name="newOperation" class="formatted-form">
+        <form method="POST" name="newOperation" class="formatted-form">
         <fieldset form="newOperation" title="Пошук договора">
             <legend>Пошук договора за критеріями:</legend>
             <br>
@@ -17,10 +16,10 @@
             <br>
             <span class="searchCriteria">
                 <label for="numberCriteria">
-                    <input type="checkbox" name="numberCriteria" checked> Номер договора
+                    <input type="checkbox" name="1" id="1"> Номер договора
                 </label>
             </span>
-            <select name="numberCriteriaValue">
+            <select id="numberCriteriaValue">
                 <option value="">Виберіть номер договора</option>
                 <?php
                 $agreementList = UserAgreements::getAllAgreements();
@@ -35,16 +34,17 @@
 
             <span class="searchCriteria">
                 <label for="userCriteria">
-                    <input type="checkbox" name="userCriteria">Користувач
+                    <input type="checkbox" name="2" id="2">Користувач
                 </label>
             </span>
-            <select name="userCriteriaValue">
+            <select id="userCriteriaValue">
                 <option value="">Виберіть користувача</option>
                 <?php
-                $agreementList = UserAgreements::getAllAgreements();
                 foreach ($agreementList as $agreement) {
                     ?>
-                    <option value="<?php echo $agreement->id; ?>"><?php echo $agreement->user_id; ?></option>
+                    <option value="<?php echo $agreement->id; ?>">
+                        <?php echo StudentReg::getUserName($agreement->user_id); ?>
+                    </option>
                 <?php
                 }
                 ?>
@@ -53,16 +53,17 @@
 
             <span class="searchCriteria">
                  <label>
-                    <input type="checkbox" name="courseCriteria"> Курс
+                    <input type="checkbox" name="3" id="3"> Курс
                  </label>
             </span>
-            <select name="courseCriteriaValue">
+            <select id="courseCriteriaValue">
                 <option value="">Виберіть курс</option>
                 <?php
-                $agreementList = UserAgreements::getAllAgreements();
-                foreach ($agreementList as $agreement) {
+                $coursesList = CourseService::getAllCoursesList();
+                foreach ($coursesList as $courseService) {
                     ?>
-                    <option value="<?php echo $agreement->id; ?>"><?php echo $agreement->user_id; ?></option>
+                    <option value="<?php echo $courseService->course_id; ?>">
+                        <?php echo CourseHelper::getCourseName($courseService->course_id); ?></option>
                 <?php
                 }
                 ?>
@@ -71,23 +72,25 @@
 
             <span class="searchCriteria">
                  <label>
-                    <input type="checkbox" name="moduleCriteria"> Модуль
+                    <input type="checkbox" name="4" id="4"> Модуль
                  </label>
             </span>
-            <select name="moduleCriteriaValue">
+            <select id="moduleCriteriaValue">
                 <option value="">Виберіть модуль</option>
                 <?php
-                $agreementList = UserAgreements::getAllAgreements();
-                foreach ($agreementList as $agreement) {
+                $modulesList = ModuleService::getAllModulesList();
+                foreach ($modulesList as $moduleService) {
                     ?>
-                    <option value="<?php echo $agreement->id; ?>"><?php echo $agreement->user_id; ?></option>
+                    <option value="<?php echo $moduleService->module_id; ?>">
+                        <?php echo ModuleHelper::getModuleName($moduleService->module_id); ?>
+                    </option>
                 <?php
                 }
                 ?>
             </select>
             <br>
             <br>
-            <input type="submit" value="Шукати">
+            <input type="submit" value="Шукати" onclick="getAgreementsList()">
         </fieldset>
             </form>
 
@@ -110,3 +113,28 @@
                 </fieldset>
     </div>
 </form>
+
+<script>
+    function getAgreementsList(){
+        number = "";
+        user = "";
+        course = "";
+        module = "";
+        if($('#1').prop('checked')) {
+            number = $("#numberCriteriaValue:selected").value;
+        }
+        if($('#2').prop('checked')) {
+            user =  $("#userCriteriaValue:selected").val();
+        }
+        if($('#3').prop('checked')) {
+            course =  $("#courseCriteriaValue:selected").val();
+        }
+        if($('#4').prop('checked')) {
+            module =  $("#moduleCriteriaValue:selected").val();
+        }
+        alert(number);
+        alert(user);
+        alert(course);
+        alert(module);
+    }
+</script>

@@ -7,7 +7,12 @@
  * @property string $service_id
  * @property string $description
  * @property string $create_date
+ * @property string $cancel_date
  * @property integer $billable
+ *
+ * The followings are the available model relations:
+ * @property CourseService[] $courseServices
+ * @property ModuleService[] $moduleServices
  */
 class Service extends CActiveRecord
 {
@@ -28,6 +33,7 @@ class Service extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('description', 'required'),
+            array('cancel_date', 'safe'),
 			array('billable', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
@@ -44,6 +50,8 @@ class Service extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
+            'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
 		);
 	}
 
@@ -82,6 +90,7 @@ class Service extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('create_date',$this->create_date,true);
 		$criteria->compare('billable',$this->billable);
+        $criteria->compare('cancel_date',$this->cancel_date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

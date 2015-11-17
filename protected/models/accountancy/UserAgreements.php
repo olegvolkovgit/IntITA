@@ -22,51 +22,51 @@
  */
 class UserAgreements extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'acc_user_agreements';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'acc_user_agreements';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('user_id, service_id, payment_schema', 'required'),
-			array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly'=>true),
-			array('service_id, payment_schema', 'length', 'max'=>10),
-            array('number', 'length', 'max'=>50),
-			array('approval_date, cancel_date, close_date', 'safe'),
-			// The following rule is used by search().
-			array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
-			cancel_date, close_date, payment_schema, cancel_reason_type', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('user_id, service_id, payment_schema', 'required'),
+            array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly' => true),
+            array('service_id, payment_schema', 'length', 'max' => 10),
+            array('number', 'length', 'max' => 50),
+            array('approval_date, cancel_date, close_date', 'safe'),
+            // The following rule is used by search().
+            array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
+			cancel_date, close_date, payment_schema, cancel_reason_type', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-		);
-	}
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
             'id' => 'ID договору',//'User account',
             'user_id' => 'Користувач',//'User which have agreement',
             'service_id' => 'Service',//'Service for this agreement',
@@ -77,80 +77,81 @@ class UserAgreements extends CActiveRecord
             'cancel_date' => 'Дата відміни',//'date when agreement was cancelled',
             'close_date' => 'Дата закриття',//'Date when agreement should be closed',
             'payment_schema' => 'Схема оплати',//'Payment scheme',
-            'number'=> 'Номер',
-            'summa'=> 'Сума',
+            'number' => 'Номер',
+            'summa' => 'Сума',
             'cancel_reason_type' => 'Причина закриття',
-		);
-	}
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('approval_user',$this->approval_user);
-		$criteria->compare('approval_date',$this->approval_date,true);
-		$criteria->compare('cancel_user',$this->cancel_user);
-        $criteria->compare('number',$this->number);
-		$criteria->compare('cancel_date',$this->cancel_date,true);
-		$criteria->compare('close_date',$this->close_date,true);
-		$criteria->compare('payment_schema',$this->payment_schema,true);
-        $criteria->compare('summa',$this->summa,true);
-        $criteria->compare('cancel_reason_type',$this->cancel_reason_type,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('service_id', $this->service_id, true);
+        $criteria->compare('create_date', $this->create_date, true);
+        $criteria->compare('approval_user', $this->approval_user);
+        $criteria->compare('approval_date', $this->approval_date, true);
+        $criteria->compare('cancel_user', $this->cancel_user);
+        $criteria->compare('number', $this->number);
+        $criteria->compare('cancel_date', $this->cancel_date, true);
+        $criteria->compare('close_date', $this->close_date, true);
+        $criteria->compare('payment_schema', $this->payment_schema, true);
+        $criteria->compare('summa', $this->summa, true);
+        $criteria->compare('cancel_reason_type', $this->cancel_reason_type, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-            'pagination'=>array(
-                'pageSize'=>50,
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
             ),
-		));
-	}
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return UserAgreements the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return UserAgreements the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
     public static function courseAgreement($user, $course, $schema)
     {
         $service = CourseService::getService($course);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
-            if ($model){
+            if ($model) {
                 return $model;
             }
         }
         return self::newAgreement($user, 'CourseService', $course, $schema);
-   }
+    }
 
-    public static function courseAgreementExist($user, $course){
+    public static function courseAgreementExist($user, $course)
+    {
         $service = CourseService::getService($course);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
-            if ($model){
+            if ($model) {
                 return true;
             }
         }
@@ -162,25 +163,26 @@ class UserAgreements extends CActiveRecord
         $service = ModuleService::getService($module);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
-            if ($model){
+            if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'ModuleService',$module, $schema);
+        return self::newAgreement($user, 'ModuleService', $module, $schema);
     }
 
-    public static function moduleAgreementExist($user, $module){
+    public static function moduleAgreementExist($user, $module)
+    {
         $service = ModuleService::getService($module);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
-            if ($model){
+            if ($model) {
                 return true;
             }
         }
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id , $schemaId)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId)
     {
         $schema = PaymentScheme::getSchema($schemaId);
         $serviceModel = $modelFactory::getService($param_id);
@@ -214,24 +216,49 @@ class UserAgreements extends CActiveRecord
         $this->id = Yii::app()->db->getLastInsertID();
     }
 
-    private static function generateNumber($serviceModel, $agreement){
-        return $serviceModel->getNumber().' - '.sprintf("%06d", $agreement).' - '.$serviceModel->getType();
+    private static function generateNumber($serviceModel, $agreement)
+    {
+        return $serviceModel->getNumber() . ' - ' . sprintf("%06d", $agreement) . ' - ' . $serviceModel->getType();
     }
 
-    public static function getNumber($id){
+    public static function getNumber($id)
+    {
         return UserAgreements::model()->findByPk($id)->number;
     }
 
-    public static function getCreateDate($id){
+    public static function getCreateDate($id)
+    {
         return date("d.m.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
     }
 
-    public static function getFormatDate($date){
-        if($date == NULL) return '';
+    public static function getFormatDate($date)
+    {
+        if ($date == NULL) return '';
         return date("d.m.y", strtotime($date));
     }
 
-    public static function getAllAgreements(){
+    public static function getAllAgreements()
+    {
         return UserAgreements::model()->findAll();
+    }
+
+    public static function getAllCoursesList()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->mergeWith(array(
+            'join' => 'LEFT JOIN acc_course_service cs ON cs.service_id = t.service_id',
+            'condition' => 'cs.service_id = t.service_id'
+        ));
+        return UserAgreements::model()->findAll($criteria);
+    }
+
+    public static function getAllModulesList()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->mergeWith(array(
+            'join' => 'LEFT JOIN acc_module_service ms ON ms.service_id = t.service_id',
+            'condition' => 'ms.service_id = t.service_id'
+        ));
+        return UserAgreements::model()->findAll($criteria);
     }
 }

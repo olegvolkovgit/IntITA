@@ -6,6 +6,10 @@
  * The followings are the available columns in table 'acc_course_service':
  * @property string $service_id
  * @property integer $course_id
+ *
+ * The followings are the available model relations:
+ * @property Service $service
+ * @property Course $course
  */
 class CourseService extends AbstractIntITAService
 {
@@ -45,6 +49,8 @@ class CourseService extends AbstractIntITAService
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+            'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
 		);
 	}
 
@@ -73,8 +79,6 @@ class CourseService extends AbstractIntITAService
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('service_id',$this->service_id,true);
@@ -146,5 +150,16 @@ class CourseService extends AbstractIntITAService
         }
         return "Курс №".$this->course->course_number.". ".$this->course->title_ua . ', '.
         CommonHelper::translateLevelUa($this->course->level);
+    }
+
+    public static function getAllCoursesList()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->select = 'course_id';
+        $criteria->mergeWith(array(
+            'join' => 'LEFT JOIN acc_user_agreements ua ON ua.service_id = t.service_id',
+            'condition' => 'ua.service_id = t.service_id'
+        ));
+        return CourseService::model()->findAll($criteria);
     }
 }

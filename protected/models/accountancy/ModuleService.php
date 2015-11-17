@@ -49,7 +49,8 @@ class ModuleService extends AbstractIntITAService
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
         return array(
-
+            'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+            'module' => array(self::BELONGS_TO, 'Module', 'module_id'),
         );
 	}
 
@@ -148,5 +149,15 @@ class ModuleService extends AbstractIntITAService
         }
         return "Модуль №".$this->module->module_number.". ".$this->module->title_ua . ', '.
         CommonHelper::translateLevelUa($this->module->level);
+    }
+
+    public static function getAllModulesList()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->mergeWith(array(
+            'join' => 'LEFT JOIN acc_user_agreements ua ON ua.service_id = t.service_id',
+            'condition' => 'ua.service_id = t.service_id'
+        ));
+        return ModuleService::model()->findAll($criteria);
     }
 }
