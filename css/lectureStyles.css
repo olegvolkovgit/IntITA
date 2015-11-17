@@ -454,6 +454,10 @@ div.lastAccessPage {
     padding: 10px;
 }
 
+.text, .codeExample, .code {
+    overflow: hidden;
+}
+
 .text table {
     margin: 0;
     margin-bottom: 15px;
@@ -729,3 +733,15 @@ a.lectureDisabled{
     padding: 4px 4px;
 }
 /*hide close and save in add block*/
+#addBlockForm{
+    clear: both;
+}
+.lessonText hr {
+    display: block;
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    -webkit-margin-start: auto;
+    -webkit-margin-end: auto;
+    border-style: inset;
+    border-width: 1px;
+}
