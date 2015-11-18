@@ -3,6 +3,6 @@
 /* @var $model CancelReasonType */
 ?>
 
-<h1>Create CancelReasonType</h1>
+<h1>Додати запис</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

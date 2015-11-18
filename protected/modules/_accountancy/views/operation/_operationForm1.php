@@ -101,7 +101,10 @@
                 <legend>Операція:</legend>
         Результати пошуку:
         <br/>
-        <div id="searchResult"></div>
+        <div id="searchResult">
+            <input type="radio" name="agreement" value="245"><a href="#">Договір 245</a><br>
+            <input type="radio" name="agreement" value="248"><a href="#">Договір 248</a>
+        </div>
         <br/>
         <label> Введіть суму операції:
             <br/>
@@ -121,7 +124,7 @@
         course = "";
         module = "";
         if($('#1').prop('checked')) {
-            number = $('#numberCriteriaValue option:selected').val();
+            number = $("#numberCriteriaValue option:selected").val();
         }
         if($('#2').prop('checked')) {
             user = $('#userCriteriaValue option:selected').val() ;
@@ -132,9 +135,5 @@
         if($('#4').prop('checked')) {
             module = $('#moduleCriteriaValue option:selected').val();
         }
-        alert(number);
-        alert(user);
-        alert(course);
-        alert(module);
     }
 </script>
