@@ -7,3 +7,6 @@ local.php
 assets/*
 files/course_schemas/*
 protected/views/site/error.php
+protected/config/local.php
+protected/config/database.php
+protected/config/databaseForum.php

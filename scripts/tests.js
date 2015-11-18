@@ -142,28 +142,15 @@ function checkAnswers(answers){
     var answerTrim = document.getElementsByClassName('testVariant');
     for (var i = 0; i < answerTrim.length; i++) {
         answerTrim[i].value = $.trim(answerTrim[i].value);
+        if(answerTrim[i].value==''){
+            alert('Варіант відповіді не може містити пустий текст');
+            return false;
+        }
     }
     if(answers.length==0){
         alert('Виберіть хоч один правильний варіант перед створенням тесту');
         return false;
     }
-}
-function editCheckAnswers(answers, idblock){
-    var answerTrim = document.getElementsByClassName('testVariant');
-    for (var i = 0; i < answerTrim.length; i++) {
-        answerTrim[i].value = $.trim(answerTrim[i].value);
-    }
-    if(answers.length==0){
-        alert('Виберіть хоч один правильний варіант перед створенням тесту');
-        document.getElementById("addtests"+idblock).disabled = true;
-    }
-}
-/*Робимо кнопку додати тест активною*/
-function buttonEnabled(){
-        document.getElementById("addtests").disabled = false;
-}
-function editButtonEnabled(idblock){
-    document.getElementById("addtests"+idblock).disabled = false;
 }
 
 function unableTest(pageId){

@@ -7,8 +7,7 @@
  */
 ?>
 
-
-<a name="newBlockForm">
+<a name="newBlockForm"></a>
     <div id="blockForm">
         <div id="textBlockForm">
             <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>"

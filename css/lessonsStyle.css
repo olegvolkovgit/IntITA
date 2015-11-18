@@ -206,6 +206,9 @@ span.colorGreen {
     font-size: 16px;
     margin: 20px 0 0 30px;
 }
+/*.instructionText img{*/
+    /*max-width: 9%;*/
+/*}*/
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
     counter-reset: num; /* Задаём имя счетчика */
@@ -493,9 +496,6 @@ div.lessonTest {
 }
 .element{
     font-family: "MyriadPro";
-}
-#addBlock{
-    display:none;
 }
 .element table{
     border-collapse: collapse;
