@@ -9,7 +9,7 @@ $(document).ready(function () {
         var newOption = 1 + parseInt(optionsNum);
         $('<li><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required></li>').fadeIn('slow').appendTo('.inputs');
 
-        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"><span>'+newOption+' відповідь</span></div>').fadeIn('slow').appendTo('.answersCheckbox');
+        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"></div>').fadeIn('slow').appendTo('.answersCheckbox');
 
         document.getElementById("optionsNum").value = newOption;
     });
@@ -28,25 +28,23 @@ $(document).ready(function () {
     /*Добавляємо варіант відповіді в список і варіант для вибору цієї відповіді при редагуванні*/
     $('html').on('click','.editAddTest',function () {
         var idParent=$(this).parent().attr('id');
-        var answersContent=$(this).parent().next('fieldset').attr('id');
         var options = $(this).parent().parent().children('.optionsNum');
         var optionsNum = $(this).parent().parent().children('.optionsNum').val();
         var newOption = 1 + parseInt(optionsNum);
         $('<li><input class="testVariant" type="text" name="option' + newOption + '" id="option' + newOption +'" size="80" required></li>').fadeIn('slow').appendTo('#'+idParent +' > ol');
 
-        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"><span>'+newOption+' відповідь</span></div>').fadeIn('slow').appendTo('#'+answersContent +' > .answersCheckbox');
+        $('<div><input type="checkbox" name="answer'+ newOption +'" value="'+ newOption +'"></div>').fadeIn('slow').appendTo('.answersCheckbox');
 
         options.val(newOption);
     });
     /*... і видаляємо*/
     $('html').on('click','.editRemoveTest', function () {
         var idParent=$(this).parent().attr('id');
-        var answersContent=$(this).parent().next('fieldset').attr('id');
         var options = $(this).parent().parent().children('.optionsNum');
         var optionsNum = $(this).parent().parent().children('.optionsNum').val();
         var newOption = parseInt(optionsNum);
         var a = $('#'+idParent+' > ol > li');
-        var b = $('#'+answersContent+' > div > div');
+        var b = $('.answersCheckbox > div');
         a.filter(":last").remove();
         b.filter(":last").remove();
 
