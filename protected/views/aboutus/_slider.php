@@ -1,15 +1,23 @@
 <div class="aboutusslider">
     <div id="slider" class="owl-carousel">
-        <?php
-        foreach($slider as $key){?>
-            <div class="slide">
-                <div>
-                    <p><?php echo Yii::t('slider', $key->text); ?></p>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', $key->pictureUrl); ?>" />
+        <?php foreach($slider as $key){?>
+            <div class="slideAbout">
+                <div class="abouttext">
+                    <div class="about<?php echo $key->order; ?>">
+                        <div class="headerAbout">
+                            <?php echo Yii::t("slider", "0549") ?>
+                        </div>
+                        <div class="sliderCenterBoxLine">
+                            <hr>
+                        </div>
+                        <div class="textabout">
+                            <?php echo Yii::t("slider", $key->text) ?>
+                        </div>
+                    </div>
                 </div>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', $key->pictureUrl); ?>"/>
             </div>
-        <?php }
-        ?>
+        <?php }?>
     </div>
 </div>
 

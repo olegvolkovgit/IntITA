@@ -13,7 +13,7 @@ function sendPlainTaskAnswer(idLecture)
     {
         $.ajax({
             type: "POST",
-            url: "/plainTask/saveAnswer",
+            url: "/IntIta/plainTask/saveAnswer",
             data: {'idLecture':idLecture,'answer':answer},
             success: function(JSON){
                   alert('Ваша відповідь буде оброблена в найближчий час');
