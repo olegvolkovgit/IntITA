@@ -156,11 +156,12 @@ if ($idCourse != 0) {
                 $data = LectureHelper::getPageQuiz($page->id);
 
                 switch (LectureHelper::getQuizType($data['id_block'])) {
-                    case '5':$this->renderPartial('/editor/_editPlainTask', array('data' => $data,
-                        'pageId' => $page->id));
+                    case '5':
+                        $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
+                            'pageId' => $page->id));
                         break;
                     case '6':
-                        $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
+                        $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
                             'pageId' => $page->id));
                         break;
                     case '12':
