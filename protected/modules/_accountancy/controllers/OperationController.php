@@ -6,10 +6,10 @@ class OperationController extends AccountancyController
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView($model)
 	{
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$model,
 		));
 	}
 
@@ -123,38 +123,59 @@ class OperationController extends AccountancyController
 		}
 	}
 
+    public function actionGetSearchAgreements(){
+        $request = Yii::app()->request;
+        $number = $request->getPost('number', "");
+        $user = $request->getPost('user', 0);
+        $course = $request->getPost('course', 0);
+        $module = $request->getPost('module', 0);
+
+        $criteria = new CDbCriteria();
+        if ($number != ""){
+            $criteria->addCondition('number='.$number, 'OR');
+        }
+        if ($user != ""){
+            $criteria->addCondition('user_id='.$user, 'OR');
+        }
+        if ($course != ""){
+            $service = CourseService::getService($course);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+        if ($module != ""){
+            $service = ModuleService::getService($module);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+
+        echo UserAgreements::model()->findAll($criteria);
+    }
+
+
     public function actionCreateByInvoice(){
         var_dump($_POST);die();
-//        $type = Yii::app()->request->getPost('type', 0);
-//
-//        $model=new Operation;
-//        if(isset($_POST['Operation']))
-//        {
-//            $model->attributes=$_POST['Operation'];
-//            if($model->save())
-//                $this->redirect(array('view','id'=>$model->id));
-//        }
-//
-//        $this->render('create',array(
-//            'model'=>$model
-//        ));
+        $type = Yii::app()->request->getPost('type', 0);
+
+        $model=new Operation;
+        if(isset($_POST['Operation']))
+        {
+            $model->attributes=$_POST['Operation'];
+            if($model->save())
+                $this->redirect(array('view','id'=>$model->id));
+        }
+
+        $this->render('view',array(
+            'model'=>$model
+        ));
     }
 
     public function actionCreateByAgreement(){
-        var_dump($_POST);die();
-//        $type = Yii::app()->request->getPost('type', 0);
-//
-//        $model=new Operation;
-//
-//        if(isset($_POST['Operation']))
-//        {
-//            $model->attributes=$_POST['Operation'];
-//            if($model->save())
-//                $this->redirect(array('view','id'=>$model->id));
-//        }
-//
-//        $this->render('create',array(
-//            'model'=>$model
-//        ));
+        $request = Yii::app()->request;
+        $agreement = $request->getPost('agreement', "");
+        $summa = $request->getPost('summa', 0);
+        $user = $request->getPost('user', 0);
+
+        if (Operation::addOperation($summa, $invoice, $user, 1)) {
+            $this->render('index');
+        }
+
     }
 }

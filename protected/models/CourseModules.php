@@ -42,7 +42,7 @@ class CourseModules extends CActiveRecord
 			// The following rule is used by search().
 			array('id_course, id_module, order, mandatory_modules, durationInMonths, lessonCount, price_in_course',
                 'safe', 'on'=>'search'),
-            array('on' => 'activeModule'),
+            //array('on' => 'activeModule'),
 		);
 	}
 

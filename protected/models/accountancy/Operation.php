@@ -107,4 +107,15 @@ class Operation extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addOperation($summa, $invoice, $user, $type){
+        $model = new Operation();
+
+        $model->invoice_id = $invoice;
+        $model->summa = $summa;
+        $model->user_create = $user;
+        $model->type_id = $type;
+
+        return $model->save();
+    }
 }

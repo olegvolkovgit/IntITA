@@ -8,7 +8,8 @@
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">
         <!--Search form by agreement criteria-->
-        <form method="POST" name="newOperation" class="formatted-form">
+        <form method="POST" name="newOperation" class="formatted-form" action="#"
+        <?php //echo Yii::app()->createUrl('/_accountancy/operation/getSearchAgreements');?>>
         <fieldset form="newOperation" title="Пошук договора">
             <legend>Пошук договора за критеріями:</legend>
             <br>
@@ -114,8 +115,9 @@
             <br/>
         <button type="submit">Додати</button>
                 </fieldset>
+        </form>
     </div>
-</form>
+
 
 <script>
     function getAgreementsList(){
@@ -135,5 +137,20 @@
         if($('#4').prop('checked')) {
             module = $('#moduleCriteriaValue option:selected').val();
         }
+        $.ajax({
+            type: "POST",
+            url: "/IntITA/operation/getSearchAgreements",
+            data: {
+                'number': number,
+                'user': user,
+                'course': course,
+                'module': module
+            },
+            cache: false,
+            success: function (data) {
+                alert(1);
+                    alert(data);
+            }
+        });
     }
 </script>
