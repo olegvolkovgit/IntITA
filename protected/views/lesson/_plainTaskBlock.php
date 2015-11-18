@@ -1,4 +1,4 @@
-<?php if($data['id_type'] == 5){?>
+<?php if($data['id_type'] == 6){?>
     <div class="element">
         <div class="lessonTask">
             <div class="lessonBG">

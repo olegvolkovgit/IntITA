@@ -116,7 +116,7 @@ class PlainTask extends Quiz
         } else {
 
             $idTask = self::model()->findByAttributes(array('block_element' => $id_block))->id;
-            if (TaskMarks::isTaskDone($user, $idTask)) {
+            if (PlainTaskMarks::isTaskDone($user, $idTask)) {
                 return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
             } else {
                 return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
