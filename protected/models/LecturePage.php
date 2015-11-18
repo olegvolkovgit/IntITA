@@ -212,7 +212,6 @@ class LecturePage extends CActiveRecord
                     }
                     break;
                 case '12':
-                    break;
                 case '13':
                     $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
                     $testMark = TestsMarks::isTestDone($user, $test->id);
