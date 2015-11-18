@@ -18,21 +18,21 @@
             <br>
             <fieldset>
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
-                <ol  id="optionsList" class="inputs">
+                <ol  style="display: inline-block" id="optionsList" class="inputs">
                     <li>
                         <input class="testVariant" type="text" name="option1" id="option1" size="80" required/>
                     </li>
                 </ol>
+                <div style="display: inline-block">
+                    <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?>:</legend>
+                    <div id="answersList" class="answersCheckbox">
+                        <div><input type="checkbox" name="answer1" value="1"></div>
+                    </div>
+                </div>
                 <div class="addTest" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
                 <div class="removeTest"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <fieldset>
-                <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?>:</legend>
-                <div id="answersList" class="answersCheckbox">
-                <div><input type="checkbox" name="answer1" value="1"><span>1 <?php echo Yii::t('lecture', '0705'); ?></span></div>
-                </div>
-            </fieldset>
             <br>
             <input name="optionsNum" id="optionsNum" type="hidden" value="1"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
