@@ -192,6 +192,7 @@ class SiteController extends Controller
                         }
                     };
 
+
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);

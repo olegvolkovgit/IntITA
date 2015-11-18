@@ -146,6 +146,7 @@ class StudentReg extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+           'teacher' => array(self::HAS_ONE, 'Teacher','user_id'),
         );
     }
 
@@ -561,5 +562,10 @@ class StudentReg extends CActiveRecord
         ));
 
         return $markProvider;
+    }
+
+    public function getTeacherId()
+    {
+        return $this->teacher->teacher_id;
     }
 }

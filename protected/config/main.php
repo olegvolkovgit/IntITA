@@ -45,6 +45,7 @@ return array(
             'password'=>'admin',
         ),
         '_admin',
+        '_teacher',
         '_accountancy',
     ),
 
@@ -102,6 +103,9 @@ return array(
 
                 'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
+                '_teacher/cabinet/login/<id:\d+>' => '_teacher/cabinet/login', /* Url for cabinet teacher page */
+
+
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
