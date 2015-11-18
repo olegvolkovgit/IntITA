@@ -14,7 +14,8 @@
 <body>
     <div class="container-fluid" ng-app="App">
         <h1 id="title">Тест для задачі</h1>
-
+   <div id="firstForm">
+       <br>
         <div class="row col" ng-controller="Ctrl">
 
                 <div class="col-lg-2">
@@ -57,6 +58,12 @@
 
 
         </div>
+
+
+
+        </div>
+        <div id="forAppForms">
+        </div>
         <hr>
 
         <div class="row col">
@@ -85,7 +92,6 @@
 
         </div>
 
-
         <br>
         <div class="row">
             <button type="submit" class="btn btn-default pull-right btnInterp" ng-click="">Submit</button>
@@ -96,12 +102,21 @@
 </body>
 </html>
 
+<!--<script>-->
+<!--    var app = angular.module('App', []);-->
+<!--    app.controller('Ctrl', function($scope) {-->
+<!--var clone = linkingFn(scope,function callback(clone{-->
+<!--    element.append(clone);-->
+<!--});-->
+<!--        };-->
+<!--    });-->
+<!--</script>-->
 <script>
-    var app = angular.module('App', []);
-    app.controller('Ctrl', function($scope) {
-var clone = linkingFn(scope,function callback(clone{
-    element.append(clone);
-});
-        };
+    $(document).ready(function(){
+        $("button").click(function(){
+            $("#firstForm").clone().appendTo("#forAppForms");
+        });
+        $
     });
+
 </script>

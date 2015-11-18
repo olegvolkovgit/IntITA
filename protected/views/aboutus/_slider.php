@@ -5,7 +5,7 @@
             <div class="slide">
                 <div>
                     <p><?php echo Yii::t('slider', $key->text); ?></p>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureUrl); ?>" />
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', $key->pictureUrl); ?>" />
                 </div>
             </div>
         <?php }
