@@ -115,13 +115,7 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        if ($taskType == 'final'){
-            //$model->type = 'final task';
-            $model->id_type = 6;
-        } else {
-            //$model->type = 'task';
-            $model->id_type = 5;
-        }
+        $model->id_type = 5;
 
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
@@ -138,13 +132,8 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        if ($testType == 'final'){
-            //$model->type = 'final test';
-            $model->id_type = 13;
-        } else {
-            //$model->type = 'test';
-            $model->id_type = 12;
-        }
+        $model->id_type = 12;
+
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 
@@ -304,7 +293,7 @@ class LectureElement extends CActiveRecord
 
     public static function addNewPlainTask($lecture,$block_element)
     {
-        $type = 5;
+        $type = 6;
 
         $model = new LectureElement();
 

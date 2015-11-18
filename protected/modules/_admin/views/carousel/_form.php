@@ -30,6 +30,7 @@
 <!--	</div>-->
 
 	<div class="row">
+        <p class="note" style="color: #ff0000">Зверніть увагу зображення рекомендовані пропорції 2.18 до 1</p>
 		<?php echo $form->labelEx($model,'pictureURL'); ?>
 		<?php echo $form->fileField($model,'pictureURL',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'pictureURL'); ?>

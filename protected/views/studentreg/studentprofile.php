@@ -27,9 +27,11 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar);?>"/>
+
         <table class='profileInfo'>
             <tr>
                 <td>
+                    <a href="<?php echo Config::getBaseUrl(); ?>/_teacher/cabinet/<?php echo $post->getTeacherId(); ?>">Cabinet</a>
                     <h1><?php echo $post->nickname;?></h1>
                     <h1><?php echo $post->firstName;?></h1>
                     <h1><?php echo $post->secondName;?></h1>

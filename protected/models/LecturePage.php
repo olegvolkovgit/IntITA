@@ -200,7 +200,7 @@ class LecturePage extends CActiveRecord
                     $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
                      if($task)
                      {
-                         $testMark = TaskMarks::isTaskDone($user,$task->id);
+                         $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
                          if($testMark) return $testMark;
                      }
                     break;
@@ -212,7 +212,6 @@ class LecturePage extends CActiveRecord
                     }
                     break;
                 case '12':
-                    break;
                 case '13':
                     $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
                     $testMark = TestsMarks::isTestDone($user, $test->id);

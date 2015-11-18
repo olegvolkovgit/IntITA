@@ -1,21 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "plain_task".
+ * This is the model class for table "plain_task_marks".
  *
- * The followings are the available columns in table 'plain_task':
+ * The followings are the available columns in table 'plain_task_marks':
  * @property integer $id
- * @property integer $block_element
- * @property integer $author
+ * @property integer $id_user
+ * @property integer $id_task
+ * @property integer $mark
+ * @property string $comment
+ * @property string $time
  */
-class PlainTask extends Quiz
+class PlainTaskMarks extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'plain_task';
+		return 'plain_task_marks';
 	}
 
 	/**
@@ -26,11 +29,12 @@ class PlainTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('block_element, author', 'required'),
-			array('block_element, author', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_task, mark, time', 'required'),
+			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
+			array('comment', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, id_user, id_task, mark, comment, time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +56,11 @@ class PlainTask extends Quiz
 	{
 		return array(
 			'id' => 'ID',
-			'block_element' => Yii::t('lecture','0774'),
-			'author' => Yii::t('lecture','0775'),
+			'id_user' => 'Id User',
+			'id_task' => 'Id Task',
+			'mark' => 'Mark',
+			'comment' => 'Comment',
+			'time' => 'Time',
 		);
 	}
 
@@ -76,8 +83,11 @@ class PlainTask extends Quiz
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('block_element',$this->block_element);
-		$criteria->compare('author',$this->author);
+		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('id_task',$this->id_task);
+		$criteria->compare('mark',$this->mark);
+		$criteria->compare('comment',$this->comment,true);
+		$criteria->compare('time',$this->time,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -88,44 +98,15 @@ class PlainTask extends Quiz
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PlainTask the static model class
+	 * @return PlainTaskMarks the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public function addTask($arr)
-    {
-        $model = new PlainTask();
-
-        $model->author = $arr['author'];
-        $model->block_element = $arr['block'];
-
-        if($model->validate())
-        {
-            $model->save();
-            LecturePage::addQuiz($arr['pageId'], $arr['block']);
-        }
-    }
-
-    public static function getPlainTaskIcon($user, $id_block, $editMode)
-    {
-        if ($editMode || $user == 0) {
-            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-        } else {
-
-            $idTask = self::model()->findByAttributes(array('block_element' => $id_block))->id;
-            if (PlainTaskMarks::isTaskDone($user, $idTask)) {
-                return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
-            } else {
-                return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-            }
-        }
-    }
-
-    public static function getPlainTaskByLectureId($lectureId)
-    {
-        return LectureElement::model()->findByPk($lectureId)->plainTask;
+    public static function isTaskDone($user, $idTask){
+        return PlainTaskMarks::model()->exists('id_user =:user and id_task =:task and mark = 1',
+            array(':user' => $user, ':task' => $idTask));
     }
 }
