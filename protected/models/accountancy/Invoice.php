@@ -190,4 +190,19 @@ class Invoice extends CActiveRecord
     public static function getAllInvoices(){
         return Invoice::model()->findAll();
     }
+
+    public static function getSumma($id){
+        return Invoice::model()->findByPk($id)->summa;
+    }
+
+    public static function setInvoicesPayDate($list, $payDate){
+        if(!empty($list)){
+            foreach($list as $invoice){
+                Invoice::model()->updateByPk($invoice, array(
+                    'pay_date' => $payDate)
+                );
+            }
+        }
+        return true;
+    }
 }

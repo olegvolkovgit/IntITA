@@ -34,7 +34,6 @@ class Operation extends CActiveRecord
 			array('user_create, type_id', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, date_create, user_create, type_id, summa', 'safe', 'on'=>'search'),
 		);
 	}
@@ -116,20 +115,29 @@ class Operation extends CActiveRecord
         {
             if ($model->save()){
                 $model->addInvoices($invoicesList);
-                ExternalPays::addNewExternalPay($model->id);
-                $model->addInternalPays($invoicesList);
+                if(!ExternalPays::addNewExternalPay($model->id)){
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
+                }
+                if (!$model->addInternalPays($invoicesList)){
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
+                }
             } else {
-
+                $transaction->rollback();
+                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
             }
+            $createDate = Operation::model()->findByPk($model->id)->date_create;
+            Invoice::setInvoicesPayDate($invoicesList, $createDate);
             $transaction->commit();
         }
         catch(Exception $e)
         {
             $transaction->rollback();
-            throw new \application\components\Exceptions\FinanceException("Операцію не додано!");
+            throw new \application\components\Exceptions\FinanceException('Операцію не додано!');
         }
-
-        return false;
+        //if we not receive an exception, so we have good transaction
+        return true;
     }
 
     public function addInvoices($invoicesList){
@@ -140,14 +148,24 @@ class Operation extends CActiveRecord
                     'id_invoice'=>$invoice,
                 ));
             }
+        }else{
+            return false;
         }
+        return true;
     }
 
     public function addInternalPays($invoicesList){
         if(!empty($invoicesList)){
             foreach($invoicesList as $invoice){
-                InternalPays::addNewInternalPay($invoice, $this->user_create);
+                if(!InternalPays::addNewInternalPay($invoice, $this->user_create)){
+                    return false;
+                }
             }
+        }else{
+            return false;
         }
+        return true;
     }
+
+
 }
