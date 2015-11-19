@@ -55,7 +55,7 @@ class AboutusSlider extends Slider
 	{
 		return array(
 			'image_order' => 'Порядок зображення',
-			'pictureUrl' => 'Фото',
+			'pictureUrl' => 'Зображення',
             'order' => 'Порядок зображення',
             'text' => 'Код тексту'
 		);

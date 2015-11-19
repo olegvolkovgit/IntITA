@@ -22,7 +22,8 @@
 	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'pictureUrl'); ?>
+        <p class="note" style="color: #ff0000">Зверніть увагу зображення рекомендовані пропорції 3 до 1 </p>
+        <?php echo $form->labelEx($model,'pictureUrl'); ?>
 		<?php echo $form->fileField($model,'pictureUrl'); ?>
 		<?php echo $form->error($model,'pictureUrl'); ?>
 	</div>

@@ -12,8 +12,8 @@ class m151116_150731_add_columns_about_us_slider_table extends CDbMigration
 
 	public function safeDown()
 	{
-	 $this->dropColumn('carousel', 'id');
-        $this->dropColumn('carousel', 'text');
+	    $this->dropColumn('aboutus_slider', 'id');
+        $this->dropColumn('aboutus_slider', 'text');
 	}
 
 }
