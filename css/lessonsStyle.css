@@ -498,7 +498,10 @@ div.lessonTest {
     font-family: "MyriadPro";
 }
 .element table{
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
+}
+.element table {
+    border-collapse: inherit;
 }
 .element table td, .element table th {
     padding: 3px;
