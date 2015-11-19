@@ -1,4 +1,5 @@
 <?php
+
 /* @var $this UserAgreementsController */
 /* @var $dataProvider CActiveDataProvider */
 //$this->pageTitle = 'INTITA - Список договорів';

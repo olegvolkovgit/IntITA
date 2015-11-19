@@ -101,15 +101,15 @@ $header = new Header();
 
     <div class="main">
         <div style="height: 5px; width: auto"></div>
-        <?php if (isset($this->breadcrumbs)): ?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                'links' => $this->breadcrumbs,
-                'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
-                'htmlOptions' => array(
-                    'class' => 'my-cool-breadcrumbs'
-                )
-            )); ?><!-- breadcrumbs -->
-        <?php endif ?>
+<!--        --><?php //if (isset($this->breadcrumbs)): ?>
+<!--            --><?php //$this->widget('zii.widgets.CBreadcrumbs', array(
+//                'links' => $this->breadcrumbs,
+//                'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
+//                'htmlOptions' => array(
+//                    'class' => 'my-cool-breadcrumbs'
+//                )
+//            )); ?><!--<!-- breadcrumbs -->-->
+<!--        --><?php //endif ?>
 
         <a href="<?php echo Yii::app()->createUrl('/_accountancy');?>">Бухгалтерія IntITA - Головна</a>
 

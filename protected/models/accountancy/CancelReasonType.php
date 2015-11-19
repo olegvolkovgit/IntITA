@@ -55,7 +55,7 @@ class CancelReasonType extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'description' => 'Description',
+			'description' => 'Пояснення',
 		);
 	}
 

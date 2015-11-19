@@ -33,4 +33,13 @@ class InvoicesController extends AccountancyController
             'model'=>$model,
         ));
     }
+
+    public function actionInvoicesList($id)
+    {
+        $model = UserAgreements::getInvoicesList($id);
+
+        $this->render('invoicesList',array(
+            'dataProvider'=>$model,
+        ));
+    }
 }

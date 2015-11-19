@@ -61,7 +61,7 @@ class PaymentScheme extends CActiveRecord
             'pay_count' => 'кількість проплат',
             'loan' => 'відсоток',
             'name' => 'опис',
-            'monthpay' => 'Monthpay',
+            'monthpay' => 'кількість платежів по-місячно',
 		);
 	}
 

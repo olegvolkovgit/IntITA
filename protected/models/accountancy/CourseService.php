@@ -60,8 +60,8 @@ class CourseService extends AbstractIntITAService
 	public function attributeLabels()
 	{
 		return array(
-			'service_id' => 'Service',
-			'course_id' => 'Course',
+			'service_id' => 'Сервис',
+			'course_id' => 'Курс',
 		);
 	}
 

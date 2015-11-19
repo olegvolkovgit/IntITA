@@ -59,13 +59,13 @@ class ExternalPays extends CActiveRecord
 	{
 		return array(
             'id' => 'Pay code',
-            'create_date' => 'Date of creation ',
-            'create_user' => 'User who created record',
-            'source_id' => 'External source',
-            'user_id' => 'User who payed',
-            'pay_date' => 'Date when pay was made',
-            'summa' => 'Summa of payment',
-            'description' => 'Description of payment',
+            'create_date' => 'Дата створення ',
+            'create_user' => 'Хто створив',
+            'source_id' => 'Зовнішні джерела',
+            'user_id' => 'Хто платить',
+            'pay_date' => 'Дата створення платежу',
+            'summa' => 'Сумма до сплати',
+            'description' => 'Пояснення платежу',
 		);
 	}
 

@@ -4,9 +4,10 @@
  */
 $this->pageTitle = 'INTITA';
 ?>
+<br>
 <h1>Договір № <?php echo $model->number;?></h1>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/invoices/agreementList', array('id'=> $model->id));?>">
-    Рахунки договора
+<a href="<?php echo Yii::app()->createUrl('/_accountancy/invoices/invoicesList', array('id'=> $model->id));?>">
+    Рахунки по договору
 </a>
 <br>
 <?php $this->widget('zii.widgets.CDetailView', array(

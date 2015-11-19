@@ -29,8 +29,14 @@ $('.search-form form').submit(function(){
         'id',
         'name',
         'cash',
+
         array(
             'class'=>'CButtonColumn',
+            'buttons' => array(
+                'delete' => array(
+                    'visible'=>'($data->canDelete())?false:true;'
+                )
+            )
         ),
     ),
 )); ?>

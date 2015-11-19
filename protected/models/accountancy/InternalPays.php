@@ -56,12 +56,12 @@ class InternalPays extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-            'id' => 'operation id',
-            'create_date' => 'create date',
-            'create_user' => 'User who create',
+            'id' => 'id операції',
+            'create_date' => 'Дата створення',
+            'create_user' => 'Хто створив',
             'agreement_id' => 'Номер договору',
-            'description' => 'Description',
-            'summa' => 'Payment summ',
+            'description' => 'Пояснення',
+            'summa' => 'Сумма до сплати',
 		);
 	}
 

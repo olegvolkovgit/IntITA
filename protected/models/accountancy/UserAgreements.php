@@ -58,6 +58,7 @@ class UserAgreements extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+
         );
     }
 
@@ -260,5 +261,18 @@ class UserAgreements extends CActiveRecord
             'condition' => 'ms.service_id = t.service_id'
         ));
         return UserAgreements::model()->findAll($criteria);
+    }
+
+    public static function getInvoicesList($id)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'agreement_id = '.$id;
+
+        $dataProvider = new CActiveDataProvider('Invoice', array(
+            'criteria' => $criteria,
+            'pagination' => false,
+        ));
+
+        return $dataProvider;
     }
 }

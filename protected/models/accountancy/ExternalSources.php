@@ -57,8 +57,8 @@ class ExternalSources extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'cash' => 'Cash',
+			'name' => 'Ім\'я',
+			'cash' => 'Гроші',
 		);
 	}
 
@@ -99,4 +99,13 @@ class ExternalSources extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function canDelete()
+    {
+        $model = $this->externalPays;
+        if($model)
+            return true;
+        else
+            return false;
+    }
 }
