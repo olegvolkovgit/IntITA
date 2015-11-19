@@ -14,21 +14,21 @@ $valid=TestsHelper::getTestValid($idBlock);
             <br>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
-                <ol  id="optionsList" class="inputs">
+                <ol  style="display: inline-block" id="optionsList" class="inputs">
                     <?php for($i=0;$i<count(TestsHelper::getTestAnswers($idBlock));$i++){?>
                         <li><input class="testVariant" type="text" name="option<?php echo $i+1?>" id="option<?php echo $i+1?>" value="<?php echo $answers[$i]?>" size="80" required></li>
                     <?php } ?>
                 </ol>
+                <div style="display: inline-block" id="answersField<?php echo $idBlock?>" >
+                    <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
+                    <div id="answersList<?php echo $idBlock?>" class="answersCheckbox">
+                        <?php for($j=0;$j<count(TestsHelper::getTestAnswers($idBlock));$j++){?>
+                            <div><input type="checkbox" name="answer<?php echo $j+1?>" value="<?php echo $j+1?>" <?php echo $valid[$j] ?>></div>
+                        <?php } ?>
+                    </div>
+                </div>
                 <div class="editAddTest"><?php echo Yii::t('lecture', '0702'); ?></div>
                 <div class="editRemoveTest"><?php echo Yii::t('lecture', '0703'); ?></div>
-            </fieldset>
-            <fieldset id="answersField<?php echo $idBlock?>" onclick="editButtonEnabled('<?php echo $idBlock?>');">
-                <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
-                <div id="answersList<?php echo $idBlock?>" class="answersCheckbox">
-                    <?php for($j=0;$j<count(TestsHelper::getTestAnswers($idBlock));$j++){?>
-                        <div><input type="checkbox" name="answer<?php echo $j+1?>" value="<?php echo $j+1?>" <?php echo $valid[$j] ?>><span><?php echo $j+1?> <?php echo Yii::t('lecture', '0705'); ?></span></div>
-                    <?php } ?>
-                </div>
             </fieldset>
             <br>
             <input name="optionsNum" class="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>

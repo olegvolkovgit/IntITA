@@ -75,7 +75,10 @@ class Teacher extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array();
+        return array(
+            'modules'=>array(self::MANY_MANY, 'Module',
+                'teacher_module(idTeacher, idModule)'),
+        );
     }
 
     /**

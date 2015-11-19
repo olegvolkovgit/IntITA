@@ -85,7 +85,7 @@ class PlainTaskController extends Controller
     {
         if(Yii::app()->request->isAjaxRequest)
         {
-            $answer = Yii::app()->request->getPost('answer');
+            $answer = htmlentities (Yii::app()->request->getPost('answer'));
             $lectureId = Yii::app()->request->getPost('idLecture');
             $plainTask = PlainTask::getPlainTaskByLectureId($lectureId);
             $user = Yii::app()->user->id;

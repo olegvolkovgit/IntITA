@@ -146,6 +146,7 @@ class StudentReg extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+           'teacher' => array(self::HAS_ONE, 'Teacher','user_id'),
         );
     }
 
@@ -563,10 +564,11 @@ class StudentReg extends CActiveRecord
         return $markProvider;
     }
 
-    public static function getUserName($id){
+    public static function getUserName($id)
+    {
         if ($id) {
             $model = StudentReg::model()->findByPk($id);
-            if($model->secondName == '' && $model->firstName == ''){
+            if ($model->secondName == '' && $model->firstName == '') {
                 return $model->email;
             } else {
                 return $model->secondName . " " . $model->firstName . ", " . $model->email;
@@ -574,5 +576,11 @@ class StudentReg extends CActiveRecord
         } else {
             return '';
         }
+    }
+
+    public function getTeacherId()
+    {
+        return $this->teacher->teacher_id;
+
     }
 }
