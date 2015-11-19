@@ -104,4 +104,8 @@ class OperationType extends CActiveRecord
         $types = OperationType::model()->findAll();
         return $types;
     }
+
+    public static function getDescription($id){
+        return OperationType::model()->findByPk($id)->description;
+    }
 }

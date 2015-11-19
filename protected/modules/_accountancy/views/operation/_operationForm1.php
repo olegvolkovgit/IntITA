@@ -5,8 +5,6 @@
 ?>
 <h3>Договір:</h3>
     <div id="operationForm1">
-        <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
-        <input type="number" name="type" value="1" hidden="hidden">
         <!--Search form by agreement criteria-->
         <form method="POST" name="newOperation" class="formatted-form" action="#"
         <?php //echo Yii::app()->createUrl('/_accountancy/operation/getSearchAgreements');?>>
@@ -98,6 +96,8 @@
         <!--Operation form-->
         <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByAgreement'); ?>"
               method="POST" name="newOperation" class="formatted-form">
+            <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
+            <input type="number" name="type" value="1" hidden="hidden">
             <fieldset>
                 <legend>Операція:</legend>
         Результати пошуку:

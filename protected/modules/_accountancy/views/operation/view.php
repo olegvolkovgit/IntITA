@@ -12,7 +12,6 @@
 		'date_create',
 		'user_create',
 		'type_id',
-		'invoice_id',
 		'summa',
 	),
 )); ?>

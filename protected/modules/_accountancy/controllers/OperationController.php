@@ -151,31 +151,30 @@ class OperationController extends AccountancyController
 
 
     public function actionCreateByInvoice(){
-        var_dump($_POST);die();
-        $type = Yii::app()->request->getPost('type', 0);
+        $request = Yii::app()->request;
+        $invoice = $request->getPost('invoice', "");
+        $summa = $request->getPost('summa', 0);
+        $user = $request->getPost('user', 0);
 
-        $model=new Operation;
-        if(isset($_POST['Operation']))
-        {
-            $model->attributes=$_POST['Operation'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+        if (Operation::addOperation($summa, $user, 1, [$invoice])) {
+            $this->actionIndex();
+        } else {
+            throw new CException('Operation is not saved!');
         }
-
-        $this->render('view',array(
-            'model'=>$model
-        ));
     }
 
     public function actionCreateByAgreement(){
         $request = Yii::app()->request;
         $agreement = $request->getPost('agreement', "");
+        $invoicesList = array('510', '511', '512');
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
 
-        if (Operation::addOperation($summa, $invoice, $user, 1)) {
-            $this->render('index');
-        }
 
+        if (Operation::addOperation($summa, $user, 1, $invoicesList)) {
+            $this->actionIndex();
+        } else {
+            throw new CException('Operation is not saved!');
+        }
     }
 }
