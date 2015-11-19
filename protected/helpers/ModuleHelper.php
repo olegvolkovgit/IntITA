@@ -243,8 +243,10 @@ class ModuleHelper
     {
         switch (LectureElement::model()->findByPk($lastQuiz)->id_type) {
             case '5':
+//                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+//                break;
             case '6':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
                 break;
             case '12':
             case '13':
