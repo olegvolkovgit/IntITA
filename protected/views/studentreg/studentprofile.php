@@ -31,7 +31,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         <table class='profileInfo'>
             <tr>
                 <td>
+                    <?php if ($post->role == 1){?>
                     <a href="<?php echo Config::getBaseUrl(); ?>/_teacher/cabinet/<?php echo $post->getTeacherId(); ?>">Cabinet</a>
+                    <?php } ?>
                     <h1><?php echo $post->nickname;?></h1>
                     <h1><?php echo $post->firstName;?></h1>
                     <h1><?php echo $post->secondName;?></h1>
