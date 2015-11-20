@@ -10,6 +10,10 @@ function CKEditorCtrl($compile, $scope, $http) {
         language: lang,
         toolbar: 'task'
     };
+    $scope.editorOptionsAnswer = {
+        language: lang,
+        toolbar: 'answer'
+    };
     $scope.$on("ckeditor.ready", function (event) {
         $scope.isReady = true;
     });
