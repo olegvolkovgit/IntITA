@@ -6,6 +6,10 @@ function CKEditorCtrl($compile, $scope, $http) {
     $scope.editorOptions = {
         language: lang
     };
+    $scope.editorOptionsTask = {
+        language: lang,
+        toolbar: 'task'
+    };
     $scope.$on("ckeditor.ready", function (event) {
         $scope.isReady = true;
     });

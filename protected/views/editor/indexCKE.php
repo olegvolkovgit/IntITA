@@ -166,7 +166,7 @@ if ($idCourse != 0) {
                         break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],
+                        $this->renderPartial('/editor/_editTestCKE', array('idBlock' => $data['id_block'],
                             'pageId' => $page->id));
                         break;
                     default:
@@ -181,7 +181,7 @@ if ($idCourse != 0) {
             }
             ?>
             <?php if ($page->quiz == null) { ?>
-            <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
+            <?php $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
             <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
             <?php } ?>

@@ -123,9 +123,11 @@ div.code {
 }
 .contentTest{
     display: inline-block;
+    width: 90%;
+    padding: 0 10px 0 20px;
+}
+.contentTest .testSubmit{
     float: right;
-    width: 84%;
-    padding: 0 20px 0 20px;
 }
 .ui-widget input.answer{
     margin: 0 3px 0 4px;
@@ -433,9 +435,8 @@ div.lessonTest {
 }
 .instrTestText {
     display: inline-block;
-    width: 92%;
     font-size: 20px;
-    margin: 20px 0 20px 30px;
+    margin: 20px 0 0 0;
 }
 .ui-widget button.testSubmit {
     width: 120px;
@@ -443,7 +444,7 @@ div.lessonTest {
     border-radius: 5px;
     color:#ffffff;
     background-color:#4b75a4;
-    margin: 20px 30px 20px 30px;
+    margin: 20px 0 10px 0;
     float:right;
     border:none;
 }

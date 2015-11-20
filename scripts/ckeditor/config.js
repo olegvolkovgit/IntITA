@@ -5,9 +5,9 @@
 
 CKEDITOR.editorConfig = function( config ) {
     config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
-    config.extraPlugins = 'eqneditor';
+
+    config.extraPlugins = 'eqneditor,pastebase64,youtube';
+    //config.pasteFromWordPromptCleanup = true;
+
     config.filebrowserUploadUrl = '/lesson/CKEUploadImage';
 };
