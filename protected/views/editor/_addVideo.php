@@ -13,7 +13,7 @@
         <input name="type" value="2" type="hidden">
         <input type="url" name="newVideoUrl" id="newVideoUrl" required size="80" placeholder="<?php echo Yii::t('lecture', '0709'); ?>" ng-model="videoUrl"/>
         <br> <br>
-        <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>" ng-disabled=addVideoForm.newVideoUrl.$error.required>
+        <input id="addVideoButton" type="submit" value="<?php echo Yii::t('lecture', '0689'); ?>" ng-disabled=addVideoForm.newVideoUrl.$invalid>
     </form>
     <button onclick='cancelAddVideo()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
