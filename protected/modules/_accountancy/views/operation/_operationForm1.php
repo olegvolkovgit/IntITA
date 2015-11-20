@@ -98,6 +98,7 @@
               method="POST" name="newOperation" class="formatted-form">
             <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
             <input type="number" name="type" value="1" hidden="hidden">
+            <input type="number" name="source" value="1" hidden="hidden">
             <fieldset>
                 <legend>Операція:</legend>
         Результати пошуку:

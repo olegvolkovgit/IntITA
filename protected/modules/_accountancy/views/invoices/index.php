@@ -1,8 +1,6 @@
 <?php
 /* @var $this InvoicesController */
 /* @var $dataProvider CActiveDataProvider */
-
-//$this->pageTitle = 'INTITA - Список рахунків';
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();

@@ -136,7 +136,6 @@ class Invoice extends CActiveRecord
         $model->summa = $summa;
         $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days')
             ->format('Y-m-d H:i:s');
-
         return $model;
     }
 

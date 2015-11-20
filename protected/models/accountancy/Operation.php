@@ -106,8 +106,7 @@ class Operation extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addOperation($summa, $user, $type, $invoicesListId){
-
+    public static function addOperation($summa, $user, $type, $invoicesListId, $externalSource){
         $model = new Operation();
 
         $model->summa = $summa;
@@ -115,14 +114,13 @@ class Operation extends CActiveRecord
         $model->type_id = $type;
         $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
 
-
         $transaction = Yii::app()->db->beginTransaction();
         try
         {
             if ($model->save()){
                 $model->addInvoices($invoicesListId);
                 $createDate = Operation::model()->findByPk($model->id)->date_create;
-                if(!ExternalPays::addNewExternalPay($model, $createDate)){
+                if(!ExternalPays::addNewExternalPay($model, $createDate, $externalSource)){
                     throw new \application\components\Exceptions\FinanceException('External pay is failed!');
                 }
                 if (!$model->addInternalPays($model->invoicesList, $createDate)){
@@ -137,7 +135,7 @@ class Operation extends CActiveRecord
         catch(Exception $e)
         {
             $transaction->rollback();
-            throw new \application\components\Exceptions\FinanceException('Операцію не додано!');
+            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
         }
         //if we not receive an exception, so we have good transaction
         return true;

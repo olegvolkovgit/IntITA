@@ -8,7 +8,8 @@
       method="POST" name="newOperation" class="formatted-form">
 <div id="operationForm2">
     <input type="number" name="user" value="<?php echo Yii::app()->user->getId();?>" hidden="hidden">
-    <input type="number" name="type" value="1" hidden="hidden">
+    <input type="number" name="type" value="2" hidden="hidden">
+    <input type="number" name="source" value="1" hidden="hidden">
     <label>
     Рахунок:
     <br/>

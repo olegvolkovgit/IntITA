@@ -33,7 +33,6 @@ class ExternalSources extends CActiveRecord
 			array('cash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>512),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, cash', 'safe', 'on'=>'search'),
 		);
 	}
@@ -76,8 +75,6 @@ class ExternalSources extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
