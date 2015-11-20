@@ -14,6 +14,7 @@
  */
 class Operation extends CActiveRecord
 {
+    public $invoicesList;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -88,6 +89,9 @@ class Operation extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize' => '50',
+            ),
 		));
 	}
 
@@ -102,34 +106,33 @@ class Operation extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addOperation($summa, $user, $type, $invoicesList){
+    public static function addOperation($summa, $user, $type, $invoicesListId){
 
         $model = new Operation();
 
         $model->summa = $summa;
         $model->user_create = $user;
         $model->type_id = $type;
+        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
+
 
         $transaction = Yii::app()->db->beginTransaction();
         try
         {
             if ($model->save()){
-                $model->addInvoices($invoicesList);
-                if(!ExternalPays::addNewExternalPay($model->id)){
-                    $transaction->rollback();
+                $model->addInvoices($invoicesListId);
+                $createDate = Operation::model()->findByPk($model->id)->date_create;
+                if(!ExternalPays::addNewExternalPay($model, $createDate)){
                     throw new \application\components\Exceptions\FinanceException('External pay is failed!');
                 }
-                if (!$model->addInternalPays($invoicesList)){
-                    $transaction->rollback();
+                if (!$model->addInternalPays($model->invoicesList, $createDate)){
                     throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
                 }
+                Invoice::setInvoicesPayDate($model->invoicesList, $createDate);
+                $transaction->commit();
             } else {
-                $transaction->rollback();
                 throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
             }
-            $createDate = Operation::model()->findByPk($model->id)->date_create;
-            Invoice::setInvoicesPayDate($invoicesList, $createDate);
-            $transaction->commit();
         }
         catch(Exception $e)
         {
@@ -154,10 +157,10 @@ class Operation extends CActiveRecord
         return true;
     }
 
-    public function addInternalPays($invoicesList){
+    public function addInternalPays($invoicesList, $createDate){
         if(!empty($invoicesList)){
             foreach($invoicesList as $invoice){
-                if(!InternalPays::addNewInternalPay($invoice, $this->user_create)){
+                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate)){
                     return false;
                 }
             }

@@ -166,12 +166,11 @@ class OperationController extends AccountancyController
     public function actionCreateByAgreement(){
         $request = Yii::app()->request;
         $agreement = $request->getPost('agreement', "");
-        $invoicesList = array('510', '511', '512');
+        $invoicesListId = array('510', '511', '512');
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
 
-
-        if (Operation::addOperation($summa, $user, 1, $invoicesList)) {
+        if (Operation::addOperation($summa, $user, 1, $invoicesListId)) {
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');

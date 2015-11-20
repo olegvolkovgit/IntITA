@@ -32,8 +32,5 @@ $('.search-form form').submit(function(){
 		'user_create',
 		'type_id',
 		'summa',
-		array(
-			'class'=>'CButtonColumn',
-		),
 	),
 )); ?>

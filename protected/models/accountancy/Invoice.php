@@ -157,11 +157,6 @@ class Invoice extends CActiveRecord
         return '';
     }
 
-    public static function getInvoiceService(Invoice $invoice){
-
-        return null;
-    }
-
     public static function getPayLink($row,Invoice $data){
         $spanTagStart = '<span class="'.Invoice::getInvoiceStatus($data->id).'">';
         return $spanTagStart."Рахунок №".($row+1).". Сплатити ".
@@ -198,11 +193,29 @@ class Invoice extends CActiveRecord
     public static function setInvoicesPayDate($list, $payDate){
         if(!empty($list)){
             foreach($list as $invoice){
-                Invoice::model()->updateByPk($invoice, array(
-                    'pay_date' => $payDate)
-                );
+                $invoice->pay_date = $payDate;
+                $invoice->save();
             }
         }
         return true;
+    }
+
+    public static function getInvoicesListDescription($list){
+        if(!empty($list)){
+            $description = "";
+            foreach($list as $invoice){
+                $description .= "Paхунок ".$invoice->id." від ".date("d.m.y", strtotime($invoice->date_created)).". ";
+            }
+            return $description;
+        } else {
+            return "";
+        }
+    }
+
+    public static function getInvoiceListById($invoicesListId){
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id', $invoicesListId);
+
+        return Invoice::model()->findAll($criteria);
     }
 }
