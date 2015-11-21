@@ -58,6 +58,7 @@ class UserAgreements extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
+            'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id'),
         );
     }
 
@@ -260,5 +261,32 @@ class UserAgreements extends CActiveRecord
             'condition' => 'ms.service_id = t.service_id'
         ));
         return UserAgreements::model()->findAll($criteria);
+    }
+
+    public static function findAgreementByCondition($number,$user,$course,$module)
+    {
+        $criteria = new CDbCriteria();
+        if ($number != ""){
+            $agr = UserAgreements::model()->findAllByPk($number);
+            return $agr;
+        }
+        if ($user != ""){
+            $criteria->addCondition('user_id='.$user, 'OR');
+        }
+        if ($course != ""){
+            $service = CourseService::getService($course);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+        if ($module != ""){
+            $service = ModuleService::getService($module);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+
+        return UserAgreements::model()->findAll($criteria);
+    }
+
+    public static function getInvoices($id)
+    {
+        return UserAgreements::model()->findByPk($id)->invoice;
     }
 }

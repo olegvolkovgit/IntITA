@@ -57,8 +57,9 @@ class Invoice extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
-			'userCreated' => array(self::BELONGS_TO, 'User', 'user_created'),
+			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
 			'userCancelled' => array(self::BELONGS_TO, 'User', 'user_cancelled'),
+
 		);
 	}
 
@@ -187,7 +188,20 @@ class Invoice extends CActiveRecord
         }
     }
 
+    public function getUsername(){
+        $user = $this->model()->userCreated;
+        if($user) return $user->firstName.' '. $user->secondName;
+    }
+
     public static function getAllInvoices(){
         return Invoice::model()->findAll();
+    }
+
+    public function getServiceDescription()
+    {
+        $agreement = $this->agreement;
+
+        if($agreement->service)
+            return $agreement->service->description;
     }
 }
