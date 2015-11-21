@@ -29,11 +29,14 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
 		'date_create',
-		'user_create',
-		'type_id',
+        array(
+            'name' => 'user_create',
+            'value' => 'StudentReg::getUserName($data->user_create)',
+        ),
+        array(
+            'name' => 'type_id',
+            'value' => 'OperationType::getDescription($data->type_id)',
+        ),
 		'summa',
-		array(
-			'class'=>'CButtonColumn',
-		),
 	),
 )); ?>

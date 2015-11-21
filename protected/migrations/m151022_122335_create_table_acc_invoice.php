@@ -14,6 +14,7 @@ class m151022_122335_create_table_acc_invoice extends CDbMigration
             'user_created' => 'INT(11) NOT NULL DEFAULT `0`',
             'expiration_date' => 'DATETIME NULL DEFAULT NULL',
             'user_cancelled' => 'INT(11) NULL DEFAULT NULL',
+            'pay_date' => 'DATETIME NULL DEFAULT NULL COMMENT `Date when invoice pay`',
             'INDEX `FK_acc_invoice_acc_user_agreements` (`agreement_id`)',
             'INDEX `FK_acc_invoice_user` (`user_created`)',
             'INDEX `FK_acc_invoice_user_2` (`user_cancelled`)',

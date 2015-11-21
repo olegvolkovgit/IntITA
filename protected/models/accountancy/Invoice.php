@@ -137,7 +137,6 @@ class Invoice extends CActiveRecord
         $model->summa = $summa;
         $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days')
             ->format('Y-m-d H:i:s');
-
         return $model;
     }
 
@@ -156,11 +155,6 @@ class Invoice extends CActiveRecord
             return AbstractIntitaService::getServiceTitle($agreement->service_id);
         }
         return '';
-    }
-
-    public static function getInvoiceService(Invoice $invoice){
-
-        return null;
     }
 
     public static function getPayLink($row,Invoice $data){
@@ -201,7 +195,41 @@ class Invoice extends CActiveRecord
     {
         $agreement = $this->agreement;
 
-        if($agreement->service)
+        if ($agreement->service)
             return $agreement->service->description;
+    }
+
+    public static function getSumma($id){
+        return Invoice::model()->findByPk($id)->summa;
+    }
+
+    public static function setInvoicesPayDate($list, $payDate){
+        if(!empty($list)){
+            foreach($list as $invoice){
+                $invoice->pay_date = $payDate;
+                $invoice->save();
+            }
+        }
+        return true;
+    }
+
+    public static function getInvoicesListDescription($list){
+        if(!empty($list)){
+            $description = "";
+            foreach($list as $invoice){
+                $description .= "Paхунок ".$invoice->id." від ".date("d.m.y", strtotime($invoice->date_created)).". ";
+            }
+            return $description;
+        } else {
+            return "";
+        }
+    }
+
+    public static function getInvoiceListById($invoicesListId){
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id', $invoicesListId);
+
+        return Invoice::model()->findAll($criteria);
+
     }
 }
