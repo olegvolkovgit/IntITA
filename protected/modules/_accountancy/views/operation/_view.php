@@ -21,10 +21,6 @@
 	<?php echo CHtml::encode($data->type_id); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('invoice_id')); ?>:</b>
-	<?php echo CHtml::encode($data->invoice_id); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('summa')); ?>:</b>
 	<?php echo CHtml::encode($data->summa); ?>
 	<br />

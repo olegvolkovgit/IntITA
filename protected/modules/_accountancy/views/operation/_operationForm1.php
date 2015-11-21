@@ -3,10 +3,10 @@
  * @var $agreement UserAgreements
  */
 ?>
+<label for="operation2a_1"><?php echo OperationType::getDescription(1);?></label>
+
 <h3>Договір:</h3>
     <div id="operationForm1">
-        <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
-        <input type="number" name="type" value="1" hidden="hidden">
         <!--Search form by agreement criteria-->
         <form method="POST" name="newOperation" class="formatted-form" action="#"
         <?php //echo Yii::app()->createUrl('/_accountancy/operation/getSearchAgreements');?>>
@@ -15,101 +15,119 @@
             <br>
             Виберіть критерії пошуку:
             <br>
+<!--            <div class="operationLabel">-->
             <span class="searchCriteria">
                 <label for="numberCriteria">
-                    <input type="checkbox" name="1" id="1"> Номер договора
+                    <input type="radio" name="find"  onclick="showList(1)"> Номер договора
                 </label>
             </span>
-            <select id="numberCriteriaValue">
-                <option value="">Виберіть номер договора</option>
-                <?php
-                $agreementList = UserAgreements::getAllAgreements();
-                foreach ($agreementList as $agreement) {
+<!--            </div>-->
+            <div class="list" id="1">
+                <select id="numberCriteriaValue">
+                    <option value="">Виберіть номер договора</option>
+                    <?php
+                    $agreementList = UserAgreements::getAllAgreements();
+                    foreach ($agreementList as $agreement) {
+                        ?>
+                        <option value="<?php echo $agreement->id; ?>"><?php echo $agreement->number; ?></option>
+                    <?php
+                    }
                     ?>
-                    <option value="<?php echo $agreement->id; ?>"><?php echo $agreement->number; ?></option>
-                <?php
-                }
-                ?>
-            </select>
+                </select>
+            </div>
             <br>
-
+<!--            <div class="operationLabel">-->
             <span class="searchCriteria">
                 <label for="userCriteria">
-                    <input type="checkbox" name="2" id="2">Користувач
+                    <input type="radio" name="find"  onclick="showList(2)">Користувач
                 </label>
             </span>
+<!--            </div>-->
+            <div class="list" id="2">
             <select id="userCriteriaValue">
-                <option value="">Виберіть користувача</option>
-                <?php
-                foreach ($agreementList as $agreement) {
+                    <option value="">Виберіть користувача</option>
+                    <?php
+                    foreach ($agreementList as $agreement) {
+                        ?>
+                        <option value="<?php echo $agreement->id; ?>">
+    <!--                        --><?php //echo StudentReg::getUserName($agreement->user_id); ?>
+                        </option>
+                    <?php
+                    }
                     ?>
-                    <option value="<?php echo $agreement->id; ?>">
-                        <?php echo StudentReg::getUserName($agreement->user_id); ?>
-                    </option>
-                <?php
-                }
-                ?>
-            </select>
+                </select>
+            </div>
             <br>
-
+<!--            <div class="operationLabel">-->
             <span class="searchCriteria">
                  <label>
-                    <input type="checkbox" name="3" id="3"> Курс
+                    <input type="radio" name="find"  onclick="showList(3)"> Курс
                  </label>
             </span>
-            <select id="courseCriteriaValue">
-                <option value="">Виберіть курс</option>
-                <?php
-                $coursesList = CourseService::getAllCoursesList();
-                foreach ($coursesList as $courseService) {
+<!--            </div>-->
+            <div class="list" id="3">
+                <select id="courseCriteriaValue">
+                    <option value="">Виберіть курс</option>
+                    <?php
+                    $coursesList = CourseService::getAllCoursesList();
+                    foreach ($coursesList as $courseService) {
+                        ?>
+                        <option value="<?php echo $courseService->course_id; ?>">
+                            <?php echo CourseHelper::getCourseName($courseService->course_id); ?></option>
+                    <?php
+                    }
                     ?>
-                    <option value="<?php echo $courseService->course_id; ?>">
-                        <?php echo CourseHelper::getCourseName($courseService->course_id); ?></option>
-                <?php
-                }
-                ?>
-            </select>
+                </select>
+            </div>
             <br>
-
+<!--            <div class="operationLabel">-->
             <span class="searchCriteria">
                  <label>
-                    <input type="checkbox" name="4" id="4"> Модуль
+                    <input type="radio" name="find" onclick="showList(4)"> Модуль
                  </label>
             </span>
-            <select id="moduleCriteriaValue">
-                <option value="">Виберіть модуль</option>
-                <?php
-                $modulesList = ModuleService::getAllModulesList();
-                foreach ($modulesList as $moduleService) {
+<!--            </div>-->
+            <div class="list" id="4">
+                <select id="moduleCriteriaValue">
+                    <option value="">Виберіть модуль</option>
+                    <?php
+                    $modulesList = ModuleService::getAllModulesList();
+                    foreach ($modulesList as $moduleService) {
+                        ?>
+                        <option value="<?php echo $moduleService->module_id; ?>">
+                            <?php echo ModuleHelper::getModuleName($moduleService->module_id); ?>
+                        </option>
+                    <?php
+                    }
                     ?>
-                    <option value="<?php echo $moduleService->module_id; ?>">
-                        <?php echo ModuleHelper::getModuleName($moduleService->module_id); ?>
-                    </option>
-                <?php
-                }
-                ?>
-            </select>
+                </select>
+            </div>
             <br>
             <br>
-            <input type="submit" value="Шукати" onclick="getAgreementsList()">
+            <input type="button" value="Шукати" onclick="getAgreementsList()">
         </fieldset>
             </form>
 
+        <div name="selectAgreement" >
+            <?php $this->renderPartial('_ajaxAgreement', array('agreements'=>'')); ?>
+        </div>
+
         <!--Operation form-->
         <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByAgreement'); ?>"
-              method="POST" name="newOperation" class="formatted-form">
+              method="POST" name="newOperation" class="formatted-form" onsubmit="return checkInvoices();">
+            <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
+            <input type="number" name="type" value="1" hidden="hidden">
             <fieldset>
                 <legend>Операція:</legend>
         Результати пошуку:
         <br/>
-        <div id="searchResult">
-            <input type="radio" name="agreement" value="245"><a href="#">Договір 245</a><br>
-            <input type="radio" name="agreement" value="248"><a href="#">Договір 248</a>
-        </div>
+                <div name="selectInvoices" id="selectInvoices">
+                    <?php $this->renderPartial('_ajaxInvoices', array('invoices'=>'')); ?>
+                </div>
         <br/>
         <label> Введіть суму операції:
             <br/>
-            <input type="number" name="summa" value=""/>
+            <input type="number" name="summa" value="" required="true"/>
         </label>
         <br/>
             <br/>
@@ -119,38 +137,4 @@
     </div>
 
 
-<script>
-    function getAgreementsList(){
-        number = "";
-        user = "";
-        course = "";
-        module = "";
-        if($('#1').prop('checked')) {
-            number = $("#numberCriteriaValue option:selected").val();
-        }
-        if($('#2').prop('checked')) {
-            user = $('#userCriteriaValue option:selected').val() ;
-        }
-        if($('#3').prop('checked')) {
-            course = $('#courseCriteriaValue option:selected').val();
-        }
-        if($('#4').prop('checked')) {
-            module = $('#moduleCriteriaValue option:selected').val();
-        }
-        $.ajax({
-            type: "POST",
-            url: "/IntITA/operation/getSearchAgreements",
-            data: {
-                'number': number,
-                'user': user,
-                'course': course,
-                'module': module
-            },
-            cache: false,
-            success: function (data) {
-                alert(1);
-                    alert(data);
-            }
-        });
-    }
-</script>
+

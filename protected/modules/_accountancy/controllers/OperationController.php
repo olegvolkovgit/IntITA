@@ -124,58 +124,55 @@ class OperationController extends AccountancyController
 	}
 
     public function actionGetSearchAgreements(){
+
         $request = Yii::app()->request;
         $number = $request->getPost('number', "");
         $user = $request->getPost('user', 0);
         $course = $request->getPost('course', 0);
         $module = $request->getPost('module', 0);
 
-        $criteria = new CDbCriteria();
-        if ($number != ""){
-            $criteria->addCondition('number='.$number, 'OR');
-        }
-        if ($user != ""){
-            $criteria->addCondition('user_id='.$user, 'OR');
-        }
-        if ($course != ""){
-            $service = CourseService::getService($course);
-            $criteria->addCondition('service_id='.$service->service_id, 'OR');
-        }
-        if ($module != ""){
-            $service = ModuleService::getService($module);
-            $criteria->addCondition('service_id='.$service->service_id, 'OR');
-        }
+        $result = UserAgreements::findAgreementByCondition($number,$user,$course,$module);
 
-        echo UserAgreements::model()->findAll($criteria);
+        return $this->renderPartial('_ajaxAgreement',array('agreements' => $result));
+
     }
 
+    public function actionGetInvoicesList()
+    {
+        $id =  Yii::app()->request->getPost('id');
+
+        $result = UserAgreements::getInvoices($id);
+
+        return $this->renderPartial('_ajaxInvoices',array('invoices' => $result));
+    }
 
     public function actionCreateByInvoice(){
-        var_dump($_POST);die();
-        $type = Yii::app()->request->getPost('type', 0);
-
-        $model=new Operation;
-        if(isset($_POST['Operation']))
-        {
-            $model->attributes=$_POST['Operation'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
-        }
-
-        $this->render('view',array(
-            'model'=>$model
-        ));
-    }
-
-    public function actionCreateByAgreement(){
         $request = Yii::app()->request;
-        $agreement = $request->getPost('agreement', "");
+        $invoice = $request->getPost('invoice', "");
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
 
-        if (Operation::addOperation($summa, $invoice, $user, 1)) {
-            $this->render('index');
+        if (Operation::addOperation($summa, $user, 1, [$invoice])) {
+            $this->actionIndex();
+        } else {
+            throw new CException('Operation is not saved!');
         }
+    }
+
+    public function actionCreateByAgreement(){
+
+        $invoices = Yii::app()->request->getPost('invoices');
+        $request = Yii::app()->request;
+        $invoicesList = array('510', '511', '512');
+        $summa = $request->getPost('summa', 0);
+        $user = $request->getPost('user', 0);
+
+        if (Operation::addOperation($summa, $user, 1, $invoices)) {
+            $this->actionIndex();
+        } else {
+            throw new CException('Operation is not saved!');
+        }
+
 
     }
 }

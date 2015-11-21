@@ -3,6 +3,8 @@
  * @var $invoice UserAgreements
  */
 ?>
+<label for="operation2a_2"><?php echo OperationType::getDescription(2);?></label>
+
 <h3>Рахунок:</h3>
 <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByInvoice');?>"
       method="POST" name="newOperation" class="formatted-form">

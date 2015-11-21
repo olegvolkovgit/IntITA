@@ -58,7 +58,7 @@ class UserAgreements extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-
+            'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id'),
         );
     }
 
@@ -263,16 +263,43 @@ class UserAgreements extends CActiveRecord
         return UserAgreements::model()->findAll($criteria);
     }
 
-    public static function getInvoicesList($id)
+//<<<<<<< HEAD
+//    public static function getInvoicesList($id)
+//    {
+//        $criteria = new CDbCriteria;
+//        $criteria->condition = 'agreement_id = '.$id;
+//
+//        $dataProvider = new CActiveDataProvider('Invoice', array(
+//            'criteria' => $criteria,
+//            'pagination' => false,
+//        ));
+//
+//        return $dataProvider;
+//=======
+    public static function findAgreementByCondition($number,$user,$course,$module)
     {
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'agreement_id = '.$id;
+        $criteria = new CDbCriteria();
+        if ($number != ""){
+            $agr = UserAgreements::model()->findAllByPk($number);
+            return $agr;
+        }
+        if ($user != ""){
+            $criteria->addCondition('user_id='.$user, 'OR');
+        }
+        if ($course != ""){
+            $service = CourseService::getService($course);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+        if ($module != ""){
+            $service = ModuleService::getService($module);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
 
-        $dataProvider = new CActiveDataProvider('Invoice', array(
-            'criteria' => $criteria,
-            'pagination' => false,
-        ));
+        return UserAgreements::model()->findAll($criteria);
+    }
 
-        return $dataProvider;
+    public static function getInvoices($id)
+    {
+        return UserAgreements::model()->findByPk($id)->invoice;
     }
 }

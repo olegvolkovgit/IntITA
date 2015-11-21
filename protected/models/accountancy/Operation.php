@@ -7,7 +7,6 @@
  * @property string $date_create
  * @property integer $user_create
  * @property integer $type_id
- * @property integer $invoice_id
  * @property string $summa
  *
  * The followings are the available model relations:
@@ -31,12 +30,12 @@ class Operation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date_create, user_create, type_id, invoice_id, summa', 'required'),
-			array('user_create, type_id, invoice_id', 'numerical', 'integerOnly'=>true),
+			array('user_create, type_id, summa', 'required'),
+			array('user_create, type_id', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date_create, user_create, type_id, invoice_id, summa', 'safe', 'on'=>'search'),
+			array('id, date_create, user_create, type_id, summa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +61,6 @@ class Operation extends CActiveRecord
 			'date_create' => 'Дата',
 			'user_create' => 'Користувач',
 			'type_id' => 'Тип',
-			'invoice_id' => 'Рахунок',
 			'summa' => 'Сума',
 		);
 	}
@@ -81,15 +79,12 @@ class Operation extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('date_create',$this->date_create,true);
 		$criteria->compare('user_create',$this->user_create);
 		$criteria->compare('type_id',$this->type_id);
-		$criteria->compare('invoice_id',$this->invoice_id);
 		$criteria->compare('summa',$this->summa,true);
 
 		return new CActiveDataProvider($this, array(
@@ -108,14 +103,51 @@ class Operation extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addOperation($summa, $invoice, $user, $type){
+    public static function addOperation($summa, $user, $type, $invoicesList){
+
         $model = new Operation();
 
-        $model->invoice_id = $invoice;
         $model->summa = $summa;
         $model->user_create = $user;
         $model->type_id = $type;
 
-        return $model->save();
+        $transaction = Yii::app()->db->beginTransaction();
+        try
+        {
+            if ($model->save()){
+                $model->addInvoices($invoicesList);
+                ExternalPays::addNewExternalPay($model->id);
+                $model->addInternalPays($invoicesList);
+            } else {
+
+            }
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\FinanceException("Операцію не додано!");
+        }
+
+        return false;
+    }
+
+    public function addInvoices($invoicesList){
+        if(!empty($invoicesList)){
+            foreach($invoicesList as $invoice){
+                Yii::app()->db->createCommand()->insert('acc_operation_invoice', array(
+                    'id_operation'=>$this->id,
+                    'id_invoice'=>$invoice,
+                ));
+            }
+        }
+    }
+
+    public function addInternalPays($invoicesList){
+        if(!empty($invoicesList)){
+            foreach($invoicesList as $invoice){
+                InternalPays::addNewInternalPay($invoice, $this->user_create);
+            }
+        }
     }
 }
