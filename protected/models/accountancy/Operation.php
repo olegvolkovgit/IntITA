@@ -14,6 +14,7 @@
  */
 class Operation extends CActiveRecord
 {
+    public $invoicesList;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -34,7 +35,6 @@ class Operation extends CActiveRecord
 			array('user_create, type_id', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, date_create, user_create, type_id, summa', 'safe', 'on'=>'search'),
 		);
 	}
@@ -89,6 +89,9 @@ class Operation extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize' => '50',
+            ),
 		));
 	}
 
@@ -103,33 +106,39 @@ class Operation extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addOperation($summa, $user, $type, $invoicesList){
-
+    public static function addOperation($summa, $user, $type, $invoicesListId, $externalSource){
         $model = new Operation();
 
         $model->summa = $summa;
         $model->user_create = $user;
         $model->type_id = $type;
+        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
 
         $transaction = Yii::app()->db->beginTransaction();
         try
         {
             if ($model->save()){
-                $model->addInvoices($invoicesList);
-                ExternalPays::addNewExternalPay($model->id);
-                $model->addInternalPays($invoicesList);
+                $model->addInvoices($invoicesListId);
+                $createDate = Operation::model()->findByPk($model->id)->date_create;
+                if(!ExternalPays::addNewExternalPay($model, $createDate, $externalSource)){
+                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
+                }
+                if (!$model->addInternalPays($model->invoicesList, $createDate)){
+                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
+                }
+                Invoice::setInvoicesPayDate($model->invoicesList, $createDate);
+                $transaction->commit();
             } else {
-
+                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
             }
-            $transaction->commit();
         }
         catch(Exception $e)
         {
             $transaction->rollback();
-            throw new \application\components\Exceptions\FinanceException("Операцію не додано!");
+            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
         }
-
-        return false;
+        //if we not receive an exception, so we have good transaction
+        return true;
     }
 
     public function addInvoices($invoicesList){
@@ -140,14 +149,24 @@ class Operation extends CActiveRecord
                     'id_invoice'=>$invoice,
                 ));
             }
+        }else{
+            return false;
         }
+        return true;
     }
 
-    public function addInternalPays($invoicesList){
+    public function addInternalPays($invoicesList, $createDate){
         if(!empty($invoicesList)){
             foreach($invoicesList as $invoice){
-                InternalPays::addNewInternalPay($invoice, $this->user_create);
+                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate)){
+                    return false;
+                }
             }
+        }else{
+            return false;
         }
+        return true;
     }
+
+
 }

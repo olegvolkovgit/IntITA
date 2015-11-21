@@ -109,16 +109,15 @@ class InternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewInternalPay($invoice, $user){
+    public static function addNewInternalPay(Invoice $invoice, $user, $date){
         $model = new InternalPays();
 
-        $model->invoice_id = $invoice;
+        $model->invoice_id = $invoice->id;
         $model->create_user = $user;
-        $model->description = $model->description = OperationType::getDescription(2).". ".
-            "Invoices list, invoice pay date. "."Оплачено ".date("d.m.y", strtotime($model->pay_date));
+        $model->summa = $invoice->summa;
+        $model->description = OperationType::getDescription(2).". ".
+            Invoice::getInvoicesListDescription(array($invoice))."Оплачено ".date("d.m.y", strtotime($date));
 
-        var_dump($model->validate());die;
-        $model->save();
-
+        return $model->save();
     }
 }

@@ -41,7 +41,6 @@ class ExternalPays extends CActiveRecord
 			array('source_id, summa', 'length', 'max'=>10),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, create_date, create_user, source_id, user_id, pay_date, summa, description', 'safe', 'on'=>'search'),
 		);
 	}
@@ -54,9 +53,7 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'createUser' => array(self::BELONGS_TO, 'User', 'create_user'),
             'source' => array(self::BELONGS_TO, 'ExternalSources', 'source_id'),
-            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -120,20 +117,19 @@ class ExternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewExternalPay($operationId){
+    public static function addNewExternalPay(Operation $operation, $createDate, $externalSource){
+        $invoicesDescription = Invoice::getInvoicesListDescription($operation->invoicesList);
         $model = new ExternalPays();
 
-        $operation = Operation::model()->findByPk($operationId);
-
         $model->create_user = Yii::app()->user->getId();
-        $model->source_id = $operation->type_id;
+        $model->source_id = $externalSource;
         $model->user_id = $operation->user_create;
-        $model->pay_date = $operation->date_create;
+        $model->pay_date = $createDate;
         $model->summa = $operation->summa;
         $model->description = OperationType::getDescription($operation->type_id).". ".
-            "Invoices list, invoice pay date. "."Оплачено ".date("d.m.y", strtotime($model->pay_date));
+            $invoicesDescription.". Оплачено ".date("d.m.y", strtotime($model->pay_date));
 
-         if ($model->validate()){
+        if ($model->validate()){
             $model->save();
             return $model->id;
         }
