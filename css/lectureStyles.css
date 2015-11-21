@@ -751,3 +751,9 @@ a.lectureDisabled{
 a.cke_dialog_ui_fileButton{
     margin-top: 80px;
 }
+.answerTable{
+    word-break: break-all;
+}
+.answerTable td{
+    vertical-align: top;
+}
