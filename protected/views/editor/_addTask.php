@@ -39,7 +39,7 @@
             <br>
         </fieldset>
     </form>
-    <button onclick='createTask(<?php echo Config::getInterpreterServer();?>)'>Додати задачу</button>
+    <button onclick="createTask('<?php echo Config::getInterpreterServer(); ?>')">Додати задачу</button>
     <button onclick='cancelTask()'>Скасувати</button>
 </div>
 
