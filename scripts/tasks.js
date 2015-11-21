@@ -19,10 +19,24 @@ function createTask(url) {
     var newTask = {
         "operation": "addtask",
         "name": name,
-        "header": header,
         "etalon": etalon,
-        "footer": taskFooter,
-        "lang": "c++"
+        "lang": "c++",
+        "function": {
+            "type": 1,
+            "results": [[10.0, 12.0]],
+            "args":  [
+                {
+                    "type": 1,
+                    "arg_name": "x",
+                    "value": [[10.0, 12.0]]
+                },
+                {
+                    "type": 3,
+                    "arg_name": "vasya",
+                    "value": [["20", "5"]]
+                }
+            ]
+        }
     };
     var jqxhr = $.post(url, JSON.stringify(newTask), function () {
     })
