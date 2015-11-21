@@ -190,6 +190,14 @@ class Invoice extends CActiveRecord
         return Invoice::model()->findAll();
     }
 
+    public function getServiceDescription()
+    {
+        $agreement = $this->agreement;
+
+        if ($agreement->service)
+            return $agreement->service->description;
+    }
+
     public static function getSumma($id){
         return Invoice::model()->findByPk($id)->summa;
     }
