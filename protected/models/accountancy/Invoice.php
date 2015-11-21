@@ -42,7 +42,6 @@ class Invoice extends CActiveRecord
 			array('agreement_id, user_created, user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date,
 			user_cancelled, pay_date', 'safe', 'on'=>'search'),
 		);
@@ -59,7 +58,6 @@ class Invoice extends CActiveRecord
 			'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
 			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
 			'userCancelled' => array(self::BELONGS_TO, 'User', 'user_cancelled'),
-
 		);
 	}
 

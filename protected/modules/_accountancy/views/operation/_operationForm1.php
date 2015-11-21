@@ -50,7 +50,7 @@
                     foreach ($agreementList as $agreement) {
                         ?>
                         <option value="<?php echo $agreement->id; ?>">
-    <!--                        --><?php //echo StudentReg::getUserName($agreement->user_id); ?>
+                            <?php echo StudentReg::getUserName($agreement->user_id); ?>
                         </option>
                     <?php
                     }

@@ -95,6 +95,7 @@
 
 .findOffer{
     display: block;
+    /*margin: 10px;*/
 }
 .findOperation{
     display: none;
@@ -117,5 +118,5 @@
 .mainOperation
 {
     width: 600px;
-    background-color:#7d8c78;
+    background-color:#d3d3d3;
 }

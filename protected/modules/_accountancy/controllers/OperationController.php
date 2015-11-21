@@ -165,13 +165,12 @@ class OperationController extends AccountancyController
 
         $invoices = Yii::app()->request->getPost('invoices');
         $request = Yii::app()->request;
-        $invoicesList = array('510', '511', '512');
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
         $type = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
-        if (Operation::addOperation($summa, $user, 1, $invoices)) {
+        if (Operation::addOperation($summa, $user, $type, $invoices, $source)) {
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');
