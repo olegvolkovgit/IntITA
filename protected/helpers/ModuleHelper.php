@@ -212,12 +212,12 @@ class ModuleHelper
         }
         if ($startTime && !$endTime) {
             $days=round((time()-strtotime($startTime))/86400);
-            $moduleStatus=array('inProgress', abs($days));
+            $moduleStatus=array('inProgress', abs($days)+1);
             return $moduleStatus;
         }
         if ($startTime && $endTime) {
             $days=round((strtotime($endTime)-strtotime($startTime))/86400);
-            $moduleStatus=array('finished', abs($days));
+            $moduleStatus=array('finished', abs($days)+1);
             return $moduleStatus;
         }
     }
@@ -243,8 +243,10 @@ class ModuleHelper
     {
         switch (LectureElement::model()->findByPk($lastQuiz)->id_type) {
             case '5':
+//                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+//                break;
             case '6':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
                 break;
             case '12':
             case '13':

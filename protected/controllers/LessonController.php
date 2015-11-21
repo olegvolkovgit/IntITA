@@ -306,6 +306,35 @@ class LessonController extends Controller
             echo stripslashes(json_encode($array));
         }
     }
+    public function actionUploadBase64ToImage()
+    {
+        $base64str= $_POST['base64'];
+        $base64pos = strpos($base64str, 'base64,');
+        //base64, -7 chars
+        $base64 = base64_decode(substr($base64str, $base64pos+7));
+        $base64type = substr($base64str, 5, $base64pos-6);
+        $imgType = substr($base64type, 6);
+
+        $path = StaticFilesHelper::createLectureImagePath();
+        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $filename = md5(date('YmdHis')) . '.'.$imgType;
+        $file = $dir . $filename;
+        $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
+
+        if ($base64type == 'image/png'
+            || $base64type == 'image/jpg'
+            || $base64type == 'image/gif'
+            || $base64type == 'image/jpeg'
+            || $base64type == 'image/pjpeg'
+        ) {
+            $fpng = fopen($file, "w");
+            fwrite($fpng,$base64);
+            fclose($fpng);
+            echo $link;
+        }else{
+            echo 'error';
+        }
+    }
 
     public function actionCKEUploadImage()
     {
