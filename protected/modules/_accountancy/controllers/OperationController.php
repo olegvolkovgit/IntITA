@@ -151,8 +151,10 @@ class OperationController extends AccountancyController
         $invoice = $request->getPost('invoice', "");
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
+        $type = $request->getPost('type', 0);
+        $source = $request->getPost('source', 0);
 
-        if (Operation::addOperation($summa, $user, 1, [$invoice])) {
+        if (Operation::addOperation($summa, $user, $type, array($invoice), $source)) {
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');
@@ -166,6 +168,8 @@ class OperationController extends AccountancyController
         $invoicesList = array('510', '511', '512');
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
+        $type = $request->getPost('type', 0);
+        $source = $request->getPost('source', 0);
 
         if (Operation::addOperation($summa, $user, 1, $invoices)) {
             $this->actionIndex();
