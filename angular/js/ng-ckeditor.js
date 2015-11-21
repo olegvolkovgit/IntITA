@@ -77,7 +77,6 @@
                             { name: 'insert', items : [ 'Mathjax','EqnEditor','Image','Youtube','Table','HorizontalRule','SpecialChar'] },
                             { name: 'styles', items : [ 'Font','FontSize' ] },
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
-                            { name: 'tools', items : [ 'Maximize'] }
                         ],
                         toolbar_answer: [ //jshint ignore:line
                             { name: 'document', items : [ 'Source','-' ] },
