@@ -368,4 +368,10 @@ class Lecture extends CActiveRecord
             'order' => $order
         ));
     }
+
+    public static function getAllNotVerifiedLectures(){
+        $criteria = new CDbCriteria();
+
+        return Lecture::model()->findAll();
+    }
 }
