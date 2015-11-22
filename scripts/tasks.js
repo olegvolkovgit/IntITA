@@ -1,7 +1,7 @@
 /**
  * Created by Ivanna on 13.07.2015.
  */
-function createTask() {
+function createTask(url) {
     var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
     var taskFooter = document.getElementById('taskFooter').value;
@@ -19,12 +19,26 @@ function createTask() {
     var newTask = {
         "operation": "addtask",
         "name": name,
-        "header": header,
         "etalon": etalon,
-        "footer": taskFooter,
-        "lang": "c++"
+        "lang": "c++",
+        "function": {
+            "type": 1,
+            "results": [[10.0, 12.0]],
+            "args":  [
+                {
+                    "type": 1,
+                    "arg_name": "x",
+                    "value": [[10.0, 12.0]]
+                },
+                {
+                    "type": 3,
+                    "arg_name": "vasya",
+                    "value": [["20", "5"]]
+                }
+            ]
+        }
     };
-    var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(newTask), function () {
+    var jqxhr = $.post(url, JSON.stringify(newTask), function () {
     })
         .done(function (data) {
             var serverResponse = jQuery.parseJSON(data);
