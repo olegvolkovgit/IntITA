@@ -345,8 +345,8 @@ class LessonController extends Controller
 
 // HERE SET THE PATH TO THE FOLDERS FOR IMAGES AND AUDIO ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
         $upload_dir = array(
-            'img'=> '/IntITA/images/lecture/',
-            'audio'=> '/IntITA/images/lecture/'
+            'img'=> Config::getBaseUrl() .$path,
+            'audio'=> Config::getBaseUrl() .$path
         );
 
 // HERE PERMISSIONS FOR IMAGE
@@ -409,7 +409,7 @@ class LessonController extends Controller
             if($re == '') {
                 if(move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath)) {
                     $CKEditorFuncNum = $_GET['CKEditorFuncNum'];
-                    $url = $site. $upload_dir . $f_name;
+                    $url = $upload_dir . $f_name;
                     $msg = F_NAME .'.'. $type .' successfully uploaded: \\n- Size: '. number_format($_FILES['upload']['size']/1024, 2, '.', '') .' KB';
                     $re = in_array($type, $imgset['type']) ? "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')"  //for img
                         : 'var cke_ob = window.parent.CKEDITOR; for(var ckid in cke_ob.instances) { if(cke_ob.instances[ckid].focusManager.hasFocus) break;} cke_ob.instances[ckid].insertHtml(\'<div hello><audio src="'. $url .'" controls></audio></div>\', \'unfiltered_html\'); alert("'. $msg .'"); var dialog = cke_ob.dialog.getCurrent();  dialog.hide();';
