@@ -337,4 +337,11 @@ class LecturePage extends CActiveRecord
             LecturePage::swapLecturePages($lecture, $page);
         }
     }
+
+    public static function getAllLecturePages($id){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_lecture='.$id);
+
+        return LecturePage::model()->findAll($criteria);
+    }
 }

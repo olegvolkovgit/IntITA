@@ -2,16 +2,6 @@
 
 class m151118_162503_update_element_type_value extends CDbMigration
 {
-//	public function up()
-//	{
-//	}
-//
-//	public function down()
-//	{
-//		echo "m151118_162503_update_element_type_value does not support migration down.\n";
-//		return false;
-//	}
-
 
 	// Use safeUp/safeDown to do migration with transaction
 	public function safeUp()
