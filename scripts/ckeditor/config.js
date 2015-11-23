@@ -6,8 +6,11 @@
 CKEDITOR.editorConfig = function( config ) {
     config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
 
-    config.extraPlugins = 'eqneditor,pastebase64,youtube';
+    config.extraPlugins = 'eqneditor,pastebase64,youtube,audio';
     //config.pasteFromWordPromptCleanup = true;
 
-    config.filebrowserUploadUrl = '/lesson/CKEUploadImage';
+    //config.filebrowserUploadUrl = '/lesson/CKEUploadImage';
+    //config.extraPlugins = 'Audio';
+    config.extraAllowedContent = 'audio[*]{*}';
+    config.filebrowserImageUploadUrl="/lesson/CKEUploadImageAudio";
 };

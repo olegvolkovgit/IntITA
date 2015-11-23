@@ -47,7 +47,7 @@ angular
                     var orderBlock = element.attr('id').substring(1);
                     var template = '<textarea data-ng-cloak class="openCKE" ' +
                         'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
-                        'ckeditor="editorOptions1" name="editor" ng-model="editRedactor">' +
+                        'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
                         '</textarea>';
                     ($compile(template)(scope)).insertAfter(element);
                     element.hide();
