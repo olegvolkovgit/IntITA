@@ -20,68 +20,34 @@
                 'id': agreementId
             },
             cache: false,
-            success: function(response){  $('div[name="selectInvoices"]').html(response); }
+            success: function(response){
+                document.getElementById('selectInvoices').style.display = 'block';
+                $('div[name="selectInvoices"]').html(response); }
         });
     }
 
 function getAgreementsList(){
-    number = "";
-    user = "";
-    course = "";
-    module = "";
-    var radio = document.getElementsByName('find');
 
-    for(var j = 0 ;j < radio.length; j++)
+    var agreement = document.getElementById('agreementNumber').value;
+    document.getElementById('selectInvoices').style.display = 'none';
+    if(agreement[2] != undefined)
     {
-        if(radio[j].checked)
-        {
-            switch (j)
+        $.ajax({
+            type: "POST",
+            url: "../getSearchAgreements",
+            data: {
+                'agreement': agreement
+            },
+            cache: false,
+            success: function(response)
             {
-                case 0 : number = $("#numberCriteriaValue option:selected").val();
-                    break;
-                case 1 : user = $('#userCriteriaValue option:selected').val() ;
-                    break;
-                case  2 : course = $('#courseCriteriaValue option:selected').val();
-                    break;
-                case 3 : module = $('#moduleCriteriaValue option:selected').val();
-                    break;
+                if(response)
+                $('div[name="selectAgreement"]').html(response);
+
+                else
+                    alert('По Вашому запиту нічого не знайдено');
             }
-            break;
-
-        }
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "../getSearchAgreements",
-        data: {
-            'number': number,
-            'user': user,
-            'course': course,
-            'module': module
-        },
-        cache: false,
-        success: function(response)
-        {
-            $('div[name="selectAgreement"]').html(response);
-        }
-    });
-}
-
-function showList(id)
-{
-    var list = document.getElementsByName('find');
-
-    for(var i = 1; i < list.length + 1; i++)
-    {
-        if(id == i)
-        {
-            document.getElementById(id).style.display = 'inline-block';
-        }
-        else {
-            document.getElementById(i).style.display = 'none';
-        }
-
+        });
     }
 }
 
@@ -89,14 +55,23 @@ function showOperation(id)
 {
     var offer = document.getElementById('findOffer');
     var operation = document.getElementById('findOperation');
+    var user = document.getElementById('findUser');
 
     switch(id)
     {
-        case 1 : offer.style.display = 'block';
+        case 1 :
+            offer.style.display = 'block';
             operation.style.display = 'none';
+            user.style.display = 'none';
             break;
         case 2 : operation.style.display = 'block';
             offer.style.display = 'none';
+            user.style.display = 'none';
+            break;
+        case 3 :
+            offer.style.display = 'none';
+            operation.style.display = 'none';
+            user.style.display = 'block';
             break;
     }
 }
@@ -112,3 +87,80 @@ function checkInvoices()
     alert("Виберіть хоча б один рахунок");
     return false;
 }
+
+function getInvoicesListByNumber()
+{
+    var number = document.getElementById('invoiceNumber').value;
+    if(number[2] != undefined)
+    {
+        $.ajax({
+            type: "POST",
+            url: "../getInvoicesByNumber",
+            data: {
+                'invoiceNumber': number
+            },
+            cache: false,
+            success: function(response)
+            {
+                if(response)
+                $('div[name="selectInvoicesByNumber"]').html(response);
+
+                else
+                    alert('По Вашому запиту нічого не знайдено');
+            }
+        });
+    }
+}
+
+function getAgreementsListByUser()
+{
+    var user = document.getElementsByName('user');
+    var userId = '';
+    for(var j = 0 ;j < user.length; j++)
+    {
+        if(user[j].checked)
+        {
+            userId  = user[j].value;
+            break;
+        }
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "../getAgreementsByUser",
+        data: {
+            'userId': userId
+        },
+        cache: false,
+        success: function(response){
+            document.getElementById('userAgreement').style.display = 'block';
+            $('div[name="userAgreement"]').html(response); }
+    });
+}
+
+function getUserList()
+{
+    var number = document.getElementById('userEmail').value;
+    if(number[2] != undefined)
+    {
+        $.ajax({
+            type: "POST",
+            url: "../getUser",
+            data: {
+                'userEmail': number
+            },
+            cache: false,
+            success: function(response)
+            {
+                if(response)
+                    $('div[name="userList"]').html(response);
+
+                else
+                    alert('По Вашому запиту нічого не знайдено');
+            }
+        });
+    }
+}
+
+
+

@@ -263,43 +263,36 @@ class UserAgreements extends CActiveRecord
         return UserAgreements::model()->findAll($criteria);
     }
 
-//<<<<<<< HEAD
-//    public static function getInvoicesList($id)
-//    {
-//        $criteria = new CDbCriteria;
-//        $criteria->condition = 'agreement_id = '.$id;
-//
-//        $dataProvider = new CActiveDataProvider('Invoice', array(
-//            'criteria' => $criteria,
-//            'pagination' => false,
-//        ));
-//
-//        return $dataProvider;
-//=======
-    public static function findAgreementByCondition($number,$user,$course,$module)
-    {
-        $criteria = new CDbCriteria();
-        if ($number != ""){
-            $agr = UserAgreements::model()->findAllByPk($number);
-            return $agr;
-        }
-        if ($user != ""){
-            $criteria->addCondition('user_id='.$user, 'OR');
-        }
-        if ($course != ""){
-            $service = CourseService::getService($course);
-            $criteria->addCondition('service_id='.$service->service_id, 'OR');
-        }
-        if ($module != ""){
-            $service = ModuleService::getService($module);
-            $criteria->addCondition('service_id='.$service->service_id, 'OR');
-        }
 
-        return UserAgreements::model()->findAll($criteria);
+    public static function getInvoicesList($id)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'agreement_id = ' . $id;
+
+        $dataProvider = new CActiveDataProvider('Invoice', array(
+            'criteria' => $criteria,
+            'pagination' => false,
+        ));
+
+        return $dataProvider;
     }
 
     public static function getInvoices($id)
     {
         return UserAgreements::model()->findByPk($id)->invoice;
+    }
+
+    public static function findLikeAgreement($agreement)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addSearchCondition('number', $agreement);
+        $agr = UserAgreements::model()->findAll($criteria);
+        return $agr;
+    }
+
+    public static function findAgreementByUser($userId)
+    {
+        return UserAgreements::model()->findAllByAttributes(array('user_id'=> $userId));
+
     }
 }

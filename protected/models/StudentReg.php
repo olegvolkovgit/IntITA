@@ -568,13 +568,13 @@ class StudentReg extends CActiveRecord
     {
         if ($id) {
             $model = StudentReg::model()->findByPk($id);
+            if($model){
             if ($model->secondName == '' && $model->firstName == '') {
                 return $model->email;
             } else {
                 return $model->secondName . " " . $model->firstName . ", " . $model->email;
             }
-        } else {
-            return '';
+        }
         }
     }
 
@@ -582,5 +582,15 @@ class StudentReg extends CActiveRecord
     {
         return $this->teacher->teacher_id;
 
+    }
+
+    public static function findLikeEmail($userEmail)
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->addSearchCondition('email', $userEmail);
+        $result = StudentReg::model()->findAll($criteria);
+
+        return $result;
     }
 }

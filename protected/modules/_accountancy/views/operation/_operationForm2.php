@@ -3,36 +3,46 @@
  * @var $invoice UserAgreements
  */
 ?>
-<label for="operation2a_2"><?php echo OperationType::getDescription(2);?></label>
+<label for="operation2a_2" class="operationMargin"><?php echo OperationType::getDescription(2);?></label>
 
-<h3>Рахунок:</h3>
-<form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByInvoice');?>"
-      method="POST" name="newOperation" class="formatted-form">
+<h3 class="operationMargin">Рахунок:</h3>
+
 <div id="operationForm2">
-    <input type="number" name="user" value="<?php echo Yii::app()->user->getId();?>" hidden="hidden">
-    <input type="number" name="type" value="2" hidden="hidden">
-    <input type="number" name="source" value="1" hidden="hidden">
-    <label>
-    Рахунок:
-    <br/>
-    <select name="invoice">
-        <option value="">Виберіть рахунок</option>
-            <?php
-            $invoiceList = Invoice::getAllInvoices();
-            foreach($invoiceList as $invoice){
-                ?>
-                <option value="<?php echo $invoice->id;?>"><?php echo $invoice->summa;?></option>
-            <?php
-            }
-            ?>
-    </select>
-    </label>
-    <br/>
-    <label> Введіть суму операції:
-        <br/>
-        <input type="number" name="summa" value="" />
-    </label>
-    <br/>
-    <button type="submit">Додати</button>
+    <form action="#" method="POST" name="newOperation" class="formatted-form" >
+        <fieldset form="newOperation" title="Пошук рахунка">
+    <legend>Пошук рахунку по номеру:</legend>
+    <br>
+    Виберіть номер рахунку:
+    <br>
+<!--    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <span class="searchCriteria">
+                <label for="numberCriteria">
+                    <input type="text" name="invoiceNumber" id="invoiceNumber" onkeyup="getInvoicesListByNumber()">
+                </label>
+        </span>
+<!--    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+    </fieldset>
 </div>
-</form>
+<div >
+    </form>
+
+        <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByInvoice');?>" class="operationMargin"
+              method="POST" onsubmit="return checkInvoices();">
+            <fieldset form="newOperation" title="Результат пошуку рахунка">
+            <div name="selectInvoicesByNumber" >
+                <?php $this->renderPartial('_ajaxInvoices', array('invoices'=>'')); ?>
+            </div>
+            <input type="number" name="user" value="<?php echo Yii::app()->user->getId();?>" hidden="hidden">
+            <input type="number" name="type" value="2" hidden="hidden">
+            <input type="number" name="source" value="1" hidden="hidden">
+            <label> Введіть суму операції:
+                <br/>
+                <input type="number" name="summa" value="" />
+            </label>
+            <br/>
+            <button type="submit">Додати</button>
+            </fieldset>
+    </form>
+</div>
