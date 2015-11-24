@@ -356,7 +356,7 @@ img {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#becdde', endColorstr='#dbe3ed', GradientType=1);  / / Ie6-9
 }
 
-.addTest, .removeTest, .editRemoveTest, .editAddTest {
+.addTest, .removeTest, .editRemoveTest, .editAddTest, .answerAddRemove {
     cursor: pointer;
     color: #4b75a4;
 }
@@ -786,9 +786,19 @@ a.cke_dialog_ui_fileButton{
     margin: 0;
 }
 #optionsList .cke_bottom{
-    display: none;
+    height: 4px;
+}
+#optionsList .cke_resizer_ltr {
+    margin-right: -6px;
+    margin-top: -5px;
 }
 #optionsList .cke_reset {
     vertical-align: bottom;
 }
 /*CKE for answers input*/
+.answerList{
+    display: inline-block;
+}
+.answerList li{
+    margin-bottom: 5px;
+}
