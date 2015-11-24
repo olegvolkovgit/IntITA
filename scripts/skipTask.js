@@ -1,83 +1,38 @@
 /**
  * Created by Ivanna on 13.07.2015.
  */
-function createTask(url) {
-    var header = document.getElementById('header').value;
-    var etalon = document.getElementById('etalon').value;
-    var taskFooter = document.getElementById('taskFooter').value;
-    var condition = document.getElementById('condition').value;
+function createSkipTask(url, pageId) {
+    var question = document.getElementById('question').value;
+    var condition = document.getElementById('skipTaskCondition').value;
 
-    if(condition.trim()=='' || header.trim()=='' || etalon.trim()=='' || taskFooter.trim()==''){
+    if(condition.trim()=='' || question.trim()==''){
         alert('Поля з "*" повинні бути заповнені');
         return false;
     }
-    document.getElementById('addTask').style.display = 'none';
+    document.getElementById('addSkipTask').style.display = 'none';
 
-    var lang = $('select[name="lang"]').val();
-    var name = document.getElementById('name').value;
-    condition = condition.trim();
-    var newTask = {
-        "operation": "addtask",
-        "name": name,
-        "etalon": etalon,
-        "lang": "c++",
-        "function": {
-            "type": 1,
-            "results": [[10.0, 12.0]],
-            "args":  [
-                {
-                    "type": 1,
-                    "arg_name": "x",
-                    "value": [[10.0, 12.0]]
-                },
-                {
-                    "type": 3,
-                    "arg_name": "vasya",
-                    "value": [["20", "5"]]
-                }
-            ]
-        }
-    };
-    var jqxhr = $.post(url, JSON.stringify(newTask), function () {
-    })
-        .done(function (data) {
-            var serverResponse = jQuery.parseJSON(data);
-            if (serverResponse.status == 'success') {
-                addTaskToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table, task);
-            }
-        })
-        .fail(function () {
-            alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
-            "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-            location.reload();
-        })
-        .always(function () {
-        });
-
-}
-
-function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table, taskType) {
     $.ajax({
         type: "POST",
-        url: "/task/addTask",
+        url: url,
         data: {
-            'condition': condition,
+            "condition": condition,
+            "question": question,
             'author': idTeacher,
             'lecture': idLecture,
-            'language': lang,
-            'assignment': id,
-            'table' : table,
-            'taskType' : taskType
+            'pageId': pageId
         },
         cache: false,
-        success: function(){location.reload();
+        success: function(data){
+            alert(data);
+            //location.reload();
         }
     });
 }
+
 function cancelSkipTask() {
     location.reload();
 }
-function editTask() {
+function editSkipTask() {
     var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
     var taskFooter = document.getElementById('taskFooter').value;
@@ -111,14 +66,14 @@ function editTask() {
         })
         .fail(function () {
             alert("Вибачте, але на сайті виникла помилка і редагувати задачу до заняття наразі неможливо. " +
-                "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+            "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
             location.reload();
         })
         .always(function () {
         });
 
 }
-function editTaskToLecture(condition, idTeacher, idLecture, lang, id, table, taskType) {
+function editSkipTaskToLecture(condition, idTeacher, idLecture, lang, id, table, taskType) {
     $.ajax({
         type: "POST",
         url: "/task/editTask",
@@ -138,7 +93,7 @@ function editTaskToLecture(condition, idTeacher, idLecture, lang, id, table, tas
 }
 
 
-function unableTask(pageId){
+function unableSkipTask(pageId){
     if (confirm('Ви впевнені, що хочете видалити задачу?')) {
         $.ajax({
             type: "POST",
