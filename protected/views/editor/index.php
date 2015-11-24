@@ -165,7 +165,8 @@ if ($idCourse != 0) {
         ?>
         <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
         <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+        <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+        <button onclick="showAddSkipTaskForm()">Додати задачу з пропусками</button>
         <?php
     }
     ?>
