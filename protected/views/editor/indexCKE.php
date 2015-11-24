@@ -161,12 +161,12 @@ if ($idCourse != 0) {
                             'pageId' => $page->id));
                         break;
                     case '6':
-                        $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
+                        $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
                             'pageId' => $page->id));
                         break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],
+                        $this->renderPartial('/editor/_editTestCKE', array('idBlock' => $data['id_block'],
                             'pageId' => $page->id));
                         break;
                     default:
@@ -174,18 +174,18 @@ if ($idCourse != 0) {
                 }
             } else {
                 ?>
-                <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <!--        <button onclick="showAddTaskForm('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
+                <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
+                <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                        <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <?php
             }
             ?>
             <?php if ($page->quiz == null) { ?>
-            <?php $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id,
+            <?php $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
-            <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+            <?php $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id)); ?>
             <?php } ?>
-            <?php $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
+            <?php $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
         </div>
     </div>

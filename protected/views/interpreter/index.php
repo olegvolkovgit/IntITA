@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Size">
+                    <input type="hidden" name="size" class="form-control"   placeholder="Size">
                 </div>
 
                 <!-- Single button -->
@@ -52,18 +52,15 @@
                     <div class="col-lg-2">
                 <input type="text" class="form-control" placeholder="Value"></div>
 
-            <button type="button" class="btn btn-default pull-right btnInterp" ng-click="">
+            <button id ="btn" type="button" class="btn btn-default pull-right btnInterp" ng-click="">
                 <span class="glyphicon glyphicon glyphicon-plus " aria-hidden="true"></span>
             </button>
-
-
         </div>
-
-
-
-        </div>
+   </div>
+        <!--Div for add new clone -->
         <div id="forAppForms">
         </div>
+
         <hr>
 
         <div class="row col">
@@ -102,21 +99,22 @@
 </body>
 </html>
 
-<!--<script>-->
-<!--    var app = angular.module('App', []);-->
-<!--    app.controller('Ctrl', function($scope) {-->
-<!--var clone = linkingFn(scope,function callback(clone{-->
-<!--    element.append(clone);-->
-<!--});-->
-<!--        };-->
-<!--    });-->
-<!--</script>-->
 <script>
-    $(document).ready(function(){
-        $("button").click(function(){
-            $("#firstForm").clone().appendTo("#forAppForms");
+    $(document).ready(function() {
+        count = 1;
+        $("#btn").click(function () {
+            var clone = $("#firstForm").clone();
+            var el = $(clone).find('span.glyphicon.glyphicon.glyphicon-plus');
+            el.removeClass('glyphicon-plus');
+            el.addClass('glyphicon-minus');
+            el.parent().attr('onclick','removeClone(this)');
+            var num = 'firstForm' + count;
+            count++;
+            clone.prop({id: num}).appendTo("#forAppForms");
         });
-        $
     });
+    function removeClone(el){
+      $(el).parent().parent().remove();
+    }
 
 </script>
