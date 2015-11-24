@@ -14,12 +14,10 @@
             <?php echo Yii::t('lecture', '0713'); ?>
             <br>
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" size="80" placeholder="<?php echo Yii::t('lecture', '0714'); ?>" required ng-model="testCondition"></textarea>
-            <br>
-            <br>
             <fieldset>
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
-                <ol  style="display: inline-block" id="optionsList" class="inputs">
+                <ol  class='answerList' id="optionsList" class="inputs">
                     <li ng-repeat="answer in answers track by $index">
                         <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="option" ></textarea>
                         <div class="answerCheck">
@@ -29,10 +27,9 @@
                         </div>
                     </li>
                 </ol>
-                <div ng-click="addAnswer();" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
-                <div ng-click="deleteAnswer();" ><?php echo Yii::t('lecture', '0703'); ?></div>
+                <div class="answerAddRemove" ng-click="addAnswer();" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
+                <div class="answerAddRemove" ng-click="deleteAnswer();" ><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
-            <br>
             <br>
             <input name="optionsNum" id="optionsNum" type="hidden" value="1"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
@@ -40,6 +37,7 @@
             <input name="testType" id="testType" type="hidden" value="plain"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
+        <br>
         <input type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
     </form>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>

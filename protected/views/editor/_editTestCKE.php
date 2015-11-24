@@ -21,12 +21,10 @@ $valid=TestsHelper::getTestValidCKE($idBlock);
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста" size="80" required ng-init="testConditionEdit='<?php echo htmlentities(TestsHelper::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
-            <br>
-            <br>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
-                <ol  style="display: inline-block" id="optionsList" class="inputs">
+                <ol  class='answerList' id="optionsList" class="inputs">
                     <li ng-repeat="editAnswer in editAnswers track by $index">
                         <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="editAnswers[$index]" ></textarea>
                         <div class="answerCheck">
@@ -36,8 +34,8 @@ $valid=TestsHelper::getTestValidCKE($idBlock);
                         </div>
                     </li>
                 </ol>
-                <div ng-click="editAddAnswer();"><?php echo Yii::t('lecture', '0702'); ?></div>
-                <div ng-click="editDeleteAnswer();"><?php echo Yii::t('lecture', '0703'); ?></div>
+                <div class="answerAddRemove" ng-click="editAddAnswer();"><?php echo Yii::t('lecture', '0702'); ?></div>
+                <div class="answerAddRemove" ng-click="editDeleteAnswer();"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
             <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
