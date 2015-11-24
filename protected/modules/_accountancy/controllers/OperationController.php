@@ -176,8 +176,8 @@ class OperationController extends AccountancyController
     }
     public function actionGetAgreementsByUser()
     {
-        $userId = Yii::app()->request->getPost('userId', 0);
-        $userId = 38;
+        $userId = Yii::app()->request->getPost('userId');
+
         $result = UserAgreements::findAgreementByUser($userId);
 
         return $this->renderPartial('_ajaxAgreement',array('agreements' => $result));

@@ -3,6 +3,7 @@
  */
     function getInvoicesList()
     {
+        var user = document.getElementById('findUser');
         var agreement = document.getElementsByName('agreement');
         var agreementId = '';
         for(var j = 0 ;j < agreement.length; j++)
@@ -20,9 +21,16 @@
                 'id': agreementId
             },
             cache: false,
-            success: function(response){
-                document.getElementById('selectInvoices').style.display = 'block';
-                $('div[name="selectInvoices"]').html(response); }
+            success: function(response) {
+                if (user.style.display == 'none') {
+                    document.getElementById('selectInvoices').style.display = 'block';
+                    $('div[name="selectInvoices"]').html(response);
+                }
+                else {
+                    document.getElementById('selectUserInvoices').style.display = 'block';
+                    $('div[name="selectUserInvoices"]').html(response);
+                }
+            }
         });
     }
 
@@ -57,23 +65,21 @@ function showOperation(id)
     var operation = document.getElementById('findOperation');
     var user = document.getElementById('findUser');
 
-    switch(id)
+    var arr = [];
+    arr.push(offer);
+    arr.push(operation);
+    arr.push(user);
+
+    for(var i = 0;i < arr.length; i++)
     {
-        case 1 :
-            offer.style.display = 'block';
-            operation.style.display = 'none';
-            user.style.display = 'none';
-            break;
-        case 2 : operation.style.display = 'block';
-            offer.style.display = 'none';
-            user.style.display = 'none';
-            break;
-        case 3 :
-            offer.style.display = 'none';
-            operation.style.display = 'none';
-            user.style.display = 'block';
-            break;
+        if(i == id)
+            arr[i].style.display = 'block';
+
+        else
+            arr[i].style.display = 'none';
+
     }
+
 }
 
 function checkInvoices()
@@ -114,6 +120,9 @@ function getInvoicesListByNumber()
 
 function getAgreementsListByUser()
 {
+    document.getElementById('selectUserInvoices').style.display = 'none';
+    document.getElementById('userAgreement').style.display = 'none';
+
     var user = document.getElementsByName('user');
     var userId = '';
     for(var j = 0 ;j < user.length; j++)
@@ -140,6 +149,7 @@ function getAgreementsListByUser()
 
 function getUserList()
 {
+
     var number = document.getElementById('userEmail').value;
     if(number[2] != undefined)
     {

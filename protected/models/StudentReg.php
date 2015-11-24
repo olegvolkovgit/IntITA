@@ -580,7 +580,9 @@ class StudentReg extends CActiveRecord
 
     public function getTeacherId()
     {
-        return $this->teacher->teacher_id;
+        $teacherId = $this->teacher;
+        if($teacherId)
+        return $teacherId->teacher_id;
 
     }
 

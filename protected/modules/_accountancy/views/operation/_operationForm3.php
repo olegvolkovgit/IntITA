@@ -9,7 +9,7 @@
 <label for="operation2a_1" class="operationMargin"><?php echo OperationType::getDescription(1);?></label>
 
 <h3 class="operationMargin">Користувач:</h3>
-<div id="operationForm1">
+<div id="operationForm3">
     <!--Search form by agreement criteria-->
     <form method="POST" name="newOperation" class="formatted-form">
         <fieldset form="newOperation" title="Пошук договора">
@@ -44,7 +44,7 @@
             <legend>Операція:</legend>
             Результати пошуку:
             <br/>
-            <div name="selectInvoices" id="selectInvoices">
+            <div name="selectUserInvoices" id="selectUserInvoices">
                 <?php $this->renderPartial('_ajaxInvoices', array('invoices'=>'')); ?>
             </div>
             <br/>

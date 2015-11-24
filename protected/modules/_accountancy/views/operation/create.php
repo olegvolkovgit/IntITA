@@ -15,9 +15,9 @@
 <!---->
 <div class="mainOperation">
 <ul class="operationCreate">
-    <li role="presentation" class="operationPanel" ><button onclick="showOperation(1)">Пошук по договору</button></li>
-    <li role="presentation" class="operationPanel" ><button onclick="showOperation(2)">Пошук по операції</button></li>
-    <li role="presentation" class="operationPanel" ><button onclick="showOperation(3)">Пошук по користувачу</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(0)">Пошук по договору</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(1)">Пошук по операції</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(2)">Пошук по користувачу</button></li>
 </ul>
     <div class="findOffer" id="findOffer" >
         <?php echo $this->renderPartial('_operationForm1', array('agreementsList' => ''));?>
