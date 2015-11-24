@@ -212,12 +212,12 @@ class ModuleHelper
         }
         if ($startTime && !$endTime) {
             $days=round((time()-strtotime($startTime))/86400);
-            $moduleStatus=array('inProgress', abs($days));
+            $moduleStatus=array('inProgress', abs($days)+1);
             return $moduleStatus;
         }
         if ($startTime && $endTime) {
             $days=round((strtotime($endTime)-strtotime($startTime))/86400);
-            $moduleStatus=array('finished', abs($days));
+            $moduleStatus=array('finished', abs($days)+1);
             return $moduleStatus;
         }
     }
