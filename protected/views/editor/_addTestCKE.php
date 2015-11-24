@@ -9,7 +9,7 @@
 <a name="testForm"></a>
 <div id="addTest">
     <br>
-    <form onSubmit="return checkAnswers($('#answersList input:checkbox:checked'));" name="addTestForm" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>" novalidate>
+    <form onSubmit="return checkAnswersCKE($('#optionsList input:checkbox:checked'));" name="addTestForm" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>" novalidate>
         <fieldset>
             <?php echo Yii::t('lecture', '0713'); ?>
             <br>
@@ -18,19 +18,19 @@
             <br>
             <fieldset>
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
+                <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                 <ol  style="display: inline-block" id="optionsList" class="inputs">
-                    <li>
-                        <input class="testVariant" type="text" name="option1" id="option1" size="80" required/>
+                    <li ng-repeat="answer in answers track by $index">
+                        <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="option" ></textarea>
+                        <div class="answerCheck">
+                            <div id="answersList" class="answersCheckbox">
+                                <div><input type="checkbox" name="answer{{$index+1}}" value="{{$index+1}}"></div>
+                            </div>
+                        </div>
                     </li>
                 </ol>
-                <div style="display: inline-block">
-                    <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?>:</legend>
-                    <div id="answersList" class="answersCheckbox">
-                        <div><input type="checkbox" name="answer1" value="1"></div>
-                    </div>
-                </div>
-                <div class="addTest" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
-                <div class="removeTest"><?php echo Yii::t('lecture', '0703'); ?></div>
+                <div ng-click="addAnswer();" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
+                <div ng-click="deleteAnswer();" ><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
             <br>

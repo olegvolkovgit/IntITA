@@ -86,6 +86,17 @@ class TestsHelper {
         }
         return $answers;
     }
+    public static function getTestValidCKE($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => TestsHelper::getTestId($block)));
+        foreach($test as $answer){
+            if ($answer->is_valid==0)
+                array_push($answers, 'false');
+            elseif ($answer->is_valid==1)
+                array_push($answers, 'true');
+        }
+        return $answers;
+    }
     public static function getTaskCondition($block){
         return strip_tags(LectureElement::model()->findByPk($block)->html_block);
     }

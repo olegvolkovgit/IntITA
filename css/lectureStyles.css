@@ -757,7 +757,38 @@ a.cke_dialog_ui_fileButton{
 }
 .answerTable{
     word-break: break-all;
+    width: 100%;
+}
+.answerTable{
+    word-break: break-all;
+    width: 100%;
+}
+.answerTable td:first-child{
+    width: 20px;
 }
 .answerTable td{
     vertical-align: top;
 }
+.ckeImg{
+    display: inline-block;
+    background: #5bc0de;
+    cursor: pointer;
+}
+.answerCheck{
+    display: inline-block;
+}
+/*CKE for answers input*/
+#optionsList .cke_chrome {
+    display: inline-block;
+}
+#optionsList .cke_top {
+    padding: 0;
+    margin: 0;
+}
+#optionsList .cke_bottom{
+    display: none;
+}
+#optionsList .cke_reset {
+    vertical-align: bottom;
+}
+/*CKE for answers input*/

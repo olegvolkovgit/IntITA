@@ -79,7 +79,6 @@
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
                         ],
                         toolbar_answer: [ //jshint ignore:line
-                            { name: 'document', items : [ 'Source','-' ] },
                             { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
                             { name: 'paragraph', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
                             { name: 'links', items : [ 'Link','Unlink'] },
