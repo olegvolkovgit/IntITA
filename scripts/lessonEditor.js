@@ -24,6 +24,12 @@ function showAddTaskForm(taskType){
         document.getElementById('cancelButton').style.display = 'none';
 }
 
+function showAddSkipTaskForm(){
+    document.getElementById('addSkipTask').style.display = 'block';
+    document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+}
+
 function showAddTestForm(testType){
         document.getElementById('testType').value = testType;
         document.getElementById('addTest').style.display = 'block';

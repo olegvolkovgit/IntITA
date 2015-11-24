@@ -35,7 +35,6 @@ class SkipTask extends Quiz
 			array('author, condition', 'required'),
 			array('author, condition', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, author, condition', 'safe', 'on'=>'search'),
 		);
 	}
@@ -81,8 +80,6 @@ class SkipTask extends Quiz
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -106,6 +103,18 @@ class SkipTask extends Quiz
 	}
 
     public function addTask($arr){
+        $model = new SkipTask();
 
+        $model->author = $arr['author'];
+        $model->condition = $arr['block'];
+
+        if($model->validate())
+        {
+            $model->save();
+            LecturePage::addQuiz($arr['pageId'], $arr['block']);
+            return true;
+        }
+
+        return false;
     }
 }

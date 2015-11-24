@@ -110,7 +110,7 @@ class LectureElement extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewTaskBlock($idLecture, $condition, $taskType){
+    public static function addNewTaskBlock($idLecture, $condition){
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
