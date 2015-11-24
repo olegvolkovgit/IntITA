@@ -607,7 +607,6 @@ class LessonController extends Controller
 
     public function actionPageAjaxUpdate()
     {
-
         $user=Yii::app()->user->getId();
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
@@ -652,4 +651,6 @@ class LessonController extends Controller
             $model->save();
         }else echo 'Блок не може бути пустий';
     }
+
+
 }
