@@ -22,6 +22,12 @@ class SkipTaskAnswers extends CActiveRecord
 		return 'skip_task_answers';
 	}
 
+    public function __construct($task, $answer, $answerOrder){
+        $this->id_task = $task;
+        $this->answer = $answer;
+        $this->answer_order = $answerOrder;
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -102,4 +108,13 @@ class SkipTaskAnswers extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addAnswers($task, $answers){
+        if (!empty($answers)){
+            foreach($answers as $answer){
+                $model = new SkipTaskAnswers($task, $answer['text'], $answer['order']);
+                $model->save();
+            }
+        }
+    }
 }

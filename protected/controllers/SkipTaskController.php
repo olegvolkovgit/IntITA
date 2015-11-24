@@ -18,7 +18,6 @@ class SkipTaskController extends Controller{
         );
     }
 
-
     public function actionAddTask(){
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['question'] = Yii::app()->request->getPost('question', '');
@@ -26,6 +25,8 @@ class SkipTaskController extends Controller{
         $arr['author'] = Yii::app()->request->getPost('author', null);
         $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
         $arr['type'] = 'skip_task';
+
+
 
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))

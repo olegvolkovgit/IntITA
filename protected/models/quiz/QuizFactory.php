@@ -43,10 +43,13 @@ class QuizFactory  {
                 }
             break;
             case 'skip_task' :
-                $lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition']);
+                $task = new SkipTask($arr['author'], $arr['condition'], $arr['question']);
+
+                $lectureElementId = LectureElement::addNewSkipTaskBlock($arr['lecture'] , $arr['condition']);
+
                 if ($lectureElementId) {
                     $arr['block'] = $lectureElementId;
-                    $task = new SkipTask();
+
                     if ($task->addTask($arr))
                         return true;
                     else return false;

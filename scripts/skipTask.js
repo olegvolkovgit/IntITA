@@ -1,9 +1,9 @@
 /**
  * Created by Ivanna on 13.07.2015.
  */
-function createSkipTask(url) {
+function createSkipTask(url, pageId) {
     var question = document.getElementById('question').value;
-    var condition = document.getElementById('condition').value;
+    var condition = document.getElementById('skipTaskCondition').value;
 
     if(condition.trim()=='' || question.trim()==''){
         alert('Поля з "*" повинні бути заповнені');
@@ -11,25 +11,20 @@ function createSkipTask(url) {
     }
     document.getElementById('addSkipTask').style.display = 'none';
 
-    condition = condition.trim();
-    var newTask = {
-        "condition": condition,
-        "question": "question"
-    };
     $.ajax({
         type: "POST",
-        url: "/IntITA/skipTask/addTask",
+        url: url,
         data: {
-            'condition': condition,
+            "condition": condition,
+            "question": question,
             'author': idTeacher,
             'lecture': idLecture,
-            'language': lang,
-            'assignment': id,
-            'table' : table,
-            'taskType' : taskType
+            'pageId': pageId
         },
         cache: false,
-        success: function(){location.reload();
+        success: function(data){
+            alert(data);
+            //location.reload();
         }
     });
 }
