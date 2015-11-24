@@ -64,9 +64,28 @@
                             { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
                             { name: 'insert', items : [ 'Mathjax','EqnEditor','Image','Table','HorizontalRule','SpecialChar','PageBreak' ] },
                             '/',
-                            { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
                             { name: 'tools', items : [ 'Maximize', 'ShowBlocks','customSave','close' ] }
+                        ],
+                        toolbar_task: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+                            { name: 'links', items : [ 'Link','Unlink'] },
+                            { name: 'insert', items : [ 'Mathjax','EqnEditor','Image','Youtube','Table','HorizontalRule','SpecialChar'] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
+                            { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                        ],
+                        toolbar_answer: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+                            { name: 'links', items : [ 'Link','Unlink'] },
+                            { name: 'insert', items : [ 'Mathjax','EqnEditor','SpecialChar'] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
+                            { name: 'colors', items : [ 'TextColor','BGColor' ] },
                         ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);

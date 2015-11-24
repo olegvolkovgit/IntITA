@@ -28,7 +28,7 @@
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <br>
             <br>
-            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>
+            Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" form="add-task" rows="10" required ng-model="addTask"></textarea>
             <br>
             <br>
             Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>
