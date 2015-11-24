@@ -74,7 +74,7 @@ function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table, task
         }
     });
 }
-function cancelTask() {
+function cancelSkipTask() {
     location.reload();
 }
 function editTask() {

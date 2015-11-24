@@ -274,7 +274,7 @@ img {
     display: inline-block;
 }
 
-#addTask {
+#addTask, #addSkipTask, #addTest, #divAddVideo {
     display: none;
 }
 
@@ -286,10 +286,6 @@ img {
     width: 100%;
 }
 
-#addTest {
-    display: none;
-}
-
 .taskSubmit :disabled {
     background: #dddddd;
     color: #333333;
@@ -299,10 +295,6 @@ img {
     resize: none;
 }
 #divAddFormula {
-    display: none;
-}
-
-#divAddVideo {
     display: none;
 }
 
@@ -359,6 +351,11 @@ img {
 .addTest, .removeTest, .editRemoveTest, .editAddTest, .answerAddRemove {
     cursor: pointer;
     color: #4b75a4;
+}
+
+#buttonsTextListPanel{
+    display: block;
+    clear: both;
 }
 
 .addTest:hover, .removeTest:hover, .editRemoveTest:hover, .editAddTest:hover {
@@ -453,22 +450,6 @@ div.lastAccessPage {
 .text, .codeExample, .code {
     overflow: hidden;
 }
-
-/*.text table {*/
-    /*margin: 0;*/
-    /*margin-bottom: 15px;*/
-    /*border: none;*/
-    /*background: none;*/
-    /*box-shadow: none;*/
-    /*width: 100%;*/
-/*}*/
-
-/*.text table td {*/
-    /*padding: 5px;*/
-    /*border: 1px solid #ddd;*/
-    /*vertical-align: top;*/
-    /*height: 16px;*/
-/*}*/
 
 .lessonText fieldset {
     padding-left: 0;

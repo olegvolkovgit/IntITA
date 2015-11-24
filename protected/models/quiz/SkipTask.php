@@ -7,15 +7,19 @@
  * @property integer $id
  * @property integer $author
  * @property integer $condition
+ * @property integer $question
  *
  * The followings are the available model relations:
  * @property LectureElement $condition0
+ * @property LectureElement $question0
  * @property Teacher $author0
  * @property SkipTaskAnswers[] $skipTaskAnswers
- * @property SkipTaskMarks[] $skipTaskMarks
  */
 class SkipTask extends Quiz
 {
+
+    public $answers;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -23,6 +27,12 @@ class SkipTask extends Quiz
 	{
 		return 'skip_task';
 	}
+
+    public function __construct($author, $condition, $question){
+        $this->author = $author;
+        $this->condition = $condition;
+        $this->question = SkipTask::parseQuestion($question);
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -32,10 +42,11 @@ class SkipTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, condition', 'required'),
-			array('author, condition', 'numerical', 'integerOnly'=>true),
+			array('author, condition, question', 'required'),
+			array('author, condition, question', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, author, condition', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, author, condition, question', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,9 +59,9 @@ class SkipTask extends Quiz
 		// class name for the relations automatically generated below.
 		return array(
 			'condition0' => array(self::BELONGS_TO, 'LectureElement', 'condition'),
+			'question0' => array(self::BELONGS_TO, 'LectureElement', 'question'),
 			'author0' => array(self::BELONGS_TO, 'Teacher', 'author'),
 			'skipTaskAnswers' => array(self::HAS_MANY, 'SkipTaskAnswers', 'id_task'),
-			'skipTaskMarks' => array(self::HAS_MANY, 'SkipTaskMarks', 'id_task'),
 		);
 	}
 
@@ -63,6 +74,7 @@ class SkipTask extends Quiz
 			'id' => 'ID',
 			'author' => 'Author',
 			'condition' => 'Condition',
+			'question' => 'Question',
 		);
 	}
 
@@ -80,11 +92,14 @@ class SkipTask extends Quiz
 	 */
 	public function search()
 	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('author',$this->author);
 		$criteria->compare('condition',$this->condition);
+		$criteria->compare('question',$this->question);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,18 +118,21 @@ class SkipTask extends Quiz
 	}
 
     public function addTask($arr){
-        $model = new SkipTask();
-
-        $model->author = $arr['author'];
-        $model->condition = $arr['block'];
-
-        if($model->validate())
-        {
-            $model->save();
-            LecturePage::addQuiz($arr['pageId'], $arr['block']);
+        if ($this->save()) {
+            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
+            SkipTaskAnswers::addAnswers($this->id, $this->answers);
             return true;
         }
+        else return false;
+    }
 
-        return false;
+    public function parseQuestion($question){
+        return $question;
+    }
+
+    public function afterSave()
+    {
+        parent::afterSave();
+        $this->id = Yii::app()->db->getLastInsertID();
     }
 }
