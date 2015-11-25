@@ -213,7 +213,6 @@ class CourseHelper
 
     public static function getCourseName($idCourse)
     {
-
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         $courseTitle = Course::model()->findByPk($idCourse)->$title;

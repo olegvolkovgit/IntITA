@@ -497,6 +497,7 @@ div.lessonTest {
 }
 .element{
     font-family: "MyriadPro";
+    word-break: break-all;
 }
 .element table{
     /*border-collapse: collapse;*/

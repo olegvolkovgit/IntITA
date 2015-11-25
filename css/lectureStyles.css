@@ -748,6 +748,16 @@ a.lectureDisabled{
     width: 100%;
     height: 100px;
 }
+#lecturePage .cke_button__image_icon {
+    background: url(../scripts/ckeditor/plugins/file.png) !important;
+    width: 32px;
+}
 a.cke_dialog_ui_fileButton{
     margin-top: 80px;
+}
+.answerTable{
+    word-break: break-all;
+}
+.answerTable td{
+    vertical-align: top;
 }

@@ -102,8 +102,6 @@ class Lecture extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
@@ -118,7 +116,6 @@ class Lecture extends CActiveRecord
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
         $criteria->compare('rate', $this->rate);
-
 
         $criteria->with=array('ModuleTitle');
         $criteria->compare('ModuleTitle.module_name',$this->ModuleTitle,true);
@@ -367,5 +364,17 @@ class Lecture extends CActiveRecord
             'idModule' => $idModule,
             'order' => $order
         ));
+    }
+
+    public static function getLink($id){
+        return '<a href="'.Yii::app()->createUrl("lesson/index", array("id" => $id, "idCourse" => "0")).'">'.
+        LectureHelper::getLectureTitle($id).'</a>';
+    }
+
+    public static function getAllNotVerifiedLectures(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('idModule > 0 and `order` > 0');
+
+        return Lecture::model()->findAll($criteria);
     }
 }

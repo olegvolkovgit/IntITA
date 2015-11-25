@@ -176,14 +176,14 @@ if ($idCourse != 0) {
                 ?>
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <!--        <button onclick="showAddTaskForm('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
+                        <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <?php
             }
             ?>
             <?php if ($page->quiz == null) { ?>
             <?php $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
-            <?php $this->renderPartial('/editor/_addTask', array('pageId' => $page->id)); ?>
+            <?php $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id)); ?>
             <?php } ?>
             <?php $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id,
                 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
