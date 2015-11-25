@@ -72,7 +72,7 @@
                 <?php
                    echo ModuleHelper::getModulePrice($post->module_ID, (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0))?0:$_GET['idCourse']); ?>
             </div>
-            </br>
+            <br>
             <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
                 <?php echo RatingHelper::getRating($post->rating); ?>

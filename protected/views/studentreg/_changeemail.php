@@ -27,7 +27,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <span ng-cloak ng-show="resetEmail['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
         </div>
     </div>
-    </br>
+    <br>
     <div class="rowRecovButt">
         <?php $labelButton = Yii::t('changeemail','0294')?>
         <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled'=>'resetEmail.$invalid')); ?>

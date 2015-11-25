@@ -15,7 +15,11 @@ function CKEditorCtrl($compile, $scope, $http) {
         toolbar: 'answer',
         height: '40px',
         //enterMode: CKEDITOR.ENTER_BR
-};
+    };
+    $scope.editorOptionsSkipTask = {
+        language: lang,
+        toolbar: 'skipTask'
+    };
     $scope.$on("ckeditor.ready", function (event) {
         $scope.isReady = true;
     });

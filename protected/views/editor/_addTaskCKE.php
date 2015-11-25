@@ -12,7 +12,7 @@
 <br>
 <div id="addTask">
     <br>
-    <form name="add-task">
+    <form name="addTaskForm">
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
@@ -31,15 +31,15 @@
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" form="add-task" rows="10" required ng-model="addTask"></textarea>
             <br>
             <br>
-            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>
+            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5" required></textarea>
             <br>
-            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
+            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15" required></textarea>
             <br>
-            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>
+            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5" required ng-model="footer"></textarea>
             <br>
         </fieldset>
+        <input type="submit" onclick="createTaskCKE('<?php echo Config::getInterpreterServer(); ?>')" ng-disabled="addTaskForm.$invalid" value="Додати задачу" />
     </form>
-    <button onclick="createTask('<?php echo Config::getInterpreterServer(); ?>')">Додати задачу</button>
     <button onclick='cancelTask()'>Скасувати</button>
 </div>
 

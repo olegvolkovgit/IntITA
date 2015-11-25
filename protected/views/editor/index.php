@@ -96,7 +96,7 @@ if ($idCourse != 0) {
     if ($page->video == null) { ?>
         <?php $this->renderPartial('/editor/_addVideo', array('idLecture' => $page->id_lecture, 'pageOrder' =>
             $page->page_order)); ?>
-        <button onclick="addVideo()" id="addVideoStart"><?php echo Yii::t('lecture', '0689'); ?></button>
+        <button onclick="addVideoInput()" id="addVideoStart"><?php echo Yii::t('lecture', '0689'); ?></button>
         <?php
     } else {
         $lectureElement = LectureElement::model()->findByPk($page->video);

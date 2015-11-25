@@ -689,7 +689,7 @@ a.lectureDisabled{
 .selectedButton{
     background: #4b75a4;
 }
-#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled]{
+#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled],#addTask input[type="submit"][disabled]{
     background: #cccccc;
 }
 /*hide close and save in add block*/
@@ -775,6 +775,9 @@ a.cke_dialog_ui_fileButton{
 }
 #optionsList .cke_reset {
     vertical-align: bottom;
+}
+.element .cke_toolbar:first-child{
+    float: right;
 }
 /*CKE for answers input*/
 .answerList{
