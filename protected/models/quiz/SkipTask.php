@@ -17,7 +17,6 @@
  */
 class SkipTask extends Quiz
 {
-
     public $answers;
 
 	/**
@@ -27,12 +26,6 @@ class SkipTask extends Quiz
 	{
 		return 'skip_task';
 	}
-
-    public function __construct($author, $condition, $question){
-        $this->author = $author;
-        $this->condition = $condition;
-        $this->question = SkipTask::parseQuestion($question);
-    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -45,7 +38,6 @@ class SkipTask extends Quiz
 			array('author, condition, question', 'required'),
 			array('author, condition, question', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, author, condition, question', 'safe', 'on'=>'search'),
 		);
 	}
@@ -92,8 +84,6 @@ class SkipTask extends Quiz
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -118,9 +108,14 @@ class SkipTask extends Quiz
 	}
 
     public function addTask($arr){
+
+        $this->question = $arr['question'];
+        $this->condition = $arr['condition'];
+        $this->author = $arr['author'];
+
         if ($this->save()) {
-            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
-            SkipTaskAnswers::addAnswers($this->id, $this->answers);
+            LecturePage::addQuiz($arr['pageId'], $arr['condition']);
+            //SkipTaskAnswers::addAnswers($this->id, $this->answers);
             return true;
         }
         else return false;
