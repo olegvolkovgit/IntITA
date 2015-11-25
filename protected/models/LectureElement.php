@@ -110,7 +110,7 @@ class LectureElement extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewTaskBlock($idLecture, $condition, $taskType){
+    public static function addNewTaskBlock($idLecture, $condition){
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
@@ -122,6 +122,23 @@ class LectureElement extends CActiveRecord
 
         if ($model->save(true)) {
             return LectureElement::model()->findByAttributes(array('block_order'=>$model->block_order, 'id_lecture' => $idLecture))->id_block;
+        } else {
+            return false;
+        }
+    }
+
+    public static function addNewSkipTaskBlock($idLecture, $condition){
+        $model = new LectureElement();
+
+        $model->block_order = 0;
+
+        $model->id_type = 9;
+
+        $model->html_block = $condition;
+        $model->id_lecture = $idLecture;
+
+        if ($model->save(true)) {
+            return $model->id_block;
         } else {
             return false;
         }
@@ -344,5 +361,11 @@ class LectureElement extends CActiveRecord
         }
 
         else return false;
+    }
+
+    public function afterSave()
+    {
+        parent::afterSave();
+        $this->id_block = Yii::app()->db->getLastInsertID();
     }
 }

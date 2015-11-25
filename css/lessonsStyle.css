@@ -134,7 +134,6 @@ div.code {
     box-sizing: border-box;
     width: 16px;
     height: 16px;
-    vertical-align: bottom;
 }
 .contentTest label{
     font-size: 16px;
@@ -434,7 +433,7 @@ div.lessonTest {
     margin: 10px 0 0 10px;
 }
 .instrTestText {
-    display: inline-block;
+    /*display: inline-block;*/
     font-size: 20px;
     margin: 20px 0 0 0;
 }

@@ -4,7 +4,7 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
 a, button, input[type="submit"]{outline:none;}
 a:hover{color:#666666;}
-span{font-weight:normal;}
+/*span{font-weight:normal;}*/
 #main-wrapper{box-sizing:border-box;min-height:100%;padding-bottom:105px;}
 .main{position:relative;width:1200px;margin:0 auto;}
 h1, h2, h3, h4, html{font-family:"MyriadPro";color:#333333;font-weight:normal;}

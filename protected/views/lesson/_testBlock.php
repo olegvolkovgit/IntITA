@@ -23,10 +23,10 @@ $testType = TestsHelper::getTestType($data['id_block']);
                                 <input id="<?php echo TestsHelper::getAnswerKey($data['id_block'])[$i - 1]; ?>"
                                        type="radio"
                                        name="radioanswer" class="answer"
-                                       value="<?php echo $options[$i - 1]["answer"]; ?>">
+                                       value='<?php echo $options[$i - 1]["answer"]; ?>'>
                             </td>
                             <td>
-                                <label><?php echo $options[$i - 1]["answer"]; ?></label>
+                                <?php echo $options[$i - 1]["answer"]; ?>
                             </td>
                         </tr>
                     <?php }
@@ -38,10 +38,10 @@ $testType = TestsHelper::getTestType($data['id_block']);
                                 <input id="<?php echo TestsHelper::getAnswerKey($data['id_block'])[$j - 1]; ?>"
                                        type="checkbox"
                                        name="checkboxanswer" class="answer"
-                                       value="<?php echo $options[$j - 1]["answer"]; ?>">
+                                       value='<?php echo $options[$j - 1]["answer"]; ?>'>
                             </td>
                             <td>
-                                <label><?php echo $options[$j - 1]["answer"]; ?></label>
+                                <?php echo $options[$j - 1]["answer"]; ?>
                             </td>
                         </tr>
                     <?php }

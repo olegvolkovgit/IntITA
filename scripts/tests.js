@@ -150,6 +150,12 @@ function checkAnswers(answers){
         return false;
     }
 }
+function checkAnswersCKE(answers){
+    if(answers.length==0){
+        alert('Виберіть хоч один правильний варіант перед створенням тесту');
+        return false;
+    }
+}
 
 function unableTest(pageId){
     if (confirm('Ви впевнені, що хочете видалити тест?')) {

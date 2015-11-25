@@ -33,7 +33,7 @@ class QuizFactory  {
                 }
                 break;
             case 'task' :
-                if ($lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition'], $arr['taskType'])) {
+                if ($lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition'])) {
                     $arr['lectureElementId'] = $lectureElementId;
                     $task = new Task();
                     if ($task->addTask($arr))
@@ -41,6 +41,20 @@ class QuizFactory  {
                     else return false;
 
                 }
+            break;
+            case 'skip_task' :
+                $task = new SkipTask($arr['author'], $arr['condition'], $arr['question']);
+
+                $lectureElementId = LectureElement::addNewSkipTaskBlock($arr['lecture'] , $arr['condition']);
+
+                if ($lectureElementId) {
+                    $arr['block'] = $lectureElementId;
+
+                    if ($task->addTask($arr))
+                        return true;
+                    else return false;
+                }
+            break;
         }
     }
 }
