@@ -11,8 +11,7 @@ class m151022_122312_create_table_acc_course_service extends CDbMigration
             'INDEX `course_id` (`course_id`)',
             'CONSTRAINT `FK_acc_course_service_acc_service` FOREIGN KEY (`service_id`) REFERENCES `acc_service` (`service_id`)',
 	        'CONSTRAINT `FK_acc_course_service_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_ID`)'
-        ), "COLLATE='utf8_general_ci' ENGINE=InnoDB;"
-        );
+        ));
 	}
 
 	public function safeDown()
