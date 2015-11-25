@@ -24,7 +24,7 @@ class QuizFactory  {
                 else return false;
             break;
             case 'tests' :
-                if ($lectureElementId = LectureElement::addNewTestBlock($arr['lecture'], $arr['condition'], $arr['isFinal'])) {
+                if ($lectureElementId = LectureElement::addNewTestBlock($arr['lecture'], $arr['condition'])) {
                     $tests = new Tests();
                     $arr['lectureElementId'] = $lectureElementId;
                     if($tests->addTask($arr))
@@ -43,13 +43,15 @@ class QuizFactory  {
                 }
             break;
             case 'skip_task' :
-                $task = new SkipTask($arr['author'], $arr['condition'], $arr['question']);
 
-                $lectureElementId = LectureElement::addNewSkipTaskBlock($arr['lecture'] , $arr['condition']);
+                $conditionId = LectureElement::addNewSkipTaskBlock($arr['lecture'] , $arr['condition']);
+                $questionId = LectureElement::addNewSkipTaskBlock($arr['lecture'] , $arr['question']);
 
-                if ($lectureElementId) {
-                    $arr['block'] = $lectureElementId;
+                if ($questionId && $conditionId) {
+                    $arr['condition'] = $conditionId;
+                    $arr['question'] = $questionId;
 
+                    $task = new SkipTask();
                     if ($task->addTask($arr))
                         return true;
                     else return false;

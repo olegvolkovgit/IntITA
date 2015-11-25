@@ -130,10 +130,8 @@ class LectureElement extends CActiveRecord
     public static function addNewSkipTaskBlock($idLecture, $condition){
         $model = new LectureElement();
 
-        $model->block_order = 0;
-
+        $model->getOrder($idLecture);
         $model->id_type = 9;
-
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 
@@ -144,7 +142,7 @@ class LectureElement extends CActiveRecord
         }
     }
 
-    public static function addNewTestBlock($idLecture, $condition, $testType){
+    public static function addNewTestBlock($idLecture, $condition){
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
@@ -289,7 +287,6 @@ class LectureElement extends CActiveRecord
         $id = LectureElement::getLastVideoId($model->id_lecture);
 
         LecturePage::addVideo($pageId, $id["id_block"]);
-
     }
 
     public static function getLectureText($textList)
@@ -323,7 +320,6 @@ class LectureElement extends CActiveRecord
         if($model->validate())
         {
             $model->save();
-
             return $model->id_block;
         }
 
@@ -363,9 +359,9 @@ class LectureElement extends CActiveRecord
         else return false;
     }
 
-    public function afterSave()
-    {
-        parent::afterSave();
-        $this->id_block = Yii::app()->db->getLastInsertID();
-    }
+//    public function afterSave()
+//    {
+//        parent::afterSave();
+//        $this->id_block = Yii::app()->db->getLastInsertID();
+//    }
 }

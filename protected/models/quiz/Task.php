@@ -37,7 +37,6 @@ class Task extends Quiz
 			array('language', 'length', 'max'=>15),
 			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, language, assignment, condition, author, table', 'safe', 'on'=>'search'),
 		);
 	}
