@@ -8,7 +8,7 @@ class m151120_144832_create_table_acc_external_sources extends CDbMigration
             'id' => 'pk',
             'name' => 'VARCHAR(512) NOT NULL COMMENT "Name of source"',
             'cash' => 'TINYINT(1) NOT NULL DEFAULT "0" COMMENT "Is cash"',
-            'INDEX `cash` (`cash`)'
+//            'INDEX `cash` (`cash`)'
         ));
     }
 
