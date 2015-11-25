@@ -16,31 +16,31 @@ class ModuleController extends AdminController
         );
     }
 
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
-    function isAdministrator()
-    {
-        if(AccessHelper::isAdmin())
-            return true;
-        else
-            return false;
-    }
+////    public function accessRules()
+////    {
+////        return array(
+////            array('allow',
+////                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
+////                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
+////                'expression'=>array($this, 'isAdministrator'),
+////            ),
+////            array('deny',
+////                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+////                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+////                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
+////                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
+////                'users'=>array('*'),
+////            ),
+////        );
+////    }
+//
+//    function isAdministrator()
+//    {
+//        if(AccessHelper::isAdmin())
+//            return true;
+//        else
+//            return false;
+//    }
 
     public function actionIndex()
     {
@@ -89,7 +89,6 @@ class ModuleController extends AdminController
     public function actionUpdate($id)
     {
         $model = Module::model()->findByPk($id);
-
         if (isset($_POST['Module'])) {
             if (isset($_POST['Module']['module_number'])) {
                 if ($existingModel = Module::model()->findByAttributes(array(
@@ -111,7 +110,9 @@ class ModuleController extends AdminController
                     }
                 }
             }
+
             $model->oldLogo = $model->module_img;
+
             $model->attributes = $_POST['Module'];
 
             $imageName = array_shift($_FILES['Module']['name']);
@@ -135,11 +136,8 @@ class ModuleController extends AdminController
             }
             else{
                 $model->save();
-
-                $model->module_img = $model->oldLogo;
-
-                if(!Module::model()->updateByPk($id,array('module_img' => $model->module_img))) //Костиль
-                    throw new \application\components\Exceptions\IntItaException('Avatar not save');
+                if(Module::model()->updateByPk($id,array('module_img' => $model->oldLogo))) //Костиль
+                $this->redirect(array('view', 'id' => $model->module_ID));
             }
         }
         $this->render('update', array(
@@ -148,6 +146,7 @@ class ModuleController extends AdminController
     }
 
     public function actionDelete($id){
+
        Module::model()->updateByPk($id,array('cancelled' => 1));
     }
 
@@ -155,6 +154,7 @@ class ModuleController extends AdminController
         $model = Module::model()->findByPk($id);
         $model->cancelled = 0;
         $this->saveModel($model);
+
     }
 
     public function actionMandatory($id){
@@ -230,4 +230,21 @@ class ModuleController extends AdminController
         else throw new \Stash\Exception\RuntimeException('Model not save!!!');
 
     }
+
+    public function actionCourseModuleList()
+    {
+        $id = $_POST['id'];
+
+        $courses = Module::model()->findByPk(1)->Course;
+
+        $courseNumber = 'Ви щойно видалили модуль, який є в таких курсах ';
+
+        foreach($courses as $course)
+        {
+            $courseNumber .= ' '.$course->title_ua;
+        }
+
+        echo $courseNumber;
+    }
+
 }

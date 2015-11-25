@@ -6,6 +6,9 @@
  * Time: 0:35
  */
 ?>
+<!--<script>-->
+<!--    basePath = --><?php //$_SERVER['REQUEST_URI'] ?>
+<!--</script>-->
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/create');?>">Створити модуль</a>
@@ -45,7 +48,7 @@
         array(
             'class' => 'CButtonColumn',
             'template'=>'{view}{update}{delete}{restore}{statusUp}{statusDown}',
-            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
+            'deleteConfirmation'=>'js:confirmDelete(this)',
             'headerHtmlOptions'=>array('style'=>'width:120px'),
             'buttons'=>array(
             'restore' => array
@@ -80,3 +83,30 @@
         ),
     ),
 )); ?>
+
+<script>
+    function confirmDelete(id){
+
+        var moduleId = getSecondPart(id.toString());
+
+        $.ajax({
+            url: '/IntIta/_admin/module/courseModuleList',
+            type:"POST",
+            data: {id: moduleId},
+            success: function(JSON){
+                alert(JSON);
+            }
+
+        });
+
+    }
+
+
+
+    function getSecondPart(str) {
+        var res = str.split("=");
+        return res[1];
+    }
+
+
+</script>
