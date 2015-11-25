@@ -50,7 +50,6 @@ class QuizFactory  {
                 if ($questionId && $conditionId) {
                     $arr['condition'] = $conditionId;
                     $arr['question'] = $questionId;
-
                     $task = new SkipTask();
                     if ($task->addTask($arr))
                         return true;

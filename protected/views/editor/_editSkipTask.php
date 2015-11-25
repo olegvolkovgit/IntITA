@@ -6,24 +6,32 @@
  * Time: 17:27
  */
 ?>
-<a name="taskForm"></a>
-<div id="addSkipTask">
-    <form name="add-skip-task" method="post" action="<?php echo Yii::app()->createUrl('skipTask/editSkipTask');?>">
+
+
+
+<div id="editSkipTask">
+    <form name="editSkipTask" method="post" action="<?php echo Yii::app()->createUrl('skipTask/editSkipTask');?>">
         <fieldset>
             <legend id="label">Редагувати задачу з пропусками:</legend>
             Опис* :
             <br>
-            <textarea name="condition" id="skipTaskCondition" cols="105" form="add-skip-task" rows="10"></textarea>
+
+            <textarea name="condition" class="plainTaskCondition"  required><?php echo $data->getSkipTaskCondition()?> </textarea>
             <br>
-            <input type="hidden" value=<?php echo $task->id?>>
             Запитання* :
             <br>
-            <textarea name="question" id="question" cols="105" form="add-skip-task" rows="5"></textarea>
+            <textarea name="question" class="plainTaskCondition"  required><?php echo $data->getSkipTaskQuestion()?></textarea>
+            <br>
+            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
+            <input name="lecture" id="lecture" type="hidden" value="<?php echo $data->id_lecture;?>"/>
+            <input name="testType" id="testType" type="hidden" value="skipTask"/>
+            <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
         </fieldset>
-    </form>
-    <br>
 
-        Редагувати задачу з пропусками
+    <br>
+    <input type="submit" value=<?php echo Yii::t('lecture','0720'); ?>>
+    </form>
     <button onclick='cancelSkipTask()'>Скасувати</button>
 </div>
