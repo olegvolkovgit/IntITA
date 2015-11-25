@@ -28,6 +28,29 @@ function createSkipTask(url, pageId) {
         }
     });
 }
+function createSkipTaskCKE(url, pageId) {
+    var question = document.getElementById('question').value;
+    var condition = document.getElementById('skipTaskCondition').value;
+
+    document.getElementById('addSkipTask').style.display = 'none';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            "condition": condition,
+            "question": question,
+            'author': idTeacher,
+            'lecture': idLecture,
+            'pageId': pageId
+        },
+        cache: false,
+        success: function(data){
+            alert(data);
+            //location.reload();
+        }
+    });
+}
 
 function cancelSkipTask() {
     location.reload();
