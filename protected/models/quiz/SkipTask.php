@@ -112,7 +112,7 @@ class SkipTask extends Quiz
         $this->question = $arr['question'];
         $this->condition = $arr['condition'];
         $this->author = $arr['author'];
-        $this->getQuestionAnswers($this->question);
+        $this->getQuestionAnswers($arr['questionString']);
 
 
         if ($this->save()) {
@@ -125,8 +125,10 @@ class SkipTask extends Quiz
 
     public function getQuestionAnswers($question){
         $answers = [];
-        $pattern = '\/\*.*\*/\)/';
-        preg_match_all($pattern, $question, $answers);
+        $pattern = '/^[\/\*](.+)[\*\/]$/';
+
+        var_dump($question);
+        preg_match($pattern, $question, $answers);
 
         $this->answers = $answers;
         var_dump($answers);die;
