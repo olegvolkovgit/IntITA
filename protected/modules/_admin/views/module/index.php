@@ -64,7 +64,7 @@
             (
                 'label'=>'Статус модуля',
                 'url' => 'Yii::app()->createUrl("/_admin/module/upStatus", array("id"=>$data->primaryKey))',
-                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
                 )
@@ -73,7 +73,7 @@
             (
                 'label'=>'Статус модуля',
                 'url' => 'Yii::app()->createUrl("/_admin/module/downStatus", array("id"=>$data->primaryKey))',
-                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
                 )
@@ -83,30 +83,4 @@
         ),
     ),
 )); ?>
-
-<script>
-    function confirmDelete(id){
-
-        var moduleId = getSecondPart(id.toString());
-
-        $.ajax({
-            url: '/IntIta/_admin/module/courseModuleList',
-            type:"POST",
-            data: {id: moduleId},
-            success: function(JSON){
-                alert(JSON);
-            }
-
-        });
-
-    }
-
-
-
-    function getSecondPart(str) {
-        var res = str.split("=");
-        return res[1];
-    }
-
-
-</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ajaxModule.js'); ?>"></script>

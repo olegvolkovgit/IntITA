@@ -235,7 +235,7 @@ class ModuleController extends AdminController
     {
         $id = $_POST['id'];
 
-        $courses = Module::model()->findByPk(1)->Course;
+        $courses = Module::model()->findByPk($id)->Course;
 
         $courseNumber = 'Ви щойно видалили модуль, який є в таких курсах ';
 

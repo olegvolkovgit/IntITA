@@ -363,9 +363,9 @@ class LectureElement extends CActiveRecord
         else return false;
     }
 
-    public function afterSave()
-    {
-        parent::afterSave();
-        $this->id_block = Yii::app()->db->getLastInsertID();
-    }
+//    public function afterSave()
+//    {
+//        parent::afterSave();
+//        $this->id_block = Yii::app()->db->getLastInsertID();
+//    }
 }
