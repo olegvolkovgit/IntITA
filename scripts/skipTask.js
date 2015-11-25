@@ -29,9 +29,11 @@ function createSkipTask(url, pageId) {
     });
 }
 function createSkipTaskCKE(url, pageId) {
-    var question = document.getElementById('question').value;
+    var question = document.getElementById('questionId').value;
     var condition = document.getElementById('skipTaskCondition').value;
 
+    alert(question);
+    alert(condition);
     document.getElementById('addSkipTask').style.display = 'none';
 
     $.ajax({
