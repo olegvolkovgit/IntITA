@@ -111,8 +111,8 @@ class SkipTaskAnswers extends CActiveRecord
 
     public static function addAnswers($task, $answers){
         if (!empty($answers)){
-            foreach($answers as $answer){
-                $model = new SkipTaskAnswers($task, $answer['text'], $answer['order']);
+            for($i = 1, $count = count($answers); $i <= $count; $i++){
+                $model = new SkipTaskAnswers($task, $answers[$i-1], $i);
                 $model->save();
             }
         }
