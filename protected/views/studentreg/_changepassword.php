@@ -19,7 +19,7 @@ $changeForm = $this->beginWidget('CActiveForm', array(
             <span ng-cloak ng-show="changePass['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
         </div>
     </div>
-    </br>
+    <br>
     <div class="rowpass">
         <?php $placeHolderPassword = Yii::t('regexp', '0264');?>
         <span class="passEye"> <?php echo $changeForm->passwordField($chForm,'new_password',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20, "required"=>true, 'ng-model'=>"pw1")); ?></span>

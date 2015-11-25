@@ -148,7 +148,7 @@
                     <?php echo Yii::t('module', '0222'); ?>
                 </span>
             </div>
-            </br>
+            <br>
             <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
                 <?php echo RatingHelper::getRating($post->rating); ?>

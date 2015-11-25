@@ -98,7 +98,7 @@
     </div>
     <div id="lectureTimeImage"><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>"></div>
 </li>
-</br>
+<br>
 <li>
     <?php echo '('.$lecture->order.' / '.LectureHelper::getLessonsCount($lecture->idModule).' '.Yii::t('lecture','0574').')'; ?>
 </li>

@@ -147,7 +147,7 @@ function addTextBlockCKE(type){
     document.getElementById('blockType').value = type;
 }
 
-function addVideo(){
+function addVideoInput(){
     document.getElementById('divAddVideo').style.display =  "block";
     document.getElementById('addVideoStart').style.display = "none";
 }
