@@ -6,11 +6,11 @@ class m151120_144846_create_table_acc_internal_pays extends CDbMigration
     {
         $this->createTable('acc_internal_pays', array(
             'id' => 'pk',
-            'create_date' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT `create date`',
-            'create_user' => 'INT(11) NOT NULL COMMENT `User who create`',
-            'invoice_id' => 'INT(11) NOT NULL COMMENT `Invoice`',
-            'description' => 'VARCHAR(512) NOT NULL DEFAULT `Pay`',
-            'summa' => 'DECIMAL(10,2) NOT NULL COMMENT `Payment summ`',
+            'create_date' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "create date"',
+            'create_user' => 'INT(11) NOT NULL COMMENT "User who create"',
+            'invoice_id' => 'INT(11) NOT NULL COMMENT "Invoice"',
+            'description' => 'VARCHAR(512) NOT NULL DEFAULT "Pay"',
+            'summa' => 'DECIMAL(10,2) NOT NULL COMMENT "Payment summ"',
             'INDEX `acc_user_id` (`invoice_id`)',
             'INDEX `create_user` (`create_user`)',
             'INDEX `service_id` (`invoice_id`)',

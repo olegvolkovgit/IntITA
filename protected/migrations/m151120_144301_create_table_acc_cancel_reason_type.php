@@ -6,7 +6,7 @@ class m151120_144301_create_table_acc_cancel_reason_type extends CDbMigration
     {
         $this->createTable('acc_cancel_reason_type', array(
             'id' => 'pk',
-            'description' => 'VARCHAR(100) NOT NULL COMMENT `User which have agreement`',
+            'description' => 'VARCHAR(100) NOT NULL COMMENT "User which have agreement"',
         ));
     }
 
