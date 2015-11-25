@@ -367,4 +367,5 @@ class Course extends CActiveRecord implements IBillableObject
     public static function getStatus($id){
         return Course::model()->findByPk($id)->status;
     }
+
 }

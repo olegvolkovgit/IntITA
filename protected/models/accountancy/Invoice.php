@@ -142,11 +142,13 @@ class Invoice extends CActiveRecord
     }
 
     public static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
-
+        $i = 0;
         foreach ($invoicesList as $invoice) {
             $invoice->user_created = $user;
             $invoice->agreement_id = $agreementId;
+            $invoice->number = $agreementId .'/'. $i;
             $invoice->save();
+            $i++;
         }
     }
 
@@ -192,6 +194,14 @@ class Invoice extends CActiveRecord
         return Invoice::model()->findAll();
     }
 
+    public function getServiceDescription()
+    {
+        $agreement = $this->agreement;
+
+        if ($agreement->service)
+            return $agreement->service->description;
+    }
+
     public static function getSumma($id){
         return Invoice::model()->findByPk($id)->summa;
     }
@@ -225,11 +235,40 @@ class Invoice extends CActiveRecord
         return Invoice::model()->findAll($criteria);
     }
 
-    public function getServiceDescription()
+    public static function getInvoicesByData($agreement,$number,$user,$course,$module)
     {
-        $agreement = $this->agreement;
+        $criteria = new CDbCriteria();
 
-        if($agreement->service)
-            return $agreement->service->description;
+        if ($number != ""){
+            $agr = UserAgreements::model()->findAllByPk($number);
+            return $agr;
+        }
+        if ($user != ""){
+            $criteria->addCondition('user_id='.$user, 'OR');
+        }
+        if ($course != ""){
+            $service = CourseService::getService($course);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+        if ($module != ""){
+            $service = ModuleService::getService($module);
+            $criteria->addCondition('service_id='.$service->service_id, 'OR');
+        }
+
+        return UserAgreements::model()->findAll($criteria);
+
+    }
+
+    public function getAgreementNumber()
+    {
+        return $this->agreement->number;
+    }
+
+    public static function findLikeInvoices($invoiceNumber)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addSearchCondition('number', $invoiceNumber);
+        $inv = Invoice::model()->findAll($criteria);
+        return $inv;
     }
 }

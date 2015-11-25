@@ -15,16 +15,21 @@
 <!---->
 <div class="mainOperation">
 <ul class="operationCreate">
-    <li role="presentation" class="operationPanel" ><button onclick="showOperation(1)">Пошук договора</button></li>
-    <li role="presentation" class="operationPanel" ><button onclick="showOperation(2)">Операція</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(0)">Пошук по договору</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(1)">Пошук по операції</button></li>
+    <li role="presentation" class="operationPanel" ><button onclick="showOperation(2)">Пошук по користувачу</button></li>
 </ul>
     <div class="findOffer" id="findOffer" >
-        <?php echo $this->renderPartial('_operationForm1', array('agreementsList' => $agreementsList));?>
+        <?php echo $this->renderPartial('_operationForm1', array('agreementsList' => ''));?>
     </div>
     <div class="findOperation" id="findOperation">
-        <?php echo $this->renderPartial('_operationForm2', array('invoicesList'=>$invoicesList));?>
+        <?php echo $this->renderPartial('_operationForm2', array('invoicesList'=>''));?>
     </div>
-<!--</div>-->
+    <div class="findOperation" id="findUser">
+        <?php echo $this->renderPartial('_operationForm3', array('invoicesList'=>''));?>
+    </div>
+
+    <!--</div>-->
 <br>
 <br>
 </div>

@@ -125,13 +125,9 @@ class OperationController extends AccountancyController
 
     public function actionGetSearchAgreements(){
 
-        $request = Yii::app()->request;
-        $number = $request->getPost('number', "");
-        $user = $request->getPost('user', 0);
-        $course = $request->getPost('course', 0);
-        $module = $request->getPost('module', 0);
+        $agreement = Yii::app()->request->getPost('agreement',0);
 
-        $result = UserAgreements::findAgreementByCondition($number,$user,$course,$module);
+        $result = UserAgreements::findLikeAgreement($agreement);
 
         return $this->renderPartial('_ajaxAgreement',array('agreements' => $result));
 
@@ -148,35 +144,42 @@ class OperationController extends AccountancyController
 
     public function actionCreateByInvoice(){
         $request = Yii::app()->request;
-        $invoice = $request->getPost('invoice', "");
+
+        $invoice = $request->getPost('invoices', "");
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
         $type = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
-        if (Operation::addOperation($summa, $user, $type, array($invoice), $source)) {
+        if (Operation::addOperation($summa, $user, $type, $invoice, $source)) {
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');
         }
     }
 
-    public function actionCreateByAgreement(){
+    public function actionGetInvoicesByNumber()
+    {
+        $invoiceNumber = Yii::app()->request->getPost('invoiceNumber', 0);
 
-        $invoices = Yii::app()->request->getPost('invoices');
-        $request = Yii::app()->request;
-        $invoicesList = array('510', '511', '512');
-        $summa = $request->getPost('summa', 0);
-        $user = $request->getPost('user', 0);
-        $type = $request->getPost('type', 0);
-        $source = $request->getPost('source', 0);
+        $result = Invoice::findLikeInvoices($invoiceNumber);
 
-        if (Operation::addOperation($summa, $user, 1, $invoices)) {
-            $this->actionIndex();
-        } else {
-            throw new CException('Operation is not saved!');
-        }
+        return $this->renderPartial('_ajaxInvoices',array('invoices' => $result));
+    }
 
+    public function actionGetUser()
+    {
+        $userEmail = Yii::app()->request->getPost('userEmail', 0);
+        $user = StudentReg::findLikeEmail($userEmail);
 
+        return $this->renderPartial('_ajaxUser',array('users' => $user));
+    }
+    public function actionGetAgreementsByUser()
+    {
+        $userId = Yii::app()->request->getPost('userId');
+
+        $result = UserAgreements::findAgreementByUser($userId);
+
+        return $this->renderPartial('_ajaxAgreement',array('agreements' => $result));
     }
 }

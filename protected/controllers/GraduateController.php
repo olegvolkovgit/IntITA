@@ -164,6 +164,6 @@ class GraduateController extends Controller
 
         $dataProvider = Graduate::getGraduateBySelector($selector);
 
-        $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider), false, true);
+        $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider));
     }
 }
