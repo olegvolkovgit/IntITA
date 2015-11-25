@@ -27,11 +27,11 @@ class SkipTaskController extends Controller{
         $arr['type'] = 'skip_task';
 
         if ($arr['condition']) {
-            if (QuizFactory::factory($arr))
-                return true;
-            else return false;
+            QuizFactory::factory($arr);
         }
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        if (isset($_SERVER["HTTP_REFERER"]))
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        else $this->redirect(Yii::app()->homeUrl);
     }
 }
