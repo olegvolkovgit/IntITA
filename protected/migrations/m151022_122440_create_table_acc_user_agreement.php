@@ -4,7 +4,7 @@ class m151022_122440_create_table_acc_user_agreement extends CDbMigration
 {
 	public function up()
 	{
-        $this->createTable('acc_user_agreement', array(
+        $this->createTable('acc_user_agreements', array(
             'id' => 'pk',
             'user_id' => 'INT(11) NOT NULL COMMENT "User which have agreement"',
             'service_id' => 'INT(10) UNSIGNED NOT NULL COMMENT "Service for this agreement"',
@@ -33,6 +33,6 @@ class m151022_122440_create_table_acc_user_agreement extends CDbMigration
 	{
         //TO DO: drop indexes
 //        $this->dropForeignKey('FK_acc_user_agreements_acc_payment_schema', 'acc_user_agreement');
-		$this->dropTable('acc_user_agreement');
+		$this->dropTable('acc_user_agreements');
 	}
 }
