@@ -26,8 +26,6 @@ class SkipTaskController extends Controller{
         $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
         $arr['type'] = 'skip_task';
 
-
-
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
                 return true;

@@ -132,12 +132,10 @@ function cancelSkipTask() {
     location.reload();
 }
 function editTask() {
-    var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
-    var taskFooter = document.getElementById('taskFooter').value;
     var condition = document.getElementById('condition').value;
 
-    if(condition.trim()=='' || header.trim()=='' || etalon.trim()=='' || taskFooter.trim()==''){
+    if(condition.trim()=='' || etalon.trim()==''){
         alert('Поля з "*" повинні бути заповнені');
         return false;
     }
@@ -151,9 +149,9 @@ function editTask() {
         "lang": "c++",
         "operation": "edittask",
         "name": name,
-        "header": header,
-        "etalon": etalon,
-        "footer": taskFooter
+        //"header": header,
+        "etalon": etalon
+        //"footer": taskFooter
     };
     var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(editTask), function () {
     })
