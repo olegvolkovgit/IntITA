@@ -43,6 +43,8 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
+    idTeacher = '<?php echo TeacherHelper::getTeacherId($user);?>';
+    idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit">
@@ -184,10 +186,11 @@ if ($idCourse != 0) {
             }
             ?>
             <?php if ($page->quiz == null) {
-            $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));
+                $author = TeacherHelper::getTeacherId($user);
+            $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
             $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id));
-            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id));
-            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id));
+            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
+            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
             }?>
         </div>
     </div>
