@@ -177,8 +177,8 @@ if ($idCourse != 0) {
             <div id="buttonsPanel">
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button onclick="showAddSkipTaskForm()">Додати задачу з пропусками</button>
+                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button onclick="showAddSkipTaskFormCKE()">Додати задачу з пропусками</button>
             </div>
                 <?php
             }
