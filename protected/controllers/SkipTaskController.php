@@ -19,14 +19,8 @@ class SkipTaskController extends Controller{
     }
 
     public function actionAddTask(){
-        $arr['condition'] = Yii::app()->request->getPost('condition', '');
-        $arr['question'] = Yii::app()->request->getPost('question', '');
-        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
-        $arr['author'] = Yii::app()->request->getPost('author', null);
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
-        $arr['type'] = 'skip_task';
 
-
+        $arr = $this->fillArr();
 
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
@@ -35,5 +29,33 @@ class SkipTaskController extends Controller{
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionEditSkipTask()
+    {
+
+        $arr = $this->fillArr();
+
+        if($arr['condition'])
+        {
+            if(LectureElement::editSkipTask($arr))
+                $this->redirect(Yii::app()->request->urlReferrer);
+
+            else throw new \application\components\Exceptions\IntItaException('Task was not saved'); ;
+
+        }
+    }
+
+
+    private function fillArr()
+    {
+        $arr['condition'] = Yii::app()->request->getPost('condition', '');
+        $arr['question'] = Yii::app()->request->getPost('question', '');
+        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
+        $arr['author'] = Yii::app()->request->getPost('author', null);
+        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
+        $arr['type'] = 'skip_task';
+
+        return $arr;
     }
 }

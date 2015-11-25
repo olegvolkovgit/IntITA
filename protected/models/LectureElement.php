@@ -359,6 +359,10 @@ class LectureElement extends CActiveRecord
         else return false;
     }
 
+    public static function editSkipTask($arr)
+    {
+
+    }
 //    public function afterSave()
 //    {
 //        parent::afterSave();

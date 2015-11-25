@@ -130,4 +130,6 @@ class SkipTask extends Quiz
         parent::afterSave();
         $this->id = Yii::app()->db->getLastInsertID();
     }
+
+
 }
