@@ -106,4 +106,6 @@ class SkipTaskMarks extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
 }

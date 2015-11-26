@@ -45,12 +45,6 @@ class SkipTaskController extends Controller{
                 $this->saveSkiP($skipTask,$arr);
                 $this->redirect(Yii::app()->request->urlReferrer);
             }
-            $skipTask = SkipTask::model()->findByAttributes(array('question' => $arr['id_block']));
-            if($skipTask)
-            {
-                $this->saveSkiP($skipTask,$arr);
-                $this->redirect(Yii::app()->request->urlReferrer);
-            }
         }
     }
 

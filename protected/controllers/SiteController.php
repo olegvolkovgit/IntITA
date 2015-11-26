@@ -36,6 +36,11 @@ class SiteController extends Controller
         $aboutUsDataProvider = new CActiveDataProvider('AboutUs');
         $stepsDataProvider = new CActiveDataProvider('Step');
 
+        usort($slider, function($a, $b)
+        {
+            return strcmp($a->order, $b->order);
+        });
+
         $this->render('index', array(
             'slider' => $slider,
             'aboutUsDataProvider' => $aboutUsDataProvider,

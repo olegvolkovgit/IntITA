@@ -16,7 +16,7 @@
             Опис* :
             <br>
 
-            <textarea name="condition" class="plainTaskCondition"  required><?php echo $data->getSkipTaskCondition()?> </textarea>
+            <textarea name="condition" class="plainTaskCondition"  required><?php echo $data->getSkipTaskCondition()?></textarea>
             <br>
             Запитання* :
             <br>

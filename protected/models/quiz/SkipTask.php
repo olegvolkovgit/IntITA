@@ -131,5 +131,13 @@ class SkipTask extends Quiz
         $this->id = Yii::app()->db->getLastInsertID();
     }
 
+    public function getQuestion()
+    {
+        $regExp = "\/\/*(.+?)\*\//";
+        $question = LectureElement::model()->findByPk($this->question)->html_block;
 
+        preg_match_all($regExp,$question,$mathches);
+        var_dump($_REQUEST);die;
+        return $mathches[0];
+    }
 }

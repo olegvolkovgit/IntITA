@@ -12,6 +12,10 @@ class AboutusController extends Controller{
     {
         $slider = AboutusSlider::model()->findAll();
         $arrayAboutUs = AboutUs::model()->findAll();
+        usort($slider, function($a, $b)
+        {
+            return strcmp($a->order, $b->order);
+        });
 
         $this->render('index', array(
             'arrayAboutUs'=>$arrayAboutUs,
