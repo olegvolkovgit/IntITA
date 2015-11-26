@@ -30,16 +30,17 @@
             <br>
             Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>
             <br>
-            <br>
-            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>
-            <br>
+<!--            <br>-->
+<!--            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>-->
+<!--            <br>-->
             Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
-            <br>
-            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>
+<!--            <br>-->
+<!--            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>-->
             <br>
         </fieldset>
     </form>
-    <button onclick='createTask()'>Додати задачу</button>
+    <br>
+    <button onclick="createTask('<?php echo Config::getInterpreterServer(); ?>')">Додати задачу</button>
     <button onclick='cancelTask()'>Скасувати</button>
 </div>
 

@@ -100,11 +100,11 @@ class Avatar {
         $name = $imgName . '_img';
         $folder = ($imgName == 'course')?'course':'teachers';
 
-        if (($model->scenario=="update") && (empty($model->logo['tmp_name'][$name])))
+        if (($model->scenario=="update") && (empty($model->foto_url['tmp_name'][$name])))
         {
-            $model->course_img=$model->oldLogo;
-        } else if(($model->scenario=="update") && (!empty($model->logo['tmp_name'][$name]))){
-            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldLogo;
+            $model->foto_url=$model->oldAvatar;
+        } else if(($model->scenario=="update") && (!empty($model->foto_url['tmp_name'][$name]))){
+            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldAvatar;
             if (is_file($src))
                 unlink($src);
         }

@@ -64,8 +64,15 @@ class VerifyContentController extends AdminController {
                     'user' => Yii::app()->user->getId(),
                 ), true);
 
-                $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order);
-                file_put_contents($file, $schema);
+
+                $langs = array('ua', 'ru', 'en');
+                foreach($langs as $lang) {
+                    Yii::app()->session['lg'] = $lang;
+                    //$messages = Messages::model()->getMessagesForSchemabyLang($lg[$i]);
+                    $html = $this->actionGeneratePage($page);
+                    $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang);
+                    file_put_contents($file, $html);
+                }
             }
             die;
         }
@@ -74,40 +81,24 @@ class VerifyContentController extends AdminController {
             }
     }
 
-    public function actionPageAjaxUpdate()
+    public function actionGeneratePage(LecturePage $page)
     {
-        $user=Yii::app()->user->getId();
-        $id = $_GET['lectureId'];
-        $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
-
-        $this->initialize($id,$editMode);
-
-        $passedPages = LecturePage::getAccessPages($id, $user);
-        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
-
-        if (is_string($_GET['page'])) $thisPage = $_GET['page'];
-        else if($editMode) $thisPage = 1;
-        else $thisPage = $lastAccessPage;
-
-        $passedLecture = LectureHelper::isPassedLecture($passedPages);
-        $finishedLecture = LectureHelper::isLectureFinished($user, $id);
-
-        $page_order=$_GET['page'];
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
-
         $textList = LecturePage::getBlocksListById($page->id);
-
         $dataProvider = LectureElement::getLectureText($textList);
 
-        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
-            echo Yii::t('lecture', '0640');
-        }
-        else{
-            echo $this->renderPartial('/lesson/_page',array('id'=>$id,'page'=>$page,'dataProvider'=>$dataProvider,
-                'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,
-                'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
-        }
+        return $this->renderPartial('/lesson/_jsLecturePageTabs', array(
+            'lectureId'=>$page->id_lecture,
+            'page' => $page,
+            'lastAccessPage' => $lastAccessPage,
+            'dataProvider' => $dataProvider,
+            'finishedLecture' => $finishedLecture,
+            'passedLecture' => $passedLecture,
+            'passedPages' => $passedPages,
+            'editMode' => 0,
+            'user' => $user,
+            'order' => $page->page_order,
+            'idCourse' => 0
+        ));
     }
 
 }

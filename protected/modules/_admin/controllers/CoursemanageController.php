@@ -183,7 +183,6 @@ class CoursemanageController extends AdminController
         $lg = ['ua','ru','en'];
         for($i = 0;$i < 3;$i++)
         {
-
             Yii::app()->session['lg'] = $lg[$i];
             $messages = Messages::model()->getMessagesForSchemabyLang($lg[$i]);
 

@@ -22,5 +22,4 @@ $this->widget('zii.widgets.jui.CJuiTabs', array(
     ),
     'id' => 'MyTab-Menu',
 ));
-//}
 ?>

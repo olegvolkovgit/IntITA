@@ -1,7 +1,7 @@
 /**
  * Created by Ivanna on 13.07.2015.
  */
-function createTask() {
+function createTask(url) {
     var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
     var taskFooter = document.getElementById('taskFooter').value;
@@ -19,12 +19,26 @@ function createTask() {
     var newTask = {
         "operation": "addtask",
         "name": name,
-        "header": header,
         "etalon": etalon,
-        "footer": taskFooter,
-        "lang": "c++"
+        "lang": "c++",
+        "function": {
+            "type": 1,
+            "results": [[10.0, 12.0]],
+            "args":  [
+                {
+                    "type": 1,
+                    "arg_name": "x",
+                    "value": [[10.0, 12.0]]
+                },
+                {
+                    "type": 3,
+                    "arg_name": "vasya",
+                    "value": [["20", "5"]]
+                }
+            ]
+        }
     };
-    var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(newTask), function () {
+    var jqxhr = $.post(url, JSON.stringify(newTask), function () {
     })
         .done(function (data) {
             var serverResponse = jQuery.parseJSON(data);
@@ -35,6 +49,60 @@ function createTask() {
         .fail(function () {
             alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
             "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+            location.reload();
+        })
+        .always(function () {
+        });
+
+}
+function createTaskCKE(url) {
+    var header = document.getElementById('header').value;
+    var etalon = document.getElementById('etalon').value;
+    var taskFooter = document.getElementById('taskFooter').value;
+    var condition = document.getElementById('condition').value;
+
+    if(header.trim()=='' || etalon.trim()=='' || taskFooter.trim()==''){
+        alert('Поля з "*" повинні бути заповнені');
+        return false;
+    }
+    document.getElementById('addTask').style.display = 'none';
+
+    var lang = $('select[name="lang"]').val();
+    var name = document.getElementById('name').value;
+    condition = condition.trim();
+    var newTask = {
+        "operation": "addtask",
+        "name": name,
+        "etalon": etalon,
+        "lang": "c++",
+        "function": {
+            "type": 1,
+            "results": [[10.0, 12.0]],
+            "args":  [
+                {
+                    "type": 1,
+                    "arg_name": "x",
+                    "value": [[10.0, 12.0]]
+                },
+                {
+                    "type": 3,
+                    "arg_name": "vasya",
+                    "value": [["20", "5"]]
+                }
+            ]
+        }
+    };
+    var jqxhr = $.post(url, JSON.stringify(newTask), function () {
+    })
+        .done(function (data) {
+            var serverResponse = jQuery.parseJSON(data);
+            if (serverResponse.status == 'success') {
+                addTaskToLecture(condition, idTeacher, idLecture, lang, serverResponse.id, serverResponse.table, task);
+            }
+        })
+        .fail(function () {
+            alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
             location.reload();
         })
         .always(function () {
@@ -60,16 +128,14 @@ function addTaskToLecture(condition, idTeacher, idLecture, lang, id, table, task
         }
     });
 }
-function cancelTask() {
+function cancelSkipTask() {
     location.reload();
 }
 function editTask() {
-    var header = document.getElementById('header').value;
     var etalon = document.getElementById('etalon').value;
-    var taskFooter = document.getElementById('taskFooter').value;
     var condition = document.getElementById('condition').value;
 
-    if(condition.trim()=='' || header.trim()=='' || etalon.trim()=='' || taskFooter.trim()==''){
+    if(condition.trim()=='' || etalon.trim()==''){
         alert('Поля з "*" повинні бути заповнені');
         return false;
     }
@@ -83,9 +149,9 @@ function editTask() {
         "lang": "c++",
         "operation": "edittask",
         "name": name,
-        "header": header,
-        "etalon": etalon,
-        "footer": taskFooter
+        //"header": header,
+        "etalon": etalon
+        //"footer": taskFooter
     };
     var jqxhr = $.post("http://ii.itatests.com", JSON.stringify(editTask), function () {
     })
@@ -138,4 +204,6 @@ function unableTask(pageId){
     }
     location.reload();
 }
-
+function cancelTask() {
+    location.reload();
+}

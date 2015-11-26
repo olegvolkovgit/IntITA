@@ -85,8 +85,8 @@ class StaticFilesHelper {
         return Config::getBaseUrl().'/files/'.$name;
     }
 
-    public static function pathToLecturePageHtml($module, $lecture, $page){
-        return 'content/module_'.$module."/lecture_".$lecture."/page_".$page.".html";
+    public static function pathToLecturePageHtml($module, $lecture, $page, $lang){
+        return 'content/module_'.$module."/lecture_".$lecture."/page_".$page."_".$lang.".html";
     }
 
 }
