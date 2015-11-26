@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.04.2015
- * Time: 2:05
- */
 for ($i = count($data); $i > 0; $i--){
     switch ($data['id_type']){
         case 1:

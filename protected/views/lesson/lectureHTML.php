@@ -18,9 +18,8 @@ $this->widget('zii.widgets.jui.CJuiTabs', array(
         )),
         $messages['659'] => array('id' => 'quiz', 'content' => $this->renderPartial(
             '/lesson/_quiz',
-            array('page' => $page, 'editMode' => 0, 'user' => 49), true
-        )
-        ),
+            array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true
+        )),
     ),
     'options' => array(
         'collapsible' => true,

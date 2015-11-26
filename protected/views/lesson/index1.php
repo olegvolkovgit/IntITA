@@ -12,7 +12,6 @@
 /* @var $teacher Teacher */
 /* @var integer $idCourse */
 
-$this->pageTitle = 'INTITA';
 if (!isset($idCourse)) $idCourse = 0;
 ?>
 <!-- lesson style -->
