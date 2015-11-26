@@ -652,5 +652,13 @@ class LessonController extends Controller
         }else echo 'Блок не може бути пустий';
     }
 
+    public function actionGeneratePageHtml($lecture,LecturePage $page)
+    {
+        $textList = LecturePage::getBlocksListById($page->id);
+
+        $dataProvider = LectureElement::getLectureText($textList);
+
+        echo $this->renderPartial('/lesson/_page',array('id'=>$id,'page'=>$page,'dataProvider'=>$dataProvider,'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
+    }
 
 }
