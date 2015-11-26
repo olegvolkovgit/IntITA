@@ -45,7 +45,7 @@ for($i = 0, $count = count($pagesList); $i < $count; $i++){
                  onclick="downPage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>);">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco"
              onclick="deletePage(<?php echo $idLecture;?>, <?php echo $pagesList[$i]["page_order"];?>, <?php echo $idCourse;?>);">
-       <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $pagesList[$i]["id"], 'idCourse' => $idCourse));?>">
+       <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $pagesList[$i]["id"], 'idCourse' => $idCourse, 'cke' => 0));?>">
    <?php echo Yii::t('lecture', '0615').' '.$pagesList[$i]["page_order"].'. '.$pagesList[$i]["page_title"];
 ?>
   </a></p></div>

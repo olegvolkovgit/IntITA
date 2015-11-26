@@ -65,6 +65,44 @@ function CKEditorCtrl($compile, $scope, $http) {
             optionsNum.val(parseInt(optionsNum.val()) - 1);
         }
     };
+    /*add Skip Task*/
+    $scope.createSkipTaskCKE = function (url, pageId) {
+        var question = $scope.addSkipTaskQuest;
+        var condition = $scope.addSkipTaskCond;
+
+        //document.getElementById('addSkipTask').style.display = 'none';
+
+        //$pattern = '/<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/';
+        //preg_match_all($pattern, $question, $answers);
+
+        var newTask = {
+            "question": question,
+            "condition": condition,
+        };
+
+        var jqxhr = JSON.stringify(newTask);
+            alert(jqxhr);
+        //$http({
+        //    url: url,
+        //    method: "POST",
+        //    data: $.param({
+        //        condition: condition,
+        //        question: question,
+        //        author: idTeacher,
+        //        lecture: idLecture,
+        //        pageId: pageId
+        //    }),
+        //    cache: false,
+        //    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        //})
+        //    .success(function (response) {
+        //        alert(data);
+        //        //location.reload();
+        //    })
+        //    .error(function () {
+        //        alert('error');
+        //    });
+    };
 }
 
 angular
