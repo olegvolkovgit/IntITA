@@ -53,52 +53,12 @@ class VerifyContentController extends AdminController {
 
     public function generateLecturePages(Lecture $model){
         if ($model->isVerified()) {
-            $pages = LecturePage::getAllLecturePages($model->id);
-            foreach ($pages as $page) {
-                $textList = LecturePage::getBlocksListById($page->id);
-                $dataProvider = LectureElement::getLectureText($textList);
-
-                $schema = $this->renderPartial('_lecturePageTemplate', array(
-                    'page' => $page,
-                    'dataProvider' => $dataProvider,
-                    'user' => Yii::app()->user->getId(),
-                ), true);
-
-
-                $langs = array('ua', 'ru', 'en');
-                foreach($langs as $lang) {
-                    Yii::app()->session['lg'] = $lang;
-                    //$messages = Messages::model()->getMessagesForSchemabyLang($lg[$i]);
-                    $html = $this->actionGeneratePage($page);
-                    $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang);
-                    file_put_contents($file, $html);
-                }
-            }
-            die;
+            $this->redirect(Config::getBaseUrl().'/lesson/saveLectureContent/?idLecture='.$model->id);
         }
         else {
                 throw new CException('Лекція не затверджена адміністратором і не може бути збережена! Lecture::generateLectureHtml()');
             }
     }
 
-    public function actionGeneratePage(LecturePage $page)
-    {
-        $textList = LecturePage::getBlocksListById($page->id);
-        $dataProvider = LectureElement::getLectureText($textList);
-
-        return $this->renderPartial('/lesson/_jsLecturePageTabs', array(
-            'lectureId'=>$page->id_lecture,
-            'page' => $page,
-            'lastAccessPage' => $lastAccessPage,
-            'dataProvider' => $dataProvider,
-            'finishedLecture' => $finishedLecture,
-            'passedLecture' => $passedLecture,
-            'passedPages' => $passedPages,
-            'editMode' => 0,
-            'user' => $user,
-            'order' => $page->page_order,
-            'idCourse' => 0
-        ));
-    }
 
 }

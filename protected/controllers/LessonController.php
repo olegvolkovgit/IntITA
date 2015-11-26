@@ -652,9 +652,26 @@ class LessonController extends Controller
         }else echo 'Блок не може бути пустий';
     }
 
-    public function actionGeneratePageHtml(LecturePage $page)
-    {
+    public function actionSaveLectureContent($idLecture){
+        $model = Lecture::model()->findByPk($idLecture);
+        $pages = LecturePage::getAllLecturePages($model->id);
 
+        foreach ($pages as $page) {
+            $textList = LecturePage::getBlocksListById($page->id);
+            $dataProvider = LectureElement::getLectureText($textList);
+            $langs = ['ua', 'ru', 'en'];
+            foreach($langs as $lang) {
+                $messages = Messages::getLectureContentMessagesByLang($lang);
+                $html = $this->renderPartial('lectureHTML', array(
+                    'dataProvider' => $dataProvider,
+                    'page' => $page,
+                    'messages' => $messages,
+                ), true);
+
+                $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang);
+                file_put_contents($file, $html);
+            }
+        }
+        $this->redirect(Config::getBaseUrl().'/_admin/verifyContent/index');
     }
-
 }

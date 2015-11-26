@@ -145,4 +145,16 @@ class Messages extends CActiveRecord
 
         return $messages[0]->translation;
     }
+
+    public static function getLectureContentMessagesByLang($lang){
+        $arr = [];
+        $messagesArray = ['613', '614', '659', '639', '89'];
+
+        for($i = 0, $count = count($messagesArray); $i < $count; $i++)
+        {
+            $messages = Messages::model()->findAllByAttributes(array('id'=>$messagesArray[$i],'language' => $lang));
+            $arr[$messagesArray[$i]] = $messages[0]->translation;
+        }
+        return $arr;
+    }
 }
