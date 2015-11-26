@@ -124,7 +124,7 @@ class SkipTask extends Quiz
 
     public function getQuestionAnswers($question){
         $answers = [];
-        $pattern = '/\/\*(.+?)\*\//';
+        $pattern = '/\/\*<span style=\"background:yellowgreen\">(.+?)<\/span>\*\//';
 
         preg_match_all($pattern, $question, $answers);
 
@@ -132,7 +132,7 @@ class SkipTask extends Quiz
     }
 
     public static function modifyQuestion($question){
-        $pattern = '/\/\*(.+?)\*\//';
+        $pattern = '/(\/\*<span style=\"background:yellowgreen\">.+?<\/span>\*\/)/';
         $i = 1;
 
         preg_replace($pattern, '/*'.$i++.'*/', $question);

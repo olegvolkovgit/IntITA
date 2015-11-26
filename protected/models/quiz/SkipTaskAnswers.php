@@ -8,6 +8,7 @@
  * @property integer $id_task
  * @property string $answer
  * @property integer $answer_order
+ * @property integer $case_in_sensitive
  *
  * The followings are the available model relations:
  * @property SkipTask $idTask
@@ -22,12 +23,6 @@ class SkipTaskAnswers extends CActiveRecord
 		return 'skip_task_answers';
 	}
 
-    public function __construct($task, $answer, $answerOrder){
-        $this->id_task = $task;
-        $this->answer = $answer;
-        $this->answer_order = $answerOrder;
-    }
-
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -37,11 +32,10 @@ class SkipTaskAnswers extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_task, answer, answer_order', 'required'),
-			array('id_task, answer_order', 'numerical', 'integerOnly'=>true),
+			array('id_task, answer_order, case_in_sensitive', 'numerical', 'integerOnly'=>true),
 			array('answer', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, id_task, answer, answer_order', 'safe', 'on'=>'search'),
+
+			array('id, id_task, answer, answer_order, case_in_sensitive', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +61,7 @@ class SkipTaskAnswers extends CActiveRecord
 			'id_task' => 'Id Task',
 			'answer' => 'Answer',
 			'answer_order' => 'Answer Order',
+            'case_in_sensitive' => 'Case in sensitive',
 		);
 	}
 
@@ -84,14 +79,13 @@ class SkipTaskAnswers extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_task',$this->id_task);
 		$criteria->compare('answer',$this->answer,true);
 		$criteria->compare('answer_order',$this->answer_order);
+        $criteria->compare('case_in_sensitive', $this->case_in_sensitive);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,7 +106,11 @@ class SkipTaskAnswers extends CActiveRecord
     public static function addAnswers($task, $answers){
         if (!empty($answers)){
             for($i = 1, $count = count($answers); $i <= $count; $i++){
-                $model = new SkipTaskAnswers($task, $answers[$i-1], $i);
+                $model = new SkipTaskAnswers();
+                $model->id_task = $task;
+                $model->answer = $answers[$i-1];
+                $model->answer_order = $i;
+                $model->case_in_sensitive = 1;//$answers[$i]['caseInSensitive'];
                 $model->save();
             }
         }
