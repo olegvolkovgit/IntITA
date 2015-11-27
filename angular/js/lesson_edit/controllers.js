@@ -13,7 +13,7 @@ function CKEditorCtrl($compile, $scope, $http) {
     $scope.editorOptionsAnswer = {
         language: lang,
         toolbar: 'answer',
-        height: '40px',
+        height: '40px'
         //enterMode: CKEDITOR.ENTER_BR
     };
     $scope.editorOptionsSkipTask = {
@@ -89,11 +89,11 @@ function CKEditorCtrl($compile, $scope, $http) {
             });
         }
 
-        var jsonSkip = $.post(url, JSON.stringify(newSkipTask), function () {
+        var jsonSkip = $.post(url, newSkipTask, function () {
         })
-            .done(function (data) {
-                alert('Завдання успішно відправлене');
-                location.reload();
+            .done(function () {
+                alert("Завдання успішно додано до лекції!");
+                // location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
@@ -102,26 +102,6 @@ function CKEditorCtrl($compile, $scope, $http) {
             })
             .always(function () {
             });
-        //
-        //$http({
-        //    url: url,
-        //    method: "POST",
-        //    data: $.param({
-        //        condition: condition,
-        //        question: question,
-        //        author: idTeacher,
-        //        lecture: idLecture,
-        //        pageId: pageId
-        //    }),
-        //    cache: false,
-        //    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        //})
-        //    .success(function (response) {
-        //        location.reload();
-        //    })
-        //    .error(function () {
-        //        alert('error');
-        //    });
     };
 }
 

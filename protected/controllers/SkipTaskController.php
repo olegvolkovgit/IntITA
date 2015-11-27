@@ -25,10 +25,8 @@ class SkipTaskController extends Controller{
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
                 $this->redirect(Yii::app()->request->urlReferrer);
-            else return false;
         }
-
-
+        return false;
     }
 
     public function actionEditSkipTask()
@@ -50,11 +48,12 @@ class SkipTaskController extends Controller{
 
     private function fillArr()
     {
+        $arr['text'] = Yii::app()->request->getPost('text', '');
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['question'] = Yii::app()->request->getPost('question', '');
-        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
+        $arr['pageId'] =  Yii::app()->request->getPost('page', 1);
+        $arr['answers'] = Yii::app()->request->getPost('answer', null);
         $arr['type'] = 'skip_task';
 
         if(isset($_POST['id_block']))

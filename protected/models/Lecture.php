@@ -380,4 +380,8 @@ class Lecture extends CActiveRecord
 
         return Lecture::model()->findAll($criteria);
     }
+
+    public function isVerified(){
+        return $this->verified;
+    }
 }
