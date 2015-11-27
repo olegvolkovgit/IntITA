@@ -12,7 +12,7 @@
             <textarea ng-cloak ckeditor="editorOptionsSkipTask" name="question" id="questionId" cols="105" rows="5" ng-model="addSkipTaskQuest"></textarea>
             <br>
         </fieldset>
-        <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/addTask'); ?>', <?php echo $pageId;?>)" ng-disabled="addSkipTask.$invalid" value="Додати задачу з пропусками">
+        <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/addTask'); ?>', <?php echo $pageId;?>, <?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>)" ng-disabled="addSkipTask.$invalid" value="Додати задачу з пропусками">
     </form>
     <br>
     <button onclick='cancelSkipTask()'>Скасувати</button>

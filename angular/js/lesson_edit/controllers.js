@@ -66,22 +66,43 @@ function CKEditorCtrl($compile, $scope, $http) {
         }
     };
     /*add Skip Task*/
-    $scope.createSkipTaskCKE = function (url, pageId) {
+    $scope.createSkipTaskCKE = function (url, pageId, author) {
         var question = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
-        //document.getElementById('addSkipTask').style.display = 'none';
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2/>' );
+        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/ig;
 
-        //$pattern = '/<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/';
-        //preg_match_all($pattern, $question, $answers);
-
-        var newTask = {
+        var newSkipTask = {
+            "page":pageId,
+            "author": author,
             "question": question,
-            "condition": condition,
+            "condition":condition,
+            "text": text,
+            "answer": []
         };
+        while (result = pattern.exec(question)) {
+            newSkipTask.answer.push({
+                "index": result[1],
+                "caseInsensitive":result[2],
+                "value": result[3]
+            });
+        }
 
-        var jqxhr = JSON.stringify(newTask);
-            alert(jqxhr);
+        var jsonSkip = $.post(url, JSON.stringify(newSkipTask), function () {
+        })
+            .done(function (data) {
+                alert('Завдання успішно відправлене');
+                location.reload();
+            })
+            .fail(function () {
+                alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                    "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+                location.reload();
+            })
+            .always(function () {
+            });
+        //
         //$http({
         //    url: url,
         //    method: "POST",
@@ -96,8 +117,7 @@ function CKEditorCtrl($compile, $scope, $http) {
         //    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         //})
         //    .success(function (response) {
-        //        alert(data);
-        //        //location.reload();
+        //        location.reload();
         //    })
         //    .error(function () {
         //        alert('error');

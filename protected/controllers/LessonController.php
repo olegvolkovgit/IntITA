@@ -653,4 +653,18 @@ class LessonController extends Controller
     }
 
 
+    public function actionHTMLLecture($id, $idCourse=0, $page = 1)
+    {
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+
+        $textList = LecturePage::getBlocksListById($page->id);
+
+        $dataProvider = LectureElement::getLectureText($textList);
+
+        $this->render('lectureHTML', array(
+            'dataProvider' => $dataProvider,
+            'page' => $page,
+        ));
+    }
+
 }
