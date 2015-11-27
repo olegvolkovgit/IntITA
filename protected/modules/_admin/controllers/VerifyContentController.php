@@ -51,6 +51,19 @@ class VerifyContentController extends AdminController {
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionCancel($id){
+        $model = Lecture::model()->findByPk($id);
+
+        if ($model){
+            $model->verified = 0;
+            $model->save();
+        } else {
+            throw new CException("Такої лекції немає!");
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     public function generateLecturePages(Lecture $model){
         if ($model->isVerified()) {
             $this->redirect(Config::getBaseUrl().'/lesson/saveLectureContent/?idLecture='.$model->id);
