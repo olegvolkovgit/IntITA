@@ -42,6 +42,7 @@ class PlainTask extends Quiz
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'lectureElement' => array(self::BELONGS_TO,'LectureElement','block_element'),
 		);
 	}
 
@@ -127,5 +128,12 @@ class PlainTask extends Quiz
     public static function getPlainTaskByLectureId($lectureId)
     {
         return LectureElement::model()->findByPk($lectureId)->plainTask;
+    }
+
+    public function getDescription()
+    {
+        $description = $this->lectureElement->html_block;
+        htmlentities($description);
+        return $description;
     }
 }

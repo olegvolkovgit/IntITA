@@ -137,7 +137,7 @@ class SkipTask extends Quiz
         $question = LectureElement::model()->findByPk($this->question)->html_block;
 
         preg_match_all($regExp,$question,$mathches);
-        var_dump($_REQUEST);die;
+
         return $mathches[0];
     }
 }
