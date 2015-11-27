@@ -13,13 +13,9 @@
 $this->widget('zii.widgets.jui.CJuiTabs', array(
     'tabs' => array(
         'Очікують підтвердження' => array('id' => 'waiting', 'content' => $this->renderPartial(
-            '_waitingLectures',
-            array(), true
-        )),
-//        Yii::t('lecture', '0614') => array('id' => 'text', 'content' => $this->renderPartial(
-//            '_textListTab',
-//            array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
-//        )),
+            '_waitingLectures', array(), true)),
+        'Затверджені' => array('id' => 'text', 'content' => $this->renderPartial(
+            '_verifiedLectures', array(), true)),
     ),
     'options' => array(
         'collapsible' => true,
