@@ -6,6 +6,9 @@
  * Time: 0:35
  */
 ?>
+<!--<script>-->
+<!--    basePath = --><?php //$_SERVER['REQUEST_URI'] ?>
+<!--</script>-->
     <br>
     <br>
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/create');?>">Створити модуль</a>
@@ -45,7 +48,7 @@
         array(
             'class' => 'CButtonColumn',
             'template'=>'{view}{update}{delete}{restore}{statusUp}{statusDown}',
-            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
+            'deleteConfirmation'=>'js:confirmDelete(this)',
             'headerHtmlOptions'=>array('style'=>'width:120px'),
             'buttons'=>array(
             'restore' => array
@@ -61,7 +64,7 @@
             (
                 'label'=>'Статус модуля',
                 'url' => 'Yii::app()->createUrl("/_admin/module/upStatus", array("id"=>$data->primaryKey))',
-                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
                 )
@@ -70,7 +73,7 @@
             (
                 'label'=>'Статус модуля',
                 'url' => 'Yii::app()->createUrl("/_admin/module/downStatus", array("id"=>$data->primaryKey))',
-                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
+                'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
                 )
@@ -80,3 +83,4 @@
         ),
     ),
 )); ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ajaxModule.js'); ?>"></script>

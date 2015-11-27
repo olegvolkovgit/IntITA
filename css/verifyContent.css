@@ -1,0 +1,25 @@
+.lectureTitle a{
+    text-decoration: none;
+}
+
+.lectureTitle a:link{
+    color: green;
+}
+
+.lectureTitle a:visited{
+    color: seagreen;
+}
+.lectureTitle{
+    font-size: 22px;
+}
+.moduleTitle{
+    color: #696969;
+    font-size: 16px;
+}
+.moduleTitle{
+    text-decoration: none;
+}
+.confirm{
+    text-decoration: none;
+    margin-right: 50px;
+}

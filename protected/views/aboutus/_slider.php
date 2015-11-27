@@ -1,9 +1,11 @@
+<?php $i =1; ?>
 <div class="aboutusslider">
     <div id="slider" class="owl-carousel">
-        <?php foreach($slider as $key){?>
+        <?php foreach($slider as $key){
+             ?>
             <div class="slideAbout">
                 <div class="abouttext">
-                    <div class="about<?php echo $key->order; ?>">
+                    <div class="about<?php echo $key->image_order?>">
                         <div class="headerAbout">
                             <?php echo Yii::t("slider", "0549") ?>
                         </div>
@@ -17,7 +19,7 @@
                 </div>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'aboutus', $key->pictureUrl); ?>"/>
             </div>
-        <?php }?>
+        <?php $i++; }?>
     </div>
 </div>
 

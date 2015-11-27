@@ -49,6 +49,7 @@ class LectureElement extends CActiveRecord
 		return array(
 			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
             'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
+            'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
 		);
 	}
 
@@ -358,6 +359,37 @@ class LectureElement extends CActiveRecord
 
         else return false;
     }
+
+    public static function editSkipTask($idBlock,$condition)
+    {
+        $model = self::model()->findByPk($idBlock);
+
+        $model->html_block = $condition;
+
+        if($model->validate())
+        {
+            $model->save();
+
+            return $model->id_block;
+        }
+
+        else return false;
+    }
+
+    public function getSkipTaskCondition()
+    {
+         return $this->html_block;
+    }
+    public function getSkipTaskQuestion()
+    {
+        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $this->id_block));
+        if($skipTask)
+        {
+            return self::model()->findByPk($skipTask->question)->html_block;
+        }
+
+    }
+
 
 //    public function afterSave()
 //    {

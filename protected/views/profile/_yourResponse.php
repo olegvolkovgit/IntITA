@@ -31,7 +31,6 @@
         <div class="lessonButName" unselectable="on"><?php echo Yii::t('teacher', '0187'); ?></div>
         <div class="lessonLine"></div>
         <div class="responseBG">
-
             <div>
                 <table style="padding-left: 35px; padding-top: 30px;">
                     <tr>

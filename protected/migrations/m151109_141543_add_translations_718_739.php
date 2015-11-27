@@ -128,13 +128,13 @@ class m151109_141543_add_translations_718_739 extends CDbMigration
             ),
             array(
                 'id_record' => null,
-                'id' => '0717',
+                'id' => '0718',
                 'language' => 'ru',
                 'translation' => 'Удалить простую задачу'
             ),
             array(
                 'id_record' => null,
-                'id' => '0717',
+                'id' => '0718',
                 'language' => 'en',
                 'translation' => 'Delete plain task'
             ),

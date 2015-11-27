@@ -110,7 +110,7 @@ class Mail {
         return false;
     }
 
-    public function sendPayLetter($user,$pay)
+    public static function sendPayLetter($user,$pay)
     {
         if($pay instanceof Course){
             $id = $pay->course_ID;

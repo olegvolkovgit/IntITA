@@ -137,8 +137,8 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'trace, info',
+                    'class'=>'CDbLogRoute',
+                    'levels'=>'info',
                     'categories'=>'system.*',
                 ),
                 array(
