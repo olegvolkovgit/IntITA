@@ -369,19 +369,15 @@ class Lecture extends CActiveRecord
         ));
     }
 
-    public static function getAllNotVerifiedLectures(){
-        $criteria = new CDbCriteria();
-        $criteria->addCondition("idModule > 0 and `order` > 0 and verified = 0");
-
-        return Lecture::model()->findAll($criteria);
-    }
-
-     public function isVerified(){
-        return $this->verified;
-    }
-
     public static function getLink($id){
         return '<a href="'.Yii::app()->createUrl("lesson/index", array("id" => $id, "idCourse" => "0")).'">'.
         LectureHelper::getLectureTitle($id).'</a>';
+    }
+
+    public static function getAllNotVerifiedLectures(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('idModule > 0 and `order` > 0');
+
+        return Lecture::model()->findAll($criteria);
     }
 }

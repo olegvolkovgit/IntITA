@@ -16,6 +16,9 @@
                     'user' => $user
                 ));
                 break;
+            case '9' :
+                $this->renderPartial('_skipTaskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+                break;
             case '12':
             case '13':
                 $this->renderPartial('_testBlock', array(
