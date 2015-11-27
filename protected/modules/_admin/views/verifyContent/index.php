@@ -7,17 +7,27 @@
 <a href="<?php echo Yii::app()->createUrl('/_admin/verifyContent/initializeDir')?>">Ініціалізація</a>
 <br>
 <br>
-<h2>Очікують підтвердження (лекції)</h2>
+<h2> (лекції)</h2>
 
 <?php
-    $lectures = Lecture::getAllNotVerifiedLectures();
-    foreach($lectures as $record) {
-        echo "<a href='".Yii::app()->createUrl('/_admin/verifyContent/confirm', array('id' => $record->id)).
-            "' class='confirm'>Затвердити   </a>     <span class='lectureTitle'><a href='" .
-            Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "'</a>" .
-            LectureHelper::getLectureTitle($record->id) . " <span class='moduleTitle'>(модуль - " .
-            ModuleHelper::getModuleName($record->idModule).")</span></span></a><br>";
-    }
+$this->widget('zii.widgets.jui.CJuiTabs', array(
+    'tabs' => array(
+        'Очікують підтвердження' => array('id' => 'waiting', 'content' => $this->renderPartial(
+            '_waitingLectures',
+            array(), true
+        )),
+//        Yii::t('lecture', '0614') => array('id' => 'text', 'content' => $this->renderPartial(
+//            '_textListTab',
+//            array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
+//        )),
+    ),
+    'options' => array(
+        'collapsible' => true,
+        'active' => 'waiting',
+    ),
+    'id' => 'MyTab-Menu',
+));
 ?>
+
 
 

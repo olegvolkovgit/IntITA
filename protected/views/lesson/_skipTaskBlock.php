@@ -23,7 +23,7 @@
                     </div>
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
-
+                            <?php echo $data->getSkipTaskQuestion(); ?>
                         </div>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
@@ -39,10 +39,10 @@
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
 <script>
-    window.onload
-    {
-//        var question = <?php //echo $data->getSkipTaskQuestion(); ?>//;
-//        var question = document.getElementById('skipTaskQuestion');
-        alert(question);
-    }
+//    window.onload()
+//    {
+////        var question = <?php ////echo $data->getSkipTaskQuestion(); ?>////;
+// //       var question = document.getElementById('skipTaskQuestion');
+////        alert(1122);
+//    }
 </script>
