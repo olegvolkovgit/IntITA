@@ -19,6 +19,37 @@ class SkipTaskController extends Controller{
     }
 
     public function actionAddTask(){
+
+        $arr = $this->fillArr();
+
+        if ($arr['condition']) {
+            if (QuizFactory::factory($arr))
+                $this->redirect(Yii::app()->request->urlReferrer);
+            else return false;
+        }
+
+
+    }
+
+    public function actionEditSkipTask()
+    {
+
+        $arr = $this->fillArr();
+
+        if($arr['condition'])
+        {
+            $skipTask = SkipTask::model()->findByAttributes(array('condition' => $arr['id_block']));
+
+            if($skipTask)
+            {
+                $this->saveSkiP($skipTask,$arr);
+                $this->redirect(Yii::app()->request->urlReferrer);
+            }
+        }
+    }
+
+    private function fillArr()
+    {
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['question'] = Yii::app()->request->getPost('question', '');
         $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
@@ -26,12 +57,16 @@ class SkipTaskController extends Controller{
         $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
         $arr['type'] = 'skip_task';
 
-        if ($arr['condition']) {
-            if (QuizFactory::factory($arr))
-                return true;
-            else return false;
-        }
+        if(isset($_POST['id_block']))
+            $arr['id_block'] = Yii::app()->request->getPost('id_block');
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        return $arr;
+    }
+
+    private function saveSkiP($skipTask,$arr){
+        $skipTask->condition = LectureElement::editSkipTask($skipTask->condition,$arr['condition']);
+        $skipTask->question = LectureElement::editSkipTask($skipTask->question,$arr['question']);
+        $skipTask->save();
+
     }
 }

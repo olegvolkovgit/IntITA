@@ -153,7 +153,11 @@ if ($idCourse != 0) {
             case '6':
                 $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
                     'pageId' => $page->id));
-            break;
+                break;
+            case '9' :
+                $this->renderPartial('/editor/_editSkipTask', array('data' => $data,
+                    'pageId' => $page->id));
+                break;
             case '12':
             case '13':
                 $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],

@@ -26,6 +26,7 @@
                 'template'=>'{view}{delete}{up}{down}',
                 'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
                 'class'=>'CButtonColumn',
+                'headerHtmlOptions'=>array('style'=>'width:120px'),
                 'buttons'=>array(
                     'up' => array
                     (

@@ -39,7 +39,7 @@ class PayController extends AdminController
         }
         $permission = new PayModules();
         $module = Module::model()->findByPk($_POST["module"]);
-        $name=ModuleHelper::getModuleTitleParam($module->module_ID);
+        $name = ModuleHelper::getModuleTitleParam($module->module_ID);
         $permission->setModuleRead($_POST['user'], $module->module_ID);
 
         $userId = $_POST['user'];
@@ -84,6 +84,60 @@ class PayController extends AdminController
 
         }
 
+    public function actionCancelCourseModule()
+    {
+        $this->render('index',array('cancelMode' => true));
+    }
 
+    public function actionCancelModule()
+    {
+        if(isset($_POST['user']) && isset($_POST['module'])){
+        $user = $_POST['user'];
+        $idModule = $_POST['module'];
+        $moduleName = Module::model()->findByPk($idModule)->title_ua;
+
+        $payModule = PayModules::model()->findByAttributes(array('id_user' => $user,'id_module' => $idModule));
+        if($payModule){
+            Yii::app()->user->setFlash('payModule', '<br />Модуль <strong>'.
+                $moduleName.'</strong> курса <strong>'.
+                CourseHelper::getCourseName($_POST['course']).'</strong> скасовано.
+            <br />Тепер у Вас НЕМАЄ доступу до усіх занять цього модуля.');
+
+        $payModule->delete();
+        }
+        else{
+            $userName = StudentReg::model()->findByPk($user)->email;
+            Yii::app()->user->setFlash('payModule', '<br /> В користувача'. $userName. '<strong> в модулі '.
+                $moduleName.'</strong> не було доступу до цього модуля <strong>');
+
+        }
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCancelCourse()
+    {
+        if(isset($_POST['user']) && isset($_POST['course'])){
+        $user = $_POST['user'];
+        $course = $_POST['course'];
+
+        $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $user, 'id_course' => $course));
+
+            if($payCourse){
+                Yii::app()->user->setFlash('payCourse', '<strong> Доступ до курсу '.
+                    CourseHelper::getCourseName($_POST['course']).'</strong> скасовано.
+            <br />Тепер у Вас НЕМАЄ доступу до усіх занять цього курсу.');
+
+                $payCourse->delete();
+            }
+            else{
+                $userName = StudentReg::model()->findByPk($user)->email;
+                Yii::app()->user->setFlash('payCourse', '<br /> В користувача'. $userName. '<strong> не було доступу до курсу  '.
+                    CourseHelper::getCourseName($_POST['course']).'</strong>');
+            }
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+
+    }
 
 }

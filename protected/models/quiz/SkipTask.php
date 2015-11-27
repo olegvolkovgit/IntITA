@@ -112,16 +112,31 @@ class SkipTask extends Quiz
         $this->question = $arr['question'];
         $this->condition = $arr['condition'];
         $this->author = $arr['author'];
+        $this->getQuestionAnswers($arr['questionString']);
 
         if ($this->save()) {
             LecturePage::addQuiz($arr['pageId'], $arr['condition']);
-            //SkipTaskAnswers::addAnswers($this->id, $this->answers);
+            SkipTaskAnswers::addAnswers($this->id, $this->answers);
             return true;
         }
         else return false;
     }
 
-    public function parseQuestion($question){
+    public function getQuestionAnswers($question){
+        $answers = [];
+        $pattern = '/\/\*<span style=\"background:yellowgreen\">(.+?)<\/span>\*\//';
+
+        preg_match_all($pattern, $question, $answers);
+
+        $this->answers = $answers[1];
+    }
+
+    public static function modifyQuestion($question){
+        $pattern = '/(\/\*<span style=\"background:yellowgreen\">.+?<\/span>\*\/)/';
+        $i = 1;
+
+        preg_replace($pattern, '/*'.$i++.'*/', $question);
+
         return $question;
     }
 
@@ -129,5 +144,15 @@ class SkipTask extends Quiz
     {
         parent::afterSave();
         $this->id = Yii::app()->db->getLastInsertID();
+    }
+
+    public function getQuestion()
+    {
+        $regExp = "\/\/*(.+?)\*\//";
+        $question = LectureElement::model()->findByPk($this->question)->html_block;
+
+        preg_match_all($regExp,$question,$mathches);
+        var_dump($_REQUEST);die;
+        return $mathches[0];
     }
 }

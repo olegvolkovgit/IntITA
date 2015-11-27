@@ -1,13 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 29.10.2015
- * Time: 14:45
- */
-?>
-
-<?php
 
 if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else $lessonTab = 0;
 

@@ -19,13 +19,13 @@ class ProfileController extends Controller
             $response->attributes = $_POST["Response"];
             $response->who = Yii::app()->user->id;
             $response->date = date("Y-m-d H:i:s");
-            $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
+            //$response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
             $str = trim($_POST['Response']['text'], chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
             if ($str == '') {
                 $response->text = NULL;
             }
             if ($response->validate()) {
-
+                $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
                 $response->knowledge = $_POST['Response']['knowledge'];
                 $response->behavior = $_POST['Response']['behavior'];
                 $response->motivation = $_POST['Response']['motivation'];
