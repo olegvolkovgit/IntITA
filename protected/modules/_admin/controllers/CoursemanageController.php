@@ -11,32 +11,6 @@ class CoursemanageController extends AdminController
         parent::init();
     }
 
-//    public function filters()
-//    {
-//        return array(
-//            'accessControl',
-//            'postOnly + delete', // we only allow deletion via POST request
-//        );
-//    }
-//
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin', 'addExistModule' ,
-//                    'addModuleToCourse', 'schema','saveSchema','restore'),
-//                'expression'=>array($this, 'isAdministrator'),
-//            ),
-//            array('deny',
-//                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-//                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin',  'addExistModule' ,
-//                    'addModuleToCourse', 'schema','saveSchema','restore'),
-//                'users'=>array('*'),
-//            ),
-//        );
-//    }
-
     public function actionView($id)
     {
         $this->render('view',array(
@@ -209,7 +183,6 @@ class CoursemanageController extends AdminController
         $lg = ['ua','ru','en'];
         for($i = 0;$i < 3;$i++)
         {
-
             Yii::app()->session['lg'] = $lg[$i];
             $messages = Messages::model()->getMessagesForSchemabyLang($lg[$i]);
 

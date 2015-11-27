@@ -88,6 +88,11 @@ if ($idCourse != 0) {
                         ?></p>
                 </div>
                 <div>
+                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'imperavi.png'); ?>"
+                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') . ' CKEditor' ?>"/>
+                    </a>
                     <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
                         'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
@@ -183,8 +188,8 @@ if ($idCourse != 0) {
             <div id="buttonsPanel">
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button onclick="showAddSkipTaskForm()">Додати задачу з пропусками</button>
+                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button onclick="showAddSkipTaskFormCKE()">Додати задачу з пропусками</button>
             </div>
                 <?php
             }

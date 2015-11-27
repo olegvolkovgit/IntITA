@@ -234,7 +234,7 @@ class SiteController extends Controller
 
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
-        else $this->redirect(Yii::app()->homeUrl);;
+        else $this->redirect(Yii::app()->homeUrl);
     }
 
     public function actionSocialLogin()

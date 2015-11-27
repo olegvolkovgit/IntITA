@@ -109,20 +109,26 @@ class SkipTask extends Quiz
 
     public function addTask($arr){
 
-        $this->question = $arr['question'];
+        $this->question = $arr['text'];
         $this->condition = $arr['condition'];
         $this->author = $arr['author'];
+        $this->answers = $arr['answers'];
 
         if ($this->save()) {
             LecturePage::addQuiz($arr['pageId'], $arr['condition']);
-            //SkipTaskAnswers::addAnswers($this->id, $this->answers);
+            SkipTaskAnswers::addAnswers($this->id, $this->answers);
             return true;
         }
         else return false;
     }
 
-    public function parseQuestion($question){
-        return $question;
+    public function getQuestionAnswers($question){
+        $answers = [];
+        $pattern = '/\/\*<span style=\"background:yellowgreen\">(.+?)<\/span>\*\//';
+
+        preg_match_all($pattern, $question, $answers);
+
+        $this->answers = $answers[1];
     }
 
     public function afterSave()

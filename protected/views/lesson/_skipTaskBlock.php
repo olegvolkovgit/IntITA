@@ -22,6 +22,7 @@
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
                             <?php echo $data->getSkipTaskQuestion(); ?>;
+
                         </div>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>

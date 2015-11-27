@@ -18,16 +18,27 @@ function hideFormCKE(id) {
     $form.style.display = 'none';
 }
 function showAddTaskForm(taskType){
-        task = taskType;
-        document.getElementById('addTask').style.display = 'block';
-        document.getElementById('addBlockForm').style.display = 'none';
-        document.getElementById('cancelButton').style.display = 'none';
+    task = taskType;
+    document.getElementById('addTask').style.display = 'block';
+    document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+function showAddTaskFormCKE(taskType){
+    task = taskType;
+    document.getElementById('addTask').style.display = 'block';
+    document.getElementById('cancelButton').style.display = 'none';
     document.getElementById('buttonsPanel').style.display = 'none';
 }
 
 function showAddSkipTaskForm(){
     document.getElementById('addSkipTask').style.display = 'block';
     document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+function showAddSkipTaskFormCKE(){
+    document.getElementById('addSkipTask').style.display = 'block';
     document.getElementById('cancelButton').style.display = 'none';
     document.getElementById('buttonsPanel').style.display = 'none';
 }

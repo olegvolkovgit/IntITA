@@ -18,6 +18,10 @@ if ($page->video){
         });
     </script>
 <?php } else{
-    echo Yii::t('lecture', '0639');
+    if (isset($message)){
+        echo $message;
+    } else {
+        echo Yii::t('lecture', '0639');
+    }
 }?>
 

@@ -13,7 +13,7 @@ function CKEditorCtrl($compile, $scope, $http) {
     $scope.editorOptionsAnswer = {
         language: lang,
         toolbar: 'answer',
-        height: '40px',
+        height: '40px'
         //enterMode: CKEDITOR.ENTER_BR
     };
     $scope.editorOptionsSkipTask = {
@@ -64,6 +64,44 @@ function CKEditorCtrl($compile, $scope, $http) {
         if (optionsNum.val() > 0) {
             optionsNum.val(parseInt(optionsNum.val()) - 1);
         }
+    };
+    /*add Skip Task*/
+    $scope.createSkipTaskCKE = function (url, pageId, author) {
+        var question = $scope.addSkipTaskQuest;
+        var condition = $scope.addSkipTaskCond;
+
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2/>' );
+        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/ig;
+
+        var newSkipTask = {
+            "page":pageId,
+            "author": author,
+            "question": question,
+            "condition":condition,
+            "text": text,
+            "answer": []
+        };
+        while (result = pattern.exec(question)) {
+            newSkipTask.answer.push({
+                "index": result[1],
+                "caseInsensitive":result[2],
+                "value": result[3]
+            });
+        }
+
+        var jsonSkip = $.post(url, newSkipTask, function () {
+        })
+            .done(function () {
+                alert("Завдання успішно додано до лекції!");
+                // location.reload();
+            })
+            .fail(function () {
+                alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                    "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+                location.reload();
+            })
+            .always(function () {
+            });
     };
 }
 
