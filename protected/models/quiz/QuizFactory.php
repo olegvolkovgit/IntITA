@@ -24,7 +24,7 @@ class QuizFactory  {
                 else return false;
             break;
             case 'tests' :
-                if ($lectureElementId = LectureElement::addNewTestBlock($arr['lecture'], $arr['condition'], $arr['isFinal'])) {
+                if ($lectureElementId = LectureElement::addNewTestBlock($arr['lecture'], $arr['condition'])) {
                     $tests = new Tests();
                     $arr['lectureElementId'] = $lectureElementId;
                     if($tests->addTask($arr))
@@ -33,7 +33,7 @@ class QuizFactory  {
                 }
                 break;
             case 'task' :
-                if ($lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition'], $arr['taskType'])) {
+                if ($lectureElementId = LectureElement::addNewTaskBlock($arr['lecture'] , $arr['condition'])) {
                     $arr['lectureElementId'] = $lectureElementId;
                     $task = new Task();
                     if ($task->addTask($arr))
@@ -41,6 +41,22 @@ class QuizFactory  {
                     else return false;
 
                 }
+            break;
+            case 'skip_task' :
+                $lecture = LecturePage::model()->findByPk($arr['pageId'])->id_lecture;
+                $conditionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['condition']);
+                $questionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['text']);
+
+                if ($questionId && $conditionId) {
+                    $arr['condition'] = $conditionId;
+                    $arr['question'] = $questionId;
+
+                    $task = new SkipTask();
+                    if ($task->addTask($arr))
+                        return true;
+                    else return false;
+                }
+            break;
         }
     }
 }

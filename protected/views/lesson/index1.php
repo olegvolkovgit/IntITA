@@ -12,7 +12,6 @@
 /* @var $teacher Teacher */
 /* @var integer $idCourse */
 
-$this->pageTitle = 'INTITA';
 if (!isset($idCourse)) $idCourse = 0;
 ?>
 <!-- lesson style -->
@@ -55,7 +54,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
             <?php echo LectureHelper::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
-                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
+                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture','0686')?>"/>

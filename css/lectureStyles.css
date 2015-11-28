@@ -274,7 +274,7 @@ img {
     display: inline-block;
 }
 
-#addTask {
+#addTask, #addSkipTask, #addTest, #divAddVideo {
     display: none;
 }
 
@@ -286,10 +286,6 @@ img {
     width: 100%;
 }
 
-#addTest {
-    display: none;
-}
-
 .taskSubmit :disabled {
     background: #dddddd;
     color: #333333;
@@ -299,10 +295,6 @@ img {
     resize: none;
 }
 #divAddFormula {
-    display: none;
-}
-
-#divAddVideo {
     display: none;
 }
 
@@ -356,9 +348,14 @@ img {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#becdde', endColorstr='#dbe3ed', GradientType=1);  / / Ie6-9
 }
 
-.addTest, .removeTest, .editRemoveTest, .editAddTest {
+.addTest, .removeTest, .editRemoveTest, .editAddTest, .answerAddRemove {
     cursor: pointer;
     color: #4b75a4;
+}
+
+#buttonsTextListPanel{
+    display: block;
+    clear: both;
 }
 
 .addTest:hover, .removeTest:hover, .editRemoveTest:hover, .editAddTest:hover {
@@ -453,22 +450,6 @@ div.lastAccessPage {
 .text, .codeExample, .code {
     overflow: hidden;
 }
-
-/*.text table {*/
-    /*margin: 0;*/
-    /*margin-bottom: 15px;*/
-    /*border: none;*/
-    /*background: none;*/
-    /*box-shadow: none;*/
-    /*width: 100%;*/
-/*}*/
-
-/*.text table td {*/
-    /*padding: 5px;*/
-    /*border: 1px solid #ddd;*/
-    /*vertical-align: top;*/
-    /*height: 16px;*/
-/*}*/
 
 .lessonText fieldset {
     padding-left: 0;
@@ -708,7 +689,7 @@ a.lectureDisabled{
 .selectedButton{
     background: #4b75a4;
 }
-#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled]{
+#addBlockSubmit[disabled],#addVideoButton[disabled],#addtests[disabled],input[type="submit"].buttonForm[disabled],#addTask input[type="submit"][disabled],#addSkipTask input[type="submit"][disabled]{
     background: #cccccc;
 }
 /*hide close and save in add block*/
@@ -757,7 +738,51 @@ a.cke_dialog_ui_fileButton{
 }
 .answerTable{
     word-break: break-all;
+    width: 100%;
+}
+.answerTable{
+    word-break: break-all;
+    width: 100%;
+}
+.answerTable td:first-child{
+    width: 20px;
 }
 .answerTable td{
     vertical-align: top;
+}
+.ckeImg{
+    display: inline-block;
+    background: #5bc0de;
+    cursor: pointer;
+}
+.answerCheck{
+    display: inline-block;
+}
+/*CKE for answers input*/
+#optionsList .cke_chrome {
+    display: inline-block;
+}
+#optionsList .cke_top {
+    padding: 0;
+    margin: 0;
+}
+#optionsList .cke_bottom{
+    height: 4px;
+}
+#optionsList .cke_resizer_ltr {
+    margin-right: -6px;
+    margin-top: -5px;
+}
+#optionsList .cke_reset {
+    vertical-align: bottom;
+}
+.element .cke_toolbar:first-child{
+    float: right;
+}
+/*CKE for answers input*/
+.answerList{
+    display: inline-block;
+}
+.answerList li{
+    margin-bottom: 5px;
 }

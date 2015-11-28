@@ -18,10 +18,29 @@ function hideFormCKE(id) {
     $form.style.display = 'none';
 }
 function showAddTaskForm(taskType){
-        task = taskType;
-        document.getElementById('addTask').style.display = 'block';
-        document.getElementById('addBlockForm').style.display = 'none';
-        document.getElementById('cancelButton').style.display = 'none';
+    task = taskType;
+    document.getElementById('addTask').style.display = 'block';
+    document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+function showAddTaskFormCKE(taskType){
+    task = taskType;
+    document.getElementById('addTask').style.display = 'block';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+
+function showAddSkipTaskForm(){
+    document.getElementById('addSkipTask').style.display = 'block';
+    document.getElementById('addBlockForm').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+function showAddSkipTaskFormCKE(){
+    document.getElementById('addSkipTask').style.display = 'block';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
 }
 
 function showAddTestForm(testType){
@@ -29,24 +48,27 @@ function showAddTestForm(testType){
         document.getElementById('addTest').style.display = 'block';
         document.getElementById('addBlockForm').style.display = 'none';
         document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
 }
 function showAddTestFormCKE(testType){
     document.getElementById('testType').value = testType;
     document.getElementById('addTest').style.display = 'block';
     document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
 }
 function showAddPlainTaskForm(testType){
     document.getElementById('testType').value = testType;
     document.getElementById('addPlainTask').style.display = 'block';
     document.getElementById('addBlockForm').style.display = 'none';
     document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
 }
 function showAddPlainTaskFormCKE(testType){
     document.getElementById('testType').value = testType;
     document.getElementById('addPlainTask').style.display = 'block';
     document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('buttonsPanel').style.display = 'none';
 }
-
 
 function enableLessonEdit(block, course){
     editButton = 'editIco' + block;
@@ -136,7 +158,7 @@ function addTextBlockCKE(type){
     document.getElementById('blockType').value = type;
 }
 
-function addVideo(){
+function addVideoInput(){
     document.getElementById('divAddVideo').style.display =  "block";
     document.getElementById('addVideoStart').style.display = "none";
 }

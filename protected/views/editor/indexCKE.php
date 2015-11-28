@@ -43,6 +43,8 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
+    idTeacher = '<?php echo TeacherHelper::getTeacherId($user);?>';
+    idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit">
@@ -86,6 +88,11 @@ if ($idCourse != 0) {
                         ?></p>
                 </div>
                 <div>
+                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'imperavi.png'); ?>"
+                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') . ' CKEditor' ?>"/>
+                    </a>
                     <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $page->id_lecture,
                         'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
@@ -106,7 +113,7 @@ if ($idCourse != 0) {
             if ($page->video == null) { ?>
                 <?php $this->renderPartial('/editor/_addVideo', array('idLecture' => $page->id_lecture, 'pageOrder' =>
                     $page->page_order)); ?>
-                <button onclick="addVideo()" id="addVideoStart"><?php echo Yii::t('lecture', '0689'); ?></button>
+                <button onclick="addVideoInput()" id="addVideoStart"><?php echo Yii::t('lecture', '0689'); ?></button>
                 <?php
             } else {
                 $lectureElement = LectureElement::model()->findByPk($page->video);
@@ -164,6 +171,10 @@ if ($idCourse != 0) {
                         $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
                             'pageId' => $page->id));
                         break;
+                    case '9' :
+                        $this->renderPartial('/editor/_editSkipTask', array('data' => $data,
+                            'pageId' => $page->id));
+                        break;
                     case '12':
                     case '13':
                         $this->renderPartial('/editor/_editTestCKE', array('idBlock' => $data['id_block'],
@@ -174,19 +185,22 @@ if ($idCourse != 0) {
                 }
             } else {
                 ?>
+            <div id="buttonsPanel">
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                        <button onclick="showAddTaskForm('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button onclick="showAddSkipTaskFormCKE()">Додати задачу з пропусками</button>
+            </div>
                 <?php
             }
             ?>
-            <?php if ($page->quiz == null) { ?>
-            <?php $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id,
-                'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
-            <?php $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id)); ?>
-            <?php } ?>
-            <?php $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id,
-                'author' => TeacherHelper::getTeacherId($user), 'pageId' => $page->id)); ?>
+            <?php if ($page->quiz == null) {
+                $author = TeacherHelper::getTeacherId($user);
+            $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
+            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id));
+            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
+            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
+            }?>
         </div>
     </div>
 </div>
@@ -195,4 +209,5 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'LecturePageEditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'skipTask.js'); ?>"></script>
 

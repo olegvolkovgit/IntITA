@@ -83,6 +83,7 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
+            'lectures' => array(self::HAS_MANY, 'Lecture','idModule')
         );
     }
 
@@ -344,9 +345,10 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getStatusName($status)
     {
-        if($status == 0) return 'Розроблений';
-        if($status == 1) return 'В Розробці';
+        if($status == 0) return 'В розробці';
+        if($status == 1) return 'Розроблений';
         else return false;
+
 
     }
 
@@ -367,7 +369,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function showModule($course)
     {
-        $first = '<select name="module">';
+        $first = '<select name="module" id="payModuleList">';
 
         $modulelist = [];
 
@@ -399,4 +401,5 @@ class Module extends CActiveRecord implements IBillableObject
         $last = '</select>';
         return $result . $last;
     }
+
 }

@@ -25,6 +25,6 @@ class UserHelper {
     public static function getNetwork ($post)
     {
         if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
-            return  '<span class="colorP">'."Соціальні мережі:".'</span>';
+            return  '<span class="colorP">'.Yii::t('user','0779').'</span>';
     }
 }

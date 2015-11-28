@@ -18,6 +18,7 @@
  * @property integer $nextLecture
  * @property integer $isFree
  * @property integer $rate
+ * @property integer $verified
  *
  */
 class Lecture extends CActiveRecord
@@ -42,7 +43,7 @@ class Lecture extends CActiveRecord
         // will receive user inputs.
         return array(
             array('idModule, order, title_ua, durationInMinutes', 'required', 'message'=>Yii::t('validation','0576')),
-            array('idModule, order, idType, rate', 'numerical', 'integerOnly' => true),
+            array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min'=>0,"tooSmall"=>Yii::t('validation','057'), 'message'=>Yii::t('validation','0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
@@ -50,7 +51,7 @@ class Lecture extends CActiveRecord
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('title_ua, title_ru, title_en', 'match', 'pattern'=>"/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",'message'=>Yii::t('error','0416')),
             // The following rule is used by search().
-            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -62,7 +63,7 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
         );
     }
@@ -85,6 +86,7 @@ class Lecture extends CActiveRecord
             'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Тривалість лекції(хв)',
             'rate' => 'Рейтинг заняття',
+            'verified' => 'Підтверджено адміністратором',
         );
     }
 
@@ -116,6 +118,7 @@ class Lecture extends CActiveRecord
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
         $criteria->compare('rate', $this->rate);
+        $criteria->compare('verified', $this->verified);
 
         $criteria->with=array('ModuleTitle');
         $criteria->compare('ModuleTitle.module_name',$this->ModuleTitle,true);
@@ -243,7 +246,7 @@ class Lecture extends CActiveRecord
         $lecture = Lecture::model()->findBySql('order=:order',	array(':order' == $order));
         return array(
             'order' => $lecture->order,
-            'title' =>  $lecture->title,
+            'title' =>  $lecture->title_ua,
             'typeImage' => $this->getTypeInfo($lecture->idType),
             'typeText' => $this->getTypeInfo($lecture->idType),
             'duration' => $lecture->durationInMinutes,
@@ -373,8 +376,27 @@ class Lecture extends CActiveRecord
 
     public static function getAllNotVerifiedLectures(){
         $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule > 0 and `order` > 0');
+        $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 0');
 
         return Lecture::model()->findAll($criteria);
+    }
+
+    public function isVerified(){
+        return $this->verified;
+    }
+
+    public static function getAllVerifiedLectures(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 1');
+
+        return Lecture::model()->findAll($criteria);
+    }
+
+    protected function afterSave(){
+        if($this->verified == 1) {
+            $this->verified = 0;
+            $this->save();
+        }
+
     }
 }

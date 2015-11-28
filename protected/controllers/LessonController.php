@@ -607,7 +607,6 @@ class LessonController extends Controller
 
     public function actionPageAjaxUpdate()
     {
-
         $user=Yii::app()->user->getId();
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
@@ -651,5 +650,49 @@ class LessonController extends Controller
         if($model->validate()){
             $model->save();
         }else echo 'Блок не може бути пустий';
+    }
+
+    public function actionSaveLectureContent($idLecture){
+        $model = Lecture::model()->findByPk($idLecture);
+        $pages = LecturePage::getAllLecturePages($model->id);
+
+        foreach ($pages as $page) {
+            $textList = LecturePage::getBlocksListById($page->id);
+            $dataProvider = LectureElement::getLectureText($textList);
+            $langs = ['ua', 'ru', 'en'];
+            $types = ['video', 'text', 'quiz'];
+            foreach($langs as $lang) {
+                $messages = Messages::getLectureContentMessagesByLang($lang);
+                foreach($types as $type) {
+                    switch ($type) {
+//                $html = $this->renderPartial('lectureHTML', array(
+//                    'dataProvider' => $dataProvider,
+//                    'page' => $page,
+//                    'messages' => $messages,
+//                ), true);
+                        case 'video':
+                            $html = $this->renderPartial('/lesson/_videoTab',
+                                array('page' => $page, 'message' => $messages['613']), true);
+                            break;
+                        case 'text';
+                            $html = $this->renderPartial('/lesson/_textListTab',
+                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
+                            break;
+                        case 'quiz':
+                            $html = $this->renderPartial('/lesson/_quiz',
+                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
+                            break;
+                        default:
+                            $html = '';
+                            break;
+                    }
+
+                    $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang, $type);
+                    file_put_contents($file, $html);
+                }
+
+            }
+        }
+        $this->redirect(Config::getBaseUrl().'/_admin/verifyContent/index');
     }
 }

@@ -54,19 +54,19 @@
                     var options = {
                         toolbar: 'full',
                         toolbar_full: [ //jshint ignore:line
+                            { name: 'saveClose', items : [ 'customSave','close' ] },
+                            '/',
                             { name: 'document', items : [ 'Source','-' ] },
                             { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
                             { name: 'editing', items : [ ] },
                             { name: 'forms', items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'HiddenField' ] },
-                            '/',
                             { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
                             { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
                             { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
                             { name: 'insert', items : [ 'Mathjax','EqnEditor','Image','Table','HorizontalRule','SpecialChar','PageBreak' ] },
-                            '/',
                             { name: 'styles', items : [ 'Font','FontSize' ] },
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
-                            { name: 'tools', items : [ 'Maximize', 'ShowBlocks','customSave','close' ] }
+                            { name: 'tools', items : [ 'Maximize', 'ShowBlocks'] }
                         ],
                         toolbar_task: [ //jshint ignore:line
                             { name: 'document', items : [ 'Source','-' ] },
@@ -79,13 +79,16 @@
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
                         ],
                         toolbar_answer: [ //jshint ignore:line
-                            { name: 'document', items : [ 'Source','-' ] },
                             { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
                             { name: 'paragraph', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
                             { name: 'links', items : [ 'Link','Unlink'] },
                             { name: 'insert', items : [ 'Mathjax','EqnEditor','SpecialChar'] },
                             { name: 'styles', items : [ 'Font','FontSize' ] },
                             { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                        ],
+                        toolbar_skipTask: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'colors', items : [ 'skipWord' ] },
                         ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);
