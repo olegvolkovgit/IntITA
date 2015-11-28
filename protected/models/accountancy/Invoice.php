@@ -141,12 +141,11 @@ class Invoice extends CActiveRecord
 
     public static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
 
-        foreach ($invoicesList as $invoice) {
-            $invoice->user_created = $user;
-            $invoice->agreement_id = $agreementId;
-            $invoice->number = $agreementId .'/'. $i;
-            $invoice->save();
-            $i++;
+        for($i = 0, $count = count($invoicesList); $i < $count; $i++) {
+            $invoicesList[$i]->user_created = $user;
+            $invoicesList[$i]->agreement_id = $agreementId;
+            $invoicesList[$i]->number = $agreementId .'/'. $i;
+            $invoicesList[$i]->save();
         }
     }
 
