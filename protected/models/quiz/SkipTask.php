@@ -37,10 +37,10 @@ class SkipTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, condition, question,source', 'required'),
+			array('author, condition, question, source', 'required'),
 			array('author, condition, question', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, author, condition, question', 'safe', 'on'=>'search'),
+			array('id, author, condition, question, source', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +93,7 @@ class SkipTask extends Quiz
 		$criteria->compare('author',$this->author);
 		$criteria->compare('condition',$this->condition);
 		$criteria->compare('question',$this->question);
+        $criteria->compare('source', $this->source);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,6 +113,7 @@ class SkipTask extends Quiz
 
     public function addTask($arr){
 
+        var_dump($this);die;
         $this->question = $arr['questionId'];
         $this->condition = $arr['condition'];
         $this->author = $arr['author'];
@@ -126,30 +128,9 @@ class SkipTask extends Quiz
         else return false;
     }
 
-    public function getQuestionAnswers($question){
-        $answers = [];
-        $pattern = '/\/\*<span style=\"background:yellowgreen\">(.+?)<\/span>\*\//';
-
-        preg_match_all($pattern, $question, $answers);
-
-        $this->answers = $answers[1];
-    }
-
     public function afterSave()
     {
         parent::afterSave();
         $this->id = Yii::app()->db->getLastInsertID();
     }
-
-    public function getQuestion()
-    {
-        $regExp = "\/\/*(.+?)\*\//";
-        $question = LectureElement::model()->findByPk($this->question)->html_block;
-
-        preg_match_all($regExp,$question,$mathches);
-
-        return $mathches[0];
-    }
-
-
 }
