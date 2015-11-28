@@ -108,7 +108,7 @@ $header = new Header();
 //                'htmlOptions' => array(
 //                    'class' => 'my-cool-breadcrumbs'
 //                )
-//            )); ?><!--<!-- breadcrumbs -->-->
+//            )); ?><!--<!-- breadcrumbs -->
 <!--        --><?php //endif ?>
 
         <a href="<?php echo Yii::app()->createUrl('/_accountancy');?>">Бухгалтерія IntITA - Головна</a>

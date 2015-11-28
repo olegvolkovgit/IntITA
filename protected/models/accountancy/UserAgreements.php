@@ -59,6 +59,7 @@ class UserAgreements extends CActiveRecord
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id'),
+            'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
         );
     }
 
@@ -293,6 +294,16 @@ class UserAgreements extends CActiveRecord
     public static function findAgreementByUser($userId)
     {
         return UserAgreements::model()->findAllByAttributes(array('user_id'=> $userId));
+
+    }
+    public function getUserName()
+    {
+        return $this->user->email;
+    }
+
+    public function getFirstName()
+    {
+        return $this->user->firstName;
 
     }
 }

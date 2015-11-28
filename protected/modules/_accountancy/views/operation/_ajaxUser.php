@@ -13,8 +13,9 @@ if(!empty($users)){
     foreach($users as $user)
     {?>
         <div>
-            <input type="radio" name="user" value="<?php echo $user->id ?>" onchange="getAgreementsListByUser()"> Користувач :<?php echo $user->email ?>
-            Ім'я : <?php echo $user->firstName ?>
+            <input type="radio" name="user" value="<?php echo $user->id ?>" onchange="getAgreementsListByUser()">
+            Користувач :<?php echo $user->getUserName() ?>
+            Ім'я : <?php echo $user->getFirstName() ?>
     </div>
     <?php }?>
 

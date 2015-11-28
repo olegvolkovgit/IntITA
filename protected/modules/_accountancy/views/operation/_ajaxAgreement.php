@@ -20,5 +20,8 @@ if(!empty($agreements)){
 <?php }?>
 
     </fieldset>
-<?php } ?>
+<?php }
+else
+echo 'Рахунків не знайдено'
+?>
 

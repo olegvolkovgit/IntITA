@@ -171,7 +171,18 @@ class OperationController extends AccountancyController
     public function actionGetUser()
     {
         $userEmail = Yii::app()->request->getPost('userEmail', 0);
-        $user = StudentReg::findLikeEmail($userEmail);
+        $userList = StudentReg::findLikeEmail($userEmail);
+        $user = [];
+        if($userList){
+        foreach($userList as $users)
+        {
+            $userAgr = UserAgreements::model()->findByAttributes(array('user_id' => $users->id));
+            if($userAgr)
+            {
+                array_push($user,$userAgr);
+            }
+        }
+        }
 
         return $this->renderPartial('_ajaxUser',array('users' => $user));
     }
