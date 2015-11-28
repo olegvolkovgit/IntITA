@@ -41,8 +41,7 @@ class VerifyContentController extends AdminController {
         $model = Lecture::model()->findByPk($id);
 
         if ($model){
-            $model->verified = 1;
-            $model->save();
+            $model->updateByPk($id, array('verified' => '1'));
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
@@ -65,12 +64,12 @@ class VerifyContentController extends AdminController {
     }
 
     public function generateLecturePages(Lecture $model){
-        if ($model->isVerified()) {
+       // if ($model->isVerified()) {
             $this->redirect(Config::getBaseUrl().'/lesson/saveLectureContent/?idLecture='.$model->id);
-        }
-        else {
-                throw new CException('Лекція не затверджена адміністратором і не може бути збережена! Lecture::generateLectureHtml()');
-            }
+//        }
+//        else {
+//                throw new CException('Лекція не затверджена адміністратором і не може бути збережена! Lecture::generateLectureHtml()');
+//            }
     }
 
 
