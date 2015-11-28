@@ -25,10 +25,8 @@ class SkipTaskController extends Controller{
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
                 $this->redirect(Yii::app()->request->urlReferrer);
-            else return false;
         }
-
-
+        return false;
     }
 
     public function actionEditSkipTask()
@@ -50,11 +48,12 @@ class SkipTaskController extends Controller{
 
     private function fillArr()
     {
+        $arr['text'] = Yii::app()->request->getPost('text', '');
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['question'] = Yii::app()->request->getPost('question', '');
-        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
+        $arr['pageId'] =  Yii::app()->request->getPost('page', 1);
+        $arr['answers'] = Yii::app()->request->getPost('answer', null);
         $arr['type'] = 'skip_task';
 
         if(isset($_POST['id_block']))
@@ -67,6 +66,56 @@ class SkipTaskController extends Controller{
         $skipTask->condition = LectureElement::editSkipTask($skipTask->condition,$arr['condition']);
         $skipTask->question = LectureElement::editSkipTask($skipTask->question,$arr['question']);
         $skipTask->save();
-
     }
+
+    public function actionSaveSkipAnswer()
+    {
+        $isDone = true;
+        $mark = 0;
+        $answers = $_POST['answers'];
+        //$answers array with 3 value; first = skipText; second = order; third = caseInsensitive;
+
+        $quizId = $_POST['id'];
+
+        $skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
+
+        usort($skipTaskAnswers, function($a, $b)
+        {
+            return strcmp($a->answer_order, $b->answer_order);
+        });
+
+        for($i = 0;$i < count($skipTaskAnswers);$i++)
+        {
+            $answer = $answers[$i][0];
+            $taskAnswer = $skipTaskAnswers[$i]->answer;
+            if($answers[$i][2] != 1)
+            {
+                $answer = strtoupper($answer);
+                $taskAnswer = strtoupper($taskAnswer);
+            }
+
+            if(strcmp($answer,$taskAnswer) != 0)
+            {
+                $mark= 0;
+                $isDone = false;
+            }
+            else
+            {
+                $mark = 1;
+            }
+            $skipTaskMarks = new SkipTaskMarks();
+            $skipTaskMarks->mark = $mark;
+            $skipTaskMarks->user =(int)Yii::app()->user->id;
+            $skipTaskMarks->id_task_answer = $skipTaskAnswers[$i]->id;
+            if(!$skipTaskMarks->save())
+                throw new \application\components\Exceptions\IntItaException('Skip task was not saved!!!');
+        }
+
+        if(!$isDone)
+            echo false;
+
+        else
+            echo true;
+        }
+
 }

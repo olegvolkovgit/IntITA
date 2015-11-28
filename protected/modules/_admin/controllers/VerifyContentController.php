@@ -41,8 +41,7 @@ class VerifyContentController extends AdminController {
         $model = Lecture::model()->findByPk($id);
 
         if ($model){
-            $model->verified = 1;
-            $model->save();
+            $model->updateByPk($id, array('verified' => '1'));
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
@@ -51,13 +50,26 @@ class VerifyContentController extends AdminController {
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function generateLecturePages(Lecture $model){
-        if ($model->isVerified()) {
-            $this->redirect(Config::getBaseUrl().'/lesson/saveLectureContent/?idLecture='.$model->id);
+    public function actionCancel($id){
+        $model = Lecture::model()->findByPk($id);
+
+        if ($model){
+            $model->verified = 0;
+            $model->save();
+        } else {
+            throw new CException("Такої лекції немає!");
         }
-        else {
-                throw new CException('Лекція не затверджена адміністратором і не може бути збережена! Lecture::generateLectureHtml()');
-            }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function generateLecturePages(Lecture $model){
+       // if ($model->isVerified()) {
+            $this->redirect(Config::getBaseUrl().'/lesson/saveLectureContent/?idLecture='.$model->id);
+//        }
+//        else {
+//                throw new CException('Лекція не затверджена адміністратором і не може бути збережена! Lecture::generateLectureHtml()');
+//            }
     }
 
 

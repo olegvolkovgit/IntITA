@@ -8,6 +8,8 @@
  * @property integer $author
  * @property integer $condition
  * @property integer $question
+ * @property integer $source
+
  *
  * The followings are the available model relations:
  * @property LectureElement $condition0
@@ -35,7 +37,7 @@ class SkipTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, condition, question', 'required'),
+			array('author, condition, question,source', 'required'),
 			array('author, condition, question', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			array('id, author, condition, question', 'safe', 'on'=>'search'),
@@ -67,6 +69,7 @@ class SkipTask extends Quiz
 			'author' => 'Author',
 			'condition' => 'Condition',
 			'question' => 'Question',
+            'source' => 'Source',
 		);
 	}
 
@@ -109,10 +112,11 @@ class SkipTask extends Quiz
 
     public function addTask($arr){
 
-        $this->question = $arr['question'];
+        $this->question = $arr['questionId'];
         $this->condition = $arr['condition'];
         $this->author = $arr['author'];
-        $this->getQuestionAnswers($arr['questionString']);
+        $this->answers = $arr['answers'];
+        $this->source = $arr['question'];
 
         if ($this->save()) {
             LecturePage::addQuiz($arr['pageId'], $arr['condition']);
@@ -131,15 +135,6 @@ class SkipTask extends Quiz
         $this->answers = $answers[1];
     }
 
-    public static function modifyQuestion($question){
-        $pattern = '/(\/\*<span style=\"background:yellowgreen\">.+?<\/span>\*\/)/';
-        $i = 1;
-
-        preg_replace($pattern, '/*'.$i++.'*/', $question);
-
-        return $question;
-    }
-
     public function afterSave()
     {
         parent::afterSave();
@@ -152,7 +147,9 @@ class SkipTask extends Quiz
         $question = LectureElement::model()->findByPk($this->question)->html_block;
 
         preg_match_all($regExp,$question,$mathches);
-        var_dump($_REQUEST);die;
+
         return $mathches[0];
     }
+
+
 }

@@ -63,7 +63,7 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
         );
     }
@@ -246,7 +246,7 @@ class Lecture extends CActiveRecord
         $lecture = Lecture::model()->findBySql('order=:order',	array(':order' == $order));
         return array(
             'order' => $lecture->order,
-            'title' =>  $lecture->title,
+            'title' =>  $lecture->title_ua,
             'typeImage' => $this->getTypeInfo($lecture->idType),
             'typeText' => $this->getTypeInfo($lecture->idType),
             'duration' => $lecture->durationInMinutes,
@@ -376,8 +376,27 @@ class Lecture extends CActiveRecord
 
     public static function getAllNotVerifiedLectures(){
         $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule > 0 and `order` > 0');
+        $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 0');
 
         return Lecture::model()->findAll($criteria);
+    }
+
+    public function isVerified(){
+        return $this->verified;
+    }
+
+    public static function getAllVerifiedLectures(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 1');
+
+        return Lecture::model()->findAll($criteria);
+    }
+
+    protected function afterSave(){
+        if($this->verified == 1) {
+            $this->verified = 0;
+            $this->save();
+        }
+
     }
 }
