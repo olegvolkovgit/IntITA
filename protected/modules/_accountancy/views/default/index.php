@@ -1,6 +1,6 @@
 <?php
 /* @var $this DefaultController */
-//$this->pageTitle = 'INTITA - Бухгалтерія';
+
 ?>
 <h1>Розділи</h1>
 <ul>
