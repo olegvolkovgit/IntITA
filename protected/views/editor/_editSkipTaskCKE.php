@@ -16,7 +16,7 @@
 <br>
 Запитання* :
 <br>
-<textarea name="question" class="plainTaskCondition"  required><?php echo $data->getSkipTaskQuestion()?></textarea>
+<textarea name="question" class="plainTaskCondition"  required><?php echo $data->getSkipTaskSource()?></textarea>
 <br>
 <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
 <input name="lecture" id="lecture" type="hidden" value="<?php echo $data->id_lecture;?>"/>
