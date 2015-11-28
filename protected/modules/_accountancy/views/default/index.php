@@ -6,7 +6,7 @@
 <ul>
     <li><?php echo CHtml::link('Список договорів',array('/_accountancy/userAgreements/index')); ?>
     <li><?php echo CHtml::link('Список рахунків',array('/_accountancy/invoices/index')); ?>
-    <li><?php echo CHtml::link('Операції',array('/_accountancy/operation/index')); ?>
+    <li><?php echo CHtml::link('Проплати',array('/_accountancy/operation/index')); ?>
 </ul>
 <h2>Додаткові параметри</h2>
 <ul>

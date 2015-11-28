@@ -151,6 +151,7 @@ class OperationController extends AccountancyController
         $type = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
+        //var_dump($invoice);die;
         if (Operation::addOperation($summa, $user, $type, $invoice, $source)) {
             $this->actionIndex();
         } else {
