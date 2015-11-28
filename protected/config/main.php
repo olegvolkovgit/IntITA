@@ -137,11 +137,6 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
                 array(
-                    'class'=>'CDbLogRoute',
-                    'levels'=>'info',
-                    'categories'=>'system.*',
-                ),
-                array(
                     'class'=>'CEmailLogRoute',
                     'levels'=>'error, warning',
                     'emails'=>'admin@example.com',
