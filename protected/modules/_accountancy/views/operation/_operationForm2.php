@@ -12,7 +12,7 @@
         <fieldset form="newOperation" title="Пошук рахунка">
     <legend>Пошук рахунку по номеру:</legend>
     <br>
-    Виберіть номер рахунку:
+    Введіть номер рахунку:
     <br>
 <!--    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
         <span class="searchCriteria">
@@ -21,14 +21,11 @@
                 </label>
         </span>
 <!--    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-
-
     </fieldset>
-</div>
-<div >
     </form>
+</div>
 
-        <form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByInvoice');?>" class="operationMargin"
+<form action="<?php echo Yii::app()->createUrl('/_accountancy/operation/createByInvoice');?>" class="operationMargin"
               method="POST" onsubmit="return checkInvoices();">
             <fieldset form="newOperation" title="Результат пошуку рахунка">
             <div name="selectInvoicesByNumber" >
@@ -45,4 +42,3 @@
             <button type="submit">Додати</button>
             </fieldset>
     </form>
-</div>

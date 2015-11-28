@@ -4,7 +4,7 @@
 /* @var $type OperationType*/
 /* @var $form CActiveForm */
 ?>
-<h1>Додати операцію</h1>
+<h1>Додати проплату</h1>
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/operation.css"/>
 <!--<div class="operation2">-->

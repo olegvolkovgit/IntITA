@@ -16,15 +16,15 @@ $('.search-form form').submit(function(){
 ");
 ?>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/operation/create');?>">Нова операція</a>
+<a href="<?php echo Yii::app()->createUrl('/_accountancy/operation/create');?>">Нова проплата</a>
 
-<h1>Операції</h1>
+<h1>Проплати</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'operation-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-    'emptyText'=>'Операцій не знайдено.',
+    'emptyText'=>'Проплат не знайдено.',
     'summaryText'=>'',
 	'columns'=>array(
 		'id',

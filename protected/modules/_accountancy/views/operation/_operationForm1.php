@@ -13,7 +13,7 @@
         <fieldset form="newOperation" title="Пошук договора">
             <legend>Пошук рахунку по договору:</legend>
             <br>
-            Виберіть номер договору:
+            Введіть номер договору:
             <br>
 
             <span class="searchCriteria">
@@ -36,7 +36,6 @@
             <input type="number" name="source" value="1" hidden="hidden">
             <fieldset>
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-                <legend>Операція:</legend>
         Результати пошуку:
         <br/>
                 <div name="selectInvoices" id="selectInvoices">

@@ -15,7 +15,7 @@
         <fieldset form="newOperation" title="Пошук договора">
             <legend>Пошук рахунку по користувачу:</legend>
             <br>
-            Веддіть e-mail користувача:
+            Введіть e-mail користувача:
             <br>
 
             <span class="searchCriteria">
@@ -41,14 +41,13 @@
         <input type="number" name="type" value="1" hidden="hidden">
         <input type="number" name="source" value="1" hidden="hidden">
         <fieldset>
-            <legend>Операція:</legend>
             Результати пошуку:
             <br/>
             <div name="selectUserInvoices" id="selectUserInvoices">
                 <?php $this->renderPartial('_ajaxInvoices', array('invoices'=>'')); ?>
             </div>
             <br/>
-            <label> Введіть суму операції:
+            <label> Введіть суму оплати:
                 <br/>
                 <input type="number" name="user" value="<?php echo Yii::app()->user->getId();?>" hidden="hidden">
                 <input type="number" name="type" value="1" hidden="hidden">
