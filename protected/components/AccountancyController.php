@@ -22,6 +22,7 @@ class AccountancyController extends CController {
             die();
         }
         $this->pageTitle = Yii::app()->name;
+        date_default_timezone_set("UTC");
     }
 
     //if user account has role 2 (accountant)

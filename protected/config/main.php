@@ -174,6 +174,6 @@ return array(
         'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
 		'baseUrl' =>'http://intita.itatests.com',
         'baseUrlWithoutHeader' => 'intita.itatests.com',
-        'maintenance' => 1,
+        'maintenance' => 0,
 	),
 );
