@@ -5,9 +5,11 @@
  * Date: 25.11.2015
  * Time: 20:20
  */
+
 ?>
 
 <?php if($data['id_type'] == 9){ ?>
+
     <div class="element">
         <div class="lessonTask">
             <div class="lessonBG">
@@ -22,7 +24,6 @@
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
                             <?php echo $data->getSkipTaskQuestion(); ?>;
-
                         </div>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
@@ -37,3 +38,32 @@
 <?php }else{
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
+
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'skipTaskDialog',
+
+    'options' => array(
+        'width' => 540,
+
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable' => false
+    ),
+));
+$this->renderPartial('/lesson/_modalTask');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'skipTaskCancel',
+
+    'options' => array(
+        'width' => 540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable' => false
+    ),
+));
+$this->renderPartial('/lesson/_modalTask2');
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>

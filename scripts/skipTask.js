@@ -78,3 +78,65 @@ function unableSkipTask(pageId){
     location.reload();
 }
 
+function sendSkipTaskAnswer(id){
+
+    var text = skipTaskQuestion.getElementsByTagName('input');
+    var answers = [];
+    var check = true;
+    for(var i = 0; i < text.length;i++)
+    {
+        if(text[i].value == '')
+        {
+            check = false;
+            alert('Заповніть поле ' + ++i);
+        }
+    }
+    if(!check)
+        return check;
+    for(var i = 1; i<text.length + 1 ;i++)
+    {
+        var name = 'skipTask' + i;
+        var skipBlock = document.getElementById(name);
+
+        var skipText = skipBlock.value;
+        var caseInsensitive = skipBlock.getAttribute('caseinsensitive');
+
+        var arr = [];
+        arr.push(skipText);
+        arr.push(i);
+        arr.push(caseInsensitive);
+
+        answers.push(arr);
+    }
+    var url = "/skipTask/saveSkipAnswer";
+    $.ajax({
+        type: "POST",
+        url:  url,
+        data: {answers: answers,
+            id : id  },
+        cache: false,
+        success: function(response) {
+
+            if (response) {
+                jQuery('#skipTaskDialog').dialog({
+                    'width': '540px',
+                    'height': 'auto',
+                    'modal': true,
+                    'autoOpen': false
+                });
+                $("#skipTaskDialog").dialog().dialog("open");
+                $("#skipTaskDialog").parent().css('border', '4px solid #339900');
+            }
+            else
+            {
+                jQuery('#skipTaskCancel').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                $("#skipTaskCancel").dialog().dialog("open");
+                $("#skipTaskCancel").parent().css('border', '4px solid #cc0000');
+                return false;
+            }
+        }
+    });
+
+}
+
+

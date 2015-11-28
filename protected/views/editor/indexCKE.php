@@ -172,7 +172,7 @@ if ($idCourse != 0) {
                             'pageId' => $page->id));
                         break;
                     case '9' :
-                        $this->renderPartial('/editor/_editSkipTask', array('data' => $data,
+                        $this->renderPartial('/editor/_editSkipTaskCKE', array('data' => $data,
                             'pageId' => $page->id));
                         break;
                     case '12':

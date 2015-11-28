@@ -135,5 +135,6 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'skipTask.js')?>"></script>
 
 
