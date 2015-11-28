@@ -93,12 +93,12 @@ function CKEditorCtrl($compile, $scope, $http) {
         })
             .done(function () {
                 alert("Завдання успішно додано до лекції!");
-                // location.reload();
+                location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                //location.reload();
+                location.reload();
             })
             .always(function () {
             });
