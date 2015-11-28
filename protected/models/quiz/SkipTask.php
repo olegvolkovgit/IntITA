@@ -113,9 +113,8 @@ class SkipTask extends Quiz
 
     public function addTask($arr){
 
-        var_dump($arr);die;
-        $this->question = $arr['questionId'];
         $this->condition = $arr['condition'];
+        $this->question = $arr['questionId'];
         $this->author = $arr['author'];
         $this->answers = $arr['answers'];
         $this->source = $arr['question'];
