@@ -387,7 +387,6 @@ class LectureElement extends CActiveRecord
         {
             return self::model()->findByPk($skipTask->question)->html_block;
         }
-
     }
 
 

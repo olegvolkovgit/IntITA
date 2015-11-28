@@ -63,7 +63,7 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            //'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
+            'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
         );
     }

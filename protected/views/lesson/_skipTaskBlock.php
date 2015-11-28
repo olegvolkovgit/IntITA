@@ -6,9 +6,7 @@
  * Time: 20:20
  */
 ?>
-<script>
-    question = <?php echo $data->getSkipTaskQuestion(); ?>;
-</script>
+
 <?php if($data['id_type'] == 9){ ?>
     <div class="element">
         <div class="lessonTask">
@@ -23,7 +21,8 @@
                     </div>
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
-                            <?php echo $data->getSkipTaskQuestion(); ?>
+                            <?php echo $data->getSkipTaskQuestion(); ?>;
+
                         </div>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
@@ -38,11 +37,3 @@
 <?php }else{
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
-<script>
-//    window.onload()
-//    {
-////        var question = <?php ////echo $data->getSkipTaskQuestion(); ?>////;
-// //       var question = document.getElementById('skipTaskQuestion');
-////        alert(1122);
-//    }
-</script>
