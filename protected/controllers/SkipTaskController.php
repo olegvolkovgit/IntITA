@@ -42,8 +42,11 @@ class SkipTaskController extends Controller{
 
             if($skipTask)
             {
+
+                SkipTaskAnswers::editAnswers($skipTask->id, $arr['answers']);
                 $this->saveSkiP($skipTask,$arr);
-                $this->redirect(Yii::app()->request->urlReferrer);
+                return true;
+//                $this->redirect(Yii::app()->request->urlReferrer);
             }
         }
     }
@@ -69,6 +72,7 @@ class SkipTaskController extends Controller{
         $skipTask->question = LectureElement::editSkipTask($skipTask->question,$arr['text']);
         $skipTask->source = $arr['question'];
         $skipTask->save();
+
     }
 
     public function actionSaveSkipAnswer()
@@ -79,7 +83,7 @@ class SkipTaskController extends Controller{
         //$answers array with 3 value; first = skipText; second = order; third = caseInsensitive;
 
         $quizId = $_POST['id'];
-
+        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quizId));
         $skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
 
         usort($skipTaskAnswers, function($a, $b)
@@ -99,26 +103,30 @@ class SkipTaskController extends Controller{
 
             if(strcmp($answer,$taskAnswer) != 0)
             {
+
                 $mark= 0;
                 $isDone = false;
+                break;
             }
             else
             {
                 $mark = 1;
             }
-            $skipTaskMarks = new SkipTaskMarks();
-            $skipTaskMarks->mark = $mark;
-            $skipTaskMarks->user =(int)Yii::app()->user->id;
-            $skipTaskMarks->id_task_answer = $skipTaskAnswers[$i]->id;
-            if(!$skipTaskMarks->save())
-                throw new \application\components\Exceptions\IntItaException('Skip task was not saved!!!');
+
         }
 
+        $skipTaskMarks = new SkipTaskMarks();
+        $skipTaskMarks->mark = $mark;
+        $skipTaskMarks->user =(int)Yii::app()->user->id;
+        $skipTaskMarks->id_task = $skipTask->id;
+        if(!$skipTaskMarks->save())
+            throw new \application\components\Exceptions\IntItaException('Skip task was not saved!!!');
+
         if(!$isDone)
-            echo false;
+            echo 'not done';
 
         else
-            echo true;
+            echo 'done';
         }
 
     public function actionUnableSkipTask()

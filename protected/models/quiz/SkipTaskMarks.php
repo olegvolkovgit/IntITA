@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'skip_task_marks':
  * @property integer $id
  * @property integer $user
- * @property integer $id_task_answer
+ * @property integer $id_task
  * @property integer $mark
  * @property string $time
  *
@@ -32,11 +32,11 @@ class SkipTaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user, id_task_answer, mark', 'required'),
-			array('user, id_task_answer, mark', 'numerical', 'integerOnly'=>true),
+			array('user, id_task, mark', 'required'),
+			array('user, id_task, mark', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user, id_task_answer, mark, time', 'safe', 'on'=>'search'),
+			array('id, user, id_task, mark, time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,5 +107,10 @@ class SkipTaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public static function isTaskDone($user, $idTask)
+    {
+        return SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
+            array(':user' => $user, ':task' => $idTask));
+    }
 
 }

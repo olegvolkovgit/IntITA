@@ -12,8 +12,8 @@
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-//        'action' => Yii::app()->createUrl("/lesson/nextPage",
-//            array('id' => $_GET['id'], 'idCourse' => $idCourse, 'page' => $page)),
+        'action' => Yii::app()->createUrl("/lesson/nextPage",
+            array('id' => $_GET['id'], 'idCourse' => $idCourse, 'page' => $page)),
     ));
     ?>
     <div class="signIn2">

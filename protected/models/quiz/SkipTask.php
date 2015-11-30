@@ -151,5 +151,19 @@ class SkipTask extends Quiz
         return $mathches[0];
     }
 
+    public static function getSkipTaskIcon($user, $id_block, $editMode)
+{
+    if ($editMode || $user == 0) {
+        return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+    } else {
+
+        $idTask = self::model()->findByAttributes(array('condition' => $id_block))->id;
+        if (SkipTaskMarks::isTaskDone($user, $idTask)) {
+            return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
+        } else {
+            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+        }
+    }
+}
 
 }

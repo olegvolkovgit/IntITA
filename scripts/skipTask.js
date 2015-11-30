@@ -97,7 +97,7 @@ function sendSkipTaskAnswer(id){
     {
         var name = 'skipTask' + i;
         var skipBlock = document.getElementById(name);
-
+        if(skipBlock != undefined){
         var skipText = skipBlock.value;
         var caseInsensitive = skipBlock.getAttribute('caseinsensitive');
 
@@ -108,6 +108,7 @@ function sendSkipTaskAnswer(id){
 
         answers.push(arr);
     }
+    }
     var url = "/skipTask/saveSkipAnswer";
     $.ajax({
         type: "POST",
@@ -116,16 +117,11 @@ function sendSkipTaskAnswer(id){
             id : id  },
         cache: false,
         success: function(response) {
-
-            if (response) {
-                jQuery('#skipTaskDialog').dialog({
-                    'width': '540px',
-                    'height': 'auto',
-                    'modal': true,
-                    'autoOpen': false
-                });
-                $("#skipTaskDialog").dialog().dialog("open");
-                $("#skipTaskDialog").parent().css('border', '4px solid #339900');
+            //alert(response);
+            if (response == 'done') {
+                jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                $("#mydialog2").dialog().dialog("open");
+                $("#mydialog2").parent().css('border', '4px solid #339900');
             }
             else
             {
