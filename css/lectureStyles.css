@@ -304,7 +304,7 @@ img {
     height: 400px;
     border: 1px solid #335379;
     border-top: none;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 0 10px;
 }
 
 #video {
