@@ -69,6 +69,8 @@ return array(
 
         'messages'=>array(
             'class'=>'CDbMessageSource',
+            'cacheID' => 'cache',
+            'cachingDuration' => !YII_DEBUG ? 3600*24 : 0,
             'sourceMessageTable'=>'sourcemessages',
             'translatedMessageTable'=>'messages',
         ),
@@ -136,11 +138,6 @@ return array(
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
-                array(
-                    'class'=>'CDbLogRoute',
-                    'levels'=>'info',
-                    'categories'=>'system.*',
-                ),
                 array(
                     'class'=>'CEmailLogRoute',
                     'levels'=>'error, warning',

@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'trainer_student':
  * @property integer $trainer
  * @property integer $student
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Teacher $trainer0
- * @property User $student0
+ * @property StudentReg $student0
  */
 class TrainerStudent extends CActiveRecord
 {
@@ -32,8 +34,7 @@ class TrainerStudent extends CActiveRecord
 			array('trainer, student', 'required'),
 			array('trainer, student', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('trainer, student', 'safe', 'on'=>'search'),
+			array('trainer, student, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +59,8 @@ class TrainerStudent extends CActiveRecord
 		return array(
 			'trainer' => 'Trainer',
 			'student' => 'Student',
+            'start_time' => 'Start time',
+            'end_time' => 'End time'
 		);
 	}
 
@@ -75,12 +78,12 @@ class TrainerStudent extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('trainer',$this->trainer);
 		$criteria->compare('student',$this->student);
+        $criteria->compare('start_time',$this->start_time);
+        $criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
