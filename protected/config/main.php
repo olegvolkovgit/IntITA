@@ -69,6 +69,8 @@ return array(
 
         'messages'=>array(
             'class'=>'CDbMessageSource',
+            'cacheID' => 'cache',
+            'cachingDuration' => !YII_DEBUG ? 3600*24 : 0,
             'sourceMessageTable'=>'sourcemessages',
             'translatedMessageTable'=>'messages',
         ),
