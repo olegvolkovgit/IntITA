@@ -70,7 +70,8 @@ function CKEditorCtrl($compile, $scope, $http) {
         var question = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
-        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2/>' );
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/g,
+            '<input type=text id=skipTask$1 required="true" caseInsensitive=$2 />' );
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
@@ -93,7 +94,7 @@ function CKEditorCtrl($compile, $scope, $http) {
         })
             .done(function () {
                 alert("Завдання успішно додано до лекції!");
-                // location.reload();
+                location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +

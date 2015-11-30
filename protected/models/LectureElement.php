@@ -389,6 +389,14 @@ class LectureElement extends CActiveRecord
         }
     }
 
+    public function getSkipTaskSource()
+    {
+        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $this->id_block));
+        if($skipTask)
+        {
+            return $skipTask->source;
+        }
+    }
 
 //    public function afterSave()
 //    {
