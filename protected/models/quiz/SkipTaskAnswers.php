@@ -116,4 +116,42 @@ class SkipTaskAnswers extends CActiveRecord
             }
         }
     }
+
+    public static function editAnswers($skipTaskId, $answers)
+{
+    $model = SkipTaskAnswers::model()->findAllByAttributes(array('id_task' => $skipTaskId));
+
+
+    if (!empty($answers) && !empty($model)){
+        if(count($model) < count($answers))
+        {
+            $countAddModel = count($answers) - count($model);
+            for($i = 0;$i < $countAddModel; $i++)
+            {
+                $newModel =  new SkipTaskAnswers();
+                array_push($model,$newModel);
+            }
+
+        }
+
+        elseif(count($model) > count($answers)){
+            $countRemove = count($model) - count($answers);
+            for($i = count($model)-1; $i>(count($model)-1)-$countRemove; $i--)
+            {
+                SkipTaskAnswers::model()->findByPk($model[$i]->id)->delete();
+            }
+        }
+
+        for($i = 0; $i < count($model);$i++)
+        {
+            $model[$i]->answer = $answers[$i]['value'];
+            $model[$i]->answer_order = $answers[$i]['index'];
+            $model[$i]->case_in_sensitive = $answers[$i]['caseInsensitive'];//$answers[$i]['caseInSensitive'];
+            $model[$i]->save();
+        }
+
+    }
+
+
+}
 }
