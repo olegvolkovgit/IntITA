@@ -32,11 +32,13 @@ class SkipTaskController extends Controller{
     public function actionEditSkipTask()
     {
 
+        //in $arr['pageId'] was wroten LectureElement->id_block
+
         $arr = $this->fillArr();
 
         if($arr['condition'])
         {
-            $skipTask = SkipTask::model()->findByAttributes(array('condition' => $arr['id_block']));
+            $skipTask = SkipTask::model()->findByAttributes(array('condition' => $arr['pageId']));
 
             if($skipTask)
             {
@@ -64,7 +66,8 @@ class SkipTaskController extends Controller{
 
     private function saveSkiP($skipTask,$arr){
         $skipTask->condition = LectureElement::editSkipTask($skipTask->condition,$arr['condition']);
-        $skipTask->question = LectureElement::editSkipTask($skipTask->question,$arr['question']);
+        $skipTask->question = LectureElement::editSkipTask($skipTask->question,$arr['text']);
+        $skipTask->source = $arr['question'];
         $skipTask->save();
     }
 
@@ -117,5 +120,18 @@ class SkipTaskController extends Controller{
         else
             echo true;
         }
+
+    public function actionUnableSkipTask()
+    {
+        $lecture =  Yii::app()->request->getPost('pageId',0);
+
+        if($lecture != 0){
+            LecturePage::unableQuiz($lecture);
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+
+
 
 }
