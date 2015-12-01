@@ -6,7 +6,7 @@
 CKEDITOR.editorConfig = function( config ) {
     config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
 
-    config.extraPlugins = 'eqneditor,pastebase64,youtube,audio,skipWord';
+    config.extraPlugins = 'eqneditor,pastebase64,youtube,audio,skipWord1,skipWord0';
     config.allowedContent = true;
     //config.pasteFromWordPromptCleanup = true;
 
