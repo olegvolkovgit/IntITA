@@ -1,16 +1,17 @@
 <?php
 
+
 class ConsultantController extends AdminController
 {
-	public function actionIndex()
-	{
+    public function actionIndex()
+    {
         $criteria = null;
 
         $answer = new PlainTaskAnswer('search');
-		$this->render('index',
+        $this->render('index',
             array('answer' => $answer,
-                ));
-	}
+            ));
+    }
 
     public function actionAddConsult($idAnswer)
     {
@@ -18,7 +19,7 @@ class ConsultantController extends AdminController
         $teachers = Teacher::model()->findAll();
         $this->render('addConsult',
             array('answer' => $answer,
-                    'teachers' => $teachers));
+                'teachers' => $teachers));
     }
 
 
@@ -48,4 +49,5 @@ class ConsultantController extends AdminController
 		);
 	}
 	*/
+
 }

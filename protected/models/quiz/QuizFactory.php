@@ -42,7 +42,7 @@ class QuizFactory  {
 
                 }
             break;
-            case 'skip_task' :
+            case 'skip_task':
                 $lecture = LecturePage::model()->findByPk($arr['pageId'])->id_lecture;
                 $conditionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['condition']);
                 $questionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['text']);

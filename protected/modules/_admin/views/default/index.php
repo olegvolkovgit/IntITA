@@ -14,11 +14,18 @@
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/verifyContent/index');?>">Контент лекцій</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/graduate/index');?>">Випускники</a></li>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a></li>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки про викладачів</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index');?>">Курси</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/module/index');?>">Модулі</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index');?>">Ресурси для викладачів</a></li>
+</ul>
+
+<h2>Викладачі</h2>
+<ul>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки про викладачів</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index');?>">Тренери</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/consultant/index');?>">Консультанти</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/leader/index');?>">Кеівники проектів</a></li>
 </ul>
 
 <h2>Доступ</h2>
