@@ -85,30 +85,30 @@ $header = new Header();
     <div class="main">
         <div style="height: 5px; width: auto"></div>
 
-        <a href="<?php echo Yii::app()->createUrl('/_teacher');?>">Особистий кабінет викладача IntITA - Головна</a>
+<!--        <a href="--><?php //echo Yii::app()->createUrl('/_teacher');?><!--">Особистий кабінет викладача IntITA - Головна</a>-->
 
-        <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site'
-                && Yii::app()->controller->action->id == 'index') && !(Yii::app()->controller->id == 'aboutus')
-        ) {
-            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
-            ?>
-
-            <div class="profileStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div>
-                        <?php echo $post->nickname; ?><br>
-                        <?php echo $post->firstName; ?><br>
-                        <?php echo $post->secondName; ?><br>
-                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
-                    </div>
-                    <div class="minavatar">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
-                    </div>
-                </a>
-            </div>
-        <?php
-        }
-        ?>
+<!--        --><?php //if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site'
+//                && Yii::app()->controller->action->id == 'index') && !(Yii::app()->controller->id == 'aboutus')
+//        ) {
+//            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
+//            ?>
+<!---->
+<!--            <div class="profileStatus">-->
+<!--                <a href="--><?php //echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?><!--">-->
+<!--                    <div>-->
+<!--                        --><?php //echo $post->nickname; ?><!--<br>-->
+<!--                        --><?php //echo $post->firstName; ?><!--<br>-->
+<!--                        --><?php //echo $post->secondName; ?><!--<br>-->
+<!--                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>-->
+<!--                    </div>-->
+<!--                    <div class="minavatar">-->
+<!--                        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?><!--"/>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        --><?php
+//        }
+//        ?>
     </div>
     <div id="contentBoxMain" style="margin-left: 50px">
         <?php echo $content; ?>
