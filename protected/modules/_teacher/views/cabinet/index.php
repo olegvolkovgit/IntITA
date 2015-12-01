@@ -8,8 +8,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Система управління контентом IntITA - Головна</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -35,7 +33,6 @@
 <body>
 
 <div id="wrapper">
-
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -45,7 +42,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Особистий кабінет викладача IntITA - Головна</a>
+            <a class="navbar-brand" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index');?>">
+                Особистий кабінет викладача IntITA - Головна</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -280,7 +278,7 @@
                         <a href="#"><i class="fa fa-dashboard fa-fw"></i> Дошка</a>
                     </li>
                     <li>
-                        <a href="_trainer.php">
+                        <a href="_trainer.html">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Тренер<span class="fa arrow"></span></a>
 <!--                        <ul class="nav nav-second-level">-->
 <!--                            <li>-->
@@ -293,7 +291,8 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/consultant');?>">
+                        <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
+                            array('page' => '_consultant'));?>')">
                             <i class="fa fa-table fa-fw"></i> Консультант</a>
                     </li>
                     <li>
@@ -475,7 +474,8 @@
             </div>
         </div>
         <!-- /.row -->
-        <div class="row">
+
+        <div class="row" id="pageContainer">
             <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -938,6 +938,7 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 
 </body>
 

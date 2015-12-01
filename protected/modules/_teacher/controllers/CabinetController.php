@@ -7,25 +7,12 @@ class CabinetController extends TeacherCabinetController
 		$this->render('index');
 	}
 
-    public function actionTrainer()
+    public function actionLoadPage()
     {
-        $this->renderPartial('_trainer');
+        $page = Yii::app()->request->getPost('page');
+        echo $page;//$this->renderPartial($page);
     }
 
-    public function actionConsultant()
-    {
-        $this->renderPartial('_consultant');
-    }
-
-    public function actionLeader()
-    {
-        $this->renderPartial('_leader');
-    }
-
-    public function actionAuthor()
-    {
-        $this->renderPartial('_author');
-    }
 
     public function actionView($id)
     {

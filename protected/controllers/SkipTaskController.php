@@ -111,7 +111,6 @@ class SkipTaskController extends Controller{
             {
                 $mark = 1;
             }
-
         }
 
         $skipTaskMarks = new SkipTaskMarks();
