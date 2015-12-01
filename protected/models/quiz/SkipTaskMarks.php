@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property SkipTask $idTask
- * @property User $user0
+ * @property StudentReg $user0
  */
 class SkipTaskMarks extends CActiveRecord
 {

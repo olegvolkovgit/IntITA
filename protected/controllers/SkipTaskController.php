@@ -32,7 +32,7 @@ class SkipTaskController extends Controller{
     public function actionEditSkipTask()
     {
 
-        //in $arr['pageId'] was wroten LectureElement->id_block
+        //in $arr['pageId'] was written LectureElement->id_block
 
         $arr = $this->fillArr();
 
@@ -103,7 +103,6 @@ class SkipTaskController extends Controller{
 
             if(strcmp($answer,$taskAnswer) != 0)
             {
-
                 $mark= 0;
                 $isDone = false;
                 break;
