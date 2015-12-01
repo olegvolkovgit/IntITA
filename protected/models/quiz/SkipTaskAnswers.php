@@ -141,12 +141,12 @@ class SkipTaskAnswers extends CActiveRecord
                 SkipTaskAnswers::model()->findByPk($model[$i]->id)->delete();
             }
         }
-
         for($i = 0; $i < count($model);$i++)
         {
             $model[$i]->answer = $answers[$i]['value'];
             $model[$i]->answer_order = $answers[$i]['index'];
             $model[$i]->case_in_sensitive = $answers[$i]['caseInsensitive'];//$answers[$i]['caseInSensitive'];
+            $model[$i]->id_task = $skipTaskId;
             $model[$i]->save();
         }
 

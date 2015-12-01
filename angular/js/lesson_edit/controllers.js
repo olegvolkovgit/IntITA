@@ -67,12 +67,16 @@ function CKEditorCtrl($compile, $scope, $http) {
     };
     /*add Skip Task*/
     $scope.createSkipTaskCKE = function (url, pageId, author) {
-        var question = $scope.addSkipTaskQuest;
+        var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
-        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/g,
-            '<input type=text id=skipTask$1 required="true" caseInsensitive=$2 />' );
-        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:yellow\">(.+?)<\/span>/ig;
+        var number=0
+        var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+            number++;
+            return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
+        });
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2 />' );
+        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
             "page":pageId,
@@ -86,7 +90,7 @@ function CKEditorCtrl($compile, $scope, $http) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value": result[3]
+                "value": result[4]
             });
         }
 
@@ -94,7 +98,7 @@ function CKEditorCtrl($compile, $scope, $http) {
         })
             .done(function () {
                 alert("Завдання успішно додано до лекції!");
-                location.reload();
+                // location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +

@@ -88,7 +88,10 @@
                         ],
                         toolbar_skipTask: [ //jshint ignore:line
                             { name: 'document', items : [ 'Source','-' ] },
-                            { name: 'colors', items : [ 'skipWord' ] },
+                            { name: 'colors', items : [ 'skipWord1' ] },
+                            { name: 'colors', items : [ 'skipWord0' ] },
+                            { name: 'colors', items : [ 'RemoveFormat' ] },
+
                         ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);

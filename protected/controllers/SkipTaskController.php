@@ -45,8 +45,8 @@ class SkipTaskController extends Controller{
 
                 SkipTaskAnswers::editAnswers($skipTask->id, $arr['answers']);
                 $this->saveSkiP($skipTask,$arr);
-                return true;
-//                $this->redirect(Yii::app()->request->urlReferrer);
+//                return true;
+                $this->redirect(Yii::app()->request->urlReferrer);
             }
         }
     }
@@ -95,7 +95,8 @@ class SkipTaskController extends Controller{
         {
             $answer = $answers[$i][0];
             $taskAnswer = $skipTaskAnswers[$i]->answer;
-            if($answers[$i][2] != 1)
+
+            if($answers[$i][2] == 1)
             {
                 $answer = strtoupper($answer);
                 $taskAnswer = strtoupper($taskAnswer);
