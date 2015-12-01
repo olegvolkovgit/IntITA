@@ -31,7 +31,6 @@
                         <?php echo Yii::t('lecture','0089'); ?>
                     </button>
                 </div>
-
             </div>
         </div>
     </div>

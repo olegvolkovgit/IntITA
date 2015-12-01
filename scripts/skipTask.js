@@ -109,7 +109,7 @@ function sendSkipTaskAnswer(id){
         answers.push(arr);
     }
     }
-    var url = "/IntIta/skipTask/saveSkipAnswer";
+    var url = "/skipTask/saveSkipAnswer";
     $.ajax({
         type: "POST",
         url:  url,

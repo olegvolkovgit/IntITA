@@ -11,6 +11,7 @@
 </ul>
 
 <h2>Контент</h2>
+<ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/verifyContent/index');?>">Контент лекцій</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/graduate/index');?>">Випускники</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a></li>
@@ -30,4 +31,9 @@
 <h2>Налаштування сайта</h2>
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Налаштування</a></li>
+</ul>
+
+<h2>Викладачі</h2>
+<ul>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/consultant/index');?>">Консультації</a></li>
 </ul>

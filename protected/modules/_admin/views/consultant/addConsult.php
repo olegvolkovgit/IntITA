@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Quicks
+ * Date: 01.12.2015
+ * Time: 16:55
+ */
+?>
+
+<h2>Додати консультанта до простої задачі</h2>
+
+<!--<div class="btn-group">-->
+<!--    <button type="button" class="btn btn-danger">Action</button>-->
+<!--    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--        <span class="caret"></span>-->
+<!--        <span class="sr-only">Toggle Dropdown</span>-->
+<!--    </button>-->
+<!--    <ul class="dropdown-menu">-->
+<!--        <li><a href="#">Action</a></li>-->
+<!--        <li><a href="#">Another action</a></li>-->
+<!--        <li><a href="#">Something else here</a></li>-->
+<!--        <li role="separator" class="divider"></li>-->
+<!--        <li><a href="#">Separated link</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<select>
+    <?php foreach($teachers as $teacher){ ?>
+    <option name="teacher" value="<?php $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+    <?php } ?>
+</select>

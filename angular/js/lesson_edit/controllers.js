@@ -90,7 +90,7 @@ function CKEditorCtrl($compile, $scope, $http) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value": result[4]
+                "value":  result[4]
             });
         }
 
