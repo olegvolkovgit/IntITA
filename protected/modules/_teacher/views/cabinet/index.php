@@ -278,7 +278,8 @@
                         <a href="#"><i class="fa fa-dashboard fa-fw"></i> Дошка</a>
                     </li>
                     <li>
-                        <a href="_trainer.html">
+                        <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
+                            array('page' => 'trainer'));?>')">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Тренер<span class="fa arrow"></span></a>
 <!--                        <ul class="nav nav-second-level">-->
 <!--                            <li>-->
@@ -292,15 +293,17 @@
                     </li>
                     <li>
                         <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                            array('page' => '_consultant'));?>')">
+                            array('page' => 'consultant'));?>')">
                             <i class="fa fa-table fa-fw"></i> Консультант</a>
                     </li>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/leader');?>">
+                        <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
+                            array('page' => 'leader'));?>')">
                             <i class="fa fa-edit fa-fw"></i> Керівник проекта</a>
                     </li>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/author');?>">
+                        <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
+                            array('page' => 'author'));?>')">
                             <i class="fa fa-wrench fa-fw"></i> Автор модуля</a>
 <!--                        <span class="fa arrow"></span>-->
                       <!--  <ul class="nav nav-second-level">
