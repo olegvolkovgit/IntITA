@@ -412,4 +412,69 @@ class Teacher extends CActiveRecord
     {
         return $this->last_name . " " . $this->first_name . " " . $this->middle_name;
     }
+
+    public static function generateTeachersList()
+    {
+        $teachers = Teacher::model()->findAll();
+        $count = count($teachers);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $teachers[$i]->teacher_id;
+            $result[$i]['alias'] = $teachers[$i]->first_name . " " . $teachers[$i]->last_name . ", " . $teachers[$i]->email;
+        }
+        return $result;
     }
+
+    public static function generateTeacherRolesList($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'role';
+        $criteria->distinct = true;
+        $criteria->order = 'role';
+        $criteria->condition = 'teacher=' . $id;
+        $roles = TeacherRoles::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0, $count = count($roles); $i < $count; $i++) {
+            $result[$i]['id'] = $roles[$i]->role;
+            $result[$i]['alias'] = Roles::model()->findByPk($roles[$i]->role)->title_ua;
+        }
+        return $result;
+    }
+
+    public static function getTeacherName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en'  && Teacher::model()->findByPk($id)->first_name_en != ''
+                && Teacher::model()->findByPk($id)->last_name_en != ''){
+                return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->last_name." ".Teacher::model()->findByPk($id)->first_name;
+    }
+
+    public static function getTeacherLastName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->last_name_en != ''){
+                return Teacher::model()->findByPk($id)->last_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->last_name;
+    }
+
+    public static function getTeacherFirstName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''){
+                return Teacher::model()->findByPk($id)->first_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->first_name;
+    }
+
+    public static function getTeacherMiddleName($id){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->middle_name_en != ''){
+                return Teacher::model()->findByPk($id)->middle_name_en;
+            }
+        }
+        return Teacher::model()->findByPk($id)->middle_name;
+    }
+}

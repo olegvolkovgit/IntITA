@@ -33,14 +33,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'timeColumn'),
         ),
         array(
-            'header'=>ConsultationsHelper::getUserTitle($userId),
+            'header'=>StudentReg::getUserTitle($userId),
             'value'=>'ConsultationsHelper::getUserName(' . $userId . ',$data)',
             'type' => 'raw',
             'htmlOptions'=>array('class'=>'nameColumn'),
         ),
         array(
             'header'=>Yii::t('profile', '0130'),
-            'value'=>'ConsultationsHelper::getTheme($data)',
+            'value'=>'Lecture::getTheme($data)',
             'type' => 'raw',
             'htmlOptions'=>array('class'=>'themeColumn'),
         ),

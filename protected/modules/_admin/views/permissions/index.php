@@ -84,7 +84,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'User',
             'type' => 'raw',
-            'value' => 'AccessHelper::getUserName($data->id_user)',
+            'value' => 'StudentReg::getUserName($data->id_user)',
         ),
         array(
             'name' => 'Email',
@@ -94,12 +94,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'Role',
             'type' => 'raw',
-            'value' => 'AccessHelper::getRole($data->id_user)',
+            'value' => 'StudentReg::getRole($data->id_user)',
         ),
         array(
             'name' => 'Resource',
             'type' => 'raw',
-            'value' => 'AccessHelper::getResourceDescription($data->id_module)',
+            'value' => 'mODULE::getResourceDescription($data->id_module)',
         ),
         array(
             'name' => 'READ',

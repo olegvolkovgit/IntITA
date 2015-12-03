@@ -1,7 +1,7 @@
 <?php
-$optionsNum = TestsHelper::getOptionsNum($data['id_block']);
-$options = TestsHelper::getOptions($data['id_block']);
-$testType = TestsHelper::getTestType($data['id_block']);
+$optionsNum = TestsAnswers::getOptionsNum($data['id_block']);
+$options = TestsAnswers::getOptions($data['id_block']);
+$testType = Tests::getTestType($data['id_block']);
 ?>
 <div>
     <div class="lessonTest">
@@ -49,9 +49,9 @@ $testType = TestsHelper::getTestType($data['id_block']);
                 ?>
             </table>
             <button class="testSubmit" onclick='sendTestAnswer(
-                $("<?php echo "#answers" . $data['block_order'] . ' '; ?> <?php echo TestsHelper::getTypeButton($testType); ?>"),
+                $("<?php echo "#answers" . $data['block_order'] . ' '; ?> <?php echo Tests::getTypeButton($testType); ?>"),
             <?php echo $user; ?>,
-            <?php echo TestsHelper::getTestId($data['id_block']) ?>,
+            <?php echo Tests::getTestId($data['id_block']) ?>,
             <?php echo $testType; ?>,
             <?php echo ($editMode) ? 1 : 0; ?>
                 );' <?php if ($editMode) {

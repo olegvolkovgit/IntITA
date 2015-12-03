@@ -115,4 +115,22 @@ class Aboutus extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getIdTabAboutUs($index)
+    {
+        switch ($index){
+            case '1':
+                $idblock = 'firstblock';
+                break;
+            case '2':
+                $idblock = 'secondblock';
+                break;
+            case '3':
+                $idblock = 'threeblock';
+                break;
+            default:
+                $idblock = '';
+        }
+        return $idblock;
+    }
 }

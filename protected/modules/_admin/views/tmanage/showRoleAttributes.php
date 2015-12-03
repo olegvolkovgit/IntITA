@@ -55,7 +55,6 @@
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),
 

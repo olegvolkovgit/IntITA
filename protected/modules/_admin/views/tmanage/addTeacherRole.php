@@ -42,7 +42,7 @@
             <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = AccessHelper::generateRolesList();
+                    <?php $courses = Roles::generateRolesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

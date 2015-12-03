@@ -1,8 +1,9 @@
+<h2>Задачі до перевірки</h2>
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 30.11.2015
- * Time: 17:38
- */
-echo 'Trainer';
+if (!empty($answers)) {
+    for ($i = 0, $count = count($answers); $i < $count; $i++) {
+        echo "<br>".($i+1).". ".PlainTaskAnswer::model()->findByPk($answers[$i]['id_plain_task_answer'])->answer." - ".
+        Teacher::getFullName($answers[$i]['id_teacher']);
+    }
+}
+?>

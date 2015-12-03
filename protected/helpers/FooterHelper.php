@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 04.09.2015
- * Time: 17:07
- */
 
 class FooterHelper {
 

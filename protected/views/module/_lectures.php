@@ -104,7 +104,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'alias',
             'type' => 'raw',
             'value' =>function($data) use ($enabledLessonOrder) {
-                if (AccessHelper::accesLecture($data->id,$data->order,$enabledLessonOrder))
+                if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
@@ -125,7 +125,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-            if (AccessHelper::accesLecture($data->id,$data->order,$enabledLessonOrder)) {
+            if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder)) {
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else

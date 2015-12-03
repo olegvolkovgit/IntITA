@@ -8,5 +8,5 @@
 ?>
 <h2>Interpreter log.txt</h2>
 <?php
-echo "<pre>" . file_get_contents("/var/www/ii/log.txt") . "</pre>";
+echo "<pre>" . file_get_contents("/var/www/fcgi/log.txt") . "</pre>";
 ?>

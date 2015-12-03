@@ -22,7 +22,7 @@
 spots=<?php echo json_encode($passedPages); ?>;
 thisPage=<?php echo $thisPage-1; ?>;
 editMode="<?php echo $editMode; ?>";
-isAdmin="<?php echo AccessHelper::isAdmin(); ?>";
+isAdmin="<?php echo StudentReg::isAdmin(); ?>";
 finishedLecture="<?php echo $finishedLecture; ?>";
 lastAccessPage=<?php echo $lastAccessPage; ?>;'
     >

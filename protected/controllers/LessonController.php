@@ -25,7 +25,7 @@ class LessonController extends Controller
         if (Yii::app()->user->isGuest) {
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
-        if (AccessHelper::isAdmin() || $editMode) {
+        if (StudentReg::isAdmin() || $editMode) {
             return true;
         }
         if (!($lecture->isFree)) {
@@ -631,7 +631,7 @@ class LessonController extends Controller
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
+        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || StudentReg::isAdmin())){
             echo Yii::t('lecture', '0640');
         }
         else{

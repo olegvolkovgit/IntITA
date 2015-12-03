@@ -81,9 +81,6 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <div class="aboutInfo">
                         <?php echo UserHelper::getLink($post->twitter,'Twitter');?>
                     </div>
-<!--                    <div class="aboutInfo">-->
-<!--                        <p>--><?php //$post::getCourses('Курси самогоних апаратів 6-го рівня');?><!--</p>-->
-<!--                    </div>-->
                 </td>
             </tr>
         </table>

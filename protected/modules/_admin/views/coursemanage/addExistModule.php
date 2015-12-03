@@ -36,7 +36,7 @@
             <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();" class="form-control" style="width: 350px">
                 <option value="">Всі курси</option>
                 <optgroup label="Виберіть курс">
-                    <?php $courses = AccessHelper::generateCoursesList();
+                    <?php $courses = Course::generateCoursesList();
                     $count = count($courses);
                     for ($i = 0; $i < $count; $i++) {
                         ?>

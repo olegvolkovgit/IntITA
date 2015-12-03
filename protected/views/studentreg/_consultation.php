@@ -51,12 +51,12 @@ $alert = 'Ви впевнені, що хочите відмінити консу
                 'value'=>'date("H:i", strtotime($data->start_cons))."-".date("H:i", strtotime($data->end_cons))',
             ),
             array(
-                'header'=>ConsultationsHelper::getUserTitle($user->id),
+                'header'=>StudentReg::getUserTitle($user->id),
                 'value'=>'ConsultationsHelper::getUserName(' . $user->id . ',$data)',
             ),
             array(
                 'header'=>Yii::t('profile', '0130'),
-                'value'=>'ConsultationsHelper::getTheme($data)',
+                'value'=>'Lecture::getTheme($data)',
             ),
             array(
                 'class'=>'CButtonColumn',

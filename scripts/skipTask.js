@@ -117,7 +117,6 @@ function sendSkipTaskAnswer(id){
             id : id  },
         cache: false,
         success: function(response) {
-            //alert(response);
             if (response == 'done') {
                 jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
                 $("#mydialog2").dialog().dialog("open");

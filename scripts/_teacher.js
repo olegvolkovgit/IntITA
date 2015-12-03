@@ -5,8 +5,7 @@ function loadPage(url){
         url: url,
         cache: false,
         success: function (data) {
-            alert(data);
-            $("#pageContainer").value(data);
+            $("#pageContainer").html(data);
         }
     });
 }

@@ -39,7 +39,7 @@ $this->breadcrumbs=array(
             <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = AccessHelper::generateRolesList();
+                    <?php $courses = Roles::generateRolesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

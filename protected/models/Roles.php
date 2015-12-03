@@ -112,4 +112,16 @@ class Roles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function generateRolesList()
+    {
+        $roles = Roles::model()->findAll();
+        $count = count($roles);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $roles[$i]->id;
+            $result[$i]['alias'] = $roles[$i]->title_ua;
+        }
+        return $result;
+    }
 }
