@@ -6,7 +6,7 @@ class m151203_121422_add_plain_task_answer_teacher_table extends CDbMigration
 	{
         $this->createTable('plain_task_answer_teacher', array(
             'id_plain_task_answer' => 'INT(10) NOT NULL',
-            'id-teacher' => 'INT(10) NOT NULL',
+            'id_teacher' => 'INT(10) NOT NULL',
             'INDEX `FK_plain_task_answer_teacher_teacher` (`id_teacher`)',
             'CONSTRAINT `FK_plain_task_answer_teacher_plain_task_answer` FOREIGN KEY (`id_plain_task_answer`) REFERENCES `plain_task_answer` (`id`)',
             'CONSTRAINT `FK_plain_task_answer_teacher_teacher` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`teacher_id`)'
