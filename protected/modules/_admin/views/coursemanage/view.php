@@ -4,15 +4,21 @@
 ?>
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create');?>">Додати курс</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index');?>">Список курсів</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/update', array('id' => $model->course_ID));?>">Редагувати курс</a>
+    </button>
 
-
+    <div class="page-header">
     <h1>Курс <?php echo CourseHelper::getCourseName($model->course_ID); ?></h1>
-
+    </div>
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data'=>$model,
     'attributes'=>array(

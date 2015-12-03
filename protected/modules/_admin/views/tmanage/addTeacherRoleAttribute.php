@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
     'Призначити атрибут ролі'
 );
 ?>
-
+<div class="col-md-4">
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
@@ -20,7 +20,8 @@ $this->breadcrumbs=array(
         <fieldset>
             <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
             Викладач:<br>
-            <select name="teacher" placeholder="(Виберіть викладача)" autofocus>
+            <div class="form-group">
+            <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
                 <?php $users = AccessHelper::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -30,10 +31,12 @@ $this->breadcrumbs=array(
                 }
                 ?>
             </select>
+            </div>
             <br>
             <br>
             Роль:<br>
-            <select name="role" placeholder="(Виберіть роль)" onchange="selectRole();">
+            <div class="form-group">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
                     <?php $courses = AccessHelper::generateRolesList();
@@ -45,22 +48,24 @@ $this->breadcrumbs=array(
                     }
                     ?>
             </select>
+            </div>
             <br>
             <br>
 
             Атрибути ролі:<br>
-            <div name="selectAttribute" style="float:left;" onchange="selectAttribute();"></div>
+
+            <div name="selectAttribute" class="form-group" style="float:left;" onchange="selectAttribute();"></div>
             <br>
             <br>
-            <div name="inputValue"  style="float:left;"></div>
+            <div name="inputValue" class="form-group" style="float:left;"></div>
             <br>
             <br>
             <br>
             <br>
-            <input type="submit" value="Призначити атрибут">
+            <input type="submit" class="btn btn-default" value="Призначити атрибут">
     </form>
 </div>
-
+</div>
 <script type="text/javascript">
     function selectRole(){
         var role = $('select[name="role"]').val();

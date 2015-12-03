@@ -5,10 +5,13 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/create');?>">Додати фото</a>
+    </button>
 
-<h1>Слайдер на сторінці <i>Про нас</i></h1>
-
+    <div class="page-header">
+        <h1>Слайдер на сторінці <i>Про нас</i></h1>
+    </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'aboutus-slider-grid',
     'dataProvider'=>$model->search(),

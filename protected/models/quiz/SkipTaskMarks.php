@@ -113,4 +113,48 @@ class SkipTaskMarks extends CActiveRecord
             array(':user' => $user, ':task' => $idTask));
     }
 
+    public static function marksAnswer($quizId,$answers)
+    {
+        $isDone = true;
+        $mark = 0;
+        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quizId));
+        $skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
+
+        usort($skipTaskAnswers, function($a, $b)
+        {
+            return strcmp($a->answer_order, $b->answer_order);
+        });
+
+        for($i = 0;$i < count($skipTaskAnswers);$i++)
+        {
+            $answer = $answers[$i][0];
+            $taskAnswer = $skipTaskAnswers[$i]->answer;
+
+            if($answers[$i][2] == 1)
+            {
+                $answer = strtoupper($answer);
+                $taskAnswer = strtoupper($taskAnswer);
+            }
+
+            if(strcmp($answer,$taskAnswer) != 0)
+            {
+                $mark= 0;
+                $isDone = false;
+                break;
+            }
+            else
+            {
+                $mark = 1;
+            }
+        }
+
+        $skipTaskMarks = new SkipTaskMarks();
+        $skipTaskMarks->mark = $mark;
+        $skipTaskMarks->user =(int)Yii::app()->user->id;
+        $skipTaskMarks->id_task = $skipTask->id;
+        $skipTaskMarks->save();
+
+        return $isDone;
+
+    }
 }

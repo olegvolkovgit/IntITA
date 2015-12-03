@@ -5,10 +5,14 @@
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminGraduate.css" />
 <br>
 <br>
+
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create');?>">Додати випускника</a>
+</button>
 
+<div class="page-header">
 <h2>Випускники</h2>
-
+</div>
 <?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

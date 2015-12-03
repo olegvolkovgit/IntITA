@@ -21,34 +21,31 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
-
-    <?php echo $form->errorSummary($model); ?>
-
-    <div class="row" style="visibility: hidden; height:0px">
+    <div class="form-group" style="visibility: hidden; height:0px">
         <?php echo $form->labelEx($model,'module_ID'); ?>
-        <?php echo $form->textField($model,'module_ID',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'module_ID',array('size'=>60,'maxlength'=>255,'class'=> 'form-control')); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'module_number'); ?>
-        <?php echo $form->textField($model,'module_number',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'module_number',array('size'=>60,'maxlength'=>255,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'module_number'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'alias'); ?>
-        <?php echo $form->textField($model,'alias',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'alias',array('size'=>60,'maxlength'=>255,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'alias'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'module_price'); ?>
-        <?php echo $form->textField($model,'module_price'); ?>
+        <?php echo $form->textField($model,'module_price',array('class'=> 'form-control')); ?>
         <?php echo $form->error($model,'module_price'); ?>
     </div>
 
-    <div class="row buttons">
+
+    <div class="form-group">
         <?php echo CHtml::submitButton('Зберегти'); ?>
     </div>
 

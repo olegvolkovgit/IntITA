@@ -9,6 +9,9 @@
     <meta name="author" content="">
 
     <!-- Bootstrap Core CSS -->
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">

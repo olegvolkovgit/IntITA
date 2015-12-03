@@ -6,18 +6,28 @@
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRole', array(
         'teacher' => $teacherId));?>">Призначити роль</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/cancelTeacherRole/', array('id' => $teacherId));?>">
         Скасувати роль</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRoleAttribute/teacher/', array(
         'id' => $teacherId));?>">Призначити атрибут ролі</a>
+    </button>
     <br>
+    <div class="page-header">
     <p class="header">Ролі викладача <?php echo $name;?></p>
+    </div>
 <?php
 for ($i = count($roles)-1; $i >= 0; $i--){
     echo '<div class="atts">'.TeacherHelper::getRoleTitle($roles[$i]['role']).'</div>';

@@ -7,7 +7,7 @@
  */
 if(!empty($modules)){
     ?>
-        <select name="mandatory" id="moduleList">
+        <select name="mandatory" id="moduleList" class = "form-control" style = 'width:350px'>
             <option value="">Виберіть модуль</option>
             <optgroup label="Модулі">
         <?php foreach($modules as $module) { ?>

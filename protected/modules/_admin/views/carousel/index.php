@@ -5,10 +5,13 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
 <br>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/carousel/create');?>">Додати фото</a>
+    <button type="button" class="btn btn-link">
+        <a href="<?php echo Yii::app()->createUrl('/_admin/carousel/create');?>">Додати фото</a>
+    </button>
 
-<h1>Слайдер на головній</h1>
-
+    <div class="page-header">
+        <h1>Слайдер на головній</h1>
+    </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'carousel-grid',

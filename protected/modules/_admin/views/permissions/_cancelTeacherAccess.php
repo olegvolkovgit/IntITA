@@ -13,23 +13,28 @@
         <fieldset>
             <legend id="label">Скасувати права автора модуля:</legend>
             Викладач:<br>
-            <select name="teacher" placeholder="(Виберіть викладача)" autofocus onchange="selectTeacherModules();">
-                <?php $users = AccessHelper::generateTeachersList();
-                $count = count($users);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus onchange="selectTeacherModules();">
+                        <?php $users = AccessHelper::generateTeachersList();
+                        $count = count($users);
+                        for($i = 0; $i < $count; $i++){
+                            ?>
+                            <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
             <br>
             <br>
             Модуль:<br>
-            <div name="teacherModules" style="float:left;"></div>
+            <div name="teacherModules" class="form-group" style="float:left;"></div>
+            <br>
             <br>
             <br>
 
-            <input type="submit" value="Скасувати">
+            <input type="submit" class="btn btn-default" value="Скасувати">
+            </div>
     </form>
 </div>

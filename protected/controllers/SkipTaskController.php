@@ -45,7 +45,6 @@ class SkipTaskController extends Controller{
 
                 SkipTaskAnswers::editAnswers($skipTask->id, $arr['answers']);
                 $this->saveSkiP($skipTask,$arr);
-//                return true;
                 $this->redirect(Yii::app()->request->urlReferrer);
             }
         }
@@ -77,49 +76,13 @@ class SkipTaskController extends Controller{
 
     public function actionSaveSkipAnswer()
     {
-        $isDone = true;
-        $mark = 0;
+
+        $quizId = $_POST['id'];
         $answers = $_POST['answers'];
         //$answers array with 3 value; first = skipText; second = order; third = caseInsensitive;
 
-        $quizId = $_POST['id'];
-        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quizId));
-        $skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
 
-        usort($skipTaskAnswers, function($a, $b)
-        {
-            return strcmp($a->answer_order, $b->answer_order);
-        });
-
-        for($i = 0;$i < count($skipTaskAnswers);$i++)
-        {
-            $answer = $answers[$i][0];
-            $taskAnswer = $skipTaskAnswers[$i]->answer;
-
-            if($answers[$i][2] == 1)
-            {
-                $answer = strtoupper($answer);
-                $taskAnswer = strtoupper($taskAnswer);
-            }
-
-            if(strcmp($answer,$taskAnswer) != 0)
-            {
-                $mark= 0;
-                $isDone = false;
-                break;
-            }
-            else
-            {
-                $mark = 1;
-            }
-        }
-
-        $skipTaskMarks = new SkipTaskMarks();
-        $skipTaskMarks->mark = $mark;
-        $skipTaskMarks->user =(int)Yii::app()->user->id;
-        $skipTaskMarks->id_task = $skipTask->id;
-        if(!$skipTaskMarks->save())
-            throw new \application\components\Exceptions\IntItaException('Skip task was not saved!!!');
+        $isDone = SkipTaskMarks::marksAnswer($quizId,$answers);
 
         if(!$isDone)
             echo 'not done';

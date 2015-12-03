@@ -13,7 +13,7 @@ $list = CHtml::listData($models,
 <link rel="stylesheet" type="text/css" href="<?= Yii::app()->baseUrl ?>/css/formattedForm.css"/>
 
 <div class="form">
-
+<div class="col-md-4">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'teacher-form',
         'htmlOptions' => array(
@@ -28,106 +28,120 @@ $list = CHtml::listData($models,
         'enableAjaxValidation' => false,
     )); ?>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'first_name'); ?>
-        <?php echo $form->textField($model, 'first_name', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'first_name',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'first_name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'middle_name'); ?>
-        <?php echo $form->textField($model, 'middle_name', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'middle_name',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'middle_name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'last_name'); ?>
-        <?php echo $form->textField($model, 'last_name', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'last_name',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'last_name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'foto_url'); ?>
         <?php echo $form->fileField($model, 'foto_url'); ?>
         <?php echo $form->error($model, 'foto_url'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_first'); ?>
-        <?php echo $form->textArea($model, 'profile_text_first', array('rows' => 6, 'cols' => 50)); ?>
+        <?php echo $form->textArea($model, 'profile_text_first',
+            array('rows' => 6, 'cols' => 50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'profile_text_first'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_short'); ?>
-        <?php echo $form->textArea($model, 'profile_text_short', array('rows' => 6, 'cols' => 50)); ?>
+        <?php echo $form->textArea($model, 'profile_text_short',
+            array('rows' => 6, 'cols' => 50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'profile_text_short'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_last'); ?>
-        <?php echo $form->textArea($model, 'profile_text_last', array('rows' => 6, 'cols' => 50)); ?>
+        <?php echo $form->textArea($model, 'profile_text_last',
+            array('rows' => 6, 'cols' => 50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'profile_text_last'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'email'); ?>
-        <?php echo $form->textField($model, 'email', array('size' => 50, 'maxlength' => 50)); ?>
+        <?php echo $form->textField($model, 'email',
+            array('size' => 50, 'maxlength' => 50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'email'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'tel'); ?>
-        <?php echo $form->textField($model, 'tel', array('size' => 60, 'maxlength' => 13)); ?>
+        <?php echo $form->textField($model, 'tel',
+            array('size' => 60, 'maxlength' => 13,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'tel'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'skype'); ?>
-        <?php echo $form->textField($model, 'skype', array('size' => 50, 'maxlength' => 50)); ?>
+        <?php echo $form->textField($model, 'skype',
+            array('size' => 50, 'maxlength' => 50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'skype'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'first_name_en'); ?>
-        <?php echo $form->textField($model, 'first_name_en', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'first_name_en',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'first_name_en'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'middle_name_en'); ?>
-        <?php echo $form->textField($model, 'middle_name_en', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'middle_name_en',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'middle_name_en'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'last_name_en'); ?>
-        <?php echo $form->textField($model, 'last_name_en', array('size' => 35, 'maxlength' => 35)); ?>
+        <?php echo $form->textField($model, 'last_name_en',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'last_name_en'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'isPrint'); ?>
-        <?php echo $form->dropDownList($model, 'isPrint', array('1' => 'показувати', '0' => 'не показувати')); ?>
+        <?php echo $form->dropDownList($model, 'isPrint',
+            array('1' => 'показувати', '0' => 'не показувати'),
+            array('class'=> 'form-control')); ?>
         <?php echo $form->error($model, 'isPrint'); ?>
     </div>
 
     <?php if ($scenario == "create") { ?>
-        <div class="row">
+        <div class="form-group">
             <?php echo $form->labelEx($model, 'user_id'); ?>
             <?php echo $form->dropDownList($model, 'user_id',
                 $list,
-                array('empty' => '(Виберіть користувача)')); ?>
+                array('class'=> 'form-control','empty' => '(Виберіть користувача)')); ?>
             <?php echo $form->error($model, 'user_id'); ?>
         </div>
     <?php } ?>
 
-    <div class="row buttons">
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
 
     <?php $this->endWidget(); ?>
-
+</div>
 </div><!-- form -->
 <script>
     $(window).load(

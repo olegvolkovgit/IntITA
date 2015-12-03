@@ -1,9 +1,12 @@
 <?php
 /* @var $this DefaultController */
 ?>
+<div class="page-header">
 <h1>Система управління контентом IntITA</h1>
-
+</div>
+<div class="page-header">
 <h2>Дизайн</h2>
+</div>
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/messages/index');?>">Інтерфейсні повідомлення</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index');?>">Слайдер на головній сторінці</a></li>
@@ -38,9 +41,4 @@
 <h2>Налаштування сайта</h2>
 <ul>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index');?>">Налаштування</a></li>
-</ul>
-
-<h2>Викладачі</h2>
-<ul>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/consultant/index');?>">Консультації</a></li>
 </ul>

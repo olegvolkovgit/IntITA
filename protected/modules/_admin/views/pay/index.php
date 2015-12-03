@@ -22,23 +22,28 @@
         $fieldsetCourse = Yii::t('payments', '0600');
     }
  ?>
+<div class="page-header">
 <h2><?php echo $headerName?></h2>
-<div id="addAccessModule">
+</div>
+<div class="col-md-4">
+    <div id="addAccessModule">
     <br>
-    <div id="findModule">
+    <div id="findModule" class="form-group">
         <form name = 'findUsers' method="POST" >
-            <input type="text" id = 'find' name = "find" placeholder="Введіть e-mail користувача">
-            <input type="button" onclick = "findUserByEmail()" value="Знайти користувача">
-
+            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
+            <br>
+            <input type="button" class="btn btn-default" onclick = "findUserByEmail()" value="Знайти користувача">
         </form>
-
     </div>
+
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('/_admin/pay/'.$moduleAction);?>" method="POST" name="add-accessModule" onsubmit="return checkModuleField();">
         <fieldset>
             <legend id="label"><?php echo $fieldsetModule ?>:</legend>
+
+            <div class="form-group">
             <?php echo Yii::t('payments', '0595'); ?>:<br>
-            <select name="user" id="user"  placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
+            <select name="user" id="user" class="form-control"  placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -48,10 +53,13 @@
                 }
                 ?>
             </select>
+            </div>
+
             <br>
             <br>
+            <div class="form-group">
             <?php echo Yii::t('payments', '0605'); ?>:<br>
-            <select id="moduleCourseList" name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="selectModule();">
+            <select id="moduleCourseList" name="course"  class="form-control" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="selectModule();">
                 <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
@@ -64,15 +72,18 @@
                     }
                     ?>
             </select>
+                </div>
             <br>
             <br>
-
             <?php echo Yii::t('payments', '0598'); ?>:<br>
-            <div name="selectModule" style="float:left;"></div>
+            <div name="selectModule" class="form-group" style="float:left;"></div>
+            <br>
             <br>
             <br>
 
-            <input type="submit" value="<?php echo $buttonModuleName ?>">
+            <div class="form-group">
+            <input type="submit" class="btn btn-default" value="<?php echo $buttonModuleName ?>">
+            </div>
     </form>
 
     <?php if(Yii::app()->user->hasFlash('errorModule')){?>
@@ -93,8 +104,9 @@
     <form action="<?php echo Yii::app()->createUrl('/_admin/pay/'.$courseAction);?>" method="POST" name="add-accessCourse" onsubmit="return checkCourseField();">
         <fieldset>
             <legend id="label"><?php echo $fieldsetCourse ?>:</legend>
+            <div class="form-group">
             <?php echo Yii::t('payments', '0595'); ?>:<br>
-            <select name="user" placeholder ="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
+            <select name="user" class="form-control"  placeholder ="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
                 <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -104,10 +116,12 @@
                 }
                 ?>
             </select>
+                </div>
             <br>
             <br>
+            <div class="form-group">
             <?php echo Yii::t('payments', '0605'); ?>:<br>
-            <select id="courseList" name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" >
+            <select id="courseList" class="form-control"  name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" >
                 <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
                     <?php $courses = AccessHelper::generateCoursesList();
@@ -119,11 +133,12 @@
                     }
                     ?>
             </select>
+                </div>
             <br>
             <br>
 
 
-            <input type="submit" value="<?php echo $buttonCourseName ?>">
+            <input type="submit" class="btn btn-default" value="<?php echo $buttonCourseName ?>">
     </form>
     <?php if(Yii::app()->user->hasFlash('errorCourse')){?>
         <div style="color: red">
@@ -136,5 +151,7 @@
         </div>
     <?php } ?>
 </div>
+</div>
+<br>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'findUserInPay.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
