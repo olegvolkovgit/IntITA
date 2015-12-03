@@ -5,5 +5,7 @@ if (!empty($answers)) {
         echo "<br>".($i+1).". ".PlainTaskAnswer::model()->findByPk($answers[$i]['id_plain_task_answer'])->answer." - ".
         Teacher::getFullName($answers[$i]['id_teacher']);
     }
+} else {
+    echo "Задач до перевырки не знайдено.";
 }
 ?>
