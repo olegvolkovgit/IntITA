@@ -7,8 +7,8 @@
  */
 ?>
 <?php
-$answers=TestsHelper::getTestAnswers($idBlock);
-$valid=TestsHelper::getTestValidCKE($idBlock);
+$answers=TestsAnswers::getTestAnswers($idBlock);
+$valid=TestsAnswers::getTestValidCKE($idBlock);
 ?>
 <div ng-init='editAnswers=<?php echo json_encode($answers); ?>;
      valid=<?php echo json_encode($valid); ?>;'>
@@ -38,7 +38,7 @@ $valid=TestsHelper::getTestValidCKE($idBlock);
                 <div class="answerAddRemove" ng-click="editDeleteAnswer();"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
+            <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsAnswers::getTestAnswers($idBlock))?>"/>
             <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>

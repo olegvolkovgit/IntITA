@@ -21,7 +21,7 @@
             <legend id="label">Призначити роль викладачу <?php  echo $teacher->last_name. ' ' . $teacher->first_name . ' ' . $teacher->middle_name;?>:</legend>
             Викладач:<br>
             <select name="teacher" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -33,10 +33,10 @@
             <br>
             <br>
             Роль:<br>
-            <select name="role" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
+            <select name="role" placeholder="(Виберіть роль)" onchange="selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = AccessHelper::generateRolesList();
+                    <?php $courses = Roles::generateRolesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

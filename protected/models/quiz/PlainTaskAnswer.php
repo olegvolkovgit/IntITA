@@ -111,4 +111,13 @@ class PlainTaskAnswer extends CActiveRecord
 
         return $plainTaskAnswer;
     }
+
+
+    public static function getAllPlainTaskAnswers(){
+        $results = Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('plain_task_answer_teacher')
+            ->queryAll();
+        return $results;
+    }
 }

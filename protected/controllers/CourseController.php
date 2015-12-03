@@ -86,7 +86,7 @@ class CourseController extends Controller
 	 */
 	public function actionIndex($id)
 	{
-        $canEdit = AccessHelper::isAdmin();
+        $canEdit = StudentReg::isAdmin();
         $model = Course::model()->findByPk($id);
 
         $dataProvider = new CourseModules('search');

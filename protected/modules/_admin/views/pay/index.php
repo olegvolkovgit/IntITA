@@ -39,7 +39,7 @@
             <legend id="label"><?php echo $fieldsetModule ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
             <select name="user" id="user"  placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
-                <?php $users = AccessHelper::generateUsersList();
+                <?php $users = StudentReg::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -54,7 +54,7 @@
             <select id="moduleCourseList" name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" onchange="selectModule();">
                 <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
-                    <?php $courses = AccessHelper::generateCoursesList();
+                    <?php $courses = Course::generateCoursesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>
@@ -95,7 +95,7 @@
             <legend id="label"><?php echo $fieldsetCourse ?>:</legend>
             <?php echo Yii::t('payments', '0595'); ?>:<br>
             <select name="user" placeholder ="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
-                <?php $users = AccessHelper::generateUsersList();
+                <?php $users = StudentReg::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -110,7 +110,7 @@
             <select id="courseList" name="course" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" >
                 <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
                 <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
-                    <?php $courses = AccessHelper::generateCoursesList();
+                    <?php $courses = Course::generateCoursesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

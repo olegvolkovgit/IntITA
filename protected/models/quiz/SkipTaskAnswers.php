@@ -151,7 +151,6 @@ class SkipTaskAnswers extends CActiveRecord
         }
 
     }
-
-
 }
+
 }

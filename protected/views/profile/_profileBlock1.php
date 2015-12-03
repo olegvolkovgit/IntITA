@@ -57,7 +57,8 @@ if ($editMode){
                 <?php }?>
             </td>
             <td>
-                <div class="TeacherProfilename"> <?php echo TeacherHelper::getTeacherFirstName($model->teacher_id)." ". TeacherHelper::getTeacherLastName($model->teacher_id);?></div>
+                <div class="TeacherProfilename"> <?php echo Teacher::getTeacherFirstName($model->teacher_id)." ".
+                        Teacher::getTeacherLastName($model->teacher_id);?></div>
                 <div class="TeacherProfiletitles">
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>

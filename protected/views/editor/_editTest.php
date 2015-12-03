@@ -1,6 +1,6 @@
 <?php
-$answers=TestsHelper::getTestAnswers($idBlock);
-$valid=TestsHelper::getTestValid($idBlock);
+$answers=TestsAnswers::getTestAnswers($idBlock);
+$valid=TestsAnswers::getTestValid($idBlock);
 ?>
 <div class="editTest">
     <br>
@@ -15,14 +15,14 @@ $valid=TestsHelper::getTestValid($idBlock);
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <ol  style="display: inline-block" id="optionsList" class="inputs">
-                    <?php for($i=0;$i<count(TestsHelper::getTestAnswers($idBlock));$i++){?>
+                    <?php for($i=0;$i<count(TestsAnswers::getTestAnswers($idBlock));$i++){?>
                         <li><input class="testVariant" type="text" name="option<?php echo $i+1?>" id="option<?php echo $i+1?>" value='<?php echo $answers[$i]?>' size="80" required></li>
                     <?php } ?>
                 </ol>
                 <div style="display: inline-block" id="answersField<?php echo $idBlock?>" >
                     <legend id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                     <div id="answersList<?php echo $idBlock?>" class="answersCheckbox">
-                        <?php for($j=0;$j<count(TestsHelper::getTestAnswers($idBlock));$j++){?>
+                        <?php for($j=0;$j<count(TestsAnswers::getTestAnswers($idBlock));$j++){?>
                             <div><input type="checkbox" name="answer<?php echo $j+1?>" value="<?php echo $j+1?>" <?php echo $valid[$j] ?>></div>
                         <?php } ?>
                     </div>
@@ -31,7 +31,7 @@ $valid=TestsHelper::getTestValid($idBlock);
                 <div class="editRemoveTest"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <input name="optionsNum" class="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
+            <input name="optionsNum" class="optionsNum" type="hidden" value="<?php echo count(TestsAnswers::getTestAnswers($idBlock))?>"/>
             <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
             <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>

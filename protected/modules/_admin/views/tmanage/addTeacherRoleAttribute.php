@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
             <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
             Викладач:<br>
             <select name="teacher" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -36,7 +36,7 @@ $this->breadcrumbs=array(
             <select name="role" placeholder="(Виберіть роль)" onchange="selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = AccessHelper::generateRolesList();
+                    <?php $courses = Roles::generateRolesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

@@ -419,6 +419,7 @@ class StudentReg extends CActiveRecord
             return true;
         else return false;
     }
+
     public static function getProfileRole ($id)
     {
         $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
@@ -567,5 +568,132 @@ class StudentReg extends CActiveRecord
     public function getTeacherId()
     {
         return $this->teacher->teacher_id;
+    }
+
+    public static function getUserName($id)
+    {
+        $model = StudentReg::model()->findByPk($id);
+        return $model->firstName . " " . $model->secondName;
+    }
+
+    public static function getRoleString($id)
+    {
+        $code = StudentReg::model()->findByPk($id)->role;
+        $role = '';
+        switch ($code) {
+            case '0':
+                $role = 'студент';
+                break;
+            case '1':
+                $role = 'викладач';
+                break;
+            case '2':
+                $role = 'модератор';
+                break;
+            case '3':
+                $role = 'адмін';
+                break;
+        }
+        return $role;
+    }
+
+    public static function getUserInfo()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = array('id', 'firstName', 'secondName', 'email');
+        $criteria->toArray();
+        $count = StudentReg::model()->count();
+        $info = Studentreg::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$info[$i]["id"]] = $info[$i]["email"] . "; " . $info[$i]["firstName"] . " " . $info[$i]["secondName"];
+        }
+        return $result;
+    }
+
+    public static function isAdmin()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 3) {
+
+            return true;
+        }
+        return false;
+    }
+
+    public static function canAddConsultation()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function generateUsersList()
+    {
+        $users = StudentReg::model()->findAll();
+        $count = count($users);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $users[$i]->id;
+            $result[$i]['alias'] = $users[$i]->firstName . " " . $users[$i]->secondName . ", " . $users[$i]->email;
+        }
+        return $result;
+    }
+
+    public static function isHasAccessFileShare()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        $role = StudentReg::model()->findByPk($user)->role;
+        if ($role == 3 || $role == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function canAddResponse()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function linkInMouseLine()
+    {
+        if (Yii::app()->user->isGuest)
+            return "href='#form'";
+        else return "";
+    }
+
+    public static function getUserTitle($idUser)
+    {
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
+
+        if($teacher)
+            $result=Yii::t('profile', '0715');
+        else
+            $result=Yii::t('profile', '0129');
+
+        return $result;
+    }
+
+    public static function getResponseAuthorName($id){
+        $model = StudentReg::model()->findByPk($id);
+        return $model->firstName." ".$model->secondName.", ".$model->email;
     }
 }

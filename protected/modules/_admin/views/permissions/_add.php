@@ -16,7 +16,7 @@
             <legend id="label">Додати новий запис:</legend>
         Користувач:<br>
         <select name="user" placeholder="(Виберіть користувача)" autofocus>
-            <?php $users = AccessHelper::generateUsersList();
+            <?php $users = StudentReg::generateUsersList();
                 $count = count($users);
             for($i = 0; $i < $count; $i++){
                 ?>
@@ -31,7 +31,7 @@
         <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();">
             <option value="">Всі курси</option>
             <optgroup label="Виберіть курс">
-            <?php $courses = AccessHelper::generateCoursesList();
+            <?php $courses = Course::generateCoursesList();
             $count = count($courses);
             for($i = 0; $i < $count; $i++){
                 ?>

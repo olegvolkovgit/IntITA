@@ -14,7 +14,7 @@
         ng-init='
         chapters=<?php echo json_encode($passedPages); ?>;
         editMode="<?php echo $editMode; ?>";
-        isAdmin="<?php echo AccessHelper::isAdmin(); ?>";'
+        isAdmin="<?php echo StudentReg::isAdmin(); ?>";'
         >
     </div>
     <p ng-repeat="chapter in chapters">

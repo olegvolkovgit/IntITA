@@ -247,8 +247,8 @@
                         Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>">
                             <i class="fa fa-user fa-fw"></i> Мій профіль</a>
                     </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Налаштування</a>
-                    </li>
+<!--                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Налаштування</a>-->
+<!--                    </li>-->
                     <li class="divider"></li>
                     <li><a href="<?php echo Yii::app()->createUrl('site/logout');?>">
                             <i class="fa fa-sign-out fa-fw"></i> Вихід</a>
@@ -303,7 +303,7 @@
                     </li>
                     <li>
                         <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                            array('page' => 'author'));?>')">
+                            array('page' => 'moduleList'));?>')">
                             <i class="fa fa-wrench fa-fw"></i> Автор модуля</a>
 <!--                        <span class="fa arrow"></span>-->
                       <!--  <ul class="nav nav-second-level">

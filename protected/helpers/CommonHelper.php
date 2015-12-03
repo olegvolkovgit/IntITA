@@ -116,6 +116,7 @@ class CommonHelper {
 
         return array('name' => $name, 'version' => $version);
     }
+
     static public function checkForBrowserVersion(array $browser, array $conditions)
     {
         if (!isset($browser['name']) || !isset($conditions[$browser['name']])

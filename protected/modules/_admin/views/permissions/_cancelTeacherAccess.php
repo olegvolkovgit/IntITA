@@ -14,7 +14,7 @@
             <legend id="label">Скасувати права автора модуля:</legend>
             Викладач:<br>
             <select name="teacher" placeholder="(Виберіть викладача)" autofocus onchange="selectTeacherModules();">
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>

@@ -21,7 +21,7 @@
             Роль:<br>
             <select name="role" placeholder="(Виберіть роль)">
                 <optgroup label="Виберіть роль">
-                    <?php $roles = AccessHelper::generateTeacherRolesList($teacher->teacher_id);
+                    <?php $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
                     $count = count($roles);
                     for($i = 0; $i < $count; $i++){
                         ?>

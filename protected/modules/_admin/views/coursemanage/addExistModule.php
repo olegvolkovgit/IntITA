@@ -17,7 +17,7 @@
             <legend id="label">Виберіть модуль:</legend>
             Модуль:<br>
             <select name="module" placeholder="(Виберіть користувача)" autofocus>
-                <?php $modules = AccessHelper::generateModulesList();
+                <?php $modules = Module::generateModulesList();
                 $count = count($modules);
                 for ($i = 0; $i < $count; $i++) {
                     ?>
@@ -32,7 +32,7 @@
             <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();">
                 <option value="">Всі курси</option>
                 <optgroup label="Виберіть курс">
-                    <?php $courses = AccessHelper::generateCoursesList();
+                    <?php $courses = Course::generateCoursesList();
                     $count = count($courses);
                     for ($i = 0; $i < $count; $i++) {
                         ?>

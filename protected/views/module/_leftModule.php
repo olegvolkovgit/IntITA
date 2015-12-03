@@ -1,10 +1,10 @@
 <?php
-if (AccessHelper::isAdmin()) $post->setScenario('canedit');
+if (StudentReg::isAdmin()) $post->setScenario('canedit');
 ?>
 <div class="leftModule">
     <div class="headerLeftModule">
         <?php
-        if (AccessHelper::isAdmin())
+        if (StudentReg::isAdmin())
         $this->renderPartial('_moduleInfoForAdmin', array('post'=>$post));
         else $this->renderPartial('_moduleInfo', array('post'=>$post));
         ?>

@@ -32,7 +32,7 @@
                 <span class="teacherSkype"><?php echo $data['skype']?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-            <?php if(AccessHelper::canAddConsultation()){
+            <?php if(StudentReg::canAddConsultation()){
                 ?>
                 <div class="calendar">
                     <!--            Календарь-->

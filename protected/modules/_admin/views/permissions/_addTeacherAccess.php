@@ -15,7 +15,7 @@
             <legend id="label">Надати права автора модуля:</legend>
             Викладач:<br>
             <select name="user" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -27,10 +27,10 @@
             <br>
             <br>
             Курс:<br>
-            <select name="course1" placeholder="(Виберіть курс)" onchange="javascript:selectModule1();">
+            <select name="course1" placeholder="(Виберіть курс)" onchange="selectModule1();">
                 <option value="">Всі курси</option>
                 <optgroup label="Виберіть курс">
-                    <?php $courses = AccessHelper::generateCoursesList();
+                    <?php $courses = Course::generateCoursesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>

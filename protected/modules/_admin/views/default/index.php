@@ -1,6 +1,9 @@
 <?php
 /* @var $this DefaultController */
 ?>
+<!DOCTYPE html>
+
+
 <h1>Система управління контентом IntITA</h1>
 
 <h2>Дизайн</h2>
@@ -25,7 +28,7 @@
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки про викладачів</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index');?>">Тренери</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/consultant/index');?>">Консультанти</a></li>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/leader/index');?>">Кеівники проектів</a></li>
+    <li><a href="<?php echo Yii::app()->createUrl('/_admin/leader/index');?>">Керівники проектів</a></li>
 </ul>
 
 <h2>Доступ</h2>
