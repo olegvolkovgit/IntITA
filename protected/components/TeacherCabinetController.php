@@ -50,30 +50,26 @@ class TeacherCabinetController extends CController
         date_default_timezone_set("UTC");
     }
 
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                // 'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'expression'=>array($this, 'isTeacher'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном вчителя сайту.",
-                //'actions'=>array('index'),
-                'users'=>array('*'),
-            ),
-        );
-    }
+//    public function accessRules()
+//    {
+//        return array(
+//            array('allow',
+//                'expression'=>array($this, 'isYourCabinet'),
+//            ),
+//            array('deny',
+//                'message'=>"Ви не можете пергелядати чужий кабінет.",
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
 
-    public function isTeacher()
+    public function isYourCabinet($id)
     {
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 1) {
 
+        if (Teacher::getTeacherId(Yii::app()->user->getId()) == $id) {
             return true;
         }
         return false;

@@ -6,6 +6,6 @@ if (!empty($answers)) {
         Teacher::getFullName($answers[$i]['id_teacher']);
     }
 } else {
-    echo "Задач до перевырки не знайдено.";
+    echo "Задач до перевірки не знайдено.";
 }
 ?>

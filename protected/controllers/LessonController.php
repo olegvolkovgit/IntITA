@@ -18,6 +18,7 @@ class LessonController extends Controller
             ),
         );
     }
+
     public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);

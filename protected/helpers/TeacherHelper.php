@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 08.06.2015
- * Time: 18:15
- */
-
 
 class TeacherHelper
 {
@@ -54,15 +47,13 @@ class TeacherHelper
             ->queryAll();
         $result = '';
         for($i = count($roles)-1; $i > 0; $i--){
-            $result .= TeacherHelper::getRoleTitle($roles[$i]['role']);
+            $result .= Roles::getRoleTitle($roles[$i]['role']);
             $result .= "\r\n";
         }
         return $result;
     }
 
-    public static function getRoleTitle($id){
-        return Roles::model()->findByPk($id)->title_ua;
-    }
+
 
     public static function getTeacherAttributeValue($teacher, $attribute){
         $result = '';
@@ -178,17 +169,10 @@ class TeacherHelper
         if(isset($author)) return true; else return false;
     }
 
-    public static function getTeacherId($user){
 
-        if ($user != 0 && Teacher::model()->exists('user_id=:user', array(':user' => $user))){
-            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
-        } else {
-            return 0;
-        }
-    }
 
     public static function getTeacherNameByUserId($user){
-        $idTeacher = TeacherHelper::getTeacherId($user);
+        $idTeacher = Teacher::getTeacherId($user);
         return Teacher::getTeacherName($idTeacher);
     }
 

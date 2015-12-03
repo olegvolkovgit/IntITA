@@ -1,8 +1,6 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 01.12.2015
- * Time: 14:34
- */
-echo 'Author';
+<div class="teacherCabinet">
+    <h3><a href=<?php echo Yii::app()->createUrl('/_teacher/cabinet/module',array('id' => $model->teacher_id));?>>Модулі</a></h3>
+
+    <h3><a href=<?php echo Yii::app()->createUrl('/_teacher/cabinet/myPlainTask',array('id' => $model->teacher_id));?>>
+            Переглянути список задач по модулю</a></h3>
+</div>

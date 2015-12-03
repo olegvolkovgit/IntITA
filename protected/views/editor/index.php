@@ -26,7 +26,7 @@ if ($idCourse != 0) {
     lang = '<?php echo LectureHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
     basePath = '<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo TeacherHelper::getTeacherId($user);?>';
+    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
@@ -126,7 +126,7 @@ if ($idCourse != 0) {
             <?php
             $lecture = Lecture::model()->findByPk($page->id_lecture);
             $this->renderPartial('/editor/_addBlock', array('lecture' => $lecture, 'editMode' => 1,
-                'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
+                'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
             ?>
         </div>
         <br>
@@ -178,7 +178,7 @@ if ($idCourse != 0) {
     }
     ?>
     <?php if ($page->quiz == null) {
-        $author = TeacherHelper::getTeacherId($user);
+        $author = Teacher::getTeacherId($user);
         $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
         $this->renderPartial('/editor/_addTask', array('pageId' => $page->id));
         $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,

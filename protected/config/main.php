@@ -103,6 +103,7 @@ return array(
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
+
                 'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
                 '_teacher/cabinet/login/<id:\d+>' => '_teacher/cabinet/login', /* Url for cabinet teacher page */

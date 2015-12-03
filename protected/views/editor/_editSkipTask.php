@@ -26,7 +26,7 @@
             <input name="lecture" id="lecture" type="hidden" value="<?php echo $data->id_lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="skipTask"/>
             <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
         </fieldset>
 

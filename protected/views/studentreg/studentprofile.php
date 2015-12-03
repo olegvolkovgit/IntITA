@@ -32,7 +32,9 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
             <tr>
                 <td>
                     <?php if ($post->role == 1){?>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
+                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                        'id' => Teacher::getTeacherId(Yii::app()->user->getId())
+                    )); ?>">Мій кабінет</a>
                     <?php } ?>
                     <h1><?php echo $post->nickname;?></h1>
                     <h1><?php echo $post->firstName;?></h1>
