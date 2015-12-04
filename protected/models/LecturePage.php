@@ -142,7 +142,7 @@ class LecturePage extends CActiveRecord
         for ($i = 0, $count = count($pages); $i < $count; $i++ ){
             $result[$i]['order'] = $pages[$i]->page_order;
             $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
-            $result[$i]['title'] = $pages[$i]->page_title;
+            $result[$i]['title'] = addslashes($pages[$i]->page_title);
 
             if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
                 $result[$i]['isDone'] = true;
@@ -183,7 +183,7 @@ class LecturePage extends CActiveRecord
         for ($i = $order; $i < $count; $i++ ){
             $result[$i]['order'] = ++$order;
             $result[$i]['isDone'] = false;
-            $result[$i]['title'] = $pages[$i]->page_title;
+            $result[$i]['title'] = addslashes($pages[$i]->page_title);
         }
         return $result;
     }
