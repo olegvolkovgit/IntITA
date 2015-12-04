@@ -44,7 +44,7 @@
             <div class="form-group">
             <?php echo Yii::t('payments', '0595'); ?>:<br>
             <select name="user" id="user" class="form-control"  placeholder="(<?php echo Yii::t('payments', '0594'); ?>)" autofocus>
-                <?php $users = AccessHelper::generateUsersList();
+                <?php $users = StudentReg::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -107,7 +107,7 @@
             <div class="form-group">
             <?php echo Yii::t('payments', '0595'); ?>:<br>
             <select name="user" class="form-control"  placeholder ="(<?php echo Yii::t('payments', '0601'); ?>)" autofocus>
-                <?php $users = AccessHelper::generateUsersList();
+                <?php $users = StudentReg::generateUsersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>

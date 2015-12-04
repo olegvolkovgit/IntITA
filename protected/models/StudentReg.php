@@ -147,6 +147,7 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
            'teacher' => array(self::HAS_ONE, 'Teacher','user_id'),
+            'trainer' => array(self::HAS_ONE , 'TrainerStudent', 'student'),
         );
     }
 
@@ -573,7 +574,8 @@ class StudentReg extends CActiveRecord
     public static function getUserName($id)
     {
         $model = StudentReg::model()->findByPk($id);
-        return $model->firstName . " " . $model->secondName;
+        $name = $model->firstName . " " . $model->secondName;
+        return trim($name);
     }
 
     public static function getRoleString($id)
@@ -696,4 +698,54 @@ class StudentReg extends CActiveRecord
         $model = StudentReg::model()->findByPk($id);
         return $model->firstName." ".$model->secondName.", ".$model->email;
     }
+
+    public function getTrainer()
+    {
+        $trainer = null;
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'trainer_student';
+        $criteria->addCondition('student = :student');
+        $criteria->params = array(':student' => $this->id);
+
+        $result = TrainerStudent::model()->find($criteria);
+        if($result){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'teacher';
+        $criteria->addCondition('teacher_id = :teacher_id');
+        $criteria->params = array(':teacher_id' => $result->trainer);
+        $trainer = Teacher::model()->find($criteria);
+        }
+
+        if($trainer)
+        return $trainer->teacher_id;
+        else return null;
+    }
+
+    public static function getStudentWithoutTrainer()
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
+        $criteria->addCondition ('trainer_student.student IS NULL');
+        $result = StudentReg::model()->findAll($criteria);
+
+        if($result)
+        return $result;
+        else return null;
+    }
+
+    public static function getUserWithTrainer()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
+        $criteria->addCondition ('trainer_student.student = user.id');
+        $result = StudentReg::model()->findAll($criteria);
+
+        if($result)
+            return $result;
+        else return null;
+    }
+
 }

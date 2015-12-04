@@ -28,7 +28,6 @@
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки про викладачів</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index');?>">Тренери</a></li>
-    <li><a href="<?php echo Yii::app()->createUrl('/_admin/consultant/index');?>">Консультанти</a></li>
     <li><a href="<?php echo Yii::app()->createUrl('/_admin/leader/index');?>">Керівники проектів</a></li>
 </ul>
 

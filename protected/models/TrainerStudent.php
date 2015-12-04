@@ -46,7 +46,7 @@ class TrainerStudent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
+            'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
 			'student0' => array(self::BELONGS_TO, 'User', 'student'),
 		);
 	}
@@ -101,6 +101,10 @@ class TrainerStudent extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public function primaryKey(){
+        return 'student';
+    }
+
     public static function getStudentsByTrainer($trainer){
         $students = Yii::app()->db->createCommand(array(
             'select' => array('student'),
@@ -135,5 +139,33 @@ class TrainerStudent extends CActiveRecord
             $result = true;
         }
         return $result;
+    }
+
+    public static function addTrainer($userId,$trainerId)
+    {
+        $trainerStudent = new TrainerStudent();
+
+        $trainerStudent->student = $userId;
+        $trainerStudent->trainer = $trainerId;
+        if($trainerStudent->save())
+            return true;
+        else return false;
+    }
+
+    public static function editTrainer($userId,$trainerId)
+    {
+        $trainerStudent = TrainerStudent::model()->findByAttributes(array('student' => $userId));
+
+        $trainerStudent->student = $userId;
+        $trainerStudent->trainer = $trainerId;
+
+        if($trainerStudent->save())
+            return true;
+        else return false;
+    }
+
+    public static function deleteUserTrainer($userId)
+    {
+        return TrainerStudent::model()->deleteAllByAttributes(array('student' => $userId));
     }
 }

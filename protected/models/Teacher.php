@@ -477,4 +477,15 @@ class Teacher extends CActiveRecord
         }
         return Teacher::model()->findByPk($id)->middle_name;
     }
+
+    public static function getAllTrainers()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN teacher_roles ON teacher_roles.teacher = teacher_id';
+        $criteria->addCondition ('teacher_roles.role = 1');
+
+        $result = Teacher::model()->findAll($criteria);
+
+        return $result;
+    }
 }
