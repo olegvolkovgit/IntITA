@@ -136,6 +136,25 @@ class UserAgreements extends CActiveRecord
         return parent::model($className);
     }
 
+    
+    public static function agreementByParams($type, $user, $module, $course, $schemaNum)
+    {
+        $agreement = null;
+        switch ($type){
+            case 'Module':
+                $agreement = UserAgreements::moduleAgreement($user, $module, 1);
+                break;
+            case 'Course':
+                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+                break;
+            default :
+                $agreement = null;
+                break;
+        }
+        return $agreement;
+    }
+    
+    
     public static function courseAgreement($user, $course, $schema)
     {
         $service = CourseService::getService($course);
@@ -305,5 +324,19 @@ class UserAgreements extends CActiveRecord
     {
         return $this->user->firstName;
 
+    }
+    
+    public function invoicesDataProvider()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('agreement_id='.$agreement->id);
+
+        $dataProvider = new CActiveDataProvider('Invoice');
+        $dataProvider->criteria = $criteria;
+        $dataProvider->setPagination(array(
+                'pageSize' => 60,
+            )
+        );
+        return $dataProvider;
     }
 }

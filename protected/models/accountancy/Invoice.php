@@ -157,30 +157,21 @@ class Invoice extends CActiveRecord
         return '';
     }
 
-    public static function getPayLink($row,Invoice $data){
-        $spanTagStart = '<span class="'.Invoice::getInvoiceStatus($data->id).'">';
-        return $spanTagStart."Рахунок №".($row+1).". Сплатити ".
-        number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".
-        date("d.m.y", strtotime($data->payment_date))."</span>";
+    public function isPayed()
+    {
+        return !empty($this->pay_date);
     }
 
-    public static function getInvoiceStatus($id){
-        $model = Invoice::model()->findByPk($id);
-
-        if (!empty($model->pay_date)){     // invoice payed
-            return 'payed';
-        } else {
-            if(strtotime($model->payment_date) < time()){
-                return 'waitPaymentDate';
-            } else {
-                if(time() > strtotime($model->expiration_date) ){
-                    return 'overdue';     //expiration_date pass
-                }else {
-                    return 'waiting';     // wait paying
-                }
-            }
-        }
+    public function isWaitPaymentDate()
+    {
+        return (strtotime($this->payment_date) < time());
     }
+    
+    public function isOverdue()
+    {
+        return (time() > strtotime($this->expiration_date));
+    }
+
 
     public function getUsername(){
         $user = $this->model()->userCreated;
