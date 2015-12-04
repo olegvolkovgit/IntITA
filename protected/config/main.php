@@ -22,10 +22,9 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
-
 		'application.models.*',
-            'application.models.accountancy.*',
-        //'application.controllers.accountancy.*',
+        'application.models.accountancy.*',
+        'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.components.*',
@@ -72,7 +71,7 @@ return array(
             'cacheID' => 'cache',
             'cachingDuration' => !YII_DEBUG ? 3600*24 : 0,
             'sourceMessageTable'=>'sourcemessages',
-            'translatedMessageTable'=>'messages',
+            'translatedMessageTable'=>'translate',
         ),
 
 		'user' => array(

@@ -1,10 +1,15 @@
 <div class="navbar-header">
+    <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand" >
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hamburgerlogo.png') ?>"/>
+    </a>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
+
     <a class="navbar-brand" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index');?>">
         Особистий кабінет викладача IntITA - Головна</a>
 </div>
@@ -210,8 +215,25 @@
                 Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId()));?>">
                     <i class="fa fa-user fa-fw"></i> Мій профіль</a>
             </li>
-            <!--                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Налаштування</a>-->
-            <!--                    </li>-->
+            <li class="divider"></li>
+<!--            <li class="lang">-->
+                <?php
+                if(Yii::app()->session['lg']==NULL) Yii::app()->session['lg']='ua';
+                foreach (array("ua", "en", "ru") as $val) {
+                    ?>
+                    <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg'=>$val)); ?>"
+                        <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>>
+                        <?php echo $val; ?>
+                    </a>
+                <?php
+                }
+                ?>
+<!--            </li>-->
+            <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0016'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0021'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0137'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0017'); ?></a></li>
+            <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0018'); ?></a></li>
             <li class="divider"></li>
             <li><a href="<?php echo Yii::app()->createUrl('site/logout');?>">
                     <i class="fa fa-sign-out fa-fw"></i> Вихід</a>
@@ -219,6 +241,11 @@
         </ul>
         <!-- /.dropdown-user -->
     </li>
+<!--    <li>-->
+<!--        <div id="lessonHumMenu">-->
+<!--            --><?php //$this->renderPartial('_hamburgerMenu'); ?>
+<!--        </div>-->
+<!--    </li>-->
     <!-- /.dropdown -->
 </ul>
 <!-- /.navbar-top-links -->

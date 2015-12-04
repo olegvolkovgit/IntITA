@@ -696,4 +696,21 @@ class StudentReg extends CActiveRecord
         $model = StudentReg::model()->findByPk($id);
         return $model->firstName." ".$model->secondName.", ".$model->email;
     }
+
+    public function getCabinetLink(){
+        switch($this->role){
+            case '1':
+                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Teacher::getTeacherId($this->id)));
+                break;
+            case '2':
+                return Yii::app()->createUrl('/_accountancy/default/index');
+                break;
+            case '3':
+                return Yii::app()->createUrl('/_admin/default/index');
+                break;
+            default:
+                break;
+        }
+        return '';
+    }
 }

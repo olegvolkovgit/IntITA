@@ -64,9 +64,9 @@ class MessagesController extends AdminController
             $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0, STR_PAD_LEFT));
             // if added source message, then add translations
             if($result){
-                Messages::addNewRecord($idMessage, 'ua', $translateUa);
-                Messages::addNewRecord($idMessage, 'ru', $translateRu);
-                Messages::addNewRecord($idMessage, 'en', $translateEn);
+                Translate::addNewRecord($idMessage, 'ua', $translateUa);
+                Translate::addNewRecord($idMessage, 'ru', $translateRu);
+                Translate::addNewRecord($idMessage, 'en', $translateEn);
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
@@ -159,7 +159,7 @@ class MessagesController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=Messages::model()->findByPk($id);
+		$model=Translate::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

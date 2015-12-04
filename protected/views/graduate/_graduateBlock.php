@@ -9,7 +9,7 @@
                     <?php echo Yii::t('graduates', '0320')?>
                     <span><?php echo $data['graduate_date'] ?></span>
                 </div>
-                <div class="text1"><?php echo GraduateHelper::getGraduateName($data['id']); ?></div>
+                <div class="text1"><?php echo Graduate::getGraduateName($data['id']); ?></div>
                 <?php if(!empty($data['recall'])){?>
                 <div class="spoiler-title closed"> <?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?> </div>
                 <div class="spoiler-body">
