@@ -8,36 +8,12 @@
  */
 class CourseHelper
 {
-    public static function translateLevel($level)
-    {
 
-        if(isset(Yii::app()->session)){$lg = Yii::app()->session['lg'];}else $lg = 'ua';
-
-       switch ($level) {
-            case 'intern':
-                $level = Messages::getMessagesByLevel('0232',$lg);
-                break;
-            case 'junior':
-                $level = Messages::getMessagesByLevel('0233',$lg);
-                break;
-            case 'strong junior':
-                $level = Messages::getMessagesByLevel('0234',$lg);
-                break;
-            case 'middle':
-                $level = Messages::getMessagesByLevel('0235',$lg);
-                break;
-            case 'senior':
-                $level = Messages::getMessagesByLevel('0236',$lg);
-                break;
-        }
-
-        return $level;
-    }
 
     public static function getCourseLevel($idCourse)
     {
         $level = Course::model()->findByPk($idCourse)->level;
-        return CourseHelper::translateLevel($level);
+        return CommonHelper::translateLevel($level);
     }
 
     public static function translateLevelUa($course)

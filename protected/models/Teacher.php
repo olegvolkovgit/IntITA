@@ -78,6 +78,8 @@ class Teacher extends CActiveRecord
         return array(
             'modules'=>array(self::MANY_MANY, 'Module',
                 'teacher_module(idTeacher, idModule)'),
+            'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
+            'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
         );
     }
 
@@ -476,6 +478,18 @@ class Teacher extends CActiveRecord
             }
         }
         return Teacher::model()->findByPk($id)->middle_name;
+    }
+
+    public static function getTeacherId($user){
+        if ($user != 0 && Teacher::model()->exists('user_id=:user', array(':user' => $user))){
+            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
+        } else {
+            return 0;
+        }
+    }
+
+    public function roles(){
+        return $this->roles;
     }
 
     public static function getAllTrainers()

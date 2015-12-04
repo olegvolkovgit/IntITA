@@ -30,7 +30,7 @@
     </div>
 <?php
 for ($i = count($roles)-1; $i >= 0; $i--){
-    echo '<div class="atts">'.TeacherHelper::getRoleTitle($roles[$i]['role']).'</div>';
+    echo '<div class="atts">'.Roles::getRoleTitle($roles[$i]['role']).'</div>';
     $atts = RoleAttribute::model()->type($roles[$i]['role'])->findAll();
     if (!empty($atts)) {
         for ($j = 0; $j < count($atts); $j++) {

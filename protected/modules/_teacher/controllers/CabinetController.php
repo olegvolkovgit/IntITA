@@ -2,14 +2,26 @@
 
 class CabinetController extends TeacherCabinetController
 {
-	public function actionIndex()
+	public function actionIndex($id)
 	{
-		$this->render('index');
+        if(!$this->isYourCabinet($id))
+        {
+            throw new CHttpException(403, 'Ви не можете переглядати чужий профіль.');
+        }
+
+        $model = Teacher::model()->findByPk($id);
+		$this->render('index', array(
+            'model' => $model,
+        ));
 	}
 
     public function actionLoadPage($page)
     {
-        echo $this->renderPartial('_'.$page);
+        $pageTitle = array(
+            "title" => $page,
+        );
+
+        echo json_encode($pageTitle);//$this->renderPartial('_'.$page);
     }
 
 

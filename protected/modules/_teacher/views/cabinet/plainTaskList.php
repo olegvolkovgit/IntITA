@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 27.11.2015
- * Time: 15:13
- */
-?>
 <ol>
     <?php foreach($plainTasks as $plainTask)
     {?>

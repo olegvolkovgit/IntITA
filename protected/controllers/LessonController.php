@@ -18,6 +18,7 @@ class LessonController extends Controller
             ),
         );
     }
+
     public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
@@ -662,7 +663,7 @@ class LessonController extends Controller
             $langs = ['ua', 'ru', 'en'];
             $types = ['video', 'text', 'quiz'];
             foreach($langs as $lang) {
-                $messages = Messages::getLectureContentMessagesByLang($lang);
+                $messages = Translate::getLectureContentMessagesByLang($lang);
                 foreach($types as $type) {
                     switch ($type) {
 //                $html = $this->renderPartial('lectureHTML', array(

@@ -1,0 +1,8 @@
+#lang a{border-left:1px solid #999999;padding-left:6px;padding-right:6px;}
+#lang a:first-child{border-left:none;}
+#lang a{background:none!important;cursor:pointer;color:#4b70a3;font-size:18px;font-family:"MyriadPro";text-decoration:underline;}
+#lang a:hover{color:#666666;}
+#lang a.selectedLang{text-decoration:none;color:#999999;}
+
+
+

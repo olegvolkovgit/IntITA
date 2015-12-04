@@ -17,7 +17,7 @@
             <td>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
-                    <?php echo CourseHelper::translateLevel($model->level); ?>
+                    <?php echo CommonHelper::translateLevel($model->level); ?>
                 </span>
             </td>
             <td class="courseLevel">

@@ -31,8 +31,8 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <?php if ($post->role == 1){?>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
+                    <?php if ($post->role != 0){?>
+                    <a href="<?php echo $post->getCabinetLink();?>">Мій кабінет</a>
                     <?php } ?>
                     <h1><?php echo $post->nickname;?></h1>
                     <h1><?php echo $post->firstName;?></h1>

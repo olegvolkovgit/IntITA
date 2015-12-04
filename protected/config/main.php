@@ -22,10 +22,9 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
-
 		'application.models.*',
-            'application.models.accountancy.*',
-        //'application.controllers.accountancy.*',
+        'application.models.accountancy.*',
+        'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.components.*',
@@ -72,7 +71,7 @@ return array(
             'cacheID' => 'cache',
             'cachingDuration' => !YII_DEBUG ? 3600*24 : 0,
             'sourceMessageTable'=>'sourcemessages',
-            'translatedMessageTable'=>'messages',
+            'translatedMessageTable'=>'translate',
         ),
 
 		'user' => array(
@@ -102,6 +101,7 @@ return array(
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+
 
                 'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */

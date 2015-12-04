@@ -43,7 +43,7 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo TeacherHelper::getTeacherId($user);?>';
+    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
@@ -144,7 +144,7 @@ if ($idCourse != 0) {
                     <?php
                     $lecture = Lecture::model()->findByPk($page->id_lecture);
                     $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
-                        'teacher' => TeacherHelper::getTeacherId($user), 'pageOrder' => $page->page_order));
+                        'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
                     ?>
                 </div>
                 <br>
@@ -195,7 +195,7 @@ if ($idCourse != 0) {
             }
             ?>
             <?php if ($page->quiz == null) {
-                $author = TeacherHelper::getTeacherId($user);
+                $author = Teacher::getTeacherId($user);
             $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
             $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id));
             $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));

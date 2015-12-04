@@ -31,7 +31,7 @@ if (!isset($idCourse)) $idCourse = 0;
     idLecture = <?php echo $lecture->id;?>;
     idUser = <?php echo $user;?>;
     <?php if($user != 0){?>
-    idTeacher = <?php echo TeacherHelper::getTeacherId($user);?>;
+    idTeacher = <?php echo Teacher::getTeacherId($user);?>;
     <?php }?>
     order = 1;
     currentTask = 0;

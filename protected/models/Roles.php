@@ -124,4 +124,8 @@ class Roles extends CActiveRecord
         }
         return $result;
     }
+
+    public static function getRoleTitle($id){
+        return Roles::model()->findByPk($id)->title_ua;
+    }
 }

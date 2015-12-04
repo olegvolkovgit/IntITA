@@ -12,7 +12,7 @@
  * The followings are the available model relations:
  * @property Sourcemessages $id0
  */
-class Messages extends CActiveRecord
+class Translate extends CActiveRecord
 {
     public $comment;
 
@@ -21,7 +21,7 @@ class Messages extends CActiveRecord
      */
     public function tableName()
     {
-        return 'messages';
+        return 'translate';
     }
 
     /**
@@ -101,7 +101,7 @@ class Messages extends CActiveRecord
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Messages the static model class
+     * @return Translate the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -110,7 +110,7 @@ class Messages extends CActiveRecord
 
     public static function addNewRecord($id, $language, $translation)
     {
-        $model = new Messages();
+        $model = new Translate();
 
         $model->id = $id;
         $model->language = $language;
@@ -128,11 +128,11 @@ class Messages extends CActiveRecord
 
         for ($i = $startMessages; $i <= $endMessages; $i++)
         {
-            $messages = Messages::model()->findAllByAttributes(array('id'=>$i,'language' => $lang));
+            $messages = Translate::model()->findAllByAttributes(array('id'=>$i,'language' => $lang));
             //var_dump($messages[0]->translation);die;
             array_push($arr,$messages[0]->translation);
         }
-        $exam = Messages::model()->findAllByAttributes(array('id'=>'0673','language' => $lang));
+        $exam = Translate::model()->findAllByAttributes(array('id'=>'0673','language' => $lang));
         array_push($arr,$exam[0]->translation);
 
         return $arr;
@@ -141,7 +141,7 @@ class Messages extends CActiveRecord
     public static function getMessagesByLevel($idMessages,$lang)
     {
         if(empty($lang)) $lang = 'ua';
-        $messages = Messages::model()->findAllByAttributes(array('id' => $idMessages,'language' => $lang));
+        $messages = Translate::model()->findAllByAttributes(array('id' => $idMessages,'language' => $lang));
 
         return $messages[0]->translation;
     }
@@ -152,7 +152,7 @@ class Messages extends CActiveRecord
 
         for($i = 0, $count = count($messagesArray); $i < $count; $i++)
         {
-            $messages = Messages::model()->findAllByAttributes(array('id'=>$messagesArray[$i],'language' => $lang));
+            $messages = Translate::model()->findAllByAttributes(array('id'=>$messagesArray[$i],'language' => $lang));
             $arr[$messagesArray[$i]] = $messages[0]->translation;
         }
         return $arr;
