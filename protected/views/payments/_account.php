@@ -1,5 +1,5 @@
 <script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
+    summa = "<?php echo CommonHelper::getPriceUah($account->summa);?>";
     user = "<?php echo $account->id_user;?>";
 </script>
 
@@ -35,9 +35,9 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (<?php echo PaymentHelper::getAccountProductTitle($account);?>)
+                грамотність (<?php echo TempPay::getAccountProductTitle($account);?>)
             </td>
-            <td><span id="summa"><?php echo CourseHelper::getPriceUah($account->summa).",00";?></span></td>
+            <td><span id="summa"><?php echo CommonHelper::getPriceUah($account->summa).",00";?></span></td>
         </tr>
          <tr style="border: none;">
             <td colspan="2" style="border: none;text-align: left">
@@ -45,7 +45,7 @@
                 <br>
                 <b><span id="summaLetters"></span></b>
             </td>
-            <td><?php echo CourseHelper::getPriceUah($account->summa).",00";?></td>
+            <td><?php echo CommonHelper::getPriceUah($account->summa).",00";?></td>
         </tr>
     </table>
 </div>

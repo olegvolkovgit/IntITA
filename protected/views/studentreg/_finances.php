@@ -3,18 +3,18 @@
     <?php
     if($course > 0) {
         if ($module > 0) {
-            echo "<h3>" . Yii::t('payment', '0656') . " №" . ModuleHelper::getModuleNumber($module) . ". " .
-                ModuleHelper::getModuleName($module) . "</h3>";
+            echo "<h3>" . Yii::t('payment', '0656') . " №" . Module::getModuleNumber($module) . ". " .
+                Module::getModuleName($module) . "</h3>";
             $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
         } else {
-            echo "<h3>" . Yii::t('payment', '0657') . " №" . CourseHelper::getCourseNumber($course) . ". " .
-                CourseHelper::getCourseName($course) . "</h3>";
+            echo "<h3>" . Yii::t('payment', '0657') . " №" . Course::getCourseNumber($course) . ". " .
+                Course::getCourseName($course) . "</h3>";
             $this->renderPartial('_paymentsCourseForm', array('course' => $course, 'schema' => $schema));
         }
     }else {
             if($module > 0){
-                echo "<h3>".Yii::t('payment', '0656')." №" . ModuleHelper::getModuleNumber($module).". ".
-                    ModuleHelper::getModuleName($module). "</h3>";
+                echo "<h3>".Yii::t('payment', '0656')." №" . Module::getModuleNumber($module).". ".
+                    Module::getModuleName($module). "</h3>";
                 $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
             }
     ?>

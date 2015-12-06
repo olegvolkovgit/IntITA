@@ -6,7 +6,7 @@
  * Time: 14:15
  */
 ?>
-<?php $lastAccessPage=LectureHelper::lastAccessPage($passedPages) ?>
+<?php $lastAccessPage=LecturePage::lastAccessPage($passedPages) ?>
 <div class="lessonPart">
     <div class="labelBlock" id="labelBlock">
         <p><?php echo Yii::t('lecture', '0615')." ".$page->page_order . '. ' . $page->page_title; ?></p>

@@ -1,24 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "sourcemessages".
+ * This is the model class for table "messages".
  *
- * The followings are the available columns in table 'sourcemessages':
+ * The followings are the available columns in table 'messages':
  * @property integer $id
- * @property string $category
- * @property string $message
+ * @property string $create_date
+ * @property integer $sender
+ * @property integer $type
+ * @property integer $draft
  *
  * The followings are the available model relations:
- * @property Messages[] $messages
+ * @property MessagesType $type0
+ * @property User $sender0
+ * @property UserMessages[] $userMessages
  */
-class Sourcemessages extends CActiveRecord
+class Messages extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'sourcemessages';
+		return 'messages';
 	}
 
 	/**
@@ -29,11 +33,11 @@ class Sourcemessages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('category, message', 'required'),
-			array('category', 'length', 'max'=>32),
+			array('create_date, sender, type', 'required'),
+			array('sender, type, draft', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category, message', 'safe', 'on'=>'search'),
+			array('id, create_date, sender, type, draft', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +49,9 @@ class Sourcemessages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'messages' => array(self::HAS_MANY, 'Messages', 'id'),
+			'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
+			'sender0' => array(self::BELONGS_TO, 'User', 'sender'),
+			'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
 		);
 	}
 
@@ -56,8 +62,10 @@ class Sourcemessages extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'category' => 'Category',
-			'message' => 'Message',
+			'create_date' => 'Create Date',
+			'sender' => 'Sender',
+			'type' => 'Type',
+			'draft' => 'Draft',
 		);
 	}
 
@@ -80,8 +88,10 @@ class Sourcemessages extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('category',$this->category,true);
-		$criteria->compare('message',$this->message,true);
+		$criteria->compare('create_date',$this->create_date,true);
+		$criteria->compare('sender',$this->sender);
+		$criteria->compare('type',$this->type);
+		$criteria->compare('draft',$this->draft);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,28 +102,10 @@ class Sourcemessages extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Sourcemessages the static model class
+	 * @return Messages the static model class
 	 */
-	public static function model($className = __CLASS__)
+	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-    public static function addSourceMessage($id, $category, $message){
-        $model = new Sourcemessages();
-
-        $model->id = $id;
-        $model->category = $category;
-        $model->message = $message;
-
-        return $model->save();
-    }
-
-    public static function getMaxId(){
-        return  Yii::app()->db->createCommand("SELECT MAX(id) FROM sourcemessages")->queryScalar();
-    }
-
-    public static function getMessageCategory($id){
-        return Sourcemessages::model()->findByPk($id)->category;
-    }
 }

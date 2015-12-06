@@ -7,7 +7,7 @@
  */
 
 ?>
-<?php $modules = TeacherHelper::getModulesByTeacher($id);
+<?php $modules = Teacher::getModulesByTeacher($id);
 
 if (!empty($modules)){?>
     <p>

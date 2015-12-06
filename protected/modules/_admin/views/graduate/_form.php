@@ -60,7 +60,7 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model,'courses_page'); ?>
-        <?php echo $form->dropDownList($model, 'courses_page', CourseHelper::getCourseTitlesList(),
+        <?php echo $form->dropDownList($model, 'courses_page', Course::getCourseTitlesList(),
             array('class' => "form-control",'style' => 'width:350px'));?>
         <?php echo $form->error($model,'courses_page'); ?>
     </div>

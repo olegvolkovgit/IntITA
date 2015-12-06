@@ -29,7 +29,7 @@ class PathFactory {
                     if (in_array($pathParts[1], array('ru', 'ua', 'en'))) {
                         $pathObject = new ModulePath($pathParts);
                     } else {
-//                        if(ModuleHelper::checkModuleAlias($pathParts[1])){
+//                        if(Module::checkModuleAlias($pathParts[1])){
 //                            $pathObject = new ModulePath($pathParts);
 //                        } else {
                             $pathObject = null;

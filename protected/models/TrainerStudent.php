@@ -168,4 +168,10 @@ class TrainerStudent extends CActiveRecord
     {
         return TrainerStudent::model()->deleteAllByAttributes(array('student' => $userId));
     }
+
+    public static function getTrainerStudents($teacher){
+        $students = TrainerStudent::getStudentsByTrainer($teacher);
+        $result = RoleAttribute::formatAttributeList($students, 'project/index', 'id', false);
+        return $result;
+    }
 }

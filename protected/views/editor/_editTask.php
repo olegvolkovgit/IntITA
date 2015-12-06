@@ -23,7 +23,8 @@
             <input type="text" name="name" id="name" placeholder="назва задачі"/>
             <br>
             <br>
-            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"><?php echo TestsHelper::getTaskCondition($idBlock);?></textarea>
+            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10">
+                <?php echo Task::getTaskCondition($idBlock);?></textarea>
             <br>
             <br>
             Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>

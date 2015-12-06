@@ -1,21 +1,22 @@
 <?php
 /* @var $this LessonController */
 /* @var $page LecturePage */
+/* @var $lecture Lecture */
 /* @var $lectureElement LectureElement */
-$module = LectureHelper::getModuleByLecture($page->id_lecture);
+$module = $module = $lecture->idModule;
 $this->setPageTitle('INTITA');
 if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
-        LectureHelper::getLectureTitle($page->id_lecture) =>
+        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        Lecture::getLectureTitle($page->id_lecture) =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
-        LectureHelper::getLectureTitle($page->id_lecture) =>
+        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        Lecture::getLectureTitle($page->id_lecture) =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );
 }
@@ -27,7 +28,7 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
 
 <script type="text/javascript">
-    lang = '<?php if(LectureHelper::getLanguage()=='ua') echo 'uk'; else echo LectureHelper::getLanguage();?>';
+    lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
@@ -62,7 +63,7 @@ if ($idCourse != 0) {
             <br>
             <h1 class="lessonPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': ';
-                $title = LectureHelper::getTypeTitleParam();
+                $title = Lecture::getTypeTitleParam();
                 $this->widget('editable.EditableField', array(
                     'type' => 'text',
                     'model' => $lecture,
@@ -160,9 +161,9 @@ if ($idCourse != 0) {
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php
             if ($page->quiz != null) {
-                $data = LectureHelper::getPageQuiz($page->id);
+                $data = LecturePage::getPageQuiz($page->id);
 
-                switch (LectureHelper::getQuizType($data['id_block'])) {
+                switch (LectureElement::getQuizType($data['id_block'])) {
                     case '5':
                         $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
                             'pageId' => $page->id));

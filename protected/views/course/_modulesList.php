@@ -100,8 +100,8 @@ $editMode = ($canEdit) ? 'true' : '';
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
 
-                    $title = ModuleHelper::getModuleTitleParam();
-                    $moduleTitle = ModuleHelper::getDefaultModuleName($data->moduleInCourse->$title);
+                    $title = Module::getModuleTitleParam();
+                    $moduleTitle = Module::getDefaultModuleName($data->moduleInCourse->$title);
                     $value = '<span class="moduleOrder">'. Yii::t('course', '0364') . ' ' . $data->order . '.</span><span class="moduleLink"> '.CHtml::encode($data->moduleInCourse->$moduleTitle).'</span>';
                     return Module::moduleProgressDescription($data, $value);
                 }

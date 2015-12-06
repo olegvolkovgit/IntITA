@@ -26,6 +26,7 @@ class ImageHelper
         $image->resize($width, $heightImg);
         $image->save($fileResize);
     }
+
     /*$pathToFile - the path to images, $basePartName - base part of file name, $id - id file, $defaultName -default file name */
     public static function setOpenGraphImage($pathToFile,$basePartName, $id, $defaultName){
         $filePNG=$pathToFile.$basePartName.$id.'.png';

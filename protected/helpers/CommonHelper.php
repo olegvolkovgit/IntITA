@@ -170,4 +170,34 @@ class CommonHelper {
 
         return 0;
     }
+
+    public static function startsWith($haystack, $needle)
+    {
+        return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+
+    public static function getLanguage()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        return $lang;
+    }
+
+    public static function getPriceUah($summa)
+    {
+        return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
+    }
+
+    public static function getRating($rat){
+        $rating='';
+        for ($i=0; $i<floor($rat/2); $i++) {
+            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'starFull.png').">";
+        }
+        if($rat/2-floor($rat/2)==0.5) {
+            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'star-half.png').">";
+        }
+        for ($i=ceil($rat/2); $i<5; $i++) {
+            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'starEmpty.png').">";
+        }
+        return $rating;
+    }
 }

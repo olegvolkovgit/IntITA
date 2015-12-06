@@ -30,7 +30,7 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', TeacherHelper::getRoleTitlesList(),
+        <?php echo $form->dropDownList($model,'role', Roles::getRoleTitlesList(),
             array('class'=> 'form-control')); ?>
         <?php echo $form->error($model,'role'); ?>
     </div>

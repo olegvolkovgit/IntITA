@@ -34,7 +34,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'header'=>StudentReg::getUserTitle($userId),
-            'value'=>'ConsultationsHelper::getUserName(' . $userId . ',$data)',
+            'value'=>'StudentReg::getUserNameConsultation(' . $userId . ',$data)',
             'type' => 'raw',
             'htmlOptions'=>array('class'=>'nameColumn'),
         ),

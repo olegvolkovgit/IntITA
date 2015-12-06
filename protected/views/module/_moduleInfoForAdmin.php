@@ -9,7 +9,7 @@
 <div class="moduleTitle">
     <h1>
         <?php
-        $title = ModuleHelper::getModuleTitleParam();
+        $title = Module::getModuleTitleParam();
         $this->widget('editable.EditableField', array(
             'type'      => 'text',
             'model'     => $post,
@@ -151,7 +151,7 @@
             <br>
             <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-                <?php echo RatingHelper::getRating($post->rating); ?>
+                <?php echo CommonHelper::getRating($post->rating); ?>
             </div>
         </td>
     </tr>

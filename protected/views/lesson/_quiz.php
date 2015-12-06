@@ -1,7 +1,8 @@
 <?php
 /* @var $page LecturePage*/
     if (!is_null($page->quiz)) {
-        switch (lectureHelper::getQuizType($page->quiz)) {
+
+        switch (LectureElement::getQuizType($page->quiz)) {
             case '5':
                 $this->renderPartial('_taskBlock', array(
                     'data' => LectureElement::model()->findByPk($page->quiz),
@@ -17,7 +18,11 @@
                 ));
                 break;
             case '9' :
-                $this->renderPartial('_skipTaskBlock', array('data' => LectureElement::model()->findByPk($page->quiz), 'editMode' => $editMode, 'user' => $user));
+                $this->renderPartial('_skipTaskBlock', array(
+                    'data' => LectureElement::model()->findByPk($page->quiz),
+                    'editMode' => $editMode,
+                    'user' => $user
+                ));
                 break;
             case '12':
             case '13':

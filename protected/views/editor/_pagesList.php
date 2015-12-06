@@ -1,25 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.08.2015
- * Time: 1:47
- */
-$pagesList = LectureHelper::getPagesList($idLecture);
-$module = LectureHelper::getModuleByLecture($idLecture);
+$pagesList = LecturePage::getPagesList($idLecture);
+$module = $idModule;
 $this->setPageTitle('INTITA');
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
-        LectureHelper::getLectureTitle($idLecture) =>
+        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        Lecture::getLectureTitle($idLecture) =>
             Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
-        LectureHelper::getLectureTitle($idLecture) =>
+        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        Lecture::getLectureTitle($idLecture) =>
             Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
     );
 }
@@ -32,7 +26,7 @@ if($idCourse != 0) {
 
 
 <div name="lecturePage" class="pagesList">
-    <div class="lessonTheme"><?php echo LectureHelper::getLectureTitle($idLecture);?></div>
+    <div class="lessonTheme"><?php echo Lecture::getLectureTitle($idLecture);?></div>
 <h3 class="lessonPartEdit">
 <?php
 for($i = 0, $count = count($pagesList); $i < $count; $i++){
