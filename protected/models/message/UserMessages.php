@@ -1,20 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "message_comment".
+ * This is the model class for table "user_messages".
  *
- * The followings are the available columns in table 'message_comment':
- * @property integer $message_code
- * @property string $comment
+ * The followings are the available columns in table 'user_messages':
+ * @property integer $id_message
+ * @property string $topic
+ * @property string $subject
+ *
+ * The followings are the available model relations:
+ * @property Messages $idMessage
  */
-class MessageComment extends CActiveRecord
+class UserMessages extends CActiveRecord implements IMessage
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'message_comment';
+		return 'user_messages';
 	}
 
 	/**
@@ -25,10 +29,12 @@ class MessageComment extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('comment', 'length', 'max'=>255),
+			array('id_message, subject', 'required'),
+			array('id_message', 'numerical', 'integerOnly'=>true),
+			array('topic', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('message_code, comment', 'safe', 'on'=>'search'),
+			array('id_message, topic, subject', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -40,6 +46,7 @@ class MessageComment extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 		);
 	}
 
@@ -49,8 +56,9 @@ class MessageComment extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'message_code' => 'Message Code',
-			'comment' => 'Comment',
+			'id_message' => 'Id Message',
+			'topic' => 'Topic',
+			'subject' => 'Subject',
 		);
 	}
 
@@ -68,10 +76,13 @@ class MessageComment extends CActiveRecord
 	 */
 	public function search()
 	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('message_code',$this->message_code);
-		$criteria->compare('comment',$this->comment,true);
+		$criteria->compare('id_message',$this->id_message);
+		$criteria->compare('topic',$this->topic,true);
+		$criteria->compare('subject',$this->subject,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -82,43 +93,34 @@ class MessageComment extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MessageComment the static model class
+	 * @return UserMessages the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public static function addMessageCodeComment($code, $comment)
-    {
-        $model = new MessageComment();
+    public function create(){
 
-        $model->message_code = $code;
-        $model->comment = $comment;
-
-        $model->save();
     }
 
-    public static function updateMessageCodeComment($code, $comment)
-    {
-        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
-            MessageComment::model()->updateByPk($code, array('comment' => $comment));
-        } else{
-            $model = new MessageComment();
+    public function send(IMailSender $sender){
 
-            $model->message_code = $code;
-            $model->comment = $comment;
-
-            $model->save();
-        }
     }
 
-    public static function getMessageCommentById($code){
-        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
-            return MessageComment::model()->findByPk($code)->comment;
-        } else {
-            return '';
-        }
+    public function read(StudentReg $receiver){
+
+    }
+
+    public function deleteMessage(StudentReg $receiver){
+
+    }
+
+    public function reply(StudentReg $receiver){
+
+    }
+
+    public function sendOn(StudentReg $receiver){
 
     }
 }

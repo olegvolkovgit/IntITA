@@ -68,7 +68,7 @@ class MessagesController extends AdminController
                 Translate::addNewRecord($idMessage, 'ru', $translateRu);
                 Translate::addNewRecord($idMessage, 'en', $translateEn);
 
-                MessageComment::addMessageCodeComment($idMessage, $comment);
+                TranslateComment::addMessageCodeComment($idMessage, $comment);
             }
                 $this->actionIndex();
 		} else {
@@ -96,7 +96,7 @@ class MessagesController extends AdminController
 		{
 			$model->attributes=$_POST['Messages'];
 			if($model->save()) {
-                MessageComment::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
+                TranslateComment::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
                 $this->redirect(array('view', 'id' => $model->id_record));
             }
 		}

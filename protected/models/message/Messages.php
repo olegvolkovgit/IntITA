@@ -9,10 +9,14 @@
  * @property integer $sender
  * @property integer $type
  * @property integer $draft
+ * @property integer $chained_message_id
+ * @property integer $original_message_id
  *
  * The followings are the available model relations:
+ * @property MessageReceiver[] $messageReceivers
+ * @property MessageReceiver[] $messageReceivers1
  * @property MessagesType $type0
- * @property User $sender0
+ * @property StudentReg $sender0
  * @property UserMessages[] $userMessages
  */
 class Messages extends CActiveRecord
@@ -33,11 +37,11 @@ class Messages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_date, sender, type', 'required'),
-			array('sender, type, draft', 'numerical', 'integerOnly'=>true),
+			array('create_date, sender, type, draft', 'required'),
+			array('sender, type, draft, chained_message_id, original_message_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, create_date, sender, type, draft', 'safe', 'on'=>'search'),
+			array('id, create_date, sender, type, draft, chained_message_id, original_message_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +53,8 @@ class Messages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'messageReceivers' => array(self::HAS_MANY, 'MessageReceiver', 'reply'),
+			'messageReceivers1' => array(self::HAS_MANY, 'MessageReceiver', 'forward'),
 			'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
 			'sender0' => array(self::BELONGS_TO, 'User', 'sender'),
 			'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
@@ -66,6 +72,8 @@ class Messages extends CActiveRecord
 			'sender' => 'Sender',
 			'type' => 'Type',
 			'draft' => 'Draft',
+			'chained_message_id' => 'Chained Message',
+			'original_message_id' => 'Original Message',
 		);
 	}
 
@@ -92,6 +100,8 @@ class Messages extends CActiveRecord
 		$criteria->compare('sender',$this->sender);
 		$criteria->compare('type',$this->type);
 		$criteria->compare('draft',$this->draft);
+		$criteria->compare('chained_message_id',$this->chained_message_id);
+		$criteria->compare('original_message_id',$this->original_message_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -7,7 +7,7 @@
  * @property integer $id_message
  * @property integer $operation
  */
-class MessagesPayment extends CActiveRecord
+class MessagesPayment extends CActiveRecord implements IMessage
 {
 	/**
 	 * @return string the associated database table name
@@ -91,4 +91,28 @@ class MessagesPayment extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function create(){
+
+    }
+
+    public function send(IMailSender $sender){
+
+    }
+
+    public function read(StudentReg $receiver){
+
+    }
+
+    public function deleteMessage(StudentReg $receiver){
+
+    }
+
+    public function reply(StudentReg $receiver){
+
+    }
+
+    public function sendOn(StudentReg $receiver){
+
+    }
 }

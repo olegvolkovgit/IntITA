@@ -23,7 +23,7 @@
 )); ?>
 <br>
 <div class="page-header">
-<b>Коментар:</b>   <?php echo MessageComment::getMessageCommentById($model->id);?>
+<b>Коментар:</b>   <?php echo TranslateComment::getMessageCommentById($model->id);?>
     </div>
 <br>
 <br>

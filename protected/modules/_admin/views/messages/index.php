@@ -50,7 +50,7 @@ $('.search-form form').submit(function(){
         'translation',
         array(
             'header' => 'Коментар',
-            'value' => 'MessageComment::getMessageCommentById($data->id)',
+            'value' => 'TranslateComment::getMessageCommentById($data->id)',
         ),
         array(
             'class'=>'CButtonColumn',

@@ -1,19 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "messages_quiz".
+ * This is the model class for table "message_comment".
  *
- * The followings are the available columns in table 'messages_quiz':
- * @property integer $id_messages
+ * The followings are the available columns in table 'translate_comment':
+ * @property integer $message_code
+ * @property string $comment
  */
-class MessagesQuiz extends CActiveRecord implements IMessage
+class TranslateComment extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'messages_quiz';
+		return 'translate_comment';
 	}
 
 	/**
@@ -24,11 +25,9 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_messages', 'required'),
-			array('id_messages', 'numerical', 'integerOnly'=>true),
+			array('comment', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id_messages', 'safe', 'on'=>'search'),
+			array('message_code, comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +48,8 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	public function attributeLabels()
 	{
 		return array(
-			'id_messages' => 'Id Messages',
+			'message_code' => 'Message Code',
+			'comment' => 'Comment',
 		);
 	}
 
@@ -67,11 +67,10 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_messages',$this->id_messages);
+		$criteria->compare('message_code',$this->message_code);
+		$criteria->compare('comment',$this->comment,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -82,34 +81,43 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MessagesQuiz the static model class
+	 * @return TranslateComment the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public function create(){
+    public static function addMessageCodeComment($code, $comment)
+    {
+        $model = new TranslateComment();
 
+        $model->message_code = $code;
+        $model->comment = $comment;
+
+        $model->save();
     }
 
-    public function send(IMailSender $sender){
+    public static function updateMessageCodeComment($code, $comment)
+    {
+        if (TranslateComment::model()->exists('message_code=:code', array(':code' => $code))){
+            TranslateComment::model()->updateByPk($code, array('comment' => $comment));
+        } else{
+            $model = new TranslateComment();
 
+            $model->message_code = $code;
+            $model->comment = $comment;
+
+            $model->save();
+        }
     }
 
-    public function read(StudentReg $receiver){
-
-    }
-
-    public function deleteMessage(StudentReg $receiver){
-
-    }
-
-    public function reply(StudentReg $receiver){
-
-    }
-
-    public function sendOn(StudentReg $receiver){
+    public static function getMessageCommentById($code){
+        if (TranslateComment::model()->exists('message_code=:code', array(':code' => $code))){
+            return TranslateComment::model()->findByPk($code)->comment;
+        } else {
+            return '';
+        }
 
     }
 }

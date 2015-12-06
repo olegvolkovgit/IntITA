@@ -1,19 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "messages_quiz".
+ * This is the model class for table "messages_type".
  *
- * The followings are the available columns in table 'messages_quiz':
- * @property integer $id_messages
+ * The followings are the available columns in table 'messages_type':
+ * @property integer $id
+ * @property string $type
+ * @property string $description
+ *
+ * The followings are the available model relations:
+ * @property Messages[] $messages
  */
-class MessagesQuiz extends CActiveRecord implements IMessage
+class MessagesType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'messages_quiz';
+		return 'messages_type';
 	}
 
 	/**
@@ -24,11 +29,12 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_messages', 'required'),
-			array('id_messages', 'numerical', 'integerOnly'=>true),
+			array('type, description', 'required'),
+			array('type', 'length', 'max'=>50),
+			array('description', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_messages', 'safe', 'on'=>'search'),
+			array('id, type, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -40,6 +46,7 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'messages' => array(self::HAS_MANY, 'Messages', 'type'),
 		);
 	}
 
@@ -49,7 +56,9 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	public function attributeLabels()
 	{
 		return array(
-			'id_messages' => 'Id Messages',
+			'id' => 'ID',
+			'type' => 'Type',
+			'description' => 'Description',
 		);
 	}
 
@@ -71,7 +80,9 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_messages',$this->id_messages);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('type',$this->type,true);
+		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -82,34 +93,10 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MessagesQuiz the static model class
+	 * @return MessagesType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-    public function create(){
-
-    }
-
-    public function send(IMailSender $sender){
-
-    }
-
-    public function read(StudentReg $receiver){
-
-    }
-
-    public function deleteMessage(StudentReg $receiver){
-
-    }
-
-    public function reply(StudentReg $receiver){
-
-    }
-
-    public function sendOn(StudentReg $receiver){
-
-    }
 }
