@@ -1,22 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "message_receiver".
+ * This is the model class for table "message_comment".
  *
- * The followings are the available columns in table 'message_receiver':
- * @property integer $id_message
- * @property integer $id_receiver
- * @property string $read
- * @property string $deleted
+ * The followings are the available columns in table 'translate_comment':
+ * @property integer $message_code
+ * @property string $comment
  */
-class MessageReceiver extends CActiveRecord
+class MessageComment extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'message_receiver';
+		return 'message_comment';
 	}
 
 	/**
@@ -27,12 +25,9 @@ class MessageReceiver extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_message, id_receiver', 'required'),
-			array('id_message, id_receiver', 'numerical', 'integerOnly'=>true),
-			array('read, deleted', 'safe'),
+			array('comment', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id_message, id_receiver, read, deleted', 'safe', 'on'=>'search'),
+			array('message_code, comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,10 +48,8 @@ class MessageReceiver extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_message' => 'Id Message',
-			'id_receiver' => 'Id Receiver',
-			'read' => 'Read',
-			'deleted' => 'Deleted',
+			'message_code' => 'Message Code',
+			'comment' => 'Comment',
 		);
 	}
 
@@ -74,14 +67,10 @@ class MessageReceiver extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_message',$this->id_message);
-		$criteria->compare('id_receiver',$this->id_receiver);
-		$criteria->compare('read',$this->read,true);
-		$criteria->compare('deleted',$this->deleted,true);
+		$criteria->compare('message_code',$this->message_code);
+		$criteria->compare('comment',$this->comment,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,10 +81,43 @@ class MessageReceiver extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MessageReceiver the static model class
+	 * @return MessageComment the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+    public static function addMessageCodeComment($code, $comment)
+    {
+        $model = new MessageComment();
+
+        $model->message_code = $code;
+        $model->comment = $comment;
+
+        $model->save();
+    }
+
+    public static function updateMessageCodeComment($code, $comment)
+    {
+        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
+            MessageComment::model()->updateByPk($code, array('comment' => $comment));
+        } else{
+            $model = new MessageComment();
+
+            $model->message_code = $code;
+            $model->comment = $comment;
+
+            $model->save();
+        }
+    }
+
+    public static function getMessageCommentById($code){
+        if (MessageComment::model()->exists('message_code=:code', array(':code' => $code))){
+            return MessageComment::model()->findByPk($code)->comment;
+        } else {
+            return '';
+        }
+
+    }
 }

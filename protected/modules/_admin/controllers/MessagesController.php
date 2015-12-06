@@ -46,7 +46,7 @@ class MessagesController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model = new Messages;
+		$model = new Translate();
         $idMessage = Yii::app()->request->getPost('id', '');
         $category = Yii::app()->request->getPost('category', '');
         $translateUa = Yii::app()->request->getPost('translateUa', '');
@@ -68,7 +68,7 @@ class MessagesController extends AdminController
                 Translate::addNewRecord($idMessage, 'ru', $translateRu);
                 Translate::addNewRecord($idMessage, 'en', $translateEn);
 
-                TranslateComment::addMessageCodeComment($idMessage, $comment);
+                MessageComment::addMessageCodeComment($idMessage, $comment);
             }
                 $this->actionIndex();
 		} else {
@@ -92,11 +92,11 @@ class MessagesController extends AdminController
 		// $this->performAjaxValidation($model);
 
 
-		if(isset($_POST['Messages']))
+		if(isset($_POST['Translate']))
 		{
-			$model->attributes=$_POST['Messages'];
+			$model->attributes=$_POST['Translate'];
 			if($model->save()) {
-                TranslateComment::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
+                MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
                 $this->redirect(array('view', 'id' => $model->id_record));
             }
 		}
@@ -125,10 +125,10 @@ class MessagesController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model=new Messages('search');
+        $model = new Translate('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Messages']))
-            $model->attributes=$_GET['Messages'];
+        if(isset($_GET['Translate']))
+            $model->attributes=$_GET['Translate'];
 
 		$this->render('index',array(
             'model' => $model,
@@ -140,10 +140,10 @@ class MessagesController extends AdminController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Messages('search');
+		$model=new Translate('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Messages']))
-			$model->attributes=$_GET['Messages'];
+		if(isset($_GET['Translate']))
+			$model->attributes=$_GET['Translate'];
 
 		$this->render('admin',array(
 			'model'=>$model,

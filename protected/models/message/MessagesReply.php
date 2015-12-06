@@ -1,22 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "message_receiver".
+ * This is the model class for table "messages_reply".
  *
- * The followings are the available columns in table 'message_receiver':
+ * The followings are the available columns in table 'messages_reply':
  * @property integer $id_message
- * @property integer $id_receiver
- * @property string $read
- * @property string $deleted
+ * @property integer $reply
+ *
+ * The followings are the available model relations:
+ * @property Messages $idMessage
+ * @property Messages $reply0
  */
-class MessageReceiver extends CActiveRecord
+class MessagesReply extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'message_receiver';
+		return 'messages_reply';
 	}
 
 	/**
@@ -27,12 +29,11 @@ class MessageReceiver extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_message, id_receiver', 'required'),
-			array('id_message, id_receiver', 'numerical', 'integerOnly'=>true),
-			array('read, deleted', 'safe'),
+			array('id_message, reply', 'required'),
+			array('id_message, reply', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_message, id_receiver, read, deleted', 'safe', 'on'=>'search'),
+			array('id_message, reply', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,6 +45,8 @@ class MessageReceiver extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			'reply0' => array(self::BELONGS_TO, 'Messages', 'reply'),
 		);
 	}
 
@@ -54,9 +57,7 @@ class MessageReceiver extends CActiveRecord
 	{
 		return array(
 			'id_message' => 'Id Message',
-			'id_receiver' => 'Id Receiver',
-			'read' => 'Read',
-			'deleted' => 'Deleted',
+			'reply' => 'Reply',
 		);
 	}
 
@@ -79,9 +80,7 @@ class MessageReceiver extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message);
-		$criteria->compare('id_receiver',$this->id_receiver);
-		$criteria->compare('read',$this->read,true);
-		$criteria->compare('deleted',$this->deleted,true);
+		$criteria->compare('reply',$this->reply);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,7 +91,7 @@ class MessageReceiver extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MessageReceiver the static model class
+	 * @return MessagesReply the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -39,7 +39,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model,'comment'); ?>
         <?php echo $form->textArea($model,'comment',array(
-            'value' => TranslateComment::getMessageCommentById($model->id),
+            'value' => MessageComment::getMessageCommentById($model->id),
             'rows'=>6,
             'cols'=>50,'class' => "form-control")); ?>
         <?php echo $form->error($model,'comment'); ?>
