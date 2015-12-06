@@ -111,7 +111,6 @@ class ConsultationscalendarController extends Controller
 	public function actionIndex($lectureId, $idCourse)
 	{
         $lecture = Lecture::model()->findByPk($lectureId);
-
         $dataProvider = Teacher::getTeacherConsult($lectureId);
 
 		$this->render('index',array(
@@ -164,7 +163,6 @@ class ConsultationscalendarController extends Controller
 		}
 	}
 
-
     public function actionSaveconsultation($idCourse){
         $date = Yii::app()->request->getPost('datecons');
         $idteacher = Yii::app()->request->getPost('teacherid');
@@ -180,8 +178,9 @@ class ConsultationscalendarController extends Controller
                 }
             }
         }
-            header('Location: '.$_SERVER['HTTP_REFERER']);
+        header('Location: '.$_SERVER['HTTP_REFERER']);
     }
+
     public function actionDeleteconsultation($id)
     {
         Consultationscalendar::model()->deleteByPk($id);
@@ -189,10 +188,12 @@ class ConsultationscalendarController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function actionConsultationError($lecture, $idCourse)
     {
         $this->render('consultationerror',array(
             'lecture'=>$lecture,'idCourse'=>$idCourse
         ));
     }
+
 }
