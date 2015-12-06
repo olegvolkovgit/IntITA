@@ -1,14 +1,15 @@
 <?php
+
 /**
  * This is the model class for table "course".
  *
  * The followings are the available columns in table 'course':
  * @property integer $course_ID
- *  @property string $alias
+ * @property string $alias
  * @property string $language
  * @property string $title_ua
- *  @property string $title_ru
- *  @property string $title_en
+ * @property string $title_ru
+ * @property string $title_en
  * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
@@ -31,8 +32,6 @@
  * The followings are the available model relations:
  * @property Modules[] $modules
  */
-
-
 class Course extends CActiveRecord implements IBillableObject
 {
     const MAX_LEVEL = 5;
@@ -264,10 +263,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->findByPk($id)->alias;
     }
 
-    /*	public function exists($alias){
-            return $this->findCourseIDByAlias($alias);
-        }*/
-
     public function findCourseIDByAlias($alias)
     {
         return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
@@ -350,11 +345,10 @@ class Course extends CActiveRecord implements IBillableObject
                 if ($end - $k > 1) {
                     $cells[$i][$k] = Module::lessonsInMonth($modules[$i]['id_module']);
                 } else {
-                    $cells[$i][$k] = fmod(LectureHelper::getLessonsCount($modules[$i]['id_module']),
+                    $cells[$i][$k] = fmod(Module::getLessonsCount($modules[$i]['id_module']),
                         Module::lessonsInMonth($modules[$i]['id_module']));
                 }
             }
-
         }
         return $cells;
     }
@@ -492,42 +486,49 @@ class Course extends CActiveRecord implements IBillableObject
         return $lessonsCount;
     }
 
-    public static function getMessage($message = null,$type = null)
+    public static function getMessage($message = null, $type = null)
     {
-        if ($message !== null){
-            switch($type){
-                case 'months' : return $message[0];
-                case 'module' : return $message[1];
-                case 'trainee' : return $message[2];
-                case 'chart' : return $message[3];
-                case 'save' : return $message[4];
+        if ($message !== null) {
+            switch ($type) {
+                case 'months' :
+                    return $message[0];
+                case 'module' :
+                    return $message[1];
+                case 'trainee' :
+                    return $message[2];
+                case 'chart' :
+                    return $message[3];
+                case 'save' :
+                    return $message[4];
             }
-        }
-        else{
-            switch($type)
-            {
-                case 'months' : return Yii::t('course', '0667');
-                case 'module' : return Yii::t('course', '0668');
-                case 'trainee' : return Yii::t('course', '0669');
-                case 'chart' : return Yii::t('course', '0670');
-                case 'save' : return Yii::t('course', '0671');
-                case 'exam' : return Yii::t('course','0673');
+        } else {
+            switch ($type) {
+                case 'months' :
+                    return Yii::t('course', '0667');
+                case 'module' :
+                    return Yii::t('course', '0668');
+                case 'trainee' :
+                    return Yii::t('course', '0669');
+                case 'chart' :
+                    return Yii::t('course', '0670');
+                case 'save' :
+                    return Yii::t('course', '0671');
+                case 'exam' :
+                    return Yii::t('course', '0673');
             }
         }
     }
 
-    public static function printTitle($idCourse,$messages = null)
+    public static function printTitle($idCourse, $messages = null)
     {
-        $courseHelper = new CourseHelper();
-        $chartSchema = $courseHelper->getMessage($messages,'chart');
-        return $chartSchema . ' ' . Course::getCourseName($idCourse).", ".Course::getCourseLevel($idCourse);
+        $chartSchema = Course::getMessage($messages, 'chart');
+        return $chartSchema . ' ' . Course::getCourseName($idCourse) . ", " . Course::getCourseLevel($idCourse);
     }
 
-    public static function generateModuleCoursesList($idModule,$messages = null)
+    public static function generateModuleCoursesList($idModule, $messages = null)
     {
         $result = [];
-        if($messages !== null)
-        {
+        if ($messages !== null) {
             return $result;
         }
 
@@ -660,31 +661,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //    $image-іконка проплати, $price-ціна проплати за місяць, $year-на скільки років кредит
-    public static function getCoursePriceCredit($image, $image2, $price = 0, $year = 2, $idCourse)
-    {
-        $price = round($price);
-        if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        return
-            '<table class="mainPay">
-                <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                <td>
-                    <table>
-                        <tr><td><div>' . Yii::t('course', '0425') . ' ' . $year . ' ' . CommonHelper::getYearsTermination($year) . '</div></td></tr>
-                        <tr><td>
-                           <div class="numbers"><span>' . $price . ' ' . Yii::t('courses', '0322') . '/' .
-            Yii::t('module', '0218') . ' х ' . (12 * $year) . ' ' . Yii::t('course', '0324') . ' <b>= ' .
-            round(Course::getCreditCoursePrice($idCourse, $year)) . ' ' . Yii::t('courses', '0322') . '</b></span></div>
-                        </td></tr>
-                    </table>
-                </td>
-                </tr>
-            </table>';
-    }
-
     public static function getMainCoursePrice($price, $discount = 0)
     {
         if ($price == 0) {
@@ -694,111 +670,5 @@ class Course extends CActiveRecord implements IBillableObject
             return '<span id="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span>';
         }
         return '<span id="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>&nbsp<span id="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><span id="discount"> (' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>';
-    }
-
-    //    $image-іконка проплати, $text - текст проплати, $price- ціна курсу, $discount - знижка
-    public static function getCoursePrice($image, $image2, $text, $price, $discount = 0)
-    {
-        if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        if ($discount == 0) {
-            return
-                '<table class="mainPay">
-                    <tr>
-                    <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                    <td>
-                        <table>
-                            <tr><td><div>' . $text . '</div></td></tr>
-                            <tr><td><span class="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span></td></tr>
-                        </table>
-                    </td>
-                    </tr>
-                </table>';
-        }
-        return
-            '<table class="mainPay">
-                <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                <td>
-                    <table>
-                        <tr><td><div>' . Yii::t('course', '0197') . '</div></td></tr>
-                        <tr><td>
-                            <div class="numbers"><span class="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>
-                            &nbsp<span class="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
-                            <span id="discount"> <img style="text-align:right" src="' . StaticFilesHelper::createPath('image', 'course', 'pig.png') . '">(' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>
-                            </div>
-                        </td></tr>
-                    </table>
-                </td>
-                </tr>
-            </table>';
-    }
-
-    //    $price-ціна курсу, $number - кількість проплат, $discount - знижка
-    public static function getCoursePricePayments($image, $image2, $price, $number = 2, $discount = 0)
-    {
-        if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        if ($discount == 0) {
-            return
-                '<table class="mainPay">
-                    <tr>
-                    <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                    <td>
-                        <table>
-                            <tr><td><div style="color:#4b75a4">' . $number . ' ' . Yii::t('course', '0198') . '</div></td></tr>
-                            <tr><td>
-                                <div class="numbers"><span class="coursePriceStatus">' . $price . " " . Yii::t('courses', '0322') . '</span>= ' . $price / $number . ' ' . Yii::t('courses', '0322') . '</div>
-                            </td></tr>
-                        </table>
-                    </td>
-                    </tr>
-                </table>';
-        }
-        return
-            '<table class="mainPay">
-                <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                <td>
-                    <table>
-                        <tr><td><div style="color:#4b75a4">' . $number . ' ' . Yii::t('course', '0198') . '</div></td></tr>
-                        <tr><td>
-                            <div class="numbers"><span class="coursePriceStatus">' . $price . " " . Yii::t('courses', '0322') .
-            '</span>&nbsp<span class="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " .
-            Yii::t('courses', '0322') . '=</span><span> ' . round(Module::getDiscountedPrice($price, $discount) / $number) .
-            ' ' . Yii::t('courses', '0322') . ' x ' . $number . ' ' . Yii::t('course', '0323') . '</span></div>
-                            <span id="discount"> <img style="text-align:right" src="' . StaticFilesHelper::createPath('image', 'course', 'pig.png') .
-            '">(' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>
-                        </td></tr>
-                    </table>
-                </td>
-                </tr>
-            </table>';
-    }
-
-    //    $image-іконка проплати, $text - текст проплати, $price-ціна проплати за місяць, $number - кількість проплат
-    public static function getCoursePriceMonths($image, $image2, $text, $price = 0, $months = 12, $idCourse)
-    {
-        if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        return
-            '<table class="mainPay">
-                <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' . $image . '"><img class="icoCheck" src="' . $image2 . '"></td>
-                <td>
-                    <table>
-                        <tr><td><div>' . $text . '</div></td></tr>
-                        <tr><td>
-                           <div class="numbers"><span>' . $price . ' ' . Yii::t('courses', '0322') . '/' .
-            Yii::t('module', '0218') . ' х ' . $months . ' ' . Yii::t('course', '0323') . '<b> = ' .
-            Course::getSummaBySchemaNum($idCourse, 4, true) . ' ' . Yii::t('courses', '0322') . '</b></span></div>
-                        </td></tr>
-                    </table>
-                </td>
-                </tr>
-            </table>';
     }
 }
