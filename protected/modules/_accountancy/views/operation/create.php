@@ -7,12 +7,6 @@
 <h1>Додати проплату</h1>
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/operation.css"/>
-<!--<div class="operation2">-->
-<!--    <input type="radio" name="operation2a" id="operation2a_1" checked="checked">-->
-<!--    <input type="radio" name="operation2a" id="operation2a_2">-->
-<!--    <input type="radio" name="operation2a" id="operation2a_3">-->
-<!--    <input type="radio" name="operation2a" id="operation2a_4">-->
-<!---->
 <div class="mainOperation">
 <ul class="operationCreate">
     <li role="presentation" class="operationPanel" ><button onclick="showOperation(0)">Пошук по договору</button></li>

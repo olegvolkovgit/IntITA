@@ -284,9 +284,9 @@ class UserAgreements extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function getInvoices($id)
+    public function getInvoices()
     {
-        return UserAgreements::model()->findByPk($id)->invoice;
+        return $this->invoice;
     }
 
     public static function findLikeAgreement($agreement)

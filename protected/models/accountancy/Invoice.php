@@ -171,9 +171,10 @@ class Invoice extends CActiveRecord
     }
 
 
-    public function getUsername(){
+    public function getUserName(){
         $user = $this->model()->userCreated;
         if($user) return $user->firstName.' '. $user->secondName;
+        else return '';
     }
 
     public static function getAllInvoices(){
