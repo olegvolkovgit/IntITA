@@ -113,7 +113,7 @@ class ConsultantModules extends CActiveRecord
             'params' => array(':id' => $consultant),
         ))->queryAll();
         $count = count($modules);
-        $titleParam = ModuleHelper::getModuleTitleParam();
+        $titleParam = Module::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
             $modules[$i]['id'] = $modules[$i]["module"];

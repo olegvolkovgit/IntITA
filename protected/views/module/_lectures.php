@@ -7,7 +7,7 @@
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
-$enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($module->module_ID);
+$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 ?>
 
 <div class="lessonModule" id="lectures">
@@ -121,7 +121,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) use ($idCourse,$enabledLessonOrder) {
-                $titleParam = LectureHelper::getTypeTitleParam();
+                $titleParam = Lecture::getTypeTitleParam();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }

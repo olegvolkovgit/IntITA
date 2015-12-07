@@ -19,13 +19,13 @@ class PaymentsController extends Controller
 
         if($courseId != 0) {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, $courseId);
+                $summa = Module::getModuleSumma($moduleId, $courseId);
             } else {
-                $summa = CourseHelper::getSummaBySchemaNum($courseId, $summaNum);
+                $summa = Course::getSummaBySchemaNum($courseId, $summaNum);
             }
         } else {
             if($moduleId != 0){
-                $summa = ModuleHelper::getModuleSumma($moduleId, $courseId);
+                $summa = Module::getModuleSumma($moduleId, $courseId);
             } else {
                 $summa = 0;
             }

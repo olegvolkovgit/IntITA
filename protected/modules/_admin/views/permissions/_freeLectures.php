@@ -52,7 +52,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'idType',
             'type' => 'raw',
-            'value' => 'LectureHelper::getLectureTypeTitle($data->idType)',
+            'value' => 'Lecture::getLectureTypeTitle($data->idType)',
         ),
         array(
             'name' => 'isFree',

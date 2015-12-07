@@ -43,43 +43,43 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo UserHelper::getUserData($post->aboutMy,'0100');?></p>
+                        <p><?php echo StudentReg::getUserData($post->aboutMy,'0100');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo UserHelper::getUserData($post->email,'0101');?></p>
+                        <p><?php echo StudentReg::getUserData($post->email,'0101');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo UserHelper::getUserData($post->phone,'0102');?></p>
+                        <p><?php echo StudentReg::getUserData($post->phone,'0102');?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo UserHelper::getUserData($post->education,'0103');?></p>
+                        <p><?php echo StudentReg::getUserData($post->education,'0103');?></p>
                     </div>
                     <div class="aboutInfo">
                         <p><?php $post::getInterests($post->interests);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo UserHelper::getUserData($post->aboutUs,'0105');?></p>
+                        <p><?php echo StudentReg::getUserData($post->aboutUs,'0105');?></p>
                     </div>
                     <div class="aboutInfo">
                         <p><?php echo $post::getEducform($post->educform);?></p>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getNetwork($post);?>
+                        <?php echo StudentReg::getNetwork($post);?>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getLink($post->facebook,'Facebook');?>
+                        <?php echo StudentReg::getLink($post->facebook,'Facebook');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getLink($post->googleplus,'Google');?>
+                        <?php echo  StudentReg::getLink($post->googleplus,'Google');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getLink($post->linkedin,'Linkedin');?>
+                        <?php echo  StudentReg::getLink($post->linkedin,'Linkedin');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getLink($post->vkontakte,'Vkontakte');?>
+                        <?php echo  StudentReg::getLink($post->vkontakte,'Vkontakte');?>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo UserHelper::getLink($post->twitter,'Twitter');?>
+                        <?php echo  StudentReg::getLink($post->twitter,'Twitter');?>
                     </div>
                 </td>
             </tr>

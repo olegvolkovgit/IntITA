@@ -35,7 +35,7 @@
                     <div>
                         <?php if(!empty($data['courses_page'])){ echo Yii::t('graduates', '0318'); ?>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data['courses_page'])); ?>"
-                           target="_blank"> <?php echo CourseHelper::getCourseName($data['courses_page']); ?></a>
+                           target="_blank"> <?php echo Course::getCourseName($data['courses_page']); ?></a>
                         <?php }?>
                     </div>
                 </div>

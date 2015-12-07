@@ -8,18 +8,19 @@ $footNavSize='960px'; // Ширина блоку
     <?php
     if (  $lecture->order > 1)
     {
-        $prevId = LectureHelper::getPreId($lecture->order, $lecture->idModule);
+        $prevId = $lecture->getPreId($lecture->order, $lecture->idModule);
 
         ?>
         <div class="preLessons">
-            <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo ($lecture->order - 1); ?>: <b><?php echo LectureHelper::getLectureTitle($prevId); ?></b></p>
+            <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo ($lecture->order - 1); ?>: <b>
+                    <?php echo Lecture::getLectureTitle($prevId); ?></b></p>
             <table class="typeLesson">
                 <tr>
                     <td><p><?php echo Yii::t('lecture','0074'); ?></p></td>
                     <td><span><?php echo $lecture->getPreType()['text'] ?></span></td>
                     <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPreType()['image']); ?>" style="width:<?php echo $footNavSize*0.02 . 'px'; ?>"></td>
                     <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
-                    <td><span><?php echo LectureHelper::getLectureDuration($prevId); ?></span></td>
+                    <td><span><?php echo Lecture::getLectureDuration($prevId); ?></span></td>
                     <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 </tr>
             </table>
@@ -35,17 +36,18 @@ $footNavSize='960px'; // Ширина блоку
 
     if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons'])
     {
-        $nextId = LectureHelper::getNextId($lecture['id']);
+        $nextId = Lecture::getNextId($lecture['id']);
     ?>
     <div class="nextLessons">
-        <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo $lecture->order+1 ?>: <b><?php echo LectureHelper::getLectureTitle($nextId); ?></b></p>
+        <p class="lesname"><?php echo Yii::t('lecture','0073'); ?> <?php echo $lecture->order+1 ?>: <b>
+                <?php echo Lecture::getLectureTitle($nextId); ?></b></p>
         <table class="typeLesson">
             <tr>
                 <td><p><?php echo Yii::t('lecture','0074'); ?></td>
                 <td><span><?php echo $lecture->getPostType()['text']; ?></span></td>
                 <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getPostType()['image']); ?>"style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
                 <td><p><?php echo Yii::t('lecture','0075'); ?></p></td>
-                <td><span><?php echo LectureHelper::getLectureDuration($nextId); ?></span></td>
+                <td><span><?php echo Lecture::getLectureDuration($nextId); ?></span></td>
                 <td><img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>" style="width:<?php echo $footNavSize*0.02 . 'px';?>"></td>
             </tr>
         </table>

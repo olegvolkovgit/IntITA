@@ -202,7 +202,7 @@ class CourseModules extends CActiveRecord
     public static function sortByModuleDuration($idCourse, $modules)
     {
         for($i = 0,  $count = count($modules); $i < $count; $i++){
-            $modules[$i]['lessonCount'] = LectureHelper::getLessonsCount($modules[$i]["id_module"]);
+            $modules[$i]['lessonCount'] = Module::getLessonsCount($modules[$i]["id_module"]);
             $modules[$i]['durationInMonths'] = (integer)CourseModules::getModuleDurationMonths($modules[$i]["id_module"]);
             $modules[$i]['start'] = CourseModules::startMonth($idCourse, $modules[$i]["id_module"]);
         }
@@ -250,7 +250,7 @@ class CourseModules extends CActiveRecord
     public static function getModuleDurationMonths($idModule){
         $lectureHoursInMonth = Module::lessonsInMonth($idModule);
 
-        $lectureCount = LectureHelper::getLessonsCount($idModule);
+        $lectureCount = Module::getLessonsCount($idModule);
         if($lectureHoursInMonth != 0){
             return ceil($lectureCount/$lectureHoursInMonth);
         } else {

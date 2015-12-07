@@ -23,10 +23,10 @@
 )); ?>
 <br>
 <div class="page-header">
-<b>Коментар:</b>   <?php echo MessagesHelper::getMessageCommentById($model->id);?>
+<b>Коментар:</b>   <?php echo MessageComment::getMessageCommentById($model->id);?>
     </div>
 <br>
 <br>
 <div class="page-header">
-<b>Категорія:</b>  <?php echo MessagesHelper::getMessageCategory($model->id);?>
+<b>Категорія:</b>  <?php echo Sourcemessages::getMessageCategory($model->id);?>
 </div>

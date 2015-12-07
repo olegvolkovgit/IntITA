@@ -154,7 +154,7 @@ class TeacherModule extends CActiveRecord
             'params' => array(':id' => $teacher),
         ))->queryAll();
         $count = count($modules);
-        $titleParam = ModuleHelper::getModuleTitleParam();
+        $titleParam = Module::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
             $modules[$i]['id'] = $modules[$i]["idModule"];
@@ -188,7 +188,7 @@ class TeacherModule extends CActiveRecord
             array_push($modulelist, $temp[$i]->idModule);
         }
 
-        $titleParam = ModuleHelper::getModuleTitleParam();
+        $titleParam = Module::getModuleTitleParam();
 
         $criteriaData = new CDbCriteria;
         $criteriaData->alias = 'module';

@@ -120,7 +120,6 @@ class CourseLanguages extends CActiveRecord
                 }
             }
         }
-        //var_dump($result);die();
         return $result;
     }
 }

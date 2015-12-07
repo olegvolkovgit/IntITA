@@ -156,4 +156,22 @@ class Tests extends Quiz
             return 'input:checkbox:checked';
         }
     }
+
+    public static function getTestIcon($user, $idBlock, $editMode)
+    {
+        if ($editMode || Yii::app()->user->isGuest) {
+            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+        } else {
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $idBlock))->id;
+            if (TestsMarks::isTestDone($user, $idTest)) {
+                return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
+            } else {
+                return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+            }
+        }
+    }
+
+    public static function getTestCondition($block){
+        return LectureElement::model()->findByPk($block)->html_block;
+    }
 }
