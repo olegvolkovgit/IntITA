@@ -19,23 +19,23 @@ class OperationController extends AccountancyController
 	 */
 	public function actionCreate()
 	{
-		$model=new Operation;
+		//$model = Operation::createOperation();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Operation']))
-		{
-			$model->attributes=$_POST['Operation'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+//		if(isset($_POST['Operation']))
+//		{
+//			$model->attributes=$_POST['Operation'];
+//			if($model->save())
+//				$this->redirect(array('view','id'=>$model->id));
+//		}
 
         $agreements = UserAgreements::getAllAgreements();
         $invoices = Invoice::getAllInvoices();
 
 		$this->render('create',array(
-			'model'=>$model,
+			//'model'=>$model,
             'agreementsList'=>$agreements,
             'invoicesList'=>$invoices,
 		));
@@ -84,7 +84,7 @@ class OperationController extends AccountancyController
 	 */
 	public function actionIndex()
 	{
-		$model=new Operation('search');
+		$model = new Operation('search');
 		$model->unsetAttributes();  // clear any default values
 
 		if(isset($_GET['Operation']))

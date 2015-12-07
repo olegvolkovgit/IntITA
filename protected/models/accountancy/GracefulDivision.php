@@ -7,10 +7,12 @@ trait GracefulDivision
 
         $pay = ceil($summa * 100 / $payCount);
         $pay /= 100;
-        for($i = 0; $i < ($payCount - 1); $i++){
+        for($i = 0; $i < $payCount; $i++){
             $arrayInvoiceSumma[$i] = $pay;
+            if ($i == $payCount - 1){
+                $arrayInvoiceSumma[$payCount - 1] = $summa - $pay * ($payCount - 1);
+            }
         }
-        $arrayInvoiceSumma[$payCount - 1] = $summa - $pay * ($payCount - 1);
 
         return  $arrayInvoiceSumma;
     }
