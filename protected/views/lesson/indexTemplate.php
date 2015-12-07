@@ -21,7 +21,6 @@
 /* @var $page LecturePage */
 /* @var $teacher Teacher */
 /* @var integer $idCourse */
-
 if (!isset($idCourse)) $idCourse = 0;
 ?>
 <!-- lesson style -->

@@ -13,6 +13,7 @@
 /* @var integer $idCourse */
 
 if (!isset($idCourse)) $idCourse = 0;
+
 ?>
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
