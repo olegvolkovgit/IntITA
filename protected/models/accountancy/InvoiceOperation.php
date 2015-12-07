@@ -6,8 +6,8 @@
  * Time: 16:04
  */
 
-class InvoiceOperation implements IOperation {
-
+class InvoiceOperation extends Operation implements IOperation
+{
     public function perform($summa, $user, $type, $invoicesListId, $externalSource){
 
         $this->summa = $summa;
@@ -21,7 +21,8 @@ class InvoiceOperation implements IOperation {
         {
             if ($this->save()){
                 $this->addInvoices($invoicesListId);
-                $createDate = Operation::model()->findByPk($this->id)->date_create;
+                $createDate = InvoiceOperation::model()->findByPk($this->id)->date_create;
+
                 if(!ExternalPays::addNewExternalPay($this, $createDate, $externalSource)){
                     throw new \application\components\Exceptions\FinanceException('External pay is failed!');
                 }
@@ -43,6 +44,11 @@ class InvoiceOperation implements IOperation {
 
     public function cancel(){
 
+    }
+
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
     }
 
 }

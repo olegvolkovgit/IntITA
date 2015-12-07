@@ -108,47 +108,21 @@ class Operation extends CActiveRecord
 	}
 
     public static function addOperation($summa, $user, $type, $invoicesListId, $externalSource){
-
         switch ($type){
             case '1' :
-                $model = new AgreementOperation();
-                $model->perform($summa, $user, $type, $invoicesListId, $externalSource);
+                $class = 'AgreementOperation';
                 break;
             case '2' :
-                $model = new InvoiceOperation();
-                $model->perform($summa, $user, $type, $invoicesListId, $externalSource);
+                $class = 'InvoiceOperation';
                 break;
             default:
+                throw new \application\components\Exceptions\FinanceException('Unknown type of operation!');
                 break;
         }
-//        $model->summa = $summa;
-//        $model->user_create = $user;
-//        $model->type_id = $type;
-//        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
-//
-//        $transaction = Yii::app()->db->beginTransaction();
-//        try
-//        {
-//            if ($model->save()){
-//                $model->addInvoices($invoicesListId);
-//                $createDate = Operation::model()->findByPk($model->id)->date_create;
-//                if(!ExternalPays::addNewExternalPay($model, $createDate, $externalSource)){
-//                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
-//                }
-//                if (!$model->addInternalPays($model->invoicesList, $createDate, $model->type_id)){
-//                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
-//                }
-//                Invoice::setInvoicesPayDate($model->invoicesList, $createDate);
-//                $transaction->commit();
-//            } else {
-//                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
-//            }
-//        }
-//        catch(Exception $e)
-//        {
-//            $transaction->rollback();
-//            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
-//        }
+        $model = new $class();
+
+        $model->perform($summa, $user, $type, $invoicesListId, $externalSource);
+
         //if we not receive an exception, so we have good transaction
         return true;
     }

@@ -10,9 +10,10 @@ if(!empty($invoices)){
         foreach($invoices as $invoice)
         {?>
             <div>
-                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Ким :<?php echo $invoice->getUserName() ?>
-                Пояснення : <?php echo $invoice->getServiceDescription() ?>
-                Дата створення : <?php echo date("d.m.y", strtotime($invoice->date_created))  ?>
+                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Користувач:
+                <?php echo StudentReg::getUserNamePayment($invoice->user_created); ?>
+                Сервіс: <?php echo $invoice->getServiceDescription() ?>
+                Дата: <?php echo date("d.m.y", strtotime($invoice->date_created))  ?>
             </div>
         <?php }?>
 
