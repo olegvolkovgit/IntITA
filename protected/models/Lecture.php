@@ -397,6 +397,44 @@ class Lecture extends CActiveRecord
             $this->verified = 0;
             $this->save();
         }
+    }
 
+    /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
+Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
+Якщо $order>$enabledOrder то недоступна*/
+    public static function accessLecture($id, $order, $enabledOrder)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $user = Yii::app()->user->getId();
+        if (StudentReg::isAdmin()  || $editMode) {
+            return true;
+        }
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        if (!($lecture->isFree)) {
+            if (StudentReg::getRoleString($user) == 'викладач') {
+                if (TeacherHelper::isTeacherAuthorModule($user, $lecture->idModule))
+                    return true;
+            }
+            $modulePermission = new PayModules();
+            if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
+                return false;
+            }
+        } else {
+            if ($order > $enabledOrder)
+                return false;
+        }
+        return true;
+    }
+
+    public static function getTheme($dp)
+    {
+        if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
+            $result=LectureHelper::getLectureTitle($dp->lecture_id);
+        else $result=Yii::t('profile', '0717');
+
+        return $result;
     }
 }

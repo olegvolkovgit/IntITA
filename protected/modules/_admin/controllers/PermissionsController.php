@@ -406,11 +406,10 @@ class PermissionsController extends AdminController
                 $result = StudentReg::model()->findByAttributes(array('email'=>$email));
 
                if(!empty ($result)){
-                   var_dump($result);die;
+                   echo $result->id;
                }
-//               echo $result->id;
 
-                else return false;
+                else echo 'not found';
             }
         }
     }

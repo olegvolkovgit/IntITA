@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 08.06.2015
- * Time: 18:15
- */
-
 
 class TeacherHelper
 {
@@ -43,25 +36,7 @@ class TeacherHelper
         return (!empty($module))?$module:[];
     }
 
-    public static function getTeacherName($id){
-        if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''
-                && Teacher::model()->findByPk($id)->last_name_en != ''){
-                return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
-            }
-        }
-        return Teacher::model()->findByPk($id)->last_name." ".Teacher::model()->findByPk($id)->first_name;
-    }
 
-    public static function getTeacherNameConsultation($id, $lg = 'ua'){
-        if($lg != 'ua'){
-            if($lg == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''
-                && Teacher::model()->findByPk($id)->last_name_en != ''){
-                return Teacher::model()->findByPk($id)->last_name_en." ".Teacher::model()->findByPk($id)->first_name_en;
-            }
-        }
-        return Teacher::model()->findByPk($id)->first_name." ".Teacher::model()->findByPk($id)->last_name;
-    }
 
     public static function getTeachersRoles($id){
         $roles = Yii::app()->db->createCommand()
@@ -72,15 +47,13 @@ class TeacherHelper
             ->queryAll();
         $result = '';
         for($i = count($roles)-1; $i > 0; $i--){
-            $result .= TeacherHelper::getRoleTitle($roles[$i]['role']);
+            $result .= Roles::getRoleTitle($roles[$i]['role']);
             $result .= "\r\n";
         }
         return $result;
     }
 
-    public static function getRoleTitle($id){
-        return Roles::model()->findByPk($id)->title_ua;
-    }
+
 
     public static function getTeacherAttributeValue($teacher, $attribute){
         $result = '';
@@ -196,49 +169,20 @@ class TeacherHelper
         if(isset($author)) return true; else return false;
     }
 
-    public static function getTeacherId($user){
 
-        if ($user != 0 && Teacher::model()->exists('user_id=:user', array(':user' => $user))){
-            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
-        } else {
-            return 0;
-        }
-    }
 
     public static function getTeacherNameByUserId($user){
-        $idTeacher = TeacherHelper::getTeacherId($user);
-        return TeacherHelper::getTeacherName($idTeacher);
+        $idTeacher = Teacher::getTeacherId($user);
+        return Teacher::getTeacherName($idTeacher);
     }
+
     public static function isUserTeacher($idUser){
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser)))
             return true;
         else return false;
     }
 
-    public static function getTeacherLastName($id){
-        if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->last_name_en != ''){
-                return Teacher::model()->findByPk($id)->last_name_en;
-            }
-        }
-        return Teacher::model()->findByPk($id)->last_name;
-    }
 
-    public static function getTeacherFirstName($id){
-        if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''){
-                return Teacher::model()->findByPk($id)->first_name_en;
-            }
-        }
-        return Teacher::model()->findByPk($id)->first_name;
-    }
 
-    public static function getTeacherMiddleName($id){
-        if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->middle_name_en != ''){
-                return Teacher::model()->findByPk($id)->middle_name_en;
-            }
-        }
-        return Teacher::model()->findByPk($id)->middle_name;
-    }
+
 }

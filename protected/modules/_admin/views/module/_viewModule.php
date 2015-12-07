@@ -2,9 +2,9 @@
 /* @var $this ModuleController */
 /* @var $model Module */
 ?>
-
+<div class="page-header">
 <h1>View Module #<?php echo $model->module_ID; ?></h1>
-
+</div>
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data'=>$model,
     'attributes'=>array(

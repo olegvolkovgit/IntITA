@@ -9,8 +9,10 @@ $this->menu=array(
 //print_r($this->menu[1]['url'])
 ?>
 <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/create');?>">Створити посилання на ресурс</a>
-<br>
+</button>
+    <br>
 <?php
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,9 +28,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<div class="page-header">
 <h1>Управління ресурсами для викладачів</h1>
-<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+</div>
+    <?php $this->widget('zii.widgets.CBreadcrumbs', array(
 'links'=>$this->breadcrumbs,
 ));?>
 

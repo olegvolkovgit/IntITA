@@ -6,7 +6,9 @@
 <div class="view">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
+    <button type="button" class="btn btn-link">
+    <?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
+    </button>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('param')); ?>:</b>

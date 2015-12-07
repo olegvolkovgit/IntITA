@@ -4,12 +4,17 @@
 ?>
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки викладачів - Головна</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/response/view', array('id' => $model->id));?>">Переглянути відгук</a>
+    </button>
 
-<h1>Редагувати відгук #<?php echo $model->id; ?></h1>
-
+    <div class="page-header">
+    <h1>Редагувати відгук #<?php echo $model->id; ?></h1>
+    </div>
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
     <div class="form">
@@ -27,15 +32,16 @@
             // See class documentation of CActiveForm for details on this.
             'enableAjaxValidation'=>false,
         )); ?>
-        <div class="row">
+        <div class="form-group">
             <?php echo $form->labelEx($model,'text'); ?>
-            <?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50)); ?>
+            <?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50,'class'=>"form-control")); ?>
             <?php echo $form->error($model,'text'); ?>
         </div>
 
-        <div class="row">
+        <div class="form-group">
             <?php echo $form->labelEx($model,'is_checked'); ?>
-            <?php echo $form->dropDownList($model, 'is_checked',array('1' => 'публікувати', '0' => 'приховати')); ?>
+            <?php echo $form->dropDownList($model, 'is_checked',array('1' => 'публікувати', '0' => 'приховати'),
+                array('class'=>"form-control")); ?>
             <?php echo $form->error($model,'is_checked'); ?>
         </div>
 

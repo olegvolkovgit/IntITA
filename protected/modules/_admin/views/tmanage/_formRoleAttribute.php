@@ -21,41 +21,39 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
-    <?php echo $form->errorSummary($model); ?>
-
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'name'); ?>
-        <?php echo $form->textField($model,'name',array('size'=>30,'maxlength'=>30)); ?>
+        <?php echo $form->textField($model,'name',array('size'=>30,'maxlength'=>30,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', TeacherHelper::getRoleTitlesList()); ?>
+        <?php echo $form->dropDownList($model,'role', TeacherHelper::getRoleTitlesList(),
+            array('class'=> 'form-control')); ?>
         <?php echo $form->error($model,'role'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'type'); ?>
-        <?php echo $form->textField($model,'type',array('size'=>50,'maxlength'=>50)); ?>
+        <?php echo $form->textField($model,'type',array('size'=>50,'maxlength'=>50,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'type'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'name_ru'); ?>
-        <?php echo $form->textField($model,'name_ru',array('size'=>30,'maxlength'=>30)); ?>
+        <?php echo $form->textField($model,'name_ru',array('size'=>30,'maxlength'=>30,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'name_ru'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'name_ua'); ?>
-        <?php echo $form->textField($model,'name_ua',array('size'=>30,'maxlength'=>30)); ?>
+        <?php echo $form->textField($model,'name_ua',array('size'=>30,'maxlength'=>30,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'name_ua'); ?>
     </div>
 
-    <div class="row buttons">
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
 

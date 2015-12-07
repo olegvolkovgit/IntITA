@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 18.11.2015
- * Time: 15:10
- * $modules = Module list
- */
-?>
 <ol>
     <?php foreach($modules as $module)
           {?>

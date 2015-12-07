@@ -31,7 +31,7 @@ if (!isset($idCourse)) $idCourse = 0;
     idLecture = <?php echo $lecture->id;?>;
     idUser = <?php echo $user;?>;
     <?php if($user != 0){?>
-    idTeacher = <?php echo TeacherHelper::getTeacherId($user);?>;
+    idTeacher = <?php echo Teacher::getTeacherId($user);?>;
     <?php }?>
     order = 1;
     currentTask = 0;
@@ -110,7 +110,22 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
     ));
     $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
+/////////////////////////////////////////////////////////////
 
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id' => 'skipTaskCancel',
+
+        'options' => array(
+            'width' => 540,
+            'autoOpen' => false,
+            'modal' => true,
+            'resizable' => false
+        ),
+    ));
+    $this->renderPartial('/lesson/_modalTask2');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+
+////////////////////////////////////////////////////////////////
     ?>
 </div>
 <!-- lesson style -->

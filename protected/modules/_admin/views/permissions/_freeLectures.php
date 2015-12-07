@@ -8,10 +8,13 @@
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
     <br>
+
     <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступу</a>
 
 <h2>Безкоштовні лекції</h2>
+<div class="row">
 <?php
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'freeLecturesGrid',
     'dataProvider' => $model->search(),
@@ -101,3 +104,4 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 ));
 ?>
+</div>

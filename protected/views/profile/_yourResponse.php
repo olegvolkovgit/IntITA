@@ -23,7 +23,7 @@
     $motivval = Null;
 //}
 ?>
-<?php if (AccessHelper::canAddResponse()) { ?>
+<?php if (StudentReg::canAddResponse()) { ?>
     <div class="lessonTask">
         <img class="lessonBut"
              src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'lessButton.png'); ?>">

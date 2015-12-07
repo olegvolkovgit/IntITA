@@ -31,8 +31,8 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <?php if ($post->role == 1){?>
-                    <a href="<?php echo Config::getBaseUrl(); ?>/_teacher/cabinet/<?php echo $post->getTeacherId(); ?>">Cabinet</a>
+                    <?php if ($post->role != 0){?>
+                    <a href="<?php echo $post->getCabinetLink();?>">Мій кабінет</a>
                     <?php } ?>
                     <h1><?php echo $post->nickname;?></h1>
                     <h1><?php echo $post->firstName;?></h1>
@@ -81,9 +81,6 @@ $this->breadcrumbs=array(Yii::t('breadcrumbs', '0054'),
                     <div class="aboutInfo">
                         <?php echo UserHelper::getLink($post->twitter,'Twitter');?>
                     </div>
-<!--                    <div class="aboutInfo">-->
-<!--                        <p>--><?php //$post::getCourses('Курси самогоних апаратів 6-го рівня');?><!--</p>-->
-<!--                    </div>-->
                 </td>
             </tr>
         </table>

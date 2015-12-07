@@ -8,11 +8,14 @@
 ?>
 <br>
 <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
-<br>
+</button>
+    <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-
-
+</button>
+<div class="col-md-4">
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
@@ -20,7 +23,8 @@
         <fieldset>
             <legend id="label">Призначити роль викладачу <?php  echo $teacher->last_name. ' ' . $teacher->first_name . ' ' . $teacher->middle_name;?>:</legend>
             Викладач:<br>
-            <select name="teacher" placeholder="(Виберіть викладача)" autofocus>
+            <div class="form-group">
+            <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
                 <?php $users = AccessHelper::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
@@ -30,13 +34,15 @@
                 }
                 ?>
             </select>
+            </div>
             <br>
             <br>
             Роль:<br>
-            <select name="role" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
+            <div class="form-group">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = AccessHelper::generateRolesList();
+                    <?php $courses = Roles::generateRolesList();
                     $count = count($courses);
                     for($i = 0; $i < $count; $i++){
                         ?>
@@ -45,12 +51,13 @@
                     }
                     ?>
             </select>
+            </div>
             <br>
             <br>
-            <input type="submit" value="Призначити роль">
+            <input class="btn btn-default" type="submit" value="Призначити роль">
     </form>
 </div>
-
+</div>
 
 
 

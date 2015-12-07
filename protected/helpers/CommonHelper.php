@@ -51,6 +51,31 @@ class CommonHelper {
         return $level;
     }
 
+    public static function translateLevel($level)
+    {
+        if(isset(Yii::app()->session)){$lg = Yii::app()->session['lg'];}else $lg = 'ua';
+
+        switch ($level) {
+            case 'intern':
+                $level = Translate::getMessagesByLevel('0232',$lg);
+                break;
+            case 'junior':
+                $level = Translate::getMessagesByLevel('0233',$lg);
+                break;
+            case 'strong junior':
+                $level = Translate::getMessagesByLevel('0234',$lg);
+                break;
+            case 'middle':
+                $level = Translate::getMessagesByLevel('0235',$lg);
+                break;
+            case 'senior':
+                $level = Translate::getMessagesByLevel('0236',$lg);
+                break;
+        }
+
+        return $level;
+    }
+
     public static function getYearsTermination ($num)
     {
         //Оставляем две последние цифры от $num
@@ -116,6 +141,7 @@ class CommonHelper {
 
         return array('name' => $name, 'version' => $version);
     }
+
     static public function checkForBrowserVersion(array $browser, array $conditions)
     {
         if (!isset($browser['name']) || !isset($conditions[$browser['name']])

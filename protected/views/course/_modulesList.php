@@ -96,14 +96,14 @@ $editMode = ($canEdit) ? 'true' : '';
                 'type' => 'raw',
                 'header' => false,
                 'htmlOptions' => array('class' => 'titleColumn'),
-                'cssClassExpression'=>'AccessHelper::moduleAccessStyle($data)',
+                'cssClassExpression'=>'Module::moduleAccessStyle($data)',
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
 
                     $title = ModuleHelper::getModuleTitleParam();
                     $moduleTitle = ModuleHelper::getDefaultModuleName($data->moduleInCourse->$title);
                     $value = '<span class="moduleOrder">'. Yii::t('course', '0364') . ' ' . $data->order . '.</span><span class="moduleLink"> '.CHtml::encode($data->moduleInCourse->$moduleTitle).'</span>';
-                    return AccessHelper::moduleProgressDescription($data, $value);
+                    return Module::moduleProgressDescription($data, $value);
                 }
             ),
         ),

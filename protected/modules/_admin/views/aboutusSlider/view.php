@@ -5,11 +5,15 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
 <br>
 <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index');?>">Список фото</a>
+<button type="button" class="btn btn-link">
+    <a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index');?>">Список фото</a>
+</button>
 
-<h1>Зображення #<?php echo $model->image_order; ?></h1>
-
+<div class="page-header">
+    <h2>Зображення #<?php echo $model->image_order; ?></small></h2>
+</div>
+<div class="page-header">
 <img src="<?php echo StaticFilesHelper::createPath("image", "aboutus", $model->pictureUrl);?>" id="pictureLarge" />
-
+</div>
 <br>
 <br>

@@ -24,37 +24,37 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'param'); ?>
-		<?php echo $form->textField($model,'param',array('size'=>60,'maxlength'=>128)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'param',array('for' => 'param')); ?>
+		<?php echo $form->textField($model,'param',array('size'=>60,'maxlength'=>128,'class' => "form-control",'id' => 'param')); ?>
 		<?php echo $form->error($model,'param'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'value'); ?>
-		<?php echo $form->textArea($model,'value',array('rows'=>6, 'cols'=>50)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'value',array('for' => 'value')); ?>
+		<?php echo $form->textArea($model,'value',array('rows'=>6, 'cols'=>50,'class' => "form-control",'id' => 'value')); ?>
 		<?php echo $form->error($model,'value'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'default'); ?>
-		<?php echo $form->textArea($model,'default',array('rows'=>6, 'cols'=>50)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'default',array('for' => 'default')); ?>
+		<?php echo $form->textArea($model,'default',array('rows'=>6, 'cols'=>50,'class' => "form-control",'id' => 'default')); ?>
 		<?php echo $form->error($model,'default'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'label'); ?>
-		<?php echo $form->textField($model,'label',array('size'=>60,'maxlength'=>255)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'label',array('for' => 'label')); ?>
+		<?php echo $form->textField($model,'label',array('size'=>60,'maxlength'=>255,'class' => "form-control",'id' => 'label')); ?>
 		<?php echo $form->error($model,'label'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type',array('size'=>60,'maxlength'=>128)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'type',array('for' => 'type')); ?>
+		<?php echo $form->textField($model,'type',array('size'=>60,'maxlength'=>128,'class' => "form-control",'id' => 'type')); ?>
 		<?php echo $form->error($model,'type'); ?>
 	</div>
 
-	<div class="row buttons">
+	<div class="form-group">
 		<?php echo CHtml::submitButton('Зберегти'); ?>
 	</div>
 

@@ -398,7 +398,6 @@ class LectureElement extends CActiveRecord
         }
     }
 
-
 //    public function afterSave()
 //    {
 //        parent::afterSave();

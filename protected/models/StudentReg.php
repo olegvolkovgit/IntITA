@@ -147,6 +147,7 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
            'teacher' => array(self::HAS_ONE, 'Teacher','user_id'),
+            'trainer' => array(self::HAS_ONE , 'TrainerStudent', 'student'),
         );
     }
 
@@ -419,6 +420,7 @@ class StudentReg extends CActiveRecord
             return true;
         else return false;
     }
+
     public static function getProfileRole ($id)
     {
         $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
@@ -564,7 +566,7 @@ class StudentReg extends CActiveRecord
         return $markProvider;
     }
 
-    public static function getUserName($id)
+    public static function getUserNamePayment($id)
     {
         if ($id) {
             $model = StudentReg::model()->findByPk($id);
@@ -595,4 +597,199 @@ class StudentReg extends CActiveRecord
 
         return $result;
     }
+
+    public static function getUserName($id)
+    {
+        $model = StudentReg::model()->findByPk($id);
+        $name = $model->firstName . " " . $model->secondName;
+        return trim($name);
+    }
+
+    public static function getRoleString($id)
+    {
+        $code = StudentReg::model()->findByPk($id)->role;
+        $role = '';
+        switch ($code) {
+            case '0':
+                $role = 'студент';
+                break;
+            case '1':
+                $role = 'викладач';
+                break;
+            case '2':
+                $role = 'модератор';
+                break;
+            case '3':
+                $role = 'адмін';
+                break;
+        }
+        return $role;
+    }
+
+    public static function getUserInfo()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = array('id', 'firstName', 'secondName', 'email');
+        $criteria->toArray();
+        $count = StudentReg::model()->count();
+        $info = Studentreg::model()->findAll($criteria);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$info[$i]["id"]] = $info[$i]["email"] . "; " . $info[$i]["firstName"] . " " . $info[$i]["secondName"];
+        }
+        return $result;
+    }
+
+    public static function isAdmin()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 3) {
+
+            return true;
+        }
+        return false;
+    }
+
+    public static function canAddConsultation()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function generateUsersList()
+    {
+        $users = StudentReg::model()->findAll();
+        $count = count($users);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $users[$i]->id;
+            $result[$i]['alias'] = $users[$i]->firstName . " " . $users[$i]->secondName . ", " . $users[$i]->email;
+        }
+        return $result;
+    }
+
+    public static function isHasAccessFileShare()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        $role = StudentReg::model()->findByPk($user)->role;
+        if ($role == 3 || $role == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function canAddResponse()
+    {
+        if (Yii::app()->user->isGuest) {
+            return false;
+        }
+        $user = Yii::app()->user->getId();
+        if (StudentReg::model()->findByPk($user)->role == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function linkInMouseLine()
+    {
+        if (Yii::app()->user->isGuest)
+            return "href='#form'";
+        else return "";
+    }
+
+    public static function getUserTitle($idUser)
+    {
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
+
+        if($teacher)
+            $result=Yii::t('profile', '0715');
+        else
+            $result=Yii::t('profile', '0129');
+
+        return $result;
+    }
+
+    public static function getResponseAuthorName($id){
+        $model = StudentReg::model()->findByPk($id);
+        return $model->firstName." ".$model->secondName.", ".$model->email;
+    }
+
+    public function getCabinetLink(){
+        switch($this->role){
+            case '1':
+                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Teacher::getTeacherId($this->id)));
+                break;
+            case '2':
+                return Yii::app()->createUrl('/_accountancy/default/index');
+                break;
+            case '3':
+                return Yii::app()->createUrl('/_admin/default/index');
+                break;
+            default:
+                break;
+        }
+        return '';
+    }
+
+    public function getTrainer()
+    {
+        $trainer = null;
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'trainer_student';
+        $criteria->addCondition('student = :student');
+        $criteria->params = array(':student' => $this->id);
+
+        $result = TrainerStudent::model()->find($criteria);
+        if($result){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'teacher';
+        $criteria->addCondition('teacher_id = :teacher_id');
+        $criteria->params = array(':teacher_id' => $result->trainer);
+        $trainer = Teacher::model()->find($criteria);
+        }
+
+        if($trainer)
+        return $trainer->teacher_id;
+        else return null;
+    }
+
+    public static function getStudentWithoutTrainer()
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
+        $criteria->addCondition ('trainer_student.student IS NULL');
+        $result = StudentReg::model()->findAll($criteria);
+
+        if($result)
+        return $result;
+        else return null;
+    }
+
+    public static function getUserWithTrainer()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
+        $criteria->addCondition ('trainer_student.student = user.id');
+        $result = StudentReg::model()->findAll($criteria);
+
+        if($result)
+            return $result;
+        else return null;
+    }
+
 }

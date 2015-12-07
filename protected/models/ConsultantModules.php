@@ -7,6 +7,8 @@
  * @property integer $id
  * @property integer $consultant
  * @property integer $module
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Module $module0
@@ -33,8 +35,7 @@ class ConsultantModules extends CActiveRecord
 			array('consultant, module', 'required'),
 			array('consultant, module', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, consultant, module', 'safe', 'on'=>'search'),
+			array('id, consultant, module, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +61,8 @@ class ConsultantModules extends CActiveRecord
 			'id' => 'ID',
 			'consultant' => 'Consultant',
 			'module' => 'Module',
+            'start_time' => 'Start time',
+            'end_time' => 'End time'
 		);
 	}
 
@@ -77,13 +80,13 @@ class ConsultantModules extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('consultant',$this->consultant);
 		$criteria->compare('module',$this->module);
+        $criteria->compare('start_time',$this->start_time);
+        $criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

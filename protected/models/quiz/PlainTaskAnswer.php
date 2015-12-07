@@ -9,6 +9,7 @@
  * @property integer $id_student
  * @property integer $id_plain_task
  * @property string $date
+ * @property int $consultant
  *
  */
 class PlainTaskAnswer extends CActiveRecord
@@ -30,11 +31,11 @@ class PlainTaskAnswer extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_student, id_plain_task', 'required'),
-			array('id_student, id_plain_task', 'numerical', 'integerOnly'=>true),
+			array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly'=>true),
 			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, answer, id_student, id_plain_task, date', 'safe', 'on'=>'search'),
+			array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +47,9 @@ class PlainTaskAnswer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'consultants' => array(self::BELONGS_TO, 'Teacher' , 'consultant'),
+            'plainTask' => array(self::BELONGS_TO, 'PlainTask' , 'id_plain_task'),
+            'user' => array(self::BELONGS_TO,'StudentReg','id_student'),
 		);
 	}
 
@@ -59,6 +63,7 @@ class PlainTaskAnswer extends CActiveRecord
 			'answer' => 'Answer',
 			'id_student' => 'Id Student',
 			'id_plain_task' => 'Id Plain Task',
+            'consultant' => 'Consultant',
 		);
 	}
 
@@ -85,8 +90,10 @@ class PlainTaskAnswer extends CActiveRecord
 		$criteria->compare('id_student',$this->id_student);
 		$criteria->compare('id_plain_task',$this->id_plain_task);
         $criteria->compare('date',$this->date);
+        $criteria->compare('consultant',$this->consultant);
 
-		return new CActiveDataProvider($this, array(
+
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
@@ -110,5 +117,32 @@ class PlainTaskAnswer extends CActiveRecord
         $plainTaskAnswer->id_plain_task = $id_plain_task;
 
         return $plainTaskAnswer;
+    }
+
+    public function getStudentName()
+    {
+        return $this->user->email;
+    }
+
+    public function getConsultant()
+    {
+        $teacher = $this->consultants;
+        if($teacher)
+        return $teacher->first_name;
+    }
+
+    public function getCondition()
+    {
+        $plainTask = $this->plainTask;
+        if ($plainTask)
+            return $plainTask->lectureElement->html_block;
+    }
+
+    public static function getAllPlainTaskAnswers(){
+        $results = Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('plain_task_answer_teacher')
+            ->queryAll();
+        return $results;
     }
 }

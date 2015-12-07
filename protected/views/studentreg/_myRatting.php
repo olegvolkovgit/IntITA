@@ -1,7 +1,7 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0113'); ?></p>
 <div>
 <?php
-if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
+if (StudentReg::getRole(Yii::app()->user->id) == 'викладач') {
     $model = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
     ?>
     <div class="mainrating">

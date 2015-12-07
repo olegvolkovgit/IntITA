@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         array(
             'header' => 'Автор',
-            'value' => 'ResponseHelper::getResponseAuthorName($data->who)',
+            'value' => 'StudentReg::getResponseAuthorName($data->who)',
         ),
         array(
             'header' => 'Про кого',

@@ -11,17 +11,18 @@
 	'method'=>'get',
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'order'); ?>
-		<?php echo $form->textField($model,'order'); ?>
+    <div class="form-group">
+		<?php echo $form->label($model,'order',array('for' => 'text')); ?>
+		<?php echo $form->textField($model,'order',array('class'=> 'form-control','id' => 'text')); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'pictureURL'); ?>
-		<?php echo $form->textField($model,'pictureURL',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->label($model,'pictureURL',array('for' => 'picture')); ?>
+		<?php echo $form->textField($model,'pictureURL',array('size'=>50,'maxlength'=>50,'class'=>
+            'form-control','id' => 'picture')); ?>
 	</div>
 
-	<div class="row buttons">
+    <div class="form-group">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>
 

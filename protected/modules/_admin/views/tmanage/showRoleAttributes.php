@@ -4,12 +4,16 @@
 ?>
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">Додати атрибут ролі</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-
-<h2>Атрибути ролі <?php echo $model->title_ua; ?></h2>
-
+    </button>
+    <div class="page-header">
+    <h2>Атрибути ролі <?php echo $model->title_ua; ?></h2>
+    </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
     'htmlOptions'=>array('class'=>'grid-view custom'),
@@ -51,7 +55,6 @@
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),
 

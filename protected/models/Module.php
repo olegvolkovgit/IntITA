@@ -369,7 +369,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function showModule($course)
     {
-        $first = '<select name="module" id="payModuleList">';
+        $first = '<select name="module" class="form-control" id="payModuleList">';
 
         $modulelist = [];
 
@@ -402,4 +402,148 @@ class Module extends CActiveRecord implements IBillableObject
         return $result . $last;
     }
 
+    public static function moduleAccessStyle($data)
+    {
+        $user=Yii::app()->user->getId();
+        if (Yii::app()->user->isGuest) {
+            return 'disableModuleStyle';
+        }
+        if (StudentReg::isAdmin()) {
+            return 'availableModuleStyle';
+        }
+        if (StudentReg::getRoleString($user) == 'викладач') {
+            if (TeacherHelper::isTeacherAuthorModule($user, $data->moduleInCourse->module_ID))
+                return 'availableModuleStyle';
+        }
+        if(PayCourses::model()->checkCoursePermission($user, $data->id_course, array('read'))){
+            switch (ModuleHelper::getModuleProgress($data->moduleInCourse->module_ID, $user)[0]) {
+                case 'inline':
+                    return 'inlineModuleStyle';
+                    break;
+                case 'inProgress':
+                    return 'inProgressModuleStyle';
+                    break;
+                case 'finished':
+                    return 'inFinishedModuleStyle';
+                    break;
+                default:
+                    return 'inlineModuleStyle';
+                    break;
+            }
+        }
+        $modulePermission = new PayModules();
+        if (!$modulePermission->checkModulePermission($user, $data->moduleInCourse->module_ID, array('read'))) {
+            return 'disableModuleStyle';
+        }
+        return 'availableModuleStyle';
+    }
+
+
+    public static function moduleProgressDescription($data,$value)
+    {
+        $user=Yii::app()->user->getId();
+        $time=ModuleHelper::getAverageModuleDuration($data->moduleInCourse->lesson_count,
+            $data->moduleInCourse->hours_in_day,
+            $data->moduleInCourse->days_in_week);
+        if (Yii::app()->user->isGuest) {
+            $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
+            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
+                $time.' '.CommonHelper::getDaysTermination($time).$img.'</div>',
+                Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID,
+                    "idCourse" => $data->id_course)), array('class' => 'disableModule'));
+        }
+        if (StudentReg::isAdmin()) {
+            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
+                CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+                array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+        }
+        if (StudentReg::getRoleString(Yii::app()->user->getId()) == 'викладач') {
+            if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(), $data->moduleInCourse->module_ID))
+                return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
+                    CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+                    array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+        }
+
+        if(PayCourses::model()->checkCoursePermission(Yii::app()->user->getId(), $data->id_course, array('read'))){
+            if(ModuleHelper::getModuleProgress($data->moduleInCourse->module_ID, $user)){
+                $moduleInfo=ModuleHelper::getModuleProgress($data->moduleInCourse->module_ID, $user);
+                switch ($moduleInfo[0]) {
+                    case 'inline':
+                        $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'future.png'));
+                        return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
+                            $time.' '.CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0648').
+                            $img.'</div>', Yii::app()->createUrl("module/index", array("idModule" =>
+                            $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+                        break;
+                    case 'inProgress':
+                        $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'inProgress.png'));
+                        return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
+                            $time.' '.CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0650').' '.
+                            $moduleInfo[1].' '.CommonHelper::getDaysTermination($moduleInfo[1]).'. '.
+                            Yii::t('module', '0651').$img.'</div>', Yii::app()->createUrl("module/index",
+                            array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+                        break;
+                    case 'finished':
+                        $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'finished.png'));
+                        return CHtml::link($value.'<div class="moduleProgress"><span class="greenFinished">'.
+                            Yii::t('module', '0649').'</span> ('.Yii::t('module', '0650').': <span class="'.
+                            ModuleHelper::getHoursColor($moduleInfo[1],$time).'">'.$moduleInfo[1].'</span> '.
+                            CommonHelper::getDaysTermination($moduleInfo[1]).' '.Yii::t('module', '0652').' '.
+                            $time.')'.$img.'</div>', Yii::app()->createUrl("module/index", array("idModule" =>
+                            $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
+                        break;
+                    default:
+                        $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'future.png'));
+                        return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
+                            $time.' '.CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0648').
+                            $img.'</div>', Yii::app()->createUrl("module/index", array(
+                            "idModule" => $data->moduleInCourse->module_ID,
+                            "idCourse" => $data->id_course
+                        )));
+                        break;
+                }
+            }else{
+                $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'future.png'));
+                return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
+                    CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0648').$img.'</div>',
+                    Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID,
+                        "idCourse" => $data->id_course)));
+            }
+        }
+
+        $modulePermission = new PayModules();
+        if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $data->moduleInCourse->module_ID,
+            array('read'))) {
+            $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
+            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
+                CommonHelper::getDaysTermination($time).' '.$img.'</div>', Yii::app()->createUrl("module/index",
+                array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),
+                array('class' => 'disableModule'));
+        }else{
+            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
+                CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+                array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),
+                array('class' => ''));
+        }
+    }
+
+    public static function generateModulesList()
+    {
+        $modules = Module::model()->findAll();
+        $count = count($modules);
+        $result = [];
+        $titleParam = LectureHelper::getTypeTitleParam();
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $modules[$i]->module_ID;
+            $result[$i]['alias'] = $modules[$i]->$titleParam;
+        }
+        return $result;
+    }
+
+    public static function getResourceDescription($id)
+    {
+        $module = Module::model()->findByPk($id);
+
+        return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
+    }
 }

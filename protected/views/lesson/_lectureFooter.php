@@ -53,7 +53,7 @@ $footNavSize='960px'; // Ширина блоку
 
         </table>
         <?php
-        if($finishedLecture || $editMode || AccessHelper::isAdmin()) { ?>
+        if($finishedLecture || $editMode || StudentReg::isAdmin()) { ?>
             <div class="nextLessonLink">
                 <p><a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse));?>"><input class="nextLessButt" type="submit" value="<?php echo Yii::t('lecture','0088'); ?>"></a></p>
             </div>

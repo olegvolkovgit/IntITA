@@ -7,6 +7,8 @@
  * @property integer $id
  * @property integer $idTeacher
  * @property integer $idModule
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Module $idModule0
@@ -33,8 +35,7 @@ class TeacherModule extends CActiveRecord
 			array('idTeacher, idModule', 'required'),
 			array('idTeacher, idModule', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, idTeacher, idModule', 'safe', 'on'=>'search'),
+			array('id, idTeacher, idModule, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +60,8 @@ class TeacherModule extends CActiveRecord
 			'id' => 'ID',
 			'idTeacher' => 'Id Teacher',
 			'idModule' => 'Id Module',
+            'start_time' => 'Start time',
+            'end_time' => 'End time'
 		);
 	}
 
@@ -76,13 +79,13 @@ class TeacherModule extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('idTeacher',$this->idTeacher);
 		$criteria->compare('idModule',$this->idModule);
+        $criteria->compare('start_time',$this->start_time);
+        $criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -172,7 +175,7 @@ class TeacherModule extends CActiveRecord
 
     public static function showTeacherModule($idTeacher)
     {
-        $first = '<select name="module1">';
+        $first = '<select class="form-control" name="module1">';
 
         $modulelist = [];
         $criteria = new CDbCriteria;

@@ -267,7 +267,5 @@ class Invoice extends CActiveRecord
         $criteria->addSearchCondition('number', $invoiceNumber);
         $inv = Invoice::model()->findAll($criteria);
         return $inv;
-        if($agreement->service)
-            return $agreement->service->description;
     }
 }

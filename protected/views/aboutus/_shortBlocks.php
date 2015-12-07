@@ -28,7 +28,7 @@
                 $index++;
 
                 ?>
-                <div class="block" id="<?php echo AboutUsHelper::getIdTabAboutUs($index) ?>" onclick="showAboutUs('<?php echo $index; ?>',this)">
+                <div class="block" id="<?php echo AboutUs::getIdTabAboutUs($index) ?>" onclick="showAboutUs('<?php echo $index; ?>',this)">
                     <ul>
                         <li>
                             <div class="icon">

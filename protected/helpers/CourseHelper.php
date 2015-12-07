@@ -8,36 +8,12 @@
  */
 class CourseHelper
 {
-    public static function translateLevel($level)
-    {
 
-        if(isset(Yii::app()->session)){$lg = Yii::app()->session['lg'];}else $lg = 'ua';
-
-       switch ($level) {
-            case 'intern':
-                $level = Messages::getMessagesByLevel('0232',$lg);
-                break;
-            case 'junior':
-                $level = Messages::getMessagesByLevel('0233',$lg);
-                break;
-            case 'strong junior':
-                $level = Messages::getMessagesByLevel('0234',$lg);
-                break;
-            case 'middle':
-                $level = Messages::getMessagesByLevel('0235',$lg);
-                break;
-            case 'senior':
-                $level = Messages::getMessagesByLevel('0236',$lg);
-                break;
-        }
-
-        return $level;
-    }
 
     public static function getCourseLevel($idCourse)
     {
         $level = Course::model()->findByPk($idCourse)->level;
-        return CourseHelper::translateLevel($level);
+        return CommonHelper::translateLevel($level);
     }
 
     public static function translateLevelUa($course)
@@ -248,10 +224,7 @@ class CourseHelper
         return $lessonsCount;
     }
 
-    public static function getCourseLang($id)
-    {
-        return Course::model()->findByPk($id)->language;
-    }
+
 
     public static function getCourseTitlesList()
     {
@@ -409,17 +382,18 @@ class CourseHelper
 
     public static function generateModuleCoursesList($idModule,$messages = null)
     {
+        $result = [];
         if($messages !== null)
         {
-            return ;
+            return $result;
         }
+
         $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
         $count = count($courses);
-        $result = [];
         for ($i = 0; $i < $count; $i++) {
             $result[$i]['id'] = $courses[$i]->id_course;
             $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->id_course);
-            $result[$i]['language'] = CourseHelper::getCourseLang($courses[$i]->id_course);
+            $result[$i]['language'] = Course::getCourseLang($courses[$i]->id_course);
             $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
             $result[$i]['price'] = $courses[$i]->price_in_course;
         }

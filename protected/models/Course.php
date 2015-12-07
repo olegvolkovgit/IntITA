@@ -368,4 +368,22 @@ class Course extends CActiveRecord implements IBillableObject
         return Course::model()->findByPk($id)->status;
     }
 
+    public static function generateCoursesList()
+    {
+        $courses = Course::model()->findAll();
+        $count = count($courses);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $courses[$i]->course_ID;
+            $result[$i]['alias'] = CourseHelper::getCourseName($courses[$i]->course_ID);
+            $result[$i]['language'] = Course::getCourseLang($courses[$i]->course_ID);
+        }
+        return $result;
+    }
+
+    public static function getCourseLang($id)
+    {
+        return Course::model()->findByPk($id)->language;
+    }
+
 }

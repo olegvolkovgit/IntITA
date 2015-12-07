@@ -18,6 +18,7 @@ class LessonController extends Controller
             ),
         );
     }
+
     public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
@@ -25,7 +26,7 @@ class LessonController extends Controller
         if (Yii::app()->user->isGuest) {
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
-        if (AccessHelper::isAdmin() || $editMode) {
+        if (StudentReg::isAdmin() || $editMode) {
             return true;
         }
         if (!($lecture->isFree)) {
@@ -631,7 +632,7 @@ class LessonController extends Controller
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
+        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || StudentReg::isAdmin())){
             echo Yii::t('lecture', '0640');
         }
         else{
@@ -662,7 +663,7 @@ class LessonController extends Controller
             $langs = ['ua', 'ru', 'en'];
             $types = ['video', 'text', 'quiz'];
             foreach($langs as $lang) {
-                $messages = Messages::getLectureContentMessagesByLang($lang);
+                $messages = Translate::getLectureContentMessagesByLang($lang);
                 foreach($types as $type) {
                     switch ($type) {
 //                $html = $this->renderPartial('lectureHTML', array(

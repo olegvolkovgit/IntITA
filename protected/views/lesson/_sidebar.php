@@ -50,7 +50,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
             </li>
             <div id="counter">
                 <?php
-                if ($editMode || AccessHelper::isAdmin()) {
+                if ($editMode || StudentReg::isAdmin()) {
                     for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
@@ -63,7 +63,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                     for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         $lectureOrder = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->order;
-                        if (AccessHelper::accesLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
+                        if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
                                tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
                                 <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
@@ -124,7 +124,7 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
     <div id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></div>
 
     <div id="discussion"></div>
-    <?php if (AccessHelper::canAddConsultation()) { ?>
+    <?php if (StudentReg::canAddConsultation()) { ?>
         <div style="display: inline-block;margin-left: 15px">
             <a class='consultationButtons' href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
                 <div id="consultationAssistance">

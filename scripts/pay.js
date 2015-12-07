@@ -33,11 +33,9 @@ function findUserByEmail() {
             url: "../../permissions/showUsers",
             data : {email : email},
             success: function(JSON){
-
-                if(JSON === false) alert('Kористувач с таким email не знайдено');
+                if(JSON === 'not found') alert('Kористувача с таким email не знайдено');
                 else{
                     var select = document.getElementsByName('user');
-
                     for(var i = 0; i < select.length; i++)
                     {
                         var nodeList = select[i];

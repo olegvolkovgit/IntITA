@@ -132,4 +132,28 @@ class Tests extends Quiz
         }
         else return false;
     }
+
+    public static function getTestId($block){
+        return Tests::model()->findByAttributes(array('block_element' => $block))->id;
+    }
+
+    public static function getTestType($block){
+        $test = Tests::getTestId($block);
+
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->addCondition('id_test = :id_test and is_valid = 1');
+        $criteria->params = array(':id_test' => $test);
+        $count = TestsAnswers::model()->count($criteria);
+
+        return ($count > 1)?2:1;
+    }
+
+    public static function getTypeButton($type){
+        if($type == 1){
+            return 'input:radio:checked';
+        }elseif ($type == 2){
+            return 'input:checkbox:checked';
+        }
+    }
 }
