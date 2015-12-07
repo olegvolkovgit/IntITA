@@ -94,8 +94,6 @@ class Invoice extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -258,7 +256,7 @@ class Invoice extends CActiveRecord
         $criteria->addSearchCondition('number', $invoiceNumber);
         $inv = Invoice::model()->findAll($criteria);
         return $inv;
-        if($agreement->service)
-            return $agreement->service->description;
+//        if($agreement->service)
+//            return $agreement->service->description;
     }
 }

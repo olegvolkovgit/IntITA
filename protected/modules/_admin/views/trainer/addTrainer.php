@@ -16,7 +16,7 @@
     </button>
     <h2>Призначення тренера для користувача:</h2>
 
-<h3><?php $name = $user->getUserName($user->id);
+<h3><?php $name = $user->getUserNamePayment($user->id);
             if(!$name) $name = $user->email;
     echo $name?></h3>
 <div class="form-group">

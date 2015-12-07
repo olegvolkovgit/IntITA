@@ -17,7 +17,7 @@
             <a href="<?php echo Yii::app()->createUrl('/_admin/trainer/userWithTrainerList');?>">Список користувачів з тренером</a>
         </button>
         <h2>Призначення тренера для користувача:</h2>
-        <h3><?php $name = $user->getUserName($user->id);
+        <h3><?php $name = $user->getUserNamePayment($user->id);
             if(!$name) $name = $user->email;
             echo $name?></h3>
         <br>

@@ -566,7 +566,7 @@ class StudentReg extends CActiveRecord
         return $markProvider;
     }
 
-    public static function getUserName($id)
+    public static function getUserNamePayment($id)
     {
         if ($id) {
             $model = StudentReg::model()->findByPk($id);

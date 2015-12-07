@@ -181,8 +181,7 @@ class Course extends CActiveRecord implements IBillableObject
         $price = 0;
         $modules = $this->module;
 
-        foreach($modules as $module)
-        {
+        foreach ($modules as $module) {
             $price += $module->module_price;
         }
 
@@ -366,18 +365,22 @@ class Course extends CActiveRecord implements IBillableObject
         return max($arr) + 1;
     }
 
-    public function getNumber(){
+    public function getNumber()
+    {
         return $this->course_number;
     }
 
-    public function getType(){
+    public function getType()
+    {
         return 'K';
     }
-    public static function getStatus($id){
+
+    public static function getStatus($id)
+    {
         return Course::model()->findByPk($id)->status;
     }
 
-}
+
     public static function generateCoursesList()
     {
         $courses = Course::model()->findAll();
@@ -678,5 +681,10 @@ class Course extends CActiveRecord implements IBillableObject
             return '<span id="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span>';
         }
         return '<span id="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>&nbsp<span id="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><span id="discount"> (' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>';
+    }
+
+    public static function getAgreementLink($course, $user){
+        return "<a href=".Yii::app()->createUrl('payments/agreement', array('user' => $user, 'course' => $course)).
+        ">договір</a>";
     }
 }

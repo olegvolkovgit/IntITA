@@ -16,8 +16,9 @@ $price = Course::getPrice($course);
 
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'action' => '#',
+        'action' => Yii::app()->createUrl('payments/index'),
         'id' => 'payments-form',
+        'method' => 'post',
         'enableAjaxValidation' => false,
     )); ?>
     <?php
@@ -50,11 +51,17 @@ $price = Course::getPrice($course);
                         'discount' => 10
                     )); ?>
                 </div>
-                <div class="paymentsListOdd"><input type="radio" class="paymentPlan_value" name="payment"
-                                                    value="3"><span><?php echo CourseHelper::getCoursePricePayments(
-                            StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
-                            StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'),
-                            CourseHelper::getSummaWholeCourse($model->course_ID), 4, 8) ?></span>
+
+                <div class="paymentsListOdd">
+                    <input type="radio" class="paymentPlan_value" name="payment" value="3">
+                    <?php $this->renderPartial('/course/_basePaymentSchema', array(
+                        'image1' => StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
+                        'image2' => StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'),
+                        'model' => $model,
+                        'price' => $price,
+                        'number' => 4,
+                        'discount' => 8
+                    )); ?>
                 </div>
 
                 <div class="paymentsListEven">
@@ -86,19 +93,21 @@ $price = Course::getPrice($course);
                         'year' => 5)); ?>
                 </div>
             </div>
+            <input name="module" type="hidden" value="0">
+            <input name="course" type="hidden" value="<?php echo $model->course_ID; ?>">
+            <input name="user" type="hidden" value="<?php echo Yii::app()->user->getId(); ?>">
+            <input name="type" type="hidden" value="Course">
         </div>
     <?php } ?>
-
-        <?php echo CHtml::submitButton(Yii::t('profile', '0261'), array('class' => 'ButtonFinances')); ?>
-
-    <?php $this->endWidget(); ?>
+    <?php if ($model->course_price > 0) { ?>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer"
+                onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
+                    '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+    <?php }
+    $this->endWidget(); ?>
 </div>
 <br>
-<?php if ($model->course_price > 0) { ?>
-    <button class="ButtonFinances" style=" float:right; cursor:pointer"
-            onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
-                '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php } ?>
+
 <div id="kalebas"></div>
 
 <script>

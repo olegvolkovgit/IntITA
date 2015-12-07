@@ -99,8 +99,6 @@ class UserAgreements extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
@@ -247,17 +245,6 @@ class UserAgreements extends CActiveRecord
         return UserAgreements::model()->findByPk($id)->number;
     }
 
-    public static function getCreateDate($id)
-    {
-        return date("d.m.y", strtotime(UserAgreements::model()->findByPk($id)->create_date));
-    }
-
-    public static function getFormatDate($date)
-    {
-        if ($date == NULL) return '';
-        return date("d.m.y", strtotime($date));
-    }
-
     public static function getAllAgreements()
     {
         return UserAgreements::model()->findAll();
@@ -329,7 +316,7 @@ class UserAgreements extends CActiveRecord
     public function invoicesDataProvider()
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('agreement_id='.$agreement->id);
+        $criteria->addCondition('agreement_id='.$this->id);
 
         $dataProvider = new CActiveDataProvider('Invoice');
         $dataProvider->criteria = $criteria;

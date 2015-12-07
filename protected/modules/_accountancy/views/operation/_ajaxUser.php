@@ -14,7 +14,7 @@ if(!empty($users)){
     {?>
         <div>
             <input type="radio" name="user" value="<?php echo $user->id ?>" onchange="getAgreementsListByUser()">
-            Користувач :<?php echo $user->getUserName() ?>
+            Користувач :<?php echo $user->getUserNamePayment() ?>
             Ім'я : <?php echo $user->getFirstName() ?>
     </div>
     <?php }?>

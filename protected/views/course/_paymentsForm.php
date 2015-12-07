@@ -87,10 +87,8 @@ else {
             </div>
         </div>
         <?php }
-        }?>
+        ?>
             <div class="markAndButton">
-                <div class="markCourse">
-                    <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
                 <div class="markAndButton">
                     <div class="markCourse">
                         <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
@@ -120,9 +118,11 @@ else {
             <?php if ($model->status != 0) {
                 $this->endWidget();
             }
-        }
+
+
     }?>
 </div>
+    </div>
 
 
 <script>

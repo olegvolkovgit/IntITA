@@ -13,7 +13,7 @@ if(!empty($invoices)){
         foreach($invoices as $invoice)
         {?>
             <div>
-                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Ким :<?php echo $invoice->getUsername() ?>
+                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Ким :<?php echo $invoice->getUsernamePayment() ?>
                 Пояснення : <?php echo $invoice->getServiceDescription() ?>
                 Дата створення : <?php echo date("d.m.y", strtotime($invoice->date_created))  ?>
             </div>

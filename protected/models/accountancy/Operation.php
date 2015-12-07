@@ -123,7 +123,7 @@ class Operation extends CActiveRecord
                 if(!ExternalPays::addNewExternalPay($model, $createDate, $externalSource)){
                     throw new \application\components\Exceptions\FinanceException('External pay is failed!');
                 }
-                if (!$model->addInternalPays($model->invoicesList, $createDate)){
+                if (!$model->addInternalPays($model->invoicesList, $createDate, $model->type_id)){
                     throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
                 }
                 Invoice::setInvoicesPayDate($model->invoicesList, $createDate);
@@ -155,10 +155,10 @@ class Operation extends CActiveRecord
         return true;
     }
 
-    public function addInternalPays($invoicesList, $createDate){
+    public function addInternalPays($invoicesList, $createDate, $operationTypeId){
         if(!empty($invoicesList)){
             foreach($invoicesList as $invoice){
-                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate)){
+                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate, $operationTypeId)){
                     return false;
                 }
             }

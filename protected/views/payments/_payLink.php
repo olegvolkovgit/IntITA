@@ -1,15 +1,15 @@
 <?php
-
-/* 
- * $data Invoice model    
+/*
+ * @var Invoice $data
+ * @var integer $cssClass
  * $row  Row
- * $this Payments Controller
+ * @var $this PaymentsController
  */
 ?>
-   <span class="<?=$data->getInvoiceStatus()?>">
+   <span class="<?php echo $cssClass?>">
        Рахунок № 
-        <?=$data->id?> Сплатити 
-        <?=number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")?> грн. до 
+        <?=$data->id;?> Сплатити
+        <?=number_format(CommonHelper::getPriceUah($data->summa), 2, ",", " ")?> грн. до
         <?=date("d.m.y", strtotime($data->payment_date))?>
    </span>
 
