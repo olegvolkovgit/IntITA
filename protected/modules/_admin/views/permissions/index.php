@@ -99,7 +99,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'Resource',
             'type' => 'raw',
-            'value' => 'mODULE::getResourceDescription($data->id_module)',
+            'value' => 'Module::getResourceDescription($data->id_module)',
         ),
         array(
             'name' => 'READ',
