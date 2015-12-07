@@ -7,8 +7,8 @@
  */
 ?>
 <?php
-$answers=TestsHelper::getTestAnswers($idBlock);
-$valid=TestsHelper::getTestValidCKE($idBlock);
+$answers=TestsAnswers::getTestAnswers($idBlock);
+$valid=TestsAnswers::getTestValidCKE($idBlock);
 ?>
 <div ng-init='editAnswers=<?php echo json_encode($answers); ?>;
      valid=<?php echo json_encode($valid); ?>;'>
@@ -20,7 +20,8 @@ $valid=TestsHelper::getTestValidCKE($idBlock);
             <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
-            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста" size="80" required ng-init="testConditionEdit='<?php echo htmlentities(TestsHelper::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
+            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста"
+                      size="80" required ng-init="testConditionEdit='<?php echo htmlentities(Tests::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
@@ -38,9 +39,9 @@ $valid=TestsHelper::getTestValidCKE($idBlock);
                 <div class="answerAddRemove" ng-click="editDeleteAnswer();"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsHelper::getTestAnswers($idBlock))?>"/>
+            <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsAnswers::getTestAnswers($idBlock))?>"/>
             <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <br>
         <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>'  ng-disabled=editTestForm.$invalid>

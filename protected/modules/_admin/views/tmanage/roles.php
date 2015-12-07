@@ -9,9 +9,12 @@
 ?>
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>">Додати роль</a>
-
+    </button>
+    <div class="page-header">
     <h2>Ролі викладачів</h2>
+    </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
     'htmlOptions'=>array('class'=>'grid-view custom'),

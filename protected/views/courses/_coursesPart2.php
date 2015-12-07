@@ -20,18 +20,18 @@
 
                     <div class='courseName'><a
                             href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val->course_ID)); ?>"><?php
-                            echo CourseHelper::getCourseName($val->course_ID); ?></a>
+                            echo Course::getCourseName($val->course_ID); ?></a>
                     </div>
                     <!--Рівень курсу-->
                     <div class="courseLevelBox">
                         <?php echo Yii::t('courses', '0068'); ?>
                         <span class="courseLevel">
-                        <?php echo CourseHelper::translateLevel($val->level);?>
+                        <?php echo CommonHelper::translateLevel($val->level);?>
 			        </span>
 
                         <div class='courseLevelIndex'>
                             <?php
-                            $rate = CourseHelper::getCourseRate($val->level);
+                            $rate = Course::getCourseRate($val->level);
                             for ($i = 0; $i < $rate; $i++) {
                                 ?><span class="courseLevelImage">
                                 <img
@@ -84,12 +84,12 @@
 
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147'); ?>
-                        <?php echo CourseHelper::getMainCoursePrice(Course::getCoursePrice($val->course_ID),30) ?>
+                        <?php echo Course::getMainCoursePrice(Course::getPrice($val->course_ID),30) ?>
                     </div>
                     <div class='starLevelIndex'>
                         <br>
                         <?php echo Yii::t('courses', '0145'); ?>
-                        <?php echo RatingHelper::getRating($val->rating); ?>
+                        <?php echo CommonHelper::getRating($val->rating); ?>
                     </div>
                 </div> <?php
             }

@@ -6,15 +6,15 @@
  * Time: 22:05
  */
 ?>
-<?php if(ModuleHelper::getCourseOfModule($data['id_module'])) { ?>
+<?php if(Module::getCourseOfModule($data['id_module'])) { ?>
 <a class="modulename" href="<?php
-    echo Yii::app()->createUrl("module/index", array("idModule" => $data['id_module'], "idCourse" => ModuleHelper::getCourseOfModule($data['id_module']))); ?>">
+    echo Yii::app()->createUrl("module/index", array("idModule" => $data['id_module'], "idCourse" => Module::getCourseOfModule($data['id_module']))); ?>">
     <?php
-    $titleParam = ModuleHelper::getModuleTitleParam();
+    $titleParam = Module::getModuleTitleParam();
     echo Module::model()->findByPk($data['id_module'])->$titleParam; ?>
 </a>
 <?php } else {
-    $titleParam = ModuleHelper::getModuleTitleParam();
+    $titleParam = Module::getModuleTitleParam();
     echo Module::model()->findByPk($data['id_module'])->$titleParam.' (Модуль недоступний)';
 }?>
 
@@ -25,4 +25,3 @@
     echo ' '.Yii::t('profile', '0259');
     ?>
 </p>
-<?php //var_dump('1');die; ?>

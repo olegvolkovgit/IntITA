@@ -1,7 +1,7 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0113'); ?></p>
 <div>
 <?php
-if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
+if (StudentReg::getRole(Yii::app()->user->id) == 'викладач') {
     $model = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
     ?>
     <div class="mainrating">
@@ -10,7 +10,7 @@ if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
         $rating = $model->rating;
         ?>
         <div class="stars">
-            <?php echo RatingHelper::getRating($rating); ?>
+            <?php echo CommonHelper::getRating($rating); ?>
         </div>
     </div>
     <div class="myrating">
@@ -19,7 +19,7 @@ if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
         $knowledge = $model->rate_knowledge;
         ?>
         <div class="stars">
-            <?php echo RatingHelper::getRating($knowledge); ?>
+            <?php echo CommonHelper::getRating($knowledge); ?>
         </div>
     </div>
     <div class="myrating">
@@ -28,7 +28,7 @@ if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
         $efficiency = $model->rate_efficiency;
         ?>
         <div class="stars">
-            <?php echo RatingHelper::getRating($efficiency); ?>
+            <?php echo CommonHelper::getRating($efficiency); ?>
         </div>
     </div>
     <div class="myrating">
@@ -37,7 +37,7 @@ if (AccessHelper::getRole(Yii::app()->user->id) == 'викладач') {
         $relations = $model->rate_relations;
         ?>
         <div class="stars">
-            <?php echo RatingHelper::getRating($relations); ?>
+            <?php echo CommonHelper::getRating($relations); ?>
         </div>
     </div>
 <?php

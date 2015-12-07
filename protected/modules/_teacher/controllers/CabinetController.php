@@ -2,10 +2,27 @@
 
 class CabinetController extends TeacherCabinetController
 {
-	public function actionIndex()
+	public function actionIndex($id)
 	{
-		$this->render('index');
+        if(!$this->isYourCabinet($id))
+        {
+            throw new CHttpException(403, 'Ви не можете переглядати чужий профіль.');
+        }
+
+        $model = Teacher::model()->findByPk($id);
+		$this->render('index', array(
+            'model' => $model,
+        ));
 	}
+
+    public function actionLoadPage($page)
+    {
+        $pageTitle = array(
+            "title" => $page,
+        );
+
+        echo json_encode($pageTitle);//$this->renderPartial('_'.$page);
+    }
 
 
     public function actionView($id)
@@ -86,8 +103,6 @@ class CabinetController extends TeacherCabinetController
         $this->render('plainTaskList',array(
             'plainTasks' => $plainTaskArr,
         ));
-
-
     }
 
     public function actionShowPlainTask($id)
@@ -98,30 +113,4 @@ class CabinetController extends TeacherCabinetController
             'plainTask' => $plainTask,
         ));
     }
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

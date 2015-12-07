@@ -155,7 +155,7 @@ class PermissionsController extends AdminController
     public function actionShowLectures()
     {
         $first = '<select size="1" name="lecture">';
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         $criteria = new CDbCriteria();
         $criteria->select = 'id, ' . $titleParam;
         $criteria->order = 'id ASC';
@@ -406,11 +406,10 @@ class PermissionsController extends AdminController
                 $result = StudentReg::model()->findByAttributes(array('email'=>$email));
 
                if(!empty ($result)){
-                   var_dump($result);die;
+                   echo $result->id;
                }
-//               echo $result->id;
 
-                else return false;
+                else echo 'not found';
             }
         }
     }

@@ -133,4 +133,30 @@ class TempPay extends CActiveRecord
         return true;
     }
 
+    public static function checkBillableObjectType($course, $module){
+        if($course != 0) {
+            if($module != 0){
+                return 'Module';
+            } else {
+                return 'Course';
+            }
+        } else {
+            if($module != 0) {
+                return 'Module';
+            }
+        }
+        return false;
+    }
+
+    public static function getAccountProductTitle($account){
+        if ($account->id_module != null){
+            return "Модуль №".Module::model()->findByPk($account->id_module)->module_number.". ".
+            Module::model()->findByPk($account->id_module)->title_ua . ', '.
+            Module::translateLevelUa($account->id_module);
+        } else {
+            return "Курс №".Course::model()->findByPk($account->id_course)->course_number.". ".
+            Course::model()->findByPk($account->id_course)->title_ua . ', '.
+            Course::translateLevelUa($account->id_course);
+        }
+    }
 }

@@ -78,9 +78,11 @@ class StaticFilesHelper {
     public static function fullPathToCss($name){
         return Config::getBaseUrl().'/css/'.$name;
     }
+
     public static function fullPathToAngular($name){
         return Config::getBaseUrl().'/angular/'.$name;
     }
+
     public static function fullPathToFiles($name){
         return Config::getBaseUrl().'/files/'.$name;
     }

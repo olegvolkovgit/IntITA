@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'trainer_student':
  * @property integer $trainer
  * @property integer $student
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Teacher $trainer0
- * @property User $student0
+ * @property StudentReg $student0
  */
 class TrainerStudent extends CActiveRecord
 {
@@ -32,8 +34,7 @@ class TrainerStudent extends CActiveRecord
 			array('trainer, student', 'required'),
 			array('trainer, student', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('trainer, student', 'safe', 'on'=>'search'),
+			array('trainer, student, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +46,7 @@ class TrainerStudent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
+            'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
 			'student0' => array(self::BELONGS_TO, 'User', 'student'),
 		);
 	}
@@ -58,6 +59,8 @@ class TrainerStudent extends CActiveRecord
 		return array(
 			'trainer' => 'Trainer',
 			'student' => 'Student',
+            'start_time' => 'Start time',
+            'end_time' => 'End time'
 		);
 	}
 
@@ -75,12 +78,12 @@ class TrainerStudent extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('trainer',$this->trainer);
 		$criteria->compare('student',$this->student);
+        $criteria->compare('start_time',$this->start_time);
+        $criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,6 +100,10 @@ class TrainerStudent extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function primaryKey(){
+        return 'student';
+    }
 
     public static function getStudentsByTrainer($trainer){
         $students = Yii::app()->db->createCommand(array(
@@ -131,6 +138,40 @@ class TrainerStudent extends CActiveRecord
             $model->save();
             $result = true;
         }
+        return $result;
+    }
+
+    public static function addTrainer($userId,$trainerId)
+    {
+        $trainerStudent = new TrainerStudent();
+
+        $trainerStudent->student = $userId;
+        $trainerStudent->trainer = $trainerId;
+        if($trainerStudent->save())
+            return true;
+        else return false;
+    }
+
+    public static function editTrainer($userId,$trainerId)
+    {
+        $trainerStudent = TrainerStudent::model()->findByAttributes(array('student' => $userId));
+
+        $trainerStudent->student = $userId;
+        $trainerStudent->trainer = $trainerId;
+
+        if($trainerStudent->save())
+            return true;
+        else return false;
+    }
+
+    public static function deleteUserTrainer($userId)
+    {
+        return TrainerStudent::model()->deleteAllByAttributes(array('student' => $userId));
+    }
+
+    public static function getTrainerStudents($teacher){
+        $students = TrainerStudent::getStudentsByTrainer($teacher);
+        $result = RoleAttribute::formatAttributeList($students, 'project/index', 'id', false);
         return $result;
     }
 }

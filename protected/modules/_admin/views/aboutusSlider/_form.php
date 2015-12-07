@@ -4,6 +4,8 @@
 /* @var $form CActiveForm */
 ?>
 <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/_admin/aboutus.css"/>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -21,20 +23,21 @@
 
 	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
-	<div class="row">
+	<div  class="form-group">
         <p class="note" style="color: #ff0000">Зверніть увагу зображення рекомендовані пропорції 3 до 1 </p>
         <?php echo $form->labelEx($model,'pictureUrl'); ?>
 		<?php echo $form->fileField($model,'pictureUrl'); ?>
 		<?php echo $form->error($model,'pictureUrl'); ?>
 	</div>
     <br>
-    <div class="row">
-        <?php echo $form->labelEx($model,'text'); ?>
-        <?php echo $form->textField($model,'text'); ?>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'text',array('for' => 'text')); ?>
+        <?php echo $form->textField($model,'text',array('class' => "form-control",'id' => 'text' ) ); ?>
         <?php echo $form->error($model,'text'); ?>
     </div>
 
-    <div class="row buttons">
+    <div class="form-group">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
 	</div>
 

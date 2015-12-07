@@ -1,6 +1,6 @@
 <script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->user_created;?>";
+    summa = "<?php echo CommonHelper::getPriceUah($account->summa);?>";
+    user = "<?php echo $account->id_user;?>";
 </script>
 
 <div id="account">
@@ -48,6 +48,4 @@
             <td><?php echo number_format(PaymentHelper::getPriceUah($account->summa), 2, ",", " ");?></td>
         </tr>
     </table>
-    <br>
-    <br>
 </div>

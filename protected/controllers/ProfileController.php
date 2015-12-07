@@ -181,7 +181,7 @@ class ProfileController extends Controller
     {
         $titles = [];
         for ($i = 0; $i < count($courses); $i++) {
-            $titles[$i]['title'] = CourseHelper::getCourseName($courses[$i]["course"]);
+            $titles[$i]['title'] = Course::getCourseName($courses[$i]["course"]);
         }
         return $titles;
     }

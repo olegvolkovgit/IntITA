@@ -32,7 +32,7 @@
                 <span class="teacherSkype"><?php echo $data['skype']?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-            <?php if(AccessHelper::canAddConsultation()){
+            <?php if(StudentReg::canAddConsultation()){
                 ?>
                 <div class="calendar">
                     <!--            Календарь-->
@@ -62,7 +62,7 @@
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation',array('idCourse'=>$idCourse));?>" method="post">
                                 <p class="consInfHeader">
                                     <?php echo Yii::t("consultation", "0498");
-                                    $titleParam = LectureHelper::getTypeTitleParam();
+                                    $titleParam = Lecture::getTypeTitleParam();
                                     if($lecture->$titleParam==''){
                                         $titleParam="title_ua";
                                     }

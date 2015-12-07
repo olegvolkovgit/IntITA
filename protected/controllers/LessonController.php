@@ -18,14 +18,15 @@ class LessonController extends Controller
             ),
         );
     }
+
     public function initialize($id,$editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
+        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (Yii::app()->user->isGuest) {
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
-        if (AccessHelper::isAdmin() || $editMode) {
+        if (StudentReg::isAdmin() || $editMode) {
             return true;
         }
         if (!($lecture->isFree)) {
@@ -53,7 +54,7 @@ class LessonController extends Controller
         }
         $passedPages = LecturePage::getAccessPages($id, $user);
 
-        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
         if ($editMode) $page = 1;
         else $page = $lastAccessPage;
@@ -129,22 +130,6 @@ class LessonController extends Controller
         $pageOrder = Yii::app()->request->getPost('page');
         $lectureId = Yii::app()->request->getPost('idLecture');
         LectureElement::addVideo($htmlBlock,$pageOrder,$lectureId);
-//        $model = new LectureElement();
-//
-//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
-//        $pageOrder = Yii::app()->request->getPost('page');
-//
-//        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-//        $model->block_order = 0;
-//        $model->html_block = $htmlBlock;
-//        $model->id_type = 2;
-//        $model->save();
-//
-//        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-//        $id = LectureElement::getLastVideoId($model->id_lecture);
-//
-//        LecturePage::addVideo($pageId, $id["id_block"]);
-
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -439,7 +424,7 @@ class LessonController extends Controller
     {
         $lecture=Lecture::model()->findByPk($lectureId);
         if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
-            $nextId = LectureHelper::getNextId($lecture['id']);
+            $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
         }
         else{
@@ -469,7 +454,8 @@ class LessonController extends Controller
 
         $idModule = Lecture::model()->findByPk($id)->idModule;
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
-            return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse));
+            return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
+                'idModule' => $idModule));
         } else {
             throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
         }
@@ -615,14 +601,14 @@ class LessonController extends Controller
         $this->initialize($id,$editMode);
 
         $passedPages = LecturePage::getAccessPages($id, $user);
-        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
         if (is_string($_GET['page'])) $thisPage = $_GET['page'];
         else if($editMode) $thisPage = 1;
         else $thisPage = $lastAccessPage;
 
-        $passedLecture = LectureHelper::isPassedLecture($passedPages);
-        $finishedLecture = LectureHelper::isLectureFinished($user, $id);
+        $passedLecture = Lecture::isPassedLecture($passedPages);
+        $finishedLecture = Lecture::isLectureFinished($user, $id);
 
         $page_order=$_GET['page'];
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
@@ -631,7 +617,7 @@ class LessonController extends Controller
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
+        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || StudentReg::isAdmin())){
             echo Yii::t('lecture', '0640');
         }
         else{
@@ -662,7 +648,7 @@ class LessonController extends Controller
             $langs = ['ua', 'ru', 'en'];
             $types = ['video', 'text', 'quiz'];
             foreach($langs as $lang) {
-                $messages = Messages::getLectureContentMessagesByLang($lang);
+                $messages = Translate::getLectureContentMessagesByLang($lang);
                 foreach($types as $type) {
                     switch ($type) {
 //                $html = $this->renderPartial('lectureHTML', array(

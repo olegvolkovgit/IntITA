@@ -119,15 +119,15 @@ class TestsAnswers extends CActiveRecord
     public static function editOptions($test, $options){
         $count = count($options);
 		$model=new TestsAnswers();
-		/*Критерій пошуку всіх відповідей певного тесту відсортований по зростаючій*/
+		/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 		$criteria = new CDbCriteria();
 		$criteria->alias='test_answers';
 		$criteria->addCondition('id_test='.$test);
 		$criteria->order = 'id ASC';
 		$sortedAnswers = TestsAnswers::model()->findAll($criteria);
-		/*кількість відповідей на пеіний тест*/
+		/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
 		$answersCount=count($sortedAnswers);
-		/*Якщо відповідей на новий тест більше ніж було або рівно, то редагуємо старі відповіді і добавляємо нові*/
+		/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ*/
 		if($answersCount<=$count){
 			$j=0;
 			foreach($sortedAnswers as $answers){
@@ -146,7 +146,7 @@ class TestsAnswers extends CActiveRecord
 			}
 
 		}
-		/*Якщо відповідей на новий тест менше ніж було, то редагуємо старі відповіді і видаляємо лишні*/
+		/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
 		elseif ($answersCount>$count){
 			$k=0;
 			foreach($sortedAnswers as $answers){
@@ -191,5 +191,70 @@ class TestsAnswers extends CActiveRecord
         } else {
            return false;
         }
+    }
+
+    public static function getOptionsNum($block){
+
+        $test = Tests::getTestId($block);
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->condition = 'id_test = :id_test';
+        $criteria->params = array(':id_test'=>$test);
+        $optionsNum = TestsAnswers::model()->count($criteria);
+
+        return $optionsNum;
+    }
+
+    public static function getOptions($block){
+
+        $test = Tests::getTestId($block);
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->condition = 'id_test = '.$test;
+
+        $options = TestsAnswers::model()->findAll($criteria);
+        return $options;
+    }
+
+    public static function getTestValidCKE($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => Tests::getTestId($block)));
+        foreach($test as $answer){
+            if ($answer->is_valid==0)
+                array_push($answers, 'false');
+            elseif ($answer->is_valid==1)
+                array_push($answers, 'true');
+        }
+        return $answers;
+    }
+
+    public static function getTestValid($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => Tests::getTestId($block)));
+        foreach($test as $answer){
+            if ($answer->is_valid==0)
+                array_push($answers, '');
+            elseif ($answer->is_valid==1)
+                array_push($answers, 'checked');
+        }
+        return $answers;
+    }
+
+    public static function getTestAnswers($block){
+        $answers=[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => Tests::getTestId($block)));
+        foreach($test as $answer){
+            array_push($answers, $answer->answer);
+        }
+        return $answers;
+    }
+
+    public static function getAnswerKey($block){
+        $answerKey =[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => Tests::getTestId($block)));
+        foreach($test as $answerid){
+            array_push($answerKey, $answerid->id);
+        }
+        return $answerKey;
     }
 }

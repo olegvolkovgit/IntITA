@@ -124,4 +124,67 @@ class RoleAttribute extends CActiveRecord
         ));
         return $this;
     }
+
+    public static function getTeacherAttributeValue($teacher, $attribute){
+        $result = '';
+        switch($attribute){
+            case '1': //capacity
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
+                break;
+            case '2': //trainer's students
+                $result = TrainerStudent::getTrainerStudents($teacher);
+                break;
+            case '3': //consultant_modules
+                $result = Teacher::getConsultantModules($teacher);
+                break;
+            case '4':// leader's projects
+                $result = Teacher::getLeaderProjects($teacher);
+                break;
+            case '7'://leader's modules
+                $result = LeaderModules::getLeaderModules($teacher);
+                break;
+            case '6'://author's modules
+                $result = Teacher::getTeacherModules($teacher);
+                break;
+            case '8'://leader's capacity
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher' => $teacher, 'attribute' => $attribute))->value;
+                }
+                break;
+            default:
+                if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
+                    $result = AttributeValue::model()->findByAttributes(array('teacher'=>$teacher, 'attribute'=>$attribute))->value;
+                }
+        }
+        return $result;
+    }
+
+    /*
+     * @param $values  - values array as $array['id']['title']
+     * @param route - route for link to course, module etc.
+     */
+    public static function formatAttributeList($values, $route, $param, $isLink){
+        $result = '<br>';
+        $count = count($values);
+        if ($isLink) {
+            for ($i = 0; $i < $count; $i++) {
+                if ($route != 'module/index') {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array($param => $values[$i]['id'])) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                } else {
+                    $result .= "<span class='attsValue'><a href='" . Yii::app()->createUrl($route, array(
+                            $param => $values[$i]['id'],
+                            'idCourse' => CourseModules::model()->findByAttributes(array('id_module' => $values[$i]['id']))->id_course)) .
+                        "'>" . $values[$i]['title'] . "</a></span><br>";
+                }
+            }
+        } else {
+            for ($i = 0; $i < $count; $i++) {
+                $result .= "<span class='attsValue'>".$values[$i]['title']."</span><br>";
+            }
+        }
+        return $result;
+    }
 }

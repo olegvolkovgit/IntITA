@@ -5,10 +5,13 @@
 ?>
 <br>
 <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
-<br>
+</button>
+    <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-
+</button>
 
 <div id="addTeacherRole">
     <br>
@@ -19,9 +22,10 @@
             <legend id="label">Скасувати роль викладача <?php echo $teacher->first_name." ".$teacher->last_name;?>:</legend>
             <input type="text" name="teacher" value="<?php echo $teacher->teacher_id?>" style="display:none">
             Роль:<br>
-            <select name="role" placeholder="(Виберіть роль)">
+            <div class="form-group">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)">
                 <optgroup label="Виберіть роль">
-                    <?php $roles = AccessHelper::generateTeacherRolesList($teacher->teacher_id);
+                    <?php $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
                     $count = count($roles);
                     for($i = 0; $i < $count; $i++){
                         ?>
@@ -30,9 +34,10 @@
                     }
                     ?>
             </select>
+                </div>
             <br>
             <br>
-            <input type="submit" value="Скасувати роль">
+            <input type="submit" class="btn btn-default" value="Скасувати роль">
     </form>
 </div>
 

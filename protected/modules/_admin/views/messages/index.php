@@ -18,9 +18,13 @@ $('.search-form form').submit(function(){
 
 <br>
 <br>
+<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/messages/create');?>">Додати повідомлення</a>
+</button>
 
+<div class="page-header">
 <h1>Інтерфейс сайта</h1>
+</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'messages-grid',
@@ -41,12 +45,12 @@ $('.search-form form').submit(function(){
         'language',
         array(
             'header' => 'Категорія',
-            'value' => 'MessagesHelper::getMessageCategory($data->id)',
+            'value' => 'Sourcemessages::getMessageCategory($data->id)',
         ),
         'translation',
         array(
             'header' => 'Коментар',
-            'value' => 'MessagesHelper::getMessageCommentById($data->id)',
+            'value' => 'MessageComment::getMessageCommentById($data->id)',
         ),
         array(
             'class'=>'CButtonColumn',

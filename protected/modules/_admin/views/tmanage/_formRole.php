@@ -21,35 +21,31 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
-
-    <?php echo $form->errorSummary($model); ?>
-
-    <div class="row">
+     <div class="form-group">
         <?php echo $form->labelEx($model,'title_en'); ?>
-        <?php echo $form->textField($model,'title_en',array('size'=>20,'maxlength'=>20)); ?>
+        <?php echo $form->textField($model,'title_en',array('size'=>20,'maxlength'=>20,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'title_en'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'title_ru'); ?>
-        <?php echo $form->textField($model,'title_ru',array('size'=>20,'maxlength'=>20)); ?>
+        <?php echo $form->textField($model,'title_ru',array('size'=>20,'maxlength'=>20,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'title_ru'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'title_ua'); ?>
-        <?php echo $form->textField($model,'title_ua',array('size'=>20,'maxlength'=>20)); ?>
+        <?php echo $form->textField($model,'title_ua',array('size'=>20,'maxlength'=>20,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'title_ua'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'description'); ?>
-        <?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>255,'class'=> 'form-control')); ?>
         <?php echo $form->error($model,'description'); ?>
     </div>
 
-    <div class="row buttons">
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
 

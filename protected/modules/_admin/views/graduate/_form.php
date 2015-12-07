@@ -22,79 +22,80 @@
         'enableAjaxValidation'=>false,
     )); ?>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'first_name'); ?>
-        <?php echo $form->textField($model,'first_name',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'first_name',array('size'=>60,'maxlength'=>255,'class' => "form-control")); ?>
         <?php echo $form->error($model,'first_name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'last_name'); ?>
-        <?php echo $form->textField($model,'last_name',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'last_name',array('size'=>60,'maxlength'=>255,'class' => "form-control")); ?>
         <?php echo $form->error($model,'last_name'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'avatar'); ?>
         <?php echo $form->fileField($model,'avatar'); ?>
         <?php echo $form->error($model,'avatar'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'graduate_date'); ?>
-        <?php echo $form->textField($model,'graduate_date'); ?>
+        <?php echo $form->textField($model,'graduate_date',array('class' => "form-control")); ?>
         <?php echo $form->error($model,'graduate_date'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'position'); ?>
-        <?php echo $form->textField($model,'position',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'position',array('size'=>60,'maxlength'=>255,'class' => "form-control")); ?>
         <?php echo $form->error($model,'position'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'work_place'); ?>
-        <?php echo $form->textField($model,'work_place',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'work_place',array('size'=>60,'maxlength'=>255,'class' => "form-control")); ?>
         <?php echo $form->error($model,'work_place'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'courses_page'); ?>
-        <?php echo $form->dropDownList($model, 'courses_page', CourseHelper::getCourseTitlesList());?>
+        <?php echo $form->dropDownList($model, 'courses_page', Course::getCourseTitlesList(),
+            array('class' => "form-control",'style' => 'width:350px'));?>
         <?php echo $form->error($model,'courses_page'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'history'); ?>
-        <?php echo $form->textField($model,'history',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->textField($model,'history',array('size'=>60,'maxlength'=>255,'class' => "form-control")); ?>
         <?php echo $form->error($model,'history'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'rate'); ?>
-        <?php echo $form->textField($model,'rate'); ?>
+        <?php echo $form->textField($model,'rate',array('class' => "form-control")); ?>
         <?php echo $form->error($model,'rate'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'recall'); ?>
-        <?php echo $form->textArea($model,'recall',array('rows'=>6, 'cols'=>50)); ?>
+        <?php echo $form->textArea($model,'recall',array('rows'=>6, 'cols'=>50,'class' => "form-control")); ?>
         <?php echo $form->error($model,'recall'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'first_name_en'); ?>
-        <?php echo $form->textField($model,'first_name_en'); ?>
+        <?php echo $form->textField($model,'first_name_en',array('class' => "form-control")); ?>
         <?php echo $form->error($model,'first_name_en'); ?>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         <?php echo $form->labelEx($model,'last_name_en'); ?>
-        <?php echo $form->textField($model,'last_name_en'); ?>
+        <?php echo $form->textField($model,'last_name_en',array('class' => "form-control")); ?>
         <?php echo $form->error($model,'last_name_en'); ?>
     </div>
 
-    <div class="row buttons">
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
     </div>
 

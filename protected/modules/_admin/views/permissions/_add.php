@@ -13,9 +13,11 @@
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newPermission');?>" method="POST" name="add-access">
         <fieldset>
+            <div class="col-md-4">
             <legend id="label">Додати новий запис:</legend>
         Користувач:<br>
-        <select name="user" placeholder="(Виберіть користувача)" autofocus>
+            <div class="form-group">
+        <select name="user" class="form-control" placeholder="(Виберіть користувача)" autofocus>
             <?php $users = AccessHelper::generateUsersList();
                 $count = count($users);
             for($i = 0; $i < $count; $i++){
@@ -25,21 +27,24 @@
                 }
             ?>
         </select>
+            </div>
         <br>
         <br>
         Курс:<br>
-        <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();">
-            <option value="">Всі курси</option>
-            <optgroup label="Виберіть курс">
-            <?php $courses = AccessHelper::generateCoursesList();
-            $count = count($courses);
-            for($i = 0; $i < $count; $i++){
+           <div class="form-group">
+            <select name="course" class="form-control" placeholder="(Виберіть курс)" onchange="selectModule();">
+                <option value="">Всі курси</option>
+                <optgroup label="Виберіть курс">
+                <?php $courses = AccessHelper::generateCoursesList();
+                $count = count($courses);
+                for($i = 0; $i < $count; $i++){
+                    ?>
+                    <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+                <?php
+                }
                 ?>
-                <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
-            <?php
-            }
-            ?>
-        </select>
+            </select>
+           </div>
         <br>
         <br>
 
@@ -50,11 +55,31 @@
 
             <fieldset id="rights">
                 <legend>Права</legend>
-                <input type="checkbox" name="read" value="1" />READ<br />
-                <input type="checkbox" name="edit" value="2" />EDIT<br />
-                <input type="checkbox" name="create" value="3" />CREATE<br />
-                <input type="checkbox" name="delete" value="4" />DELETE<br/>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="read" value="1" />READ<br />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="edit" value="2" />EDIT<br />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="create" value="3" />CREATE<br />
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="delete" value="4" />DELETE<br/>
+                    </label>
+                </div>
+
+
                 </fieldset>
-        <input type="submit" value="Додати">
+        <input type="submit" class="btn btn-default" value="Додати">
+                <br>
+            </div>
     </form>
 </div>

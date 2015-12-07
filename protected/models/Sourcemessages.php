@@ -112,4 +112,8 @@ class Sourcemessages extends CActiveRecord
     public static function getMaxId(){
         return  Yii::app()->db->createCommand("SELECT MAX(id) FROM sourcemessages")->queryScalar();
     }
+
+    public static function getMessageCategory($id){
+        return Sourcemessages::model()->findByPk($id)->category;
+    }
 }

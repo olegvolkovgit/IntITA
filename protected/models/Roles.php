@@ -112,4 +112,34 @@ class Roles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function generateRolesList()
+    {
+        $roles = Roles::model()->findAll();
+        $count = count($roles);
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[$i]['id'] = $roles[$i]->id;
+            $result[$i]['alias'] = $roles[$i]->title_ua;
+        }
+        return $result;
+    }
+
+    public static function getRoleTitle($id){
+        return Roles::model()->findByPk($id)->title_ua;
+    }
+
+    public static function getRoleTitlesList(){
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, title_ua';
+        $criteria->distinct = true;
+        $criteria->toArray();
+
+        $result = '';
+        $titles = Roles::model()->findAll($criteria);
+        for($i = 0; $i < count($titles); $i++){
+            $result[$i][$titles[$i]['id']] = $titles[$i]['title_ua'];
+        }
+        return $result;
+    }
 }

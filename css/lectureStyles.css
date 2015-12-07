@@ -786,3 +786,15 @@ a.cke_dialog_ui_fileButton{
 .answerList li{
     margin-bottom: 5px;
 }
+#addSkipTask .cke_button__skipword1,#addSkipTask .cke_button__skipword0{
+    width: 64px;
+}
+#addSkipTask .cke_button__skipword0_icon,#addSkipTask .cke_button__skipword1_icon{
+    width: 64px;
+}
+#cke_question .cke_button__skipword1,#cke_question .cke_button__skipword0{
+    width: 64px;
+}
+#cke_question .cke_button__skipword0_icon,#cke_question .cke_button__skipword1_icon{
+    width: 64px;
+}

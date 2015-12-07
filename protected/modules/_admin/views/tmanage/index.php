@@ -5,14 +5,20 @@
 
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/admin');?>">Управління викладачами</a>
+    </button>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Управління ролями викладачів</a>
-
+    </button>
+    <div class="page-header">
     <h2>Викладачі</h2>
-
+    </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
     'htmlOptions'=>array('class'=>'grid-view custom','id'=>'adminTeacherList'),

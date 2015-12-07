@@ -26,17 +26,17 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         array(
             'header' => 'Автор',
-            'value' => 'ResponseHelper::getResponseAuthorName($data->who)',
+            'value' => 'StudentReg::getResponseAuthorName($data->who)',
         ),
         array(
             'header' => 'Про кого',
-            'value' => 'ResponseHelper::getResponseAboutTeacherName($data->id)',
+            'value' => 'Response::getResponseAboutTeacherName($data->id)',
         ),
         'date',
         'text',
         array(
             'header' => 'Статус',
-            'value' => 'ResponseHelper::isPublish($data->id)',
+            'value' => 'Response::isPublish($data->id)',
         ),
         'rate',
         array(

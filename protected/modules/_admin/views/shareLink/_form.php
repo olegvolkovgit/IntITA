@@ -20,19 +20,15 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255,'class'=>"form-control")); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'link'); ?>
-		<?php echo $form->textArea($model,'link',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'link',array('rows'=>6, 'cols'=>50,'class'=>"form-control")); ?>
 		<?php echo $form->error($model,'link'); ?>
 	</div>
 

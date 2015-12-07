@@ -210,7 +210,7 @@ class LectureElement extends CActiveRecord
         //if we want to load video, we finding video link
         $tempArray = explode(" ", $htmlBlock);
         for ($i = count($tempArray) - 1; $i > 0; $i--) {
-            if (LectureHelper::startsWith($tempArray[$i], 'src="')) {
+            if (CommonHelper::startsWith($tempArray[$i], 'src="')) {
                 $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 1);
                 return $link;
             }
@@ -222,7 +222,7 @@ class LectureElement extends CActiveRecord
         //search image source link into new block before save
         $tempArray = explode(" ", $htmlBlock);
         for ($i = count($tempArray) - 1; $i > 0; $i--) {
-            if (LectureHelper::startsWith($tempArray[$i], 'src="')) {
+            if (CommonHelper::startsWith($tempArray[$i], 'src="')) {
                 $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 6);
                return $link;
             }
@@ -398,10 +398,8 @@ class LectureElement extends CActiveRecord
         }
     }
 
-
-//    public function afterSave()
-//    {
-//        parent::afterSave();
-//        $this->id_block = Yii::app()->db->getLastInsertID();
-//    }
+    public static function getQuizType($id)
+    {
+        return LectureElement::model()->findByPk($id)->id_type;
+    }
 }

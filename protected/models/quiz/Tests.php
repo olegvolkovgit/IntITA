@@ -132,4 +132,46 @@ class Tests extends Quiz
         }
         else return false;
     }
+
+    public static function getTestId($block){
+        return Tests::model()->findByAttributes(array('block_element' => $block))->id;
+    }
+
+    public static function getTestType($block){
+        $test = Tests::getTestId($block);
+
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->addCondition('id_test = :id_test and is_valid = 1');
+        $criteria->params = array(':id_test' => $test);
+        $count = TestsAnswers::model()->count($criteria);
+
+        return ($count > 1)?2:1;
+    }
+
+    public static function getTypeButton($type){
+        if($type == 1){
+            return 'input:radio:checked';
+        }elseif ($type == 2){
+            return 'input:checkbox:checked';
+        }
+    }
+
+    public static function getTestIcon($user, $idBlock, $editMode)
+    {
+        if ($editMode || Yii::app()->user->isGuest) {
+            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+        } else {
+            $idTest = Tests::model()->findByAttributes(array('block_element' => $idBlock))->id;
+            if (TestsMarks::isTestDone($user, $idTest)) {
+                return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
+            } else {
+                return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+            }
+        }
+    }
+
+    public static function getTestCondition($block){
+        return LectureElement::model()->findByPk($block)->html_block;
+    }
 }

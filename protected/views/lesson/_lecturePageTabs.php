@@ -8,7 +8,7 @@ if (is_string($_GET['page'])) $thisPage = $_GET['page'];
 else if($editMode) $thisPage = 1;
 else $thisPage = $lastAccessPage;
 
-if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())
+if (!($passedPages[$thisPage-1]['isDone'] || $editMode || StudentReg::isAdmin())
 ){
     throw new CHttpException(403, Yii::t('lecture', '0640'));
 }

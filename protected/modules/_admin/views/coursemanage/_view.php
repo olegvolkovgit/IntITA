@@ -22,15 +22,15 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('title_ua')); ?>:</b>
-	<?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
+	<?php echo CHtml::encode(Course::getCourseName($data->course_ID)); ?>
 	<br />
 
     <b><?php echo CHtml::encode($data->getAttributeLabel('title_ru')); ?>:</b>
-    <?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
+    <?php echo CHtml::encode(Course::getCourseName($data->course_ID)); ?>
     <br />
 
     <b><?php echo CHtml::encode($data->getAttributeLabel('title_en')); ?>:</b>
-    <?php echo CHtml::encode(CourseHelper::getCourseName($data->course_ID)); ?>
+    <?php echo CHtml::encode(Course::getCourseName($data->course_ID)); ?>
     <br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('level')); ?>:</b>

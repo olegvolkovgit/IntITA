@@ -10,6 +10,12 @@ $header = new Header();
     <meta property="og:type" content="website" />
     <meta property="og:image:width" content="200"/>
 
+
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
@@ -216,10 +222,11 @@ $header = new Header();
                 </div>
                 <div class="footercontact">
                     <p>
-                        <?php echo FooterHelper::getTel(); ?><br/>
-                        <?php echo FooterHelper::getMobile(); ?><br/>
-                        <?php echo FooterHelper::getEmail(); ?><br/>
-                        <?php echo FooterHelper::getSkype(); ?><br/>
+                        <?php $footer = new Footer();
+                        echo $footer->getTel(); ?><br/>
+                        <?php echo $footer->getMobile(); ?><br/>
+                        <?php echo $footer->getEmail(); ?><br/>
+                        <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
                 <div class="footermenu">

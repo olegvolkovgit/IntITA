@@ -9,7 +9,7 @@
 class ShareController extends Controller{
 
     public function actionIndex(){
-        if (AccessHelper::isHasAccessFileShare()) {
+        if (StudentReg::isHasAccessFileShare()) {
 
             $shareLink = ShareLink::model()->findAll();
 

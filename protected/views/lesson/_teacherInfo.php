@@ -18,9 +18,9 @@ if ($teacher != null) {
                             <?php echo Yii::t('lecture', '0077'); ?></div>
                     </li>
                     <li>
-                        <?php echo TeacherHelper::getTeacherLastName($teacher->teacher_id) . " " .
-        TeacherHelper::getTeacherFirstName($teacher->teacher_id) . " " .
-        TeacherHelper::getTeacherMiddleName($teacher->teacher_id);?>
+                        <?php echo Teacher::getTeacherLastName($teacher->teacher_id) . " " .
+        Teacher::getTeacherFirstName($teacher->teacher_id) . " " .
+        Teacher::getTeacherMiddleName($teacher->teacher_id);?>
                     </li>
                     <li>
                         <?php echo $teacher->email; ?>
@@ -40,7 +40,7 @@ if ($teacher != null) {
         </span>
     <!--Link to page with consultations-->
 
-        <?php if (AccessHelper::canAddConsultation()) {
+        <?php if (StudentReg::canAddConsultation()) {
         ?>
         <div class="calendar">
             <?php

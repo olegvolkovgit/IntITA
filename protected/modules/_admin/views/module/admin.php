@@ -25,16 +25,19 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<div class="page-header">
 <h1>Manage Modules</h1>
-
+</div>
+<div class="page-header">
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
-
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
+</div>
+<button type="button" class="btn btn-link">
+    <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+</button>
+    <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>

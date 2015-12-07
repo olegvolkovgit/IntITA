@@ -14,7 +14,7 @@
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>
-            <input name="author" id="author" type="hidden" value="<?php echo TeacherHelper::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
             <input type="submit" value="Додати завдання" id='addtests' ng-disabled=plainTask.block_element.$error.required>
         </fieldset>

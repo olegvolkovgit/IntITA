@@ -46,7 +46,7 @@ class MessagesController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model = new Messages;
+		$model = new Translate();
         $idMessage = Yii::app()->request->getPost('id', '');
         $category = Yii::app()->request->getPost('category', '');
         $translateUa = Yii::app()->request->getPost('translateUa', '');
@@ -64,9 +64,9 @@ class MessagesController extends AdminController
             $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0, STR_PAD_LEFT));
             // if added source message, then add translations
             if($result){
-                Messages::addNewRecord($idMessage, 'ua', $translateUa);
-                Messages::addNewRecord($idMessage, 'ru', $translateRu);
-                Messages::addNewRecord($idMessage, 'en', $translateEn);
+                Translate::addNewRecord($idMessage, 'ua', $translateUa);
+                Translate::addNewRecord($idMessage, 'ru', $translateRu);
+                Translate::addNewRecord($idMessage, 'en', $translateEn);
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
@@ -92,11 +92,11 @@ class MessagesController extends AdminController
 		// $this->performAjaxValidation($model);
 
 
-		if(isset($_POST['Messages']))
+		if(isset($_POST['Translate']))
 		{
-			$model->attributes=$_POST['Messages'];
+			$model->attributes=$_POST['Translate'];
 			if($model->save()) {
-                MessageComment::updateMessageCodeComment($_POST['Messages']['id'], $_POST['Messages']['comment']);
+                MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
                 $this->redirect(array('view', 'id' => $model->id_record));
             }
 		}
@@ -125,10 +125,10 @@ class MessagesController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model=new Messages('search');
+        $model=new Translate('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Messages']))
-            $model->attributes=$_GET['Messages'];
+        if(isset($_GET['Translate']))
+            $model->attributes=$_GET['Translate'];
 
 		$this->render('index',array(
             'model' => $model,
@@ -140,10 +140,10 @@ class MessagesController extends AdminController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Messages('search');
+		$model=new Translate('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Messages']))
-			$model->attributes=$_GET['Messages'];
+		if(isset($_GET['Translate']))
+			$model->attributes=$_GET['Translate'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -159,7 +159,7 @@ class MessagesController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=Messages::model()->findByPk($id);
+		$model=Translate::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

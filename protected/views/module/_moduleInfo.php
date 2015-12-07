@@ -8,7 +8,7 @@
 ?>
 <div class="moduleTitle">
     <h1>
-        <?php echo ModuleHelper::getModuleName($post->module_ID);?>
+        <?php echo Module::getModuleName($post->module_ID);?>
     </h1>
 </div>
 <table>
@@ -65,17 +65,17 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
-                <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b><?php echo ModuleHelper::getModuleDuration($post->lesson_count,$post->module_duration_hours,$post->hours_in_day,$post->days_in_week) ?>
+                <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b><?php echo Module::getModuleDurationFormat($post->lesson_count,$post->module_duration_hours,$post->hours_in_day,$post->days_in_week) ?>
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
                 <?php
-                   echo ModuleHelper::getModulePrice($post->module_ID, (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0))?0:$_GET['idCourse']); ?>
+                   echo Module::getModulePrice($post->module_ID, (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0))?0:$_GET['idCourse']); ?>
             </div>
             <br>
             <div class="moduleRating">
                 <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-                <?php echo RatingHelper::getRating($post->rating); ?>
+                <?php echo CommonHelper::getRating($post->rating); ?>
             </div>
         </td>
 </tr>

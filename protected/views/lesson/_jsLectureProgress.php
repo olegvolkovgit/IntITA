@@ -6,7 +6,7 @@
  * Time: 14:15
  */
 ?>
-<?php $lastAccessPage=LectureHelper::lastAccessPage($passedPages) ?>
+<?php $lastAccessPage=LecturePage::lastAccessPage($passedPages) ?>
 <div class="lessonPart">
     <div class="labelBlock" id="labelBlock">
         <p><?php echo Yii::t('lecture', '0615')." ".$page->page_order . '. ' . $page->page_title; ?></p>
@@ -16,13 +16,12 @@
 <img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
 <img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
 
+<div ng-model="spots" ng-init="spots=<?php echo htmlspecialchars(json_encode($passedPages)); ?>";>
 <div
-    ng-model="spots"
     ng-init='edit=<?php echo $edit; ?>;
-spots=<?php echo json_encode($passedPages); ?>;
 thisPage=<?php echo $thisPage-1; ?>;
 editMode="<?php echo $editMode; ?>";
-isAdmin="<?php echo AccessHelper::isAdmin(); ?>";
+isAdmin="<?php echo StudentReg::isAdmin(); ?>";
 finishedLecture="<?php echo $finishedLecture; ?>";
 lastAccessPage=<?php echo $lastAccessPage; ?>;'
     >

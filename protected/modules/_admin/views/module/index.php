@@ -11,9 +11,13 @@
 <!--</script>-->
     <br>
     <br>
+    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/create');?>">Створити модуль</a>
+    </button>
 
-    <h2>Модулі</h2>
+    <div class="page-header">
+         <h2>Модулі</h2>
+    </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'module-grid',

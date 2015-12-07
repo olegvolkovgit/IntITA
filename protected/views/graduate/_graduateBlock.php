@@ -9,7 +9,7 @@
                     <?php echo Yii::t('graduates', '0320')?>
                     <span><?php echo $data['graduate_date'] ?></span>
                 </div>
-                <div class="text1"><?php echo GraduateHelper::getGraduateName($data['id']); ?></div>
+                <div class="text1"><?php echo Graduate::getGraduateName($data['id']); ?></div>
                 <?php if(!empty($data['recall'])){?>
                 <div class="spoiler-title closed"> <?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?> </div>
                 <div class="spoiler-body">
@@ -35,7 +35,7 @@
                     <div>
                         <?php if(!empty($data['courses_page'])){ echo Yii::t('graduates', '0318'); ?>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data['courses_page'])); ?>"
-                           target="_blank"> <?php echo CourseHelper::getCourseName($data['courses_page']); ?></a>
+                           target="_blank"> <?php echo Course::getCourseName($data['courses_page']); ?></a>
                         <?php }?>
                     </div>
                 </div>

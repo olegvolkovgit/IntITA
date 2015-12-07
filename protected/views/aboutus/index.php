@@ -17,9 +17,10 @@
     <body onload=WindowShow(<?php echo (empty($_GET['id'])) ? 1 : $_GET['id']; ?>);>
     </body>
 <?php
-$this->pageTitle = MainpageHelper::getTitle();
-$headerText = MainpageHelper::getHeader1();
-$subheaderText = MainpageHelper::getSubheader1();
+$mainpage = new Mainpage();
+$this->pageTitle = $mainpage->getTitle();
+$headerText = $mainpage->getHeader1();
+$subheaderText = $mainpage->getSubheader1();
 ?>
 
 <?php $this->renderPartial("_slider",array('slider' => $slider)); ?>
