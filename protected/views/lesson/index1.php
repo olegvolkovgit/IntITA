@@ -53,11 +53,11 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
         <div class="lessonTheme">
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
-                <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse, "template"=>1)); ?>">
-                    <img style="margin-left: 5px"
-                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'newLecture.png'); ?>"
-                         title="New lecture View"/>
-                </a>
+<!--                <a href="--><?php //echo Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse, "template"=>1)); ?><!--">-->
+<!--                    <img style="margin-left: 5px"-->
+<!--                         src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'newLecture.png'); ?><!--"-->
+<!--                         title="New lecture View"/>-->
+<!--                </a>-->
                 <?php if ($editMode) { ?>
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
                         <img style="margin-left: 5px"

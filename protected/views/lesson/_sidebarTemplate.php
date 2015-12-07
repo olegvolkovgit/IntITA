@@ -5,7 +5,7 @@
  * Date: 04.12.2015
  * Time: 10:56
  */
-$enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
+$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
 ?>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
@@ -52,31 +52,31 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </div>
             </li>
             <li style="margin-bottom:0;margin-top: 20px">
-                <?php echo '(' . $lecture->order . ' / ' . LectureHelper::getLessonsCount($lecture->idModule) . ' ' . Yii::t('lecture', '0616') . ')'; ?>
+                <?php echo '(' . $lecture->order . ' / ' . Module::getLessonsCount($lecture->idModule) . ' ' . Yii::t('lecture', '0616') . ')'; ?>
             </li>
             <div id="counter">
                 <?php
                 if ($editMode || StudentReg::isAdmin()) {
-                    for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
+                    for ($i = 0; $i < Lecture::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
                         <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                           tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                           tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                             <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                         </a>
                     <?php }
                 } else {
-                    for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
+                    for ($i = 0; $i < Lecture::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         $lectureOrder = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->order;
                         if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                               tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                               tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                                 <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                             </a>
                         <?php } else { ?>
                             <a
-                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo LectureHelper::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
+                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
                                 <div class="lectureDisabled"></div>
                             </a>
                         <?php }
