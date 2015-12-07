@@ -695,14 +695,14 @@ class LessonController extends Controller
 //        $this->initialize($id,$editMode);
 
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
-        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
 //        if (is_string($page)) $thisPage = $page;
 //        else if($editMode) $thisPage = 1;
 //        else $thisPage = $lastAccessPage;
 
-        $passedLecture = LectureHelper::isPassedLecture($passedPages);
-        $finishedLecture = LectureHelper::isLectureFinished($user, $id);
+        $passedLecture = Lecture::isPassedLecture($passedPages);
+        $finishedLecture = Lecture::isLectureFinished($user, $id);
 
 
 //        $page_order=$page;

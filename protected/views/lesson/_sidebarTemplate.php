@@ -5,7 +5,7 @@
  * Date: 04.12.2015
  * Time: 10:56
  */
-$enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModule);
+$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
 ?>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
@@ -17,12 +17,12 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </li>
                 <li>
                     <?php echo Yii::t('lecture', '0072'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)) ?>"><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></a>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)) ?>"><?php echo Module::getModuleName($lecture->idModule); ?></a>
                 </li>
             <?php } else { ?>
                 <li>
                     <?php echo Yii::t('lecture', '0072'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])) ?>"><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></a>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])) ?>"><?php echo Module::getModuleName($lecture->idModule); ?></a>
                 </li>
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
@@ -52,31 +52,31 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
                 </div>
             </li>
             <li style="margin-bottom:0;margin-top: 20px">
-                <?php echo '(' . $lecture->order . ' / ' . LectureHelper::getLessonsCount($lecture->idModule) . ' ' . Yii::t('lecture', '0616') . ')'; ?>
+                <?php echo '(' . $lecture->order . ' / ' . Module::getLessonsCount($lecture->idModule) . ' ' . Yii::t('lecture', '0616') . ')'; ?>
             </li>
             <div id="counter">
                 <?php
                 if ($editMode || StudentReg::isAdmin()) {
-                    for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
+                    for ($i = 0; $i < Module::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
                         <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                           tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                           tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                             <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                         </a>
                     <?php }
                 } else {
-                    for ($i = 0; $i < LectureHelper::getLessonsCount($lecture->idModule); $i++) {
+                    for ($i = 0; $i < Module::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         $lectureOrder = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->order;
                         if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
-                               tooltip-html-unsafe="<?php echo LectureHelper::getLectureTitle($lectureId); ?>">
+                               tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                                 <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                             </a>
                         <?php } else { ?>
                             <a
-                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo LectureHelper::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
+                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
                                 <div class="lectureDisabled"></div>
                             </a>
                         <?php }
@@ -96,23 +96,23 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($lecture->idModul
         <div style="display: inline-block; margin-right: 10px;">
             <!-- mibew button -->
             <a id="mibew-agent-button"
-               href="<?php echo MibewHelper::getMibewHost(); ?>/mibew/chat?locale=<?php echo MibewHelper::getLg(); ?>;style=default"
+               href="<?php echo Config::getBaseUrl(); ?>/mibew/chat?locale=<?php echo CommonHelper::getLanguage(); ?>;style=default"
                target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
                 <img class='consultationButtons'
-                     src="<?php echo MibewHelper::getMibewHost(); ?>/mibew/b?i=mblue&amp;lang=<?php echo MibewHelper::getLg(); ?>"
+                     src="<?php echo Config::getBaseUrl(); ?>/mibew/b?i=mblue&amp;lang=<?php echo CommonHelper::getLanguage(); ?>"
                      border="0" alt=""/>
             </a>
             <script type="text/javascript"
-                    src="<?php echo MibewHelper::getMibewHost(); ?>/mibew/js/compiled/chat_popup.js"></script>
+                    src="<?php echo Config::getBaseUrl(); ?>/mibew/js/compiled/chat_popup.js"></script>
             <script type="text/javascript">Mibew.ChatPopup.init({
                     "id": "55bf44d367c197db",
-                    "url": "http:\/\/<?php echo MibewHelper::getMibewHostWithoutHeader(); ?>\/mibew\/chat?locale=<?php echo MibewHelper::getLg(); ?>&style=default<?php echo MibewHelper::getNameEmail(); ?>",
+                    "url": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat?locale=<?php echo CommonHelper::getLanguage(); ?>&style=default<?php echo StudentReg::getNameEmail(); ?>",
                     "preferIFrame": true,
                     "modSecurity": false,
                     "width": 640,
                     "height": 480,
                     "resizable": true,
-                    "styleLoader": "http:\/\/<?php echo MibewHelper::getMibewHostWithoutHeader(); ?>\/mibew\/chat\/style\/popup"
+                    "styleLoader": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat\/style\/popup"
                 });
             </script>
             <!-- / mibew button -->

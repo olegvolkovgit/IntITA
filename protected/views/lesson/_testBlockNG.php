@@ -12,7 +12,10 @@ $testType = Tests::getTestType($data['id_block']);
 <div>
     <div class="lessonTest">
         <div class="instrTestImg">
-            <img src="<?php echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?>">
+            1
+            <quiz-status status="{{pageData[(currentPage || lastAccessPage)].isQuizDone}}"/>
+            1
+<!--            <img src="--><?php //echo LectureHelper::getTestIcon($user, $data['id_block'], $editMode); ?><!--">-->
         </div>
         <div class="contentTest">
             <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>">

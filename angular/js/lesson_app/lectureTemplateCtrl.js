@@ -284,5 +284,23 @@ angular
                     })
                 }
             }
-    });
+    })
+    //.directive('quizStatus', function () {
+    //    return {
+    //        restrict: 'E',
+    //        link: function(scope, element, attrs) {
+    //            attrs.$observe('status', function () {
+    //               alert(attrs.status);
+    //            })
+    //        },
+    //        //template: function (elm, attrs) {
+    //        //    return '<li><textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer"' +
+    //        //        'name="option' + attrs["option"] + '" id="option' + attrs["option"] + '' +
+    //        //        'size="80" required ng-model="option' + attrs["option"] + '"></textarea>' +
+    //        //        '<div ng-click="alert()" class="ckeImg">CKE</div><div class="answerCheck" >' +
+    //        //        '<div id="answersList" class="answersCheckbox"><div><input type="checkbox" ' +
+    //        //        'name="answer' + attrs["option"] + '" value=' + attrs["option"] + '></div></div></div></li>'
+    //        //},
+    //    }
+    //})
 
