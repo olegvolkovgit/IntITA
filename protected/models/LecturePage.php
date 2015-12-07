@@ -129,7 +129,7 @@ class LecturePage extends CActiveRecord
         ));
     }
 
-    public static function getAccessPages($idLecture, $user){
+    public static function getAccessPages($idLecture, $user, $editMode=0, $isAdmin=0){
         /*Sort page_order by Ascending*/
         $criteria= new CDbCriteria;
         $criteria->alias='lecture_page';
@@ -139,19 +139,28 @@ class LecturePage extends CActiveRecord
         $pages = LecturePage::model()->findAll($criteria);
 
         $result = [];
-        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
-            $result[$i]['order'] = $pages[$i]->page_order;
-            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
-            $result[$i]['title'] = $pages[$i]->page_title;
-
-            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+        if($editMode || $isAdmin){
+            for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+                $result[$i]['order'] = $pages[$i]->page_order;
                 $result[$i]['isDone'] = true;
-                $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
-                break;
-            } else {
+                $result[$i]['isQuizDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['title'] = $pages[$i]->page_title;
+            }
+        }else{
+            for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+                $result[$i]['order'] = $pages[$i]->page_order;
+                $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['isQuizDone'] =$result[$i]['isDone'];
+                $result[$i]['title'] = $pages[$i]->page_title;
 
+                if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                    $result[$i]['isDone'] = true;
+                    $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
+                    break;
+                }
             }
         }
+
         return $result;
     }
     public static function getFinishedPages($idLecture, $user){

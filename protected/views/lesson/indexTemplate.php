@@ -1,7 +1,17 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 04.12.2015
+ * Time: 10:53
+ */
+?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-route/angular-route.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/appT.js'); ?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/accessService.js'); ?><!--"></script>-->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/lectureTemplateCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/quizCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls_0_13_0.js'); ?>"></script>
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
@@ -39,6 +49,7 @@ if (!isset($idCourse)) $idCourse = 0;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
     lastAccessPage = <?php echo $lastAccessPage ?>;
     basePath='<?php echo  Config::getBaseUrl(); ?>';
+    isAdmin='<?php echo StudentReg::isAdmin()?1:0; ?>';
 </script>
 <?php
 $passedLecture = LectureHelper::isPassedLecture($passedPages);
@@ -47,17 +58,12 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
 </div>
-<div class="lessonBlock" id="lessonBlock"  ng-app="lessonApp">
-    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
+<div ng-cloak class="lessonBlock" id="lessonBlock"  ng-app="lessonApp" >
+    <?php $this->renderPartial('_sidebarTemplate', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
             <?php echo LectureHelper::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
-                <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse, "template"=>1)); ?>">
-                    <img style="margin-left: 5px"
-                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'newLecture.png'); ?>"
-                         title="New lecture View"/>
-                </a>
                 <?php if ($editMode) { ?>
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
                         <img style="margin-left: 5px"
@@ -77,61 +83,47 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
         }
         else {
 //            angular lecture PageTabs
-            $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+            $this->renderPartial('_jsLecturePageTabsTemplate', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         }
         ?>
     </div>
+    <div ng-controller="lessonPageCtrl">
+        <!--modal task error1-->
+        <?php
+        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+            'id' => 'mydialog3',
+            'themeUrl' => Config::getBaseUrl() . '/css',
+            'cssFile' => 'jquery-ui.css',
+            'theme' => 'my',
+            'options' => array(
+                'width' => 540,
+                'autoOpen' => false,
+                'modal' => true,
+                'resizable' => false
+            ),
+        ));
+        $this->renderPartial('/lesson/_modalTask2');
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
+        ?>
 
-    <!--modal task error1-->
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'mydialog3',
-        'themeUrl' => Config::getBaseUrl() . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/lesson/_modalTask2');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
+        <?php
+        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+            'id' => 'dialogNextLecture',
+            'themeUrl' => Config::getBaseUrl() . '/css',
+            'cssFile' => 'jquery-ui.css',
+            'theme' => 'my',
+            'options' => array(
+                'width' => 540,
+                'autoOpen' => false,
+                'modal' => true,
+                'resizable' => false
+            ),
+        ));
+        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
 
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'dialogNextLecture',
-        'themeUrl' => Config::getBaseUrl() . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-/////////////////////////////////////////////////////////////
-
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'skipTaskCancel',
-
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/lesson/_modalTask2');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-
-////////////////////////////////////////////////////////////////
-    ?>
+        ?>
+    </div>
 </div>
 <!-- lesson style -->
 <!-- Підсвітка синтаксису-->
@@ -155,6 +147,5 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'skipTask.js')?>"></script>
 
 

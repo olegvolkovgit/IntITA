@@ -21,7 +21,7 @@
                 break;
             case '12':
             case '13':
-                $this->renderPartial('_testBlock', array(
+                $this->renderPartial('_testBlockNG', array(
                     'data' => LectureElement::model()->findByPk($page->quiz),
                     'editMode' => $editMode,
                     'user' => $user

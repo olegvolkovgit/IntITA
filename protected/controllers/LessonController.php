@@ -40,7 +40,7 @@ class LessonController extends Controller
         }
     }
 
-    public function actionIndex($id, $idCourse=0, $page = 1)
+    public function actionIndex($id, $idCourse=0, $page = 1, $template=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
@@ -52,7 +52,7 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
-        $passedPages = LecturePage::getAccessPages($id, $user);
+        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
 
         $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
 
@@ -79,8 +79,10 @@ class LessonController extends Controller
         } else {
             $teacher = null;
         }
+        if($template==0) $view='index1';
+        else $view='indexTemplate';
 
-        $this->render('index1', array(
+        $this->render($view, array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
@@ -695,5 +697,40 @@ class LessonController extends Controller
             }
         }
         $this->redirect(Config::getBaseUrl().'/_admin/verifyContent/index');
+    }
+
+    public function actionGetPageData()
+    {
+        $user=Yii::app()->user->getId();
+        $id = Yii::app()->request->getPost('lecture');
+//        $page = Yii::app()->request->getPost('page');
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+//        $this->initialize($id,$editMode);
+
+        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
+        $lastAccessPage = LectureHelper::lastAccessPage($passedPages) + 1;
+
+//        if (is_string($page)) $thisPage = $page;
+//        else if($editMode) $thisPage = 1;
+//        else $thisPage = $lastAccessPage;
+
+        $passedLecture = LectureHelper::isPassedLecture($passedPages);
+        $finishedLecture = LectureHelper::isLectureFinished($user, $id);
+
+
+//        $page_order=$page;
+//        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+//        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || AccessHelper::isAdmin())){
+//            echo 'Сторінка недоступна';
+//        }
+//        else {
+//        var_dump($passedPages);die;
+        echo json_encode($passedPages);
+//        }
+
+//            echo $this->renderPartial('/lesson/_page',array('id'=>$id,'page'=>$page,'dataProvider'=>$dataProvider,'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
+//        }
     }
 }
