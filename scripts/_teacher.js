@@ -32,7 +32,7 @@ function loadPage(url) {
         error: function () {
             alert("Вибачте, але на сайті виникла помилка. " +
             "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
-            location.reload();
+            //location.reload();
         }
     });
 }
