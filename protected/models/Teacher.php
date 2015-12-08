@@ -568,5 +568,17 @@ class Teacher extends CActiveRecord
         return $result;
     }
 
+    public function getTrainees(){
+        $trainees = Yii::app()->db->createCommand(array(
+            'select' => array('student'),
+            'from' => 'trainer_student',
+            'where' => 'trainer=:id',
+            'order' => 'student',
+            'params' => array(':id' => $this->teacher_id),
+        ))->queryAll();
+
+        return $trainees;
+    }
+
 
 }

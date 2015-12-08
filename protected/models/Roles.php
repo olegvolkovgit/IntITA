@@ -16,6 +16,7 @@
  */
 class Roles extends CActiveRecord
 {
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -141,5 +142,27 @@ class Roles extends CActiveRecord
             $result[$i][$titles[$i]['id']] = $titles[$i]['title_ua'];
         }
         return $result;
+    }
+
+    //list params for sidebar navigation in admin panel
+    public function adminPanelList(Teacher $teacher){
+        $list = [];
+        switch($this->title_en){
+            case 'trainer':
+                $list = $teacher->getTrainees();
+                break;
+            case 'author':
+                //$list = [];
+                break;
+            case 'consultant':
+                //$list =
+                break;
+            case 'leader':
+                //$list =
+                break;
+            default:
+                break;
+        }
+        return $list;
     }
 }
