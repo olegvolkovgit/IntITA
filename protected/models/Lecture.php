@@ -417,7 +417,6 @@ class Lecture extends CActiveRecord
 
         if($lecture->isFree||Module::canAccess($lecture->idModule,$user))
         {
-//            var_dump(Module::canAccess($lecture->idModule,$user));
             if ($order > $enabledOrder)
                 return false;
 

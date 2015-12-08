@@ -326,4 +326,20 @@ class UserAgreements extends CActiveRecord
         );
         return $dataProvider;
     }
+
+    public static function getAgreementByInvoices(Array $invoiceArr)
+    {
+        $userAgreements = [];
+        foreach($invoiceArr as $invoice)
+        {
+            $model = Invoice::model()->findByPk($invoice);
+            $userAgreementId = $model->agreement->id;
+
+            if($userAgreementId)
+                array_push($userAgreements,$userAgreementId);
+        }
+
+        return array_unique($userAgreements);
+    }
+
 }

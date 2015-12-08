@@ -152,9 +152,9 @@ class OperationController extends AccountancyController
         $type = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
-        Invoice::insertServiceUserData($invoice);
         if (Operation::addOperation($summa, $user, $type, $invoice, $source)) {
-
+            if(!Invoice::saveService($invoice))
+                throw new \application\components\Exceptions\IntItaException(500,"Service was not save");
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');

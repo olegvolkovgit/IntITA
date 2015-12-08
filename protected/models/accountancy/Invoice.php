@@ -257,7 +257,31 @@ class Invoice extends CActiveRecord
         $criteria->addSearchCondition('number', $invoiceNumber);
         $inv = Invoice::model()->findAll($criteria);
         return $inv;
-        if($agreement->service)
-            return $agreement->service->description;
+
     }
+
+    public static function saveService($invoiceArr)
+    {
+        $userAgreementsId = UserAgreements::getAgreementByInvoices($invoiceArr);
+
+        if(Invoice::insertServiceUserData($userAgreementsId))
+            return true;
+        else return false;
+    }
+
+    private static function insertServiceUserData(Array $userAgreement)
+    {
+        $agreements = UserAgreements::model()->findAllByAttributes(array('id' =>$userAgreement));
+
+        foreach($agreements as $agreement)
+        {
+            $results = Yii::app()->db->createCommand()
+                ->insert('service_user',
+                    array('service_id' => $agreement->service_id,'user_id'=>$agreement->user_id));
+        }
+        if($results)
+            return true;
+        else return false;
+    }
+
 }
