@@ -33,7 +33,8 @@ $enabledLessonOrder = LectureHelper::getLastEnabledLessonOrder($module->module_I
         <a href="#lessonForm">
             <?php echo CHtml::hiddenField('idmodule', $module->module_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'), array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>Yii::t('module', '0374')));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'),
+                array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>Yii::t('module', '0374')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
@@ -126,7 +127,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     $titleParam = 'title_ua';
                 }
             if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder)) {
-                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
+                return CHtml::link(CHtml::encode($data->$titleParam),
+                    Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else
                 return $data->$titleParam;

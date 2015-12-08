@@ -258,5 +258,14 @@ class CourseModules extends CActiveRecord
         }
     }
 
+    public static function checkModuleInCourse($idModule,$idCourse)
+    {
+        $module = CourseModules::model()->findByAttributes(array('id_module'=> $idModule,'id_course' =>$idCourse));
+
+        if($module)
+            return true;
+        else return false;
+
+    }
 
 }

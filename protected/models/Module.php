@@ -546,4 +546,36 @@ class Module extends CActiveRecord implements IBillableObject
 
         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
     }
+
+    public static function canAccess($idModule,$userId)
+    {
+        $services_user = Module::findService($userId);
+
+        if($services_user)
+        {
+            foreach ($services_user as $service_user) {
+                $service = AbstractIntITAService::getServiceById($service_user['service_id']);
+                if($service)
+                {
+                    return $service->checkAccess($idModule);
+                }
+            }
+
+        }
+
+        else return false;
+    }
+
+    private static function findService($userId)
+    {
+        $service_user = Yii::app()->db->createCommand()
+            ->select('service_id, user_id')
+            ->from('service_user')
+            ->where('user_id = :user_id',array(':user_id' => $userId))
+            ->queryAll();
+
+        return $service_user;
+    }
+
+
 }

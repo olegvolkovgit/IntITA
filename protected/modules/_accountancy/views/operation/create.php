@@ -19,13 +19,13 @@
     <li role="presentation" class="operationPanel" ><button onclick="showOperation(1)">Пошук по номеру рахунка</button></li>
     <li role="presentation" class="operationPanel" ><button onclick="showOperation(2)">Пошук по користувачу</button></li>
 </ul>
-    <div class="findOffer" id="findOffer" >
+    <div class="findOffer" id="findOffer" style="display: block" >
         <?php echo $this->renderPartial('_operationForm1', array('agreementsList' => ''));?>
     </div>
-    <div class="findOperation" id="findOperation">
+    <div class="findOperation" id="findOperation" style="display: none">
         <?php echo $this->renderPartial('_operationForm2', array('invoicesList'=>''));?>
     </div>
-    <div class="findOperation" id="findUser">
+    <div class="findOperation" id="findUser" style="display: none">
         <?php echo $this->renderPartial('_operationForm3', array('invoicesList'=>''));?>
     </div>
 

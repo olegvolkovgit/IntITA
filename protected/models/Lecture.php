@@ -404,6 +404,7 @@ class Lecture extends CActiveRecord
 Якщо $order>$enabledOrder то недоступна*/
     public static function accessLecture($id, $order, $enabledOrder)
     {
+
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
         $user = Yii::app()->user->getId();
@@ -413,20 +414,16 @@ class Lecture extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        if (!($lecture->isFree)) {
-            if (StudentReg::getRoleString($user) == 'викладач') {
-                if (TeacherHelper::isTeacherAuthorModule($user, $lecture->idModule))
-                    return true;
-            }
-            $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
-                return false;
-            }
-        } else {
+
+        if($lecture->isFree||Module::canAccess($lecture->idModule,$user))
+        {
+//            var_dump(Module::canAccess($lecture->idModule,$user));
             if ($order > $enabledOrder)
                 return false;
+
+            else return true;
         }
-        return true;
+
     }
 
     public static function getTheme($dp)

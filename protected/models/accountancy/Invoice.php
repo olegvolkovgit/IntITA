@@ -268,4 +268,9 @@ class Invoice extends CActiveRecord
         $inv = Invoice::model()->findAll($criteria);
         return $inv;
     }
+
+    public static function insertServiceUserData($invoice)
+    {
+
+    }
 }

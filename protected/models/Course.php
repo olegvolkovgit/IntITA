@@ -386,4 +386,5 @@ class Course extends CActiveRecord implements IBillableObject
         return Course::model()->findByPk($id)->language;
     }
 
+
 }

@@ -162,4 +162,19 @@ class CourseService extends AbstractIntITAService
         ));
         return CourseService::model()->findAll($criteria);
     }
+
+    public function checkAccess($idModule)
+    {
+
+        $course = Course::model()->findByPk($this->course_id);
+        if($course){
+            $result = CourseModules::checkModuleInCourse($idModule,$course->course_ID);
+                if($result)
+                    return true;
+        }
+        return false;
+
+    }
+
+
 }

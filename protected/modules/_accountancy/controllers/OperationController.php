@@ -151,8 +151,9 @@ class OperationController extends AccountancyController
         $type = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
-        //var_dump($invoice);die;
+        Invoice::insertServiceUserData($invoice);
         if (Operation::addOperation($summa, $user, $type, $invoice, $source)) {
+
             $this->actionIndex();
         } else {
             throw new CException('Operation is not saved!');

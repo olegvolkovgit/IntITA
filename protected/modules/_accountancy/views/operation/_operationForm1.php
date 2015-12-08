@@ -35,7 +35,6 @@
             <input type="number" name="type" value="1" hidden="hidden">
             <input type="number" name="source" value="1" hidden="hidden">
             <fieldset>
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
         Результати пошуку:
         <br/>
                 <div name="selectInvoices" id="selectInvoices">

@@ -126,7 +126,8 @@ class Operation extends CActiveRecord
                 if (!$model->addInternalPays($model->invoicesList, $createDate)){
                     throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
                 }
-                Invoice::setInvoicesPayDate($model->invoicesList, $createDate);
+
+                Invoice::setInvoicesPayDate($model, $createDate);
                 $transaction->commit();
             } else {
                 throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');

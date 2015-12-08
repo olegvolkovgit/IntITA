@@ -160,4 +160,15 @@ class ModuleService extends AbstractIntITAService
         ));
         return ModuleService::model()->findAll($criteria);
     }
+
+    public function checkAccess($idModule)
+    {
+        if($this->module_id == $idModule){
+        $billable = $this->service->billable;
+        if($billable)
+            return true;
+        }
+        else return false;
+
+    }
 }

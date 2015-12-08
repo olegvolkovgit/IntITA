@@ -22,12 +22,16 @@
             },
             cache: false,
             success: function(response) {
+                //alert(user.style.display);
                 if (user.style.display == 'none') {
                     document.getElementById('selectInvoices').style.display = 'block';
+                    document.getElementById('selectUserInvoices').style.display = 'none';
                     $('div[name="selectInvoices"]').html(response);
                 }
                 else {
                     document.getElementById('selectUserInvoices').style.display = 'block';
+                    user.style.display = 'none';
+
                     $('div[name="selectUserInvoices"]').html(response);
                 }
             }
