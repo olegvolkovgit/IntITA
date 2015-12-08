@@ -30,13 +30,13 @@ $('.search-form form').submit(function(){
         ),
         array(
             'header' => 'Про кого',
-            'value' => 'ResponseHelper::getResponseAboutTeacherName($data->id)',
+            'value' => 'Response::getResponseAboutTeacherName($data->id)',
         ),
         'date',
         'text',
         array(
             'header' => 'Статус',
-            'value' => 'ResponseHelper::isPublish($data->id)',
+            'value' => 'Response::isPublish($data->id)',
         ),
         'rate',
         array(

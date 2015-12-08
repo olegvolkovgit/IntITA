@@ -42,7 +42,7 @@
             'selector' => "#newTextBlock",
             'options' => array(
                 'imageUpload' => $this->createUrl('lesson/uploadImage'),
-                'lang' => LectureHelper::getLanguage(),
+                'lang' => CommonHelper::getLanguage(),
                 'toolbar' => true,
                 'iframe' => true,
                 'css' => 'wym.css',

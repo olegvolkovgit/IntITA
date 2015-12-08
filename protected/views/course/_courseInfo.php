@@ -5,7 +5,7 @@
  * Date: 12.05.2015
  * Time: 15:13
  */
-$langParam = CourseHelper::getLangParam();
+$langParam = CommonHelper::getLanguage();
 $forWhom = 'for_whom_' . $langParam;
 $whatYouLearn = 'what_you_learn_' . $langParam;
 $whatYouGet = 'what_you_get_' . $langParam;

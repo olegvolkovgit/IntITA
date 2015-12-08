@@ -1,6 +1,6 @@
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>ModuleHelper::getModuleName($post->module_ID).'. '.Yii::t('sharing','0643'),
+    'title'=>Module::getModuleName($post->module_ID).'. '.Yii::t('sharing','0643'),
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
@@ -13,11 +13,11 @@ $this->pageTitle = 'INTITA';
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        CourseHelper::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)), ModuleHelper::getModuleName($post->module_ID),
+        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)), Module::getModuleName($post->module_ID),
     );
 } else {
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($post->module_ID),
+        Module::getModuleName($post->module_ID),
     );
 }
 ?>

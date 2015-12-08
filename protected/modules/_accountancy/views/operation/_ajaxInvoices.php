@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 21.11.2015
- * Time: 10:23
+ * @var $invoice Invoice
  */
 if(!empty($invoices)){
     ?>
@@ -13,9 +10,10 @@ if(!empty($invoices)){
         foreach($invoices as $invoice)
         {?>
             <div>
-                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Ким :<?php echo $invoice->getUsername() ?>
-                Пояснення : <?php echo $invoice->getServiceDescription() ?>
-                Дата створення : <?php echo date("d.m.y", strtotime($invoice->date_created))  ?>
+                <input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"> Користувач:
+                <?php echo StudentReg::getUserNamePayment($invoice->user_created); ?>
+                Сервіс: <?php echo $invoice->getServiceDescription() ?>
+                Дата: <?php echo date("d.m.y", strtotime($invoice->date_created))  ?>
             </div>
         <?php }?>
 

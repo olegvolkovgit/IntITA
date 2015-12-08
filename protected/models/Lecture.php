@@ -189,7 +189,7 @@ class Lecture extends CActiveRecord
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->idType;
         $type = LectureType::model()->findByPk($typeId);
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         return array(
             'text' => $type->$titleParam,
             'image' => $type->image,
@@ -206,7 +206,7 @@ class Lecture extends CActiveRecord
     {
         $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->idType;
         $type = LectureType::model()->findByPk($typeId);
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         return array(
             'text' => $type->$titleParam,
             'image' => $type->image,
@@ -226,7 +226,7 @@ class Lecture extends CActiveRecord
 
     public function getModuleInfoById($idCourse){
         $module = Module::model()->findByPk($this->idModule);
-        $titleParam = ModuleHelper::getModuleTitleParam();
+        $titleParam = Module::getModuleTitleParam();
         return array(
             'moduleTitle' => $module->$titleParam,
             'countLessons' =>  $module->lesson_count,
@@ -237,7 +237,7 @@ class Lecture extends CActiveRecord
     public function getCourseInfoById($idCourse){
         $course = Course::model()->findByPk($idCourse);
         return array(
-            'courseTitle' => CourseHelper::getCourseName($idCourse),
+            'courseTitle' => Course::getCourseName($idCourse),
             'courseLang' =>  $course->language,
         );
     }
@@ -255,7 +255,7 @@ class Lecture extends CActiveRecord
 
     public function getTypeInfo(){
         $type = LectureType::model()->findByPk($this->idType);
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         return array(
             'image' => $type->image,
             'text' => $type->$titleParam,
@@ -316,7 +316,7 @@ class Lecture extends CActiveRecord
     {
         $list = Lecture::model()->findAllByAttributes(array('idModule' => 1));
         $titles = array();
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         foreach ($list as $item) {
             array_push($titles, $item->$titleParam);
         }
@@ -330,7 +330,7 @@ class Lecture extends CActiveRecord
 
     public function getLectureTypeText(){
         $type = LectureType::model()->findByPk($this->id);
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         return $type->$titleParam;
     }
 
@@ -371,7 +371,7 @@ class Lecture extends CActiveRecord
 
     public static function getLink($id){
         return '<a href="'.Yii::app()->createUrl("lesson/index", array("id" => $id, "idCourse" => "0")).'">'.
-        LectureHelper::getLectureTitle($id).'</a>';
+        Lecture::getLectureTitle($id).'</a>';
     }
 
     public static function getAllNotVerifiedLectures(){
@@ -429,9 +429,102 @@ class Lecture extends CActiveRecord
     public static function getTheme($dp)
     {
         if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
-            $result=LectureHelper::getLectureTitle($dp->lecture_id);
+            $result=Lecture::getLectureTitle($dp->lecture_id);
         else $result=Yii::t('profile', '0717');
 
         return $result;
+    }
+
+    public static function isLectureFinished($idUser, $idLecture)
+    {
+
+        $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
+        $passedLecture = Lecture::isPassedLecture($passedPages);
+
+        return $passedLecture;
+    }
+
+    public static function getLastLectureID($idModule)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $idModule . ' and `order`>0';
+        if(isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
+    }
+
+    public static function getFirstLectureID($idModule)
+    {
+        if(isset(Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id))
+            return Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id;
+        else return false;
+    }
+
+    public static function isPassedLecture($passedPages)
+    {
+        for ($i = 0, $count = count($passedPages); $i < $count; $i++) {
+            if (!$passedPages[$i]['isDone']) return false;
+        }
+        return true;
+    }
+
+    public static function getLectureDuration($id)
+    {
+        return Lecture::model()->findByPk($id)->durationInMinutes . Yii::t('lecture', '0076');
+    }
+
+    public static function getLastEnabledLessonOrder($idModule)
+    {
+        $user = Yii::app()->user->getId();
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'lectures';
+        $criteria->addCondition('idModule=' . $idModule . ' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+
+        $lecturesCount = count($sortedLectures);
+        foreach ($sortedLectures as $lecture) {
+            if (!Lecture::isLectureFinished($user, $lecture->id)) {
+                return $lecture->order;
+            }
+        }
+        return $lecturesCount;
+    }
+
+    public static function getLectureTitle($id)
+    {
+        $titleParam = Lecture::getTypeTitleParam();
+        $title = Lecture::model()->findByPk($id)->$titleParam;
+        if ($title == '') {
+            return Lecture::model()->findByPk($id)->title_ua;
+        } else {
+            return $title;
+        }
+    }
+
+    public static function getLectureTypeTitle($idType)
+    {
+        if (LectureType::model()->exists('id=:idType', array(':idType' => $idType))) {
+            $titleParam = Lecture::getTypeTitleParam();
+            return LectureType::model()->findByPk($idType)->$titleParam;
+        } else {
+            return '';
+        }
+    }
+
+    public static function getTypeTitleParam()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $title;
+    }
+
+    public static function getNextId($id)
+    {
+        $current = Lecture::model()->findByPk($id);
+        return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
     }
 }

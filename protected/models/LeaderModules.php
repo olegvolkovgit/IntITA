@@ -107,7 +107,7 @@ class LeaderModules extends CActiveRecord
             'params' => array(':id' => $leader),
         ))->queryAll();
         $count = count($modules);
-        $titleParam = ModuleHelper::getModuleTitleParam();
+        $titleParam = Module::getModuleTitleParam();
 
         for($i = 0;$i < $count;$i++){
             $modules[$i]['id'] = $modules[$i]["module"];
@@ -131,6 +131,12 @@ class LeaderModules extends CActiveRecord
             $model->save();
             $result = true;
         }
+        return $result;
+    }
+
+    public static function getLeaderModules($teacher){
+        $modules = LeaderModules::getModulesByLeader($teacher);
+        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
     }
 }

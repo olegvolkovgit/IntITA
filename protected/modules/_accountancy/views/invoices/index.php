@@ -36,7 +36,7 @@ $('.search-form form').submit(function(){
         array(
             'name' => 'date_created',
             'htmlOptions'=>array('class'=>'date'),
-            'value' => 'UserAgreements::getFormatDate($data->date_created)',
+            'value' => '($data->date_created)? date("d.m.y", strtotime($data->date_created)):""',
         ),
         array(
             'name' => 'summa',
@@ -44,43 +44,26 @@ $('.search-form form').submit(function(){
         ),
         array(
             'name' => 'user_created',
-            'value' => 'StudentReg::getUserName($data->user_created)',
+            'value' => 'StudentReg::getUserNamePayment($data->user_created)',
         ),
         array(
             'name' => 'payment_date',
             'htmlOptions'=>array('class'=>'date'),
-            'value' => 'UserAgreements::getFormatDate($data->payment_date)',
+            'value' => '($data->payment_date)? date("d.m.y", strtotime($data->payment_date)):""',
         ),
         array(
             'name' => 'pay_date',
             'htmlOptions'=>array('class'=>'date'),
-            'value' => 'UserAgreements::getFormatDate($data->pay_date)',
+            'value' => '($data->pay_date)? date("d.m.y", strtotime($data->pay_date)):""',
         ),
         array(
             'name' => 'expiration_date',
             'htmlOptions'=>array('class'=>'date'),
-            'value' => 'UserAgreements::getFormatDate($data->expiration_date)',
+            'value' => '($data->expiration_date)? date("d.m.y", strtotime($data->expiration_date)):""',
         ),
         array(
             'name' => 'user_cancelled',
-            'value' => 'StudentReg::getUserName($data->user_cancelled)',
+            'value' => 'StudentReg::getUserNamePayment($data->user_cancelled)',
         ),
-//        array(
-//            'class'=>'CButtonColumn',
-//            'template'=>'{confirm}{cancel}',
-//            'buttons' => array
-//            (
-//                'confirm'=>array(
-//                    'label' => 'Сплатити',
-//                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/confirm", array("id"=>$data->id));',
-//                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'confirm.png'),
-//                ),
-//                'cancel'=>array(
-//                    'label' => 'Скасувати',
-//                    'url' => 'Yii::app()->createUrl("/_accountancy/invoices/cancel", array("id"=>$data->id));',
-//                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'cancel.png'),
-//                ),
-//            ),
-//        ),
     ),
 )); ?>

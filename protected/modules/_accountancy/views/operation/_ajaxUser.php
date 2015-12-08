@@ -1,21 +1,17 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 23.11.2015
- * Time: 16:59
+ * @var $user StudentReg
  */
 if(!empty($users)){
     ?>
     Список користувачів по e-mail користувача
     <?php
-
     foreach($users as $user)
     {?>
         <div>
             <input type="radio" name="user" value="<?php echo $user->id ?>" onchange="getAgreementsListByUser()">
-            Користувач :<?php echo $user->getUserName() ?>
-            Ім'я : <?php echo $user->getFirstName() ?>
+            Користувач :<?php echo $user->email.", ".$user->firstName." ".$user->secondName; ?>
+            Ім'я : <?php echo $user->firstName;?>
     </div>
     <?php }?>
 

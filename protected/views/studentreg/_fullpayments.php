@@ -8,8 +8,8 @@
 $user = Yii::app()->user->getId();
 ?>
 <a class="coursename" href="<?php echo Yii::app()->createUrl('course/index', array('id' => Course::model()->findByPk($data['id_course'])->course_ID)); ?>">
-    <?php echo CourseHelper::getCourseName($data['id_course'])."   ".
-        CourseHelper::getAgreementLink($data['id_course'], $user); ?>
+   <?php echo Course::getCourseName($data['id_course'])."   ".
+        Course::getAgreementLink($data['id_course'], $user); ?>
 </a>
 <p class="price">
     <?php

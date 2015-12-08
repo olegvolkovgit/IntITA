@@ -1,6 +1,6 @@
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>CourseHelper::getCourseName($model->course_ID).'. '.Yii::t('sharing','0643'),
+    'title'=>Course::getCourseName($model->course_ID).'. '.Yii::t('sharing','0643'),
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
@@ -12,7 +12,7 @@
 <?php
 $this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl(). "/courses", CourseHelper::getCourseName($model->course_ID),
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl(). "/courses", Course::getCourseName($model->course_ID),
 );
 
 ?>
@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
 <div class="courseBlock">
     <div class="courseTitle">
         <h1>
-            <?php echo CourseHelper::getCourseName($model->course_ID);  ?>
+            <?php echo Course::getCourseName($model->course_ID);  ?>
         </h1>
     </div>
     <div class="courseShortInfo">

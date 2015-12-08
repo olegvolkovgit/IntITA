@@ -222,10 +222,11 @@ $header = new Header();
                 </div>
                 <div class="footercontact">
                     <p>
-                        <?php echo FooterHelper::getTel(); ?><br/>
-                        <?php echo FooterHelper::getMobile(); ?><br/>
-                        <?php echo FooterHelper::getEmail(); ?><br/>
-                        <?php echo FooterHelper::getSkype(); ?><br/>
+                        <?php $footer = new Footer();
+                        echo $footer->getTel(); ?><br/>
+                        <?php echo $footer->getMobile(); ?><br/>
+                        <?php echo $footer->getEmail(); ?><br/>
+                        <?php echo $footer->getSkype(); ?><br/>
                     </p>
                 </div>
                 <div class="footermenu">

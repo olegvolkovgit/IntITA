@@ -27,7 +27,7 @@
                             <h2><?php echo Teacher::getTeacherFirstName($teacherValue->teacher_id); ?>
                                 <?php echo Teacher::getTeacherMiddleName($teacherValue->teacher_id); ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
-                            <?php $modules = TeacherHelper::getModulesByTeacher($teacherValue->teacher_id);
+                            <?php $modules = Teacher::getModulesByTeacher($teacherValue->teacher_id);
                             if (!empty($modules)){?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
@@ -55,7 +55,7 @@
                 </table>
                 <div class="aboutMore">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'readMore.png');?>"/> <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0062'); ?> &#187;</a><br>
-                    <?php echo RatingHelper::getRating($teacherValue->rating); ?>
+                    <?php echo CommonHelper::getRating($teacherValue->rating); ?>
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>"><?php echo Yii::t('teachers', '0063'); ?> &#187;</a>
                 </div>
             </div>

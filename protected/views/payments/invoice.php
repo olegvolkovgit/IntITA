@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle = 'INTITA';
+/* @var $invoice Invoice*/
 ?>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
@@ -9,7 +9,7 @@ $this->pageTitle = 'INTITA';
     <meta charset="UTF-8">
 </head>
 <div id="accountContainer">
-    <?php $this->renderPartial('_account', array('account' => $invoice), false, true); ?>
+    <?php $this->renderPartial('_account', array('model' => $invoice), false, true); ?>
     <div>
         <?php if (!isset($_GET['nolayout'])) { ?>
             <button onclick="sendData()" id="printAccount">

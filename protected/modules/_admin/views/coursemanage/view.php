@@ -17,7 +17,7 @@
     </button>
 
     <div class="page-header">
-    <h1>Курс <?php echo CourseHelper::getCourseName($model->course_ID); ?></h1>
+    <h1>Курс <?php echo Course::getCourseName($model->course_ID); ?></h1>
     </div>
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data'=>$model,

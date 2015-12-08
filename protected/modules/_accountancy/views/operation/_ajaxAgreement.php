@@ -14,9 +14,9 @@ if(!empty($agreements)){
     foreach($agreements as $agreement)
     {?>
         <div>
-        <input type="radio" name="agreement" onchange="getInvoicesList()"
-               value="<?php echo $agreement->id ?>"> Номер договору :  <?php echo $agreement->number ?>
-        Дата створення : <?php echo $agreement->create_date ?>
+        <input type="radio" name="agreement" onchange="getInvoicesList()" value="<?php echo $agreement->id ?>">
+            Номер договору:  <?php echo $agreement->number; ?>
+            Дата: <?php echo $agreement->create_date ?>
         </div>
 <?php }?>
 

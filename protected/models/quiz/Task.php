@@ -141,4 +141,36 @@ class Task extends Quiz
             LecturePage::addQuiz($arr['pageId'], $arr['condition']);
         }
     }
+
+    public static function getTaskId($idBlock)
+    {
+        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
+        return ($assignment) ? $assignment : false;
+    }
+
+    public static function getTaskLang($idBlock)
+    {
+        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->language;
+        return ($assignment) ? $assignment : false;
+    }
+
+    public static function getTaskIcon($user, $idBlock, $editMode)
+    {
+
+        if ($editMode || $user == 0) {
+            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+        } else {
+
+            $idTask = Task::model()->findByAttributes(array('condition' => $idBlock))->id;
+            if (TaskMarks::isTaskDone($user, $idTask)) {
+                return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
+            } else {
+                return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
+            }
+        }
+    }
+
+    public static function getTaskCondition($block){
+        return strip_tags(LectureElement::model()->findByPk($block)->html_block);
+    }
 }

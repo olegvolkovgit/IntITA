@@ -4,19 +4,25 @@ $valid=TestsAnswers::getTestValid($idBlock);
 ?>
 <div class="editTest">
     <br>
-    <form name="editTestForm" onSubmit="return checkAnswers($('.answersCheckbox input:checkbox:checked'));" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>" novalidate>
+    <form name="editTestForm" onSubmit="return checkAnswers($('.answersCheckbox input:checkbox:checked'));"
+          method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>" novalidate>
         <fieldset>
             <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
-            <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста" value='<?php echo TestsHelper::getTestCondition($idBlock);?>' required ng-init="testConditionEdit='<?php echo htmlentities(TestsHelper::getTestCondition($idBlock));?>'" ng-model='testConditionEdit' />
+            <input type="text" name="condition" id="conditionTest" size="80" placeholder="умова теста"
+                   value='<?php echo Tests::getTestCondition($idBlock);?>' required
+                   ng-init="testConditionEdit='<?php echo htmlentities(Tests::getTestCondition($idBlock));?>'"
+                   ng-model='testConditionEdit' />
             <br>
             <br>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <ol  style="display: inline-block" id="optionsList" class="inputs">
                     <?php for($i=0;$i<count(TestsAnswers::getTestAnswers($idBlock));$i++){?>
-                        <li><input class="testVariant" type="text" name="option<?php echo $i+1?>" id="option<?php echo $i+1?>" value='<?php echo $answers[$i]?>' size="80" required></li>
+                        <li><input class="testVariant" type="text" name="option<?php echo $i+1?>"
+                                   id="option<?php echo $i+1?>" value='<?php echo $answers[$i]?>'
+                                   size="80" required></li>
                     <?php } ?>
                 </ol>
                 <div style="display: inline-block" id="answersField<?php echo $idBlock?>" >

@@ -94,8 +94,6 @@ class Invoice extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -157,34 +155,26 @@ class Invoice extends CActiveRecord
         return '';
     }
 
-    public static function getPayLink($row,Invoice $data){
-        $spanTagStart = '<span class="'.Invoice::getInvoiceStatus($data->id).'">';
-        return $spanTagStart."Рахунок №".($row+1).". Сплатити ".
-        number_format(PaymentHelper::getPriceUah($data->summa), 2, ",", " ")." грн. до ".
-        date("d.m.y", strtotime($data->payment_date))."</span>";
+    public function isPayed()
+    {
+        return !empty($this->pay_date);
     }
 
-    public static function getInvoiceStatus($id){
-        $model = Invoice::model()->findByPk($id);
-
-        if (!empty($model->pay_date)){     // invoice payed
-            return 'payed';
-        } else {
-            if(strtotime($model->payment_date) < time()){
-                return 'waitPaymentDate';
-            } else {
-                if(time() > strtotime($model->expiration_date) ){
-                    return 'overdue';     //expiration_date pass
-                }else {
-                    return 'waiting';     // wait paying
-                }
-            }
-        }
+    public function isWaitPaymentDate()
+    {
+        return (strtotime($this->payment_date) < time());
+    }
+    
+    public function isOverdue()
+    {
+        return (time() > strtotime($this->expiration_date));
     }
 
-    public function getUsername(){
+
+    public function getUserName(){
         $user = $this->model()->userCreated;
         if($user) return $user->firstName.' '. $user->secondName;
+        else return '';
     }
 
     public static function getAllInvoices(){
@@ -267,10 +257,7 @@ class Invoice extends CActiveRecord
         $criteria->addSearchCondition('number', $invoiceNumber);
         $inv = Invoice::model()->findAll($criteria);
         return $inv;
-    }
-
-    public static function insertServiceUserData($invoice)
-    {
-
+        if($agreement->service)
+            return $agreement->service->description;
     }
 }

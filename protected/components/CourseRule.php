@@ -114,7 +114,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order . $pageString;
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order . $pageString;
                     }
                 }
@@ -138,7 +138,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'/'.$page->page_order.'?edit'.$cke;
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'/'.$page->page_order.'?edit'.$cke;
                     }
                 }
@@ -153,7 +153,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'?edit';
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'?edit';
                     }
                 }

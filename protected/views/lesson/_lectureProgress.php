@@ -6,7 +6,7 @@
  * Time: 16:09
  */
 ?>
-<?php $lastAccessPage=LectureHelper::lastAccessPage($passedPages) ?>
+<?php $lastAccessPage=LecturePage::lastAccessPage($passedPages) ?>
 <div class="lessonPart">
     <div class="labelBlock" id="labelBlock">
         <p><?php echo Yii::t('lecture', '0615')." ".$page->page_order . '. ' . $page->page_title; ?></p>
@@ -46,7 +46,7 @@
         }?>
     </div>
 <?php } elseif ($edit == 1) {
-    for ($i = 0, $count = LectureHelper::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
+    for ($i = 0, $count = LecturePage::getNumberLecturePages($page->id_lecture); $i < $count; $i++) { ?>
         <a class="pageDone pageTitle"
            id="<?php if($i==$thisPage-1) echo 'pagePressed' ?>"
            href="<?php echo Yii::app()->createURL('lesson/index', array('id' => $_GET['id'], 'idCourse' => $idCourse));?>?editPage=<?php echo $i+1; ?>"

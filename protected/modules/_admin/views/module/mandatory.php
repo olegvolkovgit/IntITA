@@ -4,7 +4,7 @@
     </button>
 <br>
 <div class="page-header">
-<h2>Модуль #<?php echo $id." ".ModuleHelper::getModuleName($id);?></h2>
+<h2>Модуль #<?php echo $id." ".Module::getModuleName($id);?></h2>
 </div>
     <br>
 <form action="<?php echo Yii::app()->createUrl('/_admin/module/addMandatoryModule');?>" method="POST" name="add-accessModule">
@@ -17,7 +17,7 @@
         <select name="course" class = "form-control" id="courseList" onchange="selectModule()">
             <option value="">Виберіть курс</option>
             <optgroup label="Курси">
-                <?php $courses = CourseHelper::generateModuleCoursesList($id);
+                <?php $courses = Course::generateModuleCoursesList($id);
                 $count = count($courses);
                 for($i = 0; $i < $count; $i++){
                         ?>
@@ -25,7 +25,7 @@
                     if ($courses[$i]["mandatory"] != 0) {
                             ?>
                             - попередній модуль
-                            #<?php echo ModuleHelper::getModuleName($courses[$i]["mandatory"]); ?></option>
+                            #<?php echo Module::getModuleName($courses[$i]["mandatory"]); ?></option>
                     <?php
                     }
                 }

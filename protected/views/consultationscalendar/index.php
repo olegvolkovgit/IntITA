@@ -19,12 +19,12 @@ if($idCourse != 0) {
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
         $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        $lecture[LectureHelper::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
+        $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
     );
 }else{
     $this->breadcrumbs = array(
-        ModuleHelper::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
-        $lecture[LectureHelper::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => '0')), Yii::t("consultation", "0506"),
+        Module::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
+        $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => '0')), Yii::t("consultation", "0506"),
     );
 }
 ?>

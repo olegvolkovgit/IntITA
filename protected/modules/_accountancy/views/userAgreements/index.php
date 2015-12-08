@@ -35,31 +35,31 @@ $('.search-form form').submit(function(){
         ),
         array(
             'name' => 'user_id',
-            'value' => 'StudentReg::getUserName($data->user_id)',
+            'value' => 'StudentReg::getUserNamePayment($data->user_id)',
         ),
         array(
             'name' => 'create_date',
-            'value' => 'UserAgreements::getFormatDate($data->create_date)',
+            'value' => '($data->create_date)? date("d.m.y", strtotime($data->create_date)):""',
         ),
         array(
             'name' => 'approval_user',
-            'value' => 'StudentReg::getUserName($data->approval_user)',
+            'value' => 'StudentReg::getUserNamePayment($data->approval_user)',
         ),
         array(
             'name' => 'approval_date',
-            'value' => 'UserAgreements::getFormatDate($data->approval_date)',
+            'value' => '($data->approval_date)? date("d.m.y", strtotime($data->approval_date)):""',
         ),
         array(
             'name' => 'cancel_user',
-            'value' => 'StudentReg::getUserName($data->cancel_user)',
+            'value' => 'StudentReg::getUserNamePayment($data->cancel_user)',
         ),
         array(
             'name' => 'cancel_date',
-            'value' => 'UserAgreements::getFormatDate($data->cancel_date)',
+            'value' => '($data->cancel_date)? date("d.m.y", strtotime($data->cancel_date)):""',
         ),
         array(
             'name' => 'close_date',
-            'value' => 'UserAgreements::getFormatDate($data->close_date)',
+            'value' => '($data->close_date)? date("d.m.y", strtotime($data->close_date)):""',
         ),
         array(
             'name' => 'payment_schema',

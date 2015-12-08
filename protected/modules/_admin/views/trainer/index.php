@@ -16,7 +16,7 @@ if (!empty($users)) {?>
     foreach($users as $user)
     {?>
             <tr>
-                <td><?php echo $user->email ?></td> <td><?php echo $user->getUserName($user->id) ?>
+                <td><?php echo $user->email ?></td> <td><?php echo $user->getUserNamePayment($user->id) ?>
                 </td><td><?php echo 'Немає' ?></td><td>
                     <a href="<?php echo Yii::app()->createUrl("/_admin/trainer/addTrainer", array("id"=>$user->id))?>">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'plus.jpg')?>" align="bottom">

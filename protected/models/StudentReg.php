@@ -350,7 +350,7 @@ class StudentReg extends CActiveRecord
     {
         $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>Yii::app()->user->id));
         if($educform && !$user)
-           return UserHelper::getUserData($educform,'0106');
+           return StudentReg::getUserData($educform,'0106');
     }
     public static function getCourses ($courses)
     {
@@ -792,4 +792,56 @@ class StudentReg extends CActiveRecord
         else return null;
     }
 
+    public static function getLink($link,$name)
+    {
+        if($link)
+            return "<span class='networkLink'>"."<a href='$link' target='_blank'>"."$name"."</a>"."</span>";
+    }
+
+    public static function getUserData($data,$tProfile)
+    {
+        if($data)
+        {
+            return  '<span class="colorP">'.Yii::t('profile', $tProfile).'</span>'.$data;
+        }
+    }
+
+    public static function getUserNameConsultation($id,$dp)
+    {
+        if(!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
+            $result=Yii::t('profile', '0716');
+            return $result;
+        }
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
+        if($teacher){
+            if(StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
+                $result=StudentReg::model()->findByPk($dp->user_id)->firstName." ".StudentReg::model()->findByPk($dp->user_id)->secondName;
+                if($result==' ')
+                    $result=StudentReg::model()->findByPk($dp->user_id)->email;
+            } else {
+                $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
+                    Teacher::getTeacherLastName($dp->teacher_id);
+            }
+        } else
+            $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
+                Teacher::getTeacherLastName($dp->teacher_id);
+
+        return $result;
+    }
+
+    public static function getNameEmail(){
+        if (Yii::app()->user->isGuest) {
+            $nameEmail='';
+        }else {
+            $user = StudentReg::model()->findByPk(Yii::app()->user->id);
+            $nameEmail='&name='.$user->firstName.'&email='.$user->email;
+        }
+        return $nameEmail;
+    }
+
+    public static function getNetwork ($post)
+    {
+        if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
+            return  '<span class="colorP">'.Yii::t('user','0779').'</span>';
+    }
 }

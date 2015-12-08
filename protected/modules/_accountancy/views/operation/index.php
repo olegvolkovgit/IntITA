@@ -31,7 +31,7 @@ $('.search-form form').submit(function(){
 		'date_create',
         array(
             'name' => 'user_create',
-            'value' => 'StudentReg::getUserName($data->user_create)',
+            'value' => 'StudentReg::getUserNamePayment($data->user_create)',
         ),
         array(
             'name' => 'type_id',

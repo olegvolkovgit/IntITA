@@ -155,7 +155,7 @@ class PermissionsController extends AdminController
     public function actionShowLectures()
     {
         $first = '<select size="1" name="lecture">';
-        $titleParam = LectureHelper::getTypeTitleParam();
+        $titleParam = Lecture::getTypeTitleParam();
         $criteria = new CDbCriteria();
         $criteria->select = 'id, ' . $titleParam;
         $criteria->order = 'id ASC';

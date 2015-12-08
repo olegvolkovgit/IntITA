@@ -23,7 +23,7 @@ $user=StudentReg::model()->findByPk($data['who']);
         <?php
         if ($data['rate']!==Null){
             echo Yii::t('teacher', '0186');
-            echo RatingHelper::getRating($data['rate']);
+            echo CommonHelper::getRating($data['rate']);
         }
         ?>
     </div>

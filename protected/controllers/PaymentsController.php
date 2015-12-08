@@ -10,7 +10,6 @@ class PaymentsController extends Controller
         }
         $this->render('invoice', array('invoice'=>$model));
     }
-
     public function actionIndex(){
         $request = Yii::app()->request;
         $user = $request->getPost('user', '0');
@@ -19,41 +18,22 @@ class PaymentsController extends Controller
         $type = $request->getPost('type', '');
         $schemaNum = $request->getPost('payment', '0');
 
-        switch ($type){
-            case 'Module':
-                $agreement = UserAgreements::moduleAgreement($user, $module, 1);
-                break;
-            case 'Course':
-                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
-                break;
-            default :
-                $agreement = null;
-                break;
+        $agreement = UserAgreements::agreementByParams($type, $user, $module, $course, $schemaNum);
+        if (!isset($agreement))
+        {
+            throw new CException('Agreement cannot be taken');
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('agreement_id='.$agreement->id);
-
-        $dataProvider = new CActiveDataProvider('Invoice');
-        $dataProvider->criteria = $criteria;
-        $dataProvider->setPagination(array(
-                'pageSize' => 60,
-            )
-        );
-
         $this->render('index', array(
-           'dataProvider' => $dataProvider,
-           'agreement' => $agreement->id,
+            'agreement' => $agreement,
         ));
     }
 
     public function actionAgreement($user, $course, $schemaNum = 1){
-
         $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('agreement_id='.$agreement->id);
-
         $dataProvider = new CActiveDataProvider('Invoice');
         $dataProvider->criteria = $criteria;
         $dataProvider->setPagination(array(
@@ -63,7 +43,7 @@ class PaymentsController extends Controller
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
-            'agreement' => $agreement->id,
+            'agreement' => $agreement,
         ));
     }
 }

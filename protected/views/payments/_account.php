@@ -1,6 +1,10 @@
+<?php
+/* @var $model Invoice*/
+?>
+
 <script>
-    summa = "<?php echo CourseHelper::getPriceUah($account->summa);?>";
-    user = "<?php echo $account->user_created;?>";
+    summa = "<?php echo CommonHelper::getPriceUah($model->summa);?>";
+    user = "<?php echo $model->user_created;?>";
 </script>
 
 <div id="account">
@@ -20,7 +24,7 @@
                 echo $_GET['month'];
             } else {
                 echo date("F");
-            }?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $account->id;?></span>
+            }?></span> 2015 р. <span id="accountTitle">РАХУНОК № <?php echo $model->id;?></span>
         <br>
         Платник:
         <br>
@@ -35,9 +39,9 @@
         <tr>
             <td>1</td>
             <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та комп'ютерна
-                грамотність (<?php echo Invoice::getProductTitle($account);?>)
+                грамотність (<?php echo Invoice::getProductTitle($model);?>)
             </td>
-            <td><span id="summa"><?php echo number_format(PaymentHelper::getPriceUah($account->summa), 2, ",", " ");?></span></td>
+            <td><span id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", " ");?></span></td>
         </tr>
          <tr style="border: none;">
             <td colspan="2" style="border: none;text-align: left">
@@ -45,9 +49,7 @@
                 <br>
                 <b><span id="summaLetters"></span></b>
             </td>
-            <td><?php echo number_format(PaymentHelper::getPriceUah($account->summa), 2, ",", " ");?></td>
+            <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", " ");?></td>
         </tr>
     </table>
-    <br>
-    <br>
 </div>

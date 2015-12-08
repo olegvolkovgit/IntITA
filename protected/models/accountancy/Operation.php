@@ -15,7 +15,8 @@
 class Operation extends CActiveRecord
 {
     public $invoicesList;
-	/**
+
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -107,37 +108,21 @@ class Operation extends CActiveRecord
 	}
 
     public static function addOperation($summa, $user, $type, $invoicesListId, $externalSource){
-        $model = new Operation();
-
-        $model->summa = $summa;
-        $model->user_create = $user;
-        $model->type_id = $type;
-        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
-
-        $transaction = Yii::app()->db->beginTransaction();
-        try
-        {
-            if ($model->save()){
-                $model->addInvoices($invoicesListId);
-                $createDate = Operation::model()->findByPk($model->id)->date_create;
-                if(!ExternalPays::addNewExternalPay($model, $createDate, $externalSource)){
-                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
-                }
-                if (!$model->addInternalPays($model->invoicesList, $createDate)){
-                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
-                }
-
-                Invoice::setInvoicesPayDate($model, $createDate);
-                $transaction->commit();
-            } else {
-                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
-            }
+        switch ($type){
+            case '1' :
+                $class = 'AgreementOperation';
+                break;
+            case '2' :
+                $class = 'InvoiceOperation';
+                break;
+            default:
+                throw new \application\components\Exceptions\FinanceException('Unknown type of operation!');
+                break;
         }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
-        }
+        $model = new $class();
+
+        $model->perform($summa, $user, $type, $invoicesListId, $externalSource);
+
         //if we not receive an exception, so we have good transaction
         return true;
     }
@@ -156,10 +141,10 @@ class Operation extends CActiveRecord
         return true;
     }
 
-    public function addInternalPays($invoicesList, $createDate){
+    public function addInternalPays($invoicesList, $createDate, $operationTypeId){
         if(!empty($invoicesList)){
             foreach($invoicesList as $invoice){
-                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate)){
+                if(!InternalPays::addNewInternalPay($invoice, $this->user_create, $createDate, $operationTypeId)){
                     return false;
                 }
             }

@@ -11,7 +11,7 @@
     </button>
 
     <a class="navbar-brand" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index');?>">
-        Особистий кабінет викладача IntITA - Головна</a>
+        Особистий кабінет - Головна</a>
 </div>
 <!-- /.navbar-header -->
 

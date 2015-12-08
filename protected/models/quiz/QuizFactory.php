@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 06.11.2015
- * Time: 16:01
- */
 
-class QuizFactory  {
-
+class QuizFactory {
 
     public static function factory($arr)
     {
@@ -57,6 +50,10 @@ class QuizFactory  {
                     else return false;
                 }
             break;
+            default:
+                break;
         }
+
+        return null;
     }
 }

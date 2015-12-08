@@ -41,8 +41,8 @@ if (!isset($idCourse)) $idCourse = 0;
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
 <?php
-$passedLecture = LectureHelper::isPassedLecture($passedPages);
-$finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
+$passedLecture = Lecture::isPassedLecture($passedPages);
+$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
 ?>
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
@@ -51,7 +51,7 @@ $finishedLecture = LectureHelper::isLectureFinished($user, $lecture->id);
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
-            <?php echo LectureHelper::getLectureTitle($lecture->id); ?>
+            <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
