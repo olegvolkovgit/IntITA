@@ -216,7 +216,7 @@
                     <i class="fa fa-user fa-fw"></i> Мій профіль</a>
             </li>
             <li class="divider"></li>
-<!--            <li class="lang">-->
+            <li class="lang">
                 <?php
                 if(Yii::app()->session['lg']==NULL) Yii::app()->session['lg']='ua';
                 foreach (array("ua", "en", "ru") as $val) {
@@ -228,7 +228,7 @@
                 <?php
                 }
                 ?>
-<!--            </li>-->
+            </li>
             <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0016'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0021'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0137'); ?></a></li>
