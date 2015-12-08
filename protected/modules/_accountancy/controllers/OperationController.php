@@ -195,4 +195,21 @@ class OperationController extends AccountancyController
 
         return $this->renderPartial('_ajaxAgreement', array('agreements' => $result));
     }
+
+    public function actionCancel()
+    {
+        $operations = Operation::model()->findAll();
+
+        $this->render('cancel',array(
+           'operations' => $operations
+        ));
+    }
+
+    public function actionDeleteService($id)
+    {
+        $operation = $this->loadModel($id);
+        if($operation->cancel())
+            $this->redirect(Yii::app()->request->urlReferrer);
+        else throw new \application\components\Exceptions\IntItaException(500,'Операція не була видалена');
+    }
 }

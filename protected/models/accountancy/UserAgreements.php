@@ -342,4 +342,12 @@ class UserAgreements extends CActiveRecord
         return array_unique($userAgreements);
     }
 
+    public function cancelOperation()
+    {
+        $results = Yii::app()->db->createCommand()
+            ->delete('service_user', 'user_id=:id', array(':id'=>$this->user_id));
+        return $results;
+    }
 }
+
+

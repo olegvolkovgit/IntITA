@@ -154,5 +154,29 @@ class Operation extends CActiveRecord
         return true;
     }
 
+    public function findUser()
+    {
+        $email = StudentReg::model()->findByPk($this->user_create)->email;
+        return $email;
+    }
 
+    public function cancel()
+    {
+
+        $invoices = Invoice::getInvoiceListByOperation($this->id);
+        $agreementId = UserAgreements::getAgreementByInvoices($invoices);
+        $agreement = UserAgreements::model()->findByPk($agreementId);
+        $this->deleteInvoiceOperation();
+        $agreement->cancelOperation();
+
+        return $this->delete();
+
+    }
+
+    private function deleteInvoiceOperation()
+    {
+        $results = Yii::app()->db->createCommand()
+            ->delete('acc_operation_invoice', 'id_operation=:id', array(':id'=>$this->id));
+        return $results;
+    }
 }

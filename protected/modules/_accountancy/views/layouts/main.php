@@ -10,6 +10,11 @@ $header = new Header();
     <meta property="og:type" content="website" />
     <meta property="og:image:width" content="200"/>
 
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->

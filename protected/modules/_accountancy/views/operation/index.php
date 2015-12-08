@@ -17,6 +17,10 @@ $('.search-form form').submit(function(){
 ?>
 <br>
 <a href="<?php echo Yii::app()->createUrl('/_accountancy/operation/create');?>">Нова проплата</a>
+<br>
+<br>
+<a href="<?php echo Yii::app()->createUrl('/_accountancy/operation/cancel');?>">Відмінити проплату</a>
+
 
 <h1>Проплати</h1>
 
