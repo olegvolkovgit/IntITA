@@ -15,13 +15,36 @@ class CabinetController extends TeacherCabinetController
         ));
 	}
 
-    public function actionLoadPage($page)
+    public function actionLoadPage($page, $teacher)
     {
-        $pageTitle = array(
+        $params = [];
+        switch($page){
+            case 'trainer' :
+                $params = TrainerStudent::getStudentsByTrainer($teacher);
+                break;
+            case 'consultant':
+                break;
+            case 'author':
+                break;
+            case 'leader':
+                break;
+            case 'dashboard':
+                break;
+            default:
+                throw new CHttpException(400, 'Неправильно вибрана роль!');
+                break;
+        }
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+
+        $json = array(
             "title" => $page,
+            "teacher" => $teacher,
+            "params" => $params,
         );
 
-        echo json_encode($pageTitle);//$this->renderPartial('_'.$page);
+        echo json_encode($json);
     }
 
 
@@ -112,5 +135,16 @@ class CabinetController extends TeacherCabinetController
         $this->render('../plainTask/show',array(
             'plainTask' => $plainTask,
         ));
+    }
+
+    public function actionGetUserInfo($user, $role){
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+
+        $jsonObj = array(
+            "name" => StudentReg::getUserName($user),
+        );
+
+        echo json_encode($jsonObj);
     }
 }
