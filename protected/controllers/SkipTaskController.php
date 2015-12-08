@@ -88,7 +88,14 @@ class SkipTaskController extends Controller{
             echo 'not done';
 
         else
-            echo 'done';
+        {
+            $lastPage = LecturePage::checkLastQuiz($quizId);
+            if($lastPage)
+                echo 'lastPage';
+
+            else echo 'done';
+        }
+
         }
 
     public function actionUnableSkipTask()

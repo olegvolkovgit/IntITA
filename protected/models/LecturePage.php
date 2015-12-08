@@ -344,4 +344,22 @@ class LecturePage extends CActiveRecord
 
         return LecturePage::model()->findAll($criteria);
     }
+
+    public static function checkLastQuiz($quizId)
+    {
+        $lecturePage=LecturePage::model()->findByAttributes(array('quiz' => $quizId));
+        $pageOrder = $lecturePage->page_order;
+        $lectureId = $lecturePage->id_lecture;
+
+        $criteria=new CDbCriteria;
+        $criteria->alias='lecture_page';
+        $criteria->select='page_order';
+        $criteria->condition = 'id_lecture = '.$lectureId;
+        $criteria->order = 'page_order DESC';
+        $lastPage=LecturePage::model()->find($criteria)->page_order;
+        if($pageOrder!=$lastPage)
+            return 0;
+
+        else return 1;
+    }
 }
