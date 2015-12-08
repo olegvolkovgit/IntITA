@@ -16,13 +16,13 @@
         if ($idCourse != 0) {
             $this->renderPartial('/site/_shareMetaTag', array(
                 'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $idModule, 'idCourse' => $idCourse)),
-                'title' => ModuleHelper::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
+                'title' => Module::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
                 'description' => Yii::t('sharing', '0644'),
             ));
         } else {
             $this->renderPartial('/site/_shareMetaTag', array(
                 'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $idModule)),
-                'title' => ModuleHelper::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
+                'title' => Module::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
                 'description' => Yii::t('sharing', '0644'),
             ));
         }

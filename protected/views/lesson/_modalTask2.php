@@ -19,7 +19,8 @@
                 <p><?php echo Yii::t('lecture', '0683'); ?></p>
             </div>
             <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
-                   onclick="$('#mydialog3').dialog('close');return false;">
+                   ng-click="errorDialogHide()" onclick="$('#mydialog3').dialog('close');return false;">
+
         </div>
     </div>
     <!-- form -->

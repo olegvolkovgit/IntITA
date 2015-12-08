@@ -502,4 +502,71 @@ class Teacher extends CActiveRecord
 
         return $result;
     }
+
+    public static function getTeacherNameByUserId($user){
+        $idTeacher = Teacher::getTeacherId($user);
+        return Teacher::getTeacherName($idTeacher);
+    }
+
+    public static function isTeacherAuthorModule($idUser,$idModule){
+        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
+            $teacherId = Teacher::model()->findByAttributes(array('user_id' => $idUser));
+            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule));
+        }
+        if(isset($author)) return true; else return false;
+    }
+
+    public static function getConsultantModules($teacher){
+        $modules = ConsultantModules::getModulesByConsultant($teacher);
+        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+    public static function getLeaderProjects($teacher){
+        $projects = Project::getProjectsByLeader($teacher);
+        $result = RoleAttribute::formatAttributeList($projects, 'project/index', 'id', false);
+        return $result;
+    }
+
+    public static function getModulesByTeacher($id){
+        $modulelist = [];
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'teacher_modules';
+        $criteria->select = 'idModule';
+        $criteria->distinct = true;
+        $criteria->addCondition('idTeacher=' . $id);
+        $temp = TeacherModule::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->idModule);
+        }
+
+        $titleParam = Module::getModuleTitleParam();
+
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $rows = Module::model()->findAll($criteriaData);
+
+        $j=0;
+        foreach ($rows as $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $module[$j]["idModule"] = $row['module_ID'];
+            $module[$j]["title"] = $row[$title];
+            $module[$j]["language"] = $row['language'];
+            $j++;
+        };
+
+        return (!empty($module))?$module:[];
+    }
+
+    public static function getTeacherModules($teacher){
+        $modules = TeacherModule::getModulesByTeacher($teacher);
+        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
+        return $result;
+    }
+
+
 }

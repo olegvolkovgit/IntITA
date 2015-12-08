@@ -22,14 +22,15 @@
 <?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
-$this->pageTitle = MainpageHelper::getTitle();
+$mainpage = new Mainpage();
+$this->pageTitle = $mainpage->getTitle();
 ?>
 
 <?php $this->renderPartial('_aboutUs_list', array('aboutUsDataProvider' => $aboutUsDataProvider));?>
 
-<?php $this->renderPartial('_steps_list', array('stepsDataProvider' =>$stepsDataProvider)); ?>
+<?php $this->renderPartial('_steps_list', array('stepsDataProvider' =>$stepsDataProvider, 'mainpage' => $mainpage)); ?>
 
 <?php if(Yii::app()->user->isGuest) {
-    $this->renderPartial('_form');
+    $this->renderPartial('_form', array('mainpage' => $mainpage));
 }
 ?>

@@ -13,7 +13,6 @@ class CourseRule extends CBaseUrlRule
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
         $path = PathFactory::factory($pathInfo);
-
         if (is_null($path)) {
             return false;
         }
@@ -108,14 +107,20 @@ class CourseRule extends CBaseUrlRule
                     } else {
                         $pageString = '?page=' . $params['page'];
                     }
+
+                    if (!isset($params['template'])) {
+                        $template = '';
+                    } else {
+                        $template = '?template=' . $params['template'];
+                    }
                     if ($params['idCourse'] != 0) {
                         $course = Course::model()->findByPk($params['idCourse']);
 
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                        . '/' . $lecture->order . $pageString;
+                        . '/' . $lecture->order . $pageString."/".$template;
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
-                        . '/' . $lecture->order . $pageString;
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        . '/' . $lecture->order . $pageString."/".$template;
                     }
                 }
             }
@@ -138,7 +143,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'/'.$page->page_order.'?edit'.$cke;
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'/'.$page->page_order.'?edit'.$cke;
                     }
                 }
@@ -153,7 +158,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'?edit';
                     } else {
-                        return 'module/' . ModuleHelper::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'?edit';
                     }
                 }

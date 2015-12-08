@@ -1,34 +1,3 @@
-<!--<div class="lectureImageMain">-->
-<!--    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', $lecture->image); ?><!--">-->
-<!--    --><?php //if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){ ?>
-<!--<!--    <div class="imageUpdateForm">-->-->
-<!--<!--        -->--><?php ////$form=$this->beginWidget('CActiveForm', array(
-////            'id'=>'moduleImage-form',
-////            'action'=> Yii::app()->createUrl('lesson/updateLectureImage', array('id'=>$lecture->id)),
-////            'htmlOptions'=>array(
-////                'class'=>'formatted-form',
-////                'enctype'=>'multipart/form-data',
-////            ),
-////            'enableAjaxValidation'=>false,
-////        )); ?>
-<!--<!--        <div class="hideInput">-->-->
-<!--<!--<!--            -->-->--><?php //////echo $form->fileField($lecture, 'image',array('id'=>'logoLecture', 'onChange'=>'js:getImgName(this.value)')); ?>
-<!--<!--<!--            -->-->--><?php //////echo $form->error($lecture,'image'); ?>
-<!--<!--        </div>-->-->
-<!--        <div>-->
-<!--            <a onclick="selectLogo()">-->
-<!--                --><?php //echo 'Вибрати';?>
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div id="avatarInfo">--><?php //echo 'Не вибрано';?><!--</div>-->
-<!--        <div class="row buttons">-->
-<!--            --><?php //echo CHtml::submitButton($lecture->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
-<!--        </div>-->
-<!--        --><?php //$this->endWidget(); ?>
-<!--    </div><!-- form -->-->
-<!--    --><?php //}?>
-<!--</div>-->
-
 <div class="titlesBlock" id="titlesBlock">
     <ul>
     <?php if ($idCourse != 0){?>
@@ -39,12 +8,12 @@
             <?php }?>
 <li>
     <?php echo Yii::t('lecture','0072'); ?>
-    <span><?php echo ModuleHelper::getModuleName($lecture->idModule); ?></span>
+    <span><?php echo Module::getModuleName($lecture->idModule); ?></span>
 </li>
 <li><?php echo Yii::t('lecture','0073')." ".$lecture->order.': ';?>
     <?php
-    if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
-        $title = LectureHelper::getTypeTitleParam();
+    if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
+        $title = Lecture::getTypeTitleParam();
         $this->widget('editable.EditableField', array(
             'type'      => 'text',
             'model'     => $lecture,
@@ -56,14 +25,14 @@
         ));
     }
     else  {?>
-    <span><?php echo LectureHelper::getLectureTitle($lecture->id); ?></span>
+    <span><?php echo Lecture::getLectureTitle($lecture->id); ?></span>
     <?php }
     ?>
 </li>
 <li><?php echo Yii::t('lecture','0074'); ?>
     <div id="lectionTypeText">
         <?php
-        if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
             $this->widget('editable.EditableField', array(
                 'type'      => 'select',
                 'model'     => $lecture,
@@ -82,7 +51,7 @@
 <li><div id="subTitle"><?php echo Yii::t('lecture','0075'); ?></div>
     <div id="lectureTimeText">
         <?php
-        if (TeacherHelper::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule)){
             $this->widget('editable.EditableField', array(
                 'type'      => 'text',
                 'model'     => $lecture,
@@ -100,19 +69,19 @@
 </li>
 <br>
 <li>
-    <?php echo '('.$lecture->order.' / '.LectureHelper::getLessonsCount($lecture->idModule).' '.Yii::t('lecture','0574').')'; ?>
+    <?php echo '('.$lecture->order.' / '.Module::getLessonsCount($lecture->idModule).' '.Yii::t('lecture','0574').')'; ?>
 </li>
 <div id="counter">
     <?php
     for ($i=0; $i<$lecture->order;$i++){ ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png');?>">
     <?php }
-    for ($i=0; $i<LectureHelper::getLessonsCount($lecture->idModule)-$lecture->order;$i++){ ?>
+    for ($i=0; $i<Module::getLessonsCount($lecture->idModule)-$lecture->order;$i++){ ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png');?>">
     <?php } ?>
     <div id="iconImage">
         <img src="<?php
-        if (LectureHelper::isLectureFinished($user, $lecture->id, false))
+        if (Lecture::isLectureFinished($user, $lecture->id, false))
         {
             echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
         } else {

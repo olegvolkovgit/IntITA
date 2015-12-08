@@ -45,12 +45,12 @@ $('.search-form form').submit(function(){
         'language',
         array(
             'header' => 'Категорія',
-            'value' => 'MessagesHelper::getMessageCategory($data->id)',
+            'value' => 'Sourcemessages::getMessageCategory($data->id)',
         ),
         'translation',
         array(
             'header' => 'Коментар',
-            'value' => 'MessagesHelper::getMessageCommentById($data->id)',
+            'value' => 'MessageComment::getMessageCommentById($data->id)',
         ),
         array(
             'class'=>'CButtonColumn',

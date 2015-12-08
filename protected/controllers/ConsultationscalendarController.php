@@ -111,7 +111,6 @@ class ConsultationscalendarController extends Controller
 	public function actionIndex($lectureId, $idCourse)
 	{
         $lecture = Lecture::model()->findByPk($lectureId);
-
         $dataProvider = Teacher::getTeacherConsult($lectureId);
 
 		$this->render('index',array(
@@ -164,33 +163,24 @@ class ConsultationscalendarController extends Controller
 		}
 	}
 
-
     public function actionSaveconsultation($idCourse){
-        $date=Yii::app()->getRequest()->getPost('datecons');
-        $idteacher=Yii::app()->request->getPost('teacherid');
-        $idlecture=Yii::app()->request->getPost('lectureid');
-        //$calendar = new Consultationscalendar();
+        $date = Yii::app()->request->getPost('datecons');
+        $idteacher = Yii::app()->request->getPost('teacherid');
+        $idlecture = Yii::app()->request->getPost('lectureid');
 
         if(Yii::app()->request->getPost('saveConsultation')) {
             $numcons = explode(",", Yii::app()->request->getPost('timecons'));
             for ($i=0; $i<count($numcons);$i++ ){
                 if(Consultationscalendar::consultationFree($idteacher,$numcons[$i],$date)){
-                    Teacher::addConsult($idteacher,$numcons[i],$date,$idlecture);
-//                    $calendar->start_cons =substr($numcons[$i], 0,5);
-//                    $calendar->end_cons =substr($numcons[$i], 6,5);
-//                    $calendar->date_cons =$date;
-//                    $calendar->teacher_id = $idteacher;
-//                    $calendar->user_id = Yii::app()->request->getPost('userid');
-//                    $calendar->lecture_id = $idlecture;
-//                    $calendar->save();
-//                    $calendar = new Consultationscalendar();
+                    Teacher::addConsult($idteacher,$numcons[$i],$date,$idlecture);
                 } else {
                     $this->redirect( array('consultationerror','lecture'=>$idlecture,'idCourse'=>$idCourse));
                 }
             }
         }
-            header('Location: '.$_SERVER['HTTP_REFERER']);
+        header('Location: '.$_SERVER['HTTP_REFERER']);
     }
+
     public function actionDeleteconsultation($id)
     {
         Consultationscalendar::model()->deleteByPk($id);
@@ -198,10 +188,12 @@ class ConsultationscalendarController extends Controller
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function actionConsultationError($lecture, $idCourse)
     {
         $this->render('consultationerror',array(
             'lecture'=>$lecture,'idCourse'=>$idCourse
         ));
     }
+
 }

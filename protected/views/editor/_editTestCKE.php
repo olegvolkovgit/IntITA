@@ -20,7 +20,8 @@ $valid=TestsAnswers::getTestValidCKE($idBlock);
             <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
-            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста" size="80" required ng-init="testConditionEdit='<?php echo htmlentities(TestsHelper::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
+            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста"
+                      size="80" required ng-init="testConditionEdit='<?php echo htmlentities(Tests::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>

@@ -248,4 +248,13 @@ class TestsAnswers extends CActiveRecord
         }
         return $answers;
     }
+
+    public static function getAnswerKey($block){
+        $answerKey =[];
+        $test = TestsAnswers::model()->findAllByAttributes(array('id_test' => Tests::getTestId($block)));
+        foreach($test as $answerid){
+            array_push($answerKey, $answerid->id);
+        }
+        return $answerKey;
+    }
 }

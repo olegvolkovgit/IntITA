@@ -62,7 +62,7 @@
                             <form  action="<?php echo Yii::app()->createUrl('consultationscalendar/saveconsultation',array('idCourse'=>$idCourse));?>" method="post">
                                 <p class="consInfHeader">
                                     <?php echo Yii::t("consultation", "0498");
-                                    $titleParam = LectureHelper::getTypeTitleParam();
+                                    $titleParam = Lecture::getTypeTitleParam();
                                     if($lecture->$titleParam==''){
                                         $titleParam="title_ua";
                                     }

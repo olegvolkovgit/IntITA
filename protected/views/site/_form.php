@@ -47,11 +47,11 @@
                 </div>
             </div>
 			<div class="rowButtons">
-				<?php $labelButton = MainpageHelper::getButtonStart();?>
+				<?php $labelButton = $mainpage->getButtonStart();?>
 				<?php echo CHtml::submitButton($labelButton, array('id' => "signInButton", 'ng-disabled'=>'rapidReg["StudentReg[password]"].$dirty && rapidReg.$invalid')); ?>
 			</div>
 
-			<div class="linesignInForm"><?php echo MainpageHelper::getSocialText(); ?></div>
+			<div class="linesignInForm"><?php echo $mainpage->getSocialText(); ?></div>
 			<div class="image" >
                     <div id="uReg" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,bdate,phone,photo,city;
 								redirect_uri=<?php echo Config::getBaseUrl().'/site/sociallogin'?>">

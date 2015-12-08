@@ -34,7 +34,8 @@ for ($i = count($roles)-1; $i >= 0; $i--){
     $atts = RoleAttribute::model()->type($roles[$i]['role'])->findAll();
     if (!empty($atts)) {
         for ($j = 0; $j < count($atts); $j++) {
-            echo '<div class="params">' . ($j + 1) . ". " . $atts[$j]->name_ua . ' = ' . TeacherHelper::getTeacherAttributeValue($teacherId, $atts[$j]->id) . '</div>';
+            echo '<div class="params">' . ($j + 1) . ". " . $atts[$j]->name_ua . ' = ' .
+                RoleAttribute::getTeacherAttributeValue($teacherId, $atts[$j]->id) . '</div>';
         }
     }
 }
