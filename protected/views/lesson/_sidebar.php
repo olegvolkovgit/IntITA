@@ -70,7 +70,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                             </a>
                         <?php } else { ?>
                             <a
-                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
+                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
                                 <div class="lectureDisabled"></div>
                             </a>
                         <?php }
