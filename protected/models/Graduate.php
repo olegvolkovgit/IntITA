@@ -45,10 +45,9 @@ class Graduate extends CActiveRecord
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
 			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>Yii::t('graduate','0749')),
 			array('graduate_date, recall', 'safe'),
-            array('rate', 'compare', 'compareValue' => '0', 'operator' => '>=', 'message'=>Yii::t('graduate','0766')),
-            array('rate', 'compare', 'compareValue' => '10', 'operator' => '<=', 'message'=>Yii::t('graduate','0765')),
-            array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750')),
-            array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751')),
+            array('rate', 'numerical', 'integerOnly'=>true, 'min'=>0, 'max'=>10, 'tooSmall'=>Yii::t('graduate','0766'), 'tooBig'=>Yii::t('graduate','0765')),
+            array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750'), 'allowEmpty'=>true),
+            array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751'),  'allowEmpty'=>true),
 			// The following rule is used by search().
 			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page, history, rate, recall, first_name_en, last_name_en', 'safe', 'on'=>'search'),
 		);
