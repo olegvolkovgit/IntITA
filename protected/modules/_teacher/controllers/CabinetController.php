@@ -17,6 +17,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionLoadPage($page, $teacher)
     {
+        $page = strtolower($page);
         $params = [];
         switch($page){
             case 'trainer' :
