@@ -109,7 +109,8 @@ function sendSkipTaskAnswer(id){
         answers.push(arr);
     }
     }
-    var url = "/IntIta/skipTask/saveSkipAnswer";
+
+    var url = "/skipTask/saveSkipAnswer";
     $.ajax({
         type: "POST",
         url:  url,
@@ -140,20 +141,5 @@ function sendSkipTaskAnswer(id){
 
 }
 
-//if (data['status'] == '1' && data['lastTest']=='0') {
-//    jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-//    $("#mydialog2").dialog().dialog("open");
-//    $("#mydialog2").parent().css('border', '4px solid #339900');
-//    return false;
-//} else if(data['status'] == '1' && data['lastTest']=='1'){
-//    jQuery('#dialogNextLecture').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-//    $("#dialogNextLecture").dialog().dialog("open");
-//    $("#dialogNextLecture").parent().css('border', '4px solid #339900');
-//    return false;
-//} else {
-//    jQuery('#mydialog3').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-//    $("#mydialog3").dialog().dialog("open");
-//    $("#mydialog3").parent().css('border', '4px solid #cc0000');
-//    return false;
-//}
+
 
