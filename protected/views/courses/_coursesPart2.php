@@ -31,7 +31,7 @@
 
                         <div class='courseLevelIndex'>
                             <?php
-                            $rate = Course::getCourseRate($val->level);
+                            $rate = $val->getRate();
                             for ($i = 0; $i < $rate; $i++) {
                                 ?><span class="courseLevelImage">
                                 <img

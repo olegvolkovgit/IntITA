@@ -1,6 +1,5 @@
 <?php
 /* @var $model Course */
-//$price = Course::getPrice($model->course_ID);
 $price = $model->getBasePrice();
 ?>
 <div class="paymentsForm">

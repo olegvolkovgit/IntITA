@@ -5,8 +5,6 @@
  * Date: 12.11.2015
  * Time: 22:58
  */
-?>
-<?php
 if(!Yii::app()->user->isGuest) $this->redirect(Yii::app()->createUrl('/site/index'));
 $eForm = new StudentReg;
 

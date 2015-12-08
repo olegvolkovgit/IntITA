@@ -535,7 +535,6 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getResourceDescription($id)
     {
         $module = Module::model()->findByPk($id);
-
         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
     }
 
@@ -570,6 +569,16 @@ class Module extends CActiveRecord implements IBillableObject
             }
         }
         return $result;
+    }
+
+    public function getTitle(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $moduleTitle = $this->$title;
+        if ($moduleTitle == "") {
+            $moduleTitle = $this->title_ua;
+        }
+        return $moduleTitle;
     }
 
     public static function getModuleName($id)

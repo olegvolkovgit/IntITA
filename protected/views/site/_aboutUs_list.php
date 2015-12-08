@@ -1,4 +1,5 @@
 <?php
+/*@var $aboutUsDataProvider CActiveDataProvider*/
 ?>
 <div class="mainAboutBlock">
     <div class="mainAbout">
