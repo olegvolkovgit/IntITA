@@ -77,7 +77,20 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
         },
 
         onOk : function() {
-            editor.insertHtml('<span class="math-tex">\\('+EqEditor.getTextArea().getLaTeX()+'\\)</span>');
+            $.ajax({
+                type: "POST",
+                url: "/lesson/SaveFormulaImage",
+                data: {'imageUrl': EqEditor.getTextArea().exportEquation('urlencoded')},
+                success: function (result) {
+                    var eqn = editor.document.createElement( 'img' );
+                    eqn.setAttribute( 'alt', EqEditor.getTextArea().getLaTeX());
+                    eqn.setAttribute( 'src', result);
+
+                    setTimeout(function () {
+                        editor.insertElement(eqn);
+                    }, 10);
+                }
+            });
             EqEditor.Example.add_history(EqEditor.getTextArea().getLaTeX());
         }
     };

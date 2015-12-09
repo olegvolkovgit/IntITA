@@ -706,4 +706,17 @@ class LessonController extends Controller
 
         echo json_encode($passedPages);
     }
+    public function actionSaveFormulaImage()
+    {
+        $imageUrl= $_POST['imageUrl'];
+
+        $path = StaticFilesHelper::createLectureImagePath();
+        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $filename = md5(date('YmdHis')) . '.gif';
+        $file = $dir . $filename;
+        $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
+
+        copy($imageUrl,$file);
+        echo $link;
+    }
 }
