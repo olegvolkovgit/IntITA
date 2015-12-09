@@ -462,6 +462,18 @@ class Teacher extends CActiveRecord
         return Teacher::model()->findByPk($id)->last_name;
     }
 
+    public function getLastFirstName(){
+        $last = $this->last_name;
+        $first = $this->first_name;
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en'){
+                if ($this->last_name_en != '') $last = $this->last_name_en;
+                if ($this->first_name_en != '') $first = $this->first_name_en;
+            }
+        }
+        return $last." ".$first;
+    }
+
     public static function getTeacherFirstName($id){
         if(isset(Yii::app()->session['lg'])){
             if(Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''){
@@ -566,6 +578,18 @@ class Teacher extends CActiveRecord
         $modules = TeacherModule::getModulesByTeacher($teacher);
         $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
+    }
+
+    public function getTrainees(){
+        $trainees = Yii::app()->db->createCommand(array(
+            'select' => array('student'),
+            'from' => 'trainer_student',
+            'where' => 'trainer=:id',
+            'order' => 'student',
+            'params' => array(':id' => $this->teacher_id),
+        ))->queryAll();
+
+        return $trainees;
     }
 
 

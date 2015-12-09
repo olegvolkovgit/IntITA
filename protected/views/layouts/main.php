@@ -130,9 +130,9 @@ $header = new Header();
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>
-                        <?php echo $post->nickname; ?><br>
-                        <?php echo $post->firstName; ?><br>
-                        <?php echo $post->secondName; ?><br>
+                        <?php echo StudentReg::getNickname($post); ?><br>
+                        <?php echo StudentReg::getName ($post); ?><br>
+                        <?php echo StudentReg::getLastName ($post); ?><br>
                         <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
                     </div>
                     <div class="minavatar">

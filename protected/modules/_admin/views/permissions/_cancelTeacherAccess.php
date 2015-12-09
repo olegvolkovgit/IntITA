@@ -16,7 +16,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus onchange="selectTeacherModules();">
-                        <?php $users = AccessHelper::generateTeachersList();
+                        <?php $users = Teacher::generateTeachersList();
                         $count = count($users);
                         for($i = 0; $i < $count; $i++){
                             ?>

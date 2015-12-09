@@ -1,7 +1,4 @@
 <?php
-$this->pageTitle = 'INTITA';
-?>
-<?php
 $this->breadcrumbs=array(Yii::t('changeemail','0309'));
 ?>
 <div class='infoblock'>

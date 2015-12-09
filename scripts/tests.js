@@ -66,7 +66,7 @@ function sendTestAnswer(checkAnswers, user, test, testType, editMode){
     answers = getUserAnswers(testType);
         $.ajax({
             type: "POST",
-            url: "/IntIta/tests/checkTestAnswer",
+            url: "/tests/checkTestAnswer",
             data: {
                 'user': user,
                 'test': test,
@@ -109,7 +109,7 @@ function isTrueTestAnswer(user, test){
             "user": user,
             "test" : test
         };
-        var jqxhr = $.post( "/IntIta/tests/getTestResult", JSON.stringify(command), function(){})
+        var jqxhr = $.post( "/tests/getTestResult", JSON.stringify(command), function(){})
             .done(function(data) {
                 if (data['status'] == '1' && data['lastTest']=='0') {
                     jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
