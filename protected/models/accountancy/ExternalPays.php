@@ -117,21 +117,25 @@ class ExternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewExternalPay(Operation $operation, $createDate, $externalSource){
-        $invoicesDescription = Invoice::getInvoicesListDescription($operation->invoicesList);
-        $model = new ExternalPays();
+    public static function addNewExternalPay(Operation $operation){
+        $invoicesDescription = '';
+        foreach($operation->invoicesList as $invoice){
+            $invoicesDescription .= $invoice->description();
+        }
 
-        $model->create_user = Yii::app()->user->getId();
-        $model->source_id = $externalSource;
+        $model = new ExternalPays();
+        $model->create_user = $operation->user_create;
+        $model->source_id = $operation->externalSource;
         $model->user_id = $operation->user_create;
-        $model->pay_date = $createDate;
+        $model->pay_date = $operation->date_create;
         $model->summa = $operation->summa;
-        $model->description = OperationType::getDescription($operation->type_id).". ".
-            $invoicesDescription.". Оплачено ".date("d.m.y", strtotime($model->pay_date));
+
+         $model->description = $operation->type->description.". ".
+            $invoicesDescription.". Сплачено ".date("d.m.y", strtotime($model->pay_date));
 
         if ($model->validate()){
             $model->save();
-            return $model->id;
+            return true;
         }
 
         return false;

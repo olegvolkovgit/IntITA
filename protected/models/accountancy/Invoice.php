@@ -193,26 +193,8 @@ class Invoice extends CActiveRecord
         return Invoice::model()->findByPk($id)->summa;
     }
 
-    public static function setInvoicesPayDate($list, $payDate){
-        if(!empty($list)){
-            foreach($list as $invoice){
-                $invoice->pay_date = $payDate;
-                $invoice->save();
-            }
-        }
-        return true;
-    }
-
-    public static function getInvoicesListDescription($list){
-        if(!empty($list)){
-            $description = "";
-            foreach($list as $invoice){
-                $description .= "Paхунок ".$invoice->id." від ".date("d.m.y", strtotime($invoice->date_created)).". ";
-            }
-            return $description;
-        } else {
-            return "";
-        }
+    public function description(){
+        return "Paхунок ".$this->id." від ".date("d.m.y", strtotime($this->date_created)).". ";
     }
 
     public static function getInvoiceListById($invoicesListId){
@@ -269,7 +251,7 @@ class Invoice extends CActiveRecord
         else return false;
     }
 
-    private static function insertServiceUserData(Array $userAgreement)
+    private static function insertServiceUserData($userAgreement)
     {
         $agreements = UserAgreements::model()->findAllByAttributes(array('id' =>$userAgreement));
 

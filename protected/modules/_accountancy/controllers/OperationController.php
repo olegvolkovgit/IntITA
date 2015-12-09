@@ -149,14 +149,17 @@ class OperationController extends AccountancyController
         $invoice = $request->getPost('invoices', "");
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
-        $type = $request->getPost('type', 0);
+        $typeId = $request->getPost('type', 0);
         $source = $request->getPost('source', 0);
 
-        if (Operation::addOperation($summa, $user, $type, $invoice, $source)) {
-            if(!Invoice::saveService($invoice))
-                throw new \application\components\Exceptions\IntItaException(500,"Service was not save");
-            $this->actionIndex();
-        } else {
+        $type = OperationType::model()->findByPk($typeId);
+
+        if (Operation::performOperation($summa, $user, $type, $invoice, $source))
+        {
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
+        else
+        {
             throw new CException('Operation is not saved!');
         }
     }
@@ -200,16 +203,16 @@ class OperationController extends AccountancyController
     {
         $operations = Operation::model()->findAll();
 
-        $this->render('cancel',array(
-           'operations' => $operations
+        $this->render('cancel', array(
+            'operations' => $operations
         ));
     }
 
     public function actionDeleteService($id)
     {
         $operation = $this->loadModel($id);
-        if($operation->cancel())
+        if ($operation->cancel())
             $this->redirect(Yii::app()->request->urlReferrer);
-        else throw new \application\components\Exceptions\IntItaException(500,'Операція не була видалена');
+        else throw new \application\components\Exceptions\IntItaException(500, 'Операція не була видалена');
     }
 }

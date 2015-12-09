@@ -37,7 +37,6 @@ class InternalPays extends CActiveRecord
 			array('description', 'length', 'max'=>512),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, create_date, create_user, invoice_id, description, summa', 'safe', 'on'=>'search'),
 		);
 	}
@@ -109,14 +108,16 @@ class InternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewInternalPay(Invoice $invoice, $user, $date, $operationTypeId){
+    public static function addNewInternalPay(Invoice $invoice, Operation $operation){
+
         $model = new InternalPays();
 
         $model->invoice_id = $invoice->id;
-        $model->create_user = $user;
+        $model->create_user = $operation->user_create;
         $model->summa = $invoice->summa;
-        $model->description = OperationType::getDescription($operationTypeId).". ".
-            Invoice::getInvoicesListDescription(array($invoice))."Оплачено ".date("d.m.y", strtotime($date));
+
+        $model->description = $operation->type->description.". ".$invoice->description()."Сплачено ".
+            date("d.m.y", strtotime($operation->date_create));
 
         return $model->save();
     }
