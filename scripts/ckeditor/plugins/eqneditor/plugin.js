@@ -41,8 +41,8 @@ CKEDITOR.plugins.add( 'eqneditor', {
 				requiredContent: 'img[src,alt]'
 			})
 		);
-		
-		CKEDITOR.dialog.add(pluginCmd, this.path+"dialogs/eqneditor.js");
+
+		CKEDITOR.dialog.add(pluginCmd, this.path+"dialogs/eqneditorCustom.js");
 				
 		editor.ui.addButton( 'EqnEditor', {
 			label : editor.lang.eqneditor.toolbar,
@@ -61,7 +61,7 @@ CKEDITOR.plugins.add( 'eqneditor', {
 				command : pluginCmd,
 				group : editor.lang.eqneditor.menu
 			});
-			
+
 			// if the selected item is image of class 'mathImg',
 			// we shold be interested in it
 			editor.contextMenu.addListener( function(element) {
@@ -69,15 +69,15 @@ CKEDITOR.plugins.add( 'eqneditor', {
 				if (element.getAscendant('img', true))
 				{
 					var sName = element.getAttribute('src').match( /(gif|svg)\.latex\?(.*)/ );
-					if(sName!=null)	
+					if(sName!=null)
 					{
 						res['eqneditor'] = CKEDITOR.TRISTATE_OFF;
 						return res;
 					}
 				}
 			});
-			
-		}	
+
+		}
 		
 		editor.on( 'doubleclick', function(evt) 
 		{

@@ -27,7 +27,7 @@
                 >
                 <div ng-class="{spotDone: page.isDone || editMode || isAdmin,
                 spotDisabled: !(page.isDone || editMode || isAdmin),
-                lastAccessPage: $index==lastAccessPage-1 && !editMode,}">
+                lastAccessPage: $index==lastAccessPage-1 && !(isAdmin || editMode)}">
                 </div>
             </a>
             <img ng-if="!editMode" style="margin-left: 10px"

@@ -9,7 +9,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/appT.js'); ?>"></script>
-<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/accessService.js'); ?><!--"></script>-->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/paramService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/lectureTemplateCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/quizCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
@@ -46,9 +46,13 @@ if (!isset($idCourse)) $idCourse = 0;
     currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
-    lastAccessPage = <?php echo $lastAccessPage ?>;
     basePath='<?php echo  Config::getBaseUrl(); ?>';
     isAdmin='<?php echo StudentReg::isAdmin()?1:0; ?>';
+    if(parseInt(editMode || isAdmin)) {
+        lastAccessPage = 1;
+    }else {
+        lastAccessPage=<?php echo $lastAccessPage ?>;
+    }
 </script>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
@@ -73,17 +77,7 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
             </div>
         </div>
         <?php
-        $browser = CommonHelper::detectBrowser($_SERVER['HTTP_USER_AGENT']);
-        $cmp = CommonHelper::checkForBrowserVersion($browser, array(
-            'Internet Explorer' => array(9, 0)
-        ));
-        if ($cmp < 0) {
-            $this->renderPartial('_lecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
-        }
-        else {
-//            angular lecture PageTabs
-            $this->renderPartial('_jsLecturePageTabsTemplate', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
-        }
+        $this->renderPartial('_jsLecturePageTabsTemplate', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
     </div>
     <div ng-controller="lessonPageCtrl">
@@ -144,7 +138,6 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'plainTask.js'); ?>"></script>
 
 <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
 

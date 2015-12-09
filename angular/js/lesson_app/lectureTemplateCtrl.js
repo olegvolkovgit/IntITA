@@ -6,14 +6,9 @@
 angular
     .module('lessonApp')
     .run([
-    '$rootScope', '$state', '$stateParams','$http',
-    function ($rootScope, $state, $stateParams, $http) {
-        $rootScope.editMode = editMode;
-        $rootScope.isAdmin = parseInt(isAdmin);
-        $rootScope.lastAccessPage = parseInt(lastAccessPage);
-
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
+    '$rootScope', '$state', '$stateParams','$http','paramService',
+    function ($rootScope, $state, $stateParams, $http, paramService) {
+        paramService.getStartParam($rootScope, $state, $stateParams);
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
@@ -47,6 +42,9 @@ angular
         $rootScope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 $rootScope.currentPage=toParams.page;
+                setTimeout(function() {
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                });
             });
     }
 ]);
@@ -93,17 +91,17 @@ angular
                 url: "",
                 views: {
                     "viewVideo": {
-                        templateUrl: function (stateParams){
+                        templateUrl: function (){
                             return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_ua.html'
                         },
                     },
                     "viewText": {
-                        templateUrl: function (stateParams){
+                        templateUrl: function (){
                             return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_ua.html'
                         },
                     },
                     "viewQuiz": {
-                        templateUrl: function (stateParams){
+                        templateUrl: function (){
                             return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_ua.html'
                         },
                     }

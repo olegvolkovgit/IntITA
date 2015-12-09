@@ -27,15 +27,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <?php
-                $browser = CommonHelper::detectBrowser($_SERVER['HTTP_USER_AGENT']);
-                $cmp = CommonHelper::checkForBrowserVersion($browser, array(
-                    'Internet Explorer' => array(9, 0)
-                ));
-                if ($cmp < 0) {
-                    $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
-                }else {
                     $this->renderPartial('_jsChaptersListTemplate', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
-                }
                 ?>
             </li>
             <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
