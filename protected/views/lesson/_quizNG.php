@@ -12,21 +12,21 @@ if (!is_null($page->quiz)) {
 
     switch (LectureElement::getQuizType($page->quiz)) {
         case '5':
-            $this->renderPartial('_taskBlock', array(
+            $this->renderPartial('_taskBlockNG', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user
             ));
             break;
         case '6':
-            $this->renderPartial('_plainTaskBlock', array(
+            $this->renderPartial('_plainTaskBlockNG', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user
             ));
             break;
         case '9' :
-            $this->renderPartial('_skipTaskBlock', array(
+            $this->renderPartial('_skipTaskBlockNG', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user

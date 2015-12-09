@@ -372,6 +372,9 @@ div#consultation-grid.grid-view td{
     text-decoration: underline;
     color: #4b75a4;
 }
+.formStudProf .unselectedTab:hover {
+    text-decoration: none;
+}
 .profileMyRatting {
     border-bottom: 1px solid #d8d8d8;
 }

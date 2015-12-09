@@ -107,7 +107,7 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
 
         <?php
         $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-            'id' => 'dialogNextLecture',
+            'id' => 'dialogNextLectureNG',
             'themeUrl' => Config::getBaseUrl() . '/css',
             'cssFile' => 'jquery-ui.css',
             'theme' => 'my',
@@ -118,7 +118,7 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        $this->renderPartial('/lesson/_passLectureModalNG', array('lecture' => $lecture, 'idCourse' => $idCourse));
         $this->endWidget('zii.widgets.jui.CJuiDialog');
 
         ?>

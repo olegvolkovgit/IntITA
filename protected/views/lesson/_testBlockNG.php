@@ -12,7 +12,7 @@ $testType = Tests::getTestType($data['id_block']);
 <div>
     <div class="lessonTest">
         <div class="instrTestImg">
-            <img src="<?php echo Tests::getTestIcon($user, $data['id_block'], $editMode); ?>">
+            <div ng-class="{quizDone: pageData[(currentPage || lastAccessPage)-1].isQuizDone}"></div>
         </div>
         <div class="contentTest">
             <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>">
@@ -54,14 +54,14 @@ $testType = Tests::getTestType($data['id_block']);
                 }
                 ?>
             </table>
-            <div ng-controller="lessonQuizCtrl">
+            <div ng-controller="lectureQuizCtrl">
                 <button class="testSubmit" ng-click='sendTestAnswer(
                 <?php echo $data['block_order']; ?>,
                 "<?php echo Tests::getTypeButton($testType); ?>",
                 <?php echo Tests::getTestId($data['id_block']) ?>,
                 <?php echo $testType; ?>,
                 <?php echo ($editMode) ? 1 : 0; ?>
-                    );' <?php if ($editMode) {
+                    );' <?php if (0) {
                     echo "disabled";
                 } ?> >
                     <?php echo Yii::t('lecture', '0089'); ?>

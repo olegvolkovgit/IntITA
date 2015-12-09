@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 15:51
- */
+/*@var $val Course */
 ?>
 <td  valign="top">
 <div id='coursesPart1'>
@@ -30,7 +25,7 @@
 
                     <div class='courseLevelIndex'>
                         <?php
-                        $rate = Course::getCourseRate($val->level);
+                        $rate = $val->getRate();
                         for ($i = 0; $i < $rate; $i++) {
                             ?><span class="courseLevelImage">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>">

@@ -1,13 +1,6 @@
-<!-- regform -->
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'recovery.css'); ?>"/>
-<!-- regform -->
-<?php
-$this->pageTitle = 'INTITA';
-?>
 <?php
 $this->breadcrumbs=array(Yii::t('resetpass','0285'));
-?>
-<?php
 $chForm = new StudentReg;
 
 $form = $this->beginWidget('CActiveForm', array(

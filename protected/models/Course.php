@@ -426,10 +426,9 @@ class Course extends CActiveRecord implements IBillableObject
         return CommonHelper::translateLevel($level);
     }
 
-    public static function getCourseRate($level)
-    {
+    public function getRate(){
         $rate = 0;
-        switch ($level) {
+        switch ($this->level) {
             case 'intern':
                 $rate = 1;
                 break;
@@ -453,6 +452,16 @@ class Course extends CActiveRecord implements IBillableObject
     {
         $level = Course::model()->findByPk($course)->level;
         return CommonHelper::translateLevelUa($level);
+    }
+
+    public function getTranslatedLevel(){
+        return CommonHelper::translateLevel($this->level);
+    }
+
+    public function getTitle(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $this->$title;
     }
 
     public static function getCourseName($idCourse)
