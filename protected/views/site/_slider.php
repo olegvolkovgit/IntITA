@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 13.05.2015
- * Time: 16:28
- */
+/* @var $slider Carousel*/
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderMainpage.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderMainpage.js'); ?>"></script>
 
 <script>
-    var width=0;
-    if (self.screen)
-    {
+    var width = 0;
+    if (self.screen) {
         width = screen.width
     }
     var key = document.getElementById('enter_button');
@@ -45,12 +39,12 @@
     lang.className = "";
     underline.className = "downmain";
     but.className = "";
-    document.getElementById('logo').src=logolang;
+    document.getElementById('logo').src = logolang;
 </script>
 
 <div id="sliderCenterBox">
     <div class="sliderCenterBoxText">
-        <p><?php echo Yii::t('slider','0005'); ?></p>
+        <p><?php echo Yii::t('slider', '0005'); ?></p>
     </div>
     <div class="sliderCenterBoxLine">
         <hr>
@@ -58,12 +52,12 @@
     <div class="sliderSnake">
         <div class="snake">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'line.png'); ?>">
-            <?php if(Yii::app()->user->isGuest) {
+            <?php if (Yii::app()->user->isGuest) {
                 ?>
                 <div class="button">
                     <a class="sliderButton" href="#form"><?php echo Yii::t('slider', '0008'); ?></a>
                 </div>
-                <?php
+            <?php
             }
             ?>
         </div>
@@ -71,16 +65,19 @@
 </div>
 <div id="slider" class="owl-carousel">
     <?php
-    foreach($slider as $key){?>
+    foreach ($slider as $key) {
+        ?>
         <div class="slide">
             <div>
                 <p><?php echo Yii::t('slider', $key->slider_text); ?></p>
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>" />
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>"/>
             </div>
         </div>
     <?php }
     ?>
 </div>
 <div class="mouseLine">
-    <a id="mouseLine" <?php echo StudentReg::linkInMouseLine(); ?>><img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/></a>
+    <a id="mouseLine" <?php echo StudentReg::linkInMouseLine(); ?>>
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'mouseLine.png'); ?>"/>
+    </a>
 </div>

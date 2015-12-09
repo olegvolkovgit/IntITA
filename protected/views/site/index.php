@@ -1,4 +1,6 @@
-<?php $this->renderPartial('/site/_shareMetaTag', array(
+<?php
+
+$this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
     'title'=>Yii::t('sharing','0643'),
     'description'=>Yii::t('sharing','0644'),

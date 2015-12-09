@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 17.07.2015
- * Time: 14:44
- */
-?>
 <?php $header = new Header(); ?>
 <!-- Hamburger menu -->
 <div id="hambNav">

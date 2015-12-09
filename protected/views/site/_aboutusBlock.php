@@ -1,9 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.09.2015
- * Time: 1:55
+/* @var $data AboutUs
  */
 ?>
 <div class="block">
