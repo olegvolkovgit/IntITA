@@ -15,7 +15,7 @@ function lectureQuizCtrl($rootScope,$http, $scope) {
             alert('Спочатку виберіть варіант відповіді');
             return false;
         }
-        answers = getUserAnswers(testType);
+        answers = $scope.getUserAnswers(testType);
         $http({
             method: "POST",
             url: basePath + "/tests/checkTestAnswer",
@@ -37,6 +37,24 @@ function lectureQuizCtrl($rootScope,$http, $scope) {
             .error(function () {
                     alert('error sendTestAnswer');
             })
+    };
+    $scope.getUserAnswers = function (testType){
+        if (testType == 1){
+            answer = $('input[name="radioanswer"]:checked').attr("id");
+            return answer;
+        } else {
+            answers = $scope.getMultiplyAnswers();
+            return answers;
+        }
+    };
+    $scope.getMultiplyAnswers = function (){
+        var answers = $('input[name="checkboxanswer"]:checked');
+        var answersValue = [];
+        for(var i = 0, l = answers.length; i < l;  i++)
+        {
+            answersValue.push(answers[i].id);
+        }
+        return answersValue;
     };
     $scope.isTrueTestAnswer = function (user, test){
 

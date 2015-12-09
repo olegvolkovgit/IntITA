@@ -26,24 +26,10 @@ if (!isset($idCourse)) $idCourse = 0;
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-
-</script>
 
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
     idUser = <?php echo $user;?>;
-    <?php if($user != 0){?>
-    idTeacher = <?php echo Teacher::getTeacherId($user);?>;
-    <?php }?>
-    order = 1;
-    currentTask = 0;
     editMode = <?php echo ($editMode)?1:0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
@@ -114,30 +100,10 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
         ));
         $this->renderPartial('/lesson/_passLectureModalNG', array('lecture' => $lecture, 'idCourse' => $idCourse));
         $this->endWidget('zii.widgets.jui.CJuiDialog');
-
         ?>
     </div>
 </div>
-<!-- lesson style -->
-<!-- Підсвітка синтаксису-->
-<link type='text/css' rel='stylesheet'
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shCoreEclipse.css'); ?>">
-<link type='text/css' rel='stylesheet'
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'sh/styles/shThemeEclipse.css'); ?>">
-<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/XRegExp.js"); ?>'></script>
-<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shLegacy.js"); ?>'></script>
-<script class='javascript' src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shCore.js"); ?>'></script>
-<script class='javascript'
-        src='<?php echo StaticFilesHelper::fullPathTo("js", "sh/scripts/shMegaLang.js"); ?>'></script>
-
-<script>SyntaxHighlighter.all();</script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'taskAnswer.js'); ?>"></script>
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'plainTask.js'); ?>"></script>
-
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'lesson.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
 
 
