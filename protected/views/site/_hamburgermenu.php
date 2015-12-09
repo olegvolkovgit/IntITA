@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 17.07.2015
- * Time: 14:44
- */
-?>
 <?php $header = new Header(); ?>
 <!-- Hamburger menu -->
 <div id="hambNav">
@@ -47,9 +39,9 @@
             <div class="humStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div class="humavatar"><img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $humuser->avatar); ?>"/></div><div class="humName">
-                        <?php echo $humuser->nickname; ?><br>
-                        <?php echo $humuser->firstName; ?><br>
-                        <?php echo $humuser->secondName; ?><br>
+                        <?php echo StudentReg::getNickname($humuser); ?><br>
+                        <?php echo StudentReg::getName ($humuser); ?><br>
+                        <?php echo StudentReg::getLastName ($humuser); ?><br>
                         <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
                     </div>
                 </a>

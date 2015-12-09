@@ -129,7 +129,7 @@ class LecturePage extends CActiveRecord
         ));
     }
 
-    public static function getAccessPages($idLecture, $user){
+    public static function getAccessPages($idLecture, $user, $editMode=0, $isAdmin=0){
         /*Sort page_order by Ascending*/
         $criteria= new CDbCriteria;
         $criteria->alias='lecture_page';
@@ -139,19 +139,28 @@ class LecturePage extends CActiveRecord
         $pages = LecturePage::model()->findAll($criteria);
 
         $result = [];
-        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
-            $result[$i]['order'] = $pages[$i]->page_order;
-            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
-            $result[$i]['title'] = $pages[$i]->page_title;
-
-            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+        if($editMode || $isAdmin){
+            for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+                $result[$i]['order'] = $pages[$i]->page_order;
                 $result[$i]['isDone'] = true;
-                $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
-                break;
-            } else {
+                $result[$i]['isQuizDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['title'] = $pages[$i]->page_title;
+            }
+        }else{
+            for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+                $result[$i]['order'] = $pages[$i]->page_order;
+                $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['isQuizDone'] =$result[$i]['isDone'];
+                $result[$i]['title'] = $pages[$i]->page_title;
 
+                if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                    $result[$i]['isDone'] = true;
+                    $result = LecturePage::setNoAccessPages($result, $count, $i+1,$pages);
+                    break;
+                }
             }
         }
+
         return $result;
     }
     public static function getFinishedPages($idLecture, $user){
@@ -209,6 +218,13 @@ class LecturePage extends CActiveRecord
                     if($test){
                     $testMark = TaskMarks::isTaskDone($user,$test->id);
                     if($testMark) return $testMark;
+                    }
+                    break;
+                case '9':
+                    $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quiz));
+                    if($skipTask){
+                        $testMark = SkipTaskMarks::isTaskDone($user,$skipTask->id);
+                        if($testMark) return $testMark;
                     }
                     break;
                 case '12':
@@ -410,5 +426,20 @@ class LecturePage extends CActiveRecord
                 return $i;
         }
         return 0;
+    }
+    public static function checkLastQuiz($quizId)
+    {
+        $lecturePage=LecturePage::model()->findByAttributes(array('quiz' => $quizId));
+        $pageOrder = $lecturePage->page_order;
+        $lectureId = $lecturePage->id_lecture;
+        $criteria=new CDbCriteria;
+        $criteria->alias='lecture_page';
+        $criteria->select='page_order';
+        $criteria->condition = 'id_lecture = '.$lectureId;
+        $criteria->order = 'page_order DESC';
+        $lastPage=LecturePage::model()->find($criteria)->page_order;
+        if($pageOrder!=$lastPage)
+            return 0;
+        else return 1;
     }
 }

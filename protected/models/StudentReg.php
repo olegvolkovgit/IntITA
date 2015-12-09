@@ -844,4 +844,22 @@ class StudentReg extends CActiveRecord
         if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
             return  '<span class="colorP">'.Yii::t('user','0779').'</span>';
     }
+    public static function getNickname ($post)
+    {
+        if ($post->nickname=='')
+            return  '<span class="nameNAN">['.Yii::t('regexp', '0163').']</span>';
+        else return  $post->nickname;
+    }
+    public static function getLastName ($post)
+    {
+        if ($post->secondName=='')
+            return  '<span class="nameNAN">['.Yii::t('regexp', '0162').']</span>';
+        else return  $post->secondName;
+    }
+    public static function getName ($post)
+    {
+        if ($post->firstName=='')
+            return  '<span class="nameNAN">['.Yii::t('regexp', '0160').']</span>';
+        else return  $post->firstName;
+    }
 }

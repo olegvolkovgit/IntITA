@@ -37,6 +37,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+<script>
+    basePath = '<?=Config::getBaseUrl()?>';
+</script>
 
 <body>
 
@@ -61,9 +64,9 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.js');?>"></script>
 
 <!-- Morris Charts JavaScript -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/raphael/raphael-min.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cms/morris-data.js');?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('css', '/bower_components/raphael/raphael-min.js');?><!--"></script>-->
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?><!--"></script>-->
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('js', 'cms/morris-data.js');?><!--"></script>-->
 
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>

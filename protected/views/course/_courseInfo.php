@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 15:13
- */
 $langParam = CommonHelper::getLanguage();
 $forWhom = 'for_whom_' . $langParam;
 $whatYouLearn = 'what_you_learn_' . $langParam;
@@ -20,7 +14,7 @@ $whatYouGet = 'what_you_get_' . $langParam;
             for ($k = 0; $k < count($forWhomArray); $k++) {
                 ?>
                 <li><?php echo $forWhomArray[$k] . ";"; ?></li>
-                <?php
+            <?php
             }
         }
         ?>
@@ -33,7 +27,7 @@ $whatYouGet = 'what_you_get_' . $langParam;
             for ($l = 0; $l < count($whatYouLearnArray); $l++) {
                 ?>
                 <li><?php echo $whatYouLearnArray[$l] . ";"; ?></li>
-                <?php
+            <?php
             }
         }
         ?>
@@ -46,7 +40,7 @@ $whatYouGet = 'what_you_get_' . $langParam;
             for ($r = 0; $r < count($whatYouLearnArray); $r++) {
                 ?>
                 <li><?php echo $whatYouLearnArray[$r] . ";"; ?></li>
-                <?php
+            <?php
             }
         }
         ?>

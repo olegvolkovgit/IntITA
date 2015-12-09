@@ -40,7 +40,7 @@ class LessonController extends Controller
         }
     }
 
-    public function actionIndex($id, $idCourse=0, $page = 1)
+    public function actionIndex($id, $idCourse=0, $page = 1, $template=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
@@ -52,7 +52,7 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
-        $passedPages = LecturePage::getAccessPages($id, $user);
+        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
@@ -79,8 +79,10 @@ class LessonController extends Controller
         } else {
             $teacher = null;
         }
+        if($template==0) $view='index1';
+        else $view='indexTemplate';
 
-        $this->render('index1', array(
+        $this->render($view, array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
@@ -431,6 +433,17 @@ class LessonController extends Controller
             $this->redirect($_SERVER["HTTP_REFERER"]);
         }
     }
+    public function actionNextLectureNG($lectureId, $idCourse=0)
+    {
+        $lecture=Lecture::model()->findByPk($lectureId);
+        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+            $nextId = Lecture::getNextId($lecture['id']);
+            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse,'template'=>1)));
+        }
+        else{
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+        }
+    }
     public function actionUpdateLectureAttribute()
     {
         $up = new EditableSaver('Lecture');
@@ -651,11 +664,6 @@ class LessonController extends Controller
                 $messages = Translate::getLectureContentMessagesByLang($lang);
                 foreach($types as $type) {
                     switch ($type) {
-//                $html = $this->renderPartial('lectureHTML', array(
-//                    'dataProvider' => $dataProvider,
-//                    'page' => $page,
-//                    'messages' => $messages,
-//                ), true);
                         case 'video':
                             $html = $this->renderPartial('/lesson/_videoTab',
                                 array('page' => $page, 'message' => $messages['613']), true);
@@ -665,13 +673,13 @@ class LessonController extends Controller
                                 array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
                             break;
                         case 'quiz':
-                            $html = $this->renderPartial('/lesson/_quiz',
+                            $html = $this->renderPartial('/lesson/_quizNG',
                                 array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
                             break;
                         default:
                             $html = '';
                             break;
-                    }
+                    };
 
                     $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang, $type);
                     file_put_contents($file, $html);
@@ -680,5 +688,22 @@ class LessonController extends Controller
             }
         }
         $this->redirect(Config::getBaseUrl().'/_admin/verifyContent/index');
+    }
+
+    public function actionGetPageData()
+    {
+        $user=Yii::app()->user->getId();
+        $id = Yii::app()->request->getPost('lecture');
+
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
+        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
+
+        $passedLecture = Lecture::isPassedLecture($passedPages);
+        $finishedLecture = Lecture::isLectureFinished($user, $id);
+
+        echo json_encode($passedPages);
     }
 }

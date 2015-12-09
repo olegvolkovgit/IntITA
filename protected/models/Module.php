@@ -543,7 +543,6 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getResourceDescription($id)
     {
         $module = Module::model()->findByPk($id);
-
         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
     }
 
@@ -578,6 +577,16 @@ class Module extends CActiveRecord implements IBillableObject
             }
         }
         return $result;
+    }
+
+    public function getTitle(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $moduleTitle = $this->$title;
+        if ($moduleTitle == "") {
+            $moduleTitle = $this->title_ua;
+        }
+        return $moduleTitle;
     }
 
     public static function getModuleName($id)
@@ -709,7 +718,7 @@ class Module extends CActiveRecord implements IBillableObject
                         <tr><td><div>' . Yii::t('course', '0197') . '</div></td></tr>
                         <tr><td>
                             <div class="numbers"><span class="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>
-                            &nbsp<span class="coursePriceStatus2">' . ModuleHelper::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
+                            &nbsp<span class="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
                             <span id="discount"> <img style="text-align:right" src="' . StaticFilesHelper::createPath('image', 'course', 'pig.png') . '">(' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>
                             </div>
                         </td></tr>

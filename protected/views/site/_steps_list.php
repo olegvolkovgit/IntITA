@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 13.05.2015
- * Time: 16:22
+ * @var $stepsDataProvider CActiveDataProvider
  */
 ?>
 <div class="steps" >

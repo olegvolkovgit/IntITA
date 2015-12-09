@@ -200,4 +200,47 @@ class CommonHelper {
         }
         return $rating;
     }
+
+    public static function getRate($level){
+        $rate = 0;
+        switch ($level) {
+            case 'intern':
+                $rate = 1;
+                break;
+            case 'junior':
+                $rate = 2;
+                break;
+            case 'strong junior':
+                $rate = 3;
+                break;
+            case 'middle':
+                $rate = 4;
+                break;
+            case 'senior':
+                $rate = 5;
+                break;
+        }
+        return $rate;
+    }
+
+    public static function getLevelTitle($level){
+        switch ($level) {
+            case 'intern':
+                $level = Yii::t('courses', '0232');
+                break;
+            case 'junior':
+                $level = Yii::t('courses', '0233');
+                break;
+            case 'strong junior':
+                $level = Yii::t('courses', '0234');
+                break;
+            case 'middle':
+                $level = Yii::t('courses', '0235');
+                break;
+            case 'senior':
+                $level = Yii::t('courses', '0236');
+                break;
+        }
+        return $level;
+    }
 }

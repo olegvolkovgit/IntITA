@@ -26,7 +26,7 @@
                             <?php echo $data->getSkipTaskQuestion(); ?>
                         </div>
                     </form>
-                    <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
+                    <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                             onclick="sendSkipTaskAnswer(<?php echo $data->id_block?>)" >
                         <?php echo Yii::t('lecture','0089'); ?>
                     </button>

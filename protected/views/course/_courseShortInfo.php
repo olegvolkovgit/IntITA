@@ -1,13 +1,6 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 15:20
- */
-?>
+<?php $lessonsCount = Course::getLessonsCount($model->course_ID);?>
 <script>
-        course = "<?php echo $model->course_ID;?>";
+    course = "<?php echo $model->course_ID;?>";
 </script>
 <img class="courseImg" style="display: inline-block"
      src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img); ?>"/>
@@ -17,22 +10,22 @@
             <td>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
-                    <?php echo CommonHelper::translateLevel($model->level); ?>
+                    <?php echo $model->getTranslatedLevel(); ?>
                 </span>
             </td>
             <td class="courseLevel">
                 <div>
                     <?php
-                    $rate = Course::getCourseRate($model->level);
+                    $rate = $model->getRate();
                     for ($i = 0; $i < $rate; $i++) {
                         ?>
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>">
-                        <?php
+                    <?php
                     }
                     for ($j = $rate; $j < 5; $j++) {
                         ?>
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>">
-                        <?php
+                    <?php
                     }
                     ?>
                 </div>
@@ -41,26 +34,26 @@
     </table>
     <div class="courseDetail">
         <div>
-            <?php if(Course::getLessonsCount($model->course_ID) > 0){?>
-            <span id="demo">
-                <?php if(isset($_SESSION['lg'])?$lg = $_SESSION['lg']: $lg = 'ua'); ?>
-                <a href='<?php echo Yii::app()->createUrl('course/schema',['id' => $model->course_ID]); // тот же контроллер, другой экшн //Config::getBaseUrl(). '/' . 'course/schema';  //. StaticFilesHelper::pathToCourseSchema('schema_course_'.$model->course_ID.'_'. $lg  .'.html');
-                ?>'><?php echo Yii::t('course', '0662');?></a>
+            <?php if ($lessonsCount > 0) { ?>
+                <span id="demo">
+                <?php if (isset($_SESSION['lg']) ? $lg = $_SESSION['lg'] : $lg = 'ua') ; ?>
+                    <a href='<?php echo Yii::app()->createUrl('course/schema', ['id' => $model->course_ID]);
+                    ?>'><?php echo Yii::t('course', '0662'); ?></a>
             </span>
-            <br>
-            <?php }?>
-            <span  class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
-            <b><?php echo Course::getLessonsCount($model->course_ID).' ' . Yii::t('module', '0216');?></b>
-            <?php if(Course::getLessonsCount($model->course_ID)!=0){
-                echo ', '.Yii::t('course', '0209'); ?>
+                <br>
+            <?php } ?>
+            <span class="colorP"><?php echo Yii::t('course', '0194'); ?></span>
+            <b><?php echo $lessonsCount . ' ' . Yii::t('module', '0216'); ?></b>
+            <?php if ($lessonsCount != 0) {
+                echo ', ' . Yii::t('course', '0209'); ?>
                 -<b>
-                    <?php echo ceil(Course::getLessonsCount($model->course_ID) / 36); ?><?php echo Yii::t('course', '0664'); ?>
+                    <?php echo ceil($lessonsCount / 36); ?><?php echo Yii::t('course', '0664'); ?>
                 </b>
-                <?php echo '(3 '.Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220').')';
-            }?>
+                <?php echo '(3 ' . Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220') . ')';
+            } ?>
         </div>
-       <?php  $this->renderPartial('_paymentsForm', array('model' => $model));?>
+        <?php $this->renderPartial('_paymentsForm', array('model' => $model)); ?>
     </div>
 </div>
 
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>

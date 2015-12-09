@@ -54,7 +54,7 @@ $testType = Tests::getTestType($data['id_block']);
             <?php echo Tests::getTestId($data['id_block']) ?>,
             <?php echo $testType; ?>,
             <?php echo ($editMode) ? 1 : 0; ?>
-                );' <?php if ($editMode) {
+                );' <?php if (0) {
                 echo "disabled";
             } ?> >
                 <?php echo Yii::t('lecture', '0089'); ?>
