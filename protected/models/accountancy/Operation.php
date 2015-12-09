@@ -213,15 +213,20 @@ class Operation extends CActiveRecord
 
     public function cancel()
     {
-
-        $invoices = Invoice::getInvoiceListByOperation($this->id);
-        $agreementId = UserAgreements::getAgreementByInvoices($invoices);
+        $invoices = $this->getInvoiceListByOperation();
+        $userAgreements = [];
+        foreach($invoices as $invoice)
+        {
+            $userAgreementId = $invoice->agreement->id;
+            if($userAgreementId)
+                array_push($userAgreements,$userAgreementId);
+        }
+        $agreementId = array_unique($userAgreements);
         $agreement = UserAgreements::model()->findByPk($agreementId);
         $this->deleteInvoiceOperation();
         $agreement->cancelOperation();
 
         return $this->delete();
-
     }
 
     private function deleteInvoiceOperation()
@@ -229,5 +234,19 @@ class Operation extends CActiveRecord
         $results = Yii::app()->db->createCommand()
             ->delete('acc_operation_invoice', 'id_operation=:id', array(':id'=>$this->id));
         return $results;
+    }
+
+    public function getInvoiceListByOperation()
+    {
+        $results = Yii::app()->db->createCommand()
+            ->select('id_invoice')
+            ->from('acc_operation_invoice')
+            ->where('id_operation = :id_operation',array(':id_operation' => $this->id))
+            ->queryAll();
+
+        if($results)
+            return $results;
+        else return null;
+
     }
 }

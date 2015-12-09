@@ -328,21 +328,6 @@ class UserAgreements extends CActiveRecord
     }
 
 
-    public static function getAgreementByInvoices(Array $invoiceArr)
-    {
-        $userAgreements = [];
-        foreach($invoiceArr as $invoice)
-        {
-            //$model = Invoice::model()->findByPk($invoice);
-            $userAgreementId = $invoice->agreement->id;
-
-            if($userAgreementId)
-                array_push($userAgreements,$userAgreementId);
-        }
-
-        return array_unique($userAgreements);
-    }
-
     public function cancelOperation()
     {
         $results = Yii::app()->db->createCommand()

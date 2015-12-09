@@ -265,18 +265,4 @@ class Invoice extends CActiveRecord
             return true;
         else return false;
     }
-
-    public static function getInvoiceListByOperation($id)
-    {
-        $results = Yii::app()->db->createCommand()
-            ->select('id_invoice')
-            ->from('acc_operation_invoice')
-            ->where('id_operation = :id_operation',array(':id_operation' => $id))
-            ->queryAll();
-
-        if($results)
-            return $results;
-        else return null;
-
-    }
 }
