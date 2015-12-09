@@ -38,6 +38,7 @@ function loadPage(url) {
 }
 
 function fillTrainer(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/><br/><br/>');
     var params = json.params;
@@ -47,26 +48,31 @@ function fillTrainer(json){
 }
 
 function fillAuthor(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillConsultant(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillLeader(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillAdmin(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillAccountant(json){
+    document.getElementById("dashboard").style.display = "none";
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
@@ -111,6 +117,7 @@ function getTeacherUserInfo(url){
 }
 
 function fillDashboard(json){
+    document.getElementById("dashboard").style.display = "block";
     container.append('Dashboard!<br>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
