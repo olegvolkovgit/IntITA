@@ -1,18 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 16:26
+ * @var $model Teacher
  */
 ?>
 <div class="border">
     <div class="TeacherProfiletitles">
         <?php echo Yii::t('teacher', '0181'); ?>
         <b>
-            <?php echo Teacher::getTeacherLastName($model->teacher_id).' '.
-                Teacher::getTeacherFirstName($model->teacher_id)." ".
-                Teacher::getTeacherMiddleName($model->teacher_id);?>
+            <?php echo $model->lastName().' '.$model->firstName()." ".$model->middleName();?>
         </b>
     </div>
 </div>

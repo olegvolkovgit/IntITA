@@ -1,5 +1,7 @@
 <?php
-/*@var $teacher Teacher*/
+/**
+ * @var $teacher Teacher
+ */
 foreach ($teachers as $teacher) {
     ?>
     <div class="teacherBox">

@@ -50,28 +50,4 @@ class TeacherCabinetController extends CController
         date_default_timezone_set("UTC");
     }
 
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'expression'=>array($this, 'isYourCabinet'),
-//            ),
-//            array('deny',
-//                'message'=>"Ви не можете пергелядати чужий кабінет.",
-//                'users'=>array('*'),
-//            ),
-//        );
-//    }
-
-    public function isYourCabinet($id)
-    {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-
-        if (Teacher::getTeacherId(Yii::app()->user->getId()) == $id) {
-            return true;
-        }
-        return false;
-    }
 }

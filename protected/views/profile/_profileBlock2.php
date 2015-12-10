@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 16:56
- */
-?>
-
 <div class="TeacherProfileblock2">
     <?php $this->renderPartial('_teacherRate', array('model' => $model)); ?>
 

@@ -571,6 +571,19 @@ class StudentReg extends CActiveRecord
         return $this->teacher->teacher_id;
     }
 
+    public function getTeacherModel()
+    {
+        return $this->teacher;
+    }
+
+    public function isAccountant(){
+        return ($this->role == 2)?true:false;
+    }
+
+    public function isTeacher(){
+        return ($this->role == 1)?true:false;
+    }
+
     public static function getUserName($id)
     {
         $model = StudentReg::model()->findByPk($id);
@@ -702,13 +715,13 @@ class StudentReg extends CActiveRecord
     public function getCabinetLink(){
         switch($this->role){
             case '1':
-                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Teacher::getTeacherId($this->id)));
+                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
                 break;
             case '2':
                 return Yii::app()->createUrl('/_accountancy/default/index');
                 break;
             case '3':
-                return Yii::app()->createUrl('/_admin/default/index');
+                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
                 break;
             default:
                 break;

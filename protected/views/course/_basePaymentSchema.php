@@ -69,9 +69,9 @@
                                     <?php echo $price . " " . Yii::t('courses', '0322'); ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
-                                    <?php echo Module::getDiscountedPrice($price, $discount) . " " .
+                                    <?php echo PaymentHelper::discountedPrice($price, $discount) . " " .
                                         Yii::t('courses', '0322'); ?>=</span>
-                                <span><?php echo round(Module::getDiscountedPrice($price, $discount) / $number) . ' ' .
+                                <span><?php echo round(PaymentHelper::discountedPrice($price, $discount) / $number) . ' ' .
                                         Yii::t('courses', '0322') . ' x ' . $number . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>

@@ -116,8 +116,25 @@ function getTeacherUserInfo(url){
     });
 }
 
-function fillDashboard(json){
-    document.getElementById("dashboard").style.display = "block";
-    container.append('Dashboard!<br>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
+//function fillDashboard(json){
+//    document.getElementById("dashboard").style.display = "block";
+//    container.append('Dashboard!<br>')
+//        .append('Teacher: ' + json.teacher + '</b><br/>');
+//}
+
+function load(url){
+    document.getElementById("dashboard").style.display = "none";
+    $.ajax({
+        url: url,
+        success: function (data) {
+            container = $('#pageContainer');
+            container.html('');
+            container.html(data);
+        },
+        error: function () {
+            alert("Вибачте, але на сайті виникла помилка. " +
+            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            location.reload();
+        }
+    });
 }
