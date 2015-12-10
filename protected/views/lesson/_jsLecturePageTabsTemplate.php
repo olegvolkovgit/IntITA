@@ -17,7 +17,7 @@
         <img id="arrowCursor" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'arrow.png') ?>">
         <img id="pointer" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'pointer.png') ?>">
         <div class="lectureProgress">
-            <a ng-repeat="page in pageData"
+            <a ng-repeat="page in pageData track by $index"
                class="pageTitle"
                ng-class="{pageDone: page.isDone || editMode || isAdmin, pageNoAccess: !(page.isDone || editMode || isAdmin)}"
                ng-attr-id="{{$index+1==(currentPage || lastAccessPage) && 'pagePressed' || undefined }}"

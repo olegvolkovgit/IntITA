@@ -67,9 +67,9 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                                 <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
                             </a>
                         <?php } else { ?>
-                            <a
+                            <a ng-attr-href="{{lectures[<?php echo $i; ?>] && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse, 'template'=>1)) ?>' || undefined }}"
                                 tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
-                                <div class="lectureDisabled"></div>
+                                <div ng-class="{lectureDisabled: !(lectures[<?php echo $i; ?>]), lectureAccess: lectures[<?php echo $i; ?>]}"></div>
                             </a>
                         <?php }
                     } ?>

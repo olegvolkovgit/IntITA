@@ -699,12 +699,24 @@ class LessonController extends Controller
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
-        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
-
-        $passedLecture = Lecture::isPassedLecture($passedPages);
-        $finishedLecture = Lecture::isLectureFinished($user, $id);
 
         echo json_encode($passedPages);
+    }
+    public function actionGetAccessLectures()
+    {
+        $lectures = [];
+        $idModule = Yii::app()->request->getPost('module');
+        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($idModule);
+        for ($i = 0; $i < Module::getLessonsCount($idModule); $i++) {
+            $lectureId = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->id;
+            $lectureOrder = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->order;
+            if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) {
+                $lectures[$i]=true;
+            }else{
+                $lectures[$i]=false;
+            }
+        }
+        echo json_encode($lectures);
     }
     public function actionSaveFormulaImage()
     {

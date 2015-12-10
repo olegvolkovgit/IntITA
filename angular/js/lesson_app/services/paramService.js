@@ -12,6 +12,7 @@ angular
                 $rootScope.editMode = editMode;
                 $rootScope.isAdmin = parseInt(isAdmin);
                 $rootScope.lastAccessPage = parseInt(lastAccessPage);
+                $rootScope.finishedLecture = parseInt(finishedLecture);
 
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;

@@ -8,10 +8,13 @@
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/appT.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/paramService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/lectureTemplateCtrl.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/quizCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/accessLecturesService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/quizCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/directives/hoverSpot.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/config.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls_0_13_0.js'); ?>"></script>
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
@@ -26,9 +29,14 @@ if (!isset($idCourse)) $idCourse = 0;
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
-
+<?php
+$passedLecture = Lecture::isPassedLecture($passedPages);
+$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
+?>
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
+    idModule = <?php echo $lecture->idModule;?>;
+    finishedLecture = <?php echo ($finishedLecture)?1:0;?>;
     idUser = <?php echo $user;?>;
     editMode = <?php echo ($editMode)?1:0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
@@ -40,10 +48,6 @@ if (!isset($idCourse)) $idCourse = 0;
         lastAccessPage=<?php echo $lastAccessPage ?>;
     }
 </script>
-<?php
-$passedLecture = Lecture::isPassedLecture($passedPages);
-$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
-?>
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
 </div>

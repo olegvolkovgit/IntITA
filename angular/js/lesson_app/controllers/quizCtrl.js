@@ -5,8 +5,7 @@ angular
     .module('lessonApp')
     .controller('lectureQuizCtrl',lectureQuizCtrl);
 
-/* Controllers */
-function lectureQuizCtrl($rootScope,$http, $scope) {
+function lectureQuizCtrl($rootScope,$http, $scope, accessLectureService) {
     //Test Quiz
     $scope.sendTestAnswer=function(block_order,typeButton, test, testType, editMode){
         user=idUser;
@@ -71,6 +70,8 @@ function lectureQuizCtrl($rootScope,$http, $scope) {
                 } else if(data['status'] == '1' && data['lastTest']=='1'){
                     $scope.pageDataUpdate();
                     $scope.openLastTrueDialog();
+                    accessLectureService.getAccessLectures();
+                    $rootScope.finishedLecture=1;
                     return false;
                 } else {
                     $scope.openFalseDialog();
@@ -135,6 +136,8 @@ function lectureQuizCtrl($rootScope,$http, $scope) {
             {
                 $scope.pageDataUpdate();
                 $scope.openLastTrueDialog();
+                accessLectureService.getAccessLectures();
+                $rootScope.finishedLecture=1;
                 return false;
             }
             else if(response.data == 'not done')
