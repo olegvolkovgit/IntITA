@@ -9,10 +9,8 @@
 <!-- teachers style -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'hideBlock.js'); ?>"></script>
 <?php
-$this->pageTitle = 'INTITA';
 $post=$dataProvider->getData();
 ?>
-<!-- BD -))) -->
 <div class="subNavBlockTeachers">
     <?php
     $this->breadcrumbs=array(

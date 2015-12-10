@@ -1,4 +1,5 @@
 <?php
+/* @var $post Module*/
 if (StudentReg::isAdmin()) $post->setScenario('canedit');
 ?>
 <div class="leftModule">

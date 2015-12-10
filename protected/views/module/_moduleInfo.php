@@ -1,14 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 05.06.2015
- * Time: 10:23
+ * @var $post Module
  */
 ?>
 <div class="moduleTitle">
     <h1>
-        <?php echo Module::getModuleName($post->module_ID);?>
+        <?php echo $post->getTitle();?>
     </h1>
 </div>
 <table>
@@ -20,31 +17,9 @@
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                 <?php
-                $rate = 0;
-                switch ($post->level){
-                    case 'intern':
-                        $level=Yii::t('courses', '0232');
-                        $rate = 1;
-                        break;
-                    case 'junior':
-                        $level=Yii::t('courses', '0233');
-                        $rate = 2;
-                        break;
-                    case 'strong junior':
-                        $level=Yii::t('courses', '0234');
-                        $rate = 3;
-                        break;
-                    case 'middle':
-                        $level=Yii::t('courses', '0235');
-                        $rate = 4;
-                        break;
-                    case 'senior':
-                        $level=Yii::t('courses', '0236');
-                        $rate = 5;
-                        break;
-                }
-                if(isset($level))
-                echo $level;
+                $level = CommonHelper::getLevelTitle($post->level);
+                $rate = CommonHelper::getRate($post->level);
+                if(isset($level)) echo $level;
                 ?>
                 <div class="ratico">
                     <?php
@@ -65,12 +40,21 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
-                <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b><?php echo Module::getModuleDurationFormat($post->lesson_count,$post->module_duration_hours,$post->hours_in_day,$post->days_in_week) ?>
+                <b> <?php echo $post->lesson_count." ".Yii::t('module', '0216'); ?></b><?php
+                 if ($post->lesson_count == 0) {
+                     return '';
+                 } else {
+                     echo ", " . Yii::t('module', '0217') . " - <b>" . round($post->lesson_count * 7 /
+                         ($post->hours_in_day * $post->days_in_week)) . " " . Yii::t('module', '0218') . "</b> (" .
+                     $post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " .
+                     Yii::t('module', '0220') . ")";
+                 }
+                ?>
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <?php
-                   echo Module::getModulePrice($post->module_ID, (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0))?0:$_GET['idCourse']); ?>
+                <?php $this->renderPartial('_price', array('price' => $post->getBasePrice(),
+                    'idCourse' => (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0))?0:$_GET['idCourse'])); ?>
             </div>
             <br>
             <div class="moduleRating">

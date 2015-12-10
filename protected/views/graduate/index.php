@@ -4,11 +4,10 @@
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/GraduatesStyle.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'GraduatesStyle.css') ?>"/>
 
 <div class="subNavBlockGraduates">
     <?php
-    $this->pageTitle = 'INTITA';
     $this->breadcrumbs=array(
         Yii::t('breadcrumbs', '0296'),
     );

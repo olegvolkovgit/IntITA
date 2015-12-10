@@ -65,6 +65,7 @@ class Lecture extends CActiveRecord
         return array(
             'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
+            'pages' => array(self::HAS_MANY, 'LecturePage','id_lecture'),
         );
     }
 
@@ -440,11 +441,35 @@ class Lecture extends CActiveRecord
 
     public static function isLectureFinished($idUser, $idLecture)
     {
-
         $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
         $passedLecture = Lecture::isPassedLecture($passedPages);
 
         return $passedLecture;
+    }
+
+    public function isFinished($idUser)
+    {
+        $passedPages = $this->getFinishedPages($idUser);
+        $passedLecture = Lecture::isPassedLecture($passedPages);
+
+        return $passedLecture;
+    }
+
+    public function getFinishedPages($user){
+        $pages = $this->pages;
+
+        $result = [];
+        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+            $result[$i]['order'] = $pages[$i]->page_order;
+            $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+            $result[$i]['title'] = $pages[$i]->page_title;
+
+            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
+                $result = LecturePage::setNoAccessPages($result, $count, $i,$pages);
+                break;
+            }
+        }
+        return $result;
     }
 
     public static function getLastLectureID($idModule)
@@ -505,6 +530,16 @@ class Lecture extends CActiveRecord
             return Lecture::model()->findByPk($id)->title_ua;
         } else {
             return $title;
+        }
+    }
+
+    public function title()
+    {
+        $titleParam = "title_".CommonHelper::getLanguage();
+        if ($this->$titleParam == '') {
+            return $this->title_ua;
+        } else {
+            return $this->$titleParam;
         }
     }
 

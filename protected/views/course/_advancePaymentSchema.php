@@ -64,7 +64,7 @@ if ($discount == 0) {
                                 <span
                                     class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
                                 &nbsp<span class="coursePriceStatus2">
-                                <?php echo Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322'); ?>
+                                <?php echo PaymentHelper::discountedPrice($price, $discount) . " " . Yii::t('courses', '0322'); ?>
                             </span>
                                 <br>
                             <span id="discount">
