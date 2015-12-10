@@ -27,7 +27,7 @@
                 ?>
                 <li>
                     <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                        array('page' => $role->title_en, 'teacher' => $model->teacher_id));?>')">
+                        array('page' => $role->title_en, 'teacher' => $model->teacher_id))?>','<?=$role->title_en;?>')">
                         <i class="fa fa-table fa-fw"></i> <?php echo $role->title_ua?>
                         <?php
                         $list = $role->adminPanelList($model);
@@ -41,7 +41,7 @@
                         ?>
                         <li>
                             <a href="#" onclick="getTeacherUserInfo('<?php echo Yii::app()->createUrl('/_teacher/cabinet/getUserInfo',
-                                array('user' => $attr["student"], 'role' => $role->title_en));?>')">
+                                array('user' => $attr["student"], 'role' => $role->title_en))?>')">
                                 <?=StudentReg::getUserName($attr["student"]);?>
                             </a>
                         </li>

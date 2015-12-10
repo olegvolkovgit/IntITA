@@ -50,6 +50,7 @@ class LectureElement extends CActiveRecord
 			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
             'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
             'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
+            'lecture' => array(self::BELONGS_TO, 'Lecture','id_lecture'),
 		);
 	}
 
@@ -402,4 +403,6 @@ class LectureElement extends CActiveRecord
     {
         return LectureElement::model()->findByPk($id)->id_type;
     }
+
+
 }

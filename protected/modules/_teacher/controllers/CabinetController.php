@@ -19,9 +19,12 @@ class CabinetController extends TeacherCabinetController
     {
         $page = strtolower($page);
         $params = [];
+        $result = 0;
         switch($page){
             case 'trainer' :
-                $params = TrainerStudent::getStudentsByTrainer($teacher);
+                $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer($teacher);
+                return $this->renderPartial('_newPlainTask',array('plainTasksAnswers' => $plainTasksAnswers));
+//                $params = TrainerStudent::getStudentsByTrainer($teacher);
                 break;
             case 'consultant':
                 break;
@@ -147,5 +150,17 @@ class CabinetController extends TeacherCabinetController
         );
 
         echo json_encode($jsonObj);
+    }
+
+    public function actionAssignedConsultant($id)
+    {
+        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
+
+        if(!$plainTaskAnswer)
+            throw new CHttpException(404,'Page not found');
+
+        $this->render('/cabinet/_addConsult',
+            array(
+            'plainTaskAnswer' => $plainTaskAnswer));
     }
 }
