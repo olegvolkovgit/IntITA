@@ -241,11 +241,5 @@
         </ul>
         <!-- /.dropdown-user -->
     </li>
-<!--    <li>-->
-<!--        <div id="lessonHumMenu">-->
-<!--            --><?php //$this->renderPartial('_hamburgerMenu'); ?>
-<!--        </div>-->
-<!--    </li>-->
-    <!-- /.dropdown -->
 </ul>
 <!-- /.navbar-top-links -->

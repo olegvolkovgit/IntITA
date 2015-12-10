@@ -2,16 +2,33 @@
 
 class CabinetController extends TeacherCabinetController
 {
-	public function actionIndex($id)
+	public function actionIndex()
 	{
-        if(!$this->isYourCabinet($id))
-        {
-            throw new CHttpException(403, 'Ви не можете переглядати чужий профіль.');
+        if(Yii::app()->user->isGuest){
+            throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
+                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
         }
 
-        $model = Teacher::model()->findByPk($id);
+        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+
+        switch($model->role){
+            case '1':
+                $teacher = $model->getTeacherModel();
+                break;
+            case '2':
+                $teacher = null;
+                break;
+            case '3':
+                $teacher = null;
+                break;
+            default:
+                throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
+                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
+        }
+
 		$this->render('index', array(
             'model' => $model,
+            'teacher' => $teacher,
         ));
 	}
 
@@ -31,8 +48,6 @@ class CabinetController extends TeacherCabinetController
             case 'author':
                 break;
             case 'leader':
-                break;
-            case 'dashboard':
                 break;
             default:
                 throw new CHttpException(400, 'Неправильно вибрана роль!');
@@ -167,15 +182,26 @@ class CabinetController extends TeacherCabinetController
 
     public function actionAssignedConsultant()
     {
-        if(isset($_POST['arr']))
-        {
+        if (isset($_POST['arr'])) {
             //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
             $idPlainTaskAnswer = $_POST['arr'][0];
             $consult = $_POST['arr'][1];
 
-            if(!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer,$consult))
-                throw new \application\components\Exceptions\IntItaException(400,'Consult was not saved');
+            if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
+                throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
 
         }
+    }
+    public function actionLoadDashboard($user){
+        $this->renderPartial('_dashboard', array('user' => $user));
+    }
+
+    public function actionAccountantPage($user){
+        $this->redirect(Yii::app()->createUrl('/_teacher/accountant/index', array('user' => $user)));
+    }
+
+    public function actionAdminPage(){
+        $this->redirect(Yii::app()->createUrl('/_teacher/admin/index'));
+
     }
 }
