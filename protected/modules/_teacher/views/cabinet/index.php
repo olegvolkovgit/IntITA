@@ -71,6 +71,8 @@
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/_teachers/newPlainTask.js"></script>
+
 
 </body>
 

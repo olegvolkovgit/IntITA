@@ -178,7 +178,7 @@ class TrainerStudent extends CActiveRecord
     public static function getStudentWithoutTrainer($teacher)
     {
         $plainTasksAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer($teacher);
-
+//        var_dump($plainTasksAnswers);die;
         return $plainTasksAnswers;
 
     }

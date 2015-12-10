@@ -159,10 +159,18 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getTrainersByAnswer()
     {
-        $moduleId = $this->getModule();
+        $module = $this->getModule();
 
-        $teachers = Module::getTeacherByModule($moduleId);
+        $teachers = Module::getTeacherByModule($module->module_ID);
 
         return $teachers;
+    }
+
+    public static function assignedConsult($idPlainTaskAnswer,$consult)
+    {
+        $result = Yii::app()->db->createCommand()
+            ->insert('plain_task_answer_teacher',
+            array('id_plain_task_answer'=>$idPlainTaskAnswer,'id_teacher'=>$consult));
+        return $result;
     }
 }

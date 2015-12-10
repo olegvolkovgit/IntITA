@@ -19,7 +19,7 @@ class CabinetController extends TeacherCabinetController
     {
         $page = strtolower($page);
         $params = [];
-        $result = 0;
+
         switch($page){
             case 'trainer' :
                 $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer($teacher);
@@ -152,15 +152,30 @@ class CabinetController extends TeacherCabinetController
         echo json_encode($jsonObj);
     }
 
-    public function actionAssignedConsultant($id)
+    public function actionAddConsultant($id)
     {
+
         $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
 
         if(!$plainTaskAnswer)
             throw new CHttpException(404,'Page not found');
 
-        $this->render('/cabinet/_addConsult',
+        return $this->renderPartial('/cabinet/_addConsult',
             array(
             'plainTaskAnswer' => $plainTaskAnswer));
+    }
+
+    public function actionAssignedConsultant()
+    {
+        if(isset($_POST['arr']))
+        {
+            //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
+            $idPlainTaskAnswer = $_POST['arr'][0];
+            $consult = $_POST['arr'][1];
+
+            if(!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer,$consult))
+                throw new \application\components\Exceptions\IntItaException(400,'Consult was not saved');
+
+        }
     }
 }
