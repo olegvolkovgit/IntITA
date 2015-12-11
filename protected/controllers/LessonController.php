@@ -491,7 +491,7 @@ class LessonController extends Controller
 
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
             $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-            $dataProvider = LecturePage::getPageTextList($idLecture, $pageOrder);
+            $dataProvider = LecturePage::getPageTextList($page);
 
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
@@ -653,7 +653,7 @@ class LessonController extends Controller
 
     public function actionSaveLectureContent($idLecture){
         $model = Lecture::model()->findByPk($idLecture);
-        $pages = LecturePage::getAllLecturePages($model->id);
+        $pages = $model->getAllLecturePages();
 
         foreach ($pages as $page) {
             $textList = LecturePage::getBlocksListById($page->id);

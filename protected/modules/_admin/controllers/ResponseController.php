@@ -103,7 +103,7 @@ class ResponseController extends AdminController
 		$response=Response::model()->findByPk($id);
         Response::model()->updateByPk($id, array('is_checked' => 1));
 
-		Response::setTeacherRating($response);
+		$response->setTeacherRating();
 
 		// if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
@@ -115,7 +115,7 @@ class ResponseController extends AdminController
 		$response=Response::model()->findByPk($id);
         Response::model()->updateByPk($id, array('is_checked' => 0));
 
-		Response::setTeacherRating($response);
+		$response->setTeacherRating();
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))

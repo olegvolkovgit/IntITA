@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $data Graduate
+ */
+?>
 <div class="GraduatesBlock">
     <table>
         <tr>
@@ -7,10 +12,10 @@
             <td style="padding-left: 10px;">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo $data['graduate_date'] ?></span>
+                    <span><?php echo $data->graduate_date; ?></span>
                 </div>
-                <div class="text1"><?php echo Graduate::getGraduateName($data['id']); ?></div>
-                <?php if(!empty($data['recall'])){?>
+                <div class="text1"><?php echo $data->name(); ?></div>
+                <?php if(!empty($data->recall)){?>
                 <div class="spoiler-title closed"> <?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?> </div>
                 <div class="spoiler-body">
                     <form name=form_recall>
@@ -18,24 +23,24 @@
                         <input type=hidden name=id2 id="id2" value="<?php echo htmlspecialchars($b); ?>">
                     </form>
                     <img onclick="hideRecall(this)" src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
-                    <?php echo $data['recall'] ?>
+                    <?php echo $data->recall; ?>
                 </div>
                 <?php }?>
 
                 <div class="text">
                     <div>
                         <?php echo Yii::t('graduates', '0316') ?>
-                        <span><?php echo $data['position'] ?></span>
+                        <span><?php echo $data->position; ?></span>
                     </div>
                     <div>
                         <?php echo Yii::t('graduates', '0317') ?>
-                        <a href="<?php echo $data['work_site'] ?>"
-                           target="_blank"> <?php echo $data['work_place'] ?> </a>
+                        <a href="<?php echo $data->work_site; ?>"
+                           target="_blank"> <?php echo $data->work_place; ?> </a>
                     </div>
                     <div>
-                        <?php if(!empty($data['courses_page'])){ echo Yii::t('graduates', '0318'); ?>
-                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data['courses_page'])); ?>"
-                           target="_blank"> <?php echo Course::getCourseName($data['courses_page']); ?></a>
+                        <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
+                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
+                           target="_blank"> <?php echo Course::getCourseName($data->courses_page); ?></a>
                         <?php }?>
                     </div>
                 </div>

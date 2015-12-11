@@ -298,7 +298,7 @@ class LecturePage extends CActiveRecord
         return $page;
     }
 
-    public static function getPageTextList($idLecture, $page){
+    public static function getPageTextList(LecturePage $page){
 
         $textList = LecturePage::getBlocksListById($page->id);
         $criteria = new CDbCriteria();
@@ -354,17 +354,9 @@ class LecturePage extends CActiveRecord
         }
     }
 
-    public static function getAllLecturePages($id){
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('id_lecture='.$id);
-
-        return LecturePage::model()->findAll($criteria);
-    }
-
-    public static function getLecturePageVideo($idLecturePage)
+    public function getLecturePageVideo()
     {
-        $lectureElement = LecturePage::model()->findByPk($idLecturePage)->video;
-        $videoLink = str_replace("watch?v=", "embed/", LectureElement::model()->findByPk($lectureElement)->html_block);
+        $videoLink = str_replace("watch?v=", "embed/", LectureElement::model()->findByPk($this->video)->html_block);
         $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
         return $videoLink;
     }
@@ -382,16 +374,6 @@ class LecturePage extends CActiveRecord
     public static function getNumberLecturePages($idLecture)
     {
         return LecturePage::model()->count('id_lecture=:id', array(':id' => $idLecture));
-    }
-
-    public static function getPagesList($idLecture)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->select = 'page_title, page_order, id';
-        $criteria->addCondition('id_lecture=' . $idLecture);
-        $criteria->order = 'page_order ASC';
-        $list = LecturePage::model()->findAll($criteria);
-        return $list;
     }
 
     public static function getFirstQuiz($firstLectureId)
