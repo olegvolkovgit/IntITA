@@ -47,70 +47,71 @@ class LectureElement extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idType' => array(self::BELONGS_TO, 'ElementType', 'id_type'),
-            'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
-            'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
-		);
-	}
+            'plainTask' => array(self::HAS_ONE, 'PlainTask', 'block_element'),
+            'skipTask' => array(self::HAS_ONE, 'SkipTask', 'condition'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id_block' => 'Id Block',
-			'id_lecture' => 'Id Lecture',
-			'block_order' => 'Block Order',
-			'id_type' => 'Id Type',
-			'html_block' => 'Html Block',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id_block' => 'Id Block',
+            'id_lecture' => 'Id Lecture',
+            'block_order' => 'Block Order',
+            'id_type' => 'Id Type',
+            'html_block' => 'Html Block',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_block',$this->id_block);
-		$criteria->compare('id_lecture',$this->id_lecture);
-		$criteria->compare('block_order',$this->block_order);
-		$criteria->compare('id_type',$this->id_type);
-		$criteria->compare('html_block',$this->html_block,true);
+        $criteria->compare('id_block', $this->id_block);
+        $criteria->compare('id_lecture', $this->id_lecture);
+        $criteria->compare('block_order', $this->block_order);
+        $criteria->compare('id_type', $this->id_type);
+        $criteria->compare('html_block', $this->html_block, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
             'sort' => array(
-                'defaultOrder'=>array(
-                    'block_order'=>CSort::SORT_ASC,
+                'defaultOrder' => array(
+                    'block_order' => CSort::SORT_ASC,
                 )
             ),
-		));
-	}
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return LectureElement the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return LectureElement the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-    public static function addNewTaskBlock($idLecture, $condition){
+    public static function addNewTaskBlock($idLecture, $condition)
+    {
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
@@ -121,13 +122,14 @@ class LectureElement extends CActiveRecord
         $model->id_lecture = $idLecture;
 
         if ($model->save(true)) {
-            return LectureElement::model()->findByAttributes(array('block_order'=>$model->block_order, 'id_lecture' => $idLecture))->id_block;
+            return LectureElement::model()->findByAttributes(array('block_order' => $model->block_order, 'id_lecture' => $idLecture))->id_block;
         } else {
             return false;
         }
     }
 
-    public static function addNewSkipTaskBlock($idLecture, $condition){
+    public static function addNewSkipTaskBlock($idLecture, $condition)
+    {
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
@@ -142,7 +144,8 @@ class LectureElement extends CActiveRecord
         }
     }
 
-    public static function addNewTestBlock($idLecture, $condition){
+    public static function addNewTestBlock($idLecture, $condition)
+    {
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
@@ -153,45 +156,51 @@ class LectureElement extends CActiveRecord
         $model->id_lecture = $idLecture;
 
         if ($model->save()) {
-            return LectureElement::model()->findByAttributes(array('block_order'=>$model->block_order, 'id_lecture' => $idLecture))->id_block;
+            return LectureElement::model()->findByAttributes(array('block_order' => $model->block_order, 'id_lecture' => $idLecture))->id_block;
         } else {
             return false;
         }
     }
-	/*�������� ������� �����*/
-	public static function editTestBlock($idBlock, $condition){
-		$model=LectureElement::model()->findByPk($idBlock);
 
-		$model->html_block = $condition;
-		if($model->validate()) {
-			$model->updateByPk($idBlock, array('html_block' => $condition));
-			return true;
-		}else {
-			return false;
-		}
-	}
-	public static function editTaskBlock($idBlock, $condition){
-		$model=LectureElement::model()->findByPk($idBlock);
+    /*�������� ������� �����*/
+    public static function editTestBlock($idBlock, $condition)
+    {
+        $model = LectureElement::model()->findByPk($idBlock);
 
-		$model->html_block = $condition;
-		if($model->validate()) {
-			$model->updateByPk($idBlock, array('html_block' => $condition));
-			return true;
-		}else {
-			return false;
-		}
-	}
+        $model->html_block = $condition;
+        if ($model->validate()) {
+            $model->updateByPk($idBlock, array('html_block' => $condition));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    public static function getLastVideoId($idLecture){
+    public static function editTaskBlock($idBlock, $condition)
+    {
+        $model = LectureElement::model()->findByPk($idBlock);
+
+        $model->html_block = $condition;
+        if ($model->validate()) {
+            $model->updateByPk($idBlock, array('html_block' => $condition));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getLastVideoId($idLecture)
+    {
         return Yii::app()->db->createCommand()
             ->select('id_block')
             ->from('lecture_element')
-            ->where('id_lecture=:id and block_order=0', array(':id'=>$idLecture))
+            ->where('id_lecture=:id and block_order=0', array(':id' => $idLecture))
             ->order('id_block DESC')
             ->queryRow();
     }
 
-    public static function getPrevElement($textList, $order){
+    public static function getPrevElement($textList, $order)
+    {
         $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
         $result = [];
         foreach ($elements as $elementOrder) {
@@ -200,12 +209,13 @@ class LectureElement extends CActiveRecord
         }
         if (!empty($result))
             $prevElement = max($result);
-        else $prevElement=null;
+        else $prevElement = null;
 
         return $prevElement;
     }
 
-    public static function getVideoLink($htmlBlock){
+    public static function getVideoLink($htmlBlock)
+    {
         //if we want to load video, we finding video link
         $tempArray = explode(" ", $htmlBlock);
         for ($i = count($tempArray) - 1; $i > 0; $i--) {
@@ -217,15 +227,17 @@ class LectureElement extends CActiveRecord
         return '';
     }
 
-    public static function getImageLink($htmlBlock){
+    public static function getImageLink($htmlBlock)
+    {
         //search image source link into new block before save
         $tempArray = explode(" ", $htmlBlock);
         for ($i = count($tempArray) - 1; $i > 0; $i--) {
             if (CommonHelper::startsWith($tempArray[$i], 'src="')) {
                 $link = substr($tempArray[$i], 5, strlen($tempArray[$i]) - 6);
-               return $link;
+                return $link;
             }
-        }return '';
+        }
+        return '';
     }
 
     public static function getNextElement($textList, $order)
@@ -233,12 +245,12 @@ class LectureElement extends CActiveRecord
         $elements = LectureElement::model()->findAllByAttributes(array('id_block' => $textList));
         $result = [];
         foreach ($elements as $elementOrder) {
-            if($elementOrder->block_order>$order)
-                array_push($result,$elementOrder->block_order);
+            if ($elementOrder->block_order > $order)
+                array_push($result, $elementOrder->block_order);
         }
         if (!empty($result))
             $nextElement = min($result);
-        else $nextElement=null;
+        else $nextElement = null;
 
         return $nextElement;
     }
@@ -246,18 +258,18 @@ class LectureElement extends CActiveRecord
     public static function getNextOrder($idLecture)
     {
         $criteria = new CDbCriteria;
-        $criteria->order ='block_order DESC';
+        $criteria->order = 'block_order DESC';
         $criteria->condition = 'id_lecture = :id';
-        $criteria->params = array(':id'=>$idLecture);
+        $criteria->params = array(':id' => $idLecture);
         $max = LectureElement::model()->find($criteria);
-        if($max)
-            return $max->block_order+1;
+        if ($max)
+            return $max->block_order + 1;
         else  return '1';
     }
 
     public static function swapBlock($idLecture, $swapElement, $order)
     {
-        if($swapElement!=null){
+        if ($swapElement != null) {
             $firstId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $swapElement))->id_block;
             $secondId = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
 
@@ -266,14 +278,15 @@ class LectureElement extends CActiveRecord
         }
     }
 
-    public static function deleteCurrentBlock($idLecture, $order, $idBlock){
+    public static function deleteCurrentBlock($idLecture, $order, $idBlock)
+    {
         //delete current block
         LectureElement::model()->deleteAllByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
         $command = Yii::app()->db->createCommand();
-        $command->delete('lecture_element_lecture_page', 'element=:id', array(':id'=>$idBlock));
+        $command->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $idBlock));
     }
 
-    public static function addVideo($htmlBlock,$pageOrder,$lectureId)
+    public static function addVideo($htmlBlock, $pageOrder, $lectureId)
     {
         $model = new LectureElement();
 
@@ -305,7 +318,7 @@ class LectureElement extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function addNewPlainTask($lecture,$block_element)
+    public static function addNewPlainTask($lecture, $block_element)
     {
         $type = 6;
 
@@ -317,73 +330,64 @@ class LectureElement extends CActiveRecord
         $model->html_block = $block_element;
         $model->id_lecture = $lecture;
 
-        if($model->validate())
-        {
+        if ($model->validate()) {
             $model->save();
             return $model->id_block;
-        }
-
-        else return false;
+        } else return false;
     }
 
     private function getOrder($idLecture)
     {
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'lecture_element';
         $criteria->select = 'block_order';
-        $criteria->condition = 'id_lecture = '.$idLecture;
+        $criteria->condition = 'id_lecture = ' . $idLecture;
         $criteria->order = 'block_order DESC';
 
-        if(LectureElement::model()->find($criteria)){
+        if (LectureElement::model()->find($criteria)) {
             $order = LectureElement::model()->find($criteria)->block_order;
-        }else{
+        } else {
             $order = 0;
         }
 
         $this->block_order = ++$order;
     }
 
-    public static function editPlainTask($id_block,$block_element)
+    public static function editPlainTask($id_block, $block_element)
     {
         $model = self::model()->findByPk($id_block);
 
         $model->html_block = $block_element;
 
-        if($model->validate())
-        {
+        if ($model->validate()) {
             $model->save();
 
             return $model->id_block;
-        }
-
-        else return false;
+        } else return false;
     }
 
-    public static function editSkipTask($idBlock,$condition)
+    public static function editSkipTask($idBlock, $condition)
     {
         $model = self::model()->findByPk($idBlock);
 
         $model->html_block = $condition;
 
-        if($model->validate())
-        {
+        if ($model->validate()) {
             $model->save();
 
             return $model->id_block;
-        }
-
-        else return false;
+        } else return false;
     }
 
     public function getSkipTaskCondition()
     {
-         return $this->html_block;
+        return $this->html_block;
     }
+
     public function getSkipTaskQuestion()
     {
         $skipTask = SkipTask::model()->findByAttributes(array('condition' => $this->id_block));
-        if($skipTask)
-        {
+        if ($skipTask) {
             return self::model()->findByPk($skipTask->question)->html_block;
         }
     }
@@ -391,8 +395,7 @@ class LectureElement extends CActiveRecord
     public function getSkipTaskSource()
     {
         $skipTask = SkipTask::model()->findByAttributes(array('condition' => $this->id_block));
-        if($skipTask)
-        {
+        if ($skipTask) {
             return $skipTask->source;
         }
     }
