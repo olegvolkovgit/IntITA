@@ -524,18 +524,18 @@ class StudentReg extends CActiveRecord
         return CPasswordHelper::hashPassword($password);
     }
 
-    public static function getDataProfile($idUser)
+    public function getDataProfile()
     {
-        if ($idUser !== Yii::app()->user->getId())
+        if ($this->id !== Yii::app()->user->getId())
           return false;
-        $letter = new Letters();
-        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
+
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $this->id));
         $criteria = new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
         if ($teacher)
             $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
         else
-            $criteria->addCondition('user_id=' . $idUser);
+            $criteria->addCondition('user_id=' . $this->id);
 
         $dataProvider = new CActiveDataProvider('Consultationscalendar', array(
             'criteria' => $criteria,
@@ -551,11 +551,43 @@ class StudentReg extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function getMarkProviderData($idUser)
+    public function getTeachersResponseId(){
+        $teacherResponse = Yii::app()->db->createCommand()
+            ->select('id_response')
+            ->from('teacher_response')
+            ->where('id_teacher=:id', array(':id'=>$this->id))
+            ->queryAll();
+        $result = [];
+        for ($i = 0, $count = count($teacherResponse); $i < $count; $i++ ){
+            $result[$i] = $teacherResponse[$i]["id_response"];
+        }
+        return $result;
+    }
+
+    public function responseDataProvider(){
+
+        $responsesIdList = $this->getTeachersResponseId();
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'response';
+        $criteria->order = 'date DESC';
+        $criteria->condition = "is_checked = 1";
+        $criteria->addInCondition('id', $responsesIdList);
+
+        $dataProvider = new CActiveDataProvider('Response');
+        $dataProvider->criteria = $criteria;
+        $dataProvider->setPagination(array(
+                'pageSize' => 5,
+            )
+        );
+        return $dataProvider;
+    }
+
+    public function getMarkProviderData()
     {
         $markCriteria = new CDbCriteria;
         $markCriteria->alias = 'response';
-        $markCriteria->addCondition('who=' . $idUser);
+        $markCriteria->addCondition('who=' . $this->id);
         $markCriteria->addCondition('rate>0');
 
         $markProvider = new CActiveDataProvider('Response', array(
@@ -848,5 +880,69 @@ class StudentReg extends CActiveRecord
         if ($post->firstName=='')
             return  '<span class="nameNAN">['.Yii::t('regexp', '0160').']</span>';
         else return  $post->firstName;
+    }
+
+    public function getPaymentsModules()
+    {
+        $modulesCriteria = new CDbCriteria;
+        $modulesCriteria->alias = 'pay_modules';
+        $modulesCriteria->addCondition('id_user=' . $this->id);
+        $paymentsModules = new CActiveDataProvider('PayModules', array(
+            'criteria' => $modulesCriteria,
+            'pagination' => false,
+        ));
+        return $paymentsModules;
+    }
+
+    public function getPaymentsCourses()
+    {
+        $coursesCriteria = new CDbCriteria;
+        $coursesCriteria->alias = 'pay_courses';
+        $coursesCriteria->addCondition('id_user=' . $this->id);
+
+        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
+            'criteria' => $coursesCriteria,
+            'pagination' => false,
+        ));
+
+        return $paymentsCourses;
+    }
+
+    public function getSentLettersData()
+    {
+        $sentLettersCriteria = new CDbCriteria;
+        $sentLettersCriteria->alias = 'letters';
+        $sentLettersCriteria->addCondition('sender_id=' . $this->id);
+
+        $sentLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria' => $sentLettersCriteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
+            'sort' => array(
+                'defaultOrder' => 'date DESC',
+                'attributes' => array('date'),
+            ),
+        ));
+        return $sentLettersProvider;
+    }
+
+    public function getReceivedLettersData()
+    {
+        $receivedLettersCriteria = new CDbCriteria;
+        $receivedLettersCriteria->alias = 'letters';
+        $receivedLettersCriteria->addCondition('addressee_id=' . $this->id);
+
+        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
+            'criteria' => $receivedLettersCriteria,
+            'pagination' => array(
+                'pageSize' => 100,
+            ),
+            'sort' => array(
+                'defaultOrder' => 'date DESC',
+                'attributes' => array('date'),
+            ),
+        ));
+        return $receivedLettersProvider;
     }
 }

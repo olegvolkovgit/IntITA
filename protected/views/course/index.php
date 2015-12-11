@@ -1,10 +1,13 @@
-<?php $this->renderPartial('/site/_shareMetaTag', array(
+<?php
+/* @var $model Course*/
+
+$this->renderPartial('/site/_shareMetaTag', array(
     'url' => Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title' => Course::getCourseName($model->course_ID) . '. ' . Yii::t('sharing', '0643'),
+    'title' => $model->getTitle(). '. ' . Yii::t('sharing', '0643'),
     'description' => Yii::t('sharing', '0644'),
 ));
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/course.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", $model->getTitle(),
@@ -24,7 +27,10 @@ $this->breadcrumbs = array(
         <div class="courseTeachers">
             <?php $this->renderPartial('_courseInfo', array('model' => $model)); ?>
         </div>
-        <?php echo $this->renderPartial('_modulesList', array('dataProvider' => $dataProvider, 'canEdit' => $canEdit, 'model' => $model)); ?>
+        <?php echo $this->renderPartial('_modulesList', array(
+            'dataProvider' => $dataProvider,
+            'canEdit' => $canEdit,
+            'model' => $model)); ?>
     </div>
 </div>
 <?php if ($canEdit) { ?>

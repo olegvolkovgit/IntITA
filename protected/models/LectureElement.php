@@ -34,7 +34,6 @@ class LectureElement extends CActiveRecord
 			array('id_lecture, block_order, id_type, html_block', 'required'),
 			array('id_lecture, block_order, id_type', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_block, id_lecture, block_order, id_type, html_block', 'safe', 'on'=>'search'),
 		);
 	}

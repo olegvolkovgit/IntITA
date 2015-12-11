@@ -10,13 +10,13 @@ if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
         $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
     );
 } else {
     $this->breadcrumbs = array(
-        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
         $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $idLecture, 'idCourse' => $idCourse)),
     );
@@ -54,6 +54,6 @@ if ($idCourse != 0) {
     <br>
 
     <h3 class="lessonPartEdit"><p>
-            <a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $i)); ?>"> <?php echo Yii::t('lecture', '0711'); ?></a>
+            <a href="<?php echo Yii::app()->createUrl('lesson/addNewPage', array('lecture' => $idLecture, 'page' => $page->page_order)); ?>"> <?php echo Yii::t('lecture', '0711'); ?></a>
         </p></h3>
 </div>

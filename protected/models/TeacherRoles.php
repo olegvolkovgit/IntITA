@@ -34,7 +34,6 @@ class TeacherRoles extends CActiveRecord
 			array('teacher, role, start_date', 'required'),
 			array('teacher, role', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('teacher, role, start_date, end_date', 'safe', 'on'=>'search'),
 		);
 	}

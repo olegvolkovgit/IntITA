@@ -9,13 +9,13 @@ if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
         $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );
 } else {
     $this->breadcrumbs = array(
-        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
         $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );

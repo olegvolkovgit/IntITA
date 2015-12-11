@@ -259,6 +259,13 @@ class Lecture extends CActiveRecord
         return $summary;
     }
 
+    public function getAllLecturePages(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_lecture='.$this->id);
+
+        return LecturePage::model()->findAll($criteria);
+    }
+
     public static function getTextList($idLecture, $order)
     {
         $idElement = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;

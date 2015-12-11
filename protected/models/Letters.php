@@ -107,43 +107,9 @@ class Letters extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function getReceivedLettersData($idUser)
-    {
-        $receivedLettersCriteria = new CDbCriteria;
-        $receivedLettersCriteria->alias = 'letters';
-        $receivedLettersCriteria->addCondition('addressee_id=' . $idUser);
 
-        $receivedLettersProvider = new CActiveDataProvider('Letters', array(
-            'criteria' => $receivedLettersCriteria,
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'date DESC',
-                'attributes' => array('date'),
-            ),
-        ));
-        return $receivedLettersProvider;
-    }
 
-    public static function getSentLettersData($idUser)
-    {
-        $sentLettersCriteria = new CDbCriteria;
-        $sentLettersCriteria->alias = 'letters';
-        $sentLettersCriteria->addCondition('sender_id=' . $idUser);
 
-        $sentLettersProvider = new CActiveDataProvider('Letters', array(
-            'criteria' => $sentLettersCriteria,
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'date DESC',
-                'attributes' => array('date'),
-            ),
-        ));
-        return $sentLettersProvider;
-    }
 
 
     protected function afterSave()

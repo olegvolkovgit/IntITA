@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 08.09.2015
- * Time: 23:25
- */
 
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,

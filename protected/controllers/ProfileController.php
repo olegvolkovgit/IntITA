@@ -47,7 +47,7 @@ class ProfileController extends Controller
             $editMode = 0;
         }
 
-        $dataProvider = $teacher->responseDataProvider();
+        $dataProvider = $teacher->user->responseDataProvider();
 
         $this->render('index', array(
             'model' => $teacher,
@@ -158,15 +158,6 @@ class ProfileController extends Controller
         $courses = Module::model()->findAll($criteria);
 
         return $courses;
-    }
-
-    public function getTitles($courses)
-    {
-        $titles = [];
-        for ($i = 0; $i < count($courses); $i++) {
-            $titles[$i]['title'] = Course::getCourseName($courses[$i]["course"]);
-        }
-        return $titles;
     }
 
     public function actionDeleteAvatar()
