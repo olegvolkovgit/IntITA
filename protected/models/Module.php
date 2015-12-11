@@ -717,9 +717,9 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getModuleProgress($module_ID, $user)
     {
-        /*find lecture id*/
-        $firstLectureId = Lecture::getFirstLectureID($module_ID);
-        $lastLectureId = Lecture::getLastLectureID($module_ID);
+        $module = Module::model()->findByPk($module_ID);
+        $firstLectureId = $module->firstLectureID();
+        $lastLectureId = $module->lastLectureID();
 
         if ($firstLectureId && $lastLectureId) {
             $firstQuiz = LecturePage::getFirstQuiz($firstLectureId);
@@ -745,6 +745,24 @@ class Module extends CActiveRecord implements IBillableObject
             $moduleStatus=array('finished', abs($days)+1);
             return $moduleStatus;
         }
+    }
+
+    public function firstLectureID()
+    {
+        if(isset(Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id))
+            return Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id;
+        else return false;
+    }
+
+    public function lastLectureID()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID. ' and `order`>0';
+        if(isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
     }
 
     public static function getModuleStartTime($firstQuiz, $user)

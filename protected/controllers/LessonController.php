@@ -425,7 +425,7 @@ class LessonController extends Controller
     public function actionNextLecture($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+        if ( $lecture->order < Module::getLessonsCount($idCourse)){
             $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
         }
@@ -436,7 +436,7 @@ class LessonController extends Controller
     public function actionNextLectureNG($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+        if ( $lecture->order < Module::getLessonsCount($idCourse)){
             $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse,'template'=>1)));
         }
@@ -621,7 +621,7 @@ class LessonController extends Controller
         else $thisPage = $lastAccessPage;
 
         $passedLecture = Lecture::isPassedLecture($passedPages);
-        $finishedLecture = Lecture::isLectureFinished($user, $id);
+        $finishedLecture = $lecture->isFinished($user);
 
         $page_order=$_GET['page'];
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));

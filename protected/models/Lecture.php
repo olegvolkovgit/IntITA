@@ -20,6 +20,8 @@
  * @property integer $rate
  * @property integer $verified
  *
+ * The followings are the available model relations:
+ * @property LectureType $type
  */
 class Lecture extends CActiveRecord
 {
@@ -65,6 +67,7 @@ class Lecture extends CActiveRecord
         return array(
             'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
+            'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
             'pages' => array(self::HAS_MANY, 'LecturePage','id_lecture'),
         );
     }
@@ -177,102 +180,11 @@ class Lecture extends CActiveRecord
         return parent::model($className);
     }
 
-    function getPreId(){
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->id;
-    }
-
-    function getPreName()
-    {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->title;
-    }
-
-    function getPreType()
-    {
-        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->idType;
-        $type = LectureType::model()->findByPk($typeId);
-        $titleParam = Lecture::getTypeTitleParam();
-        return array(
-            'text' => $type->$titleParam,
-            'image' => $type->image,
-        );
-    }
-
-    function getPreDur()
-    {
-        return Lecture::model()->findByAttributes(array('order'=>$this->order-1,'idModule'=>$this->idModule))->durationInMinutes.Yii::t('lecture','0076');
-    }
-
-
-    function getPostType()
-    {
-        $typeId = Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->idType;
-        $type = LectureType::model()->findByPk($typeId);
-        $titleParam = Lecture::getTypeTitleParam();
-        return array(
-            'text' => $type->$titleParam,
-            'image' => $type->image,
-        );
-    }
-
-
-    function getPostRait($id)
-    {
-        return Lecture::model()->findByPk($id)->rate;
-    }
-
-
-    function getPostId(){
-        return Lecture::model()->findByAttributes(array('order'=>$this->order+1,'idModule'=>$this->idModule))->id;
-    }
-
-    public function getModuleInfoById($idCourse){
-        $module = Module::model()->findByPk($this->idModule);
-        $titleParam = Module::getModuleTitleParam();
-        return array(
-            'moduleTitle' => $module->$titleParam,
-            'countLessons' =>  $module->lesson_count,
-            'idCourse' => $idCourse,
-        );
-    }
-
-    public function getCourseInfoById($idCourse){
-        $course = Course::model()->findByPk($idCourse);
-        return array(
-            'courseTitle' => Course::getCourseName($idCourse),
-            'courseLang' =>  $course->language,
-        );
-    }
-
-    public function getLectureInfoByOrder($order){
-        $lecture = Lecture::model()->findBySql('order=:order',	array(':order' == $order));
-        return array(
-            'order' => $lecture->order,
-            'title' =>  $lecture->title_ua,
-            'typeImage' => $this->getTypeInfo($lecture->idType),
-            'typeText' => $this->getTypeInfo($lecture->idType),
-            'duration' => $lecture->durationInMinutes,
-        );
-    }
-
-    public function getTypeInfo(){
-        $type = LectureType::model()->findByPk($this->idType);
-        $titleParam = Lecture::getTypeTitleParam();
-        return array(
-            'image' => $type->image,
-            'text' => $type->$titleParam,
-        );
-    }
-
-    public function getTeacherInfoById(){
-        $teacher = Teacher::model()->findByPk($this->idTeacher);
-        return array(
-            'full_name' => $teacher->last_name.' '.$teacher->first_name.' '.$teacher->middle_name,
-            'email' =>  $teacher->email,
-            'tel' => $teacher->tel,
-            'skype' => $teacher->skype,
-            'readMoreLink' => $teacher->readMoreLink,
-            'photo' => $teacher->foto_url,
-        );
+    public function pagesList(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_lecture=' . $this->id);
+        $criteria->order = 'page_order ASC';
+        return LecturePage::model()->findAll($criteria);
     }
 
     public function loadContent($id = 1){
@@ -315,7 +227,7 @@ class Lecture extends CActiveRecord
 
     public function getLecturesTitles($id)
     {
-        $list = Lecture::model()->findAllByAttributes(array('idModule' => 1));
+        $list = Lecture::model()->findAllByAttributes(array('idModule' => $id));
         $titles = array();
         $titleParam = Lecture::getTypeTitleParam();
         foreach ($list as $item) {
@@ -327,12 +239,6 @@ class Lecture extends CActiveRecord
     public static function unableLecture($idLecture){
 
         Lecture::model()->updateByPk($idLecture, array('order' => 0));
-    }
-
-    public function getLectureTypeText(){
-        $type = LectureType::model()->findByPk($this->id);
-        $titleParam = Lecture::getTypeTitleParam();
-        return $type->$titleParam;
     }
 
     public static function getLessonCont($id){
@@ -368,11 +274,6 @@ class Lecture extends CActiveRecord
             'idModule' => $idModule,
             'order' => $order
         ));
-    }
-
-    public static function getLink($id){
-        return '<a href="'.Yii::app()->createUrl("lesson/index", array("id" => $id, "idCourse" => "0")).'">'.
-        Lecture::getLectureTitle($id).'</a>';
     }
 
     public static function getAllNotVerifiedLectures(){
@@ -439,14 +340,6 @@ class Lecture extends CActiveRecord
         return $result;
     }
 
-    public static function isLectureFinished($idUser, $idLecture)
-    {
-        $passedPages = LecturePage::getFinishedPages($idLecture, $idUser);
-        $passedLecture = Lecture::isPassedLecture($passedPages);
-
-        return $passedLecture;
-    }
-
     public function isFinished($idUser)
     {
         $passedPages = $this->getFinishedPages($idUser);
@@ -470,24 +363,6 @@ class Lecture extends CActiveRecord
             }
         }
         return $result;
-    }
-
-    public static function getLastLectureID($idModule)
-    {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'lecture';
-        $criteria->order = '`order` DESC';
-        $criteria->condition = 'idModule=' . $idModule . ' and `order`>0';
-        if(isset(Lecture::model()->find($criteria)->id))
-            return Lecture::model()->find($criteria)->id;
-        else return false;
-    }
-
-    public static function getFirstLectureID($idModule)
-    {
-        if(isset(Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id))
-            return Lecture::model()->findByAttributes(array('idModule' => $idModule,'order' => 1))->id;
-        else return false;
     }
 
     public static function isPassedLecture($passedPages)
@@ -515,7 +390,7 @@ class Lecture extends CActiveRecord
 
         $lecturesCount = count($sortedLectures);
         foreach ($sortedLectures as $lecture) {
-            if (!Lecture::isLectureFinished($user, $lecture->id)) {
+            if (!$lecture->isFinished($user)) {
                 return $lecture->order;
             }
         }
