@@ -382,8 +382,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
         $rows = Module::model()->findAll($criteriaData);
-        $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
-                   <optgroup label="' . Yii::t('payments', '0607') . '">';
+        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
         foreach ($rows as $numRow => $row) {
             if ($row[$titleParam] == '')
                 $title = 'title_ua';
