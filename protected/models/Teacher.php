@@ -77,6 +77,7 @@ class Teacher extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'user'=>array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'modules'=>array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses'=>array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
@@ -169,26 +170,7 @@ class Teacher extends CActiveRecord
         return parent::model($className);
     }
 
-
-    public function responseDataProvider(){
-        $responsesIdList = Response::getTeachersResponseId($this->user_id);
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'response';
-        $criteria->order = 'date DESC';
-        $criteria->condition = "is_checked = 1";
-        $criteria->addInCondition('id', $responsesIdList);
-
-        $dataProvider = new CActiveDataProvider('Response');
-        $dataProvider->criteria = $criteria;
-        $dataProvider->setPagination(array(
-                'pageSize' => 5,
-            )
-        );
-        return $dataProvider;
-    }
-
-    public static function setAverageTeacherRatings($teacherId, $responsesIdList)
+     public static function setAverageTeacherRatings($teacherId, $responsesIdList)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $teacherId));
 

@@ -188,15 +188,6 @@ class TeachersController extends Controller
         //}
     }
 
-    public function getTitles($courses)
-    {
-        $titles = [];
-        for ($i = 0; $i < count($courses); $i++) {
-            $titles[$i]['title'] = Course::getCourseName($courses[$i]["course"]);
-        }
-        return $titles;
-    }
-
     private function renderIndex($teacherLetter)
     {
 

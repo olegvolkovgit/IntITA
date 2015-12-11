@@ -210,18 +210,18 @@ class StudentRegController extends Controller
             throw new IntItaException('That not your user');
         $letter = new Letters();
 
-        if(!$dataProvider = StudentReg::getDataProfile($idUser))
+        if(!$dataProvider = $model->getDataProfile())
             throw new CHttpException(403, Yii::t('error', '0612'));
 
-        $sentLettersProvider = Letters::getSentLettersData($idUser);
+        $sentLettersProvider = $model->getSentLettersData();
 
-        $receivedLettersProvider = Letters::getReceivedLettersData($idUser);
+        $receivedLettersProvider = $model->getReceivedLettersData();
 
-        $paymentsCourses = PayCourses::getPaymentsCourses($idUser);
+        $paymentsCourses = $model->getPaymentsCourses();
 
-        $paymentsModules = Modules::getPaymentsModules($idUser);
+        $paymentsModules = $model->getPaymentsModules();
 
-        $markProvider = StudentReg::getMarkProviderData($idUser);
+        $markProvider = $model->getMarkProviderData();
 
 
         $this->render("studentprofile", array(

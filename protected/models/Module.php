@@ -631,10 +631,10 @@ class Module extends CActiveRecord implements IBillableObject
         else return $title;
     }
 
-    public static function getCourseOfModule($moduleId)
+    public function getCourseOfModule()
     {
-        if (CourseModules::model()->exists('id_module=:id', array(':id' => $moduleId))) {
-            $courseId = CourseModules::model()->find('id_module =' . $moduleId)->id_course;
+        if (CourseModules::model()->exists('id_module=:id', array(':id' => $this->module_ID))) {
+            $courseId = CourseModules::model()->find('id_module =' . $this->module_ID)->id_course;
             return $courseId;
         } else {
             return false;
