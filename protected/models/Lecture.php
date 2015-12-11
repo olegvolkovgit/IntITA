@@ -323,10 +323,6 @@ class Lecture extends CActiveRecord
             return false;
         }
         if (!($lecture->isFree)) {
-            if (StudentReg::getRoleString($user) == 'викладач') {
-                if (Teacher::isTeacherAuthorModule($user, $lecture->idModule))
-                    return true;
-            }
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
                 return false;
