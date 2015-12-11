@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 15:46
+ * @var $total integer
  */
 ?>
 <?php if (isset($_GET['selector'])) $select = $_GET['selector']; else $select = 'all'; ?>
@@ -17,7 +14,7 @@
                 <div class='sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
                         href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior')); ?>">
                         <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo count(Course::model()->findAllByAttributes(array('level' => array('junior', 'strong junior', 'intern'), 'language' => 'ua', 'cancelled' => 0))); ?></span>
+                        class='courseNum'><?php echo Course::juniorCoursesCount(); ?></span>
                 </div>
             </td>
 
@@ -30,7 +27,7 @@
                 <div class='sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
                         href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle')); ?>">
                         <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo Course::model()->count('level=:level and language=:lang and cancelled=0', array(':level' => 'middle', ':lang' => 'ua')); ?></span>
+                        class='courseNum'><?php echo Course::middleCoursesCount(); ?></span>
                 </div>
             </td>
 
@@ -43,7 +40,7 @@
                 <div class='sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
                         href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior')); ?>">
                         <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo Course::model()->count('level=:level and language=:lang and cancelled=0', array(':level' => 'senior', ':lang' => 'ua')); ?></span>
+                        class='courseNum'><?php echo Course::seniorCoursesCount(); ?></span>
                 </div>
             </td>
 

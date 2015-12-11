@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 08.09.2015
- * Time: 23:25
- */
 
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,
@@ -21,4 +15,4 @@ $this->widget('application.components.ColumnListView', array(
     ),
 ));
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>

@@ -101,8 +101,6 @@ class Graduate extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -138,7 +136,7 @@ class Graduate extends CActiveRecord
 
     public static function getGraduateBySelector($selector)
     {
-        $criteria= new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'graduate';
         if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
         if ($selector == 'date') $criteria->order = 'graduate_date DESC';
@@ -154,13 +152,12 @@ class Graduate extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function getGraduateName($id){
+    public function name(){
         if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en'  && Graduate::model()->findByPk($id)->last_name_en != ''
-                && Graduate::model()->findByPk($id)->last_name_en != ''){
-                return Graduate::model()->findByPk($id)->last_name_en."&nbsp;".Graduate::model()->findByPk($id)->first_name_en;
+            if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != '' && $this->last_name_en != ''){
+                return $this->last_name_en."&nbsp;".$this->first_name_en;
             }
         }
-        return Graduate::model()->findByPk($id)->last_name."&nbsp;".Graduate::model()->findByPk($id)->first_name;
+        return $this->last_name."&nbsp;".$this->first_name;
     }
 }

@@ -86,9 +86,7 @@ class PayCourses extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
+    	$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('id_course',$this->id_course);
@@ -207,18 +205,6 @@ class PayCourses extends CActiveRecord
         }
     }
 
-    public static function getPaymentsCourses($idUser)
-    {
-        $coursesCriteria = new CDbCriteria;
-        $coursesCriteria->alias = 'pay_courses';
-        $coursesCriteria->addCondition('id_user=' . $idUser);
 
-        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
-            'criteria' => $coursesCriteria,
-            'pagination' => false,
-        ));
-
-        return $paymentsCourses;
-    }
 
 }

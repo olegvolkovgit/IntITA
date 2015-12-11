@@ -243,4 +243,14 @@ class CommonHelper {
         }
         return $level;
     }
+
+    public static function getHideIp($ip)
+    {
+        $pos = strripos($ip, '.');
+        $arr = str_split($ip);
+        for ($i = 0; $i < $pos; $i++) {
+            if ($arr[$i] !== '.') $arr[$i] = '*';
+        }
+        return implode("", $arr);
+    }
 }

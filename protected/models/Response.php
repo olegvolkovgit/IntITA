@@ -90,8 +90,6 @@ class Response extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -191,39 +189,30 @@ class Response extends CActiveRecord
         }
         return $bbtext;
     }
-    public static function getTeachersResponseId($id){
-        $teacherResponse = Yii::app()->db->createCommand()
-            ->select('id_response')
-            ->from('teacher_response')
-            ->where('id_teacher=:id', array(':id'=>$id))
-            ->queryAll();
-        $result = [];
-        for ($i = 0, $count = count($teacherResponse); $i < $count; $i++ ){
-            $result[$i] = $teacherResponse[$i]["id_response"];
-        }
-        return $result;
+
+
+
+    public function isPublish(){
+        return ($this->is_checked)?'опубліковано':'прихований';
     }
 
-    public static function isPublish($idResponse){
-        return (Response::model()->findByPk($idResponse)->is_checked)?'опубліковано':'прихований';
-    }
-
-    public static function setTeacherRating($response){
+    public function setTeacherRating(){
         $teacherId = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('teacher_response')
-            ->where('id_response=:id', array(':id'=>$response->id))
+            ->where('id_response=:id', array(':id'=>$this->id))
             ->queryScalar();
 
-        $responsesIdList = Response::getTeachersResponseId($teacherId);
+        $user = StudentReg::model()->findByPk($teacherId);
+        $responsesIdList = $user->getTeachersResponseId();
         Teacher::setAverageTeacherRatings($teacherId, $responsesIdList);
     }
 
-    public static function getResponseAboutTeacherName($idResponse){
+    public function getResponseAboutTeacherName(){
         $teacherId = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('teacher_response')
-            ->where('id_response=:id', array(':id'=>$idResponse))
+            ->where('id_response=:id', array(':id'=>$this->id))
             ->queryScalar();
 
         if ($teacherId) {

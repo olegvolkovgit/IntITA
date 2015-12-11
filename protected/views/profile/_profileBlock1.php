@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.05.2015
- * Time: 16:52
- */
+/* @var $model Teacher*/
 if ($editMode){
     ?>
     <script type="text/javascript">
@@ -57,8 +52,9 @@ if ($editMode){
                 <?php }?>
             </td>
             <td>
-                <div class="TeacherProfilename"> <?php echo Teacher::getTeacherFirstName($model->teacher_id)." ".
-                        Teacher::getTeacherLastName($model->teacher_id);?></div>
+                <div class="TeacherProfilename">
+                    <?php echo $model->firstName()." ".$model->lastName();?>
+                </div>
                 <div class="TeacherProfiletitles">
                     <?php echo Yii::t('teacher', '0065') ?>
                 </div>
@@ -74,9 +70,7 @@ if ($editMode){
                     }?>
                     </p>
                 </div>
-                <?php
-                $this->renderPartial('_courses', array('id' => $model->teacher_id));
-                ?>
+                <?php $this->renderPartial('_courses', array('model' => $model));?>
 
                 <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
                     <p>

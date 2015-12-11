@@ -26,7 +26,7 @@
                             <?php echo $data->getSkipTaskQuestion(); ?>
                         </div>
                     </form>
-                    <div ng-controller="lectureQuizCtrl">
+                    <div ng-controller="skipTaskCtrl">
                         <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                                 ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
                             <?php echo Yii::t('lecture','0089'); ?>
