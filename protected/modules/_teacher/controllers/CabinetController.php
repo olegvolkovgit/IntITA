@@ -39,7 +39,7 @@ class CabinetController extends TeacherCabinetController
 
         switch($page){
             case 'trainer' :
-                $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer($teacher);
+                $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer();
                 return $this->renderPartial('_newPlainTask',array('plainTasksAnswers' => $plainTasksAnswers));
 //                $params = TrainerStudent::getStudentsByTrainer($teacher);
                 break;
@@ -193,7 +193,14 @@ class CabinetController extends TeacherCabinetController
         }
     }
     public function actionLoadDashboard($user){
-        $this->renderPartial('_dashboard', array('user' => $user));
+
+        $model = StudentReg::model()->findByPk($user);
+
+        $teacher = $model->teacher;
+
+        $this->rolesDashboard($teacher,$model);
+
+//        $this->renderPartial('_page_wrapper', array('model' => $model,'teacher' => $teacher),false,true);
     }
 
     public function actionAccountantPage($user){
@@ -202,6 +209,48 @@ class CabinetController extends TeacherCabinetController
 
     public function actionAdminPage(){
         $this->redirect(Yii::app()->createUrl('/_teacher/admin/index'));
+
+    }
+
+
+    public function rolesDashboard($teacher,$user)
+    {
+
+        $roles = $teacher->roles();
+
+        foreach($roles as $role)
+        {
+            switch($role->getRole())
+            {
+                case 'trainer':
+                      $this->renderPartial('/trainer/_trainerDashboard',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                          'role' => $role,
+                    ));
+                    break;
+
+                case 'author':
+                    $this->renderPartial('/author/_authorDashboard',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                    ));
+                    break;
+                case 'consultant':
+                    $this->renderPartial('/consultant/_consultantDashboard',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                    ));
+                    break;
+                case 'leader':
+                    $this->renderPartial('/leader/_leaderDashboard',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                    ));
+                    break;
+            }
+
+        }
 
     }
 }

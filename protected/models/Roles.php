@@ -147,7 +147,8 @@ class Roles extends CActiveRecord
     //list params for sidebar navigation in admin panel
     public function adminPanelList(Teacher $teacher){
         $list = [];
-        switch($this->title_en){
+
+        switch(strtolower($this->title_en)){
             case 'trainer':
                 $list = $teacher->getTrainees();
                 break;
@@ -164,5 +165,10 @@ class Roles extends CActiveRecord
                 break;
         }
         return $list;
+    }
+
+    public function getRole()
+    {
+        return strtolower($this->title_en);
     }
 }

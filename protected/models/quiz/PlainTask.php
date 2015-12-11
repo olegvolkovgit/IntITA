@@ -138,7 +138,7 @@ class PlainTask extends Quiz
         return $description;
     }
 
-    public static function getPlainTaskAnswersWithoutTrainer($teacher)
+    public static function getPlainTaskAnswersWithoutTrainer()
     {
         $plainTasksAnswers = [];
         $plainTasksArr = Yii::app()->db->createCommand(array(
@@ -147,7 +147,7 @@ class PlainTask extends Quiz
             'join' => 'LEFT JOIN plain_task_answer_teacher
              on plain_task_answer_teacher.id_plain_task_answer = id',
             'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL',
-            'params' => array(':id' => $teacher),
+//            'params' => array(':id' => $teacher),
         ))->queryAll();
 
         if($plainTasksArr)

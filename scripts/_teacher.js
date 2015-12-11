@@ -37,35 +37,36 @@ function loadPage(url,role) {
 }
 
 function fillTrainer(json){
+    clearDashboard();
     container.html(json);
 }
 
 function fillAuthor(json){
-    document.getElementById("dashboard").style.display = "none";
+    clearDashboard();
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillConsultant(json){
-    document.getElementById("dashboard").style.display = "none";
+    clearDashboard();
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillLeader(json){
-    document.getElementById("dashboard").style.display = "none";
+    clearDashboard();
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillAdmin(json){
-    document.getElementById("dashboard").style.display = "none";
+    clearDashboard();
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
 
 function fillAccountant(json){
-    document.getElementById("dashboard").style.display = "none";
+    clearDashboard();
     container.append('Role: ' + json.title + '<br/>')
         .append('Teacher: ' + json.teacher + '</b><br/>');
 }
@@ -116,11 +117,13 @@ function getTeacherUserInfo(url){
 //}
 
 function load(url){
-    document.getElementById("dashboard").style.display = "none";
+
+    clearDashboard();
     $.ajax({
         url: url,
         success: function (data) {
             container = $('#pageContainer');
+
             container.html('');
             container.html(data);
         },
@@ -130,4 +133,10 @@ function load(url){
             location.reload();
         }
     });
+}
+
+function clearDashboard()
+{
+    if(document.getElementById("dashboard"))
+    document.getElementById("dashboard").style.display = "none";
 }
