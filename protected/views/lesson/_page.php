@@ -3,6 +3,8 @@
 if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else {
     if (!$page->video){
         $lessonTab = 1;
+    }else{
+        $lessonTab = 0;
     }
 }
 

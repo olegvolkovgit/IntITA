@@ -79,6 +79,9 @@ class LessonController extends Controller
         } else {
             $teacher = null;
         }
+//        if($lecture->verified && !$editMode) {
+//            $view='indexTemplate';
+//        } else $view='index1';
         if($template==0) $view='index1';
         else $view='indexTemplate';
 
