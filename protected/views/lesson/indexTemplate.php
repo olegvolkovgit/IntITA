@@ -1,11 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 04.12.2015
- * Time: 10:53
- */
-?>
+<? $css_version = 1; ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>

@@ -20,155 +20,156 @@
  */
 class Response extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'response';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'response';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('who, date', 'required'),
-            array('knowledge', 'required', 'message'=>'знання викладача','except'=>'emptyrating'),
-            array('behavior', 'required', 'message'=>'ефективність викладача','except'=>'emptyrating'),
-            array('motivation', 'required', 'message'=>'ставлення викладача до студента','except'=>'emptyrating'),
-            array('text', 'required', 'message'=>Yii::t("response", "0544")),
-			array('who, rate,  is_checked', 'numerical', 'integerOnly'=>true),
-            array('knowledge,behavior,motivation,who_ip','safe'),
-			// The following rule is used by search().
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('who, date', 'required'),
+            array('knowledge', 'required', 'message' => 'знання викладача', 'except' => 'emptyrating'),
+            array('behavior', 'required', 'message' => 'ефективність викладача', 'except' => 'emptyrating'),
+            array('motivation', 'required', 'message' => 'ставлення викладача до студента', 'except' => 'emptyrating'),
+            array('text', 'required', 'message' => Yii::t("response", "0544")),
+            array('who, rate,  is_checked', 'numerical', 'integerOnly' => true),
+            array('knowledge,behavior,motivation,who_ip', 'safe'),
+            // The following rule is used by search().
 
-			array('id, who, date, text, rate, is_checked', 'safe', 'on'=>'search'),
-		);
-	}
+            array('id, who, date, text, rate, is_checked', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'who0' => array(self::BELONGS_TO, 'User', 'who'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'who0' => array(self::BELONGS_TO, 'User', 'who'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'who' => 'Автор відгука',
-			'date' => 'Дата',
-			'text' => 'Відгук',
-			'rate' => 'Оцінка',
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'who' => 'Автор відгука',
+            'date' => 'Дата',
+            'text' => 'Відгук',
+            'rate' => 'Оцінка',
             'is_checked' => 'Перевірено модератором',
-		);
-	}
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('who',$this->who);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('rate',$this->rate);
-        $criteria->compare('knowledge',$this->knowledge);
-        $criteria->compare('behavior',$this->behavior);
-        $criteria->compare('motivation',$this->motivation);
-        $criteria->compare('rate',$this->who_ip);
-        $criteria->compare('is_checked',$this->is_checked);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('who', $this->who);
+        $criteria->compare('date', $this->date, true);
+        $criteria->compare('text', $this->text, true);
+        $criteria->compare('rate', $this->rate);
+        $criteria->compare('knowledge', $this->knowledge);
+        $criteria->compare('behavior', $this->behavior);
+        $criteria->compare('motivation', $this->motivation);
+        $criteria->compare('rate', $this->who_ip);
+        $criteria->compare('is_checked', $this->is_checked);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-            'pagination'=>array(
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
                 'pageSize' => '50',
             ),
-            'sort'=>array(
-                'defaultOrder'=>array(
-                    'date'=>CSort::SORT_DESC,
+            'sort' => array(
+                'defaultOrder' => array(
+                    'date' => CSort::SORT_DESC,
                 ),
             ),
-		));
-	}
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Response the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Response the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-    public function bbcode_to_html($bbtext){
+    public function bbcode_to_html($bbtext)
+    {
         $bbtags = array(
-            '[heading1]' => '<h1>','[/heading1]' => '</h1>',
-            '[heading2]' => '<h2>','[/heading2]' => '</h2>',
-            '[heading3]' => '<h3>','[/heading3]' => '</h3>',
-            '[h1]' => '<h1>','[/h1]' => '</h1>',
-            '[h2]' => '<h2>','[/h2]' => '</h2>',
-            '[h3]' => '<h3>','[/h3]' => '</h3>',
+            '[heading1]' => '<h1>', '[/heading1]' => '</h1>',
+            '[heading2]' => '<h2>', '[/heading2]' => '</h2>',
+            '[heading3]' => '<h3>', '[/heading3]' => '</h3>',
+            '[h1]' => '<h1>', '[/h1]' => '</h1>',
+            '[h2]' => '<h2>', '[/h2]' => '</h2>',
+            '[h3]' => '<h3>', '[/h3]' => '</h3>',
 
-            '[paragraph]' => '<p>','[/paragraph]' => '</p>',
-            '[para]' => '<p>','[/para]' => '</p>',
-            '[p]' => '<p>','[/p]' => '</p>',
-            '[left]' => '<p style="text-align:left;">','[/left]' => '</p>',
-            '[right]' => '<p style="text-align:right;">','[/right]' => '</p>',
-            '[center]' => '<p style="text-align:center;">','[/center]' => '</p>',
-            '[justify]' => '<p style="text-align:justify;">','[/justify]' => '</p>',
+            '[paragraph]' => '<p>', '[/paragraph]' => '</p>',
+            '[para]' => '<p>', '[/para]' => '</p>',
+            '[p]' => '<p>', '[/p]' => '</p>',
+            '[left]' => '<p style="text-align:left;">', '[/left]' => '</p>',
+            '[right]' => '<p style="text-align:right;">', '[/right]' => '</p>',
+            '[center]' => '<p style="text-align:center;">', '[/center]' => '</p>',
+            '[justify]' => '<p style="text-align:justify;">', '[/justify]' => '</p>',
 
-            '[bold]' => '<span style="font-weight:bold;">','[/bold]' => '</span>',
-            '[italic]' => '<span style="font-weight:bold;">','[/italic]' => '</span>',
-            '[underline]' => '<span style="text-decoration:underline;">','[/underline]' => '</span>',
-            '[b]' => '<span style="font-weight:bold;">','[/b]' => '</span>',
-            '[i]' => '<span style="font-weight:bold;">','[/i]' => '</span>',
-            '[u]' => '<span style="text-decoration:underline;">','[/u]' => '</span>',
+            '[bold]' => '<span style="font-weight:bold;">', '[/bold]' => '</span>',
+            '[italic]' => '<span style="font-weight:bold;">', '[/italic]' => '</span>',
+            '[underline]' => '<span style="text-decoration:underline;">', '[/underline]' => '</span>',
+            '[b]' => '<span style="font-weight:bold;">', '[/b]' => '</span>',
+            '[i]' => '<span style="font-weight:bold;">', '[/i]' => '</span>',
+            '[u]' => '<span style="text-decoration:underline;">', '[/u]' => '</span>',
             '[break]' => '<br>',
             '[br]' => '<br>',
             '[newline]' => '<br>',
             '[nl]' => '<br>',
 
-            '[unordered_list]' => '<ul>','[/unordered_list]' => '</ul>',
-            '[list]' => '<ul>','[/list]' => '</ul>',
-            '[ul]' => '<ul>','[/ul]' => '</ul>',
+            '[unordered_list]' => '<ul>', '[/unordered_list]' => '</ul>',
+            '[list]' => '<ul>', '[/list]' => '</ul>',
+            '[ul]' => '<ul>', '[/ul]' => '</ul>',
 
-            '[ordered_list]' => '<ol>','[/ordered_list]' => '</ol>',
-            '[ol]' => '<ol>','[/ol]' => '</ol>',
-            '[list_item]' => '<li>','[/list_item]' => '</li>',
-            '[li]' => '<li>','[/li]' => '</li>',
+            '[ordered_list]' => '<ol>', '[/ordered_list]' => '</ol>',
+            '[ol]' => '<ol>', '[/ol]' => '</ol>',
+            '[list_item]' => '<li>', '[/list_item]' => '</li>',
+            '[li]' => '<li>', '[/li]' => '</li>',
 
-            '[*]' => '<li>','[/*]' => '</li>',
-            '[code]' => '<code>','[/code]' => '</code>',
-            '[preformatted]' => '<pre>','[/preformatted]' => '</pre>',
-            '[pre]' => '<pre>','[/pre]' => '</pre>',
-            '[list=1]'=>'<ul>'
+            '[*]' => '<li>', '[/*]' => '</li>',
+            '[code]' => '<code>', '[/code]' => '</code>',
+            '[preformatted]' => '<pre>', '[/preformatted]' => '</pre>',
+            '[pre]' => '<pre>', '[/pre]' => '</pre>',
+            '[list=1]' => '<ul>'
         );
 
         $bbtext = str_ireplace(array_keys($bbtags), array_values($bbtags), $bbtext);
@@ -184,23 +185,23 @@ class Response extends CActiveRecord
             "/\[image_right\]([^[]*)\[\/image_right\]/i" => "<img src=\"$1\" alt=\" \" class=\"img_right\" />",
         );
 
-        foreach($bbextended as $match=>$replacement){
+        foreach ($bbextended as $match => $replacement) {
             $bbtext = preg_replace($match, $replacement, $bbtext);
         }
         return $bbtext;
     }
 
-
-
-    public function isPublish(){
-        return ($this->is_checked)?'опубліковано':'прихований';
+    public function isPublish()
+    {
+        return ($this->is_checked) ? 'опубліковано' : 'прихований';
     }
 
-    public function setTeacherRating(){
+    public function setTeacherRating()
+    {
         $teacherId = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('teacher_response')
-            ->where('id_response=:id', array(':id'=>$this->id))
+            ->where('id_response=:id', array(':id' => $this->id))
             ->queryScalar();
 
         $user = StudentReg::model()->findByPk($teacherId);
@@ -208,11 +209,12 @@ class Response extends CActiveRecord
         Teacher::setAverageTeacherRatings($teacherId, $responsesIdList);
     }
 
-    public function getResponseAboutTeacherName(){
+    public function getResponseAboutTeacherName()
+    {
         $teacherId = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('teacher_response')
-            ->where('id_response=:id', array(':id'=>$this->id))
+            ->where('id_response=:id', array(':id' => $this->id))
             ->queryScalar();
 
         if ($teacherId) {
@@ -222,11 +224,12 @@ class Response extends CActiveRecord
         }
     }
 
-    public static function getTeacherId($idResponse){
+    public function getTeacherId()
+    {
         $teacherId = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('teacher_response')
-            ->where('id_response=:id', array(':id'=>$idResponse))
+            ->where('id_response=:id', array(':id' => $this->id))
             ->queryScalar();
         return $teacherId;
     }

@@ -50,13 +50,13 @@ class Module extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('status','required'),
+            array('status', 'required'),
             array('language, title_ua, level', 'required'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
             array('module_price', 'length', 'max' => 10),
-            array('module_number','unique','message'=>'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
+            array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
             array('language', 'length', 'max' => 6),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
@@ -174,7 +174,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getDuration()
     {
-       return $this->getModuleDuration($this);
+        return $this->getModuleDuration();
     }
 
     public function getHoursTermination($num)
@@ -300,7 +300,6 @@ class Module extends CActiveRecord implements IBillableObject
                 ))->order;
             } else {
                 return $idModule;
-                //throw new CHttpException(404, 'Модуля з таким псевдонімом немає.');
             }
         }
     }
@@ -330,33 +329,31 @@ class Module extends CActiveRecord implements IBillableObject
     {
         $model = Module::model()->findByPk($idModule);
 
-        $lesson = Module::getModuleDuration($model) * 4; //умножаем на уроки в день
+        $lesson = $model->getModuleDuration() * 4; //умножаем на уроки в день
 
         return $lesson;
 
     }
 
-    private static function getModuleDuration($module)
+    private function getModuleDuration()
     {
-        $hours = ($module->hours_in_day != 0) ? $module->hours_in_day : 3;
-        $days = ($module->days_in_week != 0) ? $module->days_in_week : 2;
+        $hours = ($this->hours_in_day != 0) ? $this->hours_in_day : 3;
+        $days = ($this->days_in_week != 0) ? $this->days_in_week : 2;
 
         return round($hours * $days);
     }
 
-    public static function getStatusName($status)
+    public function statusTitle()
     {
-        if($status == 0) return 'В розробці';
-        if($status == 1) return 'Розроблений';
+        if ($this->status == 0) return 'в розробці';
+        if ($this->status == 1) return 'готовий';
         else return false;
-
-
     }
 
-    public function getCancelledName($status)
+    public function cancelledTitle()
     {
-        if($status == 0) return 'Не Видалений';
-        if($status == 1) return 'Видалений';
+        if ($this->cancelled == 0) return 'доступний';
+        if ($this->cancelled == 1) return 'видалений';
         else return false;
     }
 
@@ -397,7 +394,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function moduleAccessStyle($data)
     {
-        $user=Yii::app()->user->getId();
+        $user = Yii::app()->user->getId();
         if (Yii::app()->user->isGuest) {
             return 'disableModuleStyle';
         }
@@ -408,7 +405,7 @@ class Module extends CActiveRecord implements IBillableObject
             if (Teacher::isTeacherAuthorModule($user, $data->moduleInCourse->module_ID))
                 return 'availableModuleStyle';
         }
-        if(PayCourses::model()->checkCoursePermission($user, $data->id_course, array('read'))){
+        if (PayCourses::model()->checkCoursePermission($user, $data->id_course, array('read'))) {
             switch (Module::getModuleProgress($data->moduleInCourse->module_ID, $user)[0]) {
                 case 'inline':
                     return 'inlineModuleStyle';
@@ -432,57 +429,57 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
 
-    public static function moduleProgressDescription($data,$value)
+    public static function moduleProgressDescription($data, $value)
     {
-        $user=Yii::app()->user->getId();
-        $time=Module::getAverageModuleDuration($data->moduleInCourse->lesson_count,
+        $user = Yii::app()->user->getId();
+        $time = Module::getAverageModuleDuration($data->moduleInCourse->lesson_count,
             $data->moduleInCourse->hours_in_day,
             $data->moduleInCourse->days_in_week);
         if (Yii::app()->user->isGuest) {
             $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
-                $time.' '.CommonHelper::getDaysTermination($time).$img.'</div>',
+            return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' .
+                $time . ' ' . CommonHelper::getDaysTermination($time) . $img . '</div>',
                 Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID,
                     "idCourse" => $data->id_course)), array('class' => 'disableModule'));
         }
         if (StudentReg::isAdmin()) {
-            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
-                CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+            return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                CommonHelper::getDaysTermination($time) . '</div>', Yii::app()->createUrl("module/index",
                 array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
         }
         if (StudentReg::getRoleString(Yii::app()->user->getId()) == 'викладач') {
             if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $data->moduleInCourse->module_ID))
-                return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
-                    CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+                return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                    CommonHelper::getDaysTermination($time) . '</div>', Yii::app()->createUrl("module/index",
                     array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
         }
 
-        if(PayCourses::model()->checkCoursePermission(Yii::app()->user->getId(), $data->id_course, array('read'))){
-            if(Module::getModuleProgress($data->moduleInCourse->module_ID, $user)){
-                $moduleInfo=Module::getModuleProgress($data->moduleInCourse->module_ID, $user);
+        if (PayCourses::model()->checkCoursePermission(Yii::app()->user->getId(), $data->id_course, array('read'))) {
+            if (Module::getModuleProgress($data->moduleInCourse->module_ID, $user)) {
+                $moduleInfo = Module::getModuleProgress($data->moduleInCourse->module_ID, $user);
                 switch ($moduleInfo[0]) {
                     case 'inline':
                         $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'future.png'));
-                        return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
-                            $time.' '.CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0648').
-                            $img.'</div>', Yii::app()->createUrl("module/index", array("idModule" =>
+                        return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' .
+                            $time . ' ' . CommonHelper::getDaysTermination($time) . '. ' . Yii::t('module', '0648') .
+                            $img . '</div>', Yii::app()->createUrl("module/index", array("idModule" =>
                             $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                         break;
                     case 'inProgress':
                         $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'inProgress.png'));
-                        return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.
-                            $time.' '.CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0650').' '.
-                            $moduleInfo[1].' '.CommonHelper::getDaysTermination($moduleInfo[1]).'. '.
-                            Yii::t('module', '0651').$img.'</div>', Yii::app()->createUrl("module/index",
+                        return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' .
+                            $time . ' ' . CommonHelper::getDaysTermination($time) . '. ' . Yii::t('module', '0650') . ' ' .
+                            $moduleInfo[1] . ' ' . CommonHelper::getDaysTermination($moduleInfo[1]) . '. ' .
+                            Yii::t('module', '0651') . $img . '</div>', Yii::app()->createUrl("module/index",
                             array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                         break;
                     case 'finished':
                         $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'finished.png'));
-                        return CHtml::link($value.'<div class="moduleProgress"><span class="greenFinished">'.
-                            Yii::t('module', '0649').'</span> ('.Yii::t('module', '0650').': <span class="'.
-                            Module::getHoursColor($moduleInfo[1],$time).'">'.$moduleInfo[1].'</span> '.
-                            CommonHelper::getDaysTermination($moduleInfo[1]).' '.Yii::t('module', '0652').' '.
-                            $time.')'.$img.'</div>', Yii::app()->createUrl("module/index", array("idModule" =>
+                        return CHtml::link($value . '<div class="moduleProgress"><span class="greenFinished">' .
+                            Yii::t('module', '0649') . '</span> (' . Yii::t('module', '0650') . ': <span class="' .
+                            Module::getHoursColor($moduleInfo[1], $time) . '">' . $moduleInfo[1] . '</span> ' .
+                            CommonHelper::getDaysTermination($moduleInfo[1]) . ' ' . Yii::t('module', '0652') . ' ' .
+                            $time . ')' . $img . '</div>', Yii::app()->createUrl("module/index", array("idModule" =>
                             $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                         break;
                     default:
@@ -495,10 +492,10 @@ class Module extends CActiveRecord implements IBillableObject
                         )));
                         break;
                 }
-            }else{
+            } else {
                 $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'future.png'));
-                return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
-                    CommonHelper::getDaysTermination($time).'. '.Yii::t('module', '0648').$img.'</div>',
+                return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                    CommonHelper::getDaysTermination($time) . '. ' . Yii::t('module', '0648') . $img . '</div>',
                     Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID,
                         "idCourse" => $data->id_course)));
             }
@@ -506,15 +503,16 @@ class Module extends CActiveRecord implements IBillableObject
 
         $modulePermission = new PayModules();
         if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $data->moduleInCourse->module_ID,
-            array('read'))) {
+            array('read'))
+        ) {
             $img = CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
-                CommonHelper::getDaysTermination($time).' '.$img.'</div>', Yii::app()->createUrl("module/index",
+            return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                CommonHelper::getDaysTermination($time) . ' ' . $img . '</div>', Yii::app()->createUrl("module/index",
                 array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),
                 array('class' => 'disableModule'));
-        }else{
-            return CHtml::link($value.'<div class="moduleProgress">'.Yii::t('module', '0647').': '.$time.' '.
-                CommonHelper::getDaysTermination($time).'</div>', Yii::app()->createUrl("module/index",
+        } else {
+            return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                CommonHelper::getDaysTermination($time) . '</div>', Yii::app()->createUrl("module/index",
                 array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)),
                 array('class' => ''));
         }
@@ -544,11 +542,6 @@ class Module extends CActiveRecord implements IBillableObject
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
     }
 
-    public static function translateLevelUa($module){
-        $level = Module::model()->findByPk($module)->level;
-        return CommonHelper::translateLevelUa($level);
-    }
-
     public static function getTeacherModules($teacher, $modules)
     {
         $result = [];
@@ -564,7 +557,8 @@ class Module extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public function getTitle(){
+    public function getTitle()
+    {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         $moduleTitle = $this->$title;
@@ -586,26 +580,32 @@ class Module extends CActiveRecord implements IBillableObject
         return $moduleTitle;
     }
 
-    public function getLastEnabledLessonOrder()
+    public static function getModuleDurationFormat($countless, $hours, $hInDay, $daysInWeek)
     {
-        $user = Yii::app()->user->getId();
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'lectures';
-        $criteria->addCondition('idModule=' . $this->module_ID . ' and `order`>0');
-        $criteria->order = '`order` ASC';
-        $sortedLectures = Lecture::model()->findAll($criteria);
-
-        $lecturesCount = count($sortedLectures);
-        foreach ($sortedLectures as $lecture) {
-            if (!$lecture->isFinished($user)) {
-                return $lecture->order;
-            }
+        if ($countless == 0) {
+            return '';
         }
-        return $lecturesCount;
+        return ", " . Yii::t('module', '0217') . " - <b>" . round($countless * 7 / ($hInDay * $daysInWeek)) . " " . Yii::t('module', '0218') . "</b> (" . $hInDay . " " . Yii::t('module', '0219') . ", " . $daysInWeek . " " . Yii::t('module', '0220') . ")";
     }
 
-    public function lecturesCount(){
+    public static function getModulePrice($moduleId, $idCourse=0)
+    {
+        if ($idCourse > 0) {
+            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
+                'id_course' => $idCourse))->price_in_course;
+            if ($price <= 0) {
+                $price = Module::model()->findByPk($moduleId)->module_price;
+            }
+        } else {
+            $price = Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule();
+        }
+        if ($price == 0) {
+            return '<span class="colorGreen">' . Yii::t('module', '0421') . '</span>';
+        }
+    }
+
+    public function lecturesCount()
+    {
         return Lecture::model()->count("idModule=$this->module_ID and `order`>0");
     }
 
@@ -633,10 +633,10 @@ class Module extends CActiveRecord implements IBillableObject
         else return $title;
     }
 
-    public function getCourseOfModule()
+    public static function getCourseOfModule($moduleId)
     {
-        if (CourseModules::model()->exists('id_module=:id', array(':id' => $this->module_ID))) {
-            $courseId = CourseModules::model()->find('id_module =' . $this->module_ID)->id_course;
+        if (CourseModules::model()->exists('id_module=:id', array(':id' => $moduleId))) {
+            $courseId = CourseModules::model()->find('id_module =' . $moduleId)->id_course;
             return $courseId;
         } else {
             return false;
@@ -653,12 +653,12 @@ class Module extends CActiveRecord implements IBillableObject
         return Module::model()->findByPk($idModule)->module_number;
     }
 
-    public static function getModuleSumma($moduleId, $idCourse=0)
+    public static function getModuleSumma($moduleId, $idCourse = 0)
     {
         if ($idCourse > 0) {
             $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
                 'id_course' => $idCourse))->price_in_course;
-            if ($price <= 0){
+            if ($price <= 0) {
                 return round(Module::model()->findByPk($moduleId)->module_price);
             } else {
                 return $price;
@@ -679,7 +679,7 @@ class Module extends CActiveRecord implements IBillableObject
                 '<table class="mainPay">
                     <tr>
                     <td class="icoPay"><img class="icoNoCheck" src="' .
-                StaticFilesHelper::createPath('image', 'course', 'wallet.png'). '"><img class="icoCheck" src="' .
+                StaticFilesHelper::createPath('image', 'course', 'wallet.png') . '"><img class="icoCheck" src="' .
                 StaticFilesHelper::createPath('image', 'course', 'checkWallet.png') . '"></td>
                     <td>
                         <table>
@@ -713,7 +713,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getAverageModuleDuration($lesson_count, $hours_in_day, $days_in_week)
     {
-        return round($lesson_count*7 / ($hours_in_day * $days_in_week));
+        return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
     }
 
     public static function getModuleProgress($module_ID, $user)
@@ -726,14 +726,14 @@ class Module extends CActiveRecord implements IBillableObject
             $firstQuiz = LecturePage::getFirstQuiz($firstLectureId);
             $lastQuiz = LecturePage::getLastQuiz($lastLectureId);
         } else {
-            $moduleStatus=array('inline', 0);
+            $moduleStatus = array('inline', 0);
             return $moduleStatus;
         }
         if ($firstQuiz) $startTime = Module::getModuleStartTime($firstQuiz, $user); else $startTime = false;
         if ($lastQuiz) $endTime = Module::getModuleFinishedTime($lastQuiz, $user); else $endTime = false;
 
         if (!$startTime) {
-            $moduleStatus=array('inline', 0);
+            $moduleStatus = array('inline', 0);
             return $moduleStatus;
         }
         if ($startTime && !$endTime) {
@@ -742,16 +742,16 @@ class Module extends CActiveRecord implements IBillableObject
             return $moduleStatus;
         }
         if ($startTime && $endTime) {
-            $days=round((strtotime($endTime)-strtotime($startTime))/86400);
-            $moduleStatus=array('finished', abs($days)+1);
+            $days = round((strtotime($endTime) - strtotime($startTime)) / 86400);
+            $moduleStatus = array('finished', abs($days) + 1);
             return $moduleStatus;
         }
     }
 
     public function firstLectureID()
     {
-        if(isset(Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id))
-            return Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id;
+        if (isset(Lecture::model()->findByAttributes(array('idModule' => $this->module_ID, 'order' => 1))->id))
+            return Lecture::model()->findByAttributes(array('idModule' => $this->module_ID, 'order' => 1))->id;
         else return false;
     }
 
@@ -760,8 +760,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria = new CDbCriteria;
         $criteria->alias = 'lecture';
         $criteria->order = '`order` DESC';
-        $criteria->condition = 'idModule=' . $this->module_ID. ' and `order`>0';
-        if(isset(Lecture::model()->find($criteria)->id))
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id))
             return Lecture::model()->find($criteria)->id;
         else return false;
     }
@@ -804,15 +804,16 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getHoursColor($finishedTime, $averageTime)
     {
-        if($finishedTime <= $averageTime) return 'greenFinished';
+        if ($finishedTime <= $averageTime) return 'greenFinished';
         else return 'redFinished';
     }
 
     //true if $pathString is a module alias
-    public static function checkModuleAlias($pathString){
+    public static function checkModuleAlias($pathString)
+    {
         if (in_array($pathString, array('index', 'saveLesson', 'saveModule', 'unableLesson', 'upLesson',
             'downLesson', 'lecturesUpdate', 'updateModuleAttribute', 'updateModuleImage'
-        ))){
+        ))) {
             return false;
         } else {
             return true;

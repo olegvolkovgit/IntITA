@@ -1,3 +1,4 @@
+<? $css_version = 1; ?>
 <?php
 /**
  * @var $post Module
