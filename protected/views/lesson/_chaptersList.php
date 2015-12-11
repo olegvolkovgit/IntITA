@@ -1,14 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 06.09.2015
- * Time: 18:12
+ * @var $lecture Lecture
  */
-?>
-<?php if(!isset($editMode)) $editMode=1; ?>
+$lecture = Lecture::model()->findByPk($idLecture);
+if(!isset($editMode)) $editMode=1; ?>
 <span class="spoilerLinks" onclick="chapterSpoiler(this);"><span class="spoilerClick" ><span class="spoilerTitle" >
-            <?php echo Lecture::getLectureTitle($idLecture); ?></span>
+            <?php echo $lecture->title(); ?></span>
         <div class="spoilerTriangle" id="spoilerTriangle">(<span><?php echo Yii::t('lecture', '0080') ?></span>
             <span id='trg'>&#9660;</span>)</div></span></span>
 <div class="spoilerBody" id="spoilerBody">

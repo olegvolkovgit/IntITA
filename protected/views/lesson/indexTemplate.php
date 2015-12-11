@@ -36,7 +36,7 @@ if (!isset($idCourse)) $idCourse = 0;
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
-$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
+$finishedLecture = $lecture->isFinished($user);
 ?>
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;

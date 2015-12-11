@@ -1,24 +1,22 @@
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/consultations.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/scripts/bootstrap-datetimepicker/bootstrap/css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'consultations.css') ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', '/bootstrap-datetimepicker/bootstrap/css/bootstrap.css'); ?>">
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', '/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css'); ?>">
 
-<!--<script type="text/javascript" src="--><?php //echo Yii::app()->request->baseUrl; ?><!--/scripts/bootstrap-datetimepicker/bootstrap/js/bootstrap.min.js"></script>-->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ua.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js"></script>
+<script  src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ua.js'); ?>"></script>
+<script  src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js'); ?>"></script>
 
 
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/parseTable.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/showHideCalendarTabs.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'parseTable.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'showHideCalendarTabs.js'); ?>"></script>
 
 <?php
-$this->pageTitle = 'INTITA';
 
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        $lecture->getCourseInfoById($idCourse)['courseTitle'] => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $lecture->getModuleInfoById($idCourse)['moduleTitle'] => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Module::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
         $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
     );
 }else{
