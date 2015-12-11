@@ -1,6 +1,7 @@
 <?php
 /* @var $model StudentReg */
 /* @var $teacher Teacher */
+/* @var $this CabinetController */
 ?>
 <div class="row" id="dashboard">
 

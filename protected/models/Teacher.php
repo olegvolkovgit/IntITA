@@ -81,6 +81,7 @@ class Teacher extends CActiveRecord
             'responses'=>array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
             'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
+            'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
         );
     }
 
