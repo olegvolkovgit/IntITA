@@ -673,6 +673,26 @@ class Course extends CActiveRecord implements IBillableObject
         if ($discount == 0) {
             return '<span id="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span>';
         }
-        return '<span id="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>&nbsp<span id="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><span id="discount"> (' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>';
+        return '<span id="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>&nbsp<span id="coursePriceStatus2">' . PaymentHelper::discountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><span id="discount"> (' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>';
+    }
+
+    public static function juniorCoursesCount(){
+        return count(Course::model()->findAllByAttributes(array(
+            'level' => array('junior', 'strong junior', 'intern'),
+            'language' => 'ua',
+            'cancelled' => 0)
+        ));
+    }
+
+    public static function middleCoursesCount(){
+        return Course::model()->count('level=:level and language=:lang and cancelled=0',
+            array(':level' => 'middle', ':lang' => 'ua')
+        );
+    }
+
+    public static function seniorCoursesCount(){
+        return Course::model()->count('level=:level and language=:lang and cancelled=0',
+            array(':level' => 'senior', ':lang' => 'ua')
+        );
     }
 }

@@ -425,7 +425,7 @@ class LessonController extends Controller
     public function actionNextLecture($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+        if ( $lecture->order < Module::getLessonsCount($idCourse)){
             $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
         }
@@ -436,7 +436,7 @@ class LessonController extends Controller
     public function actionNextLectureNG($lectureId, $idCourse=0)
     {
         $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < $lecture->getModuleInfoById($idCourse)['countLessons']){
+        if ( $lecture->order < Module::getLessonsCount($idCourse)){
             $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse,'template'=>1)));
         }
@@ -621,7 +621,7 @@ class LessonController extends Controller
         else $thisPage = $lastAccessPage;
 
         $passedLecture = Lecture::isPassedLecture($passedPages);
-        $finishedLecture = Lecture::isLectureFinished($user, $id);
+        $finishedLecture = $lecture->isFinished($user);
 
         $page_order=$_GET['page'];
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
@@ -699,11 +699,36 @@ class LessonController extends Controller
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
-        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
-
-        $passedLecture = Lecture::isPassedLecture($passedPages);
-        $finishedLecture = Lecture::isLectureFinished($user, $id);
 
         echo json_encode($passedPages);
+    }
+    public function actionGetAccessLectures()
+    {
+        $lectures = [];
+        $idModule = Yii::app()->request->getPost('module');
+        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($idModule);
+        for ($i = 0; $i < Module::getLessonsCount($idModule); $i++) {
+            $lectureId = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->id;
+            $lectureOrder = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->order;
+            if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) {
+                $lectures[$i]=true;
+            }else{
+                $lectures[$i]=false;
+            }
+        }
+        echo json_encode($lectures);
+    }
+    public function actionSaveFormulaImage()
+    {
+        $imageUrl= $_POST['imageUrl'];
+
+        $path = StaticFilesHelper::createLectureImagePath();
+        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $filename = md5(date('YmdHis')) . '.gif';
+        $file = $dir . $filename;
+        $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
+
+        copy($imageUrl,$file);
+        echo $link;
     }
 }

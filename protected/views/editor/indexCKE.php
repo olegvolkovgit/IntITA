@@ -3,20 +3,20 @@
 /* @var $page LecturePage */
 /* @var $lecture Lecture */
 /* @var $lectureElement LectureElement */
-$module = $module = $lecture->idModule;
-$this->setPageTitle('INTITA');
+$module = $lecture->idModule;
+$lecture = Lecture::model()->findByPk($page->id_lecture);
 if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
-        Lecture::getLectureTitle($page->id_lecture) =>
+        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
+        $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );
 } else {
     $this->breadcrumbs = array(
-        Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module)),
-        Lecture::getLectureTitle($page->id_lecture) =>
+        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
+        $lecture->title() =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
     );
 }
@@ -143,7 +143,6 @@ if ($idCourse != 0) {
                 </div>
                 <div id="addBlock">
                     <?php
-                    $lecture = Lecture::model()->findByPk($page->id_lecture);
                     $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
                         'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
                     ?>

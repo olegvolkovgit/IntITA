@@ -1,9 +1,14 @@
+<?php
+/* @var $course Course*/
+?>
 <div class="titlesBlock" id="titlesBlock">
     <ul>
-    <?php if ($idCourse != 0){?>
+    <?php if ($idCourse != 0){
+        $course  =Course::model()->findByPk($idCourse);
+        ?>
             <li>
                 <?php echo Yii::t('lecture','0070'); ?>
-<span><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle'];?></span>(<?php echo Yii::t('lecture','0071').strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>)
+<span><?php echo $course->getTitle();?></span>(<?php echo Yii::t('lecture','0071').strtoupper($course->language); ?>)
 </li>
             <?php }?>
 <li>
@@ -43,10 +48,12 @@
                 'placement' => 'right',
             ));
         }
-        else echo $lecture-> getTypeInfo()['text'];
+        else {
+            $titleParam = 'title_'.CommonHelper::getLanguage();
+            echo $lecture->idType0->$titleParam;
+        }
         ?>
     </div>
-<!--    <div id="lectionTypeImage"><img src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', $lecture-> getTypeInfo()['image']); ?><!--"></div>-->
 </li>
 <li><div id="subTitle"><?php echo Yii::t('lecture','0075'); ?></div>
     <div id="lectureTimeText">
@@ -81,7 +88,7 @@
     <?php } ?>
     <div id="iconImage">
         <img src="<?php
-        if (Lecture::isLectureFinished($user, $lecture->id, false))
+        if ($lecture->isFinished($user))
         {
             echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png');
         } else {

@@ -54,7 +54,7 @@ $testType = Tests::getTestType($data['id_block']);
                 }
                 ?>
             </table>
-            <div ng-controller="lectureQuizCtrl">
+            <div ng-controller="testCtrl">
                 <button class="testSubmit" ng-click='sendTestAnswer(
                 <?php echo $data['block_order']; ?>,
                 "<?php echo Tests::getTypeButton($testType); ?>",

@@ -21,4 +21,4 @@ $this->widget('application.components.ColumnListView', array(
     ),
 ));
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/SpoilerContent.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>

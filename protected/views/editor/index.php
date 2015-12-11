@@ -4,7 +4,6 @@
 /* @var $lecture Lecture */
 /* @var $lectureElement LectureElement */
 $module = $lecture->idModule;
-$this->setPageTitle('INTITA');
 if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",

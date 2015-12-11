@@ -715,7 +715,7 @@ class StudentReg extends CActiveRecord
     public function getCabinetLink(){
         switch($this->role){
             case '1':
-                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Teacher::getTeacherId($this->id)));
+                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
                 break;
             case '2':
                 return Yii::app()->createUrl('/_accountancy/default/index');
@@ -778,10 +778,11 @@ class StudentReg extends CActiveRecord
         else return null;
     }
 
-    public static function getLink($link,$name)
+    public function getLink($name)
     {
-        if($link)
-            return "<span class='networkLink'>"."<a href='$link' target='_blank'>"."$name"."</a>"."</span>";
+        $title = strtolower($name);
+        if($this->$title)
+            return "<span class='networkLink'>"."<a href=".$this->$title." target='_blank'>".$name."</a>"."</span>";
     }
 
     public static function getUserData($data,$tProfile)

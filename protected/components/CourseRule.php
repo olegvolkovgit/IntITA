@@ -12,6 +12,7 @@ class CourseRule extends CBaseUrlRule
 
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
+
         $path = PathFactory::factory($pathInfo);
         if (is_null($path)) {
             return false;

@@ -191,6 +191,7 @@ class Response extends CActiveRecord
         }
         return $bbtext;
     }
+
     public static function getTeachersResponseId($id){
         $teacherResponse = Yii::app()->db->createCommand()
             ->select('id_response')
@@ -207,6 +208,8 @@ class Response extends CActiveRecord
     public static function isPublish($idResponse){
         return (Response::model()->findByPk($idResponse)->is_checked)?'опубліковано':'прихований';
     }
+
+
 
     public static function setTeacherRating($response){
         $teacherId = Yii::app()->db->createCommand()

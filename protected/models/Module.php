@@ -549,14 +549,6 @@ class Module extends CActiveRecord implements IBillableObject
         return CommonHelper::translateLevelUa($level);
     }
 
-    public static function getDiscountedPrice($price, $discount)
-    {
-        if ($discount == 0) {
-            return $price;
-        }
-        return round($price * (1 - $discount / 100));
-    }
-
     public static function getTeacherModules($teacher, $modules)
     {
         $result = [];
@@ -594,39 +586,37 @@ class Module extends CActiveRecord implements IBillableObject
         return $moduleTitle;
     }
 
-    public static function getModuleDurationFormat($countless, $hours, $hInDay, $daysInWeek)
+    public function getLastEnabledLessonOrder()
     {
-        if ($countless == 0) {
-            return '';
+        $user = Yii::app()->user->getId();
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'lectures';
+        $criteria->addCondition('idModule=' . $this->module_ID . ' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+
+        $lecturesCount = count($sortedLectures);
+        foreach ($sortedLectures as $lecture) {
+            if (!$lecture->isFinished($user)) {
+                return $lecture->order;
+            }
         }
-        return ", " . Yii::t('module', '0217') . " - <b>" . round($countless * 7 / ($hInDay * $daysInWeek)) . " " . Yii::t('module', '0218') . "</b> (" . $hInDay . " " . Yii::t('module', '0219') . ", " . $daysInWeek . " " . Yii::t('module', '0220') . ")";
+        return $lecturesCount;
     }
 
-    public static function getModulePrice($moduleId, $idCourse=0)
-    {
-        if ($idCourse > 0){
-            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
-                'id_course' => $idCourse))->price_in_course;
-            if ($price <= 0){
-                $price = Module::model()->findByPk($moduleId)->module_price;
-            }
-        } else {
-            $price = Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule();
-        }
-        if ($price == 0) {
-            return '<span class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-
-        if ($idCourse > 0) {
-            $result = '<span id="oldPrice">'.($price * Config::getCoeffIndependentModule()). ' ' . Yii::t('module', '0222') . '</span> ';
-            return $result.$price. Yii::t('module', '0222'). '(' . Yii::t('module', '0223') . ')';
-        } else {
-            $result = '<span>' . $price . ' ' . Yii::t('module', '0222') . '</span> ';
-            return $result;
-        }
+    public function lecturesCount(){
+        return Lecture::model()->count("idModule=$this->module_ID and `order`>0");
     }
 
     public static function getModuleTitleParam()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $title;
+    }
+
+    public function titleParam()
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
@@ -711,7 +701,7 @@ class Module extends CActiveRecord implements IBillableObject
                         <tr><td><div>' . Yii::t('course', '0197') . '</div></td></tr>
                         <tr><td>
                             <div class="numbers"><span class="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>
-                            &nbsp<span class="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
+                            &nbsp<span class="coursePriceStatus2">' . PaymentHelper::discountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
                             <span id="discount"> <img style="text-align:right" src="' . StaticFilesHelper::createPath('image', 'course', 'pig.png') . '">(' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>
                             </div>
                         </td></tr>
@@ -728,9 +718,9 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getModuleProgress($module_ID, $user)
     {
-        /*find lecture id*/
-        $firstLectureId = Lecture::getFirstLectureID($module_ID);
-        $lastLectureId = Lecture::getLastLectureID($module_ID);
+        $module = Module::model()->findByPk($module_ID);
+        $firstLectureId = $module->firstLectureID();
+        $lastLectureId = $module->lastLectureID();
 
         if ($firstLectureId && $lastLectureId) {
             $firstQuiz = LecturePage::getFirstQuiz($firstLectureId);
@@ -756,6 +746,24 @@ class Module extends CActiveRecord implements IBillableObject
             $moduleStatus=array('finished', abs($days)+1);
             return $moduleStatus;
         }
+    }
+
+    public function firstLectureID()
+    {
+        if(isset(Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id))
+            return Lecture::model()->findByAttributes(array('idModule' => $this->module_ID,'order' => 1))->id;
+        else return false;
+    }
+
+    public function lastLectureID()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID. ' and `order`>0';
+        if(isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
     }
 
     public static function getModuleStartTime($firstQuiz, $user)
