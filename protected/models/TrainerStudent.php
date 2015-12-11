@@ -174,4 +174,12 @@ class TrainerStudent extends CActiveRecord
         $result = RoleAttribute::formatAttributeList($students, 'project/index', 'id', false);
         return $result;
     }
+
+    public static function getStudentWithoutTrainer($teacher)
+    {
+        $plainTasksAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer($teacher);
+//        var_dump($plainTasksAnswers);die;
+        return $plainTasksAnswers;
+
+    }
 }

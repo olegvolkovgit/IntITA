@@ -106,46 +106,54 @@ class SkipTaskMarks extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	public static function isTaskDone($user, $idTask)
-	{
-		return SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
-			array(':user' => $user, ':task' => $idTask));
-	}
-	public static function marksAnswer($quizId,$answers)
-	{
-		$isDone = true;
-		$mark = 0;
-		$skipTask = SkipTask::model()->findByAttributes(array('condition' => $quizId));
-		$skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
-		usort($skipTaskAnswers, function($a, $b)
-		{
-			return strcmp($a->answer_order, $b->answer_order);
-		});
-		for($i = 0;$i < count($skipTaskAnswers);$i++)
-		{
-			$answer = $answers[$i][0];
-			$taskAnswer = $skipTaskAnswers[$i]->answer;
-			if($answers[$i][2] == 1)
-			{
-				$answer = mb_convert_case($answer, MB_CASE_UPPER, "UTF-8");
-				$taskAnswer = mb_convert_case($taskAnswer, MB_CASE_UPPER, "UTF-8");
-			}
-			if(strcmp($answer,$taskAnswer) != 0)
-			{
-				$mark= 0;
-				$isDone = false;
-				break;
-			}
-			else
-			{
-				$mark = 1;
-			}
-		}
-		$skipTaskMarks = new SkipTaskMarks();
-		$skipTaskMarks->mark = $mark;
-		$skipTaskMarks->user =(int)Yii::app()->user->id;
-		$skipTaskMarks->id_task = $skipTask->id;
-		$skipTaskMarks->save();
-		return $isDone;
-	}
+
+    public static function isTaskDone($user, $idTask)
+    {
+        return SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
+            array(':user' => $user, ':task' => $idTask));
+    }
+
+    public static function marksAnswer($quizId,$answers)
+    {
+
+        $isDone = true;
+        $mark = 0;
+        $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quizId));
+        $skipTaskAnswers = SkipTask::model()->findByAttributes(array('condition' => $quizId))->skipTaskAnswers;
+
+        usort($skipTaskAnswers, function($a, $b)
+        {
+            return strcmp($a->answer_order, $b->answer_order);
+        });
+
+        for($i = 0;$i < count($skipTaskAnswers);$i++)
+        {
+            $answer = $answers[$i][0];
+            $taskAnswer = $skipTaskAnswers[$i]->answer;
+            if($answers[$i][2] == 1)
+            {
+                $answer = mb_convert_case($answer, MB_CASE_UPPER, "UTF-8");
+                $taskAnswer = mb_convert_case($taskAnswer, MB_CASE_UPPER, "UTF-8");
+            }
+
+            if(strcmp($answer,$taskAnswer) != 0)
+            {
+                $mark= 0;
+                $isDone = false;
+                break;
+            }
+            else
+            {
+                $mark = 1;
+            }
+        }
+        $skipTaskMarks = new SkipTaskMarks();
+        $skipTaskMarks->mark = $mark;
+        $skipTaskMarks->user =(int)Yii::app()->user->id;
+        $skipTaskMarks->id_task = $skipTask->id;
+        $skipTaskMarks->save();
+
+        return $isDone;
+
+    }
 }

@@ -24,6 +24,7 @@
             <?php
             if($model->isAdmin()){?>
                 <li>
+
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
                         array('user' => $model->id)); ?>')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>

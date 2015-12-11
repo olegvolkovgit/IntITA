@@ -83,7 +83,8 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
-            'lectures' => array(self::HAS_MANY, 'Lecture','idModule')
+            'lectures' => array(self::HAS_MANY, 'Lecture','idModule'),
+            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)'),
         );
     }
 
@@ -817,5 +818,10 @@ class Module extends CActiveRecord implements IBillableObject
         }
     }
 
+    public static function getTeacherByModule($idModule)
+    {
+        $module = Module::model()->findByPk($idModule);
+        return $module->teacher;
+    }
 
 }

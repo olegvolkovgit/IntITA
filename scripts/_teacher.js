@@ -1,32 +1,31 @@
-function loadPage(url) {
+function loadPage(url,role) {
+    var userRole = role.toLowerCase();
     $.ajax({
         url: url,
-        dataType: "json",
-        success: function (json) {
+        success: function (data) {
             container = $('#pageContainer');
             container.html('');
-
-            switch(json.title){
+            switch(userRole){
                 case 'trainer':
-                    fillTrainer(json);
+                    fillTrainer(data);
                     break;
                 case 'consultant':
-                    fillConsultant(json);
+                    fillConsultant(data);
                     break;
                 case 'author':
-                    fillAuthor(json);
+                    fillAuthor(data);
                     break;
                 case 'leader':
-                    fillLeader(json);
+                    fillLeader(data);
                     break;
                 case 'accountant':
-                    fillAccountant(json);
+                    fillAccountant(data);
                     break;
                 case 'admin':
-                    fillAdmin(json);
+                    fillAdmin(data);
                     break;
                 case 'dashboard':
-                    fillDashboard(json);
+                    fillDashboard(data);
             }
         },
         error: function () {
@@ -38,13 +37,7 @@ function loadPage(url) {
 }
 
 function fillTrainer(json){
-    document.getElementById("dashboard").style.display = "none";
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/><br/><br/>');
-    var params = json.params;
-    params.forEach(function(param, i, params) {
-        container.append(i + ".Student: " + param.id + "<br>");
-    });
+    container.html(json);
 }
 
 function fillAuthor(json){

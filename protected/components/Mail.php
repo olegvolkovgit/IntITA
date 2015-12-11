@@ -114,7 +114,7 @@ class Mail {
     {
         if($pay instanceof Course){
             $id = $pay->course_ID;
-            $link = Yii::app()->createUrl('course/index', array('id' => $pay->course_ID));
+            $link = Config::getBaseUrl() . Yii::app()->createUrl('course/index', array('id' => $pay->course_ID));
             $theme = 'Оплата курсу';
             $access = 'курсу';
         }

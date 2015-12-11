@@ -258,11 +258,6 @@ class Course extends CActiveRecord implements IBillableObject
         echo ' модул' . $term;
     }
 
-    public function getCourseAlias($id)
-    {
-        return $this->findByPk($id)->alias;
-    }
-
     public function findCourseIDByAlias($alias)
     {
         return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;

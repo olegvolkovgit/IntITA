@@ -109,6 +109,7 @@ function sendSkipTaskAnswer(id){
         answers.push(arr);
     }
     }
+
     var url = "/skipTask/saveSkipAnswer";
     $.ajax({
         type: "POST",
@@ -122,16 +123,23 @@ function sendSkipTaskAnswer(id){
                 $("#mydialog2").dialog().dialog("open");
                 $("#mydialog2").parent().css('border', '4px solid #339900');
             }
-            else
+            else if(response == 'lastPage')
             {
-                jQuery('#skipTaskCancel').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-                $("#skipTaskCancel").dialog().dialog("open");
-                $("#skipTaskCancel").parent().css('border', '4px solid #cc0000');
+                jQuery('#dialogNextLecture').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                $("#dialogNextLecture").dialog().dialog("open");
+                $("#dialogNextLecture").parent().css('border', '4px solid #339900');
+            }
+            else if(response == 'not done')
+            {
+                jQuery('#mydialog3').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
+                $("#mydialog3").dialog().dialog("open");
+                $("#mydialog3").parent().css('border', '4px solid #cc0000');
                 return false;
             }
         }
     });
 
 }
+
 
 

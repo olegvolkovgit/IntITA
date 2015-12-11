@@ -36,9 +36,12 @@ class CabinetController extends TeacherCabinetController
     {
         $page = strtolower($page);
         $params = [];
+
         switch($page){
             case 'trainer' :
-                $params = TrainerStudent::getStudentsByTrainer($teacher);
+                $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer($teacher);
+                return $this->renderPartial('_newPlainTask',array('plainTasksAnswers' => $plainTasksAnswers));
+//                $params = TrainerStudent::getStudentsByTrainer($teacher);
                 break;
             case 'consultant':
                 break;
@@ -164,6 +167,31 @@ class CabinetController extends TeacherCabinetController
         echo json_encode($jsonObj);
     }
 
+    public function actionAddConsultant($id)
+    {
+
+        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
+
+        if(!$plainTaskAnswer)
+            throw new CHttpException(404,'Page not found');
+
+        return $this->renderPartial('/cabinet/_addConsult',
+            array(
+            'plainTaskAnswer' => $plainTaskAnswer));
+    }
+
+    public function actionAssignedConsultant()
+    {
+        if (isset($_POST['arr'])) {
+            //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
+            $idPlainTaskAnswer = $_POST['arr'][0];
+            $consult = $_POST['arr'][1];
+
+            if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
+                throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
+
+        }
+    }
     public function actionLoadDashboard($user){
         $this->renderPartial('_dashboard', array('user' => $user));
     }
@@ -174,5 +202,6 @@ class CabinetController extends TeacherCabinetController
 
     public function actionAdminPage(){
         $this->redirect(Yii::app()->createUrl('/_teacher/admin/index'));
+
     }
 }

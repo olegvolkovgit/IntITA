@@ -145,4 +145,32 @@ class PlainTaskAnswer extends CActiveRecord
             ->queryAll();
         return $results;
     }
+
+    public function getModule()
+    {
+        return  Module::model()->findByPk(Yii::app()->db->createCommand()
+            ->select('idModule')
+            ->from('plain_task')
+            ->where('plain_task.id = :id',array(':id' => $this->id_plain_task))
+            ->join('lecture_element','lecture_element.id_block = block_element')
+            ->join('lectures','lectures.id = lecture_element.id_lecture')
+            ->queryRow());
+    }
+
+    public function getTrainersByAnswer()
+    {
+        $module = $this->getModule();
+
+        $teachers = Module::getTeacherByModule($module->module_ID);
+
+        return $teachers;
+    }
+
+    public static function assignedConsult($idPlainTaskAnswer,$consult)
+    {
+        $result = Yii::app()->db->createCommand()
+            ->insert('plain_task_answer_teacher',
+            array('id_plain_task_answer'=>$idPlainTaskAnswer,'id_teacher'=>$consult));
+        return $result;
+    }
 }
