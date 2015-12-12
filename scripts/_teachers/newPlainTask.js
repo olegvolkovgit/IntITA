@@ -56,8 +56,10 @@ function getData(data)
     return result;
 }
 
-fillContainer()
+function fillContainer(data)
 {
+    container = $('#pageContainer');
+
     container.html('');
     container.html(data);
 }
