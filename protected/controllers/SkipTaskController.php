@@ -83,7 +83,8 @@ class SkipTaskController extends Controller{
         $isDone = SkipTaskMarks::marksAnswer($quizId,$answers);
         if(!$isDone){
             echo 'not done';
-        } else {
+        }
+        else {
             $lastPage = LecturePage::checkLastQuiz($quizId);
             if($lastPage)
                 echo 'lastPage';

@@ -2,7 +2,7 @@
  * Created by Quicks on 12.11.2015.
  */
 
-function sendPlainTaskAnswer(idLecture)
+function sendPlainTaskAnswer(idBlock)
 {
     var answer = $('[name=answer]').val();
     if(answer.trim() == '')
@@ -13,9 +13,9 @@ function sendPlainTaskAnswer(idLecture)
     {
         $.ajax({
             type: "POST",
-            url: "/plainTask/saveAnswer",
-            data: {'idLecture':idLecture,'answer':answer},
-            success: function(JSON){
+            url: "/IntITA/plainTask/saveAnswer",
+            data: {'idBlock':idBlock,'answer':answer},
+            success: function(){
                   alert('Ваша відповідь буде оброблена в найближчий час');
 
             }

@@ -1,6 +1,7 @@
 <?php
 /* @var $this ResponseController */
 /* @var $dataProvider CActiveDataProvider */
+/* @var $data Response */
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -30,13 +31,13 @@ $('.search-form form').submit(function(){
         ),
         array(
             'header' => 'Про кого',
-            'value' => 'Response::getResponseAboutTeacherName($data->id)',
+            'value' => '$data->getResponseAboutTeacherName()',
         ),
         'date',
         'text',
         array(
             'header' => 'Статус',
-            'value' => 'Response::isPublish($data->id)',
+            'value' => '$data->isPublish()',
         ),
         'rate',
         array(

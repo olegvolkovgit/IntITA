@@ -1,3 +1,4 @@
+<? $css_version = 1; ?>
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
     'title'=>Yii::t('teachers', '0058').'. '.Yii::t('sharing','0643'),
@@ -9,10 +10,8 @@
 <!-- teachers style -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'hideBlock.js'); ?>"></script>
 <?php
-$this->pageTitle = 'INTITA';
 $post=$dataProvider->getData();
 ?>
-<!-- BD -))) -->
 <div class="subNavBlockTeachers">
     <?php
     $this->breadcrumbs=array(

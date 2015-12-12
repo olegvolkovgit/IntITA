@@ -42,7 +42,7 @@ if (!isset($idCourse)) $idCourse = 0;
 </script>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
-$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
+$finishedLecture = $lecture->isFinished($user);
 ?>
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>

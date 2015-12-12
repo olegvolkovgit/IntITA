@@ -11,6 +11,9 @@
  * @property string $title_en
  * @property string $short
  * @property string $description
+ *
+  * The followings are the available model relations:
+ * @property Lecture[] $lectures
  */
 class LectureType extends CActiveRecord
 {
@@ -35,7 +38,6 @@ class LectureType extends CActiveRecord
 			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			array('short', 'length', 'max'=>5),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, image, title_ua, title_ru, title_en, short, description', 'safe', 'on'=>'search'),
 		);
 	}
@@ -48,6 +50,7 @@ class LectureType extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'lectures' => array(self::HAS_MANY, 'Lectures', 'idType'),
 		);
 	}
 
@@ -81,8 +84,6 @@ class LectureType extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);

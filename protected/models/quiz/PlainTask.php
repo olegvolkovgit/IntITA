@@ -43,6 +43,7 @@ class PlainTask extends Quiz
 		// class name for the relations automatically generated below.
 		return array(
             'lectureElement' => array(self::BELONGS_TO,'LectureElement','block_element'),
+            'lecturePage' => array(self::BELONGS_TO,'LecturePage', 'block_element'),
 		);
 	}
 
@@ -125,15 +126,33 @@ class PlainTask extends Quiz
         }
     }
 
-    public static function getPlainTaskByLectureId($lectureId)
-    {
-        return LectureElement::model()->findByPk($lectureId)->plainTask;
-    }
-
     public function getDescription()
     {
         $description = $this->lectureElement->html_block;
         htmlentities($description);
         return $description;
+    }
+
+    public static function getPlainTaskAnswersWithoutTrainer()
+    {
+        $plainTasksAnswers = [];
+        $plainTasksArr = Yii::app()->db->createCommand(array(
+            'select' => array('*'),
+            'from' => 'plain_task_answer',
+            'join' => 'LEFT JOIN plain_task_answer_teacher
+             on plain_task_answer_teacher.id_plain_task_answer = id',
+            'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL',
+        ))->queryAll();
+
+        if($plainTasksArr)
+        {
+            foreach($plainTasksArr as $plainTask)
+            {
+                $plainAnswer = PlainTaskAnswer::model()->findByPk($plainTask['id']);
+
+                array_push($plainTasksAnswers,$plainAnswer);
+            }
+        }
+        return $plainTasksAnswers;
     }
 }

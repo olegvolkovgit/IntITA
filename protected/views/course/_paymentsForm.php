@@ -4,15 +4,18 @@ $price = $model->getBasePrice();
 ?>
 <div class="paymentsForm">
     <?php
-    if($model->status != 0){
+    if ($model->status != 0){
     $form = $this->beginWidget('CActiveForm', array(
         'action' => '#',
         'id' => 'payments-form',
         'enableAjaxValidation' => false,
     )); ?>
 <?php
-if ($price == 0)
-echo Yii::t('courses', '0147') . ' ' . Course::getMainCoursePrice($price, 30);
+if ($price == 0){
+    echo Yii::t('courses', '0147') . ' ';?>
+    <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
+<?php
+}
 else {
 ?>
 <input value="1" type="hidden" name="schema"/>
@@ -28,7 +31,7 @@ else {
                 'model' => $model,
                 'price' => $price,
                 'discount' => 30
-            ));?>
+            )); ?>
         </div>
 
         <div class="spoilerBody">
@@ -41,7 +44,7 @@ else {
                     'price' => $price,
                     'number' => 2,
                     'discount' => 10
-                ));?>
+                )); ?>
             </div>
 
             <div class="paymentsListOdd">
@@ -53,82 +56,77 @@ else {
                     'price' => $price,
                     'number' => 4,
                     'discount' => 8
-                ));?>
+                )); ?>
             </div>
 
             <div class="paymentsListEven">
                 <input type="radio" class="paymentPlan_value" name="payment" value="4">
-                <?php $this->renderPartial('_monthlyPaymentSchema', array('model' => $model, 'price' => $price));?>
+                <?php $this->renderPartial('_monthlyPaymentSchema', array('model' => $model, 'price' => $price)); ?>
             </div>
 
             <div class="paymentsListOdd">
                 <input type="radio" class="paymentPlan_value" name="payment" value="5">
                 <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                    'year' => 2));?>
+                    'year' => 2)); ?>
             </div>
 
             <div class="paymentsListEven">
                 <input type="radio" class="paymentPlan_value" name="payment" value="6">
                 <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                    'year' => 3));?>
+                    'year' => 3)); ?>
             </div>
 
             <div class="paymentsListOdd">
                 <input type="radio" class="paymentPlan_value" name="payment" value="7">
                 <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                    'year' => 4));?>
+                    'year' => 4)); ?>
             </div>
 
             <div class="paymentsListEven">
                 <input type="radio" class="paymentPlan_value" name="payment" value="8">
                 <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                    'year' => 5));?>
+                    'year' => 5)); ?>
             </div>
         </div>
         <?php }
-        ?>
-            <div class="markAndButton">
-                <div class="markAndButton">
-                    <div class="markCourse">
-                        <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
+        } ?>
+        <div class="markAndButton">
+            <div class="markCourse">
+                <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
                             <span>
                                 <?php echo CommonHelper::getRating($model->rating); ?>
                             </span>
-                    </div>
-                    <div class="startCourse">
-                        <?php
-                        if (Yii::app()->user->isGuest) {
-                            echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
-                                'onclick' => 'openSignIn();'));
-                        } else {
-                            if ($model->status != 0) {
-                                ?>
-                                <a id="paymentButton" onclick="redirectToProfile()"
-                                   href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                                       'idUser' => Yii::app()->user->getId(),
-                                       'course' => $model->course_ID,
-                                   )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
-                            <?php
-                            }
-                        } ?>
-                    </div>
-                </div>
             </div>
-            <?php if ($model->status != 0) {
-                $this->endWidget();
-            }
-
-
-    }?>
-</div>
+            <div class="startCourse">
+                <?php
+                if (Yii::app()->user->isGuest) {
+                    echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
+                        'onclick' => 'openSignIn();'));
+                } else {
+                    if ($model->status != 0) {
+                        ?>
+                        <a id="paymentButton" onclick="redirectToProfile()"
+                           href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                               'idUser' => Yii::app()->user->getId(),
+                               'course' => $model->course_ID,
+                           )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
+                    <?php
+                    }
+                } ?>
+            </div>
+        </div>
     </div>
+    <?php if ($model->status != 0) {
+        $this->endWidget();
+    } ?>
+</div>
 
 
 <script>
-    $(function() {
+    $(function () {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
-    function redirectToProfile(){
+    function redirectToProfile() {
         schema = $('input:radio[name="payment"]:checked').val();
         $.cookie('courseSchema', schema, {'path': "/"});
         $.cookie('openProfileTab', 5, {'path': "/"});

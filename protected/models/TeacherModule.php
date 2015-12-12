@@ -207,4 +207,6 @@ class TeacherModule extends CActiveRecord
 
         return $result . $last;
     }
+
+
 }

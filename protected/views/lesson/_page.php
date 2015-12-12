@@ -1,6 +1,10 @@
 <?php
 
-if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else $lessonTab = 0;
+if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else {
+    if (!$page->video){
+        $lessonTab = 1;
+    }
+}
 
 $this->renderPartial('_jsLectureProgress', array('page' => $page, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'user' => $user, 'thisPage' => $thisPage, 'edit' => 0, 'editMode' => $editMode)); ?>
 <?php

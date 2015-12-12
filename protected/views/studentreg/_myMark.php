@@ -1,6 +1,10 @@
 <?php
-if(Teacher::model()->exists('user_id=:ID', array(':ID'=>Response::getTeacherId($data['id']))))
-    $teacher = Teacher::model()->find('user_id=:ID', array(':ID'=>Response::getTeacherId($data['id'])));
+/**
+ * @var $data Response
+ */
+$id = $data->getTeacherId();
+if(Teacher::model()->exists('user_id=:ID', array(':ID'=>$id)))
+    $teacher = Teacher::model()->find('user_id=:ID', array(':ID'=>$id));
 else return;
 ?>
 <div class="mymark">

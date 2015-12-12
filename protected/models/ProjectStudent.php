@@ -9,7 +9,7 @@
  *
  * The followings are the available model relations:
  * @property Project $project0
- * @property User $student0
+ * @property StudentReg $student0
  */
 class ProjectStudent extends CActiveRecord
 {

@@ -1,8 +1,11 @@
+<? $css_version = 1; ?>
 <?php
-/*@var $post Module*/
+/**
+ * @var $post Module
+ */
 $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Module::getModuleName($post->module_ID).'. '.Yii::t('sharing','0643'),
+    'title'=>$post->getTitle().'. '.Yii::t('sharing','0643'),
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>

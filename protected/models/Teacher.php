@@ -31,6 +31,7 @@
 class Teacher extends CActiveRecord
 {
     public $avatar = array(), $oldAvatar;
+    //array of teacher modules
 
     /**
      * @return string the associated database table name
@@ -76,10 +77,12 @@ class Teacher extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'modules'=>array(self::MANY_MANY, 'Module',
-                'teacher_module(idTeacher, idModule)'),
+            'user'=>array(self::BELONGS_TO, 'StudentReg', 'user_id'),
+            'modules'=>array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
+            'responses'=>array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
             'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
+            'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
         );
     }
 
@@ -168,17 +171,7 @@ class Teacher extends CActiveRecord
         return parent::model($className);
     }
 
-    public static function getHideIp($ip)
-    {
-        $pos = strripos($ip, '.');
-        $arr = str_split($ip);
-        for ($i = 0; $i < $pos; $i++) {
-            if ($arr[$i] !== '.') $arr[$i] = '*';
-        }
-        return implode("", $arr);
-    }
-
-    public static function setAverageTeacherRatings($teacherId, $responsesIdList)
+     public static function setAverageTeacherRatings($teacherId, $responsesIdList)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $teacherId));
 
@@ -462,6 +455,15 @@ class Teacher extends CActiveRecord
         return Teacher::model()->findByPk($id)->last_name;
     }
 
+    public function lastName(){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && $this->last_name_en != ''){
+                return $this->last_name_en;
+            }
+        }
+        return $this->last_name;
+    }
+
     public function getLastFirstName(){
         $last = $this->last_name;
         $first = $this->first_name;
@@ -481,6 +483,24 @@ class Teacher extends CActiveRecord
             }
         }
         return Teacher::model()->findByPk($id)->first_name;
+    }
+
+    public function firstName(){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && $this->first_name_en != ''){
+                return $this->first_name_en;
+            }
+        }
+        return $this->first_name;
+    }
+
+    public function middleName(){
+        if(isset(Yii::app()->session['lg'])){
+            if(Yii::app()->session['lg'] == 'en' && $this->middle_name_en != ''){
+                return $this->middle_name_en;
+            }
+        }
+        return $this->middle_name;
     }
 
     public static function getTeacherMiddleName($id){

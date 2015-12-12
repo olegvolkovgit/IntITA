@@ -1,11 +1,13 @@
+<?php
+/* @var $post Module*/
+?>
 <div class="moduleTitle">
     <h1>
         <?php
-        $title = Module::getModuleTitleParam();
         $this->widget('editable.EditableField', array(
             'type' => 'text',
             'model' => $post,
-            'attribute' => $title,
+            'attribute' => $post->titleParam(),
             'url' => $this->createUrl('module/updateModuleAttribute'),
             'title' => Yii::t('module', '0369'),
             'placement' => 'right',

@@ -25,5 +25,12 @@ class PaymentHelper
     public static function getInvoiceLink($title, $id){
         return '<a href="'.Yii::app()->createUrl("payments/invoice", array("id"=>$id)).'">'.$title.'</a>';
     }
+    public static function discountedPrice($price, $discount)
+    {
+        if ($discount == 0) {
+            return $price;
+        }
+        return round($price * (1 - $discount / 100));
+    }
 
 }

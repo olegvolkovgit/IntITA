@@ -18,6 +18,10 @@ class TeachersController extends Controller
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
+            array(
+                'COutputCache',
+                'duration'=> 60,
+            ),
         );
     }
 
@@ -186,15 +190,6 @@ class TeachersController extends Controller
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else $this->renderIndex($obj);
         //}
-    }
-
-    public function getTitles($courses)
-    {
-        $titles = [];
-        for ($i = 0; $i < count($courses); $i++) {
-            $titles[$i]['title'] = Course::getCourseName($courses[$i]["course"]);
-        }
-        return $titles;
     }
 
     private function renderIndex($teacherLetter)

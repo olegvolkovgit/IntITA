@@ -13,7 +13,7 @@
                     <form class="sendAnswer" id="sendAnswer">
                         <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="answer" id="code<?php echo $data['block_order'];?>"></textarea>
                     </form>
-                    <div ng-controller="lectureQuizCtrl">
+                    <div ng-controller="plainTaskCtrl">
                         <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendPlainTaskAnswer(<?php echo $data->id_block?>)" >
                             <?php echo Yii::t('lecture','0089'); ?>
