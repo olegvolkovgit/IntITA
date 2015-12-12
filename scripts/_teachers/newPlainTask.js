@@ -2,6 +2,18 @@
  * Created by Quicks on 10.12.2015.
  */
 
+function showPlainTaskWithoutTrainer(url)
+{
+    container = $('#pageContainer');
+    $.ajax({
+        url: url,
+        success: function (data) {
+            fillContainer(data);
+        }
+    })
+}
+
+
 function chooseTrainer(id,url)
 {
     container = $('#pageContainer');
@@ -10,24 +22,22 @@ function chooseTrainer(id,url)
         url: url,
         data : {id: id},
             success: function (data) {
-            container.html('');
-            container.html(data);
-        }
-    })
+                fillContainer(data);
+            }
+    });
 }
 
-function sendForm (url)
+function sendForm(url)
 {
     var input   = $('#assignedConsult').serialize();
     var arr = getData(input);
 
     $.ajax({
         url: url,
-        type : 'POST',
-        data : {arr: arr },
+        type: "POST",
+        data : { 'arr': arr },
         success: function (data) {
-            container.html('');
-            container.html(data);
+            fillContainer(data);
             location.reload();
         }
     })
@@ -44,4 +54,10 @@ function getData(data)
     result.push(consult);
 
     return result;
+}
+
+fillContainer()
+{
+    container.html('');
+    container.html(data);
 }

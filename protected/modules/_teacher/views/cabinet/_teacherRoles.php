@@ -1,12 +1,13 @@
 <?php
 /*@var $teacher Teacher*/
+/* @var $role Roles*/
 
 $roles = $model->roles();
 foreach ($roles as $role) {
     ?>
     <li>
         <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-            array('page' => $role->title_en, 'teacher' => $model->teacher_id));?>')">
+            array('page' => $role->title_en, 'teacher' => $model->teacher_id));?>','<?php echo $role->title_en ?>')">
             <i class="fa fa-table fa-fw"></i> <?php echo $role->title_ua?>
             <?php
             $list = $role->adminPanelList($model);

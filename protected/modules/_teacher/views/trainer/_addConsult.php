@@ -12,7 +12,7 @@
 <div class="col-md-6">
 
     <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
-          onsubmit="sendForm('<?php echo Yii::app()->createUrl('_teacher/cabinet/assignedConsultant')?>');" >
+          onsubmit="sendForm('<?php echo Yii::app()->createUrl('_teacher/teacher/assignedConsultant')?>');" >
         <input type="text" name="id" value="<?php echo $plainTaskAnswer->id ?>" hidden="true">
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>

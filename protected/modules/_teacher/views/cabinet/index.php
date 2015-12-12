@@ -50,7 +50,9 @@
     </nav>
 
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model, 'teacher' => $teacher));?>
+
 </div>
+
 </body>
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
