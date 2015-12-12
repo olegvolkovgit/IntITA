@@ -1,13 +1,13 @@
-<?php $this->renderPartial('/site/_shareMetaTag', array(
-    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>$model->first_name." ".$model->last_name.'. '.Yii::t('sharing','0643'),
-    'description'=>Yii::t('sharing','0644'),
-));
-?>
+<? $css_version = 1; ?>
 <?php
 /* @var $this ProfileController */
 /* @var $model StudentReg */
 /* @var $response Response */
+$this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>$model->first_name." ".$model->last_name.'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0052')=>Yii::app()->createUrl('teachers'), Yii::t('breadcrumbs', '0057'));
 
 $tmp2 = Yii::t('teachers', '0061');

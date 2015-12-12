@@ -1,11 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 29.08.2015
- * Time: 15:13
- */
-?>
+<? $css_version = 1; ?>
 <h3>Ресурси для викладачів</h3>
 <ul>
 

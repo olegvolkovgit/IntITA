@@ -443,12 +443,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $rate;
     }
 
-    public static function translateLevelUa($course)
-    {
-        $level = Course::model()->findByPk($course)->level;
-        return CommonHelper::translateLevelUa($level);
-    }
-
     public function getTranslatedLevel(){
         return CommonHelper::translateLevel($this->level);
     }
@@ -525,8 +519,9 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function printTitle($idCourse, $messages = null)
     {
+        $course = Course::model()->findByPk($idCourse);
         $chartSchema = Course::getMessage($messages, 'chart');
-        return $chartSchema . ' ' . Course::getCourseName($idCourse) . ", " . Course::getCourseLevel($idCourse);
+        return $chartSchema . ' ' . $course->getTitle() . ", " . CommonHelper::translateLevel($course->level);
     }
 
     public static function generateModuleCoursesList($idModule, $messages = null)

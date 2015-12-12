@@ -68,7 +68,7 @@ class LessonController extends Controller
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
-        $textList = LecturePage::getBlocksListById($page->id);
+        $textList = $page->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
@@ -491,7 +491,7 @@ class LessonController extends Controller
 
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
             $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-            $dataProvider = LecturePage::getPageTextList($page);
+            $dataProvider = $page->getPageTextList();
 
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
@@ -576,7 +576,7 @@ class LessonController extends Controller
     public function actionEditPage($id, $page, $idCourse, $cke = false){
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
-        $textList = LecturePage::getBlocksListById($pageModel->id);
+        $textList = $pageModel->getBlocksListById();
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
@@ -626,7 +626,7 @@ class LessonController extends Controller
         $page_order=$_GET['page'];
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
 
-        $textList = LecturePage::getBlocksListById($page->id);
+        $textList = $page->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
@@ -656,7 +656,7 @@ class LessonController extends Controller
         $pages = $model->getAllLecturePages();
 
         foreach ($pages as $page) {
-            $textList = LecturePage::getBlocksListById($page->id);
+            $textList = $page->getBlocksListById();
             $dataProvider = LectureElement::getLectureText($textList);
             $langs = ['ua', 'ru', 'en'];
             $types = ['video', 'text', 'quiz'];

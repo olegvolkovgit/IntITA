@@ -1,3 +1,4 @@
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>"/>
 
 <h2 id="modulesHeader">Всі модулі</h2>

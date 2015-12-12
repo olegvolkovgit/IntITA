@@ -1,16 +1,10 @@
-<!-- studprofile style -->
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
-<!-- studprofile style -->
-<!-- uploadInfo, jQuery -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
-<!-- uploadInfo, jQuery -->
 <?php
 /* @var $this StudentregController */
-/* @var $model studentreg */
+/* @var $model Studentreg */
 /* @var $form CActiveForm */
-?>
-<?php
-$this->pageTitle = 'INTITA';
 $post = StudentReg::model()->findByPk(Yii::app()->user->id);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
