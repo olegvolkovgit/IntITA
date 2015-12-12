@@ -126,11 +126,6 @@ class PlainTask extends Quiz
         }
     }
 
-    public static function getPlainTaskByLectureId($lectureId)
-    {
-        return LectureElement::model()->findByPk($lectureId)->plainTask;
-    }
-
     public function getDescription()
     {
         $description = $this->lectureElement->html_block;
@@ -147,7 +142,6 @@ class PlainTask extends Quiz
             'join' => 'LEFT JOIN plain_task_answer_teacher
              on plain_task_answer_teacher.id_plain_task_answer = id',
             'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL',
-//            'params' => array(':id' => $teacher),
         ))->queryAll();
 
         if($plainTasksArr)
@@ -160,6 +154,5 @@ class PlainTask extends Quiz
             }
         }
         return $plainTasksAnswers;
-
     }
 }

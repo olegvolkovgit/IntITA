@@ -32,10 +32,12 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionAssignedConsultant()
     {
+
         if (isset($_POST['arr'])) {
             //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
             $idPlainTaskAnswer = $_POST['arr'][0];
             $consult = $_POST['arr'][1];
+
             Letters::sendAssignedConsultantLetter($consult,$idPlainTaskAnswer);
 
             if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))

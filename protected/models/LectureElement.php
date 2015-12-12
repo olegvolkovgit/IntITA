@@ -408,4 +408,10 @@ class LectureElement extends CActiveRecord
     {
         return LectureElement::model()->findByPk($id)->id_type;
     }
+
+
+    public static function getPlainTaskByLectureId($id)
+    {
+        return self::model()->findByPk($id)->plainTask;
+    }
 }
