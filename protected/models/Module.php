@@ -325,6 +325,10 @@ class Module extends CActiveRecord implements IBillableObject
         }
     }
 
+    public function monthsCount(){
+        return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
+    }
+
     public static function lessonsInMonth($idModule)
     {
         $model = Module::model()->findByPk($idModule);
@@ -335,7 +339,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     }
 
-    private function getModuleDuration()
+    public function getModuleDuration()
     {
         $hours = ($this->hours_in_day != 0) ? $this->hours_in_day : 3;
         $days = ($this->days_in_week != 0) ? $this->days_in_week : 2;
