@@ -13,7 +13,7 @@
 
     <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
           onsubmit="sendForm('<?php echo Yii::app()->createUrl('_teacher/teacher/assignedConsultant')?>');" >
-        <input type="text" name="id" value="<?php echo $plainTaskAnswer->id ?>" hidden="true">
+        <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="true">
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>
             <input name="student" type="text" class="form-control" placeholder="<?php echo $plainTaskAnswer->getStudentName();?>" disabled>
@@ -31,7 +31,7 @@
         <div class="form-group">
             <?php $teachers = $plainTaskAnswer->getTrainersByAnswer() ?>
             <label for="consult">Можливі консультанти :</label>
-            <select name="consult" class="form-control">
+            <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
                     <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>

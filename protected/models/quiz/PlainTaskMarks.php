@@ -116,4 +116,20 @@ class PlainTaskMarks extends CActiveRecord
             return PlainTaskMarks::model()->findByAttributes(array('id_user' => $user,'id_task' => $idTask,'mark' => 1))->time;
         }else return false;
     }
+
+    public static function saveMark($plainTaskId,$mark,$comment,$userId)
+    {
+        $plainMark = new PlainTaskMarks();
+
+        $plainMark->comment = $comment;
+        $plainMark->id_task = (int)$plainTaskId;
+        $plainMark->id_user = (int)$userId;
+        $plainMark->mark = (int)$mark;
+        $plainMark->time = time();
+
+        if($plainMark->save())
+            return true;
+        else return false;
+
+    }
 }

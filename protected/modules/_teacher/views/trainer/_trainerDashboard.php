@@ -8,10 +8,10 @@
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Тренер</h1>
+        <h3>Тренер</h3>
     </div>
 </div>
-
+<hr>
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -20,7 +20,7 @@
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo count(PlainTask::getPlainTaskAnswersWithoutTrainer());?></div>
+                        <div class="huge"><?php echo PlainTask::countPlainTaskAnswersWithoutTrainer();?></div>
                         <div>Нові задачі!</div>
                     </div>
                 </div>
