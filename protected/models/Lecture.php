@@ -125,7 +125,7 @@ class Lecture extends CActiveRecord
         $criteria->compare('verified', $this->verified);
 
         $criteria->with=array('ModuleTitle');
-        $criteria->compare('ModuleTitle.module_name',$this->ModuleTitle,true);
+        $criteria->compare('ModuleTitle.title_ua',$this->ModuleTitle,true);//???? ModuleTitle.module_name change on ModuleTitle.title_ua
         $criteria->addCondition('`order`>0');
 
         return new CActiveDataProvider($this, array(
