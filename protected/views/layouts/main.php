@@ -1,4 +1,5 @@
-<?php /* @var $this Controller */
+<?php
+/* @var $this Controller */
 $header = new Header();
 ?>
 <!DOCTYPE html>
@@ -18,15 +19,17 @@ $header = new Header();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- fonts -->
-    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'fontface.css'); ?>"/>
     <!-- fonts -->
     <!-- layouts style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'style.css') ?>"/>
     <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
-    <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
+          type="image/x-icon"/>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -256,10 +259,10 @@ $header = new Header();
 </div>
 <!-- footer -->
 <!-- Humburger script -->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/hamburgermenu.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/goToTop.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
 <!-- trimEmail-->
-<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
 <!-- trimEmail -->
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
@@ -270,12 +273,12 @@ $header = new Header();
 
 <!-- jQuery -->
 <!-- passEye, jQuery -->
-<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.passEye.js'); ?>"></script>
 <!-- passEye, jQuery -->
 <!-- Placeholder for old browser -->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<!--[if lte IE 8]>
+<!--[if lte IE 8]>-->
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
 <script>
