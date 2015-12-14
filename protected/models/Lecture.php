@@ -26,8 +26,9 @@
 class Lecture extends CActiveRecord
 {
     const MAX_RAIT = 6;
-    public $logo=array();
+    public $logo = array();
     public $oldLogo;
+
     /**
      * @return string the associated database table name
      */
@@ -44,14 +45,14 @@ class Lecture extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('idModule, order, title_ua, durationInMinutes', 'required', 'message'=>Yii::t('validation','0576')),
+            array('idModule, order, title_ua, durationInMinutes', 'required', 'message' => Yii::t('validation', '0576')),
             array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
-            array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min'=>0,"tooSmall"=>Yii::t('validation','057'), 'message'=>Yii::t('validation','0577')),
+            array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty' => true),
+            array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern'=>"/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",'message'=>Yii::t('error','0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
@@ -65,12 +66,12 @@ class Lecture extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
+            'lectureEl' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
 
-            'module' => array(self::BELONGS_TO,'Module','idModule'),
+            'module' => array(self::BELONGS_TO, 'Module', 'idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
-            'pages' => array(self::HAS_MANY, 'LecturePage','id_lecture'),
+            'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture'),
         );
     }
 
@@ -126,46 +127,46 @@ class Lecture extends CActiveRecord
         $criteria->compare('rate', $this->rate);
         $criteria->compare('verified', $this->verified);
 
-        $criteria->with=array('ModuleTitle');
-        $criteria->compare('ModuleTitle.module_name',$this->ModuleTitle,true);
+        $criteria->with = array('ModuleTitle');
+        $criteria->compare('ModuleTitle.module_name', $this->ModuleTitle, true);
         $criteria->addCondition('`order`>0');
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
+            'criteria' => $criteria,
+            'pagination' => array(
                 'pageSize' => '50',
             ),
-            'sort'=>array('attributes'=>array(
-                'defaultOrder'=>array(
-                    'order'=>CSort::SORT_ASC,
+            'sort' => array('attributes' => array(
+                'defaultOrder' => array(
+                    'order' => CSort::SORT_ASC,
                 ),
-                'ModuleTitle'=>array(
-                    'asc' => $expr='ModuleTitle.title_ua',
-                    'desc' => $expr.' DESC',
+                'ModuleTitle' => array(
+                    'asc' => $expr = 'ModuleTitle.title_ua',
+                    'desc' => $expr . ' DESC',
                 ),
-                'order'=>array(
-                    'asc' => $expr='`order`',
-                    'desc' => $expr.' DESC',
+                'order' => array(
+                    'asc' => $expr = '`order`',
+                    'desc' => $expr . ' DESC',
                 ),
-                'title_ua'=>array(
-                    'asc' => $expr='title_ua',
-                    'desc' => $expr.' DESC',
+                'title_ua' => array(
+                    'asc' => $expr = 'title_ua',
+                    'desc' => $expr . ' DESC',
                 ),
-                'title_ru'=>array(
-                    'asc' => $expr='title_ru',
-                    'desc' => $expr.' DESC',
+                'title_ru' => array(
+                    'asc' => $expr = 'title_ru',
+                    'desc' => $expr . ' DESC',
                 ),
-                'title_en'=>array(
-                    'asc' => $expr='title_en',
-                    'desc' => $expr.' DESC',
+                'title_en' => array(
+                    'asc' => $expr = 'title_en',
+                    'desc' => $expr . ' DESC',
                 ),
-                'idType'=>array(
-                    'asc' => $expr='idType',
-                    'desc' => $expr.' DESC',
+                'idType' => array(
+                    'asc' => $expr = 'idType',
+                    'desc' => $expr . ' DESC',
                 ),
-                'isFree'=>array(
-                    'asc' => $expr='isFree',
-                    'desc' => $expr.' DESC',
+                'isFree' => array(
+                    'asc' => $expr = 'isFree',
+                    'desc' => $expr . ' DESC',
                 ),
             )),
         ));
@@ -182,28 +183,30 @@ class Lecture extends CActiveRecord
         return parent::model($className);
     }
 
-    public function pagesList(){
+    public function pagesList()
+    {
         $criteria = new CDbCriteria();
         $criteria->addCondition('id_lecture=' . $this->id);
         $criteria->order = 'page_order ASC';
         return LecturePage::model()->findAll($criteria);
     }
 
-    public function loadContent($id = 1){
+    public function loadContent($id = 1)
+    {
         $lectureElements = LectureElement::model()->findAll(array(
-            'select'=>'id_lecture, block_order',
-            'condition'=>'id_lecture =:id',
-            'params'=>array(':id'=>$id),
-            'order'=> 'block_order ASC',
+            'select' => 'id_lecture, block_order',
+            'condition' => 'id_lecture =:id',
+            'params' => array(':id' => $id),
+            'order' => 'block_order ASC',
         ));
 
-        if (count($lectureElements) == 0){
+        if (count($lectureElements) == 0) {
             return false;
         } else {
             $contentList = array();
-            for ($i = count($lectureElements); $i > 0; $i--){
+            for ($i = count($lectureElements); $i > 0; $i--) {
                 array_push($contentList,
-                    LectureElement::model()->findByPk(array('id_lecture'=>$id,'block_order'=>$i))
+                    LectureElement::model()->findByPk(array('id_lecture' => $id, 'block_order' => $i))
                 );
             }
             return $contentList;
@@ -211,7 +214,8 @@ class Lecture extends CActiveRecord
 
     }
 
-    public static function addNewLesson($module, $title_ua, $title_ru, $title_en, $teacher){
+    public static function addNewLesson($module, $title_ua, $title_ru, $title_en, $teacher)
+    {
         $lecture = new Lecture();
         $lecture->title_ua = $title_ua;
         $lecture->title_ru = $title_ru;
@@ -220,7 +224,7 @@ class Lecture extends CActiveRecord
         $order = Lecture::model()->count("idModule=$module and `order`>0");
         $lecture->order = ++$order;
         $lecture->idTeacher = $teacher;
-        $lecture->alias = 'lecture'.$order;
+        $lecture->alias = 'lecture' . $order;
 
         $lecture->save();
 
@@ -238,30 +242,33 @@ class Lecture extends CActiveRecord
         return $titles;
     }
 
-    public static function unableLecture($idLecture){
+    public static function unableLecture($idLecture)
+    {
 
         Lecture::model()->updateByPk($idLecture, array('order' => 0));
     }
 
-    public static function getLessonCont($id){
-        $summary=[];
+    public static function getLessonCont($id)
+    {
+        $summary = [];
 
-        $criteria= new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'lecture_page';
-        $criteria->addCondition('id_lecture='.$id);
+        $criteria->addCondition('id_lecture=' . $id);
         $criteria->order = 'page_order ASC';
-        $cont =  LecturePage::model()->findAll($criteria);
-        $i=0;
-        foreach($cont as $type){
+        $cont = LecturePage::model()->findAll($criteria);
+        $i = 0;
+        foreach ($cont as $type) {
             $summary[$i] = $type->page_title;
             $i++;
         }
         return $summary;
     }
 
-    public function getAllLecturePages(){
+    public function getAllLecturePages()
+    {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('id_lecture='.$this->id);
+        $criteria->addCondition('id_lecture=' . $this->id);
 
         return LecturePage::model()->findAll($criteria);
     }
@@ -272,39 +279,44 @@ class Lecture extends CActiveRecord
         $page = Yii::app()->db->createCommand()
             ->select('page')
             ->from('lecture_element_lecture_page')
-            ->where('element=:element', array(':element'=>$idElement))
+            ->where('element=:element', array(':element' => $idElement))
             ->queryScalar();
         $model = LecturePage::model()->findByPk($page);
         return $model->getBlocksListById();
     }
 
-    public static function getLectureIdByModuleOrder($idModule, $order){
+    public static function getLectureIdByModuleOrder($idModule, $order)
+    {
         return Lecture::model()->findByAttributes(array(
             'idModule' => $idModule,
             'order' => $order
         ));
     }
 
-    public static function getAllNotVerifiedLectures(){
+    public static function getAllNotVerifiedLectures()
+    {
         $criteria = new CDbCriteria();
         $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 0');
 
         return Lecture::model()->findAll($criteria);
     }
 
-    public function isVerified(){
+    public function isVerified()
+    {
         return $this->verified;
     }
 
-    public static function getAllVerifiedLectures(){
+    public static function getAllVerifiedLectures()
+    {
         $criteria = new CDbCriteria();
         $criteria->addCondition('idModule > 0 and `order` > 0 and `verified` = 1');
 
         return Lecture::model()->findAll($criteria);
     }
 
-    protected function afterSave(){
-        if($this->verified == 1) {
+    protected function afterSave()
+    {
+        if ($this->verified == 1) {
             $this->verified = 0;
             $this->save();
         }
@@ -318,7 +330,7 @@ class Lecture extends CActiveRecord
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
         $user = Yii::app()->user->getId();
-        if (StudentReg::isAdmin()  || $editMode) {
+        if (StudentReg::isAdmin() || $editMode) {
             return true;
         }
         if (Yii::app()->user->isGuest) {
@@ -342,9 +354,10 @@ class Lecture extends CActiveRecord
 
     public static function getTheme($dp)
     {
-        if(Lecture::model()->exists('id=:ID', array(':ID'=>$dp->lecture_id)))
-            $result=Lecture::getLectureTitle($dp->lecture_id);
-        else $result=Yii::t('profile', '0717');
+        $model = Lecture::model()->findByPk($dp->lecture_id);
+        if ($model)
+            $result = $model->title();
+        else $result = Yii::t('profile', '0717');
 
         return $result;
     }
@@ -357,17 +370,38 @@ class Lecture extends CActiveRecord
         return $passedLecture;
     }
 
-    public function getFinishedPages($user){
+    public function lectureTeacher()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "teacher_id";
+        $criteria->addCondition("isPrint=1");
+        $criteria->order = 'rating ASC';
+        $teachers = Teacher::model()->findAll($criteria);
+
+        foreach ($teachers as $key) {
+            if (TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
+                ':idTeacher' => $key->teacher_id,
+                ':idModule' => $this->idModule
+            ))
+            ) {
+                return $key;
+            }
+        }
+        return null;
+    }
+
+    public function getFinishedPages($user)
+    {
         $pages = $this->pages;
 
         $result = [];
-        for ($i = 0, $count = count($pages); $i < $count; $i++ ){
+        for ($i = 0, $count = count($pages); $i < $count; $i++) {
             $result[$i]['order'] = $pages[$i]->page_order;
             $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
             $result[$i]['title'] = $pages[$i]->page_title;
 
-            if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
-                $result = LecturePage::setNoAccessPages($result, $count, $i,$pages);
+            if (LecturePage::isQuizDone($pages[$i]->quiz, $user) == false) {
+                $result = LecturePage::setNoAccessPages($result, $count, $i, $pages);
                 break;
             }
         }
@@ -417,9 +451,47 @@ class Lecture extends CActiveRecord
         }
     }
 
+
+    public function accessPages($user, $editMode = 0, $isAdmin = 0)
+    {
+        /*Sort page_order by Ascending*/
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture=' . $this->id;
+
+        $pages = LecturePage::model()->findAll($criteria);
+
+        $result = [];
+        if ($editMode || $isAdmin) {
+            for ($i = 0, $count = count($pages); $i < $count; $i++) {
+                $result[$i]['order'] = $pages[$i]->page_order;
+                $result[$i]['isDone'] = true;
+                $result[$i]['isQuizDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['title'] = $pages[$i]->page_title;
+            }
+        } else {
+            for ($i = 0, $count = count($pages); $i < $count; $i++) {
+                $result[$i]['order'] = $pages[$i]->page_order;
+                $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
+                $result[$i]['isQuizDone'] = $result[$i]['isDone'];
+                $result[$i]['title'] = $pages[$i]->page_title;
+
+                if (LecturePage::isQuizDone($pages[$i]->quiz, $user) == false) {
+                    $result[$i]['isDone'] = true;
+                    $result = LecturePage::setNoAccessPages($result, $count, $i + 1, $pages);
+                    break;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+
     public function title()
     {
-        $titleParam = "title_".CommonHelper::getLanguage();
+        $titleParam = "title_" . CommonHelper::getLanguage();
         if ($this->$titleParam == '') {
             return $this->title_ua;
         } else {

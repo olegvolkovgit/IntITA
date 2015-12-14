@@ -2,13 +2,14 @@
 
 /**
  * Created by PhpStorm.
- * User: Èííà
+ * User: ï¿½ï¿½ï¿½ï¿½
  * Date: 16.11.2015
  * Time: 14:35
  */
 class InterpreterController extends Controller
 {
-        public function actionIndex(){
-            $this->render('index');
-        }
+    public function actionIndex()
+    {
+        $this->render('index');
+    }
 }
