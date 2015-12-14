@@ -232,13 +232,13 @@ class PermissionsController extends AdminController
 
     public function actionNewTeacherPermission()
     {
-        $teacher = Yii::app()->request->getPost('user');
-        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
+        $teacherId = Yii::app()->request->getPost('user');
+        $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
         $module = Yii::app()->request->getPost('module');
-        TeacherModule::addTeacherAccess($teacher, $module);
+        Teacher::addTeacherAccess($teacher, $module);
         $permission = new PayModules();
         $permission->setModulePermission(
-            $userId,
+            $teacher->user_id,
             $module,
             array('read', 'edit'));
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -247,10 +247,11 @@ class PermissionsController extends AdminController
     public function actionAddTeacher()
     {
         $user = Yii::app()->request->getPost('user');
-        $role = StudentReg::model()->findByPk($user)->role;
-        switch ($role) {
+        $user = StudentReg::model()->findByPk($user);
+        switch ($user->role) {
             case '0':
-                StudentReg::model()->updateByPk($user, array('role' => 1));
+                $user->role = 1;
+                $user->save();
                 break;
             case '1':
                 Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
@@ -262,7 +263,8 @@ class PermissionsController extends AdminController
                 Yii::app()->user->setFlash('warning', "Користувач з таким email вже є адміністратором.");
                 break;
             default:
-                StudentReg::model()->updateByPk($user, array('role' => 1));
+                $user->role = 1;
+                $user->save();
                 break;
         }
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -270,14 +272,13 @@ class PermissionsController extends AdminController
 
     public function actionSetTeacherRole()
     {
-
         $request = Yii::app()->request;
         $teacherId = $request->getPost('teacher', 0);
         $roleId = $request->getPost('role', 0);
 
+        $teacher = Teacher::model()->findByPk($teacherId);
         if ($teacherId && $roleId) {
-            if (TeacherRoles::setTeacherRole($teacherId, $roleId)) {
-
+            if ($teacher->setTeacherRole($roleId)) {
                 $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
         }
@@ -286,7 +287,6 @@ class PermissionsController extends AdminController
 
     public function actionSetTeacherRoleAttribute()
     {
-
         $request = Yii::app()->request;
         $teacherId = $request->getPost('teacher', 0);
         $roleId = $request->getPost('role', 0);

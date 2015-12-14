@@ -1,4 +1,4 @@
-<!-- studprofile style -->
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'studProfile.css'); ?>"/>
 <!-- studprofile style -->
 <!-- uploadInfo, jQuery -->
@@ -11,7 +11,6 @@
 /* @var $model StudentReg */
 /* @var $regExtended Regextended */
 /* @var $form CActiveForm */
-$this->pageTitle = 'INTITA';
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0056'),
 );

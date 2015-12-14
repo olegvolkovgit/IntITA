@@ -798,3 +798,15 @@ a.cke_dialog_ui_fileButton{
 #cke_question .cke_button__skipword0_icon,#cke_question .cke_button__skipword1_icon{
     width: 64px;
 }
+.cke_button_icon.cke_button__customsave_icon{
+    background-size: 16px;
+}
+.instrTestImg div{
+    margin: 10px 0 0 10px;
+    width: 28px;
+    height: 41px;
+    background-image: url(../images/lecture/task.png);
+}
+.instrTestImg div.quizDone{
+    background-image: url(../images/lecture/taskDone.png);
+}

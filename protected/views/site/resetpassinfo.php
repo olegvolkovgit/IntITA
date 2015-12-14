@@ -1,7 +1,4 @@
 <?php
-$this->pageTitle = 'INTITA';
-?>
-<?php
 $this->breadcrumbs=array(Yii::t('resetpass','0314'));
 ?>
 <div class='infoblock'>

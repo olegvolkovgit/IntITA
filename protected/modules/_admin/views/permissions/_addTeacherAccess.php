@@ -17,7 +17,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <select name="user" class="form-control" placeholder="(Виберіть викладача)" autofocus>
-                        <?php $users = AccessHelper::generateTeachersList();
+                        <?php $users = Teacher::generateTeachersList();
                         $count = count($users);
                         for($i = 0; $i < $count; $i++){
                             ?>
@@ -31,10 +31,10 @@
             <br>
             Курс:<br>
                 <div class="form-group">
-                    <select name="course1" class="form-control" placeholder="(Виберіть курс)" onchange="javascript:selectModule1();">
+                    <select name="course1" class="form-control" placeholder="(Виберіть курс)" onchange="selectModule1();">
                     <option value="">Всі курси</option>
                     <optgroup label="Виберіть курс">
-                        <?php $courses = AccessHelper::generateCoursesList();
+                        <?php $courses = Course::generateCoursesList();
                         $count = count($courses);
                         for($i = 0; $i < $count; $i++){
                             ?>

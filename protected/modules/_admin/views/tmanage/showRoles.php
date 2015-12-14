@@ -3,7 +3,7 @@
 @var $roles TeacherRoles
  */
 ?>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
+    <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>" />
     <br>
     <br>
     <button type="button" class="btn btn-link">

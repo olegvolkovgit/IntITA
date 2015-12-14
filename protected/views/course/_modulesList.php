@@ -11,7 +11,7 @@ $editMode = ($canEdit) ? 'true' : '';
                      id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
             </a>
         </div>
-        <?php
+    <?php
     } ?>
     <a name="list">
     </a>
@@ -47,14 +47,14 @@ $editMode = ($canEdit) ? 'true' : '';
                     'htmlOptions' => array('display' => 'none'),
                     'delete' => array(
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                        'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
+                        'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->id_module,
+                        "idCourse"=>$data->id_course))',
                         'label' => Yii::t('course', '0333'),
                         'visible' => $editMode,
                     ),
                     'up' => array
                     (
-
-                        'label' => Yii::t('course', '0334'),   //Text label of the button.
+                        'label' => Yii::t('course', '0334'),
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                         'options' => array(
                             'class' => 'controlButtons;',
@@ -65,16 +65,16 @@ $editMode = ($canEdit) ? 'true' : '';
                             $.fn.yiiGridView.update("modules-grid");
                             }'
                             )
-                        ), //HTML options for the button tag.
-                        'url' => 'Yii::app()->createUrl("course/upModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
-                        'visible' => $editMode,   //A PHP expression for determining whether the button is visible.
+                        ),
+                        'url' => 'Yii::app()->createUrl("course/upModule", array("idModule"=>$data->id_module,
+                        "idCourse"=>$data->id_course))',
+                        'visible' => $editMode,
                     ),
-
                     'down' => array
                     (
-
-                        'label' => Yii::t('course', '0335'),    //Text label of the button.
-                        'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->id_module, "idCourse"=>$data->id_course))',
+                        'label' => Yii::t('course', '0335'),
+                        'url' => 'Yii::app()->createUrl("course/downModule", array("idModule"=>$data->id_module,
+                        "idCourse"=>$data->id_course))',
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                         'options' => array(
                             'class' => 'controlButtons;',
@@ -85,24 +85,23 @@ $editMode = ($canEdit) ? 'true' : '';
                             $.fn.yiiGridView.update("modules-grid");
                             }'
                             )
-                        ), //HTML options for the button tag.
+                        ),
                         'visible' => $editMode,
                     ),
                 ),
             ),
-
             array(
                 'name' => 'title_ua',
                 'type' => 'raw',
                 'header' => false,
                 'htmlOptions' => array('class' => 'titleColumn'),
-                'cssClassExpression'=>'Module::moduleAccessStyle($data)',
+                'cssClassExpression' => 'Module::moduleAccessStyle($data)',
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
-
                     $title = Module::getModuleTitleParam();
                     $moduleTitle = Module::getDefaultModuleName($data->moduleInCourse->$title);
-                    $value = '<span class="moduleOrder">'. Yii::t('course', '0364') . ' ' . $data->order . '.</span><span class="moduleLink"> '.CHtml::encode($data->moduleInCourse->$moduleTitle).'</span>';
+                    $value = '<span class="moduleOrder">' . Yii::t('course', '0364') . ' ' . $data->order . '.</span>
+                    <span class="moduleLink"> ' . CHtml::encode($data->moduleInCourse->$moduleTitle) . '</span>';
                     return Module::moduleProgressDescription($data, $value);
                 }
             ),
@@ -111,7 +110,7 @@ $editMode = ($canEdit) ? 'true' : '';
     ));
     ?>
     <div id="moduleForm">
-        <?php $this->renderPartial('_addLessonForm', array('newmodel' => $model)); ?>
+        <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
     </div>
 </div>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/modulesList.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>

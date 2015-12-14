@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 24.04.2015
- * Time: 23:47
- */
+/* @var $data Response*/
 $user=StudentReg::model()->findByPk($data['who']);
 ?>
 <div class="TeacherProfiletitles">
@@ -13,7 +8,7 @@ $user=StudentReg::model()->findByPk($data['who']);
 <div class="sm">
     <?php
     $num = $data['who_ip'];
-    echo $data['date']." IP:".Teacher::getHideIp($data['who_ip']);
+    echo $data['date']." IP:".CommonHelper::getHideIp($data['who_ip']);
 ?>
 </div>
 

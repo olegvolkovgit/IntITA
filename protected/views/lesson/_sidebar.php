@@ -1,12 +1,16 @@
 <?php
+/* @var $course Course */
 $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
 ?>
 <div id="sidebarLesson">
     <div class="titlesBlock" id="titlesBlock">
-        <ul><?php if ($idCourse != 0) { ?>
+        <ul><?php if ($idCourse != 0) {
+                $course = Course::model()->findByPk($idCourse); ?>
                 <li>
                     <?php echo Yii::t('lecture', '0070'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $idCourse)) ?>"><?php echo $lecture->getCourseInfoById($idCourse)['courseTitle']; ?></a>(<?php echo Yii::t('lecture', '0071') . strtoupper($lecture->getCourseInfoById($idCourse)['courseLang']); ?>
+                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $idCourse)) ?>">
+                        <?php echo $course->getTitle(); ?>
+                    </a>(<?php echo Yii::t('lecture', '0071') . strtoupper($course->language); ?>
                     )
                 </li>
                 <li>
@@ -27,15 +31,17 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                 ));
                 if ($cmp < 0) {
                     $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
-                }else {
+                } else {
                     $this->renderPartial('_jsChaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
                 }
                 ?>
             </li>
             <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
-                <div id="lectionTypeText"><?php echo $lecture->getTypeInfo()['text']; ?></div>
+                <div id="lectionTypeText"><?php
+                    $titleParam = 'title_'.CommonHelper::getLanguage();
+                    echo $lecture->type->$titleParam; ?></div>
                 <div id="lectionTypeImage"><img
-                        src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->getTypeInfo()['image']); ?>">
+                        src="<?php echo StaticFilesHelper::createPath('image', 'lecture', $lecture->type->image); ?>">
                 </div>
             </li>
             <li>
@@ -56,7 +62,8 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                         ?>
                         <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
                            tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
-                            <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
+                            <div class="lectureAccess"
+                                 id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
                         </a>
                     <?php }
                 } else {
@@ -66,11 +73,12 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                         if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
                             <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
                                tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
-                                <div class="lectureAccess" id="<?php if($i+1==$lecture->order) echo 'thisLecture'?>"></div>
+                                <div class="lectureAccess"
+                                     id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
                             </a>
                         <?php } else { ?>
                             <a
-                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (<?php echo Yii::t('lecture', '0638'); ?>)</span>">
+                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
                                 <div class="lectureDisabled"></div>
                             </a>
                         <?php }
@@ -93,8 +101,8 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                href="<?php echo Config::getBaseUrl(); ?>/mibew/chat?locale=<?php echo CommonHelper::getLanguage(); ?>;style=default"
                target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
                 <img class='consultationButtons'
-                    src="<?php echo Config::getBaseUrl(); ?>/mibew/b?i=mblue&amp;lang=<?php echo CommonHelper::getLanguage(); ?>"
-                    border="0" alt=""/>
+                     src="<?php echo Config::getBaseUrl(); ?>/mibew/b?i=mblue&amp;lang=<?php echo CommonHelper::getLanguage(); ?>"
+                     border="0" alt=""/>
             </a>
             <script type="text/javascript"
                     src="<?php echo Config::getBaseUrl(); ?>/mibew/js/compiled/chat_popup.js"></script>
@@ -115,7 +123,9 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         <div style="display: inline-block">
             <a class='consultationButtons' href="skype:<?php echo '#' ?>?chat">
                 <div id="skypeAssistance">
-                    <img class="consultationLogos" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skypeLogo.png'); ?>">
+                    <img class="consultationLogos"
+                         src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skypeLogo.png'); ?>">
+
                     <div class="consultationText"><?php echo Yii::t('lecture', '0665'); ?></div>
                 </div>
             </a>
@@ -127,9 +137,12 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
     <div id="discussion"></div>
     <?php if (StudentReg::canAddConsultation()) { ?>
         <div style="display: inline-block;margin-left: 15px">
-            <a class='consultationButtons' href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
+            <a class='consultationButtons'
+               href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
                 <div id="consultationAssistance">
-                    <img class="consultationLogos" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'consultationLogo.png'); ?>">
+                    <img class="consultationLogos"
+                         src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'consultationLogo.png'); ?>">
+
                     <div class="consultationText"><?php echo Yii::t('lecture', '0079') ?></div>
                 </div>
             </a>

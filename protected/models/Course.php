@@ -258,11 +258,6 @@ class Course extends CActiveRecord implements IBillableObject
         echo ' модул' . $term;
     }
 
-    public function getCourseAlias($id)
-    {
-        return $this->findByPk($id)->alias;
-    }
-
     public function findCourseIDByAlias($alias)
     {
         return $this->find('alias=:alias', array(':alias' == $alias))->course_ID;
@@ -426,10 +421,9 @@ class Course extends CActiveRecord implements IBillableObject
         return CommonHelper::translateLevel($level);
     }
 
-    public static function getCourseRate($level)
-    {
+    public function getRate(){
         $rate = 0;
-        switch ($level) {
+        switch ($this->level) {
             case 'intern':
                 $rate = 1;
                 break;
@@ -449,10 +443,14 @@ class Course extends CActiveRecord implements IBillableObject
         return $rate;
     }
 
-    public static function translateLevelUa($course)
-    {
-        $level = Course::model()->findByPk($course)->level;
-        return CommonHelper::translateLevelUa($level);
+    public function getTranslatedLevel(){
+        return CommonHelper::translateLevel($this->level);
+    }
+
+    public function getTitle(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $this->$title;
     }
 
     public static function getCourseName($idCourse)
@@ -521,8 +519,9 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function printTitle($idCourse, $messages = null)
     {
+        $course = Course::model()->findByPk($idCourse);
         $chartSchema = Course::getMessage($messages, 'chart');
-        return $chartSchema . ' ' . Course::getCourseName($idCourse) . ", " . Course::getCourseLevel($idCourse);
+        return $chartSchema . ' ' . $course->getTitle() . ", " . CommonHelper::translateLevel($course->level);
     }
 
     public static function generateModuleCoursesList($idModule, $messages = null)
@@ -661,14 +660,28 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    public static function getMainCoursePrice($price, $discount = 0)
+    public static function juniorCoursesCount(){
+        return count(Course::model()->findAllByAttributes(array(
+            'level' => array('junior', 'strong junior', 'intern'),
+            'language' => 'ua',
+            'cancelled' => 0)
+        ));
+    }
+
+    public static function middleCoursesCount(){
+        return Course::model()->count('level=:level and language=:lang and cancelled=0',
+            array(':level' => 'middle', ':lang' => 'ua')
+        );
+    }
+
+    public static function seniorCoursesCount(){
+        return Course::model()->count('level=:level and language=:lang and cancelled=0',
+            array(':level' => 'senior', ':lang' => 'ua')
+        );
+    }
+
+    public function modulesCount()
     {
-        if ($price == 0) {
-            return '<span class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        if ($discount == 0) {
-            return '<span id="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span>';
-        }
-        return '<span id="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>&nbsp<span id="coursePriceStatus2">' . Module::getDiscountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><span id="discount"> (' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>';
+        return CourseModules::model()->count("id_course=$this->course_ID");
     }
 }

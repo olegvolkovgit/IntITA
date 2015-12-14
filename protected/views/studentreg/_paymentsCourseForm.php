@@ -21,7 +21,11 @@ $price = Course::getPrice($course);
         'enableAjaxValidation' => false,
     )); ?>
     <?php
-    if ($price == 0) echo Yii::t('courses', '0147') . ' ' . Course::getMainCoursePrice($price, 25);
+    if ($price == 0){
+        echo Yii::t('courses', '0147') . ' ';?>
+        <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
+    <?php
+    }
     else {
         ?>
         <span class="spoilerLinks"

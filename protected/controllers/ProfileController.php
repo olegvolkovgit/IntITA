@@ -2,15 +2,23 @@
 
 class ProfileController extends Controller
 {
+
+    public function filters()
+    {
+        return array(
+            array(
+                'COutputCache',
+                'duration'=> 60,
+            ),
+        );
+    }
+
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
     public function actionIndex($idTeacher)
     {
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
-
         $teacher = Teacher::model()->findByPk($idTeacher);
 
         $response = new Response();
@@ -19,7 +27,6 @@ class ProfileController extends Controller
             $response->attributes = $_POST["Response"];
             $response->who = Yii::app()->user->id;
             $response->date = date("Y-m-d H:i:s");
-            //$response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
             $str = trim($_POST['Response']['text'], chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
             if ($str == '') {
                 $response->text = NULL;
@@ -51,20 +58,7 @@ class ProfileController extends Controller
             $editMode = 0;
         }
 
-        $responsesIdList = Response::getTeachersResponseId($teacher->user_id);
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'response';
-        $criteria->order = 'date DESC';
-        $criteria->condition = "is_checked = 1";
-        $criteria->addInCondition('id', $responsesIdList);
-
-        $dataProvider = new CActiveDataProvider('Response');
-        $dataProvider->criteria = $criteria;
-        $dataProvider->setPagination(array(
-                'pageSize' => 5,
-            )
-        );
+        $dataProvider = $teacher->user->responseDataProvider();
 
         $this->render('index', array(
             'model' => $teacher,
@@ -175,15 +169,6 @@ class ProfileController extends Controller
         $courses = Module::model()->findAll($criteria);
 
         return $courses;
-    }
-
-    public function getTitles($courses)
-    {
-        $titles = [];
-        for ($i = 0; $i < count($courses); $i++) {
-            $titles[$i]['title'] = Course::getCourseName($courses[$i]["course"]);
-        }
-        return $titles;
     }
 
     public function actionDeleteAvatar()

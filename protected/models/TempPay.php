@@ -149,14 +149,15 @@ class TempPay extends CActiveRecord
     }
 
     public static function getAccountProductTitle($account){
+
         if ($account->id_module != null){
-            return "Модуль №".Module::model()->findByPk($account->id_module)->module_number.". ".
-            Module::model()->findByPk($account->id_module)->title_ua . ', '.
-            Module::translateLevelUa($account->id_module);
+            $module = Module::model()->findByPk($account->id_module);
+            return "Модуль №".$module->module_number.". ".$module->title_ua . ', '.
+            CommonHelper::translateLevelUa($module->level);
         } else {
-            return "Курс №".Course::model()->findByPk($account->id_course)->course_number.". ".
-            Course::model()->findByPk($account->id_course)->title_ua . ', '.
-            Course::translateLevelUa($account->id_course);
+            $course = Course::model()->findByPk($account->id_course);
+            return "Курс №".$course->course_number.". ".$course->title_ua . ', '.
+            CommonHelper::translateLevelUa($course->level);
         }
     }
 }

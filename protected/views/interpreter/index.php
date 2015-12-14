@@ -1,5 +1,4 @@
-<?php
-?>
+<? $css_version = 1; ?>
 <!DOCTYPE html>
 <html lang="uk">
 <head>

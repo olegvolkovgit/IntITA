@@ -42,7 +42,7 @@ if (!isset($idCourse)) $idCourse = 0;
 </script>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
-$finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
+$finishedLecture = $lecture->isFinished($user);
 ?>
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
@@ -53,6 +53,11 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
         <div class="lessonTheme">
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
+<!--                <a href="--><?php //echo Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => $idCourse, "template"=>1)); ?><!--">-->
+<!--                    <img style="margin-left: 5px"-->
+<!--                         src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'newLecture.png'); ?><!--"-->
+<!--                         title="New lecture View"/>-->
+<!--                </a>-->
                 <?php if ($editMode) { ?>
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
                         <img style="margin-left: 5px"
@@ -110,22 +115,6 @@ $finishedLecture = Lecture::isLectureFinished($user, $lecture->id);
     ));
     $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
     $this->endWidget('zii.widgets.jui.CJuiDialog');
-/////////////////////////////////////////////////////////////
-
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'skipTaskCancel',
-
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/lesson/_modalTask2');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-
-////////////////////////////////////////////////////////////////
     ?>
 </div>
 <!-- lesson style -->

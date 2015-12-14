@@ -45,10 +45,9 @@ class Graduate extends CActiveRecord
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
 			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>Yii::t('graduate','0749')),
 			array('graduate_date, recall', 'safe'),
-            array('rate', 'compare', 'compareValue' => '0', 'operator' => '>=', 'message'=>Yii::t('graduate','0766')),
-            array('rate', 'compare', 'compareValue' => '10', 'operator' => '<=', 'message'=>Yii::t('graduate','0765')),
-            array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750')),
-            array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751')),
+            array('rate', 'numerical', 'integerOnly'=>true, 'min'=>0, 'max'=>10, 'tooSmall'=>Yii::t('graduate','0766'), 'tooBig'=>Yii::t('graduate','0765')),
+            array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750'), 'allowEmpty'=>true),
+            array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751'),  'allowEmpty'=>true),
 			// The following rule is used by search().
 			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page, history, rate, recall, first_name_en, last_name_en', 'safe', 'on'=>'search'),
 		);
@@ -102,8 +101,6 @@ class Graduate extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -139,7 +136,7 @@ class Graduate extends CActiveRecord
 
     public static function getGraduateBySelector($selector)
     {
-        $criteria= new CDbCriteria;
+        $criteria = new CDbCriteria;
         $criteria->alias = 'graduate';
         if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
         if ($selector == 'date') $criteria->order = 'graduate_date DESC';
@@ -155,13 +152,12 @@ class Graduate extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function getGraduateName($id){
+    public function name(){
         if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en'  && Graduate::model()->findByPk($id)->last_name_en != ''
-                && Graduate::model()->findByPk($id)->last_name_en != ''){
-                return Graduate::model()->findByPk($id)->last_name_en."&nbsp;".Graduate::model()->findByPk($id)->first_name_en;
+            if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != '' && $this->last_name_en != ''){
+                return $this->last_name_en."&nbsp;".$this->first_name_en;
             }
         }
-        return Graduate::model()->findByPk($id)->last_name."&nbsp;".Graduate::model()->findByPk($id)->first_name;
+        return $this->last_name."&nbsp;".$this->first_name;
     }
 }

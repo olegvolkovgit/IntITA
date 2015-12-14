@@ -1,4 +1,6 @@
-<?php if($data['id_type'] == 6){?>
+<?php
+/* @var $data LectureElement */
+if($data['id_type'] == 6){?>
     <div class="element">
         <div class="lessonTask">
             <div class="lessonBG">
@@ -13,7 +15,6 @@
                     <form class="sendAnswer" id="sendAnswer">
                         <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="answer" id="code<?php echo $data['block_order'];?>"></textarea>
                     </form>
-<!--                    --><?php //var_dump($data);die; ?>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                             onclick="sendPlainTaskAnswer(<?php echo $data->id_block?>)" >
                         <?php echo Yii::t('lecture','0089'); ?>

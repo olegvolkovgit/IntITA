@@ -80,16 +80,17 @@ class SkipTaskController extends Controller{
         $quizId = $_POST['id'];
         $answers = $_POST['answers'];
         //$answers array with 3 value; first = skipText; second = order; third = caseInsensitive;
-
-
         $isDone = SkipTaskMarks::marksAnswer($quizId,$answers);
-
-        if(!$isDone)
+        if(!$isDone){
             echo 'not done';
-
-        else
-            echo 'done';
         }
+        else {
+            $lastPage = LecturePage::checkLastQuiz($quizId);
+            if($lastPage)
+                echo 'lastPage';
+            else echo 'done';
+        }
+    }
 
     public function actionUnableSkipTask()
     {

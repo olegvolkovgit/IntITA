@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 02.05.2015
- * Time: 17:28
+ * @var $module Module
+ * @var $data Lecture
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
@@ -12,7 +10,6 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 
 <div class="lessonModule" id="lectures">
      <?php
-
     if ($canEdit){
         ?>
         <div onclick="enableEdit();">
@@ -33,7 +30,8 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
         <a href="#lessonForm">
             <?php echo CHtml::hiddenField('idmodule', $module->module_ID); ?>
             <?php
-            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'), array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>Yii::t('module', '0374')));
+            echo CHtml::ajaxSubmitButton('', CController::createUrl('module/lecturesupdate'),
+                array('update' => '#lessonForm'), array('id' => 'addLecture','title'=>Yii::t('module', '0374')));
             ?>
         </a>
         <?php $this->endWidget(); ?>
@@ -94,7 +92,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                             $.fn.yiiGridView.update("lectures-grid");
                             }'
                     )
-                ), //HTML options for the button tag.
+                ),
                 'visible'=>$editMode,
             ),
             ),
@@ -121,12 +119,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
             'value' => function($data) use ($idCourse,$enabledLessonOrder) {
-                $titleParam = Lecture::getTypeTitleParam();
+                $titleParam = 'title_'.CommonHelper::getLanguage();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
             if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder)) {
-                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse)));
+                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
+                    array("id" => $data->id, "idCourse" => $idCourse)));
+                //.' '.CHtml::link(' (Alt. Lecture view)', Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse, "template"=>1)));
             }
             else
                 return $data->$titleParam;
@@ -137,7 +137,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 ?>
     <div id="lessonForm">
-        <?php $this->renderPartial('_addLessonForm', array('newmodel'=>$module, "idCourse"=>$idCourse)); ?>
+        <?php $this->renderPartial('_addLessonForm', array('model'=>$module, "idCourse"=>$idCourse)); ?>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/lecturesList.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'lecturesList.js'); ?>"></script>

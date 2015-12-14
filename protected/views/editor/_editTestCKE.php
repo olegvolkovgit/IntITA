@@ -24,7 +24,7 @@ $valid=TestsAnswers::getTestValidCKE($idBlock);
                       size="80" required ng-init="testConditionEdit='<?php echo htmlentities(Tests::getTestCondition($idBlock));?>'" ng-model="testConditionEdit"></textarea>
             <fieldset id="optionsField<?php echo $idBlock?>">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
-                <legend style="margin-left: 840px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
+                <legend style="margin-left: 920px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                 <ol  class='answerList' id="optionsList" class="inputs">
                     <li ng-repeat="editAnswer in editAnswers track by $index">
                         <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="editAnswers[$index]" ></textarea>

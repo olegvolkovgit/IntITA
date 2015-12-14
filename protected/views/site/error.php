@@ -2,8 +2,6 @@
 /* @var $this SiteController */
 /* @var $message string */
 /* @var $code integer */
-
-$this->pageTitle=Yii::app()->name;
 $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );

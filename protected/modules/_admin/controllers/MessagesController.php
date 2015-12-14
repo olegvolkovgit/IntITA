@@ -111,6 +111,7 @@ class MessagesController extends AdminController
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
+
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();
@@ -125,7 +126,7 @@ class MessagesController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model = new Translate('search');
+        $model=new Translate('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Translate']))
             $model->attributes=$_GET['Translate'];
