@@ -1,3 +1,4 @@
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css'); ?>"/>
 <?php
 /* @var $this StudentregController */

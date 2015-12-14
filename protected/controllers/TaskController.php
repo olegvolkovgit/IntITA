@@ -13,9 +13,8 @@ class TaskController extends Controller
         );
     }
 
-	public function actionAddTask()
-	{
-
+    public function actionAddTask()
+    {
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
@@ -23,20 +22,21 @@ class TaskController extends Controller
         $arr['assignment'] = Yii::app()->request->getPost('assignment', 0);
         $arr['table'] = Yii::app()->request->getPost('table', '');
         $arr['taskType'] = Yii::app()->request->getPost('taskType', 'plain');
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId', 1);
+        $arr['pageId'] = Yii::app()->request->getPost('pageId', 1);
         $arr['type'] = 'task';
 
-        if ($arr['condition']){
-            if(QuizFactory::factory($arr))
-              return true;
+        if ($arr['condition']) {
+            if (QuizFactory::factory($arr))
+                return true;
             else return false;
         }
         $this->redirect(Yii::app()->request->urlReferrer);
-	}
+    }
+
     public function actionSetMark()
     {
         $status = Yii::app()->request->getPost('status', '');
-        $result =  Yii::app()->request->getPost('result', '');
+        $result = Yii::app()->request->getPost('result', '');
         $task = Yii::app()->request->getPost('task', 0);
         $user = Yii::app()->request->getPost('user', 0);
         $date = Yii::app()->request->getPost('date', 0);
@@ -45,18 +45,19 @@ class TaskController extends Controller
         TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function actionEditTask()
     {
-        $idBlock =  Yii::app()->request->getPost('idTaskBlock', 0);
+        $idBlock = Yii::app()->request->getPost('idTaskBlock', 0);
         $condition = Yii::app()->request->getPost('condition', '');
-        $lecture =  Yii::app()->request->getPost('lecture', 0);
+        $lecture = Yii::app()->request->getPost('lecture', 0);
         $author = Yii::app()->request->getPost('author', null);
         $language = Yii::app()->request->getPost('language', 'C++');
         $assignment = Yii::app()->request->getPost('assignment', 0);
         $table = Yii::app()->request->getPost('table', '');
         $taskType = Yii::app()->request->getPost('taskType', 'plain');
 
-        if ($condition){
+        if ($condition) {
             if ($lectureElementId = LectureElement::editTaskBlock($idBlock, $condition)) {
 //                Task::addNewTask($lectureElementId, $language, $author, $assignment, $table);
             }
@@ -65,10 +66,11 @@ class TaskController extends Controller
     }
 
 
-    public function actionUnableTask(){
+    public function actionUnableTask()
+    {
         $pageId = Yii::app()->request->getPost('pageId', 0);
 
-        if($pageId != 0){
+        if ($pageId != 0) {
             LecturePage::unableQuiz($pageId);
         }
     }

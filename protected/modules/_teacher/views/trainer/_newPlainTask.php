@@ -26,7 +26,7 @@ if(!empty($plainTasksAnswers))
                     <td><?php echo $module->title_ua ?></td>
                     <td>
                     <a href="javascript:chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
-                    '<?php echo Yii::app()->createUrl('_teacher/cabinet/addConsultant')?>')" target="_blank">
+                    '<?php echo Yii::app()->createUrl('_teacher/teacher/addConsultant')?>')" target="_blank">
                      <img style="padding-left: 50px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add.png')?>"
                     </a>
                     </td>

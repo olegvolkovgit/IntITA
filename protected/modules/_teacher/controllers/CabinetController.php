@@ -35,37 +35,14 @@ class CabinetController extends TeacherCabinetController
     public function actionLoadPage($page, $teacher)
     {
         $page = strtolower($page);
-        $params = [];
 
-        switch($page){
-            case 'trainer' :
-                $plainTasksAnswers = TrainerStudent::getStudentWithoutTrainer($teacher);
-                return $this->renderPartial('_newPlainTask',array('plainTasksAnswers' => $plainTasksAnswers));
-//                $params = TrainerStudent::getStudentsByTrainer($teacher);
-                break;
-            case 'consultant':
-                break;
-            case 'author':
-                break;
-            case 'leader':
-                break;
-            default:
-                throw new CHttpException(400, 'Неправильно вибрана роль!');
-                break;
-        }
+        $role = Roles::model()->findByAttributes(array('title_en'=>$page));
+        $teacherModel = Teacher::model()->findByPk($teacher);
+        $userModel = $teacherModel->user;
 
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
+        $this->rolesDashboard($teacherModel,$userModel,array($role));
 
-        $json = array(
-            "title" => $page,
-            "teacher" => $teacher,
-            "params" => $params,
-        );
-
-        echo json_encode($json);
     }
-
 
     public function actionView($id)
     {
@@ -167,33 +144,15 @@ class CabinetController extends TeacherCabinetController
         echo json_encode($jsonObj);
     }
 
-    public function actionAddConsultant($id)
-    {
 
-        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
-
-        if(!$plainTaskAnswer)
-            throw new CHttpException(404,'Page not found');
-
-        return $this->renderPartial('/cabinet/_addConsult',
-            array(
-            'plainTaskAnswer' => $plainTaskAnswer));
-    }
-
-    public function actionAssignedConsultant()
-    {
-        if (isset($_POST['arr'])) {
-            //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
-            $idPlainTaskAnswer = $_POST['arr'][0];
-            $consult = $_POST['arr'][1];
-
-            if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
-                throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
-
-        }
-    }
     public function actionLoadDashboard($user){
-        $this->renderPartial('_dashboard', array('user' => $user));
+
+        $model = StudentReg::model()->findByPk($user);
+
+        $teacher = $model->teacher;
+
+        $this->rolesDashboard($teacher,$model);
+
     }
 
     public function actionAccountantPage($user){
@@ -203,5 +162,93 @@ class CabinetController extends TeacherCabinetController
     public function actionAdminPage(){
         $this->redirect(Yii::app()->createUrl('/_teacher/admin/index'));
 
+    }
+
+    public function rolesDashboard($teacher,$user,$inRole = null)
+    {
+        if($teacher != null){
+        if($inRole == null)
+        {
+            $roles = $teacher->roles();
+        }
+        else $roles = $inRole;
+
+
+        foreach($roles as $role)
+        {
+            switch($role->getRole())
+            {
+                case 'trainer':
+                        $this->renderTrainerDashboard($teacher,$user,$role);
+                    break;
+                case 'author':
+                        $this->renderAuthorDashboard($teacher,$user,$role);
+                    break;
+                case 'consultant':
+                        $this->renderConsultantDashboard($teacher,$user,$role);
+                    break;
+                case 'leader':
+                        $this->renderLeaderDashboard($teacher,$user,$role);
+                    break;
+                default:
+                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+                    break;
+            }
+        }
+        }
+        else
+        {
+            switch($user->role)
+            {
+                case '2':
+
+                    break;
+                case '3':
+                    $this->renderAdminDashboard();
+                break;
+            }
+        }
+
+    }
+
+    private function renderTrainerDashboard(Teacher $teacher,StudentReg $user,$role)
+    {
+       return $this->renderPartial('/trainer/_trainerDashboard',array(
+            'teacher' => $teacher,
+            'user' => $user,
+            'role' => $role,
+        ));
+    }
+
+    private function renderAuthorDashboard(Teacher $teacher,StudentReg $user,$role)
+    {
+        return $this->renderPartial('/author/_authorDashboard',array(
+            'teacher' => $teacher,
+            'user' => $user,
+            'role' => $role,
+        ));
+    }
+
+    private function renderConsultantDashboard(Teacher $teacher,StudentReg $user,$role)
+    {
+        return $this->renderPartial('/consultant/_consultantDashboard',array(
+            'teacher' => $teacher,
+            'user' => $user,
+            'role' => $role,
+        ));
+    }
+
+    private function renderLeaderDashboard(Teacher $teacher,StudentReg $user,$role)
+    {
+        return $this->renderPartial('/leader/_leaderDashboard',array(
+            'teacher' => $teacher,
+            'user' => $user,
+            'role' => $role,
+        ));
+    }
+
+    private function renderAdminDashboard()
+    {
+        return $this->renderPartial('/admin/index');
     }
 }

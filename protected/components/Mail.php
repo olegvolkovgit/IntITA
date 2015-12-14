@@ -148,6 +148,28 @@ class Mail {
         return false;
     }
 
+    public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
+    {
+        $consultant = Teacher::model()->findByPk($consult);
+        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($idPlainTaskAnswer);
+        $model = new Letters();
+
+        $model->addressee_id = $consultant->teacher_id;
+        $model->sender_id = Yii::app()->user->id;
+        $model->text_letter = "Вітаємо!"."<br>".
+            "У Вас з'явилася нова задача для перевірки : " . $plainTaskAnswer->answer.".".
+            "Щоб продивитися нову задачу, перейди за посиланням:
+            <a href =".Config::getBaseUrl().'_teacher/teacher/checkPlainTaskAnswer'.$plainTaskAnswer->id.">"
+            .'Задача до перевірки'." </a>
+            ​З повагою,
+            INTITA​";
+        $model->date = date("Y-m-d H:i:s");
+        $model->theme = "Нова задача";
+        if($model->validate()) {
+            $model->save();
+
+        }
+    }
 
 
 

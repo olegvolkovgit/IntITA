@@ -67,6 +67,8 @@ class Lecture extends CActiveRecord
         return array(
             'lectureEl' => array(self::HAS_MANY, 'LectureElement','id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
+
+            'module' => array(self::BELONGS_TO,'Module','idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
             'pages' => array(self::HAS_MANY, 'LecturePage','id_lecture'),
         );
@@ -272,8 +274,8 @@ class Lecture extends CActiveRecord
             ->from('lecture_element_lecture_page')
             ->where('element=:element', array(':element'=>$idElement))
             ->queryScalar();
-        $textList = LecturePage::getBlocksListById($page);
-        return $textList;
+        $model = LecturePage::model()->findByPk($page);
+        return $model->getBlocksListById();
     }
 
     public static function getLectureIdByModuleOrder($idModule, $order){
