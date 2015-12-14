@@ -5,10 +5,10 @@
 
 <!-- carousel-plugins -->
 <link type="text/css" rel="stylesheet"
-      href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.theme.css"/>
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.theme.css'); ?>"/>
 <link type="text/css" rel="stylesheet"
-      href="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.css"/>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/plugins/owl-carousel/owl.carousel.js"></script>
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.carousel.css'); ?>"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'plugins/owl-carousel/owl.carousel.js'); ?>"></script>
 <!-- carousel-plugins -->
 <!-- carousel -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'slider.css'); ?>">
