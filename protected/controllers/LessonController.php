@@ -326,17 +326,18 @@ class LessonController extends Controller
 
     public function actionCKEUploadImageAudio()
     {
-        $path = StaticFilesHelper::createLectureImagePath();
-        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $module = $_GET['idModule'];
+        $lecture = $_GET['idLecture'];
 
+        $path = StaticFilesHelper::pathToLectureImages($module, $lecture);
+        $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
         // PHP Upload Script for CKEditor:  http://coursesweb.net/
 
 // HERE SET THE PATH TO THE FOLDERS FOR IMAGES AND AUDIO ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
         $upload_dir = array(
-            'img' => Config::getBaseUrl() . $path,
-            'audio' => Config::getBaseUrl() . $path
+            'img' => Config::getBaseUrl() .'/'. $path,
+            'audio' => Config::getBaseUrl() .'/'. $path
         );
-
 // HERE PERMISSIONS FOR IMAGE
         $imgset = array(
             'maxsize' => 5 * 1024,     // maximum file size, in KiloBytes (2 MB)
@@ -721,12 +722,14 @@ class LessonController extends Controller
     public function actionSaveFormulaImage()
     {
         $imageUrl = $_POST['imageUrl'];
+        $module = $_POST['idModule'];
+        $lecture = $_POST['idLecture'];
 
-        $path = StaticFilesHelper::createLectureImagePath();
-        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $path =  StaticFilesHelper::pathToLectureImages($module, $lecture);
+        $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
         $filename = md5(date('YmdHis')) . '.gif';
         $file = $dir . $filename;
-        $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
+        $link = Config::getBaseUrl().'/'.StaticFilesHelper::pathToLectureImages($module, $lecture).$filename;
 
         copy($imageUrl, $file);
         echo $link;
