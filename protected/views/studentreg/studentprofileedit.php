@@ -1,16 +1,10 @@
-<!-- studprofile style -->
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
-<!-- studprofile style -->
-<!-- uploadInfo, jQuery -->
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
-<!-- uploadInfo, jQuery -->
 <?php
 /* @var $this StudentregController */
-/* @var $model studentreg */
+/* @var $model Studentreg */
 /* @var $form CActiveForm */
-?>
-<?php
-$this->pageTitle = 'INTITA';
 $post = StudentReg::model()->findByPk(Yii::app()->user->id);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
@@ -72,8 +66,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                         <?php echo $form->textField($model, 'firstName', array('ng-init' => "firstName='$post->firstName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'), 'ng-model' => "firstName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
 
-                        <div class="clientValidationError" ng-show="profileForm['StudentReg[firstName]'].$invalid">
-                            <span ng-cloak
+                        <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[firstName]'].$invalid">
+                            <span
                                   ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
@@ -82,8 +76,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                         <?php echo $form->textField($model, 'secondName', array('ng-init' => "secondName='$post->secondName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'), 'ng-model' => "secondName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
 
-                        <div class="clientValidationError" ng-show="profileForm['StudentReg[secondName]'].$invalid">
-                            <span ng-cloak
+                        <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[secondName]'].$invalid">
+                            <span
                                   ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
@@ -102,8 +96,8 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                         <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15,'minlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
-                    <div class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
-                            <span ng-cloak
+                    <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
+                            <span
                                   ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
                     </div>
                     <?php if ($post::getRole($post->id) == False) {
@@ -138,9 +132,9 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
                             <span
                                 class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model' => "pw2", 'pw-check' => "pw1")); ?></span>
                             <?php echo $form->error($model, 'password_repeat'); ?>
-                            <div class="clientValidationError"
+                            <div ng-cloak class="clientValidationError"
                                  ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
-                                <span ng-cloak
+                                <span
                                       ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
                             </div>
                         </div>
@@ -237,11 +231,11 @@ $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
-            <div class="clientValidationError"
+            <div ng-cloak class="clientValidationError"
                  ng-show="profileForm['StudentReg[avatar]'].$error.size || profileForm['StudentReg[avatar]'].$error.fileType">
-                <div ng-cloak
+                <div
                       ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
-                <div ng-cloak
+                <div
                       ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
             </div>
             <div class="avatarError">

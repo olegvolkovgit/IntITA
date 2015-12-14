@@ -52,7 +52,7 @@ class LectureElement extends CActiveRecord
             'lecture' => array(self::BELONGS_TO, 'Lecture','id_lecture'),
 
         );
-    }
+	}
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -392,6 +392,7 @@ class LectureElement extends CActiveRecord
         if ($skipTask) {
             return self::model()->findByPk($skipTask->question)->html_block;
         }
+        return null;
     }
 
     public function getSkipTaskSource()
@@ -400,10 +401,17 @@ class LectureElement extends CActiveRecord
         if ($skipTask) {
             return $skipTask->source;
         }
+        return null;
     }
 
     public static function getQuizType($id)
     {
         return LectureElement::model()->findByPk($id)->id_type;
+    }
+
+
+    public static function getPlainTaskByLectureId($id)
+    {
+        return self::model()->findByPk($id)->plainTask;
     }
 }

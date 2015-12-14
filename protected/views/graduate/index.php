@@ -1,9 +1,4 @@
-<?php $this->renderPartial('/site/_shareMetaTag', array(
-    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('graduates', '0297').'. '.Yii::t('sharing','0643'),
-    'description'=>Yii::t('sharing','0644'),
-));
-?>
+<? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'GraduatesStyle.css') ?>"/>
 
 <div class="subNavBlockGraduates">
@@ -22,3 +17,9 @@
         <?php echo $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider)); ?>
     </div>
 </div>
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>Yii::t('graduates', '0297').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
+?>

@@ -43,11 +43,11 @@
         'level',
         array(
             'name' => 'cancelled',
-            'value' => 'Module::getCancelledName($data->cancelled)',
+            'value' => '$data->cancelledTitle()',
         ),
         array(
           'name' => 'status',
-            'value' => 'Module::getStatusName($data->status)',
+            'value' => '$data->statusTitle()',
         ),
         array(
             'class' => 'CButtonColumn',

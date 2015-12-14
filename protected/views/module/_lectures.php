@@ -5,12 +5,11 @@
  */
 $model = Lecture::model();
 $editMode = ($canEdit)?'true':'';
-$enabledLessonOrder = $module->getLastEnabledLessonOrder();
+$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 ?>
 
 <div class="lessonModule" id="lectures">
      <?php
-
     if ($canEdit){
         ?>
         <div onclick="enableEdit();">

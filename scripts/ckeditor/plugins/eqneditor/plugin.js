@@ -42,7 +42,7 @@ CKEDITOR.plugins.add( 'eqneditor', {
 			})
 		);
 
-		CKEDITOR.dialog.add(pluginCmd, this.path+"dialogs/eqneditor.js");
+		CKEDITOR.dialog.add(pluginCmd, this.path+"dialogs/eqneditorCustom.js");
 				
 		editor.ui.addButton( 'EqnEditor', {
 			label : editor.lang.eqneditor.toolbar,

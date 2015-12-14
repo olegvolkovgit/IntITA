@@ -1,23 +1,11 @@
-<?php /* @var $this Controller */
+<?php
+/* @var $this Controller */
 $header = new Header();
 ?>
 <!DOCTYPE html>
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
 <head>
-    <!--[if lte IE 8]>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-    <script>
-        document.createElement('ng-include');
-        document.createElement('ng-switch');
-        document.createElement('ng-if');
-        document.createElement('ng-pluralize');
-        document.createElement('ng-view');
 
-        // needed to enable CSS reference
-        document.createElement('ng:view');
-    </script>
-    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -29,27 +17,19 @@ $header = new Header();
           content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- for tabs -->
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
+
     <!-- fonts -->
-    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'fontface.css'); ?>"/>
     <!-- fonts -->
     <!-- layouts style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'style.css') ?>"/>
     <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
-    <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
-    <!-- jQuery -->
-    <!-- passEye, jQuery -->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
-    <!-- passEye, jQuery -->
-    <!-- Placeholder for old browser -->
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
-    <!-- Placeholder for old browser -->
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
+          type="image/x-icon"/>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -73,7 +53,7 @@ $header = new Header();
                         foreach (array("ua", "en", "ru") as $val) {
                             ?>
                             <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg' => $val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
-                            <?php
+                        <?php
                         }
                         ?>
                     </div>
@@ -131,8 +111,8 @@ $header = new Header();
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>
                         <?php echo StudentReg::getNickname($post); ?><br>
-                        <?php echo StudentReg::getName ($post); ?><br>
-                        <?php echo StudentReg::getLastName ($post); ?><br>
+                        <?php echo StudentReg::getName($post); ?><br>
+                        <?php echo StudentReg::getLastName($post); ?><br>
                         <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
                     </div>
                     <div class="minavatar">
@@ -140,7 +120,7 @@ $header = new Header();
                     </div>
                 </a>
             </div>
-            <?php
+        <?php
         }
         ?>
     </div>
@@ -279,10 +259,10 @@ $header = new Header();
 </div>
 <!-- footer -->
 <!-- Humburger script -->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/hamburgermenu.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/goToTop.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
 <!-- trimEmail-->
-<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
 <!-- trimEmail -->
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
@@ -290,5 +270,32 @@ $header = new Header();
 <div id="exhaust">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
 </div>
+
+<!-- jQuery -->
+<!-- passEye, jQuery -->
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.passEye.js'); ?>"></script>
+<!-- passEye, jQuery -->
+<!-- Placeholder for old browser -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
+<!-- Placeholder for old browser -->
+<!--[if lte IE 8]>-->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+<script>
+    document.createElement('ng-include');
+    document.createElement('ng-switch');
+    document.createElement('ng-if');
+    document.createElement('ng-pluralize');
+    document.createElement('ng-view');
+
+    // needed to enable CSS reference
+    document.createElement('ng:view');
+</script>
+<![endif]-->
+<!-- for tabs -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
+
 </body>
 </html>

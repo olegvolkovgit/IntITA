@@ -32,8 +32,10 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionAssignedConsultant()
     {
+
             $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
             $consult = Yii::app()->request->getPost('consult');
+
 
             Letters::sendAssignedConsultantLetter($consult,$idPlainTaskAnswer);
 

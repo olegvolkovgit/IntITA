@@ -60,7 +60,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                     for ($i = 0; $i < Module::getLessonsCount($lecture->idModule); $i++) {
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
-                        <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
+                        <a ng-attr-href="{{'<?php echo (($i+1) != $lecture->order); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>' || undefined }}"
                            tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                             <div class="lectureAccess"
                                  id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
@@ -71,7 +71,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         $lectureOrder = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->order;
                         if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) { ?>
-                            <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>"
+                            <a ng-attr-href="{{'<?php echo (($i+1) != $lecture->order); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>' || undefined }}"
                                tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
                                 <div class="lectureAccess"
                                      id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>

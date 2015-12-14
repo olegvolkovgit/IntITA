@@ -1,12 +1,6 @@
-<?php $this->renderPartial('/site/_shareMetaTag', array(
-    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('courses', '0066').'. '.Yii::t('sharing','0643'),
-    'description'=>Yii::t('sharing','0644'),
-));
-?>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>
+<? $css_version = 1; ?>
 
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
@@ -25,5 +19,12 @@ $courseList = $dataProvider->getData();
         </tr>
     </table>
 </div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>Yii::t('courses', '0066').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
+?>
 
 

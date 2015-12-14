@@ -89,6 +89,9 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
                     setTimeout(function () {
                         editor.insertElement(eqn);
                     }, 10);
+                },
+                error: function () {
+                    alert('error SaveFormulaImage');
                 }
             });
             EqEditor.Example.add_history(EqEditor.getTextArea().getLaTeX());

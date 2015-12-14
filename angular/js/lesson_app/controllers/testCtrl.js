@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('testCtrl',testCtrl);
 
-function testCtrl($rootScope,$http, $scope, accessLectureService) {
+function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
     $scope.sendTestAnswer = function (block_order, typeButton, test, testType, editMode) {
         user = idUser;
         var checkAnswers = angular.element("#answers" + block_order + "  input:" + typeButton + ":checked");
@@ -63,17 +63,17 @@ function testCtrl($rootScope,$http, $scope, accessLectureService) {
         })
             .done(function (data) {
                 if (data['status'] == '1' && data['lastTest'] == '0') {
-                    $scope.pageDataUpdate();
-                    $scope.openTrueDialog();
+                    pagesUpdateService.pagesDataUpdate();
+                    openDialogsService.openTrueDialog();
                     return false;
                 } else if (data['status'] == '1' && data['lastTest'] == '1') {
-                    $scope.pageDataUpdate();
-                    $scope.openLastTrueDialog();
+                    pagesUpdateService.pagesDataUpdate();
+                    openDialogsService.openLastTrueDialog();
                     accessLectureService.getAccessLectures();
                     $rootScope.finishedLecture = 1;
                     return false;
                 } else {
-                    $scope.openFalseDialog();
+                    openDialogsService.openFalseDialog();
                     return false;
                 }
             })
@@ -84,47 +84,4 @@ function testCtrl($rootScope,$http, $scope, accessLectureService) {
             .always(function () {
             }, "json");
     };
-
-    // оновлюємо модель з сервера
-    $scope.pageDataUpdate = function (){
-        $http({
-            url: basePath + '/lesson/GetPageData',
-            method: "POST",
-            data: $.param({lecture: idLecture}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function(response){
-            $rootScope.pageData = response.data;
-            var count = $rootScope.pageData.length;
-
-            for (var i = 0; i < count; i++) {
-                if (i == (count - 1) && $rootScope.pageData[i]['isDone']){
-                    $rootScope.lastAccessPage = i+1;
-                    break;
-                }
-                if ($rootScope.pageData[i]['isDone'] && !$rootScope.pageData[i+1]['isDone']){
-                    $rootScope.lastAccessPage = i+1;
-                    break;
-                }
-            }
-        });
-    };
-    // оновлюємо модель з сервера
-    // Dialog windows
-    $scope.openTrueDialog=function(){
-        jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#mydialog2").dialog().dialog("open");
-        $("#mydialog2").parent().css('border', '4px solid #339900');
-    };
-    $scope.openLastTrueDialog=function(){
-        jQuery('#dialogNextLecture').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#dialogNextLectureNG").dialog().dialog("open");
-        $("#dialogNextLectureNG").parent().css('border', '4px solid #339900');
-    };
-    $scope.openFalseDialog=function(){
-        jQuery('#mydialog3').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#mydialog3").dialog().dialog("open");
-        $("#mydialog3").parent().css('border', '4px solid #cc0000');
-
-    };
-    // Dialog windows
 }

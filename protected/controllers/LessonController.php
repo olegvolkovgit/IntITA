@@ -4,22 +4,24 @@
 class LessonController extends Controller
 {
     public $layout = 'lessonlayout';
+
     public function filters()
     {
         return array(
             'accessControl',
         );
     }
+
     public function accessRules()
     {
         return array(
             array('deny',
-                'users'=>array('?'),
+                'users' => array('?'),
             ),
         );
     }
 
-    public function initialize($id,$editMode)
+    public function initialize($id, $editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
@@ -31,28 +33,29 @@ class LessonController extends Controller
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) || $lecture->order > $enabledLessonOrder) {
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
+                || $lecture->order > $enabledLessonOrder) {
                 throw new CHttpException(403, Yii::t('errors', '0139'));
             }
-        }else {
+        } else {
             if ($lecture->order > $enabledLessonOrder)
                 throw new CHttpException(403, Yii::t('errors', '0646'));
         }
     }
 
-    public function actionIndex($id, $idCourse=0, $page = 1, $template=0)
+    public function actionIndex($id, $idCourse = 0, $page = 1, $template = 0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
-        $this->initialize($id,$editMode);
+        $this->initialize($id, $editMode);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;
         } else {
             $user = Yii::app()->user->getId();
         }
-        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
+        $passedPages = $lecture->accessPages($user, $editMode, StudentReg::isAdmin());
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
@@ -68,26 +71,21 @@ class LessonController extends Controller
 
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
-        $textList = LecturePage::getBlocksListById($page->id);
+        $textList = $page->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        $teacherId = Teacher::getLectureTeacher($id);
+        $teacher = $lecture->lectureTeacher();
 
-        if ($teacherId != 0) {
-            $teacher = Teacher::model()->findByPk($teacherId);
-        } else {
-            $teacher = null;
-        }
-        if($template==0) $view='index1';
-        else $view='indexTemplate';
+        if ($template == 0) $view = 'index1';
+        else $view = 'indexTemplate';
 
         $this->render($view, array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
             'passedPages' => $passedPages,
-            'teacher' => $teacher,
+            'teacher' => $teacher->teacher_id,
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $page,
@@ -131,7 +129,7 @@ class LessonController extends Controller
         $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
         $pageOrder = Yii::app()->request->getPost('page');
         $lectureId = Yii::app()->request->getPost('idLecture');
-        LectureElement::addVideo($htmlBlock,$pageOrder,$lectureId);
+        LectureElement::addVideo($htmlBlock, $pageOrder, $lectureId);
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -175,6 +173,7 @@ class LessonController extends Controller
         LecturePage::addTextBlock($id, $pageId);
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     public function actionCreateNewBlockCKE()
     {
         $model = new LectureElement();
@@ -247,6 +246,7 @@ class LessonController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
     //delete block on lesson page
     public function actionDeleteVideo()
     {
@@ -254,8 +254,8 @@ class LessonController extends Controller
         $pageOrder = Yii::app()->request->getPost('pageOrder');
 
         $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-        if($modelLecturePage->video){
-            $elementId=$modelLecturePage->video;
+        if ($modelLecturePage->video) {
+            $elementId = $modelLecturePage->video;
             LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
             LectureElement::model()->deleteByPk($elementId);
         }
@@ -293,18 +293,19 @@ class LessonController extends Controller
             echo stripslashes(json_encode($array));
         }
     }
+
     public function actionUploadBase64ToImage()
     {
-        $base64str= $_POST['base64'];
+        $base64str = $_POST['base64'];
         $base64pos = strpos($base64str, 'base64,');
         //base64, -7 chars
-        $base64 = base64_decode(substr($base64str, $base64pos+7));
-        $base64type = substr($base64str, 5, $base64pos-6);
+        $base64 = base64_decode(substr($base64str, $base64pos + 7));
+        $base64type = substr($base64str, 5, $base64pos - 6);
         $imgType = substr($base64type, 6);
 
         $path = StaticFilesHelper::createLectureImagePath();
         $dir = Yii::getpathOfAlias('webroot') . $path;
-        $filename = md5(date('YmdHis')) . '.'.$imgType;
+        $filename = md5(date('YmdHis')) . '.' . $imgType;
         $file = $dir . $filename;
         $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
 
@@ -315,10 +316,10 @@ class LessonController extends Controller
             || $base64type == 'image/pjpeg'
         ) {
             $fpng = fopen($file, "w");
-            fwrite($fpng,$base64);
+            fwrite($fpng, $base64);
             fclose($fpng);
             echo $link;
-        }else{
+        } else {
             echo 'error';
         }
     }
@@ -332,13 +333,13 @@ class LessonController extends Controller
 
 // HERE SET THE PATH TO THE FOLDERS FOR IMAGES AND AUDIO ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
         $upload_dir = array(
-            'img'=> Config::getBaseUrl() .$path,
-            'audio'=> Config::getBaseUrl() .$path
+            'img' => Config::getBaseUrl() . $path,
+            'audio' => Config::getBaseUrl() . $path
         );
 
 // HERE PERMISSIONS FOR IMAGE
         $imgset = array(
-            'maxsize' => 5*1024,     // maximum file size, in KiloBytes (2 MB)
+            'maxsize' => 5 * 1024,     // maximum file size, in KiloBytes (2 MB)
             'maxwidth' => 5000,     // maximum allowed width, in pixels
             'maxheight' => 5000,    // maximum allowed height, in pixels
             'minwidth' => 1,      // minimum allowed width, in pixels
@@ -357,57 +358,54 @@ class LessonController extends Controller
         define('RENAME_F', 1);
 
         $re = '';
-        if(isset($_FILES['upload']) && strlen($_FILES['upload']['name']) >1) {
-            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])).date('YmdHis'));  //get filename without extension
+        if (isset($_FILES['upload']) && strlen($_FILES['upload']['name']) > 1) {
+            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])) . date('YmdHis'));  //get filename without extension
 
             // get protocol and host name to send the absolute image path to CKEditor
             $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-            $site = $protocol. $_SERVER['SERVER_NAME'] .'/';
+            $site = $protocol . $_SERVER['SERVER_NAME'] . '/';
             $sepext = explode('.', strtolower($_FILES['upload']['name']));
             $type = end($sepext);    // gets extension
             $upload_dir = in_array($type, $imgset['type']) ? $upload_dir['img'] : $upload_dir['audio'];
-            $upload_dir = trim($upload_dir, '/') .'/';
+            $upload_dir = trim($upload_dir, '/') . '/';
 
             //checkings for image or audio
-            if(in_array($type, $imgset['type'])){
+            if (in_array($type, $imgset['type'])) {
                 list($width, $height) = getimagesize($_FILES['upload']['tmp_name']);  // image width and height
-                if(isset($width) && isset($height)) {
-                    if($width > $imgset['maxwidth'] || $height > $imgset['maxheight']) $re .= '\\n Width x Height = '. $width .' x '. $height .' \\n The maximum Width x Height must be: '. $imgset['maxwidth']. ' x '. $imgset['maxheight'];
-                    if($width < $imgset['minwidth'] || $height < $imgset['minheight']) $re .= '\\n Width x Height = '. $width .' x '. $height .'\\n The minimum Width x Height must be: '. $imgset['minwidth']. ' x '. $imgset['minheight'];
-                    if($_FILES['upload']['size'] > $imgset['maxsize']*1024) $re .= '\\n Maximum file size must be: '. $imgset['maxsize']. ' KB.';
+                if (isset($width) && isset($height)) {
+                    if ($width > $imgset['maxwidth'] || $height > $imgset['maxheight']) $re .= '\\n Width x Height = ' . $width . ' x ' . $height . ' \\n The maximum Width x Height must be: ' . $imgset['maxwidth'] . ' x ' . $imgset['maxheight'];
+                    if ($width < $imgset['minwidth'] || $height < $imgset['minheight']) $re .= '\\n Width x Height = ' . $width . ' x ' . $height . '\\n The minimum Width x Height must be: ' . $imgset['minwidth'] . ' x ' . $imgset['minheight'];
+                    if ($_FILES['upload']['size'] > $imgset['maxsize'] * 1024) $re .= '\\n Maximum file size must be: ' . $imgset['maxsize'] . ' KB.';
                 }
-            }
-            else if(in_array($type, $audioset['type'])){
-                if($_FILES['upload']['size'] > $audioset['maxsize']*1024) $re .= '\\n Maximum file size must be: '. $audioset['maxsize']. ' KB.';
-            }
-            else $re .= 'The file: '. $_FILES['upload']['name']. ' has not the allowed extension type.';
+            } else if (in_array($type, $audioset['type'])) {
+                if ($_FILES['upload']['size'] > $audioset['maxsize'] * 1024) $re .= '\\n Maximum file size must be: ' . $audioset['maxsize'] . ' KB.';
+            } else $re .= 'The file: ' . $_FILES['upload']['name'] . ' has not the allowed extension type.';
 
             //set filename; if file exists, and RENAME_F is 1, set "img_name_I"
             // $p = dir-path, $fn=filename to check, $ex=extension $i=index to rename
-            function setFName($p, $fn, $ex, $i){
-                if(RENAME_F ==1 && file_exists($p .$fn .$ex)) return setFName($p, F_NAME .'_'. ($i +1), $ex, ($i +1));
-                else return $fn .$ex;
+            function setFName($p, $fn, $ex, $i)
+            {
+                if (RENAME_F == 1 && file_exists($p . $fn . $ex)) return setFName($p, F_NAME . '_' . ($i + 1), $ex, ($i + 1));
+                else return $fn . $ex;
             }
 
-            $f_name = setFName($_SERVER['DOCUMENT_ROOT'] .'/'. $dir, F_NAME, ".$type", 0);
+            $f_name = setFName($_SERVER['DOCUMENT_ROOT'] . '/' . $dir, F_NAME, ".$type", 0);
             $uploadpath = $dir . $f_name;  // full file path
 
             // If no errors, upload the image, else, output the errors
-            if($re == '') {
-                if(move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath)) {
+            if ($re == '') {
+                if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath)) {
                     $CKEditorFuncNum = $_GET['CKEditorFuncNum'];
                     $url = $upload_dir . $f_name;
-                    $msg = F_NAME .'.'. $type .' successfully uploaded: \\n- Size: '. number_format($_FILES['upload']['size']/1024, 2, '.', '') .' KB';
+                    $msg = F_NAME . '.' . $type . ' successfully uploaded: \\n- Size: ' . number_format($_FILES['upload']['size'] / 1024, 2, '.', '') . ' KB';
                     $re = in_array($type, $imgset['type']) ? "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')"  //for img
-                        : 'var cke_ob = window.parent.CKEDITOR; for(var ckid in cke_ob.instances) { if(cke_ob.instances[ckid].focusManager.hasFocus) break;} cke_ob.instances[ckid].insertHtml(\'<div hello><audio src="'. $url .'" controls></audio></div>\', \'unfiltered_html\'); alert("'. $msg .'"); var dialog = cke_ob.dialog.getCurrent();  dialog.hide();';
-                }
-                else $re = 'alert("Unable to upload the file")';
-            }
-            else $re = 'alert("'. $re .'")';
+                        : 'var cke_ob = window.parent.CKEDITOR; for(var ckid in cke_ob.instances) { if(cke_ob.instances[ckid].focusManager.hasFocus) break;} cke_ob.instances[ckid].insertHtml(\'<div hello><audio src="' . $url . '" controls></audio></div>\', \'unfiltered_html\'); alert("' . $msg . '"); var dialog = cke_ob.dialog.getCurrent();  dialog.hide();';
+                } else $re = 'alert("Unable to upload the file")';
+            } else $re = 'alert("' . $re . '")';
         }
 
         @header('Content-type: text/html; charset=utf-8');
-        echo '<script>'. $re .';</script>';
+        echo '<script>' . $re . ';</script>';
     }
 
     public function actionFormulaRedactor()
@@ -415,35 +413,35 @@ class LessonController extends Controller
         $this->render('formulaRedactor');
     }
 
-    public function actionNextPage($id, $idCourse=0, $page)
+    public function actionNextPage($id, $idCourse = 0, $page)
     {
         $nextPage = LecturePage::getNextPage($id, $page);
 
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
 
-    public function actionNextLecture($lectureId, $idCourse=0)
+    public function actionNextLecture($lectureId, $idCourse = 0)
     {
-        $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < Module::getLessonsCount($idCourse)){
+        $lecture = Lecture::model()->findByPk($lectureId);
+        if ($lecture->order < Module::getLessonsCount($idCourse)) {
             $nextId = Lecture::getNextId($lecture['id']);
-            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse)));
-        }
-        else{
+            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));
+        } else {
             $this->redirect($_SERVER["HTTP_REFERER"]);
         }
     }
-    public function actionNextLectureNG($lectureId, $idCourse=0)
+
+    public function actionNextLectureNG($lectureId, $idCourse = 0)
     {
-        $lecture=Lecture::model()->findByPk($lectureId);
-        if ( $lecture->order < Module::getLessonsCount($idCourse)){
+        $lecture = Lecture::model()->findByPk($lectureId);
+        if ($lecture->order < Module::getLessonsCount($idCourse)) {
             $nextId = Lecture::getNextId($lecture['id']);
-            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse'=>$idCourse,'template'=>1)));
-        }
-        else{
+            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse, 'template' => 1)));
+        } else {
             $this->redirect($_SERVER["HTTP_REFERER"]);
         }
     }
+
     public function actionUpdateLectureAttribute()
     {
         $up = new EditableSaver('Lecture');
@@ -491,7 +489,7 @@ class LessonController extends Controller
 
         if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
             $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-            $dataProvider = LecturePage::getPageTextList($page);
+            $dataProvider = $page->getPageTextList();
 
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
@@ -512,7 +510,7 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
-        $idCourse = Yii::app()->request->getPost('idCourse', 1);
+
         if ($pageOrder > 1) {
             LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
@@ -523,7 +521,6 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $pageOrder = Yii::app()->request->getPost('pageOrder');
-        $idCourse = Yii::app()->request->getPost('idCourse', 1);
 
         if ($pageOrder < LecturePage::model()->count('id_lecture=' . $idLecture)) {
             LecturePage::swapPages($idLecture, $pageOrder, $pageOrder + 1);
@@ -573,10 +570,11 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($id, $page, $idCourse, $cke = false){
+    public function actionEditPage($id, $page, $idCourse, $cke = false)
+    {
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
-        $textList = LecturePage::getBlocksListById($pageModel->id);
+        $textList = $pageModel->getBlocksListById();
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
@@ -591,50 +589,49 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
 
-        if($cke) $editorView='indexCKE';
-        else $editorView='index';
+        if ($cke) $editorView = 'indexCKE';
+        else $editorView = 'index';
 
-        $this->render('/editor/'.$editorView, array(
+        $this->render('/editor/' . $editorView, array(
                 'user' => Yii::app()->user->getId(),
                 'page' => $pageModel,
                 'dataProvider' => $dataProvider,
                 'idCourse' => $idCourse,
-                'lecture' =>$lecture,
+                'lecture' => $lecture,
             )
         );
     }
 
     public function actionPageAjaxUpdate()
     {
-        $user=Yii::app()->user->getId();
+        $user = Yii::app()->user->getId();
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
-        $this->initialize($id,$editMode);
+        $this->initialize($id, $editMode);
 
         $passedPages = LecturePage::getAccessPages($id, $user);
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
         if (is_string($_GET['page'])) $thisPage = $_GET['page'];
-        else if($editMode) $thisPage = 1;
+        else if ($editMode) $thisPage = 1;
         else $thisPage = $lastAccessPage;
 
         $passedLecture = Lecture::isPassedLecture($passedPages);
         $finishedLecture = $lecture->isFinished($user);
 
-        $page_order=$_GET['page'];
+        $page_order = $_GET['page'];
         $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
 
-        $textList = LecturePage::getBlocksListById($page->id);
+        $textList = $page->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        if (!($passedPages[$thisPage-1]['isDone'] || $editMode || StudentReg::isAdmin())){
+        if (!($passedPages[$thisPage - 1]['isDone'] || $editMode || StudentReg::isAdmin())) {
             echo Yii::t('lecture', '0640');
-        }
-        else{
-            echo $this->renderPartial('/lesson/_page',array('id'=>$id,'page'=>$page,'dataProvider'=>$dataProvider,'user'=>$user,'finishedLecture'=>$finishedLecture,'passedLecture'=>$passedLecture,'passedPages'=>$passedPages, 'thisPage'=>$thisPage, 'edit'=>0,  'editMode' => $editMode),false,true);
+        } else {
+            echo $this->renderPartial('/lesson/_page', array('id' => $id, 'page' => $page, 'dataProvider' => $dataProvider, 'user' => $user, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'thisPage' => $thisPage, 'edit' => 0, 'editMode' => $editMode), false, true);
         }
     }
 
@@ -646,23 +643,24 @@ class LessonController extends Controller
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
         $model->html_block = Yii::app()->request->getPost('content');
 
-        if($model->validate()){
+        if ($model->validate()) {
             $model->save();
-        }else echo 'Блок не може бути пустий';
+        } else echo 'Блок не може бути пустий';
     }
 
-    public function actionSaveLectureContent($idLecture){
+    public function actionSaveLectureContent($idLecture)
+    {
         $model = Lecture::model()->findByPk($idLecture);
         $pages = $model->getAllLecturePages();
 
         foreach ($pages as $page) {
-            $textList = LecturePage::getBlocksListById($page->id);
+            $textList = $page->getBlocksListById();
             $dataProvider = LectureElement::getLectureText($textList);
             $langs = ['ua', 'ru', 'en'];
             $types = ['video', 'text', 'quiz'];
-            foreach($langs as $lang) {
+            foreach ($langs as $lang) {
                 $messages = Translate::getLectureContentMessagesByLang($lang);
-                foreach($types as $type) {
+                foreach ($types as $type) {
                     switch ($type) {
                         case 'video':
                             $html = $this->renderPartial('/lesson/_videoTab',
@@ -687,12 +685,12 @@ class LessonController extends Controller
 
             }
         }
-        $this->redirect(Config::getBaseUrl().'/_admin/verifyContent/index');
+        $this->redirect(Config::getBaseUrl() . '/_admin/verifyContent/index');
     }
 
     public function actionGetPageData()
     {
-        $user=Yii::app()->user->getId();
+        $user = Yii::app()->user->getId();
         $id = Yii::app()->request->getPost('lecture');
 
         $lecture = Lecture::model()->findByPk($id);
@@ -702,6 +700,7 @@ class LessonController extends Controller
 
         echo json_encode($passedPages);
     }
+
     public function actionGetAccessLectures()
     {
         $lectures = [];
@@ -711,16 +710,17 @@ class LessonController extends Controller
             $lectureId = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->id;
             $lectureOrder = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->order;
             if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) {
-                $lectures[$i]=true;
-            }else{
-                $lectures[$i]=false;
+                $lectures[$i] = true;
+            } else {
+                $lectures[$i] = false;
             }
         }
         echo json_encode($lectures);
     }
+
     public function actionSaveFormulaImage()
     {
-        $imageUrl= $_POST['imageUrl'];
+        $imageUrl = $_POST['imageUrl'];
 
         $path = StaticFilesHelper::createLectureImagePath();
         $dir = Yii::getpathOfAlias('webroot') . $path;
@@ -728,7 +728,7 @@ class LessonController extends Controller
         $file = $dir . $filename;
         $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
 
-        copy($imageUrl,$file);
+        copy($imageUrl, $file);
         echo $link;
     }
 }
