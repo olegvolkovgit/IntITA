@@ -65,16 +65,16 @@ $this->breadcrumbs = array(
                         <?php echo $form->labelEx($model, 'firstName'); ?>
                         <?php echo $form->textField($model, 'firstName', array('ng-model'=>"firstName", 'maxlength' => 20, 'autofocus' => 'true', 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
-                        <div class="clientValidationError" ng-show="StudentReg['StudentReg[firstName]'].$invalid">
-                            <span ng-cloak ng-show="StudentReg['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[firstName]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'secondName'); ?>
                         <?php echo $form->textField($model, 'secondName', array('maxlength' => 20,'ng-model'=>"secondName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
-                        <div class="clientValidationError" ng-show="StudentReg['StudentReg[secondName]'].$invalid">
-                            <span ng-cloak ng-show="StudentReg['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                        <div ng-cloak  class="clientValidationError" ng-show="StudentReg['StudentReg[secondName]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
@@ -106,27 +106,27 @@ $this->breadcrumbs = array(
                         <?php echo $form->labelEx($model, 'email'); ?>
                         <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'email'); ?>
-                        <div class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
-                            <span ng-cloak ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                            <span ng-cloak ng-show="StudentReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
-                            <span ng-cloak ng-show="StudentReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
                         </div>
                     </div>
                     <div class="rowPass">
                         <?php echo $form->labelEx($model, 'password'); ?>
                         <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1")); ?></span>
                         <?php echo $form->error($model, 'password'); ?>
-                        <div class="clientValidationError" ng-show="StudentReg['StudentReg[password]'].$dirty && StudentReg['StudentReg[password]'].$invalid">
-                            <span ng-cloak ng-show="StudentReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password]'].$dirty && StudentReg['StudentReg[password]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
                         </div>
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'password_repeat'); ?>
                         <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw2", 'pw-check'=>"pw1")); ?></span>
                         <?php echo $form->error($model, 'password_repeat'); ?>
-                        <div class="clientValidationError" ng-show="StudentReg['StudentReg[password_repeat]'].$dirty && StudentReg['StudentReg[password_repeat]'].$invalid">
-                            <span ng-cloak ng-show="StudentReg['StudentReg[password_repeat]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                            <span ng-cloak ng-if="!StudentReg['StudentReg[password_repeat]'].$error.required" ng-show="StudentReg['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password_repeat]'].$dirty && StudentReg['StudentReg[password_repeat]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[password_repeat]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                            <span ng-if="!StudentReg['StudentReg[password_repeat]'].$error.required" ng-show="StudentReg['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
                         </div>
                     </div>
                 </div>
