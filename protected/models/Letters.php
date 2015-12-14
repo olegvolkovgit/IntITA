@@ -107,11 +107,6 @@ class Letters extends CActiveRecord
 		return parent::model($className);
 	}
 
-
-
-
-
-
     protected function afterSave()
     {
         $addresse = StudentReg::model()->findByPk($this->addressee_id)->email;
@@ -130,6 +125,8 @@ class Letters extends CActiveRecord
 
         parent::afterSave();
     }
+
+
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
         $consultant = Teacher::model()->findByPk($consult);

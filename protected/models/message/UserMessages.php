@@ -11,7 +11,7 @@
  * The followings are the available model relations:
  * @property Messages $idMessage
  */
-class UserMessages extends CActiveRecord implements IMessage
+class UserMessages extends Messages implements IMessage
 {
 	/**
 	 * @return string the associated database table name
@@ -33,7 +33,6 @@ class UserMessages extends CActiveRecord implements IMessage
 			array('id_message', 'numerical', 'integerOnly'=>true),
 			array('topic', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_message, topic, subject', 'safe', 'on'=>'search'),
 		);
 	}
@@ -76,8 +75,6 @@ class UserMessages extends CActiveRecord implements IMessage
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message);
@@ -102,6 +99,17 @@ class UserMessages extends CActiveRecord implements IMessage
 
     public function create(){
 
+        $model->date = date("Y-m-d H:i:s");
+        if($model->validate())
+        {
+            $model->save();
+            Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
+            $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
+        } else {
+            Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
+            $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
+        }
+
     }
 
     public function send(IMailSender $sender){
@@ -122,5 +130,25 @@ class UserMessages extends CActiveRecord implements IMessage
 
     public function sendOn(StudentReg $receiver){
 
+    }
+
+    protected function afterSave()
+    {
+
+        $addresse = StudentReg::model()->findByPk($this->messageReceivers)->email;
+
+        $link = Yii::app()->createUrl('/studentreg/profile', array('idUser' => $this->addressee_id));
+
+        $from = Yii::app()->user->name;
+
+        $theme = "У Вас нове повідомлення на INTITA";
+
+        $text = 'У Вас нове повідомлення на INTITA<br>'
+            .'Від користувача '. $from . '<br>
+            Ви зможете його переглянути <a href ='.$link.'>тут</a>';
+
+        mail($addresse,$theme,$text);
+
+        parent::afterSave();
     }
 }

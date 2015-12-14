@@ -118,6 +118,7 @@ class Translate extends CActiveRecord
 
         return $model->save();
     }
+
     // create messages for create international schema of course
     public static function getMessagesForSchemabyLang($lang)
     {

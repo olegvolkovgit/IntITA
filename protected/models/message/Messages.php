@@ -118,4 +118,6 @@ class Messages extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
 }
