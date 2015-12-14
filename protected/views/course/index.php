@@ -1,12 +1,6 @@
 <? $css_version = 1; ?>
 <?php
 /* @var $model Course*/
-
-$this->renderPartial('/site/_shareMetaTag', array(
-    'url' => Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title' => $model->getTitle(). '. ' . Yii::t('sharing', '0643'),
-    'description' => Yii::t('sharing', '0644'),
-));
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
 <?php
@@ -38,3 +32,10 @@ $this->breadcrumbs = array(
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
 <?php } ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPay.js'); ?>"></script>
+<?php
+$this->renderPartial('/site/_shareMetaTag', array(
+    'url' => Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title' => $model->getTitle(). '. ' . Yii::t('sharing', '0643'),
+    'description' => Yii::t('sharing', '0644'),
+));
+?>
