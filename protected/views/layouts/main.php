@@ -1,4 +1,5 @@
-<?php /* @var $this Controller */
+<?php
+/* @var $this Controller */
 $header = new Header();
 ?>
 <!DOCTYPE html>
