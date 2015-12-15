@@ -25,15 +25,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
                 <?php
-                $browser = CommonHelper::detectBrowser($_SERVER['HTTP_USER_AGENT']);
-                $cmp = CommonHelper::checkForBrowserVersion($browser, array(
-                    'Internet Explorer' => array(9, 0)
-                ));
-                if ($cmp < 0) {
-                    $this->renderPartial('_chaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
-                } else {
-                    $this->renderPartial('_jsChaptersList', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
-                }
+                $this->renderPartial('_jsChaptersListTemplate', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
                 ?>
             </li>
             <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
@@ -77,9 +69,10 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                                      id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
                             </a>
                         <?php } else { ?>
-                            <a
-                                tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
-                                <div class="lectureDisabled"></div>
+                            <a ng-attr-href="{{lectures[<?php echo $i; ?>] && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>' || undefined }}"
+                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo Lecture::getLectureTitle($lectureId); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
+                                <div
+                                    ng-class="{lectureDisabled: !(lectures[<?php echo $i; ?>]), lectureAccess: lectures[<?php echo $i; ?>]}"></div>
                             </a>
                         <?php }
                     } ?>
@@ -108,8 +101,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                     src="<?php echo Config::getBaseUrl(); ?>/mibew/js/compiled/chat_popup.js"></script>
             <script type="text/javascript">Mibew.ChatPopup.init({
                     "id": "55bf44d367c197db",
-                    "url": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat?locale=<?php
-                    echo CommonHelper::getLanguage(); ?>&style=default<?php echo StudentReg::getNameEmail(); ?>",
+                    "url": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat?locale=<?php echo CommonHelper::getLanguage(); ?>&style=default<?php echo StudentReg::getNameEmail(); ?>",
                     "preferIFrame": true,
                     "modSecurity": false,
                     "width": 640,

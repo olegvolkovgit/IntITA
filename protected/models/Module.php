@@ -268,6 +268,9 @@ class Module extends CActiveRecord implements IBillableObject
 
         if ($coursemodule->validate()) {
             $coursemodule->save();
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
+                mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+            }
         }
 
         return $order;

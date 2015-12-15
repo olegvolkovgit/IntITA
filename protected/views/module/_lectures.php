@@ -126,7 +126,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
             if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder)) {
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
                     array("id" => $data->id, "idCourse" => $idCourse)));
-                //.' '.CHtml::link(' (Alt. Lecture view)', Yii::app()->createUrl("lesson/index", array("id" => $data->id, "idCourse" => $idCourse, "template"=>1)));
             }
             else
                 return $data->$titleParam;

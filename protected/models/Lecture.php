@@ -227,6 +227,15 @@ class Lecture extends CActiveRecord
         $lecture->alias = 'lecture' . $order;
 
         $lecture->save();
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id)){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id);
+        }
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/images")){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/images");
+        }
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio")){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio");
+        }
 
         return $order;
     }

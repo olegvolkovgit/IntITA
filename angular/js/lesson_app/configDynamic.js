@@ -1,5 +1,5 @@
 /**
- * Created by Wizlight on 10.12.2015.
+ * Created by Wizlight on 14.12.2015.
  */
 angular
     .module('lessonApp')
@@ -57,17 +57,17 @@ angular
                 views: {
                     "viewVideo": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_video_ua.html'
+                            return basePath+'/lesson/loadVideoPage?page='+stateParams.page+'&lectureId='+idLecture;
                         }
                     },
                     "viewText": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_text_ua.html'
+                            return basePath+'/lesson/loadTextPage?page='+stateParams.page+'&lectureId='+idLecture;
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_quiz_ua.html'
+                            return basePath+'/lesson/loadQuizPage?page='+stateParams.page+'&lectureId='+idLecture;
                         }
                     }
                 },
@@ -91,17 +91,17 @@ angular
                 views: {
                     "viewVideo": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_ua.html'
+                            return basePath+'/lesson/loadVideoPage?page='+lastAccessPage+'&lectureId='+idLecture;
                         }
                     },
                     "viewText": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_ua.html'
+                            return basePath+'/lesson/loadTextPage?page='+lastAccessPage+'&lectureId='+idLecture;
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_ua.html'
+                            return basePath+'/lesson/loadQuizPage?page='+lastAccessPage+'&lectureId='+idLecture;
                         }
                     }
                 },

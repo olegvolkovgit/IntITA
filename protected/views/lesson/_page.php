@@ -1,31 +1,18 @@
 <?php
-
-if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else {
-    if (!$page->video){
-        $lessonTab = 1;
-    }else{
-        $lessonTab = 0;
-    }
-}
-
-$this->renderPartial('_jsLectureProgress', array('page' => $page, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'user' => $user, 'thisPage' => $thisPage, 'edit' => 0, 'editMode' => $editMode)); ?>
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 04.12.2015
+ * Time: 13:43
+ */
+if (isset($_COOKIE['lessonTab'])) $lessonTab = $_COOKIE['lessonTab']; else $lessonTab = 0;
+?>
 <?php
 $this->widget('zii.widgets.jui.CJuiTabs', array(
     'tabs' => array(
-        Yii::t('lecture', '0613') => array('id' => 'video', 'content' => $this->renderPartial(
-            '_videoTab',
-            array('page' => $page), true
-        )),
-        Yii::t('lecture', '0614') => array('id' => 'text', 'content' => $this->renderPartial(
-            '_textListTab',
-            array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => $user), true
-        )),
-        Yii::t('lecture', '0659') => array('id' => 'quiz', 'content' => $this->renderPartial(
-            '_quiz',
-            array('page' => $page, 'editMode' => 0, 'user' => $user), true
-        )
-
-        ),
+        Yii::t('lecture', '0613') => array('id' => 'video', 'content' => '<div ui-view="viewVideo"></div>'),
+        Yii::t('lecture', '0614') => array('id' => 'text', 'content' => '<div ui-view="viewText"></div>'),
+        Yii::t('lecture', '0659') => array('id' => 'quiz', 'content' =>  '<div ui-view="viewQuiz"></div>'),
     ),
     'options' => array(
         'collapsible' => true,
@@ -51,16 +38,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 ?>
 <div class="mooda">
-    <?php
-    $lastAccessPage = $page['page_order'];
-    $qForm = new StudentReg;
-    if (is_string($_GET['page']))
-        $page = $_GET['page'];
-    else $page = $lastAccessPage;
-
-    if (!isset($thisPage)) $thisPage = 1;
-    $nextPage = LecturePage::getNextPage($id, $thisPage);
-    ?>
     <div class="signIn2">
         <div id="heedd">
             <table>
@@ -77,7 +54,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             <div class="happily">
                 <p><?php echo Yii::t('lecture', '0679'); ?></p>
             </div>
-            <a id="signInButtonM2" href="#/page<?php echo $nextPage ?>"><?php echo Yii::t('lecture', '0681'); ?></a>
+            <a id="signInButtonM2" ng-click="dialogHide()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
         </div>
     </div>
 </div>

@@ -50,7 +50,7 @@ $finishedLecture = $lecture->isFinished($user);
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
 </div>
 <div ng-cloak class="lessonBlock" id="lessonBlock"  ng-app="lessonApp" >
-    <?php $this->renderPartial('_sidebarTemplate', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
+    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
@@ -65,7 +65,7 @@ $finishedLecture = $lecture->isFinished($user);
             </div>
         </div>
         <?php
-        $this->renderPartial('_jsLecturePageTabsTemplate', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
     </div>
     <div ng-controller="lessonPageCtrl">
@@ -100,7 +100,7 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_passLectureModalNG', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
     </div>

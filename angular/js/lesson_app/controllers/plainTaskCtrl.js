@@ -21,7 +21,7 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService) {
                 data: $.param({idLecture:idLecture,answer:answer}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
-            }).then(function(response){
+            }).then(function(){
                 alert('Ваша відповідь буде оброблена в найближчий час');
             });
         }

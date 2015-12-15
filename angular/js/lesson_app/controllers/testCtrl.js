@@ -28,7 +28,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
             cache: false
         })
             .success(function () {
-                if (editMode == 0 && user != 0) {
+                if (user != 0) {
                     $scope.isTrueTestAnswer(user, test);
                 }
             })

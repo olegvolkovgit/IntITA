@@ -13,7 +13,7 @@ function sendPlainTaskAnswer(idBlock)
     {
         $.ajax({
             type: "POST",
-            url: "/IntITA/plainTask/saveAnswer",
+            url: "/plainTask/saveAnswer",
             data: {'idBlock':idBlock,'answer':answer},
             success: function(){
                   alert('Ваша відповідь буде оброблена в найближчий час');
