@@ -473,6 +473,9 @@ div.lastAccessPage {
     line-height: 50px;
     margin-bottom: 10px;
 }
+.lessonEditPart{
+    display: inline-block;
+}
 
 .lessonPart div {
     display: inline-block;

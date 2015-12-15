@@ -560,4 +560,11 @@ class Lecture extends CActiveRecord
             }
         }
     }
+    public static function lectureToTemplate($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->saveLectureContent();
+        }
+    }
 }

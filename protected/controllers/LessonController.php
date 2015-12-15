@@ -722,4 +722,29 @@ class LessonController extends Controller
         echo $this->renderPartial('/lesson/_quiz',
             array('page' => $page, 'editMode' => $editMode, 'user' => $user), true);
     }
+    public function actionConfirm($id){
+        $model = Lecture::model()->findByPk($id);
+
+        if ($model){
+            $model->updateByPk($id, array('verified' => '1'));
+            $model->saveLectureContent();
+        } else {
+            throw new CException("Такої лекції немає!");
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCancel($id){
+        $model = Lecture::model()->findByPk($id);
+
+        if ($model){
+            $model->verified = 0;
+            $model->save();
+        } else {
+            throw new CException("Такої лекції немає!");
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }

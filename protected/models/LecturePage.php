@@ -225,6 +225,7 @@ class LecturePage extends CActiveRecord
         $model->page_order = $pageOrder;
 
         $model->save();
+        Lecture::lectureToTemplate($lecture);
     }
 
     public static function addVideo($pageId, $block){
@@ -236,12 +237,14 @@ class LecturePage extends CActiveRecord
     public static function deletePage($idLecture, $pageOrder){
         $model = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
         $model->delete();
+        Lecture::lectureToTemplate($idLecture);
     }
 
     public static function addQuiz($pageId, $blockElement){
         $model = LecturePage::model()->findByPk($pageId);
         $model->quiz = $blockElement;
         $model->save();
+        Lecture::lectureToTemplate($model->id_lecture);
     }
 
     public static function unableQuiz($pageId){
@@ -250,6 +253,7 @@ class LecturePage extends CActiveRecord
             $model->quiz = null;
             if($model->validate()){
                 $model->save();
+                Lecture::lectureToTemplate($model->id_lecture);
                 return true;
             }
 
