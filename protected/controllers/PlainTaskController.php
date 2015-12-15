@@ -56,7 +56,8 @@ class PlainTaskController extends Controller
 
     }
 
-    public function actionSaveAnswer()
+    public function action
+    ()
     {
         if(Yii::app()->request->isAjaxRequest)
         {

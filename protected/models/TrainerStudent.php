@@ -105,24 +105,6 @@ class TrainerStudent extends CActiveRecord
         return 'student';
     }
 
-    public static function getStudentsByTrainer($trainer){
-        $students = Yii::app()->db->createCommand(array(
-            'select' => array('student'),
-            'from' => 'trainer_student',
-            'where' => 'trainer=:id',
-            'order' => 'student',
-            'params' => array(':id' => $trainer),
-        ))->queryAll();
-        $count = count($students);
-
-        for($i = 0;$i < $count;$i++){
-            $students[$i]['id'] = $students[$i]["student"];
-            $students[$i]['title'] = StudentReg::model()->findByPk($students[$i]["student"])->firstName." ".
-                StudentReg::model()->findByPk($students[$i]["id"])->secondName;
-        }
-
-        return (!empty($students))?$students:[];
-    }
 
     public static function setRoleAttribute($teacher, $attribute, $value){
         $result = false;
@@ -169,16 +151,9 @@ class TrainerStudent extends CActiveRecord
         return TrainerStudent::model()->deleteAllByAttributes(array('student' => $userId));
     }
 
-    public static function getTrainerStudents($teacher){
-        $students = TrainerStudent::getStudentsByTrainer($teacher);
-        $result = RoleAttribute::formatAttributeList($students, 'project/index', 'id', false);
-        return $result;
-    }
-
     public static function getStudentWithoutTrainer()
     {
         $plainTasksAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
-//        var_dump($plainTasksAnswers);die;
         return $plainTasksAnswers;
 
     }

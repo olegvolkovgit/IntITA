@@ -517,4 +517,42 @@ class Lecture extends CActiveRecord
         $current = Lecture::model()->findByPk($id);
         return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
     }
+
+    public function saveLectureContent(){
+
+        $pages = $this->getAllLecturePages();
+
+        foreach ($pages as $page) {
+            $textList = $page->getBlocksListById();
+            $dataProvider = LectureElement::getLectureText($textList);
+            $langs = ['ua', 'ru', 'en'];
+            $types = ['video', 'text', 'quiz'];
+            foreach ($langs as $lang) {
+                $messages = Translate::getLectureContentMessagesByLang($lang);
+                foreach ($types as $type) {
+                    switch ($type) {
+                        case 'video':
+                            $html = $this->renderPartial('/lesson/_videoTab',
+                                array('page' => $page, 'message' => $messages['613']), true);
+                            break;
+                        case 'text';
+                            $html = $this->renderPartial('/lesson/_textListTab',
+                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
+                            break;
+                        case 'quiz':
+                            $html = $this->renderPartial('/lesson/_quizNG',
+                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
+                            break;
+                        default:
+                            $html = '';
+                            break;
+                    };
+
+                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $page->page_order, $lang, $type);
+                    file_put_contents($file, $html);
+                }
+
+            }
+        }
+    }
 }

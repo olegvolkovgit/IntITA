@@ -12,8 +12,8 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'access.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 
 <br>
 
@@ -53,7 +53,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'prevPageLabel'=>'&#171;',
         'nextPageLabel'=>'&#187;',
         'header'=>'',
-        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        'cssFile'=>StaticFilesHelper::fullPathTo('css', 'pager.css')
     ),
     'columns' => array(
         array(
