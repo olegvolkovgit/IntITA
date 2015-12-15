@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 15.07.2015
- * Time: 16:10
- */
-?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
     <br>
 

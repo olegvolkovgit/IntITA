@@ -55,7 +55,8 @@ class PlainTaskController extends Controller
 
     }
 
-    public function actionSaveAnswer()
+    public function action
+    ()
     {
         var_dump('dsadadsadsad');die;
 

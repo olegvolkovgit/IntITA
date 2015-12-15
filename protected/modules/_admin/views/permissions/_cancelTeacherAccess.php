@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 01.09.2015
- * Time: 17:36
- */
-?>
 <div id="cancelTeacherAccess">
     <br>
     <a name="cancelFormTeacher"></a>
@@ -15,7 +7,8 @@
             Викладач:<br>
             <div class="col-md-4">
                 <div class="form-group">
-                    <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus onchange="selectTeacherModules();">
+                    <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus
+                            onchange="selectTeacherModules('<?=Yii::app()->createUrl("/_admin/permissions/showTeacherModules");?>');">
                         <?php $users = Teacher::generateTeachersList();
                         $count = count($users);
                         for($i = 0; $i < $count; $i++){
