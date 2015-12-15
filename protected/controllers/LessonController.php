@@ -330,15 +330,18 @@ class LessonController extends Controller
         $module = $_GET['idModule'];
         $lecture = $_GET['idLecture'];
 
+        $pathImage = StaticFilesHelper::pathToLectureImages($module, $lecture);
+        $pathAudio = StaticFilesHelper::pathToLectureAudio($module, $lecture);
+
         $path = StaticFilesHelper::pathToLectureImages($module, $lecture);
-        $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
         // PHP Upload Script for CKEditor:  http://coursesweb.net/
 
 // HERE SET THE PATH TO THE FOLDERS FOR IMAGES AND AUDIO ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
         $upload_dir = array(
-            'img' => Config::getBaseUrl() .'/'. $path,
-            'audio' => Config::getBaseUrl() .'/'. $path
+            'img' => Config::getBaseUrl() .'/'. $pathImage,
+            'audio' => Config::getBaseUrl() .'/'. $pathAudio
         );
+
 // HERE PERMISSIONS FOR IMAGE
         $imgset = array(
             'maxsize' => 5 * 1024,     // maximum file size, in KiloBytes (2 MB)
@@ -370,6 +373,7 @@ class LessonController extends Controller
             $type = end($sepext);    // gets extension
             $upload_dir = in_array($type, $imgset['type']) ? $upload_dir['img'] : $upload_dir['audio'];
             $upload_dir = trim($upload_dir, '/') . '/';
+            $dir = in_array($type, $imgset['type']) ? Yii::getpathOfAlias('webroot').'/'.$pathImage : Yii::getpathOfAlias('webroot').'/'.$pathAudio;
 
             //checkings for image or audio
             if (in_array($type, $imgset['type'])) {
@@ -662,7 +666,7 @@ class LessonController extends Controller
 
         $path =  StaticFilesHelper::pathToLectureImages($module, $lecture);
         $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
-        $filename = md5(date('YmdHis')) . '.gif';
+        $filename = date('YmdHis') . '.gif';
         $file = $dir . $filename;
         $link = Config::getBaseUrl().'/'.StaticFilesHelper::pathToLectureImages($module, $lecture).$filename;
 
