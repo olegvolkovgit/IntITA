@@ -87,6 +87,10 @@ function markPlainTask(url)
 
 }
 
+function manageConsult(url)
+{
+
+}
 
 
 

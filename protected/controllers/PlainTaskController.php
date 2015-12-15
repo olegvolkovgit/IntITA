@@ -1,6 +1,5 @@
 <?php
 
-use application\components\Exceptions\PlainTaskException as PlainTaskException;
 class PlainTaskController extends Controller
 {
 	public function actionIndex()
@@ -58,6 +57,8 @@ class PlainTaskController extends Controller
 
     public function actionSaveAnswer()
     {
+        var_dump('dsadadsadsad');die;
+
         if(Yii::app()->request->isAjaxRequest)
         {
             $answer = htmlentities (Yii::app()->request->getPost('answer'));
@@ -68,7 +69,6 @@ class PlainTaskController extends Controller
             $plainTaskAnswer = PlainTaskAnswer::fillHole($answer,$user,$plainTask->id);
                 if($plainTaskAnswer->save())
                     return true;
-
                 else
                     throw new PlainTaskException('Plain task was not saved');
         }

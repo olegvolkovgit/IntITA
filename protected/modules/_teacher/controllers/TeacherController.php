@@ -8,7 +8,6 @@
 
 class TeacherController extends TeacherCabinetController {
 
-
     public function actionShowPlainTaskList()
     {
         $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
@@ -80,5 +79,10 @@ class TeacherController extends TeacherCabinetController {
 
         if(!PlainTaskMarks::saveMark($plainTaskId,$mark,$comment,$userId))
             throw new IntItaExeption(503);
+    }
+
+    public function actionManageConsultant($teacherId)
+    {
+
     }
 }

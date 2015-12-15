@@ -196,8 +196,9 @@ class PlainTaskAnswer extends CActiveRecord
             ->from('plain_task_answer')
             ->leftJoin('plain_task_marks','plain_task_answer.id = id_task')
             ->where('plain_task_marks.mark IS NULL')
+//            ->where('and plain_task_marks.id_task = '. $teacherPlainTask[0])
             ->queryAll();
-
+//        var_dump($nonMarkTasks);die;
         for($i = 0 ; $i < count($nonMarkTasks);$i++)
         {
             for($j = 0;$j < count($teacherPlainTask);$j++)
