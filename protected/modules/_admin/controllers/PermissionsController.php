@@ -25,26 +25,6 @@ class PermissionsController extends AdminController
         );
     }
 
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-//                    'userStatus', 'cancelTeacherRole','showAttributes','showAttributeInput','showModules'),
-//                'expression' => array($this, 'isAdministrator'),
-//            ),
-//            array('deny',
-//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-//                    'userStatus', 'cancelTeacherRole'),
-//                'users' => array('*'),
-//            ),
-//        );
-//    }
-
     public function actionIndex()
     {
         $model = new PayModules('search');
@@ -148,7 +128,8 @@ class PermissionsController extends AdminController
 
     public function actionDelete($id, $resource)
     {
-        $result = Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
+        Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource',
+            array(':id_user' => $id, ':id_resource' => $resource));
         $this->actionIndex();
     }
 
@@ -362,22 +343,22 @@ class PermissionsController extends AdminController
 
     public function actionShowTeacherModules()
     {
-        if (isset($_POST['teacher']))
-            $idTeacher = $_POST['teacher'];
-
-        $result = TeacherModule::showTeacherModule($idTeacher);
-
-        echo $result;
+        $id = Yii::app()->request->getPost('teacher', 0);
+        if ($id) {
+            $model = Teacher::model()->findByPk($id);
+            echo $this->renderPartial('_teacherModules', array('teacher' => $model), true);
+        }
     }
-
 
     public function actionCancelTeacherPermission()
     {
-        $teacher = Yii::app()->request->getPost('teacher');
-        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
+        $teacherId = Yii::app()->request->getPost('teacher');
+        $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
+        $userId = $teacher->user_id;
 
         $module = Yii::app()->request->getPost('module1');
-        TeacherModule::cancelTeacherAccess($teacher, $module);
+
+        $teacher->cancelTeacherAccess($module);
 
         $permission = new PayModules();
         $permission->unsetModulePermission(

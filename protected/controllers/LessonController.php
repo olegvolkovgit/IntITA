@@ -620,40 +620,7 @@ class LessonController extends Controller
     public function actionSaveLectureContent($idLecture)
     {
         $model = Lecture::model()->findByPk($idLecture);
-        $pages = $model->getAllLecturePages();
-
-        foreach ($pages as $page) {
-            $textList = $page->getBlocksListById();
-            $dataProvider = LectureElement::getLectureText($textList);
-            $langs = ['ua', 'ru', 'en'];
-            $types = ['video', 'text', 'quiz'];
-            foreach ($langs as $lang) {
-                $messages = Translate::getLectureContentMessagesByLang($lang);
-                foreach ($types as $type) {
-                    switch ($type) {
-                        case 'video':
-                            $html = $this->renderPartial('/lesson/_videoTab',
-                                array('page' => $page, 'message' => $messages['613']), true);
-                            break;
-                        case 'text';
-                            $html = $this->renderPartial('/lesson/_textListTab',
-                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
-                            break;
-                        case 'quiz':
-                            $html = $this->renderPartial('/lesson/_quiz',
-                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
-                            break;
-                        default:
-                            $html = '';
-                            break;
-                    };
-
-                    $file = StaticFilesHelper::pathToLecturePageHtml($model->idModule, $model->id, $page->page_order, $lang, $type);
-                    file_put_contents($file, $html);
-                }
-
-            }
-        }
+        $model->saveLectureContent();
         $this->redirect(Config::getBaseUrl() . '/_admin/verifyContent/index');
     }
 
@@ -663,8 +630,8 @@ class LessonController extends Controller
         $id = Yii::app()->request->getPost('lecture');
 
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
 
         echo json_encode($passedPages);

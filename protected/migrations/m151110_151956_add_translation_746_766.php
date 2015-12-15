@@ -2,18 +2,7 @@
 
 class m151110_151956_add_translation_746_766 extends CDbMigration
 {
-//	public function up()
-//	{
-//	}
-//
-//	public function down()
-//	{
-//		echo "m151110_151956_add_translation_746_763 does not support migration down.\n";
-//		return false;
-//	}
 
-
-	// Use safeUp/safeDown to do migration with transaction
 	public function safeUp()
 	{
         $start = 746;
