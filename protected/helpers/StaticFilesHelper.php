@@ -94,4 +94,7 @@ class StaticFilesHelper {
     public static function pathToLectureImages($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/images/";
     }
+    public static function pathToLectureAudio($module, $lecture){
+        return 'content/module_'.$module."/lecture_".$lecture."/audio/";
+    }
 }

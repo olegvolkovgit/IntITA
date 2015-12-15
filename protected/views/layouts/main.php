@@ -278,7 +278,7 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<!--[if lte IE 8]>-->
+<!--[if lte IE 8]>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
 <script>
