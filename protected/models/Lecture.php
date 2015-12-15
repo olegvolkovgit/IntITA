@@ -549,7 +549,7 @@ class Lecture extends CActiveRecord
                                 array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
                             break;
                         case 'quiz':
-                            $html = $this->renderPartial('/lesson/_quizNG',
+                            $html = $this->renderPartial('/lesson/_quiz',
                                 array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
                             break;
                         default:
