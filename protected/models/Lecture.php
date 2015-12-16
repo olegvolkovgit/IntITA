@@ -567,4 +567,12 @@ class Lecture extends CActiveRecord
             $lecture->saveLectureContent();
         }
     }
+    public static function setLectureNotVerified($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->verified=0;
+            $lecture->save();
+        }
+    }
 }
