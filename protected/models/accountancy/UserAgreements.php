@@ -334,6 +334,21 @@ class UserAgreements extends CActiveRecord
             ->delete('service_user', 'user_id=:id', array(':id'=>$this->user_id));
         return $results;
     }
+
+    public function insertServiceUserData()
+    {
+        $agreements = UserAgreements::model()->findAllByAttributes(array('id' =>$this->id));
+
+        foreach($agreements as $agreement)
+        {
+            $results = Yii::app()->db->createCommand()
+                ->insert('service_user',
+                    array('service_id' => $agreement->service_id,'user_id'=>$agreement->user_id));
+        }
+        if($results)
+            return true;
+        else return false;
+    }
 }
 
 

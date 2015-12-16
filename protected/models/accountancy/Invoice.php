@@ -244,25 +244,12 @@ class Invoice extends CActiveRecord
 
     public static function saveService($invoiceArr)
     {
-        $userAgreementsId = UserAgreements::getAgreementByInvoices($invoiceArr);
+        $userAgreement = UserAgreements::model()->findByPk($invoiceArr[0]->agreement_id);
 
-        if(Invoice::insertServiceUserData($userAgreementsId))
+        if($userAgreement->insertServiceUserData())
             return true;
         else return false;
     }
 
-    private static function insertServiceUserData($userAgreement)
-    {
-        $agreements = UserAgreements::model()->findAllByAttributes(array('id' =>$userAgreement));
 
-        foreach($agreements as $agreement)
-        {
-            $results = Yii::app()->db->createCommand()
-                ->insert('service_user',
-                    array('service_id' => $agreement->service_id,'user_id'=>$agreement->user_id));
-        }
-        if($results)
-            return true;
-        else return false;
-    }
 }
