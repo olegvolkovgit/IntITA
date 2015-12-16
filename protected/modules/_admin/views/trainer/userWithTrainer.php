@@ -23,7 +23,7 @@ if (!empty($users)) { ?>
             ?>
             <tr>
                 <td><?php echo $user->email ?></td>
-                <td><?php echo $user->lastName . " " . $user->firstName; ?></td>
+                <td><?php echo $user->userName(); ?></td>
                 <td><?php $name = $user->getTrainer();
                     $name = Teacher::getTeacherName($name);
                     echo $name;?></td>
