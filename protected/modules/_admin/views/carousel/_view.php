@@ -5,15 +5,15 @@
 
 <div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('order')); ?>:</b>
+    <b><?php echo CHtml::encode($data->getAttributeLabel('order')); ?>:</b>
     <button type="button" class="btn btn-link">
-    <?php echo CHtml::link(CHtml::encode($data->order), array('view', 'id'=>$data->order)); ?>
+        <?php echo CHtml::link(CHtml::encode($data->order), array('view', 'id' => $data->order)); ?>
     </button>
-	<br />
+    <br/>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('pictureURL')); ?>:</b>
-	<?php echo CHtml::encode($data->pictureURL); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('pictureURL')); ?>:</b>
+    <?php echo CHtml::encode($data->pictureURL); ?>
+    <br/>
 
 
 </div>

@@ -1,16 +1,6 @@
 <?php
 /* @var $this ShareLinkController */
 /* @var $model ShareLink */
-
-//$this->breadcrumbs=array(
-//	'Share Links'=>array('index'),
-//	'Create',
-//);
-
-$this->menu=array(
-	array('label'=>'List ShareLink', 'url'=>array('index')),
-	array('label'=>'Manage ShareLink', 'url'=>array('admin')),
-);
 ?>
     <br>
     <button type="button" class="btn btn-link">

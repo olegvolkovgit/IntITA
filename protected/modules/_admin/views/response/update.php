@@ -25,7 +25,7 @@
                 'enctype'=>'multipart/form-data',
                 'method'=>'POST',
             ),
-            'action' => Yii::app()->request->baseUrl.'/_admin/response/updateResponseText/id/'.$model->id,
+            'action' => Config::getBaseUrl().'/_admin/response/updateResponseText/id/'.$model->id,
             // Please note: When you enable ajax validation, make sure the corresponding
             // controller action is handling ajax validation correctly.
             // There is a call to performAjaxValidation() commented in generated controller code.
