@@ -77,15 +77,16 @@ class LessonController extends Controller
 
         $teacher = $lecture->lectureTeacher();
 
-        if ($template == 0) $view = 'index1';
-        else $view = 'indexTemplate';
+        if($lecture->verified && !$editMode) {
+            $view='indexTemplate';
+        } else $view='index1';
 
         $this->render($view, array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
             'passedPages' => $passedPages,
-            'teacher' => $teacher->teacher_id,
+            'teacher' => $teacher,
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $page,
@@ -326,17 +327,18 @@ class LessonController extends Controller
 
     public function actionCKEUploadImageAudio()
     {
-        $path = StaticFilesHelper::createLectureImagePath();
-        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $module = $_GET['idModule'];
+        $lecture = $_GET['idLecture'];
 
+        $path = StaticFilesHelper::pathToLectureImages($module, $lecture);
+        $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
         // PHP Upload Script for CKEditor:  http://coursesweb.net/
 
 // HERE SET THE PATH TO THE FOLDERS FOR IMAGES AND AUDIO ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
         $upload_dir = array(
-            'img' => Config::getBaseUrl() . $path,
-            'audio' => Config::getBaseUrl() . $path
+            'img' => Config::getBaseUrl() .'/'. $path,
+            'audio' => Config::getBaseUrl() .'/'. $path
         );
-
 // HERE PERMISSIONS FOR IMAGE
         $imgset = array(
             'maxsize' => 5 * 1024,     // maximum file size, in KiloBytes (2 MB)
@@ -602,39 +604,6 @@ class LessonController extends Controller
         );
     }
 
-    public function actionPageAjaxUpdate()
-    {
-        $user = Yii::app()->user->getId();
-        $id = $_GET['lectureId'];
-        $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
-
-        $this->initialize($id, $editMode);
-
-        $passedPages = LecturePage::getAccessPages($id, $user);
-        $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
-
-        if (is_string($_GET['page'])) $thisPage = $_GET['page'];
-        else if ($editMode) $thisPage = 1;
-        else $thisPage = $lastAccessPage;
-
-        $passedLecture = Lecture::isPassedLecture($passedPages);
-        $finishedLecture = $lecture->isFinished($user);
-
-        $page_order = $_GET['page'];
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
-
-        $textList = $page->getBlocksListById();
-
-        $dataProvider = LectureElement::getLectureText($textList);
-
-        if (!($passedPages[$thisPage - 1]['isDone'] || $editMode || StudentReg::isAdmin())) {
-            echo Yii::t('lecture', '0640');
-        } else {
-            echo $this->renderPartial('/lesson/_page', array('id' => $id, 'page' => $page, 'dataProvider' => $dataProvider, 'user' => $user, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'thisPage' => $thisPage, 'edit' => 0, 'editMode' => $editMode), false, true);
-        }
-    }
-
     public function actionSaveBlock()
     {
         $order = Yii::app()->request->getPost('order');
@@ -688,14 +657,65 @@ class LessonController extends Controller
     public function actionSaveFormulaImage()
     {
         $imageUrl = $_POST['imageUrl'];
+        $module = $_POST['idModule'];
+        $lecture = $_POST['idLecture'];
 
-        $path = StaticFilesHelper::createLectureImagePath();
-        $dir = Yii::getpathOfAlias('webroot') . $path;
+        $path =  StaticFilesHelper::pathToLectureImages($module, $lecture);
+        $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
         $filename = md5(date('YmdHis')) . '.gif';
         $file = $dir . $filename;
-        $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
+        $link = Config::getBaseUrl().'/'.StaticFilesHelper::pathToLectureImages($module, $lecture).$filename;
 
         copy($imageUrl, $file);
         echo $link;
+    }
+    public function actionLoadVideoPage()
+    {
+        $user = Yii::app()->user->getId();
+        $id = $_GET['lectureId'];
+        $page_order = $_GET['page'];
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+
+        $this->initialize($id, $editMode);
+
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+
+        echo $this->renderPartial('/lesson/_videoTab',
+            array('page' => $page), true);
+    }
+    public function actionLoadTextPage()
+    {
+        $user = Yii::app()->user->getId();
+        $id = $_GET['lectureId'];
+        $lecture = Lecture::model()->findByPk($id);
+        $page_order = $_GET['page'];
+        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+
+        $this->initialize($id, $editMode);
+
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+
+        $textList = $page->getBlocksListById();
+
+        $dataProvider = LectureElement::getLectureText($textList);
+
+        echo $this->renderPartial('/lesson/_textListTab',
+            array('dataProvider' => $dataProvider, 'editMode' => $editMode, 'user' => $user), true);
+    }
+    public function actionLoadQuizPage()
+    {
+        $user = Yii::app()->user->getId();
+        $id = $_GET['lectureId'];
+        $page_order = $_GET['page'];
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+        $this->initialize($id, $editMode);
+
+        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+
+        echo $this->renderPartial('/lesson/_quiz',
+            array('page' => $page, 'editMode' => $editMode, 'user' => $user), true);
     }
 }

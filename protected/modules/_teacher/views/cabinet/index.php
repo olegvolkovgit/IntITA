@@ -47,10 +47,10 @@
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <?php echo $this->renderPartial('_top_navigation', array('model' => $model));?>
-        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model, 'teacher' => $teacher));?>
+        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model));?>
     </nav>
 
-    <?php echo $this->renderPartial('_page_wrapper', array('model' => $model, 'teacher' => $teacher));?>
+    <?php echo $this->renderPartial('_page_wrapper', array('model' => $model));?>
 
 </div>
 
@@ -74,10 +74,5 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/_teachers/newPlainTask.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '/cms/morris-data.js');?>"></script>
-
-
-</body>
-
-
 </html>
 

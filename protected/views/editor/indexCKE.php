@@ -31,6 +31,7 @@ if ($idCourse != 0) {
 <script type="text/javascript">
     lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
+    idModule = <?php echo $lecture->idModule;?>;
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>

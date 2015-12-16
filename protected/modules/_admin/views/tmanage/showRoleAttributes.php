@@ -5,7 +5,9 @@
     <br>
     <br>
     <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">Додати атрибут ролі</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">
+        Додати атрибут ролі
+    </a>
     </button>
     <br>
     <button type="button" class="btn btn-link">

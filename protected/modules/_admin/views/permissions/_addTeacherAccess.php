@@ -15,7 +15,7 @@
                         $count = count($users);
                         for ($i = 0; $i < $count; $i++) {
                             ?>
-                            <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
+                            <option value="<?php echo $users[$i]['id']; ?>"><?php echo $users[$i]['alias']; ?></option>
                         <?php
                         }
                         ?>
@@ -27,15 +27,15 @@
 
                 <div class="form-group">
                     <select name="course1" class="form-control" placeholder="(Виберіть курс)"
-                            onchange="selectModule1('<?=Yii::app()->createUrl('/_admin/permissions/showModules')?>')">
+                            onchange="selectModule1('<?= Yii::app()->createUrl('/_admin/permissions/showModules') ?>')">
                         <option value="">Всі курси</option>
                         <optgroup label="Виберіть курс">
                             <?php $courses = Course::generateCoursesList();
                             $count = count($courses);
                             for ($i = 0; $i < $count; $i++) {
                                 ?>
-                                <option value="<?php echo $courses[$i]['id'];?>">
-                                    <?php echo $courses[$i]['alias'] . " (" . $courses[$i]['language'] . ")";?>
+                                <option value="<?php echo $courses[$i]['id']; ?>">
+                                    <?php echo $courses[$i]['alias'] . " (" . $courses[$i]['language'] . ")"; ?>
                                 </option>
                             <?php
                             }
@@ -46,6 +46,7 @@
                 <br>
                 <br>
                 Модуль:<br>
+
                 <div name="selectModule1" class="form-group" style="float:left;"></div>
                 <br>
                 <br>

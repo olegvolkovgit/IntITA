@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 17:47
+ * C
  */
 
 $this->breadcrumbs=array(
@@ -22,7 +19,7 @@ $this->breadcrumbs=array(
             Викладач:<br>
             <div class="form-group">
             <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>

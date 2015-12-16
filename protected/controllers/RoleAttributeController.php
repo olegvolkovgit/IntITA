@@ -35,12 +35,9 @@ class RoleAttributeController extends Controller
         );
     }
 
-    function isAdministrator()
+    public function isAdministrator()
     {
-        if(StudentReg::isAdmin())
-            return true;
-        else
-            return false;
+        return StudentReg::isAdmin();
     }
 
 	/**
