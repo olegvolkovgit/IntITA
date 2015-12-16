@@ -11,8 +11,8 @@
 
     <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
 
-          onsubmit="sendForm('<?php echo Yii::app()->createUrl('_teacher/teacher/assignedConsultant')?>');" >
-        <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="true">
+          onsubmit="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>');" >
+        <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="hidden">
 
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>
