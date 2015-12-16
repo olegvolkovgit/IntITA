@@ -30,6 +30,22 @@ $header = new Header();
           type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
+    <!--[if lte IE 8]>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-switch');
+        document.createElement('ng-if');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+
+        // needed to enable CSS reference
+        document.createElement('ng:view');
+    </script>
+    <![endif]-->
+    <!-- for tabs -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -276,22 +292,6 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<!--[if lte IE 8]>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-<script>
-    document.createElement('ng-include');
-    document.createElement('ng-switch');
-    document.createElement('ng-if');
-    document.createElement('ng-pluralize');
-    document.createElement('ng-view');
-
-    // needed to enable CSS reference
-    document.createElement('ng:view');
-</script>
-<![endif]-->
-<!-- for tabs -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 

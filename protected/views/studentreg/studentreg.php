@@ -5,7 +5,6 @@
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'uploadInfo.js'); ?>"></script>
 <!-- uploadInfo, jQuery -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'css/app.css'); ?>"/>
 <?php
 /* @var $this StudentRegController */
 /* @var $model StudentReg */
@@ -66,7 +65,7 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'firstName', array('ng-model'=>"firstName", 'maxlength' => 20, 'autofocus' => 'true', 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
                         <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[firstName]'].$invalid">
-                            <span ng-show="StudentReg['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
+                            <span ng-cloak ng-show="StudentReg['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
