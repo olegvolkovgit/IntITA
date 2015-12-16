@@ -41,7 +41,7 @@
         array(
             'class' => 'CButtonColumn',
             'template' => '{view}{update}{delete}{restore}{statusUp}{statusDown}',
-            'deleteConfirmation' => 'js:confirmDelete(this)',
+            'deleteConfirmation' => "Ви підтверджуєте видалення модуля?",
             'headerHtmlOptions' => array('style' => 'width:120px'),
             'buttons' => array(
                 'restore' => array
