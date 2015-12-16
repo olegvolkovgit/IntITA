@@ -1,6 +1,5 @@
 <?php
 /* @var $model StudentReg */
-/* @var $teacher Teacher */
 ?>
 
 <div id="page-wrapper">
@@ -13,8 +12,7 @@
         <div class="row">
             <div class="col-lg-12">
     <?php echo $this->renderPartial('_dashboard',array(
-        'teacher' => $teacher,
-        'model' => $model,
+            'model' => $model,
     )) ?>
             </div>
          </div>

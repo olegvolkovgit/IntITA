@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 15:45
- */
 /* @var $dataProvider CActiveDataProvider */
 ?>
     <br>
@@ -54,14 +48,12 @@
             'buttons'=>array
             (
                 'view' => array(
-                    //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
+                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
                     'label' => 'Атрибути ролі',
                 ),
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRole", array("id"=>$data->primaryKey))',
                 ),
 

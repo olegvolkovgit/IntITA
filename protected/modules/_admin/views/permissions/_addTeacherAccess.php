@@ -1,16 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 23.05.2015
- * Time: 13:32
- */
-?>
-
 <div id="addTeacherAccess">
     <br>
     <a name="formTeacher"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newTeacherPermission');?>" method="POST" name="add-teacher-access">
+
+    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newTeacherPermission'); ?>" method="POST"
+          name="add-teacher-access">
         <fieldset>
             <legend id="label">Надати права автора модуля:</legend>
             Викладач:<br>
@@ -21,7 +14,7 @@
                         $count = count($users);
                         for($i = 0; $i < $count; $i++){
                             ?>
-                            <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
+                            <option value="<?php echo $users[$i]['id']; ?>"><?php echo $users[$i]['alias']; ?></option>
                         <?php
                         }
                         ?>

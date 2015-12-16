@@ -4,6 +4,8 @@
  * User: Quicks
  * Date: 09.12.2015
  * Time: 16:54
+ *
+ * @var $plainTaskAnswer PlainTaskAnswer
  */
 if(!empty($plainTasksAnswers))
 {?>

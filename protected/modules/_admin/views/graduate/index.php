@@ -2,16 +2,16 @@
 /* @var $this GraduateController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminGraduate.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminGraduate.css'); ?>"/>
 <br>
 <br>
 
 <button type="button" class="btn btn-link">
-<a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create');?>">Додати випускника</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create'); ?>">Додати випускника</a>
 </button>
 
 <div class="page-header">
-<h2>Випускники</h2>
+    <h2>Випускники</h2>
 </div>
 <?php
 Yii::app()->clientScript->registerScript('search', "
@@ -32,7 +32,7 @@ $('.search-form form').submit(function(){
     'dataProvider' => $model->search(),
     'htmlOptions' => array('class' => 'grid-view custom'),
     'summaryText' => '',
-    'filter'=>$model,
+    'filter' => $model,
     'columns' => array(
         'first_name',
         'last_name',
@@ -49,7 +49,7 @@ $('.search-form form').submit(function(){
             'htmlOptions' => array('class' => 'recall'),
         ),
         array(
-            'class'=>'CButtonColumn',
+            'class' => 'CButtonColumn',
         ),
     ),
 

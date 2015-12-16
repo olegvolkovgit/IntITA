@@ -528,7 +528,9 @@ class Lecture extends CActiveRecord
     }
 
     public function saveLectureContent(){
+
         $pages = $this->getAllLecturePages();
+
         foreach ($pages as $page) {
             $textList = $page->getBlocksListById();
             $dataProvider = LectureElement::getLectureText($textList);

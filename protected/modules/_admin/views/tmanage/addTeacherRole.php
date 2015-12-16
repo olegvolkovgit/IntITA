@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 17:47
+ * @var $teacher Teacher
  */
 ?>
 <br>
@@ -25,7 +22,7 @@
             Викладач:<br>
             <div class="form-group">
             <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
+                <?php $users = Teacher::generateTeachersList();
                 $count = count($users);
                 for($i = 0; $i < $count; $i++){
                     ?>
@@ -39,7 +36,8 @@
             <br>
             Роль:<br>
             <div class="form-group">
-            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="
+                selectRole('<?=Yii::app()->createUrl("/_admin/permissions/showRoles");?>');">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
                     <?php $courses = Roles::generateRolesList();
@@ -62,14 +60,14 @@
 
 
 <script type="text/javascript">
-    function selectRole(){
+    function selectRole(url){
         var course = $('select[name="course"]').val();
         if(!course){
             $('div[name="selectRole"]').html('');
         }else{
             $.ajax({
                 type: "POST",
-                url: "/_admin/permissions/showRoles",
+                url: url,
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

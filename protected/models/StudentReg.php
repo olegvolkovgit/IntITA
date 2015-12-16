@@ -50,6 +50,7 @@ class StudentReg extends CActiveRecord
     {
         return Yii::app()->db;
     }
+
     /**
      * @return string the associated database table name
      */
@@ -67,77 +68,82 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
-            array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302'),'on'=>'reguser,edit', 'except'=>'socialLogin'),
-            array('email, password, password_repeat', 'required', 'message'=>Yii::t('error','0268'),'on'=>'reguser'),
-            array('email', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recovery,resetemail'),
-            array('email', 'email', 'message'=>Yii::t('error','0271'),'on'=>'recovery,resetemail,fromraptoext'),
-            array('email', 'authenticateEmail','on'=>'recovery'),
-            array('password, new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'changepass'),
-            array('new_password_repeat, new_password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'recoverypass'),
-            array('new_password', 'compare', 'compareAttribute'=>'new_password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'changepass,recoverypass'),
-            array('password', 'authenticatePass', 'on'=>'changepass'),
-            array('email', 'required', 'message'=>'{attribute} '.Yii::t('error','0270'),'on'=>'edit'),
-            array('email, password', 'required', 'message'=>Yii::t('error','0268'),'on'=>'repidreg,loginuser'),
-            array('email', 'email', 'message'=>Yii::t('error','0271')),
-            array('email','unique', 'caseSensitive'=>true, 'allowEmpty'=>true,'message'=>Yii::t('error','0272'),'on'=>'resetemail, repidreg,reguser,edit,fromraptoext, network_identity'),
-            array('password', 'authenticate','on'=>'loginuser'),
-            array('password_repeat', 'passdiff','on'=>'edit'),
-            array('birthday', 'date','format' => 'dd/MM/yyyy','message'=>Yii::t('error','0427'),'on'=>'reguser,edit'),
-            array('password', 'compare', 'compareAttribute'=>'password_repeat', 'message'=>Yii::t('error','0269'),'on'=>'reguser'),
-            array('firstName, secondName, nickname, email, password, education', 'length', 'max'=>255),
-            array('birthday', 'length', 'max'=>11),
-            array('phone',  'match', 'pattern'=>'^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^','message'=>'Введіть коректний номер'),
-            array('phone', 'length', 'max'=>15),
-            array('phone', 'length', 'min'=>15),
-            array('educform', 'length', 'max'=>60),
-            array('firstName, secondName', 'match', 'pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u','message'=>Yii::t('error','0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity','safe'),
+            array('avatar', 'file', 'types' => 'jpg, gif, png', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
+            array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
+            array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail'),
+            array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext'),
+            array('email', 'authenticateEmail', 'on' => 'recovery'),
+            array('password, new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'changepass'),
+            array('new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recoverypass'),
+            array('new_password', 'compare', 'compareAttribute' => 'new_password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'changepass,recoverypass'),
+            array('password', 'authenticatePass', 'on' => 'changepass'),
+            array('email', 'required', 'message' => '{attribute} ' . Yii::t('error', '0270'), 'on' => 'edit'),
+            array('email, password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'repidreg,loginuser'),
+            array('email', 'email', 'message' => Yii::t('error', '0271')),
+            array('email', 'unique', 'caseSensitive' => true, 'allowEmpty' => true, 'message' => Yii::t('error', '0272'), 'on' => 'resetemail, repidreg,reguser,edit,fromraptoext, network_identity'),
+            array('password', 'authenticate', 'on' => 'loginuser'),
+            array('password_repeat', 'passdiff', 'on' => 'edit'),
+            array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
+            array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
+            array('firstName, secondName, nickname, email, password, education', 'length', 'max' => 255),
+            array('birthday', 'length', 'max' => 11),
+            array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
+            array('phone', 'length', 'max' => 15),
+            array('phone', 'length', 'min' => 15),
+            array('educform', 'length', 'max' => 60),
+            array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity', 'safe'),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on'=>'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on' => 'search'),
         );
     }
+
     public function networkValidation($attribute)
     {
         /*if value not Roman alphabet or url not validation = error*/
         $value = $this->$attribute;
-        if(!empty($value)){
-            if(!StudentReg::isNetworkURL($value,$attribute))
-                $this->addError($attribute,Yii::t('validation','0636'));
+        if (!empty($value)) {
+            if (!StudentReg::isNetworkURL($value, $attribute))
+                $this->addError($attribute, Yii::t('validation', '0636'));
             else
-                if(preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
-                $this->addError($attribute,Yii::t('validation','0636'));
+                if (preg_match('/[^\x20-\x7f]/', $value) || !StudentReg::getCorrectURl($value))
+                    $this->addError($attribute, Yii::t('validation', '0636'));
         }
     }
-    public function authenticate($attribute,$params)
+
+    public function authenticate()
     {
-        $this->_identity=new UserIdentity($this->email,$this->password);
-        if(!$this->_identity->authenticate())
-            $this->addError('password',Yii::t('error','0273'));
+        $this->_identity = new UserIdentity($this->email, $this->password);
+        if (!$this->_identity->authenticate())
+            $this->addError('password', Yii::t('error', '0273'));
     }
+
     public function authenticatePass()
     {
-        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
-        if(sha1($this->password)!==$model->password)
-            $this->addError('password',Yii::t('error','0274'));
+        $model = StudentReg::model()->findByPk(Yii::app()->user->id);
+        if (sha1($this->password) !== $model->password)
+            $this->addError('password', Yii::t('error', '0274'));
     }
+
     public function authenticateEmail()
     {
-        $model=StudentReg::model()->find("email=:e", array('e'=>$this->email));
-        if(!$model)
-            $this->addError('email',Yii::t('error','0301'));
+        $model = StudentReg::model()->find("email=:e", array('e' => $this->email));
+        if (!$model)
+            $this->addError('email', Yii::t('error', '0301'));
     }
+
     public function passdiff()
     {
-        $model=StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (!empty($model->password)){
+        $model = StudentReg::model()->findByPk(Yii::app()->user->id);
+        if (!empty($model->password)) {
             return;
         }
-        if (isset($this->password) || isset($this->password_repeat)){
-        if($this->password!==$this->password_repeat)
-            $this->addError('password',Yii::t('error','0268'));
+        if (isset($this->password) || isset($this->password_repeat)) {
+            if ($this->password !== $this->password_repeat)
+                $this->addError('password', Yii::t('error', '0268'));
         }
     }
+
     /**
      * @return array relational rules.
      */
@@ -146,8 +152,8 @@ class StudentReg extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-           'teacher' => array(self::HAS_ONE, 'Teacher','user_id'),
-            'trainer' => array(self::HAS_ONE , 'TrainerStudent', 'student'),
+            'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
+            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
         );
     }
 
@@ -159,7 +165,7 @@ class StudentReg extends CActiveRecord
         return array(
             'id' => 'ID',
             'firstName' => Yii::t('regexp', '0160'),
-            'middleName'=> 'По-батькові',
+            'middleName' => 'По-батькові',
             'secondName' => Yii::t('regexp', '0162'),
             'nickname' => Yii::t('regexp', '0163'),
             'birthday' => Yii::t('regexp', '0164'),
@@ -172,12 +178,12 @@ class StudentReg extends CActiveRecord
             'educform' => Yii::t('regexp', '0168'),
             'interests' => Yii::t('regexp', '0169'),
             'aboutUs' => 'Звідки про нас?',
-            'send_letter'=> 'Повідомлення',
-            'letterTheme'=> 'Тема',
-            'aboutMy'=> Yii::t('regexp', '0170'),
-            'avatar'=> 'Аватар',
-            'upload'=> 'Up',
-            'role'=>  Yii::t('regexp', '0161'),
+            'send_letter' => 'Повідомлення',
+            'letterTheme' => 'Тема',
+            'aboutMy' => Yii::t('regexp', '0170'),
+            'avatar' => 'Аватар',
+            'upload' => 'Up',
+            'role' => Yii::t('regexp', '0161'),
             'network' => 'Network:',
             'facebook' => 'Facebook',
             'googleplus' => 'Google+',
@@ -190,34 +196,29 @@ class StudentReg extends CActiveRecord
 
     public function login()
     {
-        if($this->_identity===null)
-        {
-            $this->_identity=new UserIdentity($this->email,$this->password);
+        if ($this->_identity === null) {
+            $this->_identity = new UserIdentity($this->email, $this->password);
             $this->_identity->authenticate();
         }
-        if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
-        {
-            $duration=3600*24; // 30 days
-            Yii::app()->user->login($this->_identity,$duration);
+        if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
+            $duration = 3600 * 24; // 30 days
+            Yii::app()->user->login($this->_identity, $duration);
             return true;
-        }
-        else
+        } else
             return false;
     }
+
     public function socialLogin()
     {
-        if($this->_identity===null)
-        {
-            $this->_identity=new SocialUserIdentity($this->email,$this->email);
+        if ($this->_identity === null) {
+            $this->_identity = new SocialUserIdentity($this->email, $this->email);
             $this->_identity->authenticate();
         }
-        if($this->_identity->errorCode===SocialUserIdentity::ERROR_NONE)
-        {
-            $duration=3600*24; // 30 days
-            Yii::app()->user->login($this->_identity,$duration);
+        if ($this->_identity->errorCode === SocialUserIdentity::ERROR_NONE) {
+            $duration = 3600 * 24; // 30 days
+            Yii::app()->user->login($this->_identity, $duration);
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -235,54 +236,52 @@ class StudentReg extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
+        $criteria = new CDbCriteria;
 
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('firstName',$this->firstName,true);
-        $criteria->compare('middleName',$this->middleName,true);
-        $criteria->compare('secondName',$this->secondName,true);
-        $criteria->compare('nickname',$this->nickname,true);
-        $criteria->compare('birthday',$this->birthday,true);
-        $criteria->compare('email',$this->email,true);
-        $criteria->compare('password',$this->password,true);
-        $criteria->compare('phone',$this->phone,true);
-        $criteria->compare('address',$this->address,true);
-        $criteria->compare('education',$this->education,true);
-        $criteria->compare('educform',$this->educform,true);
-        $criteria->compare('interests',$this->interests,true);
-        $criteria->compare('aboutUs',$this->aboutUs,true);
-        $criteria->compare('aboutMy',$this->aboutMy,true);
-        $criteria->compare('send_letter',$this->send_letter,true);
-        $criteria->compare('avatar',$this->avatar,true);
-        $criteria->compare('upload',$this->upload,true);
-        $criteria->compare('role',$this->role,true);
-        $criteria->compare('network',$this->network,true);
-        $criteria->compare('facebook',$this->facebook,true);
-        $criteria->compare('googleplus',$this->googleplus,true);
-        $criteria->compare('linkedin',$this->linkedin,true);
-        $criteria->compare('vkontakte',$this->vkontakte,true);
-        $criteria->compare('twitter',$this->twitter,true);
-        $criteria->compare('token',$this->token,true);
-        $criteria->compare('activkey_lifetime',$this->activkey_lifetime,true);
-        $criteria->compare('status',$this->status,true);
-        $criteria->compare('reg_time',$this->reg_time, true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('firstName', $this->firstName, true);
+        $criteria->compare('middleName', $this->middleName, true);
+        $criteria->compare('secondName', $this->secondName, true);
+        $criteria->compare('nickname', $this->nickname, true);
+        $criteria->compare('birthday', $this->birthday, true);
+        $criteria->compare('email', $this->email, true);
+        $criteria->compare('password', $this->password, true);
+        $criteria->compare('phone', $this->phone, true);
+        $criteria->compare('address', $this->address, true);
+        $criteria->compare('education', $this->education, true);
+        $criteria->compare('educform', $this->educform, true);
+        $criteria->compare('interests', $this->interests, true);
+        $criteria->compare('aboutUs', $this->aboutUs, true);
+        $criteria->compare('aboutMy', $this->aboutMy, true);
+        $criteria->compare('send_letter', $this->send_letter, true);
+        $criteria->compare('avatar', $this->avatar, true);
+        $criteria->compare('upload', $this->upload, true);
+        $criteria->compare('role', $this->role, true);
+        $criteria->compare('network', $this->network, true);
+        $criteria->compare('facebook', $this->facebook, true);
+        $criteria->compare('googleplus', $this->googleplus, true);
+        $criteria->compare('linkedin', $this->linkedin, true);
+        $criteria->compare('vkontakte', $this->vkontakte, true);
+        $criteria->compare('twitter', $this->twitter, true);
+        $criteria->compare('token', $this->token, true);
+        $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
+        $criteria->compare('status', $this->status, true);
+        $criteria->compare('reg_time', $this->reg_time, true);
 
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-                'pageSize'=>50,
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
             ),
         ));
     }
 
     protected function beforeSave()
     {
-        if($this->password!==Null)
-        $this->password=sha1($this->password);
-        $this->reg_time=time();
+        if ($this->password !== Null)
+            $this->password = sha1($this->password);
+        $this->reg_time = time();
         return parent::beforeSave();
     }
 
@@ -292,144 +291,152 @@ class StudentReg extends CActiveRecord
      * @param string $className active record class name.
      * @return StudentReg the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
-    public static function getAdressYears ($birthday,$adress='')
+    public static function getAdressYears($birthday, $adress = '')
     {
         $brthAdr = $adress;
-        if(!empty($adress)&&!empty($birthday)) $brthAdr=$brthAdr.", ";
+        if (!empty($adress) && !empty($birthday)) $brthAdr = $brthAdr . ", ";
 
         $myAge = $birthday;
-        $myAge = str_replace("/",".",$myAge);
+        $myAge = str_replace("/", ".", $myAge);
         $date_a = new DateTime($myAge);
         $date_b = new DateTime();
         $interval = $date_b->diff($date_a);
-        if($interval->format("%y")!=='0' ){
-            $brthAdr=$brthAdr.$interval->format("%y").' '.CommonHelper::getYearsTermination($interval->format("%Y"));
+        if ($interval->format("%y") !== '0') {
+            $brthAdr = $brthAdr . $interval->format("%y") . ' ' . CommonHelper::getYearsTermination($interval->format("%Y"));
         }
         return $brthAdr;
     }
 
-    public static function getAboutMy ($aboutMy)
+    public static function getAboutMy($aboutMy)
     {
-        if($aboutMy)
-            return  '<span class="colorP">'.Yii::t('profile', '0100').'</span>'.$aboutMy;
+        if ($aboutMy)
+            return '<span class="colorP">' . Yii::t('profile', '0100') . '</span>' . $aboutMy;
     }
-    public static function getPhone ($phone)
+
+    public static function getPhone($phone)
     {
-        if($phone)
-            return  '<span class="colorP">'.Yii::t('profile', '0102').'</span>'.$phone;
+        if ($phone)
+            return '<span class="colorP">' . Yii::t('profile', '0102') . '</span>' . $phone;
     }
-    public static function getEducation ($education)
+
+    public static function getEducation($education)
     {
-        if($education)
-            echo  '<span class="colorP">'.Yii::t('profile', '0103').'</span>'.$education;
+        if ($education)
+            echo '<span class="colorP">' . Yii::t('profile', '0103') . '</span>' . $education;
     }
-    public static function getInterests ($interests)
+
+    public static function getInterests($interests)
     {
-        if($interests){
-            echo  '<span class="colorP">'.Yii::t('profile', '0104').'</span>';
-            $interestArray=explode(",", $interests);
-            if (!empty($interestArray[0])){
-                for ($i = 0; $i < count($interestArray); $i++)
-                {
-                    echo  '<span class="interestBG">'.$interestArray[$i].' '.'</span>';
+        if ($interests) {
+            echo '<span class="colorP">' . Yii::t('profile', '0104') . '</span>';
+            $interestArray = explode(",", $interests);
+            if (!empty($interestArray[0])) {
+                for ($i = 0; $i < count($interestArray); $i++) {
+                    echo '<span class="interestBG">' . $interestArray[$i] . ' ' . '</span>';
                 }
             }
         }
     }
-    public static function getAboutUs ($aboutUs)
+
+    public static function getAboutUs($aboutUs)
     {
-        if($aboutUs)
-            echo  '<span class="colorP">'.Yii::t('profile', '0105').'</span>'.$aboutUs;
-    }
-    public static function getEducform ($educform)
-    {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>Yii::app()->user->id));
-        if($educform && !$user)
-           return StudentReg::getUserData($educform,'0106');
-    }
-    public static function getCourses ($courses)
-    {
-        if($courses)
-            echo  '<span class="colorP">'.Yii::t('profile', '0107').'</span>'.$courses;
-    }
-    public static function getEdForm ($edForm)
-    {
-        if(isset($edForm) &&
-            $edForm == 'Онлайн/Офлайн') {
-            $val = 'checked';
-        } else{
-            $val = '';
-        }
-        return  $val;
+        if ($aboutUs)
+            echo '<span class="colorP">' . Yii::t('profile', '0105') . '</span>' . $aboutUs;
     }
 
-    public static function getFacebooknameProfile ($facebook)
+    public static function getEducform($educform)
     {
-        if($facebook){
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => Yii::app()->user->id));
+        if ($educform && !$user)
+            return StudentReg::getUserData($educform, '0106');
+    }
+
+    public static function getCourses($courses)
+    {
+        if ($courses)
+            echo '<span class="colorP">' . Yii::t('profile', '0107') . '</span>' . $courses;
+    }
+
+    public static function getEdForm($edForm)
+    {
+        if (isset($edForm) &&
+            $edForm == 'Онлайн/Офлайн'
+        ) {
+            $val = 'checked';
+        } else {
+            $val = '';
+        }
+        return $val;
+    }
+
+    public static function getFacebooknameProfile($facebook)
+    {
+        if ($facebook) {
             $pos = strpos($facebook, 'facebook.com/');
-            $val = substr($facebook, $pos+13);
-        }
-        else $val='';
-        return  $val;
+            $val = substr($facebook, $pos + 13);
+        } else $val = '';
+        return $val;
     }
-    public static function getGooglenameProfile ($googlename)
+
+    public static function getGooglenameProfile($googlename)
     {
-        if($googlename){
+        if ($googlename) {
             $pos = strpos($googlename, 'google.com/');
-            $val = substr($googlename, $pos+11);
-        }
-        else $val='';
-        return  $val;
+            $val = substr($googlename, $pos + 11);
+        } else $val = '';
+        return $val;
     }
-    public static function getLinkedinId ($linkedin)
+
+    public static function getLinkedinId($linkedin)
     {
-        if($linkedin){
+        if ($linkedin) {
             $pos = strpos($linkedin, 'linkedin.com/');
-            $val = substr($linkedin, $pos+13);
-        }
-        else $val='';
-        return  $val;
+            $val = substr($linkedin, $pos + 13);
+        } else $val = '';
+        return $val;
     }
-    public static function getVkId ($vk)
+
+    public static function getVkId($vk)
     {
-        if($vk){
+        if ($vk) {
             $pos = strpos($vk, 'vk.com/');
-            $val = substr($vk, $pos+7);
-        }
-        else $val='';
-        return  $val;
+            $val = substr($vk, $pos + 7);
+        } else $val = '';
+        return $val;
     }
-    public static function getTwitternameProfile ($twitter)
+
+    public static function getTwitternameProfile($twitter)
     {
-        if($twitter){
+        if ($twitter) {
             $pos = strpos($twitter, 'twitter.com/');
-            $val = substr($twitter, $pos+12);
-        }
-        else $val='';
-        return  $val;
+            $val = substr($twitter, $pos + 12);
+        } else $val = '';
+        return $val;
     }
-    public static function getRole ($id)
+
+    public static function getRole($id)
     {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
-        if($user)
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => $id));
+        if ($user)
             return true;
         else return false;
     }
 
-    public static function getProfileRole ($id)
+    public static function getProfileRole($id)
     {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
-        if($user)
+        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => $id));
+        if ($user)
             echo Yii::t('profile', '0241');
         else  echo Yii::t('profile', '0095');
     }
+
     # Функция для проверки существования страницы
-    public static function getCorrectURl ($url)
+    public static function getCorrectURl($url)
     {
         # Устанавливаем данные для запроса
         stream_context_set_default(array(
@@ -445,78 +452,80 @@ class StudentReg extends CActiveRecord
         return
             !substr_count($headers[0], '404');
     }
-    public static function isNetworkURL ($value, $network)
+
+    public static function isNetworkURL($value, $network)
     {
-        $result=false;
-        switch ($network){
+        $result = false;
+        switch ($network) {
             case 'facebook':
-                $domainPartPos=strpos($value, 'https://www.facebook.com/');
-                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.facebook.com/');
-                if($domainPartPos===0)
-                    $result=true;
+                $domainPartPos = strpos($value, 'https://www.facebook.com/');
+                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://www.facebook.com/');
+                if ($domainPartPos === 0)
+                    $result = true;
                 break;
             case 'googleplus':
-                $domainPartPos=strpos($value, 'https://plus.google.com/');
-                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://plus.google.com/');
-                if($domainPartPos===0)
-                    $result=true;
+                $domainPartPos = strpos($value, 'https://plus.google.com/');
+                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://plus.google.com/');
+                if ($domainPartPos === 0)
+                    $result = true;
                 break;
             case 'linkedin':
-                $domainPartPos=strpos($value, 'https://www.linkedin.com/');
-                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://www.linkedin.com/');
-                if($domainPartPos===0)
-                    $result=true;
+                $domainPartPos = strpos($value, 'https://www.linkedin.com/');
+                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://www.linkedin.com/');
+                if ($domainPartPos === 0)
+                    $result = true;
                 break;
             case 'vkontakte':
-                $domainPartPos=strpos($value, 'http://vk.com/');
-                if($domainPartPos!==0) $domainPartPos=strpos($value, 'https://vk.com/');
-                if($domainPartPos===0)
-                    $result=true;
+                $domainPartPos = strpos($value, 'http://vk.com/');
+                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'https://vk.com/');
+                if ($domainPartPos === 0)
+                    $result = true;
                 break;
             case 'twitter':
-                $domainPartPos=strpos($value, 'https://twitter.com/');
-                if($domainPartPos!==0) $domainPartPos=strpos($value, 'http://twitter.com/');
-                if($domainPartPos===0)
-                    $result=true;
+                $domainPartPos = strpos($value, 'https://twitter.com/');
+                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://twitter.com/');
+                if ($domainPartPos === 0)
+                    $result = true;
                 break;
             default:
-                $result=false;
+                $result = false;
         }
         return $result;
     }
-    public static function isNewNetwork ($network,$profile, $model)
+
+    public static function isNewNetwork($network, $profile, $model)
     {
-        $result=false;
-            switch ($network) {
-                case 'facebook':
-                    if($model->facebook != $profile)
-                        $result=true;
-                    break;
-                case 'googleplus':
-                    if($model->googleplus != $profile)
-                        $result=true;
-                    break;
-                case 'linkedin':
-                    if($model->linkedin != $profile)
-                        $result=true;
-                    break;
-                case 'vkontakte':
-                    if($model->vkontakte != $profile)
-                        $result=true;
-                    break;
-                case 'twitter':
-                    if($model->twitter != $profile)
-                        $result=true;
-                    break;
-                default:
-                    $result=false;
-            }
+        $result = false;
+        switch ($network) {
+            case 'facebook':
+                if ($model->facebook != $profile)
+                    $result = true;
+                break;
+            case 'googleplus':
+                if ($model->googleplus != $profile)
+                    $result = true;
+                break;
+            case 'linkedin':
+                if ($model->linkedin != $profile)
+                    $result = true;
+                break;
+            case 'vkontakte':
+                if ($model->vkontakte != $profile)
+                    $result = true;
+                break;
+            case 'twitter':
+                if ($model->twitter != $profile)
+                    $result = true;
+                break;
+            default:
+                $result = false;
+        }
         return $result;
     }
 
     public function validatePassword($password)
     {
-        return CPasswordHelper::verifyPassword($password,$this->password);
+        return CPasswordHelper::verifyPassword($password, $this->password);
     }
 
     public function hashPassword($password)
@@ -527,7 +536,7 @@ class StudentReg extends CActiveRecord
     public function getDataProfile()
     {
         if ($this->id !== Yii::app()->user->getId())
-          return false;
+            return false;
 
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $this->id));
         $criteria = new CDbCriteria;
@@ -547,25 +556,26 @@ class StudentReg extends CActiveRecord
                 'attributes' => array('date_cons'),
             ),
         ));
-        
+
         return $dataProvider;
     }
 
-    public function getTeachersResponseId(){
+    public function getTeachersResponseId()
+    {
         $teacherResponse = Yii::app()->db->createCommand()
             ->select('id_response')
             ->from('teacher_response')
-            ->where('id_teacher=:id', array(':id'=>$this->id))
+            ->where('id_teacher=:id', array(':id' => $this->id))
             ->queryAll();
         $result = [];
-        for ($i = 0, $count = count($teacherResponse); $i < $count; $i++ ){
+        for ($i = 0, $count = count($teacherResponse); $i < $count; $i++) {
             $result[$i] = $teacherResponse[$i]["id_response"];
         }
         return $result;
     }
 
-    public function responseDataProvider(){
-
+    public function responseDataProvider()
+    {
         $responsesIdList = $this->getTeachersResponseId();
 
         $criteria = new CDbCriteria();
@@ -608,12 +618,16 @@ class StudentReg extends CActiveRecord
         return $this->teacher;
     }
 
-    public function isAccountant(){
-        return ($this->role == 2)?true:false;
+    public function isAccountant()
+    {
+        $sql = 'SELECT COUNT(id_user) FROM user_accountant WHERE id_user='.$this->id;
+        $result = Yii::app()->db->createCommand($sql)->queryScalar();
+        return ($result != 0) ? true : false;
     }
 
-    public function isTeacher(){
-        return ($this->role == 1)?true:false;
+    public function isTeacher()
+    {
+        return Teacher::model()->exists('user_id='.$this->id);
     }
 
     public static function getUserName($id)
@@ -623,25 +637,26 @@ class StudentReg extends CActiveRecord
         return trim($name);
     }
 
+    public function userName()
+    {
+        $name = $this->firstName . " " . $this->secondName;
+        return trim($name);
+    }
+
     public static function getRoleString($id)
     {
-        $code = StudentReg::model()->findByPk($id)->role;
-        $role = '';
-        switch ($code) {
-            case '0':
-                $role = 'студент';
-                break;
-            case '1':
-                $role = 'викладач';
-                break;
-            case '2':
-                $role = 'модератор';
-                break;
-            case '3':
-                $role = 'адмін';
-                break;
+        $model = StudentReg::model()->findByPk($id);
+        if ($model->isAdmin()){
+            return 'адмін';
         }
-        return $role;
+        if ($model->isAccountant()){
+            return 'бухгалтер';
+        }
+        if ($model->isTeacher()){
+            return 'викладач';
+        }
+
+        return 'студент';
     }
 
     public static function getUserInfo()
@@ -663,12 +678,10 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 3) {
-
-            return true;
-        }
-        return false;
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $sql = 'SELECT COUNT(id_user) FROM user_admin WHERE id_user='.$user->id;
+        $result = Yii::app()->db->createCommand($sql)->queryScalar();
+        return ($result != 0) ? true : false;
     }
 
     public static function canAddConsultation()
@@ -676,11 +689,16 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 0) {
-            return true;
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        return $user->isStudent();
+    }
+
+    public function isStudent(){
+        if ($this->isAdmin() || $this->isAccountant() || $this->isTeacher()){
+            return false;
+        } else {
+          return true;
         }
-        return false;
     }
 
     public static function generateUsersList()
@@ -700,9 +718,8 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = Yii::app()->user->getId();
-        $role = StudentReg::model()->findByPk($user)->role;
-        if ($role == 3 || $role == 1) {
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        if ($user->isAdmin() || $user->isTeacher()) {
             return true;
         }
         return false;
@@ -713,11 +730,8 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 0) {
-            return true;
-        }
-        return false;
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        return $user->isStudent();
     }
 
     public static function linkInMouseLine()
@@ -729,36 +743,19 @@ class StudentReg extends CActiveRecord
 
     public static function getUserTitle($idUser)
     {
-        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$idUser));
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $idUser));
 
-        if($teacher)
-            $result=Yii::t('profile', '0715');
+        if ($teacher)
+            $result = Yii::t('profile', '0715');
         else
-            $result=Yii::t('profile', '0129');
+            $result = Yii::t('profile', '0129');
 
         return $result;
     }
 
-    public static function getResponseAuthorName($id){
-        $model = StudentReg::model()->findByPk($id);
-        return $model->firstName." ".$model->secondName.", ".$model->email;
-    }
-
-    public function getCabinetLink(){
-        switch($this->role){
-            case '1':
-                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
-                break;
-            case '2':
-                return Yii::app()->createUrl('/_accountancy/default/index');
-                break;
-            case '3':
-                return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
-                break;
-            default:
-                break;
-        }
-        return '';
+    public function getCabinetLink()
+    {
+         return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
     }
 
     public function getTrainer()
@@ -770,30 +767,29 @@ class StudentReg extends CActiveRecord
         $criteria->params = array(':student' => $this->id);
 
         $result = TrainerStudent::model()->find($criteria);
-        if($result){
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'teacher';
-        $criteria->addCondition('teacher_id = :teacher_id');
-        $criteria->params = array(':teacher_id' => $result->trainer);
-        $trainer = Teacher::model()->find($criteria);
+        if ($result) {
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'teacher';
+            $criteria->addCondition('teacher_id = :teacher_id');
+            $criteria->params = array(':teacher_id' => $result->trainer);
+            $trainer = Teacher::model()->find($criteria);
         }
 
-        if($trainer)
-        return $trainer->teacher_id;
+        if ($trainer)
+            return $trainer->teacher_id;
         else return null;
     }
 
     public static function getStudentWithoutTrainer()
     {
-
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
-        $criteria->addCondition ('trainer_student.student IS NULL');
+        $criteria->addCondition('trainer_student.student IS NULL');
         $result = StudentReg::model()->findAll($criteria);
 
-        if($result)
-        return $result;
+        if ($result)
+            return $result;
         else return null;
     }
 
@@ -802,10 +798,10 @@ class StudentReg extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN trainer_student ON trainer_student.student = user.id';
-        $criteria->addCondition ('trainer_student.student = user.id');
+        $criteria->addCondition('trainer_student.student = user.id');
         $result = StudentReg::model()->findAll($criteria);
 
-        if($result)
+        if ($result)
             return $result;
         else return null;
     }
@@ -813,30 +809,29 @@ class StudentReg extends CActiveRecord
     public function getLink($name)
     {
         $title = strtolower($name);
-        if($this->$title)
-            return "<span class='networkLink'>"."<a href=".$this->$title." target='_blank'>".$name."</a>"."</span>";
+        if ($this->$title)
+            return "<span class='networkLink'>" . "<a href=" . $this->$title . " target='_blank'>" . $name . "</a>" . "</span>";
     }
 
-    public static function getUserData($data,$tProfile)
+    public static function getUserData($data, $tProfile)
     {
-        if($data)
-        {
-            return  '<span class="colorP">'.Yii::t('profile', $tProfile).'</span>'.$data;
+        if ($data) {
+            return '<span class="colorP">' . Yii::t('profile', $tProfile) . '</span>' . $data;
         }
     }
 
-    public static function getUserNameConsultation($id,$dp)
+    public static function getUserNameConsultation($id, $dp)
     {
-        if(!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
-            $result=Yii::t('profile', '0716');
+        if (!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))) {
+            $result = Yii::t('profile', '0716');
             return $result;
         }
-        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id'=>$id));
-        if($teacher){
-            if(StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))){
-                $result=StudentReg::model()->findByPk($dp->user_id)->firstName." ".StudentReg::model()->findByPk($dp->user_id)->secondName;
-                if($result==' ')
-                    $result=StudentReg::model()->findByPk($dp->user_id)->email;
+        $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $id));
+        if ($teacher) {
+            if (StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))) {
+                $result = StudentReg::model()->findByPk($dp->user_id)->firstName . " " . StudentReg::model()->findByPk($dp->user_id)->secondName;
+                if ($result == ' ')
+                    $result = StudentReg::model()->findByPk($dp->user_id)->email;
             } else {
                 $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
                     Teacher::getTeacherLastName($dp->teacher_id);
@@ -848,38 +843,42 @@ class StudentReg extends CActiveRecord
         return $result;
     }
 
-    public static function getNameEmail(){
+    public static function getNameEmail()
+    {
         if (Yii::app()->user->isGuest) {
-            $nameEmail='';
-        }else {
+            $nameEmail = '';
+        } else {
             $user = StudentReg::model()->findByPk(Yii::app()->user->id);
-            $nameEmail='&name='.$user->firstName.'&email='.$user->email;
+            $nameEmail = '&name=' . $user->firstName . '&email=' . $user->email;
         }
         return $nameEmail;
     }
 
-    public static function getNetwork ($post)
+    public static function getNetwork($post)
     {
         if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
-            return  '<span class="colorP">'.Yii::t('user','0779').'</span>';
+            return '<span class="colorP">' . Yii::t('user', '0779') . '</span>';
     }
-    public static function getNickname ($post)
+
+    public static function getNickname($post)
     {
-        if ($post->nickname=='')
-            return  '<span class="nameNAN">['.Yii::t('regexp', '0163').']</span>';
-        else return  $post->nickname;
+        if ($post->nickname == '')
+            return '<span class="nameNAN">[' . Yii::t('regexp', '0163') . ']</span>';
+        else return $post->nickname;
     }
-    public static function getLastName ($post)
+
+    public static function getLastName($post)
     {
-        if ($post->secondName=='')
-            return  '<span class="nameNAN">['.Yii::t('regexp', '0162').']</span>';
-        else return  $post->secondName;
+        if ($post->secondName == '')
+            return '<span class="nameNAN">[' . Yii::t('regexp', '0162') . ']</span>';
+        else return $post->secondName;
     }
-    public static function getName ($post)
+
+    public static function getName($post)
     {
-        if ($post->firstName=='')
-            return  '<span class="nameNAN">['.Yii::t('regexp', '0160').']</span>';
-        else return  $post->firstName;
+        if ($post->firstName == '')
+            return '<span class="nameNAN">[' . Yii::t('regexp', '0160') . ']</span>';
+        else return $post->firstName;
     }
     public static function getStatusInfo ($post)
     {
@@ -951,5 +950,9 @@ class StudentReg extends CActiveRecord
             ),
         ));
         return $receivedLettersProvider;
+    }
+
+    public function hasCabinetAccess(){
+        return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
     }
 }
