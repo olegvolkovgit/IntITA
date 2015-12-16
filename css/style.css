@@ -162,3 +162,6 @@ input[type="submit"][disabled]#identityButton{
 .pager .next>a{
     float: none;
 }
+.statusColor {
+    color:#33cc00;
+}

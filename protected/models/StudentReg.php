@@ -881,7 +881,14 @@ class StudentReg extends CActiveRecord
             return  '<span class="nameNAN">['.Yii::t('regexp', '0160').']</span>';
         else return  $post->firstName;
     }
-
+    public static function getStatusInfo ($post)
+    {
+        if ($post->firstName=='' && $post->secondName=='' && $post->nickname==''){
+            return  '<span class="nameNAN">['.Yii::t('regexp', '0163').']<br>['.Yii::t('regexp', '0160').']<br>['.Yii::t('regexp', '0162').']</span>';
+        } else {
+            return  '<span class="statusColor">'.$post->nickname.'</span><br>'.$post->firstName.'<br>'.$post->secondName;
+        }
+    }
     public function getPaymentsModules()
     {
         $modulesCriteria = new CDbCriteria;
