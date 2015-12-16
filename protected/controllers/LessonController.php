@@ -462,7 +462,7 @@ class LessonController extends Controller
         $up->update();
     }
 
-    public function actionShowPagesList($id, $idCourse)
+    public function actionShowPagesList($id, $idCourse=0)
     {
 
         $idModule = Lecture::model()->findByPk($id)->idModule;
@@ -572,7 +572,7 @@ class LessonController extends Controller
     }
 
 
-    public function actionEditPage($id, $page, $idCourse, $cke = false)
+    public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
@@ -669,6 +669,7 @@ class LessonController extends Controller
         copy($imageUrl, $file);
         echo $link;
     }
+
     public function actionLoadVideoPage()
     {
         $user = Yii::app()->user->getId();
@@ -684,6 +685,7 @@ class LessonController extends Controller
         echo $this->renderPartial('/lesson/_videoTab',
             array('page' => $page), true);
     }
+
     public function actionLoadTextPage()
     {
         $user = Yii::app()->user->getId();
@@ -703,6 +705,7 @@ class LessonController extends Controller
         echo $this->renderPartial('/lesson/_textListTab',
             array('dataProvider' => $dataProvider, 'editMode' => $editMode, 'user' => $user), true);
     }
+
     public function actionLoadQuizPage()
     {
         $user = Yii::app()->user->getId();
