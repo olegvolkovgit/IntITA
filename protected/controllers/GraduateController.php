@@ -172,7 +172,7 @@ class GraduateController extends Controller
 
     public function actionUpdateAjaxFilter()
     {
-        $selector = Yii::app()->request->get('selector', 1);
+        $selector = Yii::app()->request->getParam('selector', 1);
 
         $dataProvider = Graduate::getGraduateBySelector($selector);
 
