@@ -637,6 +637,12 @@ class StudentReg extends CActiveRecord
         return trim($name);
     }
 
+    public function userName()
+    {
+        $name = $this->firstName . " " . $this->secondName;
+        return trim($name);
+    }
+
     public static function getRoleString($id)
     {
         $model = StudentReg::model()->findByPk($id);

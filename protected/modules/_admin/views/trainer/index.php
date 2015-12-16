@@ -1,3 +1,6 @@
+<?php
+/* @var $user StudentReg*/
+?>
 <br>
 <div class="col-md-8">
     <button type="button" class="btn btn-link">
@@ -21,7 +24,7 @@
             ?>
             <tr>
                 <td><?php echo $user->email ?></td>
-                <td><?php echo $user->lastName . " " . $user->firstName; ?>
+                <td><?php echo $user->userName(); ?>
                 </td>
                 <td><?php echo 'Немає' ?></td>
                 <td>
