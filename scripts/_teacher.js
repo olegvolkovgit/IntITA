@@ -5,28 +5,6 @@ function loadPage(url,role) {
         success: function (data) {
             container = $('#pageContainer');
             container.html(data);
-            //switch(userRole){
-            //    case 'trainer':
-            //        fillTrainer(data);
-            //        break;
-            //    case 'consultant':
-            //        fillConsultant(data);
-            //        break;
-            //    case 'author':
-            //        fillAuthor(data);
-            //        break;
-            //    case 'leader':
-            //        fillLeader(data);
-            //        break;
-            //    case 'accountant':
-            //        fillAccountant(data);
-            //        break;
-            //    case 'admin':
-            //        fillAdmin(data);
-            //        break;
-            //    case 'dashboard':
-            //        fillDashboard(data);
-            //}
         },
         error: function () {
             alert("Вибачте, але на сайті виникла помилка. " +
@@ -80,27 +58,6 @@ function getTeacherUserInfo(url){
             container.html('');
 
             container.append('Name: ' + json.name + '<br/>');
-            //
-            //switch(json.title){
-            //    case 'trainer':
-            //        fillTrainer(json);
-            //        break;
-            //    case 'consultant':
-            //        fillConsultant(json);
-            //        break;
-            //    case 'author':
-            //        fillAuthor(json);
-            //        break;
-            //    case 'leader':
-            //        fillLeader(json);
-            //        break;
-            //    case 'accountant':
-            //        fillAccountant(json);
-            //        break;
-            //    case 'admin':
-            //        fillAdmin(json);
-            //        break;
-            //}
         },
         error: function () {
             alert("Вибачте, але на сайті виникла помилка. " +
@@ -117,7 +74,6 @@ function getTeacherUserInfo(url){
 //}
 
 function load(url){
-
     clearDashboard();
     $.ajax({
         url: url,
@@ -130,7 +86,7 @@ function load(url){
         error: function () {
             alert("Вибачте, але на сайті виникла помилка. " +
             "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
-            location.reload();
+            //location.reload();
         }
     });
 }

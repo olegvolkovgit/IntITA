@@ -64,7 +64,7 @@ body .grid-view table.items td.deleteButton{
     width: 150px;
 }
 .row{
-    margin-left: 50px;
+    /*margin-left: 50px;*/
     display:inline-block;
 }
 #label{

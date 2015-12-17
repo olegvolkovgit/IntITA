@@ -9,10 +9,22 @@
  * @property string $subject
  *
  * The followings are the available model relations:
- * @property Messages $idMessage
+ * @property StudentReg $sender
  */
 class UserMessages extends Messages implements IMessage
 {
+    public $message;
+
+    function __construct($scenario="insert", $topic, $subject, $sender) {
+
+        $this->message = new Messages($scenario, $sender, 1);
+
+        $this->id_message = $this->message->id;
+        $this->subject = $subject;
+        $this->topic = $topic;
+        $this->save();
+    }
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,7 +57,8 @@ class UserMessages extends Messages implements IMessage
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			//'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+            'sender' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
 		);
 	}
 
@@ -77,7 +90,7 @@ class UserMessages extends Messages implements IMessage
 	{
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_message',$this->id_message);
+		$criteria->compare('id_message',$this->id_message, true);
 		$criteria->compare('topic',$this->topic,true);
 		$criteria->compare('subject',$this->subject,true);
 
@@ -85,6 +98,10 @@ class UserMessages extends Messages implements IMessage
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function primaryKey(){
+        return 'id_message';
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -98,18 +115,13 @@ class UserMessages extends Messages implements IMessage
 	}
 
     public function create(){
-
-        $model->date = date("Y-m-d H:i:s");
-        if($model->validate())
+        if($this->validate())
         {
-            $model->save();
-            Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
-            $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-        } else {
-            Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
-            $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
+            $this->save();
+            var_dump($this->id_message);die;
         }
 
+        return false;
     }
 
     public function send(IMailSender $sender){
@@ -130,25 +142,5 @@ class UserMessages extends Messages implements IMessage
 
     public function sendOn(StudentReg $receiver){
 
-    }
-
-    protected function afterSave()
-    {
-
-        $addresse = StudentReg::model()->findByPk($this->messageReceivers)->email;
-
-        $link = Yii::app()->createUrl('/studentreg/profile', array('idUser' => $this->addressee_id));
-
-        $from = Yii::app()->user->name;
-
-        $theme = "У Вас нове повідомлення на INTITA";
-
-        $text = 'У Вас нове повідомлення на INTITA<br>'
-            .'Від користувача '. $from . '<br>
-            Ви зможете його переглянути <a href ='.$link.'>тут</a>';
-
-        mail($addresse,$theme,$text);
-
-        parent::afterSave();
     }
 }

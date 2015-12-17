@@ -6,16 +6,17 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/messages/index'); ?>">Інтерфейсні
-                            повідомлення</a></li>
+                    <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/translate/index'); ?>')">
+                            Інтерфейсні повідомлення</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">Слайдер на головній
                             сторінці</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index'); ?>">Слайдер на
                             сторінці <i>Про нас</i></a></li>
+                    <br>
                 </ul>
             </div>
             <div class="panel-footer">
-                Panel Footer
+                <em>Інтерфейс сайта</em>
             </div>
         </div>
     </div>
@@ -35,7 +36,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Panel Footer
+                Навчальні матеріали
             </div>
         </div>
     </div>
@@ -53,12 +54,10 @@
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index'); ?>">Відгуки про
                             викладачів</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index'); ?>">Тренери</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/leader/index'); ?>">Керівники проектів</a>
-                    </li>
                 </ul>
             </div>
             <div class="panel-footer">
-                Panel Footer
+                Автори модулів, тренери, etc.
             </div>
         </div>
     </div>
@@ -73,6 +72,9 @@
             </div>
             <div class="panel-body">
                 <ul>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/admin/freeLectures'); ?>',
+                            'Безкоштовні лекції')">
+                            Безкоштовні лекції</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index'); ?>">Права
                             доступа</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/index'); ?>">Сплатити курс/модуль</a>
@@ -83,7 +85,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Panel Footer
+                Права доступу до курсів/модулів
             </div>
         </div>
     </div>
@@ -99,10 +101,13 @@
                             Налаштування
                         </a>
                     </li>
+                    <br>
+                    <br>
+                    <br>
                 </ul>
             </div>
             <div class="panel-footer">
-                Panel Footer
+                Адміністрування сайта
             </div>
         </div>
     </div>

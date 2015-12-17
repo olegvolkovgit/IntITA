@@ -34,7 +34,7 @@
  * @property string $avatar
  * @property string $identity
  */
-class StudentReg extends CActiveRecord
+class StudentReg extends CActiveRecord implements IMailSender
 {
     public $password_repeat;
     public $send_letter;
@@ -954,5 +954,19 @@ class StudentReg extends CActiveRecord
 
     public function hasCabinetAccess(){
         return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
+    }
+
+    public static function userLetterReceivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+    }
+
+    public function generateMessage($params){
+        $message = new UserMessages("insert", $params['topic'], $params['body'], $this->id);
+        if ($message->create()){
+            echo 'Success mail!';
+        } else {
+            echo 'Error!';
+        }
     }
 }

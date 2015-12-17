@@ -3,33 +3,6 @@
 class MessagesController extends AdminController
 {
 	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-            'accessControl',
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'actions'=>array('delete', 'create', 'update', 'view', 'index', 'admin'),
-                'users'=>array('*'),
-            ),
-        );
-    }
-
-    /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */

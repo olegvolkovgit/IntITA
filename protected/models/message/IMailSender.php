@@ -8,5 +8,5 @@
 
 interface IMailSender {
 
-    public function generateMessage();
+    public function generateMessage($params);
 }

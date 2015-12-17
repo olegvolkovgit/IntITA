@@ -5,7 +5,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Особистий кабінет</h1>
+            <h1 class="page-header" id="pageTitle">Особистий кабінет</h1>
         </div>
     </div>
     <div id="pageContainer">
