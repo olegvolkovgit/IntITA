@@ -121,7 +121,6 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getStudentName()
     {
-//        var_dump($this);die;
         if($this->user)
         return $this->user->email;
     }
