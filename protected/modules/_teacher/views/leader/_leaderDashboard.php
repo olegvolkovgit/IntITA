@@ -7,6 +7,7 @@
  */?>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Керівник проекту</h1>
+        <h3>Керівник проекту</h3>
     </div>
 </div>
+<hr>

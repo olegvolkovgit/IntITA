@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 03.12.2015
+ * Time: 17:36
+ */
 $optionsNum = TestsAnswers::getOptionsNum($data['id_block']);
 $options = TestsAnswers::getOptions($data['id_block']);
 $testType = Tests::getTestType($data['id_block']);
@@ -6,7 +12,7 @@ $testType = Tests::getTestType($data['id_block']);
 <div>
     <div class="lessonTest">
         <div class="instrTestImg">
-            <img src="<?php echo Tests::getTestIcon($user, $data['id_block'], $editMode); ?>">
+            <div ng-class="{quizDone: pageData[(currentPage || lastAccessPage)-1].isQuizDone}"></div>
         </div>
         <div class="contentTest">
             <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>">
@@ -48,17 +54,19 @@ $testType = Tests::getTestType($data['id_block']);
                 }
                 ?>
             </table>
-            <button class="testSubmit" onclick='sendTestAnswer(
-                $("<?php echo "#answers" . $data['block_order'] . ' '; ?> <?php echo Tests::getTypeButton($testType); ?>"),
-            <?php echo $user; ?>,
-            <?php echo Tests::getTestId($data['id_block']) ?>,
-            <?php echo $testType; ?>,
-            <?php echo ($editMode) ? 1 : 0; ?>
-                );' <?php if (0) {
-                echo "disabled";
-            } ?> >
-                <?php echo Yii::t('lecture', '0089'); ?>
-            </button>
+            <div ng-controller="testCtrl">
+                <button class="testSubmit" ng-click='sendTestAnswer(
+                <?php echo $data['block_order']; ?>,
+                "<?php echo Tests::getTypeButton($testType); ?>",
+                <?php echo Tests::getTestId($data['id_block']) ?>,
+                <?php echo $testType; ?>,
+                <?php echo ($editMode) ? 1 : 0; ?>
+                    );' <?php if (0) {
+                    echo "disabled";
+                } ?> >
+                    <?php echo Yii::t('lecture', '0089'); ?>
+                </button>
+            </div>
         </div>
     </div>
 </div>

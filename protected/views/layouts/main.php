@@ -1,4 +1,5 @@
-<?php /* @var $this Controller */
+<?php
+/* @var $this Controller */
 $header = new Header();
 ?>
 <!DOCTYPE html>
@@ -18,14 +19,33 @@ $header = new Header();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- fonts -->
-    <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'fontface.css'); ?>"/>
     <!-- fonts -->
     <!-- layouts style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'style.css') ?>"/>
     <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
-    <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
+          type="image/x-icon"/>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
+    <!--[if lte IE 8]>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-switch');
+        document.createElement('ng-if');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
 
+        // needed to enable CSS reference
+        document.createElement('ng:view');
+    </script>
+    <![endif]-->
+    <!-- for tabs -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -106,10 +126,8 @@ $header = new Header();
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>
-                        <?php echo StudentReg::getNickname($post); ?><br>
-                        <?php echo StudentReg::getName($post); ?><br>
-                        <?php echo StudentReg::getLastName($post); ?><br>
-                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
+                        <?php echo StudentReg::getStatusInfo($post); ?><br>
+                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
                     </div>
                     <div class="minavatar">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
@@ -255,10 +273,10 @@ $header = new Header();
 </div>
 <!-- footer -->
 <!-- Humburger script -->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/hamburgermenu.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/goToTop.js"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
 <!-- trimEmail-->
-<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
 <!-- trimEmail -->
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
@@ -266,31 +284,14 @@ $header = new Header();
 <div id="exhaust">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
 </div>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
+
 <!-- jQuery -->
 <!-- passEye, jQuery -->
-<script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
+<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.passEye.js'); ?>"></script>
 <!-- passEye, jQuery -->
 <!-- Placeholder for old browser -->
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<!--[if lte IE 8]>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-<script>
-    document.createElement('ng-include');
-    document.createElement('ng-switch');
-    document.createElement('ng-if');
-    document.createElement('ng-pluralize');
-    document.createElement('ng-view');
-
-    // needed to enable CSS reference
-    document.createElement('ng:view');
-</script>
-<![endif]-->
-<!-- for tabs -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 

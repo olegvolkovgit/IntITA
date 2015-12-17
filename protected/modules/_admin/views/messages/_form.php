@@ -1,6 +1,6 @@
 <?php
 /* @var $this MessagesController */
-/* @var $model Messages */
+/* @var $model Translate */
 /* @var $form CActiveForm */
 ?>
 <link rel="stylesheet" type="text/css" href="<?php Config::getBaseUrl();?>/css/formattedForm.css"/>

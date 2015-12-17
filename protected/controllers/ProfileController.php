@@ -3,15 +3,15 @@
 class ProfileController extends Controller
 {
 
-    public function filters()
-    {
-        return array(
-            array(
-                'COutputCache',
-                'duration'=> 60,
-            ),
-        );
-    }
+//    public function filters()
+//    {
+//        return array(
+//            array(
+//                'COutputCache',
+//                'duration'=> 60,
+//            ),
+//        );
+//    }
 
     /**
      * This is the default 'index' action that is invoked

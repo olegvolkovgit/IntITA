@@ -3,8 +3,8 @@
 class TrainerController extends AdminController{
 
     public function actionIndex(){
-        $answers = PlainTaskAnswer::getAllPlainTaskAnswers();
 
+        $answers = PlainTaskAnswer::getAllPlainTaskAnswers();
         $users = StudentReg::getStudentWithoutTrainer();
 
         $this->render('index', array(

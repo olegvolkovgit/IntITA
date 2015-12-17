@@ -30,7 +30,7 @@
  * @property integer $course_number
  *
  * The followings are the available model relations:
- * @property Modules[] $modules
+ * @property Module[] $modules
  */
 class Course extends CActiveRecord implements IBillableObject
 {
@@ -368,12 +368,14 @@ class Course extends CActiveRecord implements IBillableObject
     public static function generateCoursesList()
     {
         $courses = Course::model()->findAll();
-        $count = count($courses);
+
+        $i = 0;
         $result = [];
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $courses[$i]->course_ID;
-            $result[$i]['alias'] = Course::getCourseName($courses[$i]->course_ID);
-            $result[$i]['language'] = Course::getCourseLang($courses[$i]->course_ID);
+        foreach ($courses as $course) {
+            $result[$i]['id'] = $course->course_ID;
+            $result[$i]['alias'] = $course->getTitle();
+            $result[$i]['language'] = $course->language;
+            $i++;
         }
         return $result;
     }
@@ -531,6 +533,12 @@ class Course extends CActiveRecord implements IBillableObject
             return $result;
         }
 
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN course c ON c.course_ID = course_modules.id_module';
+        $criteria->addCondition('course_modules.id_module = '.$idModule);
+
+        $result = CourseModules::model()->findAll($criteria);
+        var_dump($result);die;
         $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
         $count = count($courses);
         for ($i = 0; $i < $count; $i++) {

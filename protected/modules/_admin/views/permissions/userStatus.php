@@ -1,23 +1,23 @@
 <?php
 ?>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
+    <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
     <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index');?>">Права доступу</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index'); ?>">Права доступу</a>
 
     <h2>Статус користувача</h2>
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'userStatusGrid',
     'dataProvider' => $model->search(),
-    'filter'=>$model,
-    'summaryText'=>'',
+    'filter' => $model,
+    'summaryText' => '',
     'pager' => array(
-        'firstPageLabel'=>'&#171;&#171;',
-        'lastPageLabel'=>'&#187;&#187;',
-        'prevPageLabel'=>'&#171;',
-        'nextPageLabel'=>'&#187;',
-        'header'=>'',
-        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        'firstPageLabel' => '&#171;&#171;',
+        'lastPageLabel' => '&#187;&#187;',
+        'prevPageLabel' => '&#171;',
+        'nextPageLabel' => '&#187;',
+        'header' => '',
+        'cssFile' => Config::getBaseUrl() . '/css/pager.css'
     ),
     'columns' => array(
 
@@ -31,16 +31,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'status',
 
         array(
-            'class'=>'CButtonColumn',
-            'header'=>'Підтвердження реєстрації',
-            'template'=>'{free} {paid}',
-            'buttons'=>array
+            'class' => 'CButtonColumn',
+            'header' => 'Підтвердження реєстрації',
+            'template' => '{free} {paid}',
+            'buttons' => array
             (
                 'free' => array
                 (
-                    'label'=>'Підтвердити',
-                    'url'=>'Yii::app()->createUrl("/_admin/permissions/setUserVerification", array("id"=>$data->id))',
-                    'click'=>"function(){
+                    'label' => 'Підтвердити',
+                    'url' => 'Yii::app()->createUrl("/_admin/permissions/setUserVerification", array("id"=>$data->id))',
+                    'click' => "function(){
                         $.fn.yiiGridView.update('userStatusGrid', {
                             type:'POST',
                             url:$(this).attr('href'),
@@ -54,9 +54,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
                 'paid' => array
                 (
-                    'label'=>'Скасувати',
-                    'url'=>'Yii::app()->createUrl("/_admin/permissions/unsetUserVerification", array("id"=>$data->id))',
-                    'click'=>"function(){
+                    'label' => 'Скасувати',
+                    'url' => 'Yii::app()->createUrl("/_admin/permissions/unsetUserVerification", array("id"=>$data->id))',
+                    'click' => "function(){
                         $.fn.yiiGridView.update('userStatusGrid', {
                             type:'POST',
                             url:$(this).attr('href'),

@@ -58,7 +58,7 @@ class TestsController extends Controller
         $testType = Yii::app()->request->getPost('testType', 1);
         $editMode =  Yii::app()->request->getPost('editMode', 0);
 
-        if ($editMode == 0 & $user!=0) {
+        if ($user!=0) {
             if (TestsAnswers::checkTestAnswer($test, $answers)) {
                 TestsMarks::addTestMark($user, $test, 1);
             } else {

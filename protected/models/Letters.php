@@ -109,6 +109,7 @@ class Letters extends CActiveRecord
 
     protected function afterSave()
     {
+        if(StudentReg::model()->findByPk($this->addressee_id)){
         $addresse = StudentReg::model()->findByPk($this->addressee_id)->email;
 
         $link = Yii::app()->createUrl('/studentreg/profile', array('idUser' => $this->addressee_id));
@@ -124,29 +125,33 @@ class Letters extends CActiveRecord
         mail($addresse,$theme,$text);
 
         parent::afterSave();
+
+        }
+
     }
 
 
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
-        $consultant = Teacher::model()->findByPk($consult);
+
         $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($idPlainTaskAnswer);
 
+        $path = Config::getBaseUrl()."_teacher/teacher/checkPlainTaskAnswer/".$plainTaskAnswer->id;
+
         $model = new Letters();
-        $model->addressee_id = $consultant->teacher_id;
-        $model->sender_id = Yii::app()->user->id;
-        $model->text_letter = "Вітаємо!"."<br>".
-            "У Вас з'явилася нова задача для перевірки : " . $plainTaskAnswer->answer.".".
-            "Щоб продивитися нову задачу, перейди за посиланням:
-            <a href =".Config::getBaseUrl().'_teacher/teacher/checkPlainTaskAnswer'.$plainTaskAnswer->id.">"
-            .'Задача до перевірки'." </a>
-            ​З повагою,
-            INTITA​";
+
+        $model->addressee_id = $consult;
+
+        $model->sender_id = (int) Yii::app()->user->getId();
+
+        $model->text_letter = 'Вітаємо
+        Вам додано нова задача до перевірки <br>
+        Ви можете переглянути її за посиланням <a href="$path">сюда</a>';
         $model->date = date("Y-m-d H:i:s");
         $model->theme = "Нова задача";
+
         if($model->validate()) {
             $model->save();
-
         }
     }
 }

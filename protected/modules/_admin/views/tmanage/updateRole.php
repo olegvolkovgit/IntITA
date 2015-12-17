@@ -13,7 +13,9 @@
     </button>
     <br>
     <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/viewRole', array('id' => $model->id));?>">Переглянути роль</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/viewRole', array('id' => $model->id));?>">
+        Переглянути роль
+    </a>
     </button>
     <div class="page-header">
     <h1>Редагувати роль <?php echo $model->id; ?></h1>

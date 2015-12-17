@@ -155,4 +155,9 @@ class PlainTask extends Quiz
         }
         return $plainTasksAnswers;
     }
+
+    public static function countPlainTaskAnswersWithoutTrainer()
+    {
+        return count(self::getPlainTaskAnswersWithoutTrainer());
+    }
 }

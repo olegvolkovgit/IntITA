@@ -8,7 +8,6 @@
 
 class TeacherController extends TeacherCabinetController {
 
-
     public function actionShowPlainTaskList()
     {
         $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
@@ -33,16 +32,57 @@ class TeacherController extends TeacherCabinetController {
     public function actionAssignedConsultant()
     {
 
-        if (isset($_POST['arr'])) {
-            //$_POST['arr'] first hole this is id_plainTaskAnswer,second hole this is id_teacher
-            $idPlainTaskAnswer = $_POST['arr'][0];
-            $consult = $_POST['arr'][1];
+            $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
+            $consult = Yii::app()->request->getPost('consult');
+
 
             Letters::sendAssignedConsultantLetter($consult,$idPlainTaskAnswer);
 
             if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
                 throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
+    }
 
-        }
+    public function actionShowTeacherPlainTaskList()
+    {
+        $idTeacher = Yii::app()->request->getPost('idTeacher');
+
+        $teacherPlainTaskId = PlainTaskAnswer::TeacherPlainTask($idTeacher);
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'id = :id';
+        $criteria->params = array(':id' => array_shift($teacherPlainTaskId)['id']);
+
+        $teacherPlainTasks = PlainTaskAnswer::model()->find($criteria);
+
+        return $this->renderPartial('/trainer/teacherPlainTaskList',array(
+            'teacherPlainTasks' => array($teacherPlainTasks),
+        ));
+    }
+
+    public function actionShowPlainTask()
+    {
+        $idPlainTask = Yii::app()->request->getPost('idPlainTask');
+
+        $plainTask = PlainTaskAnswer::model()->findByPk($idPlainTask);
+
+        return $this->renderPartial('/trainer/showPlainTask',array(
+           'plainTask' => $plainTask
+        ));
+    }
+
+    public function actionMarkPlainTask()
+    {
+        $plainTaskId = Yii::app()->request->getPost('idPlainTask');
+        $mark = Yii::app()->request->getPost('mark');
+        $comment = Yii::app()->request->getPost('comment');
+        $userId = Yii::app()->request->getPost('userId');
+
+        if(!PlainTaskMarks::saveMark($plainTaskId,$mark,$comment,$userId))
+            throw new IntItaExeption(503);
+    }
+
+    public function actionManageConsultant($teacherId)
+    {
+
     }
 }

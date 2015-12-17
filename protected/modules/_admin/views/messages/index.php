@@ -1,6 +1,6 @@
 <?php
 /* @var $this MessagesController */
-/* @var $model Messages */
+/* @var $model Translate */
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -14,7 +14,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
+<link rel="stylesheet" type="text/css" href="<?=StaticFilesHelper::fullPathTo('css', 'formattedForm.css')?>"/>
 
 <br>
 <br>

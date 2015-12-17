@@ -80,7 +80,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
             $.ajax({
                 type: "POST",
                 url: "/lesson/SaveFormulaImage",
-                data: {'imageUrl': EqEditor.getTextArea().exportEquation('urlencoded')},
+                data: {'imageUrl': EqEditor.getTextArea().exportEquation('urlencoded'),'idModule':idModule,'idLecture':idLecture},
                 success: function (result) {
                     var eqn = editor.document.createElement( 'img' );
                     eqn.setAttribute( 'alt', EqEditor.getTextArea().getLaTeX());
@@ -89,6 +89,9 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
                     setTimeout(function () {
                         editor.insertElement(eqn);
                     }, 10);
+                },
+                error: function () {
+                    alert('error SaveFormulaImage');
                 }
             });
             EqEditor.Example.add_history(EqEditor.getTextArea().getLaTeX());

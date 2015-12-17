@@ -16,32 +16,6 @@ class ModuleController extends AdminController
         );
     }
 
-////    public function accessRules()
-////    {
-////        return array(
-////            array('allow',
-////                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-////                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
-////                'expression'=>array($this, 'isAdministrator'),
-////            ),
-////            array('deny',
-////                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-////                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-////                'actions'=>array('create', 'update', 'view', 'index', 'delete', 'restore', 'mandatory',
-////                    'addMandatoryModule', 'coursePrice', 'addCoursePrice','getModuleByCourse','upStatus','downStatus'),
-////                'users'=>array('*'),
-////            ),
-////        );
-////    }
-//
-//    function isAdministrator()
-//    {
-//        if(AccessHelper::isAdmin())
-//            return true;
-//        else
-//            return false;
-//    }
-
     public function actionIndex()
     {
         $model = new Module('search');

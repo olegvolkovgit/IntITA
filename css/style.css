@@ -159,3 +159,9 @@ input[type="submit"][disabled]#identityButton{
     color: #cccccc;
     font-size: 14px;
 }
+.pager .next>a{
+    float: none;
+}
+.statusColor {
+    color:#33cc00;
+}

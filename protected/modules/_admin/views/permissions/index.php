@@ -1,6 +1,6 @@
 <?php
 /* @var $this PermissionsController */
-/* @var $dataProvider CActiveDataProvider*/
+/* @var $dataProvider CActiveDataProvider */
 
 $alert = 'Ви впевнені, що хочете видалити цей запис?';
 Yii::app()->clientScript->registerScript('search', "
@@ -12,8 +12,8 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/access.js"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/access.css" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'access.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
 
 <br>
 
@@ -31,11 +31,11 @@ $('.search-form form').submit(function(){
         <div id="cancelAuthorModule" onclick="cancelTeacherAccess()">Скасувати автора модуля</div>
     </a>
 
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus');?>">
+    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus'); ?>">
         <div id="changeUserStatus">Змінити статус користувача</div>
     </a>
 
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons');?>">
+    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons'); ?>">
         <div id="manageFreeLessons">Безкоштовні заняття</div>
     </a>
 </div>
@@ -46,28 +46,28 @@ $dataProvider = $model->search();
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
     'dataProvider' => $dataProvider,
-    'summaryText'=>'',
+    'summaryText' => '',
     'pager' => array(
-        'firstPageLabel'=>'&#171;&#171;',
-        'lastPageLabel'=>'&#187;&#187;',
-        'prevPageLabel'=>'&#171;',
-        'nextPageLabel'=>'&#187;',
-        'header'=>'',
-        'cssFile'=>Yii::app()->request->baseUrl.'/css/pager.css'
+        'firstPageLabel' => '&#171;&#171;',
+        'lastPageLabel' => '&#187;&#187;',
+        'prevPageLabel' => '&#171;',
+        'nextPageLabel' => '&#187;',
+        'header' => '',
+        'cssFile' => StaticFilesHelper::fullPathTo('css', 'pager.css')
     ),
     'columns' => array(
         array(
-            'class'=>'CButtonColumn',
-            'template'=>'{delete}',
-            'deleteConfirmation'=>"js:'Запись с ID '+$(this).parent().parent().children(':first-child').text()+' будет удалена! Продолжить?'",
-            'buttons'=>array
+            'class' => 'CButtonColumn',
+            'template' => '{delete}',
+            'deleteConfirmation' => "js:'Запись с ID '+$(this).parent().parent().children(':first-child').text()+' будет удалена! Продолжить?'",
+            'buttons' => array
             (
                 'delete' => array
                 (
-                    'label'=>'Delete',
-                    'url'=>'Yii::app()->createUrl("permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
+                    'label' => 'Delete',
+                    'url' => 'Yii::app()->createUrl("permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'click'=>"function(){
+                    'click' => "function(){
                         $.fn.yiiGridView.update('access_grid', {
                             type:'POST',
                             url:$(this).attr('href'),
@@ -125,8 +125,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 ?>
 
-<?php $this->renderPartial('_add', array('model' => $model));?>
-<?php $this->renderPartial('_addTeacherAccess', array('model' => $model));?>
-<?php $this->renderPartial('_cancelTeacherAccess', array('model' => $model));?>
+<?php $this->renderPartial('_add', array('model' => $model)); ?>
+<?php $this->renderPartial('_addTeacherAccess', array('model' => $model)); ?>
+<?php $this->renderPartial('_cancelTeacherAccess', array('model' => $model)); ?>
 
 

@@ -33,7 +33,6 @@ class Consultationscalendar extends CActiveRecord
 //			array('teacher_id, user_id, lecture_id, start_cons, end_cons', 'required'),
 //			array('teacher_id, user_id, lecture_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, teacher_id, user_id, lecture_id, start_cons, end_cons, date_cons', 'safe', 'on'=>'search'),
 		);
 	}
@@ -79,9 +78,7 @@ class Consultationscalendar extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
+    	$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('teacher_id',$this->teacher_id);
@@ -129,6 +126,7 @@ class Consultationscalendar extends CActiveRecord
         }
         return $classTD;
      }
+
     /*Визначаєм чи зайнятий час консультації перед збереженням*/
     public static function consultationFree ($id, $times, $date)
     {
@@ -145,6 +143,7 @@ class Consultationscalendar extends CActiveRecord
         }
         return $result;
     }
+
     /*значення таблиці з интервалом 20хв в ширину 3*/
     public static function timeInterval($a,$b,$c) {
         $delta=60/$c;

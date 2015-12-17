@@ -127,8 +127,8 @@ class Lecture extends CActiveRecord
         $criteria->compare('rate', $this->rate);
         $criteria->compare('verified', $this->verified);
 
-        $criteria->with = array('ModuleTitle');
-        $criteria->compare('ModuleTitle.module_name', $this->ModuleTitle, true);
+        $criteria->with=array('ModuleTitle');
+        $criteria->compare('ModuleTitle.title_ua',$this->ModuleTitle,true);//???? ModuleTitle.module_name change on ModuleTitle.title_ua
         $criteria->addCondition('`order`>0');
 
         return new CActiveDataProvider($this, array(
@@ -227,6 +227,15 @@ class Lecture extends CActiveRecord
         $lecture->alias = 'lecture' . $order;
 
         $lecture->save();
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id)){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id);
+        }
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/images")){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/images");
+        }
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio")){
+            mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio");
+        }
 
         return $order;
     }
@@ -337,10 +346,6 @@ class Lecture extends CActiveRecord
             return false;
         }
         if (!($lecture->isFree)) {
-            if (StudentReg::getRoleString($user) == 'викладач') {
-                if (Teacher::isTeacherAuthorModule($user, $lecture->idModule))
-                    return true;
-            }
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
                 return false;
@@ -520,5 +525,56 @@ class Lecture extends CActiveRecord
     {
         $current = Lecture::model()->findByPk($id);
         return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
+    }
+
+    public function saveLectureContent(){
+
+        $pages = $this->getAllLecturePages();
+
+        foreach ($pages as $page) {
+            $textList = $page->getBlocksListById();
+            $dataProvider = LectureElement::getLectureText($textList);
+            $langs = ['ua', 'ru', 'en'];
+            $types = ['video', 'text', 'quiz'];
+            foreach ($langs as $lang) {
+                $messages = Translate::getLectureContentMessagesByLang($lang);
+                foreach ($types as $type) {
+                    switch ($type) {
+                        case 'video':
+                            $html = Yii::app()->controller->renderPartial('/lesson/_videoTab',
+                                array('page' => $page, 'message' => $messages['613']), true);
+                            break;
+                        case 'text';
+                            $html = Yii::app()->controller->renderPartial('/lesson/_textListTab',
+                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
+                            break;
+                        case 'quiz':
+                            $html = Yii::app()->controller->renderPartial('/lesson/_quiz',
+                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
+                            break;
+                        default:
+                            $html = '';
+                            break;
+                    };
+                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $page->page_order, $lang, $type);
+                    file_put_contents($file, $html);
+                }
+            }
+        }
+    }
+    public static function lectureToTemplate($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->saveLectureContent();
+        }
+    }
+    public static function setLectureNotVerified($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->verified=0;
+            $lecture->save();
+        }
     }
 }
