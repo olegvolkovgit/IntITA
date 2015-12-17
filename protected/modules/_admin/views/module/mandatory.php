@@ -1,3 +1,6 @@
+<?php
+/* @var $course Course*/
+?>
 <br>
 <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Список модулів</a>
@@ -19,14 +22,14 @@
                     <option value="">Виберіть курс</option>
                     <optgroup label="Курси">
                         <?php $courses = Course::generateModuleCoursesList($id);
-                        $count = count($courses);
-                        for ($i = 0; $i < $count; $i++) {
+                        foreach ($courses as $course) {
                             ?>
-                            <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];
-                            if ($courses[$i]["mandatory"] != 0) {
+                            <option value="<?php echo $course->course_ID;?>"><?php echo $course->getTitle();
+                            $mandatory = $course->mandatoryModule($id);
+                            if ($mandatory != 0) {
                                 ?>
                                 - попередній модуль
-                                #<?php echo Module::getModuleName($courses[$i]["mandatory"]); ?></option>
+                                #<?php echo Module::getModuleName($mandatory); ?></option>
                             <?php
                             }
                         }
