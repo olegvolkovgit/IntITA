@@ -32,3 +32,6 @@
 #adminTeacherList img{
     width:150px;
 }
+.row.buttons{
+    margin: 0;
+}
