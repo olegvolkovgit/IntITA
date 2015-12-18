@@ -59,6 +59,12 @@
     </div>
 
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'work_site'); ?>
+        <?php echo $form->textField($model, 'work_site', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
+        <?php echo $form->error($model, 'work_site'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'courses_page'); ?>
         <?php echo $form->dropDownList($model, 'courses_page', Course::getCourseTitlesList(),
             array('class' => "form-control", 'style' => 'width:350px')); ?>

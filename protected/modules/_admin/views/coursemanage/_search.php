@@ -77,10 +77,10 @@
 		<?php echo $form->textField($model,'course_duration_hours',array('class' => 'form-control')); ?>
 	</div>
 
-	<div class="roform-groupw">
-		<?php echo $form->label($model,'course_price'); ?>
-		<?php echo $form->textField($model,'course_price',array('size'=>10,'maxlength'=>10,'class' => 'form-control')); ?>
-	</div>
+<!--	<div class="roform-groupw">-->
+<!--		--><?php //echo $form->label($model,'course_price'); ?>
+<!--		--><?php //echo $form->textField($model,'course_price',array('size'=>10,'maxlength'=>10,'class' => 'form-control')); ?>
+<!--	</div>-->
 
 	<div class="form-group">
 		<?php echo CHtml::submitButton('Search'); ?>

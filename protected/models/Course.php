@@ -534,21 +534,11 @@ class Course extends CActiveRecord implements IBillableObject
         }
 
         $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN course c ON c.course_ID = course_modules.id_module';
-        $criteria->addCondition('course_modules.id_module = '.$idModule);
+        $criteria->join = 'LEFT JOIN course_modules cm ON course_ID = cm.id_course';
+        $criteria->addCondition('cm.id_module = '.$idModule);
 
-        $result = CourseModules::model()->findAll($criteria);
-        var_dump($result);die;
-        $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
-        $count = count($courses);
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $courses[$i]->id_course;
-            $result[$i]['alias'] = Course::getCourseName($courses[$i]->id_course);
-            $result[$i]['language'] = Course::getCourseLang($courses[$i]->id_course);
-            $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
-            $result[$i]['price'] = $courses[$i]->price_in_course;
-        }
-        return $result;
+        $courses = Course::model()->findAll($criteria);
+        return $courses;
     }
 
     public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
@@ -691,5 +681,13 @@ class Course extends CActiveRecord implements IBillableObject
     public function modulesCount()
     {
         return CourseModules::model()->count("id_course=$this->course_ID");
+    }
+
+    public function mandatoryModule($id){
+        return CourseModules::model()->findByAttributes(array(
+            'id_course' => $this->course_ID,
+            'id_module' => $id
+            )
+        )->mandatory_modules;
     }
 }

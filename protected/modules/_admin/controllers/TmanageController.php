@@ -25,14 +25,16 @@ class TmanageController extends AdminController
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
-            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+            if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+            }
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save()) {
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -59,14 +61,16 @@ class TmanageController extends AdminController
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
-            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+            if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+            }
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save())
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -231,8 +235,10 @@ class TmanageController extends AdminController
 
     public function actionAddTeacherRoleAttribute($teacher)
     {
+        $model = Teacher::model()->findByPk(intval($teacher));
+
         $this->render('addTeacherRoleAttribute', array(
-            'teacher' => $teacher,
+            'model' => $model,
         ));
     }
 

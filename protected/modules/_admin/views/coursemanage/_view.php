@@ -49,37 +49,4 @@
 	<?php echo CHtml::encode($data->course_duration_hours); ?>
 	<br />
 
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('modules_count')); ?>:</b>
-	<?php echo CHtml::encode($data->modules_count); ?>
-	<br />
-
-
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('course_price')); ?>:</b>
-	<?php echo CHtml::encode($data->course_price); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('for_whom')); ?>:</b>
-	<?php echo CHtml::encode($data->for_whom); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('what_you_learn')); ?>:</b>
-	<?php echo CHtml::encode($data->what_you_learn); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('what_you_get')); ?>:</b>
-	<?php echo CHtml::encode($data->what_you_get); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('course_img')); ?>:</b>
-	<?php echo CHtml::encode($data->course_img); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('review')); ?>:</b>
-	<?php echo CHtml::encode($data->review); ?>
-	<br />
-
-	*/ ?>
-
 </div>

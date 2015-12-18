@@ -19,7 +19,7 @@
         </tr>
 
         <tr>
-            <td class="monthTitle"><?php echo Course::getMessage($message, 'months') ?></td>
+            <td class="monthTitle"><?php echo Course::getMessage($message, 'module') ?></td>
             <td class="monthTitle" colspan="<?php echo $courseDuration - 5; ?>"></td>
             <td colspan="5" id="courseName">
                 <?php echo Course::getCourseName($idCourse); ?>

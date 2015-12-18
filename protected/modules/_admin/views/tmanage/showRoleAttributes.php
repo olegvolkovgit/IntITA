@@ -31,7 +31,7 @@
     'columns'=>array(
         array(
             'header'=>'Роль',
-            'value'=>'TeacherHelper::getRoleTitle($data->role)',
+            'value'=>'Roles::getRoleTitle($data->role)',
         ),
         array(
             'header'=>'Тип',

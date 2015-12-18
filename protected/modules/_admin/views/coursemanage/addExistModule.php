@@ -10,9 +10,9 @@
             Модуль:<br>
 
             <div class="form-group">
-                <select name="module" placeholder="(Виберіть користувача)" autofocus class="form-control"
+                <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
                         style="width: 350px">
-                    <?php $modules = AccessHelper::generateModulesList();
+                    <?php $modules = Module::generateModulesList();
                     $count = count($modules);
                     for ($i = 0; $i < $count; $i++) {
                         ?>
