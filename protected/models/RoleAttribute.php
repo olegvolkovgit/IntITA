@@ -63,7 +63,7 @@ class RoleAttribute extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Назва атрибута українською',
+			'name' => 'Назва атрибута англійською',
 			'role' => 'Роль',
 			'type' => 'Тип',
 			'name_ru' => 'Назва атрибута російською',
