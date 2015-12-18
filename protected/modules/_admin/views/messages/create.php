@@ -5,9 +5,7 @@
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedFormSimple.css'); ?>"/>
 <br>
 <br>
-<button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/messages/index'); ?>">Інтерфейсні повідомлення</a>
-</button>
+<a href="<?php echo Yii::app()->createUrl('/_admin/messages/index'); ?>">Інтерфейсні повідомлення</a>
 
 <div class="page-header">
     <h1>Додати повідомлення</h1>

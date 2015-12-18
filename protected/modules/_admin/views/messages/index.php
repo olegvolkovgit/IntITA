@@ -18,9 +18,8 @@ $('.search-form form').submit(function(){
 
 <br>
 <br>
-<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/messages/create');?>">Додати повідомлення</a>
-</button>
+
 
 <div class="page-header">
 <h1>Інтерфейс сайта</h1>
