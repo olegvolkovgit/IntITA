@@ -31,8 +31,3 @@
 </form>
 <button id="cancelButton"
         onclick="hideForm('lessonForm', 'titleUa', 'titleRu', 'titleEn');" ><?php echo Yii::t('module', '0384'); ?></button>
-<div style="margin-top: 75px">
-    <?php if (Yii::app()->user->hasFlash('newLecture')):
-        echo Yii::app()->user->getFlash('newLecture');
-    endif; ?>
-</div>
