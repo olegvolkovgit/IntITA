@@ -43,7 +43,7 @@ $('.search-form form').submit(function(){
         'link',
         array(
             'class'=>'CButtonColumn',
-
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>

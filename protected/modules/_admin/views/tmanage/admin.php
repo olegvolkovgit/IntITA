@@ -63,6 +63,7 @@ $('.search-form form').submit(function(){
         array(
             'class'=>'CButtonColumn',
             'deleteConfirmation'=>"js:'Ви підтверджуєте видалення викладача '+$(this).parent().parent().children(':first-child').text()+'?'",
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>
