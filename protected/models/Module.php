@@ -261,6 +261,7 @@ class Module extends CActiveRecord implements IBillableObject
         $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
         $module->alias = $idModule;
         if($module->save()){
+            Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
             if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
                 mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
             }
