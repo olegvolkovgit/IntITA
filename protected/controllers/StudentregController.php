@@ -113,7 +113,6 @@ class StudentRegController extends Controller
 
     public function actionIndex($email = '')
     {
-
         $model = new StudentReg('reguser');
         $this->render("studentreg", array('model' => $model, 'email' => $email));
     }

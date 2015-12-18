@@ -961,6 +961,11 @@ class StudentReg extends CActiveRecord implements IMailSender
             array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
     }
 
+    public static function receivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+    }
+
     public function generateMessage($params){
         $message = new UserMessages('insert',$params['topic'], $params['body'], $this->id);
         if ($message->create()){

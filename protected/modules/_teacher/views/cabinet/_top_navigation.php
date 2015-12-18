@@ -59,7 +59,8 @@
             <li class="divider"></li>
             <li>
                 <a class="text-center" href="#">
-                    <strong>Read All Messages</strong>
+                    <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')">
+                            Всі повідомлення</a></strong>
                     <i class="fa fa-angle-right"></i>
                 </a>
             </li>
