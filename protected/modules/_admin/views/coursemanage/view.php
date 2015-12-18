@@ -32,7 +32,6 @@
         'level',
         'start',
         'status',
-        'course_price',
         'for_whom_ua',
         'what_you_learn_ua',
         'what_you_get_ua',
@@ -43,6 +42,5 @@
         'what_you_learn_en',
         'what_you_get_en',
         'course_img',
-        'course_duration_hours'
     ),
 )); ?>
