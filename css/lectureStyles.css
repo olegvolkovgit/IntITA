@@ -583,10 +583,12 @@ h1.lessonPartEdit p img {
     padding: 3px 5px;
     text-align: left;
     line-height: 14px;
+    opacity: 1;
 }
 .titleNoAccessMin{
     font-size: 14px;
-    color: #999999;
+    color: #666666;
+    opacity: 1;
 }
 .noAccessMin{
     font-size: 12px;
