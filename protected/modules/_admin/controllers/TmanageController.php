@@ -235,8 +235,10 @@ class TmanageController extends AdminController
 
     public function actionAddTeacherRoleAttribute($teacher)
     {
+        $model = Teacher::model()->findByPk(intval($teacher));
+
         $this->render('addTeacherRoleAttribute', array(
-            'teacher' => $teacher,
+            'model' => $model,
         ));
     }
 

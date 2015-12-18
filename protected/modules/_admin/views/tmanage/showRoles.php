@@ -21,8 +21,7 @@
     </button>
     <br>
     <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRoleAttribute/teacher/', array(
-        'id' => $teacherId));?>">Призначити атрибут ролі</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addTeacherRoleAttribute/?teacher='.$teacherId);?>">Призначити атрибут ролі</a>
     </button>
     <br>
     <div class="page-header">

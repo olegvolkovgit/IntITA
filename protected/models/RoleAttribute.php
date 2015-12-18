@@ -146,7 +146,7 @@ class RoleAttribute extends CActiveRecord
                 $result = LeaderModules::getLeaderModules($teacher);
                 break;
             case '6'://author's modules
-                $result = Teacher::getTeacherModules($teacher);
+                //$result = Teacher::getTeacherModules($teacher);
                 break;
             case '8'://leader's capacity
                 if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
