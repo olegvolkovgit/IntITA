@@ -34,14 +34,16 @@ if ($editMode){
                         ),
                         'enableAjaxValidation'=>false,
                     )); ?>
-                    <div class="hideInput">
-                        <?php echo $form->fileField($model, 'foto_url',array('id'=>'teacherAvatar', 'onChange'=>'js:getImgName(this.value)')); ?>
-                        <?php echo $form->error($model,'foto_url'); ?>
-                    </div>
-                    <div>
-                        <a onclick="selectAvatar()">
-                            <?php echo 'Вибрати';?>
-                        </a>
+                    <div class="fileform">
+                        <div class="hideInput">
+                            <?php echo $form->fileField($model, 'foto_url',array('tabindex' => '-1','id'=>'teacherAvatar', 'onChange'=>'js:getImgName(this.value)')); ?>
+                            <?php echo $form->error($model,'foto_url'); ?>
+                        </div>
+                        <div>
+                            <label id="avatar" for="teacherAvatar" >
+                                <?php echo 'Вибрати';?>
+                            </label>
+                        </div>
                     </div>
                     <div id="avatarInfo"><?php echo Yii::t('regexp', '0159');?></div>
                     <div class="row buttons">
