@@ -14,7 +14,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl();?>/css/formattedForm.css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/translate/create');?>')">
     Додати повідомлення
@@ -33,7 +33,7 @@ $('.search-form form').submit(function(){
         'prevPageLabel'=>'&#171;',
         'nextPageLabel'=>'&#187;',
         'header'=>'',
-        'cssFile'=> Config::getBaseUrl().'/css/pager.css'
+        'cssFile'=> StaticFilesHelper::fullPathTo('css', 'pager.css'),
     ),
     'summaryText'=>'',
     'columns'=>array(

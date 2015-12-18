@@ -36,8 +36,7 @@ class Messages extends CActiveRecord
         $this->draft = 1;
         $this->chained_message_id = $chained;
         $this->original_message_id = $original;
-        $this->save();
-     }
+    }
 
     /**
      * @return array validation rules for model attributes.

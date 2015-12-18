@@ -962,7 +962,7 @@ class StudentReg extends CActiveRecord implements IMailSender
     }
 
     public function generateMessage($params){
-        $message = new UserMessages("insert", $params['topic'], $params['body'], $this->id);
+        $message = new UserMessages('insert',$params['topic'], $params['body'], $this->id);
         if ($message->create()){
             echo 'Success mail!';
         } else {

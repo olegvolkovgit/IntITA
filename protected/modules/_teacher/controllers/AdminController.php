@@ -18,4 +18,8 @@ class AdminController extends TeacherCabinetController {
         ));
     }
 
+    public function actionVerifyContent(){
+        $this->renderPartial('_verifyContent');
+    }
+
 }

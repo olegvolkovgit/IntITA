@@ -24,8 +24,6 @@ $header = new Header();
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
 
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/admin.css"/>
-    <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
         <!-- steps style -->
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico"
           type="image/x-icon"/>
@@ -44,7 +42,6 @@ $header = new Header();
 
 <div id="main-wrapper">
     <div id="mainheader">
-        <?php //$this->renderPartial('/site/_hamburgermenu'); ?>
         <div id='headerUnderline'>
             <div id="navigation" class="down">
                 <div class="main">

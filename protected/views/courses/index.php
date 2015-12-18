@@ -5,6 +5,9 @@
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+$user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+$user->generateMessage(array('topic' => 'Topic', 'body' => 'Body'));
+
 $courseList = $dataProvider->getData();
 ?>
 

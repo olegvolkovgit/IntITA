@@ -11,18 +11,19 @@
  * The followings are the available model relations:
  * @property StudentReg $sender
  */
-class UserMessages extends Messages implements IMessage
+class UserMessages extends CActiveRecord implements IMessage
 {
     public $message;
 
-    function __construct($scenario="insert", $topic, $subject, $sender) {
+    function __construct($scenario='insert', $topic, $subject, $sender) {
+        parent::__construct($scenario);
+        $message = new Messages('insert', $sender, 1);
+        $message->save();
 
-        $this->message = new Messages($scenario, $sender, 1);
-
+        $this->message = $message;
         $this->id_message = $this->message->id;
         $this->subject = $subject;
         $this->topic = $topic;
-        $this->save();
     }
 
 	/**
@@ -57,7 +58,7 @@ class UserMessages extends Messages implements IMessage
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			//'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			'message' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'sender' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
 		);
 	}
@@ -118,7 +119,7 @@ class UserMessages extends Messages implements IMessage
         if($this->validate())
         {
             $this->save();
-            var_dump($this->id_message);die;
+            var_dump($this->topic);die;
         }
 
         return false;
