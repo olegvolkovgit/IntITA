@@ -6,6 +6,9 @@ $header = new Header();
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
 <head>
 
+    <!--[if lte IE 8]>
+    <body class="ie8">
+    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
