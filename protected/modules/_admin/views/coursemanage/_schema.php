@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courseSchema.css'); ?>"/>
+<link rel="stylesheet" type="text/css" href="/css/courseSchema.css"/>
 
 <div id="courseSchema">
     <br>
