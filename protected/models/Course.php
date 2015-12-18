@@ -54,7 +54,7 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('language, title_ua, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
+            array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias, course_price', 'length', 'max' => 20),
