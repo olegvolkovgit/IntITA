@@ -86,13 +86,13 @@
         <?php echo $form->textField($model,'user_id'); ?>
     </div>
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton('Search'); ?>
-    </div>
-
     <div class="row">
         <?php echo $form->label($model,'isPrint'); ?>
         <?php echo $form->textField($model,'isPrint'); ?>
+    </div>
+
+    <div class="row buttons">
+        <?php echo CHtml::submitButton('Search'); ?>
     </div>
 
     <?php $this->endWidget(); ?>
