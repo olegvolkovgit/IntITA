@@ -131,8 +131,8 @@ class ModuleController extends Controller
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
 
-        $newOrder = Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
-        Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => $newOrder));
+        Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
+        Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => CourseModules::model()->count("id_course=".$_POST['idCourse'])));
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
