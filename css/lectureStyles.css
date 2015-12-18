@@ -475,8 +475,14 @@ div.lastAccessPage {
 }
 .lessonEditPart{
     display: inline-block;
+    height: auto;
 }
-
+.lessonEditPart a{
+    word-break: break-all;
+}
+.lectureVerify{
+    text-align: right;
+}
 .lessonPart div {
     display: inline-block;
     vertical-align: bottom;
