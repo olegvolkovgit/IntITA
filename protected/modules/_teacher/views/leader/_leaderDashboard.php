@@ -7,7 +7,7 @@
  */?>
 <div class="row">
     <div class="col-lg-12">
-        <h3>Керівник проекту</h3>
+        Керівник проекту
     </div>
 </div>
 <hr>

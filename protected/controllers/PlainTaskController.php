@@ -57,12 +57,10 @@ class PlainTaskController extends Controller
 
     public function actionSaveAnswer()
     {
-        var_dump('dsadadsadsad');die;
 
-        if(Yii::app()->request->isAjaxRequest)
-        {
             $answer = htmlentities (Yii::app()->request->getPost('answer'));
-            $lectureElementId = Yii::app()->request->getPost('idBlock');
+            $lectureElementId = Yii::app()->request->getPost('idLecture');
+
             $plainTask = LectureElement::getPlainTaskByLectureId($lectureElementId);
             $user = Yii::app()->user->id;
 
@@ -71,7 +69,7 @@ class PlainTaskController extends Controller
                     return true;
                 else
                     throw new PlainTaskException('Plain task was not saved');
-        }
+
     }
 
 

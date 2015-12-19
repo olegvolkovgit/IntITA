@@ -47,8 +47,8 @@ class TrainerStudent extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
-			'student0' => array(self::BELONGS_TO, 'User', 'student'),
-		);
+            'trainerStudent' => array(self::HAS_MANY, 'StudentReg','id'),
+        );
 	}
 
 	/**
@@ -180,6 +180,19 @@ class TrainerStudent extends CActiveRecord
         $plainTasksAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
 //        var_dump($plainTasksAnswers);die;
         return $plainTasksAnswers;
+    }
 
+    public static function getStudentByTrainer($trainerId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.student';
+        $criteria->addCondition('user.id = trainer_student.student');
+        $criteria->condition = 'trainer = :trainer';
+        $criteria->params = array(':trainer' => $trainerId);
+
+        $users = StudentReg::model()->findAll($criteria);
+
+        return $users;
     }
 }

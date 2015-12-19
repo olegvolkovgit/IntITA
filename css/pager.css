@@ -9,3 +9,4 @@ ul.yiiPager .hidden a{border:solid 1px #DEDEDE;color:#888888;}
 ul.yiiPager .first,
 ul.yiiPager .last{}
 .pager .next>a{float: none;}
+.pager .previous>a{float: none;}

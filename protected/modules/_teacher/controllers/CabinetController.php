@@ -31,6 +31,7 @@ class CabinetController extends TeacherCabinetController
         $role = Roles::model()->findByAttributes(array('title_en' => $page));
         $model = StudentReg::model()->findByPk($user);
 
+        if($role && $model)
         $this->rolesDashboard($model, array($role));
 
     }
@@ -149,7 +150,7 @@ class CabinetController extends TeacherCabinetController
 
     public function rolesDashboard(StudentReg $user, $inRole = null)
     {
-        if ($user->isTeacher()) {
+        if ($user->isTeacher()){
             $teacher = Teacher::model()->findByPk($user->getTeacherId());
             if ($inRole == null) {
                 $roles = $teacher->roles();
@@ -185,7 +186,27 @@ class CabinetController extends TeacherCabinetController
 
     }
 
-    private function renderTrainerDashboard(Teacher $teacher, StudentReg $user, $role)
+    public function renderSidebarByRole($role)
+    {
+        $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+        $user = StudentReg::model()->findByPk(Yii::app()->user->id);
+        if($role)
+        {
+            switch(strtolower($role->title_en))
+            {
+                case 'trainer' :
+                    $this->renderPartial('/trainer/sidebar',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                        'role' => $role
+                    ));
+                break;
+
+            }
+        }
+    }
+
+    private function renderTrainerDashboard(Teacher $teacher,StudentReg $user,$role)
     {
         return $this->renderPartial('/trainer/_trainerDashboard', array(
             'teacher' => $teacher,
@@ -230,4 +251,5 @@ class CabinetController extends TeacherCabinetController
     {
         return $this->renderPartial('/accountant/index');
     }
+
 }

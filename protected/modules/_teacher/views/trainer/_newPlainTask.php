@@ -41,4 +41,3 @@ if(!empty($plainTasksAnswers))
 else echo 'Наразі всі задачі з тренерами';?>
 
 
-

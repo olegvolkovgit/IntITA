@@ -244,8 +244,10 @@ class TmanageController extends AdminController
 
     public function actionViewRole($id)
     {
+        $model = Roles::model()->findByPk($id);
+
         $this->render('viewRole', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
         ));
     }
 

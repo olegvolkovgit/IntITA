@@ -159,7 +159,7 @@ class SiteController extends Controller
     {
         $model = StudentReg::model()->findByAttributes(array('token' => $token));
         if ($model === null)
-            throw new CHttpException(404, Yii::t('exception', '0237'));
+            throw new CHttpException(404, 'Сторінка не існує або вийшов термін дії посилання');
         else
             return $model;
     }

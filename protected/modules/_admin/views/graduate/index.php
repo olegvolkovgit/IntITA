@@ -50,6 +50,7 @@ $('.search-form form').submit(function(){
         ),
         array(
             'class' => 'CButtonColumn',
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 

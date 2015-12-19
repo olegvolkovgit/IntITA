@@ -31,6 +31,11 @@
     <!-- Custom Fonts -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 
+    <!--Angular-->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers.js'); ?>"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,9 +46,9 @@
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
 </script>
-<body>
+<body ng-app="teacherApp">
 
-<div id="wrapper">
+<div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <?php echo $this->renderPartial('_top_navigation', array('model' => $model, 'newMessages' => $newMessages));?>
@@ -56,7 +61,6 @@
 
 </body>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <!-- jQuery -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js');?>"></script>
@@ -66,7 +70,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.js');?>"></script>
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/raphael/raphael-min.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cms/morris-data.js');?>"></script>
 
 <!-- Custom Theme JavaScript -->
@@ -74,5 +77,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '/cms/morris-data.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
 </html>
 
