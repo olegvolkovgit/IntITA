@@ -967,11 +967,26 @@ class StudentReg extends CActiveRecord implements IMailSender
     }
 
     public function generateMessage($params){
-        $message = new UserMessages('insert',$params['topic'], $params['body'], $this->id);
-        if ($message->create()){
-            echo 'Success mail!';
-        } else {
-            echo 'Error!';
-        }
+        $message = new UserMessages('insert',$params['topic'], $params['body'], $this->id, $params['receivers']);
+        $message->create();
+
+        return $message;
+    }
+
+    public function receivedMessages(){
+        $messages =  Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('message_receiver r')
+            ->where('id_receiver=:id and r.`deleted` is null', array(':id'=>$this->id))
+            ->queryAll();
+
+        return $messages;
+    }
+
+    public function newReceivedMessages(){
+        $sql = "select * from message_receiver where `read` is null and id_receiver=".$this->id;
+        $messages =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $messages;
     }
 }

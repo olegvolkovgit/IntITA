@@ -14,16 +14,16 @@
 class UserMessages extends CActiveRecord implements IMessage
 {
     public $message;
+    private $receivers;
 
-    function __construct($scenario='insert', $topic, $subject, $sender) {
+    function __construct($scenario='insert', $topic, $subject, $sender, $receivers) {
         parent::__construct($scenario);
         $message = new Messages('insert', $sender, 1);
-        $message->save();
 
         $this->message = $message;
-        $this->id_message = $this->message->id;
         $this->subject = $subject;
         $this->topic = $topic;
+        $this->receivers = $receivers;
     }
 
 	/**
@@ -116,25 +116,40 @@ class UserMessages extends CActiveRecord implements IMessage
 	}
 
     public function create(){
-        if($this->validate())
-        {
-            $this->save();
-            var_dump($this->topic);die;
-        }
-
-        return false;
+        $this->message->save();
+        $this->id_message = $this->message->id;
+        return $this;
     }
 
     public function send(IMailSender $sender){
-
+        if($this->message->save() && $this->save()){
+            foreach($this->receivers as $receiver){
+                $this->addReceiver($receiver);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function read(StudentReg $receiver){
-
+        if(Yii::app()->db->createCommand()->update('message_receiver', array('read'=> date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->message->id, ':receiver'=>$receiver->id)) == 1)
+            return true;
+        else {
+            return false;
+        }
     }
 
     public function deleteMessage(StudentReg $receiver){
-
+        if(Yii::app()->db->createCommand()->update('message_receiver', array('deleted'=> date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->message->id, ':receiver'=>$receiver->id)) == 1)
+            return true;
+        else {
+            return false;
+        }
     }
 
     public function reply(StudentReg $receiver){
@@ -143,5 +158,10 @@ class UserMessages extends CActiveRecord implements IMessage
 
     public function sendOn(StudentReg $receiver){
 
+    }
+
+    private function addReceiver($receiver){
+        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (".$this->id_message.", ".$receiver.");";
+        return Yii::app()->db->createCommand($sql)->execute();
     }
 }

@@ -1,10 +1,21 @@
 <? $css_version = 1; ?>
-
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+
+$user = StudentReg::model()->findByPk(39);
+$message = $user->generateMessage(array('topic' => 'new topic', 'body' => 'new subject', 'receivers' => array('2', '40')));
+$user = StudentReg::model()->findByPk(51);
+if ($message->send($user)){
+    $message->deleteMessage($user);
+    echo 'Success mail!';
+} else {
+    echo 'Error!';
+}
+var_dump($user->receivedMessages());
+die;
 
 $courseList = $dataProvider->getData();
 ?>
