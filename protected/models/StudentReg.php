@@ -34,7 +34,7 @@
  * @property string $avatar
  * @property string $identity
  */
-class StudentReg extends CActiveRecord implements IMailSender
+class StudentReg extends CActiveRecord
 {
     public $password_repeat;
     public $send_letter;
@@ -966,12 +966,7 @@ class StudentReg extends CActiveRecord implements IMailSender
             array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
     }
 
-    public function generateMessage($params){
-        $message = new UserMessages('insert',$params['topic'], $params['body'], $this->id, $params['receivers']);
-        $message->create();
 
-        return $message;
-    }
 
     public function receivedMessages(){
         $messages =  Yii::app()->db->createCommand()

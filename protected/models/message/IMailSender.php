@@ -2,6 +2,6 @@
 
 interface IMailSender {
 
-    public function generateMessage($params);
+    public function send($mailto, $nameFrom, $subject, $text);
 
 }

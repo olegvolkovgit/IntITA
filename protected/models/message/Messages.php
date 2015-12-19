@@ -13,8 +13,6 @@
  * @property integer $original_message_id
  *
  * The followings are the available model relations:
- * @property MessageReceiver[] $messageReceivers
- * @property MessageReceiver[] $messageReceivers1
  * @property StudentReg $sender0
  * @property UserMessages[] $userMessages
  */
@@ -28,9 +26,9 @@ class Messages extends CActiveRecord
         return 'messages';
     }
 
-//    public function build($sender, $type, $chained = null, $original = null)
+//    public function build(StudentReg $sender, $type, $chained = null, $original = null)
 //    {
-//        $this->sender = (int) $sender;
+//        $this->sender = $sender->id;
 //        $this->type = (int) $type;
 //        $this->draft = 1;
 //        $this->chained_message_id = $chained;
@@ -60,9 +58,7 @@ class Messages extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'messageReceivers' => array(self::HAS_MANY, 'MessageReceiver', 'reply'),
-            'messageReceivers1' => array(self::HAS_MANY, 'MessageReceiver', 'forward'),
-//            'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
+            'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
             'sender0' => array(self::BELONGS_TO, 'User', 'sender'),
             'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
         );
@@ -125,7 +121,15 @@ class Messages extends CActiveRecord
     }
 
     protected function addReceiver($receiver){
-        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (".$this->id_message.", ".$receiver.");";
+        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (60,42);";
         return Yii::app()->db->createCommand($sql)->execute();
+    }
+
+    public function setType($type){
+        $this->type = $type;
+    }
+
+    public function setDraft($draft){
+        $this->draft = $draft;
     }
 }

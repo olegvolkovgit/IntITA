@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'user_messages':
  * @property integer $id_message
- * @property string $topic
+ * @property string $text
  * @property string $subject
  *
  * The followings are the available model relations:
@@ -15,10 +15,14 @@ class UserMessages extends Messages implements IMessage
 {
     private $receivers;
 
-    public function build($topic, $subject, $receivers) {
+    public function build($subject, $text, $receivers,StudentReg $sender) {
         $this->subject = $subject;
-        $this->topic = $topic;
+        $this->text = $text;
         $this->receivers = $receivers;
+
+        $this->sender = $sender->id;
+        $this->setType(1);
+        $this->setDraft(1);
     }
 
 	/**
@@ -37,11 +41,11 @@ class UserMessages extends Messages implements IMessage
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_message, subject', 'required'),
+			array('id_message, subject, text', 'required'),
 			array('id_message', 'numerical', 'integerOnly'=>true),
-			array('topic', 'length', 'max'=>255),
+			array('text', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('id_message, topic, subject', 'safe', 'on'=>'search'),
+			array('id_message, text, subject', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,7 +69,7 @@ class UserMessages extends Messages implements IMessage
 	{
 		return array(
 			'id_message' => 'Id Message',
-			'topic' => 'Topic',
+			'text' => 'Text',
 			'subject' => 'Subject',
 		);
 	}
@@ -87,7 +91,7 @@ class UserMessages extends Messages implements IMessage
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message, true);
-		$criteria->compare('topic',$this->topic,true);
+		$criteria->compare('text',$this->text,true);
 		$criteria->compare('subject',$this->subject,true);
 
 		return new CActiveDataProvider($this, array(
@@ -117,10 +121,12 @@ class UserMessages extends Messages implements IMessage
     }
 
     public function send(IMailSender $sender){
+        $sender->send($this->sender, "Sender Name", 'Subject', 'Mail text');
 
         foreach($this->receivers as $receiver){
-            $this->addReceiver($receiver);
+           // $this->addReceiver($receiver);
         }
+        return true;
     }
 
     public function read(StudentReg $receiver){

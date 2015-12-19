@@ -1,4 +1,7 @@
 <? $css_version = 1; ?>
+<?php
+/* @var $user StudentReg*/
+?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
 $this->breadcrumbs = array(
@@ -6,10 +9,11 @@ $this->breadcrumbs = array(
 );
 
 $user = StudentReg::model()->findByPk(39);
-$message = $user->generateMessage(array('topic' => 'new topic', 'body' => 'new subject', 'receivers' => array('2', '40')));
-$user = StudentReg::model()->findByPk(51);
-if ($message->send($user)){
-    $message->deleteMessage($user);
+
+$message = new UserMessages();
+$message->build('Subject', 'Text', array('51'), $user);
+$sender = new MailTransport();
+if ($message->send($sender)){
     echo 'Success mail!';
 } else {
     echo 'Error!';
