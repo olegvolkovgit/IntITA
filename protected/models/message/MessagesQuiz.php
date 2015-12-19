@@ -109,7 +109,7 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 
     }
 
-    public function sendOn(StudentReg $receiver){
+    public function forward(StudentReg $receiver){
 
     }
 }

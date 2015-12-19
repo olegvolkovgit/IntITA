@@ -28,15 +28,14 @@ class Messages extends CActiveRecord
         return 'messages';
     }
 
-    public function __construct($scenario, $sender, $type, $chained = null, $original = null)
-    {
-        parent::__construct($scenario);
-        $this->sender = (int) $sender;
-        $this->type = (int) $type;
-        $this->draft = 1;
-        $this->chained_message_id = $chained;
-        $this->original_message_id = $original;
-    }
+//    public function build($sender, $type, $chained = null, $original = null)
+//    {
+//        $this->sender = (int) $sender;
+//        $this->type = (int) $type;
+//        $this->draft = 1;
+//        $this->chained_message_id = $chained;
+//        $this->original_message_id = $original;
+//    }
 
     /**
      * @return array validation rules for model attributes.
@@ -123,5 +122,10 @@ class Messages extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    protected function addReceiver($receiver){
+        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (".$this->id_message.", ".$receiver.");";
+        return Yii::app()->db->createCommand($sql)->execute();
     }
 }

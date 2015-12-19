@@ -28,7 +28,6 @@ class MessagesPayment extends CActiveRecord implements IMessage
 			array('id_message, operation', 'required'),
 			array('id_message, operation', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_message, operation', 'safe', 'on'=>'search'),
 		);
 	}
@@ -69,8 +68,6 @@ class MessagesPayment extends CActiveRecord implements IMessage
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message);
@@ -112,7 +109,7 @@ class MessagesPayment extends CActiveRecord implements IMessage
 
     }
 
-    public function sendOn(StudentReg $receiver){
+    public function forward(StudentReg $receiver){
 
     }
 }

@@ -11,16 +11,11 @@
  * The followings are the available model relations:
  * @property StudentReg $sender
  */
-class UserMessages extends CActiveRecord implements IMessage
+class UserMessages extends Messages implements IMessage
 {
-    public $message;
     private $receivers;
 
-    function __construct($scenario='insert', $topic, $subject, $sender, $receivers) {
-        parent::__construct($scenario);
-        $message = new Messages('insert', $sender, 1);
-
-        $this->message = $message;
+    public function build($topic, $subject, $receivers) {
         $this->subject = $subject;
         $this->topic = $topic;
         $this->receivers = $receivers;
@@ -116,19 +111,15 @@ class UserMessages extends CActiveRecord implements IMessage
 	}
 
     public function create(){
-        $this->message->save();
-        $this->id_message = $this->message->id;
+        $this->save();
+
         return $this;
     }
 
     public function send(IMailSender $sender){
-        if($this->message->save() && $this->save()){
-            foreach($this->receivers as $receiver){
-                $this->addReceiver($receiver);
-            }
-            return true;
-        } else {
-            return false;
+
+        foreach($this->receivers as $receiver){
+            $this->addReceiver($receiver);
         }
     }
 
@@ -156,12 +147,7 @@ class UserMessages extends CActiveRecord implements IMessage
 
     }
 
-    public function sendOn(StudentReg $receiver){
+    public function forward(StudentReg $receiver){
 
-    }
-
-    private function addReceiver($receiver){
-        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (".$this->id_message.", ".$receiver.");";
-        return Yii::app()->db->createCommand($sql)->execute();
     }
 }
