@@ -39,6 +39,5 @@ if(!empty($plainTasksAnswers))
 <?php
 }
 else echo 'Наразі всі задачі з тренерами';?>
-<hr>
 
 

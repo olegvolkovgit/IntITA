@@ -10,22 +10,18 @@
  * @var $this CabinetController
  * @var $user StudentReg   */
  ?>
-
 <li>
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <?php echo $role->title_en ?><span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        <li><a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                array('page' => $role->title_en, 'teacher' => $teacher->teacher_id));?>','<?php echo $role->title_en ?>')">
-                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>Дошка</a>
+    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> <?php echo $role->title_en ?><span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
+                array('page' => $role->title_en, 'user' => $user->id));?>','<?php echo $role->title_en ?>')">Дошка</a>
         </li>
-        <li><a href="#" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>')">
-                Управління консультантами</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Separated link</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">One more separated link</a></li>
+        <li>
+            <a href="#" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>')">
+                Управління консультантами
+            </a>
+        </li>
     </ul>
-
+    <!-- /.nav-second-level -->
 </li>

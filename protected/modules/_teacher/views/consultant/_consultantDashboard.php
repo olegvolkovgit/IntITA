@@ -11,7 +11,7 @@
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <h3>Консультант</h3>
+        Консультант
     </div>
 </div>
 <hr>

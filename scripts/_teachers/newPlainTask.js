@@ -6,7 +6,7 @@ function showPlainTaskWithoutTrainer(url)
 {
     $.ajax({
         url: url,
-        success: function (data) {
+        success: function(data) {
             fillContainer(data);
         }
     })

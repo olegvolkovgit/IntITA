@@ -6,10 +6,11 @@
  * Time: 10:41
  * @var $tasks PlainTaskAnswer
  */
+?>
+<div class="col-md-9">
 
-if(!empty($tasks))
-{?>
-    <div class="col-md-9">
+<?php if(!empty($tasks)){?>
+
         <table class="table table-striped">
             <tr>
                 <td>Номер задачі</td>
@@ -42,7 +43,9 @@ if(!empty($tasks))
                 </td>
             </tr>
    <?php }
-}}
+    }
+}
 else echo 'Немає задач з тренерами';
 ?>
+</div>
 <hr>
