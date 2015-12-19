@@ -13,14 +13,14 @@ function cancelTeacherAccess() {
     document.getElementById('cancelTeacherAccess').style.display = 'block';
 }
 
-function selectTeacherModules(url) {
+function selectTeacherModules() {
     var teacher = $('select[name="teacher"]').val();
     if (!teacher) {
         $('div[name="teacherModules"]').html('');
     } else {
         $.ajax({
             type: "POST",
-            url: url,
+            url: "/_admin/permissions/showTeacherModules",
             data: {teacher: teacher},
             cache: false,
             success: function (response) {
@@ -34,7 +34,7 @@ function changeUserStatus() {
     document.getElementById('').style.display = 'block';
 }
 
-function selectModule(url) {
+function selectModule() {
     var course = $('select[name="course"]').val();
     if (!course) {
         $('div[name="selectModule"]').html('');
@@ -52,14 +52,14 @@ function selectModule(url) {
     }
 }
 
-function selectModule1(url) {
+function selectModule1() {
     var course = $('select[name="course1"]').val();
     if (!course) {
         $('div[name="selectModule1"]').html('');
     } else {
         $.ajax({
             type: "POST",
-            url: url,
+            url: "/_admin/permissions/showModules",
             data: {course: course},
             cache: false,
             success: function (response) {

@@ -478,6 +478,9 @@ body .grid-view table.items td.moduleLink{
     text-decoration: none;
     float: left;
 }
+input[type="submit"][disabled]#submitButton {
+    background: #666666;
+}
 
 #cancelButton {
     float: left;

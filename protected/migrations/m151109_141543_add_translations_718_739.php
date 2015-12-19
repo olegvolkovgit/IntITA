@@ -454,7 +454,7 @@ class m151109_141543_add_translations_718_739 extends CDbMigration
                 'id_record' => null,
                 'id' => '0736',
                 'language' => 'ru',
-                'translation' => '(Выберите язык программирования)'
+                'translation' => '(Виберите язык программирования)'
             ),
             array(
                 'id_record' => null,

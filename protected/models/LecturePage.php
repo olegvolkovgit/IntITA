@@ -225,6 +225,7 @@ class LecturePage extends CActiveRecord
         $model->page_order = $pageOrder;
 
         $model->save();
+        Lecture::setLectureNotVerified($lecture);
     }
 
     public static function addVideo($pageId, $block){
@@ -236,12 +237,14 @@ class LecturePage extends CActiveRecord
     public static function deletePage($idLecture, $pageOrder){
         $model = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
         $model->delete();
+        Lecture::setLectureNotVerified($idLecture);
     }
 
     public static function addQuiz($pageId, $blockElement){
         $model = LecturePage::model()->findByPk($pageId);
         $model->quiz = $blockElement;
         $model->save();
+        Lecture::setLectureNotVerified($model->id_lecture);
     }
 
     public static function unableQuiz($pageId){
@@ -250,6 +253,7 @@ class LecturePage extends CActiveRecord
             $model->quiz = null;
             if($model->validate()){
                 $model->save();
+                Lecture::setLectureNotVerified($model->id_lecture);
                 return true;
             }
 
@@ -302,6 +306,7 @@ class LecturePage extends CActiveRecord
         //swap blocks - rewrite page order in DB
         LecturePage::model()->updateByPk($secondId, array('page_order' => $first));
         LecturePage::model()->updateByPk($firstId, array('page_order' => $second));
+        Lecture::setLectureNotVerified($idLecture);
     }
 
     public static function reorderPages($idLecture, $pageOrder)

@@ -4,11 +4,6 @@
 /* @var $this StudentregController */
 /* @var $post StudentReg */
 /* @var $form CActiveForm */
-?>
-<?php
-$this->pageTitle = 'INTITA';
-?>
-<?php
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'),
 );
 ?>

@@ -8,7 +8,7 @@ angular
 function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
     $scope.sendTestAnswer = function (block_order, typeButton, test, testType, editMode) {
         user = idUser;
-        var checkAnswers = angular.element("#answers" + block_order + "  input:" + typeButton + ":checked");
+        var checkAnswers = $("#answers" + block_order + "  input:" + typeButton + ":checked");
         if (checkAnswers.length == 0) {
             alert('Спочатку виберіть варіант відповіді');
             return false;
@@ -54,7 +54,6 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
         return answersValue;
     };
     $scope.isTrueTestAnswer = function (user, test) {
-
         var command = {
             "user": user,
             "test": test

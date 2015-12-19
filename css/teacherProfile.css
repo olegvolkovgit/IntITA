@@ -251,3 +251,17 @@ img.lessonBut  {
 .redactor-box-fullscreen .redactor-toolbar li a.re-close{
     display: none;
 }
+#avatar {
+    color:#4b75a4;
+    cursor: pointer;
+    background: #fff;
+    text-decoration: underline;
+}
+#avatar:hover {
+    color: #454545;
+}
+.fileform {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}

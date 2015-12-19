@@ -6,6 +6,9 @@ $header = new Header();
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
 <head>
 
+    <!--[if lte IE 8]>
+    <body class="ie8">
+    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -30,6 +33,22 @@ $header = new Header();
           type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
+    <!--[if lte IE 8]>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-switch');
+        document.createElement('ng-if');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+
+        // needed to enable CSS reference
+        document.createElement('ng:view');
+    </script>
+    <![endif]-->
+    <!-- for tabs -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -110,10 +129,8 @@ $header = new Header();
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>
-                        <?php echo StudentReg::getNickname($post); ?><br>
-                        <?php echo StudentReg::getName($post); ?><br>
-                        <?php echo StudentReg::getLastName($post); ?><br>
-                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
+                        <?php echo StudentReg::getStatusInfo($post); ?><br>
+                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
                     </div>
                     <div class="minavatar">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
@@ -278,22 +295,6 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<!--[if lte IE 8]>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-<script>
-    document.createElement('ng-include');
-    document.createElement('ng-switch');
-    document.createElement('ng-if');
-    document.createElement('ng-pluralize');
-    document.createElement('ng-view');
-
-    // needed to enable CSS reference
-    document.createElement('ng:view');
-</script>
-<![endif]-->
-<!-- for tabs -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 

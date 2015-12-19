@@ -90,8 +90,6 @@ if ($idCourse != 0) {
             </a>
         </div>
     </h1>
-    <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page' => $page, 'user' => $user,
-        'idCourse' => $idCourse)); ?>
     <h3><label for="pageVideo"><?php echo Yii::t('lecture', '0613'); ?></label></h3>
     <?php
     if ($page->video == null) { ?>

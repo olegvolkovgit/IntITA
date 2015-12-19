@@ -541,27 +541,40 @@ class Lecture extends CActiveRecord
                 foreach ($types as $type) {
                     switch ($type) {
                         case 'video':
-                            $html = $this->renderPartial('/lesson/_videoTab',
+                            $html = Yii::app()->controller->renderPartial('/lesson/_videoTab',
                                 array('page' => $page, 'message' => $messages['613']), true);
                             break;
                         case 'text';
-                            $html = $this->renderPartial('/lesson/_textListTab',
+                            $html = Yii::app()->controller->renderPartial('/lesson/_textListTab',
                                 array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
                             break;
                         case 'quiz':
-                            $html = $this->renderPartial('/lesson/_quizNG',
+                            $html = Yii::app()->controller->renderPartial('/lesson/_quiz',
                                 array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
                             break;
                         default:
                             $html = '';
                             break;
                     };
-
                     $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $page->page_order, $lang, $type);
                     file_put_contents($file, $html);
                 }
-
             }
+        }
+    }
+    public static function lectureToTemplate($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->saveLectureContent();
+        }
+    }
+    public static function setLectureNotVerified($id)
+    {
+        $lecture = Lecture::model()->findByPk($id);
+        if ($lecture && $lecture->verified==1){
+            $lecture->verified=0;
+            $lecture->save();
         }
     }
 }

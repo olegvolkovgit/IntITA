@@ -30,7 +30,7 @@
  * @property integer $course_number
  *
  * The followings are the available model relations:
- * @property Modules[] $modules
+ * @property Module[] $modules
  */
 class Course extends CActiveRecord implements IBillableObject
 {
@@ -54,7 +54,7 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('language, title_ua, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
+            array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias, course_price', 'length', 'max' => 20),
@@ -368,12 +368,14 @@ class Course extends CActiveRecord implements IBillableObject
     public static function generateCoursesList()
     {
         $courses = Course::model()->findAll();
-        $count = count($courses);
+
+        $i = 0;
         $result = [];
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $courses[$i]->course_ID;
-            $result[$i]['alias'] = Course::getCourseName($courses[$i]->course_ID);
-            $result[$i]['language'] = Course::getCourseLang($courses[$i]->course_ID);
+        foreach ($courses as $course) {
+            $result[$i]['id'] = $course->course_ID;
+            $result[$i]['alias'] = $course->getTitle();
+            $result[$i]['language'] = $course->language;
+            $i++;
         }
         return $result;
     }
@@ -531,16 +533,12 @@ class Course extends CActiveRecord implements IBillableObject
             return $result;
         }
 
-        $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idModule));
-        $count = count($courses);
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $courses[$i]->id_course;
-            $result[$i]['alias'] = Course::getCourseName($courses[$i]->id_course);
-            $result[$i]['language'] = Course::getCourseLang($courses[$i]->id_course);
-            $result[$i]['mandatory'] = $courses[$i]->mandatory_modules;
-            $result[$i]['price'] = $courses[$i]->price_in_course;
-        }
-        return $result;
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN course_modules cm ON course_ID = cm.id_course';
+        $criteria->addCondition('cm.id_module = '.$idModule);
+
+        $courses = Course::model()->findAll($criteria);
+        return $courses;
     }
 
     public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
@@ -683,5 +681,13 @@ class Course extends CActiveRecord implements IBillableObject
     public function modulesCount()
     {
         return CourseModules::model()->count("id_course=$this->course_ID");
+    }
+
+    public function mandatoryModule($id){
+        return CourseModules::model()->findByAttributes(array(
+            'id_course' => $this->course_ID,
+            'id_module' => $id
+            )
+        )->mandatory_modules;
     }
 }

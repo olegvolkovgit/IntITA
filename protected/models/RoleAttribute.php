@@ -63,7 +63,7 @@ class RoleAttribute extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Назва атрибута українською',
+			'name' => 'Назва атрибута англійською',
 			'role' => 'Роль',
 			'type' => 'Тип',
 			'name_ru' => 'Назва атрибута російською',
@@ -85,6 +85,8 @@ class RoleAttribute extends CActiveRecord
 	 */
 	public function search()
 	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -125,7 +127,6 @@ class RoleAttribute extends CActiveRecord
 
     public static function getTeacherAttributeValue($teacher, $attribute){
         $result = '';
-        $model = Teacher::model()->findByPk($teacher);
         switch($attribute){
             case '1': //capacity
                 if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {
@@ -133,10 +134,10 @@ class RoleAttribute extends CActiveRecord
                 }
                 break;
             case '2': //trainer's students
-                $result = $model->getTrainerStudents();
+                $result = TrainerStudent::getTrainerStudents($teacher);
                 break;
             case '3': //consultant_modules
-                $result = $model->getConsultantModules($teacher);
+                $result = Teacher::getConsultantModules($teacher);
                 break;
             case '4':// leader's projects
                 $result = Teacher::getLeaderProjects($teacher);
@@ -145,7 +146,7 @@ class RoleAttribute extends CActiveRecord
                 $result = LeaderModules::getLeaderModules($teacher);
                 break;
             case '6'://author's modules
-                $result = $model->modules();
+                //$result = Teacher::getTeacherModules($teacher);
                 break;
             case '8'://leader's capacity
                 if (AttributeValue::model()->exists('teacher=:teacher and attribute=:attribute', array('teacher' => $teacher, 'attribute' => $attribute))) {

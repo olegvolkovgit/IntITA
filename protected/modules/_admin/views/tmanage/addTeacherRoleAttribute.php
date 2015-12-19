@@ -1,37 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 17:47
+ * @var $model Teacher
  */
-
-$this->breadcrumbs=array(
-    'Викладачі'=>array('index'),
-    'Ролі викладача',
-    'Призначити атрибут ролі'
-);
 ?>
 <div class="col-md-4">
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRoleAttribute');?>" method="POST" name="add-access">
+    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRoleAttribute');?>"
+          method="POST" name="add-access">
         <fieldset>
-            <legend id="label">Призначити роль викладачу <?php echo $teacher;?>:</legend>
-            Викладач:<br>
-            <div class="form-group">
-            <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
-                $count = count($users);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
-            </div>
+            <legend id="label">Призначити роль викладачу
+                <?php echo $model->lastName()." ".$model->firstName(). " ".$model->middleName();?>:</legend>
+            <input type="number" hidden="hidden" value="<?=$model->teacher_id;?>" name="teacher">
             <br>
             <br>
             Роль:<br>
@@ -66,7 +47,7 @@ $this->breadcrumbs=array(
     </form>
 </div>
 </div>
-<script type="text/javascript">
+<script>
     function selectRole(){
         var role = $('select[name="role"]').val();
 

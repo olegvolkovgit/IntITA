@@ -10,6 +10,7 @@
 <html xmlns:og="http://ogp.me/ns#">
 <head>
     <!--[if lte IE 8]>
+    <body class="ie8">
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
     <script>

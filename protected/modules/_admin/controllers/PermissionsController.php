@@ -116,7 +116,7 @@ class PermissionsController extends AdminController
             if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
                 PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
             } else {
-                $user = Yii::app()->db->createCommand()->insert('pay_modules', array(
+                Yii::app()->db->createCommand()->insert('pay_modules', array(
                     'id_user' => $_POST['user'],
                     'id_module' => $_POST['module'],
                     'rights' => PayModules::setFlags($rights),
@@ -128,8 +128,7 @@ class PermissionsController extends AdminController
 
     public function actionDelete($id, $resource)
     {
-        Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource',
-            array(':id_user' => $id, ':id_resource' => $resource));
+        Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
         $this->actionIndex();
     }
 
@@ -343,22 +342,22 @@ class PermissionsController extends AdminController
 
     public function actionShowTeacherModules()
     {
-        $id = Yii::app()->request->getPost('teacher', 0);
-        if ($id) {
-            $model = Teacher::model()->findByPk($id);
-            echo $this->renderPartial('_teacherModules', array('teacher' => $model), true);
-        }
+        if (isset($_POST['teacher']))
+            $idTeacher = $_POST['teacher'];
+
+        $result = TeacherModule::showTeacherModule($idTeacher);
+
+        echo $result;
     }
+
 
     public function actionCancelTeacherPermission()
     {
-        $teacherId = Yii::app()->request->getPost('teacher');
-        $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
-        $userId = $teacher->user_id;
+        $teacher = Yii::app()->request->getPost('teacher');
+        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
 
         $module = Yii::app()->request->getPost('module1');
-
-        $teacher->cancelTeacherAccess($module);
+        TeacherModule::cancelTeacherAccess($teacher, $module);
 
         $permission = new PayModules();
         $permission->unsetModulePermission(

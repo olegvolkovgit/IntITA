@@ -104,6 +104,25 @@ class ConsultantModules extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public static function getModulesByConsultant($consultant){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('module'),
+            'from' => 'consultant_modules',
+            'where' => 'consultant=:id',
+            'order' => 'module',
+            'params' => array(':id' => $consultant),
+        ))->queryAll();
+        $count = count($modules);
+        $titleParam = Module::getModuleTitleParam();
+
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["module"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->$titleParam;
+        }
+
+        return (!empty($modules))?$modules:[];
+    }
+
     public static function setRoleAttribute($teacher, $attribute, $value){
         $result = false;
         if (ConsultantModules::model()->exists('consultant=:teacher and module=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){

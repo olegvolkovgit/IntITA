@@ -286,7 +286,7 @@ class m151024_085328_add_translation_672_685 extends CDbMigration
 				'id_record' => null,
 				'id' => '0683',
 				'language' => 'ru',
-				'translation' => 'Что-то пошло не правильно, исправь ошибку и переходи к следующему материалу.'
+				'translation' => 'Что-то пошло не правильно, исправь ошибку и перехода к следующему материалу.'
 			),
 			array(
 				'id_record' => null,

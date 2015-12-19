@@ -473,7 +473,16 @@ div.lastAccessPage {
     line-height: 50px;
     margin-bottom: 10px;
 }
-
+.lessonEditPart{
+    display: inline-block;
+    height: auto;
+}
+.lessonEditPart a{
+    word-break: break-all;
+}
+.lectureVerify{
+    text-align: right;
+}
 .lessonPart div {
     display: inline-block;
     vertical-align: bottom;
@@ -574,10 +583,12 @@ h1.lessonPartEdit p img {
     padding: 3px 5px;
     text-align: left;
     line-height: 14px;
+    opacity: 1;
 }
 .titleNoAccessMin{
     font-size: 14px;
-    color: #999999;
+    color: #666666;
+    opacity: 1;
 }
 .noAccessMin{
     font-size: 12px;

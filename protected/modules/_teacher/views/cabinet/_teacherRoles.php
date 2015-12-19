@@ -1,11 +1,15 @@
 <?php
-/*@var $teacher Teacher*/
+/* @var $teacher Teacher*/
 /* @var $role Roles*/
 /* @var $this CabinetController*/
 
-$roles = $model->roles();
+$roles = $teacher->roles();
 foreach ($roles as $role) {
     $this->renderSidebarByRole($role);
+    ?>
+
+
+<?php
 }
 ?>
 

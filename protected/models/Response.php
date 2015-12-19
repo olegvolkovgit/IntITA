@@ -16,7 +16,7 @@
  * @property integer $is_checked
  *
  * The followings are the available model relations:
- * @property User $who0
+ * @property StudentReg $who0
  */
 class Response extends CActiveRecord
 {
@@ -232,5 +232,11 @@ class Response extends CActiveRecord
             ->where('id_response=:id', array(':id' => $this->id))
             ->queryScalar();
         return $teacherId;
+    }
+
+    public function getResponseAuthorName()
+    {
+        $model = StudentReg::model()->findByPk($this->who);
+        return $model->firstName . " " . $model->secondName . ", " . $model->email;
     }
 }

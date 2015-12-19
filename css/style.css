@@ -159,3 +159,13 @@ input[type="submit"][disabled]#identityButton{
     color: #cccccc;
     font-size: 14px;
 }
+.pager .next>a{
+    float: none;
+}
+.statusColor {
+    color:#33cc00;
+}
+body.ie8 #hambMenu {
+    zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.DropShadow(OffX=2, OffY=2, Color=#999999);
+}

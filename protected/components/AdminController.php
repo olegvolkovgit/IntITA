@@ -47,13 +47,11 @@ class AdminController extends CController
     {
         return array(
             array('allow',
-               // 'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
                 'expression'=>array($this, 'isAdministrator'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                //'actions'=>array('index'),
                 'users'=>array('*'),
             ),
         );
@@ -61,14 +59,6 @@ class AdminController extends CController
 
     public function isAdministrator()
     {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 3) {
-
-            return true;
-        }
-        return false;
+       return StudentReg::isAdmin();
     }
 }

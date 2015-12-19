@@ -5,43 +5,6 @@ class TmanageController extends AdminController
     public $menu = array();
 
     /**
-     * @return array action filters
-     */
-//    public function filters()
-//    {
-//        return array(
-//            'accessControl',
-//            'postOnly + delete', // we only allow deletion via POST request
-//        );
-//    }
-//
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
-//                    'showRoles', 'addRoleAttribute'),
-//                'expression' => array($this, 'isAdministrator'),
-//            ),
-//            array('deny',
-//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-//                'actions' => array('delete', 'create', 'update', 'view', 'index', 'admin', 'roles', 'createRole',
-//                    'showRoles', 'addRoleAttribute'),
-//                'users' => array('*'),
-//            ),
-//        );
-//    }
-//
-//    function isAdministrator()
-//    {
-//        if (AccessHelper::isAdmin())
-//            return true;
-//        else
-//            return false;
-//    }
-
-    /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
@@ -62,14 +25,16 @@ class TmanageController extends AdminController
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
-            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+            if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+            }
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save()) {
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -96,14 +61,16 @@ class TmanageController extends AdminController
         // $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
-            $_POST['Teacher']['foto_url'] = $_FILES['Teacher']['name']['foto_url'];
-            $fileInfo = new SplFileInfo($_POST['Teacher']['foto_url']);
+            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+            if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+            }
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
             if ($model->save())
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_FILES['Teacher']['name']['foto_url'],
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
                         Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -268,15 +235,19 @@ class TmanageController extends AdminController
 
     public function actionAddTeacherRoleAttribute($teacher)
     {
+        $model = Teacher::model()->findByPk(intval($teacher));
+
         $this->render('addTeacherRoleAttribute', array(
-            'teacher' => $teacher,
+            'model' => $model,
         ));
     }
 
     public function actionViewRole($id)
     {
+        $model = Roles::model()->findByPk($id);
+
         $this->render('viewRole', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
         ));
     }
 

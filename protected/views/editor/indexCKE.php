@@ -63,7 +63,7 @@ if ($idCourse != 0) {
         </div>
         <div id="lecturePage">
             <br>
-            <h1 class="lessonPart">
+            <h1 class="lessonPart lessonEditPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': ';
                 $title = Lecture::getTypeTitleParam();
                 $this->widget('editable.EditableField', array(
@@ -76,7 +76,21 @@ if ($idCourse != 0) {
                     'placement' => 'right',
                 )); ?>
             </h1>
-
+            <div class="lectureVerify" >
+                <?php if($lecture->verified==0) { ?>
+                    <a href="<?php echo Yii::app()->createUrl('/lesson/confirm', array('id' => $page->id_lecture));?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'checked.png'); ?>"
+                             title="Підтвердити готовність лекції(шаблонізація)" />
+                    </a>
+                <?php } else { ?>
+                    <a href="<?php echo Yii::app()->createUrl('/lesson/cancel', array('id' => $page->id_lecture));?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'notChecked.png'); ?>"
+                             title="Встановити лекцію в розробці" />
+                    </a>
+                <?php } ?>
+            </div>
             <h1 class="lessonPart">
                 <div class="labelBlock">
                     <p><?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ';
@@ -109,8 +123,6 @@ if ($idCourse != 0) {
                     </a>
                 </div>
             </h1>
-            <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page' => $page, 'user' => $user,
-                'idCourse' => $idCourse)); ?>
             <h3><label for="pageVideo"><?php echo Yii::t('lecture', '0613'); ?></label></h3>
             <?php
             if ($page->video == null) { ?>

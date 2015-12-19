@@ -1,12 +1,10 @@
 <?php
 /* @var $this ShareLinkController */
 /* @var $model ShareLink */
-
 $this->menu=array(
     array('label'=>'List ShareLink', 'url'=>array('index')),
     array('label'=>'Create ShareLink', 'url'=>'localhost'.Yii::app()->createUrl('_admin/sahrelink/create')),
 );
-//print_r($this->menu[1]['url'])
 ?>
 <br>
 <button type="button" class="btn btn-link">
@@ -45,7 +43,7 @@ $('.search-form form').submit(function(){
         'link',
         array(
             'class'=>'CButtonColumn',
-
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>

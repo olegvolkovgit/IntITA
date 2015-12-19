@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 17:47
+ * @var $teacher Teacher
  */
 ?>
 <br>
@@ -21,25 +18,15 @@
     <a name="form"></a>
     <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRole');?>" method="POST" name="add-access">
         <fieldset>
-            <legend id="label">Призначити роль викладачу <?php  echo $teacher->last_name. ' ' . $teacher->first_name . ' ' . $teacher->middle_name;?>:</legend>
-            Викладач:<br>
-            <div class="form-group">
-            <select name="teacher" class="form-control" placeholder="(Виберіть викладача)" autofocus>
-                <?php $users = AccessHelper::generateTeachersList();
-                $count = count($users);
-                for($i = 0; $i < $count; $i++){
-                    ?>
-                    <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
-                <?php
-                }
-                ?>
-            </select>
-            </div>
+            <legend id="label">Призначити роль викладачу
+                <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName();?>:</legend>
+            <input type="number" hidden="hidden" value="<?=$teacher->teacher_id;?>" name="teacher">
             <br>
             <br>
             Роль:<br>
             <div class="form-group">
-            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="javascript:selectRole();">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="
+                selectRole('<?=Yii::app()->createUrl("/_admin/permissions/showRoles");?>');">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
                     <?php $courses = Roles::generateRolesList();
@@ -59,17 +46,15 @@
 </div>
 </div>
 
-
-
-<script type="text/javascript">
-    function selectRole(){
+<script>
+    function selectRole(url){
         var course = $('select[name="course"]').val();
         if(!course){
             $('div[name="selectRole"]').html('');
         }else{
             $.ajax({
                 type: "POST",
-                url: "/_admin/permissions/showRoles",
+                url: url,
                 data: {course: course},
                 cache: false,
                 success: function(response){ $('div[name="selectModule"]').html(response); }

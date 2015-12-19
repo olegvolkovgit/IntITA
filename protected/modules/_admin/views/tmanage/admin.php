@@ -62,7 +62,8 @@ $('.search-form form').submit(function(){
         'isPrint',
         array(
             'class'=>'CButtonColumn',
-            'deleteConfirmation'=>'Ви підтверджуєте видалення викладача {$data->first_name." ".$data->last_name}?',
+            'deleteConfirmation'=>"js:'Ви підтверджуєте видалення викладача '+$(this).parent().parent().children(':first-child').text()+'?'",
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>

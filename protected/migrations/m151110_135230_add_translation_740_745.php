@@ -2,7 +2,21 @@
 
 class m151110_135230_add_translation_740_745 extends CDbMigration
 {
+//	public function up()
+//	{
+//	}
+//
+//	public function down()
+//	{
+//		echo "m151110_135230_add_translation_739_743 does not support migration down.\n";
+//		return false;
+//	}
 
+
+
+
+
+	// Use safeUp/safeDown to do migration with transaction
 	public function safeUp()
 	{
 

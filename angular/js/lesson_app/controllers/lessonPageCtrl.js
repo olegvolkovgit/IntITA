@@ -19,7 +19,8 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
         }
     };
 
-    angular.element('#MyTab-Menu').children("ul").children("li").click(function(){
+
+    angular.element(document.querySelector("#MyTab-Menu")).children("ul").children("li").on('click', function() {
         var tabId=angular.element(this).attr('aria-controls');
         switch (tabId) {
             case 'video':
@@ -32,11 +33,11 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
     });
 
     $scope.dialogHide=function(){
-        angular.element("#mydialog2").dialog("close");
+        $("#mydialog2").dialog("close");
         var tab=ipCookie("lessonTab")+1;
-        angular.element('#ui-id-'+tab+'').click();
+        $('#ui-id-'+tab+'').click();
     };
     $scope.errorDialogHide=function(){
-        angular.element("#mydialog3").dialog("close");
+        $("#mydialog3").dialog("close");
     };
 }
