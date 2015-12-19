@@ -11,7 +11,7 @@
 <div class="col-md-8" >
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Оцінка на простої задачі</h3>
+        <h3 class="panel-title">Оцінка простої задачі</h3>
     </div>
     <div class="panel-body">
             <input type="text" id="plainTaskId" hidden="true" value="<?php echo $plainTask->id ?>">

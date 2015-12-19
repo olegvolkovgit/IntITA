@@ -31,10 +31,8 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionAssignedConsultant()
     {
-
             $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
             $consult = Yii::app()->request->getPost('consult');
-
 
             Letters::sendAssignedConsultantLetter($consult,$idPlainTaskAnswer);
 
@@ -81,8 +79,44 @@ class TeacherController extends TeacherCabinetController {
             throw new IntItaExeption(503);
     }
 
-    public function actionManageConsultant($teacherId)
+    public function actionManageConsult()
     {
+        $this->actionShowPlainTaskList();
+        $this->actionPlainTaskWithTrainers();
+    }
 
+    public function actionPlainTaskWithTrainers()
+    {
+       $tasks = PlainTaskAnswer::getTaskWithTrainer();
+
+       $this->renderPartial('/trainer/_plainWithTrainer',array(
+            'tasks' => $tasks,
+             ));
+    }
+
+    public function actionChangeConsultant()
+    {
+        $id = Yii::app()->request->getPost('id');
+
+        $plainTask = PlainTaskAnswer::model()->findByPk($id);
+
+
+
+        $this->renderPartial('/trainer/editConsult',array(
+           'task' => $plainTask
+        ));
+    }
+
+    public function actionEditConsultant()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $teacherId = Yii::app()->request->getPost('consult');
+        PlainTaskAnswer::editConsult($id,$teacherId);
+    }
+
+    public function actionDeleteConsultant()
+    {
+        $id = Yii::app()->request->getPost('id');
+        PlainTaskAnswer::removeConsult($id);
     }
 }

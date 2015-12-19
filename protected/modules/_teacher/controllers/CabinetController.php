@@ -211,6 +211,26 @@ class CabinetController extends TeacherCabinetController
 
     }
 
+    public function renderSidebarByRole($role)
+    {
+        $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+        $user = StudentReg::model()->findByPk(Yii::app()->user->id);
+        if($role)
+        {
+            switch(strtolower($role->title_en))
+            {
+                case 'trainer' :
+                    $this->renderPartial('/trainer/sidebar',array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                        'role' => $role
+                    ));
+                break;
+
+            }
+        }
+    }
+
     private function renderTrainerDashboard(Teacher $teacher,StudentReg $user,$role)
     {
        return $this->renderPartial('/trainer/_trainerDashboard',array(
@@ -251,4 +271,6 @@ class CabinetController extends TeacherCabinetController
     {
         return $this->renderPartial('/admin/index');
     }
+
+
 }

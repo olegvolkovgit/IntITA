@@ -31,19 +31,25 @@
     <!-- Custom Fonts -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 
+    <!--Angular-->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers.js'); ?>"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
 </head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
 </script>
-<body>
+<body ng-app="teacherApp">
 
-<div id="wrapper">
+<div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <?php echo $this->renderPartial('_top_navigation', array('model' => $model));?>
@@ -74,6 +80,9 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/_teachers/newPlainTask.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '/cms/morris-data.js');?>"></script>
+
+
+
 
 
 </body>
