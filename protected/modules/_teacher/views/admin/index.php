@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller = 'AdminCtrl'>
     <div class="col-lg-4">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -47,7 +47,8 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index'); ?>">Викладачі</a></li>
+                    <li><a href="#" ng-click='teacherMain("<?php echo Yii::app()->createUrl('/_admin/tmanage/index'); ?>)'>
+                            Викладачі</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index'); ?>">Ресурси для
                             викладачів</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index'); ?>">Відгуки про
