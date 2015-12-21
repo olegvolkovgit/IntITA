@@ -69,9 +69,8 @@ class LessonController extends Controller
             $page = $_GET['page'];
         }
 
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
-
-        $textList = $page->getBlocksListById();
+        $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+        $textList = $pageModel->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
@@ -89,7 +88,7 @@ class LessonController extends Controller
             'teacher' => $teacher,
             'idCourse' => $idCourse,
             'user' => $user,
-            'page' => $page,
+            'page' => $pageModel,
             'lastAccessPage' => $lastAccessPage,
         ));
     }
