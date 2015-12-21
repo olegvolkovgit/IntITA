@@ -230,25 +230,11 @@ class PermissionsController extends AdminController
     {
         $user = Yii::app()->request->getPost('user');
         $user = StudentReg::model()->findByPk($user);
-        switch ($user->role) {
-            case '0':
-                $user->role = 1;
-                $user->save();
-                break;
-            case '1':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
-                break;
-            case '2':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є модератором.");
-                break;
-            case '3':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є адміністратором.");
-                break;
-            default:
-                $user->role = 1;
-                $user->save();
-                break;
+        if ($user->isTeacher()){
+            Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
         }
+        $user->save();
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -271,7 +257,6 @@ class PermissionsController extends AdminController
     {
         $request = Yii::app()->request;
         $teacherId = $request->getPost('teacher', 0);
-        $roleId = $request->getPost('role', 0);
         $attributeId = $request->getPost('attribute', 0);
         $value = $request->getPost('attributeValue', 0);
 

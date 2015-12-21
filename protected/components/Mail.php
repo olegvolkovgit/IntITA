@@ -8,7 +8,7 @@
 
 class Mail {
 
-    private $headers;
+    public $headers;
 
     public function __construct()
     {

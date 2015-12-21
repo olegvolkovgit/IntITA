@@ -4,8 +4,7 @@
 /* @var $this StudentregController */
 /* @var $post StudentReg */
 /* @var $form CActiveForm */
-$this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'),
-);
+$this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <div class="formStudProf">
     <div class="studProfInf">

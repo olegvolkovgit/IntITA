@@ -955,4 +955,33 @@ class StudentReg extends CActiveRecord
     public function hasCabinetAccess(){
         return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
     }
+
+    public static function userLetterReceivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+    }
+
+    public static function receivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+    }
+
+
+
+    public function receivedMessages(){
+        $messages =  Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('message_receiver r')
+            ->where('id_receiver=:id and r.`deleted` is null', array(':id'=>$this->id))
+            ->queryAll();
+
+        return $messages;
+    }
+
+    public function newReceivedMessages(){
+        $sql = "select * from message_receiver where `read` is null and id_receiver=".$this->id;
+        $messages =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $messages;
+    }
 }

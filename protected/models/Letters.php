@@ -129,6 +129,8 @@ class Letters extends CActiveRecord
         }
 
     }
+
+
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
 
