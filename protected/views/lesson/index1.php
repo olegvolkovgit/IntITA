@@ -31,7 +31,7 @@ if (!isset($idCourse)) $idCourse = 0;
 $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
-<script type="text/javascript">
+<script>
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
     finishedLecture = <?php echo ($finishedLecture)?1:0;?>;

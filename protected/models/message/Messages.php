@@ -26,15 +26,6 @@ class Messages extends CActiveRecord
         return 'messages';
     }
 
-//    public function build(StudentReg $sender, $type, $chained = null, $original = null)
-//    {
-//        $this->sender = $sender->id;
-//        $this->type = (int) $type;
-//        $this->draft = 1;
-//        $this->chained_message_id = $chained;
-//        $this->original_message_id = $original;
-//    }
-
     /**
      * @return array validation rules for model attributes.
      */

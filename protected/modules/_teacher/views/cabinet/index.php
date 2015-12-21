@@ -45,6 +45,7 @@
 </head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
+    user = '<?=Yii::app()->user->getId()?>';
 </script>
 <body ng-app="teacherApp">
 

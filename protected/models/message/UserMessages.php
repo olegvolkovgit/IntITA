@@ -15,7 +15,7 @@ class UserMessages extends Messages implements IMessage
 {
     private $receivers;
 
-    public function build($subject, $text, $receivers,StudentReg $sender) {
+    public function build($subject, $text, $receivers, StudentReg $sender) {
         $this->subject = $subject;
         $this->text = $text;
         $this->receivers = $receivers;
@@ -116,7 +116,6 @@ class UserMessages extends Messages implements IMessage
 
     public function create(){
         $this->save();
-
         return $this;
     }
 

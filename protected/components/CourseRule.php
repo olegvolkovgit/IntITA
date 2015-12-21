@@ -27,16 +27,19 @@ class CourseRule extends CBaseUrlRule
                         if ($path->lecture != null) {
                             $_GET['id'] = $path->lecture->getPrimaryKey();
                             $_GET['idCourse'] = $path->course->getPrimaryKey();
-                            if (!isset($_GET['page'])) {
+
+                            if (!isset($_GET['page']) && !isset($_GET['pageId'])) {
                                 $_GET['page'] = 1;
                             };
 
                             if($path->isPageDefined) {
                                 $_GET['page'] = $path->page;
                                 if (isset($_GET['edit'])) {
+                                    $_GET['pageId'] = $path->page;
                                     return 'lesson/editPage';
                                 }
                                 if (isset($_GET['editCKE'])) {
+                                    $_GET['pageId'] = $path->page;
                                     $_GET['cke'] = true;
                                     return 'lesson/editPage';
                                 }

@@ -969,13 +969,14 @@ class StudentReg extends CActiveRecord
 
 
     public function receivedMessages(){
-        $messages =  Yii::app()->db->createCommand()
-            ->select('*')
-            ->from('message_receiver r')
-            ->where('id_receiver=:id and r.`deleted` is null', array(':id'=>$this->id))
-            ->queryAll();
 
-        return $messages;
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'm';
+        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
+
+        $criteria->addCondition ('r.id_receiver ='.$this->id);
+
+        return UserMessages::model()->findAll($criteria);
     }
 
     public function newReceivedMessages(){
@@ -983,5 +984,13 @@ class StudentReg extends CActiveRecord
         $messages =  Yii::app()->db->createCommand($sql)->queryAll();
 
         return $messages;
+    }
+
+    public function sentMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN messages m ON m.id = id_message';
+        $criteria->addCondition ('m.sender ='.$this->id);
+
+        return UserMessages::model()->findAll($criteria);
     }
 }

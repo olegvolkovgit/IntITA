@@ -155,6 +155,7 @@ class LettersController extends Controller
                 Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
                 $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
             }
+
         }
     }
     public function actionSendRespLetter($id)
