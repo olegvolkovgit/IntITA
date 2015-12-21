@@ -8,18 +8,18 @@ $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
 
-$user = StudentReg::model()->findByPk(39);
+//$user = StudentReg::model()->findByPk(39);
+//
+//$message = new UserMessages();
+//$message->build('Subject', 'Text', array('51'), $user);
+//$sender = new MailTransport();
+//if ($message->send($sender)){
+//    echo 'Success mail!';
+//} else {
+//    echo 'Error!';
+//}
+//var_dump($user->receivedMessages());
 
-$message = new UserMessages();
-$message->build('Subject', 'Text', array('51'), $user);
-$sender = new MailTransport();
-if ($message->send($sender)){
-    echo 'Success mail!';
-} else {
-    echo 'Error!';
-}
-var_dump($user->receivedMessages());
-die;
 
 $courseList = $dataProvider->getData();
 ?>
