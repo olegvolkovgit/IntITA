@@ -750,4 +750,7 @@ class LessonController extends Controller
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+    public function actionInterpreter(){
+        $this->renderPartial('/editor/interpreter');
+    }
 }
