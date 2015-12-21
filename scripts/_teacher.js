@@ -5,28 +5,6 @@ function loadPage(url,role) {
         success: function (data) {
             container = $('#pageContainer');
             container.html(data);
-            //switch(userRole){
-            //    case 'trainer':
-            //        fillTrainer(data);
-            //        break;
-            //    case 'consultant':
-            //        fillConsultant(data);
-            //        break;
-            //    case 'author':
-            //        fillAuthor(data);
-            //        break;
-            //    case 'leader':
-            //        fillLeader(data);
-            //        break;
-            //    case 'accountant':
-            //        fillAccountant(data);
-            //        break;
-            //    case 'admin':
-            //        fillAdmin(data);
-            //        break;
-            //    case 'dashboard':
-            //        fillDashboard(data);
-            //}
         },
         error: function () {
             alert("Вибачте, але на сайті виникла помилка. " +

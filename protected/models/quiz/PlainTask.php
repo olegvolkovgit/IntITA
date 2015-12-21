@@ -135,15 +135,29 @@ class PlainTask extends Quiz
 
     public static function getPlainTaskAnswersWithoutTrainer()
     {
-        $plainTasksAnswers = [];
-        $plainTasksArr = Yii::app()->db->createCommand(array(
-            'select' => array('*'),
-            'from' => 'plain_task_answer',
-            'join' => 'LEFT JOIN plain_task_answer_teacher
-             on plain_task_answer_teacher.id_plain_task_answer = id',
-            'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL',
-        ))->queryAll();
+        $trainerId = Teacher::getTeacherId(Yii::app()->user->id);
+        $trainerUsers = TrainerStudent::getStudentByTrainer($trainerId);
 
+        $plainTasksArr = [];
+        $plainTasksAnswers = [];
+
+        if($trainerUsers)
+        {
+            foreach($trainerUsers as $user){
+                $tasks = Yii::app()->db->createCommand(array(
+                    'select' => array('*'),
+                    'from' => 'plain_task_answer',
+                    'join' => 'LEFT JOIN plain_task_answer_teacher
+                     on plain_task_answer_teacher.id_plain_task_answer = id',
+                    'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL
+                    and id_student = '.$user->id,
+                ))->queryAll();
+
+            if(!empty($tasks))
+            array_push($plainTasksArr,$tasks);
+            }
+        }
+        $plainTasksArr = array_shift($plainTasksArr);
         if($plainTasksArr)
         {
             foreach($plainTasksArr as $plainTask)
@@ -153,6 +167,7 @@ class PlainTask extends Quiz
                 array_push($plainTasksAnswers,$plainAnswer);
             }
         }
+
         return $plainTasksAnswers;
     }
 
