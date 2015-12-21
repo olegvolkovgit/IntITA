@@ -5,9 +5,7 @@
 
 <br>
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/messages/index'); ?>">Інтерфейс сайта - Головна</a>
-</button>
 
 <div class="page-header">
     <h1>Повідомлення #<?php echo $model->id_record; ?></h1>

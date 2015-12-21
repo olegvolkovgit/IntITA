@@ -44,7 +44,7 @@ class TmanageController extends AdminController
             }
         }
 
-        $this->render('create', array(
+        $this->renderPartial('create', array(
             'model' => $model,
         ));
     }
@@ -101,10 +101,14 @@ class TmanageController extends AdminController
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Teacher');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ), false, true);
+//        $p = new CPagination(20);
+//        $p->applyLimit(10);
+        $teacher = new Teacher();
+        $paginator = new Paginator(10);
+        var_dump($paginator->getNextPage($teacher,1));die;
+        $this->renderPartial('index', array(
+            'models' => $models,
+        ));
     }
 
     /**
@@ -112,11 +116,12 @@ class TmanageController extends AdminController
      */
     public function actionAdmin()
     {
+
         $model = new Teacher('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Teacher']))
             $model->attributes = $_GET['Teacher'];
-        $this->render('admin', array(
+        $this->renderPartial('admin', array(
             'model' => $model,
         ));
     }

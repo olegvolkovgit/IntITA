@@ -13,18 +13,13 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-    <br>
-    <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
-    </button>
-    <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
-    </button>
-    <button type="button" class="btn btn-link">
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
-    </button>
+    <br>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі</a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create');?>">Додати викладача</a>
+
     <div class="page-header">
     <h1>Управління викладачами</h1>
     </div>

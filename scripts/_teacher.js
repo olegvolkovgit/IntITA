@@ -79,7 +79,6 @@ function load(url){
         url: url,
         success: function (data) {
             container = $('#pageContainer');
-
             container.html('');
             container.html(data);
         },

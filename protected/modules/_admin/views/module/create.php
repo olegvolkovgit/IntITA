@@ -4,9 +4,7 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Всі модулі</a>
-    </button>
 
     <div class="page-header">
         <h1>Створити модуль</h1>

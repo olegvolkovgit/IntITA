@@ -75,5 +75,30 @@ function teacherCtrl($http, $scope,$compile) {
         }
     }
 
+    $scope.ngLoad = function(url)
+    {
+        $http({
+            method: "POST",
+            url:  url,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function(data){
+            $scope.fillContainer(data.data);
+
+        });
+    }
+
+    $scope.ngLoadDashboard = function(url)
+    {
+        $http({
+            method: "POST",
+            url:  url,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function(data){
+            $scope.fillContainer(data.data);
+        });
+    }
+
 }
 

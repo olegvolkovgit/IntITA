@@ -5,13 +5,9 @@
 ?>
 <br>
 <br>
-<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
-</button>
     <br>
-<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-</button>
 <div class="col-md-4">
 <div id="addTeacherRole">
     <br>

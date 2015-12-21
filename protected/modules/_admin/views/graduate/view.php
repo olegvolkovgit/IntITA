@@ -5,18 +5,12 @@
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminGraduate.css'); ?>"/>
 <br>
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create'); ?>">Додати випускника</a>
-</button>
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/index'); ?>">Список випускників</a>
-</button>
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/update', array('id' => $model->id)); ?>">Редагувати
         інформацію про випускника</a>
-</button>
 <div class="page-header">
     <h1>Переглянути інформацію про випускника #<?php echo $model->first_name . " " . $model->last_name; ?> </h1>
 </div>
