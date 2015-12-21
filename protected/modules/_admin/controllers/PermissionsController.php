@@ -216,13 +216,15 @@ class PermissionsController extends AdminController
         $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
         $module = Yii::app()->request->getPost('module');
 
-        Teacher::addTeacherAccess($teacher->teacher_id, $module);
+        if($module){
+            Teacher::addTeacherAccess($teacher->teacher_id, $module);
 
-        $permission = new PayModules();
-        $permission->setModulePermission(
-            $teacher->user_id,
-            $module,
-            array('read', 'edit'));
+            $permission = new PayModules();
+            $permission->setModulePermission(
+                $teacher->user_id,
+                $module,
+                array('read', 'edit'));
+        }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
