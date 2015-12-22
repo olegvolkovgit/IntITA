@@ -690,4 +690,11 @@ class Teacher extends CActiveRecord
         }
         return false;
     }
+
+    public function getStatus()
+    {
+        if($this->isPrint)
+        return 'активний';
+        else return 'видалений';
+    }
 }

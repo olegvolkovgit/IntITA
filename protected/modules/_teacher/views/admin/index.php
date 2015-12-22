@@ -49,7 +49,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#" ng-click='ngLoad("<?php echo Yii::app()->createUrl('/_admin/tmanage/index')?>")'>
+                    <li><a href="#" ng-click='ngLoad("<?php echo Yii::app()->createUrl('/_teacher/tmanage/index')?>")'>
                             Викладачі</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index'); ?>">Ресурси для
                             викладачів</a></li>

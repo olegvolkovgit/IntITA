@@ -101,13 +101,14 @@ class TmanageController extends AdminController
      */
     public function actionIndex()
     {
-//        $p = new CPagination(20);
-//        $p->applyLimit(10);
-        $teacher = new Teacher();
-        $paginator = new Paginator(10);
-        var_dump($paginator->getNextPage($teacher,1));die;
-        $this->renderPartial('index', array(
-            'models' => $models,
+        $model = new Teacher('search');
+        $model->unsetAttributes();
+
+        if (isset($_GET['Teacher']))
+            $model->attributes = $_GET['Teacher'];
+
+        $this->render('index', array(
+            'model' => $model,
         ));
     }
 

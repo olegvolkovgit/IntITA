@@ -100,5 +100,18 @@ function teacherCtrl($http, $scope,$compile) {
         });
     }
 
+    $scope.loadTeacherPage = function(url,page)
+    {
+        $http({
+            method: "POST",
+            url:  url,
+            data: $.param({page:page}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function(data){
+            $scope.fillContainer(data.data);
+        });
+    }
+
 }
 
