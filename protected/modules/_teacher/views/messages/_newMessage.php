@@ -1,3 +1,6 @@
+<?php
+/* @var $user integer*/
+?>
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 
 <div class="panel panel-primary">
@@ -5,33 +8,40 @@
         Написати листа
     </div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>">
+
+            <input class="form-control" name="id" style="display: none" value="<?=$user?>">
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
-                <input class="typeahead" type="text" placeholder="Отримувач">
+                <input id="typeahead" type="text" class="form-control" name="user" placeholder="Отримувач">
             </div>
 
             <div class="form-group">
                 <label>Тема</label>
-                <input class="form-control" placeholder="Тема листа">
+                <input class="form-control" name="subject" placeholder="Тема листа">
             </div>
+
             <div class="form-group">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" placeholder="Лист"></textarea>
+                <textarea class="form-control" rows="6" name="text" placeholder="Лист"></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary"
                     onclick="send('<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>')">Написати
             </button>
+
             <button type="reset" class="btn btn-default">Скасувати</button>
         </form>
     </div>
 </div>
 
 <script>
+    users = <?=StudentReg::usersEmailArray();?>;
+</script>
 
-    var substringMatcher = function(strs) {
+<script>
+    var substringMatcher = function (strs) {
         return function findMatches(q, cb) {
             var matches, substringRegex;
 
@@ -43,7 +53,7 @@
 
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
+            $.each(strs, function (i, str) {
                 if (substrRegex.test(str)) {
                     matches.push(str);
                 }
@@ -53,24 +63,14 @@
         };
     };
 
-    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
-
-    $('#receiver .typeahead').typeahead({
+    $('#typeahead').typeahead({
             hint: true,
             highlight: true,
             minLength: 1
         },
         {
             name: 'states',
-            source: substringMatcher(states)
-        });
+            source: substringMatcher(users)
+        }
+    );
 </script>

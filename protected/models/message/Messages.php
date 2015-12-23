@@ -123,4 +123,12 @@ class Messages extends CActiveRecord
     public function setDraft($draft){
         $this->draft = $draft;
     }
+
+    public function setSender($id){
+        $this->sender = $id;
+    }
+
+    public function getSender(){
+        return $this->sender;
+    }
 }

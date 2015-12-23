@@ -115,6 +115,7 @@ class UserMessages extends Messages implements IMessage
 	}
 
     public function create(){
+		parent::save();
         $this->save();
         return $this;
     }

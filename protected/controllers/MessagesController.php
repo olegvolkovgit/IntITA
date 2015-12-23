@@ -3,14 +3,16 @@
 class MessagesController extends Controller {
 
     public function actionSendUserMessage(){
-        $id = Yii::app()->request->getPost('user', '');
+        $id = Yii::app()->request->getPost('id', '');
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
-        $receivers = Yii::app()->request->getPost('receivers', []);
+        $receiver = Yii::app()->request->getPost('receiver', []);
+
         $user = StudentReg::model()->findByPk($id);
 
         $message = new UserMessages();
-        $message->build($subject, $text, $receivers, $user);
+        $message->build($subject, $text, [], $user);
+
         $message->create();
 
         $sender = new MailTransport();

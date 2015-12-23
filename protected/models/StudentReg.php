@@ -993,4 +993,15 @@ class StudentReg extends CActiveRecord
 
         return UserMessages::model()->findAll($criteria);
     }
+
+    public static function usersEmailArray(){
+        $emails = Yii::app()->db->createCommand("SELECT email FROM user")->queryAll();
+
+        $result = [];
+        foreach ($emails as $row){
+            $result[] = $row['email'];
+        }
+
+        return json_encode($result);
+    }
 }

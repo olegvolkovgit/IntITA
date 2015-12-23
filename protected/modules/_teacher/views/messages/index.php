@@ -5,6 +5,9 @@
  * @var $sentMessages CActiveDataProvider
  */
 ?>
+<script>
+    user = '<?=Yii::app()->user->getId();//$message->getSender();?>';
+</script>
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write');?>')">
     Написати
 </button>

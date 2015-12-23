@@ -85,33 +85,6 @@ function load(url){
     });
 }
 
-function send(url, user, receivers){
-    clearDashboard();
-
-    var jsonData = {
-        "user" : user,
-        "subject" : document.getElementById("subject"),
-        "text" : document.getElementById("text"),
-        receivers: receivers
-    };
-
-    $.ajax({
-        url: url,
-        data: jsonData,
-        success: function (data) {
-            container = $('#pageContainer');
-
-            container.html('');
-            container.html(data);
-        },
-        error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
-            //location.reload();
-        }
-    });
-}
-
 function clearDashboard()
 {
     if(document.getElementById("dashboard"))
