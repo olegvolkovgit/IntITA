@@ -6,16 +6,17 @@ class MessagesController extends Controller {
         $id = Yii::app()->request->getPost('id', '');
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
-        $receiver = Yii::app()->request->getPost('receiver', []);
+        $receiverString = Yii::app()->request->getPost('receiver', '');
 
         $user = StudentReg::model()->findByPk($id);
 
         $message = new UserMessages();
-        $message->build($subject, $text, [], $user);
-
+        $receiver = $message->parseReceiverEmail($receiverString);
+        $message->build($subject, $text, $receiver, $user);
         $message->create();
 
         $sender = new MailTransport();
+
         if ($message->send($sender)){
             echo 'success';
         } else {

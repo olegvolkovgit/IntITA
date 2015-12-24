@@ -111,9 +111,23 @@ class Messages extends CActiveRecord
         return parent::model($className);
     }
 
-    protected function addReceiver($receiver){
-        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (60,42);";
-        return Yii::app()->db->createCommand($sql)->execute();
+    public function build($sender, $type, $chained = null, $original = null){
+        $this->sender = $sender;
+        $this->type = $type;
+        $this->draft = 1;
+        $this->chained_message_id = $chained;
+        $this->original_message_id = $original;
+    }
+
+    /**
+     * @param $receiver receiver id
+     * @return boolean
+     */
+    protected function addReceiver(StudentReg $receiver){
+        return Yii::app()->db->createCommand()->insert('message_receiver', array(
+            'id_message'=>$this->id_message,
+            'id_receiver'=>$receiver->id,
+        ));
     }
 
     public function setType($type){
@@ -130,5 +144,9 @@ class Messages extends CActiveRecord
 
     public function getSender(){
         return $this->sender;
+    }
+
+    public function getId(){
+        return $this->id;
     }
 }

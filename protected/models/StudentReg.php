@@ -966,8 +966,6 @@ class StudentReg extends CActiveRecord
             array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
     }
 
-
-
     public function receivedMessages(){
 
         $criteria = new CDbCriteria();
@@ -995,11 +993,11 @@ class StudentReg extends CActiveRecord
     }
 
     public static function usersEmailArray(){
-        $emails = Yii::app()->db->createCommand("SELECT email FROM user")->queryAll();
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user")->queryAll();
 
         $result = [];
-        foreach ($emails as $row){
-            $result[] = $row['email'];
+        foreach ($data as $row){
+            $result[] = implode(" ", $row);
         }
 
         return json_encode($result);

@@ -14,17 +14,18 @@
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
-                <input id="typeahead" type="text" class="form-control" name="user" placeholder="Отримувач">
+                <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач" size="90"
+                required>
             </div>
 
             <div class="form-group">
                 <label>Тема</label>
-                <input class="form-control" name="subject" placeholder="Тема листа">
+                <input class="form-control" name="subject" placeholder="Тема листа" required>
             </div>
 
             <div class="form-group">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" name="text" placeholder="Лист"></textarea>
+                <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary"
@@ -69,7 +70,7 @@
             minLength: 1
         },
         {
-            name: 'states',
+            name: 'receiver',
             source: substringMatcher(users)
         }
     );

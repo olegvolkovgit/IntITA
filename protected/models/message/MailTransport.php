@@ -7,12 +7,9 @@ class MailTransport implements IMailSender{
 
         $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: ".$nameFrom . Config::getBaseUrlWithoutSchema();
 
-        if( mail($mailto, $subject, $text, $mail->headers))
+        if(mail($mailto, $subject, $text, $mail->headers))
             return true;
-
         else return false;
     }
-
-
 
 }

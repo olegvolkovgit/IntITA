@@ -14,15 +14,17 @@
 class UserMessages extends Messages implements IMessage
 {
     private $receivers;
+    private $message;
+    public $mailto;
 
     public function build($subject, $text, $receivers, StudentReg $sender) {
+        //create and init parent model
+        $this->message = new Messages();
+        $this->message->build($sender->id, 1);
+
         $this->subject = $subject;
         $this->text = $text;
         $this->receivers = $receivers;
-
-        $this->sender = $sender->id;
-        $this->setType(1);
-        $this->setDraft(1);
     }
 
 	/**
@@ -115,17 +117,24 @@ class UserMessages extends Messages implements IMessage
 	}
 
     public function create(){
-		parent::save();
+        $this->message->save();
+        $this->id_message = $this->message->id;
+        $this->id_message;
+
         $this->save();
         return $this;
     }
 
     public function send(IMailSender $sender){
-        $sender->send($this->sender, "Sender Name", 'Subject', 'Mail text');
+        //foreach($this->receivers as $receiver){
+           if($this->addReceiver($this->receivers)){
+               $sender->send($this->receivers->email, "Name", $this->subject, $this->text);
+           }
+        //}
 
-        foreach($this->receivers as $receiver){
-           // $this->addReceiver($receiver);
-        }
+        $this->message->draft = 0;
+        $this->message->save();
+
         return true;
     }
 
@@ -155,5 +164,14 @@ class UserMessages extends Messages implements IMessage
 
     public function forward(StudentReg $receiver){
 
+    }
+
+    /**
+     * @param $receiverString string, that we got from user message form (formatted as "lastName firstName middleName email")
+     * @return StudentReg model for receiver
+     */
+    public function parseReceiverEmail($receiverString){
+        $email = explode(' ', $receiverString);
+        return StudentReg::model()->findByAttributes(array('email' => $email[count($email) - 1]));
     }
 }
