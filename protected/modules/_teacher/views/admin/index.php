@@ -51,8 +51,8 @@
                 <ul>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teachers/index'); ?>')">
                             Викладачі</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index'); ?>">Ресурси для
-                            викладачів</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/shareLink/index'); ?>')">
+                            Ресурси для викладачів</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index'); ?>">Відгуки про
                             викладачів</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index'); ?>">Тренери</a></li>

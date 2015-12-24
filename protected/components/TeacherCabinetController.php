@@ -9,6 +9,8 @@
 class TeacherCabinetController extends CController
 {
 
+    public $pathToCabinet = '';
+
     public $layout = 'main';
 
     public $menu=array();
@@ -48,6 +50,12 @@ class TeacherCabinetController extends CController
 
         $this->pageTitle = Yii::app()->name;
         date_default_timezone_set("UTC");
+    }
+
+    public function redirectToCabinet()
+    {
+        $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
+        return $this->pathToCabinet;
     }
 
 }

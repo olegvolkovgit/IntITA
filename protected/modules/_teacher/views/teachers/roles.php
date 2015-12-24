@@ -80,7 +80,7 @@
                 'delete' => array
                 (
                     'click'=>"function(){
-                                    if(confirm('asdadaada'))
+                                    if(confirm('Ви дійсно хочете видалити цю роль?'))
                                     $.fn.yiiGridView.update('roles', {
                                         type:'POST',
                                         url:$(this).attr('href'),
