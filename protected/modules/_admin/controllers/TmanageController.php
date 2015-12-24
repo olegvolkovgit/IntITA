@@ -31,6 +31,7 @@ class TmanageController extends AdminController
             }
             $model->attributes = $_POST['Teacher'];
             $model->avatar = $_FILES['Teacher'];
+            $model->email = StudentReg::model()->findByPk($_POST['Teacher']['user_id'])->email;
             if ($model->save()) {
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(

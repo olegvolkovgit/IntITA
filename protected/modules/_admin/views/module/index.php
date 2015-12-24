@@ -49,6 +49,13 @@
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
                     'options' => array(
                         'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(response) {
+                            $.fn.yiiGridView.update("module-grid");
+                            }'
+                        )
                     )
                 ),
                 'statusUp' => array

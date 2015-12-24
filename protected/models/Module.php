@@ -776,12 +776,16 @@ class Module extends CActiveRecord implements IBillableObject
     {
         switch (LectureElement::model()->findByPk($firstQuiz)->id_type) {
             case '5':
-            case '6':
                 return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $firstQuiz))->id);
                 break;
+            case '6':
+                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                break;
             case '12':
-            case '13':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                break;
+            case '9':
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $firstQuiz))->id);
                 break;
             default:
                 return false;
@@ -793,14 +797,16 @@ class Module extends CActiveRecord implements IBillableObject
     {
         switch (LectureElement::model()->findByPk($lastQuiz)->id_type) {
             case '5':
-//                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
-//                break;
+                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+                break;
             case '6':
                 return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
                 break;
             case '12':
-            case '13':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
+                break;
+            case '9':
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $lastQuiz))->id);
                 break;
             default:
                 return false;
