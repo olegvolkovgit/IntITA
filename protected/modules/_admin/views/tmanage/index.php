@@ -1,7 +1,7 @@
 <?php
 /* @var $models Teacher */
 /* @var $paginator Paginator */
-
+//can delete
 ?>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
 <div class="col-md-12">
@@ -10,10 +10,10 @@
 
     <ul class="list-inline">
         <li>
-        <a href="#" ng-click='ngLoad("<?php echo Yii::app()->createUrl('/_admin/tmanage/create'); ?>")'>Додати викладача</a>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create'); ?>" >Додати викладача</a>
         </li>
         <li>
-        <a href="#" ng-click='ngLoad("<?php echo Yii::app()->createUrl('/_admin/tmanage/roles'); ?>")'>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles'); ?>" >
             Управління ролями викладачів</a>
         </li>
     </ul>

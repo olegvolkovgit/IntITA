@@ -22,8 +22,8 @@ class TmanageController extends AdminController
     public function actionCreate()
     {
         $model = new Teacher;
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+//         Uncomment the following line if AJAX validation is needed
+//         $this->performAjaxValidation($model);
         if (isset($_POST['Teacher'])) {
             $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
             if(!empty($_FILES['Teacher']['name']['foto_url'])){
@@ -44,7 +44,7 @@ class TmanageController extends AdminController
             }
         }
 
-        $this->renderPartial('create', array(
+        $this->render('create', array(
             'model' => $model,
         ));
     }
@@ -157,7 +157,7 @@ class TmanageController extends AdminController
     public function actionRoles()
     {
         $dataProvider = new CActiveDataProvider('Roles');
-        $this->render('roles', array(
+        $this->renderPartial('roles', array(
             'dataProvider' => $dataProvider,
         ));
     }
@@ -177,7 +177,7 @@ class TmanageController extends AdminController
                 $this->render('viewRole', array('model' => $model));
             }
         }
-        $this->render('createRole', array(
+        $this->renderPartial('createRole', array(
             'model' => $model,
         ));
     }
@@ -279,9 +279,11 @@ class TmanageController extends AdminController
             if($model->save())
                 $this->redirect(array('/_admin/tmanage/showAttributes','role'=>$model->role));
         }
-        //var_dump($model);die();
+
         $this->render('updateRoleAttribute',array(
             'model'=>$model,
         ));
     }
+
+
 }

@@ -1,15 +1,20 @@
 <?php
-/* @var $dataProvider CActiveDataProvider */
+/* @var $this RolesController */
+/* @var $model Roles */
 ?>
     <br>
     <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>" >Додати роль</a>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">
+        Додати атрибут ролі
+    </a>
+    <br>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
     <div class="page-header">
-    <h2>Ролі викладачів</h2>
+    <h2>Атрибути ролі <?php echo $model->title_ua; ?></h2>
     </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
-    'htmlOptions'=>array(),
+    'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText' => '',
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
@@ -21,44 +26,40 @@
     ),
     'columns'=>array(
         array(
-            'header'=>'ID',
-            'value'=>'$data->id',
+            'header'=>'Роль',
+            'value'=>'Roles::getRoleTitle($data->role)',
+        ),
+        array(
+            'header'=>'Тип',
+            'value'=>'$data->type',
         ),
         array(
             'header'=>'Назва українською',
-            'value'=>'$data->title_ua',
+            'value'=>'$data->name_ua',
         ),
         array(
             'header'=>'Назва російською',
-            'value'=>'$data->title_ru',
+            'value'=>'$data->name_ru',
         ),
         array(
             'header'=>'Назва англійською',
-            'value'=>'$data->title_en',
-        ),
-        array(
-            'header'=>'Опис',
-            'value'=>'$data->description',
+            'value'=>'$data->name',
         ),
         array(
             'class'=>'CButtonColumn',
-            'template'=>'{view}{update}{delete}',
+            'template'=>'{update}{delete}',
             'buttons'=>array
             (
-                'view' => array(
-                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
-                    'label' => 'Атрибути ролі',
-                ),
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRole", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array
                 (
                     'label'=>'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_admin/roles/delete", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_admin/roleAttribute/delete", array("id"=>$data->primaryKey))',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                 ),
             ),

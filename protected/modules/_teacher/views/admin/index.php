@@ -49,7 +49,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#" ng-click='ngLoad("<?php echo Yii::app()->createUrl('/_teacher/tmanage/index')?>")'>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teachers/index'); ?>')">
                             Викладачі</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index'); ?>">Ресурси для
                             викладачів</a></li>
@@ -117,3 +117,5 @@
 <div class="row">
 
 
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js');?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js');?>"></script>
