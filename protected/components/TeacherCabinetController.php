@@ -52,7 +52,7 @@ class TeacherCabinetController extends CController
         date_default_timezone_set("UTC");
     }
 
-    public function redirectToCabinet()
+    public function pathToCabinet()
     {
         $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
         return $this->pathToCabinet;

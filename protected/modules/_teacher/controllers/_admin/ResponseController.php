@@ -3,41 +3,15 @@
  * Created by PhpStorm.
  * User: Quicks
  * Date: 24.12.2015
- * Time: 16:17
+ * Time: 17:14
  */
 
-class ShareLinkController extends TeacherCabinetController {
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
+class ResponseController extends TeacherCabinetController{
+
     public function actionView($id)
     {
         $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
-        ),false,true);
-    }
-
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
-    {
-        $model=new ShareLink;
-
-        // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
-
-        if(isset($_POST['ShareLink']))
-        {
-            $model->attributes=$_POST['ShareLink'];
-            if($model->save())
-            $this->redirect($this->pathToCabinet());
-        }
-
-        $this->renderPartial('create',array(
-            'model'=>$model,
         ),false,true);
     }
 
@@ -48,19 +22,19 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionUpdate($id)
     {
-//        var_dump($_POST);die;
 
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
-        $this->performAjaxValidation($model);
+         $this->performAjaxValidation($model);
 
-        if(isset($_POST['ShareLink']))
+        if(isset($_POST['Response']))
         {
-            $model->attributes=$_POST['ShareLink'];
+            $model->attributes=$_POST['Response'];
             if($model->save())
                 $this->redirect($this->pathToCabinet());
         }
+
         $this->renderPartial('update',array(
             'model'=>$model,
         ),false,true);
@@ -74,6 +48,7 @@ class ShareLinkController extends TeacherCabinetController {
     public function actionDelete($id)
     {
         $this->loadModel($id)->delete();
+        Yii::app()->db->createCommand("DELETE FROM teacher_response WHERE id_response=".$id)->execute();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax']))
@@ -83,32 +58,17 @@ class ShareLinkController extends TeacherCabinetController {
     /**
      * Lists all models.
      */
-    public function actionIndex(){
-
-
-        $model=new ShareLink('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ShareLink']))
-            $model->attributes=$_GET['ShareLink'];
-
-        $this->renderPartial('index',array(
-            'model'=>$model,
-        ),false,true);
-
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
+    public function actionIndex()
     {
-        $model=new ShareLink('search');
+        $model=new Response('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ShareLink']))
-            $model->attributes=$_GET['ShareLink'];
+        if(isset($_GET['Response']))
+            $model->attributes=$_GET['Response'];
 
-        $this->renderPartial('admin',array(
-            'model'=>$model,
+        $dataProvider=new CActiveDataProvider('Response');
+        $this->renderPartial('index',array(
+            'model' => $model,
+            'dataProvider'=>$dataProvider,
         ),false,true);
     }
 
@@ -116,12 +76,12 @@ class ShareLinkController extends TeacherCabinetController {
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return ShareLink the loaded model
+     * @return Response the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
-        $model=ShareLink::model()->findByPk($id);
+        $model=Response::model()->findByPk($id);
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
@@ -129,14 +89,48 @@ class ShareLinkController extends TeacherCabinetController {
 
     /**
      * Performs the AJAX validation.
-     * @param ShareLink $model the model to be validated
+     * @param Response $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='share-link-form')
+        if(isset($_POST['ajax']) && $_POST['ajax']==='response-form')
         {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionSetPublish($id)
+    {
+        $response=Response::model()->findByPk($id);
+        Response::model()->updateByPk($id, array('is_checked' => 1));
+
+        $response->setTeacherRating();
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionUnsetPublish($id)
+    {
+        $response=Response::model()->findByPk($id);
+        Response::model()->updateByPk($id, array('is_checked' => 0));
+
+        $response->setTeacherRating();
+
+        // if AJAX request, we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+
+    public function actionUpdateResponseText($id){
+        Response::model()->updateByPk($id, array(
+            'text' => $_POST['Response']['text'],
+            'is_checked' => $_POST['Response']['is_checked']
+        ));
+
+        $this->actionView($id);
     }
 }
