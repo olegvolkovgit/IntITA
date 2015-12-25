@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Quicks
  * Date: 17.11.2015
  * Time: 16:14
  */
-
 class TeacherCabinetController extends CController
 {
 
@@ -13,7 +13,7 @@ class TeacherCabinetController extends CController
 
     public $layout = 'main';
 
-    public $menu=array();
+    public $menu = array();
 
     public $breadcrumbs = array();
 
@@ -58,4 +58,27 @@ class TeacherCabinetController extends CController
         return $this->pathToCabinet;
     }
 
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'expression' => array($this, 'hasCabinet'),
+            ),
+            array('deny',
+                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'users' => array('*'),
+            ),
+        );
+    }
+
+    public function hasCabinet()
+    {
+        if (Yii::app()->user->isGuest){
+            return false;
+        } else {
+            $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+            return $user->hasCabinetAccess();
+        }
+    }
 }

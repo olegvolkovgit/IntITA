@@ -4,20 +4,20 @@ class AdminController extends CController
 {
     public $layout = 'main';
 
-    public $menu=array();
+    public $menu = array();
 
     public $breadcrumbs = array();
 
 
-	/**
+    /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-	public function actionIndex()
-	{
-		$this->render('index');
-	}
+    public function actionIndex()
+    {
+        $this->render('index');
+    }
 
     public function filters()
     {
@@ -47,18 +47,18 @@ class AdminController extends CController
     {
         return array(
             array('allow',
-                'expression'=>array($this, 'isAdministrator'),
+                'expression' => array($this, 'isAdministrator'),
             ),
             array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
+                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'users'=>array('*'),
+                'users' => array('*'),
             ),
         );
     }
 
     public function isAdministrator()
     {
-       return StudentReg::isAdmin();
+        return StudentReg::isAdmin();
     }
 }
