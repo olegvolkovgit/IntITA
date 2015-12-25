@@ -1,6 +1,6 @@
-
 <?php
 /* @var $message Messages */
+/* @var $record UserMessages */
 ?>
 <div class="navbar-header">
     <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand" >
@@ -26,23 +26,22 @@
         </a>
         <ul class="dropdown-menu dropdown-messages">
             <?php
-            foreach($newMessages as $record){
-                               ?>
+            foreach($newMessages as $record){?>
                 <li>
                     <a href="#">
                         <div>
-                            <strong><?=$record['id_message'];?></strong>
+                            <strong><?=$record->id_message;?></strong>
                                     <span class="pull-right text-muted">
-                                        <em>Topic</em>
+                                        <em><?="12/45/45"?></em>
                                     </span>
                         </div>
-                        <div>Message subject</div>
+                        <div><?=$record->subject;?></div>
                     </a>
                 </li>
             <?php
             }
             ?>
-
+            <li>
                 <a class="text-center" href="#">
                     <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')">
                             Всі повідомлення</a></strong>

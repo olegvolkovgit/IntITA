@@ -1,7 +1,9 @@
 <?php
-/* @var $user integer*/
+/* @var $user integer */
 ?>
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
+
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -10,10 +12,11 @@
     <div class="panel-body">
         <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>">
 
-            <input class="form-control" name="id" style="display: none" value="<?=$user?>">
+            <input class="form-control" name="id" id="hidden" value="<?=$user?>">
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
+                <br>
                 <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач" size="90"
                 required>
             </div>
@@ -28,18 +31,23 @@
                 <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary"
-                    onclick="send('<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>')">Написати
+            <button type="submit" class="btn btn-primary">
+                Написати
             </button>
 
-            <button type="reset" class="btn btn-default">Скасувати</button>
+            <button type="reset" class="btn btn-default"
+                    onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')">
+                Скасувати
+            </button>
         </form>
     </div>
 </div>
 
+<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
-    users = <?=StudentReg::usersEmailArray();?>;
+    users = <?=StudentReg::usersEmailArray($user);?>;
 </script>
+<script src="<?= StaticFilesHelper::fullPathTo('js', 'messages.js'); ?>"></script>
 
 <script>
     var substringMatcher = function (strs) {

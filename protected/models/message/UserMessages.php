@@ -174,4 +174,12 @@ class UserMessages extends Messages implements IMessage
         $email = explode(' ', $receiverString);
         return StudentReg::model()->findByAttributes(array('email' => $email[count($email) - 1]));
     }
+
+	public function sender(){
+		return $this->message->sender;
+	}
+
+    public function createDate(){
+        return $this->message->create_date;
+    }
 }

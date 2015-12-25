@@ -1,14 +1,17 @@
 <?php
 /**
+ * @var $model StudentReg
  * @var $message UserMessages
  * @var $receivedMessages Array
  * @var $sentMessages CActiveDataProvider
  */
 ?>
 <script>
-    user = '<?=Yii::app()->user->getId();//$message->getSender();?>';
+    user = '<?=$model->id?>';
 </script>
-<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write');?>')">
+<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
+    'id' => $model->id
+));?>')">
     Написати
 </button>
 <br>
@@ -32,7 +35,7 @@
                     <?php $this->renderPartial('_receivedMessages', array('receivedMessages' => $receivedMessages));?>
                 </div>
                 <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentMessages', array('sentMessages' => $receivedMessages));?>
+                    <?php $this->renderPartial('_sentMessages', array('sentMessages' => $sentMessages));?>
                 </div>
             </div>
         </div>

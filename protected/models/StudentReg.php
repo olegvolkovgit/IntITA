@@ -967,33 +967,42 @@ class StudentReg extends CActiveRecord
     }
 
     public function receivedMessages(){
-
         $criteria = new CDbCriteria();
         $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
         $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
-
         $criteria->addCondition ('r.id_receiver ='.$this->id);
 
         return UserMessages::model()->findAll($criteria);
     }
 
     public function newReceivedMessages(){
-        $sql = "select * from message_receiver where `read` is null and id_receiver=".$this->id;
-        $messages =  Yii::app()->db->createCommand($sql)->queryAll();
-
-        return $messages;
-    }
-
-    public function sentMessages(){
         $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN messages m ON m.id = id_message';
-        $criteria->addCondition ('m.sender ='.$this->id);
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition ('r.read IS NULL and r.id_receiver ='.$this->id);
 
         return UserMessages::model()->findAll($criteria);
     }
 
-    public static function usersEmailArray(){
-        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user")->queryAll();
+    public function sentMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'um';
+        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('m.sender = '.$this->id);
+
+        return UserMessages::model()->findAll($criteria);
+    }
+
+    /**
+     * @param $current integer - id current user (is not included into receivers list)
+     * @return string - json for typeahead field in new user message form
+     */
+    public static function usersEmailArray($current){
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
+            ->queryAll();
 
         $result = [];
         foreach ($data as $row){
