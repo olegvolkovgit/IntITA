@@ -2,11 +2,15 @@
 /* @var $this ShareLinkController */
 /* @var $model ShareLink */
 ?>
-    <br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index');?>')">
-        Перегляд посиланнь на ресурси</a>
-    <br>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>')">
+                Перегляд посилань на ресурси</button>
+        </li>
+    </ul>
+
     <div class="page-header">
-        <h1>Створити посилання для викладачів</h1>
+        <h4>Створити посилання для викладачів</h4>
     </div>
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

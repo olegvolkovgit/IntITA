@@ -3,7 +3,7 @@
 class AdminController extends TeacherCabinetController {
 
     public function actionIndex(){
-        $this->renderPartial('index');
+        $this->renderPartial('index',array(),false,true);
     }
 
     public function actionFreeLectures(){
