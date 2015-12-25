@@ -11,7 +11,7 @@
  * @var $user StudentReg   */
  ?>
 <li>
-    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> <?php echo $role->title_en ?><span class="fa arrow"></span></a>
+    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i><?php echo $role->title_ua; ?><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
@@ -19,9 +19,8 @@
         </li>
         <li>
             <a href="#" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>')">
-                Управління консультантами
+                Консультанти для задач
             </a>
         </li>
     </ul>
-    <!-- /.nav-second-level -->
 </li>

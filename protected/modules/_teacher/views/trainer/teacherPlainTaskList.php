@@ -25,5 +25,4 @@ if ($teacherPlainTasks[0] != null) {
 } else {
     echo "Нових задач немає.";
 }
-
 ?>
