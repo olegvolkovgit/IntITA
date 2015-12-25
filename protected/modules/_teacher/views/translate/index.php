@@ -26,7 +26,6 @@ $('.search-form form').submit(function(){
     'id'=>'messages-grid',
     'dataProvider'=>$model->search(),
     'filter'=>$model,
-    'htmlOptions'=>array('class'=>'grid-view custom'),
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
         'lastPageLabel'=>'&#187;&#187;',
