@@ -15,8 +15,11 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
         {
             if(text[i].value == '')
             {
+                angular.element(document.querySelector("#skipTask"+parseInt(i+1))).addClass('emptyField');
                 check = false;
-                alert('Заповніть поле ' + ++i);
+            }
+            else{
+                angular.element(document.querySelector("#skipTask"+parseInt(i+1))).removeClass('emptyField');
             }
         }
         if(!check)
@@ -66,3 +69,7 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
         });
     };
 }
+$('html').on('keyup','.emptyField', function () {
+    if($(this).hasClass("emptyField"))
+    $(this).removeClass('emptyField');
+});

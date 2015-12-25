@@ -233,7 +233,7 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.args[index].pattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
                     break;
                 case 3:
-                    $scope.args[index].pattern=new RegExp("^(.+,){"+(size-1)+"}.+$");
+                    $scope.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
                     break;
                 default:
                     $scope.args[index].pattern=/./;
@@ -270,7 +270,8 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.resultPattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
                     break;
                 case 3:
-                    $scope.resultPattern=new RegExp("^(.+,){"+(size-1)+"}.+$");
+                    $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
+
                     break;
                 default:
                     $scope.resultPattern=/./;

@@ -821,3 +821,7 @@ a.cke_dialog_ui_fileButton{
 .instrTestImg div.quizDone{
     background-image: url(../images/lecture/taskDone.png);
 }
+.emptyField{
+    box-shadow: 0 0 4px #c72929;
+    border: 2px solid #c72929;
+}

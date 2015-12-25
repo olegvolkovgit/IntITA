@@ -10,7 +10,7 @@
 
 <?php if($data['id_type'] == 9){ ?>
 
-    <div class="element">
+    <div class="element"  ng-controller="skipTaskCtrl">
         <div class="lessonTask">
             <div class="lessonBG">
                 <div class="instrTaskImg">
@@ -26,7 +26,7 @@
                             <?php echo $data->getSkipTaskQuestion(); ?>
                         </div>
                     </form>
-                    <div ng-controller="skipTaskCtrl">
+                    <div>
                         <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                                 ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
                             <?php echo Yii::t('lecture','0089'); ?>

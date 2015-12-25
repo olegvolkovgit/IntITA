@@ -8,6 +8,8 @@
  */
 class InterpreterController extends Controller
 {
+    public $layout = 'lessonlayout';
+
     public function actionIndex()
     {
         $this->render('index');
