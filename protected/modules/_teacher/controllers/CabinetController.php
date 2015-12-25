@@ -16,11 +16,11 @@ class CabinetController extends TeacherCabinetController
             }
         }
 
-        $newReceivedMessages = $model->newReceivedMessages();
+        //$newReceivedMessages = $model->newReceivedMessages();
 
         $this->render('index', array(
             'model' => $model,
-            'newMessages' => $newReceivedMessages
+            //'newMessages' => $newReceivedMessages
         ));
     }
 

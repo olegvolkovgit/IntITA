@@ -24,23 +24,23 @@
             <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
-            <?php
-            foreach ($newMessages as $record) {
-                ?>
-                <li>
-                    <a href="#">
-                        <div>
-                            <strong><?= $record['id_message']; ?></strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Topic</em>
-                                    </span>
-                        </div>
-                        <div>Message subject</div>
-                    </a>
-                </li>
-                <?php
-            }
-            ?>
+<!--            --><?php
+//            foreach ($newMessages as $record) {
+//                ?>
+<!--                <li>-->
+<!--                    <a href="#">-->
+<!--                        <div>-->
+<!--                            <strong>--><?//= $record['id_message']; ?><!--</strong>-->
+<!--                                    <span class="pull-right text-muted">-->
+<!--                                        <em>Topic</em>-->
+<!--                                    </span>-->
+<!--                        </div>-->
+<!--                        <div>Message subject</div>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                --><?php
+//            }
+//            ?>
             <a class="text-center" href="#">
                 <strong><a href="#">Всі повідомлення</a></strong>
                 <i class="fa fa-angle-right"></i>
