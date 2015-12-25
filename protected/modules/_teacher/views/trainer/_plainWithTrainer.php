@@ -10,7 +10,6 @@
 <div class="col-md-9">
 
 <?php if(!empty($tasks)){?>
-
         <table class="table table-striped">
             <tr>
                 <td>Номер задачі</td>
@@ -45,7 +44,7 @@
    <?php }
     }
 }
-else echo 'Немає задач з тренерами';
+else echo 'Немає задач з консультантами';
 ?>
 </div>
 <hr>

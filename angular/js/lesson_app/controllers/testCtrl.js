@@ -10,7 +10,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
         user = idUser;
         var checkAnswers = $("#answers" + block_order + "  input:" + typeButton + ":checked");
         if (checkAnswers.length == 0) {
-            alert('Спочатку виберіть варіант відповіді');
+            openDialogsService.openFalseDialog();
             return false;
         }
         answers = $scope.getUserAnswers(testType);

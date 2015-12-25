@@ -10,14 +10,10 @@
  */
 ?>
 <div class="col-md-6">
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index'); ?>">Список користувачів без тренера</a>
-    </button>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/trainer/userWithTrainerList'); ?>">Список користувачів з
             тренером</a>
-    </button>
     <h2>Призначення тренера для користувача:</h2>
 
     <h3><?php $name = $user->firstName . " " . $user->secondName;

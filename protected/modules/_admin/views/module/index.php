@@ -1,8 +1,6 @@
 <br>
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/create'); ?>">Створити модуль</a>
-</button>
 
 <div class="page-header">
     <h2>Модулі</h2>
@@ -51,6 +49,13 @@
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
                     'options' => array(
                         'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(response) {
+                            $.fn.yiiGridView.update("module-grid");
+                            }'
+                        )
                     )
                 ),
                 'statusUp' => array

@@ -12,7 +12,6 @@ function showPlainTaskWithoutTrainer(url)
     })
 }
 
-
 function chooseTrainer(id,url)
 {
     $.ajax({
@@ -87,17 +86,47 @@ function markPlainTask(url)
 
 }
 
-function manageConsult(url)
+function addTrainer(url)
 {
-
+    var id = document.getElementById('user').value;
+    var trainerId = $("select option:selected").val();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'userId': id, 'trainerId' : trainerId},
+        success: function (data) {
+            location.reload();
+        }
+    });
 }
 
-
+function removeTrainer(url)
+{
+    if(confirm('Ви впевнені що хочете видалити тренера?'))
+    {
+        $.ajax({
+            url: url,
+            success: function (data) {
+                location.reload();
+            }
+        })
+    }
+}
 
 function fillContainer(data)
 {
     container = $('#pageContainer');
-
     container.html('');
     container.html(data);
+}
+
+function loadUserWithoutTrainer(url)
+{
+    $.ajax({
+        url: url,
+        type: "POST",
+        success: function (data) {
+            fillContainer(data);
+        }
+    })
 }

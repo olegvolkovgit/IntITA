@@ -151,10 +151,11 @@ class Teacher extends CActiveRecord
         $criteria->compare('first_name_en', $this->first_name_en, true);
         $criteria->compare('middle_name_en', $this->middle_name_en, true);
         $criteria->compare('last_name_en', $this->last_name_en, true);
+
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 20,
+                'pageSize' => 10,
             ),
         ));
     }
@@ -688,5 +689,12 @@ class Teacher extends CActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function getStatus()
+    {
+        if($this->isPrint)
+        return 'активний';
+        else return 'видалений';
     }
 }

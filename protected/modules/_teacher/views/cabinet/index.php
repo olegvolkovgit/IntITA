@@ -13,7 +13,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/showPlainTask.css'); ?>" rel="stylesheet">
-
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
@@ -30,7 +29,8 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.css');?>" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
+    <!---->
     <!--Angular-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
@@ -52,7 +52,8 @@
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <?php echo $this->renderPartial('_top_navigation', array('model' => $model, 'newMessages' => $newMessages));?>
+        <?php echo $this->renderPartial('_top_navigation', array('model' => $model));?>
+<!--        , 'newMessages' => $newMessages));?>-->
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model));?>
     </nav>
 

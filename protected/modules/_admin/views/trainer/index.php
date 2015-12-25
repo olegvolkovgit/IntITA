@@ -3,10 +3,8 @@
 ?>
 <br>
 <div class="col-md-8">
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/trainer/userWithTrainerList'); ?>">Список користувачів з
             тренером</a>
-    </button>
 
     <h2>Список користувачів без тренера</h2>
     <?php

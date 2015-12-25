@@ -6,6 +6,7 @@
  * Time: 15:36
  */
 
+
 class TeacherController extends TeacherCabinetController {
 
     public function actionShowPlainTaskList()
@@ -13,7 +14,7 @@ class TeacherController extends TeacherCabinetController {
         $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
 
         $this->renderPartial('/trainer/_newPlainTask',array(
-            'plainTasksAnswers' => $plainTaskAnswers
+            'plainTasksAnswers' => $plainTaskAnswers,
         ));
     }
 
@@ -99,8 +100,6 @@ class TeacherController extends TeacherCabinetController {
         $id = Yii::app()->request->getPost('id');
 
         $plainTask = PlainTaskAnswer::model()->findByPk($id);
-
-
 
         $this->renderPartial('/trainer/editConsult',array(
            'task' => $plainTask

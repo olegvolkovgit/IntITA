@@ -12,11 +12,11 @@
 <br>
 <div id="addTask">
     <br>
-    <form name="addTaskForm">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
+            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" >
                 <option value="c++">С++</option>
                 <option value="java">Java</option>
                 <option value="js">JavaScript</option>
@@ -31,14 +31,14 @@
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" form="add-task" rows="10" required ng-model="addTask"></textarea>
             <br>
             <br>
-            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5" required></textarea>
+            Header*:<textarea name="header" id="header" cols="105" rows="5" required></textarea>
             <br>
-            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15" required></textarea>
+            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" rows="15" required></textarea>
             <br>
-            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5" required ng-model="footer"></textarea>
+            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" rows="5" required ng-model="footer"></textarea>
             <br>
         </fieldset>
-        <input type="submit" onclick="createTaskCKE('<?php echo Config::getInterpreterServer(); ?>')" ng-disabled="addTaskForm.$invalid" value="Додати задачу" />
+        <input type="submit" ng-disabled="addTaskForm.$invalid" value="Додати задачу" />
     </form>
     <button onclick='cancelTask()'>Скасувати</button>
 </div>

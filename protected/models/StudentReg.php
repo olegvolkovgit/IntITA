@@ -956,6 +956,8 @@ class StudentReg extends CActiveRecord
         return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
     }
 
+
+
     public static function userLetterReceivers(){
         return StudentReg::model()->findAll(
             array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));

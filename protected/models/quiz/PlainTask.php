@@ -135,6 +135,7 @@ class PlainTask extends Quiz
 
     public static function getPlainTaskAnswersWithoutTrainer()
     {
+
         $trainerId = Teacher::getTeacherId(Yii::app()->user->id);
         $trainerUsers = TrainerStudent::getStudentByTrainer($trainerId);
 
@@ -152,7 +153,6 @@ class PlainTask extends Quiz
                     'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL
                     and id_student = '.$user->id,
                 ))->queryAll();
-
             if(!empty($tasks))
             array_push($plainTasksArr,$tasks);
             }

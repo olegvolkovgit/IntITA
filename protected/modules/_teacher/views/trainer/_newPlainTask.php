@@ -38,6 +38,6 @@ if(!empty($plainTasksAnswers))
 </div>
 <?php
 }
-else echo 'Наразі всі задачі з тренерами';?>
+else echo 'Наразі всі задачі з консультантами';?>
 
 

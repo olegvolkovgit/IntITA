@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" >
     <div class="col-lg-4">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -31,7 +31,8 @@
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/admin/verifyContent'); ?>')">
                             Контент лекцій</a>
                     </li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/graduate/index'); ?>">Випускники</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
+                            Випускники</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">Курси</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Модулі</a></li>
                 </ul>
@@ -49,12 +50,14 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index'); ?>">Викладачі</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/index'); ?>">Ресурси для
-                            викладачів</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/response/index'); ?>">Відгуки про
-                            викладачів</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index'); ?>">Тренери</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>')">
+                            Викладачі</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/shareLink/index'); ?>')">
+                            Ресурси для викладачів</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
+                            Відгуки про викладачів</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                            Тренери</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -116,3 +119,5 @@
 <div class="row">
 
 
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js');?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js');?>"></script>

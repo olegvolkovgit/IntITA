@@ -34,7 +34,8 @@ $this->breadcrumbs = array(
         'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
-            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
+            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error"))
+             $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'name'=>'StudentReg', 'ng-controller'=>"validationController", 'novalidate'=>true),
     )); ?>
     <?php

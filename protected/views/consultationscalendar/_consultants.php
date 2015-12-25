@@ -45,7 +45,7 @@
                         )); ?>
                         <input type="hidden" id="<?php echo 'dateconsajax' . $data['teacher_id'] ?>"
                                name="dateconsajax"/>
-                        <input type="hidden" name="teacherIdajax" value=<?php echo $data['teacher_id']; ?>/>
+                        <input type="hidden" name="teacherIdajax" value="<?php echo $data['teacher_id']; ?>" />
                         <?php
                         echo CHtml::ajaxSubmitButton('Updatedate', CController::createUrl('lesson/UpdateAjax'),
                             array('update' => '#timeConsultation' . $data['teacher_id']), array(

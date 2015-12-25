@@ -54,7 +54,6 @@ function send(url){
         method: post,
         success: function (data) {
             container = $('#pageContainer');
-
             container.html('');
             container.html(data);
         },

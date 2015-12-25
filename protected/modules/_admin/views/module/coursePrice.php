@@ -1,7 +1,5 @@
 <br>
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Список модулів</a>
-</button>
 <br>
 <div class="page-header">
     <h2>Модуль #<?php echo $id . " " . Module::getModuleName($id); ?></h2>
