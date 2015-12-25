@@ -10,6 +10,17 @@
 
 
 <div class="col-md-9">
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>')">Викладачі</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+                Управління ролями викладачів</button>
+        </li>
+    </ul>
     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>" class="img-thumbnail">
     <ul class="list-group">
         <li class="list-group-item">

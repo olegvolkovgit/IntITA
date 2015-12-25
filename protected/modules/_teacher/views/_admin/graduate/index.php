@@ -1,48 +1,55 @@
 <?php
-/* @var $this ShareLinkController */
-/* @var $model ShareLink */
+/* @var $this GraduateController */
+/* @var $dataProvider CActiveDataProvider */
 ?>
+<br>
+<br>
+    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">Додати випускника</a>
 
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/create'); ?>')">
-            Створити посилання на ресурс</button>
-    </li>
-</ul>
+<div class="page-header">
+    <h2>Випускники</h2>
+</div>
 <?php
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#share-link-grid').yiiGridView('update', {
+	$('#graduate-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
 });
 ");
 ?>
-<div class="page-header">
-<h4>Управління ресурсами для викладачів</h4>
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'share-link-grid',
-    'dataProvider'=>$model->search(),
-    'summaryText'=>'',
-    'columns'=>array(
-        'name',
-        'link',
+    'id' => 'graduate-grid',
+    'dataProvider' => $model->search(),
+    'summaryText' => '',
+    'columns' => array(
+        'first_name',
+        'last_name',
         array(
-            'class'=>'CButtonColumn',
+            'header' => 'Аватар',
+            'value' => 'StaticFilesHelper::createPath("image", "graduates", $data->avatar)',
+            'type' => 'image',
+        ),
+        'position',
+        'work_place',
+        array(
+            'header' => 'Відгук',
+            'value' => '$data->recall',
+            'htmlOptions' => array('class' => 'recall'),
+        ),
+        array(
+            'class' => 'CButtonColumn',
             'headerHtmlOptions' => array('style' => 'width:80px'),
             'buttons'=>array(
                 'view' => array
                 (
                     'click'=>"function(){
-                                    $.fn.yiiGridView.update('share-link-grid', {
+                                    $.fn.yiiGridView.update('graduate-grid', {
                                         type:'POST',
                                         url:$(this).attr('href'),
                                         success:function(data){
@@ -53,12 +60,12 @@ $('.search-form form').submit(function(){
                               }
                      ",
                     'label'=>'Переглянути',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$data->id))',
                 ),
                 'update' => array
                 (
                     'click'=>"function(){
-                                    $.fn.yiiGridView.update('share-link-grid', {
+                                    $.fn.yiiGridView.update('graduate-grid', {
                                         type:'POST',
                                         url:$(this).attr('href'),
                                         success:function(data){
@@ -69,11 +76,10 @@ $('.search-form form').submit(function(){
                               }
                      ",
                     'label'=>'Редагувати',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/update", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/graduate/update", array("id"=>$data->id))',
                 ),
             ),
         ),
     ),
+
 )); ?>
-
-

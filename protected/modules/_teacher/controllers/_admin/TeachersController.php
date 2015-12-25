@@ -29,9 +29,8 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionShowTeacher()
+    public function actionShowTeacher($id)
     {
-        $id = Yii::app()->request->getPost('id');
         $teacher = Teacher::model()->findByPk($id);
 
         $this->renderPartial('showTeacher',array(
@@ -181,4 +180,93 @@ class TeachersController extends TeacherCabinetController{
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
+
+     /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
+    {
+        Teacher::model()->updateByPk($id, array('isPrint' => 0));
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+    public function actionShowRoles($id)
+    {
+        $roles = TeacherRoles::model()->findAllByAttributes(array('teacher' => $id));
+        $name = Teacher::getFullName($id);
+        $this->renderPartial('showRoles', array(
+            'roles' => $roles,
+            'name' => $name,
+            'teacherId' => $id,
+        ),false,true);
+    }
+
+    public function actionAddRoleAttribute($role)
+    {
+        $model = new RoleAttribute;
+        if (isset($_POST['RoleAttribute'])) {
+            $model->attributes = $_POST['RoleAttribute'];
+            if ($model->save())
+                $this->redirect(array('showAttributes', 'role' => $model->role));
+        }
+        $model->role = $role;
+        $this->renderPartial('addRoleAttribute', array(
+            'model' => $model,
+        ),false,true);
+    }
+
+    public function actionAddTeacherRole($teacher)
+    {
+        $model = Teacher::model()->findByPk($teacher);
+
+        $this->renderPartial('addTeacherRole', array(
+            'teacher' => $model,
+        ),false,true);
+    }
+
+    public function actionCancelTeacherRole()
+    {
+        $teacher = Teacher::model()->findByPk($_GET['id']);
+
+        $this->renderPartial('cancelTeacherRole', array(
+            'teacher' => $teacher,
+        ),false,true);
+    }
+
+    public function actionAddTeacherRoleAttribute($teacher)
+    {
+        $model = Teacher::model()->findByPk(intval($teacher));
+
+        $this->renderPartial('addTeacherRoleAttribute', array(
+            'model' => $model,
+        ),false,true);
+    }
+
+
+    public function actionUpdateRoleAttribute($id){
+        $model=RoleAttribute::model()->findByPk($id);
+
+        if(isset($_POST['RoleAttribute']))
+        {
+            $model->attributes=$_POST['RoleAttribute'];
+            if($model->save())
+                $this->redirect($this->pathToCabinet());
+        }
+
+        $this->renderPartial('updateRoleAttribute',array(
+            'model'=>$model,
+        ),false,true);
+    }
+
 }

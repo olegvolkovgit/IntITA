@@ -1,10 +1,8 @@
 /**
  * Created by Quicks on 23.12.2015.
  */
-function ShowTeacher(id)
+function ShowTeacher(url,id)
 {
-    var url = "/IntIta/_teacher/teachers/showTeacher";
-
     $.ajax({
         url: url,
         type : 'post',

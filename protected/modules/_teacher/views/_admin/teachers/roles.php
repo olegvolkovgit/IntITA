@@ -1,11 +1,11 @@
 <?php
 /* @var $dataProvider CActiveDataProvider */
 ?>
-    <br>
-    <br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teachers/createRole');?>')">Додати роль</a>
+
+    <button type="button" class="btn btn-primary"
+        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/createRole');?>')">Додати роль</button>
     <div class="page-header">
-    <h2>Ролі викладачів</h2>
+    <h4>Ролі викладачів</h4>
     </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'roles',
@@ -58,7 +58,7 @@
                                     return false;
                               }
                      ",
-                     'url' => 'Yii::app()->createUrl("/_teacher/teachers/showAttributes", array("role"=>$data->primaryKey))',
+                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/showAttributes", array("role"=>$data->primaryKey))',
                     'label' => 'Атрибути ролі',
                 ),
                 'update' => array
@@ -75,7 +75,7 @@
                               }
                      ",
                     'label'=>'Редагувати',
-                    'url' => 'Yii::app()->createUrl("/_teacher/teachers/updateRole", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/updateRole", array("id"=>$data->primaryKey))',
                 ),
                 'delete' => array
                 (
