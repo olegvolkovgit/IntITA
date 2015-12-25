@@ -211,7 +211,7 @@ if ($idCourse != 0) {
             <?php if ($page->quiz == null) {
                 $author = Teacher::getTeacherId($user);
             $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id));
+            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
             $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
             $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
             }?>
