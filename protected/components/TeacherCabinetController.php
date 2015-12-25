@@ -9,7 +9,7 @@
 class TeacherCabinetController extends CController
 {
 
-    public $pathToCabinet = '';
+    private $pathToCabinet = '';
 
     public $layout = 'main';
 

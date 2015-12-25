@@ -55,7 +55,8 @@
                             Ресурси для викладачів</a></li>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
                             Відгуки про викладачів</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/trainer/index'); ?>">Тренери</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                            Тренери</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
