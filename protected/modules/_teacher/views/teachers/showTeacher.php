@@ -6,7 +6,7 @@
 ?>
 <div class="col-md-9">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>"
-         class="img-thumbnail">
+         class="img-thumbnail" style="height:200px">
     <ul class="list-group">
         <li class="list-group-item">
         </li>
@@ -33,7 +33,7 @@
             <?php } ?>
         </li>
     </ul>
-
 </div>
+
 
 

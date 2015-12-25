@@ -3,7 +3,7 @@
  */
 function ShowTeacher(id)
 {
-    var url = "/_teacher/teachers/showTeacher";
+    var url = "/IntITA/_teacher/teachers/showTeacher";
 
     $.ajax({
         url: url,

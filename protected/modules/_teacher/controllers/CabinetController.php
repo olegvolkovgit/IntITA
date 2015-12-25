@@ -4,7 +4,6 @@ class CabinetController extends TeacherCabinetController
 {
     public function actionIndex()
     {
-
         if (Yii::app()->user->isGuest) {
             throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
                 Зайдіть з логіном викладача, адміністратора або бухгалтера.');
@@ -15,7 +14,6 @@ class CabinetController extends TeacherCabinetController
                 Зайдіть з логіном викладача, адміністратора або бухгалтера.');
             }
         }
-
         //$newReceivedMessages = $model->newReceivedMessages();
 
         $this->render('index', array(
