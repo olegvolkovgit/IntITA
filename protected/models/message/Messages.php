@@ -15,6 +15,7 @@
  * The followings are the available model relations:
  * @property StudentReg $sender0
  * @property UserMessages[] $userMessages
+ * @property StudentReg[] $receivers0
  */
 class Messages extends CActiveRecord
 {
@@ -52,6 +53,8 @@ class Messages extends CActiveRecord
             'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
             'sender0' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
             'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
+            'messageReceivers' => array(self::HAS_MANY, 'MessageReceiver', 'id_receiver'),
+            'receivers0' => array(self::HAS_MANY, 'StudentReg', 'id_receiver', 'through' => 'messageReceivers'),
         );
     }
 

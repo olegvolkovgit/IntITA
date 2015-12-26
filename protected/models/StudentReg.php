@@ -970,7 +970,7 @@ class StudentReg extends CActiveRecord
 
     public function receivedMessages(){
         $criteria = new CDbCriteria();
-        $criteria->select = '*, `read`';
+        $criteria->select = '*';
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';

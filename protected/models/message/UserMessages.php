@@ -62,6 +62,7 @@ class UserMessages extends Messages implements IMessage
 		return array(
 			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'sender' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
+            'receiver' => array(self::HAS_MANY, 'StudentReg', ''),
 		);
 	}
 
@@ -189,12 +190,12 @@ class UserMessages extends Messages implements IMessage
     }
 
     public function receivers(){
-        $criteria = new CDbCriteria();
-        $criteria->alias = 's';
-        $criteria->join = 'LEFT JOIN message_receiver as r ON s.id = r.id_receiver';
-        $criteria->addCondition ('r.id_message = '.$this->id_message);
+//        $criteria = new CDbCriteria();
+//        $criteria->alias = 's';
+//        $criteria->join = 'LEFT JOIN message_receiver as r ON s.id = r.id_receiver';
+//        $criteria->addCondition ('r.id_message = '.$this->id_message);
 
-        return StudentReg::model()->findAll($criteria);
+        return $this->message0->receivers0;//StudentReg::model()->findAll($criteria);
     }
 
     public function receiversString(){
