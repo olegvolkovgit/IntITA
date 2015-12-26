@@ -12,7 +12,7 @@
 <br>
 <div id="addTask">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('lesson/interpreter'); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>

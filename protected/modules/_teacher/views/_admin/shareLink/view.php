@@ -6,7 +6,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>')">
-            Перегляд посиланнь на ресурси</button>
+            Перегляд посилань на ресурси</button>
     </li>
 </ul>
 

@@ -577,6 +577,13 @@ class LessonController extends Controller
 
     public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
+        $lecture = Lecture::model()->findByPk($id);
+        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        if (!$editMode) {
+            throw new CHttpException(403, 'У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном автора модуля.');
+        }
+
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
 
         $textList = $pageModel->getBlocksListById();
@@ -748,8 +755,5 @@ class LessonController extends Controller
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
-    }
-    public function actionInterpreter(){
-        $this->renderPartial('/editor/interpreter');
     }
 }
