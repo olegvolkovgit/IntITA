@@ -52,8 +52,7 @@
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <?php echo $this->renderPartial('_top_navigation', array('model' => $model));?>
-<!--        , 'newMessages' => $newMessages));?>-->
+        <?php echo $this->renderPartial('_top_navigation', array('model' => $model,'newMessages' => $newMessages));?>
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model));?>
     </nav>
 

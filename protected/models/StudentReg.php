@@ -970,10 +970,11 @@ class StudentReg extends CActiveRecord
 
     public function receivedMessages(){
         $criteria = new CDbCriteria();
+        $criteria->select = '*, `read`';
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
-        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition ('r.id_receiver ='.$this->id);
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition('r.id_receiver =' . $this->id);
 
         return UserMessages::model()->findAll($criteria);
     }

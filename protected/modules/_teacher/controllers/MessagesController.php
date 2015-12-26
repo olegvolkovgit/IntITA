@@ -26,4 +26,13 @@ class MessagesController extends TeacherCabinetController
             'user' => $id
         ), false, true);
     }
+
+    public function actionDialog($id)
+    {
+        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
+
+        $this->renderPartial('_dialogTree', array(
+            'message' => $message
+        ), false, true);
+    }
 }

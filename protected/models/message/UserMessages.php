@@ -10,11 +10,12 @@
  *
  * The followings are the available model relations:
  * @property StudentReg $sender
+ * @property Messages $message0
  */
 class UserMessages extends Messages implements IMessage
 {
     private $receivers;
-    private $message;
+    public $message;
     public $mailto;
 
     public function build($subject, $text, $receivers, StudentReg $sender) {
@@ -59,7 +60,7 @@ class UserMessages extends Messages implements IMessage
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'message' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'sender' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
 		);
 	}
@@ -181,5 +182,28 @@ class UserMessages extends Messages implements IMessage
 
     public function createDate(){
         return $this->message->create_date;
+    }
+
+    public function message(){
+        return $this->message0;
+    }
+
+    public function receivers(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 's';
+        $criteria->join = 'LEFT JOIN message_receiver as r ON s.id = r.id_receiver';
+        $criteria->addCondition ('r.id_message = '.$this->id_message);
+
+        return StudentReg::model()->findAll($criteria);
+    }
+
+    public function receiversString(){
+        $receivers = $this->receivers();
+        $result = '';
+        foreach($receivers as $user){
+            $result .= $user->userName().", ".$user->email."; ";
+        }
+
+        return $result;
     }
 }

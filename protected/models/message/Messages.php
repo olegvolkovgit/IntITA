@@ -50,7 +50,7 @@ class Messages extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
-            'sender0' => array(self::BELONGS_TO, 'User', 'sender'),
+            'sender0' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
             'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
         );
     }

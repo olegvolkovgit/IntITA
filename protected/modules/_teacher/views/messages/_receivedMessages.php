@@ -1,18 +1,28 @@
 <?php
 /**
  * @var $receivedMessages Array
- * @var $message UserMessages
+ * @var $userMessage UserMessages
  */
 ?>
 <div class="dataTable_wrapper">
-    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <table class="table table-striped table-bordered table-hover" id="receivedMessages">
         <tbody>
         <?php
-        foreach($receivedMessages as $message){?>
+        foreach($receivedMessages as $userMessage){
+            ?>
             <tr class="odd gradeX">
-                <td><?=$message->subject; ?></td>
-                <td><?=$message->text; ?></td>
-                <td class="center"><?=$message["id_message"]; ?></td>
+                <td style="width: 20%">
+                    <a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                        'id' => $userMessage->id_message))?>')">
+                    <?=$userMessage->message0->sender0->userName(); ?></a>
+                </td>
+                <td><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                        'id' => $userMessage->id_message))?>')">
+                        <?=$userMessage->subject; ?></a>
+                </td>
+                <td class="center" style="width: 15%">
+                    <?=date("h:m, d F", strtotime($userMessage->message0->create_date)); ?>
+                </td>
             </tr>
         <?php
         }

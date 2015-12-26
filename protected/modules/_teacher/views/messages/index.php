@@ -41,3 +41,5 @@
         </div>
     </div>
 </div>
+
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">

@@ -206,7 +206,7 @@ class StudentRegController extends Controller
     {
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser > 0 && $idUser !== Yii::app()->user->getId())
-            throw new IntItaException('That not your user');
+            throw new IntItaException(403, 'That not your user', 403);
         $letter = new Letters();
 
         if(!$dataProvider = $model->getDataProfile())
