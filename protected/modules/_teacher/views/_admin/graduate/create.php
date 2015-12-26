@@ -2,11 +2,15 @@
 /* @var $this GraduateController */
 /* @var $model Graduate */
 ?>
-    <br>
-    <br>
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">Список випускників</a>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
+                Список випускників</button>
+        </li>
+    </ul>
 
     <div class="page-header">
-        <h1>Додати випускника</h1>
+        <h4>Додати випускника</h4>
     </div>
 <?php $this->renderPartial('_form', array('model' => $model)); ?>
