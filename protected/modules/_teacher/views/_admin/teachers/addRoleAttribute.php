@@ -2,18 +2,16 @@
 /* @var $this TmanageController */
 /* @var $model RoleAttribute */
 
-
-$this->menu=array(
-    //array('label'=>'Список атрибутів ролі', 'url'=>array('/tmanage/showAttributes/?role='.$model->role)),
-    array('label'=>'Роль', 'url'=>array('roles')),
-);
 ?>
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/roles.css" />
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+                Список ролей</button>
+        </li>
+    </ul>
 
-    <br>
-    <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
     <div class="page-header">
-    <h1>Додати атрибут ролі</h1>
+    <h4>Додати атрибут ролі</h4>
     </div>
 <?php $this->renderPartial('_formRoleAttribute', array('model'=>$model)); ?>

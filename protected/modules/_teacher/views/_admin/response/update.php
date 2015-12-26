@@ -2,18 +2,23 @@
 /* @var $this ResponseController */
 /* @var $model Response */
 ?>
-    <br>
-    <br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
-        Відгуки про викладачів</a>
-    <br>
-    <br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/view', array('id' => $model->id));?>')">
-        Переглянути відгук</a>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
+            Відгуки про викладачів</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/view', array('id' => $model->id)); ?>')">
+            Переглянути відгук</button>
+    </li>
+</ul>
 
     <div class="page-header">
-    <h1>Редагувати відгук #<?php echo $model->id; ?></h1>
+    <h4>Редагувати відгук #<?php echo $model->id; ?></h4>
     </div>
+
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
     <div class="form">
@@ -47,7 +52,7 @@
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Зберегти'); ?>
+            <?php echo CHtml::submitButton('Зберегти',array('class' => 'btn btn-primary')); ?>
         </div>
 
         <?php $this->endWidget(); ?>

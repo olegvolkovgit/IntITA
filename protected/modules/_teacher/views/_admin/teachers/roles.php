@@ -1,9 +1,17 @@
 <?php
 /* @var $dataProvider CActiveDataProvider */
 ?>
-
-    <button type="button" class="btn btn-primary"
-        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/createRole');?>')">Додати роль</button>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/createRole');?>')">Додати роль</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>')">
+            Викладачі</button>
+    </li>
+    </ul>
     <div class="page-header">
     <h4>Ролі викладачів</h4>
     </div>

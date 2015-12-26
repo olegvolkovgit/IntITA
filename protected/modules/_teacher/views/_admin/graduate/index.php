@@ -2,12 +2,16 @@
 /* @var $this GraduateController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-<br>
-<br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">Додати випускника</a>
+    <ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">
+            Додати випускника</button>
+    </li>
+    </ul>
 
 <div class="page-header">
-    <h2>Випускники</h2>
+    <h4>Випускники</h4>
 </div>
 <?php
 Yii::app()->clientScript->registerScript('search', "

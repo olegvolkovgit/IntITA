@@ -16,6 +16,14 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
+    protected function performAttributeRoleAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'role-attribute-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
     public function actionIndex()
     {
         $model = new Teacher('search');
@@ -92,7 +100,7 @@ class TeachersController extends TeacherCabinetController{
         $this->render('showRoleAttributes', array(
             'model' => $model,
             'dataProvider' => $dataProvider,
-        ));
+        ),false,true);
     }
 
     public function actionCreateRole()
@@ -117,12 +125,9 @@ class TeachersController extends TeacherCabinetController{
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-//        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
-//            echo CActiveForm::validate($model);
-//            Yii::app()->end();
-//        }
-        // Uncomment the following line if AJAX validation is needed
+
          $this->performAjaxValidation($model);
+
         if (isset($_POST['Teacher'])) {
             $model->oldAvatar = $model->foto_url;
             $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
@@ -215,10 +220,13 @@ class TeachersController extends TeacherCabinetController{
     public function actionAddRoleAttribute($role)
     {
         $model = new RoleAttribute;
+
+        $this->performAttributeRoleAjaxValidation($model);
+
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect(array('showAttributes', 'role' => $model->role));
+                $this->redirect($this->pathToCabinet());
         }
         $model->role = $role;
         $this->renderPartial('addRoleAttribute', array(
@@ -253,9 +261,10 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-
     public function actionUpdateRoleAttribute($id){
         $model=RoleAttribute::model()->findByPk($id);
+
+        $this->performAttributeRoleAjaxValidation($model);
 
         if(isset($_POST['RoleAttribute']))
         {

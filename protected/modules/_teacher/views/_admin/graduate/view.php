@@ -3,16 +3,27 @@
 /* @var $model Graduate */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminGraduate.css'); ?>"/>
-<br>
-<br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">Додати випускника</a>
-<br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">Список випускників</a>
-<br>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>')">
-        Редагувати інформацію про випускника</a>
+
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">
+            Додати випускника</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
+            Список випускників</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>')">
+            Редагувати інформацію про випускника</button>
+    </li>
+</ul>
+
 <div class="page-header">
-    <h1>Переглянути інформацію про випускника #<?php echo $model->first_name . " " . $model->last_name; ?> </h1>
+    <h4>Переглянути інформацію про випускника #<?php echo $model->first_name . " " . $model->last_name; ?> </h4>
 </div>
 <div class="graduateView">
     <?php $this->widget('zii.widgets.CDetailView', array(

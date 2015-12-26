@@ -57,7 +57,7 @@ class Response extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'who0' => array(self::BELONGS_TO, 'User', 'who'),
+            'user' => array(self::BELONGS_TO, 'StudentReg', 'who'),
         );
     }
 
@@ -238,5 +238,15 @@ class Response extends CActiveRecord
     {
         $model = StudentReg::model()->findByPk($this->who);
         return $model->firstName . " " . $model->secondName . ", " . $model->email;
+    }
+
+    public function shortDescription()
+    {
+        return substr($this->text,0,25).'...';
+    }
+
+    public function timeDesc()
+    {
+        return date("d-m-Y", strtotime($this->date));
     }
 }

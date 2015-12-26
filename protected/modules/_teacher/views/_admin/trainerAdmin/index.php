@@ -3,10 +3,16 @@
 ?>
 <br>
 <div class="col-md-8">
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/userWithTrainerList'); ?>')">
-            Список користувачів з тренером</a>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/userWithTrainerList'); ?>')">
+                Список користувачів з консультантом</button>
+        </li>
+    </ul>
+    <br>
+    <h4>Список користувачів без консультанта</h4>
 
-    <h2>Список користувачів без тренера</h2>
     <?php
 
     if (!empty($users)) { ?>
@@ -15,7 +21,7 @@
             <td><b>email</b></td>
             <td>Ім'я</td>
             <td>Тренер</td>
-            <td>Додати тренера</td>
+            <td>Додати консультанта</td>
         </tr>
         <?php
         foreach ($users as $user) {

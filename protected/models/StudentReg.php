@@ -1014,4 +1014,15 @@ class StudentReg extends CActiveRecord
 
         return json_encode($result);
     }
+
+    public function getNameOrEmail()
+    {
+        if( !empty($this->firstName)|| !empty($this->secondName))
+        $name = $this->firstName .' '.$this->secondName;
+
+        else
+            $name = $this->email;
+
+        return $name;
+    }
 }

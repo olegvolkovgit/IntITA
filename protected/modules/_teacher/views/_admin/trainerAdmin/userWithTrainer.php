@@ -1,12 +1,17 @@
 <?php
 /* @var $user StudentReg */
 ?>
-    <br>
-    <div class="col-md-8">
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
-            Список користувачів без тренера</a>
 
-    <h2>Список користувачів з тренером</h2>
+    <div class="col-md-8">
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                Список користувачів без тренера</button>
+        </li>
+    </ul>
+    <br>
+    <h4>Список користувачів з консультантом</h4>
 <?php
 
 if (!empty($users)) { ?>
@@ -15,7 +20,7 @@ if (!empty($users)) { ?>
             <td><b>email</b></td>
             <td>Ім'я</td>
             <td>Тренер</td>
-            <td>Змінити тренера</td>
+            <td>Змінити консультанта</td>
         </tr>
         <?php
         foreach ($users as $user) {

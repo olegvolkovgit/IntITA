@@ -8,22 +8,29 @@
  * @var $user StudentReg
  */
 ?>
-<div class="col-md-6">
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
-            Список користувачів без тренера</a>
-    <br>
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/userWithTrainerList'); ?>')">
-            Список користувачів з тренером</a>
-    <h2>Призначення тренера для користувача:</h2>
+<div class="col-md-8">
 
-    <h3><?php $name = $user->firstName . " " . $user->secondName;
-        if (!$name) $name = $user->email;
-        echo $name ?></h3>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                Список користувачів без консультанта</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                Список користувачів з консультантом</button>
+        </li>
+    </ul>
+    <br>
+    <h4>Призначення консультанта для користувача:</h4>
+
+    <h5><?php echo $user->getNameOrEmail() ?></h5>
     <br>
     <?php if (isset($oldTrainer)) { ?>
-        <h2>Колишній тренер :
+        <h4>Колишній консультант :
             <br>
-            <?php echo $oldTrainer->getTeacherName($oldTrainer->teacher_id) ?></h2><br>
+            <?php echo $oldTrainer->getTeacherName($oldTrainer->teacher_id) ?></h4><br>
     <?php } ?>
     <div class="form-group">
         <form method="post"

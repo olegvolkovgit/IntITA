@@ -10,8 +10,9 @@ class ResponseController extends TeacherCabinetController{
 
     public function actionView($id)
     {
+        $model = Response::model()->findByPk($id)->with('user')->find();
         $this->renderPartial('view',array(
-            'model'=>$this->loadModel($id),
+            'model'=>$model,
         ),false,true);
     }
 
@@ -22,7 +23,6 @@ class ResponseController extends TeacherCabinetController{
      */
     public function actionUpdate($id)
     {
-
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -131,6 +131,8 @@ class ResponseController extends TeacherCabinetController{
             'is_checked' => $_POST['Response']['is_checked']
         ));
 
-        $this->actionView($id);
+        $this->redirect($this->pathToCabinet());
     }
+
+
 }

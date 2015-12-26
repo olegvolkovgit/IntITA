@@ -389,7 +389,7 @@ class SiteController extends Controller
         $getModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
         if (Yii::app()->request->getPost('StudentReg')) {
 
-            $getTime = $this->setToken($model);
+            $getTime = $this->setToken($getModel);
 
         }
         if ($getModel->validate()) {

@@ -6,6 +6,7 @@ $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );
 ?>
+
 <div class='errorblock'>
     <h1><?php echo Yii::t('error','0590')." ".$code; ?></h1>
 

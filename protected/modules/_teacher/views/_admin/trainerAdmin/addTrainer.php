@@ -10,12 +10,21 @@
  */
 ?>
 <div class="col-md-6">
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
-            Список користувачів без тренера</a>
+
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                Список користувачів без консультанта</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>')">
+                Список користувачів з консультантом</button>
+        </li>
+    </ul>
     <br>
-        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/userWithTrainerList'); ?>')">
-            Список користувачів з тренером</a>
-    <h2>Призначення тренера для користувача:</h2>
+    <h4>Призначення консультанта для користувача:</h4>
 
     <h3><?php $name = $user->firstName . " " . $user->secondName;
         if (!$name) $name = $user->email;
