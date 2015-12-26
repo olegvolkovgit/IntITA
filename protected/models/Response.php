@@ -57,7 +57,7 @@ class Response extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'who0' => array(self::BELONGS_TO, 'User', 'who'),
+            'user' => array(self::BELONGS_TO, 'StudentReg', 'who'),
         );
     }
 

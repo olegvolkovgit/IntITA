@@ -33,7 +33,7 @@
                     </li>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
                             Випускники</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">Курси</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">Курси</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Модулі</a></li>
                 </ul>
             </div>
