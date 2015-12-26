@@ -5,7 +5,6 @@
 $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );
-var_dump($code);die;
 ?>
 
 <div class='errorblock'>
@@ -14,8 +13,8 @@ var_dump($code);die;
 
     <div class="error">
     <?php echo CHtml::encode($message)?><br>
-    <?php echo 'File : ' . CHtml::encode($trace) ?><br>
-    <?php echo 'File : ' . CHtml::encode($file) ?><br>
-    <?php echo 'Line : ' . CHtml::encode($line) ?><br>
+    <?php //echo 'File : ' . CHtml::encode($trace) ?><br>
+    <?php //echo 'File : ' . CHtml::encode($file) ?><br>
+    <?php //echo 'Line : ' . CHtml::encode($line) ?><br>
     </div>
 </div>
