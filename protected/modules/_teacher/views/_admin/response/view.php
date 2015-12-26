@@ -2,18 +2,23 @@
 /* @var $this ResponseController */
 /* @var $model Response */
 ?>
-<br>
-<br>
-<a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
-    Відгуки про викладачів</a>
-<br>
-<h1>Відгук про викладача #<?php echo $model->id; ?></h1>
-
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
+            Відгуки про викладачів</button>
+    </li>
+</ul>
+<div class="page-header">
+<h4>Відгук про викладача #<?php echo $model->id; ?></h4>
+</div>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
-		'who',
+		array(
+            'label' => 'Хто',
+            'value' => $model->getResponseAuthorName(),
+        ),
 		'about',
 		'date',
 		'text',

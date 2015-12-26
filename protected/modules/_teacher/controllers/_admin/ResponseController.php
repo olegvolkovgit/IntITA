@@ -22,7 +22,6 @@ class ResponseController extends TeacherCabinetController{
      */
     public function actionUpdate($id)
     {
-
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -131,6 +130,8 @@ class ResponseController extends TeacherCabinetController{
             'is_checked' => $_POST['Response']['is_checked']
         ));
 
-        $this->actionView($id);
+        $this->redirect($this->pathToCabinet());
     }
+
+
 }

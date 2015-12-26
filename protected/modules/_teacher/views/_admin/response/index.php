@@ -15,9 +15,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<br>
 
-<h1>Відгуки про викладачів</h1>
+<div class="page-header">
+    <h4>Відгуки про викладачів</h4>
+</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'response-grid',
@@ -33,8 +34,15 @@ $('.search-form form').submit(function(){
             'header' => 'Про кого',
             'value' => '$data->getResponseAboutTeacherName()',
         ),
-        'date',
-        'text',
+        array(
+            'header' => 'Дата відгуку',
+            'value' => '$data->timeDesc()'
+        ),
+        array(
+            'header' => 'Опис',
+            'value' => '$data->shortDescription()',
+//            'htmlOptions' => array('onclick' => 'load("Yii::app()->createUrl("/_teacher/_admin/response/view",array("id"=>$data->id))'),
+        ),
         array(
             'header' => 'Статус',
             'value' => '$data->isPublish()',
@@ -42,7 +50,7 @@ $('.search-form form').submit(function(){
         'rate',
         array(
             'class'=>'CButtonColumn',
-//            'header'=>'Модерація',
+            'header'=>'Модерація',
             'template'=>'{free} {paid} {view} {update} {delete}',
             'buttons'=>array
             (

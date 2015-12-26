@@ -2,19 +2,26 @@
 /* @var $this RolesController */
 /* @var $model Roles */
 ?>
-    <br>
-    <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">
-        Додати атрибут ролі
-    </a>
-    <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addRoleAttribute/role/',
+                        array('id' => $model->id)); ?>')">
+                Додати атрибут ролі</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles');?>')">
+                Список ролей</button>
+        </li>
+    </ul>
+
+
     <div class="page-header">
-    <h2>Атрибути ролі <?php echo $model->title_ua; ?></h2>
+    <h4>Атрибути ролі <?php echo $model->title_ua; ?></h4>
     </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
-    'htmlOptions'=>array('class'=>'grid-view custom'),
     'summaryText' => '',
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
@@ -53,13 +60,13 @@
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRoleAttribute", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),
 
                 'delete' => array
                 (
                     'label'=>'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_admin/roleAttribute/delete", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/roleAttribute/delete", array("id"=>$data->primaryKey))',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                 ),
             ),

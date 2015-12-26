@@ -3,6 +3,6 @@
 /* @var $model RoleAttribute */
 ?>
     <div class="page-header">
-    <h1>Редагувати атрибут ролі <?php echo $model->name_ua; ?></h1>
+    <h4>Редагувати атрибут ролі <?php echo $model->name_ua; ?></h4>
     </div>
 <?php $this->renderPartial('_formRoleAttribute', array('model'=>$model)); ?>

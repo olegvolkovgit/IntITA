@@ -1,18 +1,20 @@
 <?php
 /* @var $model Teacher */
 ?>
-    <br>
-    <br>
     <ul class="list-inline">
-    <li>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teachers/index'); ?>')">Викладачі</a>
-    </li>
-    <li>
-    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teachers/roles'); ?>')">
-        Управління ролями викладачів</a>
-    </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>')">
+                Викладачі</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+                Управління ролями викладачів</button>
+        </li>
     </ul>
+
     <div class="page-header">
-    <h2>Додати роль</h2>
+    <h4>Додати роль</h4>
     </div>
 <?php $this->renderPartial('_formRole', array('model'=>$model, 'scenario' => 'create')); ?>
