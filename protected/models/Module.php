@@ -52,6 +52,7 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             array('status', 'required'),
             array('language, title_ua, level', 'required'),
+            array('alias,module_number','unique'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
@@ -59,6 +60,9 @@ class Module extends CActiveRecord implements IBillableObject
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
             array('language', 'length', 'max' => 6),
+            array('title_ua', 'match',
+                'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
+                'message' => 'Тільки українські символи!','on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),

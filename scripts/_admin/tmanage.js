@@ -54,3 +54,55 @@ function saveSchema(url)
         }
     });
 }
+
+function addCoursePrice(url)
+{
+    var moduleId = document.getElementById('module').value;
+    var price = document.getElementById('price').value;
+    var courseId = $("select[name=course] option:selected").val();
+    if(moduleId && price && courseId){
+    $.ajax({
+        url: url,
+        type : 'post',
+        data : { 'module' : moduleId , 'course' : courseId,'price': price},
+        success: function (data) {
+            fillContainer(data);
+        },
+        error: function () {
+            alert("Вибачте, але на сайті виникла помилка. " +
+            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+        }
+    });
+    }
+    else
+    {
+        showDialog();
+    }
+}
+
+function addMandatory(url)
+{
+    var mandatory = $("select[name=mandatory] option:selected").val();
+    var courseId = $("select[name=course] option:selected").val();
+    var moduleId = $("#module").val();
+    if(mandatory && courseId && moduleId)
+    {
+        $.ajax({
+            url: url,
+            type : 'post',
+            data : { 'module' : moduleId , 'course' : courseId, 'mandatory': mandatory},
+            success: function (data) {
+                fillContainer(data);
+            },
+            error: function () {
+                
+            }
+    });
+    }
+}
+
+
+function showDialog()
+{
+
+}
