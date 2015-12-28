@@ -533,6 +533,12 @@ class StudentReg extends CActiveRecord
         return CPasswordHelper::hashPassword($password);
     }
 
+    public function avatarPath(){
+        if ($this->avatar != '')
+            return StaticFilesHelper::createAvatarsPath($this->avatar);
+        else return StaticFilesHelper::createAvatarsPath('noname.png');
+    }
+
     public function getDataProfile()
     {
         if ($this->id !== Yii::app()->user->getId())

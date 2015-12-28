@@ -31,8 +31,29 @@ class MessagesController extends TeacherCabinetController
     {
         $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
 
+
         $this->renderPartial('_dialogTree', array(
             'message' => $message
         ), false, true);
+    }
+
+    public function actionReply(){
+
+    }
+
+    public function actionReplyAll(){
+
+    }
+
+    public function actionForward(){
+
+    }
+
+    public function actionDelete(){
+
+    }
+
+    public function actionDeleteAll(){
+
     }
 }

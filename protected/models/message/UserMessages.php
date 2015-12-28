@@ -62,7 +62,6 @@ class UserMessages extends Messages implements IMessage
 		return array(
 			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'sender' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
-            'receiver' => array(self::HAS_MANY, 'StudentReg', ''),
 		);
 	}
 

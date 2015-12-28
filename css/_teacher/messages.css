@@ -4,3 +4,6 @@
 #new{
     font-weight: bold;
 }
+#messagesForm{
+    display: none;
+}
