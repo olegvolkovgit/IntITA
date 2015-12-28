@@ -350,14 +350,14 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function getCourseDuration($tableCells)
     {
-
         $count = count($tableCells);
         $arr = [];
         for ($i = 0; $i < $count; $i++) {
             $arr[$i] = count($tableCells[$i]) - 2;
         }
-
+        if($arr)
         return max($arr) + 1;
+        else return 0;
     }
 
     public static function getStatus($id)

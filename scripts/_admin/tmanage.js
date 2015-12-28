@@ -21,7 +21,7 @@ function addExistModule(url)
 {
     var moduleId = $("select[name=module] option:selected").val();
     var courseId = $("select[name=course] option:selected").val();
-
+    if(moduleId && courseId ){
     $.ajax({
         url: url,
         type : 'post',
@@ -34,5 +34,23 @@ function addExistModule(url)
             "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
         }
     });
-    return false;
+    }
+    else
+        alert('Виберіть вірні дані!');
+        return false;
+}
+
+function saveSchema(url)
+{
+    $.ajax({
+        url: url,
+        success: function (data) {
+            alert("Схема курсу збережена!")
+            location.reload();
+        },
+        error: function () {
+            alert("Вибачте, але на сайті виникла помилка. " +
+            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+        }
+    });
 }
