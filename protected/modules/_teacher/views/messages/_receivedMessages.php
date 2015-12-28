@@ -19,16 +19,17 @@
 
         foreach ($receivedMessages as $userMessage) {
             ?>
-            <tr class="odd gradeX" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                'id' => $userMessage->id_message)) ?>')" style="cursor:pointer"
+            <tr class="odd gradeX" style="cursor:pointer"
                 <?php if($userMessage->receivers()) echo 'id="new"';?>>
                 <td class="center">
                     <input type="checkbox" name="<?= $userMessage->id_message; ?>">
                 </td>
-                <td>
+                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                    'id' => $userMessage->id_message)) ?>')">
                     <?= $userMessage->message0->sender0->userName(); ?>
                 </td>
-                <td>
+                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                    'id' => $userMessage->id_message)) ?>')">
                     <?= $userMessage->subject; ?>
                 </td>
                 <td class="center">

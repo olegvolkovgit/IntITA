@@ -15,7 +15,7 @@
                             </span>
                 </div>
             </li>
-            <li>
+            <li id="nav">
                 <a href="#" ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                     array('user' => $model->id)); ?>")'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>

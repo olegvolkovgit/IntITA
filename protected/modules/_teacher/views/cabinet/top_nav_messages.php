@@ -5,7 +5,8 @@ foreach ($newMessages as $record) {
     $message = $record->message();
     ?>
     <li>
-        <a href="#">
+        <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+            'id' => $record->id_message)) ?>')">
             <div>
                 <strong><?= $message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">

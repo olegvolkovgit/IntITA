@@ -19,15 +19,16 @@
         <?php
             foreach($sentMessages as $userMessage){
                 ?>
-                <tr class="odd gradeX" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'id' => $userMessage->id_message)) ?>')" style="cursor:pointer">
+                <tr class="odd gradeX"  style="cursor:pointer">
                     <td class="center">
                         <input type="checkbox" name="<?=$userMessage->id_message;?>">
                     </td>
-                    <td>
+                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                        'id' => $userMessage->id_message)) ?>')">
                        <?=$userMessage->receiversString(); ?>
                     </td>
-                    <td>
+                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+                        'id' => $userMessage->id_message)) ?>')">
                         <?=$userMessage->subject; ?>
                     </td>
                     <td class="center"><?=date("h:m, d F", strtotime($userMessage->message0->create_date)); ?></td>
