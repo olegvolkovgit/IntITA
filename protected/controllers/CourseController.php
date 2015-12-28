@@ -235,7 +235,7 @@ class CourseController extends Controller
             $this->redirect($path);
         }
         else
-            throw new \application\components\Exceptions\IntItaException('The scheme has not been created!!!'); //$this->render('_schemaError');
+            $this->render('_schemaError');
     }
 
 }

@@ -1,7 +1,6 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<link rel="stylesheet" type="text/css" href="/css/courseSchema.css"/>
 
 <div id="courseSchema">
     <br>
@@ -68,10 +67,8 @@
     <?php if (!$save) { ?>
         <br>
         <br>
-        <button id="saveButton" onclick="alert('Схема курса збережена!')"><a
-                href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
-                    array('idCourse' => $idCourse)
-                ); ?>"><?php echo Course::getMessage($message, 'save'); ?></a></button>
+        <button id="saveButton" onclick = "saveSchema('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/saveSchema',
+            array('idCourse' => $idCourse)); ?>')"><?php echo Course::getMessage($message, 'save'); ?></button>
         <br>
         <br>
         <br>

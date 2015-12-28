@@ -5,7 +5,6 @@
 $this->breadcrumbs=array(
     Yii::t('error','0590'),
 );
-var_dump($code);die;
 ?>
 
 <div class='errorblock'>
