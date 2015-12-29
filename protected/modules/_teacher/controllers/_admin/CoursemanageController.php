@@ -61,7 +61,6 @@ class CoursemanageController extends TeacherCabinetController
          $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
-
             $model->oldLogo=$model->course_img;
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);

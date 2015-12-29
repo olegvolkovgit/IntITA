@@ -206,4 +206,16 @@ class UserMessages extends Messages implements IMessage
 
         return $result;
     }
+
+	public function getIdMessage()
+	{
+		return $this->id_message;
+	}
+
+    public function dialog(){
+        $dialog = [];
+        array_push($dialog, $this);
+
+        return $dialog;
+    }
 }

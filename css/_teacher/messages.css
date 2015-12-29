@@ -4,6 +4,9 @@
 #new{
     font-weight: bold;
 }
-#messagesForm{
-    display: none;
+/*#messagesForm{*/
+    /*display: none;*/
+/*}*/
+img#avatar {
+    height: 24px;
 }
