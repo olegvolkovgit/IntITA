@@ -1,3 +1,8 @@
+<?php
+/*
+/*@var courses Course */
+
+?>
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
@@ -23,9 +28,7 @@
                 <select name="course" id="courseList" class="form-control" required>
                     <optgroup label="Курси">
                         <option value="">Виберіть курс</option>
-                    <?php $courses = Course::generateModuleCoursesList($id);
-                        foreach($courses as $course){?>
-
+                    <?php foreach($courses as $course){?>
                             <option value="<?php echo $course->course_ID;?>"><?php echo $course->alias;
                             if ($course->getBasePrice() > 0) {
                                 echo '  - поточна ціна ' . $course->getBasePrice() . '$'; ?></option>

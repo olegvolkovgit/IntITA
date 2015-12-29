@@ -11,8 +11,7 @@ function ShowTeacher(url,id)
             fillContainer(data);
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            showDialog();
         }
     });
 }
@@ -30,8 +29,7 @@ function addExistModule(url)
             fillContainer(data);
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            showDialog();
         }
     });
     }
@@ -49,8 +47,7 @@ function saveSchema(url)
             location.reload();
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            showDialog();
         }
     });
 }
@@ -69,8 +66,7 @@ function addCoursePrice(url)
             fillContainer(data);
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            showDialog();
         }
     });
     }
@@ -82,6 +78,7 @@ function addCoursePrice(url)
 
 function addMandatory(url)
 {
+
     var mandatory = $("select[name=mandatory] option:selected").val();
     var courseId = $("select[name=course] option:selected").val();
     var moduleId = $("#module").val();
@@ -89,20 +86,20 @@ function addMandatory(url)
     {
         $.ajax({
             url: url,
-            type : 'post',
-            data : { 'module' : moduleId , 'course' : courseId, 'mandatory': mandatory},
+            type: 'post',
+            data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
             success: function (data) {
                 fillContainer(data);
             },
             error: function () {
-                
+               showDialog();
             }
-    });
+        });
     }
 }
 
 
 function showDialog()
 {
-
+    $('#myModal').modal('show');
 }

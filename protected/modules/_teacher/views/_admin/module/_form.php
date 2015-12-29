@@ -18,7 +18,9 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
+        'enableClientValidation'=>true,
+        'enableAjaxValidation' => true,
+        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
     )); ?>
 
     <div class="form-group" style="visibility: hidden; height:0px">

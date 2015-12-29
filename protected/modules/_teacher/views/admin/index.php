@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/translate/index'); ?>')">
+                    <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>')">
                             Інтерфейсні повідомлення</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">Слайдер на головній
                             сторінці</a></li>
@@ -103,7 +103,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index'); ?>">
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>')">
                             Налаштування
                         </a>
                     </li>

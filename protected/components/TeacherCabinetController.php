@@ -81,4 +81,19 @@ class TeacherCabinetController extends CController
             return $user->hasCabinetAccess();
         }
     }
+
+    public function beforeAction($action) {
+        if( parent::beforeAction($action) ) {
+            /* @var $cs CClientScript */
+            $cs = Yii::app()->clientScript;
+            /* @var $theme CTheme */
+            $theme = Yii::app()->theme;
+            $cs->registerScriptFile(StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js'));
+
+            $cs->registerScriptFile(StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js'));
+
+            return true;
+        }
+        return false;
+    }
 }

@@ -62,6 +62,31 @@
 </div>
 
 </body>
+<div class="col-lg-6">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    Вибачте, але на сайті виникла помилка.<br>
+                    Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <!-- jQuery -->

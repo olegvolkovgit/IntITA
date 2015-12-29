@@ -16,7 +16,7 @@ $('.search-form form').submit(function(){
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 
-<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/translate/create');?>')">
+<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create');?>')">
     Додати повідомлення
 </button>
 <br>
@@ -25,7 +25,7 @@ $('.search-form form').submit(function(){
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'messages-grid',
     'dataProvider'=>$model->search(),
-    'filter'=>$model,
+    'summaryText'=>'',
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
         'lastPageLabel'=>'&#187;&#187;',
@@ -34,7 +34,6 @@ $('.search-form form').submit(function(){
         'header'=>'',
         'cssFile'=> StaticFilesHelper::fullPathTo('css', 'pager.css'),
     ),
-    'summaryText'=>'',
     'columns'=>array(
         'id',
         'language',
