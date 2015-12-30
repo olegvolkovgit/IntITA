@@ -48,7 +48,7 @@
 
 
     <div class="form-group">
-        <?php echo CHtml::submitButton('Зберегти'); ?>
+        <?php echo CHtml::submitButton('Зберегти',array('class' => 'btn btn-submit')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

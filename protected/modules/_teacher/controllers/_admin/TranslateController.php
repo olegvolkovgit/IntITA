@@ -9,8 +9,6 @@ class TranslateController extends TeacherCabinetController{
         if(isset($_GET['Translate']))
             $model->attributes=$_GET['Translate'];
 
-//        var_dump($model->attributes);die;
-
         $this->renderPartial('index',array(
             'model'=>$model,
         ),false,true);
@@ -20,7 +18,7 @@ class TranslateController extends TeacherCabinetController{
     public function actionCreate()
     {
         $model = new Translate();
-        $this->performAjaxValidation($model);
+
         $idMessage = Yii::app()->request->getPost('id', '');
         $category = Yii::app()->request->getPost('category', '');
         $translateUa = Yii::app()->request->getPost('translateUa', '');

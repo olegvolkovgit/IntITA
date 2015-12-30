@@ -69,9 +69,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Сталася халепа</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalText">
                     Вибачте, але на сайті виникла помилка.<br>
                     Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.
                 </div>

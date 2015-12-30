@@ -98,8 +98,46 @@ function addMandatory(url)
     }
 }
 
-
-function showDialog()
+function addTranslate(url)
 {
+    var form = document.forms["translate"];
+
+    var id = form['id'].value;
+    var category = form['category'].value;
+    var comment = form['comment'].value;
+    var translateUa = form['translateUa'].value;
+    var translateRu = form['translateRu'].value;
+    var translateEn = form['translateEn'].value;
+
+    var reg = '^[a-zA-Z]+$';
+
+    if(category.match(reg))
+    {
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: {'id': id, 'category': category, 'comment': comment, 'translateUa' : translateUa,
+                   'translateRu' : translateRu, 'translateEn' : translateEn},
+            success: function (data) {
+                fillContainer(data);
+            },
+            error: function (data) {
+                    showDialog(data.responseText);
+            }
+        });
+    }
+    else
+    {
+        showDialog('Категорія має бути вказана латинськими літерами');
+    }
+
+}
+
+function showDialog(str)
+{
+    if(str){
+    $('#modalText').html(str);
+    }
+
     $('#myModal').modal('show');
 }
