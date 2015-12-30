@@ -4,11 +4,12 @@ class TranslateController extends TeacherCabinetController{
 
     public function actionIndex()
     {
-
         $model=new Translate('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ShareLink']))
-            $model->attributes=$_GET['ShareLink'];
+        if(isset($_GET['Translate']))
+            $model->attributes=$_GET['Translate'];
+
+//        var_dump($model->attributes);die;
 
         $this->renderPartial('index',array(
             'model'=>$model,
@@ -55,7 +56,7 @@ class TranslateController extends TeacherCabinetController{
 
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'messages-grid') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'translate-grid') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

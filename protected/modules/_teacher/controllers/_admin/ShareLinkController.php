@@ -85,6 +85,7 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionIndex(){
 
+
         $model=new ShareLink('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['ShareLink']))

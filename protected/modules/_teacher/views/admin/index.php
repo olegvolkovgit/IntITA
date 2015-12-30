@@ -81,8 +81,8 @@
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/admin/freeLectures'); ?>',
                             'Безкоштовні лекції')">
                             Безкоштовні лекції</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index'); ?>">Права
-                            доступа</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
+                            Права доступа</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/index'); ?>">Сплатити курс/модуль</a>
                     </li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/cancelCourseModule'); ?>">Скасувати
