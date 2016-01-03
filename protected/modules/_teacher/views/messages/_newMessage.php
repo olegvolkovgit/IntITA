@@ -13,6 +13,7 @@
         <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>">
 
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
+            <input class="form-control" name="scenario" id="hidden" value="new">
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>

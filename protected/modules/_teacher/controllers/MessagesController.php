@@ -27,19 +27,32 @@ class MessagesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionDialog($id)
+    public function actionDialog($id, $user)
     {
         $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
-        $dialog = $message->dialog();
+
+        $receiver = StudentReg::model()->findByPk($user);
+        $dialog = $message->dialog($receiver);
+
+        if (!$message->isRead($receiver)) {
+            $message->read($receiver);
+        }
 
         $this->renderPartial('_dialogTree', array(
-            'dialog' => $dialog
+            'dialog' => $dialog,
+            'user' => $user
         ), false, true);
     }
 
     public function actionForm(){
+        $jsonObj = json_decode($_POST['form']);
 
-        $this->renderPartial('_form');
+        $this->renderPartial('_form', array(
+            'user' => $jsonObj->user,
+            'scenario' => $jsonObj->scenario,
+            'receiver' => $jsonObj->receiver,
+            'message' => $jsonObj->message
+        ));
     }
 
     public function actionReply(){
@@ -55,7 +68,11 @@ class MessagesController extends TeacherCabinetController
     }
 
     public function actionDelete(){
+        $jsonObj = json_decode($_POST['data']);
 
+        $message = UserMessages::model()->findByPk($jsonObj->message);
+        $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
+        return $message->deleteMessage($receiver);
     }
 
     public function actionDeleteAll(){

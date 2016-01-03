@@ -1,6 +1,7 @@
 <?php
 /* @var $message Messages */
 /* @var $record UserMessages */
+/* @var $model StudentReg */
 ?>
 <div class="navbar-header">
     <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand">
@@ -25,7 +26,7 @@
             <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
-            <?php $this->renderPartial('top_nav_messages',  array('newMessages' => $newMessages));?>
+            <?php $this->renderPartial('top_nav_messages',  array('newMessages' => $newMessages, 'model' => $model));?>
         </ul>
     </li>
 

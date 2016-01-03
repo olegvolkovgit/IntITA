@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $message int
+ * @var $dialog array
+ * @var $user int
+ */
+?>
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Видалити повідомлення"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -11,11 +18,37 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
-                <button type="button" class="btn btn-primary"
-                        onclick="<?= Yii::app()->createUrl('/_teacher/messages/delete'); ?>">
+                <button type="button" class="btn btn-primary" onclick="deleteMessage(
+                    '<?=Yii::app()->createUrl("/_teacher/messages/delete");?>',
+                    '<?=$message;?>',
+                    '<?=$user;?>')">
                     Так
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function deleteMessage(url, message, receiver) {
+        var command = {
+            "message": message,
+            "receiver": receiver
+        };
+
+        $.post(url, {data: JSON.stringify(command)}, function () {
+            })
+            .done(function () {
+                $("#deleteModal").modal("hide");
+                load('/IntITA/_teacher/messages/index');
+            })
+            .fail(function () {
+                alert("На сайті виникла помилка.\n" +
+                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+            })
+            .always(function () {
+                },
+                "json"
+            );
+    }
+</script>

@@ -1,7 +1,8 @@
 <?php
 /**
- * @var $receivedMessages Array
+ * @var $receivedMessages array
  * @var $userMessage UserMessages
+ * @var $user StudentReg
  */
 ?>
 <div class="dataTable_wrapper">
@@ -16,20 +17,18 @@
         </thead>
         <tbody>
         <?php
-
         foreach ($receivedMessages as $userMessage) {
             ?>
-            <tr class="odd gradeX" style="cursor:pointer"
-                <?php if($userMessage->receivers()) echo 'id="new"';?>>
+            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$userMessage->isRead($user)) {echo 'id="new"';}?>>
                 <td class="center">
                     <input type="checkbox" name="<?= $userMessage->id_message; ?>">
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'id' => $userMessage->id_message)) ?>')">
+                    'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
                     <?= $userMessage->message0->sender0->userName(); ?>
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'id' => $userMessage->id_message)) ?>')">
+                    'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
                     <?= $userMessage->subject; ?>
                 </td>
                 <td class="center">

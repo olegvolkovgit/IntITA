@@ -2,21 +2,24 @@
 /**
  * @var $message UserMessages
  * @var $dialog array
+ * @var $user StudentReg
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
+$last = $dialog[count($dialog) - 1]->id_message;
 ?>
-<h4 xmlns="http://www.w3.org/1999/html"><? //= $message->subject; ?></h4>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 
 <div class="col-lg-12">
+    <h3><?= $dialog[0]->subject; ?></h3>
+
     <div class="panel-group" id="accordion">
-        <?php foreach ($dialog as $message) { ?>
+        <?php foreach ($dialog as $message) {?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="messageBlock">
+                    <a data-toggle="collapse" href="#collapse<?=$message->id_message?>" id="messageBlock">
                         <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar" style="height:24px"/>
-                        <strong><?= $message->message0->sender0->userName(); ?></strong> -
-                        <em><?= $message->subject; ?></em>
+                        <strong><?= $message->message0->sender0->userName(); ?></strong>
+                        <em><?= substr($message->text, 0, 50)."..."; ?></em>
                     </a>
                     <div class="pull-right">
                         <em><?= date("h:m, d F", strtotime($message->message0->create_date)); ?></em>
@@ -26,13 +29,19 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
-                                <li><a href="#" onclick="loadForm('<?=$url;?>', '<?= $message->id_message; ?>','reply')">
+                                <li><a href="#"
+                                       onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
+                                           'reply', '<?=$message->id_message?>')">
                                         Відповісти</a>
                                 </li>
-                                <li><a href="#" onclick="loadForm('<?=$url;?>', '<?= $message->id_message; ?>','replyAll')">
+                                <li><a href="#"
+                                       onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
+                                           'replyAll', '<?=$message->id_message?>')">
                                         Відповісти всім</a>
                                 </li>
-                                <li><a href="#" onclick="loadForm('<?=$url;?>', '<?= $message->id_message; ?>','forward')">
+                                <li><a href="#"
+                                       onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
+                                           'forward', '<?=$message->id_message?>')">
                                         Переслати</a>
                                 </li>
                                 <li><a href="#" data-toggle="modal" data-target="#deleteModal">Видалити це
@@ -45,7 +54,8 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         </div>
                     </div>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
+                <div id="collapse<?=$message->id_message?>" class="panel-collapse collapse <?php
+                if($message->id_message == $last) echo ' in';?>">
                     <div class="panel-body">
                         <p>
                             <?= $message->text; ?>
@@ -58,25 +68,28 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal'); ?>
+<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $user)); ?>
 <?php $this->renderPartial('_deleteModalDialog'); ?>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>
 <script>
-    function loadForm(url, message, scenario) {
+    function loadForm(url, receiver, scenario, message) {
+        idBlock = "#collapse" + message;
+        $(idBlock).collapse('show');
 
         id = "#form" + message;
-
         var command = {
             "user": user,
             "message": message,
+            "receiver": receiver,
             "scenario": scenario
         };
 
-        $.post(url, JSON.stringify(command), function () {
+        $.post(url, {form: JSON.stringify(command)}, function () {
             })
             .done(function (data) {
+                $(id).empty();
                 $(id).append(data);
             })
             .fail(function () {

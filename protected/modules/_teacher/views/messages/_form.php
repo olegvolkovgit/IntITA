@@ -1,35 +1,38 @@
 <?php
-/* @var $user integer */
+/** @var $user integer
+ * @var $scenario string
+ * @var $message int
+ * @var $receiver int
+ */
 ?>
-<div id="messageForm">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/sendUserMessage'); ?>"
+<div id="messageForm<?=$message;?>">
+    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/'.$scenario); ?>"
           id="message">
-        <input class="form-control" name="id" id="hidden" value="2">
-
-        <!--        <div class="form-group">-->
-        <!--            <label>Тема</label>-->
-        <!--            <input class="form-control" name="subject" placeholder="Тема листа" required>-->
-        <!--        </div>-->
+        <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
+        <input class="form-control" name="scenario" id="hidden" value="<?=$scenario;?>">
+        <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
+        <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
+        <input class="form-control" name="subject" value="" id="hidden">
 
         <div class="form-group">
-            <!--            <label>Лист</label>-->
-            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+            <textarea class="form-control" rows="6" name="text" placeholder="<?=$scenario;?>" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">
             Написати
         </button>
+    </form>
 
-        <button type="reset" class="btn btn-default"
-                onclick="reset()">
+        <button type="button" class="btn btn-default" onclick="reset(<?=$message;?>);" style="margin-top: -56px; margin-left: 100px">
             Скасувати
         </button>
-    </form>
+
 </div>
 
 <script>
-    function reset() {
-        $('#messageForm').remove('#message');
+    function reset(message) {
+        id = "#messageForm" + message;
+        $(id).remove();
     }
 </script>
 

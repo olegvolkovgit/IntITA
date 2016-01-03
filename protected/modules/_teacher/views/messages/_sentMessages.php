@@ -1,14 +1,15 @@
 <?php
 /**
- * @var $sentMessages Array
+ * @var $sentMessages array
  * @var $userMessage UserMessages
+ * @var $user StudentReg
  */
 ?>
 <div class="dataTable_wrapper">
     <table class="table table-striped table-bordered table-hover" id="sentMessages">
         <thead>
         <tr>
-            <td style="width: 3%"><input type="checkbox" name="all"></td>
+            <td style="width: 3%"><input type="checkbox" name="all" onclick="checkAll();"></td>
             <td style="width: 20%"><em>Кому</em></td>
             <td><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>
@@ -21,14 +22,14 @@
                 ?>
                 <tr class="odd gradeX"  style="cursor:pointer">
                     <td class="center">
-                        <input type="checkbox" name="<?=$userMessage->id_message;?>">
+                        <input type="checkbox" id="<?=$userMessage->id_message;?>">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message)) ?>')">
+                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
                        <?=$userMessage->receiversString(); ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message)) ?>')">
+                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
                         <?=$userMessage->subject; ?>
                     </td>
                     <td class="center"><?=date("h:m, d F", strtotime($userMessage->message0->create_date)); ?></td>
@@ -40,3 +41,9 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function checkAll(){
+
+    }
+</script>

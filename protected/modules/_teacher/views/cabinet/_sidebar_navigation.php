@@ -8,16 +8,17 @@
             <li class="sidebar-search">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" placeholder="Пошук...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
                 </div>
             </li>
             <li id="nav">
-                <a href="#" ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-                    array('user' => $model->id)); ?>")'>
+                <a href="#"
+                   ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
+                       array('user' => $model->id)); ?>", "dashboard"),'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
 
@@ -26,32 +27,31 @@
                 ?>
                 <li>
 
-                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
-                        array('user' => $model->id)); ?>')">
+                    <a href="
+                    #" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
+                        array('user' => $model->id)); ?>', 'admin')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>
                 </li>
-            <?php
+                <?php
             }
 
             if ($model->isAccountant()) {
                 ?>
                 <li>
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
-                        array('user' => $model->id)); ?>')">
+                        array('user' => $model->id)); ?>', 'accountant')">
                         <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
                 </li>
-            <?php
+                <?php
             }
 
             if ($model->isTeacher()) {
-               $this->renderPartial('_teacherRoles', array('teacher' => $model->getTeacherModel()));
+                $this->renderPartial('_teacherRoles', array('teacher' => $model->getTeacherModel()));
             }
             ?>
         </ul>
     </div>
-    <!-- /.sidebar-collapse -->
 </div>
-<!-- /.navbar-static-side -->
 
 
 

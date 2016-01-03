@@ -11,7 +11,7 @@
 </script>
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
     'id' => $model->id
-));?>')">
+)); ?>')">
     Написати
 </button>
 <br>
@@ -32,10 +32,16 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="received">
-                    <?php $this->renderPartial('_receivedMessages', array('receivedMessages' => $receivedMessages));?>
+                    <?php $this->renderPartial('_receivedMessages', array(
+                        'receivedMessages' => $receivedMessages,
+                        'user' => $model
+                    )); ?>
                 </div>
                 <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentMessages', array('sentMessages' => $sentMessages));?>
+                    <?php $this->renderPartial('_sentMessages', array(
+                        'sentMessages' => $sentMessages,
+                        'user' => $model
+                    )); ?>
                 </div>
             </div>
         </div>

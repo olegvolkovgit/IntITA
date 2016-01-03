@@ -1,12 +1,14 @@
 <?php
-/* @var $record UserMessages */
-
+/** @var $record UserMessages
+    @var $model StudentReg
+ */
 foreach ($newMessages as $record) {
     $message = $record->message();
+    if(!$record->isRead($model))
     ?>
     <li>
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-            'id' => $record->id_message)) ?>')">
+            'id' => $record->id_message, 'user' => $model->id)) ?>')">
             <div>
                 <strong><?= $message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">

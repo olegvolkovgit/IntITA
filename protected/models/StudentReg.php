@@ -980,7 +980,9 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition('r.id_receiver =' . $this->id);
+        $criteria->addCondition('r.id_receiver =:id');
+        $criteria->addCondition('r.deleted IS NULL');
+        $criteria->params = array(':id' => $this->id);
 
         return UserMessages::model()->findAll($criteria);
     }
@@ -990,7 +992,7 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
         $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition ('r.read IS NULL and r.id_receiver ='.$this->id);
+        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id);
 
         return UserMessages::model()->findAll($criteria);
     }

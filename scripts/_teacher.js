@@ -33,7 +33,7 @@ function loadPage(url,role) {
     });
 }
 
-function load(url){
+function load(url, hashTag){
     clearDashboard();
     $.ajax({
         url: url,
