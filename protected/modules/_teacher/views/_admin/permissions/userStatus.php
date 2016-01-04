@@ -1,10 +1,32 @@
-<?php
-?>
-    <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
-    <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index'); ?>">Права доступу</a>
 
-    <h2>Статус користувача</h2>
+    <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
+
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
+                Права доступу</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddAccessForm'); ?>')">
+                Додати запис</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddTeacherAccess'); ?>')">
+                Призначити автора модуля</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
+                Скасувати автора модуля</button>
+        </li>
+    </ul>
+    <div class="page-header">
+        <h4>Статус користувача</h4>
+    </div>
+
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'userStatusGrid',
@@ -39,7 +61,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'free' => array
                 (
                     'label' => 'Підтвердити',
-                    'url' => 'Yii::app()->createUrl("/_admin/permissions/setUserVerification", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/permissions/setUserVerification", array("id"=>$data->id))',
                     'click' => "function(){
                         $.fn.yiiGridView.update('userStatusGrid', {
                             type:'POST',
@@ -55,7 +77,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'paid' => array
                 (
                     'label' => 'Скасувати',
-                    'url' => 'Yii::app()->createUrl("/_admin/permissions/unsetUserVerification", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/permissions/unsetUserVerification", array("id"=>$data->id))',
                     'click' => "function(){
                         $.fn.yiiGridView.update('userStatusGrid', {
                             type:'POST',

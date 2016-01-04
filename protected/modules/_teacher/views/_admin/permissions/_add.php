@@ -1,40 +1,58 @@
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
+            Права доступу</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddTeacherAccess'); ?>')">
+            Призначити автора модуля</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
+            Скасувати автора модуля</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
+            Змінити статус користувача</button>
+    </li>
+</ul>
+
 <div id="addAccess">
     <br>
-    <a name="form"></a>
 
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/newPermission'); ?>" method="POST"
-          name="add-access">
+    <form name="add-access" action=""
+        onsubmit="newPermissions('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/newPermission'); ?>');return false;">
         <fieldset>
             <div class="col-md-4">
                 <legend id="label">Додати новий запис:</legend>
                 Користувач:<br>
-
                 <div class="form-group">
-                    <select name="user" class="form-control" placeholder="(Виберіть користувача)" autofocus>
-                        <?php $users = StudentReg::generateUsersList();
-                        $count = count($users);
-                        for ($i = 0; $i < $count; $i++) {
-                            ?>
-                            <option value="<?php echo $users[$i]['id'];?>"><?php echo $users[$i]['alias'];?></option>
+                    <select name="user" class="form-control" placeholder="(Виберіть користувача)" autofocus required="true">
+                        <?php foreach($users as $user)
+                        {?>
+                            <option value="<?php echo $user['id'];?>"><?php echo $user['alias'];?></option>
                         <?php
                         }
                         ?>
                     </select>
                 </div>
                 <br>
-                <br>
-                Курс:<br>
 
+                Курс:<br>
                 <div class="form-group">
-                    <select name="course" class="form-control" placeholder="(Виберіть курс)" onchange="selectModule();">
+                    <select name="course" class="form-control" placeholder="(Виберіть курс)" required="true"
+                            onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules');?>');">
                         <option value="">Всі курси</option>
                         <optgroup label="Виберіть курс">
-                            <?php $courses = Course::generateCoursesList();
-                            $count = count($courses);
-                            for ($i = 0; $i < $count; $i++) {
+                            <?php
+                            foreach($courses as $course)
+                            {
                                 ?>
-                                <option
-                                    value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+                                <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
                             <?php
                             }
                             ?>
@@ -45,7 +63,7 @@
 
                 Модуль:<br>
 
-                <div name="selectModule" style="float:left;"></div>
+                <div name="selectModule"></div>
                 <br>
                 <br>
 
@@ -53,25 +71,24 @@
                     <legend>Права</legend>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="read" value="1"/>READ<br/>
+                            <input type="checkbox" name="permission[]" value="1"/>READ<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="edit" value="2"/>EDIT<br/>
+                            <input type="checkbox" name="permission[]" value="2"/>EDIT<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="create" value="3"/>CREATE<br/>
+                            <input type="checkbox" name="permission[]" value="3"/>CREATE<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="delete" value="4"/>DELETE<br/>
+                            <input type="checkbox" name="permission[]" value="4"/>DELETE<br/>
                         </label>
                     </div>
-
 
                 </fieldset>
                 <input type="submit" class="btn btn-default" value="Додати">
@@ -79,3 +96,5 @@
             </div>
     </form>
 </div>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

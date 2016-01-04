@@ -34,7 +34,7 @@ function addExistModule(url)
     });
     }
     else
-        alert('Виберіть вірні дані!');
+        showDialog('Виберіть вірні дані!');
         return false;
 }
 
@@ -116,8 +116,12 @@ function addTranslate(url)
         $.ajax({
             url: url,
             type: 'post',
-            data: {'id': id, 'category': category, 'comment': comment, 'translateUa' : translateUa,
-                   'translateRu' : translateRu, 'translateEn' : translateEn},
+            data: {'id': id,
+                'category': category,
+                'comment': comment,
+                'translateUa' : translateUa,
+                'translateRu' : translateRu,
+                'translateEn' : translateEn},
             success: function (data) {
                 fillContainer(data);
             },
@@ -130,7 +134,6 @@ function addTranslate(url)
     {
         showDialog('Категорія має бути вказана латинськими літерами');
     }
-
 }
 
 function showDialog(str)

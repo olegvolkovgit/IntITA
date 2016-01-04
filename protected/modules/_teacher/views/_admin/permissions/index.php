@@ -12,40 +12,40 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'access.js'); ?>"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
 
-<br>
-
-<h2>Права доступу</h2>
-<div class="permissionButton">
-    <a href="#form">
-        <div id="enter_button_2" onclick="addAccess()">Додати запис</div>
-    </a>
-
-    <a href="#formTeacher">
-        <div id="addTeacherPermissions" onclick="addTeacherAccess()">Призначити автора модуля</div>
-    </a>
-
-    <a href="#cancelFormTeacher">
-        <div id="cancelAuthorModule" onclick="cancelTeacherAccess()">Скасувати автора модуля</div>
-    </a>
-
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/userStatus'); ?>">
-        <div id="changeUserStatus">Змінити статус користувача</div>
-    </a>
-
-    <a href="<?php echo Yii::app()->createUrl('/_admin/permissions/freeLessons'); ?>">
-        <div id="manageFreeLessons">Безкоштовні заняття</div>
-    </a>
+<div class="page-header">
+    <h4>Права доступу</h4>
 </div>
 
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddAccessForm'); ?>')">
+            Додати запис</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddTeacherAccess'); ?>')">
+            Призначити автора модуля</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
+            Скасувати автора модуля</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
+            Змінити статус користувача</button>
+    </li>
+</ul>
+
 <?php
-$dataProvider = $model->search();
 
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'access_grid',
-    'dataProvider' => $dataProvider,
+    'dataProvider' => $model->search(),
     'summaryText' => '',
     'pager' => array(
         'firstPageLabel' => '&#171;&#171;',
@@ -124,9 +124,3 @@ $this->widget('zii.widgets.grid.CGridView', array(
     ),
 ));
 ?>
-
-<?php $this->renderPartial('_add', array('model' => $model)); ?>
-<?php $this->renderPartial('_addTeacherAccess', array('model' => $model)); ?>
-<?php $this->renderPartial('_cancelTeacherAccess', array('model' => $model)); ?>
-
-

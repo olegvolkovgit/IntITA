@@ -1,6 +1,6 @@
 <?php
 
-class PermissionsController extends AdminController
+class PermissionsController extends TeacherCabinetController
 {
     public $menu = array();
 
@@ -48,19 +48,6 @@ class PermissionsController extends AdminController
         ),false,true);
     }
 
-    public function actionFreeLessons()
-    {
-        $model = new Lecture('search');
-        $model->unsetAttributes();  // clear any default values
-
-        if (isset($_GET['Lecture']))
-            $model->attributes = $_GET['Lecture'];
-
-        $this->renderPartial('_freeLectures', array(
-            'model' => $model,
-        ),false,true);
-    }
-
     public function actionUserStatus()
     {
         $model = new StudentReg('search');
@@ -98,32 +85,26 @@ class PermissionsController extends AdminController
 
     public function actionNewPermission()
     {
-        $rights = [];
-        if (isset($_POST['read'])) {
-            array_push($rights, 'read');
-        }
-        if (isset($_POST['edit'])) {
-            array_push($rights, 'edit');
-        }
-        if (isset($_POST['create'])) {
-            array_push($rights, 'create');
-        }
-        if (isset($_POST['delete'])) {
-            array_push($rights, 'delete');
-        }
 
-        if (!empty($_POST['module'])) {
-            if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
-                PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
-            } else {
+        $rights = Yii::app()->request->getPost('rights');
+        $module = Yii::app()->request->getPost('module');
+        $user = Yii::app()->request->getPost('user');
+
+        if (!empty($module)) {
+            if (PayModules::model()->exists('id_user=:user and id_module=:resource',
+                        array(':user' => $user, ':resource' => $module))) {
+                PayModules::model()->updateByPk(array('id_user' => $user,
+                    'id_module' => $module), array('rights' => PayModules::setFlags($rights)));
+            }
+            else {
                 Yii::app()->db->createCommand()->insert('pay_modules', array(
-                    'id_user' => $_POST['user'],
-                    'id_module' => $_POST['module'],
+                    'id_user' => $user,
+                    'id_module' => $module,
                     'rights' => PayModules::setFlags($rights),
                 ));
             }
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->actionIndex();
     }
 
     public function actionDelete($id, $resource)
@@ -225,7 +206,7 @@ class PermissionsController extends AdminController
                 $module,
                 array('read', 'edit'));
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->actionIndex();
     }
 
     public function actionAddTeacher()
@@ -341,9 +322,10 @@ class PermissionsController extends AdminController
     public function actionCancelTeacherPermission()
     {
         $teacher = Yii::app()->request->getPost('teacher');
+        $module = Yii::app()->request->getPost('module');
+
         $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
 
-        $module = Yii::app()->request->getPost('module1');
         TeacherModule::cancelTeacherAccess($teacher, $module);
 
         $permission = new PayModules();
@@ -352,7 +334,7 @@ class PermissionsController extends AdminController
             $module,
             array('read', 'edit'));
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->actionIndex();
     }
 
     public function actionCancelTeacherRole()
@@ -382,4 +364,36 @@ class PermissionsController extends AdminController
             }
         }
     }
+
+    public function actionShowAddAccessForm()
+    {
+        $users = StudentReg::generateUsersList();
+        $courses = Course::generateCoursesList();
+
+        $this->renderPartial('_add',array(
+            'users' => $users,
+            'courses' => $courses
+        ),false,true);
+    }
+
+    public function actionShowAddTeacherAccess()
+    {
+        $users = Teacher::generateTeachersList();
+        $courses = Course::generateCoursesList();
+
+        $this->renderPartial('_addTeacherAccess',array(
+            'users' => $users,
+            'courses' => $courses
+        ),false,true);
+    }
+
+    public function actionShowCancelTeacherAccess()
+    {
+        $users = Teacher::generateTeachersList();
+
+        $this->renderPartial('_cancelTeacherAccess',array(
+            'users' => $users
+        ),false,true);
+    }
+
 }
