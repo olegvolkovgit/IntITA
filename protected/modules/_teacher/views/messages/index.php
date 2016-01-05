@@ -2,13 +2,18 @@
 /**
  * @var $model StudentReg
  * @var $message UserMessages
- * @var $receivedMessages Array
+ * @var $receivedMessages array
  * @var $sentMessages CActiveDataProvider
+ * @var $alerts array
  */
 ?>
 <script>
     user = '<?=$model->id?>';
 </script>
+
+<?php //if(!empty($alerts))
+    $this->renderPartial('_alerts', array('alerts' => $alerts));?>
+
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
     'id' => $model->id
 )); ?>')">

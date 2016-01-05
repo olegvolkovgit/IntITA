@@ -16,19 +16,16 @@
                 </div>
             </li>
             <li id="nav">
-                <a href="#"
+                <a href="#dashboard"
                    ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                        array('user' => $model->id)); ?>", "dashboard"),'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
-
             <?php
             if ($model->isAdmin()) {
                 ?>
-                <li>
-
-                    <a href="
-                    #" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
+                <li id="nav">
+                    <a href="#admin" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
                         array('user' => $model->id)); ?>', 'admin')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>
                 </li>

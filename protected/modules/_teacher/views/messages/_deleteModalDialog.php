@@ -11,11 +11,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
-                <button type="button" class="btn btn-primary"
-                        onclick="<?= Yii::app()->createUrl('/_teacher/messages/delete'); ?>">
+                <button type="button" class="btn btn-primary" onclick="deleteDialog(
+                    '<?=Yii::app()->createUrl("/_teacher/messages/deleteAll");?>',
+                    '<?=$message;?>',
+                    '<?=$user;?>')">
                     Так
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    function deleteDialog(url, message, receiver) {
+        var command = {
+            "message": message,
+            "receiver": receiver
+        };
+
+        $.post(url, {data: JSON.stringify(command)}, function () {
+            })
+            .done(function (data) {
+                $("#deleteDialog").modal("hide");
+                location.reload();
+            })
+            .fail(function () {
+                alert("На сайті виникла помилка.\n" +
+                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+            })
+            .always(function () {
+                },
+                "json"
+            );
+    }
+</script>

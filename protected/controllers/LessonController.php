@@ -26,6 +26,7 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (Yii::app()->user->isGuest) {
+
             throw new CHttpException(403, Yii::t('errors', '0138'));
         }
         if (StudentReg::isAdmin() || $editMode) {

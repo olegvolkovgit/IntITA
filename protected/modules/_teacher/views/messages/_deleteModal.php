@@ -40,7 +40,7 @@
             })
             .done(function () {
                 $("#deleteModal").modal("hide");
-                load('/IntITA/_teacher/messages/index');
+                location.reload();
             })
             .fail(function () {
                 alert("На сайті виникла помилка.\n" +

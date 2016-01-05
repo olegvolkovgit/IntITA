@@ -167,6 +167,16 @@ class UserMessages extends Messages implements IMessage
         }
     }
 
+    public function deleteDialog(StudentReg $receiver)
+    {
+        $dialog = $this->dialog($receiver);
+        foreach($dialog as $message){
+            if($message->deleteMessage($receiver) == false)
+                return false;
+        }
+        return true;
+    }
+
     public function reply(StudentReg $receiver)
     {
         if (Yii::app()->db->createCommand()->insert('messages_reply', array(
@@ -247,6 +257,10 @@ class UserMessages extends Messages implements IMessage
         array_push($dialog, $this);
         $current = $this;
         for (; $current != null;){
+            if (!$current->isRead($receiver)) {
+                $current->read($receiver);
+            }
+
             if ($current = $current->replyMessage())
             {
                 if(!$current->isDeleted($receiver)){

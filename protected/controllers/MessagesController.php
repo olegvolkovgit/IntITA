@@ -49,9 +49,7 @@ class MessagesController extends Controller {
         $receiverId = Yii::app()->request->getPost('receiver', 0);
 
         $user = StudentReg::model()->findByPk($id);
-
         $message = new UserMessages();
-
 
         $receiver = StudentReg::model()->findByPk($receiverId);
         $message->build($subject, $text, $receiver, $user);
