@@ -105,42 +105,6 @@ class SiteController extends Controller
         else $this->redirect(Yii::app()->homeUrl);
     }
 
-    /* Express registration, check-sending on email adresses token to activate your account */
-    public function actionRapidReg()
-    {
-        if (isset($_POST['isExtended']))
-            $model = new StudentReg('fromraptoext');
-        else $model = new StudentReg('repidreg');
-// if it is ajax validation request
-        $this->performAjaxValidation($model,'studentreg-form');
-        if (isset($_POST['isExtended'])) {
-            $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $_POST['StudentReg']['email'])));
-        }
-// collect user input data
-
-        if (isset($_POST['StudentReg'])) {
-            $model->attributes = $_POST['StudentReg'];
-            $getToken = rand(0, 99999);
-            $getTime = date("Y-m-d H:i:s");
-            $model->token = sha1($getToken . $getTime);
-            if ($model->validate()) {
-
-                $model->save();
-
-                $model->updateByPk($model->id, array('avatar' => 'noname.png'));
-
-                if(!Mail::sendRapidReg($model))
-                    throw new MailException('The letter was not sent');
-
-                $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
-            } else {
-                Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
-                $this->redirect(Yii::app()->request->baseUrl . '/site#form');
-            }
-        }
-
-    }
-
     /* Activation account*/
     public function actionAccActivation($token, $email, $lang)
     {
@@ -593,7 +557,6 @@ class SiteController extends Controller
         $signMode = Yii::app()->request->getPost('signMode');
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
-        $url = Yii::app()->request->getPost('url');
 
         $model = new StudentReg();
         if ($signMode=='signUp')
@@ -644,9 +607,6 @@ class SiteController extends Controller
                                 }
                             }
                         };
-                        if($url){
-                            $this->redirect($url);
-                        }
 //                                                Forum login
                         if (isset($_SERVER["HTTP_REFERER"])) {
                             if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);

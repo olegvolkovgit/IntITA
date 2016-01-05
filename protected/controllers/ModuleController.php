@@ -146,10 +146,10 @@ class ModuleController extends Controller
         $idModule = Lecture::model()->findByPk($idLecture)->idModule;
         $order = Lecture::model()->findByPk($idLecture)->order;
 
+        $count =  Lecture::model()->count("idModule=$idModule and `order`>0");
         Lecture::model()->updateByPk($idLecture, array('order' => 0));
         Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
 
-        $count = Module::model()->findByPk($idModule)->lesson_count;
         for ($i = $order + 1; $i <= $count; $i++) {
             $id = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $i))->id;
             Lecture::model()->updateByPk($id, array('order' => $i - 1));
