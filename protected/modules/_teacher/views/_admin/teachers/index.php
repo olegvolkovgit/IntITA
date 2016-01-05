@@ -22,10 +22,6 @@
                 Управління ролями викладачів</button>
         </li>
     </ul>
-
-    <div class="page-header">
-        <h4>Викладачі</h4>
-    </div>
 <?php
 $this->widget('application.components.MyGridView', array(
     'id' => 'tmanage',
