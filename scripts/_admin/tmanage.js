@@ -34,7 +34,7 @@ function addExistModule(url)
     });
     }
     else
-        showDialog('Виберіть вірні дані!');
+        showDialog();('Виберіть вірні дані!');
         return false;
 }
 
@@ -134,6 +134,7 @@ function addTranslate(url)
     {
         showDialog('Категорія має бути вказана латинськими літерами');
     }
+
 }
 
 function showDialog(str)

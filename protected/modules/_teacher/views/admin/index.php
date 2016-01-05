@@ -79,14 +79,14 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/admin/freeLectures'); ?>',
-                            'Безкоштовні лекції')">
-                            Безкоштовні лекції</a></li>
+                            'Безкоштовні лекції')">Безкоштовні лекції</a></li>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
                             Права доступа</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/index'); ?>">Сплатити курс/модуль</a>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/index'); ?>')">
+                            Сплатити курс/модуль</a>
                     </li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/cancelCourseModule'); ?>">Скасувати
-                            курс/модуль</a>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourseModule'); ?>')">
+                            Скасувати курс/модуль</a>
                     </li>
                 </ul>
             </div>
@@ -120,3 +120,4 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'access.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js');?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js');?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
