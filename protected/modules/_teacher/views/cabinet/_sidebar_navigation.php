@@ -27,7 +27,7 @@
                 <li>
 
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
-                        array('user' => $model->id)); ?>')">
+                        array('user' => $model->id)); ?>', 'Панель адміністрування')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>
                 </li>
             <?php
@@ -37,7 +37,7 @@
                 ?>
                 <li>
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
-                        array('user' => $model->id)); ?>')">
+                        array('user' => $model->id)); ?>', 'Бухгалтерія')">
                         <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
                 </li>
             <?php
