@@ -36,7 +36,7 @@
          <?php echo $data->id_block;?>, <?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>)"
                ng-disabled="addSkipTask.$invalid" value="Редагувати задачу з пропусками">
 </form>
-    <form onsubmit="confirm('Ви впевнені, що хочете видалити задачу?')" name="unableSkipTask" method="post"
+    <form onsubmit="return confirm('Ви впевнені, що хочете видалити задачу?')" name="unableSkipTask" method="post"
           action="<?php echo Yii::app()->createUrl('skipTask/unableSkipTask');?>" >
         <input type="submit" value="Видалити задачу з пропусками">
         <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
