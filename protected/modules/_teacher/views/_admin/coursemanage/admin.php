@@ -2,15 +2,19 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-    <br>
-    <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">
-            <?php echo Yii::t("coursemanage", "0510"); ?>
-        </a>
-    <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create'); ?>">
-            <?php echo Yii::t("coursemanage", "0511"); ?>
-        </a>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
+                <?php echo Yii::t("coursemanage", "0510"); ?></button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>')">
+                <?php echo Yii::t("coursemanage", "0511"); ?></button>
+        </li>
+    </ul>
+
 <?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -27,7 +31,7 @@ $('.search-form form').submit(function(){
 ?>
     <link rel="stylesheet" type="text/css" href="<?= Config::getBaseUrl('css', 'formattedForm.css'); ?>"/>
     <div class="page-header">
-        <h1>Управління курсами</h1>
+        <h4>Управління курсами</h4>
     </div>
     <p>
         <?php echo Yii::t("coursemanage", "0513") ?> (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
@@ -55,7 +59,7 @@ $('.search-form form').submit(function(){
     ),
     'dataProvider' => $model->search(),
     'emptyText' => Yii::t("coursemanage", "0517"),
-    'filter' => $model,
+//    'filter' => $model,
     'columns' => array(
         'course_ID',
         'alias',
@@ -72,13 +76,58 @@ $('.search-form form').submit(function(){
             'buttons' => array(
                 'restore' => array
                 (
+                    'click'=>"function(){
+                                    $.fn.yiiGridView.update('course-grid', {
+                                        type:'POST',
+                                        url:$(this).attr('href'),
+                                        success:function(data){
+                                                        fillContainer(data);
+                                    }
+                                    })
+                                    return false;
+                              }
+                     ",
                     'label' => 'Відновити курс',
-                    'url' => 'Yii::app()->createUrl("/_admin/coursemanage/restore", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$data->primaryKey))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
-                    'options' => array(
-                        'class' => 'controlButtons;',
-                    )
-                )),
+//                    'options' => array(
+//                        'class' => 'controlButtons;',
+//                    )
+                ),
+                'view' => array
+                (
+                    'click'=>"function(){
+                                    $.fn.yiiGridView.update('course-grid', {
+                                        type:'POST',
+                                        url:$(this).attr('href'),
+                                        success:function(data){
+                                                        fillContainer(data);
+                                    }
+                                    })
+                                    return false;
+                              }
+                     ",
+                    'label'=>'Переглянути',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$data->primaryKey))',
+                ),
+                'update' => array
+                (
+                    'click'=>"function(){
+                                    $.fn.yiiGridView.update('course-grid', {
+                                        type:'POST',
+                                        url:$(this).attr('href'),
+                                        success:function(data){
+                                                        fillContainer(data);
+                                    }
+                                    })
+                                    return false;
+                              }
+                     ",
+                    'label'=>'Редагувати',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$data->primaryKey))',
+                ),
+
+            ),
         ),
     ),
 )); ?>

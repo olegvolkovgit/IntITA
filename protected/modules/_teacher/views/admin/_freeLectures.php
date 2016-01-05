@@ -55,7 +55,7 @@
                     'free' => array
                     (
                         'label' => 'Безкоштовно',
-                        'url' => 'Yii::app()->createUrl("/_admin/permissions/setFreeLessons", array("id"=>$data->id))',
+                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/permissions/setFreeLessons", array("id"=>$data->id))',
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'free.png'),
                         'click' => "function(){
                         $.fn.yiiGridView.update('freeLecturesGrid', {
@@ -72,7 +72,7 @@
                     'paid' => array
                     (
                         'label' => 'Платний',
-                        'url' => 'Yii::app()->createUrl("/_admin/permissions/setPaidLessons", array("id"=>$data->id))',
+                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/permissions/setPaidLessons", array("id"=>$data->id))',
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'paid.png'),
                         'click' => "function(){
                         $.fn.yiiGridView.update('freeLecturesGrid', {

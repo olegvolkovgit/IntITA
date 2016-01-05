@@ -59,9 +59,9 @@ class CoursemanageController extends TeacherCabinetController
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
          $this->performAjaxValidation($model);
+
         if(isset($_POST['Course']))
         {
-
             $model->oldLogo=$model->course_img;
             $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
             $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
@@ -202,11 +202,11 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function actionRestore($id){
         Course::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionIndex();
+        $this->actionAdmin();
     }
 }

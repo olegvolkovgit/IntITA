@@ -29,8 +29,7 @@ $countPlainTasks = PlainTask::countPlainTaskAnswersWithoutTrainer();
             </div>
             <a href="#" <?php if ($countPlainTasks > 0){?>
                onclick="showPlainTaskWithoutTrainer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTaskList') ?>')"
-                <?php }?>
-            >
+                <?php }?>>
                 <div class="panel-footer">
                     <span class="pull-left">Детальніше</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
