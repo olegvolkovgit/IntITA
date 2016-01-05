@@ -48,7 +48,7 @@
         </div>
         <div ng-show="signMode=='signIn'">
             <div class="authLinks">
-                <?php echo CHtml::link(Yii::t('regform', '0092'), '#', array('id' => 'authLinks', 'onclick' => 'openForgotpass()')); ?>
+                <?php echo CHtml::link(Yii::t('regform', '0092'), '', array('id' => 'authLinks', 'onclick' => 'openForgotpass()')); ?>
                 <label for="signUpMode" class=registration><?php echo Yii::t('registration', '0591'); ?></label>
                 <input ng-hide=true type="radio" ng-model="signMode" id="signUpMode" name="signMode" value="signUp" />
             </div>
