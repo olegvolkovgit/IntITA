@@ -118,8 +118,12 @@ class ModuleController extends TeacherCabinetController {
     }
 
     public function actionMandatory($id){
-        $this->render('mandatory', array(
-            'id' => $id
+
+        $courses = Course::generateModuleCoursesList($id);
+
+        $this->renderPartial('mandatory', array(
+            'id' => $id,
+            'courses' => $courses
         ),false,true);
     }
 
@@ -130,6 +134,7 @@ class ModuleController extends TeacherCabinetController {
 
         Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules='.$mandatory.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
+
         $this->redirect($this->pathToCabinet());
     }
 
@@ -146,14 +151,15 @@ class ModuleController extends TeacherCabinetController {
                 $id =  (int)($_POST['course']);
                 $modules = Course::model()->findByPk($id)->module;
             }
-
             return $this->renderPartial('_ajaxModule',array('modules' => $modules),false,true);
         }
     }
 
     public function actionCoursePrice($id){
+        $courses = Course::generateModuleCoursesList($id);
         $this->renderPartial('coursePrice', array(
-            'id' => $id
+            'id' => $id,
+            'courses' => $courses
         ),false,true);
     }
 

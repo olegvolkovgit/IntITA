@@ -370,7 +370,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function showModule($course)
     {
-        $first = '<select name="module" class="form-control" id="payModuleList">';
+        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
 
         $modulelist = [];
 
