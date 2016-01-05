@@ -1,4 +1,12 @@
 /* Directives */
+angular
+    .module('mainApp')
+    .controller('validationController',validationController);
+/* Controllers */
+function validationController($scope) {
+
+}
+
 angular.module('mainApp.directives', [])
     .directive('pwCheck', [function () {
         return {
@@ -28,11 +36,4 @@ angular.module('mainApp.directives', [])
                 });
             }
         };
-    })
-    .controller('validationController', validationController);
-
-
-/* Controllers */
-function validationController($scope) {
-
-}
+    });

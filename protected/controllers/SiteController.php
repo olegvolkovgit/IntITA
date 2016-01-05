@@ -60,7 +60,13 @@ class SiteController extends Controller
                 $this->render('error', $error);
         }
     }
-
+    protected function performAjaxValidation($model,$formId)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === $formId) {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
     public function actionChangeLang($lg)
     {
         $new_lang = $_GET['lg'];
@@ -106,10 +112,7 @@ class SiteController extends Controller
             $model = new StudentReg('fromraptoext');
         else $model = new StudentReg('repidreg');
 // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'studentreg-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $this->performAjaxValidation($model,'studentreg-form');
         if (isset($_POST['isExtended'])) {
             $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $_POST['StudentReg']['email'])));
         }
@@ -168,10 +171,7 @@ class SiteController extends Controller
     {
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'quick-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $this->performAjaxValidation($model,'authForm');
         // collect user input data
         if (isset($_POST['StudentReg'])) {
             $model->attributes = $_POST['StudentReg'];
@@ -321,10 +321,7 @@ class SiteController extends Controller
     {
         $model = $this->getToken($token);
         $model->setScenario('recoverypass');
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'changep-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $this->performAjaxValidation($model,'changep-form');
         if (Yii::app()->request->getPost('StudentReg')) {
             $post = Yii::app()->request->getPost('StudentReg');
             if ($model->token == Yii::app()->request->getPost('tokenhid')) {
@@ -380,10 +377,7 @@ class SiteController extends Controller
     {
         $model = new StudentReg('recovery');
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'recovery-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $this->performAjaxValidation($model,'recovery-form');
         // collect user input data
         $model->attributes = Yii::app()->request->getPost('StudentReg');
         $getModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
@@ -408,10 +402,7 @@ class SiteController extends Controller
             $model = StudentReg::model()->findByPk(Yii::app()->user->id);
             $modelReset = new StudentReg('resetemail');
             // if it is ajax validation request
-            if (isset($_POST['ajax']) && $_POST['ajax'] === 'resetemail-form') {
-                echo CActiveForm::validate($modelReset);
-                Yii::app()->end();
-            }
+            $this->performAjaxValidation($modelReset,'resetemail-form');
             // collect user input data
             $modelReset->attributes = Yii::app()->request->getPost('StudentReg');
             if (Yii::app()->request->getPost('StudentReg')) {
@@ -514,11 +505,7 @@ class SiteController extends Controller
     public function actionEmailVerification()
     {
         $model = new StudentReg('network_identity');
-
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'emailVerification-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $this->performAjaxValidation($model,'emailVerification-form');
 
         if (isset($_POST['StudentReg'])) {
             $model->attributes = $_POST['StudentReg'];
@@ -600,5 +587,75 @@ class SiteController extends Controller
         }
 
         return $model;
+    }
+    public function actionSignInSignUp(){
+        $post = Yii::app()->request->getPost('StudentReg');
+        $signMode = Yii::app()->request->getPost('signMode');
+        $extended = Yii::app()->request->getPost('isExtended');
+        $formId = Yii::app()->request->getPost('formId');
+        $url = Yii::app()->request->getPost('url');
+
+        $model = new StudentReg();
+        if ($signMode=='signUp')
+            //            SignUp
+        {
+            if (isset($extended))
+                $model = new StudentReg('fromraptoext');
+            else $model = new StudentReg('repidreg');
+
+            $this->performAjaxValidation($model,$formId);
+            if (isset($extended)) {
+                $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $post['email'])));
+            }
+            if (isset($post)) {
+                $model->attributes = $post;
+                $getToken = rand(0, 99999);
+                $getTime = date("Y-m-d H:i:s");
+                $model->token = sha1($getToken . $getTime);
+                if ($model->validate()) {
+                    $model->save();
+                    $model->updateByPk($model->id, array('avatar' => 'noname.png'));
+                    if(!Mail::sendRapidReg($model))
+                        throw new MailException('The letter was not sent');
+                    $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
+                } else {
+                    $this->redirect($_SERVER["HTTP_REFERER"]);
+                }
+            }
+        }else{
+            //            SignIn
+            $model->setScenario('loginuser');
+            $this->performAjaxValidation($model,$formId);
+            if (isset($post)) {
+                $model->attributes = $post;
+                $statusmodel = StudentReg::model()->findByAttributes(array('email' => $model->email));
+                if ($statusmodel->status == 1) {
+                    if ($model->login()) {
+                        $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+                        //                        Forum login
+                        if (!ForumUser::login($userModel))
+                            throw new ForumException('Forum user not save!!!');
+                        if (!isset($_COOKIE['cookie_key'])) {
+                            foreach ($_SESSION as $key => $value) {
+                                if (strpos($key, '__id')) {
+                                    $cookie_key = substr($key, 0, strpos($key, '_'));
+                                    setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
+                                    break;
+                                }
+                            }
+                        };
+                        if($url){
+                            $this->redirect($url);
+                        }
+//                                                Forum login
+                        if (isset($_SERVER["HTTP_REFERER"])) {
+                            if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
+                            if (isset($_GET['dialog'])) $this->redirect(Yii::app()->homeUrl);
+                            $this->redirect($_SERVER["HTTP_REFERER"]);
+                        } else $this->redirect(Yii::app()->request->homeUrl);
+                    }
+                } else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
+            }
+        }
     }
 }

@@ -46,6 +46,7 @@
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
     <!-- jQuery -->
     <!-- passEye, jQuery -->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
@@ -63,44 +64,6 @@
 
 <div id="contentBoxMain">
     <?php echo $content; ?>
-    <!--SingIn modal-->
-    <?php
-    $openDialog = false;
-    if (isset($_GET['dialog'])) $openDialog = true;
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'mydialog',
-        'themeUrl' => Config::getBaseUrl() . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => $openDialog,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_signinform');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
-    <!--SignIn modal-->
-    <!--forgot pass modal-->
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-        'id' => 'forgotpass',
-        'themeUrl' => Config::getBaseUrl() . '/css',
-        'cssFile' => 'jquery-ui.css',
-        'theme' => 'my',
-        'options' => array(
-            'width' => 540,
-            'autoOpen' => false,
-            'modal' => true,
-            'resizable' => false
-        ),
-    ));
-    $this->renderPartial('/site/_forgotpass');
-    $this->endWidget('zii.widgets.jui.CJuiDialog');
-    ?>
-    <!--forgot pass modal-->
 </div>
 <!-- footer -->
 <!-- Humburger script -->
