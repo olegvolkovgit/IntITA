@@ -35,7 +35,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 $model->save();
-                $this->redirect($this->pathToCabinet());
+                $this->redirectToIndex(__CLASS__);
             }
         }
 
@@ -68,7 +68,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 if ($model->save())
-                    $this->redirect($this->pathToCabinet());
+                    $this->redirectToIndex(__CLASS__);
             }
 		}
 
@@ -175,7 +175,7 @@ class CarouselController extends TeacherCabinetController
                 $prevModel->save();
             }
 
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
         }
         else return;
     }
@@ -185,7 +185,7 @@ class CarouselController extends TeacherCabinetController
         $model = Carousel::model()->findByAttributes(array('order' => $order));
 
         if($order == $model->getLastOrder())
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
 
         else
         {
@@ -203,7 +203,7 @@ class CarouselController extends TeacherCabinetController
                 $model->save();
                 $nextModel->save();
             }
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
         }
         }
     }

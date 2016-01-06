@@ -33,7 +33,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-            $this->redirect($this->pathToCabinet());
+            $this->redirectToIndex(__CLASS__);
         }
 
         $this->renderPartial('create',array(
@@ -59,7 +59,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirectToIndex(__CLASS__);
         }
         $this->renderPartial('update',array(
             'model'=>$model,
@@ -139,4 +139,5 @@ class ShareLinkController extends TeacherCabinetController {
             Yii::app()->end();
         }
     }
+
 }

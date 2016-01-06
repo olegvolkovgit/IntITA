@@ -26,6 +26,7 @@ function addExistModule(url)
         type : 'post',
         data : { 'moduleId' : moduleId , 'courseId' : courseId},
         success: function (data) {
+            showDialog('Ви додали модуль до курсу');
             fillContainer(data);
         },
         error: function () {
@@ -34,7 +35,7 @@ function addExistModule(url)
     });
     }
     else
-        showDialog();('Виберіть вірні дані!');
+        showDialog('Виберіть вірні дані!');
         return false;
 }
 
@@ -43,7 +44,7 @@ function saveSchema(url)
     $.ajax({
         url: url,
         success: function (data) {
-            alert("Схема курсу збережена!")
+            showDialog("Схема курсу збережена!")
             location.reload();
         },
         error: function () {

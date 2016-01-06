@@ -1,6 +1,6 @@
 <?php
 
-class AboutusSliderController extends AdminController
+class AboutusSliderController extends TeacherCabinetController
 {
 
 	/**
@@ -150,7 +150,7 @@ class AboutusSliderController extends AdminController
     public function actionUp($order)
     {
         if($order == 1)
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         $prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
@@ -168,7 +168,7 @@ class AboutusSliderController extends AdminController
                 $prevModel->save();
             }
 
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
         }
         else return;
     }
@@ -178,7 +178,7 @@ class AboutusSliderController extends AdminController
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         if($order == $model->getLastAboutusOrder())
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
 
         else{
             $nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
@@ -196,9 +196,10 @@ class AboutusSliderController extends AdminController
                     $nextModel->save();
                 }
 
-                $this->actionIndex();
+                $this->redirectToIndex(__CLASS__);
             }
         }
     }
+
 
 }

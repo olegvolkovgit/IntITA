@@ -42,7 +42,7 @@ class TranslateController extends TeacherCabinetController{
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-            $this->actionIndex();
+            $this->redirectToIndex(__CLASS__);
         } else {
 
             $this->renderPartial('create', array(
@@ -59,4 +59,5 @@ class TranslateController extends TeacherCabinetController{
             Yii::app()->end();
         }
     }
+
 }

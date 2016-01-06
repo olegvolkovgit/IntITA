@@ -13,13 +13,19 @@
             'enctype' => 'multipart/form-data',
             'method' => 'POST',
         ),
+
         // Please note: When you enable ajax validation, make sure the corresponding
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
         'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions' => array(
+            'beforeValidate' => 'js:onError()',
+            'validateOnSubmit' => true,
+            'validateOnChange' => false,
+            'errorCssClass' => 'form-group has-error',
+            ),
         )); ?>
 
 
@@ -128,3 +134,10 @@
     <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+    function onError()
+    {
+        alert('asdsad');
+    }
+</script>
