@@ -14,40 +14,7 @@ function loadPage(url,role) {
     });
 }
 
-function fillTrainer(json){
-    clearDashboard();
-    container.html(json);
-}
 
-function fillAuthor(json){
-    clearDashboard();
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
-}
-
-function fillConsultant(json){
-    clearDashboard();
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
-}
-
-function fillLeader(json){
-    clearDashboard();
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
-}
-
-function fillAdmin(json){
-    clearDashboard();
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
-}
-
-function fillAccountant(json){
-    clearDashboard();
-    container.append('Role: ' + json.title + '<br/>')
-        .append('Teacher: ' + json.teacher + '</b><br/>');
-}
 
 function getTeacherUserInfo(url){
     $.ajax({
@@ -67,11 +34,7 @@ function getTeacherUserInfo(url){
     });
 }
 
-//function fillDashboard(json){
-//    document.getElementById("dashboard").style.display = "block";
-//    container.append('Dashboard!<br>')
-//        .append('Teacher: ' + json.teacher + '</b><br/>');
-//}
+
 
 function load(url){
     clearDashboard();

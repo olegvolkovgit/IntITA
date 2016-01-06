@@ -8,10 +8,10 @@
                 <ul>
                     <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>')">
                             Інтерфейсні повідомлення</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">Слайдер на головній
-                            сторінці</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index'); ?>">Слайдер на
-                            сторінці <i>Про нас</i></a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index'); ?>')">
+                            Слайдер на головній сторінці</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'); ?>')">
+                            Слайдер на сторінці <i>Про нас</i></a></li>
                     <br>
                 </ul>
             </div>

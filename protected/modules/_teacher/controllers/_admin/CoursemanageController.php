@@ -21,11 +21,11 @@ class CoursemanageController extends TeacherCabinetController
     public function actionCreate()
     {
         $model=new Course;
+
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
-
             $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
             $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes = $_POST['Course'];

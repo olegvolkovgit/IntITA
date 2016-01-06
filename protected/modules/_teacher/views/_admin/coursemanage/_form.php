@@ -91,12 +91,6 @@
         <?php echo $form->error($model, 'status'); ?>
     </div>
 
-<!--    <div class="form-group">-->
-<!--        --><?php //echo $form->labelEx($model, 'course_price'); ?>
-<!--        --><?php //echo $form->textField($model, 'course_price', array('size' => 10, 'maxlength' => 10, 'class' => 'form-control')); ?>
-<!--        --><?php //echo $form->error($model, 'course_price'); ?>
-<!--    </div>-->
-
     <div class="form-group">
         <?php echo $form->labelEx($model, 'for_whom_ua'); ?>
         <?php echo $form->textArea($model, 'for_whom_ua', array('placeholder' => Yii::t('coursemanage', '0417'), 'rows' => 6,
