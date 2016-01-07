@@ -6,20 +6,20 @@ bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' 
 bootbox.addLocale('en', { OK: 'OK', CANCEL: 'Cancel', CONFIRM: 'Yes' });
 bootbox.setLocale(lang);
 
-function deleteLecture(idLecture){
+function deleteConsultation(id){
     var msg;
     switch (lang) {
         case 'uk':
-            msg='Ти впевнений, що хочеш видалити дане заняття?';
+            msg='Ти впевнений, що хочеш відмінити консультацію?';
             break;
         case 'ru':
-            msg='Ты уверен, что хочешь удалить данное занятие?';
+            msg='Ты уверен, что хочешь отменить консультацию?';
             break;
         case 'en':
-            msg='Are you sure you want to remove this lecture?';
+            msg='Are you sure You want to cancel the consultation?';
             break;
         default:
-            msg='Ти впевнений, що хочеш видалити дане заняття?';
+            msg='Ти впевнений, що хочеш відмінити консультацію?';
             break;
     }
 
@@ -27,10 +27,10 @@ function deleteLecture(idLecture){
         if(result){
             $.ajax({
                 type: "GET",
-                url: "/module/unableLesson",
-                data: {'idLecture':idLecture},
+                url: "/consultationscalendar/deleteconsultation",
+                data: {'id':id},
                 success: function(){
-                    $.fn.yiiGridView.update("lectures-grid");
+                    $.fn.yiiGridView.update("consultation-grid");
                 }
             });
         };

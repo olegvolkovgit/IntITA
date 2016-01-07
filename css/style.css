@@ -1,3 +1,4 @@
+a{-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}
 body{margin:0 auto;}
 img{border-style:none;}
 html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
