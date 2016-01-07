@@ -19,7 +19,11 @@ angular
             $('#mydialog3').dialog({'width': '540px', 'height': 'auto', 'modal': true, 'autoOpen': false});
             $("#mydialog3").dialog("open");
             $("#mydialog3").parent().css('border', '4px solid #cc0000');
-
+        };
+        this.openInformDialog = function () {
+            $('#informDialog').dialog({'width': '540px', 'height': 'auto', 'modal': true, 'autoOpen': false});
+            $("#informDialog").dialog("open");
+            $("#informDialog").parent().css('border', '4px solid #339900');
         };
     }
 );

@@ -825,3 +825,14 @@ a.cke_dialog_ui_fileButton{
     box-shadow: 0 0 4px #c72929;
     border: 2px solid #c72929;
 }
+#flashMsg{
+    display: none;
+    position: absolute;
+    color: #c72929;
+}
+#flashMsg.emptyFlash{
+    display: block;
+}
+#flashMsg.emptyFlash.hideFlash{
+    display: none;
+}

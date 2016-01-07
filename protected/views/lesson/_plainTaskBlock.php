@@ -1,5 +1,5 @@
 <?php if($data['id_type'] == 6){?>
-    <div class="element">
+    <div class="element" ng-controller="plainTaskCtrl">
         <div class="lessonTask">
             <div class="lessonBG">
                 <div class="instrTaskImg">
@@ -10,10 +10,16 @@
                         <br/>
                         <?php echo $data['html_block'];?>
                     </div>
-                    <form class="sendAnswer" id="sendAnswer">
-                        <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="answer" id="code<?php echo $data['block_order'];?>"></textarea>
+                    <form class="sendAnswer" id="sendAnswer" name="plainTaskForm">
+                        <textarea placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="answer" id="code<?php echo $data['block_order'];?>" ng-model="plainTask" required></textarea>
+                        <div>
+                            <span id="flashMsg"
+                                   ng-class="{'hideFlash' : !(plainTaskForm.answer.$pristine || plainTaskForm.answer.$error.required) }">
+                                Відповідь не може бути пустою
+                            </span>
+                        </div>
                     </form>
-                    <div ng-controller="plainTaskCtrl">
+                    <div>
                         <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendPlainTaskAnswer(<?php echo $data->id_block?>)" >
                             <?php echo Yii::t('lecture','0089'); ?>
