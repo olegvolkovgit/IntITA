@@ -32,6 +32,9 @@ hr {
     border-top: 1px dashed #4b75a4;
     border-radius: 0 0 5px 5px;
 }
+.col.result textarea{
+    max-width: 860px;
+}
 .col.compare{
     border: 2px solid #4b75a4;
     border-top: none;
