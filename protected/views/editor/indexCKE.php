@@ -101,9 +101,9 @@ if ($idCourse != 0) {
                     </a>
                 <?php } ?>
             </div>
-            <h1 class="lessonPart">
-                <div class="labelBlock">
-                    <p><?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ';
+            <div class="lessonPart">
+                <h4 class="labelBlock" style="display: inline-block">
+                    <?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ';
                         $this->widget('editable.EditableField', array(
                             'type' => 'textarea',
                             'model' => $page,
@@ -112,9 +112,9 @@ if ($idCourse != 0) {
                             'url' => $this->createUrl('lesson/updateLecturePageAttribute'),
                             'placement' => 'right',
                         ));
-                        ?></p>
-                </div>
-                <div>
+                    ?>
+                </h4>
+                <div style="width: auto">
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'imperavi.png'); ?>"
@@ -132,7 +132,7 @@ if ($idCourse != 0) {
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>
                     </a>
                 </div>
-            </h1>
+            </div>
             <h3><label for="pageVideo"><?php echo Yii::t('lecture', '0613'); ?></label></h3>
             <?php
             if ($page->video == null) { ?>

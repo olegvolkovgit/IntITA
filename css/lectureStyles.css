@@ -488,6 +488,7 @@ div.lastAccessPage {
     vertical-align: bottom;
     line-height: 1;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 #labelBlock p, #tooltip p {
