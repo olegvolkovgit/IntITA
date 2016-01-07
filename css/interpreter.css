@@ -28,6 +28,9 @@ hr {
     border-bottom: 1px dashed #4b75a4;
     border-radius: 5px 5px 0 0;
 }
+.col.value input{
+    margin: 2px 0;
+}
 .col.result{
     border-top: 1px dashed #4b75a4;
     border-radius: 0 0 5px 5px;
