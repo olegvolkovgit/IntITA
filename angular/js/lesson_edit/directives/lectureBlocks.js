@@ -3,12 +3,14 @@
  */
 angular
     .module('lessonEdit')
-    .directive('editBlock', function ($compile) {
+    .directive('editBlock', function ($compile, $ngBootbox) {
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
                     if (angular.element('.openCKE').length) {
-                        alert(scope.editMsg);
+                        $ngBootbox.alert(scope.editMsg)
+                            .then(function() {
+                            });
                         return;
                     }
                     var orderBlock = element.attr('id').substring(1);
