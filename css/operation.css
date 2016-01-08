@@ -50,3 +50,9 @@
 .operationMargin{
     margin-left: 50px;
 }
+div.col-sm-8{
+  padding: 0;
+}
+#icon{
+    width:15px;
+}

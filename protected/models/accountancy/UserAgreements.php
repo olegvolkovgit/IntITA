@@ -334,6 +334,19 @@ class UserAgreements extends CActiveRecord
             ->delete('service_user', 'user_id=:id', array(':id'=>$this->user_id));
         return $results;
     }
+
+    public static function getAgreementByInvoices(Array $invoiceArr)
+    {
+        $userAgreements = [];
+        foreach($invoiceArr as $invoice)
+        {
+            $model = Invoice::model()->findByPk($invoice->id);
+            $userAgreementId = $model->agreement->id;
+            if($userAgreementId)
+                array_push($userAgreements,$userAgreementId);
+        }
+        return array_unique($userAgreements);
+    }
 }
 
 

@@ -3,8 +3,8 @@ return array(
     'class' => 'CDbConnection',
     'connectionString' => 'mysql:host=localhost;dbname=intita',
     'emulatePrepare' => true,
-    'username' => 'intita',
-    'password' => '1234567',
+    'username' => 'root',
+    'password' => '',
     'charset' => 'utf8',
     'enableProfiling' => true,
 );

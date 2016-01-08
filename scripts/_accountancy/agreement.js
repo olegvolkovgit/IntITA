@@ -1,7 +1,7 @@
 /**
  * Created by Quicks on 21.11.2015.
  */
-    function getInvoicesList()
+    function getInvoicesList(url)
     {
         var user = document.getElementById('findUser');
         var agreement = document.getElementsByName('agreement');
@@ -16,7 +16,7 @@
         }
         $.ajax({
             type: "POST",
-            url: "../getInvoicesList",
+            url: url,
             data: {
                 'id': agreementId
             },
@@ -38,7 +38,7 @@
         });
     }
 
-function getAgreementsList(){
+function getAgreementsList(url){
 
     var agreement = document.getElementById('agreementNumber').value;
     document.getElementById('selectInvoices').style.display = 'none';
@@ -46,7 +46,7 @@ function getAgreementsList(){
     {
         $.ajax({
             type: "POST",
-            url: "../getSearchAgreements",
+            url: url,
             data: {
                 'agreement': agreement
             },
@@ -63,28 +63,28 @@ function getAgreementsList(){
     }
 }
 
-function showOperation(id)
-{
-    var offer = document.getElementById('findOffer');
-    var operation = document.getElementById('findOperation');
-    var user = document.getElementById('findUser');
-
-    var arr = [];
-    arr.push(offer);
-    arr.push(operation);
-    arr.push(user);
-
-    for(var i = 0;i < arr.length; i++)
-    {
-        if(i == id)
-            arr[i].style.display = 'block';
-
-        else
-            arr[i].style.display = 'none';
-
-    }
-
-}
+//function showOperation(id)
+//{
+//    var offer = document.getElementById('findOffer');
+//    var operation = document.getElementById('findOperation');
+//    var user = document.getElementById('findUser');
+//
+//    var arr = [];
+//    arr.push(offer);
+//    arr.push(operation);
+//    arr.push(user);
+//
+//    for(var i = 0;i < arr.length; i++)
+//    {
+//        if(i == id)
+//            arr[i].style.display = 'block';
+//
+//        else
+//            arr[i].style.display = 'none';
+//
+//    }
+//
+//}
 
 function checkInvoices()
 {
@@ -98,14 +98,14 @@ function checkInvoices()
     return false;
 }
 
-function getInvoicesListByNumber()
+function getInvoicesListByNumber(url)
 {
     var number = document.getElementById('invoiceNumber').value;
     if(number[2] != undefined)
     {
         $.ajax({
             type: "POST",
-            url: "../getInvoicesByNumber",
+            url: url,
             data: {
                 'invoiceNumber': number
             },
@@ -122,7 +122,7 @@ function getInvoicesListByNumber()
     }
 }
 
-function getAgreementsListByUser()
+function getAgreementsListByUser(url)
 {
     document.getElementById('selectUserInvoices').style.display = 'none';
     document.getElementById('userAgreement').style.display = 'none';
@@ -140,7 +140,7 @@ function getAgreementsListByUser()
 
     $.ajax({
         type: "POST",
-        url: "../getAgreementsByUser",
+        url: url,
         data: {
             'userId': userId
         },
@@ -151,7 +151,7 @@ function getAgreementsListByUser()
     });
 }
 
-function getUserList()
+function getUserList(url)
 {
 
     var number = document.getElementById('userEmail').value;
@@ -159,7 +159,7 @@ function getUserList()
     {
         $.ajax({
             type: "POST",
-            url: "../getUser",
+            url: url,
             data: {
                 'userEmail': number
             },
