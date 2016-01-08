@@ -76,7 +76,7 @@
                     Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ок</button>
                 </div>
             </div>
             <!-- /.modal-content -->

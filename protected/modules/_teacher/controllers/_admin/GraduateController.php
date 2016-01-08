@@ -160,5 +160,4 @@ class GraduateController extends TeacherCabinetController {
         }
     }
 
-
 }

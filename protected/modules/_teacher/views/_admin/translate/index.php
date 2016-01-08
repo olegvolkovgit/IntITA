@@ -46,40 +46,39 @@ $('.search-form form').submit(function(){
             'header' => 'Коментар',
             'value' => 'MessageComment::getMessageCommentById($data->id)',
         ),
-//        array(
-//            'class'=>'CButtonColumn',
-//            'template'=>'{view}{update}',
-//            'buttons' => array(
-//                'view' => array(
-//                    'label' => 'Переглянути',
-//                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$data->primaryKey))',
-//                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
-//                    'options' => array(
-//                        'class' => 'controlButtons;',
-//                        'ajax'=>array(
-//                            'type'=>'get',
-//                            'url'=>'js:$(this).attr("href")',
-//                            'success'=>'js:function(data) {
-//                                fillContainer(data);
-//                            }'
-//                        )
-//                    )
-//                ),
-//                'update' => array(
-//                    'label' => 'Редагувати',
-//                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$data->primaryKey))',
-//                    'options' => array(
-//                        'class' => 'controlButtons;',
-//                        'ajax'=>array(
-//                            'type'=>'get',
-//                            'url'=>'js:$(this).attr("href")',
-//                            'success'=>'js:function(data) {
-//                                fillContainer(data);
-//                            }'
-//                        )
-//                    )
-//                ),
-//            ),
-//        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{view}{update}',
+            'buttons' => array(
+                'view' => array(
+                    'label' => 'Переглянути',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$data->primaryKey))',
+                    'options' => array(
+                        'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(data) {
+                                fillContainer(data);
+                            }'
+                        )
+                    )
+                ),
+                'update' => array(
+                    'label' => 'Редагувати',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$data->primaryKey))',
+                    'options' => array(
+                        'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(data) {
+                                fillContainer(data);
+                            }'
+                        )
+                    )
+                ),
+            ),
+        ),
     ),
 )); ?>

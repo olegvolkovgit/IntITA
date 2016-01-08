@@ -52,7 +52,7 @@ class RoleAttributeController extends TeacherCabinetController
 		{
 			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet());
 		}
 
 		$this->renderPartial('/_teacher/_admin/teachers/updateRoleAttribute',array(
@@ -127,4 +127,6 @@ class RoleAttributeController extends TeacherCabinetController
 			Yii::app()->end();
 		}
 	}
+
 }
+

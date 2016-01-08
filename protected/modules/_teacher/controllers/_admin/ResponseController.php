@@ -109,7 +109,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirectToIndex(__CLASS__);
     }
 
     public function actionUnsetPublish($id)
@@ -121,7 +121,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirectToIndex(__CLASS__);
     }
 
 
@@ -131,8 +131,9 @@ class ResponseController extends TeacherCabinetController{
             'is_checked' => $_POST['Response']['is_checked']
         ));
 
-        $this->redirect($this->pathToCabinet());
+        $this->redirectToIndex(__CLASS__);
     }
+
 
 
 }

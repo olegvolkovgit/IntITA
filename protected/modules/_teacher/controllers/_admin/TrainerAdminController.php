@@ -42,7 +42,7 @@ class TrainerAdminController extends TeacherCabinetController {
 
             if(!TrainerStudent::addTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
-            $this->redirect($this->pathToCabinet());
+            $this->redirectToIndex(__CLASS__);
         }
     }
 
@@ -83,7 +83,7 @@ class TrainerAdminController extends TeacherCabinetController {
             if(!TrainerStudent::editTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
 
-            $this->redirect($this->pathToCabinet());
+            $this->redirectToIndex(__CLASS__);
         }
     }
 
@@ -92,7 +92,8 @@ class TrainerAdminController extends TeacherCabinetController {
         if(!TrainerStudent::deleteUserTrainer($id))
             throw new \application\components\Exceptions\NotSaveException("Тренер не був видалений");
 
-        $this->redirect($this->pathToCabinet());
+        $this->redirectToIndex(__CLASS__);
     }
+
 
 }
