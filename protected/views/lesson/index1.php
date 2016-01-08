@@ -56,7 +56,7 @@ $finishedLecture = $lecture->isFinished($user);
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
-                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
+                    <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture','0686')?>"/>
