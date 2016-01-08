@@ -7,10 +7,6 @@
 
 </ul>
 
-<div class="page-header">
-    <h4>Модулі</h4>
-</div>
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'module-grid',
     'dataProvider' => $model->search(),

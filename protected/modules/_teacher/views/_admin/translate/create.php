@@ -3,8 +3,10 @@
 /* @var $model Translate */
 ?>
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedFormSimple.css'); ?>"/>
-<h3>Додати повідомлення</h3>
-<br>
+<div class="page-header">
+    <h4>Додати повідомлення</h4>
+</div>
+
 <div class="col-md-4">
     <form method="post" class="formatted-form" name="translate"
           onsubmit="addTranslate('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create'); ?>');return false;">
