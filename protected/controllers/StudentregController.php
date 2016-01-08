@@ -210,7 +210,7 @@ class StudentRegController extends Controller
         }
         $model = StudentReg::model()->findByPk($idUser);
         if ($idUser > 0 && $idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403,'That not your user');
+            throw new CHttpException(403,Yii::t('error', '0612'));
 //            throw new IntItaException(403,'That not your user');
         $letter = new Letters();
 

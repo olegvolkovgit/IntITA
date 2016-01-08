@@ -175,7 +175,7 @@ class TeacherModule extends CActiveRecord
 
     public static function showTeacherModule($idTeacher)
     {
-        $first = '<select class="form-control" name="module1">';
+        $first = '<select class="form-control" name="module" required="true">';
 
         $modulelist = [];
         $criteria = new CDbCriteria;

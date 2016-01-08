@@ -29,7 +29,14 @@ if($idCourse != 0) {
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>
 <?php if ($editMode) { ?>
+    <script type="text/javascript">
+        lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
+    </script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'moduleDialogs.js'); ?>"></script>
+    <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php } ?>
 <?php
 $this->renderPartial('/site/_shareMetaTag', array(

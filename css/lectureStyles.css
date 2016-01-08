@@ -416,10 +416,6 @@ div.spotDone:hover {
     background: #003366;
 }
 
-.labelBlock {
-    /*border-bottom: 1px solid #335379;*/
-}
-
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -456,9 +452,6 @@ div.lastAccessPage {
     padding-right: 0;
 }
 
-/*.labelBlock{*/
-/*border-bottom: 1px solid #335379;*/
-/*}*/
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -488,6 +481,7 @@ div.lastAccessPage {
     vertical-align: bottom;
     line-height: 1;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 #labelBlock p, #tooltip p {
@@ -495,6 +489,9 @@ div.lastAccessPage {
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
+}
+h4.labelBlock a{
+    white-space: normal;
 }
 
 h1.lessonPartEdit p img {
@@ -824,4 +821,15 @@ a.cke_dialog_ui_fileButton{
 .emptyField{
     box-shadow: 0 0 4px #c72929;
     border: 2px solid #c72929;
+}
+#flashMsg{
+    display: none;
+    position: absolute;
+    color: #c72929;
+}
+#flashMsg.emptyFlash{
+    display: block;
+}
+#flashMsg.emptyFlash.hideFlash{
+    display: none;
 }

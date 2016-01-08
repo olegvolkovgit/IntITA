@@ -40,4 +40,7 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
     $scope.errorDialogHide=function(){
         $("#mydialog3").dialog("close");
     };
+    $scope.hideInformDialog=function(){
+        $("#informDialog").dialog("close");
+    };
 }

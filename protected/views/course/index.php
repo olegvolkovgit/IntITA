@@ -15,7 +15,7 @@ $this->breadcrumbs = array(
             <?php echo $model->getTitle(); ?>
         </h1>
     </div>
-    <div ng-cloak class="courseShortInfo">
+    <div class="courseShortInfo">
         <?php $this->renderPartial('_courseShortInfo', array('model' => $model)); ?>
         <br>
 

@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/translate/index'); ?>')">
+                    <li><a  href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>')">
                             Інтерфейсні повідомлення</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">Слайдер на головній
                             сторінці</a></li>
@@ -33,8 +33,10 @@
                     </li>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
                             Випускники</a></li>
-                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">Курси</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/module/index'); ?>">Модулі</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
+                            Курси</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>')">
+                            Модулі</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -77,14 +79,14 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/admin/freeLectures'); ?>',
-                            'Безкоштовні лекції')">
-                            Безкоштовні лекції</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/permissions/index'); ?>">Права
-                            доступа</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/index'); ?>">Сплатити курс/модуль</a>
+                            'Безкоштовні лекції')">Безкоштовні лекції</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
+                            Права доступа</a></li>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/index'); ?>')">
+                            Сплатити курс/модуль</a>
                     </li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/pay/cancelCourseModule'); ?>">Скасувати
-                            курс/модуль</a>
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourseModule'); ?>')">
+                            Скасувати курс/модуль</a>
                     </li>
                 </ul>
             </div>
@@ -101,7 +103,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/config/index'); ?>">
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>')">
                             Налаштування
                         </a>
                     </li>
@@ -115,9 +117,7 @@
             </div>
         </div>
     </div>
-    <!-- /.row -->
-<div class="row">
-
-
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'access.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js');?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js');?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
