@@ -1,6 +1,5 @@
 <?php
 
-//use AccountancyException;
 class CoursemanageController extends TeacherCabinetController
 {
     /**
@@ -42,7 +41,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create',array(
@@ -75,7 +74,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('update',array(
@@ -100,7 +99,7 @@ class CoursemanageController extends TeacherCabinetController
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index',array(
+        $this->render('index',array(
             'dataProvider'=>$dataProvider,
         ),false,true);
     }
@@ -157,8 +156,6 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionAddModuleToCourse(){
 
-//        $name = array_shift(explode('Controller',__CLASS__));
-//        var_dump($name);die;
         $moduleId = Yii::app()->request->getPost('moduleId');
         $courseId = Yii::app()->request->getPost('courseId');
 
@@ -208,7 +205,7 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function actionRestore($id){

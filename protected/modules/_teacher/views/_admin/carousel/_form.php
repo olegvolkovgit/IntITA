@@ -18,6 +18,9 @@
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation'=>true,
         'enableClientValidation'=>true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+            'validateOnChange' => false),
     )); ?>
 
     <p class="note">Поля з <span class="required">*</span> обов'язкові.</p>

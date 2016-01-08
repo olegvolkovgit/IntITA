@@ -33,7 +33,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create',array(
@@ -48,8 +48,6 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionUpdate($id)
     {
-//        var_dump($_POST);die;
-
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -59,7 +57,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect($this->pathToCabinet());
         }
         $this->renderPartial('update',array(
             'model'=>$model,

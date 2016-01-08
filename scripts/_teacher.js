@@ -34,12 +34,11 @@ function getTeacherUserInfo(url){
     });
 }
 
-
-
 function load(url){
     clearDashboard();
     $.ajax({
         url: url,
+        async:true,
         success: function (data) {
             container = $('#pageContainer');
             container.html('');

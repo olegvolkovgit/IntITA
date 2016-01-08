@@ -13,7 +13,6 @@
             'enctype' => 'multipart/form-data',
             'method' => 'POST',
         ),
-
         // Please note: When you enable ajax validation, make sure the corresponding
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
@@ -21,9 +20,15 @@
         'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
         'clientOptions' => array(
-            'beforeValidate' => 'js:onError()',
+            'afterValidate' => 'js:function(form,data,hasError){
+            for (var prop in data)
+                {
+                    var err = document.getElementById(prop);
+                    err.focus();
+                    break;
+            }return true;}',
             'validateOnSubmit' => true,
-            'validateOnChange' => false,
+            'validateOnChange' => true,
             'errorCssClass' => 'form-group has-error',
             ),
         )); ?>
@@ -135,9 +140,3 @@
 
 </div><!-- form -->
 
-<script>
-    function onError()
-    {
-        alert('asdsad');
-    }
-</script>

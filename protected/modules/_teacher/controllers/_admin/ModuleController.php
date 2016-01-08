@@ -32,7 +32,7 @@ class ModuleController extends TeacherCabinetController {
                     $thisModel = new Module;
                     $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
                 }
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create', array(
@@ -109,7 +109,7 @@ class ModuleController extends TeacherCabinetController {
                 if(!Module::model()->updateByPk($id,array('module_img' => $model->oldLogo))) //Костиль
                     throw new CDbException(400,'Avatar not SAVE');
             }
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect($this->pathToCabinet());
 
         }
         $this->renderPartial('update', array(

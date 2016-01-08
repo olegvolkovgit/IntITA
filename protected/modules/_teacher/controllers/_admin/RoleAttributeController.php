@@ -28,7 +28,7 @@ class RoleAttributeController extends TeacherCabinetController
 		{
 			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirectToIndex(__CLASS__);
+				$this->redirect($this->pathToCabinet());
 		}
 
 		$this->render('create',array(
@@ -52,7 +52,7 @@ class RoleAttributeController extends TeacherCabinetController
 		{
 			$model->attributes=$_POST['RoleAttribute'];
 			if($model->save())
-				$this->redirectToIndex(__CLASS__);
+                $this->redirect($this->pathToCabinet());
 		}
 
 		$this->renderPartial('/_teacher/_admin/teachers/updateRoleAttribute',array(

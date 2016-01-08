@@ -72,7 +72,7 @@ class TeachersController extends TeacherCabinetController{
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect($this->pathToCabinet());
             }
         }
 
@@ -144,7 +144,7 @@ class TeachersController extends TeacherCabinetController{
                         210
                     );
                 }
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect($this->pathToCabinet());
 //            $this->redirect(array('view', 'id' => $model->teacher_id));
         }
         $this->render('update', array(
