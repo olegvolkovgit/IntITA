@@ -960,12 +960,12 @@ class StudentReg extends CActiveRecord
 
     public static function userLetterReceivers(){
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
     }
 
     public static function receivers(){
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
     }
 
 

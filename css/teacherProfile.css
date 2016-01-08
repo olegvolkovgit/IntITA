@@ -213,7 +213,7 @@ img.lessonBut  {
     color: #264b73;
 }
 .avatarUpdateForm input[type="submit"] {
-    height: 30px;
+    padding: 7px 0;
     width: 90px;
     background: #4b70a3;
     border-radius:   10px;

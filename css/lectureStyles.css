@@ -416,10 +416,6 @@ div.spotDone:hover {
     background: #003366;
 }
 
-.labelBlock {
-    /*border-bottom: 1px solid #335379;*/
-}
-
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -456,9 +452,6 @@ div.lastAccessPage {
     padding-right: 0;
 }
 
-/*.labelBlock{*/
-/*border-bottom: 1px solid #335379;*/
-/*}*/
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -496,6 +489,9 @@ div.lastAccessPage {
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
+}
+h4.labelBlock a{
+    white-space: normal;
 }
 
 h1.lessonPartEdit p img {
