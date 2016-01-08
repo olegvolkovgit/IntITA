@@ -106,7 +106,6 @@
             return false
         });
         function hashChange(){
-            alert(document.cookie.currentUrl);
             if (currentUrl != ""){
                 load(currentUrl);
             }
@@ -122,10 +121,10 @@
             },100)
         }
     });
-
-    function setCurrentUrl(url){
-        document.cookie = "currentUrl=" + url;
-    }
+//
+//    function setCurrentUrl(url){
+//        document.cookie = "currentUrl=" + url;
+//    }
 </script>
 </html>
 

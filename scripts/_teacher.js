@@ -1,19 +1,3 @@
-//function loadPage(url, role) {
-//    var userRole = role.toLowerCase();
-//    $.ajax({
-//        url: url,
-//        success: function (data) {
-//            container = $('#pageContainer');
-//            container.html(data);
-//        },
-//        error: function () {
-//            showDialog();
-//        }
-//    });
-//}
-
-
-
 function load(url, header) {
     clearDashboard();
     $.ajax({
