@@ -335,17 +335,31 @@ class UserAgreements extends CActiveRecord
         return $results;
     }
 
+
     public static function getAgreementByInvoices(Array $invoiceArr)
     {
         $userAgreements = [];
-        foreach($invoiceArr as $invoice)
-        {
+        foreach ($invoiceArr as $invoice) {
             $model = Invoice::model()->findByPk($invoice->id);
             $userAgreementId = $model->agreement->id;
-            if($userAgreementId)
-                array_push($userAgreements,$userAgreementId);
-        }
+            if ($userAgreementId)
+                array_push($userAgreements, $userAgreementId);
+    }
         return array_unique($userAgreements);
+    }
+    public function insertServiceUserData()
+    {
+        $agreements = UserAgreements::model()->findAllByAttributes(array('id' =>$this->id));
+
+        foreach($agreements as $agreement)
+        {
+            $results = Yii::app()->db->createCommand()
+                ->insert('service_user',
+                    array('service_id' => $agreement->service_id,'user_id'=>$agreement->user_id));
+        }
+        if($results)
+            return true;
+        else return false;
     }
 }
 
