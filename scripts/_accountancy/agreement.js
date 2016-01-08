@@ -4,6 +4,8 @@
     function getInvoicesList(url)
     {
         var user = document.getElementById('findUser');
+        var divClass = user.classList;
+        //alert(user.innerHTML);
         var agreement = document.getElementsByName('agreement');
         var agreementId = '';
         for(var j = 0 ;j < agreement.length; j++)
@@ -22,15 +24,22 @@
             },
             cache: false,
             success: function(response) {
-                //alert(user.style.display);
-                if (user.style.display == 'none') {
+                //alert(divClass);
+                //if (user.style.display == 'none') {
+                //    document.getElementById('selectInvoices').style.display = 'block';
+                //    document.getElementById('selectUserInvoices').style.display = 'none';
+                //
+                //    $('div[name="selectInvoices"]').html(response);
+                //}
+                if(divClass == 'findOperation tab-pane fade'){
                     document.getElementById('selectInvoices').style.display = 'block';
                     document.getElementById('selectUserInvoices').style.display = 'none';
                     $('div[name="selectInvoices"]').html(response);
                 }
                 else {
                     document.getElementById('selectUserInvoices').style.display = 'block';
-                    user.style.display = 'none';
+                    //user.style.display = 'none';
+                    //user.removeClass('in active');
 
                     $('div[name="selectUserInvoices"]').html(response);
                 }
