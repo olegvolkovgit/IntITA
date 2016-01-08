@@ -134,7 +134,7 @@ class ModuleController extends AdminController
     public function actionMandatory($id){
         $this->render('mandatory', array(
             'id' => $id
-        ));
+        ),false,true);
     }
 
     public function actionAddMandatoryModule(){
@@ -176,7 +176,6 @@ class ModuleController extends AdminController
             $id =  (int)($_POST['course']);
             $modules = Course::model()->findByPk($id)->module;
         }
-
         return $this->renderPartial('_ajaxModule',array('modules' => $modules));
         }
     }

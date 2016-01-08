@@ -2,23 +2,33 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-    <br>
-    <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create'); ?>">Додати курс</a>
-    <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">Список курсів</a>
-    <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/update', array('id' => $model->course_ID)); ?>">
-            Редагувати курс
-        </a>
+
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
+                <?php echo Yii::t("coursemanage", "0510"); ?></button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>')">
+                <?php echo Yii::t("coursemanage", "0511"); ?></button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/update',
+                        array('id' => $model->course_ID)); ?>')">
+                Редагувати курс</button>
+        </li>
+    </ul>
+
 
     <div class="page-header">
-        <h1>Курс <?php echo $model->getTitle(); ?></h1>
+        <h4>Курс <?php echo $model->getTitle(); ?></h4>
     </div>
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
-        'course_ID',
         'language',
         'title_ua',
         'title_ru',

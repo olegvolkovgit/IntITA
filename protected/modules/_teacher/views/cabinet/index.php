@@ -13,6 +13,7 @@
     <meta name="author" content="">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/showPlainTask.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'courseSchema.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
     <!--    <link href="-->
     <?php //echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?><!--" rel="stylesheet">-->
@@ -69,6 +70,31 @@
 </div>
 </body>
 
+<div class="col-lg-6">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Сталася халепа</h4>
+                </div>
+                <div class="modal-body" id="modalText">
+                    Вибачте, але на сайті виникла помилка.<br>
+                    Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<!-- jQuery -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js');?>"></script>
 <!-- Bootstrap Core JavaScript -->
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
@@ -81,5 +107,34 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/js/sb-admin-2.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
+<script>
+    $(function(){
+        $('#menu-link a').click(function(){
+            location.hash= $(this).attr('href').match(/^.*#(.*)/)[1];
+            return false
+        });
+        function hashChange(){
+            alert(document.cookie.currentUrl);
+            if (currentUrl != ""){
+                load(currentUrl);
+            }
+        }
+        if ("onhashchange" in window){ // cool browser
+            $(window).on('hashchange',hashChange).trigger('hashchange')
+        }else{ // lame browser
+            var lastHash='';
+            setInterval(function(){
+                if (lastHash!=location.hash)
+                    hashChange();
+                lastHash=location.hash
+            },100)
+        }
+    });
+
+    function setCurrentUrl(url){
+        document.cookie = "currentUrl=" + url;
+    }
+</script>
 </html>
 

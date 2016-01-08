@@ -1,4 +1,3 @@
-
 <div class="col-md-6">
     <ul class="list-inline">
         <li>
@@ -16,7 +15,6 @@
         <fieldset>
             <legend id="label">Виберіть модуль:</legend>
             Модуль:<br>
-
             <div class="form-group">
                 <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
                         >

@@ -5,18 +5,20 @@ class TranslateController extends TeacherCabinetController{
     public function actionIndex()
     {
         $model=new Translate('search');
-        $model->unsetAttributes();
+        $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Translate']))
             $model->attributes=$_GET['Translate'];
 
-        $this->renderPartial('/translate/index',array(
-            'model' => $model,
-        ));
+        $this->renderPartial('index',array(
+            'model'=>$model,
+        ),false,true);
+
     }
 
     public function actionCreate()
     {
         $model = new Translate();
+
         $idMessage = Yii::app()->request->getPost('id', '');
         $category = Yii::app()->request->getPost('category', '');
         $translateUa = Yii::app()->request->getPost('translateUa', '');
@@ -43,9 +45,18 @@ class TranslateController extends TeacherCabinetController{
             $this->actionIndex();
         } else {
 
-            $this->render('create', array(
+            $this->renderPartial('create', array(
                 'model' => $model,
-            ));
+            ),false,true);
+        }
+    }
+
+
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'translate-grid') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
         }
     }
 }

@@ -18,7 +18,8 @@
                 array('page' => $role->title_en, 'user' => $user->id));?>','<?php echo $role->title_en ?>')">Дошка</a>
         </li>
         <li>
-            <a href="#consultants" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>')">
+            <a href="#" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>',
+            'Управління задачами')">
                 Консультанти для задач
             </a>
         </li>
