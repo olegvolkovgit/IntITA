@@ -14,6 +14,9 @@ class ModuleController extends Controller
     public function actionIndex($idModule, $idCourse=0)
     {
         $model = Module::model()->findByPk($idModule);
+        if($model->cancelled && !StudentReg::isAdmin()) {
+            throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
+        }
         $owners = [];
 
         $criteria1 = new CDbCriteria();
