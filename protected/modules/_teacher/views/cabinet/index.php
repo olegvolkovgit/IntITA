@@ -46,6 +46,7 @@
 </head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
+    currentUrl = '';
 </script>
 <body ng-app="teacherApp">
 
@@ -85,25 +86,46 @@
     </div>
     <!-- /.modal -->
 </div>
-
-
-
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <!-- jQuery -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js');?>"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <!-- Metis Menu Plugin JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.js');?>"></script>
-
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/raphael/raphael-min.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cms/morris-data.js');?>"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '/cms/morris-data.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
+<script>
+    $(function(){
+        $('#menu-link a').click(function(){
+            location.hash= $(this).attr('href').match(/^.*#(.*)/)[1];
+            return false
+        });
+        function hashChange(){
+            alert(document.cookie.currentUrl);
+            if (currentUrl != ""){
+                load(currentUrl);
+            }
+        }
+        if ("onhashchange" in window){ // cool browser
+            $(window).on('hashchange',hashChange).trigger('hashchange')
+        }else{ // lame browser
+            var lastHash='';
+            setInterval(function(){
+                if (lastHash!=location.hash)
+                    hashChange();
+                lastHash=location.hash
+            },100)
+        }
+    });
+
+    function setCurrentUrl(url){
+        document.cookie = "currentUrl=" + url;
+    }
+</script>
 </html>
 

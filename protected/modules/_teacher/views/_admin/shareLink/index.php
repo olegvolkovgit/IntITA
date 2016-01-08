@@ -25,9 +25,6 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<div class="page-header">
-<h4>Управління ресурсами для викладачів</h4>
-</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'share-link-grid',
