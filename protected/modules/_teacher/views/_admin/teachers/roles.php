@@ -12,9 +12,6 @@
             Викладачі</button>
     </li>
     </ul>
-    <div class="page-header">
-    <h4>Ролі викладачів</h4>
-    </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'roles',
     'dataProvider'=>$dataProvider,

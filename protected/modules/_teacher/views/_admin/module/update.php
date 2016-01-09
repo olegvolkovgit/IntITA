@@ -1,23 +1,27 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
+                    'Модулі')">
             Список модулів</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/mandatory',
-                    array('id' => $model->module_ID)); ?>')">Додати попередній модуль у курсі</button>
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array('id' => $model->module_ID)); ?>',
+                    'Додати попередній модуль у курсі')">Додати попередній модуль у курсі</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/coursePrice',
-                    array('id' => $model->module_ID)); ?>')">Додати/змінити ціну модуля у курсі</button>
+                    array('id' => $model->module_ID)); ?>',
+                    'Додати/змінити ціну модуля у курсі')">Додати/змінити ціну модуля у курсі</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/view',
-                    array('id' => $model->module_ID)); ?>')">Переглянути модуль</button>
+                    array('id' => $model->module_ID)); ?>',
+                    'Модуль #<?php echo $model->module_number . " " . $model->title_ua; ?>')">
+            Переглянути модуль</button>
     </li>
 
 </ul>

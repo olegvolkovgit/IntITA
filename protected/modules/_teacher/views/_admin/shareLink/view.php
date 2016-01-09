@@ -5,7 +5,8 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
+					'Посилання на ресурси')">
             Перегляд посилань на ресурси</button>
     </li>
 </ul>

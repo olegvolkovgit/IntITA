@@ -48,7 +48,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Навчальні матеріали
+                <em>Навчальні матеріали</em>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Автори модулів, тренери, etc.
+                <em>Автори модулів, тренери, etc.</em>
             </div>
         </div>
     </div>
@@ -105,7 +105,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Права доступу до курсів/модулів
+                <em>Права доступу до курсів/модулів</em>
             </div>
         </div>
     </div>
@@ -127,7 +127,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                Адміністрування сайта
+                <em>Адміністрування сайта</em>
             </div>
         </div>
     </div>
