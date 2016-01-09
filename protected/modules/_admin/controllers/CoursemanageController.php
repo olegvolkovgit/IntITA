@@ -151,11 +151,7 @@ class CoursemanageController extends AdminController
     public function actionAddModuleToCourse(){
 
         CourseModules::addNewRecord($_POST['module'], $_POST['course']);
-
-        $dataProvider=new CActiveDataProvider('Course');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider
-        ));
+        $this->redirect(Yii::app()->createUrl('/_admin/coursemanage/index'));
     }
 
     public function actionSchema($idCourse){

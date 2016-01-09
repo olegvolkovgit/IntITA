@@ -9,7 +9,7 @@
         return factory(angular);
     }
 }(angular || null, function (angular) {
-    var app = angular.module('ngCkeditor', []);
+    var app = angular.module('ngCkeditor', ['ngBootbox']);
     var $defer, loaded = false;
 
     app.run(['$q', '$timeout', function ($q, $timeout) {
@@ -32,7 +32,7 @@
         $timeout(checkLoaded, 100);
     }]);
 
-    app.directive('ckeditor', ['$timeout', '$q', '$http','$compile', function ($timeout, $q, $http, $compile) {
+    app.directive('ckeditor', ['$timeout', '$q', '$http','$compile', '$ngBootbox', function ($timeout, $q, $http, $compile, $ngBootbox) {
 
         return {
             restrict: 'AC',
@@ -157,8 +157,15 @@
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                             })
                                 .success(function (response) {
-                                    if(response.length==0) alert(scope.saveMsg);
-                                    else alert(response);
+                                    if(response.length==0){
+                                        $ngBootbox.alert(scope.saveMsg)
+                                            .then(function() {
+                                            });
+                                    } else {
+                                        $ngBootbox.alert(response)
+                                            .then(function() {
+                                            });
+                                    }
                                 })
                                 .error(function () {
                                     alert(scope.errorMsg);

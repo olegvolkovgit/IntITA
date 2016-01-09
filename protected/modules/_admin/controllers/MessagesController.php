@@ -43,7 +43,7 @@ class MessagesController extends AdminController
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-                $this->actionIndex();
+			$this->redirect(Yii::app()->createUrl('/_admin/messages/index'));
 		} else {
 
             $this->render('create', array(

@@ -56,7 +56,7 @@ $finishedLecture = $lecture->isFinished($user);
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
-                    <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 1)); ?>">
+                    <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture','0686')?>"/>
@@ -102,6 +102,26 @@ $finishedLecture = $lecture->isFinished($user);
         ));
         $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
         $this->endWidget('zii.widgets.jui.CJuiDialog');
+        ?>
+
+        <?php
+        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+            'id' => 'informDialog',
+            'themeUrl' => Config::getBaseUrl() . '/css',
+            'cssFile' => 'jquery-ui.css',
+            'theme' => 'my',
+            'options' => array(
+                'width' => 540,
+                'autoOpen' => false,
+                'modal' => true,
+                'resizable' => false
+            ),
+        )); ?>
+        <div>
+            <p style="text-align: center">Ваша відповідь буде оброблена в найближчий час</p>
+            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>" ng-click="hideInformDialog()" >
+        </div>
+        <?php $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
     </div>
 </div>

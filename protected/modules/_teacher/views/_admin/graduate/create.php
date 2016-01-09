@@ -9,8 +9,4 @@
                 Список випускників</button>
         </li>
     </ul>
-
-    <div class="page-header">
-        <h4>Додати випускника</h4>
-    </div>
 <?php $this->renderPartial('_form', array('model' => $model)); ?>

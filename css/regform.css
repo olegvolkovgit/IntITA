@@ -14,7 +14,7 @@ div.linesignInForm{margin:0 auto;width:444px;font-size:18px;border-top:1px solid
 .rowButtons{margin-bottom:25px;position:relative;}
 div.image{margin:0 auto;width:444px;}
 #regCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
-#regCheckbox + label{cursor:pointer;}
+#regCheckbox + label{cursor:pointer;font-weight:normal;margin-bottom:0px}
 #regCheckbox:not(checked){position:absolute;opacity:0;}
 #regCheckbox:not(checked) + label{position:relative;padding:0 0 0 42px;}
 #regCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:26px;height:14px;border-radius:13px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
@@ -24,7 +24,7 @@ div.image{margin:0 auto;width:444px;}
 #regCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
 #regCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
 .regCheckboxW{width:452px;margin:0 auto;overflow:hidden;}
-.regCheckbox{position:relative;text-align:left;float:left;padding-bottom:5px;}
+.regCheckbox{position:relative;text-align:left;float:left;}
 .regCheckbox label{color:#4B75A4;}
 .regCheckbox label:hover{color:#666666;}
 .rowemail input:focus,.rowpass input:focus{cursor:text;}
@@ -33,14 +33,15 @@ div.image{margin:0 auto;width:444px;}
 .passEye input::-ms-reveal, .passEye input::-ms-clear{display:none}
 .passEye .eye{position:absolute;right:10px;top:50%;margin-top:0;display:block;height:10px;width:18px;cursor:pointer;background:url('images/passEye.png') no-repeat left 2px;}
 .passEye .openEye{background-position:left bottom;}
-.signIn{text-align:center;}
+.signIn,.signUp{text-align:center;}
 .signInEmailM{margin-top:0;}
 .signInPassM{margin-top:8px;}
-.forgotPass{margin:0 auto;width:448px;overflow:hidden;}
+.authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;}
+.authLinks a{text-decoration:underline;}
 #signInButtonM{margin:0 auto;margin-top:5px;margin-bottom:27px;}
-a#forgotPass{color:#4b75a4;float:left;font-size:16px;}
-a#registration{color:#4b75a4;float:right;font-size:16px;}
-a#forgotPass:hover, a#registration:hover{color:#666666;}
+a#authLinks{color:#4b75a4;float:left;font-size:16px;}
+label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
+a#authLinks:hover, label.registration:hover{color:#666666;}
 input[type="submit"]#signInButtonM{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;letter-spacing:1px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
 input#signInButtonM:hover{background:#454545;box-shadow:0px 2px 0px #7f7f7f;cursor:pointer;}
 div.error input,
@@ -49,11 +50,12 @@ div.error select,
 input.error,
 textarea.error,
 select.error{box-shadow:0 0 4px #c72929;}
-.signIn .errorMessage{float:left;margin:10px 0 5px 30px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
+.signIn .errorMessage,.signUp .errorMessage{float:left;margin:10px 0 5px 30px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
+.signUp .errorMessage{float:left;margin:10px 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
 .signInForm .errorMessage{float:left;clear:right;margin:10px 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
 #studentreg-form{padding-bottom:30px;overflow:hidden;}
 #quick-form{padding-bottom:20px;}
-.signIn .image{margin-bottom:20px;}
+.signIn .image,.signUp .image{margin-bottom:20px;}
 .forminfo{margin:0 auto;width:448px;overflow:hidden;text-align:left;margin:0 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
 #uLogin, #uReg{margin:0 auto;width:100%;}
 #uLogin ul,#uReg ul{margin:0 auto;width:390px;padding:0;list-style:none;}
@@ -69,6 +71,7 @@ input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus{box-shadow:0 0 4px #c
 .clientValidationError{color:#c72929;font-size:16px;font-family:"MyriadPro";}
 .studProf .clientValidationError, .formStudProf .clientValidationError{margin-left:215px;}
 .formStudProf .rightProfileColumn .clientValidationError{margin-left:0;margin-bottom:15px;}
-input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton{background:#666666;}
+input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton,.formStudProf input[type="submit"][disabled]{background:#666666;}
 #studentreg-form .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}
 .signIn .clientValidationError{text-align:left;margin-left:30px;margin-top:10px;margin-bottom:5px;}
+.signUp .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}

@@ -30,9 +30,6 @@ $('.search-form form').submit(function(){
 ");
 ?>
     <link rel="stylesheet" type="text/css" href="<?= Config::getBaseUrl('css', 'formattedForm.css'); ?>"/>
-    <div class="page-header">
-        <h4>Управління курсами</h4>
-    </div>
     <p>
         <?php echo Yii::t("coursemanage", "0513") ?> (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
             &lt;&gt;</b>, <b>=</b>)

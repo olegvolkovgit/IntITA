@@ -16,7 +16,8 @@ $('.search-form form').submit(function(){
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 
-<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create');?>')">
+<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create');?>',
+    'Додати повідомлення')">
     Додати повідомлення
 </button>
 <br>

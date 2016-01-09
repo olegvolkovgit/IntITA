@@ -3,9 +3,6 @@
 /* @var $model Translate */
 ?>
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedFormSimple.css'); ?>"/>
-<div class="page-header">
-    <h4>Додати повідомлення</h4>
-</div>
 
 <div class="col-md-4">
     <form method="post" class="formatted-form" name="translate"

@@ -210,7 +210,7 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.args[index].pattern=/^\d+$/;
                     break;
                 case 1:
-                    $scope.args[index].pattern=/^\d+\.?\d+$/;
+                    $scope.args[index].pattern=/^[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.args[index].pattern=/^(true|false|[01])$/;
@@ -227,7 +227,7 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.args[index].pattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
                     break;
                 case 1:
-                    $scope.args[index].pattern=new RegExp("^(\\d+\\.?\\d+?,){" + (size-1) + "}\\d+\\.?\\d+?$");
+                    $scope.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.args[index].pattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
@@ -247,7 +247,7 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.resultPattern=/^\d+$/;
                     break;
                 case 1:
-                    $scope.resultPattern=/^\d+\.?\d+$/;
+                    $scope.resultPattern=/^[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.resultPattern=/^(true|false|[01])$/;
@@ -264,7 +264,7 @@ function interpreterCtrl($scope,sendTaskJsonService) {
                     $scope.resultPattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
                     break;
                 case 1:
-                    $scope.resultPattern=new RegExp("^(\\d+\\.?\\d+?,){" + (size-1) + "}\\d+\\.?\\d+?$");
+                    $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.resultPattern=new RegExp("^([01],){" + (size-1) + "}([01])$");

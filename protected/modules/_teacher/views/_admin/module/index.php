@@ -1,15 +1,12 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/create'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/create'); ?>',
+                    'Створити модуль')">
             Створити модуль</button>
     </li>
 
 </ul>
-
-<div class="page-header">
-    <h4>Модулі</h4>
-</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'module-grid',

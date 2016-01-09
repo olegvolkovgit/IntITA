@@ -16,10 +16,6 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<div class="page-header">
-    <h4>Відгуки про викладачів</h4>
-</div>
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'response-grid',
     'summaryText' => '',

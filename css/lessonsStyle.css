@@ -24,6 +24,7 @@ div.subLinks{
 .lessonBlock p{
     font-size: 16px;
     word-wrap: break-word;
+    width: 100%;
 }
 .lessonBlock h3{
     margin-top: 20px;
@@ -240,9 +241,8 @@ div.lessonTask {
 img.lessonBut  {
     position: absolute;
     left:44%;
-    top:-14px;
+    top:-15px;
     width: 90px;
-    height:28px;
 }
 .lessonLine{
     border: 1px solid #4b75a4;
@@ -251,13 +251,12 @@ img.lessonBut  {
     position: absolute;
     color:#ffffff;
     left:44%;
-    top:-14px;
+    top:-15px;
     width: 90px;
-    height:28px;
     text-align: center;
-    padding-top: 4px;
     font-size: 14px;
     font-family: "MyriadPro";
+    line-height: 30px;
 }
 img.lessonButFinal  {
     position: absolute;

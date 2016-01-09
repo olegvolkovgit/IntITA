@@ -6,7 +6,8 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/create'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/create'); ?>',
+                    'Створити посилання на ресурс')">
             Створити посилання на ресурс</button>
     </li>
 </ul>
@@ -25,9 +26,6 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<div class="page-header">
-<h4>Управління ресурсами для викладачів</h4>
-</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'share-link-grid',

@@ -13,19 +13,17 @@
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                        ' Додати викладача')">
                 Додати викладача</button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>',
+                        'Управління ролями викладачів')">
                 Управління ролями викладачів</button>
         </li>
     </ul>
-
-    <div class="page-header">
-        <h4>Викладачі</h4>
-    </div>
 <?php
 $this->widget('application.components.MyGridView', array(
     'id' => 'tmanage',
