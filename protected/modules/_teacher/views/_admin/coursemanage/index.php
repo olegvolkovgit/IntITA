@@ -57,13 +57,8 @@
             'name' => 'level',
             'header' => Yii::t("coursemanage", "0520"),
         ),
-//        array(
-//            'name' => 'course_duration_hours',
-//            'header' => Yii::t("coursemanage", "0521"),
-//        ),
-//        array(
-//            'name' => 'course_price',
-//            'header' => Yii::t("coursemanage", "0522"),
-//        ),
+
     ),
 )); ?>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

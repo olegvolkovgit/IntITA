@@ -26,6 +26,7 @@ function addExistModule(url)
         type : 'post',
         data : { 'moduleId' : moduleId , 'courseId' : courseId},
         success: function (data) {
+            showDialog('Ви додали модуль до курсу');
             fillContainer(data);
         },
         error: function () {
@@ -34,7 +35,7 @@ function addExistModule(url)
     });
     }
     else
-        showDialog();('Виберіть вірні дані!');
+        showDialog('Виберіть вірні дані!');
         return false;
 }
 
@@ -43,7 +44,7 @@ function saveSchema(url)
     $.ajax({
         url: url,
         success: function (data) {
-            alert("Схема курсу збережена!")
+            showDialog("Схема курсу збережена!")
             location.reload();
         },
         error: function () {
@@ -78,7 +79,6 @@ function addCoursePrice(url)
 
 function addMandatory(url)
 {
-
     var mandatory = $("select[name=mandatory] option:selected").val();
     var courseId = $("select[name=course] option:selected").val();
     var moduleId = $("#module").val();
@@ -101,14 +101,12 @@ function addMandatory(url)
 function addTranslate(url)
 {
     var form = document.forms["translate"];
-
     var id = form['id'].value;
     var category = form['category'].value;
     var comment = form['comment'].value;
     var translateUa = form['translateUa'].value;
     var translateRu = form['translateRu'].value;
     var translateEn = form['translateEn'].value;
-
     var reg = '^[a-zA-Z]+$';
 
     if(category.match(reg))
@@ -142,6 +140,5 @@ function showDialog(str)
     if(str){
     $('#modalText').html(str);
     }
-
     $('#myModal').modal('show');
 }

@@ -104,13 +104,13 @@ class PermissionsController extends TeacherCabinetController
                 ));
             }
         }
-        $this->actionIndex();
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionDelete($id, $resource)
     {
         Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
-        $this->actionIndex();
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionShowLectures()
@@ -206,7 +206,7 @@ class PermissionsController extends TeacherCabinetController
                 $module,
                 array('read', 'edit'));
         }
-        $this->actionIndex();
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionAddTeacher()
@@ -218,7 +218,7 @@ class PermissionsController extends TeacherCabinetController
         }
         $user->save();
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionSetTeacherRole()
@@ -233,7 +233,7 @@ class PermissionsController extends TeacherCabinetController
                 $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionSetTeacherRoleAttribute()
@@ -265,7 +265,7 @@ class PermissionsController extends TeacherCabinetController
 
             }
             if ($result) {
-                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
+                $this->redirectToIndex(__CLASS__);
             }
 
         }
@@ -310,11 +310,13 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionShowTeacherModules()
     {
-        if (isset($_POST['teacher']))
+        if (isset($_POST['teacher'])){
             $idTeacher = $_POST['teacher'];
 
-        $result = TeacherModule::showTeacherModule($idTeacher);
 
+        $result = TeacherModule::showTeacherModule($idTeacher);
+        }
+        else $result = '';
         echo $result;
     }
 
@@ -334,7 +336,7 @@ class PermissionsController extends TeacherCabinetController
             $module,
             array('read', 'edit'));
 
-        $this->actionIndex();
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionCancelTeacherRole()

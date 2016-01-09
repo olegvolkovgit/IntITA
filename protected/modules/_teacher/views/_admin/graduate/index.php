@@ -2,17 +2,14 @@
 /* @var $this GraduateController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-    <ul class="list-inline">
+<ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">
-            Додати випускника</button>
+            Додати випускника
+        </button>
     </li>
-    </ul>
-
-<div class="page-header">
-    <h4>Випускники</h4>
-</div>
+</ul>
 <?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -49,10 +46,10 @@ $('.search-form form').submit(function(){
         array(
             'class' => 'CButtonColumn',
             'headerHtmlOptions' => array('style' => 'width:80px'),
-            'buttons'=>array(
+            'buttons' => array(
                 'view' => array
                 (
-                    'click'=>"function(){
+                    'click' => "function(){
                                     $.fn.yiiGridView.update('graduate-grid', {
                                         type:'POST',
                                         url:$(this).attr('href'),
@@ -63,12 +60,12 @@ $('.search-form form').submit(function(){
                                     return false;
                               }
                      ",
-                    'label'=>'Переглянути',
+                    'label' => 'Переглянути',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$data->id))',
                 ),
                 'update' => array
                 (
-                    'click'=>"function(){
+                    'click' => "function(){
                                     $.fn.yiiGridView.update('graduate-grid', {
                                         type:'POST',
                                         url:$(this).attr('href'),
@@ -79,7 +76,7 @@ $('.search-form form').submit(function(){
                                     return false;
                               }
                      ",
-                    'label'=>'Редагувати',
+                    'label' => 'Редагувати',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/graduate/update", array("id"=>$data->id))',
                 ),
             ),
