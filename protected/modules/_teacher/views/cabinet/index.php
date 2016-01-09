@@ -46,7 +46,6 @@
 </head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
-    currentUrl = '';
 </script>
 <body ng-app="teacherApp">
 
@@ -99,32 +98,5 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
-<script>
-    $(function(){
-        $('#menu-link a').click(function(){
-            location.hash= $(this).attr('href').match(/^.*#(.*)/)[1];
-            return false
-        });
-        function hashChange(){
-            if (currentUrl != ""){
-                load(currentUrl);
-            }
-        }
-        if ("onhashchange" in window){ // cool browser
-            $(window).on('hashchange',hashChange).trigger('hashchange')
-        }else{ // lame browser
-            var lastHash='';
-            setInterval(function(){
-                if (lastHash!=location.hash)
-                    hashChange();
-                lastHash=location.hash
-            },100)
-        }
-    });
-//
-//    function setCurrentUrl(url){
-//        document.cookie = "currentUrl=" + url;
-//    }
-</script>
 </html>
 

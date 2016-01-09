@@ -64,7 +64,6 @@ class MessagesController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-
 		if(isset($_POST['Translate']))
 		{
 			$model->attributes=$_POST['Translate'];

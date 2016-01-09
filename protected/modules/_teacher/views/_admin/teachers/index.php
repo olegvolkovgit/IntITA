@@ -13,7 +13,8 @@
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                        'Додати викладача')">
                 Додати викладача</button>
         </li>
         <li>
