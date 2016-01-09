@@ -72,7 +72,7 @@ class TeachersController extends TeacherCabinetController{
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
-                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id)));
+                $this->redirect($this->pathToCabinet());
             }
         }
 
@@ -115,7 +115,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-            $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id)));
+            $this->redirectToIndex(__CLASS__);
         }
         $this->renderPartial('createRole', array(
             'model' => $model,
@@ -144,7 +144,7 @@ class TeachersController extends TeacherCabinetController{
                         210
                     );
                 }
-            $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id)));
+            $this->redirect($this->pathToCabinet());
 //            $this->redirect(array('view', 'id' => $model->teacher_id));
         }
         $this->render('update', array(
@@ -162,7 +162,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id)));
+                $this->redirectToIndex(__CLASS__);
         }
         $this->renderPartial('updateRole', array(
             'model' => $model,
@@ -270,7 +270,7 @@ class TeachersController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['RoleAttribute'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirectToIndex(__CLASS__);
         }
 
         $this->renderPartial('updateRoleAttribute',array(

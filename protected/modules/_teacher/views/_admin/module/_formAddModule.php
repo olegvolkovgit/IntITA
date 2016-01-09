@@ -19,7 +19,18 @@
         // See class documentation of CActiveForm for details on this.
         'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions' => array(
+            'afterValidate' => 'js:function(form,data,hasError){
+            for (var prop in data)
+                {
+                    var err = document.getElementById(prop);
+                    err.focus();
+                    break;
+            }return true;}',
+            'validateOnSubmit' => true,
+            'validateOnChange' => true,
+            'errorCssClass' => 'form-group has-error',
+            ),
         )); ?>
 
 
@@ -128,3 +139,4 @@
     <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+

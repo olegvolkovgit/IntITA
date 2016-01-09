@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 12.10.2015
- * Time: 19:14
- */
-?>
 <!DOCTYPE html>
 <html xmlns:og="http://ogp.me/ns#">
 <head>
@@ -57,7 +49,7 @@
     <!-- Placeholder for old browser -->
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
     <!-- Placeholder for old browser -->
-    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 
 <body style="overflow-y: scroll" itemscope itemtype="http://schema.org/Product">

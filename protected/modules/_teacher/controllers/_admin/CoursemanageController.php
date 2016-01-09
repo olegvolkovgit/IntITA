@@ -1,6 +1,5 @@
 <?php
 
-//use AccountancyException;
 class CoursemanageController extends TeacherCabinetController
 {
     /**
@@ -21,11 +20,11 @@ class CoursemanageController extends TeacherCabinetController
     public function actionCreate()
     {
         $model=new Course;
+
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
-
             $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
             $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             $model->attributes = $_POST['Course'];
@@ -100,7 +99,7 @@ class CoursemanageController extends TeacherCabinetController
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index',array(
+        $this->render('index',array(
             'dataProvider'=>$dataProvider,
         ),false,true);
     }
@@ -145,7 +144,14 @@ class CoursemanageController extends TeacherCabinetController
     }
 
     public function actionAddExistModule(){
-        $this->renderPartial('addExistModule');
+
+        $courses = Course::generateCoursesList();
+        $modules = Module::generateModulesList();
+
+        $this->renderPartial('addExistModule',array(
+            'courses' => $courses,
+            'modules' => $modules
+        ),false,true);
     }
 
     public function actionAddModuleToCourse(){
@@ -155,10 +161,7 @@ class CoursemanageController extends TeacherCabinetController
 
         CourseModules::addNewRecord($moduleId, $courseId);
 
-        $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index', array(
-            'dataProvider' => $dataProvider
-        ),false,true);
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionSchema($idCourse){
@@ -209,4 +212,9 @@ class CoursemanageController extends TeacherCabinetController
         Course::model()->updateByPk($id, array('cancelled' => 0));
         $this->actionAdmin();
     }
+
+    /**
+     *
+     */
+
 }

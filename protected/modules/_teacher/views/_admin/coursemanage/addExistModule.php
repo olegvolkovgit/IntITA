@@ -18,11 +18,11 @@
             <div class="form-group">
                 <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
                         >
-                    <?php $modules = Module::generateModulesList();
-                    $count = count($modules);
-                    for ($i = 0; $i < $count; $i++) {
+                    <?php
+
+                    foreach($modules as $module) {
                         ?>
-                        <option value="<?php echo $modules[$i]['id']; ?>"><?php echo $modules[$i]['alias']; ?></option>
+                        <option value="<?php echo $module['id']; ?>"><?php echo $module['alias']; ?></option>
                     <?php
                     }
                     ?>
@@ -33,17 +33,14 @@
             Курс:<br>
 
             <div class="form-group">
-                <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();" class="form-control"
-                        >
-                    <option value="">Всі курси</option>
+                <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();" class="form-control">
                     <optgroup label="Виберіть курс">
-                        <?php $courses = Course::generateCoursesList();
-                        $count = count($courses);
-                        for ($i = 0; $i < $count; $i++) {
+                        <?php
+                        foreach($courses as $course)  {
                             ?>
                             <option
-                                value="<?php echo $courses[$i]['id']; ?>"><?php echo $courses[$i]['alias']." (".
-                                    $courses[$i]['language'].")"; ?></option>
+                                value="<?php echo $course['id']; ?>"><?php echo $course['alias']." (".
+                                    $course['language'].")"; ?></option>
                         <?php
                         }
                         ?>

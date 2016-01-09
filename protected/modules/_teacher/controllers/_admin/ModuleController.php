@@ -135,7 +135,7 @@ class ModuleController extends TeacherCabinetController {
         Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules='.$mandatory.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
 
-        $this->redirect($this->pathToCabinet());
+        $this->redirectToIndex(__CLASS__);
     }
 
     public function actionGetModuleByCourse()
@@ -171,7 +171,7 @@ class ModuleController extends TeacherCabinetController {
         Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course='.$price.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
 
-        $this->actionIndex();
+        $this->redirectToIndex(__CLASS__);
     }
 
     protected function performAjaxValidation($model)

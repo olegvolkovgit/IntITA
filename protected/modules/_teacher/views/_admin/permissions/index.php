@@ -14,10 +14,6 @@ $('.search-form form').submit(function(){
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
 
-<div class="page-header">
-    <h4>Права доступу</h4>
-</div>
-
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"

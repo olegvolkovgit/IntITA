@@ -42,7 +42,7 @@ class TranslateController extends TeacherCabinetController{
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-            $this->actionIndex();
+            $this->redirect($this->pathToCabinet());
         } else {
 
             $this->renderPartial('create', array(
@@ -59,4 +59,41 @@ class TranslateController extends TeacherCabinetController{
             Yii::app()->end();
         }
     }
+
+    public function actionView($id)
+    {
+        $this->renderPartial('view',array(
+            'model'=>$this->loadModel($id),
+        ),false,true);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id)->with('source');
+
+        // Uncomment the following line if AJAX validation is needed
+         $this->performAjaxValidation($model);
+
+        if(isset($_POST['Translate']))
+        {
+            $model->attributes=$_POST['Translate'];
+            if($model->save()) {
+                MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
+                $this->redirect($this->pathToCabinet());
+            }
+        }
+
+        $this->renderPartial('update',array(
+            'model'=>$model,
+        ),false,true);
+    }
+
+    public function loadModel($id)
+    {
+        $model=Translate::model()->findByPk($id);
+        if($model===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        return $model;
+    }
+
 }

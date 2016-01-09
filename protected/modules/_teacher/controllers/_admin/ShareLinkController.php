@@ -48,8 +48,6 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionUpdate($id)
     {
-//        var_dump($_POST);die;
-
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -139,4 +137,5 @@ class ShareLinkController extends TeacherCabinetController {
             Yii::app()->end();
         }
     }
+
 }
