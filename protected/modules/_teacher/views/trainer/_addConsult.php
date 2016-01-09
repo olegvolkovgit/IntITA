@@ -7,7 +7,7 @@
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
 
-<div class="col-md-6">
+<div class="col-md-12">
 
     <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
 
