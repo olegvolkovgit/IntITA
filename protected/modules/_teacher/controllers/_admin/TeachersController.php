@@ -51,7 +51,6 @@ class TeachersController extends TeacherCabinetController{
         $model = new Teacher;
 //         Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
-//        var_dump($_POST);die;
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -72,7 +71,7 @@ class TeachersController extends TeacherCabinetController{
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
             }
         }
 
@@ -115,7 +114,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-            $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $this->renderPartial('createRole', array(
             'model' => $model,
@@ -144,8 +143,7 @@ class TeachersController extends TeacherCabinetController{
                         210
                     );
                 }
-            $this->redirect($this->pathToCabinet());
-//            $this->redirect(array('view', 'id' => $model->teacher_id));
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $this->render('update', array(
             'model' => $model,
@@ -162,7 +160,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $this->renderPartial('updateRole', array(
             'model' => $model,
@@ -226,7 +224,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $model->role = $role;
         $this->renderPartial('addRoleAttribute', array(
@@ -270,7 +268,7 @@ class TeachersController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['RoleAttribute'];
             if($model->save())
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
 
         $this->renderPartial('updateRoleAttribute',array(

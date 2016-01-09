@@ -29,12 +29,8 @@ $list = CHtml::listData($models,
         'enableAjaxValidation' => true,
         'clientOptions' => array(
             'afterValidate' => 'js:function(form,data,hasError){
-            for (var prop in data)
-                {
-                    var err = document.getElementById(prop);
-                    err.focus();
-                    break;
-            }return true;}',
+                send(form,data,hasError);
+                }',
             'validateOnSubmit' => true,
             'validateOnChange' => false),
     )); ?>

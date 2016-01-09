@@ -32,7 +32,7 @@ class ModuleController extends TeacherCabinetController {
                     $thisModel = new Module;
                     $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
                 }
-            $this->redirect($this->pathToCabinet());
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
         }
 
         $this->renderPartial('create', array(
@@ -109,8 +109,7 @@ class ModuleController extends TeacherCabinetController {
                 if(!Module::model()->updateByPk($id,array('module_img' => $model->oldLogo))) //Костиль
                     throw new CDbException(400,'Avatar not SAVE');
             }
-            $this->redirect($this->pathToCabinet());
-
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
         }
         $this->renderPartial('update', array(
             'model' => $model
@@ -135,7 +134,7 @@ class ModuleController extends TeacherCabinetController {
         Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules='.$mandatory.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
     }
 
     public function actionGetModuleByCourse()
@@ -171,7 +170,7 @@ class ModuleController extends TeacherCabinetController {
         Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course='.$price.' WHERE id_module='.
             $idModule.' and id_course='.$idCourse)->query();
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
     }
 
     protected function performAjaxValidation($model)

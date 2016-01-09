@@ -33,7 +33,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-            $this->redirect($this->pathToCabinet());
+                return $this->actionIndex();
         }
 
         $this->renderPartial('create',array(
@@ -57,7 +57,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/shareLink/index'));
         }
         $this->renderPartial('update',array(
             'model'=>$model,

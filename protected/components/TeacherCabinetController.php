@@ -82,10 +82,4 @@ class TeacherCabinetController extends CController
         }
     }
 
-    protected function redirectToIndex($child)
-    {
-        $callerName = array_shift(explode('Controller',$child));
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/'.$callerName.'/index'));
-    }
 }

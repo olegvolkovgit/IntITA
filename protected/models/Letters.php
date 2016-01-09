@@ -154,4 +154,12 @@ class Letters extends CActiveRecord
             $model->save();
         }
     }
+
+    public function setLetterText($title,$link)
+    {
+       return "Вітаємо!"."<br>".
+        "Тобі надано доступ до  модуля : " .$title.".".
+        "Щоб розпочати навчання, перейди за посиланням: ".$link."
+            ​З повагою,INTITA​";
+    }
 }

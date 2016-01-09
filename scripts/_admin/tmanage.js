@@ -137,12 +137,34 @@ function addTranslate(url)
     }
 
 }
+function send(form,data,hasError)
+{
+    if(hasError){
+        for(var prop in data)
+        {
+            var err = document.getElementById(prop);
+            err.focus();
+            break;
+        }
+    }
+    else {
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            data: $(form).serialize(),
+            success: function(data) {
+                fillContainer(data);
+            }
+        });
+    }
+}
+
+
 
 function showDialog(str)
 {
     if(str){
     $('#modalText').html(str);
     }
-
     $('#myModal').modal('show');
 }

@@ -2,7 +2,7 @@
 
 class CarouselController extends TeacherCabinetController
 {
-
+    private $callerName = 'carousel';
     /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -35,7 +35,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 $model->save();
-                $this->redirectToIndex(__CLASS__);
+                $this->redirectToIndex($this->callerName);
             }
         }
 
@@ -68,7 +68,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 if ($model->save())
-                    $this->redirectToIndex(__CLASS__);
+                    $this->redirectToIndex($this->callerName);
             }
 		}
 
@@ -175,9 +175,8 @@ class CarouselController extends TeacherCabinetController
                 $prevModel->save();
             }
 
-            $this->redirectToIndex(__CLASS__);
         }
-        else return;
+        else $this->redirectToIndex($this->callerName);
     }
 
     public function actionDown($order)
@@ -185,7 +184,7 @@ class CarouselController extends TeacherCabinetController
         $model = Carousel::model()->findByAttributes(array('order' => $order));
 
         if($order == $model->getLastOrder())
-            $this->redirectToIndex(__CLASS__);
+            $this->redirectToIndex($this->callerName);
 
         else
         {
@@ -203,7 +202,7 @@ class CarouselController extends TeacherCabinetController
                 $model->save();
                 $nextModel->save();
             }
-            $this->redirectToIndex(__CLASS__);
+            $this->redirectToIndex($this->callerName);
         }
         }
     }
