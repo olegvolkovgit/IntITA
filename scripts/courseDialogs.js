@@ -24,7 +24,7 @@ function deleteModule(idModule){
         if(result){
             $.ajax({
                 type: "GET",
-                url: "/IntITA/course/unableModule",
+                url: "/course/unableModule",
                 data: {'idModule':idModule,'idCourse':idCourse},
                 success: function(){
                     $.fn.yiiGridView.update("modules-grid");
