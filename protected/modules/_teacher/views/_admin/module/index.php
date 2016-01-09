@@ -1,7 +1,8 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/create'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/create'); ?>',
+                    'Створити модуль')">
             Створити модуль</button>
     </li>
 
