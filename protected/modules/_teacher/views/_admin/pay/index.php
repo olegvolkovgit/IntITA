@@ -1,6 +1,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 <?php
 /* @var $this PayController */
+$user = Yii::app()->user->getId();
 ?>
 <?php if(!empty($cancelMode)) {
     $moduleAction = 'cancelModule';
@@ -30,12 +31,16 @@
     <div class="panel panel-default col-md-7">
         <div class="panel-body">
             <div id="addAccessModule">
-    <br>
                 <div id="findModule" class="form-group row">
                     <form name = 'findUsers' method="POST">
                         <div class="col-md-10">
-                            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
+                            <div class="form-group" id="receiver">
+                                <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Введіть e-mail користувача">
+                            </div>
+<!--                            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">-->
                         </div>
+                        <br>
+
                         <div class="col-md-2">
                         <input type="button" class="btn btn-default" value="Знайти користувача"
                                onclick = "findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')" >
@@ -100,7 +105,6 @@
     <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <div id="addAccessModule">
-            <br>
             <a name="form"></a>
             <form  method="POST" name="add-accessCourse"
                    onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$courseAction);?>');return false;">
@@ -136,3 +140,42 @@
 <br>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+<script>
+    users = <?=StudentReg::usersEmailArray($user);?>;
+</script>
+
+<script>
+    var substringMatcher = function (strs) {
+        return function findMatches(q, cb) {
+            var matches, substrRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function (i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push(str);
+                }
+            });
+
+            cb(matches);
+        };
+    };
+
+    $('#typeahead').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'receiver',
+            source: substringMatcher(users)
+        }
+    );
+</script>

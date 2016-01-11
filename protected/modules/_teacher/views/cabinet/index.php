@@ -106,7 +106,7 @@
             return false
         });
         function hashChange(){
-            alert(document.cookie.currentUrl);
+            //alert(document.cookie.currentUrl);
             if (currentUrl != ""){
                 load(currentUrl);
             }
