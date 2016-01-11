@@ -19,3 +19,6 @@ function openChangeemail(){
     $("#changeemail").dialog("open");
     return false;
 }
+function closeAndReg(){
+    $('#forgotpass').dialog('close');
+}

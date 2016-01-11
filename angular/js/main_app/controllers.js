@@ -1,16 +1,11 @@
 /* Directives */
 angular
     .module('mainApp')
-    .controller('validationController',validationController)
-    .controller('mainCtrl',mainCtrl);
+    .controller('validationController',validationController);
+
 /* Controllers */
 function validationController($scope) {
 
-}
-function mainCtrl($scope) {
-    $scope.closeAndReg=function(){
-        $('#forgotpass').dialog('close');
-    };
 }
 
 angular.module('mainApp.directives', [])

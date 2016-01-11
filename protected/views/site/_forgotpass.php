@@ -6,7 +6,7 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableClientValidation' => true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
-    'action' => array('site/recoverypass'),
+    'action' => array('/site/recoverypass'),
     'htmlOptions' => array('name'=>'recoveryForm','novalidate'=>true),
 ));
 ?>
@@ -26,7 +26,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <span ng-cloak ng-show="recoveryForm['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
             <span ng-cloak ng-show="recoveryForm['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
         </div>
-        <label id="toRegistration" ng-click="closeAndReg()" class=registrationWhenForgot ><?php echo Yii::t('registration', '0591'); ?></label>
+        <label id="toRegistration" onclick="closeAndReg()" class=registrationWhenForgot ><?php echo Yii::t('registration', '0591'); ?></label>
     </div>
     <br>
     <div class="rowRecovButt">
