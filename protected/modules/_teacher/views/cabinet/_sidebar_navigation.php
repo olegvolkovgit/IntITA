@@ -37,8 +37,34 @@
                 <li>
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
                         array('user' => $model->id)); ?>', 'Бухгалтерія')">
-                        <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
+                        <i class="fa fa-table fa-fw"></i> Бухгалтер <span class="fa arrow"></span></a>
                 </li>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/agreements/index',
+                            array('user' => $model->id)); ?>', 'Список договорів')">Договори</a>
+                    </li>
+                    <li>
+                        <a href="#">Рахунки</a>
+                    </li>
+                    <li>
+                        <a href="#">Проплати</a>
+                    </li>
+                    <li>
+                        <a href="#">Налаштування <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="#">Типи проплат</a>
+                            </li>
+                            <li>
+                                <a href="#">Зовнішні джерела коштів</a>
+                            </li>
+                            <li>
+                                <a href="#">Причини відміни проплат</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             <?php
             }
 

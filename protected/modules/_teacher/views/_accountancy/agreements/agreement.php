@@ -2,7 +2,6 @@
 /**
  * @var $model UserAgreements
  */
-$this->pageTitle = 'INTITA';
 ?>
 <br>
 <h1>Договір № <?php echo $model->number;?></h1>
