@@ -3,10 +3,9 @@
 /* @var $message string */
 /* @var $code integer */
 $this->breadcrumbs=array(
-    Yii::t('error','0590'),
+    $breadMsg,
 );
 ?>
-
 <div class='errorblock'>
 <!--    <h1>--><?php //echo Yii::t('error','0590')." ".$code; ?><!--</h1>-->
     <div class="error">
