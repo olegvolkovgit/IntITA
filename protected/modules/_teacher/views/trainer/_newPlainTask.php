@@ -4,6 +4,8 @@
  * User: Quicks
  * Date: 09.12.2015
  * Time: 16:54
+ *
+ * @var $plainTaskAnswer PlainTaskAnswer
  */
 if(!empty($plainTasksAnswers))
 {?>
@@ -36,7 +38,6 @@ if(!empty($plainTasksAnswers))
 </div>
 <?php
 }
-else echo 'Наразі всі задачі з тренерами';?>
-
+else echo 'Наразі всі задачі з консультантами';?>
 
 

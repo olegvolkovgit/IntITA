@@ -1,7 +1,7 @@
 <?php
 
 class LettersController extends Controller
-{//http://localhost/IntIta/studentreg/profile/?idUser=22 вкладка листування
+{
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -136,15 +136,15 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
-        $model= new Letters();
-        if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
+        $model= new UserMessages();
+        if(isset($_POST['ajax']) && $_POST['ajax']==='user-messages-form')
         {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-        if(isset($_POST['Letters']))
+        if(isset($_POST['UserMessages']))
         {
-            $model->attributes=$_POST['Letters'];
+            $model->attributes=$_POST['UserMessages'];
             $model->date = date("Y-m-d H:i:s");
             if($model->validate())
             {

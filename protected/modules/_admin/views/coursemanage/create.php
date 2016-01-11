@@ -4,16 +4,16 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index');?>"><?php echo Yii::t("coursemanage", "0392");?></a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">
+            <?php echo Yii::t("coursemanage", "0392"); ?>
+        </a>
     <br>
 
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/admin');?>"><?php echo Yii::t("coursemanage", "0393");?></a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/admin'); ?>">
+            <?php echo Yii::t("coursemanage", "0393"); ?>
+        </a>
 
     <div class="page-header">
-    <h1><?php echo Yii::t('coursemanage', '0394'); ?></h1>
+        <h1><?php echo Yii::t('coursemanage', '0394'); ?></h1>
     </div>
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model' => $model)); ?>

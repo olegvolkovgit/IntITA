@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('skipTaskCtrl',skipTaskCtrl);
 
-function skipTaskCtrl($rootScope,$http, $scope, accessLectureService) {
+function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
     $scope.sendSkipTaskAnswer=function(id){
 
         var text = skipTaskQuestion.getElementsByTagName('input');
@@ -15,8 +15,11 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService) {
         {
             if(text[i].value == '')
             {
+                angular.element(document.querySelector("#skipTask"+parseInt(i+1))).addClass('emptyField');
                 check = false;
-                alert('Заповніть поле ' + ++i);
+            }
+            else{
+                angular.element(document.querySelector("#skipTask"+parseInt(i+1))).removeClass('emptyField');
             }
         }
         if(!check)
@@ -46,66 +49,27 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService) {
             cache: false
         }).then(function(response){
             if (response.data == 'done') {
-                $scope.pageDataUpdate();
-                $scope.openTrueDialog();
+                pagesUpdateService.pagesDataUpdate();
+                openDialogsService.openTrueDialog();
                 return false;
             }
             else if(response.data == 'lastPage')
             {
-                $scope.pageDataUpdate();
-                $scope.openLastTrueDialog();
+                pagesUpdateService.pagesDataUpdate();
+                openDialogsService.openLastTrueDialog();
                 accessLectureService.getAccessLectures();
                 $rootScope.finishedLecture=1;
                 return false;
             }
             else if(response.data == 'not done')
             {
-                $scope.openFalseDialog();
+                openDialogsService.openFalseDialog();
                 return false;
             }
         });
     };
-
-    // оновлюємо модель з сервера
-    $scope.pageDataUpdate = function (){
-        $http({
-            url: basePath + '/lesson/GetPageData',
-            method: "POST",
-            data: $.param({lecture: idLecture}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function(response){
-            $rootScope.pageData = response.data;
-            var count = $rootScope.pageData.length;
-
-            for (var i = 0; i < count; i++) {
-                if (i == (count - 1) && $rootScope.pageData[i]['isDone']){
-                    $rootScope.lastAccessPage = i+1;
-                    break;
-                }
-                if ($rootScope.pageData[i]['isDone'] && !$rootScope.pageData[i+1]['isDone']){
-                    $rootScope.lastAccessPage = i+1;
-                    break;
-                }
-            }
-        });
-    };
-    // оновлюємо модель з сервера
-    // Dialog windows
-    $scope.openTrueDialog=function(){
-        jQuery('#mydialog2').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#mydialog2").dialog().dialog("open");
-        $("#mydialog2").parent().css('border', '4px solid #339900');
-    };
-    $scope.openLastTrueDialog=function(){
-        jQuery('#dialogNextLecture').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#dialogNextLectureNG").dialog().dialog("open");
-        $("#dialogNextLectureNG").parent().css('border', '4px solid #339900');
-    };
-    $scope.openFalseDialog=function(){
-        jQuery('#mydialog3').dialog({'width':'540px','height':'auto','modal':true,'autoOpen':false});
-        $("#mydialog3").dialog().dialog("open");
-        $("#mydialog3").parent().css('border', '4px solid #cc0000');
-
-    };
-    // Dialog windows
 }
+$('html').on('keyup','.emptyField', function () {
+    if($(this).hasClass("emptyField"))
+    $(this).removeClass('emptyField');
+});

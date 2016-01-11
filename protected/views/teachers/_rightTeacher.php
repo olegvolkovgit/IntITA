@@ -41,14 +41,16 @@
                                         <ul>
                                             <?php
                                             foreach ($modules as $module) {
-                                                ?>
-                                                <li>
-                                                    <a href="<?php echo Yii::app()->createUrl('module/index',
-                                                        array('idModule' =>$module->module_ID));?>">
-                                                        <?php echo $module->getTitle().', '.$module->language; ?>
-                                                    </a>
-                                                </li>
-                                            <?php
+                                                if(!$module->cancelled) {
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?php echo Yii::app()->createUrl('module/index',
+                                                            array('idModule' => $module->module_ID)); ?>">
+                                                            <?php echo $module->getTitle() . ', ' . $module->language; ?>
+                                                        </a>
+                                                    </li>
+                                                    <?php
+                                                }
                                             }
                                             ?>
                                         </ul>

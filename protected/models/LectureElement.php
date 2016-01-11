@@ -50,7 +50,7 @@ class LectureElement extends CActiveRecord
             'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
             'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
             'lecture' => array(self::BELONGS_TO, 'Lecture','id_lecture'),
-		
+
         );
 	}
 

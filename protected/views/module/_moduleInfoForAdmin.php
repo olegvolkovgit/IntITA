@@ -31,14 +31,16 @@
                     ),
                     'enableAjaxValidation' => false,
                 )); ?>
-                <div class="hideInput">
-                    <?php echo $form->fileField($post, 'module_img', array('id' => 'logoModule', 'onChange' => 'js:getImgName(this.value)')); ?>
-                </div>
-                <div>
-                    <?php echo $form->error($post, 'module_img'); ?>
-                    <a onclick="selectLogo()">
-                        <?php echo 'Вибрати'; ?>
-                    </a>
+                <div class="fileform">
+                    <div class="hideInput">
+                        <?php echo $form->fileField($post, 'module_img', array('tabindex' => '-1', 'id' => 'logoModule', 'onChange' => 'js:getImgName(this.value)')); ?>
+                    </div>
+                    <div>
+                        <?php echo $form->error($post, 'module_img'); ?>
+                        <label id="logo" for="logoModule" >
+                            <?php echo 'Вибрати'; ?>
+                        </label>
+                    </div>
                 </div>
                 <div id="avatarInfo"><?php echo 'Не вибрано'; ?></div>
                 <div class="row buttons">

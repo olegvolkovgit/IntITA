@@ -22,15 +22,26 @@ if ($idCourse != 0) {
     );
 }
 ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/config.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
+<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
+
+
+
 
 <script type="text/javascript">
     lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
+    idModule = <?php echo $lecture->idModule;?>;
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
@@ -62,7 +73,7 @@ if ($idCourse != 0) {
         </div>
         <div id="lecturePage">
             <br>
-            <h1 class="lessonPart">
+            <h1 class="lessonPart lessonEditPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': ';
                 $title = Lecture::getTypeTitleParam();
                 $this->widget('editable.EditableField', array(
@@ -75,10 +86,24 @@ if ($idCourse != 0) {
                     'placement' => 'right',
                 )); ?>
             </h1>
-
-            <h1 class="lessonPart">
-                <div class="labelBlock">
-                    <p><?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ';
+            <div class="lectureVerify" >
+                <?php if($lecture->verified==0) { ?>
+                    <a href="<?php echo Yii::app()->createUrl('/lesson/confirm', array('id' => $page->id_lecture));?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'checked.png'); ?>"
+                             title="Підтвердити готовність лекції(шаблонізація)" />
+                    </a>
+                <?php } else { ?>
+                    <a href="<?php echo Yii::app()->createUrl('/lesson/cancel', array('id' => $page->id_lecture));?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'notChecked.png'); ?>"
+                             title="Встановити лекцію в розробці" />
+                    </a>
+                <?php } ?>
+            </div>
+            <div class="lessonPart">
+                <h4 class="labelBlock" style="display: inline-block">
+                    <?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ';
                         $this->widget('editable.EditableField', array(
                             'type' => 'textarea',
                             'model' => $page,
@@ -87,9 +112,9 @@ if ($idCourse != 0) {
                             'url' => $this->createUrl('lesson/updateLecturePageAttribute'),
                             'placement' => 'right',
                         ));
-                        ?></p>
-                </div>
-                <div>
+                    ?>
+                </h4>
+                <div style="width: auto">
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse)); ?>">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'imperavi.png'); ?>"
@@ -107,9 +132,7 @@ if ($idCourse != 0) {
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>
                     </a>
                 </div>
-            </h1>
-            <?php $this->renderPartial('/editor/_lectureProgressEdit', array('page' => $page, 'user' => $user,
-                'idCourse' => $idCourse)); ?>
+            </div>
             <h3><label for="pageVideo"><?php echo Yii::t('lecture', '0613'); ?></label></h3>
             <?php
             if ($page->video == null) { ?>
@@ -198,7 +221,7 @@ if ($idCourse != 0) {
             <?php if ($page->quiz == null) {
                 $author = Teacher::getTeacherId($user);
             $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id));
+            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
             $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
             $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
             }?>

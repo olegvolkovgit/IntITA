@@ -39,16 +39,15 @@ $editMode = ($canEdit) ? 'true' : '';
         'columns' => array(
             array(
                 'class' => 'CButtonColumn',
-                'template' => '{up}{down}{delete}',
+                'template' => '{up}{down}{customDelete}',
                 'headerHtmlOptions' => array('style' => 'display:none'),
-                'deleteConfirmation' => Yii::t('course', '0332'),
                 'buttons' => array
                 (
                     'htmlOptions' => array('display' => 'none'),
-                    'delete' => array(
+                    'customDelete' => array(
                         'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                        'url' => 'Yii::app()->createUrl("course/unableModule", array("idModule"=>$data->id_module,
-                        "idCourse"=>$data->id_course))',
+                        'url' => '$data->id_module',
+                        'click'=>'js: function(){ deleteModule($(this).attr("href")); return false; }',
                         'label' => Yii::t('course', '0333'),
                         'visible' => $editMode,
                     ),

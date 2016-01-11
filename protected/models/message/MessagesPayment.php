@@ -7,7 +7,7 @@
  * @property integer $id_message
  * @property integer $operation
  */
-class MessagesPayment extends CActiveRecord
+class MessagesPayment extends CActiveRecord implements IMessage
 {
 	/**
 	 * @return string the associated database table name
@@ -28,7 +28,6 @@ class MessagesPayment extends CActiveRecord
 			array('id_message, operation', 'required'),
 			array('id_message, operation', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_message, operation', 'safe', 'on'=>'search'),
 		);
 	}
@@ -69,8 +68,6 @@ class MessagesPayment extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message);
@@ -91,4 +88,28 @@ class MessagesPayment extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function create(){
+
+    }
+
+    public function send(IMailSender $sender){
+
+    }
+
+    public function read(StudentReg $receiver){
+
+    }
+
+    public function deleteMessage(StudentReg $receiver){
+
+    }
+
+    public function reply(StudentReg $receiver){
+
+    }
+
+    public function forward(StudentReg $receiver){
+
+    }
 }

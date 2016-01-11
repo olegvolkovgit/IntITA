@@ -16,33 +16,34 @@
                 </div>
             </li>
             <li>
-                <a href="#" onclick="load('<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-                    array('user' => $model->id)); ?>')">
+                <a href="#" ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
+                    array('user' => $model->id)); ?>")'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
-
             <?php
-            if($model->isAdmin()){?>
+            if ($model->isAdmin()) {
+                ?>
                 <li>
 
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
-                        array('user' => $model->id)); ?>')">
+                        array('user' => $model->id)); ?>', 'Панель адміністрування')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>
                 </li>
-                <?php
+            <?php
             }
 
-            if($model->isAccountant()){?>
+            if ($model->isAccountant()) {
+                ?>
                 <li>
                     <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
-                        array('user' => $model->id)); ?>')">
+                        array('user' => $model->id)); ?>', 'Бухгалтерія')">
                         <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
                 </li>
             <?php
             }
 
-            if($model->isTeacher()){
-                $this->renderPartial('_teacherRoles', array('model' => $teacher));
+            if ($model->isTeacher()) {
+               $this->renderPartial('_teacherRoles', array('teacher' => $model->getTeacherModel()));
             }
             ?>
         </ul>
@@ -50,3 +51,17 @@
     <!-- /.sidebar-collapse -->
 </div>
 <!-- /.navbar-static-side -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,12 +2,10 @@
 /* @var $this AboutusSliderController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminSlider.css'); ?>" />
     <br>
     <br>
-    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/create');?>">Додати фото</a>
-    </button>
 
     <div class="page-header">
         <h1>Слайдер на сторінці <i>Про нас</i></h1>

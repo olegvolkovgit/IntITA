@@ -3,7 +3,7 @@
 /**
  * This is the model class for table "message_comment".
  *
- * The followings are the available columns in table 'message_comment':
+ * The followings are the available columns in table 'translate_comment':
  * @property integer $message_code
  * @property string $comment
  */
@@ -27,7 +27,6 @@ class MessageComment extends CActiveRecord
 		return array(
 			array('comment', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('message_code, comment', 'safe', 'on'=>'search'),
 		);
 	}

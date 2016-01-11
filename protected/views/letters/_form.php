@@ -4,22 +4,16 @@
 /* @var $form CActiveForm */
 ?>
 <?php
-$models = StudentReg::model()->findAll(
-array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+$models = StudentReg::userLetterReceivers();
 
 // format models as $key=>$value with listData
-$list = CHtml::listData($models,
-'id', 'email');
+$list = CHtml::listData($models,'id', 'email');
 ?>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'letters-form',
+	'id'=>'user-messages-form',
     'action'=> Yii::app()->createUrl('letters/sendletter'),
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
     'enableClientValidation'=>true,
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>true),

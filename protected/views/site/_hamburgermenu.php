@@ -28,7 +28,7 @@
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
-            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => '$("#mydialog").dialog("open"); return false;',));
+            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => 'openSignIn();',));
         } else {?>
             <a id="hum_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout">
                 <?php echo $header->getLogoutButton(); ?>
@@ -39,10 +39,8 @@
             <div class="humStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div class="humavatar"><img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $humuser->avatar); ?>"/></div><div class="humName">
-                        <?php echo StudentReg::getNickname($humuser); ?><br>
-                        <?php echo StudentReg::getName ($humuser); ?><br>
-                        <?php echo StudentReg::getLastName ($humuser); ?><br>
-                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
+                        <?php echo StudentReg::getStatusInfo($humuser); ?><br>
+                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
                     </div>
                 </a>
             </div>

@@ -47,7 +47,7 @@ class PlainTaskAnswer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'consultants' => array(self::BELONGS_TO, 'Teacher' , 'consultant'),
+//            'consultants' => array(self::BELONGS_TO, 'Teacher' , 'consultant'),
             'plainTask' => array(self::BELONGS_TO, 'PlainTask' , 'id_plain_task'),
             'user' => array(self::BELONGS_TO,'StudentReg','id_student'),
 		);
@@ -121,14 +121,21 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getStudentName()
     {
+        if($this->user)
         return $this->user->email;
     }
 
     public function getConsultant()
     {
-        $teacher = $this->consultants;
+        $teacher = Teacher::model()->findByPk( Yii::app()->db->createCommand()
+            ->select ('id_teacher')
+            ->from ('plain_task_answer_teacher')
+            ->where ('id_plain_task_answer = :id',
+                array(':id' => $this->id))
+            ->queryRow());
+
         if($teacher)
-        return $teacher->first_name;
+        return $teacher;
     }
 
     public function getCondition()
@@ -172,5 +179,96 @@ class PlainTaskAnswer extends CActiveRecord
             ->insert('plain_task_answer_teacher',
             array('id_plain_task_answer'=>$idPlainTaskAnswer,'id_teacher'=>$consult));
         return $result;
+    }
+
+    public static function TeacherPlainTask($idTeacher)
+    {
+        
+        $result = Yii::app()->db->createCommand()
+            ->select('plain_task_answer.id')
+            ->from('plain_task_answer')
+            ->leftJoin('plain_task_answer_teacher' , 'id = id_plain_task_answer')
+            ->where('id_teacher = :id_teacher',array(':id_teacher' => $idTeacher))
+            ->queryAll();
+        return $result;
+    }
+
+    public static function newTeacherPlainTask($teacherPlainTask)
+    {
+        $result = [];
+
+        $nonMarkTasks = Yii::app()->db->createCommand()
+            ->select('plain_task_answer.id')
+            ->from('plain_task_answer')
+            ->leftJoin('plain_task_marks','plain_task_answer.id = id_task')
+            ->where('plain_task_marks.mark IS NULL')
+//            ->where('and plain_task_marks.id_task = '. $teacherPlainTask[0])
+            ->queryAll();
+//        var_dump($nonMarkTasks);die;
+        for($i = 0 ; $i < count($nonMarkTasks);$i++)
+        {
+            for($j = 0;$j < count($teacherPlainTask);$j++)
+            {
+                if($teacherPlainTask[$j]['id'] == $nonMarkTasks[$i]['id'])
+                {
+                    array_push($result,$teacherPlainTask[$j]['id']);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function getShortDescription()
+    {
+        return substr($this->answer,0,25).'....';
+    }
+
+    public static function getTaskWithTrainer()
+    {
+        $trainerId = Teacher::getTeacherId(Yii::app()->user->id);
+        $trainerUsers = TrainerStudent::getStudentByTrainer($trainerId);
+        $plainTasksArr = [];
+
+        if($trainerUsers)
+        {
+            foreach($trainerUsers as $user){
+                $tasks = Yii::app()->db->createCommand(array(
+                    'select' => array('*'),
+                    'from' => 'plain_task_answer',
+                    'join' => 'RIGHT JOIN plain_task_answer_teacher
+                     on plain_task_answer_teacher.id_plain_task_answer = id',
+                    'where' => 'id_student = '.$user->id
+//                    'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL'
+//                    and id_student = '.$user->id,
+                ))->queryAll();
+
+                if(!empty($tasks))
+                {
+                    foreach($tasks as $task)
+                    {
+                        $model = PlainTaskAnswer::model()->findByPk($task['id']);
+                        array_push($plainTasksArr,$model);
+                    }
+
+                }
+            }
+        }
+        return $plainTasksArr;
+    }
+
+    public static function editConsult($id,$teacherId)
+    {
+        Yii::app()->db->createCommand()
+            ->update('plain_task_answer_teacher',array(
+                'id_teacher' => $teacherId,
+            ),'plain_task_answer_teacher.id_plain_task_answer = :id',array(':id' => $id)
+            );
+    }
+
+    public static function removeConsult($id)
+    {
+        Yii::app()->db->createCommand()
+        ->delete('plain_task_answer_teacher', 'id_plain_task_answer=:id', array(':id'=>$id));
     }
 }

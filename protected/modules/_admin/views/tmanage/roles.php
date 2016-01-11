@@ -1,23 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 16.06.2015
- * Time: 15:45
- */
 /* @var $dataProvider CActiveDataProvider */
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>">Додати роль</a>
-    </button>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/createRole');?>" >Додати роль</a>
     <div class="page-header">
     <h2>Ролі викладачів</h2>
     </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$dataProvider,
-    'htmlOptions'=>array('class'=>'grid-view custom'),
+    'htmlOptions'=>array(),
     'summaryText' => '',
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
@@ -54,14 +46,12 @@
             'buttons'=>array
             (
                 'view' => array(
-                    //'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
+                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/showAttributes", array("role"=>$data->primaryKey))',
                     'label' => 'Атрибути ролі',
                 ),
                 'update' => array
                 (
                     'label'=>'Редагувати',
-                    //'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'url' => 'Yii::app()->createUrl("/_admin/tmanage/updateRole", array("id"=>$data->primaryKey))',
                 ),
 

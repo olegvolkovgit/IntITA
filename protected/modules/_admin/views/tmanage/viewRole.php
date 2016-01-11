@@ -4,9 +4,7 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-    </button>
     <div class="page-header">
     <h1>Роль викладача  <?php echo $model->title_ua; ?></h1>
     </div>

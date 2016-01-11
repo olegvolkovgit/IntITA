@@ -1,17 +1,26 @@
 <? $css_version = 1; ?>
-<?php $this->renderPartial('/site/_shareMetaTag', array(
-    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>Yii::t('courses', '0066').'. '.Yii::t('sharing','0643'),
-    'description'=>Yii::t('sharing','0644'),
-));
+<?php
+/* @var $user StudentReg*/
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>
-
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+
+//$user = StudentReg::model()->findByPk(39);
+//
+//$message = new UserMessages();
+//$message->build('Subject', 'Text', array('51'), $user);
+//$sender = new MailTransport();
+//if ($message->send($sender)){
+//    echo 'Success mail!';
+//} else {
+//    echo 'Error!';
+//}
+//var_dump($user->receivedMessages());
+
+
 $courseList = $dataProvider->getData();
 ?>
 
@@ -26,5 +35,12 @@ $courseList = $dataProvider->getData();
         </tr>
     </table>
 </div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>
+<?php $this->renderPartial('/site/_shareMetaTag', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>Yii::t('courses', '0066').'. '.Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
+?>
 
 

@@ -1,119 +1,44 @@
-<? $css_version = 1; ?>
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/interpreterForm.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-    <title>Тест для задачі</title>
-</head>
-<body>
-    <div class="container-fluid" ng-app="App">
-        <h1 id="title">Тест для задачі</h1>
-   <div id="firstForm">
-       <br>
-        <div class="row col" ng-controller="Ctrl">
-
-                <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Variable name">
-                </div>
-                <!-- Single button -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Primitive <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Array</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2">
-                    <input type="hidden" name="size" class="form-control"   placeholder="Size">
-                </div>
-
-                <!-- Single button -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Type <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                    </ul>
-                </div>
-
-                    <div class="col-lg-2">
-                <input type="text" class="form-control" placeholder="Value"></div>
-
-            <button id ="btn" type="button" class="btn btn-default pull-right btnInterp" ng-click="">
-                <span class="glyphicon glyphicon glyphicon-plus " aria-hidden="true"></span>
-            </button>
-        </div>
-   </div>
-        <!--Div for add new clone -->
-        <div id="forAppForms">
-        </div>
-
-        <hr>
-
-        <div class="row col">
-                <div class="col-lg-2">
-                    <!-- Single button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Result <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Type">
-                </div>
-                <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Size">
-                </div>
-                <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Value">
-                </div>
-
-        </div>
-
-        <br>
-        <div class="row">
-            <button type="submit" class="btn btn-default pull-right btnInterp" ng-click="">Submit</button>
-        </div>
-
-
-    </div>
-</body>
-</html>
-
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Wizlight
+ * Date: 11.12.2015
+ * Time: 17:03
+ */
+?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/controllers/interpreterCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/sendTaskJsonService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/directives/interpreterForms.js'); ?>"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'interpreter.css'); ?>"/>
 <script>
-    $(document).ready(function() {
-        count = 1;
-        $("#btn").click(function () {
-            var clone = $("#firstForm").clone();
-            var el = $(clone).find('span.glyphicon.glyphicon.glyphicon-plus');
-            el.removeClass('glyphicon-plus');
-            el.addClass('glyphicon-minus');
-            el.parent().attr('onclick','removeClone(this)');
-            var num = 'firstForm' + count;
-            count++;
-            clone.prop({id: num}).appendTo("#forAppForms");
-        });
-    });
-    function removeClone(el){
-      $(el).parent().parent().remove();
-    }
-
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
+<input type="hidden" ng-init="etalon=<?php echo htmlspecialchars(json_encode($_POST["etalon"])) ?>" ng-model="etalon" />
+<input type="hidden" ng-init='lang=<?php echo htmlspecialchars(json_encode($_POST["lang"])); ?>' ng-model="lang" />
+<input type="hidden" ng-init='task=<?php echo time(); ?>' ng-model="task" />
+<input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
+<body ng-app="interpreterApp">
+<div ng-controller="interpreterCtrl">
+    <form name="interpreterForm">
+        <h2 id="title">Params</h2>
+        <div ng-repeat="form in args track by $index">
+            <params-form/>
+        </div>
+        <h2 id="title">Unit tests[{{units.length}}]</h2>
+        <div ng-repeat="unit in units track by $index">
+            <unit-form/>
+        </div>
+        <h2 id="title">Result</h2>
+        <div>
+            <result-form/>
+        </div>
+        <label>Show JSON: <input type="checkbox" ng-model="checked" ng-init="checked=false" /></label><br/>
+        <div ng-if="checked">
+            <pre>{{res_finalResult | json}}</pre>
+        </div>
+    </form>
+</div>
+</body>

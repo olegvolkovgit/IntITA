@@ -4,13 +4,9 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/response/index');?>">Відгуки викладачів - Головна</a>
-    </button>
     <br>
-    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/response/view', array('id' => $model->id));?>">Переглянути відгук</a>
-    </button>
 
     <div class="page-header">
     <h1>Редагувати відгук #<?php echo $model->id; ?></h1>
@@ -25,7 +21,7 @@
                 'enctype'=>'multipart/form-data',
                 'method'=>'POST',
             ),
-            'action' => Yii::app()->request->baseUrl.'/_admin/response/updateResponseText/id/'.$model->id,
+            'action' => Config::getBaseUrl().'/_admin/response/updateResponseText/id/'.$model->id,
             // Please note: When you enable ajax validation, make sure the corresponding
             // controller action is handling ajax validation correctly.
             // There is a call to performAjaxValidation() commented in generated controller code.

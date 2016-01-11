@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .service('paramService', [
         '$injector','$rootScope', '$state', '$stateParams',
-        function($injector, $rootScope, $state, $stateParams) {
+        function($injector, $rootScope, $state, $statePara) {
             "use strict";
 
             this.getStartParam = function($rootScope, $state, $stateParams) {

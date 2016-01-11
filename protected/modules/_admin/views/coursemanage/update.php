@@ -3,22 +3,18 @@
 /* @var $model Course */
 ?>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create');?>">Додати курс</a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create'); ?>">Додати курс</a>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index');?>">Список курсів</a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">Список курсів</a>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/view', array('id' => $model->course_ID));?>">Переглянути інформацію про курс</a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/view', array('id' => $model->course_ID)); ?>">
+            Переглянути інформацію про курс
+        </a>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/schema', array('idCourse' => $model->course_ID));?>">Згенерувати схему курса</a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/schema', array('idCourse' => $model->course_ID)); ?>">
+            Згенерувати схему курса
+        </a>
     <div class="page-header">
-    <h1>Оновити курс <?php echo $model->title_ua." (".$model->language.")"; ?></h1>
+        <h1>Оновити курс <?php echo $model->title_ua . " (" . $model->language . ")"; ?></h1>
     </div>
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model' => $model)); ?>

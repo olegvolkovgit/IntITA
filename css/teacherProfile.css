@@ -137,38 +137,21 @@ div.lessonTask {
 .lessonLine{
     border: 1px solid #4b75a4;
 }
-input[type="submit"]#sendResponse {
-    width: 90px;
-    height:28px;
-    border-radius: 10px;
-    color:#ffffff;
-    background-color:#4b75a4;
-    margin: 10px 0px 20px 0px;
-    float:right;
-    border:none;
-}
-input[type="submit"]#sendResponse:hover {
-    cursor: pointer;
-    border-top-color: #454545;
-    background: #454545;
-    color: #fcfcfc;
-}
+
 img.lessonBut  {
     position: absolute;
     left:43%;
-    top:-14px;
+    top:-15px;
     width: 90px;
-    height:28px;
 }
 .lessonButName {
     position: absolute;
     color:#ffffff;
     left:43%;
-    top:-14px;
+    top:-15px;
     width: 90px;
-    height:28px;
     text-align: center;
-    padding-top: 4px;
+    line-height: 30px;
 }
 .lessonTask table{
     margin-bottom: 20px;
@@ -184,13 +167,15 @@ img.lessonBut  {
 }
 .BBCode input[type="submit"] {
     width: 90px;
-    height:28px;
+    padding: 7px 0;
     border-radius: 10px;
     color:#ffffff;
     background-color:#4b75a4;
     margin: 10px 0px 20px 0px;
     float:right;
     border:none;
+    line-height: 100%;
+    font-size: 14px;
 }
 .BBCode input[type="submit"]:hover {
     cursor: pointer;
@@ -228,7 +213,7 @@ img.lessonBut  {
     color: #264b73;
 }
 .avatarUpdateForm input[type="submit"] {
-    height: 30px;
+    padding: 7px 0;
     width: 90px;
     background: #4b70a3;
     border-radius:   10px;
@@ -250,4 +235,18 @@ img.lessonBut  {
 }
 .redactor-box-fullscreen .redactor-toolbar li a.re-close{
     display: none;
+}
+#avatar {
+    color:#4b75a4;
+    cursor: pointer;
+    background: #fff;
+    text-decoration: underline;
+}
+#avatar:hover {
+    color: #454545;
+}
+.fileform {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
 }

@@ -394,3 +394,16 @@ td.button-column{
     background: #666666;
 }
 /*addlesson validation*/
+#logo {
+    color:#4b75a4;
+    cursor: pointer;
+    background: #fff;
+}
+#logo:hover {
+    color: #454545;
+}
+.fileform {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
