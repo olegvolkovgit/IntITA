@@ -51,16 +51,9 @@
             ?>
         </div>
         <div id="box_tab5" class="box_tab5">
-<!---->
-<!--            <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>-->
-<!--            <script>tinymce.init({selector:'textarea'});</script>-->
             <div>
                 <?php $this->renderPartial('/letters/_form', array('model'=>$letter)); ?>
-<!--                --><?php //if(Yii::app()->user->hasFlash('messagemail')):
-//                    echo Yii::app()->user->getFlash('messagemail');
-//                endif; ?>
             </div>
-
         </div>
     </div>
 

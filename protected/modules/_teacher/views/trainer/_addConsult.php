@@ -7,11 +7,12 @@
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
 
-<div class="col-md-6">
+<div class="col-md-12">
 
     <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
-          onsubmit="sendForm('<?php echo Yii::app()->createUrl('_teacher/teacher/assignedConsultant') ?>');">
-        <input type="text" name="id" value="<?php echo $plainTaskAnswer->id ?>" hidden="hidden">
+
+          onsubmit="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>');" >
+        <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="hidden">
 
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>
@@ -32,10 +33,12 @@
         <div class="form-group">
             <?php $teachers = $plainTaskAnswer->getTrainersByAnswer() ?>
             <label for="consult">Можливі консультанти :</label>
-            <select name="consult" class="form-control">
-                <?php foreach ($teachers as $teacher) { ?>
-                    <option value="<?php echo $teacher->teacher_id ?>"><?php echo $teacher->getName() ?></option>
-                <?php } ?>
+
+            <select name="consult" id="consult" class="form-control">
+                <?php foreach ($teachers as $teacher) {?>
+                    <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+                <?php }?>
+
             </select>
         </div>
         <button type="submit" class="btn btn-default">Призначити консультанта</button>

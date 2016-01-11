@@ -256,7 +256,6 @@ table.exmCons td:last-child span{
 }
 table.exmCons span{
     font-size: 12px;
-    vertical-align: bottom;
     cursor:pointer;
 }
 table.timeTable{

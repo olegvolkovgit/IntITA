@@ -49,7 +49,7 @@ class Translate extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'id0' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
+            'source' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
         );
     }
 
@@ -118,6 +118,7 @@ class Translate extends CActiveRecord
 
         return $model->save();
     }
+
     // create messages for create international schema of course
     public static function getMessagesForSchemabyLang($lang)
     {

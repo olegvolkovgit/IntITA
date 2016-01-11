@@ -4,13 +4,11 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
-    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">Додати атрибут ролі</a>
-    </button>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/addRoleAttribute/role/', array('id' => $model->id));?>">
+        Додати атрибут ролі
+    </a>
     <br>
-    <button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
-    </button>
     <div class="page-header">
     <h2>Атрибути ролі <?php echo $model->title_ua; ?></h2>
     </div>
@@ -29,7 +27,7 @@
     'columns'=>array(
         array(
             'header'=>'Роль',
-            'value'=>'TeacherHelper::getRoleTitle($data->role)',
+            'value'=>'Roles::getRoleTitle($data->role)',
         ),
         array(
             'header'=>'Тип',

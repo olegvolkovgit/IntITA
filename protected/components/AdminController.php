@@ -4,19 +4,20 @@ class AdminController extends CController
 {
     public $layout = 'main';
 
-    public $menu=array();
+    public $menu = array();
 
     public $breadcrumbs = array();
 
-	/**
+
+    /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-	public function actionIndex()
-	{
-		$this->render('index');
-	}
+    public function actionIndex()
+    {
+        $this->render('index');
+    }
 
     public function filters()
     {
@@ -32,6 +33,14 @@ class AdminController extends CController
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
         }
+        if (Yii::app()->user->isGuest) {
+            $this->render('/default/authorize');
+            die();
+        }
+        if (!$this->isAdministrator()) {
+            throw new CHttpException(403, 'У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.');
+        }
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
@@ -45,29 +54,35 @@ class AdminController extends CController
     public function accessRules()
     {
         return array(
-            array('allow',
-               // 'actions'=>array('delete', 'create', 'edit', 'index', 'admin'),
-                'expression'=>array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                //'actions'=>array('index'),
-                'users'=>array('*'),
-            ),
+//            array('allow',
+//                'expression' => array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'users' => array('*'),
+//            ),
         );
     }
 
     public function isAdministrator()
     {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-        $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 3) {
-
-            return true;
-        }
-        return false;
+        return StudentReg::isAdmin();
+    }
+    public function behaviors()
+    {
+        return array(
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
+            ),
+        );
     }
 }

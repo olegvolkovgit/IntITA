@@ -325,7 +325,6 @@ padding-left: 0px;
     display: inline-block;
     position: relative;
     width:160px;
-    height:30px;
     border-radius: 7px;
     border:none;
     border-top:1px solid #9fb5ce;
@@ -478,6 +477,9 @@ body .grid-view table.items td.moduleLink{
     text-decoration: none;
     float: left;
 }
+input[type="submit"][disabled]#submitButton {
+    background: #666666;
+}
 
 #cancelButton {
     float: left;
@@ -570,7 +572,6 @@ input.paymentPlan_value{
     display: inline-block;
     position: relative;
     width: 160px;
-    height: 30px;
     border-radius: 7px;
     border: none;
     border-top: 1px solid #9fb5ce;

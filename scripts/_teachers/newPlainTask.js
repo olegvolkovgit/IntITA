@@ -4,20 +4,16 @@
 
 function showPlainTaskWithoutTrainer(url)
 {
-    container = $('#pageContainer');
     $.ajax({
         url: url,
-        success: function (data) {
+        success: function(data) {
             fillContainer(data);
         }
     })
 }
 
-
 function chooseTrainer(id,url)
 {
-    container = $('#pageContainer');
-
     $.ajax({
         url: url,
         data : {id: id},
@@ -29,13 +25,13 @@ function chooseTrainer(id,url)
 
 function sendForm(url)
 {
-    var input   = $('#assignedConsult').serialize();
-    var arr = getData(input);
+    var consult = $('#consult').val();
+    var idPlainTask = $('#idPlainTask').val();
 
     $.ajax({
         url: url,
         type: "POST",
-        data : { 'arr': arr },
+        data : { 'consult': consult,'idPlainTask' : idPlainTask},
         success: function (data) {
             fillContainer(data);
             location.reload();
@@ -43,23 +39,94 @@ function sendForm(url)
     })
 }
 
-function getData(data)
+function showPlainTaskAnswer(url,idTeacher)
 {
-    var arr = data.split('&');
-    var id =  arr[0].split('=')[1];
-    var consult = arr[1].split('=')[1];
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'idTeacher': idTeacher},
+        success: function (data) {
+            fillContainer(data);
+        }
+    })
+}
 
-    var result = [];
-    result.push(id);
-    result.push(consult);
+function showPlainTask(url,plainTaskId)
+{
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'idPlainTask': plainTaskId},
+        success: function (data) {
+            fillContainer(data);
+        }
+    });
+}
 
-    return result;
+function markPlainTask(url)
+{
+    var id = $('#plainTaskId').val();
+    var mark = $('#mark').val();
+    var comment = $('[name = comment]').val();
+    var userId = $('#userId').val();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'idPlainTask': id,'mark' : mark,'comment' : comment,'userId' : userId},
+        success : function (data) {
+            alert('Ваша оцінка записана в базу');
+            location.reload();
+        },
+        error : function()
+        {
+            alert('Щось пышло не так!' +
+            'Зв\'яжіться будь-ласка з адміністратором сайту');
+        }
+    });
+
+}
+
+function addTrainer(url)
+{
+    var id = document.getElementById('user').value;
+    var trainerId = $("select option:selected").val();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'userId': id, 'trainerId' : trainerId},
+        success: function (data) {
+            location.reload();
+        }
+    });
+}
+
+function removeTrainer(url)
+{
+    if(confirm('Ви впевнені що хочете видалити тренера?'))
+    {
+        $.ajax({
+            url: url,
+            success: function (data) {
+                location.reload();
+            }
+        })
+    }
 }
 
 function fillContainer(data)
 {
     container = $('#pageContainer');
-
     container.html('');
     container.html(data);
+}
+
+function loadUserWithoutTrainer(url)
+{
+    $.ajax({
+        url: url,
+        type: "POST",
+        success: function (data) {
+            fillContainer(data);
+        }
+    })
 }

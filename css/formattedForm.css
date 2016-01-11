@@ -20,7 +20,7 @@
     width: 350px;
     resize: none;
 }
-.formatted-form input, #extseach-form input, #extteacherseach input
+.formatted-form input,.formatted-form select, #extseach-form input, #extteacherseach input
 {
     width: 350px;
 }
@@ -31,4 +31,7 @@
 }
 #adminTeacherList img{
     width:150px;
+}
+.row.buttons{
+    margin: 0;
 }

@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'messages_quiz':
  * @property integer $id_messages
  */
-class MessagesQuiz extends CActiveRecord
+class MessagesQuiz extends CActiveRecord implements IMessage
 {
 	/**
 	 * @return string the associated database table name
@@ -88,4 +88,28 @@ class MessagesQuiz extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function create(){
+
+    }
+
+    public function send(IMailSender $sender){
+
+    }
+
+    public function read(StudentReg $receiver){
+
+    }
+
+    public function deleteMessage(StudentReg $receiver){
+
+    }
+
+    public function reply(StudentReg $receiver){
+
+    }
+
+    public function forward(StudentReg $receiver){
+
+    }
 }

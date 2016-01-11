@@ -52,6 +52,7 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             array('status', 'required'),
             array('language, title_ua, level', 'required'),
+            array('alias,module_number','unique'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('level', 'length', 'max' => 45),
@@ -59,6 +60,9 @@ class Module extends CActiveRecord implements IBillableObject
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
             array('language', 'length', 'max' => 6),
+            array('title_ua', 'match',
+                'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
+                'message' => 'Тільки українські символи!','on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
@@ -247,8 +251,6 @@ class Module extends CActiveRecord implements IBillableObject
         $module = new Module();
         $coursemodule = new CourseModules();
 
-        $order = CourseModules::model()->count("id_course=$idCourse");
-
         $module->level = Course::model()->findByPk($idCourse)->level;
         $module->language = $lang;
         $module->title_ua = $titleUa;
@@ -258,16 +260,21 @@ class Module extends CActiveRecord implements IBillableObject
             $module->save();
         }
 
+        $order = CourseModules::model()->count("id_course=$idCourse");
+
         $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
         $module->alias = $idModule;
-        $module->save();
-
-        $coursemodule->id_course = $idCourse;
-        $coursemodule->id_module = $idModule;
-        $coursemodule->order = $order + 1;
-
-        if ($coursemodule->validate()) {
-            $coursemodule->save();
+        if($module->save()){
+            Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
+                mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+            }
+            $coursemodule->id_course = $idCourse;
+            $coursemodule->id_module = $idModule;
+            $coursemodule->order = $order + 1;
+            if ($coursemodule->validate()) {
+                $coursemodule->save();
+            }
         }
 
         return $order;
@@ -371,7 +378,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function showModule($course)
     {
-        $first = '<select name="module" class="form-control" id="payModuleList">';
+        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
 
         $modulelist = [];
 
@@ -392,8 +399,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
 
         $rows = Module::model()->findAll($criteriaData);
-        $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
-                   <optgroup label="' . Yii::t('payments', '0607') . '">';
+        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
         foreach ($rows as $numRow => $row) {
             if ($row[$titleParam] == '')
                 $title = 'title_ua';
@@ -782,12 +788,16 @@ class Module extends CActiveRecord implements IBillableObject
     {
         switch (LectureElement::model()->findByPk($firstQuiz)->id_type) {
             case '5':
-            case '6':
                 return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $firstQuiz))->id);
                 break;
+            case '6':
+                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                break;
             case '12':
-            case '13':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                break;
+            case '9':
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $firstQuiz))->id);
                 break;
             default:
                 return false;
@@ -799,14 +809,16 @@ class Module extends CActiveRecord implements IBillableObject
     {
         switch (LectureElement::model()->findByPk($lastQuiz)->id_type) {
             case '5':
-//                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
-//                break;
+                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+                break;
             case '6':
                 return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
                 break;
             case '12':
-            case '13':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
+                break;
+            case '9':
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $lastQuiz))->id);
                 break;
             default:
                 return false;

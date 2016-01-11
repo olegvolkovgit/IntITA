@@ -2,7 +2,7 @@
 $header = new Header();
 ?>
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#">
+<html ng-app xmlns:og="http://ogp.me/ns#">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
@@ -24,14 +24,13 @@ $header = new Header();
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
 
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/admin.css"/>
-    <!--   hamburger menu style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
         <!-- steps style -->
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico"
           type="image/x-icon"/>
     <!-- jQuery -->
     <script type="text/javascript" src="<?php echo Config::getBaseUrl();?>/scripts/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css'); ?>"/>
     <!-- jQuery -->
     <!-- passEye, jQuery -->
 
@@ -44,7 +43,6 @@ $header = new Header();
 
 <div id="main-wrapper">
     <div id="mainheader">
-        <?php //$this->renderPartial('/site/_hamburgermenu'); ?>
         <div id='headerUnderline'>
             <div id="navigation" class="down">
                 <div class="main">
@@ -100,21 +98,15 @@ $header = new Header();
             )); ?><!-- breadcrumbs -->
         <?php endif ?>
 
-        <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
-
-        <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site'
-                && Yii::app()->controller->action->id == 'index') && !(Yii::app()->controller->id == 'aboutus')
-        ) {
+        <?php if (!Yii::app()->user->isGuest) {
             $post = StudentReg::model()->findByPk(Yii::app()->user->id);
             ?>
-
+            <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
                     <div>
-                        <?php echo $post->nickname; ?><br>
-                        <?php echo $post->firstName; ?><br>
-                        <?php echo $post->secondName; ?><br>
-                        <span style="color: #33cc00; font-size: smaller">&#x25A0; online</span>
+                        <?php echo StudentReg::getStatusInfo($post); ?><br>
+                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
                     </div>
                     <div class="minavatar">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
@@ -127,26 +119,9 @@ $header = new Header();
     </div>
     <div id="contentBoxMain" style="margin-left: 50px">
         <?php echo $content; ?>
-        <!--SingIn modal-->
-        <?php
-        $openDialog = false;
-        if (isset($_GET['dialog'])) $openDialog = true;
-        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-            'id' => 'mydialog',
-            'themeUrl' => Config::getBaseUrl().'/css',
-            'cssFile' => 'jquery-ui.css',
-            'theme' => 'my',
-            'options' => array(
-                'width' => 540,
-                'autoOpen' => $openDialog,
-                'modal' => true,
-                'resizable' => false
-            ),
-        ));
-        //$this->renderPartial('/site/_signinform');
-        $this->endWidget('zii.widgets.jui.CJuiDialog');
-        ?>
-        <!--SignIn modal-->
+        <!--Auth form-->
+        <?php echo $this->decodeWidgets('{{w:AuthorizationFormWidget|dialog=true;id=authFormDialog;action=../site/signInSignUp}}'); ?>
+        <!--Auth form-->
         <!--forgot pass modal-->
         <?php
         $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -161,7 +136,7 @@ $header = new Header();
                 'resizable' => false
             ),
         ));
-        //$this->renderPartial('/site/_forgotpass');
+        $this->renderPartial('application.views.site._forgotpass');
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
         <!--forgot pass modal-->

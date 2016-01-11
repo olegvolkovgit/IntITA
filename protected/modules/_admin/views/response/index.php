@@ -27,7 +27,7 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         array(
             'header' => 'Автор',
-            'value' => 'StudentReg::getResponseAuthorName($data->who)',
+            'value' => '$data->getResponseAuthorName()',
         ),
         array(
             'header' => 'Про кого',
@@ -82,6 +82,7 @@ $('.search-form form').submit(function(){
         ),
         array(
             'class'=>'CButtonColumn',
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>

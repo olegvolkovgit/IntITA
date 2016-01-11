@@ -2,12 +2,11 @@
 /* @var $this CarouselController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/adminSlider.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminSlider.css'); ?>" />
 <br>
 <br>
-    <button type="button" class="btn btn-link">
+
         <a href="<?php echo Yii::app()->createUrl('/_admin/carousel/create');?>">Додати фото</a>
-    </button>
 
     <div class="page-header">
         <h1>Слайдер на головній</h1>

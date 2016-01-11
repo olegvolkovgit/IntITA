@@ -416,10 +416,6 @@ div.spotDone:hover {
     background: #003366;
 }
 
-.labelBlock {
-    /*border-bottom: 1px solid #335379;*/
-}
-
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -456,9 +452,6 @@ div.lastAccessPage {
     padding-right: 0;
 }
 
-/*.labelBlock{*/
-/*border-bottom: 1px solid #335379;*/
-/*}*/
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -473,12 +466,22 @@ div.lastAccessPage {
     line-height: 50px;
     margin-bottom: 10px;
 }
-
+.lessonEditPart{
+    display: inline-block;
+    height: auto;
+}
+.lessonEditPart a{
+    word-break: break-all;
+}
+.lectureVerify{
+    text-align: right;
+}
 .lessonPart div {
     display: inline-block;
     vertical-align: bottom;
     line-height: 1;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 #labelBlock p, #tooltip p {
@@ -486,6 +489,9 @@ div.lastAccessPage {
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
+}
+h4.labelBlock a{
+    white-space: normal;
 }
 
 h1.lessonPartEdit p img {
@@ -574,10 +580,12 @@ h1.lessonPartEdit p img {
     padding: 3px 5px;
     text-align: left;
     line-height: 14px;
+    opacity: 1;
 }
 .titleNoAccessMin{
     font-size: 14px;
-    color: #999999;
+    color: #666666;
+    opacity: 1;
 }
 .noAccessMin{
     font-size: 12px;
@@ -809,4 +817,19 @@ a.cke_dialog_ui_fileButton{
 }
 .instrTestImg div.quizDone{
     background-image: url(../images/lecture/taskDone.png);
+}
+.emptyField{
+    box-shadow: 0 0 4px #c72929;
+    border: 2px solid #c72929;
+}
+#flashMsg{
+    display: none;
+    position: absolute;
+    color: #c72929;
+}
+#flashMsg.emptyFlash{
+    display: block;
+}
+#flashMsg.emptyFlash.hideFlash{
+    display: none;
 }

@@ -34,6 +34,12 @@ class VerifyContentController extends AdminController {
             if(!file_exists(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id)){
                 mkdir(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id);
             }
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id."/images")){
+                mkdir(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id."/images");
+            }
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id."/audio")){
+                mkdir(Yii::app()->basePath . "/../content/module_".$record->idModule."/lecture_".$record->id."/audio");
+            }
         }
     }
 

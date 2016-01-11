@@ -9,8 +9,8 @@ $models = StudentReg::model()->findAll(
 $list = CHtml::listData($models,
     'id', 'email');
 ?>
-<script src="<?php echo Config::getBaseUrl(); ?>/scripts/translateTeacherName.js"></script>
-<link rel="stylesheet" type="text/css" href="<?= Yii::app()->baseUrl ?>/css/formattedForm.css"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'translateTeacherName.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
 
 <div class="form">
 <div class="col-md-4">

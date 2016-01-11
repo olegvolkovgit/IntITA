@@ -1,32 +1,30 @@
 <?php
 /* @var $this MessagesController */
-/* @var $model Messages */
+/* @var $model Translate */
 ?>
 
 <br>
 <br>
-<button type="button" class="btn btn-link">
-<a href="<?php echo Yii::app()->createUrl('/_admin/messages/index');?>">Інтерфейс сайта - Головна</a>
-</button>
+    <a href="<?php echo Yii::app()->createUrl('/_admin/messages/index'); ?>">Інтерфейс сайта - Головна</a>
 
 <div class="page-header">
-<h1>Повідомлення #<?php echo $model->id_record; ?></h1>
+    <h1>Повідомлення #<?php echo $model->id_record; ?></h1>
 </div>
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id_record',
-		'id',
-		'language',
-		'translation',
-	),
+    'data' => $model,
+    'attributes' => array(
+        'id_record',
+        'id',
+        'language',
+        'translation',
+    ),
 )); ?>
 <br>
 <div class="page-header">
-<b>Коментар:</b>   <?php echo MessageComment::getMessageCommentById($model->id);?>
-    </div>
+    <b>Коментар:</b>   <?php echo MessageComment::getMessageCommentById($model->id); ?>
+</div>
 <br>
 <br>
 <div class="page-header">
-<b>Категорія:</b>  <?php echo Sourcemessages::getMessageCategory($model->id);?>
+    <b>Категорія:</b>  <?php echo Sourcemessages::getMessageCategory($model->id); ?>
 </div>

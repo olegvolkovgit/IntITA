@@ -5,13 +5,15 @@
  * Date: 10.12.2015
  * Time: 17:39
  */
+$countPlainTasks = PlainTask::countPlainTaskAnswersWithoutTrainer();
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Тренер</h1>
+        Тренер
     </div>
 </div>
-
+<hr>
+<div class="row" id="dashboard">
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -20,13 +22,14 @@
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo count(PlainTask::getPlainTaskAnswersWithoutTrainer());?></div>
+                        <div class="huge"><?php echo $countPlainTasks; ?></div>
                         <div>Нові задачі!</div>
                     </div>
                 </div>
             </div>
-
-            <a href="#" onclick="showPlainTaskWithoutTrainer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTaskList')?>')">
+            <a href="#" <?php if ($countPlainTasks > 0){?>
+               onclick="showPlainTaskWithoutTrainer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTaskList') ?>')"
+                <?php }?>>
                 <div class="panel-footer">
                     <span class="pull-left">Детальніше</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -35,4 +38,6 @@
             </a>
         </div>
     </div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '/_teachers/newPlainTask.js');?>"></script>
+</div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '/_teachers/newPlainTask.js'); ?>"></script>
+

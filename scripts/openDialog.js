@@ -2,7 +2,7 @@
  * Created by Wizlight on 25.07.2015.
  */
 function openSignIn(){
-    $("#mydialog").dialog("open");
+    $("#authDialog").dialog("open");
     return false;
 }
 function openForgotpass(){

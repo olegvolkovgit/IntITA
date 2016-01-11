@@ -1,0 +1,107 @@
+.container-fluid {
+    width: 960px;
+    margin-bottom: 5px;
+}
+
+h2, label {
+    text-align: center;
+    margin: 0;
+}
+
+hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-color: #4682B4;
+    border-width: 2px;
+}
+
+.col {
+    height: auto;
+    border: 2px solid #4b75a4;
+    border-radius: 5px;
+    padding: 5px;
+!important;
+    background-color: #ebebeb;
+}
+.col.value{
+    padding-top: 5px;
+    border-bottom: 1px dashed #4b75a4;
+    border-radius: 5px 5px 0 0;
+}
+.col.value input{
+    margin: 2px 0;
+}
+.col.result{
+    border-top: 1px dashed #4b75a4;
+    border-radius: 0 0 5px 5px;
+}
+.col.result textarea{
+    max-width: 860px;
+}
+.col.compare{
+    border: 2px solid #4b75a4;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 0;
+}
+.col.compareInside{
+    border: 2px solid #4b75a4;
+    border-radius: 0;
+}
+
+.btnInterp {
+    background-color: #4b70a3;
+    color: white;
+    height: 34px;
+}
+
+.selectpicker, label {
+    padding: 6px 12px;
+    font-size: 14px;
+    height: 34px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin: 0;
+}
+.resLabel{
+    font-size: 14px;
+    font-weight: 600;
+}
+.form-control.value{
+    display: inline-block;
+}
+.resultBlock{
+    display: block;overflow: auto
+}
+.button button.nonDelete,.argButton button.nonDelete,.result button.nonDelete{
+    display: none;
+}
+.button{
+    float: right;
+    height: 102px;
+}
+.argButton{
+    float: right;
+}
+.button button{
+    display: block;
+    background-color: #46b8da;
+}
+.col-lg-2,.col-lg-1{
+    padding: 0 2px;
+}
+.col-lg-10{
+    padding: 2px 2px;
+}
+.row {
+    margin-right: 0;
+}
+
+input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus {
+    box-shadow: 0 0 4px #c72929;
+    border: 1px solid #c72929;
+}
+.btn-default[disabled]{
+    background-color: #999999;
+}

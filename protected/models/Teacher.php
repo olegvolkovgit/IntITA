@@ -82,7 +82,6 @@ class Teacher extends CActiveRecord
             'responses'=>array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
             'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
-            'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
         );
     }
 
@@ -152,10 +151,11 @@ class Teacher extends CActiveRecord
         $criteria->compare('first_name_en', $this->first_name_en, true);
         $criteria->compare('middle_name_en', $this->middle_name_en, true);
         $criteria->compare('last_name_en', $this->last_name_en, true);
+
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 20,
+                'pageSize' => 10,
             ),
         ));
     }
@@ -286,10 +286,10 @@ class Teacher extends CActiveRecord
                 ':idModule' => Lecture::model()->findByPk($idLecture)->idModule
             ))
             ) {
-                return $key->teacher_id;
+                return $key;
             }
         }
-        return 0;
+        return null;
     }
 
     public static function getTeacherConsult($lectureId)
@@ -594,10 +594,29 @@ class Teacher extends CActiveRecord
         return (!empty($module))?$module:[];
     }
 
-    public static function getTeacherModules($teacher){
-        $modules = TeacherModule::getModulesByTeacher($teacher);
+    public function modules(){
+        $modules = $this->modulesRoleArray();
         $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
         return $result;
+    }
+
+    public function modulesRoleArray(){
+        $modules = Yii::app()->db->createCommand(array(
+            'select' => array('idModule'),
+            'from' => 'teacher_module',
+            'where' => 'idTeacher=:id',
+            'order' => 'idModule',
+            'params' => array(':id' => $this->teacher_id),
+        ))->queryAll();
+        $count = count($modules);
+        $titleParam = Module::getModuleTitleParam();
+
+        for($i = 0;$i < $count;$i++){
+            $modules[$i]['id'] = $modules[$i]["idModule"];
+            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
+        }
+
+        return (!empty($modules))?$modules:[];
     }
 
     public function getTrainees(){
@@ -612,5 +631,70 @@ class Teacher extends CActiveRecord
         return $trainees;
     }
 
+    public function notCheckedPlainTask()
+    {
+        $trainerUser = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
 
+        $teacherPlainTasksId = PlainTaskAnswer::TeacherPlainTask($this->teacher_id);
+
+        if($teacherPlainTasksId){
+        $newPlainTasksId = PlainTaskAnswer::newTeacherPlainTask($teacherPlainTasksId);
+
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'id = :id';
+            $criteria->params = array(':id' => $newPlainTasksId);
+
+
+            $newPlainTasksModel = PlainTaskAnswer::model()->findAllByPk($newPlainTasksId);
+
+        return $newPlainTasksModel;
+        }
+        else return null;
+    }
+
+    public function countNotCheckedPlainTask()
+    {
+        return count($this->notCheckedPlainTask());
+    }
+
+
+
+    public static function addTeacherAccess($teacher, $module){
+        $model = new TeacherModule();
+        if (!TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
+            ':teacher' => $teacher,
+            ':module' => $module,
+        ))){
+            $model->idTeacher = $teacher;
+            $model->idModule = $module;
+            if ($model->validate()){
+                $model->save();
+            }
+        }
+    }
+
+    public function setTeacherRole($roleId){
+        if (TeacherRoles::model()->exists('teacher=:teacher and role=:attribute', array('teacher'=>$this->teacher_id,
+            'attribute'=>$roleId))){
+            $model = TeacherRoles::model()->findByAttributes(array('teacher'=>$this->teacher_id, 'role'=>$roleId));
+        } else{
+            $model = new TeacherRoles();
+            $model->teacher = $this->teacher_id;
+            $model->role = $roleId;
+        }
+        $model->start_date = date("Y-m-d H:i");
+
+        if ($model->validate()){
+            $model->save();
+            return true;
+        }
+        return false;
+    }
+
+    public function getStatus()
+    {
+        if($this->isPrint)
+        return 'активний';
+        else return 'видалений';
+    }
 }

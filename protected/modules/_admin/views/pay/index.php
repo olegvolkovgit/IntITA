@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/access.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 <?php
 /* @var $this PayController */
 ?>

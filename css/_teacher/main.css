@@ -11,3 +11,13 @@
     display: block;
 }
 
+
+.errorMessage
+{
+    color: #ff0000;
+}
+
+.form-group error
+{
+    color: #ff0000;
+}
