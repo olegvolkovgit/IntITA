@@ -235,7 +235,7 @@ class CourseController extends Controller
             $this->redirect($path);
         }
         else
-            $this->render('_schemaError');
+            throw new CHttpException(404, Yii::t('course_schema', '0780'));
     }
 
 }
