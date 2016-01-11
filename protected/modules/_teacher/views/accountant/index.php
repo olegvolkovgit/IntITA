@@ -1,3 +1,1 @@
-<?php
-echo 'Сторінка бухгалтера';
-?>
+<a href="<?=Yii::app()->createUrl('/_accountancy/default/index');?>">Сторінка бухгалтера</a>
