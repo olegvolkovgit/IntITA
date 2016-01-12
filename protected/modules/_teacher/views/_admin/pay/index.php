@@ -1,7 +1,6 @@
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 <?php
 /* @var $this PayController */
-$user = Yii::app()->user->getId();
 ?>
 <?php if(!empty($cancelMode)) {
     $moduleAction = 'cancelModule';
@@ -12,17 +11,17 @@ $user = Yii::app()->user->getId();
     $fieldsetModule = $buttonModuleName;
     $fieldsetCourse = $buttonCourseName;
 }
-    else
-    {
-        $moduleAction = 'payModule';
-        $courseAction = 'payCourse';
-        $buttonModuleName = Yii::t('payments', '0599');
-        $buttonCourseName = Yii::t('payments', '0604');
-        $headerName = 'Автоматична оплата курса/модуля';
-        $fieldsetModule = Yii::t('payments', '0593');
-        $fieldsetCourse = Yii::t('payments', '0600');
-    }
- ?>
+else
+{
+    $moduleAction = 'payModule';
+    $courseAction = 'payCourse';
+    $buttonModuleName = Yii::t('payments', '0599');
+    $buttonCourseName = Yii::t('payments', '0604');
+    $headerName = 'Автоматична оплата курса/модуля';
+    $fieldsetModule = Yii::t('payments', '0593');
+    $fieldsetCourse = Yii::t('payments', '0600');
+}
+?>
 <div class="container">
     <div class="page-header well col-md-7">
         <h4><?php echo $headerName?></h4>
@@ -34,16 +33,12 @@ $user = Yii::app()->user->getId();
                 <div id="findModule" class="form-group row">
                     <form name = 'findUsers' method="POST">
                         <div class="col-md-10">
-                            <div class="form-group" id="receiver">
-                                <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Введіть e-mail користувача">
-                            </div>
-<!--                            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">-->
+                <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
                         </div>
-                        <br>
 
                         <div class="col-md-2">
-                        <input type="button" class="btn btn-default" value="Знайти користувача"
-                               onclick = "findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')" >
+                            <input type="button" class="btn btn-default" value="Знайти користувача"
+                                   onclick = "findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')" >
                         </div>
                     </form>
                 </div>
@@ -103,79 +98,41 @@ $user = Yii::app()->user->getId();
     </div>
 
     <div class="panel panel-default col-md-7">
-    <div class="panel-body">
-        <div id="addAccessModule">
-            <a name="form"></a>
-            <form  method="POST" name="add-accessCourse"
-                   onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$courseAction);?>');return false;">
-                <fieldset>
-                    <label id="label"><?php echo $fieldsetCourse ?>:</label>
+        <div class="panel-body">
+            <div id="addAccessModule">
+                <a name="form"></a>
+                <form  method="POST" name="add-accessCourse"
+                       onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$courseAction);?>');return false;">
+                    <fieldset>
+                        <label id="label"><?php echo $fieldsetCourse ?>:</label>
 
-                    <div class="form-group">
-                        <label><?php echo Yii::t('payments', '0605'); ?>:</label>
-                        <select id="courseList" class="form-control" style="max-width: 496px;" name="course"
-                                placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required="true">
+                        <div class="form-group">
+                            <label><?php echo Yii::t('payments', '0605'); ?>:</label>
+                            <select id="courseList" class="form-control" style="max-width: 496px;" name="course"
+                                    placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required="true">
 
-                            <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
-                            <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
-                                <?php
-                                foreach($courses as $course){
+                                <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
+                                <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
+                                    <?php
+                                    foreach($courses as $course){
+                                        ?>
+                                        <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
+                                        <?php
+                                    }
                                     ?>
-                                    <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
-                                <?php
-                                }
-                                ?>
-                        </select>
-                    </div>
-                    <br>
+                            </select>
+                        </div>
+                        <br>
 
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
-                </fieldset>
-            </form>
+                        <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    </fieldset>
+                </form>
 
+            </div>
         </div>
-    </div>
     </div>
 </div>
 <br>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
-<script>
-    users = <?=StudentReg::usersEmailArray($user);?>;
-</script>
-
-<script>
-    var substringMatcher = function (strs) {
-        return function findMatches(q, cb) {
-            var matches, substrRegex;
-
-            // an array that will be populated with substring matches
-            matches = [];
-
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function (i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push(str);
-                }
-            });
-
-            cb(matches);
-        };
-    };
-
-    $('#typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'receiver',
-            source: substringMatcher(users)
-        }
-    );
-</script>
