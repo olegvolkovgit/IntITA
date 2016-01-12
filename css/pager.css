@@ -8,5 +8,11 @@ ul.yiiPager .selected a{background:#2e6ab1;color:#FFFFFF;font-weight:bold;}
 ul.yiiPager .hidden a{border:solid 1px #DEDEDE;color:#888888;}
 ul.yiiPager .first,
 ul.yiiPager .last{}
-.pager .next>a{float: none;}
-.pager .previous>a{float: none;}
+.pager  ul.yiiPager .next>a{float: none;}
+.pager  ul.yiiPager .previous>a{float: none;}
+.pager ul.yiiPager li>a,.pager ul.yiiPager li>span {
+    display: inherit;
+    padding: 1px 6px;
+    border: solid 1px #9aafe5;
+    border-radius:0;
+}

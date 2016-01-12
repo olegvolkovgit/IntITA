@@ -1,19 +1,21 @@
 
 function deletePage(lecture, page, course){
     if($("div.labelBlock").length==1){
-        alert('Ви не можете видалити останню сторінку');
+        bootbox.alert("Ви не можете видалити останню сторінку")
         return false;
     }
-    if (confirm('Ви впевнені, що хочете видалити частину ' + page + '?')) {
-        $.ajax({
-            type: "POST",
-            url: basePath+"/lesson/deletePage",
-            data: {'idLecture':lecture, 'pageOrder':page},
-            success: function(){
-                location.reload();
-            }
-        });
-    }
+    bootbox.confirm("Ви впевнені, що хочете видалити цей блок?", function(result){
+        if(result){
+            $.ajax({
+                type: "POST",
+                url: basePath + "/lesson/deletePage",
+                data: {'idLecture': lecture, 'pageOrder': page},
+                success: function () {
+                    location.reload();
+                }
+            });
+        };
+    });
 }
 
 function upPage(idLecture, pageOrder, course){
