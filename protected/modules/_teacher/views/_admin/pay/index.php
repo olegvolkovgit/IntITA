@@ -119,5 +119,5 @@
 </div>
 </div>
 <br>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>

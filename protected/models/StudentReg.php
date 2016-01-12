@@ -997,4 +997,25 @@ class StudentReg extends CActiveRecord
 
         return $name;
     }
+
+    public static function adminsList(){
+        $sql = "select * from user_admin";
+        $admins =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $admins;
+    }
+
+    public static function accountantsList(){
+        $sql = "select * from user_accountant";
+        $accountants =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $accountants;
+    }
+
+    public static function allUsers(){
+        $sql = "select * from user";
+        $users =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $users;
+    }
 }
