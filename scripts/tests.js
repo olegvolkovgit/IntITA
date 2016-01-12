@@ -158,17 +158,18 @@ function checkAnswersCKE(answers){
 }
 
 function unableTest(pageId){
-    if (confirm('Ви впевнені, що хочете видалити тест?')) {
-        $.ajax({
-            type: "POST",
-            url: "/tests/unableTest",
-            data: {'pageId':pageId},
-            success: function(){
-                location.reload();
-            }
-        });
-    }
-
+    bootbox.confirm('Ви впевнені, що хочете видалити тест?', function(result){
+        if(result) {
+            $.ajax({
+                type: "POST",
+                url: "/tests/unableTest",
+                data: {'pageId': pageId},
+                success: function () {
+                    location.reload();
+                }
+            });
+        };
+    });
 }
 
 

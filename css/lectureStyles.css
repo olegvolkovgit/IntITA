@@ -833,3 +833,6 @@ a.cke_dialog_ui_fileButton{
 #flashMsg.emptyFlash.hideFlash{
     display: none;
 }
+#lecturePage legend {
+    width: auto;
+}

@@ -21,6 +21,24 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             }, function() {
             });
     };
+    $scope.unablePlainTask = function(pageId){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
+            .then(function() {
+                $http({
+                    url: basePath + "/plainTask/unablePlainTask",
+                    method: "POST",
+                    data: $.param({pageId: pageId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                })
+                    .success(function (response) {
+                        location.reload();
+                    })
+                    .error(function () {
+                        alert('error unablePlainTask');
+                    })
+            }, function() {
+            });
+    };
     $scope.editorOptions = {
         language: lang
     };

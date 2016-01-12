@@ -89,15 +89,17 @@ function deleteBlock(idLecture, order) {
     }
 }
 function deleteVideo(idLecture, pageOrder) {
-    if(confirm("Ви впевнені, що хочете видалити цей блок?")) {
-        $.ajax({
-            type: "POST",
-            url: basePath+"/lesson/deleteVideo",
-            data: {'idLecture': idLecture, 'pageOrder': pageOrder},
-            success: function () {
-               location.reload();
-                return false;
-            }
-        });
-    }
+    bootbox.confirm("Ви впевнені, що хочете видалити цей блок?", function(result){
+        if(result){
+            $.ajax({
+                type: "POST",
+                url: basePath+"/lesson/deleteVideo",
+                data: {'idLecture': idLecture, 'pageOrder': pageOrder},
+                success: function () {
+                    location.reload();
+                    return false;
+                }
+            });
+        };
+    })
 }
