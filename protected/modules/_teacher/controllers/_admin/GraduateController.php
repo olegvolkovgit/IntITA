@@ -27,7 +27,7 @@ class GraduateController extends TeacherCabinetController {
     {
         $model = new Graduate;
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//         $this->performAjaxValidation($model);
         if (isset($_POST['Graduate'])) {
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
@@ -57,10 +57,10 @@ class GraduateController extends TeacherCabinetController {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
-        $avatarOld = Graduate::model()->findByPk($id)->avatar;
+//         $this->performAjaxValidation($model);
 
         if (isset($_POST['Graduate'])) {
+            $avatarOld = $model->avatar;
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
 

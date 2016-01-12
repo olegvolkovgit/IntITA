@@ -157,48 +157,43 @@ function send(form,data,hasError)
     }
 }
 
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Validations
 function validateSliderForm()
 {
-    var picFile = $('#picture');
-    var code = $('#text');
-    var numbVal = numberValidate(code);
-    var pictVal = filePicValidate(picFile);
-
-    if(numbVal && pictVal)
-    {
-        return true;
-    }
-    else return false;
-
+    var valid = [];
+    valid.push(numberValidate($('#text')));
+    valid.push(filePicValidate($('#picture')));
+    var hasError = checkValid(valid);
+    return hasError;
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//input validation function
 function filePicValidate(picture)
 {
     var message = '';
     var pattern = /^.*\.(?:jpg|png|gif)\s*$/ig;
     var error = false;
 
-    if(!pattern.test(picture.val()))
-    {
-        message = 'Файл має бути у форматі jpg,gif або png';
-        error = true
-    }
     if(!picture.val())
     {
         message = 'Виберіть файл';
         error = true;
     }
+    else if(!pattern.test(picture.val()))
+    {
+        message = 'Файл має бути у форматі jpg,gif або png';
+        error = true;
+    }
 
-    if(error)
-    {
-        showErrorMessage(message,picture);
-    }
-    else
-    {
-        hideErrorMessage(picture);
-    }
+    processResult(error,message,picture);
     return !error;
-
 }
 
 function numberValidate(number)
@@ -207,29 +202,46 @@ function numberValidate(number)
     var pattern = /^\d+$/;
     var error = false;
 
-    if(!pattern.test(number.val()))
+    if(!number.val()){
+        error = true;
+        message = 'Поле для вводу коду текста має бути заповнене';
+    }
+    else if((!pattern.test(number.val())))
     {
         error = true;
         message = 'Можна ввести тільки цифри';
     }
 
-    if(!number.val()){
-        error = true;
-        message = 'Поле для вводу коду текста має бути заповнене';
-    }
+    processResult(error,message,number);
 
-    if(error)
-    {
-        showErrorMessage(message,number);
-    }
-    else
-    {
-        hideErrorMessage(number);
-    }
     return !error;
 
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//show or hide validation message
+function processResult(error,message,element)
+{
+    if(error)
+    {
+        showErrorMessage(message,element);
+    }
+    else
+    {
+        hideErrorMessage(element);
+    }
+}
+function checkValid(arr)
+{
+    var hasError = false;
+    for(var i = 0;i < arr.length;i++)
+    {
+        if(arr[i] == false ){
+            return hasError;
+        }
+    }
+    return !hasError;
 
+}
 function showErrorMessage(message,element)
 {
     var errorBlock = element.parent().find('.errorMessage');
@@ -244,13 +256,8 @@ function hideErrorMessage(element)
     var errorBlock = element.parent().find('.errorMessage');
     errorBlock.hide();
 }
-
-function validateTeacherForm()
-{
-    alert('dsadsad');
-    return true;
-}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Modal windows
 function showDialog(str)
 {
     if(str){
