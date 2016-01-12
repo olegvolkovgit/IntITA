@@ -53,11 +53,34 @@ class SiteController extends Controller
      */
     public function actionError()
     {
+        if(isset(Yii::app()->errorHandler->error["code"])){
+            switch (Yii::app()->errorHandler->error["code"]) {
+                case '400':
+                    $breadcrumbs=Yii::t('breadcrumbs','0781');
+                    break;
+                case '403':
+                    $breadcrumbs=Yii::t('error','0590');
+                    break;
+                case '404':
+                    $breadcrumbs=Yii::t('breadcrumbs','0782');
+                    break;
+                case '500':
+                    $breadcrumbs=Yii::t('breadcrumbs','0783');
+                    break;
+                default:
+                    $breadcrumbs=Yii::t('breadcrumbs','0784');
+            }
+        }
         if ($error = Yii::app()->errorHandler->error) {
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
-            else
+            else{
+                $breadcrumbsArr = array (
+                    'breadMsg'=>$breadcrumbs
+                );
+                $error = array_merge($error, $breadcrumbsArr);
                 $this->render('error', $error);
+            }
         }
     }
     protected function performAjaxValidation($model,$formId)

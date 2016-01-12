@@ -1,7 +1,7 @@
 <?php
 /* @var $model Course */
 $order = $model->modulesCount(); ?>
-<form id="addLessonForm" name="addModule" action="<?php echo Yii::app()->createUrl('module/saveModule'); ?>" method="post">
+<form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name="addModule" action="<?php echo Yii::app()->createUrl('module/saveModule'); ?>" method="post">
     <br>
     <span id="formLabel"><?php echo Yii::t('course', '0365') ?></span>
     <br>

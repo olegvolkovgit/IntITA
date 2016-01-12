@@ -2,6 +2,7 @@
 angular
     .module('mainApp')
     .controller('validationController',validationController);
+
 /* Controllers */
 function validationController($scope) {
 
