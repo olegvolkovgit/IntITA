@@ -22,7 +22,7 @@ class CarouselController extends TeacherCabinetController
 	{
 		$model=new Carousel;
 		// Uncomment the following line if AJAX validation is needed
-		 $this->performAjaxValidation($model);
+//		 $this->performAjaxValidation($model);
 		if(isset($_POST['Carousel'])) {
 
             $picName = $_FILES['Carousel']['name'];
@@ -35,7 +35,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 $model->save();
-                $this->redirectToIndex($this->callerName);
+                $this->redirect($this->pathToCabinet());
             }
         }
 
@@ -52,7 +52,7 @@ class CarouselController extends TeacherCabinetController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+        $path = Yii::app()->createUrl('/_teacher/_admin/carousel/update');
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
@@ -68,12 +68,13 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $picName, $tmpName);
 
                 if ($model->save())
-                    $this->redirectToIndex($this->callerName);
+                    $this->redirect($this->pathToCabinet());
             }
 		}
 
 		$this->renderPartial('update',array(
 			'model'=>$model,
+            'path' => $path
 		),false,true);
 	}
 
@@ -84,10 +85,10 @@ class CarouselController extends TeacherCabinetController
 	 */
 	public function actionDelete($id)
 	{
-        $type = 'Carousel';
-        $this->loadModel($id)->delete();
+        $model = $this->loadModel($id);
+        $model->delete();
 
-        Slider::sortOrder($type);
+        Slider::sortOrder($model);
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -176,7 +177,7 @@ class CarouselController extends TeacherCabinetController
             }
 
         }
-        else $this->redirectToIndex($this->callerName);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
     }
 
     public function actionDown($order)
@@ -184,11 +185,12 @@ class CarouselController extends TeacherCabinetController
         $model = Carousel::model()->findByAttributes(array('order' => $order));
 
         if($order == $model->getLastOrder())
-            $this->redirectToIndex($this->callerName);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
 
         else
         {
-        $nextModel = Carousel::model()->findByAttributes(array('order' => $order + 1));
+
+        $nextModel = $this->getNextModel($order);
 
         if($nextModel){
 
@@ -201,10 +203,25 @@ class CarouselController extends TeacherCabinetController
             {
                 $model->save();
                 $nextModel->save();
+
             }
-            $this->redirectToIndex($this->callerName);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
         }
         }
+    }
+
+    public function getNextModel($order)
+    {
+
+        $nextModel = null;
+        $order++;
+        $exists = Carousel::model()->exists('`order` = :order',array(':order'=> $order));
+        if($exists)
+        {
+            $nextModel = Carousel::model()->findByAttributes(array('order' => $order));
+            return $nextModel;
+        }
+        else return $this->getNextModel($order);
     }
 
 }

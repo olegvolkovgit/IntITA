@@ -44,8 +44,9 @@ function saveSchema(url)
     $.ajax({
         url: url,
         success: function (data) {
-            showDialog("Схема курсу збережена!")
-            location.reload();
+            showDialog("Схема курсу збережена!");
+            fillContainer(data);
+            //location.reload();
         },
         error: function () {
             showDialog();
@@ -156,7 +157,99 @@ function send(form,data,hasError)
     }
 }
 
+function validateSliderForm()
+{
+    var picFile = $('#picture');
+    var code = $('#text');
+    var numbVal = numberValidate(code);
+    var pictVal = filePicValidate(picFile);
 
+    if(numbVal && pictVal)
+    {
+        return true;
+    }
+    else return false;
+
+}
+
+function filePicValidate(picture)
+{
+    var message = '';
+    var pattern = /^.*\.(?:jpg|png|gif)\s*$/ig;
+    var error = false;
+
+    if(!pattern.test(picture.val()))
+    {
+        message = 'Файл має бути у форматі jpg,gif або png';
+        error = true
+    }
+    if(!picture.val())
+    {
+        message = 'Виберіть файл';
+        error = true;
+    }
+
+    if(error)
+    {
+        showErrorMessage(message,picture);
+    }
+    else
+    {
+        hideErrorMessage(picture);
+    }
+    return !error;
+
+}
+
+function numberValidate(number)
+{
+    var message = '';
+    var pattern = /^\d+$/;
+    var error = false;
+
+    if(!pattern.test(number.val()))
+    {
+        error = true;
+        message = 'Можна ввести тільки цифри';
+    }
+
+    if(!number.val()){
+        error = true;
+        message = 'Поле для вводу коду текста має бути заповнене';
+    }
+
+    if(error)
+    {
+        showErrorMessage(message,number);
+    }
+    else
+    {
+        hideErrorMessage(number);
+    }
+    return !error;
+
+}
+
+function showErrorMessage(message,element)
+{
+    var errorBlock = element.parent().find('.errorMessage');
+    errorBlock.html(message);
+    errorBlock.show();
+    element.focus();
+}
+
+
+function hideErrorMessage(element)
+{
+    var errorBlock = element.parent().find('.errorMessage');
+    errorBlock.hide();
+}
+
+function validateTeacherForm()
+{
+    alert('dsadsad');
+    return true;
+}
 
 function showDialog(str)
 {
@@ -165,3 +258,5 @@ function showDialog(str)
     }
     $('#myModal').modal('show');
 }
+
+

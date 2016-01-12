@@ -209,7 +209,7 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect($this->pathToCabinet());
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
     public function actionRestore($id){

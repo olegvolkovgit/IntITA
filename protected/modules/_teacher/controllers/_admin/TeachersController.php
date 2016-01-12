@@ -55,13 +55,17 @@ class TeachersController extends TeacherCabinetController{
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+
         if (isset($_POST['Teacher'])) {
-            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
-            if(!empty($_FILES['Teacher']['name']['foto_url'])){
-                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
-            }
+
             $model->attributes = $_POST['Teacher'];
-            $model->avatar = $_FILES['Teacher'];
+
+            if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+                $model->avatar = $_FILES['Teacher'];
+            }
+
             if ($model->save()) {
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(

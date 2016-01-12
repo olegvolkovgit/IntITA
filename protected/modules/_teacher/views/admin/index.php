@@ -10,10 +10,13 @@
                             'Інтерфейсні повідомлення')">
                             Інтерфейсні повідомлення</a>
                     </li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">
+                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index'); ?>',
+                            'Слайдер на головній сторінці')">
                             Слайдер на головній сторінці</a>
                     </li>
-                    <li><a href="<?php echo Yii::app()->createUrl('/_admin/aboutusSlider/index'); ?>">
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'); ?>',
+                               'Слайдер на сторінці <i>Про нас</i>')">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
                     <br>
