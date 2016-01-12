@@ -21,6 +21,7 @@
     <h4>Атрибути ролі <?php echo $model->title_ua; ?></h4>
     </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'roleAttribute',
     'dataProvider'=>$dataProvider,
     'summaryText' => '',
     'pager' => array(
@@ -59,6 +60,17 @@
             (
                 'update' => array
                 (
+                    'click'=>"function(){
+                                    $.fn.yiiGridView.update('roleAttribute', {
+                                        type:'POST',
+                                        url:$(this).attr('href'),
+                                        success:function(data){
+                                                        fillContainer(data);
+                                    }
+                                    })
+                                    return false;
+                              }
+                     ",
                     'label'=>'Редагувати',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/updateRoleAttribute", array("id"=>$data->primaryKey))',
                 ),

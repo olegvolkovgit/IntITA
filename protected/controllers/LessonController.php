@@ -11,13 +11,23 @@ class LessonController extends Controller
             'accessControl',
         );
     }
-
+    public function init()
+    {
+        $app = Yii::app();
+        if (isset($app->session['lg'])) {
+            $app->language = $app->session['lg'];
+        }
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }else return true;
+    }
     public function accessRules()
     {
         return array(
-            array('deny',
-                'users' => array('?'),
-            ),
+//            array('deny',
+//                'users' => array('?'),
+//            ),
         );
     }
 
@@ -25,9 +35,6 @@ class LessonController extends Controller
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-        if (Yii::app()->user->isGuest) {
-            throw new CHttpException(403, Yii::t('errors', '0138'));
-        }
         if (StudentReg::isAdmin() || $editMode) {
             return true;
         }
@@ -580,8 +587,8 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
         if (!$editMode) {
-            throw new CHttpException(403, 'У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном автора модуля.');
+            throw new CHttpException(403, 'Ви запросили сторінку, доступ до якої обмежений спеціальними правами.
+            Для отримання доступу увійдіть на сайт з логіном автора модуля.');
         }
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));

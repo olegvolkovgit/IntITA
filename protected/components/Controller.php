@@ -41,4 +41,21 @@ class Controller extends CController
 	public $seo;
 	public $portlets = array();
 	public $lastUpdate;
+
+	public function behaviors()
+	{
+		return array(
+			'InlineWidgetsBehavior'=>array(
+				'class'=>'DInlineWidgetsBehavior',
+				'location'=>'application.components.widgets',
+				'startBlock'=> '{{w:',
+				'endBlock'=> '}}',
+				'widgets'=>array(
+					'Share',
+					'Comments',
+					'AuthorizationFormWidget',
+				),
+			),
+		);
+	}
 }

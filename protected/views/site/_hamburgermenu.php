@@ -28,7 +28,7 @@
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
-            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => '$("#mydialog").dialog("open"); return false;',));
+            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => 'openSignIn();',));
         } else {?>
             <a id="hum_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout">
                 <?php echo $header->getLogoutButton(); ?>

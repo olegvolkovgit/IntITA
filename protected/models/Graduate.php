@@ -37,9 +37,8 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('first_name', 'required', 'message'=>Yii::t('graduate','0746')),
+            array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en', 'required', 'message'=>"Поле обов'язкове для заповнення"),
 			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
-            array('last_name', 'required', 'message'=>Yii::t('graduate','0747')),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('graduate','0748')),
 			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
@@ -138,7 +137,14 @@ class Graduate extends CActiveRecord
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 'graduate';
-        if ($selector == 'az') $criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
+
+        if ($selector == 'az'){
+			if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
+				$criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
+			}else{
+				$criteria->order = 'last_name COLLATE utf8_unicode_ci ASC';
+			}
+		}
         if ($selector == 'date') $criteria->order = 'graduate_date DESC';
         if ($selector == 'rating') $criteria->order = 'rate DESC';
 

@@ -93,16 +93,15 @@ class Mail {
 
         $model->addressee_id = $userId;
         $model->sender_id = Yii::app()->user->id;
-        $model->text_letter = "Вітаємо!"."<br>".
-            "Тобі надано доступ до  модуля : " . $module->title_ua.".".
-            "Щоб розпочати навчання, перейди за посиланням: <a href =".$moduleLink.">". $module->title_ua . " </a>
-            ​З повагою,
-            INTITA​";
+        $linkForMail = $moduleLink.$module->title_ua;
+        $linkForLetter = "<a href =".$moduleLink.">". $module->title_ua . " </a>";
+        $model->text_letter = $model->setLetterText($module->title_ua,$linkForLetter);
         $model->date = date("Y-m-d H:i:s");
         $model->theme = "Оплата модуля";
         if($model->validate()) {
             $model->save();
-            mail($model->addressee_id,$model->theme,$model->text_letter);
+            $mailText = $model->setLetterText($module->title_ua,$linkForMail);
+            mail($model->addressee_id,$model->theme,$mailText);
 
             return true;
         }
@@ -135,8 +134,7 @@ class Mail {
         $model->text_letter = "Вітаємо!"."<br>".
             "Тобі надано доступ до ".$access ." : " . $title . ".<br>" .
             "Щоб розпочати навчання, перейди за посиланням: <a href =" . $link . ">". $title . " </a><br>
-            ​З повагою,<br>
-            INTITA​";
+            ​З повагою, INTITA​";
         $model->date = date("Y-m-d H:i:s");
         $model->theme = $theme;
         if($model->validate()) {
@@ -161,8 +159,7 @@ class Mail {
             "Щоб продивитися нову задачу, перейди за посиланням:
             <a href =".Config::getBaseUrl().'_teacher/teacher/checkPlainTaskAnswer'.$plainTaskAnswer->id.">"
             .'Задача до перевірки'." </a>
-            ​З повагою,
-            INTITA​";
+            ​З повагою, INTITA​";
         $model->date = date("Y-m-d H:i:s");
         $model->theme = "Нова задача";
         if($model->validate()) {

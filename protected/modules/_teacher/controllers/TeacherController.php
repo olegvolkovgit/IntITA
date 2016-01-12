@@ -6,7 +6,6 @@
  * Time: 15:36
  */
 
-
 class TeacherController extends TeacherCabinetController {
 
     public function actionShowPlainTaskList()

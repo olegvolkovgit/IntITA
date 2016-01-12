@@ -245,6 +245,7 @@ table.exmCons{
     margin-left: 10px;
 }
 table.exmCons img{
+    margin: 2px;
     display: block;
 }
 table.exmCons span{
@@ -256,7 +257,6 @@ table.exmCons td:last-child span{
 }
 table.exmCons span{
     font-size: 12px;
-    vertical-align: bottom;
     cursor:pointer;
 }
 table.timeTable{

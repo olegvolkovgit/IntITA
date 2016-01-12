@@ -26,6 +26,7 @@ $header = new Header();
     <!-- fonts -->
     <!-- layouts style -->
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'style.css') ?>"/>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css"
           href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
@@ -54,7 +55,7 @@ $header = new Header();
 
 <body itemscope itemtype="http://schema.org/Product">
 
-<div id="main-wrapper">
+<div id="main-wrapper" >
     <div id="mainheader">
         <?php $this->renderPartial('/site/_hamburgermenu'); ?>
         <div id='headerUnderline'>
@@ -143,26 +144,9 @@ $header = new Header();
     </div>
     <div id="contentBoxMain">
         <?php echo $content; ?>
-        <!--SingIn modal-->
-        <?php
-        $openDialog = false;
-        if (isset($_GET['dialog'])) $openDialog = true;
-        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-            'id' => 'mydialog',
-            'themeUrl' => Config::getBaseUrl() . '/css',
-            'cssFile' => 'jquery-ui.css',
-            'theme' => 'my',
-            'options' => array(
-                'width' => 540,
-                'autoOpen' => $openDialog,
-                'modal' => true,
-                'resizable' => false
-            ),
-        ));
-        $this->renderPartial('/site/_signinform');
-        $this->endWidget('zii.widgets.jui.CJuiDialog');
-        ?>
-        <!--SignIn modal-->
+        <!--Form Auth-->
+        <?php echo $this->decodeWidgets('{{w:AuthorizationFormWidget|dialog=true;id=authFormDialog}}'); ?>
+        <!--Form Auth-->
         <!--forgot pass modal-->
         <?php
         $this->beginWidget('zii.widgets.jui.CJuiDialog', array(

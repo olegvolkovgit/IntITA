@@ -40,7 +40,6 @@ table#accountTable td {
 #printAccount {
     display: inline-block;
     width:160px;
-    height:30px;
     border-radius: 7px;
     border:none;
     border-top:1px solid #9fb5ce;

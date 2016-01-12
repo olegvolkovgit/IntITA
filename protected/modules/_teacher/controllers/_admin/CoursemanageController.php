@@ -20,15 +20,16 @@ class CoursemanageController extends TeacherCabinetController
     public function actionCreate()
     {
         $model=new Course;
-
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
-            $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
-            $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            if(!empty($_FILES)){
+                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+                $model->logo = $_FILES['Course'];
+                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            }
             $model->attributes = $_POST['Course'];
-            $model->logo = $_FILES['Course'];
             if($model->save()){
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
@@ -41,7 +42,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
             }
         }
         $this->renderPartial('create',array(
@@ -62,10 +63,13 @@ class CoursemanageController extends TeacherCabinetController
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;
-            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
-            $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
+
+            if(!empty($_FILES)){
+                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+                $model->logo = $_FILES['Course'];
+                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            }
             $model->attributes=$_POST['Course'];
-            $model->logo=$_FILES['Course'];
             if($model->save()){
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
@@ -74,7 +78,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
             }
         }
         $this->renderPartial('update',array(
@@ -99,7 +103,7 @@ class CoursemanageController extends TeacherCabinetController
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('Course');
-        $this->render('index',array(
+        $this->renderPartial('index',array(
             'dataProvider'=>$dataProvider,
         ),false,true);
     }
@@ -161,7 +165,7 @@ class CoursemanageController extends TeacherCabinetController
 
         CourseModules::addNewRecord($moduleId, $courseId);
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
     public function actionSchema($idCourse){
@@ -205,7 +209,7 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect($this->pathToCabinet());
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
     public function actionRestore($id){

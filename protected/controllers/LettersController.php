@@ -136,7 +136,7 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
-        $model= new UserMessages();
+		$model= new Letters();
         if(isset($_POST['ajax']) && $_POST['ajax']==='user-messages-form')
         {
             echo CActiveForm::validate($model);

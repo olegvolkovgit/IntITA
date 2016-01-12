@@ -76,6 +76,7 @@ div.calendar{
     display: block;
     cursor: pointer;
     text-decoration: underline;
+    padding: 2px 0;
 }
 #form_datetime > input{
     display: inline-block;
@@ -377,6 +378,9 @@ div#timeInfo{
     margin-right: 20px;
     margin-left: 20px;
     float: left;
+}
+#consultationNext[disabled]{
+    background: #454545;
 }
 #consultationBack:hover, #consultationNext:hover{
     background: #454545;

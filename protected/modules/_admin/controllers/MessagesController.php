@@ -43,7 +43,7 @@ class MessagesController extends AdminController
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-                $this->actionIndex();
+			$this->redirect(Yii::app()->createUrl('/_admin/messages/index'));
 		} else {
 
             $this->render('create', array(
@@ -63,7 +63,6 @@ class MessagesController extends AdminController
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
 
 		if(isset($_POST['Translate']))
 		{

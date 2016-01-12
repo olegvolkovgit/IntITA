@@ -104,13 +104,13 @@ class PermissionsController extends TeacherCabinetController
                 ));
             }
         }
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
     public function actionDelete($id, $resource)
     {
         Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
     public function actionShowLectures()
@@ -206,7 +206,7 @@ class PermissionsController extends TeacherCabinetController
                 $module,
                 array('read', 'edit'));
         }
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
     public function actionAddTeacher()
@@ -218,7 +218,7 @@ class PermissionsController extends TeacherCabinetController
         }
         $user->save();
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
     public function actionSetTeacherRole()
@@ -233,7 +233,7 @@ class PermissionsController extends TeacherCabinetController
                 $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
             }
         }
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
     public function actionSetTeacherRoleAttribute()
@@ -265,7 +265,7 @@ class PermissionsController extends TeacherCabinetController
 
             }
             if ($result) {
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
             }
 
         }
@@ -336,7 +336,7 @@ class PermissionsController extends TeacherCabinetController
             $module,
             array('read', 'edit'));
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
     }
 
     public function actionCancelTeacherRole()

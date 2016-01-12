@@ -21,15 +21,15 @@
 
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
     <!-- Timeline CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/css/timeline.css');?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/css/timeline.css');?>" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/css/sb-admin-2.css');?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/css/sb-admin-2.css');?>" rel="stylesheet">
     <!-- Morris Charts CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.css');?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.css');?>" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
     <!---->
     <!--Angular-->
@@ -46,7 +46,6 @@
 </head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
-    currentUrl = '';
 </script>
 <body ng-app="teacherApp">
 
@@ -57,7 +56,6 @@
 <!--        , 'newMessages' => $newMessages));?>-->
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model));?>
     </nav>
-
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model));?>
 
 </div>
@@ -70,7 +68,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Сталася халепа</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo Yii::app()->name ?></h4>
                 </div>
                 <div class="modal-body" id="modalText">
                     Вибачте, але на сайті виникла помилка.<br>
@@ -87,45 +85,17 @@
     <!-- /.modal -->
 </div>
 <!-- jQuery -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js');?>"></script>
 <!-- Bootstrap Core JavaScript -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <!-- Metis Menu Plugin JavaScript -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/metisMenu/dist/metisMenu.min.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/raphael/raphael-min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/raphael/raphael-min.js');?>"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/dist/js/sb-admin-2.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/morrisjs/morris.min.js');?>"></script>
-<script>
-    $(function(){
-        $('#menu-link a').click(function(){
-            location.hash= $(this).attr('href').match(/^.*#(.*)/)[1];
-            return false
-        });
-        function hashChange(){
-            //alert(document.cookie.currentUrl);
-            if (currentUrl != ""){
-                load(currentUrl);
-            }
-        }
-        if ("onhashchange" in window){ // cool browser
-            $(window).on('hashchange',hashChange).trigger('hashchange')
-        }else{ // lame browser
-            var lastHash='';
-            setInterval(function(){
-                if (lastHash!=location.hash)
-                    hashChange();
-                lastHash=location.hash
-            },100)
-        }
-    });
-
-    function setCurrentUrl(url){
-        document.cookie = "currentUrl=" + url;
-    }
-</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 </html>
 

@@ -33,6 +33,14 @@ class AdminController extends CController
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
         }
+        if (Yii::app()->user->isGuest) {
+            $this->render('/default/authorize');
+            die();
+        }
+        if (!$this->isAdministrator()) {
+            throw new CHttpException(403, 'У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.');
+        }
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
@@ -46,19 +54,35 @@ class AdminController extends CController
     public function accessRules()
     {
         return array(
-            array('allow',
-                'expression' => array($this, 'isAdministrator'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'users' => array('*'),
-            ),
+//            array('allow',
+//                'expression' => array($this, 'isAdministrator'),
+//            ),
+//            array('deny',
+//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+//                'users' => array('*'),
+//            ),
         );
     }
 
     public function isAdministrator()
     {
         return StudentReg::isAdmin();
+    }
+    public function behaviors()
+    {
+        return array(
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
+            ),
+        );
     }
 }
