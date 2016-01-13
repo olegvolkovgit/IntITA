@@ -29,7 +29,9 @@ $list = CHtml::listData($models,
         'enableClientValidation'=>true,
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
-            'afterValidate'=>'js:validateTeacherForm',
+            'afterValidate' => 'js:function(form,data,hasError){
+                send(form,data,hasError);
+                }',
         )
     )); ?>
 

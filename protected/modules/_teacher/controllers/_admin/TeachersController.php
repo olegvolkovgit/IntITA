@@ -55,7 +55,6 @@ class TeachersController extends TeacherCabinetController{
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-
         if (isset($_POST['Teacher'])) {
 
             $model->attributes = $_POST['Teacher'];
