@@ -11,6 +11,7 @@ class LessonController extends Controller
             'accessControl',
         );
     }
+
     public function init()
     {
         $app = Yii::app();
@@ -22,6 +23,8 @@ class LessonController extends Controller
             die();
         }else return true;
     }
+
+
     public function accessRules()
     {
         return array(
