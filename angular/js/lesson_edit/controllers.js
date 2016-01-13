@@ -3,6 +3,9 @@ angular
     .controller('CKEditorCtrl', CKEditorCtrl)
 
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+    $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
+    $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -126,7 +129,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value":  result[4]
+                "value":  result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')
             });
         }
 

@@ -21,7 +21,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=new Course;
         // Uncomment the following line if AJAX validation is needed
-        $this->performAjaxValidation($model);
+//        $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
             if(!empty($_FILES)){
@@ -58,7 +58,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//         $this->performAjaxValidation($model);
 
         if(isset($_POST['Course']))
         {

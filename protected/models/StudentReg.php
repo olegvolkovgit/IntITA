@@ -1021,4 +1021,18 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition('teacher.user_id = user.id');
         return StudentReg::model()->findAll($criteria);
     }
+
+    /**
+     * @param $current integer - id current user (is not included into receivers list)
+     * @return string - json for typeahead field in new user message form
+     */
+    public static function usersEmailArray($current){
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
+            ->queryAll();
+        $result = [];
+        foreach ($data as $row){
+            $result[] = implode(" ", $row);
+        }
+        return json_encode($result);
+    }
 }
