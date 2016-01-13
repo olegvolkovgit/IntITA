@@ -13,7 +13,7 @@ class PaymentsController extends Controller
     {
         return array(
             array('allow',
-                'users' => '?',
+                'expression' => array($this, 'hasAccountAccess'),
             ),
             array('deny',
                 'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
@@ -25,8 +25,13 @@ class PaymentsController extends Controller
 
     public function hasAccountAccess()
     {
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        return $user->isAdmin() || $user->isAccountant();
+        $id = Yii::app()->user->getId();
+        if($id) {
+            $user = StudentReg::model()->findByPk($id);
+            return $user->isAdmin() || $user->isAccountant();
+        } else {
+            return false;
+        }
     }
 
     public function actionIndex($account, $nolayout = false)
@@ -60,6 +65,7 @@ class PaymentsController extends Controller
                 $summa = 0;
             }
         }
+
         $accountId = TempPay::addAccount($user, $courseId, $moduleId, $summa);
 
         echo (isset($accountId))?$accountId:'0';

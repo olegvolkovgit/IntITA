@@ -254,14 +254,12 @@ class SiteController extends Controller
             $this->redirect(Yii::app()->createUrl('/site/networkIdentity', array('identity' => $user['identity'])));
         }
         /*network validation when network don't have email(have number phone)*/
-
         $model->email = $user['email'];
         if ($model->socialLogin()) {
             if (isset($user['network']) && StudentReg::isNewNetwork($user['network'], $user['profile'], $model)) {
                 $modelId = $model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
-
             $this->forumAuthentication($model);
 
             if (isset($_SERVER["HTTP_REFERER"])) {
@@ -371,15 +369,11 @@ class SiteController extends Controller
         $model->attributes = Yii::app()->request->getPost('StudentReg');
         $getModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
         if (Yii::app()->request->getPost('StudentReg')) {
-
             $getTime = $this->setToken($getModel);
-
         }
         if ($getModel->validate()) {
-
-
             if (!Mail::sendRecoveryPassMail($getModel, $getTime))
-                throw new MailException('The letter was not sent ');
+                throw new MailException('The letter was not sent');
 
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
         }
