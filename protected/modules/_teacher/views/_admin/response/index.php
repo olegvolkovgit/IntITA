@@ -69,7 +69,7 @@ $('.search-form form').submit(function(){
                 'paid' => array
                 (
                     'label'=>'Скасувати',
-                    'url'=>'Yii::app()->createUrl("/teacher/_admin/response/unsetPublish", array("id"=>$data->id))',
+                    'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/unsetPublish", array("id"=>$data->id))',
                     'click'=>"function(){
                         $.fn.yiiGridView.update('response-grid', {
                             type:'POST',

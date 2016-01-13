@@ -25,18 +25,14 @@ $list = CHtml::listData($models,
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array(
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-            for (var prop in data)
-                {
-                    var err = document.getElementById(prop);
-                    err.focus();
-                    break;
-            }return true;}',
-            'validateOnSubmit' => true,
-            'validateOnChange' => false),
+                send(form,data,hasError);
+                }',
+        )
     )); ?>
 
     <div class="form-group">

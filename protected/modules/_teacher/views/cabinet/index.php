@@ -68,7 +68,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Сталася халепа</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo Yii::app()->name ?></h4>
                 </div>
                 <div class="modal-body" id="modalText">
                     Вибачте, але на сайті виникла помилка.<br>
@@ -95,10 +95,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ValidateClass.js'); ?>"></script>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
-<script>
-
-</script>
 </html>
 

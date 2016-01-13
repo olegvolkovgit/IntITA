@@ -93,15 +93,15 @@ class Mail {
 
         $model->addressee_id = $userId;
         $model->sender_id = Yii::app()->user->id;
-        $model->text_letter = "Вітаємо!"."<br>".
-            "Тобі надано доступ до  модуля : " . $module->title_ua.".".
-            "Щоб розпочати навчання, перейди за посиланням: <a href =".$moduleLink.">". $module->title_ua . " </a>
-            ​З повагою, INTITA​";
+        $linkForMail = $moduleLink.$module->title_ua;
+        $linkForLetter = "<a href =".$moduleLink.">". $module->title_ua . " </a>";
+        $model->text_letter = $model->setLetterText($module->title_ua,$linkForLetter);
         $model->date = date("Y-m-d H:i:s");
         $model->theme = "Оплата модуля";
         if($model->validate()) {
             $model->save();
-            mail($model->addressee_id,$model->theme,$model->text_letter);
+            $mailText = $model->setLetterText($module->title_ua,$linkForMail);
+            mail($model->addressee_id,$model->theme,$mailText);
 
             return true;
         }

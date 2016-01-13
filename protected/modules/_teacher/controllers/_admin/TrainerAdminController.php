@@ -42,7 +42,7 @@ class TrainerAdminController extends TeacherCabinetController {
 
             if(!TrainerStudent::addTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'));
         }
     }
 
@@ -83,7 +83,7 @@ class TrainerAdminController extends TeacherCabinetController {
             if(!TrainerStudent::editTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
 
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'));
         }
     }
 
@@ -92,7 +92,7 @@ class TrainerAdminController extends TeacherCabinetController {
         if(!TrainerStudent::deleteUserTrainer($id))
             throw new \application\components\Exceptions\NotSaveException("Тренер не був видалений");
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'));
     }
 
 

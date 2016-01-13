@@ -44,8 +44,9 @@ function saveSchema(url)
     $.ajax({
         url: url,
         success: function (data) {
-            showDialog("Схема курсу збережена!")
-            location.reload();
+            showDialog("Схема курсу збережена!");
+            fillContainer(data);
+            //location.reload();
         },
         error: function () {
             showDialog();
@@ -134,7 +135,129 @@ function addTranslate(url)
     }
 
 }
+function send(form,data,hasError)
+{
+    if(hasError){
+        for(var prop in data)
+        {
+            var err = document.getElementById(prop);
+            err.focus();
+            break;
+        }
+    }
+    else {
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            data: $(form).serialize(),
+            success: function(data) {
+                fillContainer(data);
+            }
+        });
+    }
+}
 
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Validations
+function validateSliderForm()
+{
+    var valid = [];
+    valid.push(numberValidate($('#text')));
+    valid.push(filePicValidate($('#picture')));
+    var hasError = checkValid(valid);
+    return hasError;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//input validation function
+function filePicValidate(picture)
+{
+    var message = '';
+    var pattern = /^.*\.(?:jpg|png|gif)\s*$/ig;
+    var error = false;
+
+    if(!picture.val())
+    {
+        message = 'Виберіть файл';
+        error = true;
+    }
+    else if(!pattern.test(picture.val()))
+    {
+        message = 'Файл має бути у форматі jpg,gif або png';
+        error = true;
+    }
+
+    processResult(error,message,picture);
+    return !error;
+}
+
+function numberValidate(number)
+{
+    var message = '';
+    var pattern = /^\d+$/;
+    var error = false;
+
+    if(!number.val()){
+        error = true;
+        message = 'Поле для вводу коду текста має бути заповнене';
+    }
+    else if((!pattern.test(number.val())))
+    {
+        error = true;
+        message = 'Можна ввести тільки цифри';
+    }
+
+    processResult(error,message,number);
+
+    return !error;
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//show or hide validation message
+function processResult(error,message,element)
+{
+    if(error)
+    {
+        showErrorMessage(message,element);
+    }
+    else
+    {
+        hideErrorMessage(element);
+    }
+}
+function checkValid(arr)
+{
+    var hasError = false;
+    for(var i = 0;i < arr.length;i++)
+    {
+        if(arr[i] == false ){
+            return hasError;
+        }
+    }
+    return !hasError;
+
+}
+function showErrorMessage(message,element)
+{
+    var errorBlock = element.parent().find('.errorMessage');
+    errorBlock.html(message);
+    errorBlock.show();
+    element.focus();
+}
+
+
+function hideErrorMessage(element)
+{
+    var errorBlock = element.parent().find('.errorMessage');
+    errorBlock.hide();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Modal windows
 function showDialog(str)
 {
     if(str){
@@ -142,3 +265,5 @@ function showDialog(str)
     }
     $('#myModal').modal('show');
 }
+
+

@@ -32,7 +32,7 @@ class ResponseController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['Response'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
         }
 
         $this->renderPartial('update',array(
@@ -109,7 +109,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
     public function actionUnsetPublish($id)
@@ -121,7 +121,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
 
@@ -131,7 +131,7 @@ class ResponseController extends TeacherCabinetController{
             'is_checked' => $_POST['Response']['is_checked']
         ));
 
-        $this->redirectToIndex(__CLASS__);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
 
