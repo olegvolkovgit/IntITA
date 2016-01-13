@@ -27,7 +27,6 @@
 </div>
 <div class="col-md-4">
     <div id="addAccessModule">
-    <br>
     <div id="findModule" class="form-group">
         <form name = 'findUsers' method="POST">
             <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
@@ -48,14 +47,14 @@
         }
         ?>
     </select>
-
+        <br>
+        <br>
     <form  method="POST" name="add-accessModule"
           onsubmit="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$moduleAction);?>');return false;">
         <fieldset>
             <legend id="label"><?php echo $fieldsetModule ?>:</legend>
-            <div class="form-group">
-            </div>
-            <br>
+
+
             <div class="form-group">
             <?php echo Yii::t('payments', '0605'); ?>:
             <select id="moduleCourseList" name="course"  class="form-control" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)"

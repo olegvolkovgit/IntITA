@@ -206,7 +206,7 @@ class PermissionsController extends TeacherCabinetController
                 $module,
                 array('read', 'edit'));
         }
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
     }
 
     public function actionAddTeacher()

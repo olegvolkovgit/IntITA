@@ -21,7 +21,6 @@ class SkipTaskController extends Controller{
     public function actionAddTask(){
 
         $arr = $this->fillArr();
-
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
                 $this->redirect(Yii::app()->request->urlReferrer);
@@ -31,7 +30,6 @@ class SkipTaskController extends Controller{
 
     public function actionEditSkipTask()
     {
-
         //in $arr['pageId'] was written LectureElement->id_block
 
         $arr = $this->fillArr();
