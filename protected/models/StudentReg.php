@@ -990,32 +990,35 @@ class StudentReg extends CActiveRecord
     public function getNameOrEmail()
     {
         if( !empty($this->firstName)|| !empty($this->secondName))
-        $name = $this->firstName .' '.$this->secondName;
-
-        else
-            $name = $this->email;
-
-        return $name;
+        return $this->firstName .' '.$this->secondName;
+        else return $this->email;
     }
 
     public static function adminsList(){
-        $sql = "select * from user_admin";
-        $admins =  Yii::app()->db->createCommand($sql)->queryAll();
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
+        $criteria->addCondition('user_admin.id_user = user.id');
+        $result = StudentReg::model()->findAll($criteria);
 
-        return $admins;
+        if ($result)
+            return $result;
+        else return null;
     }
 
     public static function accountantsList(){
-        $sql = "select * from user_accountant";
-        $accountants =  Yii::app()->db->createCommand($sql)->queryAll();
-
-        return $accountants;
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
+        $criteria->addCondition('user_accountant.id_user = user.id');
+        return StudentReg::model()->findAll($criteria);
     }
 
-    public static function allUsers(){
-        $sql = "select * from user";
-        $users =  Yii::app()->db->createCommand($sql)->queryAll();
-
-        return $users;
+    public static function teachersList(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'LEFT JOIN teacher ON teacher.user_id = user.id';
+        $criteria->addCondition('teacher.user_id = user.id');
+        return StudentReg::model()->findAll($criteria);
     }
 }

@@ -1,3 +1,10 @@
+<?php
+/* @var $user StudentReg*/
+/* @var $users array */
+/* @var $adminsList array */
+/* @var $accountants array */
+/* @var $teachers array */
+?>
 <div class="panel panel-default">
     <div class="panel-heading">
         Користувачі
@@ -5,162 +12,28 @@
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-            <li><a href="#admin" data-toggle="tab">Адміністратори</a>
+            <li><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
-            <li><a href="#accountant" data-toggle="tab">Бухгалтери</a>
+            <li><a href="#accountant" data-toggle="tab">Бухгалтери (<?=count($accountants);?>)</a>
             </li>
-            <li><a href="#teacher" data-toggle="tab">Викладачі</a>
+            <li><a href="#teacher" data-toggle="tab">Викладачі (<?=count($teachers);?>)</a>
             </li>
-            <li><a href="#register" data-toggle="tab">Зареєстровані користувачі</a>
+            <li><a href="#register" data-toggle="tab">Зареєстровані користувачі (<?=count($users);?>)</a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade in active" id="admin">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="adminsTable">
-                                    <thead>
-                                    <tr>
-                                        <th>Прізвище</th>
-                                        <th>Ім'я</th>
-                                        <th>По-батькові</th>
-                                        <th>Email</th>
-                                        <th>Призначено</th>
-                                        <th>Відмінено</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                        $adminsList = StudentReg::adminsList();
-                                        foreach($adminsList as $admin){
-                                    ?>
-                                    <tr class="odd gradeX">
-                                        <td><?=$admin["id_user"];?></td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td class="center"></td>
-                                        <td class="center"><?=$admin["start_date"];?></td>
-                                        <td class="center"><?=$admin["end_date"];?></td>
-                                    </tr>
-                                    <?php }?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php $this->renderPartial('_adminsTable', array('adminsList' => $adminsList));?>
             </div>
             <div class="tab-pane fade" id="accountant">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="accountantsTable">
-                                    <thead>
-                                    <tr>
-                                        <th>Прізвище</th>
-                                        <th>Ім'я</th>
-                                        <th>По-батькові</th>
-                                        <th>Email</th>
-                                        <th>Призначено</th>
-                                        <th>Відмінено</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $accountants = StudentReg::accountantsList();
-                                    foreach($accountants as $user){
-                                        ?>
-                                        <tr class="odd gradeX">
-                                            <td><?=$user["id_user"];?></td>
-                                            <td>Internet Explorer 4.0</td>
-                                            <td>Win 95+</td>
-                                            <td class="center"></td>
-                                            <td class="center"><?=$user["start_date"];?></td>
-                                            <td class="center"><?=$user["end_date"];?></td>
-                                        </tr>
-                                    <?php }?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php $this->renderPartial('_accountantsTable', array('accountants' => $accountants));?>
             </div>
             <div class="tab-pane fade" id="teacher">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="teachersTable">
-                                    <thead>
-                                    <tr>
-                                        <th>Прізвище</th>
-                                        <th>Ім'я</th>
-                                        <th>По-батькові</th>
-                                        <th>Email</th>
-                                        <th>Призначено</th>
-                                        <th>Відмінено</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $accountants = StudentReg::accountantsList();
-                                    foreach($accountants as $user){
-                                        ?>
-                                        <tr class="odd gradeX">
-                                            <td><?=$user["id_user"];?></td>
-                                            <td>Internet Explorer 4.0</td>
-                                            <td>Win 95+</td>
-                                            <td class="center"></td>
-                                            <td class="center"><?=$user["start_date"];?></td>
-                                            <td class="center"><?=$user["end_date"];?></td>
-                                        </tr>
-                                    <?php }?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php $this->renderPartial('_teachersTable', array('teachers' => $teachers));?>
             </div>
             <div class="tab-pane fade" id="register">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="usersTable">
-                                    <thead>
-                                    <tr>
-                                        <th>Прізвище</th>
-                                        <th>Ім'я</th>
-                                        <th>По-батькові</th>
-                                        <th>Email</th>
-                                        <th>Зареєстровано</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $users = StudentReg::allUsers();
-                                    foreach($users as $user){
-                                        ?>
-                                        <tr class="odd gradeX">
-                                            <td><?=$user["secondName"];?></td>
-                                            <td><?=$user["firstName"];?></td>
-                                            <td><?=$user["middleName"];?></td>
-                                            <td class="center"><?=$user["email"];?></td>
-                                            <td class="center"></td>
-                                        </tr>
-                                    <?php }?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php $this->renderPartial('_usersTable', array('users' => $users));?>
             </div>
         </div>
     </div>
