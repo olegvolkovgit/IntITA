@@ -11,4 +11,3 @@ protected/config/local.php
 protected/config/database.php
 protected/config/databaseForum.php
 content/*
-images/*
