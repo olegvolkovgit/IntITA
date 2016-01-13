@@ -125,7 +125,7 @@ if ($idCourse != 0) {
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                              class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
                     </a>
-                    <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)); ?>">
+                    <a href="{{locationToPreview}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>

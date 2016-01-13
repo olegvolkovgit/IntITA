@@ -3,6 +3,9 @@ angular
     .controller('CKEditorCtrl', CKEditorCtrl)
 
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+    $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
+    $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
