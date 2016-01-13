@@ -129,7 +129,7 @@ function isTrueTestAnswer(user, test){
                 }
             })
             .fail(function() {
-                alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
+                bootbox.alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
                     "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
             })
             .always(function() {
@@ -152,7 +152,7 @@ function checkAnswers(answers){
 }
 function checkAnswersCKE(answers){
     if(answers.length==0){
-        alert('Виберіть хоч один правильний варіант перед створенням тесту');
+        bootbox.alert("Виберіть хоч один правильний варіант перед створенням тесту");
         return false;
     }
 }
