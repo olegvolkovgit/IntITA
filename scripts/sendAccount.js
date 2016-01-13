@@ -10,7 +10,7 @@ function printAccount(user, course) {
     var summaNum = $("input[name='payment']:checked").val();
     $.ajax({
         type: "POST",
-        url: "/IntITA/payments/newAccount",
+        url: "/payments/newAccount",
         data: {
             'user': user,
             'module': '0',
@@ -19,7 +19,7 @@ function printAccount(user, course) {
         },
         cache: false,
         success: function (data) {
-            location.href = '/IntITA/payments/index?account=' + data;
+            location.href = '/payments/index?account=' + data;
         }
     });
 }
