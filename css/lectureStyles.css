@@ -642,7 +642,7 @@ a.lectureDisabled{
     font-size: 16px;
     margin-left: 15px;
 }
-#skypeAssistance{
+.skypeAssistance{
     display: inline-block;
     width: 155px;
     height: 50px;
@@ -673,14 +673,25 @@ a.lectureDisabled{
     line-height: 16px;
     width: 70px;
 }
+.mibewText{
+    display: inline-block;
+    color:#fff;
+    margin-left: 20px;
+    margin-top: 9px;
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 16px;
+    width: 70px;
+}
 #consultationAssistance .consultationText{
     margin-left: 10px;
 }
-.consultationButtons{
+.consultationButtons,#mibew-agent-button{
     opacity: 1;
     float: left;
 }
-.consultationButtons:hover{
+.consultationButtons:hover,#mibew-agent-button:hover{
     opacity: 0.7;
 }
 #thisLecture{
