@@ -5,8 +5,11 @@ class PaymentsController extends Controller
     public function hasAccountAccess($owner)
     {
         $id = Yii::app()->user->getId();
-        if ($id && $id == $owner) {
+        if ($id) {
             $user = StudentReg::model()->findByPk($id);
+            if($id == $owner){
+                return true;
+            }
             return $user->isAdmin() || $user->isAccountant();
         } else {
             return false;
@@ -15,17 +18,16 @@ class PaymentsController extends Controller
 
     public function actionIndex($account, $nolayout = false)
     {
-        if (!($this->hasAccountAccess($account))) {
+        $model = TempPay::model()->findByPk($account);
+        if ($this->hasAccountAccess($model->id_user)) {
+
+            if ($nolayout) {
+                $this->layout = false;
+            }
+            $this->render('index', array('account' => $model));
+        } else {
             throw new \application\components\Exceptions\IntItaException(403, 'У вас немає доступу до цього рахунка.');
         }
-
-        $model = TempPay::model()->findByPk($account);
-
-        if ($nolayout) {
-            $this->layout = false;
-        }
-        $this->render('index', array('account' => $model));
-
     }
 
     public function actionNewAccount()
