@@ -37,13 +37,15 @@ class PaymentsController extends Controller
     public function actionIndex($account, $nolayout = false)
     {
         $model = TempPay::model()->findByPk($account);
-        if(!$account->id_user == Yii::app()->user->getId()){
+
+        if($model->id_user == Yii::app()->user->getId()){
+            if($nolayout){
+                $this->layout = false;
+            }
+            $this->render('index', array('account'=>$model));
+        } else {
             throw new \application\components\Exceptions\IntItaException('403', 'У вас немає доступу до цього рахунка');
         }
-        if($nolayout){
-            $this->layout = false;
-        }
-        $this->render('index', array('account'=>$model));
     }
 
     public function actionNewAccount(){
