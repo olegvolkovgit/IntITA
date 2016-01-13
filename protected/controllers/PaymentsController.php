@@ -2,9 +2,39 @@
 
 class PaymentsController extends Controller
 {
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'users' => '?',
+            ),
+            array('deny',
+                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                'users' => array('*'),
+            ),
+        );
+    }
+
+    public function hasAccountAccess()
+    {
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        return $user->isAdmin() || $user->isAccountant();
+    }
+
     public function actionIndex($account, $nolayout = false)
     {
         $model = TempPay::model()->findByPk($account);
+        if(!$account->id_user == Yii::app()->user->getId()){
+            throw new \application\components\Exceptions\IntItaException('403', 'У вас немає доступу до цього рахунка');
+        }
         if($nolayout){
             $this->layout = false;
         }
