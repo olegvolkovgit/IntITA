@@ -13,6 +13,7 @@ class PaymentsController extends Controller
     {
         return array(
             array('allow',
+                'actions' => 'index',
                 'expression' => array($this, 'hasAccountAccess'),
             ),
             array('deny',
