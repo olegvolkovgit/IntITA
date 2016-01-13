@@ -6,9 +6,6 @@
 /* @var $teachers array */
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        Користувачі
-    </div>
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">

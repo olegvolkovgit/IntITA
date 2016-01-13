@@ -3,6 +3,14 @@
 /* @var $accountants array */
 ?>
 <div class="col-lg-12">
+    <br>
+    <button class="btn btn-primary"
+            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAccountantForm'); ?>',
+                'Додати бухгалтера')">
+        Додати бухгалтера
+    </button>
+    <br>
+    <br>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -17,15 +25,15 @@
                     </thead>
                     <tbody>
                     <?php
-                    foreach($accountants as $user){
+                    foreach ($accountants as $user) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><?=$user->userName();?></td>
-                            <td class="center"><?=$user->email;?></td>
+                            <td><?= $user->userName(); ?></td>
+                            <td class="center"><?= $user->email; ?></td>
                             <td class="center"></td>
                             <td class="center"></td>
                         </tr>
-                    <?php }?>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>

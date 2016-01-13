@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.01.2016
- * Time: 13:31
- */
 
 class UsersController extends TeacherCabinetController
 {
@@ -23,5 +17,19 @@ class UsersController extends TeacherCabinetController
         ),false,true);
     }
 
+    public function actionRenderAdminForm(){
+        $this->renderPartial('_addAdmin',array(),false,true);
+    }
 
+    public function actionRenderAccountantForm(){
+        $this->renderPartial('_addAccountant',array(),false,true);
+    }
+
+    public function actionAddAdmin(){
+        $this->redirect('index');
+    }
+
+    public function actionAddAccountant(){
+        $this->redirect('index');
+    }
 }
