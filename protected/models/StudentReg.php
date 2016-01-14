@@ -1023,15 +1023,43 @@ class StudentReg extends CActiveRecord
     }
 
     /**
-     * @param $current integer - id current user (is not included into receivers list)
-     * @return string - json for typeahead field in new user message form
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function usersEmailArray($current){
-        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
-            ->queryAll();
+    public static function usersWithoutAdmins($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+
+        $data = StudentReg::model()->findAll($criteria);
+
         $result = [];
-        foreach ($data as $row){
-            $result[] = implode(" ", $row);
+        foreach ($data as $model){
+            $result[]["value"] = $model->secondName." ".$model->firstName." ".$model->middleName.", ".$model->email;
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAccountants($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model){
+            $result[]["value"] = $model->secondName." ".$model->firstName." ".$model->middleName.", ".$model->email;
         }
         return json_encode($result);
     }

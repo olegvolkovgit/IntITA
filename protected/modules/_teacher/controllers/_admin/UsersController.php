@@ -26,10 +26,28 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionAddAdmin(){
-        $this->redirect('index');
+        echo "Trainer";
     }
 
-    public function actionAddAccountant(){
-        $this->redirect('index');
+    public function actionCreateAccountant(){
+        echo 'Success!';
+    }
+
+    public function actionUsersWithoutAdmins($query){
+        if ($query) {
+            $users = StudentReg::usersWithoutAdmins($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionUsersWithoutAccountants($query){
+        if ($query) {
+            $users = StudentReg::usersWithoutAccountants($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
     }
 }
