@@ -46,7 +46,7 @@ $user = Yii::app()->user->getId();
 
                 <select name="user" id="user" class="form-control"
                         placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
-                        autofocus required="true" style="max-width: 496px;">
+                        autofocus required style="max-width: 496px;">
                     <?php
                     foreach($users as $user)
                     {
@@ -71,7 +71,7 @@ $user = Yii::app()->user->getId();
                         <label><?php echo Yii::t('payments', '0605'); ?>:</label>
                         <select id="moduleCourseList" name="course" style="max-width: 496px;" class="form-control" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)"
                                 onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules') ?>');"
-                                required="true">
+                                required>
 
                             <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                             <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
@@ -110,7 +110,7 @@ $user = Yii::app()->user->getId();
                     <div class="form-group">
                         <label><?php echo Yii::t('payments', '0605'); ?>:</label>
                         <select id="courseList" class="form-control" style="max-width: 496px;" name="course"
-                                placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required="true">
+                                placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required>
 
                             <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
                             <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
@@ -125,7 +125,7 @@ $user = Yii::app()->user->getId();
                     </div>
                     <br>
 
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName; ?>">
                 </fieldset>
             </form>
 
