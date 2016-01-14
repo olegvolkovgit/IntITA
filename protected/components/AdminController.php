@@ -69,6 +69,7 @@ class AdminController extends CController
     {
         return StudentReg::isAdmin();
     }
+
     public function behaviors()
     {
         return array(

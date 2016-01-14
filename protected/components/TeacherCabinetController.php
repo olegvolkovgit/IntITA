@@ -81,4 +81,20 @@ class TeacherCabinetController extends CController
         }
     }
 
+    public function behaviors()
+    {
+        return array(
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
+            ),
+        );
+    }
 }
