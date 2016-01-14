@@ -51,12 +51,15 @@
 
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
+    <!-- LazyJaxDavis start -->
+
+    <!-- LazyJaxDavis end -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <?php echo $this->renderPartial('_top_navigation', array('model' => $model));?>
 <!--        , 'newMessages' => $newMessages));?>-->
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model));?>
     </nav>
-    <?php echo $this->renderPartial('_page_wrapper', array('model' => $model));?>
+        <?php echo $this->renderPartial('_page_wrapper', array('model' => $model));?>
 
 </div>
 
@@ -95,11 +98,20 @@
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ValidateClass.js'); ?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('js', 'ValidateClass.js'); ?><!--"></script>-->
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 <script>
+
+    window.onload = function()
+    {
+        history.pushState({url : window.location.pathname},"")
+    };
+    window.onpopstate = function(event){
+        reloadPage(event);
+
+    };
 
 </script>
 </html>
