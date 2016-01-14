@@ -16,11 +16,7 @@
             <br>
             <input type="submit" value=<?php echo Yii::t('lecture','0720'); ?> id='addtests'
                    ng-disabled=plainTaskEdit.block_element.$error.required>
+        </fieldset>
     </form>
-    <form onsubmit="confirm('Ви впевнені, що хочете видалити задачу?')" name="unablePlainTask" method="post" action="<?php echo Yii::app()->createUrl('plainTask/unablePlainTask');?>" >
-        <input type="submit" value="<?php echo Yii::t('lecture','0718'); ?>">
-        <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
-    </form>
-    </fieldset>
-
+    <button ng-click='unablePlainTask(<?php echo $pageId; ?>)'><?php echo Yii::t('lecture','0718'); ?></button>
 </div>

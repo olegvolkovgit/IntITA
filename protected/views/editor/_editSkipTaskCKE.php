@@ -34,7 +34,7 @@
         </fieldset>
         <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/editSkipTask'); ?>',
          <?php echo $data->id_block; ?>, <?php echo Teacher::getTeacherId(Yii::app()->user->getId()); ?>)"
-               ng-disabled="addSkipTask.$invalid" value="Зберегти змінни">
+               ng-disabled="addSkipTask.$invalid" value="Зберегти зміни">
     </form>
     <br>
     <button ng-click='unableSkipTask(<?php echo $pageId; ?>)'>Видалити задачу з пропусками</button>

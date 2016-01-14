@@ -93,9 +93,13 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
             <a id="mibew-agent-button"
                href="<?php echo Config::getBaseUrl(); ?>/mibew/chat?locale=<?php echo CommonHelper::getLanguage(); ?>;style=default"
                target="_blank" onclick="Mibew.Objects.ChatPopups['55bf44d367c197db'].open();return false;">
-                <img class='consultationButtons'
-                     src="<?php echo Config::getBaseUrl(); ?>/mibew/b?i=mblue&amp;lang=<?php echo CommonHelper::getLanguage(); ?>"
-                     border="0" alt=""/>
+                <div style="display: inline-block">
+                    <div class="skypeAssistance">
+                        <img class="consultationLogos"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'mibewLogo.png'); ?>">
+                        <div class="mibewText">Онлайн допомога</div>
+                    </div>
+                </div>
             </a>
             <script type="text/javascript"
                     src="<?php echo Config::getBaseUrl(); ?>/mibew/js/compiled/chat_popup.js"></script>
@@ -114,7 +118,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         </div>
         <div style="display: inline-block">
             <a class='consultationButtons' href="skype:<?php echo '#' ?>?chat">
-                <div id="skypeAssistance">
+                <div class="skypeAssistance">
                     <img class="consultationLogos"
                          src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'skypeLogo.png'); ?>">
 

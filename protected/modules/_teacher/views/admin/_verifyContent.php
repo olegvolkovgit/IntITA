@@ -12,7 +12,6 @@
     <div class="panel-heading">
         Лекції
     </div>
-    <!-- /.panel-heading -->
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
@@ -49,9 +48,7 @@
             </div>
         </div>
     </div>
-    <!-- /.panel-body -->
 </div>
-<!-- /.panel -->
 
 
 

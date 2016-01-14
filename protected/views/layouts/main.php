@@ -55,7 +55,7 @@ $header = new Header();
 
 <body itemscope itemtype="http://schema.org/Product">
 
-<div id="main-wrapper">
+<div id="main-wrapper" >
     <div id="mainheader">
         <?php $this->renderPartial('/site/_hamburgermenu'); ?>
         <div id='headerUnderline'>
