@@ -2,7 +2,7 @@
     <!-- list of arguments-->
     <div class="row col value">
         <div ng-repeat="arg in args track by $index">
-            <div class="col-lg-2  value">
+            <div class="col-lg-2 col-md-2 col-sm-2 value">
                 <label>{{arg.arg_name}}</label>
                 <input type="text" class="form-control" placeholder='Argument value'
                        ng-pattern="arg.pattern" ng-model="arg.value[$parent.$index]" required>
@@ -16,7 +16,7 @@
     </div>
     <!-- list of compare blocks-->
     <div class="row col compare">
-        <div class="button col-lg-1">
+        <div class="button col-lg-1 col-md-1 col-sm-1">
             <button ng-click="addDellCompare(0,$index)"  type="button" class="btn btn-default pull-right btnInterp">
                 <span ng-class="'glyphicon-plus'" class="glyphicon glyphicon"
                       aria-hidden="true"></span>
@@ -33,17 +33,17 @@
     <!-- result block-->
     <div class="row col result">
         <div class="resultBlock">
-            <div class="col-lg-2">
+            <div class="col-lg-2 col-md-2 col-sm-2">
                 <input type="text" class="form-control" placeholder="result value" ng-pattern=resultPattern ng-model="results[$index]" required>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 col-md-2 col-sm-2">
                 <select class="selectpicker" ng-init="compare_marks[$index] = compare[0].value"
                         ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare">
                 </select>
             </div>
         </div>
 
-        <div class="col-lg-10">
+        <div class="col-lg-10 col-md-10 col-sm-10">
             <textarea class="form-control" placeholder="tests_code" rows="2"
                       ng-model="tests_code_arr[$index]" required></textarea>
         </div>
