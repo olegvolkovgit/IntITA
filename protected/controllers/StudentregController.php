@@ -26,15 +26,15 @@ class StudentRegController extends Controller
     public function accessRules()
     {
         return array(
-            array('deny',
-                'actions'=>array('profile', 'edit'),
-                'users'=>array('?'),
-            ),
-            array('deny',
-                'actions'=>array('index', 'registration'),
-                'users'=>array('@'),
-                'deniedCallback'=>function() { Yii::app()->controller->redirect(array ('/site/index')); },
-            ),
+//            array('deny',
+//                'actions'=>array('profile', 'edit'),
+//                'users'=>array('?'),
+//            ),
+//            array('deny',
+//                'actions'=>array('index', 'registration'),
+//                'users'=>array('@'),
+//                'deniedCallback'=>function() { Yii::app()->controller->redirect(array ('/site/index')); },
+//            ),
         );
     }
     /**

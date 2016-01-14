@@ -17,7 +17,6 @@ class TeacherCabinetController extends CController
 
     public $breadcrumbs = array();
 
-
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
@@ -82,10 +81,20 @@ class TeacherCabinetController extends CController
         }
     }
 
-    protected function redirectToIndex($child)
+    public function behaviors()
     {
-        $callerName = array_shift(explode('Controller',$child));
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/'.$callerName.'/index'));
+        return array(
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
+            ),
+        );
     }
 }

@@ -32,7 +32,6 @@ class PlainTaskAnswer extends CActiveRecord
 		return array(
 			array('id_student, id_plain_task', 'required'),
 			array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly'=>true),
-			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on'=>'search'),

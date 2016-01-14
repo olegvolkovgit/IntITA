@@ -3,6 +3,9 @@ angular
     .controller('CKEditorCtrl', CKEditorCtrl)
 
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+    $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
+    $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -17,6 +20,24 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     })
                     .error(function () {
                         alert('error unableSkipTask');
+                    })
+            }, function() {
+            });
+    };
+    $scope.unablePlainTask = function(pageId){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
+            .then(function() {
+                $http({
+                    url: basePath + "/plainTask/unablePlainTask",
+                    method: "POST",
+                    data: $.param({pageId: pageId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                })
+                    .success(function (response) {
+                        location.reload();
+                    })
+                    .error(function () {
+                        alert('error unablePlainTask');
                     })
             }, function() {
             });
@@ -108,7 +129,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value":  result[4]
+                "value":  result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')
             });
         }
 

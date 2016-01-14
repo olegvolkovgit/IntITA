@@ -10,7 +10,7 @@ angular
                 $http({
                     url: url,
                     method: "POST",
-                    data: $.param({raw: JSON.stringify(jsonTask)}),
+                    data: $.param(JSON.stringify(jsonTask)),
                     headers: {'Content-Type': 'application/json; charset=utf-8'}
                 }).then(function successCallback(response) {
                     console.log(response.data);

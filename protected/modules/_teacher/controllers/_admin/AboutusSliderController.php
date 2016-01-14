@@ -37,7 +37,7 @@ class AboutusSliderController extends TeacherCabinetController
             Avatar::saveAbuotusSlider($model,$picName,$tmpName);
 
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->image_order));
+                $this->redirect($this->pathToCabinet());
             }
 		}
 
@@ -77,10 +77,10 @@ class AboutusSliderController extends TeacherCabinetController
 	 */
 	public function actionDelete($id)
 	{
-        $type = 'AboutUs';
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+        $model->delete();
 
-        Slider::sortOrder($type);
+        Slider::sortOrder($model);
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -150,7 +150,7 @@ class AboutusSliderController extends TeacherCabinetController
     public function actionUp($order)
     {
         if($order == 1)
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         $prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
@@ -168,7 +168,7 @@ class AboutusSliderController extends TeacherCabinetController
                 $prevModel->save();
             }
 
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
         }
         else return;
     }
@@ -178,7 +178,7 @@ class AboutusSliderController extends TeacherCabinetController
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         if($order == $model->getLastAboutusOrder())
-            $this->redirectToIndex(__CLASS__);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
 
         else{
             $nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
@@ -196,7 +196,7 @@ class AboutusSliderController extends TeacherCabinetController
                     $nextModel->save();
                 }
 
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
             }
         }
     }

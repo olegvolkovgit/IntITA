@@ -10,7 +10,7 @@
 $answers=TestsAnswers::getTestAnswers($idBlock);
 $valid=TestsAnswers::getTestValidCKE($idBlock);
 ?>
-<div ng-init='editAnswers=<?php echo json_encode($answers); ?>;
+<div ng-init='editAnswers=<?php echo htmlspecialchars(json_encode($answers)); ?>;
      valid=<?php echo json_encode($valid); ?>;'>
 </div>
 <div class="editTest">
