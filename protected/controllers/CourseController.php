@@ -87,7 +87,7 @@ class CourseController extends Controller
         $canEdit = StudentReg::isAdmin();
         $model = Course::model()->findByPk($id);
         if ($model->cancelled == 1) {
-            throw new \application\components\Exceptions\IntItaException('410', 'Доступ до даного курсу закритий.');
+            throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
         }
 
         $dataProvider = new CourseModules('search');
