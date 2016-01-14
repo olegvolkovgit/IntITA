@@ -46,13 +46,13 @@ class m160114_181401_add_translation_785_786 extends CDbMigration
                 'id_record' => null,
                 'id' => '0786',
                 'language' => 'ru',
-                'translation' => 'Access to this course closed.'
+                'translation' => 'Доступ к этому курсу закрыт.'
             ),
             array(
                 'id_record' => null,
                 'id' => '0786',
                 'language' => 'en',
-                'translation' => 'Gone.'
+                'translation' => 'Access to this course closed.'
             )
 		));
 	}
