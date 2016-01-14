@@ -23,26 +23,44 @@ $user = Yii::app()->user->getId();
         $fieldsetCourse = Yii::t('payments', '0600');
     }
  ?>
-<div class="container">
-    <div class="page-header well col-md-7">
-        <h4><?php echo $headerName?></h4>
+<div class="page-header">
+<h4><?php echo $headerName?></h4>
+</div>
+<div class="col-md-4">
+    <div id="addAccessModule">
+    <div id="findModule" class="form-group">
+        <form name = 'findUsers' method="POST">
+            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
+            <br>
+            <input type="button" class="btn btn-default" value="Знайти користувача"
+                   onclick = "findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')" >
+        </form>
     </div>
 
-    <div class="panel panel-default col-md-7">
-        <div class="panel-body">
-            <div id="addAccessModule">
-                <div id="findModule" class="form-group row">
-                    <form name = 'findUsers' method="POST">
-                        <div class="col-md-10">
-                            <input type="text" id = 'find' name = "find" class="form-control" placeholder="Введіть e-mail користувача">
-                        </div>
+    <select name="user" id="user" class="form-control" placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
+            autofocus required="true">
+        <?php
+        foreach($users as $user)
+        {
+            ?>
+            <option value="<?php echo $user['id'];?>"><?php echo $user['alias'];?></option>
+        <?php
+        }
+        ?>
+    </select>
+        <br>
+        <br>
+    <form  method="POST" name="add-accessModule"
+          onsubmit="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$moduleAction);?>');return false;">
+        <fieldset>
+            <legend id="label"><?php echo $fieldsetModule ?>:</legend>
 
-                        <div class="col-md-2">
-                            <input type="button" class="btn btn-default" value="Знайти користувача"
-                                   onclick = "findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')" >
-                        </div>
-                    </form>
-                </div>
+
+            <div class="form-group">
+            <?php echo Yii::t('payments', '0605'); ?>:
+            <select id="moduleCourseList" name="course"  class="form-control" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)"
+                    onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules') ?>');"
+                required="true">
 
                 <select name="user" id="user" class="form-control"
                         placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"

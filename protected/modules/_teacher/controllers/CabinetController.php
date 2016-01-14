@@ -143,7 +143,6 @@ class CabinetController extends TeacherCabinetController
     public function actionAdminPage()
     {
         $this->redirect(Yii::app()->createUrl('/_teacher/admin/index'));
-
     }
 
     public function rolesDashboard(StudentReg $user, $inRole = null)

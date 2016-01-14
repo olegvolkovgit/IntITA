@@ -25,6 +25,7 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
         $courseId = Yii::app()->request->getPost('course');
+        $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
         $permission = new PayModules();
         $module = Module::model()->findByPk($moduleId);
@@ -38,7 +39,7 @@ class PayController extends TeacherCabinetController
                 $module->$name.'</strong> курса <strong>'.
 
                 Course::getCourseName($courseId).'</strong> оплачено.
-            <br />Тепер у Вас є доступ до усіх занять цього модуля.';
+            <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
 
             echo $result;
         }
@@ -50,6 +51,7 @@ class PayController extends TeacherCabinetController
 
         $courseId = Yii::app()->request->getPost('course');
         $userId = Yii::app()->request->getPost('user');
+        $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
         $permission = new PayCourses();
         $course = Course::model()->findByPk($courseId);
@@ -58,7 +60,7 @@ class PayController extends TeacherCabinetController
         if(Mail::sendPayLetter($userId,$course)){
             $result = '<br /><h4>Вітаємо!</h4> Курс '.
                 Course::getCourseName($course->course_ID).'</strong> оплачено.
-            <br />Тепер у Вас є доступ до усіх занять цього курсу.';
+            <br />Тепер у '.$userName.' є доступ до усіх занять цього курсу.';
         }
         else{
             $result = '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
