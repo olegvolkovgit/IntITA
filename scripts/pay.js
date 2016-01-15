@@ -23,7 +23,7 @@ function findUserByEmail(url) {
     var email = find.val();
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (!filter.test(find.val())) {
-        alert('Please provide a valid email address');
+        showDialog('Please provide a valid email address');
         return false;
     }
     else
