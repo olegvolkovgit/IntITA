@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 20.11.2015
- * Time: 13:50
+ * @var $pageId integer
  */
 ?>
 <a name="testForm"></a>
