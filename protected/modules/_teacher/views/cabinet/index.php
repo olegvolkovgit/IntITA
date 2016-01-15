@@ -106,11 +106,19 @@
 
     window.onload = function()
     {
-        history.pushState({url : window.location.pathname},"")
+        history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
+                    array('user' => $model->id)); ?>'},"")
     };
     window.onpopstate = function(event){
-        reloadPage(event);
 
+        if(event.state)
+        {
+//            console.log(event.target);
+//            var url = event.state
+//            history.pushState({url : url,header:header},"");
+        }
+
+        reloadPage(event);
     };
 
 </script>

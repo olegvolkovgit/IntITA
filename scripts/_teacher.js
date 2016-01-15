@@ -24,9 +24,13 @@ function load(url, header,histories) {
 }
 function reloadPage(event)
 {
-       var path = history.state.url;
-       var header = history.state.header;
+    if(event.state)
+    {
+        var path = history.state.url;
+        var header = history.state.header;
         load(path,header,true);
+    }
+
 }
 function clearDashboard() {
     if (document.getElementById("dashboard"))
