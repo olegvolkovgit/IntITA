@@ -185,7 +185,7 @@ class CoursemanageController extends TeacherCabinetController
         ),false,true);
     }
 
-    public function actionSaveSchema($idCourse){
+    public function actionSaveSchema($idCourse, $auto=false){
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
@@ -209,6 +209,9 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
+        if($auto){
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
