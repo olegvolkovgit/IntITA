@@ -54,8 +54,8 @@ class SiteController extends Controller
     {
         $error = Yii::app()->errorHandler->error;
 
-        if (isset(Yii::app()->errorHandler->error["code"])) {
-            switch (Yii::app()->errorHandler->error["code"]) {
+        if (isset(Yii::app()->errorHandler->error["errorCode"])) {
+            switch (Yii::app()->errorHandler->error["errorCode"]) {
                 case '400':
                     $breadcrumbs = Yii::t('breadcrumbs', '0781');
                     break;
@@ -64,6 +64,9 @@ class SiteController extends Controller
                     break;
                 case '404':
                     $breadcrumbs = Yii::t('breadcrumbs', '0782');
+                    break;
+                case '410':
+                    $breadcrumbs = Yii::t('breadcrumbs', '0785');
                     break;
                 case '500':
                     $breadcrumbs = Yii::t('breadcrumbs', '0783');
