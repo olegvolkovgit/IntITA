@@ -69,13 +69,12 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             method: "POST",
             data: $.param({order: blockOrder, lecture: idLecture}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function (response) {
-                $scope.editRedactor = response;
-            })
-            .error(function () {
-                alert($scope.errorMsg);
-            })
+        }).then(function successCallback(response) {
+            $scope.editRedactor = response.data;
+            return true;
+        }, function errorCallback() {
+            alert($scope.errorMsg);
+        });
     };
 
     $scope.answers = [{id: 1}];
