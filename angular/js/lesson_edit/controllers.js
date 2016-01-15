@@ -147,4 +147,15 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
+
+    $scope.addTextBlock = function(type){
+        if(type==7){
+            $scope.instructionStyle=true;
+        }else{
+            $scope.instructionStyle=false;
+        }
+        document.getElementById('addBlock').style.display = 'block';
+        document.getElementById('blockForm').style.display = 'block';
+        document.getElementById('blockType').value = type;
+    }
 }
