@@ -99,8 +99,8 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'module_img'); ?>
-        <?php echo $form->fileField($model, 'module_img'); ?>
-        <?php echo $form->error($model, 'module_img'); ?>
+        <?php echo $form->fileField($model, 'module_img', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
@@ -127,7 +127,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>
