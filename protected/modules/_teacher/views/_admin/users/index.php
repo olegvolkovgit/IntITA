@@ -40,6 +40,7 @@
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="<?= StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"></script>
 <script>
     $(document).ready(function () {
         $('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
