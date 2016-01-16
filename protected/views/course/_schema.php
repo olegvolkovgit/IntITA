@@ -1,7 +1,6 @@
 <?php
-/* @var $courseDuration integer
+/* @var $courseDuration array
  * @var $tableCells array
- * @var $modules array
  */
 ?>
 <head>
@@ -72,6 +71,15 @@
             <?php } ?>
         </tr>
     </table>
+    <?php if (!$save) { ?>
+        <br>
+        <br>
+        <button id="saveButton" onclick = "saveSchema('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/saveSchema',
+            array('idCourse' => $idCourse)); ?>')"><?php echo Course::getMessage($message, 'save'); ?></button>
+        <br>
+        <br>
+        <br>
+    <?php } ?>
 </div>
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

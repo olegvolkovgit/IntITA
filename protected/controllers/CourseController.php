@@ -240,8 +240,9 @@ class CourseController extends Controller
         $filename = StaticFilesHelper::pathToCourseSchema('schema_course_' . $id . '_' . $lg . '.html');
 
         if (!file_exists($filename)) {
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema/?idCourse='.$id));
+            $this->redirect(Config::getBaseUrl().'/_teacher/_admin/coursemanage/generateSchema/?id='.$id);
         }
+
         try {
             $path = Config::getBaseUrl() . '/' . $filename;
             $this->redirect($path);

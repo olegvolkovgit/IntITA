@@ -185,7 +185,7 @@ class CoursemanageController extends TeacherCabinetController
         ),false,true);
     }
 
-    public function actionSaveSchema($idCourse, $auto=false){
+    public function actionSaveSchema($idCourse){
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
         $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
@@ -202,16 +202,13 @@ class CoursemanageController extends TeacherCabinetController
                 'tableCells' => $tableCells,
                 'courseDuration' => $courseDurationInMonths,
                 'messages' => $messages,
-                'save' => true,
+                'save' => true
             ), true);
             $name = 'schema_course_'.$idCourse.'_'.$lg[$i].'.html';
             $file = StaticFilesHelper::pathToCourseSchema($name);
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        if($auto){
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
@@ -220,8 +217,31 @@ class CoursemanageController extends TeacherCabinetController
         $this->actionAdmin();
     }
 
-    /**
-     *
-     */
+    public function actionGenerateSchema($id){
+        $modules = Course::getCourseModulesSchema($id);
+        $tableCells = Course::getTableCells($modules, $id);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $lang = $_SESSION['lg'];
+        $lg = ['ua','ru','en'];
+        for($i = 0;$i < 3;$i++)
+        {
+            Yii::app()->session['lg'] = $lg[$i];
+            $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
+
+            $schema = $this->renderPartial('_schema', array(
+                'modules' => $modules,
+                'idCourse' => $id,
+                'tableCells' => $tableCells,
+                'courseDuration' => $courseDurationInMonths,
+                'messages' => $messages,
+                'save' => true
+            ), true);
+            $name = 'schema_course_'.$id.'_'.$lg[$i].'.html';
+            $file = StaticFilesHelper::pathToCourseSchema($name);
+            file_put_contents($file, $schema);
+        }
+        Yii::app()->session['lg'] = $lang;
+        $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
+    }
 
 }
