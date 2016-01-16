@@ -234,24 +234,7 @@ function send(form,data,hasError)
             break;
         }
     }
-    else {
-        $.ajax({
-            type: "POST",
-            url: form[0].action,
-            data: $(form).serialize(),
-            success: function(data) {
-                fillContainer(data);
-            }
-        });
-    }
 }
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Validations
 function validateSliderForm()
