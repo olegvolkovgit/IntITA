@@ -146,4 +146,17 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
+    $scope.editTaskCKE = function (blockId, condition) {
+        $http({
+            url: basePath + '/task/editTaskCKE',
+            method: "POST",
+            data: $.param({idTaskBlock: blockId, condition: condition}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.reload();
+            return true;
+        }, function errorCallback() {
+            alert('error editTaskCKE');
+        });
+    }
 }

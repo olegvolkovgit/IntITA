@@ -16,7 +16,7 @@ class TaskController extends Controller
     public function actionAddTask()
     {
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
-        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
+        $arr['lecture'] = Yii::app()->request->getPost('lectureId', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
         $arr['language'] = Yii::app()->request->getPost('language', 'C++');
         $arr['assignment'] = Yii::app()->request->getPost('assignment', 0);
@@ -27,10 +27,9 @@ class TaskController extends Controller
 
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
-                return true;
-            else return false;
+                $this->redirect(Yii::app()->request->urlReferrer);
+            else echo 'Task was not saved';
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionSetMark()
@@ -64,7 +63,14 @@ class TaskController extends Controller
         }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+    public function actionEditTaskCKE()
+    {
+        $idBlock = Yii::app()->request->getPost('idTaskBlock', 0);
+        $condition = Yii::app()->request->getPost('condition', '');
 
+        if(LectureElement::editTaskBlock($idBlock,$condition))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionUnableTask()
     {
@@ -74,5 +80,14 @@ class TaskController extends Controller
             LecturePage::unableQuiz($pageId);
         }
     }
+    public function actionHello()
+    {
+//        $pageId = Yii::app()->request->getPost('test', 0);
+        var_dump($_POST);die;
+        $pageId = Yii::app()->request->getPost('pageId', 0);
 
+        if ($pageId != 0) {
+            LecturePage::unableQuiz($pageId);
+        }
+    }
 }
