@@ -12,17 +12,17 @@ $user = Yii::app()->user->getId();
     $fieldsetModule = $buttonModuleName;
     $fieldsetCourse = $buttonCourseName;
 }
-    else
-    {
-        $moduleAction = 'payModule';
-        $courseAction = 'payCourse';
-        $buttonModuleName = Yii::t('payments', '0599');
-        $buttonCourseName = Yii::t('payments', '0604');
-        $headerName = 'Автоматична оплата курса/модуля';
-        $fieldsetModule = Yii::t('payments', '0593');
-        $fieldsetCourse = Yii::t('payments', '0600');
-    }
- ?>
+else
+{
+    $moduleAction = 'payModule';
+    $courseAction = 'payCourse';
+    $buttonModuleName = Yii::t('payments', '0599');
+    $buttonCourseName = Yii::t('payments', '0604');
+    $headerName = 'Автоматична оплата курса/модуля';
+    $fieldsetModule = Yii::t('payments', '0593');
+    $fieldsetCourse = Yii::t('payments', '0600');
+}
+?>
 <div class="container">
     <div class="page-header well col-md-7">
         <h4><?php echo $headerName?></h4>
@@ -46,7 +46,7 @@ $user = Yii::app()->user->getId();
 
                 <select name="user" id="user" class="form-control"
                         placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
-                        autofocus required="true" style="max-width: 496px;">
+                        autofocus required style="max-width: 496px;">
                     <?php
                     foreach($users as $user)
                     {
@@ -71,7 +71,7 @@ $user = Yii::app()->user->getId();
                         <label><?php echo Yii::t('payments', '0605'); ?>:</label>
                         <select id="moduleCourseList" name="course" style="max-width: 496px;" class="form-control" placeholder="(<?php echo Yii::t('payments', '0603'); ?>)"
                                 onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules') ?>');"
-                                required="true">
+                                required>
 
                             <option value=""><?php echo Yii::t('payments', '0596'); ?></option>
                             <optgroup label="<?php echo Yii::t('payments', '0597'); ?>">
@@ -99,38 +99,37 @@ $user = Yii::app()->user->getId();
     </div>
 
     <div class="panel panel-default col-md-7">
-    <div class="panel-body">
-        <div id="addAccessModule">
-            <a name="form"></a>
-            <form  method="POST" name="add-accessCourse"
-                   onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$courseAction);?>');return false;">
-                <fieldset>
-                    <label id="label"><?php echo $fieldsetCourse ?>:</label>
+        <div class="panel-body">
+            <div id="addAccessModule">
+                <a name="form"></a>
+                <form  method="POST" name="add-accessCourse"
+                       onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/'.$courseAction);?>');return false;">
+                    <fieldset>
+                        <label id="label"><?php echo $fieldsetCourse ?>:</label>
 
-                    <div class="form-group">
-                        <label><?php echo Yii::t('payments', '0605'); ?>:</label>
-                        <select id="courseList" class="form-control" style="max-width: 496px;" name="course"
-                                placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required="true">
+                        <div class="form-group">
+                            <label><?php echo Yii::t('payments', '0605'); ?>:</label>
+                            <select id="courseList" class="form-control" style="max-width: 496px;" name="course"
+                                    placeholder="(<?php echo Yii::t('payments', '0603'); ?>)" required>
 
-                            <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
-                            <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
-                                <?php
-                                foreach($courses as $course){
+                                <option value=""><?php echo Yii::t('payments', '0602'); ?></option>
+                                <optgroup label="<?php echo Yii::t('payments', '0603'); ?>">
+                                    <?php
+                                    foreach($courses as $course){
+                                        ?>
+                                        <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
+                                        <?php
+                                    }
                                     ?>
-                                    <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
-                                <?php
-                                }
-                                ?>
-                        </select>
-                    </div>
-                    <br>
+                            </select>
+                        </div>
+                        <br>
 
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
-                </fieldset>
-            </form>
-
+                        <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    </fieldset>
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 <br>

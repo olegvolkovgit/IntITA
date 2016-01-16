@@ -1,16 +1,3 @@
-function loadPage(url, role) {
-    $.ajax({
-        url: url,
-        success: function (data) {
-            container = $('#pageContainer');
-            container.html(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
-
 function load(url, header) {
     clearDashboard();
     $.ajax({
