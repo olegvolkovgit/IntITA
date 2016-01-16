@@ -42,7 +42,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+                $this->actionView($model->course_ID);
             }
         }
         $this->renderPartial('create',array(
@@ -78,7 +78,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('update',array(
