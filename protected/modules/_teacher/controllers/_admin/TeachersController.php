@@ -40,10 +40,10 @@ class TeachersController extends TeacherCabinetController{
     public function actionShowTeacher($id)
     {
         $teacher = Teacher::model()->findByPk($id);
-
+//        var_dump($teacher);die;
         $this->renderPartial('showTeacher',array(
             'teacher' => $teacher
-        ));
+        ),false,true);
     }
 
     public function actionCreate()
@@ -238,27 +238,32 @@ class TeachersController extends TeacherCabinetController{
     public function actionAddTeacherRole($teacher)
     {
         $model = Teacher::model()->findByPk($teacher);
+        $roles = Roles::generateRolesList();
 
         $this->renderPartial('addTeacherRole', array(
             'teacher' => $model,
+            'roles' => $roles,
         ),false,true);
     }
 
-    public function actionCancelTeacherRole()
+    public function actionCancelTeacherRole($id)
     {
-        $teacher = Teacher::model()->findByPk($_GET['id']);
+        $teacher = Teacher::model()->findByPk($id);
+        $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
 
         $this->renderPartial('cancelTeacherRole', array(
             'teacher' => $teacher,
+            'roles' => $roles,
         ),false,true);
     }
 
     public function actionAddTeacherRoleAttribute($teacher)
     {
         $model = Teacher::model()->findByPk(intval($teacher));
-
+        $roles = Roles::generateRolesList();
         $this->renderPartial('addTeacherRoleAttribute', array(
             'model' => $model,
+            'roles' => $roles,
         ),false,true);
     }
 
