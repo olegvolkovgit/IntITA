@@ -4,7 +4,7 @@
             <div class="form-group" id="receiver">
                 <label>Користувач</label>
                 <br>
-                <input id="typeahead" type="text" class="form-control" name="user" placeholder="Виберіть користувача"
+                <input id="typeahead" type="text" class="typeahead form-control" name="user" placeholder="Виберіть користувача"
                        size="90" required>
                 <br>
                 <br>
@@ -47,7 +47,6 @@
 
     function sendNewAccountantData(url) {
         user = $("#typeahead").val();
-        alert(user);
 
         var posting = $.post(url, {user: user});
 
