@@ -1,16 +1,3 @@
-function loadPage(url, role) {
-    $.ajax({
-        url: url,
-        success: function (data) {
-            container = $('#pageContainer');
-            container.html(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
-
 function load(url, header) {
     clearDashboard();
     $.ajax({
@@ -31,6 +18,24 @@ function load(url, header) {
         }
     });
 }
+function setTeacherRole(url)
+{
+    var role = $("select[name=role] option:selected").val();
+    var teacher = $("#teacher").val();
+    $.ajax({
+        url: url,
+        type : 'post',
+        async: true,
+        data: {role: role, teacher: teacher},
+        success: function (data) {
+            fillContainer(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+
 
 function clearDashboard() {
     if (document.getElementById("dashboard"))

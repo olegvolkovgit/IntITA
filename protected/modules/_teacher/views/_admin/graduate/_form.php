@@ -24,7 +24,7 @@
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);
+                send(form,data,hasError);return true;
                 }',
         )
     )); ?>
@@ -43,8 +43,8 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'avatar'); ?>
-        <?php echo $form->fileField($model, 'avatar'); ?>
-        <?php echo $form->error($model, 'avatar'); ?>
+        <?php echo CHtml::activeFileField($model, 'avatar', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
@@ -109,7 +109,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

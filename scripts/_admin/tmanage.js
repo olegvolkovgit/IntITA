@@ -16,6 +16,95 @@ function ShowTeacher(url,id)
     });
 }
 
+function cancelTeacherRole(url)
+{
+    var role = $("select[name=role] option:selected").val();
+    var teaher = $('#teacher').val();
+    $.ajax({
+        url: url,
+        type : 'post',
+        async: true,
+        data: {role: role, teacher: teacher},
+        success: function (data) {
+            fillContainer(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+function addTeacherAttr(url)
+{
+    var teacherId = $('#teacher').val();
+    var attr = $("select[name=attribute] option:selected").val();
+    var value = $("select[name=attributeValue] option:selected").val();
+    if(!value)
+    {
+        value = $('#inputValue').val();
+    }
+
+    if(teacherId && attr && value)
+    {
+        $.ajax({
+            url: url,
+            type : 'post',
+            async: true,
+            data: {teacher: teacherId, attribute: attr, attributeValue : value},
+            success: function (data) {
+                fillContainer(data);
+            },
+            error: function () {
+                showDialog();
+            }
+        });
+    }
+
+}
+
+function selectRole(url){
+    clearAllAttrFields();
+
+    var role = $('select[name="role"]').val();
+    if(!role){
+        $('div[name="selectRole"]').html('');
+        $('div[name="selectAttribute"]').html('');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {role: role},
+            cache: false,
+            success: function(response){
+                $('div[name="selectAttribute"]').html(response);
+            }
+        });
+    }
+}
+
+function selectAttribute(url){
+    var attribute = $('select[name="attribute"]').val();
+    if(!attribute){
+        $('div[name="inputValue"]').html('');
+    }else {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {attribute: attribute},
+            cache: false,
+            success: function (response) {
+                $('div[name="inputValue"]').html(response);
+            }
+        });
+    }
+}
+
+function clearAllAttrFields(){
+    $('div[name="selectAttribute"]').html('');
+    $('div[name="inputValue"]').html('');
+
+}
+
+
 function addExistModule(url)
 {
     var moduleId = $("select[name=module] option:selected").val();
@@ -145,24 +234,7 @@ function send(form,data,hasError)
             break;
         }
     }
-    else {
-        $.ajax({
-            type: "POST",
-            url: form[0].action,
-            data: $(form).serialize(),
-            success: function(data) {
-                fillContainer(data);
-            }
-        });
-    }
 }
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Validations
 function validateSliderForm()

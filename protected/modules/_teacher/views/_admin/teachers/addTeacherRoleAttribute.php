@@ -3,28 +3,32 @@
  * @var $model Teacher
  */
 ?>
-<div class="col-md-4">
+<div class="col-md-6">
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Викладачі')">
+                Викладачі</button>
+        </li>
+    </ul>
 <div id="addTeacherRole">
-    <br>
-    <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRoleAttribute');?>"
-          method="POST" name="add-access">
+    <form onsubmit="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/setTeacherRoleAttribute');?>')"
+          name="add-access">
         <fieldset>
             <legend id="label">Призначити роль викладачу
                 <?php echo $model->lastName()." ".$model->firstName(). " ".$model->middleName();?>:</legend>
-            <input type="number" hidden="hidden" value="<?=$model->teacher_id;?>" name="teacher">
-            <br>
-            <br>
+            <input type="number" hidden="hidden" value="<?=$model->teacher_id;?>" id="teacher">
+
             Роль:<br>
             <div class="form-group">
-            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="selectRole();">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)" required="required"
+                    onchange="selectRole('<?= Yii::app()->createUrl('/_teacher/_admin/permissions/showAttributes') ?>');">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = Roles::generateRolesList();
-                    $count = count($courses);
-                    for($i = 0; $i < $count; $i++){
+                    <?php
+                    foreach($roles as $role){
                         ?>
-                        <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+                        <option value="<?php echo $role['id'];?>"><?php echo $role['alias'];?></option>
                     <?php
                     }
                     ?>
@@ -35,12 +39,11 @@
 
             Атрибути ролі:<br>
 
-            <div name="selectAttribute" class="form-group" style="float:left;" onchange="selectAttribute();"></div>
+            <div name="selectAttribute" class="form-group"></div>
             <br>
             <br>
-            <div name="inputValue" class="form-group" style="float:left;"></div>
             <br>
-            <br>
+            <div name="inputValue" class="form-group"></div>
             <br>
             <br>
             <input type="submit" class="btn btn-default" value="Призначити атрибут">
@@ -48,39 +51,5 @@
 </div>
 </div>
 <script>
-    function selectRole(){
-        var role = $('select[name="role"]').val();
 
-        if(!role){
-            $('div[name="selectRole"]').html('');
-            $('div[name="selectAttribute"]').html('');
-        }else{
-            $.ajax({
-                type: "POST",
-                url: "/_admin/permissions/showAttributes",
-                data: {role: role},
-                cache: false,
-                success: function(response){
-                    $('div[name="selectAttribute"]').html(response);
-                }
-            });
-        }
-    }
-
-    function selectAttribute(){
-        var attribute = $('select[name="attribute"]').val();
-        if(!attribute){
-            $('div[name="inputValue"]').html('');
-        }else {
-            $.ajax({
-                type: "POST",
-                url: "/_admin/permissions/showAttributeInput",
-                data: {attribute: attribute},
-                cache: false,
-                success: function (response) {
-                    $('div[name="inputValue"]').html(response);
-                }
-            });
-        }
-    }
 </script>

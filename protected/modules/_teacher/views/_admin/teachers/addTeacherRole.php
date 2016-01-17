@@ -3,33 +3,34 @@
  * @var $teacher Teacher
  */
 ?>
-<br>
-<br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
-    <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>','Список ролей')">
+            Список ролей</button>
+    </li>
+</ul>
 <div class="col-md-4">
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/setTeacherRole');?>" method="POST" name="add-access">
+    <form onsubmit="setTeacherRole('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/setTeacherRole');?>')"
+          name="add-access">
         <fieldset>
             <legend id="label">Призначити роль викладачу
                 <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName();?>:</legend>
-            <input type="number" hidden="hidden" value="<?=$teacher->teacher_id;?>" name="teacher">
+            <input type="number" hidden="hidden" value="<?=$teacher->teacher_id;?>" id="teacher">
             <br>
             <br>
             Роль:<br>
             <div class="form-group">
-            <select name="role" class="form-control" placeholder="(Виберіть роль)" onchange="
-                selectRole('<?=Yii::app()->createUrl("/_admin/permissions/showRoles");?>');">
+            <select name="role" class="form-control" placeholder="(Виберіть роль)">
                 <option value="">Всі ролі</option>
                 <optgroup label="Виберіть роль">
-                    <?php $courses = Roles::generateRolesList();
-                    $count = count($courses);
-                    for($i = 0; $i < $count; $i++){
+                    <?php
+                    foreach($roles as $role){
                         ?>
-                        <option value="<?php echo $courses[$i]['id'];?>"><?php echo $courses[$i]['alias'];?></option>
+                        <option value="<?php echo $role['id'];?>"><?php echo $role['alias'];?></option>
                     <?php
                     }
                     ?>
@@ -42,19 +43,3 @@
 </div>
 </div>
 
-<script>
-    function selectRole(url){
-        var course = $('select[name="course"]').val();
-        if(!course){
-            $('div[name="selectRole"]').html('');
-        }else{
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {course: course},
-                cache: false,
-                success: function(response){ $('div[name="selectModule"]').html(response); }
-            });
-        }
-    }
-</script>
