@@ -85,7 +85,6 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionNewPermission()
     {
-
         $rights = Yii::app()->request->getPost('rights');
         $module = Yii::app()->request->getPost('module');
         $user = Yii::app()->request->getPost('user');
@@ -104,7 +103,7 @@ class PermissionsController extends TeacherCabinetController
                 ));
             }
         }
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
     }
 
     public function actionDelete($id, $resource)
