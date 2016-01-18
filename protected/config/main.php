@@ -164,14 +164,5 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-//        'imagesPath'=>'http://localhost/IntITA/images',
-        'imagesPath'=>'http://intita.itatests.com/images',
-        'avatarsPath'=>'http://intita.itatests.com/avatars',
-        'commonPath' =>'http://intita.itatests.com/files',
-        'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
-		'baseUrl' =>'http://intita.itatests.com',
-        'baseUrlWithoutHeader' => 'intita.itatests.com',
-        'maintenance' => 1,
 	),
 );
