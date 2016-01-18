@@ -115,7 +115,7 @@
                                 foreach ($courses as $course) {
                                     ?>
                                     <option
-                                        value="<?php echo $course['id']; ?>"><?php echo $course['alias']; ?></option>
+                                        value="<?php echo $course['id']; ?>"><?php echo $course['alias']." (".$course['language'].")"; ?></option>
                                     <?php
                                 }
                                 ?>
