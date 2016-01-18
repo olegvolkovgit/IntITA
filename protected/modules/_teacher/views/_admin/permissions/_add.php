@@ -71,22 +71,22 @@
                     <legend>Права</legend>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="1"/>READ<br/>
+                            <input type="checkbox" name="permission[]" value="read"/>READ<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="2"/>EDIT<br/>
+                            <input type="checkbox" name="permission[]" value="edit"/>EDIT<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="3"/>CREATE<br/>
+                            <input type="checkbox" name="permission[]" value="create"/>CREATE<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="4"/>DELETE<br/>
+                            <input type="checkbox" name="permission[]" value="delete"/>DELETE<br/>
                         </label>
                     </div>
 
