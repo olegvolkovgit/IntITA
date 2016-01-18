@@ -30,6 +30,7 @@ $header = new Header();
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css"
           href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
+    <link href="<?php echo StaticFilesHelper::bootstrapPath('bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
           type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
@@ -281,6 +282,6 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
-
+<script src="<?php echo StaticFilesHelper::bootstrapPath('bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 </body>
 </html>

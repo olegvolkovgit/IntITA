@@ -97,4 +97,12 @@ class StaticFilesHelper {
     public static function pathToLectureAudio($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/audio/";
     }
+
+    public static function bootstrapPath($file){
+        return Config::getBaseUrl().'/bootstrap/bower_components/'.$file;
+    }
+
+    public static function bootstrapDistPath($file){
+        return Config::getBaseUrl().'/bootstrap/dist/'.$file;
+    }
 }
