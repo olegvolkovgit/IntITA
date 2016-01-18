@@ -396,7 +396,7 @@ class Module extends CActiveRecord implements IBillableObject
             if ($row[$titleParam] == '')
                 $title = 'title_ua';
             else $title = $titleParam;
-            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title] . '</option>';
+            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
         };
         $last = '</select>';
         return $result . $last;
@@ -537,6 +537,7 @@ class Module extends CActiveRecord implements IBillableObject
         for ($i = 0; $i < $count; $i++) {
             $result[$i]['id'] = $modules[$i]->module_ID;
             $result[$i]['alias'] = $modules[$i]->$titleParam;
+            $result[$i]['language'] = $modules[$i]->language;
         }
         return $result;
     }

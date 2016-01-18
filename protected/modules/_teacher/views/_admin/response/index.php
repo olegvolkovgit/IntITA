@@ -37,7 +37,6 @@ $('.search-form form').submit(function(){
         array(
             'header' => 'Опис',
             'value' => '$data->shortDescription()',
-//            'htmlOptions' => array('onclick' => 'load("Yii::app()->createUrl("/_teacher/_admin/response/view",array("id"=>$data->id))'),
         ),
         array(
             'header' => 'Статус',
