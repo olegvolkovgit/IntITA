@@ -337,6 +337,7 @@ span.courseNum{
     border-radius: 2px;
     width: 22px;
     height: 18px;
+    padding-right: 2px;
     text-align: center;
     line-height: 18px;
 }
