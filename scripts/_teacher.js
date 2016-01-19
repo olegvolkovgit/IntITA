@@ -36,8 +36,30 @@ function setTeacherRole(url)
     });
 }
 
+function loadPage(url, role) {
+    $.ajax({
+        url: url,
+        success: function (data) {
+            container = $('#pageContainer');
+            container.html(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+
 
 function clearDashboard() {
     if (document.getElementById("dashboard"))
         document.getElementById("dashboard").style.display = "none";
+}
+
+//Modal windows
+function showDialog(str)
+{
+    if(str){
+        $('#modalText').html(str);
+    }
+    $('#myModal').modal('show');
 }

@@ -193,12 +193,19 @@ class CabinetController extends TeacherCabinetController
             switch(strtolower($role->title_en))
             {
                 case 'trainer' :
-                    $this->renderPartial('/trainer/sidebar',array(
+                $this->renderPartial('/trainer/sidebar',array(
+                    'teacher' => $teacher,
+                    'user' => $user,
+                    'role' => $role
+                ));
+                break;
+                case 'consultant' :
+                    $this->renderPartial('/consultant/sidebar',array(
                         'teacher' => $teacher,
                         'user' => $user,
                         'role' => $role
                     ));
-                break;
+                    break;
 
             }
         }
