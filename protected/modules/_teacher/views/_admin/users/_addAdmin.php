@@ -4,7 +4,8 @@
             <div class="form-group" id="receiver">
                 <label>Користувач</label>
                 <br>
-                <input id="typeahead" type="text" class="typeahead form-control" name="user" placeholder="Виберіть користувача"
+                <input id="typeahead" type="text" class="typeahead form-control" name="user"
+                       placeholder="Виберіть користувача"
                        size="90" required>
                 <br>
                 <br>
@@ -14,12 +15,12 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAdmin"); ?>')">
+                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/addAdmin"); ?>'); return false;">
                 Призначити адміністратором
             </button>
 
             <button type="reset" class="btn btn-default"
-                    onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/users/index")?>')">
+                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/users/index") ?>')">
                 Скасувати
             </button>
         </form>
@@ -31,7 +32,7 @@
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote:{
+        remote: {
             url: '/IntITA/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
             wildcard: '%QUERY'
         }
@@ -51,13 +52,19 @@
         var posting = $.post(url, {user: user});
 
         posting.done(function (response) {
-                showDialog(response);
+                if (response == "true")
+                    showDialog("Користувач " + user + " призначений адміністратором.");
+                else {
+                    showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                }
             })
             .fail(function () {
-                showDialog();
+                showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {
-                location.href = window.location.pathname;
+                //location.href = window.location.pathname;
             });
     }
 </script>

@@ -7,8 +7,8 @@
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAdminForm'); ?>',
-                'Додати адміністратора')">
-        Додати адміністратора
+                'Призначити адміністратора')">
+        Призначити адміністратора
     </button>
     <br>
     <br>

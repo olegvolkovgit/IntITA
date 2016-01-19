@@ -6,8 +6,8 @@
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAccountantForm'); ?>',
-                'Додати бухгалтера')">
-        Додати бухгалтера
+                'Призначити бухгалтера')">
+        Призначити бухгалтера
     </button>
     <br>
     <br>

@@ -26,7 +26,11 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionAddAdmin(){
-        echo "Trainer";
+        $user = Yii::app()->request->getPost('user', '');
+        $email = explode(" ", $user);
+        $email[count($email)-1];
+        $model = StudentReg::model()->findByAttributes(array('email' => $email));
+        echo $model->addAdmin();
     }
 
     public function actionCreateAccountant(){

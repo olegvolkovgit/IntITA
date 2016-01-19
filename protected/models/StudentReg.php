@@ -620,14 +620,14 @@ class StudentReg extends CActiveRecord
 
     public function isAccountant()
     {
-        $sql = 'SELECT COUNT(id_user) FROM user_accountant WHERE id_user='.$this->id;
+        $sql = 'SELECT COUNT(id_user) FROM user_accountant WHERE id_user=' . $this->id;
         $result = Yii::app()->db->createCommand($sql)->queryScalar();
         return ($result != 0) ? true : false;
     }
 
     public function isTeacher()
     {
-        return Teacher::model()->exists('user_id='.$this->id);
+        return Teacher::model()->exists('user_id=' . $this->id);
     }
 
     public static function getUserName($id)
@@ -646,13 +646,13 @@ class StudentReg extends CActiveRecord
     public static function getRoleString($id)
     {
         $model = StudentReg::model()->findByPk($id);
-        if ($model->isAdmin()){
+        if ($model->isAdmin()) {
             return 'адмін';
         }
-        if ($model->isAccountant()){
+        if ($model->isAccountant()) {
             return 'бухгалтер';
         }
-        if ($model->isTeacher()){
+        if ($model->isTeacher()) {
             return 'викладач';
         }
 
@@ -679,7 +679,7 @@ class StudentReg extends CActiveRecord
             return false;
         }
         $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        $sql = 'SELECT COUNT(id_user) FROM user_admin WHERE id_user='.$user->id;
+        $sql = 'SELECT COUNT(id_user) FROM user_admin WHERE id_user=' . $user->id;
         $result = Yii::app()->db->createCommand($sql)->queryScalar();
         return ($result != 0) ? true : false;
     }
@@ -693,11 +693,12 @@ class StudentReg extends CActiveRecord
         return $user->isStudent();
     }
 
-    public function isStudent(){
-        if ($this->isAdmin() || $this->isAccountant() || $this->isTeacher()){
+    public function isStudent()
+    {
+        if ($this->isAdmin() || $this->isAccountant() || $this->isTeacher()) {
             return false;
         } else {
-          return true;
+            return true;
         }
     }
 
@@ -755,7 +756,7 @@ class StudentReg extends CActiveRecord
 
     public function getCabinetLink()
     {
-         return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
+        return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
     }
 
     public function getTrainer()
@@ -880,14 +881,16 @@ class StudentReg extends CActiveRecord
             return '<span class="nameNAN">[' . Yii::t('regexp', '0160') . ']</span>';
         else return $post->firstName;
     }
-    public static function getStatusInfo ($post)
+
+    public static function getStatusInfo($post)
     {
-        if ($post->firstName=='' && $post->secondName=='' && $post->nickname==''){
-            return  '<span class="nameNAN">['.Yii::t('regexp', '0163').']<br>['.Yii::t('regexp', '0160').']<br>['.Yii::t('regexp', '0162').']</span>';
+        if ($post->firstName == '' && $post->secondName == '' && $post->nickname == '') {
+            return '<span class="nameNAN">[' . Yii::t('regexp', '0163') . ']<br>[' . Yii::t('regexp', '0160') . ']<br>[' . Yii::t('regexp', '0162') . ']</span>';
         } else {
-            return  '<span class="statusColor">'.$post->nickname.'</span><br>'.$post->firstName.'<br>'.$post->secondName;
+            return '<span class="statusColor">' . $post->nickname . '</span><br>' . $post->firstName . '<br>' . $post->secondName;
         }
     }
+
     public function getPaymentsModules()
     {
         $modulesCriteria = new CDbCriteria;
@@ -952,49 +955,53 @@ class StudentReg extends CActiveRecord
         return $receivedLettersProvider;
     }
 
-    public function hasCabinetAccess(){
+    public function hasCabinetAccess()
+    {
         return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
     }
 
 
-
-    public static function userLetterReceivers(){
+    public static function userLetterReceivers()
+    {
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
+            array('condition' => 'role<>0 and id<>' . Yii::app()->user->getId() . ' and id<>1', 'order' => 'id'));
     }
 
-    public static function receivers(){
+    public static function receivers()
+    {
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
+            array('condition' => 'role<>0 and id<>' . Yii::app()->user->getId() . ' and id<>1', 'order' => 'id'));
     }
 
 
-
-    public function receivedMessages(){
-        $messages =  Yii::app()->db->createCommand()
+    public function receivedMessages()
+    {
+        $messages = Yii::app()->db->createCommand()
             ->select('*')
             ->from('message_receiver r')
-            ->where('id_receiver=:id and r.`deleted` is null', array(':id'=>$this->id))
+            ->where('id_receiver=:id and r.`deleted` is null', array(':id' => $this->id))
             ->queryAll();
 
         return $messages;
     }
 
-    public function newReceivedMessages(){
-        $sql = "select * from message_receiver where `read` is null and id_receiver=".$this->id;
-        $messages =  Yii::app()->db->createCommand($sql)->queryAll();
+    public function newReceivedMessages()
+    {
+        $sql = "select * from message_receiver where `read` is null and id_receiver=" . $this->id;
+        $messages = Yii::app()->db->createCommand($sql)->queryAll();
 
         return $messages;
     }
 
     public function getNameOrEmail()
     {
-        if( !empty($this->firstName)|| !empty($this->secondName))
-        return $this->firstName .' '.$this->secondName;
+        if (!empty($this->firstName) || !empty($this->secondName))
+            return $this->firstName . ' ' . $this->secondName;
         else return $this->email;
     }
 
-    public static function adminsList(){
+    public static function adminsList()
+    {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
@@ -1006,7 +1013,8 @@ class StudentReg extends CActiveRecord
         else return null;
     }
 
-    public static function accountantsList(){
+    public static function accountantsList()
+    {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
@@ -1014,7 +1022,8 @@ class StudentReg extends CActiveRecord
         return StudentReg::model()->findAll($criteria);
     }
 
-    public static function teachersList(){
+    public static function teachersList()
+    {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN teacher ON teacher.user_id = user.id';
@@ -1026,19 +1035,23 @@ class StudentReg extends CActiveRecord
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function usersWithoutAdmins($query){
+    public static function usersWithoutAdmins($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model){
-            $result[]["value"] = $model->secondName." ".$model->firstName." ".$model->middleName.", ".$model->email;
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
         }
         return json_encode($result);
     }
@@ -1047,20 +1060,36 @@ class StudentReg extends CActiveRecord
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function usersWithoutAccountants($query){
+    public static function usersWithoutAccountants($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model){
-            $result[]["value"] = $model->secondName." ".$model->firstName." ".$model->middleName.", ".$model->email;
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
         }
         return json_encode($result);
+    }
+
+    public function addAdmin()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_admin', array(
+            'id_user' => $this->id,
+        ))
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
