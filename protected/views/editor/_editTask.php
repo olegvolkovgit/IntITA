@@ -8,11 +8,11 @@
 ?>
 <div class="editTask">
     <br>
-    <form name="add-task">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" form="add-task">
+            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)">
                 <option value="c++">С++</option>
                 <option value="java">Java</option>
                 <option value="js">JavaScript</option>
@@ -21,22 +21,17 @@
             <br>
             Назва:
             <input type="text" name="name" id="name" placeholder="назва задачі"/>
+            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
+            <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
+            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
             <br>
-            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10">
-                <?php echo Task::getTaskCondition($idBlock);?></textarea>
-            <br>
-            <br>
-            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>
-            <br>
-            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
-            <br>
-            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>
-            <br>
+            Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" ng-init="editTask='<?php echo htmlentities(Task::getTaskCondition($idBlock));?>'" required ng-model="editTask"></textarea>
             <input name="idTaskBlock" type="hidden" value="<?php echo $idBlock;?>"/>
+            <input type="submit" ng-disabled="addTask.$invalid" value="Редагування юніттестів" />
         </fieldset>
     </form>
-    <button onclick='editTask()'>Додати задачу</button>
+    <button ng-click="editTaskCKE('<?php echo $idBlock; ?>',editTask)">Зберегти зміни</button>
     <button onclick='cancelTask()'>Скасувати</button>
     <button onclick='unableTask(<?php echo $pageId;?>)'>Видалити задачу</button>
 </div>

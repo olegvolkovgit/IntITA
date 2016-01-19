@@ -10,7 +10,7 @@ class ResponseController extends TeacherCabinetController{
 
     public function actionView($id)
     {
-        $model = Response::model()->findByPk($id)->with('user')->find();
+        $model = Response::model()->findByPk($id);
         $this->renderPartial('view',array(
             'model'=>$model,
         ),false,true);

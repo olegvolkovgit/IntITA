@@ -39,7 +39,7 @@ class GraduateController extends TeacherCabinetController {
                 } else {
                     $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/graduate/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create', array(
@@ -75,7 +75,7 @@ class GraduateController extends TeacherCabinetController {
                         $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                     }
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/graduate/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('update', array(

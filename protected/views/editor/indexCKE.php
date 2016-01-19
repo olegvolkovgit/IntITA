@@ -195,7 +195,7 @@ if ($idCourse != 0) {
                 switch (LectureElement::getQuizType($data['id_block'])) {
                     case '5':
                         $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
-                            'pageId' => $page->id));
+                            'pageId' => $page->id, 'lecture' => $lecture->id));
                         break;
                     case '6':
                         $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
@@ -218,7 +218,7 @@ if ($idCourse != 0) {
             <div id="buttonsPanel">
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-<!--                <button onclick="showAddTaskFormCKE('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
+                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php

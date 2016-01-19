@@ -146,15 +146,17 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
-
-    $scope.addTextBlock = function(type){
-        if(type==7){
-            $scope.instructionStyle=true;
-        }else{
-            $scope.instructionStyle=false;
-        }
-        document.getElementById('addBlock').style.display = 'block';
-        document.getElementById('blockForm').style.display = 'block';
-        document.getElementById('blockType').value = type;
+    $scope.editTaskCKE = function (blockId, condition) {
+        $http({
+            url: basePath + '/task/editTaskCKE',
+            method: "POST",
+            data: $.param({idTaskBlock: blockId, condition: condition}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.reload();
+            return true;
+        }, function errorCallback() {
+            alert('error editTaskCKE');
+        });
     }
 }
