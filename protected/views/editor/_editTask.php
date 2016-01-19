@@ -12,7 +12,7 @@
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)">
+            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" OnChange='langChoose(this)'>
                 <option value="c++">С++</option>
                 <option value="java">Java</option>
                 <option value="js">JavaScript</option>
@@ -28,13 +28,24 @@
             <br>
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" ng-init="editTask='<?php echo htmlentities(Task::getTaskCondition($idBlock));?>'" required ng-model="editTask"></textarea>
             <input name="idTaskBlock" type="hidden" value="<?php echo $idBlock;?>"/>
-            <input type="submit" ng-disabled="addTask.$invalid" value="Редагування юніттестів" />
+            <input type="submit" ng-disabled="addTask.$invalid" value="Створення та редагування юніттестів" />
         </fieldset>
     </form>
-    <button ng-click="editTaskCKE('<?php echo $idBlock; ?>',editTask)">Зберегти зміни</button>
-    <button onclick='cancelTask()'>Скасувати</button>
-    <button onclick='unableTask(<?php echo $pageId;?>)'>Видалити задачу</button>
+    <div class="editTaskButton">
+        <button ng-click="editTaskCKE('<?php echo $idBlock; ?>')">Зберегти зміни умови задачі</button><br>
+        <button onclick='cancelTask()'>Скасувати</button><br>
+        <button onclick='unableTask(<?php echo $pageId;?>)'>Видалити задачу</button>
+    </div>
 </div>
+<script>
+    var selectLang='<?php echo Task::getTaskLang($idBlock); ?>';
+    selectedLang=selectLang;
+    $("select#programLang option[value="+"'"+ selectLang +"'"+ "]").attr('selected', 'true');
+    function langChoose(src)
+    {
+        selectedLang=src.options[src.selectedIndex].value;
+    }
+</script>
 
 
 
