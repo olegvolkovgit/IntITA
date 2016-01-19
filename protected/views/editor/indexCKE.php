@@ -59,7 +59,7 @@ if ($idCourse != 0) {
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
-<div ng-app="lessonEdit">
+<div ng-app="lessonEdit" class="lessonEdit">
     <div ng-controller="CKEditorCtrl">
         <div data-ng-init="
         deleteMsg='<?php echo addslashes(Yii::t('lecture', '0767')); ?>';
@@ -165,19 +165,26 @@ if ($idCourse != 0) {
                         'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
                 </div>
                 <div id="addBlock">
-                    <?php
-                    $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
-                        'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
-                    ?>
+                    <div ng-class="{lessonInstr: instructionStyle,  lessonBG: instructionStyle}">
+                        <div ng-show="instructionStyle" class="instrTaskImg" >
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
+                        </div>
+                        <div ng-class="{content: instructionStyle}" >
+                            <?php
+                            $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
+                                'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div style="display: block; clear: both">
                     <?php echo Yii::t('lecture', '0691'); ?>
                     <br>
-                    <button selected-button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                    <button selected-button ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
                 </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>

@@ -33,7 +33,7 @@ class ModuleController extends TeacherCabinetController
                     $thisModel = new Module;
                     $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
                 }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create', array(
@@ -106,7 +106,7 @@ class ModuleController extends TeacherCabinetController
                 if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo)))
                     throw new CDbException(400, 'Avatar not SAVE');
             }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+            $this->redirect($this->pathToCabinet());
         }
         $this->renderPartial('update', array(
             'model' => $model

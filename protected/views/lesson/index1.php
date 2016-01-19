@@ -1,20 +1,29 @@
 <? $css_version = 1; ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/accessLecturesService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/openDialogsService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/accessLecturesService.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/openDialogsService.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/testCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/taskCtrl.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/skipTaskCtrl.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/plainTaskCtrl.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/skipTaskCtrl.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/plainTaskCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/directives/hoverSpot.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/configDynamic.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls_0_13_0.js'); ?>"></script>
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls_0_13_0.js'); ?>"></script>
+<link type='text/css' rel='stylesheet'
+      href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php
 /* @var $this LessonController */
 /* @var $lecture Lecture */
@@ -33,23 +42,23 @@ $finishedLecture = $lecture->isFinished($user);
 <script type="text/javascript">
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
-    finishedLecture = <?php echo ($finishedLecture)?1:0;?>;
+    finishedLecture = <?php echo ($finishedLecture) ? 1 : 0;?>;
     idUser = <?php echo $user;?>;
-    editMode = <?php echo ($editMode)?1:0;?>;
+    editMode = <?php echo ($editMode) ? 1 : 0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
-    basePath='<?php echo  Config::getBaseUrl(); ?>';
-    isAdmin='<?php echo StudentReg::isAdmin()?1:0; ?>';
-    if(parseInt(editMode || isAdmin)) {
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+    isAdmin = '<?php echo StudentReg::isAdmin() ? 1 : 0; ?>';
+    if (parseInt(editMode || isAdmin)) {
         lastAccessPage = 1;
-    }else {
-        lastAccessPage=<?php echo $lastAccessPage ?>;
+    } else {
+        lastAccessPage =<?php echo $lastAccessPage ?>;
     }
 </script>
 <div id="lessonHumMenu">
-    <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule'=>$lecture->idModule)); ?>
+    <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse, 'idModule' => $lecture->idModule)); ?>
 </div>
-<div ng-cloak class="lessonBlock" id="lessonBlock"  ng-app="lessonApp" >
-    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
+<div ng-cloak class="lessonBlock" id="lessonBlock" ng-app="lessonApp">
+    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
@@ -58,13 +67,13 @@ $finishedLecture = $lecture->isFinished($user);
                     <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture','0686')?>"/>
+                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') ?>"/>
                     </a>
                 <?php } ?>
             </div>
         </div>
         <?php
-        $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+        $this->renderPartial('_jsLecturePageTabs', array('lectureId' => $lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
     </div>
     <div ng-controller="lessonPageCtrl">
@@ -117,8 +126,9 @@ $finishedLecture = $lecture->isFinished($user);
             ),
         )); ?>
         <div>
-            <p style="text-align: center">Ваша відповідь буде оброблена в найближчий час</p>
-            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>" ng-click="hideInformDialog()" >
+            <p style="text-align: center"><?= Yii::t('lesson', '0793'); ?></p>
+            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
+                   ng-click="hideInformDialog()">
         </div>
         <?php $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>

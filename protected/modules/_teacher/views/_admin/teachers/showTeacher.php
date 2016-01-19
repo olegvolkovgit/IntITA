@@ -8,12 +8,28 @@
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>')">Викладачі</button>
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Викладачі')">
+                Викладачі</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRole', array(
+                        'teacher' => $teacher->teacher_id));?>','Призначити роль')">Призначити роль</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/cancelTeacherRole/',
+                        array('id' => $teacher->teacher_id));?>','Скасувати роль')">Скасувати роль</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRoleAttribute/',
+                        array('teacher' => $teacher->teacher_id));?>','Призначити атрибут ролі')">Призначити атрибут ролі</button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
-                Управління ролями викладачів</button>
+                Ролі викладачів</button>
         </li>
     </ul>
 

@@ -45,7 +45,7 @@ class PermissionsController extends TeacherCabinetController
         else  $this->renderPartial('index', array(
             'dataProvider' => $dataProvider,
             'model' => $model,
-        ),false,true);
+        ), false, true);
     }
 
     public function actionUserStatus()
@@ -58,7 +58,7 @@ class PermissionsController extends TeacherCabinetController
 
         $this->renderPartial('userStatus', array(
             'model' => $model,
-        ),false,true);
+        ), false, true);
     }
 
     public static function checkPermission($idUser, $idResource, $rights)
@@ -85,18 +85,17 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionNewPermission()
     {
-
         $rights = Yii::app()->request->getPost('rights');
         $module = Yii::app()->request->getPost('module');
         $user = Yii::app()->request->getPost('user');
 
         if (!empty($module)) {
             if (PayModules::model()->exists('id_user=:user and id_module=:resource',
-                        array(':user' => $user, ':resource' => $module))) {
+                array(':user' => $user, ':resource' => $module))
+            ) {
                 PayModules::model()->updateByPk(array('id_user' => $user,
                     'id_module' => $module), array('rights' => PayModules::setFlags($rights)));
-            }
-            else {
+            } else {
                 Yii::app()->db->createCommand()->insert('pay_modules', array(
                     'id_user' => $user,
                     'id_module' => $module,
@@ -104,7 +103,7 @@ class PermissionsController extends TeacherCabinetController
                 ));
             }
         }
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
     }
 
     public function actionDelete($id, $resource)
@@ -135,47 +134,34 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionShowAttributes()
     {
-        $first = '<select size="1" name="attribute">';
         $criteria = new CDbCriteria();
         $criteria->select = 'id, name_ua';
         $criteria->order = 'id ASC';
         $criteria->addCondition('role=' . $_POST['role']);
         $rows = RoleAttribute::model()->findAll($criteria);
-        $result = $first . '<option value="">Всі атрибути ролі</option>
-                   <optgroup label="Виберіть атрибут">';
-
-        if (!empty($rows)) {
-            foreach ($rows as $numRow => $row) {
-                $result = $result . '<option value="' . $row['id'] . '">' . $row['name_ua'] . '</option>';
-            };
-        }
-        $last = '</select>';
-        $result .= $last;
-        echo $result;
+        $this->renderPartial('_showAttributes', array(
+            'rows' => $rows,
+        ), false, true);
     }
 
     public function actionShowAttributeInput()
     {
+        $attr = Yii::app()->request->getPost('attribute');
         $result = '';
-        switch ($_POST['attribute']) {
+        switch ($attr) {
             case '3':
             case '6':
             case '7':
-                $first = '<select name="attributeValue">';
-                $result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
-                <optgroup label="' . Yii::t('payments', '0607') . '">';
-                $temp = Module::model()->findAll();
-                for ($i = 0; $i < count($temp); $i++) {
-                    $result = $result . '<option value="' . $temp[$i]->module_ID . '">' . $temp[$i]->module_number ."  ".
-                        $temp[$i]->title_ua ."(".$temp[$i]->language.")". '</option>';
-                }
-                $last = '</select>';
-                $result = $result.$last;
+                $modules = Module::model()->findAll();
+                $this->renderPartial('_showAttributeInput', array(
+                    'modules' => $modules,
+                ), false, true);
+
                 break;
             case 'user_list':
                 break;
             default:
-                $result .= "<br><br>Значення атрибута:  <input type='text' value='' name='attributeValue' id='inputValue'>";
+                $this->renderPartial('_showAttributeTextInput');
                 break;
         }
         echo $result;
@@ -183,7 +169,7 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionShowModules()
     {
-        if(isset($_POST['course']))
+        if (isset($_POST['course']))
             $course = $_POST['course'];
 
         $result = Module::showModule($course);
@@ -197,7 +183,7 @@ class PermissionsController extends TeacherCabinetController
         $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
         $module = Yii::app()->request->getPost('module');
 
-        if($module){
+        if ($module) {
             Teacher::addTeacherAccess($teacher->teacher_id, $module);
 
             $permission = new PayModules();
@@ -213,7 +199,7 @@ class PermissionsController extends TeacherCabinetController
     {
         $user = Yii::app()->request->getPost('user');
         $user = StudentReg::model()->findByPk($user);
-        if ($user->isTeacher()){
+        if ($user->isTeacher()) {
             Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
         }
         $user->save();
@@ -230,10 +216,10 @@ class PermissionsController extends TeacherCabinetController
         $teacher = Teacher::model()->findByPk($teacherId);
         if ($teacherId && $roleId) {
             if ($teacher->setTeacherRole($roleId)) {
-                $this->redirect(Yii::app()->createUrl('/_admin/tmanage/index'));
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
             }
         }
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
     }
 
     public function actionSetTeacherRoleAttribute()
@@ -265,11 +251,11 @@ class PermissionsController extends TeacherCabinetController
 
             }
             if ($result) {
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+                $this->redirect($this->pathToCabinet());
             }
 
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function actionSetFreeLessons($id)
@@ -310,13 +296,10 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionShowTeacherModules()
     {
-        if (isset($_POST['teacher'])){
+        if (isset($_POST['teacher'])) {
             $idTeacher = $_POST['teacher'];
-
-
-        $result = TeacherModule::showTeacherModule($idTeacher);
-        }
-        else $result = '';
+            $result = TeacherModule::showTeacherModule($idTeacher);
+        } else $result = '';
         echo $result;
     }
 
@@ -345,24 +328,20 @@ class PermissionsController extends TeacherCabinetController
         $role = Yii::app()->request->getPost('role');
 
         TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
-        $this->redirect('/_admin/tmanage/showRoles?id='.$teacher);
+        $this->redirect('/_teacher/_admin/teachers/showRoles', array('id' => $teacher));
     }
 
     public function actionShowUsers()
     {
-        if(Yii::app()->request->isAjaxRequest)
-        {
-            if(isset($_POST['email']))
-            {
+        if (Yii::app()->request->isAjaxRequest) {
+            if (isset($_POST['email'])) {
                 $email = $_POST['email'];
 
-                $result = StudentReg::model()->findByAttributes(array('email'=>$email));
+                $result = StudentReg::model()->findByAttributes(array('email' => $email));
 
-               if(!empty ($result)){
-                   echo $result->id;
-               }
-
-                else echo 'not found';
+                if (!empty ($result)) {
+                    echo $result->id;
+                } else echo 'not found';
             }
         }
     }
@@ -372,10 +351,10 @@ class PermissionsController extends TeacherCabinetController
         $users = StudentReg::generateUsersList();
         $courses = Course::generateCoursesList();
 
-        $this->renderPartial('_add',array(
+        $this->renderPartial('_add', array(
             'users' => $users,
             'courses' => $courses
-        ),false,true);
+        ), false, true);
     }
 
     public function actionShowAddTeacherAccess()
@@ -383,19 +362,19 @@ class PermissionsController extends TeacherCabinetController
         $users = Teacher::generateTeachersList();
         $courses = Course::generateCoursesList();
 
-        $this->renderPartial('_addTeacherAccess',array(
+        $this->renderPartial('_addTeacherAccess', array(
             'users' => $users,
             'courses' => $courses
-        ),false,true);
+        ), false, true);
     }
 
     public function actionShowCancelTeacherAccess()
     {
         $users = Teacher::generateTeachersList();
 
-        $this->renderPartial('_cancelTeacherAccess',array(
+        $this->renderPartial('_cancelTeacherAccess', array(
             'users' => $users
-        ),false,true);
+        ), false, true);
     }
 
 }

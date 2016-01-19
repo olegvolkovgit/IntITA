@@ -2,7 +2,7 @@
 <script>
     course = "<?php echo $model->course_ID;?>";
 </script>
-<img class="courseImg" style="display: inline-block"
+<img class="courseImg" style="display: inline-block;margin-bottom:30px; "
      src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img); ?>"/>
 <div class="courseShortInfoTable">
     <table class="courseLevelInfo">
