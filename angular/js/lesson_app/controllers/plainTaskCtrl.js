@@ -8,10 +8,13 @@ angular
 function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsService) {
     $scope.sendPlainTaskAnswer=function(idLecture)
     {
+        var button=angular.element(document.querySelector(".taskSubmit"));
+        button.attr('disabled', true);
         var answer = $('[name=answer]').val();
         if(answer.trim() == '')
         {
             angular.element(document.querySelector("#flashMsg")).addClass('emptyFlash');
+            button.removeAttr('disabled');
         }
         else
         {
@@ -23,6 +26,7 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialog
                 cache: false
             }).then(function(){
                 openDialogsService.openInformDialog();
+                button.removeAttr('disabled');
             });
         }
 
