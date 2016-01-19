@@ -29,10 +29,17 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->save())
-                if ($model->module_img == Null) {
-                    $thisModel = new Module;
-                    $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
+            {
+                if(!empty($_FILES))
+                {
+                    $imageName = array_shift($_FILES['Module']['name']);
+                    $tmpName = array_shift($_FILES['Module']['tmp_name']);
+                    if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
+                        throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
+
                 }
+            }
+
             $this->redirect($this->pathToCabinet());
         }
 
@@ -97,7 +104,7 @@ class ModuleController extends TeacherCabinetController
                             $model->save();
 
                             if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                throw new CDbException(400, 'Avatar not SAVE');
+                                throw new CDbException(400, 'Avatar not save');
                         }
                     }
                 }
