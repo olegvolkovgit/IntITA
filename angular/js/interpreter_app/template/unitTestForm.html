@@ -10,7 +10,7 @@
                         ng-model="arg.compare_mark[$parent.$index]"
                         ng-options="cArg.value as cArg.name for cArg in compare"></select>
                 <input type="text" class="form-control" placeholder="Etalon value"
-                       ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]">
+                       ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]" required>
             </div>
         </div>
     </div>
