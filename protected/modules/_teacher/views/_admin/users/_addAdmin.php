@@ -15,7 +15,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/addAdmin"); ?>'); return false;">
+                    onclick="sendNewAdminData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/addAdmin"); ?>'); return false;">
                 Призначити адміністратором
             </button>
 
@@ -46,13 +46,13 @@
         source: users
     });
 
-    function sendNewAccountantData(url) {
+    function sendNewAdminData(url) {
         user = $("#typeahead").val();
 
         var posting = $.post(url, {user: user});
 
         posting.done(function (response) {
-                if (response == "true")
+                if (response == 1)
                     showDialog("Користувач " + user + " призначений адміністратором.");
                 else {
                     showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +

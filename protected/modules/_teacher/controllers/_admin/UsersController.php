@@ -28,13 +28,29 @@ class UsersController extends TeacherCabinetController
     public function actionAddAdmin(){
         $user = Yii::app()->request->getPost('user', '');
         $email = explode(" ", $user);
-        $email[count($email)-1];
+        $email = $email[count($email)-1];
         $model = StudentReg::model()->findByAttributes(array('email' => $email));
         echo $model->addAdmin();
     }
 
     public function actionCreateAccountant(){
-        echo 'Success!';
+        $user = Yii::app()->request->getPost('user', '');
+        $email = explode(" ", $user);
+        $email = $email[count($email)-1];
+        $model = StudentReg::model()->findByAttributes(array('email' => $email));
+        echo $model->addAccountant();
+    }
+
+    public function actionCancelAdmin(){
+        $user = Yii::app()->request->getPost('user', '0');
+        $model = StudentReg::model()->findByPk($user);
+        echo $model->cancelAdmin();
+    }
+
+    public function actionCancelAccountant(){
+        $user = Yii::app()->request->getPost('user', '0');
+        $model = StudentReg::model()->findByPk($user);
+        echo $model->cancelAccountant();
     }
 
     public function actionUsersWithoutAdmins($query){

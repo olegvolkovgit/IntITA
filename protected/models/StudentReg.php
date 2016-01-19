@@ -1085,8 +1085,40 @@ class StudentReg extends CActiveRecord
     {
         if (Yii::app()->db->createCommand()->insert('user_admin', array(
             'id_user' => $this->id,
-        ))
-        ) {
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addAccountant()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_accountant', array(
+            'id_user' => $this->id,
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAdmin()
+    {
+        if (Yii::app()->db->createCommand()->update('user_admin', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAccountant()
+    {
+        if (Yii::app()->db->createCommand()->update('user_accountant', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
             return true;
         } else {
             return false;

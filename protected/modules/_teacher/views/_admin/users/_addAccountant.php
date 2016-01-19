@@ -14,7 +14,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAdminData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>')">
+                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>')">
                 Призначити бухгалтера
             </button>
 
@@ -44,19 +44,25 @@
         source: users
     });
 
-    function sendNewAdminData(url) {
-        user = $("#user").val;
+    function sendNewAccountantData(url) {
+        user = $("#typeahead").val();
 
         var posting = $.post(url, {user: user});
 
         posting.done(function (response) {
-                showDialog(response);
+                if (response == 1)
+                    showDialog("Користувач " + user + " призначений бухгалтером.");
+                else {
+                    showDialog("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                }
             })
             .fail(function () {
-                showDialog();
+                showDialog("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {
-                location.href = window.location.pathname;
+                //location.href = window.location.pathname;
             });
     }
 </script>

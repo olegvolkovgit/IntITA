@@ -22,7 +22,9 @@
                         <tr class="odd gradeX">
                             <td><?=$user->userName();?></td>
                             <td class="center"><?=$user["email"];?></td>
-                            <td class="center"></td>
+                            <td class="center"><?php if($user["reg_time"] > 0) echo date("d-m-Y", $user["reg_time"]);
+                                else echo '<em>невідомо</em>';
+                                ?></td>
                         </tr>
                     <?php }?>
                     </tbody>
