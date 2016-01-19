@@ -37,7 +37,6 @@ $('.search-form form').submit(function(){
         array(
             'header' => 'Опис',
             'value' => '$data->shortDescription()',
-//            'htmlOptions' => array('onclick' => 'load("Yii::app()->createUrl("/_teacher/_admin/response/view",array("id"=>$data->id))'),
         ),
         array(
             'header' => 'Статус',
@@ -84,7 +83,7 @@ $('.search-form form').submit(function(){
                 ),
                 'view' => array
                 (
-                    'label'=>'Опублікувати',
+                    'label'=>'Переглянути',
                     'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$data->id))',
                     'click'=>"function(){
                         $.fn.yiiGridView.update('response-grid', {
@@ -100,7 +99,7 @@ $('.search-form form').submit(function(){
                 ),
                 'update' => array
                 (
-                    'label'=>'Опублікувати',
+                    'label'=>'Редагувати',
                     'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/update", array("id"=>$data->id))',
                     'click'=>"function(){
                         $.fn.yiiGridView.update('response-grid', {
@@ -114,11 +113,11 @@ $('.search-form form').submit(function(){
                     }
                     ",
                 ),
+                'delete' => array
+                (
+                    'label'=>'Видалити',
+                ),
             ),
         ),
-//        array(
-//            'class'=>'CButtonColumn',
-//            'headerHtmlOptions' => array('style' => 'width:80px'),
-//        ),
     ),
 )); ?>

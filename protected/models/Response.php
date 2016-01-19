@@ -92,7 +92,7 @@ class Response extends CActiveRecord
     {
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
+        $criteria->compare('t.id', $this->id);
         $criteria->compare('who', $this->who);
         $criteria->compare('date', $this->date, true);
         $criteria->compare('text', $this->text, true);

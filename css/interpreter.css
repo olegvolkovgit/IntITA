@@ -38,6 +38,9 @@ hr {
 .col.result textarea{
     max-width: 860px;
 }
+.col.header textarea{
+    max-width: 100%;
+}
 .col.compare{
     border: 2px solid #4b75a4;
     border-top: none;

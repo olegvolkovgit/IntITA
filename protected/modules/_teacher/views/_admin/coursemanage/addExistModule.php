@@ -19,10 +19,9 @@
                 <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
                         >
                     <?php
-
                     foreach($modules as $module) {
                         ?>
-                        <option value="<?php echo $module['id']; ?>"><?php echo $module['alias']; ?></option>
+                        <option value="<?php echo $module['id']; ?>"><?php echo $module['alias']." (".$module['language'].")"; ?></option>
                     <?php
                     }
                     ?>

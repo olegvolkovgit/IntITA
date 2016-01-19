@@ -32,7 +32,7 @@ class m160115_102320_add_translations_787_792 extends CDbMigration
             ),
             array(
                 'id' => '792',
-                'category' => 'editor',
+                'category' => 'consultations',
                 'message' => '0792'
             )
 		));
@@ -144,7 +144,7 @@ class m160115_102320_add_translations_787_792 extends CDbMigration
                 'id_record' => null,
                 'id' => '0792',
                 'language' => 'en',
-                'translation' => 'There aren\'t consultants for this module'
+                'translation' => 'There aren\'t consultants for this module.'
             )
 		));
 	}

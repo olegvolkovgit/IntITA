@@ -81,7 +81,9 @@ function interpreterCtrl($scope,sendTaskJsonService) {
     };
     $scope.finalResult= {
         operation: "addtask",
+        header:$scope.header,
         etalon: $scope.etalon,
+        footer:$scope.footer,
         lang: $scope.lang,
         task: $scope.task,
         function : $scope.function
