@@ -71,6 +71,16 @@ $('.search-form form').submit(function(){
             'deleteConfirmation' => Yii::t("coursemanage", "0518"),
             'headerHtmlOptions' => array('style' => 'width:100px'),
             'buttons' => array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити випускника?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$data->id))',
+                ),
                 'restore' => array
                 (
                     'click'=>"function(){

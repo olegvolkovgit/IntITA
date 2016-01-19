@@ -338,4 +338,22 @@ function showDialog(str)
     $('#myModal').modal('show');
 }
 
+function showConfirm(str,url)
+{
+    bootbox.confirm(str, function(result){
+        if(result){
+            $.ajax({
+                url: url,
+                type : 'post',
+                async: true,
+                success: function (data) {
+                    fillContainer(data);
+                },
+                error: function () {
+                    showDialog();
+                }
+             });
+        }
+})
+}
 
