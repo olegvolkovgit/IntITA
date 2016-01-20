@@ -340,28 +340,29 @@ function showDialog(str)
 
 function showConfirm(str,url)
 {
-    //var boot = $('.bootbox.modal.fade.bootbox-confirm.in').attr('hidden');
-    //console.log(boot);
-    //if(boot)
-    //return false;
-    //else
-    //{
-        bootbox.confirm(str, function(result){
-            if(result){
-                $.ajax({
-                    url: url,
-                    type : 'post',
-                    async: true,
-                    success: function (data) {
+    var grid = getGridName();
+    bootbox.confirm(str, function(result){
+        if(result){
+            $.ajax({
+                url: url,
+                type : 'post',
+                async: true,
+                success: function (data) {
+                    if(grid)
+                       $.fn.yiiGridView.update(grid);
+                    else
                         fillContainer(data);
-                    },
-                    error: function () {
-                        showDialog();
-                    }
-                });
-            }
-        })
-    //}
+                },
+                error: function () {
+                    showDialog();
+                }
+            });
+        }
+    })
+}
 
+function getGridName()
+{
+    return $('.grid-view').attr('id');
 }
 
