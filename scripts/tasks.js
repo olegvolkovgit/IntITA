@@ -197,8 +197,7 @@ function unableTask(pageId){
             url: "/task/unableTask",
             data: {'pageId':pageId},
             success: function(){
-                $('div[name="lecturePage"]').html(response);
-                return false;
+                location.reload();
             }
         });
     }

@@ -38,6 +38,16 @@ $('.search-form form').submit(function(){
             'class'=>'CButtonColumn',
             'headerHtmlOptions' => array('style' => 'width:80px'),
             'buttons'=>array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей ресурс?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/delete", array("id"=>$data->id))',
+                ),
                 'view' => array
                 (
                     'click'=>"function(){
