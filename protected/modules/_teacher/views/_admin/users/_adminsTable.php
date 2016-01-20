@@ -1,5 +1,5 @@
 <?php
-/* @var $user StudentReg */
+/* @var $user array */
 /* @var $adminsList array */
 ?>
 
@@ -30,13 +30,14 @@
                     foreach ($adminsList as $user) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><?= $user->userName(); ?></td>
-                            <td class="center"><?= $user->email; ?></td>
-                            <td class="center"></td>
-                            <td class="center"></td>
+                            <td><?= $user["secondName"]." ".$user["firstName"]; ?></td>
+                            <td class="center"><?= $user["email"]; ?></td>
+                            <td class="center"><?=date("d-m-Y", strtotime($user["start_date"])); ?></td>
+                            <td class="center"><?=($user["end_date"])?date("d-m-Y", strtotime($user["end_date"])):""; ?></td>
                             <td class="center"><a href="#" title="Відмінити" onclick="cancelAdmin(
                                     '<?=Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin');?>',
-                                    '<?=$user->id;?>');"><i class="fa fa-trash-o fa-fw"></i></a></td>
+                                    '<?=$user["id"];?>',
+                                    '<?= $user["secondName"]." ".$user["firstName"]." <".$user["email"].">"; ?>');"><i class="fa fa-trash-o fa-fw"></i></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -47,19 +48,19 @@
 </div>
 
 <script>
-    function cancelAdmin(url, id) {
+    function cancelAdmin(url, id, name) {
         var posting = $.post(url, {user: id});
 
         posting.done(function (response) {
                 if (response == 1)
-                    showDialog("Права адміністратора для користувача " + id + " відмінені.");
+                    showDialog("Права адміністратора для користувача " + name + " відмінені.");
                 else {
-                    showDialog("Права адміністратора для користувача " + id + " не вдалося відмінити. Спробуйте повторити " +
+                    showDialog("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
                         "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
                 }
             })
             .fail(function () {
-                showDialog("Права адміністратора для користувача " + id + " не вдалося відмінити. Спробуйте повторити " +
+                showDialog("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {

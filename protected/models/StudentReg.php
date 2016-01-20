@@ -620,7 +620,7 @@ class StudentReg extends CActiveRecord
 
     public function isAccountant()
     {
-        $sql = 'SELECT COUNT(id_user) FROM user_accountant WHERE id_user=' . $this->id;
+        $sql = 'SELECT COUNT(id_user) FROM user_accountant WHERE id_user=' . $this->id.' and end_date IS NULL';
         $result = Yii::app()->db->createCommand($sql)->queryScalar();
         return ($result != 0) ? true : false;
     }
@@ -679,7 +679,7 @@ class StudentReg extends CActiveRecord
             return false;
         }
         $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        $sql = 'SELECT COUNT(id_user) FROM user_admin WHERE id_user=' . $user->id;
+        $sql = 'SELECT COUNT(id_user) FROM user_admin WHERE id_user=' . $user->id.' and end_date IS NULL';
         $result = Yii::app()->db->createCommand($sql)->queryScalar();
         return ($result != 0) ? true : false;
     }
@@ -1002,24 +1002,30 @@ class StudentReg extends CActiveRecord
 
     public static function adminsList()
     {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'user';
-        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
-        $criteria->addCondition('user_admin.id_user = user.id');
-        $result = StudentReg::model()->findAll($criteria);
-
+        $sql = 'select * from user inner join user_admin on user.id = user_admin.id_user';
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+//        $criteria = new CDbCriteria();
+//        $criteria->alias = 'user';
+//        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
+//        $criteria->addCondition('user_admin.id_user = user.id');
+//        $result = StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
-        else return null;
+        else return [];
     }
 
     public static function accountantsList()
     {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'user';
-        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
-        $criteria->addCondition('user_accountant.id_user = user.id');
-        return StudentReg::model()->findAll($criteria);
+        $sql = 'select * from user inner join user_accountant on user.id = user_accountant.id_user';
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+//        $criteria = new CDbCriteria();
+//        $criteria->alias = 'user';
+//        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
+//        $criteria->addCondition('user_accountant.id_user = user.id');
+//        return StudentReg::model()->findAll($criteria);
+        if ($result)
+            return $result;
+        else return [];
     }
 
     public static function teachersList()

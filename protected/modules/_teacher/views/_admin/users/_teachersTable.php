@@ -19,8 +19,7 @@
                     <tr>
                         <th>ФІО</th>
                         <th>Email</th>
-                        <th>Призначено</th>
-                        <th>Відмінено</th>
+                        <th>Персональна сторінка</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,8 +29,7 @@
                         <tr class="odd gradeX">
                             <td><?= $user->userName(); ?></td>
                             <td class="center"><?= $user->email; ?></td>
-                            <td class="center"></td>
-                            <td class="center"></td>
+                            <td class="center"><a href="<?=Yii::app()->createUrl('profile/index', array('idTeacher' => $user->getTeacherId()));?>">сторінка</a></td>
                         </tr>
                     <?php } ?>
                     </tbody>

@@ -29,13 +29,14 @@
                     foreach ($accountants as $user) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><?= $user->userName(); ?></td>
-                            <td class="center"><?= $user->email; ?></td>
-                            <td class="center"></td>
-                            <td class="center"></td>
+                            <td><?= $user["secondName"]." ".$user["firstName"]; ?></td>
+                            <td class="center"><?= $user["email"]; ?></td>
+                            <td class="center"><?=date("d-m-Y", strtotime($user["start_date"])); ?></td>
+                            <td class="center"><?=($user["end_date"])?date("d-m-Y", strtotime($user["end_date"])):""; ?></td>
                             <td class="center"><a href="#" title="Відмінити"  onclick="cancelAccountant(
                                     '<?=Yii::app()->createUrl('/_teacher/_admin/users/cancelAccountant');?>',
-                                    '<?=$user->id;?>');"><i class="fa fa-trash-o fa-fw"></i></a></td>
+                                    '<?=$user["id"];?>',
+                                    '<?=$user["secondName"]." ".$user["firstName"]." <".$user['email'].">"; ?>');"><i class="fa fa-trash-o fa-fw"></i></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -46,19 +47,19 @@
 </div>
 
 <script>
-    function cancelAccountant(url, id) {
+    function cancelAccountant(url, id, name) {
         var posting = $.post(url, {user: id});
 
         posting.done(function (response) {
                 if (response == 1)
-                    showDialog("Права бухгалтера для користувача " + id + " відмінені.");
+                    showDialog("Права бухгалтера для користувача " + name + " відмінені.");
                 else {
-                    showDialog("Права бухгалтера для користувача " + id + " не вдалося відмінити. Спробуйте повторити " +
+                    showDialog("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
                         "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
                 }
             })
             .fail(function () {
-                showDialog("Права бухгалтера для користувача " + id + " не вдалося відмінити. Спробуйте повторити " +
+                showDialog("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {
