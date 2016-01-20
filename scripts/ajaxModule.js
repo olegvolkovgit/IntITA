@@ -25,8 +25,8 @@ function confirmDelete(id){
         }
 
     });
-
 }
+
 
 function getSecondPart(str) {
     var res = str.split("=");
