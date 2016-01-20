@@ -46,23 +46,26 @@
 
     function sendNewAccountantData(url) {
         user = $("#typeahead").val();
+        if (user === "") {
+            showDialog('Виберіть користувача, якого потрібно призначити адміністратором.');
+        } else {
+            var posting = $.post(url, {user: user});
 
-        var posting = $.post(url, {user: user});
-
-        posting.done(function (response) {
-                if (response == 1)
-                    showDialog("Користувач " + user + " призначений бухгалтером.");
-                else {
+            posting.done(function (response) {
+                    if (response == 1)
+                        showDialog("Користувач " + user + " призначений бухгалтером.");
+                    else {
+                        showDialog("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
+                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                    }
+                })
+                .fail(function () {
                     showDialog("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
                         "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
-                }
-            })
-            .fail(function () {
-                showDialog("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
-            })
-            .always(function () {
-                //location.href = window.location.pathname;
-            });
+                })
+                .always(function () {
+                    location.href = window.location.pathname;
+                });
+        }
     }
 </script>

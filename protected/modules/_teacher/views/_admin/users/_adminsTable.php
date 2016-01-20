@@ -64,7 +64,7 @@
                     "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {
-                //location.href = window.location.pathname;
+                //location.reload();
             });
     }
 </script>
