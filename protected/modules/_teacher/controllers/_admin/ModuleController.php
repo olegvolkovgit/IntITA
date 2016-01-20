@@ -123,7 +123,6 @@ class ModuleController extends TeacherCabinetController
 
     public function actionMandatory($id)
     {
-
         $courses = Course::generateModuleCoursesList($id);
 
         $this->renderPartial('mandatory', array(
@@ -141,7 +140,7 @@ class ModuleController extends TeacherCabinetController
         Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
             $idModule . ' and id_course=' . $idCourse)->query();
 
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+        $this->actionIndex();
     }
 
     public function actionGetModuleByCourse()
