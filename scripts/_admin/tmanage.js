@@ -338,4 +338,31 @@ function showDialog(str)
     $('#myModal').modal('show');
 }
 
+function showConfirm(str,url)
+{
+    var grid = getGridName();
+    bootbox.confirm(str, function(result){
+        if(result){
+            $.ajax({
+                url: url,
+                type : 'post',
+                async: true,
+                success: function (data) {
+                    if(grid)
+                       $.fn.yiiGridView.update(grid);
+                    else
+                        fillContainer(data);
+                },
+                error: function () {
+                    showDialog();
+                }
+            });
+        }
+    })
+}
+
+function getGridName()
+{
+    return $('.grid-view').attr('id');
+}
 
