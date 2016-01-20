@@ -25,6 +25,7 @@
             'header' => 'Аватар',
             'value' => 'StaticFilesHelper::createPath("image", "graduates", $data->avatar)',
             'type' => 'image',
+            'htmlOptions'=>array('class' => 'imageClass'),
         ),
         'position',
         'work_place',

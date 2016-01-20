@@ -51,6 +51,8 @@ class ModuleController extends TeacherCabinetController
     public function actionDelete($id)
     {
         Module::model()->updateByPk($id, array('cancelled' => 1));
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     public function actionRestore($id)
@@ -58,7 +60,6 @@ class ModuleController extends TeacherCabinetController
         $model = Module::model()->findByPk($id);
         $model->cancelled = 0;
         $this->saveModel($model);
-
     }
 
     public function actionUpStatus($id)

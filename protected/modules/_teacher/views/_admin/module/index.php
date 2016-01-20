@@ -41,9 +41,18 @@
         array(
             'class' => 'CButtonColumn',
             'template' => '{view}{update}{delete}{restore}{statusUp}{statusDown}',
-            'deleteConfirmation' => "Ви підтверджуєте видалення модуля?",
             'headerHtmlOptions' => array('style' => 'width:120px'),
             'buttons' => array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей модуль?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/module/delete", array("id"=>$data->primaryKey))',
+                ),
                 'restore' => array
                 (
                     'label' => 'Відновити модуль',
@@ -94,7 +103,7 @@
                 ),
                 'view' => array
                 (
-                    'label' => 'Відновити модуль',
+                    'label' => 'Переглянути модуль',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$data->primaryKey))',
                     'options' => array(
                         'class' => 'controlButtons;',
@@ -109,7 +118,7 @@
                 ),
                 'update' => array
                 (
-                    'label' => 'Відновити модуль',
+                    'label' => 'Редагувати модуль',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/module/update", array("id"=>$data->primaryKey))',
                     'options' => array(
                         'class' => 'controlButtons;',

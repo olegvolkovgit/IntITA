@@ -31,10 +31,19 @@
         ),
         array(
             'template'=>'{view}{delete}{up}{down}',
-            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
             'class'=>'CButtonColumn',
             'headerHtmlOptions'=>array('style'=>'width:120px'),
             'buttons'=>array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей файл?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/carousel/delete", array("id"=>$data->id))',
+                ),
                 'up' => array
                 (
                     'label'=>'Відображення на головній',

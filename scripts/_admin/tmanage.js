@@ -340,20 +340,28 @@ function showDialog(str)
 
 function showConfirm(str,url)
 {
-    bootbox.confirm(str, function(result){
-        if(result){
-            $.ajax({
-                url: url,
-                type : 'post',
-                async: true,
-                success: function (data) {
-                    fillContainer(data);
-                },
-                error: function () {
-                    showDialog();
-                }
-             });
-        }
-})
+    //var boot = $('.bootbox.modal.fade.bootbox-confirm.in').attr('hidden');
+    //console.log(boot);
+    //if(boot)
+    //return false;
+    //else
+    //{
+        bootbox.confirm(str, function(result){
+            if(result){
+                $.ajax({
+                    url: url,
+                    type : 'post',
+                    async: true,
+                    success: function (data) {
+                        fillContainer(data);
+                    },
+                    error: function () {
+                        showDialog();
+                    }
+                });
+            }
+        })
+    //}
+
 }
 

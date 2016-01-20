@@ -74,12 +74,12 @@ $('.search-form form').submit(function(){
                 'delete' => array
                 (
                     'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити випускника?',$(this).attr('href'))
+                                    showConfirm('Ви дійсно хочете видалити цей курс?',$(this).attr('href'))
                                     return false;
                               }
                      ",
                     'label' => 'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$data->id))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$data->course_ID))',
                 ),
                 'restore' => array
                 (
