@@ -1,5 +1,9 @@
-function load(url, header) {
+function load(url, header,histories) {
     clearDashboard();
+    if(histories == undefined)
+    {
+       history.pushState({url : url,header:header},"");
+    }
     $.ajax({
         url: url,
         async: true,
@@ -17,6 +21,15 @@ function load(url, header) {
             showDialog();
         }
     });
+}
+function reloadPage(event)
+{
+    if(event.state)
+    {
+        var path = history.state.url;
+        var header = history.state.header;
+        load(path,header,true);
+    }
 }
 function setTeacherRole(url)
 {
