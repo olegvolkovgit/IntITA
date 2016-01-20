@@ -22,6 +22,7 @@ function load(url, header,histories) {
         }
     });
 }
+
 function reloadPage(event)
 {
     if(event.state)
@@ -31,6 +32,7 @@ function reloadPage(event)
         load(path,header,true);
     }
 }
+
 function setTeacherRole(url)
 {
     var role = $("select[name=role] option:selected").val();
