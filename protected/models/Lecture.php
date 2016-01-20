@@ -118,7 +118,7 @@ class Lecture extends CActiveRecord
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('idModule', $this->idModule, true);
         $criteria->compare('order', $this->order, true);
-        $criteria->compare('title_ua', $this->title_ua, true);
+        $criteria->compare('t.title_ua', $this->title_ua, true);
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('idType', $this->idType, true);

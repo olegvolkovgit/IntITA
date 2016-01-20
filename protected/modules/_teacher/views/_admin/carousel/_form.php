@@ -34,8 +34,8 @@
     <div class="form-group">
         <p class="note" style="color: #ff0000">Зверніть увагу зображення рекомендовані пропорції 2.18 до 1</p>
         <?php echo $form->labelEx($model, 'pictureURL', array('for' => 'picture')); ?>
-        <?php echo $form->fileField($model, 'pictureURL', array('size' => 50, 'maxlength' => 50, 'id' => 'picture')); ?>
-        <?php echo $form->error($model, 'pictureURL'); ?>
+        <?php echo $form->fileField($model, 'pictureURL', array('size' => 50, 'maxlength' => 50, 'id' => 'picture','onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти',array('id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

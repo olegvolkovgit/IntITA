@@ -136,26 +136,27 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
+		$tab=3;
 		$model= new Letters();
-        if(isset($_POST['ajax']) && $_POST['ajax']==='user-messages-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        if(isset($_POST['UserMessages']))
-        {
-            $model->attributes=$_POST['UserMessages'];
-            $model->date = date("Y-m-d H:i:s");
-            if($model->validate())
-            {
-                $model->save();
-                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-            } else {
-                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-            }
-        }
+		if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+		if(isset($_POST['Letters']))
+		{
+			$model->attributes=$_POST['Letters'];
+			$model->date = date("Y-m-d H:i:s");
+			if($model->validate())
+			{
+				$model->save();
+				Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
+				$this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+			} else {
+				Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
+				$this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+			}
+		}
     }
     public function actionSendRespLetter($id)
     {

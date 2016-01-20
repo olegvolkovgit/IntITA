@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 11.07.2015
- * Time: 10:37
+ * @var $pageId integer
  */
 ?>
 <a name="taskForm"></a>
@@ -28,12 +25,12 @@
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <br>
             <br>
-            Умова задачі*:<textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>
+            <label for="condition">Умова задачі*:</label><textarea name="condition" id="condition" cols="105" form="add-task" rows="10"></textarea>
             <br>
 <!--            <br>-->
 <!--            Header*:<textarea name="header" id="header" cols="105" form="add-task" rows="5"></textarea>-->
 <!--            <br>-->
-            Etalon*:<textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
+            <label for="etalon">Etalon*:</label><textarea name="etalon" id="etalon" cols="105" placeholder="Еталонна відповідь" form="add-task" rows="15"></textarea>
 <!--            <br>-->
 <!--            Footer*:<textarea name="taskFooter" id="taskFooter" cols="105" form="add-task" rows="5"></textarea>-->
             <br>
@@ -41,6 +38,6 @@
     </form>
     <br>
     <button onclick="createTask('<?php echo Config::getInterpreterServer(); ?>')">Додати задачу</button>
-    <button onclick='cancelTask()'>Скасувати</button>
+    <button onclick='cancelTask()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
 

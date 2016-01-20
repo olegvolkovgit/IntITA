@@ -6,11 +6,11 @@
                 <label>{{arg.arg_name}}</label>
                 <input type="text" class="form-control" placeholder='Argument value'
                        ng-pattern="arg.pattern" ng-model="arg.value[$parent.$index]" required>
-                <select class="selectpicker" ng-init="arg.compare_mark[$parent.$index] = compare[0].value"
+                <select class="selectpicker"
                         ng-model="arg.compare_mark[$parent.$index]"
                         ng-options="cArg.value as cArg.name for cArg in compare"></select>
                 <input type="text" class="form-control" placeholder="Etalon value"
-                       ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]">
+                       ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]" required>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
                 <input type="text" class="form-control" placeholder="result value" ng-pattern=resultPattern ng-model="results[$index]" required>
             </div>
             <div class="col-lg-2">
-                <select class="selectpicker" ng-init="compare_marks[$index] = compare[0].value"
+                <select class="selectpicker"
                         ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare">
                 </select>
             </div>

@@ -29,11 +29,18 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->save())
-                if ($model->module_img == Null) {
-                    $thisModel = new Module;
-                    $thisModel->updateByPk($model->module_ID, array('module_img' => 'courseimg1.png'));
+            {
+                if(!empty($_FILES))
+                {
+                    $imageName = array_shift($_FILES['Module']['name']);
+                    $tmpName = array_shift($_FILES['Module']['tmp_name']);
+                    if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
+                        throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
+
                 }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+            }
+
+            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create', array(
@@ -44,6 +51,8 @@ class ModuleController extends TeacherCabinetController
     public function actionDelete($id)
     {
         Module::model()->updateByPk($id, array('cancelled' => 1));
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     public function actionRestore($id)
@@ -51,7 +60,6 @@ class ModuleController extends TeacherCabinetController
         $model = Module::model()->findByPk($id);
         $model->cancelled = 0;
         $this->saveModel($model);
-
     }
 
     public function actionUpStatus($id)
@@ -97,7 +105,7 @@ class ModuleController extends TeacherCabinetController
                             $model->save();
 
                             if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                throw new CDbException(400, 'Avatar not SAVE');
+                                throw new CDbException(400, 'Avatar not save');
                         }
                     }
                 }
@@ -106,7 +114,7 @@ class ModuleController extends TeacherCabinetController
                 if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo)))
                     throw new CDbException(400, 'Avatar not SAVE');
             }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+            $this->redirect($this->pathToCabinet());
         }
         $this->renderPartial('update', array(
             'model' => $model

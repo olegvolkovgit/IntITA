@@ -388,14 +388,14 @@ class Course extends CActiveRecord implements IBillableObject
     public static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
-        $criteria->select = 'course_ID, title_ua';
+        $criteria->select = 'course_ID, title_ua, language';
         $criteria->distinct = true;
         $criteria->toArray();
 
         $result = '';
         $titles = Course::model()->findAll($criteria);
         for ($i = 0; $i < count($titles); $i++) {
-            $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'];
+            $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua']." (".$titles[$i]['language'].")";
         }
         return $result;
     }

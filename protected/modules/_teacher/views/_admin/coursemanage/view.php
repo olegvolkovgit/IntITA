@@ -20,6 +20,12 @@
                         array('id' => $model->course_ID)); ?>')">
                 Редагувати курс</button>
         </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
+                        array('idCourse' => $model->course_ID)); ?>')">
+                Згенерувати схему курса</button>
+        </li>
     </ul>
 
 
