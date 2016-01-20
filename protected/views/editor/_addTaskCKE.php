@@ -9,8 +9,7 @@
 <a name="taskForm"></a>
 <div id="addTask">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('task/addTask');?>" method="post" target="_blank">
-<!--    <form name="addTaskForm" action="--><?php //echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture)); ?><!--" method="post" target="_blank">-->
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('task/addTask');?>" method="post">
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
@@ -30,7 +29,7 @@
             <br>
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" required ng-model="addTask"></textarea>
         </fieldset>
-        <input type="submit" ng-disabled="addTaskForm.$invalid" value="Додати задачу та перейти до юніттестів" />
+        <input type="submit" ng-disabled="addTaskForm.$invalid" value="Додати задачу" />
     </form>
     <button onclick='cancelTask()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>

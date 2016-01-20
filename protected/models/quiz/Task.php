@@ -174,4 +174,14 @@ class Task extends Quiz
     public static function getTaskCondition($block){
         return strip_tags(LectureElement::model()->findByPk($block)->html_block);
     }
+	public static function editTaskLang($block,$lang){
+		$model = new Task();
+		if($modelId = Task::model()->findByAttributes(array('condition' =>$block))->id){
+			$model->updateByPk($modelId, array('language' => $lang));
+			return true;
+		}else{
+			return false;
+		}
+
+	}
 }

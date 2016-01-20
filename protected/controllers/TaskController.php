@@ -18,7 +18,7 @@ class TaskController extends Controller
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
         $arr['lecture'] = Yii::app()->request->getPost('lectureId', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
-        $arr['language'] = Yii::app()->request->getPost('language', 'C++');
+        $arr['language'] = Yii::app()->request->getPost('lang', 'c++');
         $arr['assignment'] = Yii::app()->request->getPost('assignment', 0);
         $arr['table'] = Yii::app()->request->getPost('table', '');
         $arr['taskType'] = Yii::app()->request->getPost('taskType', 'plain');
@@ -67,23 +67,14 @@ class TaskController extends Controller
     {
         $idBlock = Yii::app()->request->getPost('idTaskBlock', 0);
         $condition = Yii::app()->request->getPost('condition', '');
+        $lang = Yii::app()->request->getPost('lang', 'c++');
 
-        if(LectureElement::editTaskBlock($idBlock,$condition))
+        if(LectureElement::editTaskBlock($idBlock,$condition) && Task::editTaskLang($idBlock,$lang))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUnableTask()
     {
-        $pageId = Yii::app()->request->getPost('pageId', 0);
-
-        if ($pageId != 0) {
-            LecturePage::unableQuiz($pageId);
-        }
-    }
-    public function actionHello()
-    {
-//        $pageId = Yii::app()->request->getPost('test', 0);
-        var_dump($_POST);die;
         $pageId = Yii::app()->request->getPost('pageId', 0);
 
         if ($pageId != 0) {

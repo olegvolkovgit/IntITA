@@ -847,3 +847,6 @@ a.cke_dialog_ui_fileButton{
 #lecturePage legend {
     width: auto;
 }
+.editTaskButton button{
+    margin-top: 2px;
+}
