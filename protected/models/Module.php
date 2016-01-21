@@ -27,6 +27,7 @@
  *
  * The followings are the available model relations:
  * @property Course $course0
+ * @property Level $level0
  */
 class Module extends CActiveRecord implements IBillableObject
 {
@@ -54,8 +55,7 @@ class Module extends CActiveRecord implements IBillableObject
             array('language, title_ua, level', 'required'),
             array('alias,module_number','unique'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
-            module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
-            array('level', 'length', 'max' => 45),
+            module_number, cancelled, level', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('module_price', 'length', 'max' => 10),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
@@ -89,6 +89,7 @@ class Module extends CActiveRecord implements IBillableObject
             'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
             'lectures' => array(self::HAS_MANY, 'Lecture','idModule'),
             'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)'),
+            'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
 
@@ -244,6 +245,16 @@ class Module extends CActiveRecord implements IBillableObject
     public function getByAlias($alias)
     {
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
+    }
+
+    public function level(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $this->level0->$title;
+    }
+
+    public function rate(){
+        return $this->level0->id;
     }
 
     public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)

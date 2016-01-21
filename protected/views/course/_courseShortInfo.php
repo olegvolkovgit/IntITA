@@ -1,4 +1,6 @@
-<?php $lessonsCount = Course::getLessonsCount($model->course_ID);?>
+<?php
+/* @var $model Course*/
+$lessonsCount = Course::getLessonsCount($model->course_ID);?>
 <script>
     course = "<?php echo $model->course_ID;?>";
 </script>
@@ -10,7 +12,7 @@
             <td>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
-                    <?php echo $model->getTranslatedLevel(); ?>
+                    <?php echo $model->level(); ?>
                 </span>
             </td>
             <td class="courseLevel">
