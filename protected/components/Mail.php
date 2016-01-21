@@ -85,30 +85,6 @@ class Mail {
         return $lang;
     }
 
-    public static function sendPayModule($userId,$module)
-    {
-        $model= new Letters();
-
-        $moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$module->module_ID));
-
-        $model->addressee_id = $userId;
-        $model->sender_id = Yii::app()->user->id;
-        $linkForMail = $moduleLink.$module->title_ua;
-        $linkForLetter = "<a href =".$moduleLink.">". $module->title_ua . " </a>";
-        $model->text_letter = $model->setLetterText($module->title_ua,$linkForLetter);
-        $model->date = date("Y-m-d H:i:s");
-        $model->theme = "Оплата модуля";
-        if($model->validate()) {
-            $model->save();
-            $mailText = $model->setLetterText($module->title_ua,$linkForMail);
-            mail($model->addressee_id,$model->theme,$mailText);
-
-            return true;
-        }
-
-        return false;
-    }
-
     public static function sendPayLetter($user,$pay)
     {
         if($pay instanceof Course){
@@ -129,17 +105,23 @@ class Mail {
 
         $model= new Letters();
 
+        $moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$pay->module_ID));
+        $linkForLetter = "<a href =".$moduleLink.">". $title . " </a>";
+
         $model->addressee_id = $user;
         $model->sender_id = Yii::app()->user->id;
         $model->text_letter = "Вітаємо!"."<br>".
             "Тобі надано доступ до ".$access ." : " . $title . ".<br>" .
-            "Щоб розпочати навчання, перейди за посиланням: <a href =" . $link . ">". $title . " </a><br>
+            "Щоб розпочати навчання, перейди за посиланням: ".$linkForLetter."<br>
             ​З повагою, INTITA​";
         $model->date = date("Y-m-d H:i:s");
         $model->theme = $theme;
         if($model->validate()) {
             $model->save();
-
+            $addresse = StudentReg::model()->findByPk($user)->email;
+            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".$moduleLink.".
+            ​З повагою, INTITA​";
+            mail($addresse,$theme,$text);
             return true;
         }
 
