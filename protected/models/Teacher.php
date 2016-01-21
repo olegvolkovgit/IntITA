@@ -657,8 +657,6 @@ class Teacher extends CActiveRecord
         return count($this->notCheckedPlainTask());
     }
 
-
-
     public static function addTeacherAccess($teacher, $module){
         $model = new TeacherModule();
         if (!TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
