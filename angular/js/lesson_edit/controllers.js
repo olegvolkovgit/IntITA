@@ -63,7 +63,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         $scope.isReady = true;
     });
 
-    $scope.getBlockHtml = function (blockOrder, idLecture) {
+    $scope.getBlockHtml = function (blockOrder, idLecture, element) {
         $http({
             url: basePath + '/lesson/editBlock',
             method: "POST",
@@ -71,6 +71,11 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editRedactor = response.data;
+            var template = '<textarea data-ng-cloak class="openCKE" ' +
+                'id="openCKE' + blockOrder + '"' +
+                'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
+                '</textarea>';
+            ($compile(template)($scope)).insertAfter(element);
             return true;
         }, function errorCallback() {
             alert($scope.errorMsg);
