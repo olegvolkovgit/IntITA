@@ -8,7 +8,6 @@
  */
 class ModuleController extends TeacherCabinetController
 {
-
     public function actionIndex()
     {
         $model = new Module('search');
@@ -34,10 +33,12 @@ class ModuleController extends TeacherCabinetController
                 {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
+                    if($imageName&& $tmpName){
                     if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
                         throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
-
+                    }
                 }
+                $this->redirect($this->pathToCabinet());
             }
 
             $this->redirect($this->pathToCabinet());
@@ -123,7 +124,6 @@ class ModuleController extends TeacherCabinetController
 
     public function actionMandatory($id)
     {
-
         $courses = Course::generateModuleCoursesList($id);
 
         $this->renderPartial('mandatory', array(
@@ -141,7 +141,7 @@ class ModuleController extends TeacherCabinetController
         Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
             $idModule . ' and id_course=' . $idCourse)->query();
 
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+        $this->actionIndex();
     }
 
     public function actionGetModuleByCourse()
