@@ -27,6 +27,7 @@ $('.search-form form').submit(function(){
     'id'=>'translate-grid',
     'dataProvider'=>$model->search(),
     'summaryText'=>'',
+    'filter' => $model,
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
         'lastPageLabel'=>'&#187;&#187;',
