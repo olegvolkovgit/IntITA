@@ -1,6 +1,3 @@
-/**
- * Created by Wizlight on 14.01.2016.
- */
 function CheckFile(file)
 {
     var msg;
