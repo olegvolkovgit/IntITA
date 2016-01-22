@@ -31,7 +31,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/IntITA/_teacher/_admin/users/usersWithoutAccountants?query=%QUERY',
+            url: '/_teacher/_admin/users/usersWithoutAccountants?query=%QUERY',
             wildcard: '%QUERY'
         }
     });

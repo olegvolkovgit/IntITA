@@ -33,7 +33,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/IntITA/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
+            url: '/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
             wildcard: '%QUERY'
         }
     });
@@ -45,6 +45,7 @@
         display: 'value',
         source: users
     });
+    $('div.tt-menu.tt-open').css('background-color','#fff');
 
     function sendNewAdminData(url) {
         user = $("#typeahead").val();
@@ -66,7 +67,7 @@
                         "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
                 })
                 .always(function () {
-                    //location.href = window.location.pathname;
+                    location.href = window.location.pathname;
                 });
         }
     }
