@@ -1,6 +1,7 @@
 <?php
 /* @var $this CoursemanageController */
 /* @var $model Course */
+/* @var $data Course*/
 ?>
     <ul class="list-inline">
         <li>
@@ -63,7 +64,10 @@ $('.search-form form').submit(function(){
         'course_number',
         'language',
         'title_ua',
-        'level',
+        array(
+            'header' => Yii::t("coursemanage", "0520"),
+            'value' => '$data->level()'
+        ),
         'start',
         array(
             'class' => 'CButtonColumn',
