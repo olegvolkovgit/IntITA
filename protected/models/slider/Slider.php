@@ -19,6 +19,7 @@ abstract class Slider extends CActiveRecord {
 
     public static function sortOrder($model)
     {
+        $all = [];
         if($model instanceof  Carousel)
             $all = Carousel::model()->findAll();
 

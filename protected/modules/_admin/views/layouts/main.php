@@ -234,3 +234,5 @@ $header = new Header();
 </html>
 <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
 <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/oldAdmin.js'); ?>"></script>
+
