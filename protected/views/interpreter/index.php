@@ -15,13 +15,22 @@
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<input type="hidden" ng-init="etalon=<?php echo htmlspecialchars(json_encode($_POST["etalon"])) ?>" ng-model="etalon" />
-<input type="hidden" ng-init='lang=<?php echo htmlspecialchars(json_encode($_POST["lang"])); ?>' ng-model="lang" />
-<input type="hidden" ng-init='task=<?php echo time(); ?>' ng-model="task" />
+<input type="hidden" ng-init='lang="<?php echo Task::getTaskLang($_POST["idTaskBlock"]); ?>"' ng-model="lang" />
+<input type="hidden" ng-init='task="<?php echo $_POST["idTaskBlock"]; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
 <body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
     <form name="interpreterForm">
+        <div class="container-fluid">
+            <div class="row col header">
+                Header
+                <textarea class="form-control" name="header" id="header" placeholder="Header" rows="2" ng-model="finalResult.header" required></textarea>
+                Etalon
+                <textarea class="form-control" name="etalon" id="etalon" placeholder="Standard answer" rows="2" ng-model="finalResult.etalon" required></textarea>
+                Footer
+                <textarea class="form-control" name="taskFooter" id="taskFooter" rows="2" placeholder="Footer" required ng-model="finalResult.footer"></textarea>
+            </div>
+        </div>
         <h2 id="title">Params</h2>
         <div ng-repeat="form in args track by $index">
             <params-form/>

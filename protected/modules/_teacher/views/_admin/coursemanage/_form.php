@@ -20,7 +20,7 @@
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);
+                send(form,data,hasError);return true;
                 }',
         )
     )); ?>
@@ -161,14 +161,14 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'course_img'); ?>
-        <?php echo $form->fileField($model, 'course_img'); ?>
-        <?php echo $form->error($model, 'course_img'); ?>
+        <?php echo $form->fileField($model, 'course_img', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
 
     <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-                array('class' => 'btn btn-primary')); ?>
+                array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

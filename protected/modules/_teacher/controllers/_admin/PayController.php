@@ -25,7 +25,7 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
         $courseId = Yii::app()->request->getPost('course');
-        $userName = StudentReg::model()->getNameOrEmail();
+        $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
         $permission = new PayModules();
         $module = Module::model()->findByPk($moduleId);
@@ -51,7 +51,7 @@ class PayController extends TeacherCabinetController
 
         $courseId = Yii::app()->request->getPost('course');
         $userId = Yii::app()->request->getPost('user');
-        $userName = StudentReg::model()->getNameOrEmail();
+        $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
         $permission = new PayCourses();
         $course = Course::model()->findByPk($courseId);

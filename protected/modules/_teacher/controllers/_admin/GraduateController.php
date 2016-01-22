@@ -39,7 +39,7 @@ class GraduateController extends TeacherCabinetController {
                 } else {
                     $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/graduate/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create', array(
@@ -75,7 +75,7 @@ class GraduateController extends TeacherCabinetController {
                         $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                     }
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/graduate/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('update', array(
@@ -92,8 +92,9 @@ class GraduateController extends TeacherCabinetController {
     {
         $this->loadModel($id)->delete();
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//        $this->actionIndex();
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /**

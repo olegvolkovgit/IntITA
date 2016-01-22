@@ -1,7 +1,7 @@
 <?php
 
 class CourseController extends Controller
-{//http://localhost/IntIta/course/ua/php
+{
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -239,11 +239,15 @@ class CourseController extends Controller
         $lg = Yii::app()->session['lg'];
         $filename = StaticFilesHelper::pathToCourseSchema('schema_course_' . $id . '_' . $lg . '.html');
 
-        if (file_exists($filename)) {
+        if (!file_exists($filename)) {
+            $this->redirect(Config::getBaseUrl().'/_teacher/_admin/coursemanage/generateSchema/?id='.$id);
+        }
+
+        try {
             $path = Config::getBaseUrl() . '/' . $filename;
             $this->redirect($path);
-        } else
-            throw new CHttpException(404, Yii::t('course_schema', '0780'));
+        } catch (Exception $e) {
+            throw new \application\components\Exceptions\IntItaException(404, Yii::t('course_schema', '0780'));
+        }
     }
-
 }

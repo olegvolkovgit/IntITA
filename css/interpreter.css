@@ -38,6 +38,9 @@ hr {
 .col.result textarea{
     max-width: 860px;
 }
+.col.header textarea{
+    max-width: 100%;
+}
 .col.compare{
     border: 2px solid #4b75a4;
     border-top: none;
@@ -97,8 +100,7 @@ hr {
 .row {
     margin-right: 0;
 }
-
-input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus {
+textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-invalid:focus {
     box-shadow: 0 0 4px #c72929;
     border: 1px solid #c72929;
 }

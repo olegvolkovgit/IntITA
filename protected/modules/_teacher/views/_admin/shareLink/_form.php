@@ -18,10 +18,10 @@
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
+        'enableAjaxValidation' => false,
         'clientOptions' => array(
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);
+                send(form,data,hasError);return true;
                 }',
             'validateOnSubmit' => true,
             'validateOnChange' => false),

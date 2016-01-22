@@ -114,14 +114,4 @@ class m160111_172530_add_translations_781_784 extends CDbMigration
 		$this->delete('translate', 'id=784');
 		$this->delete('sourcemessages', 'id=784');
 	}
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

@@ -33,7 +33,7 @@ if($idCourse != 0) {
     $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
-        'emptyText' => 'Консультантів з питань цього модуля немає.',
+        'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
         'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
         'columns'=>array("one","two"),

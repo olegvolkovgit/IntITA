@@ -138,6 +138,7 @@ class ModuleController extends AdminController
     }
 
     public function actionAddMandatoryModule(){
+
         $idModule = Yii::app()->request->getPost('module', 0);
         $idCourse = Yii::app()->request->getPost('course', 0);
         $mandatory = Yii::app()->request->getPost('mandatory', 0);

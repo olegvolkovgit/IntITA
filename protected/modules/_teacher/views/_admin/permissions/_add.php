@@ -31,7 +31,7 @@
                 <legend id="label">Додати новий запис:</legend>
                 Користувач:<br>
                 <div class="form-group">
-                    <select name="user" class="form-control" placeholder="(Виберіть користувача)" autofocus required="true">
+                    <select name="user" class="form-control" placeholder="(Виберіть користувача)" autofocus required>
                         <?php foreach($users as $user)
                         {?>
                             <option value="<?php echo $user['id'];?>"><?php echo $user['alias'];?></option>
@@ -44,7 +44,7 @@
 
                 Курс:<br>
                 <div class="form-group">
-                    <select name="course" class="form-control" placeholder="(Виберіть курс)" required="true"
+                    <select name="course" class="form-control" placeholder="(Виберіть курс)" required
                             onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules');?>');">
                         <option value="">Всі курси</option>
                         <optgroup label="Виберіть курс">
@@ -52,7 +52,7 @@
                             foreach($courses as $course)
                             {
                                 ?>
-                                <option value="<?php echo $course['id'];?>"><?php echo $course['alias'];?></option>
+                                <option value="<?php echo $course['id'];?>"><?php echo $course['alias']." (".$course['language'].") ";?></option>
                             <?php
                             }
                             ?>
@@ -71,22 +71,22 @@
                     <legend>Права</legend>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="1"/>READ<br/>
+                            <input type="checkbox" name="permission[]" value="read"/>READ<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="2"/>EDIT<br/>
+                            <input type="checkbox" name="permission[]" value="edit"/>EDIT<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="3"/>CREATE<br/>
+                            <input type="checkbox" name="permission[]" value="create"/>CREATE<br/>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="permission[]" value="4"/>DELETE<br/>
+                            <input type="checkbox" name="permission[]" value="delete"/>DELETE<br/>
                         </label>
                     </div>
 
@@ -97,4 +97,4 @@
     </form>
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

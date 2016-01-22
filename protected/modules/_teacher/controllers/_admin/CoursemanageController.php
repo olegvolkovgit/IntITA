@@ -42,7 +42,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create',array(
@@ -78,7 +78,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('update',array(
@@ -94,6 +94,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         Course::model()->updateByPk($id, array('cancelled' => 1));
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+
         if(!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
@@ -202,7 +203,7 @@ class CoursemanageController extends TeacherCabinetController
                 'tableCells' => $tableCells,
                 'courseDuration' => $courseDurationInMonths,
                 'messages' => $messages,
-                'save' => true,
+                'save' => true
             ), true);
             $name = 'schema_course_'.$idCourse.'_'.$lg[$i].'.html';
             $file = StaticFilesHelper::pathToCourseSchema($name);
@@ -217,8 +218,31 @@ class CoursemanageController extends TeacherCabinetController
         $this->actionAdmin();
     }
 
-    /**
-     *
-     */
+    public function actionGenerateSchema($id){
+        $modules = Course::getCourseModulesSchema($id);
+        $tableCells = Course::getTableCells($modules, $id);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $lang = $_SESSION['lg'];
+        $lg = ['ua','ru','en'];
+        for($i = 0;$i < 3;$i++)
+        {
+            Yii::app()->session['lg'] = $lg[$i];
+            $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
+
+            $schema = $this->renderPartial('_schema', array(
+                'modules' => $modules,
+                'idCourse' => $id,
+                'tableCells' => $tableCells,
+                'courseDuration' => $courseDurationInMonths,
+                'messages' => $messages,
+                'save' => true
+            ), true);
+            $name = 'schema_course_'.$id.'_'.$lg[$i].'.html';
+            $file = StaticFilesHelper::pathToCourseSchema($name);
+            file_put_contents($file, $schema);
+        }
+        Yii::app()->session['lg'] = $lang;
+        $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
+    }
 
 }

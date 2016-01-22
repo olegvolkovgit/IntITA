@@ -131,15 +131,16 @@ class Task extends Quiz
     public function addTask($arr)
     {
         $model = new Task();
-        $model->condition = $arr['condition'];
+        $model->condition = $arr['lectureElementId'];
         $model->author = $arr['author'];
         $model->language = $arr['language'];
         $model->assignment = $arr['assignment'] ;
         $model->table = $arr['table'];
-
         if($model->save()){
-            LecturePage::addQuiz($arr['pageId'], $arr['condition']);
+            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
+			return true;
         }
+		else return false;
     }
 
     public static function getTaskId($idBlock)
@@ -173,4 +174,14 @@ class Task extends Quiz
     public static function getTaskCondition($block){
         return strip_tags(LectureElement::model()->findByPk($block)->html_block);
     }
+	public static function editTaskLang($block,$lang){
+		$model = new Task();
+		if($modelId = Task::model()->findByAttributes(array('condition' =>$block))->id){
+			$model->updateByPk($modelId, array('language' => $lang));
+			return true;
+		}else{
+			return false;
+		}
+
+	}
 }

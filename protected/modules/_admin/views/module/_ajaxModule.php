@@ -13,7 +13,10 @@ if(!empty($modules)){
         <?php foreach($modules as $module) { ?>
               <option value="<?php echo $module['module_ID'];?>"><?php echo $module['title_ua'];?></option>
             <?php  }  ?>
-        </select><?php
+        </select>
+        <div class="errorMessage"></div>
+<?php
 }
 ?>
+
 

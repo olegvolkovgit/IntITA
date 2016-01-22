@@ -22,7 +22,7 @@ angular
                         }).then(function successCallback(response){
                             $rootScope.pageData = response.data;
                             $rootScope.pageCount = response.data.length;
-                            if($rootScope.pageData[toParams.page-1].isDone==false){
+                            if(toParams.page>$rootScope.pageCount || $rootScope.pageData[toParams.page-1].isDone==false){
                                 event.preventDefault();
                                 $state.go('error');
                             }
@@ -31,7 +31,7 @@ angular
                         });
                     }
                     //перевіряємо чи доступна частина
-                    if($rootScope.pageData[toParams.page-1].isDone==false){
+                    if(toParams.page>$rootScope.pageCount || $rootScope.pageData[toParams.page-1].isDone==false){
                         event.preventDefault();
                     }else{
                         $rootScope.currentPage=toParams.page;
@@ -50,10 +50,11 @@ angular
 
 angular
     .module('lessonApp')
-    .config(['$locationProvider','$stateProvider', function($locationProvider,$stateProvider){
+    .config(['$locationProvider','$stateProvider','$urlRouterProvider', function($locationProvider,$stateProvider,$urlRouterProvider){
+        $urlRouterProvider.otherwise("/page1");
         $stateProvider
             .state('page', {
-                url: "/page:page",
+                url: "/page{page:int}",
                 views: {
                     "viewVideo": {
                         templateUrl: function (stateParams){
