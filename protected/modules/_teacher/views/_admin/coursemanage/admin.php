@@ -88,15 +88,15 @@ $('.search-form form').submit(function(){
                 'restore' => array
                 (
                     'click'=>"function(){
-                                    $.fn.yiiGridView.update('course-grid', {
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data){
-                                            $.fn.yiiGridView.update('course-grid');
-                                    }
-                                    })
-                                    return false;
-                              }
+                        $.fn.yiiGridView.update('course-grid', {
+                            type:'POST',
+                            url:$(this).attr('href'),
+                            success:function(data){
+                                $.fn.yiiGridView.update('course-grid');
+                        }
+                        })
+                        return false;
+                    }
                      ",
                     'label' => 'Відновити курс',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$data->primaryKey))',
