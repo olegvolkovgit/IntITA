@@ -64,6 +64,10 @@ $('.search-form form').submit(function(){
         'language',
         'title_ua',
         'level',
+        array(
+            'name' => 'cancelled',
+            'value' => '$data->cancelledTitle()',
+        ),
         'start',
         array(
             'class' => 'CButtonColumn',
@@ -88,7 +92,7 @@ $('.search-form form').submit(function(){
                                         type:'POST',
                                         url:$(this).attr('href'),
                                         success:function(data){
-                                                        fillContainer(data);
+                                            $.fn.yiiGridView.update('course-grid');
                                     }
                                     })
                                     return false;
@@ -97,9 +101,6 @@ $('.search-form form').submit(function(){
                     'label' => 'Відновити курс',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$data->primaryKey))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
-//                    'options' => array(
-//                        'class' => 'controlButtons;',
-//                    )
                 ),
                 'view' => array
                 (
