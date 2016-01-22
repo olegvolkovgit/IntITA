@@ -119,7 +119,7 @@ class Mail {
         if($model->validate()) {
             $model->save();
             $addresse = StudentReg::model()->findByPk($user)->email;
-            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".$moduleLink.".
+            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".Config::getBaseUrl().$moduleLink.".
             ​З повагою, INTITA​";
             mail($addresse,$theme,$text);
             return true;
