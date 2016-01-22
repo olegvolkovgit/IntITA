@@ -182,4 +182,9 @@ class Mail {
 
         else return false;
     }
+
+    public static function getErrorText()
+    {
+       return '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
+    }
 }
