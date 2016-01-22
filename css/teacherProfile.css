@@ -209,6 +209,14 @@ img.lessonBut  {
     color: #4B75A4;
     text-decoration: underline;
 }
+#errorMessage{
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
+#imgButton[disabled]{
+    background: #666666;
+}
 .avatarUpdateForm a:hover{
     color: #264b73;
 }

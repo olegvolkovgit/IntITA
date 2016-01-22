@@ -10,18 +10,16 @@ $order = $model->modulesCount(); ?>
     <input name="idCourse" value="<?php echo $model->course_ID; ?>" type="hidden">
     <input name="order" value="<?php echo $order + 1 ?>" type="hidden">
     <input name="lang" value="<?php echo $model->language; ?>" type="hidden">
-    <span>Назва (UA)*</span>
-    <input type="text" name="titleUA" id="titleUA" required ng-model="titleUa"
+    <div>Назва (UA)*</div>
+    <input class="form-control" type="text" name="titleUA" id="titleUA" required ng-model="titleUa"
            pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
            oninvalid="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')"
            oninput="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')">
-    <br>
-    <span>Назва (RU)</span>
-    <input type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255"
+    <div>Назва (RU)</div>
+    <input class="form-control" type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255"
            size="60" oninput="validateComments(this,'<?php echo Yii::t('validation', '0685'); ?>')">
-    <br>
-    <span>Назва (EN)</span>
-    <input type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
+    <div>Назва (EN)</div>
+    <input class="form-control" type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
            oninput="validateComments(this,'<?php echo Yii::t('validation', '0685'); ?>')">
     <br>
     <input type="submit" value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()" ng-disabled=addModule.$invalid>
