@@ -14,12 +14,7 @@ angular
                         return;
                     }
                     var orderBlock = element.attr('id').substring(1);
-                    scope.getBlockHtml(orderBlock, idLecture);
-                    var template = '<textarea data-ng-cloak class="openCKE" ' +
-                        'id="openCKE' + orderBlock + '"' +
-                        'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
-                        '</textarea>';
-                    ($compile(template)(scope)).insertAfter(element);
+                    scope.getBlockHtml(orderBlock, idLecture, element);
                     element.hide();
                 });
             }

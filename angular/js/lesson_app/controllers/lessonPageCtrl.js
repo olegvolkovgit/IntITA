@@ -7,11 +7,6 @@ angular
 
 function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
     $scope.currentLocation = window.location.pathname;
-    $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error) {
-            console.log('Err'+error); // not authorized
-        }
-    );
     $scope.nextPage=function(){
         if($rootScope.currentPage>=$rootScope.pageCount){
             return $rootScope.currentPage;

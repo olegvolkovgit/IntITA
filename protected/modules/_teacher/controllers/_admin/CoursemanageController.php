@@ -42,7 +42,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->actionView($model->course_ID);
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create',array(
