@@ -54,6 +54,7 @@ class SiteController extends Controller
     {
         $error = Yii::app()->errorHandler->error;
 
+        $breadcrumbs = Yii::t('breadcrumbs', '0784');
         if (isset(Yii::app()->errorHandler->error["errorCode"])) {
             switch (Yii::app()->errorHandler->error["errorCode"]) {
                 case '400':
@@ -74,16 +75,15 @@ class SiteController extends Controller
                 default:
                     $breadcrumbs = Yii::t('breadcrumbs', '0784');
             }
-
-            if (Yii::app()->request->isAjaxRequest)
-                echo $error['message'];
-            else {
-                $breadcrumbsArr = array(
-                    'breadMsg' => $breadcrumbs
-                );
-                $error = array_merge($error, $breadcrumbsArr);
-                $this->render('error', $error);
-            }
+        }
+        if (Yii::app()->request->isAjaxRequest)
+            echo $error['message'];
+        else {
+            $breadcrumbsArr = array(
+                'breadMsg' => $breadcrumbs
+            );
+            $error = array_merge($error, $breadcrumbsArr);
+            $this->render('error', $error);
         }
     }
 

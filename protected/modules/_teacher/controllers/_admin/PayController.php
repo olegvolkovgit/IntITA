@@ -22,52 +22,62 @@ class PayController extends TeacherCabinetController
 
     public function actionPayModule(){
 
+        $resultText = '';
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
         $courseId = Yii::app()->request->getPost('course');
         $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
-
-        $permission = new PayModules();
         $module = Module::model()->findByPk($moduleId);
-        $name = Module::getModuleTitleParam($module->module_ID);
+
+        $exist = PayModules::model()->findByAttributes(array('id_user' => $userId,'id_module' => $moduleId));
+        if(!empty($exist))
+        {
+            $resultText = PayModules::getExistPayModuleText($userName);
+
+        }else{
+        $permission = new PayModules();
         $permission->setModuleRead($userId, $module->module_ID);
 
-
         if(Mail::sendPayLetter($userId,$module)){
-
-            $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-                $module->$name.'</strong> курса <strong>'.
-
-                Course::getCourseName($courseId).'</strong> оплачено.
-            <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
-
-            echo $result;
+            $resultText = PayModules::getConfirmText($module->title_ua,$courseId,$userName);
         }
-
+        else{
+            $resultText = Mail::getErrorText();
+        }
+        }
+        echo $resultText;
     }
 
 
     public function actionPayCourse(){
 
+        $resultText = '';
         $courseId = Yii::app()->request->getPost('course');
         $userId = Yii::app()->request->getPost('user');
         $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
+        $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
+        if(!empty($payCourse))
+        {
+            $resultText = 'У '.$userName.' вже <strong>Є</strong> доступ до цього курсу';
+
+        }
+        else{
         $permission = new PayCourses();
         $course = Course::model()->findByPk($courseId);
         $permission->setCourseRead($userId, $course->course_ID);
 
         if(Mail::sendPayLetter($userId,$course)){
-            $result = '<br /><h4>Вітаємо!</h4> Курс '.
-                Course::getCourseName($course->course_ID).'</strong> оплачено.
-            <br />Тепер у '.$userName.' є доступ до усіх занять цього курсу.';
+            $resultText = PayCourses::getConfirmText($courseId,$userName);
+
         }
         else{
-            $result = '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
+            $resultText = Mail::getErrorText();
         }
+        }
+        echo $resultText;
 
-        echo $result;
-        }
+    }
 
     public function actionCancelCourseModule()
     {
@@ -84,28 +94,23 @@ class PayController extends TeacherCabinetController
     public function actionCancelModule()
     {
         if(isset($_POST['user']) && isset($_POST['module'])){
+        $resultText = '';
         $userId = Yii::app()->request->getPost('user');
         $courseId = Yii::app()->request->getPost('course');
         $moduleId = Yii::app()->request->getPost('module');
         $moduleName = Module::model()->findByPk($moduleId)->title_ua;
-        $userName = StudentReg::model()->getNameOrEmail();
+        $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
-            $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId,'id_module' => $moduleId));
+        $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId,'id_module' => $moduleId));
         if($payModule){
-            $result = '<br />Модуль <strong>'.
-                $moduleName.'</strong> курса <strong>'.
-                Course::getCourseName($courseId).'</strong> скасовано.
-            <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього модуля.';
-
-        $payModule->delete();
+            $resultText = PayModules::getCancelText($moduleName,$courseId,$userName);
+            $payModule->delete();
         }
         else{
-
-            $result = '<br /> В користувача'. $userName. '<strong> в модулі '.
-                $moduleName.'</strong> не було доступу до цього модуля <strong>';
+            $resultText = PayModules::getCancelErrorText($userName,$moduleName);
 
             }
-            echo $result;
+            echo $resultText;
         }
 
     }
@@ -113,24 +118,22 @@ class PayController extends TeacherCabinetController
     public function actionCancelCourse()
     {
         if(isset($_POST['user']) && isset($_POST['course'])){
-        $userId = Yii::app()->request->getPost('user');
-        $courseId = Yii::app()->request->getPost('course');
-        $userName = StudentReg::model()->getNameOrEmail();
+            $resultText = '';
+            $userId = Yii::app()->request->getPost('user');
+            $courseId = Yii::app()->request->getPost('course');
+            $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
-        $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
+            $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
-            if($payCourse){
-                $result = '<strong> Доступ до курсу '.
-                    Course::getCourseName($courseId).'</strong> скасовано.
-                    <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього курсу.';
+                if($payCourse){
+                    $resultText = PayCourses::getCancelText($courseId,$userName);
 
-                $payCourse->delete();
-            }
-            else{
-                $result = '<br /> В користувача'. $userName. '<strong> не було доступу до курсу  '.
-                    Course::getCourseName($courseId).'</strong>';
-            }
-            echo $result;
+                    $payCourse->delete();
+                }
+                else{
+                    $resultText = PayCourses::getCancelErrorText($userName,$courseId);
+                }
+                echo $resultText;
         }
     }
 

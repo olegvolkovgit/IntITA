@@ -340,9 +340,10 @@ function showDialog(str)
 
 function showConfirm(str,url)
 {
-    var grid = getGridName();
     bootbox.confirm(str, function(result){
         if(result){
+            var grid = getGridName();
+                       
             $.ajax({
                 url: url,
                 type : 'post',

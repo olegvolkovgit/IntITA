@@ -107,30 +107,6 @@ class Letters extends CActiveRecord
 		return parent::model($className);
 	}
 
-    protected function afterSave()
-    {
-        if(StudentReg::model()->findByPk($this->addressee_id)){
-        $addresse = StudentReg::model()->findByPk($this->addressee_id)->email;
-
-        $link = Yii::app()->createUrl('/studentreg/profile', array('idUser' => $this->addressee_id));
-
-        $from = Yii::app()->user->name;
-
-        $theme = "У Вас нове повідомлення на INTITA";
-
-        $text = 'У Вас нове повідомлення на INTITA<br>'
-            .'Від користувача '. $from . '<br>
-            Ви зможете його переглянути <a href ='.$link.'>тут</a>';
-
-        mail($addresse,$theme,$text);
-
-        parent::afterSave();
-
-        }
-
-    }
-
-
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
 
@@ -153,13 +129,5 @@ class Letters extends CActiveRecord
         if($model->validate()) {
             $model->save();
         }
-    }
-
-    public function setLetterText($title,$link)
-    {
-       return "Вітаємо!"."<br>".
-        "Тобі надано доступ до  модуля : " .$title.".".
-        "Щоб розпочати навчання, перейди за посиланням: ".$link."
-            ​З повагою,INTITA​";
     }
 }

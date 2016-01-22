@@ -9,7 +9,6 @@ class m151215_123133_import_data_from_user_to_user_admin_and_accountant extends 
         $accountantSql = "SELECT `id` FROM user WHERE `user`.`role` = 2";
         $accountantArray = $this->getDBConnection()->createCommand($accountantSql)->query();
 
-
         foreach($adminArray as $row){
             $this->insert('user_admin', array('id_user' => $row['id']));
          }
