@@ -112,4 +112,12 @@ class Level extends CActiveRecord
         }
         return $result;
     }
+
+	public function edit($titleUa, $titleRu, $titleEn){
+        $this->title_ua = $titleUa;
+        $this->title_ru = $titleRu;
+        $this->title_en = $titleEn;
+
+        return $this->save();
+    }
 }
