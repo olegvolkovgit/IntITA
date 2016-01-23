@@ -26,6 +26,9 @@
  * @property string $first_name_en
  * @property string $middle_name_en
  * @property string $last_name_en
+ * @property string $first_name_ru
+ * @property string $middle_name_ru
+ * @property string $last_name_ru
  *
  */
 class Teacher extends CActiveRecord
@@ -49,10 +52,12 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('first_name, middle_name, last_name, user_id', 'required', 'message' => 'Поле не може бути пустим'),
+            array('first_name, middle_name, last_name,first_name_en, middle_name_en, last_name_en,first_name_ru,
+             middle_name_ru,last_name_ru, user_id','required', 'message' => 'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
             array('first_name, middle_name, last_name', 'length', 'max' => 35),
             array('first_name_en, middle_name_en, last_name_en','match', 'pattern'=>'/^([a-zA-Z0-9_])+$/', 'message' => 'Недопустимі символи!'),
+            array('first_name_ru, middle_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
             array('first_name, middle_name, last_name', 'match', 'pattern' => '/^[а-яіїёА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => 'Недопустимі символи!'),
             array('tel', 'match', 'pattern' => '/^[0-9]+$/u', 'message' => 'Недопустимі символи!', 'except' => 'imageUpload',),
             array('tel', 'length', 'max' => 13, 'message' => 'Недопустимі символи!', 'except' => 'imageUpload'),
@@ -65,7 +70,8 @@ class Teacher extends CActiveRecord
             // The following rule is used by search().
             array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first,
             profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency,
-            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en', 'safe', 'on' => 'search'),
+            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru, last_name_ru',
+                'safe', 'on' => 'search'),
         );
     }
 
@@ -112,6 +118,9 @@ class Teacher extends CActiveRecord
             'first_name_en' => 'Ім&#8217;я (англійською)',
             'middle_name_en' => 'По батькові (англійською)',
             'last_name_en' => 'Прізвище (англійською)',
+            'first_name_ru' => 'Ім&#8217;я (російською)',
+            'middle_name_ru' => 'По батькові (російською)',
+            'last_name_ru' => 'Прізвище (російською)',
         );
     }
 
@@ -151,6 +160,9 @@ class Teacher extends CActiveRecord
         $criteria->compare('first_name_en', $this->first_name_en, true);
         $criteria->compare('middle_name_en', $this->middle_name_en, true);
         $criteria->compare('last_name_en', $this->last_name_en, true);
+        $criteria->compare('first_name_ru', $this->first_name_ru, true);
+        $criteria->compare('middle_name_ru', $this->middle_name_ru, true);
+        $criteria->compare('last_name_ru', $this->last_name_ru, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
