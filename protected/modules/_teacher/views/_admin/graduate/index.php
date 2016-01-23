@@ -31,7 +31,7 @@
         'work_place',
         array(
             'header' => 'Відгук',
-            'value' => '$data->recall',
+            'value' => '$data->showRecall()',
             'htmlOptions' => array('class' => 'recall'),
         ),
         array(

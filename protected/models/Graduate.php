@@ -37,10 +37,11 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en', 'required', 'message'=>"Поле обов'язкове для заповнення"),
+            array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en,first_name_ru,last_name_ru', 'required', 'message'=>"Поле обов'язкове для заповнення"),
 			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('graduate','0748')),
-			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
+            array('first_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
+            array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
 			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>Yii::t('graduate','0749')),
 			array('graduate_date, recall', 'safe'),
@@ -165,5 +166,10 @@ class Graduate extends CActiveRecord
             }
         }
         return $this->last_name."&nbsp;".$this->first_name;
+    }
+
+    public function showRecall()
+    {
+        echo substr($this->recall,0,500);
     }
 }

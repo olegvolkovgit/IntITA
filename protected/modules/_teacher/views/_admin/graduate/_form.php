@@ -109,6 +109,18 @@
     </div>
 
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'first_name_ru'); ?>
+        <?php echo $form->textField($model, 'first_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'first_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'last_name_ru'); ?>
+        <?php echo $form->textField($model, 'last_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'last_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
