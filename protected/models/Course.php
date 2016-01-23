@@ -726,4 +726,11 @@ class Course extends CActiveRecord implements IBillableObject
             )
         )->mandatory_modules;
     }
+
+    public function cancelledTitle()
+    {
+        if ($this->cancelled == 0) return 'доступний';
+        if ($this->cancelled == 1) return 'видалений';
+        else return false;
+    }
 }
