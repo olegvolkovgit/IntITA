@@ -54,11 +54,19 @@
 	<br />
 
     <b><?php echo CHtml::encode($data->getAttributeLabel('first_name_en')); ?>:</b>
-    <?php echo CHtml::encode($data->rate); ?>
+    <?php echo CHtml::encode($data->first_name_en); ?>
     <br />
 
     <b><?php echo CHtml::encode($data->getAttributeLabel('last_name_en')); ?>:</b>
-    <?php echo CHtml::encode($data->recall); ?>
+    <?php echo CHtml::encode($data->last_name_en); ?>
     <br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('first_name_ru')); ?>:</b>
+	<?php echo CHtml::encode($data->first_name_ru); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('last_name_ru')); ?>:</b>
+	<?php echo CHtml::encode($data->last_name_ru); ?>
+	<br />
 
 </div>

@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @var $data Teacher
  */
 ?>
 <div class="teacherBlock">
