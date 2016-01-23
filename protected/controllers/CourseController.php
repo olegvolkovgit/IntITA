@@ -240,7 +240,29 @@ class CourseController extends Controller
         $filename = StaticFilesHelper::pathToCourseSchema('schema_course_' . $id . '_' . $lg . '.html');
 
         if (!file_exists($filename)) {
-            $this->redirect(Config::getBaseUrl().'/_teacher/_admin/coursemanage/generateSchema/?id='.$id);
+            $modules = Course::getCourseModulesSchema($id);
+            $tableCells = Course::getTableCells($modules, $id);
+            $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+            $lang = $_SESSION['lg'];
+            $lg = ['ua','ru','en'];
+            for($i = 0;$i < 3;$i++)
+            {
+                Yii::app()->session['lg'] = $lg[$i];
+                $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
+
+                $schema = $this->renderPartial('_schema', array(
+                    'modules' => $modules,
+                    'idCourse' => $id,
+                    'tableCells' => $tableCells,
+                    'courseDuration' => $courseDurationInMonths,
+                    'messages' => $messages,
+                    'save' => true
+                ), true);
+                $name = 'schema_course_'.$id.'_'.$lg[$i].'.html';
+                $file = StaticFilesHelper::pathToCourseSchema($name);
+                file_put_contents($file, $schema);
+            }
+            Yii::app()->session['lg'] = $lang;
         }
 
         try {
