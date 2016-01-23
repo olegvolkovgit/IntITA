@@ -210,7 +210,7 @@ img {
 /*----Edit toolbar----*/
 .editToolbar {
     position: absolute;
-    margin-top: -20px;
+    margin-top: -25px;
     float: left;
 }
 
@@ -416,10 +416,6 @@ div.spotDone:hover {
     background: #003366;
 }
 
-.labelBlock {
-    /*border-bottom: 1px solid #335379;*/
-}
-
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -456,9 +452,6 @@ div.lastAccessPage {
     padding-right: 0;
 }
 
-/*.labelBlock{*/
-/*border-bottom: 1px solid #335379;*/
-/*}*/
 #tooltip {
     /*border-bottom: 1px solid #335379;*/
     display: none;
@@ -488,6 +481,7 @@ div.lastAccessPage {
     vertical-align: bottom;
     line-height: 1;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 #labelBlock p, #tooltip p {
@@ -495,6 +489,9 @@ div.lastAccessPage {
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
+}
+h4.labelBlock a{
+    white-space: normal;
 }
 
 h1.lessonPartEdit p img {
@@ -645,7 +642,7 @@ a.lectureDisabled{
     font-size: 16px;
     margin-left: 15px;
 }
-#skypeAssistance{
+.skypeAssistance{
     display: inline-block;
     width: 155px;
     height: 50px;
@@ -676,14 +673,25 @@ a.lectureDisabled{
     line-height: 16px;
     width: 70px;
 }
+.mibewText{
+    display: inline-block;
+    color:#fff;
+    margin-left: 20px;
+    margin-top: 9px;
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 16px;
+    width: 70px;
+}
 #consultationAssistance .consultationText{
     margin-left: 10px;
 }
-.consultationButtons{
+.consultationButtons,#mibew-agent-button{
     opacity: 1;
     float: left;
 }
-.consultationButtons:hover{
+.consultationButtons:hover,#mibew-agent-button:hover{
     opacity: 0.7;
 }
 #thisLecture{
@@ -824,4 +832,21 @@ a.cke_dialog_ui_fileButton{
 .emptyField{
     box-shadow: 0 0 4px #c72929;
     border: 2px solid #c72929;
+}
+#flashMsg{
+    display: none;
+    position: absolute;
+    color: #c72929;
+}
+#flashMsg.emptyFlash{
+    display: block;
+}
+#flashMsg.emptyFlash.hideFlash{
+    display: none;
+}
+#lecturePage legend {
+    width: auto;
+}
+.editTaskButton button{
+    margin-top: 2px;
 }

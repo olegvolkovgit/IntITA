@@ -5,24 +5,14 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>',
+                    'Додати випускника')">
             Додати випускника
         </button>
     </li>
 </ul>
 <?php
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#graduate-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
+
 ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'graduate-grid',
@@ -35,6 +25,7 @@ $('.search-form form').submit(function(){
             'header' => 'Аватар',
             'value' => 'StaticFilesHelper::createPath("image", "graduates", $data->avatar)',
             'type' => 'image',
+            'htmlOptions'=>array('class' => 'imageClass'),
         ),
         'position',
         'work_place',
@@ -47,6 +38,16 @@ $('.search-form form').submit(function(){
             'class' => 'CButtonColumn',
             'headerHtmlOptions' => array('style' => 'width:80px'),
             'buttons' => array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити випускника?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/graduate/delete", array("id"=>$data->id))',
+                ),
                 'view' => array
                 (
                     'click' => "function(){

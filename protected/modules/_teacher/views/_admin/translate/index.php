@@ -16,7 +16,8 @@ $('.search-form form').submit(function(){
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>" />
 
-<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create');?>')">
+<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create');?>',
+    'Додати повідомлення')">
     Додати повідомлення
 </button>
 <br>
@@ -26,6 +27,7 @@ $('.search-form form').submit(function(){
     'id'=>'translate-grid',
     'dataProvider'=>$model->search(),
     'summaryText'=>'',
+    'filter' => $model,
     'pager' => array(
         'firstPageLabel'=>'&#171;&#171;',
         'lastPageLabel'=>'&#187;&#187;',
@@ -46,40 +48,39 @@ $('.search-form form').submit(function(){
             'header' => 'Коментар',
             'value' => 'MessageComment::getMessageCommentById($data->id)',
         ),
-//        array(
-//            'class'=>'CButtonColumn',
-//            'template'=>'{view}{update}',
-//            'buttons' => array(
-//                'view' => array(
-//                    'label' => 'Переглянути',
-//                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$data->primaryKey))',
-//                    'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'restore.png'),
-//                    'options' => array(
-//                        'class' => 'controlButtons;',
-//                        'ajax'=>array(
-//                            'type'=>'get',
-//                            'url'=>'js:$(this).attr("href")',
-//                            'success'=>'js:function(data) {
-//                                fillContainer(data);
-//                            }'
-//                        )
-//                    )
-//                ),
-//                'update' => array(
-//                    'label' => 'Редагувати',
-//                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$data->primaryKey))',
-//                    'options' => array(
-//                        'class' => 'controlButtons;',
-//                        'ajax'=>array(
-//                            'type'=>'get',
-//                            'url'=>'js:$(this).attr("href")',
-//                            'success'=>'js:function(data) {
-//                                fillContainer(data);
-//                            }'
-//                        )
-//                    )
-//                ),
-//            ),
-//        ),
+        array(
+            'class'=>'CButtonColumn',
+            'template'=>'{view}{update}',
+            'buttons' => array(
+                'view' => array(
+                    'label' => 'Переглянути',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$data->primaryKey))',
+                    'options' => array(
+                        'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(data) {
+                                fillContainer(data);
+                            }'
+                        )
+                    )
+                ),
+                'update' => array(
+                    'label' => 'Редагувати',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$data->primaryKey))',
+                    'options' => array(
+                        'class' => 'controlButtons;',
+                        'ajax'=>array(
+                            'type'=>'get',
+                            'url'=>'js:$(this).attr("href")',
+                            'success'=>'js:function(data) {
+                                fillContainer(data);
+                            }'
+                        )
+                    )
+                ),
+            ),
+        ),
     ),
 )); ?>

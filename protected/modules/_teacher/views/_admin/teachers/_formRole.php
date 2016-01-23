@@ -21,7 +21,12 @@
         // See class documentation of CActiveForm for details on this.
         'enableClientValidation'=>true,
         'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions' => array(
+            'afterValidate' => 'js:function(form,data,hasError){
+                send(form,data,hasError);return true;
+                }',
+            'validateOnSubmit' => true,
+            'validateOnChange' => false),
     )); ?>
 
      <div class="form-group">

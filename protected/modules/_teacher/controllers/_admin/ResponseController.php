@@ -10,7 +10,7 @@ class ResponseController extends TeacherCabinetController{
 
     public function actionView($id)
     {
-        $model = Response::model()->findByPk($id)->with('user')->find();
+        $model = Response::model()->findByPk($id);
         $this->renderPartial('view',array(
             'model'=>$model,
         ),false,true);
@@ -32,7 +32,7 @@ class ResponseController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['Response'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
         }
 
         $this->renderPartial('update',array(
@@ -52,7 +52,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
     public function actionUnsetPublish($id)
@@ -121,7 +121,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
 
@@ -131,8 +131,9 @@ class ResponseController extends TeacherCabinetController{
             'is_checked' => $_POST['Response']['is_checked']
         ));
 
-        $this->redirect($this->pathToCabinet());
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
+
 
 
 }

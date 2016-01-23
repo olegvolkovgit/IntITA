@@ -21,6 +21,7 @@
                        array('user' => $model->id)); ?>", "dashboard"),'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
+
             <?php
             if ($model->isAdmin()) {
                 ?>

@@ -25,9 +25,14 @@ $list = CHtml::listData($models,
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'afterValidate' => 'js:function(form,data,hasError){
+                send(form,data,hasError);return true;
+                }',
+        )
     )); ?>
 
     <div class="form-group">
@@ -53,8 +58,8 @@ $list = CHtml::listData($models,
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'foto_url'); ?>
-        <?php echo $form->fileField($model, 'foto_url'); ?>
-        <?php echo $form->error($model, 'foto_url'); ?>
+        <?php echo $form->fileField($model, 'foto_url', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
@@ -139,7 +144,7 @@ $list = CHtml::listData($models,
     <?php } ?>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

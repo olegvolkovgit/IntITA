@@ -1,9 +1,10 @@
 <?php
 /**
  * @var $form CActiveForm
+ * @var $pageId integer
+ * @var $lecture integer
  */
 ?>
-
 <div id="addPlainTask">
     <br>
     <form  name="plainTask" method="post" action="<?php echo Yii::app()->createUrl('plainTask/addTask');?>">
@@ -16,7 +17,7 @@
             <input name="testType" id="testType" type="hidden" value="plain"/>
             <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
-            <input type="submit" value="Додати завдання" id='addtests' ng-disabled=plainTask.block_element.$error.required>
+            <input type="submit" value="<?=Yii::t('editor', '0787');?>" id='addtests' ng-disabled=plainTask.block_element.$error.required>
         </fieldset>
     </form>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>

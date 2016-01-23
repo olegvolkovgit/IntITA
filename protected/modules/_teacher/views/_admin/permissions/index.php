@@ -60,20 +60,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
                 'delete' => array
                 (
-                    'label' => 'Delete',
-                    'url' => 'Yii::app()->createUrl("/_admin/permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'click' => "function(){
-                        $.fn.yiiGridView.update('access_grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                        $.fn.yiiGridView.update('access_grid');
-                        }
-                        })
-                        return false;
-                    }
-                    ",
+                                    showConfirm('Ви дійсно хочете видалити права доступу?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+
                 ),
             ),
         ),

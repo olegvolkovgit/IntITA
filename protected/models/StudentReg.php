@@ -966,12 +966,12 @@ class StudentReg extends CActiveRecord
 
     public static function userLetterReceivers(){
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
     }
 
     public static function receivers(){
         return StudentReg::model()->findAll(
-            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId(), 'order' => 'id'));
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
     }
 
     public function receivedMessages(){
@@ -1032,5 +1032,19 @@ class StudentReg extends CActiveRecord
             $name = $this->email;
 
         return $name;
+    }
+
+    /**
+     * @param $current integer - id current user (is not included into receivers list)
+     * @return string - json for typeahead field in new user message form
+     */
+    public static function usersEmailArray($current){
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
+            ->queryAll();
+        $result = [];
+        foreach ($data as $row){
+            $result[] = implode(" ", $row);
+        }
+        return json_encode($result);
     }
 }

@@ -1,60 +1,60 @@
-$(function(){
-    // Bind an event to window.onhashchange that, when the hash changes, gets the
-    // hash and adds the class "selected" to any matching nav link.
-    $(window).on('hashchange', function(){
-        var hash = location.hash;
-        // Iterate over all nav links, setting the "selected" class as-appropriate.
-        $('.nav a').each(function(){
-            var that = $(this);
-            that[ that.attr( 'href' ) === hash ? 'addClass' : 'removeClass' ]( 'selected' );
-        });
-    }).trigger('hashchange');
-
-    if (window.location.hash) {
-        $(window).trigger('hashchange')
-    }
-});
-
-function loadPage(url,role) {
-    var userRole = role.toLowerCase();
-    $.ajax({
-        url: url,
-        success: function (data) {
-            container = $('#pageContainer');
-            container.html(data);
-        },
-        error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
-            location.reload();
-        }
-    });
-}
-
-function load(url, hashTag){
+function load(url, header,histories) {
     clearDashboard();
+    if(histories == undefined)
+    {
+       history.pushState({url : url,header:header},"");
+    }
     $.ajax({
         url: url,
         async: true,
         success: function (data) {
             container = $('#pageContainer');
-
             container.html('');
             container.html(data);
-            alert(location.hash);
+            if (header) {
+                $("#pageTitle").html(header);
+            } else {
+                $("#pageTitle").html('Особистий кабінет');
+            }
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-            "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
-           // location.reload();
+            showDialog();
         }
     });
 }
 
-function clearDashboard()
+function reloadPage(event)
 {
-    if(document.getElementById("dashboard"))
-    document.getElementById("dashboard").style.display = "none";
+    if(event.state)
+    {
+        var path = history.state.url;
+        var header = history.state.header;
+        load(path,header,true);
+    }
+}
+
+function setTeacherRole(url)
+{
+    var role = $("select[name=role] option:selected").val();
+    var teacher = $("#teacher").val();
+    $.ajax({
+        url: url,
+        type : 'post',
+        async: true,
+        data: {role: role, teacher: teacher},
+        success: function (data) {
+            fillContainer(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+
+
+function clearDashboard() {
+    if (document.getElementById("dashboard"))
+        document.getElementById("dashboard").style.display = "none";
 }
 
 function send(url){

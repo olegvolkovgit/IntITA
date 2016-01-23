@@ -5,13 +5,16 @@ angular
     .module('lessonApp')
     .controller('plainTaskCtrl',plainTaskCtrl);
 
-function plainTaskCtrl($rootScope,$http, $scope, accessLectureService) {
+function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsService) {
     $scope.sendPlainTaskAnswer=function(idLecture)
     {
+        var button=angular.element(document.querySelector(".taskSubmit"));
+        button.attr('disabled', true);
         var answer = $('[name=answer]').val();
         if(answer.trim() == '')
         {
-            alert('Спочатку дайте відповідь');
+            angular.element(document.querySelector("#flashMsg")).addClass('emptyFlash');
+            button.removeAttr('disabled');
         }
         else
         {
@@ -22,7 +25,8 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService) {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
             }).then(function(){
-                alert('Ваша відповідь буде оброблена в найближчий час');
+                openDialogsService.openInformDialog();
+                button.removeAttr('disabled');
             });
         }
 

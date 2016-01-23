@@ -13,12 +13,14 @@
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                        ' Додати викладача')">
                 Додати викладача</button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>',
+                        'Управління ролями викладачів')">
                 Управління ролями викладачів</button>
         </li>
     </ul>
@@ -49,6 +51,16 @@ $this->widget('application.components.MyGridView', array(
             'class' => 'CButtonColumn',
             'headerHtmlOptions' => array('style' => 'width:80px'),
             'buttons'=>array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити вчителя?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array("id"=>$data->primaryKey))',
+                ),
                 'view' => array
                 (
                     'click'=>"function(){
@@ -81,25 +93,8 @@ $this->widget('application.components.MyGridView', array(
                     'label'=>'Редагувати',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/update", array("id"=>$data->primaryKey))',
                 ),
-                'delete' => array
-                (
-                    'click'=>"function(){
-                                    if(confirm('Ви дійсно хочете видалити вчителя?'))
-                                    $.fn.yiiGridView.update('tmanage', {
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data){
-                                                location.reload();
-                                        }
-                                    })
-                                    return false;
-                              }
-                     ",
-                    'label'=>'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array("id"=>$data->primaryKey))',
-                    'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
+
             ),
-        ),
     ),
     ),
 )); ?>

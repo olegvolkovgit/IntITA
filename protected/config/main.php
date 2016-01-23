@@ -102,9 +102,10 @@ return array(
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
-                'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+                'profile/<idUser:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
                 '_teacher/cabinet/login/<id:\d+>' => '_teacher/cabinet/login', /* Url for cabinet teacher page */
+				'consultation/course_<idCourse:\d+>&lecture_<lectureId:\d+>' => 'consultationscalendar/index',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -163,14 +164,5 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-//        'imagesPath'=>'http://localhost/IntITA/images',
-        'imagesPath'=>'http://intita.itatests.com/images',
-        'avatarsPath'=>'http://intita.itatests.com/avatars',
-        'commonPath' =>'http://intita.itatests.com/files',
-        'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
-		'baseUrl' =>'http://intita.itatests.com',
-        'baseUrlWithoutHeader' => 'intita.itatests.com',
-        'maintenance' => 1,
 	),
 );

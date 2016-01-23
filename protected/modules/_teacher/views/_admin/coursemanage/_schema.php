@@ -1,5 +1,7 @@
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"/>
+    <link rel="stylesheet" href="<?=Config::getBaseUrl()?>/css/courseSchema.css"/>
 </head>
 
 <div id="courseSchema">
@@ -75,4 +77,5 @@
     <?php } ?>
 </div>
 
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 

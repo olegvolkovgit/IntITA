@@ -15,9 +15,14 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'afterValidate' => 'js:function(form,data,hasError){
+                send(form,data,hasError);return true;
+                }',
+        )
     )); ?>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'language', array('for' => 'language')); ?>
@@ -91,12 +96,6 @@
         <?php echo $form->error($model, 'status'); ?>
     </div>
 
-<!--    <div class="form-group">-->
-<!--        --><?php //echo $form->labelEx($model, 'course_price'); ?>
-<!--        --><?php //echo $form->textField($model, 'course_price', array('size' => 10, 'maxlength' => 10, 'class' => 'form-control')); ?>
-<!--        --><?php //echo $form->error($model, 'course_price'); ?>
-<!--    </div>-->
-
     <div class="form-group">
         <?php echo $form->labelEx($model, 'for_whom_ua'); ?>
         <?php echo $form->textArea($model, 'for_whom_ua', array('placeholder' => Yii::t('coursemanage', '0417'), 'rows' => 6,
@@ -162,13 +161,14 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'course_img'); ?>
-        <?php echo $form->fileField($model, 'course_img'); ?>
-        <?php echo $form->error($model, 'course_img'); ?>
+        <?php echo $form->fileField($model, 'course_img', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-            array('class' => 'btn btn-primary')); ?>
+
+    <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+                array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

@@ -5,17 +5,20 @@
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>',
+                        '<?php echo Yii::t("coursemanage", "0511"); ?>')">
                 <?php echo Yii::t("coursemanage", "0511"); ?></button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/admin'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/admin'); ?>',
+                        '<?php echo Yii::t("coursemanage", "0512"); ?>')">
                 <?php echo Yii::t("coursemanage", "0512"); ?></button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule'); ?>')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule'); ?>',
+                        'Додати існуючий модуль до курса')">
                 Додати існуючий модуль до курса</button>
         </li>
     </ul>
@@ -57,13 +60,8 @@
             'name' => 'level',
             'header' => Yii::t("coursemanage", "0520"),
         ),
-//        array(
-//            'name' => 'course_duration_hours',
-//            'header' => Yii::t("coursemanage", "0521"),
-//        ),
-//        array(
-//            'name' => 'course_price',
-//            'header' => Yii::t("coursemanage", "0522"),
-//        ),
+
     ),
 )); ?>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

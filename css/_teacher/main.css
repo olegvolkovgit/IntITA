@@ -11,3 +11,21 @@
     display: block;
 }
 
+
+.errorMessage
+{
+    color: #ff0000;
+
+}
+
+.form-group error
+{
+    color: #ff0000;
+}
+
+.imageClass img
+{
+    max-width: 100px;
+    max-height: 100px;
+
+}

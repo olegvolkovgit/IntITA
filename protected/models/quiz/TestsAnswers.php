@@ -32,7 +32,6 @@ class TestsAnswers extends CActiveRecord
 		return array(
 			//array('id_test, answer, is_valid', 'required'),
 			array('id, id_test, is_valid', 'numerical', 'integerOnly'=>true),
-			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, id_test, answer, is_valid', 'safe', 'on'=>'search'),

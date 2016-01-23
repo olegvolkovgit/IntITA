@@ -46,20 +46,19 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'class'=>'CButtonColumn',
+            'template'=>'{customDelete}',
             'headerHtmlOptions'=>array('style'=>'width:20px;'),
             'htmlOptions' => array('style'=>'width:20px'),
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
-                'delete' => array(
-                    'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
+                'customDelete' => array(
+                    'url' => '$data->id',
+                    'click'=>'js: function(){ deleteConsultation($(this).attr("href")); return false; }',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'label' => Yii::t('profile', '0547'),
                 ),
             ),
-            'updateButtonOptions'=> array('style'=>'display:none'),
-            'viewButtonOptions'=> array('style'=>'display:none'),
-            'deleteConfirmation'=>$alert,
         ),
     ),
 )); ?>

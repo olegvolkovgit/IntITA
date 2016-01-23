@@ -10,9 +10,8 @@ $models = StudentReg::userLetterReceivers();
 $list = CHtml::listData($models,'id', 'email');
 ?>
 <div class="form">
-
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'user-messages-form',
+	'id'=>'letters-form',
     'action'=> Yii::app()->createUrl('letters/sendletter'),
     'enableClientValidation'=>true,
     'enableAjaxValidation'=>true,

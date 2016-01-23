@@ -5,12 +5,8 @@ angular
     .module('interpreterApp')
     .controller('interpreterCtrl',interpreterCtrl);
 
-function interpreterCtrl($scope,sendTaskJsonService) {
+function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //options
-    $scope.patterns = [
-        {pattern: /^\d+$/},
-        {pattern: /^\d+,$/},
-    ];
     $scope.types = [
         {name:'Integer', type:0},
         {name:'Float', type:1},
@@ -39,9 +35,8 @@ function interpreterCtrl($scope,sendTaskJsonService) {
     //options
 
     //init obj
-    //$scope.argArraySize=[];
     $scope.results=[];
-    $scope.compare_marks=[];
+    $scope.compare_marks=[0];
     $scope.tests_code_arr=[];
     $scope.compareFull=[
         [{
@@ -51,14 +46,14 @@ function interpreterCtrl($scope,sendTaskJsonService) {
     ];
     $scope.args=
         [{
-            type: '',
+            type: 0,
             size: null,
             arg_name: '',
             pattern:/^\d+$/,
             value: [],
             is_array: 0,
             etalon_value: [],
-            compare_mark: []
+            compare_mark: [0]
         }];
     $scope.units=
         [{
@@ -81,7 +76,9 @@ function interpreterCtrl($scope,sendTaskJsonService) {
     };
     $scope.finalResult= {
         operation: "addtask",
+        header:$scope.header,
         etalon: $scope.etalon,
+        footer:$scope.footer,
         lang: $scope.lang,
         task: $scope.task,
         function : $scope.function
@@ -117,27 +114,20 @@ function interpreterCtrl($scope,sendTaskJsonService) {
     $scope.addDellForm = function (index) {
         if(index==0){
             $scope.args.push({
-                type: '',
+                type: 0,
                 size: null,
                 arg_name: '',
                 pattern:/^\d+$/,
                 value: [],
-                is_array: false,
+                is_array: 0,
                 etalon_value: [],
                 compare_mark: []
             });
-            $scope.indexes.push({
-                index: [],
-                value: $scope.indexes.length
-            });
-            $scope.indexes.push({
-                index: [],
-                value: $scope.indexes.length
-            });
-            $scope.indexes.push({
-                index: [],
-                value: $scope.indexes.length
-            });
+            for (var i=0;i<3;i++)
+                $scope.indexes.push({
+                    index: [],
+                    value: $scope.indexes.length
+                });
         }else{
             $scope.args.splice(-1, 1);
             $scope.indexes.splice(-1, 1);
@@ -151,6 +141,10 @@ function interpreterCtrl($scope,sendTaskJsonService) {
             $scope.units.push({
                 result: ''
             });
+            $scope.function.compare_mark[$scope.units.length-1]=0;
+            for (var i=0;i<$scope.function.args.length;i++){
+                $scope.function.args[i].compare_mark[$scope.units.length-1]=0;
+            }
             $scope.compareFull.push(
                 [{
                 first: 0,
@@ -160,7 +154,18 @@ function interpreterCtrl($scope,sendTaskJsonService) {
             $scope.function['unit_test_num']=$scope.units.length;
         }else{
             $scope.units.splice(-1, 1);
-            $scope.function['unit_test_num']=$scope.units.length;
+            var count=$scope.units.length;
+            $scope.function.checkable_args_indexes.splice(count, 1);
+            $scope.function.results.splice(count, 1);
+            $scope.function.compare_mark.splice(count, 1);
+            $scope.function.tests_code.splice(count, 1);
+            $scope.function.tests_code.splice(count, 1);
+            for (var i=0;i<$scope.function.args.length;i++){
+                $scope.function.args[i].value.splice(count, 1);
+                $scope.function.args[i].etalon_value.splice(count, 1);
+                $scope.function.args[i].compare_mark.splice(count, 1);
+            }
+            $scope.function['unit_test_num']=count;
         }
     };
     $scope.addDellCompare = function (bool,index) {
@@ -183,14 +188,14 @@ function interpreterCtrl($scope,sendTaskJsonService) {
         for (var i = 0; i < _data.function.args.length; i++) {
             if (_data.function.args[i].is_array) {
                 for (var j = 0; j < _data.function.args[i].value.length; j++) {
-                    if($scope.res_finalResult.function.args[i].value[j]!=null)
+                    if($scope.res_finalResult.function.args[i].value[j]!=null && (typeof _data.function.args[i].value[j])=='string')
                     $scope.res_finalResult.function.args[i].value[j] = _data.function.args[i].value[j].split(',');
                 }
             }
         }
         if (_data.function.array_type) {
             for (var k = 0; k < _data.function.results.length; k++) {
-                if($scope.res_finalResult.function.results[k]!=null)
+                if($scope.res_finalResult.function.results[k]!=null && (typeof _data.function.results[k])=='string')
                 $scope.res_finalResult.function.results[k] = _data.function.results[k].split(',')
             }
         }
@@ -278,7 +283,119 @@ function interpreterCtrl($scope,sendTaskJsonService) {
             }
         }
     };
+    //pattern validation when edit load
+    $scope.loadPattern = function(type,size,index){
+        if(size==null){
+            switch (type) {
+                case 0:
+                    $scope.editedJson.function.args[index].pattern=/^\d+$/;
+                    break;
+                case 1:
+                    $scope.editedJson.function.args[index].pattern=/^[0-9]+(\.[0-9]+)?$/;
+                    break;
+                case 2:
+                    $scope.editedJson.function.args[index].pattern=/^(true|false|[01])$/;
+                    break;
+                case 3:
+                    $scope.editedJson.function.args[index].pattern=/./;
+                    break;
+                default:
+                    $scope.editedJson.function.args[index].pattern=/./;
+            }
+        }else{
+            switch (type) {
+                case 0:
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    break;
+                case 1:
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    break;
+                case 2:
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    break;
+                case 3:
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
+                    break;
+                default:
+                    $scope.editedJson.function.args[index].pattern=/./;
+            }
+        }
+    };
+    $scope.loadResultPattern = function(type,size){
+        if(size==null){
+            switch (type) {
+                case 0:
+                    $scope.resultPattern=/^\d+$/;
+                    break;
+                case 1:
+                    $scope.resultPattern=/^[0-9]+(\.[0-9]+)?$/;
+                    break;
+                case 2:
+                    $scope.resultPattern=/^(true|false|[01])$/;
+                    break;
+                case 3:
+                    $scope.resultPattern=/./;
+                    break;
+                default:
+                    $scope.resultPattern=/./;
+            }
+        }else{
+            switch (type) {
+                case 0:
+                    $scope.resultPattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    break;
+                case 1:
+                    $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    break;
+                case 2:
+                    $scope.resultPattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    break;
+                case 3:
+                    $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
 
+                    break;
+                default:
+                    $scope.resultPattern=/./;
+            }
+        }
+    };
+    init();
+    function init(){
+        getTaskJson.getJson($scope.lang,$scope.task).then(function(response){
+            $scope.editedJson=response;
+            //load json for edit if it is
+            if ($scope.editedJson != undefined){
+                $scope.editedJson=JSON.parse($scope.editedJson)
+                $scope.results=$scope.editedJson.function.results;
+                $scope.compare_marks=$scope.editedJson.function.compare_mark;
+                $scope.tests_code_arr=$scope.editedJson.function.tests_code;
+                $scope.compareFull=$scope.editedJson.function.checkable_args_indexes;
+                for (var k = 0; k < $scope.editedJson.function.args.length; k++) {
+                    $scope.loadPattern($scope.editedJson.function.args[k].type,$scope.editedJson.function.args[k].size,k);
+                }
+                $scope.args = $scope.editedJson.function.args;
+                for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
+                    if(i>0){
+                        for (var j=0;j<3;j++)
+                            $scope.indexes.push({
+                                index: [],
+                                value: $scope.indexes.length
+                            });
+                    }
+                    $scope.indexes[3+i*3].index = '$'+$scope.editedJson.function.args[i].arg_name;
+                    $scope.indexes[3+(i*3+1)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon';
+                    $scope.indexes[3+(i*3+2)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon_for_etalon';
+                }
+                for (var u=0;u<$scope.editedJson.function.unit_test_num-1;u++){
+                    $scope.units.push({
+                        result: ''
+                    });
+                }
+                $scope.function = $scope.editedJson.function;
+                $scope.finalResult = $scope.editedJson;
+            }
+        });
+    }
     $scope.updateResultPattern($scope.function.type,$scope.function.size);
     $scope.positiveIntPattern=/^[1-9]\d*$/;
 }

@@ -27,7 +27,7 @@ class GraduateController extends TeacherCabinetController {
     {
         $model = new Graduate;
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//         $this->performAjaxValidation($model);
         if (isset($_POST['Graduate'])) {
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
@@ -57,10 +57,10 @@ class GraduateController extends TeacherCabinetController {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
-        $avatarOld = Graduate::model()->findByPk($id)->avatar;
+//         $this->performAjaxValidation($model);
 
         if (isset($_POST['Graduate'])) {
+            $avatarOld = $model->avatar;
             $model->attributes = $_POST['Graduate'];
             $model->avatar = CUploadedFile::getInstance($model, 'avatar');
 
@@ -92,8 +92,9 @@ class GraduateController extends TeacherCabinetController {
     {
         $this->loadModel($id)->delete();
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//        $this->actionIndex();
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /**
@@ -159,6 +160,5 @@ class GraduateController extends TeacherCabinetController {
             Yii::app()->end();
         }
     }
-
 
 }

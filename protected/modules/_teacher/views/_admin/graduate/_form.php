@@ -19,9 +19,14 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'afterValidate' => 'js:function(form,data,hasError){
+                send(form,data,hasError);return true;
+                }',
+        )
     )); ?>
 
     <div class="form-group">
@@ -38,13 +43,13 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'avatar'); ?>
-        <?php echo $form->fileField($model, 'avatar'); ?>
-        <?php echo $form->error($model, 'avatar'); ?>
+        <?php echo CHtml::activeFileField($model, 'avatar', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'graduate_date'); ?>
-        <?php echo $form->textField($model, 'graduate_date', array('class' => "form-control")); ?>
+        <?php echo $form->dateField($model, 'graduate_date', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'graduate_date'); ?>
     </div>
 
@@ -104,7 +109,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

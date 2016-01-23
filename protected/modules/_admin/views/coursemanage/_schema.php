@@ -1,5 +1,6 @@
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
 </head>
 <link rel="stylesheet" type="text/css" href="<?=Config::getBaseUrl()?>/css/courseSchema.css"/>
 

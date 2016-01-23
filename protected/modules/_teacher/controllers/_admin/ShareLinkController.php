@@ -25,15 +25,14 @@ class ShareLinkController extends TeacherCabinetController {
     public function actionCreate()
     {
         $model=new ShareLink;
-
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//         $this->performAjaxValidation($model);
 
         if(isset($_POST['ShareLink']))
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-            $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create',array(
@@ -48,8 +47,6 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionUpdate($id)
     {
-//        var_dump($_POST);die;
-
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -59,7 +56,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/shareLink/index'));
         }
         $this->renderPartial('update',array(
             'model'=>$model,
@@ -77,7 +74,7 @@ class ShareLinkController extends TeacherCabinetController {
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /**
@@ -139,4 +136,5 @@ class ShareLinkController extends TeacherCabinetController {
             Yii::app()->end();
         }
     }
+
 }

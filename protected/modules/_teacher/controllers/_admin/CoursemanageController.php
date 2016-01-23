@@ -1,6 +1,5 @@
 <?php
 
-//use AccountancyException;
 class CoursemanageController extends TeacherCabinetController
 {
     /**
@@ -22,14 +21,15 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=new Course;
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//        $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
-
-            $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
-            $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            if(!empty($_FILES)){
+                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+                $model->logo = $_FILES['Course'];
+                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            }
             $model->attributes = $_POST['Course'];
-            $model->logo = $_FILES['Course'];
             if($model->save()){
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
@@ -58,15 +58,18 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+//         $this->performAjaxValidation($model);
 
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;
-            $_POST['Course']['course_img']=$_FILES['Course']['name']['course_img'];
-            $fileInfo=new SplFileInfo($_POST['Course']['course_img']);
+
+            if(!empty($_FILES)){
+                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+                $model->logo = $_FILES['Course'];
+                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+            }
             $model->attributes=$_POST['Course'];
-            $model->logo=$_FILES['Course'];
             if($model->save()){
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
@@ -91,6 +94,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         Course::model()->updateByPk($id, array('cancelled' => 1));
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+
         if(!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
@@ -145,7 +149,14 @@ class CoursemanageController extends TeacherCabinetController
     }
 
     public function actionAddExistModule(){
-        $this->renderPartial('addExistModule');
+
+        $courses = Course::generateCoursesList();
+        $modules = Module::generateModulesList();
+
+        $this->renderPartial('addExistModule',array(
+            'courses' => $courses,
+            'modules' => $modules
+        ),false,true);
     }
 
     public function actionAddModuleToCourse(){
@@ -155,10 +166,7 @@ class CoursemanageController extends TeacherCabinetController
 
         CourseModules::addNewRecord($moduleId, $courseId);
 
-        $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index', array(
-            'dataProvider' => $dataProvider
-        ),false,true);
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
     public function actionSchema($idCourse){
@@ -195,18 +203,46 @@ class CoursemanageController extends TeacherCabinetController
                 'tableCells' => $tableCells,
                 'courseDuration' => $courseDurationInMonths,
                 'messages' => $messages,
-                'save' => true,
+                'save' => true
             ), true);
             $name = 'schema_course_'.$idCourse.'_'.$lg[$i].'.html';
             $file = StaticFilesHelper::pathToCourseSchema($name);
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect($this->pathToCabinet());
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
     }
 
     public function actionRestore($id){
         Course::model()->updateByPk($id, array('cancelled' => 0));
         $this->actionAdmin();
     }
+
+    public function actionGenerateSchema($id){
+        $modules = Course::getCourseModulesSchema($id);
+        $tableCells = Course::getTableCells($modules, $id);
+        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $lang = $_SESSION['lg'];
+        $lg = ['ua','ru','en'];
+        for($i = 0;$i < 3;$i++)
+        {
+            Yii::app()->session['lg'] = $lg[$i];
+            $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
+
+            $schema = $this->renderPartial('_schema', array(
+                'modules' => $modules,
+                'idCourse' => $id,
+                'tableCells' => $tableCells,
+                'courseDuration' => $courseDurationInMonths,
+                'messages' => $messages,
+                'save' => true
+            ), true);
+            $name = 'schema_course_'.$id.'_'.$lg[$i].'.html';
+            $file = StaticFilesHelper::pathToCourseSchema($name);
+            file_put_contents($file, $schema);
+        }
+        Yii::app()->session['lg'] = $lang;
+        $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
+    }
+
 }

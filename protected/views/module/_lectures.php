@@ -46,16 +46,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'columns' => array(
         array(
             'class'=>'CButtonColumn',
-            'template'=>'{up}{down}{delete}',
+            'template'=>'{up}{down}{customDelete}',
             'headerHtmlOptions'=>array('style'=>'display:none'),
-            'deleteConfirmation'=>Yii::t('module', '0376'),
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
-                'delete' => array(
+                'customDelete' => array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
-                    'url' => 'Yii::app()->createUrl("module/unableLesson", array("idLecture"=>$data->primaryKey))',
-                    'deleteConfirmation' => Yii::t('module', '0377'),
+                    'url' => '$data->primaryKey',
+                    'click'=>'js: function(){ deleteLecture($(this).attr("href")); return false; }',
                     'label' => Yii::t('module', '0378'),
                     'visible'=> $editMode,
                 ),

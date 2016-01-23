@@ -13,10 +13,10 @@ class TrainerAdminController extends TeacherCabinetController {
         $answers = PlainTaskAnswer::getAllPlainTaskAnswers();
         $users = StudentReg::getStudentWithoutTrainer();
 
-        $this->render('index', array(
+        $this->renderPartial('index', array(
             'answers' => $answers,
             'users' => $users,
-        ));
+        ),false,true);
     }
 
     public function actionAddTrainer($id)
@@ -42,7 +42,7 @@ class TrainerAdminController extends TeacherCabinetController {
 
             if(!TrainerStudent::addTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
-            $this->redirect($this->pathToCabinet());
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'));
         }
     }
 
@@ -83,7 +83,7 @@ class TrainerAdminController extends TeacherCabinetController {
             if(!TrainerStudent::editTrainer($userId,$trainerId))
                 throw new \application\components\Exceptions\NotSaveException("Тренер не був збережений");
 
-            $this->redirect($this->pathToCabinet());
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'));
         }
     }
 
@@ -92,7 +92,9 @@ class TrainerAdminController extends TeacherCabinetController {
         if(!TrainerStudent::deleteUserTrainer($id))
             throw new \application\components\Exceptions\NotSaveException("Тренер не був видалений");
 
-        $this->redirect($this->pathToCabinet());
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
+
 
 }

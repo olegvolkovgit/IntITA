@@ -17,7 +17,6 @@ class TeacherCabinetController extends CController
 
     public $breadcrumbs = array();
 
-
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
@@ -66,7 +65,7 @@ class TeacherCabinetController extends CController
             ),
             array('deny',
                 'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
+                Для отримання доступу увійдіть з логіном адміністратора сайту, викладача або бухгалтера.",
                 'users' => array('*'),
             ),
         );
@@ -82,18 +81,20 @@ class TeacherCabinetController extends CController
         }
     }
 
-//    public function beforeAction($action) {
-//        if( parent::beforeAction($action) ) {
-//            /* @var $cs CClientScript */
-//            $cs = Yii::app()->clientScript;
-//            /* @var $theme CTheme */
-//            $theme = Yii::app()->theme;
-//            $cs->registerScriptFile(StaticFilesHelper::fullPathTo('css', '/bower_components/jquery/dist/jquery.min.js'));
-//
-//            $cs->registerScriptFile(StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js'));
-//
-//            return true;
-//        }
-//        return false;
-//    }
+    public function behaviors()
+    {
+        return array(
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
+            ),
+        );
+    }
 }

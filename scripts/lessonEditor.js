@@ -152,12 +152,6 @@ function addTextBlock(type){
     document.getElementById('formulaContainer').focus();
 }
 
-function addTextBlockCKE(type){
-    document.getElementById('addBlock').style.display = 'block';
-    document.getElementById('blockForm').style.display = 'block';
-    document.getElementById('blockType').value = type;
-}
-
 function addVideoInput(){
     document.getElementById('divAddVideo').style.display =  "block";
     document.getElementById('addVideoStart').style.display = "none";
