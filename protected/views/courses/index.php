@@ -1,6 +1,9 @@
 <? $css_version = 1; ?>
 <?php
-/* @var $user StudentReg*/
+/* @var $user StudentReg
+ * @var $total int
+ * @var $coursesLangs array
+ */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
