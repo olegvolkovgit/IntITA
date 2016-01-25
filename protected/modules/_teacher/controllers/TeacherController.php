@@ -14,7 +14,7 @@ class TeacherController extends TeacherCabinetController {
 
         $this->renderPartial('/trainer/_newPlainTask',array(
             'plainTasksAnswers' => $plainTaskAnswers,
-        ));
+        ), false, true);
     }
 
     public function actionAddConsultant($id)
@@ -44,16 +44,10 @@ class TeacherController extends TeacherCabinetController {
     {
         $idTeacher = Yii::app()->request->getPost('idTeacher');
 
-        $teacherPlainTaskId = PlainTaskAnswer::TeacherPlainTask($idTeacher);
-
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'id = :id';
-        $criteria->params = array(':id' => array_shift($teacherPlainTaskId)['id']);
-
-        $teacherPlainTasks = PlainTaskAnswer::model()->find($criteria);
+        $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 
         return $this->renderPartial('/trainer/teacherPlainTaskList',array(
-            'teacherPlainTasks' => array($teacherPlainTasks),
+            'teacherPlainTasks' => $tasksList,
         ));
     }
 
@@ -65,7 +59,7 @@ class TeacherController extends TeacherCabinetController {
 
         return $this->renderPartial('/trainer/showPlainTask',array(
            'plainTask' => $plainTask
-        ));
+        ), false, true);
     }
 
     public function actionMarkPlainTask()

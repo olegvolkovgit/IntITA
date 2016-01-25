@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'plain_task_marks':
  * @property integer $id
  * @property integer $id_user
- * @property integer $id_task
+ * @property integer $id_answer
  * @property integer $mark
  * @property string $comment
  * @property string $time
@@ -29,12 +29,11 @@ class PlainTaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, time', 'required'),
-			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_answer, mark', 'required'),
+			array('id_user, id_answer, mark', 'numerical', 'integerOnly'=>true),
 			array('comment', 'length', 'max'=>100),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_task, mark, comment, time', 'safe', 'on'=>'search'),
+			array('id, id_user, id_answer, mark, comment, time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +56,7 @@ class PlainTaskMarks extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'id_user' => 'Id User',
-			'id_task' => 'Id Task',
+			'id_answer' => 'Id Plain Task Answer',
 			'mark' => 'Mark',
 			'comment' => 'Comment',
 			'time' => 'Time',
@@ -78,13 +77,11 @@ class PlainTaskMarks extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_user',$this->id_user);
-		$criteria->compare('id_task',$this->id_task);
+		$criteria->compare('id_answer',$this->id_answer);
 		$criteria->compare('mark',$this->mark);
 		$criteria->compare('comment',$this->comment,true);
 		$criteria->compare('time',$this->time,true);
@@ -105,24 +102,24 @@ class PlainTaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function isTaskDone($user, $idTask){
-        return PlainTaskMarks::model()->exists('id_user =:user and id_task =:task and mark = 1',
-            array(':user' => $user, ':task' => $idTask));
+    public static function isTaskDone($user, $answer){
+        return PlainTaskMarks::model()->exists('id_user =:user and id_answer =:answer and mark = 1',
+            array(':user' => $user, ':answer' => $answer));
     }
 
-    public static function taskTime($user, $idTask){
-        if( PlainTaskMarks::model()->exists('id_user =:user and id_task =:task and mark = 1',
-            array(':user' => $user, ':task' => $idTask))){
-            return PlainTaskMarks::model()->findByAttributes(array('id_user' => $user,'id_task' => $idTask,'mark' => 1))->time;
+    public static function taskTime($user, $answer){
+        if( PlainTaskMarks::model()->exists('id_user =:user and id_answer =:answer and mark = 1',
+            array(':user' => $user, ':answer' => $answer))){
+            return PlainTaskMarks::model()->findByAttributes(array('id_user' => $user,'id_answer' => $answer,'mark' => 1))->time;
         }else return false;
     }
 
-    public static function saveMark($plainTaskId,$mark,$comment,$userId)
+    public static function saveMark($answerId, $mark, $comment, $userId)
     {
         $plainMark = new PlainTaskMarks();
 
         $plainMark->comment = $comment;
-        $plainMark->id_task = (int)$plainTaskId;
+        $plainMark->id_answer = (int)$answerId;
         $plainMark->id_user = (int)$userId;
         $plainMark->mark = (int)$mark;
         $plainMark->time = time();

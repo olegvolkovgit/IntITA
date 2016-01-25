@@ -11,6 +11,7 @@
  * @property string $date
  * @property int $consultant
  *
+ * @property PlainTask $plainTask
  */
 class PlainTaskAnswer extends CActiveRecord
 {
@@ -33,7 +34,6 @@ class PlainTaskAnswer extends CActiveRecord
 			array('id_student, id_plain_task', 'required'),
 			array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on'=>'search'),
 		);
 	}
@@ -46,7 +46,6 @@ class PlainTaskAnswer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-//            'consultants' => array(self::BELONGS_TO, 'Teacher' , 'consultant'),
             'plainTask' => array(self::BELONGS_TO, 'PlainTask' , 'id_plain_task'),
             'user' => array(self::BELONGS_TO,'StudentReg','id_student'),
 		);
@@ -80,8 +79,6 @@ class PlainTaskAnswer extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -122,6 +119,7 @@ class PlainTaskAnswer extends CActiveRecord
     {
         if($this->user)
         return $this->user->email;
+        else return null;
     }
 
     public function getConsultant()
@@ -199,7 +197,7 @@ class PlainTaskAnswer extends CActiveRecord
         $nonMarkTasks = Yii::app()->db->createCommand()
             ->select('plain_task_answer.id')
             ->from('plain_task_answer')
-            ->leftJoin('plain_task_marks','plain_task_answer.id = id_task')
+            ->leftJoin('plain_task_marks','plain_task_answer.id = id_answer')
             ->where('plain_task_marks.mark IS NULL')
 //            ->where('and plain_task_marks.id_task = '. $teacherPlainTask[0])
             ->queryAll();
@@ -238,8 +236,6 @@ class PlainTaskAnswer extends CActiveRecord
                     'join' => 'RIGHT JOIN plain_task_answer_teacher
                      on plain_task_answer_teacher.id_plain_task_answer = id',
                     'where' => 'id_student = '.$user->id
-//                    'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL'
-//                    and id_student = '.$user->id,
                 ))->queryAll();
 
                 if(!empty($tasks))
@@ -269,5 +265,28 @@ class PlainTaskAnswer extends CActiveRecord
     {
         Yii::app()->db->createCommand()
         ->delete('plain_task_answer_teacher', 'id_plain_task_answer=:id', array(':id'=>$id));
+    }
+
+    public static function plainTaskListByTeacher($id){
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 'ans';
+        $criteria->order = 'ans.id DESC';
+        $criteria->join = 'JOIN plain_task_answer_teacher t ON ans.id = t.id_plain_task_answer';
+        $criteria->addCondition('t.id_teacher =:id');
+        $criteria->params = array(':id' => $id);
+        return PlainTaskAnswer::model()->findAll($criteria);
+    }
+
+    public function mark(){
+        $mark = Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('plain_task_marks')
+            ->where('id_user = :user and id_answer = :answer',array(
+                ':user' => $this->id_student,
+                ':answer' => $this->id)
+            )
+            ->queryRow();
+        return $mark;
     }
 }

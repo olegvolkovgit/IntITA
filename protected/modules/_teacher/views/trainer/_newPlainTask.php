@@ -16,7 +16,7 @@ if(!empty($plainTasksAnswers))
             <td>Студент</td>
             <td>Відповідь</td>
             <td>Який модуль</td>
-            <td>Призначити тренера</td>
+            <td>Призначити консультанта</td>
         </tr>
         <?php foreach($plainTasksAnswers as $plainTaskAnswer){
             $module = $plainTaskAnswer->getModule();
