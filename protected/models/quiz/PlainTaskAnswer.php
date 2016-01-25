@@ -243,7 +243,6 @@ class PlainTaskAnswer extends CActiveRecord
                         $model = PlainTaskAnswer::model()->findByPk($task['id']);
                         array_push($plainTasksArr,$model);
                     }
-
                 }
             }
         }
