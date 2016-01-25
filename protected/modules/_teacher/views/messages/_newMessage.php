@@ -18,13 +18,13 @@
             <div class="form-group" id="receiver">
                 <label>Кому</label>
                 <br>
-                <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач" size="90"
+                <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач" size="135"
                 required>
             </div>
 
             <div class="form-group">
                 <label>Тема</label>
-                <input class="form-control" name="subject" placeholder="Тема листа" required>
+                <input class="form-control" name="subject" placeholder="Тема листа">
             </div>
 
             <div class="form-group">
@@ -45,42 +45,22 @@
 </div>
 
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
-<script>
-    users = <?=StudentReg::usersEmailArray($user);?>;
-</script>
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'messages.js'); ?>"></script>
 
 <script>
-    var substringMatcher = function (strs) {
-        return function findMatches(q, cb) {
-            var matches, substrRegex;
-
-            // an array that will be populated with substring matches
-            matches = [];
-
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function (i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push(str);
-                }
-            });
-
-            cb(matches);
-        };
-    };
-
-    $('#typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'receiver',
-            source: substringMatcher(users)
+    var users = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY',
+            wildcard: '%QUERY'
         }
-    );
+    });
+
+    users.initialize();
+
+    $('#typeahead').typeahead(null, {
+        name: 'users',
+        display: 'value',
+        source: users
+    });
 </script>

@@ -1071,4 +1071,121 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition('teacher.user_id = user.id');
         return StudentReg::model()->findAll($criteria);
     }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAdmins($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAccountants($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
+
+    public function addAdmin()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_admin', array(
+            'id_user' => $this->id,
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addAccountant()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_accountant', array(
+            'id_user' => $this->id,
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAdmin()
+    {
+        if (Yii::app()->db->createCommand()->update('user_admin', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAccountant()
+    {
+        if (Yii::app()->db->createCommand()->update('user_accountant', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function allUsers($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
 }

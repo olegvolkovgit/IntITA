@@ -108,9 +108,7 @@ class MessagesController extends TeacherCabinetController
         $message->create();
         $sender = new MailTransport();
 
-        $alerts = [];
         if ($message->send($sender)){
-            //array_push($alerts, array('type' => 'success', 'text' => 'Ваше повідомлення успішно відправлене.'));
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
@@ -141,6 +139,15 @@ class MessagesController extends TeacherCabinetController
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
+        }
+    }
+
+    public function actionUsersByQuery($query){
+        if ($query) {
+            $users = StudentReg::allUsers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 }
