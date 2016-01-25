@@ -25,9 +25,7 @@
 )); ?>
 
 	<div class="form-group">
-		<?php echo $form->labelEx($model,'id'); ?>
-		<?php echo $form->textField($model,'id',array('class' => "form-control")); ?>
-		<?php echo $form->error($model,'id'); ?>
+		<?php echo $form->hiddenField($model,'id',array('class' => "form-control")); ?>
 	</div>
 
 	<div class="form-group">

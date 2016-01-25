@@ -180,31 +180,32 @@ class LecturePage extends CActiveRecord
 
         if ($user != 0){
             if(LectureElement::model()->findByPk($quiz)){
-            switch(LectureElement::model()->findByPk($quiz)->idType->type){
-                case 'task':
-                    $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
-                     if($task)
-                     {
-                         $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
-                         if($testMark) return $testMark;
-                     }
-                    break;
-                case 'plaintask':
+            switch(LectureElement::model()->findByPk($quiz)->id_type){
+                case '5':
                     $test = Task::model()->findByAttributes(array('condition' => $quiz));
                     if($test){
-                    $testMark = TaskMarks::isTaskDone($user,$test->id);
-                    if($testMark) return $testMark;
+                        $testMark = TaskMarks::isTaskDone($user,$test->id);
+                        if($testMark) return $testMark;
                     }
                     break;
-                case 'skip task':
+                case '6':
+                    $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
+                    if($task)
+                    {
+//                        $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
+                        $testMark=1;
+                        if($testMark) return $testMark;
+                    }
+                    break;
+                case '9':
                     $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quiz));
                     if($skipTask){
                         $testMark = SkipTaskMarks::isTaskDone($user,$skipTask->id);
                         if($testMark) return $testMark;
                     }
                     break;
-                case 'test':
-                case 'final test':
+                case '12':
+                case '13':
                     $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
                     $testMark = TestsMarks::isTestDone($user, $test->id);
                     if($testMark)  return $testMark;
