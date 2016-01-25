@@ -206,5 +206,29 @@ class PayCourses extends CActiveRecord
     }
 
 
+    public static function getCancelText($courseId,$userName)
+    {
+        $result = '<strong> Доступ до курсу '.
+            Course::getCourseName($courseId).' скасовано</strong>.
+                    <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього курсу.';
+
+        return $result;
+    }
+
+    public static function getCancelErrorText($userName,$courseId)
+    {
+        $result = '<br /> В користувача'. $userName. '<strong> не було доступу до курсу  '.
+            Course::getCourseName($courseId).'</strong>';
+
+        return $result;
+    }
+
+    public static function getConfirmText($courseId,$userName)
+    {
+        $result = '<br /><h4>Вітаємо!</h4> Курс <strong>'.
+            Course::getCourseName($courseId).' оплачено</strong>.
+            <br />Тепер у '.$userName.' є доступ до усіх занять цього курсу.';
+        return $result;
+    }
 
 }

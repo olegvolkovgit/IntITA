@@ -38,5 +38,7 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
     };
     $scope.hideInformDialog=function(){
         $("#informDialog").dialog("close");
+        var tab=ipCookie("lessonTab")+1;
+        $('#ui-id-'+tab+'').click();
     };
 }

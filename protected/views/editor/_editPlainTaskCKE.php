@@ -6,7 +6,7 @@
             <br>
             <textarea ng-cloak ckeditor="editorOptionsTask" name="block_element" class="plainTaskCondition"
                       placeholder="<?php echo Yii::t('lecture','0773');  ?>"
-                      required ng-init="editPlainTask='<?php echo htmlentities($data['html_block']); ?>'"
+                      required ng-init="editPlainTask='<?php echo htmlentities(addslashes($data['html_block'])); ?>'"
                       ng-model="editPlainTask"></textarea>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $data->id_lecture;?>"/>
