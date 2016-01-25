@@ -33,7 +33,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
+            url: basePath + '/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
             wildcard: '%QUERY'
         }
     });

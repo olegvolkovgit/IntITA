@@ -101,6 +101,10 @@ class Level extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function primaryKey(){
+		return 'id';
+	}
+
 	public static function allTitlesByLang($lg = 'ua'){
         $param = "title_".$lg;
         $criteria = new CDbCriteria();
@@ -111,5 +115,13 @@ class Level extends CActiveRecord
             $result[$level->id] = $level->$param;
         }
         return $result;
+    }
+
+	public function edit($titleUa, $titleRu, $titleEn){
+        $this->title_ua = $titleUa;
+        $this->title_ru = $titleRu;
+        $this->title_en = $titleEn;
+
+        return $this->update(array('title_ua','title_ru','title_en'));
     }
 }

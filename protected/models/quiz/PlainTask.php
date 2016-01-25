@@ -29,7 +29,6 @@ class PlainTask extends Quiz
 			array('block_element, author', 'required'),
 			array('block_element, author', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, block_element, author', 'safe', 'on'=>'search'),
 		);
 	}

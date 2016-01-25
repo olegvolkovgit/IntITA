@@ -111,27 +111,6 @@ $finishedLecture = $lecture->isFinished($user);
         $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
-
-        <?php
-        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-            'id' => 'informDialog',
-            'themeUrl' => Config::getBaseUrl() . '/css',
-            'cssFile' => 'jquery-ui.css',
-            'theme' => 'my',
-            'options' => array(
-                'width' => 540,
-                'autoOpen' => false,
-                'modal' => true,
-                'resizable' => false
-            ),
-        )); ?>
-        <div>
-            <p style="text-align: center"><?= Yii::t('lesson', '0793'); ?></p>
-            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
-                   ng-click="hideInformDialog()">
-        </div>
-        <?php $this->endWidget('zii.widgets.jui.CJuiDialog');
-        ?>
     </div>
 </div>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

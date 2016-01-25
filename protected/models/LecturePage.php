@@ -182,19 +182,15 @@ class LecturePage extends CActiveRecord
             if(LectureElement::model()->findByPk($quiz)){
             switch(LectureElement::model()->findByPk($quiz)->id_type){
                 case '5':
-                    $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
-                     if($task)
-                     {
-                         $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
-                         if($testMark) return $testMark;
-                     }
-                    break;
-                case '6':
                     $test = Task::model()->findByAttributes(array('condition' => $quiz));
                     if($test){
-                    $testMark = TaskMarks::isTaskDone($user,$test->id);
-                    if($testMark) return $testMark;
+                        $testMark = TaskMarks::isTaskDone($user,$test->id);
+                        if($testMark) return $testMark;
                     }
+                    break;
+                case '6':
+                    $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
+                    return $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
                     break;
                 case '9':
                     $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quiz));
@@ -272,8 +268,7 @@ class LecturePage extends CActiveRecord
     }
 
     public function getPageTextList(){
-
-        $textList = LecturePage::getBlocksListById($this->id);
+        $textList = $this->getBlocksListById();
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id_block', $textList);
 
