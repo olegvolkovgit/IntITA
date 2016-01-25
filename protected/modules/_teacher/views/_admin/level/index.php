@@ -24,7 +24,7 @@
                         ?>
                         <tr class="odd gradeX">
                             <td class="center"><?=$level->id;?></td>
-                            <td class="center"><?=$level->title_en?></td>
+                            <td class="center"><?=$level->title_ua?></td>
                             <td class="center"><?=$level->title_en?></td>
                             <td class="center"><?=$level->title_ru; ?></td>
                             <td class="center">

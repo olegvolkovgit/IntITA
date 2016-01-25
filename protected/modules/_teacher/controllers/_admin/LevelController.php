@@ -31,9 +31,9 @@ class LevelController extends TeacherCabinetController
         $titleRu = Yii::app()->request->getPost('titleRu', '');
         $titleEn = Yii::app()->request->getPost('titleEn', '');
 
-        $model = Level::model()->findByPk($id);
+        $model = Level::model()->findByPk((int)$id);
         $model->edit($titleUa, $titleRu, $titleEn);
 
-        $this->redirect('index');
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 }
