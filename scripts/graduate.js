@@ -1,8 +1,8 @@
-function deletePhoto(id, name){
+function deletePhoto(url,id,name){
     if (confirm('Ви впевнені, що хочете видалити фото випускника ' + name + '?')){
         $.ajax({
             type: "POST",
-            url: "/_admin/graduate/deletePhoto",
+            url: url,
             data: {'id': id},
             cache: false,
             success: function (data) {

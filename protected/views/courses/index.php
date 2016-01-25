@@ -1,10 +1,26 @@
 <? $css_version = 1; ?>
-
+<?php
+/* @var $user StudentReg*/
+?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+
+//$user = StudentReg::model()->findByPk(39);
+//
+//$message = new UserMessages();
+//$message->build('Subject', 'Text', array('51'), $user);
+//$sender = new MailTransport();
+//if ($message->send($sender)){
+//    echo 'Success mail!';
+//} else {
+//    echo 'Error!';
+//}
+//var_dump($user->receivedMessages());
+
+
 $courseList = $dataProvider->getData();
 ?>
 

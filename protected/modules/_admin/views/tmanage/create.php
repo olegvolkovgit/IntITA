@@ -3,9 +3,7 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
-        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index'); ?>">Викладачі</a>
-    </button>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index'); ?>" >Викладачі</a>
 
     <div class="page-header">
         <h2>Додати викладача</h2>

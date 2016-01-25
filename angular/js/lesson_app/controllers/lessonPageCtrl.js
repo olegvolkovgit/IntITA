@@ -6,11 +6,7 @@ angular
     .controller('lessonPageCtrl',lessonPageCtrl);
 
 function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
-    $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error) {
-            console.log('Err'+error); // not authorized
-        }
-    );
+    $scope.currentLocation = window.location.pathname;
     $scope.nextPage=function(){
         if($rootScope.currentPage>=$rootScope.pageCount){
             return $rootScope.currentPage;
@@ -39,5 +35,8 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
     };
     $scope.errorDialogHide=function(){
         $("#mydialog3").dialog("close");
+    };
+    $scope.hideInformDialog=function(){
+        $("#informDialog").dialog("close");
     };
 }

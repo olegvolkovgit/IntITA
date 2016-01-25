@@ -65,7 +65,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'delete' => array
                 (
                     'label' => 'Delete',
-                    'url' => 'Yii::app()->createUrl("permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
+                    'url' => 'Yii::app()->createUrl("/_admin/permissions/delete", array("id"=>$data->id_user, "resource"=>$data->id_module))',
                     'imageUrl' => StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'click' => "function(){
                         $.fn.yiiGridView.update('access_grid', {

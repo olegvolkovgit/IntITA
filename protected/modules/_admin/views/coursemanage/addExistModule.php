@@ -10,9 +10,9 @@
             Модуль:<br>
 
             <div class="form-group">
-                <select name="module" placeholder="(Виберіть користувача)" autofocus class="form-control"
+                <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
                         style="width: 350px">
-                    <?php $modules = AccessHelper::generateModulesList();
+                    <?php $modules = Module::generateModulesList();
                     $count = count($modules);
                     for ($i = 0; $i < $count; $i++) {
                         ?>
@@ -36,7 +36,8 @@
                         for ($i = 0; $i < $count; $i++) {
                             ?>
                             <option
-                                value="<?php echo $courses[$i]['id']; ?>"><?php echo $courses[$i]['alias']; ?></option>
+                                value="<?php echo $courses[$i]['id']; ?>"><?php echo $courses[$i]['alias']." (".
+                                    $courses[$i]['language'].")"; ?></option>
                         <?php
                         }
                         ?>

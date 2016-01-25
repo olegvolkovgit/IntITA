@@ -156,4 +156,10 @@ class SkipTaskMarks extends CActiveRecord
         return $isDone;
 
     }
+	public static function taskTime($user, $idTest){
+		if(SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
+			array(':user' => $user, ':task' => $idTest))){
+			return SkipTaskMarks::model()->findByAttributes(array('user' => $user,'id_task' => $idTest,'mark' => 1))->time;
+		}else return false;
+	}
 }

@@ -1,26 +1,29 @@
 <?php
-/* @var $dataProvider CActiveDataProvider */
+/* @var $models Teacher */
+/* @var $paginator Paginator */
+//can delete
 ?>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
+<div class="col-md-12">
+    <br>
+    <br>
 
-    <br>
-    <br>
-    <button type="button" class="btn btn-link">
-        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create'); ?>">Додати викладача</a>
-    </button>
-    <br>
-    <button type="button" class="btn btn-link">
-        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/admin'); ?>">Управління викладачами</a>
-    </button>
-    <br>
-    <button type="button" class="btn btn-link">
-        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles'); ?>">Управління ролями викладачів</a>
-    </button>
+    <ul class="list-inline">
+        <li>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/create'); ?>" >Додати викладача</a>
+        </li>
+        <li>
+        <a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles'); ?>" >
+            Управління ролями викладачів</a>
+        </li>
+    </ul>
+
     <div class="page-header">
         <h2>Викладачі</h2>
     </div>
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'dataProvider' => $dataProvider,
+
+    <?php $this->widget('zii.widgets.grid.CGridView', array(
+    'dataProvider' => $model->search(),
     'htmlOptions' => array('class' => 'grid-view custom', 'id' => 'adminTeacherList'),
     'summaryText' => 'Показано викладачів {start} - {end} з {count}',
     'pager' => array(
@@ -32,11 +35,6 @@
         'cssFile' => Config::getBaseUrl() . '/css/pager.css'
     ),
     'columns' => array(
-        array(
-            'header' => 'Фото',
-            'value' => 'StaticFilesHelper::createPath("image", "teachers",$data->foto_url)',
-            'type' => 'image',
-        ),
         array(
             'header' => 'ПІБ',
             'value' => '"{$data->last_name} {$data->first_name} {$data->middle_name}"',
@@ -54,3 +52,5 @@
         ),
     ),
 )); ?>
+</div>
+

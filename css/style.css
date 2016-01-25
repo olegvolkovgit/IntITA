@@ -1,3 +1,5 @@
+[ng\:cloak],[ng-cloak],.ng-cloak{display:none!important;}
+a{-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}
 body{margin:0 auto;}
 img{border-style:none;}
 html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
@@ -97,7 +99,7 @@ div.profileStatus{position:absolute;top:10px;right:0;float:right;display:block;o
 .profileStatus a{text-decoration:none;}
 div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidden;}
 .profileStatus .minavatar img{width:70px;min-height:70px;}
-.profileStatus div{float:right;color:#4b75a4;font-family:MyriadPro;font-weight:normal;font-size:18px;line-height:100%;}
+.profileStatus div{float:right;color:#4b75a4;font-family:MyriadPro;font-weight:normal;font-size:18px;line-height:100%;height:70px;}
 .infoblock{margin:0 auto;margin-bottom:40vh;width:540px;border:1px solid #d8d8d8;border-radius:5px;padding:20px 20px 20px 20px;text-align:center;}
 .infoblock h2{text-align:center;color:#4b75a4;}
 .errorblock{margin:0 auto;margin-bottom:37vh;width:540px;border:1px solid #d8d8d8;border-radius:5px;padding:20px 20px 40px 20px;text-align:center;}
@@ -157,11 +159,24 @@ input[type="submit"][disabled]#identityButton{
 }
 .nameNAN{
     color: #cccccc;
-    font-size: 14px;
 }
 .pager .next>a{
     float: none;
 }
 .statusColor {
     color:#33cc00;
+}
+body.ie8 #hambMenu {
+    zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.DropShadow(OffX=2, OffY=2, Color=#999999);
+}
+.authorizePage{
+    padding-top: 20px;
+}
+.authorizePage .signInForm{
+    box-shadow:0px 0px 2px rgba(24, 37, 51, .5);
+}
+.authorizePage div{
+    text-align: center;
+    /*padding-bottom: 5px;*/
 }

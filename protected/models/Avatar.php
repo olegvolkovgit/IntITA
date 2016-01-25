@@ -97,21 +97,20 @@ class Avatar {
 
     public static function saveTeachersAvatar($model,$imgName)
     {
-        $name = $imgName . '_img';
         $folder = ($imgName == 'course')?'course':'teachers';
 
-        if (($model->scenario=="update") && (empty($model->foto_url['tmp_name'][$name])))
+        if (($model->scenario=="update") && (empty($model->avatar['tmp_name']['foto_url'])))
         {
             $model->foto_url=$model->oldAvatar;
-        } else if(($model->scenario=="update") && (!empty($model->foto_url['tmp_name'][$name]))){
-            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldAvatar;
+        } else if(($model->scenario=="update") && (!empty($model->avatar['tmp_name']['foto_url']))){
+            $src=Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->oldAvatar;
             if (is_file($src))
                 unlink($src);
         }
-        if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->foto_url['tmp_name']['course_img']))
+        if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->avatar['tmp_name']['foto_url']))
         {
 
-            if(!copy($model->foto_url['tmp_name'][$name],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url['name'][$name]))
+            if(!copy($model->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url))
                 return false;
         }
         return true;
@@ -162,4 +161,5 @@ class Avatar {
         }
         return true;
     }
+
 }

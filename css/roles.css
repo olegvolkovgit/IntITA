@@ -22,3 +22,13 @@
 {
     width: 100px;
 }
+
+.linkedList
+{
+    margin-right: 30px;
+    float: right;
+}
+.myGrid
+{
+    cursor: pointer;
+}

@@ -3,23 +3,17 @@
 /* @var $dataProvider CActiveDataProvider */
 ?>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create'); ?>">
             <?php echo Yii::t("coursemanage", "0511"); ?>
         </a>
-    </button>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/admin'); ?>">
             <?php echo Yii::t("coursemanage", "0512"); ?>
         </a>
-    </button>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/addExistModule'); ?>">
             Додати існуючий модуль до курса
         </a>
-    </button>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $dataProvider,
     'summaryText' => Yii::t("coursemanage", "0516") . ' {start} - {end} / {count}',
@@ -57,13 +51,13 @@
             'name' => 'level',
             'header' => Yii::t("coursemanage", "0520"),
         ),
-        array(
-            'name' => 'course_duration_hours',
-            'header' => Yii::t("coursemanage", "0521"),
-        ),
-        array(
-            'name' => 'course_price',
-            'header' => Yii::t("coursemanage", "0522"),
-        ),
+//        array(
+//            'name' => 'course_duration_hours',
+//            'header' => Yii::t("coursemanage", "0521"),
+//        ),
+//        array(
+//            'name' => 'course_price',
+//            'header' => Yii::t("coursemanage", "0522"),
+//        ),
     ),
 )); ?>

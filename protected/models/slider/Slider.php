@@ -19,16 +19,19 @@ abstract class Slider extends CActiveRecord {
 
     public static function sortOrder($model)
     {
-        if($model == 'Carousel')
+        $all = [];
+        if($model instanceof  Carousel)
             $all = Carousel::model()->findAll();
 
-        elseif($model == 'AboutUs')
+        elseif($model instanceof AboutusSlider)
             $all = AboutusSlider::model()->findAll();
 
         for($i = 0;$i < count($all);$i++)
         {
             $all[$i]->order = $i + 1;
+            $all[$i]->setScenario('setOrder');
             $all[$i]->save();
+//                throw new \application\components\Exceptions\IntItaException(405,'fskjdffhdsf',444);
         }
 
     }

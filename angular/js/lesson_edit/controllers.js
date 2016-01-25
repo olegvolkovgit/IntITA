@@ -2,7 +2,46 @@ angular
     .module('lessonEdit')
     .controller('CKEditorCtrl', CKEditorCtrl)
 
-function CKEditorCtrl($compile, $scope, $http) {
+function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+    $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
+    $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+
+    $scope.unableSkipTask = function(pageId){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
+            .then(function() {
+                $http({
+                    url: basePath + "/skipTask/unableSkipTask",
+                    method: "POST",
+                    data: $.param({pageId: pageId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                })
+                    .success(function (response) {
+                        location.reload();
+                    })
+                    .error(function () {
+                        alert('error unableSkipTask');
+                    })
+            }, function() {
+            });
+    };
+    $scope.unablePlainTask = function(pageId){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
+            .then(function() {
+                $http({
+                    url: basePath + "/plainTask/unablePlainTask",
+                    method: "POST",
+                    data: $.param({pageId: pageId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                })
+                    .success(function (response) {
+                        location.reload();
+                    })
+                    .error(function () {
+                        alert('error unablePlainTask');
+                    })
+            }, function() {
+            });
+    };
     $scope.editorOptions = {
         language: lang
     };
@@ -24,19 +63,23 @@ function CKEditorCtrl($compile, $scope, $http) {
         $scope.isReady = true;
     });
 
-    $scope.getBlockHtml = function (blockOrder, idLecture) {
+    $scope.getBlockHtml = function (blockOrder, idLecture, element) {
         $http({
             url: basePath + '/lesson/editBlock',
             method: "POST",
             data: $.param({order: blockOrder, lecture: idLecture}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function (response) {
-                $scope.editRedactor = response;
-            })
-            .error(function () {
-                alert($scope.errorMsg);
-            })
+        }).then(function successCallback(response) {
+            $scope.editRedactor = response.data;
+            var template = '<textarea data-ng-cloak class="openCKE" ' +
+                'id="openCKE' + blockOrder + '"' +
+                'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
+                '</textarea>';
+            ($compile(template)($scope)).insertAfter(element);
+            return true;
+        }, function errorCallback() {
+            alert($scope.errorMsg);
+        });
     };
 
     $scope.answers = [{id: 1}];
@@ -90,15 +133,15 @@ function CKEditorCtrl($compile, $scope, $http) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value":  result[4]
+                "value":  result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')
             });
         }
 
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                alert("Завдання успішно додано до лекції!");
-                // location.reload();
+                //alert("Завдання успішно додано до лекції!");
+                 location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
@@ -108,129 +151,28 @@ function CKEditorCtrl($compile, $scope, $http) {
             .always(function () {
             });
     };
-}
+    $scope.editTaskCKE = function (blockId) {
+        $http({
+            url: basePath + '/task/editTaskCKE',
+            method: "POST",
+            data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:selectedLang}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.reload();
+            return true;
+        }, function errorCallback() {
+            alert('error editTaskCKE');
+        });
+    }
 
-angular
-    .module('lessonEdit')
-    .directive('editBlock', function ($compile) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    if (angular.element('.openCKE').length) {
-                        alert(scope.editMsg);
-                        return;
-                    }
-                    var orderBlock = element.attr('id').substring(1);
-                    var template = '<textarea data-ng-cloak class="openCKE" ' +
-                        'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
-                        'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
-                        '</textarea>';
-                    ($compile(template)(scope)).insertAfter(element);
-                    element.hide();
-                });
-            }
-        };
-    })
-    .directive('upBlock', function ($compile, $http) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
-                    $http({
-                        url: basePath + '/lesson/upElement',
-                        method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                        .success(function () {
-                            $.fn.yiiListView.update('blocks_list', {
-                                complete: function () {
-                                    var template = angular.element('#blockList').html();
-                                    angular.element('#blockList').empty();
-                                    angular.element('#blockList').append(($compile(template)(scope)));
-                                    setTimeout(function () {
-                                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                    });
-                                }
-                            });
-                        })
-                        .error(function () {
-                            alert(scope.errorMsg);
-                        });
-                });
-            }
-        };
-    })
-    .directive('downBlock', function ($compile, $http) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
-                    $http({
-                        url: basePath + '/lesson/downElement',
-                        method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                        .success(function () {
-                            $.fn.yiiListView.update('blocks_list', {
-                                complete: function () {
-                                    var template = angular.element('#blockList').html();
-                                    angular.element('#blockList').empty();
-                                    angular.element('#blockList').append(($compile(template)(scope)));
-                                    setTimeout(function () {
-                                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                    });
-                                }
-                            });
-                        })
-                        .error(function () {
-                            alert(scope.errorMsg);
-                        });
-                });
-            }
-        };
-    })
-    .directive('deleteBlock', function ($compile, $http) {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    if (confirm(scope.deleteMsg)) {
-                        var order = element.parent().attr('id').substring(1);
-                        $http({
-                            url: basePath + '/lesson/deleteElement',
-                            method: "POST",
-                            data: $.param({idLecture: idLecture, order: order}),
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        })
-                            .success(function () {
-                                $.fn.yiiListView.update('blocks_list', {
-                                    complete: function () {
-                                        var template = angular.element('#blockList').html();
-                                        angular.element('#blockList').empty();
-                                        angular.element('#blockList').append(($compile(template)(scope)));
-                                        setTimeout(function () {
-                                            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                        });
-                                    }
-                                });
-                            })
-                            .error(function () {
-                                alert(scope.errorMsg);
-                            });
-                    }
-                });
-            }
-        };
-    })
-    .directive('selectedButton', function () {
-        return {
-            link: function (scope, element) {
-                element.bind('click', function () {
-                    var button = angular.element(document.querySelector(".selectedButton"));
-                    if (button.length == 1) button.removeClass("selectedButton");
-                    element.addClass("selectedButton");
-                });
-            }
-        };
-    })
+    $scope.addTextBlock = function(type){
+        if(type==7){
+            $scope.instructionStyle=true;
+        }else{
+            $scope.instructionStyle=false;
+        }
+        document.getElementById('addBlock').style.display = 'block';
+        document.getElementById('blockForm').style.display = 'block';
+        document.getElementById('blockType').value = type;
+    }
+}

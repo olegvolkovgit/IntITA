@@ -7,7 +7,7 @@
  */?>
 <div class="row">
     <div class="col-lg-12">
-        <h3>Автор</h3>
+        Автор
     </div>
 </div>
 <hr>

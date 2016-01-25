@@ -84,8 +84,6 @@ class PayModules extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user);
@@ -233,4 +231,38 @@ class PayModules extends CActiveRecord
         }
     }
 
+    public static function getConfirmText($moduleName,$courseId,$userName)
+    {
+        $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
+            $moduleName.'</strong> курса <strong>'.
+            Course::getCourseName($courseId).' оплачено</strong>.
+            <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
+
+        return $result;
+    }
+
+    public static function getExistPayModuleText($userName)
+    {
+        $result = 'У '.$userName.' вже <strong>Є</strong> доступ до цього модуля';
+
+        return $result;
+    }
+
+    public static function getCancelText($moduleName,$courseId,$userName)
+    {
+        $result = '<br />Модуль <strong>'.
+            $moduleName.'</strong> курса <strong>'.
+            Course::getCourseName($courseId).'скасовано</strong> .
+            <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього модуля.';
+
+        return $result;
+    }
+
+    public static function getCancelErrorText($userName,$moduleName)
+    {
+        $result = '<br /> В користувача'. $userName. '<strong> в модулі '.
+            $moduleName.'</strong> не було доступу до цього модуля <strong>';
+
+        return $result;
+    }
 }

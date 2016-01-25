@@ -25,26 +25,6 @@ class PermissionsController extends AdminController
         );
     }
 
-//    public function accessRules()
-//    {
-//        return array(
-//            array('allow',
-//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-//                    'userStatus', 'cancelTeacherRole','showAttributes','showAttributeInput','showModules'),
-//                'expression' => array($this, 'isAdministrator'),
-//            ),
-//            array('deny',
-//                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-//                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-//                'actions' => array('delete', 'create', 'edit', 'newPermission', 'index', 'admin', 'showLectures',
-//                    'newTeacherPermission', 'addTeacher', 'SetPaidLessons', 'SetFreeLessons', 'freeLessons',
-//                    'userStatus', 'cancelTeacherRole'),
-//                'users' => array('*'),
-//            ),
-//        );
-//    }
-
     public function actionIndex()
     {
         $model = new PayModules('search');
@@ -136,7 +116,7 @@ class PermissionsController extends AdminController
             if (PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $_POST['user'], ':resource' => $_POST['module']))) {
                 PayModules::model()->updateByPk(array('id_user' => $_POST['user'], 'id_module' => $_POST['module']), array('rights' => PayModules::setFlags($rights)));
             } else {
-                $user = Yii::app()->db->createCommand()->insert('pay_modules', array(
+                Yii::app()->db->createCommand()->insert('pay_modules', array(
                     'id_user' => $_POST['user'],
                     'id_module' => $_POST['module'],
                     'rights' => PayModules::setFlags($rights),
@@ -148,7 +128,7 @@ class PermissionsController extends AdminController
 
     public function actionDelete($id, $resource)
     {
-        $result = Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
+        Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
         $this->actionIndex();
     }
 
@@ -236,13 +216,15 @@ class PermissionsController extends AdminController
         $teacher = Teacher::model()->findByAttributes(array('teacher_id' => $teacherId));
         $module = Yii::app()->request->getPost('module');
 
-        Teacher::addTeacherAccess($teacher->teacher_id, $module);
+        if($module){
+            Teacher::addTeacherAccess($teacher->teacher_id, $module);
 
-        $permission = new PayModules();
-        $permission->setModulePermission(
-            $teacher->user_id,
-            $module,
-            array('read', 'edit'));
+            $permission = new PayModules();
+            $permission->setModulePermission(
+                $teacher->user_id,
+                $module,
+                array('read', 'edit'));
+        }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -250,25 +232,11 @@ class PermissionsController extends AdminController
     {
         $user = Yii::app()->request->getPost('user');
         $user = StudentReg::model()->findByPk($user);
-        switch ($user->role) {
-            case '0':
-                $user->role = 1;
-                $user->save();
-                break;
-            case '1':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
-                break;
-            case '2':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є модератором.");
-                break;
-            case '3':
-                Yii::app()->user->setFlash('warning', "Користувач з таким email вже є адміністратором.");
-                break;
-            default:
-                $user->role = 1;
-                $user->save();
-                break;
+        if ($user->isTeacher()){
+            Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
         }
+        $user->save();
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -291,7 +259,6 @@ class PermissionsController extends AdminController
     {
         $request = Yii::app()->request;
         $teacherId = $request->getPost('teacher', 0);
-        $roleId = $request->getPost('role', 0);
         $attributeId = $request->getPost('attribute', 0);
         $value = $request->getPost('attributeValue', 0);
 

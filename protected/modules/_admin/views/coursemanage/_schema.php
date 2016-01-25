@@ -1,9 +1,8 @@
-<?php
-?>
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
 </head>
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courseSchema.css'); ?>"/>
+<link rel="stylesheet" type="text/css" href="<?=Config::getBaseUrl()?>/css/courseSchema.css"/>
 
 <div id="courseSchema">
     <br>
@@ -17,15 +16,13 @@
                 <td class="monthsCell"><?php echo $i + 1; ?></td>
             <?php } ?>
         </tr>
-
         <tr>
-            <td class="monthTitle"><?php echo Course::getMessage($message, 'months') ?></td>
+            <td class="monthTitle"><?php echo Course::getMessage($message, 'module') ?></td>
             <td class="monthTitle" colspan="<?php echo $courseDuration - 5; ?>"></td>
             <td colspan="5" id="courseName">
                 <?php echo Course::getCourseName($idCourse); ?>
             </td>
         </tr>
-
         <?php for ($i = 0, $count = count($modules); $i < $count; $i++) {
             if (Module::getLessonsCount($modules[$i]['id_module']) > 0) {
                 ?>
@@ -62,7 +59,6 @@
             ?>
             </tr>
         <?php } ?>
-
         <tr>
             <td class="monthTitle"><?php echo Course::getMessage($message, 'months'); ?></td>
             <?php for ($i = 0; $i < $courseDuration; $i++) { ?>
@@ -73,7 +69,7 @@
     <?php if (!$save) { ?>
         <br>
         <br>
-        <button id="saveButton" onclick="alert('Ваша схема збережена!!!')"><a
+        <button id="saveButton" onclick="alert('Схема курса збережена!')"><a
                 href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
                     array('idCourse' => $idCourse)
                 ); ?>"><?php echo Course::getMessage($message, 'save'); ?></a></button>

@@ -90,23 +90,22 @@ return array(
 			'urlSuffix' => '/',
 			'caseSensitive' => true,
 			'rules'=>array(
-
 				''=>array('site/index', 'urlSuffix' => ''),
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',
                 'courses/<selector:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>'=>'aboutus/index',
                 'account/<courseId:\d+>'=>'payments/index',
+                'cabinet/<id:\d+>'=>'_teacher/cabinet/index',
 
                 array('class'=>'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
 
-
-                'profile/tab<tab:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
+                'profile/<idUser:\d+>'=>'studentreg/profile', /*TEMP Url for profile tabs */
 			    'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
                 '_teacher/cabinet/login/<id:\d+>' => '_teacher/cabinet/login', /* Url for cabinet teacher page */
-
+				'consultation/course_<idCourse:\d+>&lecture_<lectureId:\d+>' => 'consultationscalendar/index',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -115,9 +114,7 @@ return array(
                 '<controller:aajax>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:afile>/<action:\w+>' => 'autoadmin/<controller>/<action>',
                 '<controller:\w+>/foreign-<key:\w+>' => 'autoadmin/<controller>/foreign<key>',
-
 			),
-
 		),
 
         'widgetFactory' => array(
@@ -167,14 +164,5 @@ return array(
 		// this is used in teacher profile page
 		'adminEmail'=>'Wizlightdragon@gmail.com',
 		'languages'=>array('en'=>'English', 'ua'=>'Ukrainian', 'ru'=>'Russian'),
-//        'imagesPath'=>'http://localhost/IntITA/images',
-        'imagesPath'=>'http://intita.itatests.com/images',
-        'avatarsPath'=>'http://intita.itatests.com/avatars',
-        'commonPath' =>'http://intita.itatests.com/files',
-        'interpreterServer' => 'http://ii.itatests.com',
-        'openDialogPath' => 'http://intita.itatests.com/index.php?dialog=true',
-		'baseUrl' =>'http://intita.itatests.com',
-        'baseUrlWithoutHeader' => 'intita.itatests.com',
-        'maintenance' => 1,
 	),
 );

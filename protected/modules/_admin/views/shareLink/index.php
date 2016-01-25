@@ -7,9 +7,7 @@ $this->menu=array(
 );
 ?>
 <br>
-<button type="button" class="btn btn-link">
 <a href="<?php echo Yii::app()->createUrl('/_admin/shareLink/create');?>">Створити посилання на ресурс</a>
-</button>
     <br>
 <?php
 
@@ -43,7 +41,7 @@ $('.search-form form').submit(function(){
         'link',
         array(
             'class'=>'CButtonColumn',
-
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 )); ?>

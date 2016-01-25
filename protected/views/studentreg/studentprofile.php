@@ -4,8 +4,7 @@
 /* @var $this StudentregController */
 /* @var $post StudentReg */
 /* @var $form CActiveForm */
-$this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'),
-);
+$this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <div class="formStudProf">
     <div class="studProfInf">
@@ -157,4 +156,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'),
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
+<script type="text/javascript">
+    lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
+</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'profileDialogs.js'); ?>"></script>
+<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <!-- Scripts for open tabs -->

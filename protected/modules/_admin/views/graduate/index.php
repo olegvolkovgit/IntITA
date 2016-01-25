@@ -6,9 +6,7 @@
 <br>
 <br>
 
-<button type="button" class="btn btn-link">
     <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/create'); ?>">Додати випускника</a>
-</button>
 
 <div class="page-header">
     <h2>Випускники</h2>
@@ -50,6 +48,7 @@ $('.search-form form').submit(function(){
         ),
         array(
             'class' => 'CButtonColumn',
+            'headerHtmlOptions' => array('style' => 'width:80px'),
         ),
     ),
 

@@ -101,35 +101,9 @@ $price = Course::getPrice($course);
     <?php $this->endWidget(); ?>
 </div>
 <br>
-<?php if ($model->course_price > 0) { ?>
+<?php if ($price > 0) { ?>
     <button class="ButtonFinances" style=" float:right; cursor:pointer"
             onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
                 '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>
-<script>
-    $(function () {
-        schema = $.cookie('courseSchema');
-        if (schema > 0) {
-            $('input:radio[name="payment"]').filter('[value="' + schema + '"]').attr('checked', true);
-        } else {
-            $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
-        }
-    });
-    function printAccount(user, course) {
-        var summaNum = $("input[name='payment']:checked").val();
-        $.ajax({
-            type: "POST",
-            url: "/payments/newAccount",
-            data: {
-                'user': user,
-                'module': '0',
-                'course': course,
-                'summaNum': summaNum
-            },
-            cache: false,
-            success: function (data) {
-                location.href = '/payments/index?account=' + data;
-            }
-        });
-    }
-</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sendAccount.js') ?>"></script>

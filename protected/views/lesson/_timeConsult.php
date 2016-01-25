@@ -28,3 +28,6 @@
 <button id="consultationNext" onclick="goNext('<?php echo $teacherId; ?>')"><?php echo Yii::t("consultation", "0502") ?></button>
 
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'timeSelect.js'); ?>"></script>
+<script>
+    if($('.disabledTime').length==42) $('#consultationNext').attr('disabled','true');
+</script>

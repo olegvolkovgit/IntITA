@@ -258,8 +258,8 @@ div.ratico{
     float:right;
     margin-top: 20px;
     margin-right: 20px;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50px;
     background: #0080c2;
     display: none;
@@ -374,6 +374,15 @@ td.button-column{
 .imageUpdateForm input[type="submit"]:hover {
     background: #454545;
 }
+#errorMessage{
+    width: 90px;
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
+#imgButton[disabled]{
+    background: #666666;
+}
 #avatarInfo{
     width: 90px;
     word-wrap: break-word;
@@ -394,3 +403,16 @@ td.button-column{
     background: #666666;
 }
 /*addlesson validation*/
+#logo {
+    color:#4b75a4;
+    cursor: pointer;
+    background: #fff;
+}
+#logo:hover {
+    color: #454545;
+}
+.fileform {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}

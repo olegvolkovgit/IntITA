@@ -6,12 +6,11 @@ function showPlainTaskWithoutTrainer(url)
 {
     $.ajax({
         url: url,
-        success: function (data) {
+        success: function(data) {
             fillContainer(data);
         }
     })
 }
-
 
 function chooseTrainer(id,url)
 {
@@ -80,24 +79,54 @@ function markPlainTask(url)
         },
         error : function()
         {
-            alert('Щось пышло не так!' +
+            alert('Щось пішло не так!' +
             'Зв\'яжіться будь-ласка з адміністратором сайту');
         }
     });
 
 }
 
-function manageConsult(url)
+function addTrainer(url)
 {
-
+    var id = document.getElementById('user').value;
+    var trainerId = $("select option:selected").val();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data : { 'userId': id, 'trainerId' : trainerId},
+        success: function (data) {
+            location.reload();
+        }
+    });
 }
 
-
+function removeTrainer(url)
+{
+    if(confirm('Ви впевнені що хочете видалити тренера?'))
+    {
+        $.ajax({
+            url: url,
+            success: function (data) {
+                location.reload();
+            }
+        })
+    }
+}
 
 function fillContainer(data)
 {
     container = $('#pageContainer');
-
     container.html('');
     container.html(data);
+}
+
+function loadUserWithoutTrainer(url)
+{
+    $.ajax({
+        url: url,
+        type: "POST",
+        success: function (data) {
+            fillContainer(data);
+        }
+    })
 }

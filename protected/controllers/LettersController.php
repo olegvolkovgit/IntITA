@@ -1,7 +1,7 @@
 <?php
 
 class LettersController extends Controller
-{//http://localhost/IntIta/studentreg/profile/?idUser=22 вкладка листування
+{
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -136,26 +136,27 @@ class LettersController extends Controller
 
     public function actionSendLetter()
     {
-        $model= new Letters();
-        if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        if(isset($_POST['Letters']))
-        {
-            $model->attributes=$_POST['Letters'];
-            $model->date = date("Y-m-d H:i:s");
-            if($model->validate())
-            {
-                $model->save();
-                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-            } else {
-                Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
-                $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
-            }
-        }
+		$tab=3;
+		$model= new Letters();
+		if(isset($_POST['ajax']) && $_POST['ajax']==='letters-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+		if(isset($_POST['Letters']))
+		{
+			$model->attributes=$_POST['Letters'];
+			$model->date = date("Y-m-d H:i:s");
+			if($model->validate())
+			{
+				$model->save();
+				Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0537"));
+				$this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+			} else {
+				Yii::app()->user->setFlash('sendletter', Yii::t("letter", "0538"));
+				$this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id, 'tab'=>$tab)));
+			}
+		}
     }
     public function actionSendRespLetter($id)
     {

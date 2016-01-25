@@ -2,7 +2,7 @@
  * Created by Quicks on 26.11.2015.
  */
 
-function selectModule(){
+function selectModule(url){
     var course = $('select[name="course"]').val();
     if(!course){
         $('div[name="selectModule"]').html('');
@@ -10,7 +10,7 @@ function selectModule(){
     }else{
         $.ajax({
             type: "POST",
-            url:  "../../permissions/showModules",
+            url: url,
             data: {course: course},
             cache: false,
             success: function(response){ $('div[name="selectModule"]').html(response); }
@@ -18,19 +18,19 @@ function selectModule(){
     }
 }
 
-function findUserByEmail() {
+function findUserByEmail(url) {
     var find = $('#find');
     var email = find.val();
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (!filter.test(find.val())) {
-        alert('Please provide a valid email address');
+        showDialog('Please provide a valid email address');
         return false;
     }
     else
     {
         $.ajax({
             type: "POST",
-            url: "../../permissions/showUsers",
+            url: url,
             data : {email : email},
             success: function(JSON){
                 if(JSON === 'not found') alert('Kористувача с таким email не знайдено');
@@ -54,31 +54,71 @@ function findUserByEmail() {
     }
 }
 
-function checkCourseField()
+function checkCourseField(url)
 {
-    var courseList = document.getElementById("courseList");
-    if(courseList.value == ''){
-        alert("Виберіть будь-ласка курс");
+    var courseId = document.getElementById("courseList").value;
+    var userId = document.getElementById('user').value;
+    if(!courseId){
+        showDialog("Виберіть будь-ласка курс");
         return false;
     }
-
-    else return true;
+    if(!userId)
+    {
+        showDialog("Виберіть будь-ласка користувача");
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {course: courseId,
+            'user' : userId},
+        cache: false,
+        success: function(data){
+            showDialog(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
 
 }
 
-function checkModuleField()
+function checkModuleField(url)
 {
-    var moduleCourseList = document.getElementById('moduleCourseList');
-    var moduleList = document.getElementById('payModuleList');
-    if(moduleCourseList.value == '')
+    var courseId = document.getElementById('moduleCourseList').value;
+    var moduleId = document.getElementById('payModuleList').value;
+    var userId = document.getElementById('user').value;
+
+    if(!courseId)
     {
-        alert("Виберіть будь-ласка курс");
+        showDialog("Виберіть будь-ласка курс");
         return false;
     }
-    if(moduleList.value == '')
+    if(!userId)
     {
-        alert("Виберіть будь-ласка модуль");
+        showDialog("Виберіть будь-ласка користувача");
         return false;
     }
-    return true
+    if(!moduleId)
+    {
+        showDialog("Виберіть будь-ласка модуль");
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {course: courseId,
+                'module': moduleId,
+                'user' : userId},
+        cache: false,
+        success: function(data){
+            showDialog(data);
+        },
+        error: function () {
+            showDialog();
+        }
+
+
+    });
+    return true;
 }

@@ -4,17 +4,13 @@
 ?>
     <br>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/index'); ?>">
             <?php echo Yii::t("coursemanage", "0510"); ?>
         </a>
-    </button>
     <br>
-    <button type="button" class="btn btn-link">
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/create'); ?>">
             <?php echo Yii::t("coursemanage", "0511"); ?>
         </a>
-    </button>
 <?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

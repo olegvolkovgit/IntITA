@@ -134,10 +134,11 @@ class ModuleController extends AdminController
     public function actionMandatory($id){
         $this->render('mandatory', array(
             'id' => $id
-        ));
+        ),false,true);
     }
 
     public function actionAddMandatoryModule(){
+
         $idModule = Yii::app()->request->getPost('module', 0);
         $idCourse = Yii::app()->request->getPost('course', 0);
         $mandatory = Yii::app()->request->getPost('mandatory', 0);
@@ -176,7 +177,6 @@ class ModuleController extends AdminController
             $id =  (int)($_POST['course']);
             $modules = Course::model()->findByPk($id)->module;
         }
-
         return $this->renderPartial('_ajaxModule',array('modules' => $modules));
         }
     }

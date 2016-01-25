@@ -1,6 +1,7 @@
 <?php
 /* @var $post Module*/
 ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'fileValidation.js');?>"></script>
 <div class="moduleTitle">
     <h1>
         <?php
@@ -31,18 +32,21 @@
                     ),
                     'enableAjaxValidation' => false,
                 )); ?>
-                <div class="hideInput">
-                    <?php echo $form->fileField($post, 'module_img', array('id' => 'logoModule', 'onChange' => 'js:getImgName(this.value)')); ?>
+                <div class="fileform">
+                    <div class="hideInput">
+                        <?php echo $form->fileField($post, 'module_img', array('tabindex' => '-1', 'id' => 'logoModule', 'onChange' => 'js:getImgName(this.value);CheckFile(this)')); ?>
+                    </div>
+                    <div>
+                        <?php echo $form->error($post, 'module_img'); ?>
+                        <label id="logo" for="logoModule" >
+                            <?php echo 'Вибрати'; ?>
+                        </label>
+                    </div>
                 </div>
-                <div>
-                    <?php echo $form->error($post, 'module_img'); ?>
-                    <a onclick="selectLogo()">
-                        <?php echo 'Вибрати'; ?>
-                    </a>
-                </div>
+                <div id="errorMessage"></div>
                 <div id="avatarInfo"><?php echo 'Не вибрано'; ?></div>
                 <div class="row buttons">
-                    <?php echo CHtml::submitButton($post->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
+                    <?php echo CHtml::submitButton($post->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'), array('id'=>'imgButton')); ?>
                 </div>
                 <?php $this->endWidget(); ?>
             </div>

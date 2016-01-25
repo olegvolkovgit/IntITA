@@ -29,13 +29,17 @@
 
                 <div class="text">
                     <div>
-                        <?php echo Yii::t('graduates', '0316') ?>
-                        <span><?php echo $data->position; ?></span>
+                        <?php if(!empty($data->position)){
+                            echo Yii::t('graduates', '0316') ?>
+                            <span><?php echo $data->position; ?></span>
+                        <?php } ?>
                     </div>
                     <div>
-                        <?php echo Yii::t('graduates', '0317') ?>
-                        <a href="<?php echo $data->work_site; ?>"
-                           target="_blank"> <?php echo $data->work_place; ?> </a>
+                        <?php if(!empty($data->position)){
+                            echo Yii::t('graduates', '0317') ?>
+                            <a href="<?php echo $data->work_site; ?>"
+                               target="_blank"> <?php echo $data->work_place; ?> </a>
+                        <?php } ?>
                     </div>
                     <div>
                         <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>

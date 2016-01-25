@@ -955,4 +955,60 @@ class StudentReg extends CActiveRecord
     public function hasCabinetAccess(){
         return $this->isTeacher() || $this->isAdmin() || $this->isAccountant();
     }
+
+
+
+    public static function userLetterReceivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
+    }
+
+    public static function receivers(){
+        return StudentReg::model()->findAll(
+            array('condition'=>'role<>0 and id<>'.Yii::app()->user->getId().' and id<>1', 'order' => 'id'));
+    }
+
+
+
+    public function receivedMessages(){
+        $messages =  Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('message_receiver r')
+            ->where('id_receiver=:id and r.`deleted` is null', array(':id'=>$this->id))
+            ->queryAll();
+
+        return $messages;
+    }
+
+    public function newReceivedMessages(){
+        $sql = "select * from message_receiver where `read` is null and id_receiver=".$this->id;
+        $messages =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $messages;
+    }
+
+    public function getNameOrEmail()
+    {
+        if( !empty($this->firstName)|| !empty($this->secondName))
+        $name = $this->firstName .' '.$this->secondName;
+
+        else
+            $name = $this->email;
+
+        return $name;
+    }
+
+    /**
+     * @param $current integer - id current user (is not included into receivers list)
+     * @return string - json for typeahead field in new user message form
+     */
+    public static function usersEmailArray($current){
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
+            ->queryAll();
+        $result = [];
+        foreach ($data as $row){
+            $result[] = implode(" ", $row);
+        }
+        return json_encode($result);
+    }
 }
