@@ -109,8 +109,10 @@ class Avatar {
         }
         if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->avatar['tmp_name']['foto_url']))
         {
+            $tmpFoto = $model->avatar['tmp_name']['foto_url'];
+            $path = Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url;
 
-            if(!copy($model->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url))
+            if(!copy($tmpFoto,$path))
                 return false;
         }
         return true;

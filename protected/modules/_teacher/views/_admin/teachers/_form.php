@@ -126,6 +126,27 @@ $list = CHtml::listData($models,
     </div>
 
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'first_name_ru'); ?>
+        <?php echo $form->textField($model, 'first_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'first_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'middle_name_ru'); ?>
+        <?php echo $form->textField($model, 'middle_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'middle_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'last_name_ru'); ?>
+        <?php echo $form->textField($model, 'last_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'last_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'isPrint'); ?>
         <?php echo $form->dropDownList($model, 'isPrint',
             array('1' => 'показувати', '0' => 'не показувати'),

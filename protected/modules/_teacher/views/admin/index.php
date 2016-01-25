@@ -127,16 +127,43 @@
     <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
+                Користувачі
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
+                               'Користувачі')">Ролі користувачів
+                        </a>
+                    </li>
+                    <br>
+                    <br>
+                    <br>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Управління користувачами</em>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
                 Налаштування сайта
             </div>
             <div class="panel-body">
                 <ul>
                     <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
+                               'Рівні курсів, модулів')">Рівні курсів, модулів
+                        </a>
+                    </li>
+                    <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>',
                                'Налаштування')">Налаштування
                         </a>
                     </li>
-                    <br>
                     <br>
                     <br>
                 </ul>

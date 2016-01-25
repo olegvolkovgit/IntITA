@@ -25,12 +25,13 @@
  * @property string $what_you_get_en
  * @property string $course_img
  * @property integer $rating
- * @property string $level
+ * @property integer $level
  * @property integer $cancelled
  * @property integer $course_number
  *
  * The followings are the available model relations:
  * @property Module[] $modules
+ * @property Level $level0
  */
 class Course extends CActiveRecord implements IBillableObject
 {
@@ -83,7 +84,8 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'Module', 'course_modules(id_course,id_module)')
+            'module' => array(self::MANY_MANY, 'Module', 'course_modules(id_course,id_module)'),
+            'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
 
@@ -302,13 +304,21 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->order = 'rating DESC';
         $criteria->condition = 'language="ua" and cancelled="0"';
         if ($selector !== 'all') {
-            if ($selector == 'junior') {
-                $criteria->addInCondition('level', array('intern', 'strong junior', 'junior'));
-            } else {
-                $criteria->condition = 'level=:level and language="ua" and cancelled=0';
-                $criteria->params = array(':level' => $selector);
+            switch ($selector) {
+                case 'junior':
+                    $criteria->addInCondition('level', array('1', '2', '3'));
+                    break;
+                case 'middle':
+                    $criteria->addCondition('level=4', 'AND');
+                    break;
+                case 'senior':
+                    $criteria->addCondition('level=5', 'AND');
+                    break;
+                default:
+                    break;
             }
         }
+
         return $criteria;
     }
 
@@ -325,7 +335,8 @@ class Course extends CActiveRecord implements IBillableObject
         return $modules;
     }
 
-    public static function getTableCells($modules, $idCourse)
+    public
+    static function getTableCells($modules, $idCourse)
     {
         $cells = [];
         for ($i = 0, $count = count($modules); $i < $count; $i++) {
@@ -348,24 +359,27 @@ class Course extends CActiveRecord implements IBillableObject
         return $cells;
     }
 
-    public static function getCourseDuration($tableCells)
+    public
+    static function getCourseDuration($tableCells)
     {
         $count = count($tableCells);
         $arr = [];
         for ($i = 0; $i < $count; $i++) {
             $arr[$i] = count($tableCells[$i]) - 2;
         }
-        if($arr)
-        return max($arr) + 1;
+        if ($arr)
+            return max($arr) + 1;
         else return 0;
     }
 
-    public static function getStatus($id)
+    public
+    static function getStatus($id)
     {
         return Course::model()->findByPk($id)->status;
     }
 
-    public static function generateCoursesList()
+    public
+    static function generateCoursesList()
     {
         $courses = Course::model()->findAll();
 
@@ -380,12 +394,14 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public static function getCourseLang($id)
+    public
+    static function getCourseLang($id)
     {
         return Course::model()->findByPk($id)->language;
     }
 
-    public static function getCourseTitlesList()
+    public
+    static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
         $criteria->select = 'course_ID, title_ua, language';
@@ -395,17 +411,19 @@ class Course extends CActiveRecord implements IBillableObject
         $result = '';
         $titles = Course::model()->findAll($criteria);
         for ($i = 0; $i < count($titles); $i++) {
-            $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua']." (".$titles[$i]['language'].")";
+            $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'] . " (" . $titles[$i]['language'] . ")";
         }
         return $result;
     }
 
-    public static function getCourseNumber($id)
+    public
+    static function getCourseNumber($id)
     {
         return Course::model()->findByPk($id)->course_number;
     }
 
-    public static function getCreditCoursePrice($idCourse, $years)
+    public
+    static function getCreditCoursePrice($idCourse, $years)
     {
         $modules = Yii::app()->db->createCommand("SELECT id_module FROM course_modules WHERE id_course =" . $idCourse
         )->queryAll();
@@ -417,45 +435,41 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPaySumma;
     }
 
-    public static function getCourseLevel($idCourse)
+    public function level()
     {
-        $level = Course::model()->findByPk($idCourse)->level;
-        return CommonHelper::translateLevel($level);
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $this->level0->$title;
     }
 
-    public function getRate(){
-        $rate = 0;
-        switch ($this->level) {
-            case 'intern':
-                $rate = 1;
-                break;
-            case 'junior':
-                $rate = 2;
-                break;
-            case 'strong junior':
-                $rate = 3;
-                break;
-            case 'middle':
-                $rate = 4;
-                break;
-            case 'senior':
-                $rate = 5;
-                break;
-        }
-        return $rate;
+    public
+    static function getCourseLevel($idCourse)
+    {
+        $course = Course::model()->findByPk($idCourse);
+        return $course->getLevel();//CommonHelper::translateLevel($level);
     }
 
-    public function getTranslatedLevel(){
+    public function getRate()
+    {
+        return $this->level0->id;
+    }
+
+    public
+    function getTranslatedLevel()
+    {
         return CommonHelper::translateLevel($this->level);
     }
 
-    public function getTitle(){
+    public
+    function getTitle()
+    {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         return $this->$title;
     }
 
-    public static function getCourseName($idCourse)
+    public
+    static function getCourseName($idCourse)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
@@ -463,7 +477,8 @@ class Course extends CActiveRecord implements IBillableObject
         return $courseTitle;
     }
 
-    public static function getLessonsCount($id)
+    public
+    static function getLessonsCount($id)
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 'course_modules';
@@ -486,7 +501,8 @@ class Course extends CActiveRecord implements IBillableObject
         return $lessonsCount;
     }
 
-    public static function getMessage($message = null, $type = null)
+    public
+    static function getMessage($message = null, $type = null)
     {
         if ($message !== null) {
             switch ($type) {
@@ -519,14 +535,16 @@ class Course extends CActiveRecord implements IBillableObject
         }
     }
 
-    public static function printTitle($idCourse, $messages = null)
+    public
+    static function printTitle($idCourse, $messages = null)
     {
         $course = Course::model()->findByPk($idCourse);
         $chartSchema = Course::getMessage($messages, 'chart');
         return $chartSchema . ' ' . $course->getTitle() . ", " . CommonHelper::translateLevel($course->level);
     }
 
-    public static function generateModuleCoursesList($idModule, $messages = null)
+    public
+    static function generateModuleCoursesList($idModule, $messages = null)
     {
         $result = [];
         if ($messages !== null) {
@@ -535,13 +553,14 @@ class Course extends CActiveRecord implements IBillableObject
 
         $criteria = new CDbCriteria();
         $criteria->join = 'LEFT JOIN course_modules cm ON course_ID = cm.id_course';
-        $criteria->addCondition('cm.id_module = '.$idModule);
+        $criteria->addCondition('cm.id_module = ' . $idModule);
 
         $courses = Course::model()->findAll($criteria);
         return $courses;
     }
 
-    public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
+    public
+    static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
     {
         switch ($summaNum) {
             case '1':
@@ -575,14 +594,16 @@ class Course extends CActiveRecord implements IBillableObject
         return $summa;
     }
 
-    //discount 30 percent - first pay schema
-    public static function getSummaWholeCourse($idCourse)
+//discount 30 percent - first pay schema
+    public
+    static function getSummaWholeCourse($idCourse)
     {
         return round(Course::getPrice($idCourse));
     }
 
-    //discount 10 percent - second pay schema
-    public static function getSummaCourseTwoPays($idCourse, $isWhole)
+//discount 10 percent - second pay schema
+    public
+    static function getSummaCourseTwoPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.9;
         if ($isWhole) {
@@ -592,8 +613,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //discount 8 percent - third pay schema
-    public static function getSummaCourseFourPays($idCourse, $isWhole)
+//discount 8 percent - third pay schema
+    public
+    static function getSummaCourseFourPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.92;
         if ($isWhole) {
@@ -603,8 +625,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //monthly - forth pay schema
-    public static function getSummaCourseMonthly($idCourse, $isWhole)
+//monthly - forth pay schema
+    public
+    static function getSummaCourseMonthly($idCourse, $isWhole)
     {
         $wholePrice = Course::getPrice($idCourse);
         if ($isWhole) {
@@ -614,8 +637,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //credit two years - fifth pay schema
-    public static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
+//credit two years - fifth pay schema
+    public
+    static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 2);
         if ($isWhole) {
@@ -625,8 +649,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //credit three years - sixth pay schema
-    public static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
+//credit three years - sixth pay schema
+    public
+    static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 3);
         if ($isWhole) {
@@ -636,8 +661,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //credit four years - seventh pay schema
-    public static function getSummaCourseCreditFourYears($idCourse, $isWhole)
+//credit four years - seventh pay schema
+    public
+    static function getSummaCourseCreditFourYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 4);
         if ($isWhole) {
@@ -647,8 +673,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    //credit five years - eight pay schema
-    public static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
+//credit five years - eight pay schema
+    public
+    static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 5);
         if ($isWhole) {
@@ -658,35 +685,44 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    public static function juniorCoursesCount(){
+    public
+    static function juniorCoursesCount()
+    {
         return count(Course::model()->findAllByAttributes(array(
-            'level' => array('junior', 'strong junior', 'intern'),
-            'language' => 'ua',
-            'cancelled' => 0)
+                'level' => array('1', '2', '3'),
+                'language' => 'ua',
+                'cancelled' => 0)
         ));
     }
 
-    public static function middleCoursesCount(){
+    public
+    static function middleCoursesCount()
+    {
         return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => 'middle', ':lang' => 'ua')
+            array(':level' => '4', ':lang' => 'ua')
         );
     }
 
-    public static function seniorCoursesCount(){
+    public
+    static function seniorCoursesCount()
+    {
         return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => 'senior', ':lang' => 'ua')
+            array(':level' => '5', ':lang' => 'ua')
         );
     }
 
-    public function modulesCount()
+    public
+    function modulesCount()
     {
         return CourseModules::model()->count("id_course=$this->course_ID");
     }
 
-    public function mandatoryModule($id){
+    public
+    function mandatoryModule($id)
+    {
         return CourseModules::model()->findByAttributes(array(
-            'id_course' => $this->course_ID,
-            'id_module' => $id
+                'id_course' => $this->course_ID,
+                'id_module' => $id
             )
         )->mandatory_modules;
     }

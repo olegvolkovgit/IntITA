@@ -61,7 +61,7 @@
         <form method="POST" name="add-accessModule"
               onsubmit="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/' . $moduleAction); ?>');return false;">
             <fieldset>
-                <label id="label"><?php echo $fieldsetModule ?>:</label>
+                <label id="label"><?php echo $fieldsetModule; ?>:</label>
 
                 <div class="form-group">
                     <label><?php echo Yii::t('payments', '0605'); ?>:</label>

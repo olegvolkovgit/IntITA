@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "teacher_roles".
+ * This is the model class for table "level".
  *
- * The followings are the available columns in table 'teacher_roles':
- * @property integer $teacher
- * @property integer $role
- * @property string $start_date
- * @property string $end_date
+ * The followings are the available columns in table 'level':
+ * @property integer $id
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
  *
  * The followings are the available model relations:
- * @property Roles $role0
- * @property Teacher $teacher0
+ * @property Course[] $courses
+ * @property Module[] $modules
  */
-class TeacherRoles extends CActiveRecord
+class Level extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'teacher_roles';
+		return 'level';
 	}
 
 	/**
@@ -31,10 +31,10 @@ class TeacherRoles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('teacher, role, start_date', 'required'),
-			array('teacher, role', 'numerical', 'integerOnly'=>true),
+			array('title_ua, title_ru, title_en', 'required'),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
-			array('teacher, role, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +46,8 @@ class TeacherRoles extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'role0' => array(self::BELONGS_TO, 'Roles', 'role'),
-			'teacher0' => array(self::BELONGS_TO, 'Teacher', 'teacher'),
+			'courses' => array(self::HAS_MANY, 'Course', 'level'),
+			'modules' => array(self::HAS_MANY, 'Module', 'level'),
 		);
 	}
 
@@ -57,10 +57,10 @@ class TeacherRoles extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'teacher' => 'Teacher',
-			'role' => 'Role',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
+			'id' => 'ID',
+			'title_ua' => 'Title Ua',
+			'title_ru' => 'Title Ru',
+			'title_en' => 'Title En',
 		);
 	}
 
@@ -80,33 +80,48 @@ class TeacherRoles extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('teacher',$this->teacher);
-		$criteria->compare('role',$this->role);
-		$criteria->compare('start_date',$this->start_date,true);
-		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('title_ua',$this->title_ua,true);
+		$criteria->compare('title_ru',$this->title_ru,true);
+		$criteria->compare('title_en',$this->title_en,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'sort'=>array(
-                'defaultOrder'=>'role DESC',
-            ),
-
 		));
 	}
-
-    public function primaryKey()
-    {
-        return array('teacher', 'role');
-    }
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TeacherRoles the static model class
+	 * @return Level the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+	public function primaryKey(){
+		return 'id';
+	}
+
+	public static function allTitlesByLang($lg = 'ua'){
+        $param = "title_".$lg;
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, '.$param;
+        $levels =  Level::model()->findAll($criteria);
+        $result = [];
+        foreach($levels as $level){
+            $result[$level->id] = $level->$param;
+        }
+        return $result;
+    }
+
+	public function edit($titleUa, $titleRu, $titleEn){
+        $this->title_ua = $titleUa;
+        $this->title_ru = $titleRu;
+        $this->title_en = $titleEn;
+
+        return $this->update(array('title_ua','title_ru','title_en'));
+    }
 }

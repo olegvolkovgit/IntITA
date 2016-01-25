@@ -21,7 +21,7 @@
                     <div class="courseLevelBox">
                         <?php echo Yii::t('courses', '0068'); ?>
                         <span class="courseLevel">
-                        <?php echo CommonHelper::translateLevel($val->level); ?>
+                        <?php echo $val->level();?>
 			        </span>
 
                         <div class='courseLevelIndex'>
@@ -106,6 +106,7 @@
                 </div>
             <?php
             }
-        } ?>
+        }
+        ?>
     </div>
 </td>
