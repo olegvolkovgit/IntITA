@@ -180,8 +180,8 @@ class LecturePage extends CActiveRecord
 
         if ($user != 0){
             if(LectureElement::model()->findByPk($quiz)){
-            switch(LectureElement::model()->findByPk($quiz)->id_type){
-                case '5':
+            switch(LectureElement::model()->findByPk($quiz)->idType->type){
+                case 'task':
                     $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
                      if($task)
                      {
@@ -189,22 +189,22 @@ class LecturePage extends CActiveRecord
                          if($testMark) return $testMark;
                      }
                     break;
-                case '6':
+                case 'plaintask':
                     $test = Task::model()->findByAttributes(array('condition' => $quiz));
                     if($test){
                     $testMark = TaskMarks::isTaskDone($user,$test->id);
                     if($testMark) return $testMark;
                     }
                     break;
-                case '9':
+                case 'skip task':
                     $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quiz));
                     if($skipTask){
                         $testMark = SkipTaskMarks::isTaskDone($user,$skipTask->id);
                         if($testMark) return $testMark;
                     }
                     break;
-                case '12':
-                case '13':
+                case 'test':
+                case 'final test':
                     $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
                     $testMark = TestsMarks::isTestDone($user, $test->id);
                     if($testMark)  return $testMark;

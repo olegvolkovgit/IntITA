@@ -2,11 +2,10 @@
 
 class PlainTaskController extends Controller
 {
-	public function actionIndex()
-	{
-		$this->render('index');
-	}
-
+    public function actionIndex()
+    {
+        $this->render('index');
+    }
 
 
     public function actionAddTask()
@@ -23,7 +22,7 @@ class PlainTaskController extends Controller
     {
         $arr = self::fillArr();
 
-        if(LectureElement::editPlainTask($arr['id_block'],$arr['block_element']))
+        if (LectureElement::editPlainTask($arr['id_block'], $arr['block_element']))
             $this->redirect(Yii::app()->request->urlReferrer);
 
         else echo 'Task was not saved';
@@ -31,13 +30,13 @@ class PlainTaskController extends Controller
 
     private static function fillArr()
     {
-        $arr['pageId'] =  Yii::app()->request->getPost('pageId');
+        $arr['pageId'] = Yii::app()->request->getPost('pageId');
         $arr['lecture'] = Yii::app()->request->getPost('lectureId');
         $arr['block_element'] = Yii::app()->request->getPost('block_element');
         $arr['author'] = Yii::app()->request->getPost('author');
         $arr['type'] = 'plain_task';
 
-        if(isset($_POST['id_block']))
+        if (isset($_POST['id_block']))
             $arr['id_block'] = Yii::app()->request->getPost('id_block');
 
 
@@ -46,9 +45,9 @@ class PlainTaskController extends Controller
 
     public function actionUnablePlainTask()
     {
-        $lecture =  Yii::app()->request->getPost('pageId',0);
+        $lecture = Yii::app()->request->getPost('pageId', 0);
 
-        if($lecture != 0){
+        if ($lecture != 0) {
             LecturePage::unableQuiz($lecture);
         }
         $this->redirect(Yii::app()->request->urlReferrer);
@@ -57,21 +56,21 @@ class PlainTaskController extends Controller
 
     public function actionSaveAnswer()
     {
+        $answer = htmlentities(Yii::app()->request->getPost('answer'));
+        $lectureElementId = Yii::app()->request->getPost('idLecture');
 
-            $answer = htmlentities (Yii::app()->request->getPost('answer'));
-            $lectureElementId = Yii::app()->request->getPost('idLecture');
+        $plainTask = LectureElement::getPlainTaskByLectureId($lectureElementId);
+        $user = Yii::app()->user->id;
 
-            $plainTask = LectureElement::getPlainTaskByLectureId($lectureElementId);
-            $user = Yii::app()->user->id;
+        $plainTaskAnswer = PlainTaskAnswer::fillHole($answer, $user, $plainTask->id);
 
-            $plainTaskAnswer = PlainTaskAnswer::fillHole($answer,$user,$plainTask->id);
-                if($plainTaskAnswer->save())
-                    return true;
-                else
-                    throw new PlainTaskException('Plain task was not saved');
+        if ($plainTaskAnswer->save())
+            return true;
+        else
+            throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникли проблеми і Ваша
+            відповідь не була збережена. Спробуйте ще раз або зверніться до адміністратора сайту.');
 
     }
-
 
 
 }
