@@ -13,7 +13,7 @@
             <br>
 <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="skipTaskCondition" cols="105" rows="10"
           required ng-model="addSkipTaskCond"
-          ng-init="addSkipTaskCond='<?php echo htmlentities($data->getSkipTaskCondition()) ?>'">
+          ng-init="addSkipTaskCond='<?php echo htmlentities(addslashes($data->getSkipTaskCondition())) ?>'">
 </textarea>
             <br>
             Запитання* :
