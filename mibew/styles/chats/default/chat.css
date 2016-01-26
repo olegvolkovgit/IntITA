@@ -481,6 +481,8 @@ ul li {
 }
 .form tr td:first-child {
 	text-align:right;
+    width: 0;
+    white-space: nowrap;
 }
 #content-wrapper #send-message {
     margin-top: 30px;
@@ -493,11 +495,11 @@ ul li {
 	padding-left:7px;
 }
 #content-wrapper input{
-	width:330px;
+    width: 100%;
 }
 #content-wrapper textarea{
 	resize:none;
-	width:330px;
+    width: 100%;
 }
 #content-wrapper input{
     height:20px;
