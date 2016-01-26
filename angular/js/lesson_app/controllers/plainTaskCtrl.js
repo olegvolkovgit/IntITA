@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('plainTaskCtrl',plainTaskCtrl);
 
-function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsService) {
+function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsService,pagesUpdateService) {
     $scope.sendPlainTaskAnswer=function(idLecture)
     {
         var button=angular.element(document.querySelector(".taskSubmit"));
@@ -25,6 +25,7 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialog
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
             }).then(function(){
+                pagesUpdateService.pagesDataUpdate();
                 openDialogsService.openInformDialog();
                 button.removeAttr('disabled');
             });

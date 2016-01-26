@@ -61,3 +61,27 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <?php
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
+<!--modal task dialogInfo-->
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'informDialog',
+    'themeUrl' => Config::getBaseUrl() . '/css',
+    'cssFile' => 'jquery-ui.css',
+    'theme' => 'my',
+    'options' => array(
+        'width' => 540,
+        'autoOpen' => false,
+        'modal' => true,
+        'resizable' => false,
+    ),
+));
+?>
+<div>
+    <p style="text-align: center"><?= Yii::t('lesson', '0793'); ?></p>
+    <div>
+        <a id="signInButtonM2" ng-click="hideInformDialog()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
+    </div>
+</div>
+<?php
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
