@@ -7,7 +7,6 @@
  * @var $receivedDialogs array
  * @var $sentDialogs array
  */
-//var_dump($model->dialog(StudentReg::model()->findByPk(38))); die;
 ?>
 <script>
     user = '<?=$model->id?>';
@@ -32,14 +31,14 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="received">
-                    <?php $this->renderPartial('_receivedMessages', array(
-                        'receivedMessages' => $receivedMessages,
+                    <?php $this->renderPartial('_receivedDialogs', array(
+                        'receivedDialogs' => $receivedDialogs,
                         'user' => $model
                     )); ?>
                 </div>
                 <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentMessages', array(
-                        'sentMessages' => $sentMessages,
+                    <?php $this->renderPartial('_sentDialogs', array(
+                        'sentDialogs' => $sentDialogs,
                         'user' => $model
                     )); ?>
                 </div>

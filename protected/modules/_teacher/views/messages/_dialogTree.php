@@ -2,7 +2,8 @@
 /**
  * @var $message UserMessages
  * @var $dialog array
- * @var $receiver StudentReg
+ * @var $user1 StudentReg
+ * @var $user2 StudentReg
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 $last = $dialog[count($dialog) - 1]->id_message;
@@ -14,7 +15,7 @@ $last = $dialog[count($dialog) - 1]->id_message;
 
     <div class="panel-group" id="accordion">
         <?php foreach ($dialog as $message) {
-            if (!$message->isDeleted($receiver)) {
+            if (!$message->isDeleted($user1)) {
                 ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -25,7 +26,7 @@ $last = $dialog[count($dialog) - 1]->id_message;
                             <em><?= substr($message->text, 0, 50) . "..."; ?></em>
                         </a>
                         <div class="pull-right">
-                            <em><?= date("h:m, d F", strtotime($message->message0->create_date)); ?></em>
+                            <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle"
                                         data-toggle="dropdown">
@@ -73,8 +74,8 @@ $last = $dialog[count($dialog) - 1]->id_message;
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $receiver->id)); ?>
-<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $receiver->id)); ?>
+<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $user1->id)); ?>
+<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $user1->id)); ?>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>

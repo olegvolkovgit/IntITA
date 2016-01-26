@@ -253,24 +253,15 @@ class UserMessages extends Messages implements IMessage
 
     public function dialog(StudentReg $receiver)
     {
-        $dialog = [];
-        array_push($dialog, $this);
-        $current = $this;
-        for (; $current != null;){
-            if (!$current->isRead($receiver)) {
-                $current->read($receiver);
-            }
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'um';
+        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
+        $criteria->join.= ' LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('m.sender = '.$this->id.' and r.id_receiver='.$receiver->id, 'OR');
+        $criteria->addCondition ('m.sender = '.$receiver->id.' and r.id_receiver='.$this->id, 'OR');
 
-            if ($current = $current->replyMessage())
-            {
-                if(!$current->isDeleted($receiver)){
-                    array_push($dialog, $current);
-                }
-            }
-        }
-
-        return $dialog;
-
+        return UserMessages::model()->findAll($criteria);
     }
 
     // return true if message read by $receiver (param "read" is NULL)

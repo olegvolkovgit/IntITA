@@ -3,7 +3,7 @@
 class MessagesController extends TeacherCabinetController
 {
 
-    public function actionIndex($alerts = [])
+    public function actionIndex()
     {
         $id = Yii::app()->user->getId();
         $model = StudentReg::model()->findByPk($id);
@@ -32,16 +32,16 @@ class MessagesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionDialog($id, $user)
+    public function actionDialog($user1, $user2)
     {
-        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
-
-        $receiver = StudentReg::model()->findByPk($user);
-        $dialog = $message->dialog($receiver);
+        $user1 = StudentReg::model()->findByPk($user1);
+        $user2 = StudentReg::model()->findByPk($user2);
+        $dialog = $user1->dialog($user2);
 
         $this->renderPartial('_dialogTree', array(
             'dialog' => $dialog,
-            'receiver' => $receiver
+            'user1' => $user1,
+            'user2' => $user2
         ), false, true);
     }
 

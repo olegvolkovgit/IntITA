@@ -25,11 +25,11 @@
                         <input type="checkbox" id="<?=$userMessage->id_message;?>">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
+                        'user1' => 38, 'user2' => $user->id)) ?>')">
                         <?=$userMessage->receiversString(); ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
+                        'user1' => 38, 'user2' => $user->id)) ?>')">
                         <?=$userMessage->subject; ?>
                     </td>
                     <td class="center"><?=date("h:m, d F", strtotime($userMessage->message0->create_date)); ?></td>
