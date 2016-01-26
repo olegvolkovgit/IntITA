@@ -9,7 +9,7 @@ foreach ($newMessages as $record) {
     ?>
     <li>
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-            'id' => $record->id_message, 'user' => $model->id)) ?>', 'Діалог')">
+            'user1' => $message->sender0->id, 'user2' => $model->id)) ?>', 'Діалог')">
             <div>
                 <strong><?= $message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">

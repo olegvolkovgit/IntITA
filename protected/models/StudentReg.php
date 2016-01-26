@@ -1210,4 +1210,8 @@ class StudentReg extends CActiveRecord
 
         return UserMessages::model()->findAll($criteria);
     }
+
+    public function deletedDialogs(){
+        return [];
+    }
 }

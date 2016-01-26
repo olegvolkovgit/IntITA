@@ -14,6 +14,7 @@ class MessagesController extends TeacherCabinetController
 
         $sentDialogs = $model->sentDialogs();
         $receivedDialogs = $model->receivedDialogs();
+        $deletedDialogs = $model->deletedDialogs();
 
         $this->renderPartial('index', array(
             'model' => $model,
@@ -22,6 +23,7 @@ class MessagesController extends TeacherCabinetController
             'receivedMessages' => $receivedMessages,
             'sentDialogs' => $sentDialogs,
             'receivedDialogs' => $receivedDialogs,
+            'deletedDialogs' => $deletedDialogs,
         ));
     }
 

@@ -6,6 +6,7 @@
  * @var $sentMessages CActiveDataProvider
  * @var $receivedDialogs array
  * @var $sentDialogs array
+ * @var $deletedDialogs array
  */
 ?>
 <script>
@@ -27,6 +28,7 @@
             <ul class="nav nav-tabs" id="nav">
                 <li><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
                 <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
+                <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -39,6 +41,12 @@
                 <div class="tab-pane fade" id="sent">
                     <?php $this->renderPartial('_sentDialogs', array(
                         'sentDialogs' => $sentDialogs,
+                        'user' => $model
+                    )); ?>
+                </div>
+                <div class="tab-pane fade" id="deleted">
+                    <?php $this->renderPartial('_deletedDialogs', array(
+                        'deletedDialogs' => $deletedDialogs,
                         'user' => $model
                     )); ?>
                 </div>
