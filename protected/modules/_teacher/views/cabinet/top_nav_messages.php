@@ -1,6 +1,7 @@
 <?php
 /** @var $record UserMessages
     @var $model StudentReg
+ *  @var $newMessages array
  */
 foreach ($newMessages as $record) {
     $message = $record->message();
@@ -8,7 +9,7 @@ foreach ($newMessages as $record) {
     ?>
     <li>
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-            'id' => $record->id_message, 'user' => $model->id)) ?>')">
+            'id' => $record->id_message, 'user' => $model->id)) ?>', 'Діалог')">
             <div>
                 <strong><?= $message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">
@@ -23,7 +24,7 @@ foreach ($newMessages as $record) {
 ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')">
+        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>', 'Листування')">
                 Всі повідомлення</a></strong>
         <i class="fa fa-angle-right"></i>
     </a>

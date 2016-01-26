@@ -270,6 +270,7 @@ class UserMessages extends Messages implements IMessage
         }
 
         return $dialog;
+
     }
 
     // return true if message read by $receiver (param "read" is NULL)

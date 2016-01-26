@@ -1039,11 +1039,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_admin on user.id = user_admin.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
-//        $criteria->addCondition('user_admin.id_user = user.id');
-//        $result = StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1053,11 +1048,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_accountant on user.id = user_accountant.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
-//        $criteria->addCondition('user_accountant.id_user = user.id');
-//        return StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1187,5 +1177,52 @@ class StudentReg extends CActiveRecord
             $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
         }
         return json_encode($result);
+    }
+    public function sentDialogs(){
+        $sql = 'select r.id_receiver, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
+                and m.sender='.$this->id." group by r.id_receiver order by m.create_date";
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if ($result)
+            return $result;
+        else return [];
+    }
+
+    public function receivedDialogs(){
+        $sql = 'select sender, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
+                and r.id_receiver='.$this->id." group by m.sender order by m.create_date";
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if ($result)
+            return $result;
+        else return [];
+    }
+
+    public function dialog(StudentReg $receiver)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'um';
+        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
+        $criteria->join = 'LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('m.sender = '.$this->id.' and r.id_receiver='.$receiver->id, 'OR');
+        $criteria->addCondition ('m.sender = '.$receiver->id.' and r.id_receiver='.$this->id, 'OR');
+
+        return UserMessages::model()->findAll($criteria);
+//        array_push($dialog, $this);
+//        $current = $this;
+//        for (; $current != null;){
+//            if (!$current->isRead($receiver)) {
+//                $current->read($receiver);
+//            }
+//
+//            if ($current = $current->replyMessage())
+//            {
+//                if(!$current->isDeleted($receiver)){
+//                    array_push($dialog, $current);
+//                }
+//            }
+//        }
+//
     }
 }

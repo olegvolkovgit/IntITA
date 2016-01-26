@@ -77,7 +77,7 @@ class Sourcemessages extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('category',$this->category,true);
+		$criteria->compare('t.category',$this->category,true);
 		$criteria->compare('message',$this->message,true);
 
 		return new CActiveDataProvider($this, array(
@@ -108,9 +108,5 @@ class Sourcemessages extends CActiveRecord
 
     public static function getMaxId(){
         return  Yii::app()->db->createCommand("SELECT MAX(id) FROM sourcemessages")->queryScalar();
-    }
-
-    public static function getMessageCategory($id){
-        return Sourcemessages::model()->findByPk($id)->category;
     }
 }

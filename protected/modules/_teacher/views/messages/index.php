@@ -4,15 +4,14 @@
  * @var $message UserMessages
  * @var $receivedMessages array
  * @var $sentMessages CActiveDataProvider
- * @var $alerts array
+ * @var $receivedDialogs array
+ * @var $sentDialogs array
  */
+//var_dump($model->dialog(StudentReg::model()->findByPk(38))); die;
 ?>
 <script>
     user = '<?=$model->id?>';
 </script>
-
-<?php //if(!empty($alerts))
-    $this->renderPartial('_alerts', array('alerts' => $alerts));?>
 
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
     'id' => $model->id
@@ -24,10 +23,6 @@
 
 <div id="mylettersSend">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            Скринька
-        </div>
-        <!-- /.panel-heading -->
         <div class="panel-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="nav">

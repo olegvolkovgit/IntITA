@@ -12,12 +12,16 @@ class MessagesController extends TeacherCabinetController
         $sentMessages = $model->sentMessages();
         $receivedMessages = $model->receivedMessages();
 
+        $sentDialogs = $model->sentDialogs();
+        $receivedDialogs = $model->receivedDialogs();
+
         $this->renderPartial('index', array(
             'model' => $model,
             'message' => $message,
             'sentMessages' => $sentMessages,
             'receivedMessages' => $receivedMessages,
-            'alerts' => $alerts,
+            'sentDialogs' => $sentDialogs,
+            'receivedDialogs' => $receivedDialogs,
         ));
     }
 

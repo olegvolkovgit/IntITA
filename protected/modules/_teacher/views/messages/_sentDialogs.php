@@ -1,9 +1,11 @@
 <?php
 /**
  * @var $sentMessages array
+ * @var $sentDialogs array
  * @var $userMessage UserMessages
  * @var $user StudentReg
  */
+//var_dump($sentDialogs);die;
 ?>
 <div class="dataTable_wrapper">
     <table class="table table-striped table-bordered table-hover" id="sentMessages">
@@ -17,26 +19,26 @@
         </thead>
         <tbody>
         <form>
-            <?php
-            foreach($sentMessages as $userMessage){
+        <?php
+            foreach($sentDialogs as $dialog){
                 ?>
                 <tr class="odd gradeX"  style="cursor:pointer">
                     <td class="center">
-                        <input type="checkbox" id="<?=$userMessage->id_message;?>">
+                        <input type="checkbox" id="<?=$dialog["id_message"];?>">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
-                        <?=$userMessage->receiversString(); ?>
+                        'id' => $dialog["id_message"], 'user' => $user->id)) ?>', 'Діалог')">
+                       <?=$dialog["id_receiver"]; ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'id' => $userMessage->id_message, 'user' => $user->id)) ?>')">
-                        <?=$userMessage->subject; ?>
+                        'id' => $dialog["id_message"], 'user' => $user->id)) ?>', 'Діалог')">
+                        <?=$dialog["subject"]; ?>
                     </td>
-                    <td class="center"><?=date("h:m, d F", strtotime($userMessage->message0->create_date)); ?></td>
+                    <td class="center"><?=date("h:m, d F", strtotime($dialog["create_date"])); ?></td>
                 </tr>
-                <?php
+            <?php
             }
-            ?>
+        ?>
         </form>
         </tbody>
     </table>
@@ -44,5 +46,6 @@
 
 <script>
     function checkAll(){
+
     }
 </script>
