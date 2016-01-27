@@ -121,8 +121,12 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 value: [],
                 is_array: 0,
                 etalon_value: [],
-                compare_mark: []
+                compare_mark: [0]
             });
+            for (var j=1;j<$scope.units.length;j++){
+                $scope.args[$scope.args.length-1].compare_mark.push(0);
+            }
+            //console.log($scope.args.length);
             for (var i=0;i<3;i++)
                 $scope.indexes.push({
                     index: [],
@@ -188,15 +192,19 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         for (var i = 0; i < _data.function.args.length; i++) {
             if (_data.function.args[i].is_array) {
                 for (var j = 0; j < _data.function.args[i].value.length; j++) {
-                    if($scope.res_finalResult.function.args[i].value[j]!=null && (typeof _data.function.args[i].value[j])=='string')
-                    $scope.res_finalResult.function.args[i].value[j] = _data.function.args[i].value[j].split(',');
+                    if($scope.res_finalResult.function.args[i].value[j]!=null && (typeof _data.function.args[i].value[j])=='string'){
+                        $scope.res_finalResult.function.args[i].value[j] = _data.function.args[i].value[j].split(',');
+                    }
+                    if($scope.res_finalResult.function.args[i].etalon_value[j]!=null && (typeof _data.function.args[i].etalon_value[j])=='string'){
+                        $scope.res_finalResult.function.args[i].etalon_value[j] = _data.function.args[i].etalon_value[j].split(',');
+                    }
                 }
             }
         }
         if (_data.function.array_type) {
             for (var k = 0; k < _data.function.results.length; k++) {
                 if($scope.res_finalResult.function.results[k]!=null && (typeof _data.function.results[k])=='string')
-                $scope.res_finalResult.function.results[k] = _data.function.results[k].split(',')
+                    $scope.res_finalResult.function.results[k] = _data.function.results[k].split(',')
             }
         }
     }, true);
@@ -235,7 +243,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.args[index].pattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
                     break;
                 case 3:
                     $scope.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -272,7 +280,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -311,7 +319,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.editedJson.function.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.editedJson.function.args[index].pattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -348,7 +356,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^([01],){" + (size-1) + "}([01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -373,6 +381,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 for (var k = 0; k < $scope.editedJson.function.args.length; k++) {
                     $scope.loadPattern($scope.editedJson.function.args[k].type,$scope.editedJson.function.args[k].size,k);
                 }
+                $scope.loadResultPattern($scope.editedJson.function.type,$scope.editedJson.function.size);
                 $scope.args = $scope.editedJson.function.args;
                 for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
                     if(i>0){
