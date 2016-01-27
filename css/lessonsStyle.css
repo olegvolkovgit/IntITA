@@ -22,9 +22,9 @@ div.subLinks{
     overflow: hidden;
 }
 .lessonBlock p{
-    font-size: 16px;
     word-wrap: break-word;
     width: 100%;
+    color:#333333;
 }
 .lessonBlock h3{
     margin-top: 20px;
@@ -133,8 +133,8 @@ div.code {
 .ui-widget input.answer{
     margin: 0 3px 0 4px;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
 }
 .contentTest label{
     font-size: 16px;

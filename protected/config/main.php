@@ -18,6 +18,7 @@ return array(
     'preload' => array(
         'log',
         'config',
+        'debug'
     ),
 
     // autoloading model and component classes
@@ -29,6 +30,7 @@ return array(
         'application.models.slider.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
+        'ext.yii2-debug.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
@@ -157,6 +159,9 @@ return array(
                 'emptytext' => 'Натисніть для редагування'
             )
         ),
+
+        'debug' => $local_config['debug'],
+
     ),
 
     // application-level parameters that can be accessed
