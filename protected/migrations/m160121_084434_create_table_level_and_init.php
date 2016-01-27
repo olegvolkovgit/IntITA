@@ -67,7 +67,7 @@ class m160121_084434_create_table_level_and_init extends CDbMigration
                     break;
             }
         }
-        $this->addForeignKey('FK_course_level', 'course', 'level', 'level', 'id');
+        //$this->addForeignKey('FK_course_level', 'course', 'level', 'level', 'id');
 
         //update modules level
         $this->update('module', array('level' => ''));
@@ -86,7 +86,7 @@ class m160121_084434_create_table_level_and_init extends CDbMigration
                     break;
             }
         }
-        $this->addForeignKey('FK_module_level', 'module', 'level', 'level', 'id');
+        //$this->addForeignKey('FK_module_level', 'module', 'level', 'level', 'id');
     }
 
     public function safeDown()
