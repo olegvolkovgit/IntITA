@@ -49,9 +49,10 @@ if ($idCourse != 0) {
                          class="editIco"
                          onclick="deletePage(<?php echo $idLecture;?>, <?php echo $page->page_order;?>, <?php echo $idCourse;?>);">
                     <a href="<?php echo Yii::app()->createURL('lesson/editPage', array('pageId' => $page->id, 'idCourse' => $idCourse, 'cke' => 0));?>">
-                        <?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ' . $page->page_title;
+                        <?php echo Yii::t('lecture', '0615') . ' ' . $page->page_order . '. ' . htmlspecialchars($page->page_title);
                         ?>
-                    </a></p></div>
+                    </a>
+                </p></div>
         <?php } ?>
     </h3>
     <br>
