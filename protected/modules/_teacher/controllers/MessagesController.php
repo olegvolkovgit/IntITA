@@ -33,13 +33,13 @@ class MessagesController extends TeacherCabinetController
     {
         $user1 = StudentReg::model()->findByPk($user1);
         $user2 = StudentReg::model()->findByPk($user2);
-        $dialog = $user1->dialog($user2);
-        $user1->readDialog($dialog);
+        $dialog = new Dialog($user1, $user2);
+        //var_dump($dialog);die;
+        //$dialog = $user1->dialog($user2);
+        //$user1->readDialog($dialog);
 
         $this->renderPartial('_dialogTree', array(
             'dialog' => $dialog,
-            'user1' => $user1,
-            'user2' => $user2
         ), false, true);
     }
 
@@ -91,7 +91,6 @@ class MessagesController extends TeacherCabinetController
                 $message->build($subject, $text, $receiver, $user);
                 break;
             case 'reply':
-            case 'replyAll':
                 $parentMessage = Yii::app()->request->getPost('parent', 0);
                 $receiver = Messages::model()->findByPk($parentMessage)->sender0;
                 $message->build($subject, $text, $receiver, $user);

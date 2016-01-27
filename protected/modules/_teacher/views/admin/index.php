@@ -170,7 +170,6 @@
                         </a>
                     </li>
                     <br>
-                    <br>
                 </ul>
             </div>
             <div class="panel-footer">

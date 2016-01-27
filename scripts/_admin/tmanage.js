@@ -289,7 +289,6 @@ function numberValidate(number)
     return !error;
 
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //show or hide validation message
 function processResult(error,message,element)
 {
@@ -312,7 +311,6 @@ function checkValid(arr)
         }
     }
     return !hasError;
-
 }
 function showErrorMessage(message,element)
 {
@@ -328,7 +326,6 @@ function hideErrorMessage(element)
     var errorBlock = element.parent().find('.errorMessage');
     errorBlock.hide();
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Modal windows
 function showDialog(str)
 {

@@ -1,13 +1,12 @@
 <?php
 /**
  * @var $message UserMessages
- * @var $dialog array
+ * @var $dialog Dialog
  * @var $user1 StudentReg
  * @var $user2 StudentReg
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 
 <div class="col-lg-12">
     <h3><?= $dialog[0]->subject; ?></h3>
@@ -75,6 +74,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 <script>
     function loadForm(url, receiver, scenario, message) {
         idBlock = "#collapse" + message;
+        alert(idBlock);
         $(idBlock).collapse('show');
 
         id = "#form" + message;

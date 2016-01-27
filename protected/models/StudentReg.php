@@ -1216,12 +1216,4 @@ class StudentReg extends CActiveRecord
     public function deletedDialogs(){
         return [];
     }
-
-    public function readDialog($dialog){
-        $flag = true;
-        foreach($dialog as $message){
-            $flag = $message->read($this);
-        }
-        return $flag;
-    }
 }
