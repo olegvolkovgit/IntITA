@@ -374,7 +374,7 @@ function refresh(url){
         async: true,
         success: function (data) {
             if(data == "success"){
-                showDialog("Кеш сайту успішно оновлено!");
+                showDialog("Кеш сайта успішно оновлено!");
             } else {
                 showDialog();
             }
