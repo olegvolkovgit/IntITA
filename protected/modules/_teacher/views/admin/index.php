@@ -132,11 +132,15 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#"
+                           onclick="refresh('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/refresh'); ?>')">
+                            Оновити кеш
+                        </a>
+                    </li>
+                    <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>',
                                'Налаштування')">Налаштування
                         </a>
                     </li>
-                    <br>
                     <br>
                     <br>
                 </ul>
@@ -152,3 +156,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
+<script>
+
+</script>
