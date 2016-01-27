@@ -24,16 +24,6 @@ class LessonController extends Controller
         }else return true;
     }
 
-
-    public function accessRules()
-    {
-        return array(
-//            array('deny',
-//                'users' => array('?'),
-//            ),
-        );
-    }
-
     public function initialize($id, $editMode)
     {
         $lecture = Lecture::model()->findByPk($id);
@@ -53,7 +43,7 @@ class LessonController extends Controller
         }
     }
 
-    public function actionIndex($id, $idCourse = 0, $page = 1, $template = 0)
+    public function actionIndex($id, $idCourse = 0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
