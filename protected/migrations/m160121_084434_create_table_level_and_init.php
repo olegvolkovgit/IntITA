@@ -55,15 +55,15 @@ class m160121_084434_create_table_level_and_init extends CDbMigration
         $this->alterColumn('course', 'level', 'INT(11) NOT NULL');
         for($i = 0, $count = count($courseLevels); $i < $count; $i++){
             switch($courseLevels[$i]["level"]){
-                case 'intern': $this->update('course', array('`level`' => '1'), 'course_ID='.$courseLevels[$i]["course_ID"]);
+                case 'intern': $this->update('course', array('level' => '1'), 'course_ID='.$courseLevels[$i]["course_ID"]);
                     break;
-                case 'junior': $this->update('course', array('`level`' => '2'), 'course_ID='.$courseLevels[$i]["course_ID"]);
+                case 'junior': $this->update('course', array('level' => '2'), 'course_ID='.$courseLevels[$i]["course_ID"]);
                     break;
-                case 'strong junior': $this->update('course', array('`level`' => '3'), 'course_ID='.$courseLevels[$i]["course_ID"]);
+                case 'strong junior': $this->update('course', array('level' => '3'), 'course_ID='.$courseLevels[$i]["course_ID"]);
                     break;
-                case 'middle': $this->update('course', array('`level`' => '4'), 'course_ID='.$courseLevels[$i]["course_ID"]);
+                case 'middle': $this->update('course', array('level' => '4'), 'course_ID='.$courseLevels[$i]["course_ID"]);
                     break;
-                case 'senior': $this->update('course', array('`level`' => '5'), 'course_ID='.$courseLevels[$i]["course_ID"]);
+                case 'senior': $this->update('course', array('level' => '5'), 'course_ID='.$courseLevels[$i]["course_ID"]);
                     break;
             }
         }
@@ -74,15 +74,15 @@ class m160121_084434_create_table_level_and_init extends CDbMigration
         $this->alterColumn('module', 'level', 'INT(11) NOT NULL');
         for($i = 0, $count = count($moduleLevels); $i < $count; $i++){
             switch($moduleLevels[$i]["level"]){
-                case 'intern': $this->update('module', array('`level`' => '1'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
+                case 'intern': $this->update('module', array('level' => '1'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
                     break;
-                case 'junior': $this->update('module', array('`level`' => '2'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
+                case 'junior': $this->update('module', array('level' => '2'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
                     break;
-                case 'strong junior': $this->update('module', array('`level`' => '3'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
+                case 'strong junior': $this->update('module', array('level' => '3'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
                     break;
-                case 'middle': $this->update('module', array('`level`' => '4'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
+                case 'middle': $this->update('module', array('level' => '4'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
                     break;
-                case 'senior': $this->update('module', array('`level`' => '5'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
+                case 'senior': $this->update('module', array('level' => '5'), 'module_ID='.$moduleLevels[$i]["module_ID"]);
                     break;
             }
         }
