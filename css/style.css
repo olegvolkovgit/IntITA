@@ -34,7 +34,7 @@ p{font-family:"MyriadPro";color:#666666;}
 #button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:118px;margin-top:78px;z-index:6;height:20px;width:74px;}
 #button_border.down, .button_border.down{display:none;}
 #button_border.downmain, .button_border.downmain{display:none;}
-#enter_button, .enter_button{position:absolute;margin-left:120px;margin-top:80px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;}
+#enter_button, .enter_button{position:absolute;margin-left:120px;margin-top:80px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;cursor:pointer}
 #enter_button:hover, .enter_button:hover{background:#454545;}
 #enter_button:active, .enter_button:active{background:#363636;}
 #enter_button.down, .enter_button.down{display:inline-block;margin-left:0;z-index:6;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;margin-top:12px;}

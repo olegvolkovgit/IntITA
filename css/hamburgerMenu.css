@@ -16,7 +16,7 @@
 #hambMenu .menulist a:hover{color:#4b70a4;}
 #hambMenu .menulist li{display:block;}
 #hambNav .humundline{width:85%;margin:0 auto;border:1px solid #4b75a4;clear:both;}
-a#hum_button{position:relative;display:block;margin:0 auto;margin-top:20px;margin-bottom:20px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;}
+a#hum_button{position:relative;display:block;margin:0 auto;margin-top:20px;margin-bottom:20px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;cursor:pointer}
 a#hum_button:hover{background:#454545;}
 a#hum_button:active{background:#363636;}
 div.humStatus{position:relative;margin:0 auto;top:10px;right:0;display:block;overflow:hidden;text-align:center;margin-bottom:10px;}

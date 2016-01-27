@@ -367,3 +367,21 @@ function getGridName()
     return $('.grid-view').attr('id');
 }
 
+function refresh(url){
+    $.ajax({
+        url: url,
+        type : 'post',
+        async: true,
+        success: function (data) {
+            if(data == "success"){
+                showDialog("Кеш сайта успішно оновлено!");
+            } else {
+                showDialog();
+            }
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+

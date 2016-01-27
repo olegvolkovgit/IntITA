@@ -3,6 +3,8 @@
  */
 function openSignIn(){
     $("#authDialog").dialog("open");
+    if ($("#hambMenu").is(':visible'))
+        $("#hambMenu").css({display: "none"});
     return false;
 }
 function openForgotpass(mode){
