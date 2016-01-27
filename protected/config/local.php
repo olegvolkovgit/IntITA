@@ -14,6 +14,7 @@ return array(
         'password' => '1234567',
         'charset' => 'utf8',
         'enableProfiling' => true,
+        'enableParamLogging' => true,
     ),
     'dbForum' => array(
         'class' => 'CDbConnection',

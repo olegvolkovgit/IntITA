@@ -1178,6 +1178,7 @@ class StudentReg extends CActiveRecord
         }
         return json_encode($result);
     }
+
     public function sentDialogs(){
         $sql = 'select r.id_receiver, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
                 and m.sender='.$this->id." group by r.id_receiver order by m.create_date";
@@ -1208,10 +1209,19 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition ('m.sender = '.$this->id.' and r.id_receiver='.$receiver->id, 'OR');
         $criteria->addCondition ('m.sender = '.$receiver->id.' and r.id_receiver='.$this->id, 'OR');
 
-        return UserMessages::model()->findAll($criteria);
+        $dialog = UserMessages::model()->findAll($criteria);
+        return $dialog;
     }
 
     public function deletedDialogs(){
         return [];
+    }
+
+    public function readDialog($dialog){
+        $flag = true;
+        foreach($dialog as $message){
+            $flag = $message->read($this);
+        }
+        return $flag;
     }
 }

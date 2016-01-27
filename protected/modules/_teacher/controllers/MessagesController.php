@@ -9,9 +9,6 @@ class MessagesController extends TeacherCabinetController
         $model = StudentReg::model()->findByPk($id);
         $message = new UserMessages();
 
-        $sentMessages = $model->sentMessages();
-        $receivedMessages = $model->receivedMessages();
-
         $sentDialogs = $model->sentDialogs();
         $receivedDialogs = $model->receivedDialogs();
         $deletedDialogs = $model->deletedDialogs();
@@ -19,8 +16,6 @@ class MessagesController extends TeacherCabinetController
         $this->renderPartial('index', array(
             'model' => $model,
             'message' => $message,
-            'sentMessages' => $sentMessages,
-            'receivedMessages' => $receivedMessages,
             'sentDialogs' => $sentDialogs,
             'receivedDialogs' => $receivedDialogs,
             'deletedDialogs' => $deletedDialogs,
@@ -39,6 +34,7 @@ class MessagesController extends TeacherCabinetController
         $user1 = StudentReg::model()->findByPk($user1);
         $user2 = StudentReg::model()->findByPk($user2);
         $dialog = $user1->dialog($user2);
+        $user1->readDialog($dialog);
 
         $this->renderPartial('_dialogTree', array(
             'dialog' => $dialog,
@@ -56,10 +52,6 @@ class MessagesController extends TeacherCabinetController
             'receiver' => $jsonObj->receiver,
             'message' => $jsonObj->message
         ));
-    }
-
-    public function actionReplyAll(){
-
     }
 
     public function actionForward(){
