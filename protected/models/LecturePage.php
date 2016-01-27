@@ -192,8 +192,7 @@ class LecturePage extends CActiveRecord
                     $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
                     if($task)
                     {
-//                        $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
-                        $testMark=1;
+                        $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
                         if($testMark) return $testMark;
                     }
                     break;
