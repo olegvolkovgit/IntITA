@@ -56,14 +56,23 @@
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                 <?php
-                $rate = CommonHelper::getRate($post->level);
-                $level = CommonHelper::getLevelTitle($post->level);
+                $lg = Yii::app()->session['lg'];
+                $level = $post->level();
+                $rate = $post->level0->id;
+                $sources = Level::allTitlesByLang($lg);
                 $this->widget('editable.EditableField', array(
                     'type' => 'select',
                     'model' => $post,
                     'attribute' => 'level',
                     'url' => $this->createUrl('module/updateModuleAttribute'),
-                    'source' => Editable::source(array('intern' => Yii::t('courses', '0232'), 'junior' => Yii::t('courses', '0233'), 'strong junior' => Yii::t('courses', '0234'), 'middle' => Yii::t('courses', '0235'), 'senior' => Yii::t('courses', '0236'))),
+                    'source' => Editable::source(array(
+                            '1' => $sources[1],
+                            '2' => $sources[2],
+                            '3' => $sources[3],
+                            '4' => $sources[4],
+                            '5' => $sources[5]
+                        )
+                    ),
                     'placement' => 'right',
                 ));
                 ?>

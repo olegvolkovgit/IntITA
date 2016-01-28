@@ -73,14 +73,16 @@ function markPlainTask(url)
         url: url,
         type: "POST",
         data : { 'idPlainTask': id,'mark' : mark,'comment' : comment,'userId' : userId},
-        success : function (data) {
-            alert('Ваша оцінка записана в базу');
-            location.reload();
+        success : function () {
+            showDialog('Ваша оцінка записана в базу');
         },
         error : function()
         {
-            alert('Щось пішло не так!' +
-            'Зв\'яжіться будь-ласка з адміністратором сайту');
+            showDialog();
+        },
+        complete: function()
+        {
+            location.reload();
         }
     });
 

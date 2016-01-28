@@ -95,5 +95,9 @@ class ConfigController extends TeacherCabinetController {
         }
     }
 
-
+    public function actionRefresh()
+    {
+        Yii::app()->cache->flush();
+        echo 'success';
+    }
 }

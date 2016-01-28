@@ -577,4 +577,14 @@ class Lecture extends CActiveRecord
             $lecture->save();
         }
     }
+    public function isLastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->idModule . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id) && Lecture::model()->find($criteria)->id==$this->id)
+            return true;
+        else return false;
+    }
 }
