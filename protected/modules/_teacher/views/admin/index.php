@@ -155,6 +155,11 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#"
+                           onclick="refresh('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/refresh'); ?>')">
+                            Оновити кеш
+                        </a>
+                    </li>
+                    <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
                                'Рівні курсів, модулів')">Рівні курсів, модулів
                         </a>
@@ -164,7 +169,6 @@
                                'Налаштування')">Налаштування
                         </a>
                     </li>
-                    <br>
                     <br>
                 </ul>
             </div>

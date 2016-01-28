@@ -4,7 +4,7 @@
 /* @var $model StudentReg */
 ?>
 <div class="navbar-header">
-    <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand">
+    <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand logo">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hamburgerlogo.png') ?>"/>
     </a>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -15,7 +15,7 @@
         <span class="icon-bar"></span>
     </button>
 
-    <a class="navbar-brand" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">
+    <a class="navbar-brand logoname" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">
         Особистий кабінет - Головна</a>
 </div>
 

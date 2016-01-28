@@ -52,6 +52,7 @@ url("../font/ptsans/PTN57F.ttf") format("truetype"),
 url("../font/ptsans/PTN57F.svg#PTSans-Narrow") format("svg");font-weight:normal;font-style:normal;}
 @font-face{font-family:'MyriadPro2';src:url('../font/myriadpro2/regular.eot');src:url('../font/myriadpro2/regular.eot?#iefix') format('embedded-opentype'),
 url('../font/myriadpro2/regular.woff') format('woff'),
+url('../font/myriadpro2/regular.ttf') format('truetype'),
 url('../font/myriadpro2/regular.eot#helveticaneuecyrbold') format('svg');font-weight:normal;font-style:normal;}
 @font-face{font-family:"SegoeUILight";src:url("../font/ptsans/SegoeUILight.eot");src:url("../font/ptsans/SegoeUILight.eot?#iefix")format("embedded-opentype"),
 url("../font/SegoeUILight.woff") format("woff"),

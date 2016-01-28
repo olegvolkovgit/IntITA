@@ -3,14 +3,23 @@
 #lang a{background:none!important;cursor:pointer;color:#4b70a3;font-size:18px;font-family:"MyriadPro";text-decoration:underline;}
 #lang a:hover{color:#666666;}
 #lang a.selectedLang{text-decoration:none;color:#999999;}
-.navbar-header a:first-child{padding:5px 0 0 20px;}
 .navbar-top-links li.dropdown li.lang a{float: none;padding: 0 5px;display: inline-block;}
 .navbar-top-links li.dropdown li.lang a.selectedLang{color: #cccccc;}
 .navbar-top-links li.dropdown li.lang{float: none;text-align: center;margin: 0 0 5px 0;}
 #dashboard{
     display: block;
 }
-
+.tt-menu{
+    margin-top: 2px;
+    padding: 5px 5px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
 
 .errorMessage
 {
@@ -28,4 +37,30 @@
     max-width: 100px;
     max-height: 100px;
 
+}
+.navbar-header .navbar-brand {
+    height: auto;
+}
+.navbar li a.dropdown-toggle{
+    padding-top: 15px;
+    padding-bottom: 0;
+    min-height: inherit;
+}
+.navbar-header a.navbar-brand{
+    float: none;
+    padding-top: 15px;
+    padding-bottom: 0;
+    min-height: inherit;
+}
+.navbar-header a.navbar-brand.logo{
+     display: inline-block;
+     padding:5px 0 0 20px;
+}
+.navbar-header a.navbar-brand.logoname{
+    display: inline-block;
+    padding:15px 0 0 5px;
+    vertical-align: top;
+}
+.navbar.navbar-default.navbar-static-top{
+    height: 50px;
 }

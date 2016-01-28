@@ -24,6 +24,19 @@ class ConsultationscalendarController extends Controller
 			'accessControl',
 		);
 	}
+
+	public function init()
+	{
+		$app = Yii::app();
+		if (isset($app->session['lg'])) {
+			$app->language = $app->session['lg'];
+		}
+		if (Yii::app()->user->isGuest) {
+			$this->render('/site/authorize');
+			die();
+		}else return true;
+	}
+
 	public function accessRules()
 	{
 		return array(
