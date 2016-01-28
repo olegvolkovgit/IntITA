@@ -4,8 +4,8 @@
  * @var $sentDialogs array
  * @var $userMessage UserMessages
  * @var $user StudentReg
+ * @var $dialog Dialog
  */
-//var_dump($sentDialogs);die;
 ?>
 <div class="dataTable_wrapper">
     <table class="table table-striped table-bordered table-hover" id="sentMessages">
@@ -21,18 +21,19 @@
         <form>
         <?php
             foreach($sentDialogs as $dialog){
+                var_dump($sentDialogs);die;
                 ?>
                 <tr class="odd gradeX"  style="cursor:pointer">
                     <td class="center">
-                        <input type="checkbox" id="<?=$dialog["id_message"];?>">
+                        <input type="checkbox" id="">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'user1' => $dialog["id_receiver"], 'user2' => $user->id)) ?>', 'Діалог')">
-                       <?=$dialog["id_receiver"]; ?>
+                        'user1' => $dialog->receiver->id, 'user2' => $dialog->sender->id)) ?>', 'Діалог')">
+                       <?=$dialog->receiver->userName(); ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'user1' => $dialog["id_receiver"], 'user2' => $user->id)) ?>', 'Діалог')">
-                        <?=$dialog["subject"]; ?>
+                        'user1' => $dialog->receiver->id, 'user2' => $dialog->sender->id)) ?>', 'Діалог')">
+                        <?=$dialog->header; ?>
                     </td>
                     <td class="center"><?=date("h:m, d F", strtotime($dialog["create_date"])); ?></td>
                 </tr>

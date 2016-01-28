@@ -5,14 +5,15 @@ class Dialog
     public $sender;
     public $receiver;
     public $messages;
+    public $header;
 
     public function __construct(StudentReg $sender, StudentReg $receiver){
         $this->sender = $sender;
         $this->receiver = $receiver;
-        $this->messages = $this->messages();
+        $this->initMessages();
     }
 
-    public function messages()
+    public function initMessages()
     {
         $criteria = new CDbCriteria();
         $criteria->alias = 'um';
@@ -23,7 +24,11 @@ class Dialog
         $criteria->addCondition ('m.sender = '.$this->receiver->id.' and r.id_receiver='.$this->sender->id, 'OR');
 
         $this->messages = UserMessages::model()->findAll($criteria);
-        return $this;
+        $this->header = $this->messages[0]->subject;
+    }
+
+    public function messages(){
+        return $this->messages;
     }
 
     public function deleteDialog()

@@ -2,18 +2,16 @@
 /**
  * @var $message UserMessages
  * @var $dialog Dialog
- * @var $user1 StudentReg
- * @var $user2 StudentReg
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
 <div class="col-lg-12">
-    <h3><?= $dialog[0]->subject; ?></h3>
+    <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
-        <?php foreach ($dialog as $message) {
-            if (!$message->isDeleted($user1)) {
+        <?php foreach ($dialog->messages as $message) {
+            if (!$message->isDeleted($dialog->receiver)) {
                 ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -66,8 +64,8 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $user1->id)); ?>
-<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $user1->id)); ?>
+<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
+<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>

@@ -69,13 +69,6 @@
         if (user === "") {
             showDialog('Виберіть отримувача повідомлення.');
         } else{
-//            var jsonData = {
-//                "id" : $("input[name=id]").val(),
-//                "receiver" : receiver,
-//                "subject" : $("input[name=subject]").val(),
-//                "text": $("input[name=text]").val(),
-//                "scenario": "new"
-//            };
             var posting = $.post(url,
                 {
                     "id" : $("input[name=id]").val(),
