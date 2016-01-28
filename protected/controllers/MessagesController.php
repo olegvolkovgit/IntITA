@@ -10,8 +10,8 @@ class MessagesController extends Controller {
 
         $user = StudentReg::model()->findByPk($id);
 
+        var_dump($user);die;
         $message = new UserMessages();
-
         switch($scenario){
             case 'new':
                 $receiverString = Yii::app()->request->getPost('receiver', '');
@@ -33,6 +33,7 @@ class MessagesController extends Controller {
 
         $message->create();
         $sender = new MailTransport();
+
 
         if ($message->send($sender)){
             $this->redirect(Yii::app()->request->urlReferrer);

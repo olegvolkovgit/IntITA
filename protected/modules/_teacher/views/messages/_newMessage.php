@@ -10,7 +10,7 @@
         Написати листа
     </div>
     <div class="panel-body">
-        <form role="form" method="post" onclick="load(<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>)">
+        <form role="form" onclick="send(<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>)">
 
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
             <input class="form-control" name="scenario" id="hidden" value="new">
@@ -63,4 +63,9 @@
         display: 'value',
         source: users
     });
+
+    function send(url){
+        alert($("#typeahead").val());
+        alert(url);
+    }
 </script>

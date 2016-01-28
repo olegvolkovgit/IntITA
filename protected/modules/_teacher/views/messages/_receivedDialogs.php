@@ -3,7 +3,7 @@
  * @var $receivedDialogs array
  * @var $userMessage UserMessages
  * @var $user StudentReg
- * @var $dialog array
+ * @var $dialog Dialog
  */
 ?>
 <div class="dataTable_wrapper">
@@ -20,20 +20,20 @@
         <?php
         foreach ($receivedDialogs as $dialog) {
             ?>
-            <tr class="odd gradeX" style="cursor:pointer" <?php //if(!$userMessage->isRead($user)) {echo 'id="new"';}?>>
+            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$dialog->isRead()) {echo 'id="new"';}?>>
                 <td class="center">
-                    <input type="checkbox" name="<?= $dialog["sender"];//$userMessage->id_message; ?>">
+                    <input type="checkbox" name="<?= $dialog->receiver->id; ?>">
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' =>  $dialog["sender"], 'user2' => $user->id)) ?>', 'Діалог')">
-                    <?=  $dialog["sender"]//$userMessage->message0->sender0->userName(); ?>
+                    'user1' =>  $dialog->sender->id, 'user2' => $dialog->receiver->id)) ?>', 'Діалог')">
+                    <?=  $dialog->sender->userName(); ?>
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' =>  $dialog["sender"], 'user2' => $user->id)) ?>', 'Діалог')">
-                    <?= $dialog["subject"]; ?>
+                    'user1' =>  $dialog->sender->id, 'user2' => $dialog->receiver->id)) ?>', 'Діалог')">
+                    <?= $dialog->messages[0]->subject; ?>
                 </td>
                 <td class="center">
-                    <?= date("h:m, d F", strtotime( $dialog["create_date"])); ?>
+                    <?= date("h:m, d F", strtotime( $dialog->messages[0]->create_date)); ?>
                 </td>
             </tr>
             <?php

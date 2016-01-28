@@ -26,11 +26,10 @@ class Dialog
         return $this;
     }
 
-    public function deleteDialog(StudentReg $receiver)
+    public function deleteDialog()
     {
-        $dialog = $this->dialog();
-        foreach($dialog as $message){
-            if($message->deleteMessage($receiver) == false)
+        foreach($this->messages as $message){
+            if($message->deleteMessage($this->receiver) == false)
                 return false;
         }
         return true;
@@ -42,5 +41,9 @@ class Dialog
             $flag = $message->read($this);
         }
         return $flag;
+    }
+
+    public function isRead(){
+        return true;
     }
 }

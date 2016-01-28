@@ -275,4 +275,5 @@ class UserMessages extends Messages implements IMessage
 
         return UserMessages::model()->find($criteria);
     }
+
 }

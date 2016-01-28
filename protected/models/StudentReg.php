@@ -1190,13 +1190,21 @@ class StudentReg extends CActiveRecord
     }
 
     public function receivedDialogs(){
-        $sql = 'select sender, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
-                and r.id_receiver='.$this->id." group by m.sender order by m.create_date";
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-
-        if ($result)
-            return $result;
-        else return [];
+        $result = [];
+        $senders = $this->getSenders();
+        foreach($senders as $sender){
+            $dialog = new Dialog($this, $sender);
+            array_push($result, $dialog);
+        }
+        return $result;
+//
+//        $sql = 'select sender, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
+//                and r.id_receiver='.$this->id." group by m.sender order by m.create_date";
+//        $result = Yii::app()->db->createCommand($sql)->queryAll();
+//
+//        if ($result)
+//            return $result;
+//        else return [];
     }
 
     public function dialog(StudentReg $receiver)
@@ -1215,5 +1223,13 @@ class StudentReg extends CActiveRecord
 
     public function deletedDialogs(){
         return [];
+    }
+
+    public function getSenders(){
+        $criteria = new CDbCriteria();
+        $criteria->join.= ' LEFT JOIN message_receiver as r ON id = r.id_receiver';
+        $criteria->addCondition ('r.id_receiver='.$this->id);
+
+        return StudentReg::model()->findAll($criteria);
     }
 }
