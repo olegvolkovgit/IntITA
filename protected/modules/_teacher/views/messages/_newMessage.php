@@ -10,8 +10,7 @@
         Написати листа
     </div>
     <div class="panel-body">
-        <form role="form" onclick="send(<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>)">
-
+        <form role="form">
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
             <input class="form-control" name="scenario" id="hidden" value="new">
 
@@ -32,7 +31,8 @@
                 <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary"
+                    onclick="sendMessage('<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>'); return false;">
                 Написати
             </button>
 
@@ -64,8 +64,43 @@
         source: users
     });
 
-    function send(url){
-        alert($("#typeahead").val());
-        alert(url);
+    function sendMessage(url) {
+        receiver = $("#typeahead").val();
+        if (user === "") {
+            showDialog('Виберіть отримувача повідомлення.');
+        } else{
+//            var jsonData = {
+//                "id" : $("input[name=id]").val(),
+//                "receiver" : receiver,
+//                "subject" : $("input[name=subject]").val(),
+//                "text": $("input[name=text]").val(),
+//                "scenario": "new"
+//            };
+            var posting = $.post(url,
+                {
+                    "id" : $("input[name=id]").val(),
+                    "receiver" : receiver,
+                    "subject" : $("input[name=subject]").val(),
+                    "text": $("input[name=text]").val(),
+                    "scenario": "new"
+                }
+            );
+
+            posting.done(function (response) {
+                    if (response == 1)
+                        showDialog("Користувач " + user + " призначений адміністратором.");
+                    else {
+                        showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                    }
+                })
+                .fail(function () {
+                    showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                })
+                .always(function () {
+                    location.href = window.location.pathname;
+                });
+        }
     }
 </script>
