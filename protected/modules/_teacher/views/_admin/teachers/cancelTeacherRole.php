@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $teacher Teacher
+ * @var $roles array
  */
 ?>
 <div class="col-md-8">
@@ -20,8 +21,7 @@
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form onsubmit="cancelTeacherRole('<?= Yii::app()->createUrl('/_teachers/_admin/permissions/cancelTeacherRole');?>')"
-          name="cancel-access">
+    <form name="cancel-access">
         <fieldset>
             <legend id="label">Скасувати роль викладача <?php echo $teacher->first_name." ".$teacher->last_name;?>:</legend>
             <input type="text" id="teacher" value="<?php echo $teacher->teacher_id?>" style="display:none">
@@ -40,7 +40,9 @@
                 </div>
             <br>
             <br>
-            <input type="submit" class="btn btn-default" value="Скасувати роль">
+            <input type="submit" class="btn btn-default"
+                   onclick="cancelTeacherRole('<?= Yii::app()->createUrl('/_teacher/_admin/permissions/cancelTeacherRole');?>'); return false;"
+                   value="Скасувати роль">
     </form>
 </div>
 
