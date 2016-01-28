@@ -15,7 +15,7 @@ $this->widget('zii.widgets.jui.CJuiTabs', array(
         Yii::t('lecture', '0659') => array('id' => 'quiz', 'content' =>  '<div ui-view="viewQuiz"></div>'),
     ),
     'options' => array(
-        'collapsible' => false,
+        'collapsible' => true,
         'active' => $lessonTab,
     ),
     'id' => 'MyTab-Menu',

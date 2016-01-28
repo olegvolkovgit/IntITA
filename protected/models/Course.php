@@ -680,8 +680,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function modulesCount()
     {
-        return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =".$this->course_ID
-        )->queryAll());
+        return CourseModules::model()->count("id_course=$this->course_ID");
     }
 
     public function mandatoryModule($id){
