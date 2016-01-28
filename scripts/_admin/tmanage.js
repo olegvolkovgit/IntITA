@@ -19,7 +19,7 @@ function ShowTeacher(url,id)
 function cancelTeacherRole(url)
 {
     var role = $("select[name=role] option:selected").val();
-    var teaher = $('#teacher').val();
+    var teacher = $('#teacher').val();
     $.ajax({
         url: url,
         type : 'post',
@@ -242,8 +242,7 @@ function validateSliderForm()
     var valid = [];
     valid.push(numberValidate($('#text')));
     valid.push(filePicValidate($('#picture')));
-    var hasError = checkValid(valid);
-    return hasError;
+    return checkValid(valid);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //input validation function

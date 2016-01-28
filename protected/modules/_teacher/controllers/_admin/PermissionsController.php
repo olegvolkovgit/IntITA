@@ -319,7 +319,7 @@ class PermissionsController extends TeacherCabinetController
         $role = Yii::app()->request->getPost('role');
 
         TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
-        $this->redirect('/_teacher/_admin/teachers/showRoles', array('id' => 1));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher)));
     }
 
     public function actionShowUsers()

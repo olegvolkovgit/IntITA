@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $teacher Teacher
+ * @var $roles array
  */
 ?>
 <div class="col-md-8">

@@ -260,35 +260,33 @@ class Module extends CActiveRecord implements IBillableObject
     public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
     {
         $module = new Module();
-        $coursemodule = new CourseModules();
-
+        $courseModule = new CourseModules();
         $module->level = Course::model()->findByPk($idCourse)->level;
         $module->language = $lang;
         $module->title_ua = $titleUa;
         $module->title_ru = $titleRu;
         $module->title_en = $titleEn;
         if ($module->validate()) {
-            $module->save();
-        }
-
-        $order = CourseModules::model()->count("id_course=$idCourse");
-
-        $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
-        $module->alias = $idModule;
-        if($module->save()){
-            Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
-            if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
-                mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+            if($module->save()){
+                $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+                $module->alias = $idModule;
+                $module->save();
+                $order = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
+                )->queryAll());
+                Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
+                if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
+                    mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+                }
+                $courseModule->id_course = $idCourse;
+                $courseModule->id_module = $idModule;
+                $courseModule->order = $order + 1;
+                if ($courseModule->validate()) {
+                    $courseModule->save();
+                    return true;
+                }
             }
-            $coursemodule->id_course = $idCourse;
-            $coursemodule->id_module = $idModule;
-            $coursemodule->order = $order + 1;
-            if ($coursemodule->validate()) {
-                $coursemodule->save();
-            }
         }
-
-        return $order;
+        return false;
     }
 
     public static function getModules($id)
