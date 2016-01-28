@@ -106,11 +106,11 @@ input#nextLecture{
     margin-top: 25px;
     float:right;
 }
+.last input#nextLecture{
+    width:195px;
+}
 input#nextLecture:hover{
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;
 }
-/*.ui-widget-content {*/
-    /*border: 4px solid #cc0000;*/
-/*}*/

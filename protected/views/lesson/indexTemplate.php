@@ -99,7 +99,11 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        if($isLastLecture){
+            $this->renderPartial('/lesson/_moduleCompleteDialog', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        }else{
+            $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        }
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
     </div>
