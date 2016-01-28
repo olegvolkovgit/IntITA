@@ -146,20 +146,18 @@ class CourseController extends Controller
     {
         $idModule = $_GET['idModule'];
         $idCourse = $_GET['idCourse'];
-
         $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
-
-        CourseModules::model()->deleteByPk(array('id_course' => $idCourse, 'id_module' => $idModule));
-        $issetCourseModule = CourseModules::model()->findByAttributes(array('id_module' => $idModule));
-        if ($issetCourseModule) TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
-
-        $count = Course::model()->findByPk($idCourse)->modules_count;
-        for ($i = $order + 1; $i <= $count; $i++) {
-            $nextModule = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'order' => $i))->id_module;
-            CourseModules::model()->updateByPk(array('id_course' => $idCourse, 'id_module' => $nextModule), array('order' => $i - 1));
+        $count = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
+        )->queryAll());
+        if(CourseModules::model()->deleteByPk(array('id_course' => $idCourse, 'id_module' => $idModule))){
+            Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
+            $issetCourseModule = CourseModules::model()->findByAttributes(array('id_module' => $idModule));
+            if ($issetCourseModule) TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
+            for ($i = $order + 1; $i <= $count; $i++) {
+                $nextModule = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'order' => $i))->id_module;
+                CourseModules::model()->updateByPk(array('id_course' => $idCourse, 'id_module' => $nextModule), array('order' => $i - 1));
+            }
         }
-        Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
-
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -213,7 +211,7 @@ class CourseController extends Controller
     public function actionModulesUpdate()
     {
         $model = Course::model()->findByPk($_POST['idcourse']);
-        $this->renderPartial('_addLessonForm', array('newmodel' => $model), false, true);
+        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
     }
 
     public function actionCourseUpdate()
