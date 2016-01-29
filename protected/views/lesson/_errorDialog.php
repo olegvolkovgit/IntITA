@@ -1,10 +1,5 @@
-<!-- regform -->
-<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask2.css'); ?>"/>
-<!-- regform end -->
-<div class="mooda2">
-
-    <div class="signIn22">
-        <div id="heedd2">
+<div class="modalError">
+    <div class="modalBody">
             <table>
                 <tr>
                     <td>
@@ -15,13 +10,10 @@
                     </td>
                 </tr>
             </table>
-            <div class="happily2">
+            <div class="modalContent">
                 <p><?php echo Yii::t('lecture', '0683'); ?></p>
             </div>
-            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
+            <input class="modalButton" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
                    ng-click="errorDialogHide()" >
-
-        </div>
     </div>
-    <!-- form -->
 </div>
