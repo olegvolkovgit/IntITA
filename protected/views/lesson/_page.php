@@ -36,30 +36,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'resizable' => false,
     ),
 ));
-?>
-<div class="mooda">
-    <div class="signIn2">
-        <div id="heedd">
-            <table>
-                <tr>
-                    <td>
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'LessFinish.jpg'); ?>">
-                    </td>
-                    <td>
-                        <h1 style=""><?php echo Yii::t('lecture', '0675'); ?></h1>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="happily">
-                <p><?php echo Yii::t('lecture', '0679'); ?></p>
-            </div>
-            <a id="signInButtonM2" ng-click="dialogHide()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
-        </div>
-    </div>
-</div>
-<?php
-$this->endWidget('zii.widgets.jui.CJuiDialog');
+    $this->renderPartial('/lesson/_partCompleteDialog');
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 <!--modal task dialogInfo-->
 <?php
@@ -78,8 +56,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ?>
 <div>
     <p style="text-align: center"><?= Yii::t('lesson', '0793'); ?></p>
-    <div>
-        <a id="signInButtonM2" ng-click="hideInformDialog()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
+    <div class="modalBody">
+        <a class="modalButton" ng-click="hideInformDialog()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
     </div>
 </div>
 <?php

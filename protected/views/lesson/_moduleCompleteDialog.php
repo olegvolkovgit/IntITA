@@ -1,6 +1,3 @@
-<!-- regform -->
-<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask.css'); ?>"/>
-<!-- regform end-->
 <div class="last">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
@@ -10,8 +7,7 @@
         'action' =>Yii::app()->createUrl("module/index", array("idModule" => $lecture->idModule, "idCourse" => $idCourse)),
     ));
     ?>
-    <div class="signIn2">
-        <div id="heedd">
+    <div class="modalBody">
             <table>
                 <tr>
                     <td>
@@ -23,9 +19,9 @@
                 </tr>
             </table>
 
-            <div class="happily">
+            <div class="modalContent">
                 <p>Ти успішно пройшов(ла) модуль</p>
-                <p id="haa"><?php echo Yii::t('lecture', '0677'); ?></p>
+                <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>
             <div class='finishedShare'>
@@ -40,8 +36,7 @@
                 <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo Module::getModuleName($lecture->idModule) ?>. Я успішно завершив(ла) заняття <?php echo addslashes(Lecture::getLectureTitle($lecture->id)) ?> INTITA - програмуй майбутнє!')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'twitter.png'); ?>"></a>
             </div>
-            <input id="nextLecture" type="submit" value="ОК">
-        </div>
+            <input class="modalButton" type="submit" value="ОК">
     </div>
     <!-- form -->
     <?php $this->endWidget(); ?>
