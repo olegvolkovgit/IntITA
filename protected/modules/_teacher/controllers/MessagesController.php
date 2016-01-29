@@ -10,7 +10,6 @@ class MessagesController extends TeacherCabinetController
         $message = new UserMessages();
 
         $sentMessages = $model->sentMessages();
-        $receivedDialogs = $model->receivedDialogs();
         $receivedMessages = $model->receivedMessages();
         $deletedMessages = $model->deletedMessages();
 
@@ -18,7 +17,6 @@ class MessagesController extends TeacherCabinetController
             'model' => $model,
             'message' => $message,
             'sentMessages' => $sentMessages,
-            'receivedDialogs' => $receivedDialogs,
             'receivedMessages' => $receivedMessages,
             'deletedMessages' => $deletedMessages,
         ));

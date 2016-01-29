@@ -7,10 +7,10 @@
  */
 ?>
 <div class="dataTable_wrapper">
-    <table class="table table-striped table-bordered table-hover" id="receivedMessages">
+    <table class="table table-striped table-bordered table-hover" id="deletedMessages">
         <thead>
         <tr>
-            <td style="width: 3%"><input type="checkbox" name="all"></td>
+            <td style="width: 5%"><input type="checkbox" name="all"></td>
             <td style="width: 25%"><em>Від кого</em></td>
             <td><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>

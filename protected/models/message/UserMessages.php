@@ -227,7 +227,7 @@ class UserMessages extends Messages implements IMessage
         $receivers = $this->receivers();
         $result = '';
         foreach ($receivers as $user) {
-            $result .= $user->userName() . ", " . $user->email . "; ";
+            $result .= $user->userName() . ", " . $user->email;
         }
 
         return $result;

@@ -9,7 +9,7 @@
         Написати листа
     </div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" name="message">
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
             <input class="form-control" name="scenario" id="hidden" value="new">
 
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+                <textarea class="form-control" rows="6" id="text" placeholder="Лист" required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary"
@@ -73,18 +73,18 @@
                     "id" : $("input[name=id]").val(),
                     "receiver" : receiver,
                     "subject" : $("input[name=subject]").val(),
-                    "text": $("input[name=text]").val(),
+                    "text": $("#text").val(),
                     "scenario": "new"
                 }
             );
 
-            posting.done(function (response) {
-                    if (response == 1)
+            posting.done(function () {
+                    //if (response == 1)
                         showDialog("Ваше повідомлення успішно відправлено.");
-                    else {
-                        showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                            "напишіть на адресу antongriadchenko@gmail.com.");
-                    }
+//                    else {
+//                        showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+//                            "напишіть на адресу antongriadchenko@gmail.com.");
+//                    }
                 })
                 .fail(function () {
                     showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +

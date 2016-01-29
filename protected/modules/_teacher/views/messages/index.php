@@ -62,13 +62,13 @@
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        $('#sentMessages').DataTable({-->
-<!--                language: {-->
-<!--                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"-->
-<!--                }-->
-<!--            }-->
-<!--        );-->
-<!--    });-->
-<!--</script>-->
+<script>
+    $(document).ready(function () {
+        $('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
+                language: {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                }
+            }
+        );
+    });
+</script>
