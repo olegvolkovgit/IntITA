@@ -1,14 +1,15 @@
 <?php
 /** @var $record UserMessages
-    @var $model StudentReg
+ *  @var $model StudentReg
+ *  @var $newMessages array
  */
-foreach ($newMessages as $record) {
+foreach ($newMessages as $key=>$record) {
     $message = $record->message();
     if(!$record->isRead($model))
     ?>
     <li>
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-            'id' => $record->id_message, 'user' => $model->id)) ?>')">
+            'user1' => $message->sender0->id, 'user2' => $model->id)) ?>', 'Діалог')">
             <div>
                 <strong><?= $message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">
@@ -19,11 +20,12 @@ foreach ($newMessages as $record) {
         </a>
     </li>
     <?php
+    if ($key >= 4) break;
 }
 ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')">
+        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>', 'Листування')">
                 Всі повідомлення</a></strong>
         <i class="fa fa-angle-right"></i>
     </a>

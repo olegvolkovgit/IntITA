@@ -1039,11 +1039,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_admin on user.id = user_admin.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
-//        $criteria->addCondition('user_admin.id_user = user.id');
-//        $result = StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1053,11 +1048,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_accountant on user.id = user_accountant.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
-//        $criteria->addCondition('user_accountant.id_user = user.id');
-//        return StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1069,6 +1059,183 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN teacher ON teacher.user_id = user.id';
         $criteria->addCondition('teacher.user_id = user.id');
+        return StudentReg::model()->findAll($criteria);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAdmins($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAccountants($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
+
+    public function addAdmin()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_admin', array(
+            'id_user' => $this->id,
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addAccountant()
+    {
+        if (Yii::app()->db->createCommand()->insert('user_accountant', array(
+            'id_user' => $this->id,
+        ))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAdmin()
+    {
+        if (Yii::app()->db->createCommand()->update('user_admin', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cancelAccountant()
+    {
+        if (Yii::app()->db->createCommand()->update('user_accountant', array(
+            'end_date'=>date('Y-m-d H:i:s'),
+        ), 'id_user=:id', array(':id'=>$this->id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function allUsers($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $model) {
+            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        }
+        return json_encode($result);
+    }
+
+    public function receivedDialogs(){
+        $result = [];
+        $senders = $this->getSenders();
+
+        foreach($senders as $key=>$sender){
+             //$dialog = new Dialog($this, $sender[$key]->sender, $senders[$key]);
+            //array_push($result, $dialog);
+        }
+        return $result;
+
+//        $sql = 'select sender from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
+//                and r.id_receiver='.$this->id." group by m.sender order by m.create_date";
+//        $result = Yii::app()->db->createCommand($sql)->queryAll();
+//
+//        var_dump($result);die;
+//        if ($result)
+//            return $result;
+//        else return [];
+    }
+
+    public function dialog(StudentReg $receiver)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'um';
+        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
+        $criteria->join.= ' LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('m.sender = '.$this->id.' and r.id_receiver='.$receiver->id, 'OR');
+        $criteria->addCondition ('m.sender = '.$receiver->id.' and r.id_receiver='.$this->id, 'OR');
+
+        $dialog = UserMessages::model()->findAll($criteria);
+        return $dialog;
+    }
+
+    public function deletedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition('r.id_receiver =:id');
+        $criteria->addCondition('r.deleted IS NOT NULL');
+        $criteria->params = array(':id' => $this->id);
+
+        return UserMessages::model()->findAll($criteria);
+    }
+
+    public function getSenders(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = ' LEFT JOIN message_receiver as r ON r.id_receiver = u.id';
+        $criteria->join .= ' LEFT JOIN messages as m ON r.id_message = m.id';
+        $criteria->group = 'm.sender';
+        $criteria->distinct = true;
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('r.id_receiver='.$this->id.' and u.id = m.sender');
+
         return StudentReg::model()->findAll($criteria);
     }
 }

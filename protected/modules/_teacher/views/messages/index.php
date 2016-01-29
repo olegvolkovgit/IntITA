@@ -4,15 +4,14 @@
  * @var $message UserMessages
  * @var $receivedMessages array
  * @var $sentMessages CActiveDataProvider
- * @var $alerts array
+ * @var $receivedDialogs array
+ * @var $sentDialogs array
+ * @var $deletedMessages array
  */
 ?>
 <script>
     user = '<?=$model->id?>';
 </script>
-
-<?php //if(!empty($alerts))
-    $this->renderPartial('_alerts', array('alerts' => $alerts));?>
 
 <button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
     'id' => $model->id
@@ -24,15 +23,12 @@
 
 <div id="mylettersSend">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            Скринька
-        </div>
-        <!-- /.panel-heading -->
         <div class="panel-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="nav">
                 <li><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
                 <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
+                <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -48,9 +44,31 @@
                         'user' => $model
                     )); ?>
                 </div>
+                <div class="tab-pane fade" id="deleted">
+                    <?php $this->renderPartial('_deletedMessages', array(
+                        'deletedMessages' => $deletedMessages,
+                        'user' => $model
+                    )); ?>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
+<!-- DataTables JavaScript -->
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#sentMessages').DataTable({-->
+<!--                language: {-->
+<!--                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"-->
+<!--                }-->
+<!--            }-->
+<!--        );-->
+<!--    });-->
+<!--</script>-->

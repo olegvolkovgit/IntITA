@@ -3,21 +3,24 @@
 class MessagesController extends TeacherCabinetController
 {
 
-    public function actionIndex($alerts = [])
+    public function actionIndex()
     {
         $id = Yii::app()->user->getId();
         $model = StudentReg::model()->findByPk($id);
         $message = new UserMessages();
 
         $sentMessages = $model->sentMessages();
+        $receivedDialogs = $model->receivedDialogs();
         $receivedMessages = $model->receivedMessages();
+        $deletedMessages = $model->deletedMessages();
 
         $this->renderPartial('index', array(
             'model' => $model,
             'message' => $message,
             'sentMessages' => $sentMessages,
+            'receivedDialogs' => $receivedDialogs,
             'receivedMessages' => $receivedMessages,
-            'alerts' => $alerts,
+            'deletedMessages' => $deletedMessages,
         ));
     }
 
@@ -28,16 +31,15 @@ class MessagesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionDialog($id, $user)
+    public function actionDialog($user1, $user2)
     {
-        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
-
-        $receiver = StudentReg::model()->findByPk($user);
-        $dialog = $message->dialog($receiver);
+        $user1 = StudentReg::model()->findByPk($user1);
+        $user2 = StudentReg::model()->findByPk($user2);
+        $dialog = new Dialog($user1, $user2);
+        $dialog->read();
 
         $this->renderPartial('_dialogTree', array(
             'dialog' => $dialog,
-            'receiver' => $receiver
         ), false, true);
     }
 
@@ -50,10 +52,6 @@ class MessagesController extends TeacherCabinetController
             'receiver' => $jsonObj->receiver,
             'message' => $jsonObj->message
         ));
-    }
-
-    public function actionReplyAll(){
-
     }
 
     public function actionForward(){
@@ -93,7 +91,6 @@ class MessagesController extends TeacherCabinetController
                 $message->build($subject, $text, $receiver, $user);
                 break;
             case 'reply':
-            case 'replyAll':
                 $parentMessage = Yii::app()->request->getPost('parent', 0);
                 $receiver = Messages::model()->findByPk($parentMessage)->sender0;
                 $message->build($subject, $text, $receiver, $user);
@@ -108,9 +105,7 @@ class MessagesController extends TeacherCabinetController
         $message->create();
         $sender = new MailTransport();
 
-        $alerts = [];
         if ($message->send($sender)){
-            //array_push($alerts, array('type' => 'success', 'text' => 'Ваше повідомлення успішно відправлене.'));
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
@@ -141,6 +136,15 @@ class MessagesController extends TeacherCabinetController
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
+        }
+    }
+
+    public function actionUsersByQuery($query){
+        if ($query) {
+            $users = StudentReg::allUsers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 }

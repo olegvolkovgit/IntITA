@@ -1,12 +1,12 @@
 <?php
 /**
- * @var $sentMessages array
+ * @var $deletedMessages array
  * @var $userMessage UserMessages
  * @var $user StudentReg
  */
 ?>
 <div class="dataTable_wrapper">
-    <table class="table table-striped table-bordered table-hover" id="sentMessages">
+    <table class="table table-striped table-bordered table-hover" id="deletedMessages">
         <thead>
         <tr>
             <td style="width: 3%"><input type="checkbox" name="all" onclick="checkAll();"></td>
@@ -18,22 +18,21 @@
         <tbody>
         <form>
             <?php
-            foreach ($sentMessages as $userMessage) {
+            foreach($deletedMessages as $userMessage){
                 ?>
-                <tr class="odd gradeX" style="cursor:pointer">
+                <tr class="odd gradeX"  style="cursor:pointer">
                     <td class="center">
-                        <input type="checkbox" id="<?= $userMessage->id_message; ?>">
+                        <input type="checkbox" id="<?=$userMessage->id_message;?>">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
                         'user1' => 38, 'user2' => $user->id)) ?>')">
-                        <?= $userMessage->receiversString(); ?>
+                        <?=$userMessage->receiversString(); ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
                         'user1' => 38, 'user2' => $user->id)) ?>')">
-                        <?= $userMessage->subject; ?>
+                        <?=$userMessage->subject; ?>
                     </td>
-                    <td class="center">
-                        <em><?= CommonHelper::formatMessageDate($userMessage->message0->create_date); ?></em></td>
+                    <td class="center"><?=CommonHelper::formatMessageDate($userMessage->message0->create_date); ?></td>
                 </tr>
                 <?php
             }
@@ -42,7 +41,8 @@
         </tbody>
     </table>
 </div>
+
 <script>
-    function checkAll() {
+    function checkAll(){
     }
 </script>

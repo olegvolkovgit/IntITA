@@ -11,7 +11,6 @@ class MessagesController extends Controller {
         $user = StudentReg::model()->findByPk($id);
 
         $message = new UserMessages();
-
         switch($scenario){
             case 'new':
                 $receiverString = Yii::app()->request->getPost('receiver', '');
@@ -34,6 +33,7 @@ class MessagesController extends Controller {
         $message->create();
         $sender = new MailTransport();
 
+
         if ($message->send($sender)){
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
@@ -42,6 +42,31 @@ class MessagesController extends Controller {
     }
 
     public function actionReply(){
+        $id = Yii::app()->request->getPost('id', 0);
+        $subject = Yii::app()->request->getPost('subject', '');
+        $text = Yii::app()->request->getPost('text', '');
+        $parentId = Yii::app()->request->getPost('parent', 0);
+        $receiverId = Yii::app()->request->getPost('receiver', 0);
+
+        $user = StudentReg::model()->findByPk($id);
+        $message = new UserMessages();
+
+        $receiver = StudentReg::model()->findByPk($receiverId);
+        $message->build($subject, $text, $receiver, $user);
+
+        $message->create();
+        $sender = new MailTransport();
+
+        if ($message->send($sender)){
+            $message->parent = $parentId;
+            $message->reply($receiver);
+            $this->redirect(Yii::app()->request->urlReferrer);
+        } else {
+            echo 'error';
+        }
+    }
+
+    public function actionForward(){
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');

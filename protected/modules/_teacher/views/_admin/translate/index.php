@@ -1,6 +1,7 @@
 <?php
 /* @var $this MessagesController */
 /* @var $model Translate */
+
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -41,7 +42,7 @@ $('.search-form form').submit(function(){
         'language',
         array(
             'header' => 'Категорія',
-            'value' => 'Sourcemessages::getMessageCategory($data->id)',
+            'value' => '$data->source->category',
         ),
         'translation',
         array(

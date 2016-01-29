@@ -14,6 +14,7 @@ return array(
         'password' => '1234567',
         'charset' => 'utf8',
         'enableProfiling' => true,
+        'enableParamLogging' => true,
     ),
     'dbForum' => array(
         'class' => 'CDbConnection',
@@ -23,5 +24,16 @@ return array(
         'password' => '1234567',
         'charset' => 'utf8',
         'enableProfiling' => true,
+    ),
+    'debug' => array(
+        'class' => 'ext.yii2-debug.Yii2Debug',
+        'panels' => array(
+            'db' => array(
+                // Disable code highlighting.
+                'highlightCode' => false,
+                // Disable substitution of placeholders with values in SQL queries.
+                'insertParamValues' => false,
+            ),
+        ),
     ),
 );

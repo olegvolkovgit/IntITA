@@ -132,11 +132,9 @@ class UserMessages extends Messages implements IMessage
 
     public function send(IMailSender $sender)
     {
-        //foreach($this->receivers as $receiver){
         if ($this->addReceiver($this->receivers)) {
             $sender->send($this->receivers->email, "Name", $this->subject, $this->text);
         }
-        //}
 
         $this->message->draft = 0;
         $this->message->save();
@@ -165,16 +163,6 @@ class UserMessages extends Messages implements IMessage
         else {
             return false;
         }
-    }
-
-    public function deleteDialog(StudentReg $receiver)
-    {
-        $dialog = $this->dialog($receiver);
-        foreach($dialog as $message){
-            if($message->deleteMessage($receiver) == false)
-                return false;
-        }
-        return true;
     }
 
     public function reply(StudentReg $receiver)
@@ -231,7 +219,6 @@ class UserMessages extends Messages implements IMessage
         $criteria->join = 'LEFT JOIN message_receiver as r ON s.id = r.id_receiver';
         $criteria->addCondition ('r.id_message = '.$this->id_message);
 
-        //return $this->message0->receivers0;
         return StudentReg::model()->findAll($criteria);
     }
 
@@ -249,27 +236,6 @@ class UserMessages extends Messages implements IMessage
     public function getIdMessage()
     {
         return $this->id_message;
-    }
-
-    public function dialog(StudentReg $receiver)
-    {
-        $dialog = [];
-        array_push($dialog, $this);
-        $current = $this;
-        for (; $current != null;){
-            if (!$current->isRead($receiver)) {
-                $current->read($receiver);
-            }
-
-            if ($current = $current->replyMessage())
-            {
-                if(!$current->isDeleted($receiver)){
-                    array_push($dialog, $current);
-                }
-            }
-        }
-
-        return $dialog;
     }
 
     // return true if message read by $receiver (param "read" is NULL)
@@ -309,4 +275,5 @@ class UserMessages extends Messages implements IMessage
 
         return UserMessages::model()->find($criteria);
     }
+
 }

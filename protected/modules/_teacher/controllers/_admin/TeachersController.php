@@ -34,13 +34,12 @@ class TeachersController extends TeacherCabinetController{
 
         $this->render('index', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function actionShowTeacher($id)
     {
         $teacher = Teacher::model()->findByPk($id);
-//        var_dump($teacher);die;
         $this->renderPartial('showTeacher',array(
             'teacher' => $teacher
         ),false,true);
@@ -98,7 +97,7 @@ class TeachersController extends TeacherCabinetController{
         $this->render('showRoleAttributes', array(
             'model' => $model,
             'dataProvider' => $dataProvider,
-        ),false,true);
+        ),false);
     }
 
     public function actionCreateRole()
@@ -146,7 +145,7 @@ class TeachersController extends TeacherCabinetController{
         }
         $this->render('update', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function actionUpdateRole($id)
@@ -172,7 +171,7 @@ class TeachersController extends TeacherCabinetController{
 
         $this->render('viewRole', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function loadModel($id)

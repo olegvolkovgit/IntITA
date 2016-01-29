@@ -64,7 +64,6 @@ function loadPage(url, role) {
     });
 }
 
-
 function clearDashboard() {
     if (document.getElementById("dashboard"))
         document.getElementById("dashboard").style.display = "none";
