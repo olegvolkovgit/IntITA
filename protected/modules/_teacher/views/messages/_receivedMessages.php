@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <td style="width: 3%"><input type="checkbox" name="all"></td>
-            <td style="width: 20%"><em>Від кого</em></td>
+            <td style="width: 25%"><em>Від кого</em></td>
             <td><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>
         </tr>
@@ -32,7 +32,7 @@
                     <?= $userMessage->subject; ?>
                 </td>
                 <td class="center">
-                    <?= date("h:m, d F", strtotime($userMessage->message0->create_date)); ?>
+                    <?= CommonHelper::formatMessageDate($userMessage->message0->create_date); ?>
                 </td>
             </tr>
             <?php

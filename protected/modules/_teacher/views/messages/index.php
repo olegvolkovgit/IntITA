@@ -6,7 +6,7 @@
  * @var $sentMessages CActiveDataProvider
  * @var $receivedDialogs array
  * @var $sentDialogs array
- * @var $deletedDialogs array
+ * @var $deletedMessages array
  */
 ?>
 <script>
@@ -33,20 +33,20 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="received">
-                    <?php $this->renderPartial('_receivedDialogs', array(
-                        'receivedDialogs' => $receivedDialogs,
+                    <?php $this->renderPartial('_receivedMessages', array(
+                        'receivedMessages' => $receivedMessages,
                         'user' => $model
                     )); ?>
                 </div>
                 <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentDialogs', array(
-                        'sentDialogs' => $sentDialogs,
+                    <?php $this->renderPartial('_sentMessages', array(
+                        'sentMessages' => $sentMessages,
                         'user' => $model
                     )); ?>
                 </div>
                 <div class="tab-pane fade" id="deleted">
-                    <?php $this->renderPartial('_deletedDialogs', array(
-                        'deletedDialogs' => $deletedDialogs,
+                    <?php $this->renderPartial('_deletedMessages', array(
+                        'deletedMessages' => $deletedMessages,
                         'user' => $model
                     )); ?>
                 </div>
@@ -56,3 +56,19 @@
 </div>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
+<!-- DataTables JavaScript -->
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#sentMessages').DataTable({-->
+<!--                language: {-->
+<!--                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"-->
+<!--                }-->
+<!--            }-->
+<!--        );-->
+<!--    });-->
+<!--</script>-->

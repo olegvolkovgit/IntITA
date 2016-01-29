@@ -4,7 +4,6 @@
 
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
 
-
 <div class="panel panel-primary">
     <div class="panel-heading">
         Написати листа
@@ -81,15 +80,15 @@
 
             posting.done(function (response) {
                     if (response == 1)
-                        showDialog("Користувач " + user + " призначений адміністратором.");
+                        showDialog("Ваше повідомлення успішно відправлено.");
                     else {
-                        showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                        showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                            "напишіть на адресу antongriadchenko@gmail.com.");
                     }
                 })
                 .fail(function () {
-                    showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                    showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу antongriadchenko@gmail.com.");
                 })
                 .always(function () {
                     location.href = window.location.pathname;

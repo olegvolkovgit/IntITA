@@ -1,9 +1,9 @@
 <?php
 /** @var $record UserMessages
-    @var $model StudentReg
+ *  @var $model StudentReg
  *  @var $newMessages array
  */
-foreach ($newMessages as $record) {
+foreach ($newMessages as $key=>$record) {
     $message = $record->message();
     if(!$record->isRead($model))
     ?>
@@ -20,6 +20,7 @@ foreach ($newMessages as $record) {
         </a>
     </li>
     <?php
+    if ($key >= 4) break;
 }
 ?>
 <li>

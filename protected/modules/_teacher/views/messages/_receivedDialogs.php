@@ -11,7 +11,7 @@
         <thead>
         <tr>
             <td style="width: 3%"><input type="checkbox" name="all"></td>
-            <td style="width: 20%"><em>Від кого</em></td>
+            <td style="width: 25%"><em>Від кого</em></td>
             <td><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>
         </tr>

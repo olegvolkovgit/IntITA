@@ -11,7 +11,6 @@ class MessagesController extends Controller {
         $user = StudentReg::model()->findByPk($id);
 
         $message = new UserMessages();
-        var_dump($scenario);die;
         switch($scenario){
             case 'new':
                 $receiverString = Yii::app()->request->getPost('receiver', '');

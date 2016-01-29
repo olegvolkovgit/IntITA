@@ -1179,29 +1179,21 @@ class StudentReg extends CActiveRecord
         return json_encode($result);
     }
 
-    public function sentDialogs(){
-        $sql = 'select r.id_receiver, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
-                and m.sender='.$this->id." group by r.id_receiver order by m.create_date";
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-
-        if ($result)
-            return $result;
-        else return [];
-    }
-
     public function receivedDialogs(){
         $result = [];
         $senders = $this->getSenders();
-        foreach($senders as $sender){
-            $dialog = new Dialog($this, $sender);
-            array_push($result, $dialog);
+
+        foreach($senders as $key=>$sender){
+             //$dialog = new Dialog($this, $sender[$key]->sender, $senders[$key]);
+            //array_push($result, $dialog);
         }
         return $result;
-//
-//        $sql = 'select sender, create_date, r.id_message, u.subject from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
+
+//        $sql = 'select sender from user_messages as u, messages as m inner join message_receiver as r on r.id_message = m.id
 //                and r.id_receiver='.$this->id." group by m.sender order by m.create_date";
 //        $result = Yii::app()->db->createCommand($sql)->queryAll();
 //
+//        var_dump($result);die;
 //        if ($result)
 //            return $result;
 //        else return [];
@@ -1221,14 +1213,28 @@ class StudentReg extends CActiveRecord
         return $dialog;
     }
 
-    public function deletedDialogs(){
-        return [];
+    public function deletedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition('r.id_receiver =:id');
+        $criteria->addCondition('r.deleted IS NOT NULL');
+        $criteria->params = array(':id' => $this->id);
+
+        return UserMessages::model()->findAll($criteria);
     }
 
     public function getSenders(){
         $criteria = new CDbCriteria();
-        $criteria->join.= ' LEFT JOIN message_receiver as r ON id = r.id_receiver';
-        $criteria->addCondition ('r.id_receiver='.$this->id);
+        $criteria->alias = 'u';
+        $criteria->join = ' LEFT JOIN message_receiver as r ON r.id_receiver = u.id';
+        $criteria->join .= ' LEFT JOIN messages as m ON r.id_message = m.id';
+        $criteria->group = 'm.sender';
+        $criteria->distinct = true;
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('r.id_receiver='.$this->id.' and u.id = m.sender');
 
         return StudentReg::model()->findAll($criteria);
     }

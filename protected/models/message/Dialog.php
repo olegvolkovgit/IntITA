@@ -24,7 +24,11 @@ class Dialog
         $criteria->addCondition ('m.sender = '.$this->receiver->id.' and r.id_receiver='.$this->sender->id, 'OR');
 
         $this->messages = UserMessages::model()->findAll($criteria);
-        $this->header = $this->messages[0]->subject;
+        if(!empty($this->messages)) {
+            $this->header = $this->messages[0]->subject;
+        } else {
+            $this->header = "";
+        }
     }
 
     public function messages(){
@@ -40,10 +44,12 @@ class Dialog
         return true;
     }
 
-    public function readDialog($dialog){
+    public function read(){
         $flag = true;
-        foreach($dialog as $message){
-            $flag = $message->read($this);
+        foreach($this->messages as $message){
+            if(!$message->isRead($this->receiver)) {
+                $flag = $message->read($this->receiver);
+            }
         }
         return $flag;
     }
@@ -51,4 +57,6 @@ class Dialog
     public function isRead(){
         return true;
     }
+
+
 }

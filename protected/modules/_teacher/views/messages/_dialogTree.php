@@ -19,7 +19,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                                  style="height:24px"/>
                             <strong><?= $message->message0->sender0->userName(); ?></strong>
-                            <em><?= substr($message->text, 0, 50) . "..."; ?></em>
+                            <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
                         </a>
                         <div class="pull-right">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>

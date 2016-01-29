@@ -121,8 +121,8 @@ class SiteController extends Controller
             if ($forumUser) {
                 $forumUser->user_lang = $new_lang;
                 $forumUser->save();
-            } //else
-                //throw new \application\components\Exceptions\ForumException('In forum user not change language');
+            } else
+                throw new \application\components\Exceptions\ForumException('In forum user not change language');
         }
 
         $app = Yii::app();
