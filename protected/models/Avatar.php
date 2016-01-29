@@ -60,7 +60,7 @@ class Avatar {
         $imageName = uniqid() . '.' . $ext;
         if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/module/" . $imageName)) {
             $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $oldLogo;
-            if (is_file($src) && $oldLogo!='courseimg1.png')
+            if (is_file($src) && $oldLogo!='module.png')
                 unlink($src);
         }
 

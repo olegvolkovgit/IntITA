@@ -64,12 +64,13 @@ class PlainTaskController extends Controller
 
         $plainTaskAnswer = PlainTaskAnswer::fillHole($answer, $user, $plainTask->id);
 
-        if ($plainTaskAnswer->save())
-            return true;
-        else
-            throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникли проблеми і Ваша
-            відповідь не була збережена. Спробуйте ще раз або зверніться до адміністратора сайту.');
-
+        if (!$plainTaskAnswer->save()){
+            echo 'not save';
+        } else {
+            if(LecturePage::checkLastQuiz($plainTask->block_element))
+                echo 'lastPage';
+            else echo 'done';
+        }
     }
 
 

@@ -75,6 +75,7 @@ class LessonController extends Controller
         $dataProvider = LectureElement::getLectureText($textList);
 
         $teacher = $lecture->lectureTeacher();
+        $isLastLecture=$lecture->isLastLecture();
 
         if($lecture->verified && !$editMode) {
             $view='indexTemplate';
@@ -90,6 +91,7 @@ class LessonController extends Controller
             'user' => $user,
             'page' => $pageModel,
             'lastAccessPage' => $lastAccessPage,
+            'isLastLecture' => $isLastLecture,
         ));
     }
 
