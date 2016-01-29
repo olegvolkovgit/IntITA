@@ -29,7 +29,7 @@ class ModuleController extends TeacherCabinetController
             $model->attributes = $_POST['Module'];
             if ($model->save())
             {
-                if(!empty($_FILES))
+                if(!empty($_FILES['Module']['name']['module_img']))
                 {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
@@ -37,6 +37,8 @@ class ModuleController extends TeacherCabinetController
                     if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
                         throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
                     }
+                }else{
+                    Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
                 $this->redirect($this->pathToCabinet());
             }
@@ -95,18 +97,18 @@ class ModuleController extends TeacherCabinetController
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
 
-            if (!empty($_FILES)) {
+            if (!empty($_FILES['Module']['name']['module_img'])) {
                 $imageName = array_shift($_FILES['Module']['name']);
-
+                $tmpName = array_shift($_FILES['Module']['tmp_name']);
                 if (!empty($imageName)) {
-                    $tmpName = array_shift($_FILES['Module']['tmp_name']);
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
                         if ($model->validate()) {
                             $model->save();
-
-                            if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                throw new CDbException(400, 'Avatar not save');
+                            if($imageName && $tmpName) {
+                                if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
+                                    throw new CDbException(400, 'Avatar not save');
+                            }
                         }
                     }
                 }
