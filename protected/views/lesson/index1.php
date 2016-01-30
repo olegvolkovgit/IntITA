@@ -35,6 +35,7 @@ if (!isset($idCourse)) $idCourse = 0;
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask.css'); ?>"/>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
@@ -91,7 +92,7 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_modalTask2');
+        $this->renderPartial('/lesson/_errorDialog');
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
 

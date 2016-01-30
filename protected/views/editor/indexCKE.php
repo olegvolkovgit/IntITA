@@ -161,7 +161,7 @@ if ($idCourse != 0) {
             <fieldset>
                 <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
                 <div id="blockList">
-                    <?php $this->renderPartial('/lesson/_blocks_list_CKE', array('dataProvider' => $dataProvider,
+                    <?php $this->renderPartial('/editor/_blocks_list_CKE', array('dataProvider' => $dataProvider,
                         'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
                 </div>
                 <div id="addBlock">
@@ -194,7 +194,7 @@ if ($idCourse != 0) {
 
                 switch (LectureElement::getQuizType($data['id_block'])) {
                     case '5':
-                        $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
+                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
                             'pageId' => $page->id, 'lecture' => $lecture->id));
                         break;
                     case '6':

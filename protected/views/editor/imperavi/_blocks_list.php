@@ -8,7 +8,7 @@
 
 $this->widget('zii.widgets.CListView', array(
     'dataProvider'=>$dataProvider,
-    'itemView'=>'_content',
+    'itemView'=>'/editor/imperavi/_content',
     'summaryText' => '',
     'viewData' => array('editMode' => $editMode, 'user' => $user),
     'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',

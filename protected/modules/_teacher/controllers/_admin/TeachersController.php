@@ -141,7 +141,7 @@ class TeachersController extends TeacherCabinetController{
                         210
                     );
                 }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
+            $this->redirect($this->pathToCabinet());
         }
         $this->render('update', array(
             'model' => $model,
