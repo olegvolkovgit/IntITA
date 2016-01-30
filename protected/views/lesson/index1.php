@@ -116,7 +116,7 @@ $finishedLecture = $lecture->isFinished($user);
             ),
         ));
         if($isLastLecture){
-            $this->renderPartial('/lesson/_moduleCompleteDialog', array('lecture' => $lecture, 'idCourse' => $idCourse));
+            $this->renderPartial('/lesson/_moduleCompleteDialog', array('lecture' => $lecture));
         }else{
             $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
         }
