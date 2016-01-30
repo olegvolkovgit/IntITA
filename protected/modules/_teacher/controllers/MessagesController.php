@@ -61,15 +61,16 @@ class MessagesController extends TeacherCabinetController
 
         $message = UserMessages::model()->findByPk($jsonObj->message);
         $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        return $message->deleteMessage($receiver);
+        var_dump($message->deleteMessage($receiver));
     }
 
-    public function actionDeleteAll(){
+    public function actionDeleteDialog(){
         $jsonObj = json_decode($_POST['data']);
 
-        $message = UserMessages::model()->findByPk($jsonObj->message);
+        $user = StudentReg::model()->findByPk($jsonObj->user);
         $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        return $message->deleteDialog($receiver);
+        $dialog = new Dialog($user, $receiver);
+        return $dialog->deleteDialog();
     }
 
     public function actionSendUserMessage(){
@@ -139,7 +140,7 @@ class MessagesController extends TeacherCabinetController
 
     public function actionUsersByQuery($query){
         if ($query) {
-            $users = StudentReg::allUsers($query);
+            $users = StudentReg::allUsers($query, 30);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');

@@ -4,7 +4,6 @@
  * @var $message UserMessages
  * @var $receivedMessages array
  * @var $sentMessages CActiveDataProvider
- * @var $receivedDialogs array
  * @var $sentDialogs array
  * @var $deletedMessages array
  */

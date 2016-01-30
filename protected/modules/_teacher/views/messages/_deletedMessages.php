@@ -9,7 +9,7 @@
     <table class="table table-striped table-bordered table-hover" id="deletedMessages">
         <thead>
         <tr>
-            <td style="width: 3%"><input type="checkbox" name="all" onclick="checkAll();"></td>
+            <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>
             <td style="width: 25%"><em>Кому</em></td>
             <td style="width: 55%"><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>

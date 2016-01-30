@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $receiver int
+ */
+?>
+
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="Видалити діалог"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -12,32 +18,30 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
                 <button type="button" class="btn btn-primary" onclick="deleteDialog(
-                    '<?=Yii::app()->createUrl("/_teacher/messages/deleteAll");?>',
-                    '<?=$message;?>',
-                    '<?=$user;?>')">
+                    '<?=Yii::app()->createUrl("/_teacher/messages/deleteDialog");?>',
+                    '<?=$receiver;?>')">
                     Так
                 </button>
             </div>
         </div>
     </div>
 </div>
-
-
 <script>
-    function deleteDialog(url, message, receiver) {
+    function deleteDialog(url, receiver) {
         var command = {
-            "message": message,
+            "user": user
             "receiver": receiver
         };
 
         $.post(url, {data: JSON.stringify(command)}, function () {
             })
             .done(function (data) {
-                $("#deleteDialog").modal("hide");
+                alert(data);
+                $jq("#deleteDialog").modal("hide");
                 location.reload();
             })
             .fail(function () {
-                alert("На сайті виникла помилка.\n" +
+                bootbox.alert("На сайті виникла помилка.\n" +
                     "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
             })
             .always(function () {

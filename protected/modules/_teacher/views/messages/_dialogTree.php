@@ -65,34 +65,8 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 </div>
 
 <?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
-<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
+<?php $this->renderPartial('_deleteModalDialog', array('receiver' => $dialog->receiver->id)); ?>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script>
-    function loadForm(url, receiver, scenario, message) {
-        idBlock = "#collapse" + message;
-        $jq(idBlock).collapse('show');
 
-        id = "#form" + message;
-        var command = {
-            "user": user,
-            "message": message,
-            "receiver": receiver,
-            "scenario": scenario
-        };
-
-        $.post(url, {form: JSON.stringify(command)}, function () {
-            })
-            .done(function (data) {
-                $(id).empty();
-                $(id).append(data);
-                //bootbox.alert('Ваше повідомлення успішно відправлено.');
-            })
-            .fail(function () {
-                showDialog();
-            })
-            .always(function () {
-                },
-                "json"
-            );
-    }
 </script>

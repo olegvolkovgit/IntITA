@@ -73,9 +73,9 @@ function clearDashboard() {
 function showDialog(str)
 {
     if(str){
-        $('#modalText').html(str);
+        $jq('#modalText').html(str);
     }
-    $('#myModal').modal('show');
+    $jq('#myModal').modal('show');
 }
 
 function send(url){
@@ -132,5 +132,32 @@ function sendMessage(url) {
                 });
             });
     }
+}
+
+function loadForm(url, receiver, scenario, message) {
+    idBlock = "#collapse" + message;
+    $jq(idBlock).collapse('show');
+
+    id = "#form" + message;
+    var command = {
+        "user": user,
+        "message": message,
+        "receiver": receiver,
+        "scenario": scenario
+    };
+
+    $.post(url, {form: JSON.stringify(command)}, function () {
+        })
+        .done(function (data) {
+            $(id).empty();
+            $(id).append(data);
+        })
+        .fail(function () {
+            showDialog();
+        })
+        .always(function () {
+            },
+            "json"
+        );
 }
 
