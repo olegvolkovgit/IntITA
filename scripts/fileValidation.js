@@ -5,7 +5,7 @@ function CheckFile(file)
     var maxSize=1024*1024*5;
     if(file.files[0].size>maxSize)
     error=error+1;
-    var filesExt = ['jpg', 'gif', 'png'];
+    var filesExt = ['jpg', 'gif', 'png','jpeg'];
     var parts = $(file).val().split('.');
     if(filesExt.join().search(parts[parts.length - 1]) == -1){
         error=error+2;
