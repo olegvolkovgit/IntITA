@@ -12,6 +12,12 @@
         <input class="form-control" name="scenario" id="hidden" value="<?=$scenario;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
+        <?php if($scenario == "forward"){?>
+        <div class="form-group">
+            <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
+                   required>
+        </div>
+        <?php }?>
         <input class="form-control" name="subject" placeholder="Тема">
         <br>
         <div class="form-group">
@@ -28,8 +34,25 @@
         </button>
 
 </div>
-
+<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
+    var users = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY&id=' + user,
+            wildcard: '%QUERY'
+        }
+    });
+
+    users.initialize();
+
+    $('#typeahead').typeahead(null, {
+        name: 'users',
+        display: 'value',
+        source: users
+    });
+
     function reset(message) {
         id = "#messageForm" + message;
         $(id).remove();

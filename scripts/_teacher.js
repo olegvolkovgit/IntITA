@@ -119,7 +119,7 @@ function sendMessage(url) {
                 "scenario": "new"
             }
         );
-
+        alert($("#receiver_id").val());
         posting.done(function () {
                 bootbox.alert("Ваше повідомлення успішно відправлено.", function (){
                     location.href = window.location.pathname;
@@ -160,4 +160,5 @@ function loadForm(url, receiver, scenario, message) {
             "json"
         );
 }
+
 

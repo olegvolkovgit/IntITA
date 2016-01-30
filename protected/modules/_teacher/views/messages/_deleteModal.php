@@ -20,6 +20,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
                 <button type="button" class="btn btn-primary" onclick="deleteMessage(
                     '<?=Yii::app()->createUrl("/_teacher/messages/delete");?>',
+                    '<?=$message;?>',
                     '<?=$user;?>')">
                     Так
                 </button>
@@ -29,7 +30,7 @@
 </div>
 
 <script>
-    function deleteMessage(url, receiver) {
+    function deleteMessage(url, message, receiver) {
         var command = {
             "message": message,
             "receiver": receiver
@@ -37,13 +38,13 @@
 
         $.post(url, {data: JSON.stringify(command)}, function () {
             })
-            .done(function (data) {
-                alert(data);
+            .done(function () {
                 $jq("#deleteModal").modal("hide");
                 location.reload();
             })
             .fail(function () {
-                //showDialog();
+                showDialog();
+                location.reload();
             })
             .always(function () {
                 },

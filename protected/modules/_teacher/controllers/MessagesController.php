@@ -138,9 +138,9 @@ class MessagesController extends TeacherCabinetController
         }
     }
 
-    public function actionUsersByQuery($query){
+    public function actionUsersByQuery($query, $id){
         if ($query) {
-            $users = StudentReg::allUsers($query, 30);
+            $users = StudentReg::allUsers($query, $id);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');

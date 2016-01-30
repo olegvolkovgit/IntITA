@@ -1163,7 +1163,7 @@ class StudentReg extends CActiveRecord
     public static function allUsers($query, $id)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->select = "id, secondName, firstName, middleName, email";
         $criteria->alias = "s";
         $criteria->addCondition('id<>'.$id, 'AND');
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
@@ -1174,8 +1174,9 @@ class StudentReg extends CActiveRecord
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model) {
-            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        foreach ($data as $key=>$model) {
+            $result[$key]["id"] = $model->id;
+            $result[$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
         }
         return json_encode($result);
     }

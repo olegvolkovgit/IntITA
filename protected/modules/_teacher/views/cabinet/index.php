@@ -1,6 +1,6 @@
 <?php
 /* @var $this CabinetController
-@var $model StudentReg
+ * @var $model StudentReg
  */
 ?>
 <!DOCTYPE html>

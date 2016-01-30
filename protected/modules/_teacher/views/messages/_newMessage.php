@@ -12,6 +12,7 @@
         <form role="form" name="message">
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
             <input class="form-control" name="scenario" id="hidden" value="new">
+            <input type="hidden" id="receiver_id"/>
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
@@ -43,14 +44,20 @@
     </div>
 </div>
 
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.bundle.js'); ?>"></script>
+<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 
 <script>
+    var numSelectedHandler = function (eventObject, suggestionObject, suggestionDataset) {
+        alert(suggestionObject.id);
+        $('#receiver_id').val(suggestionObject.id);
+    };
+
+
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY',
+            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY&id=' + user,
             wildcard: '%QUERY'
         }
     });
@@ -60,6 +67,9 @@
     $('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
-        source: users
+        source: users,
+        valueKey: 'id'
     });
+
+    typeahead.on('typeahead:selected', numSelectedHandler);
 </script>

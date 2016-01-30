@@ -20,12 +20,14 @@ class Dialog
         $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
         $criteria->join.= ' LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
         $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('r.deleted IS NOT NULL', 'AND');
         $criteria->addCondition ('m.sender = '.$this->sender->id.' and r.id_receiver='.$this->receiver->id, 'OR');
         $criteria->addCondition ('m.sender = '.$this->receiver->id.' and r.id_receiver='.$this->sender->id, 'OR');
 
+
         $this->messages = UserMessages::model()->findAll($criteria);
         if(!empty($this->messages)) {
-            $this->header = $this->messages[0]->subject;
+            $this->header = $this->messages[count($this->messages) - 1]->subject;
         } else {
             $this->header = "";
         }
@@ -57,6 +59,4 @@ class Dialog
     public function isRead(){
         return true;
     }
-
-
 }
