@@ -143,11 +143,15 @@ class Task extends Quiz
 		else return false;
     }
 
-    public static function getTaskId($idBlock)
-    {
-        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
-        return ($assignment) ? $assignment : false;
-    }
+//    public static function getTaskId($idBlock)
+//    {
+//        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
+//        return ($assignment) ? $assignment : false;
+//    }
+	public static function getTaskId($idBlock)
+	{
+		return Task::model()->findByAttributes(array('condition' => $idBlock))->id;
+	}
 
     public static function getTaskLang($idBlock)
     {
