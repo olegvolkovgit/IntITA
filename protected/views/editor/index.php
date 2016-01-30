@@ -118,13 +118,13 @@ if ($idCourse != 0) {
     <br>
     <fieldset>
         <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
-        <?php $this->renderPartial('/lesson/_blocks_list', array('dataProvider' => $dataProvider,
+        <?php $this->renderPartial('/editor/imperavi/_blocks_list', array('dataProvider' => $dataProvider,
             'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
 
         <div id="addBlock">
             <?php
             $lecture = Lecture::model()->findByPk($page->id_lecture);
-            $this->renderPartial('/editor/_addBlock', array('lecture' => $lecture, 'editMode' => 1,
+            $this->renderPartial('/editor/imperavi/_addBlock', array('lecture' => $lecture, 'editMode' => 1,
                 'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
             ?>
         </div>
@@ -145,21 +145,13 @@ if ($idCourse != 0) {
         $data = LecturePage::getPageQuiz($page->id);
 
         switch (LectureElement::getQuizType($data['id_block'])) {
-            case '5':
-                $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
-                    'pageId' => $page->id));
-                break;
             case '6':
-                $this->renderPartial('/editor/_editPlainTask', array('data' => $data,
-                    'pageId' => $page->id));
-                break;
-            case '9' :
-                $this->renderPartial('/editor/_editSkipTask', array('data' => $data,
+                $this->renderPartial('/editor/imperavi/_editPlainTask', array('data' => $data,
                     'pageId' => $page->id));
                 break;
             case '12':
             case '13':
-                $this->renderPartial('/editor/_editTest', array('idBlock' => $data['id_block'],
+                $this->renderPartial('/editor/imperavi/_editTest', array('idBlock' => $data['id_block'],
                     'pageId' => $page->id));
                 break;
             default:
@@ -170,19 +162,15 @@ if ($idCourse != 0) {
     <div id="buttonsPanel">
         <button onclick="showAddTestForm('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
         <button onclick="showAddPlainTaskForm('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-<!--        <button onclick="showAddTaskForm('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
-        <button onclick="showAddSkipTaskForm()"><?=Yii::t('editor', '0789');?></button>
     </div>
         <?php
     }
     ?>
     <?php if ($page->quiz == null) {
         $author = Teacher::getTeacherId($user);
-        $this->renderPartial('/editor/_addTest', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-        $this->renderPartial('/editor/_addTask', array('pageId' => $page->id));
-        $this->renderPartial('/editor/_addPlainTask', array('lecture' => $lecture->id,
+        $this->renderPartial('/editor/imperavi/_addTest', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
+        $this->renderPartial('/editor/imperavi/_addPlainTask', array('lecture' => $lecture->id,
             'author' => $author, 'pageId' => $page->id));
-        $this->renderPartial('/editor/_addSkipTask', array('pageId' => $page->id));
     } ?>
 </div>
 <br>

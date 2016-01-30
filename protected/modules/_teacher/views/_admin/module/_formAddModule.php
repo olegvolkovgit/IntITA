@@ -2,6 +2,8 @@
 /* @var $this ModuleController */
 /* @var $model Module */
 /* @var $form CActiveForm */
+$lg = Yii::app()->session['lg'];
+$sources = Level::allTitlesByLang($lg);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
 <div class="form">
@@ -105,11 +107,12 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'level'); ?>
-        <?php echo $form->dropDownList($model, 'level', array('intern' => Yii::t('courses', '0232'),
-            'junior' => Yii::t('courses', '0233'),
-            'strong junior' => Yii::t('courses', '0234'),
-            'middle' => Yii::t('courses', '0235'),
-            'senior' => Yii::t('courses', '0236')),
+        <?php echo $form->dropDownList($model, 'level', array(
+            '1' => $sources[1],
+            '2' => $sources[2],
+            '3' => $sources[3],
+            '4' => $sources[4],
+            '5' => $sources[5]),
             array('options' => array('intern' => array('selected' => true)), 'class' => 'form-control', 'style' => 'width:350px')); ?>
         <?php echo $form->error($model, 'level'); ?>
     </div>
