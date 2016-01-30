@@ -30,14 +30,15 @@
                     foreach ($adminsList as $user) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><?= $user["secondName"]." ".$user["firstName"]; ?></td>
+                            <td><?= $user["secondName"] . " " . $user["firstName"]; ?></td>
                             <td class="center"><?= $user["email"]; ?></td>
-                            <td class="center"><?=date("d-m-Y", strtotime($user["start_date"])); ?></td>
-                            <td class="center"><?=($user["end_date"])?date("d-m-Y", strtotime($user["end_date"])):""; ?></td>
+                            <td class="center"><?= date("d-m-Y", strtotime($user["start_date"])); ?></td>
+                            <td class="center"><?= ($user["end_date"]) ? date("d-m-Y", strtotime($user["end_date"])) : ""; ?></td>
                             <td class="center"><a href="#" title="Відмінити" onclick="cancelAdmin(
-                                    '<?=Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin');?>',
-                                    '<?=$user["id"];?>',
-                                    '<?= $user["secondName"]." ".$user["firstName"]." <".$user["email"].">"; ?>');"><i class="fa fa-trash-o fa-fw"></i></a></td>
+                                    '<?= Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin'); ?>',
+                                    '<?= $user["id"]; ?>',
+                                    '<?= $user["secondName"] . " " . $user["firstName"] . " <" . $user["email"] . ">"; ?>');"><i
+                                        class="fa fa-trash-o fa-fw"></i></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -53,18 +54,21 @@
 
         posting.done(function (response) {
                 if (response == 1)
-                    showDialog("Права адміністратора для користувача " + name + " відмінені.");
+                    bootbox.alert("Права адміністратора для користувача " + name + " відмінені.", function () {
+                        location.href = window.location.pathname;
+                    });
                 else {
-                    showDialog("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                    bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                        location.href = window.location.pathname;
+                    });
                 }
             })
             .fail(function () {
-                showDialog("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
-            })
-            .always(function () {
-                //location.reload();
+                bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                    location.href = window.location.pathname;
+                });
             });
     }
 </script>

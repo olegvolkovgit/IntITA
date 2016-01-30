@@ -104,3 +104,33 @@ function send(url){
         }
     });
 }
+
+function sendMessage(url) {
+    receiver = $("#typeahead").val();
+    if (receiver === "") {
+        bootbox.alert('Виберіть отримувача повідомлення.');
+    } else{
+        var posting = $.post(url,
+            {
+                "id" : $("input[name=id]").val(),
+                "receiver" : receiver,
+                "subject" : $("input[name=subject]").val(),
+                "text": $("#text").val(),
+                "scenario": "new"
+            }
+        );
+
+        posting.done(function () {
+                bootbox.alert("Ваше повідомлення успішно відправлено.", function (){
+                    location.href = window.location.pathname;
+                });
+            })
+            .fail(function () {
+                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                    "напишіть на адресу antongriadchenko@gmail.com.", function (){
+                    location.href = window.location.pathname;
+                });
+            });
+    }
+}
+

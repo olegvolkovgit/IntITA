@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.bundle.js'); ?>"></script>
 
 <script>
     var users = new Bloodhound({
@@ -62,37 +62,4 @@
         display: 'value',
         source: users
     });
-
-    function sendMessage(url) {
-        receiver = $("#typeahead").val();
-        if (user === "") {
-            showDialog('Виберіть отримувача повідомлення.');
-        } else{
-            var posting = $.post(url,
-                {
-                    "id" : $("input[name=id]").val(),
-                    "receiver" : receiver,
-                    "subject" : $("input[name=subject]").val(),
-                    "text": $("#text").val(),
-                    "scenario": "new"
-                }
-            );
-
-            posting.done(function () {
-                    //if (response == 1)
-                        showDialog("Ваше повідомлення успішно відправлено.");
-//                    else {
-//                        showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-//                            "напишіть на адресу antongriadchenko@gmail.com.");
-//                    }
-                })
-                .fail(function () {
-                    showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу antongriadchenko@gmail.com.");
-                })
-                .always(function () {
-                    location.href = window.location.pathname;
-                });
-        }
-    }
 </script>

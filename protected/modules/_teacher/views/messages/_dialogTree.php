@@ -67,7 +67,6 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 <?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
 <?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
 
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>
 <script>
     function loadForm(url, receiver, scenario, message) {

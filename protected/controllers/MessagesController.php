@@ -35,7 +35,7 @@ class MessagesController extends Controller {
 
 
         if ($message->send($sender)){
-            $this->redirect(Yii::app()->request->urlReferrer);
+            echo '1';//$this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
         }
