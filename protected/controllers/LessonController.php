@@ -281,7 +281,7 @@ class LessonController extends Controller
             || $_FILES['file']['type'] == 'image/pjpeg'
         ) {
             // setting file's mysterious name
-            $filename = md5(date('YmdHis')) . '.jpg';
+            $filename = uniqid() . '.jpg';
             $file = $dir . $filename;
 
             // copying
@@ -307,7 +307,7 @@ class LessonController extends Controller
 
         $path = StaticFilesHelper::createLectureImagePath();
         $dir = Yii::getpathOfAlias('webroot') . $path;
-        $filename = md5(date('YmdHis')) . '.' . $imgType;
+        $filename = uniqid() . '.' . $imgType;
         $file = $dir . $filename;
         $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
 
@@ -350,7 +350,7 @@ class LessonController extends Controller
             'maxheight' => 5000,    // maximum allowed height, in pixels
             'minwidth' => 1,      // minimum allowed width, in pixels
             'minheight' => 1,     // minimum allowed height, in pixels
-            'type' => array('bmp', 'gif', 'jpg', 'jpe', 'png'),  // allowed extensions
+            'type' => array('bmp', 'gif', 'jpg', 'jpeg', 'png'),  // allowed extensions
         );
 
 // HERE PERMISSIONS FOR AUDIO
@@ -365,7 +365,7 @@ class LessonController extends Controller
 
         $re = '';
         if (isset($_FILES['upload']) && strlen($_FILES['upload']['name']) > 1) {
-            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])) . date('YmdHis'));  //get filename without extension
+            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])) . uniqid());  //get filename without extension
 
             // get protocol and host name to send the absolute image path to CKEditor
             $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
@@ -663,7 +663,7 @@ class LessonController extends Controller
 
         $path =  StaticFilesHelper::pathToLectureImages($module, $lecture);
         $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
-        $filename = date('YmdHis') . '.gif';
+        $filename = uniqid() . '.gif';
         $file = $dir . $filename;
         $link = Config::getBaseUrl().'/'.StaticFilesHelper::pathToLectureImages($module, $lecture).$filename;
 
