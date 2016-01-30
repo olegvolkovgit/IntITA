@@ -107,7 +107,7 @@ class ModuleController extends TeacherCabinetController
                             $model->save();
                             if($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                    throw new CDbException(400, 'Avatar not save');
+                                    throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
                             }
                         }
                     }
