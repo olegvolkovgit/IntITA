@@ -66,13 +66,11 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 
 <?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
 <?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
-
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
 <script>
     function loadForm(url, receiver, scenario, message) {
         idBlock = "#collapse" + message;
-        alert(idBlock);
-        $(idBlock).collapse('show');
+        $jq(idBlock).collapse('show');
 
         id = "#form" + message;
         var command = {
@@ -87,7 +85,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
             .done(function (data) {
                 $(id).empty();
                 $(id).append(data);
-                showDialog('Ваше повідомлення успішно відправлено.');
+                //bootbox.alert('Ваше повідомлення успішно відправлено.');
             })
             .fail(function () {
                 showDialog();

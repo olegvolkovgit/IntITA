@@ -62,8 +62,8 @@
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
-        $('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
+    $jq(document).ready(function () {
+        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
                 language: {
                     "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
                 },

@@ -39,12 +39,11 @@
         $.post(url, {data: JSON.stringify(command)}, function () {
             })
             .done(function () {
-                $("#deleteModal").modal("hide");
+                $jq("#deleteModal").modal("hide");
                 location.reload();
             })
             .fail(function () {
-                alert("На сайті виникла помилка.\n" +
-                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+                showDialog();
             })
             .always(function () {
                 },

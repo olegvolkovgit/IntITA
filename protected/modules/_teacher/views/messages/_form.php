@@ -12,10 +12,10 @@
         <input class="form-control" name="scenario" id="hidden" value="<?=$scenario;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
-        <input class="form-control" name="subject" value="" id="hidden">
-
+        <input class="form-control" name="subject" placeholder="Тема">
+        <br>
         <div class="form-group">
-            <textarea class="form-control" rows="6" name="text" placeholder="<?=$scenario;?>" required></textarea>
+            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">
