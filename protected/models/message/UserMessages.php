@@ -178,13 +178,20 @@ class UserMessages extends Messages implements IMessage
 
     public function forward(StudentReg $receiver)
     {
-        if (Yii::app()->db->createCommand()->insert('messages_forward', array(
-                'id_message' => $this->parent,
-                'forward' => $this->message()->id,
-            )) == 1
-        )
-            return true;
-        else return false;
+        $this->message->save();
+
+        $this->id_message = $this->message->id;
+        $this->id_message;
+
+        $this->save();
+        return $this;
+//        if (Yii::app()->db->createCommand()->insert('messages_forward', array(
+//                'id_message' => $this->parent,
+//                'forward' => $this->message()->id,
+//            )) == 1
+//        )
+//            return true;
+//        else return false;
     }
 
     /**

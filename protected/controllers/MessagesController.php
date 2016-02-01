@@ -3,7 +3,6 @@
 class MessagesController extends Controller {
 
     public function actionSendUserMessage(){
-        var_dump($_POST);die;
         $scenario = Yii::app()->request->getPost('scenario', '');
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
@@ -28,7 +27,7 @@ class MessagesController extends Controller {
                 $message->build($subject, $text, $message->message0->sender0, $user);
                 break;
             default:
-                throw new CHttpException(400, "Unknown message type");
+                throw new \application\components\Exceptions\IntItaException(400, "Лист не вдалося надіслати.");
         }
 
         $message->create();
@@ -67,6 +66,7 @@ class MessagesController extends Controller {
         }
     }
 
+    //need fix!!
     public function actionForward(){
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
@@ -77,7 +77,7 @@ class MessagesController extends Controller {
         $user = StudentReg::model()->findByPk($id);
         $message = new UserMessages();
 
-        $receiver = StudentReg::model()->findByPk($receiverId);
+       // $receiver = StudentReg::model()->findByPk($receiverId);
         $message->build($subject, $text, $forwardTo, $user);
 
         $message->create();
@@ -85,7 +85,7 @@ class MessagesController extends Controller {
 
         if ($message->send($sender)){
             $message->parent = $parentId;
-            $message->forward($forwardTo);die;
+            $message->forward($forwardTo);
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';

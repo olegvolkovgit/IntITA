@@ -11,11 +11,11 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 
     <div class="panel-group" id="accordion">
         <?php foreach ($dialog->messages as $message) {
-            if (!$message->isDeleted($dialog->receiver)) {
+            if (!$message->isDeleted($dialog->partner2)) {
                 ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a data-toggle="collapse" href="#collapse<?= $message->id_message ?>" id="messageBlock">
+                        <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">
                             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                                  style="height:24px"/>
                             <strong><?= $message->message0->sender0->userName(); ?></strong>
@@ -31,17 +31,17 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <li><a href="#"
-                                           onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
+                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
                                                'reply', '<?= $message->id_message ?>')">
                                             Відповісти</a>
                                     </li>
                                     <li><a href="#"
-                                           onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
+                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
                                                'forward', '<?= $message->id_message ?>')">
                                             Переслати</a>
                                     </li>
-                                    <li><a href="#" data-toggle="modal" data-target="#deleteModal">Видалити це
-                                            повідомлення</a>
+                                    <li><a href="#" data-toggle="modal" data-target="#deleteModal"
+                                           data-message-id="<?=$message->id_message;?>">Видалити це повідомлення</a>
                                     </li>
                                     <li class="divider"></li>
                                     <li><a href="#" data-toggle="modal" data-target="#deleteDialog">Видалити діалог</a>
@@ -64,9 +64,10 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
-<?php $this->renderPartial('_deleteModalDialog', array('receiver' => $dialog->receiver->id)); ?>
+<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->partner2->id)); ?>
+<?php $this->renderPartial('_deleteModalDialog', array(
+    'partner1' => $dialog->partner1->id,
+    'partner2' => $dialog->partner2->id
+)); ?>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
-<script>
-
-</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'messages/dialog.js'); ?>"></script>

@@ -61,15 +61,15 @@ class MessagesController extends TeacherCabinetController
 
         $message = UserMessages::model()->findByPk($jsonObj->message);
         $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        var_dump($message->deleteMessage($receiver));
+        return $message->deleteMessage($receiver);
     }
 
     public function actionDeleteDialog(){
         $jsonObj = json_decode($_POST['data']);
 
-        $user = StudentReg::model()->findByPk($jsonObj->user);
-        $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        $dialog = new Dialog($user, $receiver);
+        $partner1 = StudentReg::model()->findByPk($jsonObj->partner1);
+        $partner2 = StudentReg::model()->findByPk($jsonObj->partner2);
+        $dialog = new Dialog($partner1, $partner2);
         return $dialog->deleteDialog();
     }
 

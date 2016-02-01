@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>
-            <td style="width: 25%"><em>Кому</em></td>
+            <td style="width: 25%"><em>Від кого</em></td>
             <td style="width: 55%"><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>
         </tr>
@@ -25,11 +25,11 @@
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
                         'user1' => 38, 'user2' => $user->id)) ?>')">
-                        <?=$userMessage->receiversString(); ?>
+                        <?=$userMessage->message0->sender0->userName().", ".$userMessage->message0->sender0->email; ?>
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
                         'user1' => 38, 'user2' => $user->id)) ?>')">
-                        <?=$userMessage->subject; ?>
+                        <em><?=$userMessage->subject; ?></em>
                     </td>
                     <td class="center"><?=CommonHelper::formatMessageDate($userMessage->message0->create_date); ?>
                     </td>

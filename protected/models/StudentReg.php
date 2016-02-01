@@ -1165,7 +1165,6 @@ class StudentReg extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email";
         $criteria->alias = "s";
-        $criteria->addCondition('id<>'.$id, 'AND');
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
@@ -1175,8 +1174,10 @@ class StudentReg extends CActiveRecord
 
         $result = [];
         foreach ($data as $key=>$model) {
-            $result[$key]["id"] = $model->id;
-            $result[$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+            if($model->id != $id) {
+                $result[$key]["id"] = $model->id;
+                $result[$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+            }
         }
         return json_encode($result);
     }

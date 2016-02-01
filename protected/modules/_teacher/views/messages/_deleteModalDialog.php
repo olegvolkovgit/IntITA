@@ -1,6 +1,7 @@
 <?php
 /**
- * @var $receiver int
+ * @var $partner1 int
+ * @var $partner2 int
  */
 ?>
 
@@ -19,34 +20,11 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
                 <button type="button" class="btn btn-primary" onclick="deleteDialog(
                     '<?=Yii::app()->createUrl("/_teacher/messages/deleteDialog");?>',
-                    '<?=$receiver;?>')">
+                    '<?=$partner1;?>',
+                    '<?=$partner2;?>')">
                     Так
                 </button>
             </div>
         </div>
     </div>
 </div>
-<script>
-    function deleteDialog(url, receiver) {
-        var command = {
-            "user": user
-            "receiver": receiver
-        };
-
-        $.post(url, {data: JSON.stringify(command)}, function () {
-            })
-            .done(function (data) {
-                alert(data);
-                $jq("#deleteDialog").modal("hide");
-                location.reload();
-            })
-            .fail(function () {
-                bootbox.alert("На сайті виникла помилка.\n" +
-                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
-            })
-            .always(function () {
-                },
-                "json"
-            );
-    }
-</script>
