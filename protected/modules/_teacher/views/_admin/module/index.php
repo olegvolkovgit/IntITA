@@ -46,7 +46,7 @@
                 'delete' => array
                 (
                     'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей модуль?',$(this).attr('href'))
+                                    moduleCancelled('Ви дійсно хочете видалити цей модуль?',$(this).attr('href'))
                                     return false;
                               }
                      ",

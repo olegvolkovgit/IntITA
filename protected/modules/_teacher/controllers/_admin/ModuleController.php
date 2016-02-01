@@ -53,9 +53,12 @@ class ModuleController extends TeacherCabinetController
 
     public function actionDelete($id)
     {
-        Module::model()->updateByPk($id, array('cancelled' => 1));
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        if(CourseModules::getCoursesListName($id)==false){
+            Module::model()->updateByPk($id, array('cancelled' => 1));
+            echo false;
+        }else{
+            echo implode(", ", CourseModules::getCoursesListName($id));
+        }
     }
 
     public function actionRestore($id)
