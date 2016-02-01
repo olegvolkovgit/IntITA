@@ -197,20 +197,14 @@ span.colorGreen {
 }
 .instrTaskText {
     display: inline-block;
-    /*float:right;*/
     width: 92%;
-    font-size: 20px;
     margin: 20px 0 0 30px;
 }
 .instructionText {
     display: inline-block;
     width: 92%;
-    font-size: 16px;
     margin: 20px 0 0 30px;
 }
-/*.instructionText img{*/
-    /*max-width: 9%;*/
-/*}*/
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
     counter-reset: num; /* Задаём имя счетчика */
@@ -432,8 +426,6 @@ div.lessonTest {
     margin: 10px 0 0 10px;
 }
 .instrTestText {
-    /*display: inline-block;*/
-    font-size: 20px;
     margin: 20px 0 0 0;
 }
 .ui-widget button.testSubmit {
