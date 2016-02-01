@@ -46,6 +46,26 @@ class ConsultationscalendarController extends Controller
 		);
 	}
 
+	public function initialize($id)
+	{
+		$lecture = Lecture::model()->findByPk($id);
+		$editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+
+		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
+		if (StudentReg::isAdmin() || $editMode) {
+			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
+		}
+		if (!($lecture->isFree)) {
+			$modulePermission = new PayModules();
+			if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
+				|| $lecture->order > $enabledLessonOrder) {
+				throw new CHttpException(403, 'Спочатку оплати доступ до матеріалу');
+			}
+		} else {
+			if ($lecture->order > $enabledLessonOrder)
+				throw new CHttpException(403, 'Ти не можеш запланувати консультацію. Спочатку пройди попередній матеріал.');
+		}
+	}
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -123,6 +143,8 @@ class ConsultationscalendarController extends Controller
 	 */
 	public function actionIndex($lectureId, $idCourse)
 	{
+		$this->initialize($lectureId);
+
         $lecture = Lecture::model()->findByPk($lectureId);
         $dataProvider = Teacher::getTeacherConsult($lectureId);
 
