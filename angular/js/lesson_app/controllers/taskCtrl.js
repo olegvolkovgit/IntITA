@@ -9,7 +9,7 @@ function taskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsServ
     $scope.sendTaskAnswer=function(idUser, id, task, lang){
         id = "#"+id;
         code = $(id).val();
-        if( code.trim() == ''){
+        if( $.trim(code) == ''){
             alert('Спочатку дайте відповідь на питання');
             return false;
         }
