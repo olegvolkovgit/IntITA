@@ -114,8 +114,9 @@ class ModuleController extends TeacherCabinetController
                 }
             } else {
                 $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo)))
-                    throw new CDbException(400, 'Avatar not SAVE');
+                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
+                    Module::model()->updateByPk($id, array('module_img' => 'module.png'));
+                }
             }
             $this->redirect($this->pathToCabinet());
         }

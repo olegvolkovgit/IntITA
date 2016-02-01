@@ -461,9 +461,14 @@ div.lastAccessPage {
     line-height: 50px;
     margin-bottom: 10px;
 }
+.lessonEdit .lessonPart{
+    height: auto;
+}
 .lessonEditPart{
     display: inline-block;
     height: auto;
+    width: 100%;
+    word-wrap: break-word;
 }
 .lessonEditPart a{
     word-break: break-all;

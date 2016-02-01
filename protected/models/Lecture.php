@@ -52,7 +52,7 @@ class Lecture extends CActiveRecord
             array('alias', 'length', 'max' => 10),
             array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
@@ -450,9 +450,9 @@ class Lecture extends CActiveRecord
         $titleParam = Lecture::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
         if ($title == '') {
-            return Lecture::model()->findByPk($id)->title_ua;
+            return htmlspecialchars(Lecture::model()->findByPk($id)->title_ua);
         } else {
-            return $title;
+            return htmlspecialchars($title);
         }
     }
 
