@@ -64,7 +64,7 @@ class Module extends CActiveRecord implements IBillableObject
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
                 'message' => 'Тільки українські символи!','on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('module_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),

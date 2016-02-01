@@ -63,7 +63,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language', 'length', 'max' => 6),
             array('title_ua, title_ru, title_en', 'length', 'max' => 100),
             array('course_img', 'length', 'max' => 255),
-            array('course_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('start', 'date', 'format' => 'yyyy-MM-dd', 'message' => Yii::t('coursemanage', '0389')),
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
 			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),

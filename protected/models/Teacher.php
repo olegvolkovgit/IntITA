@@ -62,7 +62,7 @@ class Teacher extends CActiveRecord
             array('tel', 'match', 'pattern' => '/^[0-9]+$/u', 'message' => 'Недопустимі символи!', 'except' => 'imageUpload',),
             array('tel', 'length', 'max' => 13, 'message' => 'Недопустимі символи!', 'except' => 'imageUpload'),
             array('subjects', 'length', 'max' => 100),
-            array('foto_url', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('foto_url', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('readMoreLink', 'length', 'max' => 255),
             array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max' => 50),
             array('email', 'email', 'message' => 'Невірна електронна адреса'),

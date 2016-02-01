@@ -50,7 +50,7 @@ class Lecture extends CActiveRecord
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('image', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
