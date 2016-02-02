@@ -11,7 +11,7 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialog
         var button=angular.element(document.querySelector(".taskSubmit"));
         button.attr('disabled', true);
         var answer = $('[name=answer]').val();
-        if(answer.trim() == '')
+        if($.trim(answer) == '')
         {
             angular.element(document.querySelector("#flashMsg")).addClass('emptyFlash');
             button.removeAttr('disabled');

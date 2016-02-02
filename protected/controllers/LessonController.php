@@ -69,7 +69,11 @@ class LessonController extends Controller
             $page = $_GET['page'];
         }
 
+
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+        if(!$pageModel){
+            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+        }
         $textList = $pageModel->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);

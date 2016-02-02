@@ -477,6 +477,9 @@ class Teacher extends CActiveRecord
             if (Yii::app()->session['lg'] == 'en' && $this->last_name_en != '') {
                 return $this->last_name_en;
             }
+            if (Yii::app()->session['lg'] == 'ru' && $this->last_name_ru != 'не указано') {
+                return $this->last_name_ru;
+            }
         }
         return $this->last_name;
     }
@@ -510,6 +513,9 @@ class Teacher extends CActiveRecord
             if (Yii::app()->session['lg'] == 'en' && $this->first_name_en != '') {
                 return $this->first_name_en;
             }
+            if (Yii::app()->session['lg'] == 'ru' && $this->first_name_ru != 'не указано') {
+                return $this->first_name_ru;
+            }
         }
         return $this->first_name;
     }
@@ -519,6 +525,9 @@ class Teacher extends CActiveRecord
         if (isset(Yii::app()->session['lg'])) {
             if (Yii::app()->session['lg'] == 'en' && $this->middle_name_en != '') {
                 return $this->middle_name_en;
+            }
+            if (Yii::app()->session['lg'] == 'ru' && $this->middle_name_ru != 'не указано') {
+                return $this->middle_name_ru;
             }
         }
         return $this->middle_name;
