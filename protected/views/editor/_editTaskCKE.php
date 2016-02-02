@@ -8,7 +8,7 @@
 ?>
 <div class="editTask">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture)); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture,'task'=>Task::getTaskId($idBlock))); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>

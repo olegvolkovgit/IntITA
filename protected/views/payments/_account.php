@@ -1,3 +1,6 @@
+<?php
+/* @var $account TempPay*/
+?>
 <script>
     summa = "<?php echo CommonHelper::getPriceUah($account->summa);?>";
     user = "<?php echo $account->id_user;?>";

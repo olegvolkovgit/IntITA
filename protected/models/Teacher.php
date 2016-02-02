@@ -56,13 +56,13 @@ class Teacher extends CActiveRecord
              middle_name_ru,last_name_ru, user_id', 'required', 'message' => 'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
             array('first_name, middle_name, last_name', 'length', 'max' => 35),
-            array('first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^([a-zA-Z0-9_])+$/', 'message' => 'Недопустимі символи!'),
-            array('first_name_ru, middle_name_ru, last_name_ru', 'match', 'pattern' => '/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
-            array('first_name, middle_name, last_name', 'match', 'pattern' => '/^[а-яіїёА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => 'Недопустимі символи!'),
+            array('first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^([a-zA-Z0-9_ ])+$/', 'message' => 'Недопустимі символи!'),
+            array('first_name_ru, middle_name_ru, last_name_ru', 'match', 'pattern' => '/^([а-яА-ЯёЁ ])+$/u', 'message' => 'Недопустимі символи!'),
+            array('first_name, middle_name, last_name', 'match', 'pattern' => '/^([а-яіїёА-ЯІЇЁєЄ\s\'’ ])+$/u', 'message' => 'Недопустимі символи!'),
             array('tel', 'match', 'pattern' => '/^[0-9]+$/u', 'message' => 'Недопустимі символи!', 'except' => 'imageUpload',),
             array('tel', 'length', 'max' => 13, 'message' => 'Недопустимі символи!', 'except' => 'imageUpload'),
             array('subjects', 'length', 'max' => 100),
-            array('foto_url', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('foto_url', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('readMoreLink', 'length', 'max' => 255),
             array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max' => 50),
             array('email', 'email', 'message' => 'Невірна електронна адреса'),
@@ -477,6 +477,9 @@ class Teacher extends CActiveRecord
             if (Yii::app()->session['lg'] == 'en' && $this->last_name_en != '') {
                 return $this->last_name_en;
             }
+            if (Yii::app()->session['lg'] == 'ru' && $this->last_name_ru != 'не указано') {
+                return $this->last_name_ru;
+            }
         }
         return $this->last_name;
     }
@@ -510,6 +513,9 @@ class Teacher extends CActiveRecord
             if (Yii::app()->session['lg'] == 'en' && $this->first_name_en != '') {
                 return $this->first_name_en;
             }
+            if (Yii::app()->session['lg'] == 'ru' && $this->first_name_ru != 'не указано') {
+                return $this->first_name_ru;
+            }
         }
         return $this->first_name;
     }
@@ -519,6 +525,9 @@ class Teacher extends CActiveRecord
         if (isset(Yii::app()->session['lg'])) {
             if (Yii::app()->session['lg'] == 'en' && $this->middle_name_en != '') {
                 return $this->middle_name_en;
+            }
+            if (Yii::app()->session['lg'] == 'ru' && $this->middle_name_ru != 'не указано') {
+                return $this->middle_name_ru;
             }
         }
         return $this->middle_name;

@@ -63,7 +63,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language', 'length', 'max' => 6),
             array('title_ua, title_ru, title_en', 'length', 'max' => 100),
             array('course_img', 'length', 'max' => 255),
-            array('course_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('start', 'date', 'format' => 'yyyy-MM-dd', 'message' => Yii::t('coursemanage', '0389')),
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
 			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
@@ -438,7 +438,11 @@ class Course extends CActiveRecord implements IBillableObject
     public function level()
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $title = "title_" . $lang;
+        if($lang) {
+            $title = "title_" . $lang;
+        } else {
+            $title = "title_ua";
+        }
         return $this->level0->$title;
     }
 
@@ -446,7 +450,7 @@ class Course extends CActiveRecord implements IBillableObject
     static function getCourseLevel($idCourse)
     {
         $course = Course::model()->findByPk($idCourse);
-        return $course->getLevel();//CommonHelper::translateLevel($level);
+        return $course->level();
     }
 
     public function getRate()
@@ -587,15 +591,13 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //discount 30 percent - first pay schema
-    public
-    static function getSummaWholeCourse($idCourse)
+    public static function getSummaWholeCourse($idCourse)
     {
-        return round(Course::getPrice($idCourse));
+        return round(Course::getPrice($idCourse) * 0.7);
     }
 
 //discount 10 percent - second pay schema
-    public
-    static function getSummaCourseTwoPays($idCourse, $isWhole)
+    public static function getSummaCourseTwoPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.9;
         if ($isWhole) {
@@ -606,8 +608,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //discount 8 percent - third pay schema
-    public
-    static function getSummaCourseFourPays($idCourse, $isWhole)
+    public static function getSummaCourseFourPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.92;
         if ($isWhole) {
@@ -618,8 +619,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //monthly - forth pay schema
-    public
-    static function getSummaCourseMonthly($idCourse, $isWhole)
+    public static function getSummaCourseMonthly($idCourse, $isWhole)
     {
         $wholePrice = Course::getPrice($idCourse);
         if ($isWhole) {
@@ -630,8 +630,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //credit two years - fifth pay schema
-    public
-    static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
+    public static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 2);
         if ($isWhole) {
@@ -642,8 +641,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //credit three years - sixth pay schema
-    public
-    static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
+    public static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 3);
         if ($isWhole) {
@@ -654,8 +652,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //credit four years - seventh pay schema
-    public
-    static function getSummaCourseCreditFourYears($idCourse, $isWhole)
+    public static function getSummaCourseCreditFourYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 4);
         if ($isWhole) {
@@ -666,8 +663,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
 //credit five years - eight pay schema
-    public
-    static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
+    public static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 5);
         if ($isWhole) {
@@ -677,8 +673,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-    public
-    static function juniorCoursesCount()
+    public static function juniorCoursesCount()
     {
         return count(Course::model()->findAllByAttributes(array(
                 'level' => array('1', '2', '3'),
@@ -687,16 +682,14 @@ class Course extends CActiveRecord implements IBillableObject
         ));
     }
 
-    public
-    static function middleCoursesCount()
+    public static function middleCoursesCount()
     {
         return Course::model()->count('level=:level and language=:lang and cancelled=0',
             array(':level' => '4', ':lang' => 'ua')
         );
     }
 
-    public
-    static function seniorCoursesCount()
+    public static function seniorCoursesCount()
     {
         return Course::model()->count('level=:level and language=:lang and cancelled=0',
             array(':level' => '5', ':lang' => 'ua')

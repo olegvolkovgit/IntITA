@@ -50,9 +50,9 @@ class Lecture extends CActiveRecord
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('image', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
@@ -450,9 +450,9 @@ class Lecture extends CActiveRecord
         $titleParam = Lecture::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
         if ($title == '') {
-            return Lecture::model()->findByPk($id)->title_ua;
+            return htmlspecialchars(Lecture::model()->findByPk($id)->title_ua);
         } else {
-            return $title;
+            return htmlspecialchars($title);
         }
     }
 
@@ -576,5 +576,15 @@ class Lecture extends CActiveRecord
             $lecture->verified=0;
             $lecture->save();
         }
+    }
+    public function isLastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->idModule . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id) && Lecture::model()->find($criteria)->id==$this->id)
+            return true;
+        else return false;
     }
 }

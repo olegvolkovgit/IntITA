@@ -35,6 +35,7 @@ if (!isset($idCourse)) $idCourse = 0;
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask.css'); ?>"/>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
@@ -64,6 +65,12 @@ $finishedLecture = $lecture->isFinished($user);
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
+                    <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $lecture->id,
+                        'idCourse' => $idCourse)); ?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
+                             class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
+                    </a>
                     <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
@@ -91,7 +98,7 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_modalTask2');
+        $this->renderPartial('/lesson/_errorDialog');
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
 
@@ -108,7 +115,11 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        if($isLastLecture){
+            $this->renderPartial('/lesson/_moduleCompleteDialog', array('lecture' => $lecture));
+        }else{
+            $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        }
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
     </div>

@@ -1,10 +1,9 @@
-<div class="nextLecture">
+<div class="last">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-        'action' => Yii::app()->createUrl("/lesson/nextLecture", array('lectureId' => $lecture->id, 'idCourse' => $idCourse)),
     ));
     ?>
     <div class="modalBody">
@@ -20,7 +19,7 @@
             </table>
 
             <div class="modalContent">
-                <p><?php echo Yii::t('lecture', '0676'); ?></p>
+                <p>Ти успішно пройшов(ла) модуль</p>
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>
@@ -36,7 +35,7 @@
                 <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo Module::getModuleName($lecture->idModule) ?>. Я успішно завершив(ла) заняття <?php echo addslashes(Lecture::getLectureTitle($lecture->id)) ?> INTITA - програмуй майбутнє!')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'twitter.png'); ?>"></a>
             </div>
-            <input class="modalButton" type="submit" value="<?php echo Yii::t('lecture', '0674'); ?>">
+            <input class="modalButton" type="submit" value="ОК">
     </div>
     <!-- form -->
     <?php $this->endWidget(); ?>
