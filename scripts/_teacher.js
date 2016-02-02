@@ -121,21 +121,21 @@ function sendMessage(url) {
         );
 
         posting.done(function (response) {
-            //if(response == "success") {
+            if(response == "success") {
                 bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
-                    //location.href = window.location.pathname;
+                    location.href = window.location.pathname;
                 });
-            //} else {
-            //    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-            //        "напишіть на адресу antongriadchenko@gmail.com.", function (){
-            //        location.href = window.location.pathname;
-            //    });
-            //}
+            } else {
+                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                    "напишіть на адресу antongriadchenko@gmail.com.", function (){
+                    location.href = window.location.pathname;
+                });
+            }
             })
             .fail(function () {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу antongriadchenko@gmail.com.", function (){
-                   //location.href = window.location.pathname;
+                   location.href = window.location.pathname;
                 });
             });
     }
@@ -152,7 +152,6 @@ function loadForm(url, receiver, scenario, message) {
         "scenario": scenario
     };
 
-    alert(JSON.stringify(command));
     $.post(url, {form: JSON.stringify(command)}, function () {
         })
         .done(function (data) {

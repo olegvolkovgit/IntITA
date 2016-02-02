@@ -132,8 +132,8 @@ class UserMessages extends Messages implements IMessage
 
     public function send(IMailSender $sender)
     {
-        if ($this->addReceiver($this->receivers())) {
-            $sender->send($this->receivers()[0]->email, "Name", $this->subject, $this->text);
+        if ($this->addReceiver($this->receivers[0])) {
+            $sender->send($this->receivers[0]->email, "Name", $this->subject, $this->text);
         }
 
         $this->message->draft = 0;

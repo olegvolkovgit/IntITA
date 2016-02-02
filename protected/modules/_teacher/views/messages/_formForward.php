@@ -3,7 +3,6 @@
  * @var $message int
  * @var $receiver int
  */
-var_dump($user);die;
 ?>
 <div id="messageForm<?=$message;?>">
     <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/forward'); ?>"

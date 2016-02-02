@@ -88,6 +88,7 @@ class MessagesController extends TeacherCabinetController
         $sender = new MailTransport();
 
         if ($message->send($sender)) {
+            echo "success";
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
