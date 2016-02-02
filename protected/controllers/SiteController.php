@@ -320,6 +320,7 @@ class SiteController extends Controller
                 $model->password = $post['new_password'];
                 $model->token = null;
                 $model->activkey_lifetime = null;
+                $model->status = 1;
                 if ($model->validate()) {
                     $model->save();
                     $modellogin = new StudentReg('loginuser');
@@ -416,6 +417,12 @@ class SiteController extends Controller
     public function actionActivationinfo($email)
     {
         $this->render('activationinfo', array(
+            'email' => $email,
+        ));
+    }
+    public function actionReactivationInfo($email)
+    {
+        $this->render('reactivationInfo', array(
             'email' => $email,
         ));
     }
@@ -638,7 +645,15 @@ class SiteController extends Controller
                             $this->redirect($_SERVER["HTTP_REFERER"]);
                         } else $this->redirect(Yii::app()->request->homeUrl);
                     }
-                } else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
+                } else {
+                    $getToken = rand(0, 99999);
+                    $getTime = date("Y-m-d H:i:s");
+                    StudentReg::model()->updateByPk($statusmodel->id, array('token' => sha1($getToken . $getTime)));
+                    $model=StudentReg::model()->findByPk($statusmodel->id);
+                    if (!Mail::sendRapidReg($model))
+                        throw new MailException('The letter was not sent');
+                    $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $model->email)));
+                }
             }
         }
     }
