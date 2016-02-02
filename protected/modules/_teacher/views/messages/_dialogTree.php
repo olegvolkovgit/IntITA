@@ -32,12 +32,12 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <li><a href="#"
                                            onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
-                                               'reply', '<?= $message->id_message ?>')">
+                                               'Reply', '<?= $message->id_message ?>')">
                                             Відповісти</a>
                                     </li>
                                     <li><a href="#"
                                            onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
-                                               'forward', '<?= $message->id_message ?>')">
+                                               'Forward', '<?= $message->id_message ?>')">
                                             Переслати</a>
                                     </li>
                                     <li><a href="#" data-toggle="modal" data-target="#deleteModal"

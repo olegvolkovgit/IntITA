@@ -31,7 +31,8 @@
                         'user1' => 38, 'user2' => $user->id)) ?>')">
                         <em><?=$userMessage->subject; ?></em>
                     </td>
-                    <td class="center"><?=CommonHelper::formatMessageDate($userMessage->message0->create_date); ?>
+                    <td class="center">
+                        <em><?=CommonHelper::formatMessageDate($userMessage->message0->create_date); ?></em>
                     </td>
                 </tr>
                 <?php

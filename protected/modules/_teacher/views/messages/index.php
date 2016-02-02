@@ -29,6 +29,7 @@
                 <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
                 <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
             </ul>
+
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="received">

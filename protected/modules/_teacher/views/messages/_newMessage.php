@@ -47,12 +47,10 @@
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 
 <script>
-    var numSelectedHandler = function (eventObject, suggestionObject, suggestionDataset) {
-        alert(suggestionObject.id);
-        $('#receiver_id').val(suggestionObject.id);
-    };
-
-
+//    var numSelectedHandler = function (eventObject, suggestionObject, suggestionDataset) {
+//        alert(suggestionObject.id);
+//        $('#receiver_id').val(suggestionObject.id);
+//    };
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -71,5 +69,5 @@
         valueKey: 'id'
     });
 
-    typeahead.on('typeahead:selected', numSelectedHandler);
+    //typeahead.on('typeahead:selected', numSelectedHandler);
 </script>

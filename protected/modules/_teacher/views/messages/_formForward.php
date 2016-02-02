@@ -1,27 +1,19 @@
 <?php
 /** @var $user integer
- * @var $scenario string
  * @var $message int
  * @var $receiver int
  */
+var_dump($user);die;
 ?>
 <div id="messageForm<?=$message;?>">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/'.$scenario); ?>"
+    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/forward'); ?>"
           id="message">
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
-        <input class="form-control" name="scenario" id="hidden" value="<?=$scenario;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
-        <?php if($scenario == "forward"){?>
         <div class="form-group">
             <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
                    required>
-        </div>
-        <?php }?>
-        <input class="form-control" name="subject" placeholder="Тема">
-        <br>
-        <div class="form-group">
-            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">

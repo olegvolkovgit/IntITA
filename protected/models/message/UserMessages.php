@@ -132,8 +132,8 @@ class UserMessages extends Messages implements IMessage
 
     public function send(IMailSender $sender)
     {
-        if ($this->addReceiver($this->receivers)) {
-            $sender->send($this->receivers->email, "Name", $this->subject, $this->text);
+        if ($this->addReceiver($this->receivers())) {
+            $sender->send($this->receivers()[0]->email, "Name", $this->subject, $this->text);
         }
 
         $this->message->draft = 0;
@@ -167,31 +167,29 @@ class UserMessages extends Messages implements IMessage
 
     public function reply(StudentReg $receiver)
     {
-        if (Yii::app()->db->createCommand()->insert('messages_reply', array(
-                'id_message' => $this->parent,
-                'reply' => $this->message()->id,
-            )) == 1
-        )
-            return true;
-        else return false;
+        $message = new UserMessages();
+        $message->build($this->subject, $this->text, $receiver, $this->sender0);
+        $message->create();
+
+        Yii::app()->db->createCommand()->insert('messages_reply', array(
+                'id_message' => $this->id_message,
+                'reply' => $message->id,
+            ));
+
+        return $message;
     }
 
     public function forward(StudentReg $receiver)
     {
-        $this->message->save();
+        $message = new UserMessages();
+        $message->build($this->subject, $this->text, $receiver, $this->receivers()[0], null, $this->message0->id);
+        $message->create();
 
-        $this->id_message = $this->message->id;
-        $this->id_message;
-
-        $this->save();
-        return $this;
-//        if (Yii::app()->db->createCommand()->insert('messages_forward', array(
-//                'id_message' => $this->parent,
-//                'forward' => $this->message()->id,
-//            )) == 1
-//        )
-//            return true;
-//        else return false;
+        Yii::app()->db->createCommand()->insert('messages_forward', array(
+                'id_message' => $this->id_message,
+                'forward' => $message->id_message,
+            ));
+        return $message;
     }
 
     /**

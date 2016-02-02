@@ -17,15 +17,6 @@ class MessagesController extends Controller {
                 $receiver = $message->parseReceiverEmail($receiverString);
                 $message->build($subject, $text, $receiver, $user);
                 break;
-            case 'reply':
-            case 'replyAll':
-                $parentMessage = Yii::app()->request->getPost('parent', 0);
-                $receiver = Messages::model()->findByPk($parentMessage)->sender0;
-                $message->build($subject, $text, $receiver, $user);
-                break;
-            case 'forward':
-                $message->build($subject, $text, $message->message0->sender0, $user);
-                break;
             default:
                 throw new \application\components\Exceptions\IntItaException(400, "Лист не вдалося надіслати.");
         }
@@ -66,26 +57,16 @@ class MessagesController extends Controller {
         }
     }
 
-    //need fix!!
     public function actionForward(){
-        $id = Yii::app()->request->getPost('id', 0);
-        $subject = Yii::app()->request->getPost('subject', '');
-        $text = Yii::app()->request->getPost('text', '');
         $parentId = Yii::app()->request->getPost('parent', 0);
         $forwardTo = Yii::app()->request->getPost('forwardTo', 0);
 
-        $user = StudentReg::model()->findByPk($id);
-        $message = new UserMessages();
+        $message = UserMessages::model()->findByPk($parentId);
+        $receiver = $message->parseReceiverEmail($forwardTo);
+        $message->forward($receiver);
 
-       // $receiver = StudentReg::model()->findByPk($receiverId);
-        $message->build($subject, $text, $forwardTo, $user);
-
-        $message->create();
         $sender = new MailTransport();
-
         if ($message->send($sender)){
-            $message->parent = $parentId;
-            $message->forward($forwardTo);
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';

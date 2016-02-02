@@ -41,22 +41,19 @@ class MessagesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionForm(){
-        $jsonObj = json_decode($_POST['form']);
+    public function actionForm()
+    {
+        $jsonObj = json_decode($_POST["form"]);
 
-        $this->renderPartial('_form', array(
+        $this->renderPartial('_form' . $jsonObj->scenario, array(
             'user' => $jsonObj->user,
-            'scenario' => $jsonObj->scenario,
             'receiver' => $jsonObj->receiver,
             'message' => $jsonObj->message
         ));
     }
 
-    public function actionForward(){
-
-    }
-
-    public function actionDelete(){
+    public function actionDelete()
+    {
         $jsonObj = json_decode($_POST['data']);
 
         $message = UserMessages::model()->findByPk($jsonObj->message);
@@ -64,7 +61,8 @@ class MessagesController extends TeacherCabinetController
         return $message->deleteMessage($receiver);
     }
 
-    public function actionDeleteDialog(){
+    public function actionDeleteDialog()
+    {
         $jsonObj = json_decode($_POST['data']);
 
         $partner1 = StudentReg::model()->findByPk($jsonObj->partner1);
@@ -73,8 +71,8 @@ class MessagesController extends TeacherCabinetController
         return $dialog->deleteDialog();
     }
 
-    public function actionSendUserMessage(){
-        $scenario = Yii::app()->request->getPost('scenario', '');
+    public function actionSendUserMessage()
+    {
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
@@ -82,36 +80,22 @@ class MessagesController extends TeacherCabinetController
         $user = StudentReg::model()->findByPk($id);
 
         $message = new UserMessages();
-
-        switch($scenario){
-            case 'new':
-                $receiverString = Yii::app()->request->getPost('receiver', '');
-                $receiver = $message->parseReceiverEmail($receiverString);
-                $message->build($subject, $text, $receiver, $user);
-                break;
-            case 'reply':
-                $parentMessage = Yii::app()->request->getPost('parent', 0);
-                $receiver = Messages::model()->findByPk($parentMessage)->sender0;
-                $message->build($subject, $text, $receiver, $user);
-                break;
-            case 'forward':
-                $message->build($subject, $text, $message->message0->sender0, $user);
-                break;
-            default:
-                throw new CHttpException(400, "Unknown message type");
-        }
+        $receiverString = Yii::app()->request->getPost('receiver', '');
+        $receiver = $message->parseReceiverEmail($receiverString);
+        $message->build($subject, $text, array($receiver), $user);
 
         $message->create();
         $sender = new MailTransport();
 
-        if ($message->send($sender)){
+        if ($message->send($sender)) {
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';
         }
     }
 
-    public function actionReply(){
+    public function actionReply()
+    {
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
@@ -129,7 +113,7 @@ class MessagesController extends TeacherCabinetController
         $message->create();
         $sender = new MailTransport();
 
-        if ($message->send($sender)){
+        if ($message->send($sender)) {
             $message->parent = $parentId;
             $message->reply($receiver);
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -138,7 +122,8 @@ class MessagesController extends TeacherCabinetController
         }
     }
 
-    public function actionUsersByQuery($query, $id){
+    public function actionUsersByQuery($query, $id)
+    {
         if ($query) {
             $users = StudentReg::allUsers($query, $id);
             echo $users;
