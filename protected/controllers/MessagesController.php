@@ -40,16 +40,15 @@ class MessagesController extends Controller {
         $receiverId = Yii::app()->request->getPost('receiver', 0);
 
         $user = StudentReg::model()->findByPk($id);
+
         $message = new UserMessages();
-
         $receiver = StudentReg::model()->findByPk($receiverId);
-        $message->build($subject, $text, $receiver, $user);
-
+        $message->build($subject, $text, array($receiver), $user);
+        $message->parent = $parentId;
         $message->create();
-        $sender = new MailTransport();
 
-        if ($message->send($sender)){
-            $message->parent = $parentId;
+        $sender = new MailTransport();
+        if ($message->send($sender)) {
             $message->reply($receiver);
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {

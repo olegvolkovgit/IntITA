@@ -132,8 +132,10 @@ class UserMessages extends Messages implements IMessage
 
     public function send(IMailSender $sender)
     {
-        if ($this->addReceiver($this->receivers[0])) {
-            $sender->send($this->receivers[0]->email, "Name", $this->subject, $this->text);
+        foreach ($this->receivers as $receiver) {
+            if ($this->addReceiver($receiver)) {
+                $sender->send($receiver->email, "Name", $this->subject, $this->text);
+            }
         }
 
         $this->message->draft = 0;
@@ -167,16 +169,10 @@ class UserMessages extends Messages implements IMessage
 
     public function reply(StudentReg $receiver)
     {
-        $message = new UserMessages();
-        $message->build($this->subject, $this->text, $receiver, $this->sender0);
-        $message->create();
-
         Yii::app()->db->createCommand()->insert('messages_reply', array(
-                'id_message' => $this->id_message,
-                'reply' => $message->id,
+                'id_message' => $this->parent,
+                'reply' => $this->id_message,
             ));
-
-        return $message;
     }
 
     public function forward(StudentReg $receiver)
