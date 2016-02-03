@@ -30,7 +30,7 @@ return array(
         'application.models.slider.*',
         'application.components.*',
         'ext.imperavi-redactor-widget.*',
-        'ext.yii2-debug.*',
+        //'ext.yii2-debug.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
