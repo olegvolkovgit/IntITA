@@ -3,17 +3,17 @@ function load(url, header, histories) {
     if (histories == undefined) {
         history.pushState({url: url, header: header}, "");
     }
-    $.ajax({
+    $jq.ajax({
         url: url,
         async: true,
         success: function (data) {
-            container = $('#pageContainer');
+            container = $jq('#pageContainer');
             container.html('');
             container.html(data);
             if (header) {
-                $("#pageTitle").html(header);
+                $jq("#pageTitle").html(header);
             } else {
-                $("#pageTitle").html('Особистий кабінет');
+                $jq("#pageTitle").html('Особистий кабінет');
             }
         },
         error: function () {
@@ -31,9 +31,9 @@ function reloadPage(event) {
 }
 
 function setTeacherRole(url) {
-    var role = $("select[name=role] option:selected").val();
-    var teacher = $("#teacher").val();
-    $.ajax({
+    var role = $jq("select[name=role] option:selected").val();
+    var teacher = $jq("#teacher").val();
+    $jq.ajax({
         url: url,
         type: 'post',
         async: true,
@@ -48,7 +48,7 @@ function setTeacherRole(url) {
 }
 
 function loadPage(url) {
-    $.ajax({
+    $jq.ajax({
         url: url,
         success: function (data) {
             container = $('#pageContainer');
@@ -83,7 +83,7 @@ function send(url) {
         receivers: document.getElementById("receiver")
     };
 
-    $.ajax({
+    $jq.ajax({
         url: url,
         data: jsonData,
         method: post,
@@ -100,16 +100,16 @@ function send(url) {
 }
 
 function sendMessage(url) {
-    receiver = $("#typeahead").val();
+    receiver = $jq("#typeahead").val();
     if (receiver === "") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
-        var posting = $.post(url,
+        var posting = $jq.post(url,
             {
-                "id": $("input[name=id]").val(),
+                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
-                "subject": $("input[name=subject]").val(),
-                "text": $("#text").val(),
+                "subject": $jq("input[name=subject]").val(),
+                "text": $jq("#text").val(),
                 "scenario": "new"
             }
         );
@@ -139,11 +139,11 @@ function loadForm(url, receiver, scenario, message) {
         "scenario": scenario
     };
 
-    $.post(url, {form: JSON.stringify(command)}, function () {
+    $jq.post(url, {form: JSON.stringify(command)}, function () {
         })
         .done(function (data) {
-            $(id).empty();
-            $(id).append(data);
+            $jq(id).empty();
+            $jq(id).append(data);
         })
         .fail(function () {
             showDialog();
