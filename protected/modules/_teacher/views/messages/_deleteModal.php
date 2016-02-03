@@ -1,7 +1,5 @@
 <?php
 /**
- * @var $message int
- * @var $dialog array
  * @var $user int
  */
 ?>

@@ -66,7 +66,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->partner2->id)); ?>
+<?php $this->renderPartial('_deleteModal', array('user' => $dialog->partner2->id)); ?>
 <?php $this->renderPartial('_deleteModalDialog', array(
     'partner1' => $dialog->partner1->id,
     'partner2' => $dialog->partner2->id
