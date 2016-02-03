@@ -9,7 +9,7 @@ function deleteDialog(url, partner1, partner2) {
         "partner2": partner2
     };
 
-    $.post(url, {data: JSON.stringify(command)}, function () {
+    $jq.post(url, {data: JSON.stringify(command)}, function () {
         })
         .done(function () {
             $jq("#deleteDialog").modal("hide");
@@ -27,11 +27,11 @@ function deleteDialog(url, partner1, partner2) {
 
 function deleteMessage(url, receiver) {
     var command = {
-        "message": $('input[name="messageId"]').val(),
+        "message": $jq('input[name="messageId"]').val(),
         "receiver": receiver
     };
 
-    $.post(url, {data: JSON.stringify(command)}, function () {
+    $jq.post(url, {data: JSON.stringify(command)}, function () {
         })
         .done(function () {
             $jq("#deleteModal").modal("hide");

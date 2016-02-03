@@ -39,7 +39,7 @@
 
     users.initialize();
 
-    $('#typeahead').typeahead(null, {
+    $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
         source: users
@@ -47,7 +47,7 @@
 
     function reset(message) {
         id = "#messageForm" + message;
-        $(id).remove();
+        $jq(id).remove();
     }
 </script>
 
