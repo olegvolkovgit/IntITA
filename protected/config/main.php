@@ -18,7 +18,7 @@ return array(
     'preload' => array(
         'log',
         'config',
-        'debug'
+        //'debug'
     ),
 
     // autoloading model and component classes
@@ -160,7 +160,7 @@ return array(
             )
         ),
 
-        'debug' => $local_config['debug'],
+        //'debug' => $local_config['debug'],
 
     ),
 
