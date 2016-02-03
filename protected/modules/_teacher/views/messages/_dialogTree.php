@@ -35,11 +35,6 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                                'Reply', '<?= $message->id_message ?>')">
                                             Відповісти</a>
                                     </li>
-                                    <li><a href="#"
-                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
-                                               'Forward', '<?= $message->id_message ?>')">
-                                            Переслати</a>
-                                    </li>
                                     <?php if($message->message0->sender0->id != $dialog->partner2->id){?>
                                     <li><a href="#" data-toggle="modal" data-target="#deleteModal"
                                            data-message-id="<?=$message->id_message;?>">Видалити це повідомлення</a>
