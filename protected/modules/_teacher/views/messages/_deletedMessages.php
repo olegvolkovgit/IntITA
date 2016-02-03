@@ -23,12 +23,12 @@
                     <td class="center">
                         <input type="checkbox" id="<?=$userMessage->id_message;?>">
                     </td>
-                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'user1' => 38, 'user2' => $user->id)) ?>')">
+                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/message", array(
+                        'id' => $userMessage->id_message)) ?>', 'Видалене повідомлення')">
                         <?=$userMessage->message0->sender0->userName().", ".$userMessage->message0->sender0->email; ?>
                     </td>
-                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                        'user1' => 38, 'user2' => $user->id)) ?>')">
+                    <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/message", array(
+                        'id' => $userMessage->id_message)) ?>', 'Видалене повідомлення')">
                         <em><?=$userMessage->subject; ?></em>
                     </td>
                     <td class="center">

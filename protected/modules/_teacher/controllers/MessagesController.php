@@ -103,4 +103,11 @@ class MessagesController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
+
+    public function actionMessage($id){
+        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
+        $this->renderPartial('_viewMessage', array(
+            'message' => $message,
+        ), false, true);
+    }
 }
