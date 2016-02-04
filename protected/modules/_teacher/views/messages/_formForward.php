@@ -5,11 +5,12 @@
  */
 ?>
 <div id="messageForm<?=$message;?>">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/forward'); ?>"
+    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('/_teacher/messages/forward'); ?>"
           id="message">
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
+        <input class="form-control" type="number" id="hidden" name="forwardToId" value="0"/>
         <div class="form-group">
             <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
                    required>
@@ -32,7 +33,15 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
             url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY&id=' + user,
-            wildcard: '%QUERY'
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        value: user.value
+                    };
+                });
+            }
         }
     });
 
@@ -41,7 +50,15 @@
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
-        source: users
+        source: users,
+        templates: {
+            suggestion: function(item) {
+                return "<p><em>" + item.value + "</em></p>"; }
+        }
+    });
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq('input[name = forwardToId]').val(item.id);
     });
 
     function reset(message) {

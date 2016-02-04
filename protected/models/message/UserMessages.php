@@ -188,16 +188,6 @@ class UserMessages extends Messages implements IMessage
         return $message;
     }
 
-    /**
-     * @param $receiverString string, that we got from user message form (formatted as "lastName firstName middleName email")
-     * @return StudentReg model for receiver
-     */
-    public function parseReceiverEmail($receiverString)
-    {
-        $email = explode(' ', $receiverString);
-        return StudentReg::model()->findByAttributes(array('email' => $email[count($email) - 1]));
-    }
-
     public function sender()
     {
         return $this->message->sender;

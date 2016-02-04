@@ -1172,11 +1172,11 @@ class StudentReg extends CActiveRecord
 
         $data = StudentReg::model()->findAll($criteria);
 
-        $result = [];
+        $result = array();
         foreach ($data as $key=>$model) {
             if($model->id != $id) {
-                $result[$key]["id"] = $model->id;
-                $result[$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+                $result["results"][$key]["id"] = $model->id;
+                $result["results"][$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
             }
         }
         return json_encode($result);

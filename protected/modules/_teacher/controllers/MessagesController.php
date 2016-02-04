@@ -76,22 +76,28 @@ class MessagesController extends TeacherCabinetController
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
-
         $user = StudentReg::model()->findByPk($id);
 
-        $message = new UserMessages();
-        $receiverString = Yii::app()->request->getPost('receiver', '');
-        $receiver = $message->parseReceiverEmail($receiverString);
-        $message->build($subject, $text, array($receiver), $user);
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new UserMessages();
+            $receiverId = Yii::app()->request->getPost('receiver', '0');
+            if ($receiverId == 0) {
+                throw new \application\components\Exceptions\IntItaException(400, 'Неправильно вибраний адресат повідомлення.');
+            }
+            $receiver = StudentReg::model()->findByPk($receiverId);
+            $message->build($subject, $text, array($receiver), $user);
+            $message->create();
+            $sender = new MailTransport();
 
-        $message->create();
-        $sender = new MailTransport();
-
-        if ($message->send($sender)) {
-            $this->redirect(Yii::app()->request->urlReferrer);
-        } else {
-            echo 'error';
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUsersByQuery($query, $id)
@@ -104,10 +110,62 @@ class MessagesController extends TeacherCabinetController
         }
     }
 
-    public function actionMessage($id){
+    public function actionMessage($id)
+    {
         $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
         $this->renderPartial('_viewMessage', array(
             'message' => $message,
         ), false, true);
+    }
+
+    public function actionReply()
+    {
+        $id = Yii::app()->request->getPost('id', 0);
+        $subject = Yii::app()->request->getPost('subject', '');
+        $text = Yii::app()->request->getPost('text', '');
+        $parentId = Yii::app()->request->getPost('parent', 0);
+        $receiverId = Yii::app()->request->getPost('receiver', 0);
+
+        $user = StudentReg::model()->findByPk($id);
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new UserMessages();
+            $receiver = StudentReg::model()->findByPk($receiverId);
+            $message->build($subject, $text, array($receiver), $user);
+            $message->parent = $parentId;
+            $message->create();
+
+            $sender = new MailTransport();
+            $message->reply($receiver);
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionForward()
+    {
+        $parentId = Yii::app()->request->getPost('parent', 0);
+        $forwardToId = Yii::app()->request->getPost('forwardToId', 0);
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = UserMessages::model()->findByPk($parentId);
+            $receiver = StudentReg::model()->findByPk($forwardToId);
+            $forwardedMessage = $message->forward($receiver);
+
+            $sender = new MailTransport();
+            $forwardedMessage->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося переслати.");
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

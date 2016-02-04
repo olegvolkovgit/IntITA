@@ -100,8 +100,8 @@ function send(url) {
 }
 
 function sendMessage(url) {
-    receiver = $jq("#typeahead").val();
-    if (receiver === "") {
+    receiver = $jq("#receiverId").val();
+    if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
         var posting = $jq.post(url,
@@ -116,13 +116,13 @@ function sendMessage(url) {
 
         posting.done(function () {
                 bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
-                    location.href = window.location.pathname;
+                   location.href = window.location.pathname;
                 });
             })
             .fail(function () {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу antongriadchenko@gmail.com.", function () {
-                    location.href = window.location.pathname;
+                   location.href = window.location.pathname;
                 });
             });
     }

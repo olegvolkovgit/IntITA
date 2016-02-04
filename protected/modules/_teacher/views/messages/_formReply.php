@@ -5,7 +5,7 @@
  */
 ?>
 <div id="messageForm<?=$message;?>">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('messages/reply'); ?>"
+    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('/_teacher/messages/reply'); ?>"
           id="message">
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">

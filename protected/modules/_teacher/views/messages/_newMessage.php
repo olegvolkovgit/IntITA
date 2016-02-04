@@ -11,8 +11,7 @@
     <div class="panel-body">
         <form role="form" name="message">
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
-            <input class="form-control" name="scenario" id="hidden" value="new">
-            <input type="hidden" id="receiver_id"/>
+            <input type="number" hidden="hidden" id="receiverId" value="0"/>
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
@@ -52,7 +51,15 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
             url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY&id=' + user,
-            wildcard: '%QUERY'
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        value: user.value
+                    };
+                });
+            }
         }
     });
 
@@ -62,6 +69,13 @@
         name: 'users',
         display: 'value',
         source: users,
-        valueKey: 'id'
+        templates: {
+            suggestion: function(item) {
+                return "<p><em>" + item.value + "</em></p>"; }
+        }
+    });
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#receiverId").val(item.id);
     });
 </script>

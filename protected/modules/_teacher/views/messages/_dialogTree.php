@@ -11,7 +11,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
-        <?php foreach ($dialog->messages as $message) {
+        <?php foreach ($dialog->messages as $key=>$message) {
             if (!$message->isDeleted($dialog->partner2)) {
                 ?>
                 <div class="panel panel-default">
@@ -19,7 +19,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">
                             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                                  style="height:24px"/>
-                            <strong><?= $message->message0->sender0->userName(); ?></strong>
+                            <strong>
+                                <?= $message->message0->sender0->userName().", ". $message->message0->sender0->email; ?>
+                            </strong>
                             <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
                         </a>
                         <div class="pull-right">
@@ -53,7 +55,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             </div>
                         </div>
                     </div>
-                    <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse">
+                    <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse <?php if($key == 0) echo 'in';?>">
                         <div class="panel-body">
                             <p>
                                 <?php
