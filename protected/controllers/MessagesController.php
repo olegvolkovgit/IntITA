@@ -62,10 +62,10 @@ class MessagesController extends Controller {
 
         $message = UserMessages::model()->findByPk($parentId);
         $receiver = $message->parseReceiverEmail($forwardTo);
-        $message->forward($receiver);
+        $forwardedMessage = $message->forward($receiver);
 
         $sender = new MailTransport();
-        if ($message->send($sender)){
+        if ($forwardedMessage->send($sender)){
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             echo 'error';

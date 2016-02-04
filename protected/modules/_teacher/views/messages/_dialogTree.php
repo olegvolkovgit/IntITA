@@ -2,6 +2,7 @@
 /**
  * @var $message UserMessages
  * @var $dialog Dialog
+ * @var $forwarded UserMessages
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
@@ -35,6 +36,11 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                                'Reply', '<?= $message->id_message ?>')">
                                             Відповісти</a>
                                     </li>
+                                    <li><a href="#"
+                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
+                                               'Forward', '<?= $message->id_message ?>')">
+                                            Переслати</a>
+                                    </li>
                                     <?php if($message->message0->sender0->id != $dialog->partner2->id){?>
                                     <li><a href="#" data-toggle="modal" data-target="#deleteModal"
                                            data-message-id="<?=$message->id_message;?>">Видалити це повідомлення</a>
@@ -50,7 +56,13 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse">
                         <div class="panel-body">
                             <p>
-                                <?= $message->text; ?>
+                                <?php
+                                $forwarded = $message->message0->forwarded();
+                                if(!is_null($forwarded)){
+                                    $this->renderPartial('_forwardedMessage', array('message' => $forwarded));
+                                } else {
+                                    echo $message->text;
+                                }?>
                             </p>
                             <div id="form<?= $message->id_message; ?>"></div>
                         </div>

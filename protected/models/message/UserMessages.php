@@ -178,7 +178,7 @@ class UserMessages extends Messages implements IMessage
     public function forward(StudentReg $receiver)
     {
         $message = new UserMessages();
-        $message->build($this->subject, $this->text, $receiver, $this->receivers()[0], null, $this->message0->id);
+        $message->build($this->subject, $this->text, array($receiver), $this->receivers()[0], null, $this->message0->id);
         $message->create();
 
         Yii::app()->db->createCommand()->insert('messages_forward', array(
