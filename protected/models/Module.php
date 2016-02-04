@@ -891,4 +891,31 @@ class Module extends CActiveRecord implements IBillableObject
         ));
     }
 
+    /**
+     * Creates new lecture.
+     * @param array $params must incude fields 'titleUa', 'titleRu', 'titleEn', 'order';
+     */
+
+    public function addLecture($params) {
+
+        $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
+
+        $lecture = Lecture::model()->addNewLesson(
+            $this->module_ID,
+            $params['titleUa'],
+            $params['titleRu'],
+            $params['titleEn'],
+            $teacher->teacher_id
+        );
+
+        $this->lesson_count = $params['order'];
+
+        $this->update(array('lesson_count'));
+
+        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $lecture->order . $params['titleUa'] . 'додана до цього модуля');
+
+        LecturePage::addNewPage($lecture->id, 1);
+
+    }
+
 }

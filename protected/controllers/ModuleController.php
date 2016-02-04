@@ -58,24 +58,23 @@ class ModuleController extends Controller
 
     public function actionSaveLesson()
     {
-        $teacher = Yii::app()->user->getId();
-
-        $newOrder = Lecture::model()->addNewLesson(
-            $_POST['idModule'],
-            $_POST['titleUa'],
-            $_POST['titleRu'],
-            $_POST['titleEn'],
-            Teacher::model()->find('user_id=:user', array(':user' => $teacher))->teacher_id
+        $newLecture = array (
+            'titleUa' => Yii::app()->request->getParam('titleUa', ''),
+            'titleRu' => Yii::app()->request->getParam('titleRu', ''),
+            'titleEn' => Yii::app()->request->getParam('titleEn', ''),
+            'order' => Yii::app()->request->getParam('order', 1)
         );
 
-        Module::model()->updateByPk($_POST['idModule'], array('lesson_count' => $_POST['order']));
-        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newOrder . $_POST['titleUa'] . 'додана до цього модуля');
-        $idLecture = Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id;
+        //throw error if idModule is '0' or unset?
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        LecturePage::addNewPage($idLecture, 1);
+        $model = Module::model()->findByPk($idModule);
 
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+        $model->addLecture($newLecture);
+
+//        I don't understand what for this checking. Just leave it for a while...
+//        if (!isset($_GET['ajax']))
+//            $this->redirect(Yii::app()->request->urlReferrer);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -85,6 +84,7 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+
         if(Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang'])){
             $count=count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $_POST['idCourse']
             )->queryAll());
