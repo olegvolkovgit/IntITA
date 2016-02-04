@@ -58,12 +58,14 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse <?php if($key == 0) echo 'in';?>">
                         <div class="panel-body">
                             <p>
+                                <?=$message->text;?>
+                                <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();
                                 if(!is_null($forwarded)){
-                                    $this->renderPartial('_forwardedMessage', array('message' => $forwarded));
-                                } else {
-                                    echo $message->text;
+                                    $this->renderPartial('_forwardedMessage', array(
+                                        'message' => $message,
+                                        'forwarded' => $forwarded));
                                 }?>
                             </p>
                             <div id="form<?= $message->id_message; ?>"></div>

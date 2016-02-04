@@ -2,7 +2,6 @@
 
 class MessagesController extends TeacherCabinetController
 {
-
     public function actionIndex()
     {
         $id = Yii::app()->user->getId();
@@ -152,11 +151,15 @@ class MessagesController extends TeacherCabinetController
     {
         $parentId = Yii::app()->request->getPost('parent', 0);
         $forwardToId = Yii::app()->request->getPost('forwardToId', 0);
+        $subject = Yii::app()->request->getPost('subject', '');
+        $text = Yii::app()->request->getPost('text', '');
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $message = UserMessages::model()->findByPk($parentId);
             $receiver = StudentReg::model()->findByPk($forwardToId);
+            $message->newSubject = $subject;
+            $message->newText = $text;
             $forwardedMessage = $message->forward($receiver);
 
             $sender = new MailTransport();

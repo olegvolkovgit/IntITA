@@ -15,6 +15,11 @@
             <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
                    required>
         </div>
+        <input class="form-control" name="subject" placeholder="Тема">
+        <br>
+        <div class="form-group">
+            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+        </div>
 
         <button type="submit" class="btn btn-primary">
             Написати

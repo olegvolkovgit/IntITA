@@ -18,6 +18,8 @@ class UserMessages extends Messages implements IMessage
     public $message;
     public $mailto;
     public $parent;
+    public $newSubject;
+    public $newText;
 
     public function build($subject, $text, $receivers, StudentReg $sender, $chained = null, $original = null)
     {
@@ -178,7 +180,7 @@ class UserMessages extends Messages implements IMessage
     public function forward(StudentReg $receiver)
     {
         $message = new UserMessages();
-        $message->build($this->subject, $this->text, array($receiver), $this->receivers()[0], null, $this->message0->id);
+        $message->build($this->newSubject, $this->newText, array($receiver), $this->receivers()[0], null, $this->message0->id);
         $message->create();
 
         Yii::app()->db->createCommand()->insert('messages_forward', array(
