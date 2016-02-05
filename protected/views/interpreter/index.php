@@ -16,20 +16,18 @@
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<input type="hidden" ng-init='lang="<?php echo Task::getTaskLang($_POST["idTaskBlock"]); ?>"' ng-model="lang" />
+<input type="hidden" ng-init='lang="<?php echo Task::getTaskLangById($idTask); ?>"' ng-model="lang" />
 <input type="hidden" ng-init='task="<?php echo $idTask; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
 <body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
-    <form name="interpreterForm">
+    <form name="interpreterForm" ng-cloak>
         <div class="container-fluid">
             <div class="row col header">
-                Header
-                <textarea class="form-control" name="header" id="header" placeholder="Header" rows="2" ng-model="finalResult.header" required></textarea>
+                Function name
+                <input class="form-control" placeholder="Function name" ng-model="function.function_name" required />
                 Etalon
-                <textarea class="form-control" name="etalon" id="etalon" placeholder="Standard answer" rows="2" ng-model="finalResult.etalon" required></textarea>
-                Footer
-                <textarea class="form-control" name="taskFooter" id="taskFooter" rows="2" placeholder="Footer" required ng-model="finalResult.footer"></textarea>
+                <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Standard_answer" rows="2" ng-model="finalResult.etalon" ></textarea>
             </div>
         </div>
         <h2 id="title">Params</h2>

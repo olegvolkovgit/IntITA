@@ -5,7 +5,7 @@
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'verifyContent.css'); ?>"/>
 
-<a href="<?php echo Yii::app()->createUrl('/_admin/verifyContent/initializeDir') ?>">Переіндексація контенту</a>
+<a href="<?php echo Yii::app()->createUrl('/_teacher/_admin/verifyContent/initializeDir') ?>">Переіндексація контенту</a>
 <br>
 <br>
 <div class="panel panel-default">
