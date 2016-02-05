@@ -1,6 +1,6 @@
 <?php
 
-class VerifyContentController extends AdminController
+class VerifyContentController extends TeacherCabinetController
 {
 
     public function actionIndex()
@@ -16,7 +16,7 @@ class VerifyContentController extends AdminController
         $this->initializeModules();
         $this->initializeLectures();
 
-        $this->actionIndex();
+        $this->redirect($this->pathToCabinet());
     }
 
     public function initializeModules()
