@@ -12,11 +12,11 @@ $mark = $plainTask->mark();
 ?>
 
 <div class="col-md-8" >
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Оцінка простої задачі</h3>
-    </div>
-    <div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Оцінка простої задачі</h3>
+        </div>
+        <div class="panel-body">
             <input type="text" id="plainTaskId" hidden="hidden" value="<?php echo $plainTask->id; ?>">
             <input type="text" id="userId" hidden="hidden" value="<?php echo $plainTask->id_student; ?>">
 
@@ -39,9 +39,12 @@ $mark = $plainTask->mark();
             </div>
             <div class="form-group">
                 <label for="mark">Оцінка</label>
-                <input type="number" max="1" min="0" id="mark" value="<?=$mark['mark'];?>">
-
+                <select class="form-control" id="mark">
+                    <option value="0">не зараховано</option>
+                    <option value="1" <?php if($mark['mark'] == "1") echo "selected";?>>зараховано</option>
+                </select>
             </div>
+
             <div class="form-group">
                 <label for="comment">Коментар до задачі</label>
                 <textarea class="form-control" name="comment" id="textareaSettingsbyId"><?=$mark['comment'];?></textarea>

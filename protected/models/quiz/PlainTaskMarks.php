@@ -122,7 +122,6 @@ class PlainTaskMarks extends CActiveRecord
         $plainMark->id_answer = (int)$answerId;
         $plainMark->id_user = (int)$userId;
         $plainMark->mark = (int)$mark;
-        $plainMark->time = time();
 
         if($plainMark->save())
             return true;

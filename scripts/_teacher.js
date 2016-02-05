@@ -88,18 +88,18 @@ function send(url){
         receivers: document.getElementById("receiver")
     };
 
+    alert(jsonData);
     $.ajax({
         url: url,
         data: jsonData,
-        method: post,
+        type : 'post',
         success: function (data) {
             container = $('#pageContainer');
             container.html('');
             container.html(data);
         },
         error: function () {
-            alert("Вибачте, але на сайті виникла помилка. " +
-                "Спробуйте зайти до кабінету пізніше або зв'яжіться з адміністратором сайту.");
+            showDialog();
             location.reload();
         }
     });

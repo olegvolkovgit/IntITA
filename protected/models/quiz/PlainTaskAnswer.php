@@ -131,15 +131,13 @@ class PlainTaskAnswer extends CActiveRecord
                 array(':id' => $this->id))
             ->queryRow());
 
-        if($teacher)
         return $teacher;
     }
 
     public function getCondition()
     {
         $plainTask = $this->plainTask;
-        if ($plainTask)
-            return $plainTask->lectureElement->html_block;
+        return $plainTask->lectureElement->html_block;
     }
 
     public static function getAllPlainTaskAnswers(){
@@ -276,7 +274,7 @@ class PlainTaskAnswer extends CActiveRecord
     }
 
     public function mark(){
-        return PlainTaskMarks::model()->exists('id_user = :user and id_answer = :answer',array(
+        return PlainTaskMarks::model()->find('id_user = :user and id_answer = :answer',array(
             ':user' => $this->id_student,
             ':answer' => $this->id));
     }
