@@ -15,6 +15,9 @@ class ModuleController extends Controller
     {
         $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
 
+        if (!isset($model))
+            throw new CHttpExcepion(404, "Модуль на знайдено!");
+
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
@@ -58,7 +61,7 @@ class ModuleController extends Controller
 
     public function actionSaveLesson()
     {
-        $newLecture = array (
+        $newLectureParams = array (
             'titleUa' => Yii::app()->request->getParam('titleUa', ''),
             'titleRu' => Yii::app()->request->getParam('titleRu', ''),
             'titleEn' => Yii::app()->request->getParam('titleEn', ''),
@@ -70,11 +73,12 @@ class ModuleController extends Controller
 
         $model = Module::model()->findByPk($idModule);
 
-        $model->addLecture($newLecture);
+        if (!isset($model))
+            throw new CHttpExcepion(404, "Модуль на знайдено!");
 
-//        I don't understand what for this checking. Just leave it for a while...
-//        if (!isset($_GET['ajax']))
-//            $this->redirect(Yii::app()->request->urlReferrer);
+        $model->addLecture($newLectureParams);
+
+        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newLectureParams['order'] . $newLectureParams['titleUa'] . 'додана до цього модуля');
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -97,20 +101,17 @@ class ModuleController extends Controller
         $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
     }
 
-    public function actionUnableLesson($idLecture)
+    public function actionUnableLesson()
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $idLecture = Yii::app()->request->getParam('idLecture');
+        $idCourse = Yii::app()->request->getParam('idModule');
 
-        $count =  Lecture::model()->count("idModule=$idModule and `order`>0");
-        Lecture::model()->updateByPk($idLecture, array('order' => 0));
-        Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
+        $model = Module::model()->with('lectures')->findByPk($idCourse);
 
-        for ($i = $order + 1; $i <= $count; $i++) {
-            $id = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $i))->id;
-            Lecture::model()->updateByPk($id, array('order' => $i - 1));
-        }
-        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
+        if (!isset($model))
+            throw new CHttpExcepion(404, "Модуль на знайдено!");
+
+        $model->disableLesson($idLecture);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
