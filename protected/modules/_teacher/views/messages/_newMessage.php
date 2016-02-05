@@ -9,9 +9,9 @@
         Написати листа
     </div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" name="message">
             <input class="form-control" name="id" id="hidden" value="<?=$user?>">
-            <input class="form-control" name="scenario" id="hidden" value="new">
+            <input type="number" hidden="hidden" id="receiverId" value="0"/>
 
             <div class="form-group" id="receiver">
                 <label>Кому</label>
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+                <textarea class="form-control" rows="6" id="text" placeholder="Лист" required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary"
@@ -50,49 +50,32 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY',
-            wildcard: '%QUERY'
+            url: basePath + '/_teacher/messages/usersByQuery?query=%QUERY&id=' + user,
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        value: user.value
+                    };
+                });
+            }
         }
     });
 
     users.initialize();
 
-    $('#typeahead').typeahead(null, {
+    $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
-        source: users
+        source: users,
+        templates: {
+            suggestion: function(item) {
+                return "<p><em>" + item.value + "</em></p>"; }
+        }
     });
 
-    function sendMessage(url) {
-        receiver = $("#typeahead").val();
-        if (user === "") {
-            showDialog('Виберіть отримувача повідомлення.');
-        } else{
-            var posting = $.post(url,
-                {
-                    "id" : $("input[name=id]").val(),
-                    "receiver" : receiver,
-                    "subject" : $("input[name=subject]").val(),
-                    "text": $("input[name=text]").val(),
-                    "scenario": "new"
-                }
-            );
-
-            posting.done(function (response) {
-                    if (response == 1)
-                        showDialog("Ваше повідомлення успішно відправлено.");
-                    else {
-                        showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                            "напишіть на адресу antongriadchenko@gmail.com.");
-                    }
-                })
-                .fail(function () {
-                    showDialog("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу antongriadchenko@gmail.com.");
-                })
-                .always(function () {
-                    location.href = window.location.pathname;
-                });
-        }
-    }
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#receiverId").val(item.id);
+    });
 </script>

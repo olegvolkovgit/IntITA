@@ -32,55 +32,6 @@ class CommonHelper
         else return 22;
     }
 
-    public static function translateLevelUa($level)
-    {
-        switch ($level) {
-            case 'intern':
-                $level = 'стажер';
-                break;
-            case 'junior':
-                $level = 'початківець';
-                break;
-            case 'strong junior':
-                $level = 'сильний початківець';
-                break;
-            case 'middle':
-                $level = 'середній';
-                break;
-            case 'senior':
-                $level = 'високий';
-                break;
-        }
-        return $level;
-    }
-
-    public static function translateLevel($level)
-    {
-        if (isset(Yii::app()->session)) {
-            $lg = Yii::app()->session['lg'];
-        } else $lg = 'ua';
-
-        switch ($level) {
-            case 'intern':
-                $level = Translate::getMessagesByLevel('0232', $lg);
-                break;
-            case 'junior':
-                $level = Translate::getMessagesByLevel('0233', $lg);
-                break;
-            case 'strong junior':
-                $level = Translate::getMessagesByLevel('0234', $lg);
-                break;
-            case 'middle':
-                $level = Translate::getMessagesByLevel('0235', $lg);
-                break;
-            case 'senior':
-                $level = Translate::getMessagesByLevel('0236', $lg);
-                break;
-        }
-
-        return $level;
-    }
-
     public static function getYearsTermination($num)
     {
         //Оставляем две последние цифры от $num
@@ -211,51 +162,6 @@ class CommonHelper
         return $rating;
     }
 
-    public static function getRate($level)
-    {
-        $rate = 0;
-        switch ($level) {
-            case 'intern':
-                $rate = 1;
-                break;
-            case 'junior':
-                $rate = 2;
-                break;
-            case 'strong junior':
-                $rate = 3;
-                break;
-            case 'middle':
-                $rate = 4;
-                break;
-            case 'senior':
-                $rate = 5;
-                break;
-        }
-        return $rate;
-    }
-
-    public static function getLevelTitle($level)
-    {
-        switch ($level) {
-            case 'intern':
-                $level = Yii::t('courses', '0232');
-                break;
-            case 'junior':
-                $level = Yii::t('courses', '0233');
-                break;
-            case 'strong junior':
-                $level = Yii::t('courses', '0234');
-                break;
-            case 'middle':
-                $level = Yii::t('courses', '0235');
-                break;
-            case 'senior':
-                $level = Yii::t('courses', '0236');
-                break;
-        }
-        return $level;
-    }
-
     public static function getHideIp($ip)
     {
         $pos = strripos($ip, '.');
@@ -270,13 +176,8 @@ class CommonHelper
     {
         $datetime1 = new DateTime("now");
         $datetime2 = new DateTime($date);
-        $interval = $datetime1->diff($datetime2);
         if ($datetime1->format('y') == $datetime2->format('y')) {
-            if ($interval->d == 0) {
-                return date("h:m", strtotime($date));
-            } else {
-                return date("d F", strtotime($date));
-            }
+                return date("H:i, d F", strtotime($date));
         } else {
             return date("d.m.Y", strtotime($date));
         }

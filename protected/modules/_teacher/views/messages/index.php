@@ -4,7 +4,6 @@
  * @var $message UserMessages
  * @var $receivedMessages array
  * @var $sentMessages CActiveDataProvider
- * @var $receivedDialogs array
  * @var $sentDialogs array
  * @var $deletedMessages array
  */
@@ -30,6 +29,7 @@
                 <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
                 <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
             </ul>
+
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="received">
@@ -56,19 +56,20 @@
 </div>
 
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
+
 <!-- DataTables JavaScript -->
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
-<link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        $('#sentMessages').DataTable({-->
-<!--                language: {-->
-<!--                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"-->
-<!--                }-->
-<!--            }-->
-<!--        );-->
-<!--    });-->
-<!--</script>-->
+<script>
+    $jq(document).ready(function () {
+        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
+                language: {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                },
+            "autoWidth": false
+            }
+        );
+    });
+</script>

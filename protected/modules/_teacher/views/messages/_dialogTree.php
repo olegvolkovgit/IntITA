@@ -2,6 +2,7 @@
 /**
  * @var $message UserMessages
  * @var $dialog Dialog
+ * @var $forwarded UserMessages
  */
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
@@ -10,15 +11,17 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
-        <?php foreach ($dialog->messages as $message) {
-            if (!$message->isDeleted($dialog->receiver)) {
+        <?php foreach ($dialog->messages as $key=>$message) {
+            if (!$message->isDeleted($dialog->partner2)) {
                 ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a data-toggle="collapse" href="#collapse<?= $message->id_message ?>" id="messageBlock">
+                        <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">
                             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                                  style="height:24px"/>
-                            <strong><?= $message->message0->sender0->userName(); ?></strong>
+                            <strong>
+                                <?= $message->message0->sender0->userName().", ". $message->message0->sender0->email; ?>
+                            </strong>
                             <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
                         </a>
                         <div class="pull-right">
@@ -31,18 +34,20 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <li><a href="#"
-                                           onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
-                                               'reply', '<?= $message->id_message ?>')">
+                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
+                                               'Reply', '<?= $message->id_message ?>')">
                                             Відповісти</a>
                                     </li>
                                     <li><a href="#"
-                                           onclick="loadForm('<?= $url; ?>', '<?= $message->message0->sender0->id; ?>',
-                                               'forward', '<?= $message->id_message ?>')">
+                                           onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
+                                               'Forward', '<?= $message->id_message ?>')">
                                             Переслати</a>
                                     </li>
-                                    <li><a href="#" data-toggle="modal" data-target="#deleteModal">Видалити це
-                                            повідомлення</a>
+                                    <?php if($message->message0->sender0->id != $dialog->partner2->id){?>
+                                    <li><a href="#" data-toggle="modal" data-target="#deleteModal"
+                                           data-message-id="<?=$message->id_message;?>">Видалити це повідомлення</a>
                                     </li>
+                                    <?php }?>
                                     <li class="divider"></li>
                                     <li><a href="#" data-toggle="modal" data-target="#deleteDialog">Видалити діалог</a>
                                     </li>
@@ -50,10 +55,18 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             </div>
                         </div>
                     </div>
-                    <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse">
+                    <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse <?php if($key == 0) echo 'in';?>">
                         <div class="panel-body">
                             <p>
-                                <?= $message->text; ?>
+                                <?=$message->text;?>
+                                <br>
+                                <?php
+                                $forwarded = $message->message0->forwarded();
+                                if(!is_null($forwarded)){
+                                    $this->renderPartial('_forwardedMessage', array(
+                                        'message' => $message,
+                                        'forwarded' => $forwarded));
+                                }?>
                             </p>
                             <div id="form<?= $message->id_message; ?>"></div>
                         </div>
@@ -64,38 +77,10 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     </div>
 </div>
 
-<?php $this->renderPartial('_deleteModal', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
-<?php $this->renderPartial('_deleteModalDialog', array('message' => $message->id_message, 'user' => $dialog->receiver->id)); ?>
-
+<?php $this->renderPartial('_deleteModal', array('user' => $dialog->partner2->id)); ?>
+<?php $this->renderPartial('_deleteModalDialog', array(
+    'partner1' => $dialog->partner1->id,
+    'partner2' => $dialog->partner2->id
+)); ?>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'cabinet/messages.js') ?>"></script>
-<script>
-    function loadForm(url, receiver, scenario, message) {
-        idBlock = "#collapse" + message;
-        alert(idBlock);
-        $(idBlock).collapse('show');
-
-        id = "#form" + message;
-        var command = {
-            "user": user,
-            "message": message,
-            "receiver": receiver,
-            "scenario": scenario
-        };
-
-        $.post(url, {form: JSON.stringify(command)}, function () {
-            })
-            .done(function (data) {
-                $(id).empty();
-                $(id).append(data);
-                showDialog('Ваше повідомлення успішно відправлено.');
-            })
-            .fail(function () {
-                showDialog();
-            })
-            .always(function () {
-                },
-                "json"
-            );
-    }
-</script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'messages/dialog.js'); ?>"></script>

@@ -458,22 +458,19 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->level0->id;
     }
 
-    public
-    function getTranslatedLevel()
+    public function getTranslatedLevel()
     {
-        return CommonHelper::translateLevel($this->level);
+        return $this->level();
     }
 
-    public
-    function getTitle()
+    public function getTitle()
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         return $this->$title;
     }
 
-    public
-    static function getCourseName($idCourse)
+    public static function getCourseName($idCourse)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
@@ -481,8 +478,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $courseTitle;
     }
 
-    public
-    static function getLessonsCount($id)
+    public static function getLessonsCount($id)
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 'course_modules';
@@ -505,8 +501,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $lessonsCount;
     }
 
-    public
-    static function getMessage($message = null, $type = null)
+    public static function getMessage($message = null, $type = null)
     {
         if ($message !== null) {
             switch ($type) {
@@ -539,16 +534,14 @@ class Course extends CActiveRecord implements IBillableObject
         }
     }
 
-    public
-    static function printTitle($idCourse, $messages = null)
+    public static function printTitle($idCourse, $messages = null)
     {
         $course = Course::model()->findByPk($idCourse);
         $chartSchema = Course::getMessage($messages, 'chart');
         return $chartSchema . ' ' . $course->getTitle() . ", " . CommonHelper::translateLevel($course->level);
     }
 
-    public
-    static function generateModuleCoursesList($idModule, $messages = null)
+    public static function generateModuleCoursesList($idModule, $messages = null)
     {
         $result = [];
         if ($messages !== null) {
@@ -563,8 +556,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $courses;
     }
 
-    public
-    static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
+    public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
     {
         switch ($summaNum) {
             case '1':
@@ -706,7 +698,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function modulesCount()
     {
-        return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =".$this->course_ID
+        return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $this->course_ID
         )->queryAll());
     }
 

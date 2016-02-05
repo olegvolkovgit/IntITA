@@ -2,14 +2,14 @@
 
 class Dialog
 {
-    public $sender;
-    public $receiver;
+    public $partner1;
+    public $partner2;
     public $messages;
     public $header;
 
-    public function __construct(StudentReg $sender, StudentReg $receiver){
-        $this->sender = $sender;
-        $this->receiver = $receiver;
+    public function __construct(StudentReg $partner1, StudentReg $partner2){
+        $this->partner1 = $partner1;
+        $this->partner2 = $partner2;
         $this->initMessages();
     }
 
@@ -20,12 +20,13 @@ class Dialog
         $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
         $criteria->join.= ' LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
         $criteria->order = 'm.create_date DESC';
-        $criteria->addCondition ('m.sender = '.$this->sender->id.' and r.id_receiver='.$this->receiver->id, 'OR');
-        $criteria->addCondition ('m.sender = '.$this->receiver->id.' and r.id_receiver='.$this->sender->id, 'OR');
+        //$criteria->addCondition ('r.deleted IS NOT NULL', 'AND');
+        $criteria->addCondition ('m.sender = '.$this->partner1->id.' and r.id_receiver='.$this->partner2->id, 'OR');
+        $criteria->addCondition ('m.sender = '.$this->partner2->id.' and r.id_receiver='.$this->partner1->id, 'OR');
 
         $this->messages = UserMessages::model()->findAll($criteria);
         if(!empty($this->messages)) {
-            $this->header = $this->messages[0]->subject;
+            $this->header = $this->messages[count($this->messages) - 1]->subject;
         } else {
             $this->header = "";
         }
@@ -35,20 +36,21 @@ class Dialog
         return $this->messages;
     }
 
+
+    //need fix!
     public function deleteDialog()
     {
         foreach($this->messages as $message){
-            if($message->deleteMessage($this->receiver) == false)
-                return false;
+            $message->deleteMessage($this->partner2);
         }
-        return true;
     }
 
+    //need fix!
     public function read(){
         $flag = true;
         foreach($this->messages as $message){
-            if(!$message->isRead($this->receiver)) {
-                $flag = $message->read($this->receiver);
+            if(!$message->isRead($this->partner2)) {
+                $flag = $message->read($this->partner2);
             }
         }
         return $flag;
@@ -57,6 +59,4 @@ class Dialog
     public function isRead(){
         return true;
     }
-
-
 }

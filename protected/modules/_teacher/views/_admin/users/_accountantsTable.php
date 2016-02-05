@@ -52,18 +52,21 @@
 
         posting.done(function (response) {
                 if (response == 1)
-                    showDialog("Права бухгалтера для користувача " + name + " відмінені.");
+                    bootbox.alert("Права бухгалтера для користувача " + name + " відмінені.", function () {
+                        location.href = window.location.pathname;
+                    });
                 else {
-                    showDialog("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                    bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                        location.href = window.location.pathname;
+                    });
                 }
             })
             .fail(function () {
-                showDialog("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
-            })
-            .always(function () {
-                //location.href = window.location.pathname;
+                bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                    location.href = window.location.pathname;
+                });
             });
     }
 </script>

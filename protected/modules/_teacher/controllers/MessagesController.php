@@ -2,7 +2,6 @@
 
 class MessagesController extends TeacherCabinetController
 {
-
     public function actionIndex()
     {
         $id = Yii::app()->user->getId();
@@ -10,7 +9,6 @@ class MessagesController extends TeacherCabinetController
         $message = new UserMessages();
 
         $sentMessages = $model->sentMessages();
-        $receivedDialogs = $model->receivedDialogs();
         $receivedMessages = $model->receivedMessages();
         $deletedMessages = $model->deletedMessages();
 
@@ -18,7 +16,6 @@ class MessagesController extends TeacherCabinetController
             'model' => $model,
             'message' => $message,
             'sentMessages' => $sentMessages,
-            'receivedDialogs' => $receivedDialogs,
             'receivedMessages' => $receivedMessages,
             'deletedMessages' => $deletedMessages,
         ));
@@ -43,22 +40,19 @@ class MessagesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionForm(){
-        $jsonObj = json_decode($_POST['form']);
+    public function actionForm()
+    {
+        $jsonObj = json_decode($_POST["form"]);
 
-        $this->renderPartial('_form', array(
+        $this->renderPartial('_form' . $jsonObj->scenario, array(
             'user' => $jsonObj->user,
-            'scenario' => $jsonObj->scenario,
             'receiver' => $jsonObj->receiver,
             'message' => $jsonObj->message
         ));
     }
 
-    public function actionForward(){
-
-    }
-
-    public function actionDelete(){
+    public function actionDelete()
+    {
         $jsonObj = json_decode($_POST['data']);
 
         $message = UserMessages::model()->findByPk($jsonObj->message);
@@ -66,53 +60,65 @@ class MessagesController extends TeacherCabinetController
         return $message->deleteMessage($receiver);
     }
 
-    public function actionDeleteAll(){
+    public function actionDeleteDialog()
+    {
         $jsonObj = json_decode($_POST['data']);
 
-        $message = UserMessages::model()->findByPk($jsonObj->message);
-        $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        return $message->deleteDialog($receiver);
+        $partner1 = StudentReg::model()->findByPk($jsonObj->partner1);
+        $partner2 = StudentReg::model()->findByPk($jsonObj->partner2);
+        $dialog = new Dialog($partner1, $partner2);
+        $dialog->deleteDialog();
     }
 
-    public function actionSendUserMessage(){
-        $scenario = Yii::app()->request->getPost('scenario', '');
+    public function actionSendUserMessage()
+    {
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
-
         $user = StudentReg::model()->findByPk($id);
 
-        $message = new UserMessages();
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new UserMessages();
+            $receiverId = Yii::app()->request->getPost('receiver', '0');
+            if ($receiverId == 0) {
+                throw new \application\components\Exceptions\IntItaException(400, 'Неправильно вибраний адресат повідомлення.');
+            }
+            $receiver = StudentReg::model()->findByPk($receiverId);
+            $message->build($subject, $text, array($receiver), $user);
+            $message->create();
+            $sender = new MailTransport();
 
-        switch($scenario){
-            case 'new':
-                $receiverString = Yii::app()->request->getPost('receiver', '');
-                $receiver = $message->parseReceiverEmail($receiverString);
-                $message->build($subject, $text, $receiver, $user);
-                break;
-            case 'reply':
-                $parentMessage = Yii::app()->request->getPost('parent', 0);
-                $receiver = Messages::model()->findByPk($parentMessage)->sender0;
-                $message->build($subject, $text, $receiver, $user);
-                break;
-            case 'forward':
-                $message->build($subject, $text, $message->message0->sender0, $user);
-                break;
-            default:
-                throw new CHttpException(400, "Unknown message type");
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
 
-        $message->create();
-        $sender = new MailTransport();
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
-        if ($message->send($sender)){
-            $this->redirect(Yii::app()->request->urlReferrer);
+    public function actionUsersByQuery($query, $id)
+    {
+        if ($query) {
+            $users = StudentReg::allUsers($query, $id);
+            echo $users;
         } else {
-            echo 'error';
+            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
-    public function actionReply(){
+    public function actionMessage($id)
+    {
+        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
+        $this->renderPartial('_viewMessage', array(
+            'message' => $message,
+        ), false, true);
+    }
+
+    public function actionReply()
+    {
         $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
@@ -121,30 +127,48 @@ class MessagesController extends TeacherCabinetController
 
         $user = StudentReg::model()->findByPk($id);
 
-        $message = new UserMessages();
-
-
-        $receiver = StudentReg::model()->findByPk($receiverId);
-        $message->build($subject, $text, $receiver, $user);
-
-        $message->create();
-        $sender = new MailTransport();
-
-        if ($message->send($sender)){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new UserMessages();
+            $receiver = StudentReg::model()->findByPk($receiverId);
+            $message->build($subject, $text, array($receiver), $user);
             $message->parent = $parentId;
+            $message->create();
+
+            $sender = new MailTransport();
             $message->reply($receiver);
-            $this->redirect(Yii::app()->request->urlReferrer);
-        } else {
-            echo 'error';
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
+
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionUsersByQuery($query){
-        if ($query) {
-            $users = StudentReg::allUsers($query);
-            echo $users;
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
+    public function actionForward()
+    {
+        $parentId = Yii::app()->request->getPost('parent', 0);
+        $forwardToId = Yii::app()->request->getPost('forwardToId', 0);
+        $subject = Yii::app()->request->getPost('subject', '');
+        $text = Yii::app()->request->getPost('text', '');
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = UserMessages::model()->findByPk($parentId);
+            $receiver = StudentReg::model()->findByPk($forwardToId);
+            $message->newSubject = $subject;
+            $message->newText = $text;
+            $forwardedMessage = $message->forward($receiver);
+
+            $sender = new MailTransport();
+            $forwardedMessage->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося переслати.");
         }
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 }

@@ -38,7 +38,7 @@ class Messages extends CActiveRecord
             array('sender, type, draft', 'required'),
             array('sender, type, draft, chained_message_id, original_message_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-              array('id, create_date, sender, type, draft, chained_message_id, original_message_id', 'safe', 'on' => 'search'),
+            array('id, create_date, sender, type, draft, chained_message_id, original_message_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -114,7 +114,8 @@ class Messages extends CActiveRecord
         return parent::model($className);
     }
 
-    public function build($sender, $type, $chained = null, $original = null){
+    public function build($sender, $type, $chained = null, $original = null)
+    {
         $this->sender = $sender;
         $this->type = $type;
         $this->draft = 1;
@@ -126,30 +127,41 @@ class Messages extends CActiveRecord
      * @param $receiver receiver id
      * @return boolean
      */
-    protected function addReceiver(StudentReg $receiver){
+    protected function addReceiver(StudentReg $receiver)
+    {
         return Yii::app()->db->createCommand()->insert('message_receiver', array(
-            'id_message'=>$this->id_message,
-            'id_receiver'=>$receiver->id,
+            'id_message' => $this->id_message,
+            'id_receiver' => $receiver->id,
         ));
     }
 
-    public function setType($type){
+    public function setType($type)
+    {
         $this->type = $type;
     }
 
-    public function setDraft($draft){
+    public function setDraft($draft)
+    {
         $this->draft = $draft;
     }
 
-    public function setSender($id){
+    public function setSender($id)
+    {
         $this->sender = $id;
     }
 
-    public function getSender(){
+    public function getSender()
+    {
         return $this->sender;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
+    }
+
+    public function forwarded()
+    {
+        return UserMessages::model()->findByPk($this->original_message_id);
     }
 }

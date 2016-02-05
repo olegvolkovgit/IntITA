@@ -18,6 +18,8 @@ class UserMessages extends Messages implements IMessage
     public $message;
     public $mailto;
     public $parent;
+    public $newSubject;
+    public $newText;
 
     public function build($subject, $text, $receivers, StudentReg $sender, $chained = null, $original = null)
     {
@@ -132,8 +134,13 @@ class UserMessages extends Messages implements IMessage
 
     public function send(IMailSender $sender)
     {
-        if ($this->addReceiver($this->receivers)) {
-            $sender->send($this->receivers->email, "Name", $this->subject, $this->text);
+        foreach ($this->receivers as $receiver) {
+            if ($this->addReceiver($receiver)) {
+                $subject = "У тебе одне нове повідомлення від ".$this->message0->sender0->userName().", ".
+                    $this->message0->sender0->email;
+
+                $sender->send($receiver->email, "Name", $subject, $this->text);
+            }
         }
 
         $this->message->draft = 0;
@@ -167,34 +174,23 @@ class UserMessages extends Messages implements IMessage
 
     public function reply(StudentReg $receiver)
     {
-        if (Yii::app()->db->createCommand()->insert('messages_reply', array(
+        Yii::app()->db->createCommand()->insert('messages_reply', array(
                 'id_message' => $this->parent,
-                'reply' => $this->message()->id,
-            )) == 1
-        )
-            return true;
-        else return false;
+                'reply' => $this->id_message,
+            ));
     }
 
     public function forward(StudentReg $receiver)
     {
-        if (Yii::app()->db->createCommand()->insert('messages_forward', array(
-                'id_message' => $this,
-                'forward' => $this->message()->id,
-            )) == 1
-        )
-            return true;
-        else return false;
-    }
+        $message = new UserMessages();
+        $message->build($this->newSubject, $this->newText, array($receiver), $this->receivers()[0], null, $this->message0->id);
+        $message->create();
 
-    /**
-     * @param $receiverString string, that we got from user message form (formatted as "lastName firstName middleName email")
-     * @return StudentReg model for receiver
-     */
-    public function parseReceiverEmail($receiverString)
-    {
-        $email = explode(' ', $receiverString);
-        return StudentReg::model()->findByAttributes(array('email' => $email[count($email) - 1]));
+        Yii::app()->db->createCommand()->insert('messages_forward', array(
+                'id_message' => $this->id_message,
+                'forward' => $message->id_message,
+            ));
+        return $message;
     }
 
     public function sender()
@@ -227,7 +223,7 @@ class UserMessages extends Messages implements IMessage
         $receivers = $this->receivers();
         $result = '';
         foreach ($receivers as $user) {
-            $result .= $user->userName() . ", " . $user->email . "; ";
+            $result .= $user->userName() . ", " . $user->email;
         }
 
         return $result;
