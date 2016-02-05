@@ -15,8 +15,8 @@ class ModuleController extends Controller
     {
         $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
 
-        if (!isset($model))
-            throw new CHttpExcepion(404, "Модуль на знайдено!");
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
 
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
@@ -73,8 +73,8 @@ class ModuleController extends Controller
 
         $model = Module::model()->findByPk($idModule);
 
-        if (!isset($model))
-            throw new CHttpExcepion(404, "Модуль на знайдено!");
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
 
         $model->addLecture($newLectureParams);
 
@@ -108,8 +108,8 @@ class ModuleController extends Controller
 
         $model = Module::model()->with('lectures')->findByPk($idCourse);
 
-        if (!isset($model))
-            throw new CHttpExcepion(404, "Модуль на знайдено!");
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
 
         $model->disableLesson($idLecture);
 
