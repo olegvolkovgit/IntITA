@@ -4,7 +4,6 @@
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-        'action' =>Yii::app()->createUrl("module/index", array("idModule" => $lecture->idModule, "idCourse" => $idCourse)),
     ));
     ?>
     <div class="modalBody">

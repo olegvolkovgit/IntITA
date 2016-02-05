@@ -29,6 +29,10 @@
  * @property Course $course0
  * @property Level $level0
  */
+
+const EDITOR_ENABLED = 1;
+const EDITOR_DISABLED = 0;
+ 
 class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
@@ -64,7 +68,7 @@ class Module extends CActiveRecord implements IBillableObject
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
                 'message' => 'Тільки українські символи!','on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('module_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
@@ -87,8 +91,10 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
-            'lectures' => array(self::HAS_MANY, 'Lecture','idModule'),
-            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)'),
+            'lectures' => array(self::HAS_MANY, 'Lecture','idModule',
+                                                'order' => 'lectures.order ASC'),
+            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
+                                                'on' => 'teacher.isPrint=1'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -597,7 +603,7 @@ class Module extends CActiveRecord implements IBillableObject
         if ($moduleTitle == "") {
             $moduleTitle = Module::model()->findByPk($id)->title_ua;
         }
-        return $moduleTitle;
+        return htmlspecialchars($moduleTitle);
     }
 
     public static function getModuleDurationFormat($countless, $hours, $hInDay, $daysInWeek)
@@ -850,6 +856,39 @@ class Module extends CActiveRecord implements IBillableObject
     {
         $module = Module::model()->findByPk($idModule);
         return $module->teacher;
+    }
+    
+    /**
+     * Checks if model can be editable by current user
+     * @return int "1" if model editable by current user, "0" if does not editable
+     */
+    public function isEditableByCurrentUser() {
+        if (!Yii::app()->user->isGuest) { // if user not guest
+            if ($this->teacher == null) {
+                $this->getRelated('teacher');
+            }
+            $authId = Yii::app()->user->getId();
+            foreach ($this->teacher as $teacher){
+                if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
+                    return EDITOR_ENABLED;
+                    break;
+                }
+            }
+        }
+        return EDITOR_DISABLED;
+    }
+
+    /**
+     * Returns CArrayDataProvider of lectures.
+     * @return CArrayDataProvider
+     */
+    public function getLecturesDataProvider() {
+        if ($this->lectures == null) {
+            $this->getRelated('lectures');
+        }
+        return new CArrayDataProvider($this->lectures, array(
+            'pagination' => false
+        ));
     }
 
 }

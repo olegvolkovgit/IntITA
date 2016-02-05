@@ -40,7 +40,7 @@ class Graduate extends CActiveRecord
 		// will receive user inputs.
 		return array(
             array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en,first_name_ru,last_name_ru', 'required', 'message'=>"Поле обов'язкове для заповнення"),
-			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
+			array('avatar', 'file','types'=>'jpg, gif, png, jpeg','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('graduate','0748')),
             array('first_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
             array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),

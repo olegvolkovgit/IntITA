@@ -53,9 +53,12 @@ class ModuleController extends TeacherCabinetController
 
     public function actionDelete($id)
     {
-        Module::model()->updateByPk($id, array('cancelled' => 1));
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        if(CourseModules::getCoursesListName($id)==false){
+            Module::model()->updateByPk($id, array('cancelled' => 1));
+            echo false;
+        }else{
+            echo implode(", ", CourseModules::getCoursesListName($id));
+        }
     }
 
     public function actionRestore($id)
@@ -107,15 +110,16 @@ class ModuleController extends TeacherCabinetController
                             $model->save();
                             if($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                    throw new CDbException(400, 'Avatar not save');
+                                    throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
                             }
                         }
                     }
                 }
             } else {
                 $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo)))
-                    throw new CDbException(400, 'Avatar not SAVE');
+                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
+                    Module::model()->updateByPk($id, array('module_img' => 'module.png'));
+                }
             }
             $this->redirect($this->pathToCabinet());
         }

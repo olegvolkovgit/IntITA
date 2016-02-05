@@ -174,7 +174,6 @@ img.lessonBut  {
     margin: 10px 0px 20px 0px;
     float:right;
     border:none;
-    line-height: 100%;
     font-size: 14px;
 }
 .BBCode input[type="submit"]:hover {

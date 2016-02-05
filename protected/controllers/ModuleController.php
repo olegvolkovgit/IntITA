@@ -13,66 +13,18 @@ class ModuleController extends Controller
      */
     public function actionIndex($idModule, $idCourse=0)
     {
-        $model = Module::model()->findByPk($idModule);
+        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
-        $owners = [];
-
-        $criteria1 = new CDbCriteria();
-        $criteria1->select = 'idTeacher';
-        $criteria1->addCondition('idModule=' . $idModule);
-        $criteria1->toArray();
-        $temp = TeacherModule::model()->findAll($criteria1); //info about owners
-        for($i = 0; $i < count($temp);$i++){
-            if(Teacher::model()->findByPk($temp[$i]->idTeacher)->isPrint) {
-                array_push($owners, $temp[$i]->idTeacher);
-            }
-        }
-        $teachers = Teacher::model()->findAllByPk($owners);
-
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule>0');
-        $criteria->addCondition('idModule=' . $idModule);
-
-        $dataProvider = new CActiveDataProvider('Lecture', array(
-            'criteria' => $criteria,
-            'pagination' => false,
-            'sort' => array(
-                'defaultOrder' => array(
-                    'order' => CSort::SORT_ASC,
-                )
-            )
-        ));
-        $editMode = 0; //init editMode flag
-        //find id teacher related to current user id
-        if (Yii::app()->user->isGuest) { //if user guest
-            $editMode = 0;
-        } else {
-            if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->getId()))) {
-                if ($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
-                    //check edit mode
-                    if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(':teacher' => $teacherId, ':module' => $idModule))) {
-                        $editMode = 1;
-                    } else {
-                        $editMode = 0;
-                    }
-                } else {
-                    $editMode = 0;
-                }
-            } else {
-                    $editMode = 0;
-            }
-        }
-
-        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
 
         $this->render('index', array(
             'post' => $model,
-            'teachers' => $teachers,
-            'editMode' => $editMode,
-            'lecturesTitles' => $lecturesTitles,
-            'dataProvider' => $dataProvider,
+            'teachers' => $model->teacher,
+            'editMode' => $model->isEditableByCurrentUser(),
+            'lecturesTitles' => $model->lectures,
+            'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
         ));
     }

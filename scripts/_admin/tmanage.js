@@ -357,6 +357,34 @@ function showConfirm(str,url)
         }
     })
 }
+function moduleCancelled(str,url)
+{
+    bootbox.confirm(str, function(result){
+        if(result){
+            var grid = getGridName();
+
+            $.ajax({
+                url: url,
+                type : 'post',
+                async: true,
+                success: function (data) {
+                    if(data==false){
+                        if(grid)
+                            $.fn.yiiGridView.update(grid);
+                        else
+                            fillContainer(data);
+                    }else{
+                        bootbox.alert("Ти не можеш видалити модуль. Спочатку видали його з таких курсів: "+"<b>"+data+"</b>");
+                        return false;
+                    }
+                },
+                error: function () {
+                    showDialog();
+                }
+            });
+        }
+    })
+}
 
 function getGridName()
 {

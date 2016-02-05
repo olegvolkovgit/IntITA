@@ -6,6 +6,9 @@
 /* @var $form CActiveForm */
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
+<script>
+    basePath = '<?=Config::getBaseUrl();?>';
+</script>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">

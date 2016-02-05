@@ -193,7 +193,7 @@ class CommonHelper
 
     public static function getPriceUah($summa)
     {
-        return round($summa * 22);//CommonHelper::getDollarExchangeRate(), 2);
+        return round($summa * 24);//CommonHelper::getDollarExchangeRate(), 2);
     }
 
     public static function getRating($rat)
