@@ -2,7 +2,6 @@
 /* @var $user array */
 /* @var $adminsList array */
 ?>
-
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"
@@ -64,7 +63,7 @@
                     "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
             })
             .always(function () {
-                //location.reload();
+                location.reload();
             });
     }
 </script>

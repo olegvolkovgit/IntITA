@@ -57,6 +57,7 @@ function loadPage(url, role) {
         success: function (data) {
             container = $('#pageContainer');
             container.html(data);
+            $("#pageTitle").html("Особистий кабінет");
         },
         error: function () {
             showDialog();

@@ -47,6 +47,7 @@ function showPlainTaskAnswer(url,idTeacher)
         data : { 'idTeacher': idTeacher},
         success: function (data) {
             fillContainer(data);
+            $("#pageTitle").html("Задачі до перевірки");
         }
     })
 }
