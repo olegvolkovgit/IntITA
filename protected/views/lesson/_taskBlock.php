@@ -6,6 +6,7 @@
                     <div ng-class="{quizDone: pageData[(currentPage || lastAccessPage)-1].isQuizDone}"></div>
                 </div>
                 <div class="content"  ng-controller="taskCtrl">
+                    <div ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" ></div>
                     <img style="display: none" id="ajaxLoad" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
                     <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
                         <br/>
@@ -23,8 +24,7 @@
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendTaskAnswer('<?php echo Yii::app()->session->get("jobID"); ?>',
                             '<?php echo Task::getTaskId($data['id_block']);?>',
-                            '<?php echo Task::getTaskLang($data['id_block']);?>',
-                            '<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>',$event)" >
+                            '<?php echo Task::getTaskLang($data['id_block']);?>',interpreterServer,$event,'<?php echo $user ?>')" >
                             <?php echo Yii::t('lecture','0089'); ?>
                     </button>
                 </div>
