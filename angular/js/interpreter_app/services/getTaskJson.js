@@ -5,15 +5,15 @@ angular
     .module('interpreterApp')
     .service('getTaskJson', [
         '$http',
-        function($http,$scope) {
-            this.getJson = function (lng,id) {
+        function($http) {
+            this.getJson = function (lng,id,url) {
                 var json={
                     "operation": "getJson",
                     "lang": lng,
                     "task": id
                 };
                 var promise = $http({
-                    url: 'http://ii.intita.com',
+                    url: url,
                     method: "POST",
                     data: JSON.stringify(json),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

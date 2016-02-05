@@ -41,7 +41,9 @@ class TaskController extends Controller
         $date = Yii::app()->request->getPost('date', 0);
         $warning = Yii::app()->request->getPost('warning', '');
 
-        TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
+        if(TaskMarks::addMark($user, $task, $status, $result, $date, $warning)){
+            return true;
+        };
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
