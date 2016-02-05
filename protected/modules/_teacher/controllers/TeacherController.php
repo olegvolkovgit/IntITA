@@ -42,7 +42,10 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionShowTeacherPlainTaskList()
     {
-        $idTeacher = Yii::app()->request->getPost('idTeacher');
+        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
+        if($idTeacher == 0){
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
+        }
 
         $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 

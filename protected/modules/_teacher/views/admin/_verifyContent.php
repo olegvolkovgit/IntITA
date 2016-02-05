@@ -26,7 +26,7 @@
                 <?php
                 $lectures = Lecture::getAllNotVerifiedLectures();
                 foreach($lectures as $record) {
-                    echo "<a href='".Yii::app()->createUrl('/_admin/verifyContent/confirm', array('id' => $record->id)).
+                    echo "<a href='".Yii::app()->createUrl('/_teacher/_admin/verifyContent/confirm', array('id' => $record->id)).
                         "' class='confirm'>Затвердити   </a>     <span class='lectureTitle'><a href='" .
                         Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "'</a>" .
                         $record->title() . " <span class='moduleTitle'>(модуль - " .
@@ -38,7 +38,7 @@
                 <?php
                 $lecturesVerified = Lecture::getAllVerifiedLectures();
                 foreach($lecturesVerified as $record) {
-                    echo "<a href='".Yii::app()->createUrl('/_admin/verifyContent/cancel', array('id' => $record->id)).
+                    echo "<a href='".Yii::app()->createUrl('/_teacher/_admin/verifyContent/cancel', array('id' => $record->id)).
                         "' class='confirm'>Скасувати   </a>     <span class='lectureTitle'><a href='" .
                         Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "'</a>" .
                         $record->title() . " <span class='moduleTitle'>(модуль - " .

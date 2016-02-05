@@ -626,7 +626,7 @@ class LessonController extends Controller
     {
         $model = Lecture::model()->findByPk($idLecture);
         $model->saveLectureContent();
-        $this->redirect(Config::getBaseUrl() . '/_admin/verifyContent/index');
+        $this->redirect(Config::getBaseUrl() . '/_teacher/cabinet/index');
     }
 
     public function actionGetPageData()
@@ -726,6 +726,7 @@ class LessonController extends Controller
         echo $this->renderPartial('/lesson/_quiz',
             array('page' => $page, 'editMode' => $editMode, 'user' => $user), true);
     }
+
     public function actionConfirm($id){
         $model = Lecture::model()->findByPk($id);
 

@@ -59,7 +59,7 @@ class VerifyContentController extends TeacherCabinetController
             throw new CException("Такої лекції немає!");
         }
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function actionCancel($id)
@@ -72,8 +72,7 @@ class VerifyContentController extends TeacherCabinetController
         } else {
             throw new CException("Такої лекції немає!");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function generateLecturePages(Lecture $model)

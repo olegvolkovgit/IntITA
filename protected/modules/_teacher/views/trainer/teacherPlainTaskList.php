@@ -4,7 +4,7 @@
  * @var $teacherPlainTasks array
  * @var $mark boolean
  */
-if ($teacherPlainTasks[0] != null) {
+if (!empty($teacherPlainTasks)) {
     foreach ($teacherPlainTasks as $plainTaskAnswer) {
         $mark = $plainTaskAnswer->mark();?>
         <div class="panel panel-<?php echo ($mark) ? 'info' : 'success'; ?>">
