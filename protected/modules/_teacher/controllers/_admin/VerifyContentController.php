@@ -1,6 +1,6 @@
 <?php
 
-class VerifyContentController extends AdminController
+class VerifyContentController extends TeacherCabinetController
 {
 
     public function actionIndex()
@@ -16,7 +16,7 @@ class VerifyContentController extends AdminController
         $this->initializeModules();
         $this->initializeLectures();
 
-        $this->actionIndex();
+        $this->redirect($this->pathToCabinet());
     }
 
     public function initializeModules()
@@ -59,7 +59,7 @@ class VerifyContentController extends AdminController
             throw new CException("Такої лекції немає!");
         }
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function actionCancel($id)
@@ -72,8 +72,7 @@ class VerifyContentController extends AdminController
         } else {
             throw new CException("Такої лекції немає!");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect($this->pathToCabinet());
     }
 
     public function generateLecturePages(Lecture $model)

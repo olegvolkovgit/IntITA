@@ -1,5 +1,7 @@
 <? $css_version = 1; ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
@@ -9,6 +11,7 @@
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/openDialogsService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/userAnswerTaskService.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/testCtrl.js'); ?>"></script>
@@ -40,7 +43,7 @@ if (!isset($idCourse)) $idCourse = 0;
 $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
-<script type="text/javascript">
+<script>
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
     finishedLecture = <?php echo ($finishedLecture) ? 1 : 0;?>;

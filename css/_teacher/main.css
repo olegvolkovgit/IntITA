@@ -21,6 +21,10 @@
     background-clip: padding-box;
 }
 
+#typeahead .empty-message {
+    text-align: center;
+}
+
 .errorMessage
 {
     color: #ff0000;

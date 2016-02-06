@@ -61,11 +61,11 @@ hr {
 .selectpicker, label {
     padding: 6px 12px;
     font-size: 14px;
-    height: 34px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
     margin: 0;
+    word-wrap: break-word;
 }
 .resLabel{
     font-size: 14px;

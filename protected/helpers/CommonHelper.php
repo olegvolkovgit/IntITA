@@ -1,14 +1,16 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ivanna
  * Date: 28.09.2015
  * Time: 15:50
  */
+class CommonHelper
+{
 
-class CommonHelper {
-
-    public static function getDollarExchangeRate(){
+    public static function getDollarExchangeRate()
+    {
         $header = array("Accept: application/json");
         $ch = curl_init();
 
@@ -21,7 +23,7 @@ class CommonHelper {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)');
         $jsondata = curl_exec($ch);
-        if (curl_error($ch)) die("Connection Error: ".curl_errno($ch).' - '.curl_error($ch));
+        if (curl_error($ch)) die("Connection Error: " . curl_errno($ch) . ' - ' . curl_error($ch));
         curl_close($ch);
         $arr = json_decode($jsondata);
 
@@ -30,98 +32,62 @@ class CommonHelper {
         else return 22;
     }
 
-    public static function translateLevelUa($level){
-        switch ($level){
-            case 'intern':
-                $level = 'стажер';
-                break;
-            case 'junior':
-                $level = 'початківець';
-                break;
-            case 'strong junior':
-                $level = 'сильний початківець';
-                break;
-            case 'middle':
-                $level = 'середній';
-                break;
-            case 'senior':
-                $level = 'високий';
-                break;
-        }
-        return $level;
-    }
-
-    public static function translateLevel($level)
-    {
-        if(isset(Yii::app()->session)){$lg = Yii::app()->session['lg'];}else $lg = 'ua';
-
-        switch ($level) {
-            case 'intern':
-                $level = Translate::getMessagesByLevel('0232',$lg);
-                break;
-            case 'junior':
-                $level = Translate::getMessagesByLevel('0233',$lg);
-                break;
-            case 'strong junior':
-                $level = Translate::getMessagesByLevel('0234',$lg);
-                break;
-            case 'middle':
-                $level = Translate::getMessagesByLevel('0235',$lg);
-                break;
-            case 'senior':
-                $level = Translate::getMessagesByLevel('0236',$lg);
-                break;
-        }
-
-        return $level;
-    }
-
-    public static function getYearsTermination ($num)
+    public static function getYearsTermination($num)
     {
         //Оставляем две последние цифры от $num
         $number = substr($num, -2);
 
         //Если 2 последние цифры входят в диапазон от 11 до 14
         //Тогда подставляем окончание "ЕВ"
-        if($number > 10 and $number < 15)
-        {
+        if ($number > 10 and $number < 15) {
             $term = Yii::t('profile', '0097');
-        }
-        else
-        {
+        } else {
 
             $number = substr($number, -1);
 
-            if($number == 0) {$term = Yii::t('profile', '0097');}
-            if($number == 1 ) {$term = Yii::t('profile', '0098');}
-            if($number > 1 ) {$term = Yii::t('profile', '0099');}
-            if($number > 4 ) {$term = Yii::t('profile', '0097');}
+            if ($number == 0) {
+                $term = Yii::t('profile', '0097');
+            }
+            if ($number == 1) {
+                $term = Yii::t('profile', '0098');
+            }
+            if ($number > 1) {
+                $term = Yii::t('profile', '0099');
+            }
+            if ($number > 4) {
+                $term = Yii::t('profile', '0097');
+            }
         }
-        return  $term;
+        return $term;
     }
 
-    public static function getDaysTermination ($num)
+    public static function getDaysTermination($num)
     {
         //Оставляем две последние цифры от $num
         $number = substr($num, -2);
 
         //Если 2 последние цифры входят в диапазон от 11 до 14
         //Тогда подставляем окончание
-        if($number > 10 and $number < 15)
-        {
+        if ($number > 10 and $number < 15) {
             $term = Yii::t('module', '0653');
-        }
-        else
-        {
+        } else {
 
             $number = substr($number, -1);
 
-            if($number == 0) {$term = Yii::t('module', '0653');}
-            if($number == 1 ) {$term = Yii::t('module', '0654');}
-            if($number > 1 ) {$term = Yii::t('module', '0655');}
-            if($number > 4 ) {$term = Yii::t('module', '0653');}
+            if ($number == 0) {
+                $term = Yii::t('module', '0653');
+            }
+            if ($number == 1) {
+                $term = Yii::t('module', '0654');
+            }
+            if ($number > 1) {
+                $term = Yii::t('module', '0655');
+            }
+            if ($number > 4) {
+                $term = Yii::t('module', '0653');
+            }
         }
-        return  $term;
+        return $term;
     }
 
     static function detectBrowser($userAgent = null)
@@ -130,8 +96,7 @@ class CommonHelper {
         $name = null;
         $version = array(null, null, null, null);
 
-        if (false !== strpos($userAgent, 'MSIE '))
-        {
+        if (false !== strpos($userAgent, 'MSIE ')) {
             //http://www.useragentstring.com/pages/Internet%20Explorer/
             $name = 'Internet Explorer';
             preg_match('#MSIE (\d{1,2})\.(\d{1,2})#i', $userAgent, $versionMatch);
@@ -145,25 +110,20 @@ class CommonHelper {
     static public function checkForBrowserVersion(array $browser, array $conditions)
     {
         if (!isset($browser['name']) || !isset($conditions[$browser['name']])
-            || !isset($browser['version']) || count($browser['version']) < 1)
-        {
+            || !isset($browser['version']) || count($browser['version']) < 1
+        ) {
             return null;
         }
 
         $cnd = $conditions[$browser['name']]; // 0=>, 1=>, 2=>
-        if (!is_array($cnd))
-        {
+        if (!is_array($cnd)) {
             return null;
         }
 
-        for ($i = 0; $i < count($cnd); $i++)
-        {
-            if ($browser['version'][$i] < $cnd[$i])
-            {
+        for ($i = 0; $i < count($cnd); $i++) {
+            if ($browser['version'][$i] < $cnd[$i]) {
                 return -1;
-            }
-            else if ($browser['version'][$i] > $cnd[$i])
-            {
+            } else if ($browser['version'][$i] > $cnd[$i]) {
                 return 1;
             }
         }
@@ -187,61 +147,19 @@ class CommonHelper {
         return round($summa * 24);//CommonHelper::getDollarExchangeRate(), 2);
     }
 
-    public static function getRating($rat){
-        $rating='';
-        for ($i=0; $i<floor($rat/2); $i++) {
-            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'starFull.png').">";
+    public static function getRating($rat)
+    {
+        $rating = '';
+        for ($i = 0; $i < floor($rat / 2); $i++) {
+            $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'starFull.png') . ">";
         }
-        if($rat/2-floor($rat/2)==0.5) {
-            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'star-half.png').">";
+        if ($rat / 2 - floor($rat / 2) == 0.5) {
+            $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'star-half.png') . ">";
         }
-        for ($i=ceil($rat/2); $i<5; $i++) {
-            $rating=$rating."<img src=".StaticFilesHelper::createPath('image', 'common', 'starEmpty.png').">";
+        for ($i = ceil($rat / 2); $i < 5; $i++) {
+            $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'starEmpty.png') . ">";
         }
         return $rating;
-    }
-
-    public static function getRate($level){
-        $rate = 0;
-        switch ($level) {
-            case 'intern':
-                $rate = 1;
-                break;
-            case 'junior':
-                $rate = 2;
-                break;
-            case 'strong junior':
-                $rate = 3;
-                break;
-            case 'middle':
-                $rate = 4;
-                break;
-            case 'senior':
-                $rate = 5;
-                break;
-        }
-        return $rate;
-    }
-
-    public static function getLevelTitle($level){
-        switch ($level) {
-            case 'intern':
-                $level = Yii::t('courses', '0232');
-                break;
-            case 'junior':
-                $level = Yii::t('courses', '0233');
-                break;
-            case 'strong junior':
-                $level = Yii::t('courses', '0234');
-                break;
-            case 'middle':
-                $level = Yii::t('courses', '0235');
-                break;
-            case 'senior':
-                $level = Yii::t('courses', '0236');
-                break;
-        }
-        return $level;
     }
 
     public static function getHideIp($ip)
@@ -252,5 +170,16 @@ class CommonHelper {
             if ($arr[$i] !== '.') $arr[$i] = '*';
         }
         return implode("", $arr);
+    }
+
+    public static function formatMessageDate($date)
+    {
+        $datetime1 = new DateTime("now");
+        $datetime2 = new DateTime($date);
+        if ($datetime1->format('y') == $datetime2->format('y')) {
+                return date("H:i, d F", strtotime($date));
+        } else {
+            return date("d.m.Y", strtotime($date));
+        }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 /* @var $message Messages */
+/* @var $record UserMessages */
+/* @var $model StudentReg */
 ?>
 <div class="navbar-header">
     <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand logo">
@@ -20,10 +22,11 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+            <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
+            <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
-            <?php $this->renderPartial('top_nav_messages');?>
+            <?php $this->renderPartial('top_nav_messages',  array('newMessages' => $newMessages, 'model' => $model));?>
         </ul>
     </li>
 

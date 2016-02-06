@@ -158,7 +158,11 @@ class Task extends Quiz
         $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->language;
         return ($assignment) ? $assignment : false;
     }
-
+	public static function getTaskLangById($id)
+	{
+		$assignment = Task::model()->findByPk(array('id' => $id))->language;
+		return ($assignment) ? $assignment : false;
+	}
     public static function getTaskIcon($user, $idBlock, $editMode)
     {
 
@@ -176,7 +180,7 @@ class Task extends Quiz
     }
 
     public static function getTaskCondition($block){
-        return strip_tags(LectureElement::model()->findByPk($block)->html_block);
+        return LectureElement::model()->findByPk($block)->html_block;
     }
 	public static function editTaskLang($block,$lang){
 		$model = new Task();
@@ -187,5 +191,11 @@ class Task extends Quiz
 			return false;
 		}
 
+	}
+	public static function getTaskLecture($id)
+	{
+		$idBlock= Task::model()->findByPk(array('id' => $id))->condition;
+		$idLecture=LectureElement::model()->findByPk($idBlock)->id_lecture;
+		return $idLecture;
 	}
 }

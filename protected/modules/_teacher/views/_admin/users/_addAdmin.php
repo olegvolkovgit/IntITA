@@ -45,29 +45,33 @@
         display: 'value',
         source: users
     });
-    $('div.tt-menu.tt-open').css('background-color','#fff');
+    $('div.tt-menu.tt-open').css('background-color', '#fff');
 
     function sendNewAdminData(url) {
         user = $("#typeahead").val();
         if (user === "") {
-            showDialog('Виберіть користувача, якого потрібно призначити адміністратором.');
-        } else{
+            bootbox.alert('Виберіть користувача, якого потрібно призначити адміністратором.');
+        } else {
             var posting = $.post(url, {user: user});
 
             posting.done(function (response) {
-                    if (response == 1)
-                        showDialog("Користувач " + user + " призначений адміністратором.");
+                    if (response == 1) {
+                        bootbox.alert("Користувач " + user + " призначений адміністратором.", function () {
+                            location.href = window.location.pathname;
+                        });
+                    }
                     else {
-                        showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
+                        bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                            location.href = window.location.pathname;
+                        });
                     }
                 })
                 .fail(function () {
-                    showDialog("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.");
-                })
-                .always(function () {
-                    location.href = window.location.pathname;
+                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                        location.href = window.location.pathname;
+                    });
                 });
         }
     }

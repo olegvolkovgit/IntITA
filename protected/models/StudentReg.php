@@ -203,6 +203,7 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
+            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
@@ -217,6 +218,7 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === SocialUserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
+            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
@@ -531,6 +533,12 @@ class StudentReg extends CActiveRecord
     public function hashPassword($password)
     {
         return CPasswordHelper::hashPassword($password);
+    }
+
+    public function avatarPath(){
+        if ($this->avatar != '')
+            return StaticFilesHelper::createAvatarsPath($this->avatar);
+        else return StaticFilesHelper::createAvatarsPath('noname.png');
     }
 
     public function getDataProfile()
@@ -887,7 +895,7 @@ class StudentReg extends CActiveRecord
         if ($post->firstName == '' && $post->secondName == '' && $post->nickname == '') {
             return '<span class="nameNAN">[' . Yii::t('regexp', '0163') . ']<br>[' . Yii::t('regexp', '0160') . ']<br>[' . Yii::t('regexp', '0162') . ']</span>';
         } else {
-            return '<span class="statusColor">' . $post->nickname . '</span><br>' . $post->firstName . '<br>' . $post->secondName;
+            return  '<span class="statusColor">'.$post->nickname.'</span><br>'.$post->firstName.'<br>'.$post->secondName;
         }
     }
 
@@ -973,24 +981,53 @@ class StudentReg extends CActiveRecord
             array('condition' => 'role<>0 and id<>' . Yii::app()->user->getId() . ' and id<>1', 'order' => 'id'));
     }
 
+    public function receivedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition('r.id_receiver =:id');
+        $criteria->addCondition('r.deleted IS NULL');
+        $criteria->params = array(':id' => $this->id);
 
-    public function receivedMessages()
-    {
-        $messages = Yii::app()->db->createCommand()
-            ->select('*')
-            ->from('message_receiver r')
-            ->where('id_receiver=:id and r.`deleted` is null', array(':id' => $this->id))
-            ->queryAll();
-
-        return $messages;
+        return UserMessages::model()->findAll($criteria);
     }
 
-    public function newReceivedMessages()
-    {
-        $sql = "select * from message_receiver where `read` is null and id_receiver=" . $this->id;
-        $messages = Yii::app()->db->createCommand($sql)->queryAll();
+    public function newReceivedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id);
 
-        return $messages;
+        return UserMessages::model()->findAll($criteria);
+    }
+
+    public function sentMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'um';
+        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('m.sender = '.$this->id);
+
+        return UserMessages::model()->findAll($criteria);
+    }
+
+    /**
+     * @param $current integer - id current user (is not included into receivers list)
+     * @return string - json for typeahead field in new user message form
+     */
+    public static function usersEmailArray($current){
+        $data = Yii::app()->db->createCommand("SELECT secondName, firstName, middleName, email  FROM user WHERE id<>".$current)
+            ->queryAll();
+
+        $result = [];
+        foreach ($data as $row){
+            $result[] = implode(" ", $row);
+        }
+
+        return json_encode($result);
     }
 
     public function getNameOrEmail()
@@ -1004,11 +1041,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_admin on user.id = user_admin.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_admin ON user_admin.id_user = user.id';
-//        $criteria->addCondition('user_admin.id_user = user.id');
-//        $result = StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1018,11 +1050,6 @@ class StudentReg extends CActiveRecord
     {
         $sql = 'select * from user inner join user_accountant on user.id = user_accountant.id_user';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 'user';
-//        $criteria->join = 'LEFT JOIN user_accountant ON user_accountant.id_user = user.id';
-//        $criteria->addCondition('user_accountant.id_user = user.id');
-//        return StudentReg::model()->findAll($criteria);
         if ($result)
             return $result;
         else return [];
@@ -1129,5 +1156,57 @@ class StudentReg extends CActiveRecord
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function allUsers($query, $id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = array();
+        foreach ($data as $key=>$model) {
+            if($model->id != $id) {
+                $result["results"][$key]["id"] = $model->id;
+                $result["results"][$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+            }
+        }
+        return json_encode($result);
+    }
+
+    public function deletedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 'm';
+        $criteria->order = 'm.id_message DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+        $criteria->addCondition('r.id_receiver =:id');
+        $criteria->addCondition('r.deleted IS NOT NULL');
+        $criteria->params = array(':id' => $this->id);
+
+        return UserMessages::model()->findAll($criteria);
+    }
+
+    public function getSenders(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = ' LEFT JOIN message_receiver as r ON r.id_receiver = u.id';
+        $criteria->join .= ' LEFT JOIN messages as m ON r.id_message = m.id';
+        $criteria->group = 'm.sender';
+        $criteria->distinct = true;
+        $criteria->order = 'm.create_date DESC';
+        $criteria->addCondition ('r.id_receiver='.$this->id.' and u.id = m.sender');
+
+        return StudentReg::model()->findAll($criteria);
     }
 }

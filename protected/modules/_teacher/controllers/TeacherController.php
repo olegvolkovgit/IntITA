@@ -42,7 +42,10 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionShowTeacherPlainTaskList()
     {
-        $idTeacher = Yii::app()->request->getPost('idTeacher');
+        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
+        if($idTeacher == 0){
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
+        }
 
         $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 
@@ -53,9 +56,15 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionShowPlainTask()
     {
-        $idPlainTask = Yii::app()->request->getPost('idPlainTask');
+        $idPlainTask = Yii::app()->request->getPost('idPlainTask', '0');
+        if($idPlainTask == 0){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
         $plainTask = PlainTaskAnswer::model()->findByPk($idPlainTask);
+        if(!$plainTask){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
         return $this->renderPartial('/trainer/showPlainTask',array(
            'plainTask' => $plainTask

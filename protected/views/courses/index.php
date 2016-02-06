@@ -10,6 +10,7 @@
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
 );
+
 $courseList = $dataProvider->getData();
 ?>
 

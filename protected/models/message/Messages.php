@@ -15,6 +15,7 @@
  * The followings are the available model relations:
  * @property StudentReg $sender0
  * @property UserMessages[] $userMessages
+ * @property StudentReg[] $receivers0
  */
 class Messages extends CActiveRecord
 {
@@ -25,15 +26,6 @@ class Messages extends CActiveRecord
     {
         return 'messages';
     }
-
-//    public function build(StudentReg $sender, $type, $chained = null, $original = null)
-//    {
-//        $this->sender = $sender->id;
-//        $this->type = (int) $type;
-//        $this->draft = 1;
-//        $this->chained_message_id = $chained;
-//        $this->original_message_id = $original;
-//    }
 
     /**
      * @return array validation rules for model attributes.
@@ -46,7 +38,7 @@ class Messages extends CActiveRecord
             array('sender, type, draft', 'required'),
             array('sender, type, draft, chained_message_id, original_message_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-              array('id, create_date, sender, type, draft, chained_message_id, original_message_id', 'safe', 'on' => 'search'),
+            array('id, create_date, sender, type, draft, chained_message_id, original_message_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -59,8 +51,10 @@ class Messages extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'type0' => array(self::BELONGS_TO, 'MessagesType', 'type'),
-            'sender0' => array(self::BELONGS_TO, 'User', 'sender'),
+            'sender0' => array(self::BELONGS_TO, 'StudentReg', 'sender'),
             'userMessages' => array(self::HAS_MANY, 'UserMessages', 'id_message'),
+            'messageReceivers' => array(self::HAS_MANY, 'MessageReceiver', 'id_receiver'),
+            'receivers0' => array(self::HAS_MANY, 'StudentReg', 'id_receiver', 'through' => 'messageReceivers'),
         );
     }
 
@@ -120,16 +114,54 @@ class Messages extends CActiveRecord
         return parent::model($className);
     }
 
-    protected function addReceiver($receiver){
-        $sql = "INSERT INTO `message_receiver` (`id_message`, `id_receiver`) VALUES (60,42);";
-        return Yii::app()->db->createCommand($sql)->execute();
+    public function build($sender, $type, $chained = null, $original = null)
+    {
+        $this->sender = $sender;
+        $this->type = $type;
+        $this->draft = 1;
+        $this->chained_message_id = $chained;
+        $this->original_message_id = $original;
     }
 
-    public function setType($type){
+    /**
+     * @param $receiver receiver id
+     * @return boolean
+     */
+    protected function addReceiver(StudentReg $receiver)
+    {
+        return Yii::app()->db->createCommand()->insert('message_receiver', array(
+            'id_message' => $this->id_message,
+            'id_receiver' => $receiver->id,
+        ));
+    }
+
+    public function setType($type)
+    {
         $this->type = $type;
     }
 
-    public function setDraft($draft){
+    public function setDraft($draft)
+    {
         $this->draft = $draft;
+    }
+
+    public function setSender($id)
+    {
+        $this->sender = $id;
+    }
+
+    public function getSender()
+    {
+        return $this->sender;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function forwarded()
+    {
+        return UserMessages::model()->findByPk($this->original_message_id);
     }
 }

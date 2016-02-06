@@ -14,11 +14,11 @@ class CabinetController extends TeacherCabinetController
                 Зайдіть з логіном викладача, адміністратора або бухгалтера.');
             }
         }
-        //$newReceivedMessages = $model->newReceivedMessages();
+        $newReceivedMessages = $model->newReceivedMessages();
 
         $this->render('index', array(
             'model' => $model,
-            //'newMessages' => $newReceivedMessages
+            'newMessages' => $newReceivedMessages
         ));
     }
 

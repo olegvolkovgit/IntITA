@@ -54,7 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'customDelete' => array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => '$data->primaryKey',
-                    'click'=>'js: function(){ deleteLecture($(this).attr("href")); return false; }',
+                    'click'=>'js: function(){ deleteLecture($(this).attr("href"), '.$module->getPrimaryKey().'); return false; }',
                     'label' => Yii::t('module', '0378'),
                     'visible'=> $editMode,
                 ),

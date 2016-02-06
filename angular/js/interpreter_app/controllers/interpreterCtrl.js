@@ -18,16 +18,19 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         {name:'Array', value:1}
     ];
     $scope.compare = [
-        {name:'=', value:0},
-        {name:'>', value:1},
-        {name:'>=', value:2},
-        {name:'<', value:3},
-        {name:'<=', value:4}
+        {name:'<=', value:0, bool:false},
+        {name:'<', value:1, bool:false},
+        {name:'==', value:2, bool:false},
+        {name:'>', value:3, bool:false},
+        {name:'>=', value:4, bool:false},
+        {name:'!=', value:5, bool:false},
+        {name:'==', value:1, bool:true},
+        {name:'!=', value:5, bool:true}
     ];
     $scope.indexes = [
         {index:'$result', value:0},
         {index:'$result_etalon', value:1},
-        {index:'$result_etalon_for_etalon', value:2},
+        {index:'$result_for_etalon', value:2},
         {index:'', value:3},
         {index:'', value:4},
         {index:'', value:5}
@@ -36,6 +39,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
 
     //init obj
     $scope.results=[];
+    $scope.etalon='';
     $scope.compare_marks=[0];
     $scope.tests_code_arr=[];
     $scope.compareFull=[
@@ -52,7 +56,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             pattern:/^\d+$/,
             value: [],
             is_array: 0,
-            etalon_value: [],
+            etalon_value: [''],
             compare_mark: [0]
         }];
     $scope.units=
@@ -64,6 +68,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //init obj
 
     $scope.function = {
+        function_name: '',
         type: 0,
         array_type: 0,
         size:null,
@@ -76,9 +81,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     $scope.finalResult= {
         operation: "addtask",
-        header:$scope.header,
         etalon: $scope.etalon,
-        footer:$scope.footer,
         lang: $scope.lang,
         task: $scope.task,
         function : $scope.function
@@ -227,6 +230,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 2:
                     $scope.args[index].pattern=/^(true|false|[01])$/;
+                    for (var i=0;i<$scope.function.unit_test_num;i++){
+                        $scope.function.args[index].compare_mark[i]=5;
+                    }
                     break;
                 case 3:
                     $scope.args[index].pattern=/./;
@@ -244,6 +250,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 2:
                     $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    for (var i=0;i<$scope.function.unit_test_num;i++){
+                        $scope.function.args[index].compare_mark[i]=5;
+                    }
                     break;
                 case 3:
                     $scope.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -264,6 +273,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 2:
                     $scope.resultPattern=/^(true|false|[01])$/;
+                    for (var i=0;i<$scope.function.unit_test_num;i++){
+                        $scope.function.compare_mark[i]=5;
+                    }
                     break;
                 case 3:
                     $scope.resultPattern=/./;
@@ -281,10 +293,12 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 2:
                     $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    for (var i=0;i<$scope.function.unit_test_num;i++){
+                        $scope.function.compare_mark[i]=5;
+                    }
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
-
                     break;
                 default:
                     $scope.resultPattern=/./;
@@ -369,11 +383,11 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     init();
     function init(){
-        getTaskJson.getJson($scope.lang,$scope.task).then(function(response){
+        getTaskJson.getJson($scope.lang,$scope.task,$scope.interpreterServer).then(function(response){
             $scope.editedJson=response;
             //load json for edit if it is
             if ($scope.editedJson != undefined){
-                $scope.editedJson=JSON.parse($scope.editedJson)
+                $scope.editedJson=JSON.parse($scope.editedJson);
                 $scope.results=$scope.editedJson.function.results;
                 $scope.compare_marks=$scope.editedJson.function.compare_mark;
                 $scope.tests_code_arr=$scope.editedJson.function.tests_code;

@@ -16,35 +16,37 @@
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<input type="hidden" ng-init='lang="<?php echo Task::getTaskLang($_POST["idTaskBlock"]); ?>"' ng-model="lang" />
+<input type="hidden" ng-init='lang="<?php echo Task::getTaskLangById($idTask); ?>"' ng-model="lang" />
 <input type="hidden" ng-init='task="<?php echo $idTask; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
 <body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
-    <form name="interpreterForm">
+    <form name="interpreterForm" ng-cloak>
         <div class="container-fluid">
             <div class="row col header">
-                Header
-                <textarea class="form-control" name="header" id="header" placeholder="Header" rows="2" ng-model="finalResult.header" required></textarea>
-                Etalon
-                <textarea class="form-control" name="etalon" id="etalon" placeholder="Standard answer" rows="2" ng-model="finalResult.etalon" required></textarea>
-                Footer
-                <textarea class="form-control" name="taskFooter" id="taskFooter" rows="2" placeholder="Footer" required ng-model="finalResult.footer"></textarea>
+                Назва функції
+                <input class="form-control" placeholder="Назва функції" ng-model="function.function_name" required />
             </div>
         </div>
-        <h2 id="title">Params</h2>
+        <h2 id="title">Параметри функції</h2>
         <div ng-repeat="form in args track by $index">
             <params-form/>
         </div>
-        <h2 id="title">Unit tests[{{units.length}}]</h2>
+        <h2 id="title">Юніт тести[{{units.length}}]</h2>
         <div ng-repeat="unit in units track by $index">
             <unit-form/>
         </div>
-        <h2 id="title">Result</h2>
+        <div class="container-fluid">
+            <div class="row col header">
+                Еталон
+                <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
+            </div>
+        </div>
+        <h2 id="title">Результат</h2>
         <div>
             <result-form/>
         </div>
-        <label>Show JSON: <input type="checkbox" ng-model="checked" ng-init="checked=false" /></label><br/>
+        <label>Показати JSON: <input type="checkbox" ng-model="checked" ng-init="checked=false" /></label><br/>
         <div ng-if="checked">
             <pre>{{res_finalResult | json}}</pre>
         </div>
