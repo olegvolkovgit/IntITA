@@ -88,17 +88,19 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+        $idCourse = Yii::app()->request->getPost('idCourse');
+        $lang = Yii::app()->request->getPost('lang');
 
-        if(Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang'])){
-            $count=count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $_POST['idCourse']
-            )->queryAll());
-            Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => $count));
-        }
+        $course = Course::model()->with("module")->findByPk($idCourse);
+
+        $module = $course->addNewModule($titleUa, $titleRu, $titleEn, $lang);
+
         // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(Yii::app()->request->urlReferrer);
+        }
 
-        $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
+        $this->actionIndex($module->module_ID, $course->course_ID);
     }
 
     public function actionUnableLesson()

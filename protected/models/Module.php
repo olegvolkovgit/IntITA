@@ -263,6 +263,11 @@ class Module extends CActiveRecord implements IBillableObject
         return $this->level0->id;
     }
 
+
+    /**
+     * Creating module processes in initNewModule function.
+     * Deprecated.
+     */
     public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
     {
         $module = new Module();
@@ -900,6 +905,7 @@ class Module extends CActiveRecord implements IBillableObject
 
         $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
 
+        //todo: rafactor static method
         $lecture = Lecture::model()->addNewLesson(
             $this->module_ID,
             $params['titleUa'],
@@ -920,8 +926,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @throws CDbException
      */
 
-    public function getLecturesCount() {
-        if (!isset($this->lectures)){
+    public function getLecturesCount($reloadLectures = false) {
+        if (!isset($this->lectures) || $reloadLectures){
             $this->getRelated('lectures');
         }
         return count($this->lectures);
@@ -949,6 +955,38 @@ class Module extends CActiveRecord implements IBillableObject
 
         $this->lesson_count = $count-1;
         $this->update(array('lesson_count'));
+    }
+
+    public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang) {
+
+        $this->level = $course->level;
+        $this->language = $lang;
+        $this->title_ua = $titleUa;
+        $this->title_ru = $titleRu;
+        $this->title_en = $titleEn;
+
+        if ($this->validate()) {
+            if($this->save()){
+
+                $this->alias = $this->module_ID;
+                $this->module_img = "module.png";
+                $this->update();
+
+                if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
+                    mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);
+                }
+
+                $courseModule = new CourseModules();
+                $courseModule->id_course = $course->course_ID;
+                $courseModule->id_module = $this->module_ID;
+                $courseModule->order = $course->getModuleCount() + 1;
+                if ($courseModule->validate()) {
+                    $courseModule->save();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

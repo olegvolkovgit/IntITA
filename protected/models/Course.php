@@ -718,4 +718,34 @@ class Course extends CActiveRecord implements IBillableObject
         if ($this->cancelled == 1) return 'видалений';
         else return false;
     }
+
+    public function addNewModule($titleUa, $titleRu, $titleEn, $lang) {
+
+        $model = new Module();
+
+        if($model->initNewModule($this, $titleUa, $titleRu, $titleEn, $lang)){
+            $this->updateCount();
+        }
+    }
+
+    /**
+     * Returns modules count
+     * @param bool $reloadModules
+     * @return int
+     * @throws CDbException
+     */
+    public function getModuleCount($reloadModules = false) {
+        if ($this->module === null || $reloadModules) {
+            $this->getRelated("module");
+        }
+        return count($this->module);
+    }
+
+    /**
+     * Updates modules_count in model according to actual database
+     */
+    public function updateCount() {
+        $this->modules_count = $this->getModuleCount(true);
+        $this->update();
+    }
 }
