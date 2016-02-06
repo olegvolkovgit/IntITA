@@ -25,8 +25,8 @@ function chooseTrainer(id,url)
 
 function sendForm(url)
 {
-    var consult = $('#consult').val();
-    var idPlainTask = $('#idPlainTask').val();
+    var consult = $jq('#consult').val();
+    var idPlainTask = $jq('#idPlainTask').val();
 
     $jq.ajax({
         url: url,
@@ -47,7 +47,7 @@ function showPlainTaskAnswer(url,idTeacher)
         data : { 'idTeacher': idTeacher},
         success: function (data) {
             fillContainer(data);
-            $("#pageTitle").html("Задачі до перевірки");
+            $jq("#pageTitle").html("Задачі до перевірки");
         }
     })
 }
@@ -92,7 +92,7 @@ function markPlainTask(url)
 function addTrainer(url)
 {
     var id = document.getElementById('user').value;
-    var trainerId = $("select option:selected").val();
+    var trainerId = $jq("select option:selected").val();
     $jq.ajax({
         url: url,
         type: "POST",
