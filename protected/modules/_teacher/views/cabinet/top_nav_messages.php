@@ -11,7 +11,7 @@ foreach ($newMessages as $key=>$record) {
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
             'user1' => $message->sender0->id, 'user2' => $model->id)) ?>', 'Діалог')">
             <div>
-                <strong><?= $message->sender0->userName(); ?></strong>
+                <strong><?=($message->sender0->userName() == "")?$message->sender0->email:$message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">
                     <em><?= date("h:m, d F", strtotime($message->create_date)); ?></em>
                 </span>
