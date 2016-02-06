@@ -3,7 +3,7 @@
  */
 function ShowTeacher(url,id)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         type : 'post',
         data : { 'id': id},
@@ -18,9 +18,9 @@ function ShowTeacher(url,id)
 
 function cancelTeacherRole(url)
 {
-    var role = $("select[name=role] option:selected").val();
-    var teacher = $('#teacher').val();
-    $.ajax({
+    var role = $jq("select[name=role] option:selected").val();
+    var teacher = $jq('#teacher').val();
+    $jq.ajax({
         url: url,
         type : 'post',
         async: true,
@@ -35,17 +35,17 @@ function cancelTeacherRole(url)
 }
 function addTeacherAttr(url)
 {
-    var teacherId = $('#teacher').val();
-    var attr = $("select[name=attribute] option:selected").val();
-    var value = $("select[name=attributeValue] option:selected").val();
+    var teacherId = $jq('#teacher').val();
+    var attr = $jq("select[name=attribute] option:selected").val();
+    var value = $jq("select[name=attributeValue] option:selected").val();
     if(!value)
     {
-        value = $('#inputValue').val();
+        value = $jq('#inputValue').val();
     }
 
     if(teacherId && attr && value)
     {
-        $.ajax({
+        $jq.ajax({
             url: url,
             type : 'post',
             async: true,
@@ -64,53 +64,53 @@ function addTeacherAttr(url)
 function selectRole(url){
     clearAllAttrFields();
 
-    var role = $('select[name="role"]').val();
+    var role = $jq('select[name="role"]').val();
     if(!role){
-        $('div[name="selectRole"]').html('');
-        $('div[name="selectAttribute"]').html('');
+        $jq('div[name="selectRole"]').html('');
+        $jq('div[name="selectAttribute"]').html('');
     }else{
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {role: role},
             cache: false,
             success: function(response){
-                $('div[name="selectAttribute"]').html(response);
+                $jq('div[name="selectAttribute"]').html(response);
             }
         });
     }
 }
 
 function selectAttribute(url){
-    var attribute = $('select[name="attribute"]').val();
+    var attribute = $jq('select[name="attribute"]').val();
     if(!attribute){
-        $('div[name="inputValue"]').html('');
+        $jq('div[name="inputValue"]').html('');
     }else {
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {attribute: attribute},
             cache: false,
             success: function (response) {
-                $('div[name="inputValue"]').html(response);
+                $jq('div[name="inputValue"]').html(response);
             }
         });
     }
 }
 
 function clearAllAttrFields(){
-    $('div[name="selectAttribute"]').html('');
-    $('div[name="inputValue"]').html('');
+    $jq('div[name="selectAttribute"]').html('');
+    $jq('div[name="inputValue"]').html('');
 
 }
 
 
 function addExistModule(url)
 {
-    var moduleId = $("select[name=module] option:selected").val();
-    var courseId = $("select[name=course] option:selected").val();
+    var moduleId = $jq("select[name=module] option:selected").val();
+    var courseId = $jq("select[name=course] option:selected").val();
     if(moduleId && courseId ){
-    $.ajax({
+    $jq.ajax({
         url: url,
         type : 'post',
         data : { 'moduleId' : moduleId , 'courseId' : courseId},
@@ -130,12 +130,11 @@ function addExistModule(url)
 
 function saveSchema(url)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         success: function (data) {
             showDialog("Схема курсу збережена!");
             fillContainer(data);
-            //location.reload();
         },
         error: function () {
             showDialog();
@@ -147,9 +146,9 @@ function addCoursePrice(url)
 {
     var moduleId = document.getElementById('module').value;
     var price = document.getElementById('price').value;
-    var courseId = $("select[name=course] option:selected").val();
+    var courseId = $jq("select[name=course] option:selected").val();
     if(moduleId && price && courseId){
-    $.ajax({
+    $jq.ajax({
         url: url,
         type : 'post',
         data : { 'module' : moduleId , 'course' : courseId,'price': price},
@@ -169,12 +168,12 @@ function addCoursePrice(url)
 
 function addMandatory(url)
 {
-    var mandatory = $("select[name=mandatory] option:selected").val();
-    var courseId = $("select[name=course] option:selected").val();
-    var moduleId = $("#module").val();
+    var mandatory = $jq("select[name=mandatory] option:selected").val();
+    var courseId = $jq("select[name=course] option:selected").val();
+    var moduleId = $jq("#module").val();
     if(mandatory && courseId && moduleId)
     {
-        $.ajax({
+        $jq.ajax({
             url: url,
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
@@ -201,7 +200,7 @@ function addTranslate(url)
 
     if(category.match(reg))
     {
-        $.ajax({
+        $jq.ajax({
             url: url,
             type: 'post',
             data: {'id': id,
@@ -240,8 +239,8 @@ function send(form,data,hasError)
 function validateSliderForm()
 {
     var valid = [];
-    valid.push(numberValidate($('#text')));
-    valid.push(filePicValidate($('#picture')));
+    valid.push(numberValidate($jq('#text')));
+    valid.push(filePicValidate($jq('#picture')));
     return checkValid(valid);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -329,9 +328,9 @@ function hideErrorMessage(element)
 function showDialog(str)
 {
     if(str){
-    $('#modalText').html(str);
+    $jq('#modalText').html(str);
     }
-    $('#myModal').modal('show');
+    $jq('#myModal').modal('show');
 }
 
 function showConfirm(str,url)
@@ -340,7 +339,7 @@ function showConfirm(str,url)
         if(result){
             var grid = getGridName();
                        
-            $.ajax({
+            $jq.ajax({
                 url: url,
                 type : 'post',
                 async: true,
@@ -363,7 +362,7 @@ function moduleCancelled(str,url)
         if(result){
             var grid = getGridName();
 
-            $.ajax({
+            $jq.ajax({
                 url: url,
                 type : 'post',
                 async: true,
@@ -388,11 +387,11 @@ function moduleCancelled(str,url)
 
 function getGridName()
 {
-    return $('.grid-view').attr('id');
+    return $jq('.grid-view').attr('id');
 }
 
 function refresh(url){
-    $.ajax({
+    $jq.ajax({
         url: url,
         type : 'post',
         async: true,
