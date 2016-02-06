@@ -882,13 +882,73 @@ class Module extends CActiveRecord implements IBillableObject
      * Returns CArrayDataProvider of lectures.
      * @return CArrayDataProvider
      */
-    public function getLecturesDataProvider() {
-        if ($this->lectures == null) {
+    public function getLecturesDataProvider($reloadLectures = false) {
+        if ($this->lectures == null || $reloadLectures) {
             $this->getRelated('lectures');
         }
         return new CArrayDataProvider($this->lectures, array(
             'pagination' => false
         ));
+    }
+
+    /**
+     * Creates new lecture.
+     * @param array $params must include fields 'titleUa', 'titleRu', 'titleEn', 'order';
+     */
+
+    public function addLecture($params) {
+
+        $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
+
+        $lecture = Lecture::model()->addNewLesson(
+            $this->module_ID,
+            $params['titleUa'],
+            $params['titleRu'],
+            $params['titleEn'],
+            $teacher->teacher_id
+        );
+
+        $this->lesson_count = $this->getLecturesCount(true);
+        $this->update(array('lesson_count'));
+
+        LecturePage::addNewPage($lecture->id, 1);
+    }
+
+    /**
+     * Returns count of lectures in the module
+     * @return int
+     * @throws CDbException
+     */
+
+    public function getLecturesCount() {
+        if (!isset($this->lectures)){
+            $this->getRelated('lectures');
+        }
+        return count($this->lectures);
+    }
+
+    /**
+     * Disables lesson from the module and shifting order of lessons;
+     */
+
+    public function disableLesson($idLecture) {
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $oldLecturePosition = $lecture->order;
+
+        $count =  $this->getLecturesCount();
+
+        $lecture->idModule = 0;
+        $lecture->order = 0;
+        $lecture->update(array('idModule', 'order'));
+
+        for ($i = $oldLecturePosition; $i < $count; $i++) {
+            $this->lectures[$i]->decreaseOrderByOne();
+        }
+
+        $this->lesson_count = $count-1;
+        $this->update(array('lesson_count'));
     }
 
 }

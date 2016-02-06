@@ -15,6 +15,9 @@ class ModuleController extends Controller
     {
         $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
 
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
@@ -58,24 +61,24 @@ class ModuleController extends Controller
 
     public function actionSaveLesson()
     {
-        $teacher = Yii::app()->user->getId();
-
-        $newOrder = Lecture::model()->addNewLesson(
-            $_POST['idModule'],
-            $_POST['titleUa'],
-            $_POST['titleRu'],
-            $_POST['titleEn'],
-            Teacher::model()->find('user_id=:user', array(':user' => $teacher))->teacher_id
+        $newLectureParams = array (
+            'titleUa' => Yii::app()->request->getParam('titleUa', ''),
+            'titleRu' => Yii::app()->request->getParam('titleRu', ''),
+            'titleEn' => Yii::app()->request->getParam('titleEn', ''),
+            'order' => Yii::app()->request->getParam('order', 1)
         );
 
-        Module::model()->updateByPk($_POST['idModule'], array('lesson_count' => $_POST['order']));
-        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newOrder . $_POST['titleUa'] . 'додана до цього модуля');
-        $idLecture = Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id;
+        //throw error if idModule is '0' or unset?
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        LecturePage::addNewPage($idLecture, 1);
+        $model = Module::model()->findByPk($idModule);
 
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $model->addLecture($newLectureParams);
+
+        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newLectureParams['order'] . $newLectureParams['titleUa'] . 'додана до цього модуля');
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -85,6 +88,7 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+
         if(Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang'])){
             $count=count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $_POST['idCourse']
             )->queryAll());
@@ -97,20 +101,17 @@ class ModuleController extends Controller
         $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
     }
 
-    public function actionUnableLesson($idLecture)
+    public function actionUnableLesson()
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $idLecture = Yii::app()->request->getParam('idLecture');
+        $idCourse = Yii::app()->request->getParam('idModule');
 
-        $count =  Lecture::model()->count("idModule=$idModule and `order`>0");
-        Lecture::model()->updateByPk($idLecture, array('order' => 0));
-        Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
+        $model = Module::model()->with('lectures')->findByPk($idCourse);
 
-        for ($i = $order + 1; $i <= $count; $i++) {
-            $id = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $i))->id;
-            Lecture::model()->updateByPk($id, array('order' => $i - 1));
-        }
-        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $model->disableLesson($idLecture);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))

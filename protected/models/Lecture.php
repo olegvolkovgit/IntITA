@@ -221,7 +221,9 @@ class Lecture extends CActiveRecord
         $lecture->title_ru = $title_ru;
         $lecture->title_en = $title_en;
         $lecture->idModule = $module;
+
         $order = Lecture::model()->count("idModule=$module and `order`>0");
+
         $lecture->order = ++$order;
         $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture' . $order;
@@ -237,7 +239,7 @@ class Lecture extends CActiveRecord
             mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio");
         }
 
-        return $order;
+        return $lecture;
     }
 
     public function getLecturesTitles($id)
@@ -586,5 +588,13 @@ class Lecture extends CActiveRecord
         if (isset(Lecture::model()->find($criteria)->id) && Lecture::model()->find($criteria)->id==$this->id)
             return true;
         else return false;
+    }
+
+    /**
+     * @throws CDbException
+     */
+    public function decreaseOrderByOne() {
+        $this->order--;
+        $this->update(array('order'));
     }
 }
