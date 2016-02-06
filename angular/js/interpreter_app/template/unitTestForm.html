@@ -4,11 +4,11 @@
         <div ng-repeat="arg in args track by $index">
             <div class="col-lg-2  value">
                 <label>{{arg.arg_name}}</label>
-                <input type="text" class="form-control" placeholder='Argument value'
+                <input type="text" class="form-control" placeholder='Знач. аргумента'
                        ng-pattern="arg.pattern" ng-model="arg.value[$parent.$index]" required>
                 <select class="selectpicker"
                         ng-model="arg.compare_mark[$parent.$index]"
-                        ng-options="cArg.value as cArg.name for cArg in compare"></select>
+                        ng-options="cArg.value as cArg.name for cArg in compare | filter:cArg.bool=(arg.type==2)"></select>
                 <input type="text" class="form-control" placeholder="Etalon value"
                        ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]">
             </div>
@@ -34,11 +34,11 @@
     <div class="row col result">
         <div class="resultBlock">
             <div class="col-lg-2">
-                <input type="text" class="form-control" placeholder="result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
+                <input type="text" class="form-control" placeholder="Вихідне значення" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
             </div>
             <div class="col-lg-2">
                 <select class="selectpicker"
-                        ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare">
+                        ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare | filter:cArg.bool=(function.type==2)">
                 </select>
             </div>
         </div>
