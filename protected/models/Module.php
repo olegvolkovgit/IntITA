@@ -970,7 +970,7 @@ class Module extends CActiveRecord implements IBillableObject
 
                 $this->alias = $this->module_ID;
                 $this->module_img = "module.png";
-                $this->update();
+                $this->update(array('alias', 'module_img'));
 
                 if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
                     mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);

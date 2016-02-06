@@ -746,6 +746,6 @@ class Course extends CActiveRecord implements IBillableObject
      */
     public function updateCount() {
         $this->modules_count = $this->getModuleCount(true);
-        $this->update();
+        $this->update(array('modules_count'));
     }
 }
