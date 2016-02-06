@@ -24,25 +24,29 @@
     <form name="interpreterForm" ng-cloak>
         <div class="container-fluid">
             <div class="row col header">
-                Function name
-                <input class="form-control" placeholder="Function name" ng-model="function.function_name" required />
-                Etalon
-                <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Standard_answer" rows="2" ng-model="finalResult.etalon" ></textarea>
+                Назва функції
+                <input class="form-control" placeholder="Назва функції" ng-model="function.function_name" required />
             </div>
         </div>
-        <h2 id="title">Params</h2>
+        <h2 id="title">Параметри функції</h2>
         <div ng-repeat="form in args track by $index">
             <params-form/>
         </div>
-        <h2 id="title">Unit tests[{{units.length}}]</h2>
+        <h2 id="title">Юніт тести[{{units.length}}]</h2>
         <div ng-repeat="unit in units track by $index">
             <unit-form/>
         </div>
-        <h2 id="title">Result</h2>
+        <div class="container-fluid">
+            <div class="row col header">
+                Еталон
+                <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
+            </div>
+        </div>
+        <h2 id="title">Результат</h2>
         <div>
             <result-form/>
         </div>
-        <label>Show JSON: <input type="checkbox" ng-model="checked" ng-init="checked=false" /></label><br/>
+        <label>Показати JSON: <input type="checkbox" ng-model="checked" ng-init="checked=false" /></label><br/>
         <div ng-if="checked">
             <pre>{{res_finalResult | json}}</pre>
         </div>

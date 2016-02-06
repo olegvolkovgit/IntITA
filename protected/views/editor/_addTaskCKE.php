@@ -15,13 +15,13 @@
             Мова програмування:<br>
             <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" >
                 <option value="c++">С++</option>
+                <option value="c#">C#</option>
                 <option value="java">Java</option>
+                <option value="php">PHP</option>
                 <option value="js">JavaScript</option>
             </select>
-            <br>
-            <br>
-            Назва:
-            <input type="text" name="name" id="name" placeholder="назва задачі"/>
+<!--            Назва:-->
+<!--            <input type="text" name="name" id="name" placeholder="назва задачі"/>-->
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
             <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
