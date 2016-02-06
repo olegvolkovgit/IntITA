@@ -5,85 +5,76 @@ angular
     .module('lessonApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($rootScope,$http, $scope, accessLectureService,openDialogsService) {
-    $scope.sendTaskAnswer=function(idUser, id, task, lang){
-        id = "#"+id;
-        code = $(id).val();
-        if( $.trim(code) == ''){
-            alert('Спочатку дайте відповідь на питання');
-            return false;
-        }
-        var command = {
-            "operation": "start",
-            "session" : "1241q223f4f2341",
-            "jobid" : idUser,
-            "code" : code,
-            "task": task,
-            "lang": lang
-        };
-        var jqxhr = $.post( "http://ii.itatests.com", JSON.stringify(command), function(){
-            currentTask = task;
-        })
-            .done(function(data) {
-                $scope.getTaskResult(idUser, code, task, lang);
-            })
-            .fail(function() {
-                alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\nСпробуйте перезавантажити сторінку або напишіть нам Wizlightdragon@gmail.com.");
-                currentTask = 0;
-            })
-            .always(function() {
+function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie) {
+    $scope.sendTaskAnswer=function(jobid, idTask, taskLang, url,e,user){
+        $scope.userId=user;
+        $scope.taskId=idTask;
+        var button=angular.element(document.querySelector(".taskSubmit"));
+        angular.element(document.querySelector("#ajaxLoad")).css('margin-top', e.currentTarget.offsetTop-20+'px');
+        button.attr('disabled', true);
+        var answer = $('[name=code]').val();
 
-            }, "json");
-    };
-
-    $scope.getTaskResult=function(idUser, code, task, lang){
-        var command = {
-            "operation": "result",
-            "session" : "1241q223f4f2341",
-            "jobid" : idUser,
-            "code" : code,
-            "task": task,
-            "lang": lang
-        };
-        var jqxhr = $.post( "http://ii.itatests.com", JSON.stringify(command), function(){
-        })
-            .done(function(data) {
-                var serverResponse = jQuery.parseJSON(data);
-                $scope.setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
-                currentTask = 0;
-                if (serverResponse.status == 'done') {
-                    openDialogsService.openTrueDialog();
-                    return false;
-                } else {
-                    openDialogsService.openFalseDialog();
-                    return false;
+        if($.trim(answer) == '')
+        {
+            angular.element(document.querySelector("#flashMsg")).addClass('emptyFlash');
+            button.removeAttr('disabled');
+        } else {
+            userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
+                if(response=='OK'){
+                    getTaskResult(idTask,user);
+                }else if(response=='error'){
+                    bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                 }
-            })
-            .fail(function() {
-                alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\nСпробуйте перезавантажити сторінку або напишіть нам Wizlightdragon@gmail.com.");
-            })
-            .always(function() {
+                $('#ajaxLoad').hide();
+                button.removeAttr('disabled');
+            });
+        }
 
-            }, "json");
+        function getTaskResult(task,user) {
+            return userAnswerTaskService.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
+                .then(function(serverResponse) {
+                    switch (serverResponse.status) {
+                        case 'in proccess':
+                            getTaskResult();
+                            break;
+                        case 'done':
+                            $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
+                                .then(function(setMarkResponse) {
+                                    pagesUpdateService.pagesDataUpdate();
+                                    openDialogsService.openTrueDialog();
+                                });
+                            break;
+                        case 'error':
+                            bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
+                            break;
+                        default:
+                            $scope.setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
+                            openDialogsService.openFalseDialog();
+                    }
+                })
+        }
     };
 
 //sent post to intita server to write result
-    $scope.setMark=function(task, status, date, result, warning){
-        $.ajax({
-            type: "POST",
+    $scope.setMark=function(task, status, date, result, warning,user){
+        var promise = $http({
             url: basePath + "/task/setMark",
-            data: {
-                'user': idUser,
-                'task': task,
-                'status': status,
-                'date' : date,
-                'result': result,
-                'warning': warning
-            },
-            cache: false,
-            success: function(){
-                location.reload();
-            }
+            method: "POST",
+            data: $.param({
+                user: user,
+                task: task,
+                status: status,
+                date : date,
+                result: result,
+                warning: warning
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function successCallback(response) {
+            return  response.statusText;
+        }, function errorCallback() {
+            console.log('error setMark');
         });
+        return promise;
     };
 }
