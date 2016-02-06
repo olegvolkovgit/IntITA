@@ -49,7 +49,7 @@
 
 <script>
     function cancelAdmin(url, id, name) {
-        var posting = $.post(url, {user: id});
+        var posting = $jq.post(url, {user: id});
 
         posting.done(function (response) {
                 if (response == 1)

@@ -40,19 +40,19 @@
 
     users.initialize();
 
-    $('#typeahead').typeahead(null, {
+    $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
         source: users
     });
-    $('div.tt-menu.tt-open').css('background-color', '#fff');
+    $jq('div.tt-menu.tt-open').css('background-color', '#fff');
 
     function sendNewAdminData(url) {
-        user = $("#typeahead").val();
+        user = $jq("#typeahead").val();
         if (user === "") {
             bootbox.alert('Виберіть користувача, якого потрібно призначити адміністратором.');
         } else {
-            var posting = $.post(url, {user: user});
+            var posting = $jq.post(url, {user: user});
 
             posting.done(function (response) {
                     if (response == 1) {
