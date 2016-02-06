@@ -51,9 +51,9 @@ function loadPage(url) {
     $jq.ajax({
         url: url,
         success: function (data) {
-            container = $('#pageContainer');
+            container = $jq('#pageContainer');
             container.html(data);
-            $("#pageTitle").html("Особистий кабінет");
+            $jq("#pageTitle").html("Особистий кабінет");
         },
         error: function () {
             showDialog();
@@ -89,7 +89,7 @@ function send(url) {
         data: jsonData,
         type : 'post',
         success: function (data) {
-            container = $('#pageContainer');
+            container = $jq('#pageContainer');
             container.html('');
             container.html(data);
         },
