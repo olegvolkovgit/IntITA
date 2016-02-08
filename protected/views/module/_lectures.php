@@ -54,7 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'customDelete' => array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => '$data->primaryKey',
-                    'click'=>'js: function(){ deleteLecture($(this).attr("href"), '.$module->getPrimaryKey().'); return false; }',
+                    'click'=>'js: function(){ deleteLecture($(this).attr("href"), '.$module->module_ID.'); return false; }',
                     'label' => Yii::t('module', '0378'),
                     'visible'=> $editMode,
                 ),
@@ -72,7 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                             }'
                         )
                     ), //HTML options for the button tag.
-                    'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey, "idModule"=>$data->idModule))',
                     'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
             ),
 
@@ -80,7 +80,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
 
                 'label'=>Yii::t('module', '0380'),    //Text label of the button.
-                'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey))',
+                'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey, "idModule"=>$data->idModule))',
                 'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
