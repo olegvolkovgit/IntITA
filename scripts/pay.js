@@ -3,23 +3,23 @@
  */
 
 function selectModule(url){
-    var course = $('select[name="course"]').val();
+    var course = $jq('select[name="course"]').val();
     if(!course){
-        $('div[name="selectModule"]').html('');
-        $('div[name="selectLecture"]').html('');
+        $jq('div[name="selectModule"]').html('');
+        $jq('div[name="selectLecture"]').html('');
     }else{
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {course: course},
             cache: false,
-            success: function(response){ $('div[name="selectModule"]').html(response); }
+            success: function(response){ $jq('div[name="selectModule"]').html(response); }
         });
     }
 }
 
 function findUserByEmail(url) {
-    var find = $('#find');
+    var find = $jq('#find');
     var email = find.val();
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (!filter.test(find.val())) {
@@ -28,12 +28,12 @@ function findUserByEmail(url) {
     }
     else
     {
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data : {email : email},
             success: function(JSON){
-                if(JSON === 'not found') alert('Kористувача с таким email не знайдено');
+                if(JSON === 'not found') showDialog('Kористувача с таким email не знайдено');
                 else{
                     var select = document.getElementsByName('user');
                     for(var i = 0; i < select.length; i++)
@@ -59,15 +59,15 @@ function checkCourseField(url)
     var courseId = document.getElementById("courseList").value;
     var userId = document.getElementById('user').value;
     if(!courseId){
-        showDialog("Виберіть будь-ласка курс");
+        showDialog("Виберіть курс");
         return false;
     }
     if(!userId)
     {
-        showDialog("Виберіть будь-ласка користувача");
+        showDialog("Виберіть користувача");
         return false;
     }
-    $.ajax({
+    $jq.ajax({
         type: "POST",
         url: url,
         data: {course: courseId,
@@ -104,7 +104,7 @@ function checkModuleField(url)
         showDialog("Виберіть будь-ласка модуль");
         return false;
     }
-    $.ajax({
+    $jq.ajax({
         type: "POST",
         url: url,
         data: {course: courseId,

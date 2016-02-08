@@ -38,18 +38,18 @@
 
     users.initialize();
 
-    $('#typeahead').typeahead(null, {
+    $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
         source: users
     });
 
     function sendNewAccountantData(url) {
-        user = $("#typeahead").val();
+        user = $jq("#typeahead").val();
         if (user === "") {
             bootbox.alert('Виберіть користувача, якого потрібно призначити бухгалтером.');
         } else {
-            var posting = $.post(url, {user: user});
+            var posting = $jq.post(url, {user: user});
 
             posting.done(function (response) {
                     if (response == 1)
