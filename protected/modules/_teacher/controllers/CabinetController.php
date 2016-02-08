@@ -2,27 +2,6 @@
 
 class CabinetController extends TeacherCabinetController
 {
-    public function filters()
-    {
-        return array(
-            'accessControl',
-        );
-    }
-
-    public function init()
-    {
-        date_default_timezone_set("UTC");
-        $app = Yii::app();
-        if (isset($app->session['lg'])) {
-            $app->language = $app->session['lg'];
-        }
-        if (Yii::app()->user->isGuest) {
-            $this->render('authorize');
-            Yii::app()->end();
-        } else {
-            return true;
-        }
-    }
 
     public function actionIndex()
     {

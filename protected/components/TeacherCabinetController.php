@@ -42,9 +42,15 @@ class TeacherCabinetController extends CController
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
         }
+
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
+            Yii::app()->end();
+        }
+
+        if (Yii::app()->user->isGuest) {
+            $this->render('authorize');
             Yii::app()->end();
         }
 
