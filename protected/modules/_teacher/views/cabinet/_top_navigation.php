@@ -30,23 +30,23 @@
         </ul>
     </li>
 
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-tasks">
-            <?php $this->renderPartial('top_nav_tasks');?>
-        </ul>
-    </li>
+<!--    <li class="dropdown">-->
+<!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+<!--            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+<!--        </a>-->
+<!--        <ul class="dropdown-menu dropdown-tasks">-->
+<!--            --><?php //$this->renderPartial('top_nav_tasks');?>
+<!--        </ul>-->
+<!--    </li>-->
 
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-alerts">
-            <?php $this->renderPartial('top_nav_alerts');?>
-        </ul>
-    </li>
+<!--    <li class="dropdown">-->
+<!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+<!--            <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+<!--        </a>-->
+<!--        <ul class="dropdown-menu dropdown-alerts">-->
+<!--            --><?php //$this->renderPartial('top_nav_alerts');?>
+<!--        </ul>-->
+<!--    </li>-->
 
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">

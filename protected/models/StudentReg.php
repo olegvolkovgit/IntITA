@@ -758,13 +758,7 @@ class StudentReg extends CActiveRecord
             $result = Yii::t('profile', '0715');
         else
             $result = Yii::t('profile', '0129');
-
         return $result;
-    }
-
-    public function getCabinetLink()
-    {
-        return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
     }
 
     public function getTrainer()

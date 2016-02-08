@@ -2,18 +2,28 @@
 
 class CabinetController extends TeacherCabinetController
 {
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function init()
+    {
+        $app = Yii::app();
+        if (isset($app->session['lg'])) {
+            $app->language = $app->session['lg'];
+        }
+        if (Yii::app()->user->isGuest) {
+            $this->render('authorize');
+            die();
+        }else return true;
+    }
+
     public function actionIndex()
     {
-        if (Yii::app()->user->isGuest) {
-            throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
-                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
-        } else {
-            $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
-            if (!$model->hasCabinetAccess()) {
-                throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
-                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
-            }
-        }
+        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
         $newReceivedMessages = $model->newReceivedMessages();
 
         $this->render('index', array(

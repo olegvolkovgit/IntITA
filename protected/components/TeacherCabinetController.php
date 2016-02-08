@@ -57,30 +57,6 @@ class TeacherCabinetController extends CController
         return $this->pathToCabinet;
     }
 
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'expression' => array($this, 'hasCabinet'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту, викладача або бухгалтера.",
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    public function hasCabinet()
-    {
-        if (Yii::app()->user->isGuest){
-            return false;
-        } else {
-            $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-            return $user->hasCabinetAccess();
-        }
-    }
-
     public function behaviors()
     {
         return array(
