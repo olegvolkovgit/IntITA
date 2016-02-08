@@ -37,6 +37,7 @@ class TeacherCabinetController extends CController
 
     public function init()
     {
+        date_default_timezone_set("UTC");
         $app = Yii::app();
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
@@ -48,7 +49,6 @@ class TeacherCabinetController extends CController
         }
 
         $this->pageTitle = Yii::app()->name;
-        date_default_timezone_set("UTC");
     }
 
     public function pathToCabinet()
