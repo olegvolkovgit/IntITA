@@ -24,6 +24,8 @@
                                 array('idTeacher' => $teacherValue->teacher_id));?>">
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
+                            <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="left" title="Розпочати бесіду"><span class="glyphicon glyphicon-comment"></span></a>
+                            <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення"><span class="glyphicon glyphicon-envelope"></span></a>
                         </td>
                         <td>
                             <h2><?php echo $teacherValue->lastName(); ?></h2>

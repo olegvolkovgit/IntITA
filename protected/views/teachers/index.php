@@ -1,5 +1,6 @@
 <? $css_version = 1; ?>
 <!-- teachers style -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teachers.css'); ?>" />
 <!-- teachers style -->
 <?php

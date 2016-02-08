@@ -13,7 +13,12 @@ if ($editMode){
         <tr>
             <td valign="top">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
-                <?php if ($editMode) {?>
+                <br>
+                <div style="margin-left:20px;">
+                <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="left" title="Розпочати бесіду"><span class="glyphicon glyphicon-comment"></span></a>
+                <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення"><span class="glyphicon glyphicon-envelope"></span></a>
+                </div>
+                    <?php if ($editMode) {?>
                 <div class="avatarUpdateForm">
                     <?php if($model->foto_url!=='noname2.png') {
                         ?>
@@ -54,6 +59,9 @@ if ($editMode){
                 <?php }?>
             </td>
             <td>
+
+            </td>
+            <td>
                 <div class="TeacherProfilename">
                     <?php echo $model->firstName()." ".$model->lastName();?>
                 </div>
@@ -73,7 +81,6 @@ if ($editMode){
                     </p>
                 </div>
                 <?php $this->renderPartial('_courses', array('model' => $model));?>
-
                 <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
                     <p>
                         <?php if($model->profile_text_last != '') {
