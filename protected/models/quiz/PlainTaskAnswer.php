@@ -274,8 +274,13 @@ class PlainTaskAnswer extends CActiveRecord
     }
 
     public function mark(){
-        return PlainTaskMarks::model()->find('id_user = :user and id_answer = :answer',array(
-            ':user' => $this->id_student,
-            ':answer' => $this->id));
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->order = 'time DESC';
+        $criteria->addCondition('id_user =:user and id_answer =:answer');
+        $criteria->params = array(':user' => $this->id_student, ':answer' => $this->id);
+        $criteria->limit = 1;
+
+        return PlainTaskMarks::model()->find($criteria);
     }
 }
