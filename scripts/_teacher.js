@@ -87,7 +87,7 @@ function send(url) {
     $jq.ajax({
         url: url,
         data: jsonData,
-        type : 'post',
+        type: 'post',
         success: function (data) {
             container = $jq('#pageContainer');
             container.html('');
@@ -115,18 +115,79 @@ function sendMessage(url) {
             }
         );
 
-        posting.done(function () {
-                bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
-                   location.href = window.location.pathname;
-                });
+        posting.done(function (response) {
+                if (response == "success") {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
+                } else {
+                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                }
             })
             .fail(function () {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу antongriadchenko@gmail.com.", function () {
-                   location.href = window.location.pathname;
-                });
+                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
             });
     }
+}
+
+function reply(url) {
+    var data = {
+        "id": $jq("input[name=id]").val(),
+        "receiver": $jq("input[name=receiver]").val(),
+        "parent": $jq("input[name=parent]").val(),
+        "subject": $jq("input[name=subject]").val(),
+        "text": $jq("#text").val(),
+    };
+    var posting = $jq.post(url, data);
+
+    posting.done(function (response) {
+            if (response == "success") {
+                bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
+            } else {
+                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+            }
+        })
+        .fail(function () {
+            bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+        });
+
+}
+
+function forward(url) {
+    receiver = $jq("#receiverId").val();
+    if (receiver == "0") {
+        bootbox.alert('Виберіть отримувача повідомлення.');
+    } else {
+        var posting = $jq.post(url,
+            {
+                "id": $jq("input[name=id]").val(),
+                "receiver": receiver,
+                "subject": $jq("input[name=subject]").val(),
+                "parent": $jq("input[name=parent]").val(),
+                "forwardToId": $jq("input[name=forwardToId]").val(),
+            }
+        );
+
+        posting.done(function (response) {
+            alert(response);
+                if (response == "success") {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
+                } else {
+                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                }
+            })
+            .fail(function () {
+                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+            });
+    }
+}
+
+function loadMessagesIndex() {
+   load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
 function loadForm(url, receiver, scenario, message) {

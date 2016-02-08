@@ -89,14 +89,14 @@ class MessagesController extends TeacherCabinetController
             $message->create();
             $sender = new MailTransport();
 
+
             $message->send($sender);
             $transaction->commit();
         } catch (Exception $e){
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
+        echo "success";
     }
 
     public function actionUsersByQuery($query, $id)
@@ -143,12 +143,12 @@ class MessagesController extends TeacherCabinetController
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
+        echo "success";
     }
 
     public function actionForward()
     {
+        var_dump($_POST);die;
         $parentId = Yii::app()->request->getPost('parent', 0);
         $forwardToId = Yii::app()->request->getPost('forwardToId', 0);
         $subject = Yii::app()->request->getPost('subject', '');
@@ -169,6 +169,6 @@ class MessagesController extends TeacherCabinetController
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося переслати.");
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
+        echo "success";
     }
 }

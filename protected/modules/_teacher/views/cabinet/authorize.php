@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'fontface.css'); ?>"/>
 <div ng-app class="authorizePage">
     <div>
         <?php echo 'Для перегляду сторінки спочатку авторизуйся' ?>

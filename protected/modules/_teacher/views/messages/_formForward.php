@@ -5,8 +5,7 @@
  */
 ?>
 <div id="messageForm<?=$message;?>">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('/_teacher/messages/forward'); ?>"
-          id="message">
+    <form role="form" id="messageForm<?=$message;?>">
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
@@ -21,7 +20,8 @@
             <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary"
+                onclick="forward('<?php echo Yii::app()->createUrl('/_teacher/messages/forward'); ?>'); return false;">
             Написати
         </button>
     </form>
