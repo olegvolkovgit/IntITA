@@ -65,6 +65,8 @@ hr {
     border-radius: 4px;
     width: 100%;
     margin: 0;
+}
+label {
     word-wrap: break-word;
 }
 .resLabel{
