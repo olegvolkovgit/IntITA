@@ -6,6 +6,9 @@ class CabinetController extends TeacherCabinetController
     public function actionIndex()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        if(!$model){
+            throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
+        }
         $newReceivedMessages = $model->newReceivedMessages();
 
         $this->render('index', array(
@@ -107,19 +110,6 @@ class CabinetController extends TeacherCabinetController
             'plainTask' => $plainTask,
         ));
     }
-
-    public function actionGetUserInfo($user, $role)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-
-        $jsonObj = array(
-            "name" => StudentReg::getUserName($user),
-        );
-
-        echo json_encode($jsonObj);
-    }
-
 
     public function actionLoadDashboard($user)
     {
