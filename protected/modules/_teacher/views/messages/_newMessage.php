@@ -17,7 +17,7 @@
                 <label>Кому</label>
                 <br>
                 <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач" size="135"
-                required>
+                required autofocus>
             </div>
 
             <div class="form-group">
@@ -42,9 +42,7 @@
         </form>
     </div>
 </div>
-
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
-
 <script>
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),

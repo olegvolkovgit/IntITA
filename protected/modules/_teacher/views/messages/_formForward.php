@@ -4,20 +4,20 @@
  * @var $receiver int
  */
 ?>
-<div id="messageForm<?=$message;?>">
-    <form role="form" id="messageForm<?=$message;?>">
-        <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
-        <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
-        <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
+<div id="messageForm<?= $message; ?>">
+    <form role="form" id="messageForm<?= $message; ?>">
+        <input class="form-control" name="id" id="hidden" value="<?= $user; ?>">
+        <input class="form-control" name="receiver" id="hidden" value="<?= $receiver; ?>">
+        <input class="form-control" name="parent" id="hidden" value="<?= $message; ?>">
         <input class="form-control" type="number" id="hidden" name="forwardToId" value="0"/>
         <div class="form-group">
             <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
-                   required>
+                   required autofocus>
         </div>
         <input class="form-control" name="subject" placeholder="Тема">
         <br>
         <div class="form-group">
-            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+            <textarea class="form-control" rows="6" name="text" id="text" placeholder="Лист" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary"
@@ -26,10 +26,10 @@
         </button>
     </form>
 
-        <button type="button" class="btn btn-default" onclick="reset(<?=$message;?>);" style="margin-top: -56px; margin-left: 100px">
-            Скасувати
-        </button>
-
+    <button type="button" class="btn btn-default" onclick="reset(<?= $message; ?>);"
+            style="margin-top: -56px; margin-left: 100px">
+        Скасувати
+    </button>
 </div>
 <script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
@@ -57,19 +57,15 @@
         display: 'value',
         source: users,
         templates: {
-            suggestion: function(item) {
-                return "<p><em>" + item.value + "</em></p>"; }
+            suggestion: function (item) {
+                return "<p><em>" + item.value + "</em></p>";
+            }
         }
     });
 
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq('input[name = forwardToId]').val(item.id);
     });
-
-    function reset(message) {
-        id = "#messageForm" + message;
-        $jq(id).remove();
-    }
 </script>
 
 

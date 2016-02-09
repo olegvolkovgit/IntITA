@@ -136,7 +136,7 @@ function reply(url) {
         "receiver": $jq("input[name=receiver]").val(),
         "parent": $jq("input[name=parent]").val(),
         "subject": $jq("input[name=subject]").val(),
-        "text": $jq("#text").val(),
+        "text": $jq("#text").val()
     };
     var posting = $jq.post(url, data);
 
@@ -167,11 +167,11 @@ function forward(url) {
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
                 "forwardToId": $jq("input[name=forwardToId]").val(),
+                "text": $jq("#text").val()
             }
         );
 
         posting.done(function (response) {
-            alert(response);
                 if (response == "success") {
                     bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
                 } else {

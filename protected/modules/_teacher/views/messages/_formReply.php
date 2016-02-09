@@ -9,7 +9,7 @@
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
-        <input class="form-control" name="subject" placeholder="Тема">
+        <input class="form-control" name="subject" placeholder="Тема" autofocus>
         <br>
         <div class="form-group">
             <textarea class="form-control" rows="6" id="text" name="text" placeholder="Лист" required></textarea>
@@ -43,11 +43,6 @@
         display: 'value',
         source: users
     });
-
-    function reset(message) {
-        id = "#messageForm" + message;
-        $jq(id).remove();
-    }
 </script>
 
 
