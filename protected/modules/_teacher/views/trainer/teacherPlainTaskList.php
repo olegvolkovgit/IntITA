@@ -48,12 +48,6 @@ if (!empty($teacherPlainTasks)) { ?>
 <?php } else {
     echo "Нових задач немає.";
 } ?>
-<!-- DataTables JavaScript -->
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
-<link type="text/css" rel="stylesheet" href="<?= StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
 <script>
     $jq(document).ready(function () {
         $jq('#tasksTable').DataTable({

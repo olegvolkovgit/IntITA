@@ -35,12 +35,6 @@
         </div>
     </div>
 </div>
-<!-- DataTables JavaScript -->
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
-<link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
 <script>
     $jq(document).ready(function () {
         $jq('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
@@ -51,6 +45,7 @@
         );
     });
 </script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/usersManage.js'); ?>"></script>
 
 
 

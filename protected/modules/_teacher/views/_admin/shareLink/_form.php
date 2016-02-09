@@ -3,9 +3,7 @@
 /* @var $model ShareLink */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
 <div class="form">
-
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'share-link-form',
         'htmlOptions' => array(
@@ -42,7 +40,5 @@
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
     </div>
-
     <?php $this->endWidget(); ?>
-
-</div><!-- form -->
+</div>
