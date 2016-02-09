@@ -22,7 +22,7 @@ $sources = Level::allTitlesByLang($lg);
         'clientOptions' => array(
             'validateOnSubmit' => true,
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);return true;
+                sendError(form,data,hasError);return true;
                 }',
         )
     )); ?>
