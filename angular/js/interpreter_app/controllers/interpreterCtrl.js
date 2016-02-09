@@ -6,6 +6,7 @@ angular
     .controller('interpreterCtrl',interpreterCtrl);
 
 function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
+    $scope.Math = window.Math;
     //options
     $scope.types = [
         {name:'Integer', type:0},
@@ -90,7 +91,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     $scope.updateList = function(index, arg){
         $scope.indexes[3+3*index].index = '$'+arg;
         $scope.indexes[3+(3*index+1)].index = '$'+arg+'_etalon';
-        $scope.indexes[3+(3*index+2)].index = '$'+arg+'_etalon_for_etalon';
+        $scope.indexes[3+(3*index+2)].index = '$'+arg+'_for_etalon';
     };
     //add options to select
     $scope.sizeRefresh = function(index,array,type){
@@ -407,7 +408,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     }
                     $scope.indexes[3+i*3].index = '$'+$scope.editedJson.function.args[i].arg_name;
                     $scope.indexes[3+(i*3+1)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon';
-                    $scope.indexes[3+(i*3+2)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon_for_etalon';
+                    $scope.indexes[3+(i*3+2)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_for_etalon';
                 }
                 for (var u=0;u<$scope.editedJson.function.unit_test_num-1;u++){
                     $scope.units.push({
@@ -421,4 +422,20 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     }
     $scope.updateResultPattern($scope.function.type,$scope.function.size);
     $scope.positiveIntPattern=/^[1-9]\d*$/;
+
+    $scope.filterList = function(prop,etalon){
+        return function(item){
+            if(etalon){
+                return (item[prop]%3!=2);
+            }else{
+                return true;
+            }
+        }
+    }
+    $scope.updateCompare = function(a){
+        if(a.first==null)
+        a.first=0;
+        if(a.second==null)
+            a.second=0;
+    }
 }

@@ -77,7 +77,12 @@ label {
     display: inline-block;
 }
 .resultBlock{
-    display: block;overflow: auto
+    display: block;overflow: auto;
+    margin-bottom: 5px;
+}
+.resultBlock label, .resultBlock select{
+    width: auto;
+    height: 34px;
 }
 .button button.nonDelete,.argButton button.nonDelete,.result button.nonDelete{
     display: none;
