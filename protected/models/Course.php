@@ -719,15 +719,6 @@ class Course extends CActiveRecord implements IBillableObject
         else return false;
     }
 
-    public function addNewModule($titleUa, $titleRu, $titleEn, $lang) {
-
-        $model = new Module();
-
-        if($model->initNewModule($this, $titleUa, $titleRu, $titleEn, $lang)){
-            $this->updateCount();
-        }
-    }
-
     /**
      * Returns modules count
      * @param bool $reloadModules

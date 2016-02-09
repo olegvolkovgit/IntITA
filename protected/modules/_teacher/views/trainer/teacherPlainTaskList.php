@@ -23,7 +23,7 @@ if (!empty($teacherPlainTasks)) { ?>
                         <tbody>
                         <?php
                         foreach ($teacherPlainTasks as $plainTaskAnswer) {
-                            $mark = $plainTaskAnswer->mark(); ?>
+                            $mark = $plainTaskAnswer->mark();?>
                             <tr onclick="showPlainTask('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTask') ?>',
                                 '<?php echo $plainTaskAnswer->id; ?>'); return false;" <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
