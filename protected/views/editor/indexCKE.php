@@ -141,6 +141,7 @@ if ($idCourse != 0) {
                 <?php
             } else {
                 $lectureElement = LectureElement::model()->findByPk($page->video);
+                $lectureElement->setScenario('videoLink');
                 $this->widget('editable.EditableField', array(
                     'type' => 'textarea',
                     'model' => $lectureElement,
