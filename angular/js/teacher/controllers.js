@@ -60,7 +60,7 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox) {
 
     $scope.removeConsult = function(id,url)
     {
-        $ngBootbox.confirm('Ви впевнені що хочете вдалити консультанта?')
+        $ngBootbox.confirm('Ви впевнені що хочете видалити консультанта?')
             .then(function() {
                 $http({
                     method: "POST",
