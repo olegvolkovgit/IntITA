@@ -84,8 +84,13 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionManageConsult()
     {
-        $this->actionShowPlainTaskList();
-        $this->actionPlainTaskWithTrainers();
+        $tasks = PlainTaskAnswer::getTaskWithTrainer();
+        $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
+
+        $this->renderPartial('/trainer/_manageConsult',array(
+            'plainTaskAnswers' => $plainTaskAnswers,
+            'tasks' => $tasks
+        ), false, true);
     }
 
     public function actionPlainTaskWithTrainers()
