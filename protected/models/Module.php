@@ -268,37 +268,37 @@ class Module extends CActiveRecord implements IBillableObject
      * Creating module processes in initNewModule function.
      * Deprecated.
      */
-    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
-    {
-        $module = new Module();
-        $courseModule = new CourseModules();
-        $module->level = Course::model()->findByPk($idCourse)->level;
-        $module->language = $lang;
-        $module->title_ua = $titleUa;
-        $module->title_ru = $titleRu;
-        $module->title_en = $titleEn;
-        if ($module->validate()) {
-            if($module->save()){
-                $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
-                $module->alias = $idModule;
-                $module->save();
-                $order = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
-                )->queryAll());
-                Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
-                if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
-                    mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
-                }
-                $courseModule->id_course = $idCourse;
-                $courseModule->id_module = $idModule;
-                $courseModule->order = $order + 1;
-                if ($courseModule->validate()) {
-                    $courseModule->save();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
+//    {
+//        $module = new Module();
+//        $courseModule = new CourseModules();
+//        $module->level = Course::model()->findByPk($idCourse)->level;
+//        $module->language = $lang;
+//        $module->title_ua = $titleUa;
+//        $module->title_ru = $titleRu;
+//        $module->title_en = $titleEn;
+//        if ($module->validate()) {
+//            if($module->save()){
+//                $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+//                $module->alias = $idModule;
+//                $module->save();
+//                $order = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
+//                )->queryAll());
+//                Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
+//                if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
+//                    mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+//                }
+//                $courseModule->id_course = $idCourse;
+//                $courseModule->id_module = $idModule;
+//                $courseModule->order = $order + 1;
+//                if ($courseModule->validate()) {
+//                    $courseModule->save();
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     public static function getModules($id)
     {
@@ -899,6 +899,7 @@ class Module extends CActiveRecord implements IBillableObject
     /**
      * Creates new lecture.
      * @param array $params must include fields 'titleUa', 'titleRu', 'titleEn', 'order';
+     * @return Lecture - created lecture instance.
      */
 
     public function addLecture($params) {
@@ -918,6 +919,8 @@ class Module extends CActiveRecord implements IBillableObject
         $this->update(array('lesson_count'));
 
         LecturePage::addNewPage($lecture->id, 1);
+
+        return $lecture;
     }
 
     /**
@@ -933,10 +936,12 @@ class Module extends CActiveRecord implements IBillableObject
         return count($this->lectures);
     }
 
-    /**
-     * Disables lesson from the module and shifting order of lessons;
-     */
 
+    /**
+     * Disables lecture from the module and shifting order of lessons;
+     * @param $idLecture
+     * @throws CDbException
+     */
     public function disableLesson($idLecture) {
 
         $lecture = Lecture::model()->findByPk($idLecture);
@@ -957,6 +962,17 @@ class Module extends CActiveRecord implements IBillableObject
         $this->update(array('lesson_count'));
     }
 
+    /**
+     * Initialises a new module and returns its instance.
+     * @param $course
+     * @param $titleUa
+     * @param $titleRu
+     * @param $titleEn
+     * @param $lang
+     * @return $this|null
+     * @throws CDbException
+     * @throws \application\components\Exceptions\ModuleValidationException
+     */
     public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang) {
 
         $this->level = $course->level;
@@ -965,28 +981,99 @@ class Module extends CActiveRecord implements IBillableObject
         $this->title_ru = $titleRu;
         $this->title_en = $titleEn;
 
-        if ($this->validate()) {
-            if($this->save()){
+        if ($this->save()) {
+            $this->alias = $this->module_ID;
+            $this->module_img = "module.png";
+            $this->update(array('alias', 'module_img'));
 
-                $this->alias = $this->module_ID;
-                $this->module_img = "module.png";
-                $this->update(array('alias', 'module_img'));
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
+                mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);
+            }
 
-                if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
-                    mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);
-                }
-
-                $courseModule = new CourseModules();
-                $courseModule->id_course = $course->course_ID;
-                $courseModule->id_module = $this->module_ID;
-                $courseModule->order = $course->getModuleCount() + 1;
-                if ($courseModule->validate()) {
-                    $courseModule->save();
-                    return true;
-                }
+            $courseModule = new CourseModules();
+            $courseModule->id_course = $course->course_ID;
+            $courseModule->id_module = $this->module_ID;
+            $courseModule->order = $course->getModuleCount() + 1;
+            if ($courseModule->save()) {
+                return $this;
             }
         }
-        return false;
+        else {
+            $errors = "";
+            foreach ($this->getErrors() as $field => $errorMessages) {
+                $errors .= $field ;
+                if (is_array($errorMessages)){
+                    $errors .= ':';
+                    foreach ($errorMessages as $message) {
+                        $errors .= ' ' . $message;
+                    }
+                }
+                $errors .= ', ';
+            }
+
+            throw new \application\components\Exceptions\ModuleValidationException($errors);
+        }
+    }
+
+    /**
+     * Level ups the lecture.
+     * @param $idLecture
+     */
+    public function upLecture($idLecture) {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        foreach ($this->lectures as $index => $lecture) {
+            // if the first lecture do nothing
+            if ($lecture->order === 1) {
+                return;
+            }
+
+            if ($lecture->id == $idLecture) {
+                $this->swapLecturesOrder($lecture, $this->lectures[$index-1]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Level downs the lecture.
+     * @param $idLecture
+     * @throws CDbException
+     */
+    public function downLecture($idLecture) {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        $count = $this->getLecturesCount();
+
+        foreach ($this->lectures as $index => $lecture) {
+            // if the last lecture do nothing
+            if ($lecture->order === $count) {
+                return;
+            }
+
+            if ($lecture->id == $idLecture) {
+                $this->swapLecturesOrder($lecture, $this->lectures[$index+1]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Swaps lectures order.
+     * @param $lectureA
+     * @param $lectureB
+     */
+    private function swapLecturesOrder($lectureA, $lectureB) {
+        $orderA = $lectureA->order;
+        $lectureA->order = $lectureB->order;
+        $lectureB->order = $orderA;
+
+        $lectureA->update(array('order'));
+        $lectureB->update(array('order'));
     }
 
 }

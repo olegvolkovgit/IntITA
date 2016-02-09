@@ -25,7 +25,6 @@
         </form>
     </div>
 </div>
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -43,32 +42,4 @@
         display: 'value',
         source: users
     });
-
-    function sendNewAccountantData(url) {
-        user = $jq("#typeahead").val();
-        if (user === "") {
-            bootbox.alert('Виберіть користувача, якого потрібно призначити бухгалтером.');
-        } else {
-            var posting = $jq.post(url, {user: user});
-
-            posting.done(function (response) {
-                    if (response == 1)
-                        bootbox.alert("Користувач " + user + " призначений бухгалтером.", function () {
-                            location.href = window.location.pathname;
-                        });
-                    else {
-                        bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                            location.href = window.location.pathname;
-                        });
-                    }
-                })
-                .fail(function () {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                        location.href = window.location.pathname;
-                    });
-                });
-        }
-    }
 </script>

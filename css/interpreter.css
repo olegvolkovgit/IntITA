@@ -59,12 +59,14 @@ hr {
 }
 
 .selectpicker, label {
-    padding: 6px 12px;
+    padding: 6px 2px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
     margin: 0;
+}
+label {
     word-wrap: break-word;
 }
 .resLabel{

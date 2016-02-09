@@ -23,7 +23,7 @@ if (!empty($teacherPlainTasks)) { ?>
                         <tbody>
                         <?php
                         foreach ($teacherPlainTasks as $plainTaskAnswer) {
-                            $mark = $plainTaskAnswer->mark(); ?>
+                            $mark = $plainTaskAnswer->mark();?>
                             <tr onclick="showPlainTask('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTask') ?>',
                                 '<?php echo $plainTaskAnswer->id; ?>'); return false;" <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
@@ -48,12 +48,6 @@ if (!empty($teacherPlainTasks)) { ?>
 <?php } else {
     echo "Нових задач немає.";
 } ?>
-<!-- DataTables JavaScript -->
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
-<link type="text/css" rel="stylesheet" href="<?= StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
 <script>
     $jq(document).ready(function () {
         $jq('#tasksTable').DataTable({

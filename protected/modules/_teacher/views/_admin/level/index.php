@@ -3,7 +3,6 @@
  * @var $level Level
  */
 ?>
-
 <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -40,11 +39,6 @@
         </div>
     </div>
 </div>
-<!-- DataTables JavaScript -->
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script>
     $jq(document).ready(function () {
         $jq('#levelsTable').DataTable({

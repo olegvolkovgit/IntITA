@@ -15,8 +15,7 @@ class ModuleController extends Controller
     {
         $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
 
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+        $this->checkModelInstance($model);
 
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
@@ -42,8 +41,9 @@ class ModuleController extends Controller
     public function loadModel($id)
     {
         $model = Module::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $this->checkModelInstance($model);
+
         return $model;
     }
 
@@ -73,12 +73,11 @@ class ModuleController extends Controller
 
         $model = Module::model()->findByPk($idModule);
 
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+        $this->checkModelInstance($model);
 
-        $model->addLecture($newLectureParams);
+        $lecture = $model->addLecture($newLectureParams);
 
-        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newLectureParams['order'] . $newLectureParams['titleUa'] . 'додана до цього модуля');
+        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $lecture->order . $lecture->title_ua . 'додана до цього модуля');
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -93,7 +92,12 @@ class ModuleController extends Controller
 
         $course = Course::model()->with("module")->findByPk($idCourse);
 
-        $module = $course->addNewModule($titleUa, $titleRu, $titleEn, $lang);
+        $module = new Module();
+        $module->initNewModule($course, $titleUa, $titleRu, $titleEn, $lang);
+
+        if ($module !== null) {
+            $course->updateCount();
+        }
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax'])) {
@@ -110,8 +114,7 @@ class ModuleController extends Controller
 
         $model = Module::model()->with('lectures')->findByPk($idCourse);
 
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+        $this->checkModelInstance($model);
 
         $model->disableLesson($idLecture);
 
@@ -120,39 +123,27 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionUpLesson($idLecture)
+    public function actionUpLesson($idLecture, $idModule)
     {
+        $module = Module::model()->with('lectures')->findByPk($idModule);
 
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $this->checkModelInstance($module);
 
-        if ($order > 1) {
-            $orderPrev = $order - 1;
-            $idPrev = Lecture::model()->findByAttributes(array(
-                'idModule' => $idModule,
-                'order' => $orderPrev))->id;
-
-            Lecture::model()->updateByPk($idLecture, array('order' => $orderPrev));
-            Lecture::model()->updateByPk($idPrev, array('order' => $order));
-        }
+        $module->upLecture($idLecture);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionDownLesson($idLecture)
+    public function actionDownLesson($idLecture, $idModule)
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $count = Module::model()->findByPk($idModule)->lesson_count;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $module = Module::model()->with('lectures')->findByPk($idModule);
 
-        if ($order < $count) {
-            $idNext = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $order + 1))->id;
+        $this->checkModelInstance($module);
 
-            Lecture::model()->updateByPk($idLecture, array('order' => $order + 1));
-            Lecture::model()->updateByPk($idNext, array('order' => $order));
-        }
+        $module->downLecture($idLecture);
+
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -190,5 +181,10 @@ class ModuleController extends Controller
             }
         }
 
+    }
+
+    private function checkModelInstance($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\ModuleNotFoundException();
     }
 }
