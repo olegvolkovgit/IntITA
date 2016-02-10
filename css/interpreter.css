@@ -60,6 +60,7 @@ hr {
 
 .selectpicker, label {
     padding: 6px 2px;
+    height: 34px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -113,4 +114,7 @@ textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-inval
 }
 .btn-default[disabled]{
     background-color: #999999;
+}
+.params{
+    margin: 5px auto;
 }

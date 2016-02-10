@@ -25,8 +25,7 @@ class TeacherController extends TeacherCabinetController {
             throw new CHttpException(404,'Page not found');
 
         return $this->renderPartial('/trainer/_addConsult',
-            array(
-                'plainTaskAnswer' => $plainTaskAnswer));
+            array('plainTaskAnswer' => $plainTaskAnswer));
     }
 
     public function actionAssignedConsultant()
@@ -84,8 +83,13 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionManageConsult()
     {
-        $this->actionShowPlainTaskList();
-        $this->actionPlainTaskWithTrainers();
+        $tasks = PlainTaskAnswer::getTaskWithTrainer();
+        $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
+
+        $this->renderPartial('/trainer/_manageConsult',array(
+            'plainTaskAnswers' => $plainTaskAnswers,
+            'tasks' => $tasks
+        ));
     }
 
     public function actionPlainTaskWithTrainers()
@@ -93,8 +97,7 @@ class TeacherController extends TeacherCabinetController {
        $tasks = PlainTaskAnswer::getTaskWithTrainer();
 
        $this->renderPartial('/trainer/_plainWithTrainer',array(
-            'tasks' => $tasks,
-             ));
+            'tasks' => $tasks));
     }
 
     public function actionChangeConsultant()
