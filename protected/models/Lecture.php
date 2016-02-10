@@ -336,7 +336,7 @@ class Lecture extends CActiveRecord
     /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
 Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
 Якщо $order>$enabledOrder то недоступна*/
-    public static function accessLecture($id, $order, $enabledOrder)
+    public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
@@ -346,6 +346,14 @@ class Lecture extends CActiveRecord
         }
         if (Yii::app()->user->isGuest) {
             return false;
+        }
+        if($idCourse!=0){
+            $course = Course::model()->findByPk($idCourse);
+            if(!$course->status)
+                return false;
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                return false;
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
