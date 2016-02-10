@@ -11,6 +11,7 @@
     display: block;
 }
 .tt-menu{
+    width: 100%;
     margin-top: 2px;
     padding: 5px 5px;
     background-color: #ffffff;
