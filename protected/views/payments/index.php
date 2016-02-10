@@ -1,13 +1,11 @@
 <?php
 /* @var $agreement UserAgreements */
 ?>
-    <link type="text/css" rel="stylesheet" href="<?php
-    echo StaticFilesHelper::fullPathTo('css', 'paymentsInvoicesList.css'); ?>"/>
+
+    <link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', 'paymentsInvoicesList.css'); ?>"/>
     <div class="breadcrumbs">
         <?php
-        $this->breadcrumbs = array(
-            'Договір');
-        ?>
+        $this->breadcrumbs = array('Договір');?>
     </div>
     <div class="titleAgreement">
         <h1>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від

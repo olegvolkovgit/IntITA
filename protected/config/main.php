@@ -96,9 +96,10 @@ return array(
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',
                 'courses/<selector:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>' => 'aboutus/index',
-                'account/<courseId:\d+>' => 'payments/index',
+                'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
                 'profile/edit' => 'studentreg/edit',
+
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',

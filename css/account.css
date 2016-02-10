@@ -13,26 +13,18 @@ table#accountTable td{
 }
 
 table#accountTable td {
-     border: 1px solid black;
-     border-collapse: collapse;
-     text-align: center;
- }
-#account{
-    margin-left: 30px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
 }
-#bankTitle{
-    margin-left: 100px;
-}
-#accountTitle{
-    margin-left: 170px;
-}
-#count, #all{
+
+#count, #pdv, #all, #visaPlace{
     display:inline-block;
 }
 #count{
-    margin-left: 30%;
+    margin-left: 370px;
 }
-#accountContainer{
+.container-fluid{
     width:945px;
 }
 #printAccount {
@@ -49,15 +41,9 @@ table#accountTable td {
     letter-spacing:1px;
     line-height: 32px;
     text-decoration: none;
-
-    /*margin-left: 300px;*/
 }
 #printAccount:hover {
     background: #454545;
     box-shadow:0 2px 0 #7f7f7f;
     cursor: pointer;
 }
-#summaLetters{
-    font-weight: bold;
-}
-

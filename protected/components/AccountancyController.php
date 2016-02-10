@@ -32,7 +32,7 @@ class AccountancyController extends CController {
             return false;
         }
         $user = Yii::app()->user->getId();
-        if (StudentReg::model()->findByPk($user)->role == 2) {
+        if (StudentReg::model()->findByPk($user)->isAccountant()) {
 
             return true;
         }
