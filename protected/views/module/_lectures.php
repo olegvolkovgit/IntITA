@@ -127,7 +127,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else
-                return $data->$titleParam;
+                return CHtml::encode($data->$titleParam);
             }
         ),
     ),
