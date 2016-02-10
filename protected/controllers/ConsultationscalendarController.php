@@ -46,7 +46,7 @@ class ConsultationscalendarController extends Controller
 		);
 	}
 
-	public function initialize($id)
+	public function initialize($id,$idCourse)
 	{
 		$lecture = Lecture::model()->findByPk($id);
 		$editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
@@ -54,6 +54,14 @@ class ConsultationscalendarController extends Controller
 		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
 		if (StudentReg::isAdmin() || $editMode) {
 			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
+		}
+		if($idCourse!=0){
+			$course = Course::model()->findByPk($idCourse);
+			if(!$course->status)
+				throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
 		}
 		if (!($lecture->isFree)) {
 			$modulePermission = new PayModules();
@@ -141,9 +149,9 @@ class ConsultationscalendarController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($lectureId, $idCourse)
+	public function actionIndex($lectureId, $idCourse=0)
 	{
-		$this->initialize($lectureId);
+		$this->initialize($lectureId,$idCourse);
 
         $lecture = Lecture::model()->findByPk($lectureId);
         $dataProvider = Teacher::getTeacherConsult($lectureId);

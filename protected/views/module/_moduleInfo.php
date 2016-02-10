@@ -5,7 +5,7 @@
 ?>
 <div class="moduleTitle">
     <h1>
-        <?php echo $post->getTitle(); ?>
+        <?php echo CHtml::encode($post->getTitle()); ?>
     </h1>
 </div>
 <table>
