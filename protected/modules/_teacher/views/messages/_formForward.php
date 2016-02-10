@@ -57,7 +57,7 @@
         source: users,
         templates: {
             suggestion: function (item) {
-                return "<p><em>" + item.value + "</em></p>";
+                return "<p>" + item.value + "</p>";
             }
         }
     });

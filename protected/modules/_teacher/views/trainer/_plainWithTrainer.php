@@ -44,10 +44,20 @@
                         </tr>
                     <?php }
                 }}
-                else echo 'Немає задач з консультантами';?>
+                else echo '<br>Задач з призначеними консультантами немає.';?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        $jq('#consultTasksTable').DataTable({
+                language: {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                }
+            }
+        );
+    });
+</script>
 

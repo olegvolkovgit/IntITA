@@ -32,9 +32,6 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         {index:'$result', value:0},
         {index:'$result_etalon', value:1},
         {index:'$result_for_etalon', value:2},
-        {index:'', value:3},
-        {index:'', value:4},
-        {index:'', value:5}
     ];
     //options
 
@@ -49,17 +46,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             second: 0
         }]
     ];
-    $scope.args=
-        [{
-            type: 0,
-            size: null,
-            arg_name: '',
-            pattern:/^\d+$/,
-            value: [],
-            is_array: 0,
-            etalon_value: [],
-            compare_mark: [0]
-        }];
+    $scope.args= [];
     $scope.units=
         [{
             result: '',
@@ -115,7 +102,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }
     };
     //add or delete form
-    $scope.addDellForm = function (index) {
+    $scope.addDellForm = function (index, indexArg) {
         if(index==0){
             $scope.args.push({
                 type: 0,
@@ -124,28 +111,28 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 pattern:/^\d+$/,
                 value: [],
                 is_array: 0,
-                etalon_value: [],
+                etalon_value: [''],
                 compare_mark: [0]
             });
             for (var j=1;j<$scope.units.length;j++){
                 $scope.args[$scope.args.length-1].compare_mark.push(0);
             }
-            //console.log($scope.args.length);
             for (var i=0;i<3;i++)
                 $scope.indexes.push({
                     index: [],
                     value: $scope.indexes.length
                 });
         }else{
-            $scope.args.splice(-1, 1);
-            $scope.indexes.splice(-1, 1);
-            $scope.indexes.splice(-1, 1);
-            $scope.indexes.splice(-1, 1);
+            $scope.args.splice(indexArg, 1);
+            $scope.indexes.splice(3+(3*indexArg), 3);
         }
     };
 
     $scope.addDellFormResult = function (index) {
         if(index==0){
+            for (var i=0;i<$scope.function.args.length;i++){
+                $scope.function.args[i].etalon_value.push('');
+            }
             $scope.units.push({
                 result: ''
             });
@@ -161,19 +148,17 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             );
             $scope.function['unit_test_num']=$scope.units.length;
         }else{
-            $scope.units.splice(-1, 1);
-            var count=$scope.units.length;
-            $scope.function.checkable_args_indexes.splice(count, 1);
-            $scope.function.results.splice(count, 1);
-            $scope.function.compare_mark.splice(count, 1);
-            $scope.function.tests_code.splice(count, 1);
-            $scope.function.tests_code.splice(count, 1);
+            $scope.units.splice(index, 1);
+            $scope.function.checkable_args_indexes.splice(index, 1);
+            $scope.function.results.splice(index, 1);
+            $scope.function.compare_mark.splice(index, 1);
+            $scope.function.tests_code.splice(index, 1);
             for (var i=0;i<$scope.function.args.length;i++){
-                $scope.function.args[i].value.splice(count, 1);
-                $scope.function.args[i].etalon_value.splice(count, 1);
-                $scope.function.args[i].compare_mark.splice(count, 1);
+                $scope.function.args[i].value.splice(index, 1);
+                $scope.function.args[i].etalon_value.splice(index, 1);
+                $scope.function.args[i].compare_mark.splice(index, 1);
             }
-            $scope.function['unit_test_num']=count;
+            $scope.function['unit_test_num']=$scope.units.length;
         }
     };
     $scope.addDellCompare = function (bool,index) {
@@ -399,7 +384,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 $scope.loadResultPattern($scope.editedJson.function.type,$scope.editedJson.function.size);
                 $scope.args = $scope.editedJson.function.args;
                 for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
-                    if(i>0){
+                    if(i>=0){
                         for (var j=0;j<3;j++)
                             $scope.indexes.push({
                                 index: [],
