@@ -55,7 +55,8 @@
                 return $jq.map(users.results, function (user) {
                     return {
                         id: user.id,
-                        value: user.value
+                        name: user.name,
+                        email: user.email
                     };
                 });
             }
@@ -66,11 +67,11 @@
 
     $jq('#typeahead').typeahead(null, {
         name: 'users',
-        display: 'value',
+        display: 'name, email',
         source: users,
         templates: {
             suggestion: function(item) {
-                return "<p><em>" + item.value + "</em></p>"; }
+                return "<p><strong>" + item.name + "</strong>|<" + item.email + "></p>"; }
         }
     });
 

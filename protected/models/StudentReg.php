@@ -1172,7 +1172,8 @@ class StudentReg extends CActiveRecord
         foreach ($data as $key=>$model) {
             if($model->id != $id) {
                 $result["results"][$key]["id"] = $model->id;
-                $result["results"][$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+                $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+                $result["results"][$key]["email"] = $model->email;
             }
         }
         return json_encode($result);
