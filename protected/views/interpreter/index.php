@@ -29,14 +29,27 @@
             </div>
         </div>
         <h2 id="title">Параметри функції</h2>
-        <div ng-repeat="form in args track by $index">
-            <params-form/>
+        <div class="container-fluid">
+            <div class="row col">
+                <div ng-repeat="form in args track by $index">
+                    <params-form/>
+                </div>
+                <button ng-click="addDellForm(0)" type="button" class="btn btn-default pull-right btnInterp" title="Додати змінну">
+                    <span ng-class="'glyphicon-plus'" class="glyphicon glyphicon" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
         <h2 id="title">Юніт тести[{{units.length}}]</h2>
         <div ng-repeat="unit in units track by $index">
             <unit-form/>
         </div>
         <div class="container-fluid">
+            <button ng-click="addDellFormResult(0)" type="button" class="btn btn-default pull-right btnInterp" title="Додати юніттест">
+                <span class="glyphicon-plus glyphicon glyphicon" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="container-fluid">
+            <h2 id="title">Еталонний код</h2>
             <div class="row col header">
                 Еталон
                 <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
