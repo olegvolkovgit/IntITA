@@ -608,7 +608,7 @@ class Module extends CActiveRecord implements IBillableObject
         if ($moduleTitle == "") {
             $moduleTitle = Module::model()->findByPk($id)->title_ua;
         }
-        return htmlspecialchars($moduleTitle);
+        return $moduleTitle;
     }
 
     public static function getModuleDurationFormat($countless, $hours, $hInDay, $daysInWeek)

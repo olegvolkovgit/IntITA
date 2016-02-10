@@ -22,7 +22,7 @@
         'enableAjaxValidation' => true,
         'clientOptions' => array(
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);return true;
+                sendError(form,data,hasError);return true;
                 }',
             'validateOnSubmit' => true,
             'validateOnChange' => false),
