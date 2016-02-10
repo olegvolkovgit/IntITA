@@ -23,7 +23,6 @@ if ($idCourse != 0) {
 }
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
@@ -60,7 +59,7 @@ if ($idCourse != 0) {
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
-<div ng-app="lessonEdit">
+<div ng-app="lessonEdit" class="lessonEdit">
     <div ng-controller="CKEditorCtrl">
         <div data-ng-init="
         deleteMsg='<?php echo addslashes(Yii::t('lecture', '0767')); ?>';
@@ -126,7 +125,7 @@ if ($idCourse != 0) {
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                              class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
                     </a>
-                    <a href="<?php echo Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)); ?>">
+                    <a href="{{locationToPreview}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0687'); ?>"/>
@@ -142,6 +141,7 @@ if ($idCourse != 0) {
                 <?php
             } else {
                 $lectureElement = LectureElement::model()->findByPk($page->video);
+                $lectureElement->setScenario('videoLink');
                 $this->widget('editable.EditableField', array(
                     'type' => 'textarea',
                     'model' => $lectureElement,
@@ -162,23 +162,30 @@ if ($idCourse != 0) {
             <fieldset>
                 <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
                 <div id="blockList">
-                    <?php $this->renderPartial('/lesson/_blocks_list_CKE', array('dataProvider' => $dataProvider,
+                    <?php $this->renderPartial('/editor/_blocks_list_CKE', array('dataProvider' => $dataProvider,
                         'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
                 </div>
                 <div id="addBlock">
-                    <?php
-                    $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
-                        'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
-                    ?>
+                    <div ng-class="{lessonInstr: instructionStyle,  lessonBG: instructionStyle}">
+                        <div ng-show="instructionStyle" class="instrTaskImg" >
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
+                        </div>
+                        <div ng-class="{content: instructionStyle}" >
+                            <?php
+                            $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
+                                'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div style="display: block; clear: both">
                     <?php echo Yii::t('lecture', '0691'); ?>
                     <br>
-                    <button selected-button onclick="addTextBlockCKE('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                    <button selected-button onclick="addTextBlockCKE('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                    <button selected-button ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
                 </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
@@ -188,8 +195,8 @@ if ($idCourse != 0) {
 
                 switch (LectureElement::getQuizType($data['id_block'])) {
                     case '5':
-                        $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
-                            'pageId' => $page->id));
+                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
+                            'pageId' => $page->id, 'lecture' => $lecture->id));
                         break;
                     case '6':
                         $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
@@ -213,7 +220,7 @@ if ($idCourse != 0) {
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
                 <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button onclick="showAddSkipTaskFormCKE()">Додати задачу з пропусками</button>
+                <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
             }

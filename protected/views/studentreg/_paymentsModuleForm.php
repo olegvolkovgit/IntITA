@@ -43,5 +43,5 @@
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
-    });    
+    });
 </script>

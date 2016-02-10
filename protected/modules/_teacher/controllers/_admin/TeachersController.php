@@ -34,41 +34,38 @@ class TeachersController extends TeacherCabinetController{
 
         $this->render('index', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function actionShowTeacher($id)
     {
         $teacher = Teacher::model()->findByPk($id);
-
         $this->renderPartial('showTeacher',array(
             'teacher' => $teacher
-        ));
+        ),false,true);
     }
 
     public function actionCreate()
     {
         $model = new Teacher;
-//         Uncomment the following line if AJAX validation is needed
-        $this->performAjaxValidation($model);
-//        var_dump($_POST);die;
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+
         if (isset($_POST['Teacher'])) {
-            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
+
             if(!empty($_FILES['Teacher']['name']['foto_url'])){
+                $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
                 $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
+                $model->avatar = $_FILES['Teacher'];
             }
+
             $model->attributes = $_POST['Teacher'];
-            $model->avatar = $_FILES['Teacher'];
+
             if ($model->save()) {
+
                 if (!empty($_POST['Teacher']['foto_url'])) {
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        210
+                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id .
+                        '.' . $fileInfo->getExtension(),210
                     );
                 }
                 StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
@@ -100,7 +97,7 @@ class TeachersController extends TeacherCabinetController{
         $this->render('showRoleAttributes', array(
             'model' => $model,
             'dataProvider' => $dataProvider,
-        ),false,true);
+        ),false);
     }
 
     public function actionCreateRole()
@@ -115,7 +112,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-            $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $this->renderPartial('createRole', array(
             'model' => $model,
@@ -145,11 +142,10 @@ class TeachersController extends TeacherCabinetController{
                     );
                 }
             $this->redirect($this->pathToCabinet());
-//            $this->redirect(array('view', 'id' => $model->teacher_id));
         }
         $this->render('update', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function actionUpdateRole($id)
@@ -162,7 +158,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Roles'])) {
             $model->attributes = $_POST['Roles'];
             if ($model->save())
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $this->renderPartial('updateRole', array(
             'model' => $model,
@@ -175,7 +171,7 @@ class TeachersController extends TeacherCabinetController{
 
         $this->render('viewRole', array(
             'model' => $model,
-        ),false,true);
+        ),false);
     }
 
     public function loadModel($id)
@@ -203,7 +199,7 @@ class TeachersController extends TeacherCabinetController{
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     public function actionShowRoles($id)
@@ -226,7 +222,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
         $model->role = $role;
         $this->renderPartial('addRoleAttribute', array(
@@ -237,27 +233,32 @@ class TeachersController extends TeacherCabinetController{
     public function actionAddTeacherRole($teacher)
     {
         $model = Teacher::model()->findByPk($teacher);
+        $roles = Roles::generateRolesList();
 
         $this->renderPartial('addTeacherRole', array(
             'teacher' => $model,
+            'roles' => $roles,
         ),false,true);
     }
 
-    public function actionCancelTeacherRole()
+    public function actionCancelTeacherRole($id)
     {
-        $teacher = Teacher::model()->findByPk($_GET['id']);
+        $teacher = Teacher::model()->findByPk($id);
+        $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
 
         $this->renderPartial('cancelTeacherRole', array(
             'teacher' => $teacher,
+            'roles' => $roles,
         ),false,true);
     }
 
     public function actionAddTeacherRoleAttribute($teacher)
     {
         $model = Teacher::model()->findByPk(intval($teacher));
-
+        $roles = Roles::generateRolesList();
         $this->renderPartial('addTeacherRoleAttribute', array(
             'model' => $model,
+            'roles' => $roles,
         ),false,true);
     }
 
@@ -270,7 +271,7 @@ class TeachersController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['RoleAttribute'];
             if($model->save())
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
         }
 
         $this->renderPartial('updateRoleAttribute',array(

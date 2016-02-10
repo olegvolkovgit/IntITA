@@ -13,7 +13,7 @@
             <br>
 <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="skipTaskCondition" cols="105" rows="10"
           required ng-model="addSkipTaskCond"
-          ng-init="addSkipTaskCond='<?php echo htmlentities($data->getSkipTaskCondition()) ?>'">
+          ng-init="addSkipTaskCond='<?php echo htmlentities(addslashes($data->getSkipTaskCondition())) ?>'">
 </textarea>
             <br>
             Запитання* :
@@ -34,7 +34,7 @@
         </fieldset>
         <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/editSkipTask'); ?>',
          <?php echo $data->id_block; ?>, <?php echo Teacher::getTeacherId(Yii::app()->user->getId()); ?>)"
-               ng-disabled="addSkipTask.$invalid" value="Зберегти змінни">
+               ng-disabled="addSkipTask.$invalid" value="Зберегти зміни">
     </form>
     <br>
     <button ng-click='unableSkipTask(<?php echo $pageId; ?>)'>Видалити задачу з пропусками</button>

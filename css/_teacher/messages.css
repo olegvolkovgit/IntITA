@@ -1,0 +1,9 @@
+#hidden {
+    display: none;
+}
+#new{
+    font-weight: bold;
+}
+img#avatar {
+    height: 24px;
+}

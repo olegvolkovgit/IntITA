@@ -5,13 +5,8 @@ angular
     .module('lessonApp')
     .controller('lessonPageCtrl',lessonPageCtrl);
 
-function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
+function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
     $scope.currentLocation = window.location.pathname;
-    $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error) {
-            console.log('Err'+error); // not authorized
-        }
-    );
     $scope.nextPage=function(){
         if($rootScope.currentPage>=$rootScope.pageCount){
             return $rootScope.currentPage;
@@ -42,6 +37,15 @@ function lessonPageCtrl($rootScope,$http, $scope, ipCookie) {
         $("#mydialog3").dialog("close");
     };
     $scope.hideInformDialog=function(){
-        $("#informDialog").dialog("close");
+        if($rootScope.currentPage==$rootScope.lastAccessPage){
+            $("#informDialog").dialog("close");
+            var tab=ipCookie("lessonTab")+1;
+            $('#ui-id-'+tab+'').click();
+            openDialogsService.openLastTrueDialog();
+        }else{
+            $("#informDialog").dialog("close");
+            var tab=ipCookie("lessonTab")+1;
+            $('#ui-id-'+tab+'').click();
+        }
     };
 }

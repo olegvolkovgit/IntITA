@@ -25,18 +25,14 @@ $list = CHtml::listData($models,
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array(
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-            for (var prop in data)
-                {
-                    var err = document.getElementById(prop);
-                    err.focus();
-                    break;
-            }return true;}',
-            'validateOnSubmit' => true,
-            'validateOnChange' => false),
+                sendError(form,data,hasError);return true;
+                }',
+        )
     )); ?>
 
     <div class="form-group">
@@ -62,8 +58,8 @@ $list = CHtml::listData($models,
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'foto_url'); ?>
-        <?php echo $form->fileField($model, 'foto_url'); ?>
-        <?php echo $form->error($model, 'foto_url'); ?>
+        <?php echo $form->fileField($model, 'foto_url', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
@@ -130,6 +126,27 @@ $list = CHtml::listData($models,
     </div>
 
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'first_name_ru'); ?>
+        <?php echo $form->textField($model, 'first_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'first_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'middle_name_ru'); ?>
+        <?php echo $form->textField($model, 'middle_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'middle_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'last_name_ru'); ?>
+        <?php echo $form->textField($model, 'last_name_ru',
+            array('size' => 35, 'maxlength' => 35,'class'=> 'form-control')); ?>
+        <?php echo $form->error($model, 'last_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'isPrint'); ?>
         <?php echo $form->dropDownList($model, 'isPrint',
             array('1' => 'показувати', '0' => 'не показувати'),
@@ -148,7 +165,7 @@ $list = CHtml::listData($models,
     <?php } ?>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

@@ -30,12 +30,20 @@ if($idCourse != 0) {
 <div class="consultationsMainBlock" >
     <h1 class="consultations"><?php echo Yii::t("consultation", "0506")?></h1>
     <?php
+    if (isset(Yii::app()->session['lg'])) {
+        if (Yii::app()->session['lg'] == 'en') {
+            $lang='_en';
+        }elseif(Yii::app()->session['lg'] == 'ru'){
+            $lang='_ru';
+        }else $lang='';
+    }else $lang='';
+
     $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
-        'emptyText' => 'Консультантів з питань цього модуля немає.',
+        'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang),
         'columns'=>array("one","two"),
     ));
     ?>

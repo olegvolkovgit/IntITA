@@ -4,11 +4,11 @@
         <div ng-repeat="arg in args track by $index">
             <div class="col-lg-2  value">
                 <label>{{arg.arg_name}}</label>
-                <input type="text" class="form-control" placeholder='Argument value'
+                <input type="text" class="form-control" placeholder='Знач. аргумента'
                        ng-pattern="arg.pattern" ng-model="arg.value[$parent.$index]" required>
-                <select class="selectpicker" ng-init="arg.compare_mark[$parent.$index] = compare[0].value"
+                <select class="selectpicker"
                         ng-model="arg.compare_mark[$parent.$index]"
-                        ng-options="cArg.value as cArg.name for cArg in compare"></select>
+                        ng-options="cArg.value as cArg.name for cArg in compare | filter:cArg.bool=(arg.type==2)"></select>
                 <input type="text" class="form-control" placeholder="Etalon value"
                        ng-pattern="arg.pattern" ng-model="arg.etalon_value[$parent.$index]">
             </div>
@@ -32,20 +32,30 @@
     </div>
     <!-- result block-->
     <div class="row col result">
-        <div class="resultBlock">
+        <div ng-hide='finalResult.etalon' class="resultBlock">
             <div class="col-lg-2">
-                <input type="text" class="form-control" placeholder="result value" ng-pattern=resultPattern ng-model="results[$index]" required>
+                <input type="text" class="form-control" placeholder="Result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
             </div>
-            <div class="col-lg-2">
-                <select class="selectpicker" ng-init="compare_marks[$index] = compare[0].value"
-                        ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare">
-                </select>
+            <div>
+                <label class="ng-binding">Вихідне значення</label>
+            </div>
+        </div>
+        <div class="resultBlock">
+            <div>
+                <div class="col-lg-1">
+                    <select class="selectpicker"
+                            ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare | filter:c.bool=(function.type==2)">
+                    </select>
+                </div>
+                <div>
+                    <label class="ng-binding">Порівняння відповіді кода студента з відповідю викладача</label>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-10">
             <textarea class="form-control" placeholder="tests_code" rows="2"
-                      ng-model="tests_code_arr[$index]" required></textarea>
+                      ng-init=tests_code_arr[$index]='' ng-model="tests_code_arr[$index]" disabled></textarea>
         </div>
         <button ng-class="{'nonDelete':!($first)  && !($last)}" ng-click="addDellFormResult($index)" id="btn" type="button"
                 class="btn btn-default pull-right btnInterp">

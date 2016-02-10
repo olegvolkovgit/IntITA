@@ -48,7 +48,7 @@
         </div>
         <div ng-show="signMode=='signIn'">
             <div class="authLinks">
-                <?php echo CHtml::link(Yii::t('regform', '0092'), '', array('id' => 'authLinks', 'onclick' => 'openForgotpass()')); ?>
+                <?php echo CHtml::link(Yii::t('regform', '0092'), '', array('id' => 'authLinks', 'onclick' => 'openForgotpass("fromForm")')); ?>
                 <label for="signUpMode" class=registration><?php echo Yii::t('registration', '0591'); ?></label>
                 <input ng-hide=true type="radio" ng-model="signMode" id="signUpMode" name="signMode" value="signUp" />
             </div>
@@ -69,7 +69,7 @@
         <div class="linesignInForm"><?php echo Yii::t('regform', '0091'); ?></div>
         <div class="image">
             <script src="//ulogin.ru/js/ulogin.js"></script>
-            <div id="uLogin" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,bdate,phone,photo_big,city;
+            <div id="uReg" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,bdate,phone,photo_big,city;
                                         redirect_uri=<?php echo Config::getBaseUrl() . '/site/sociallogin' ?>">
                 <ul id="uLoginImages">
                     <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>"

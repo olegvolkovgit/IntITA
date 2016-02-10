@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @var $data Teacher
  */
 ?>
 <div class="teacherBlock">
@@ -22,7 +22,7 @@
                 </div>
             </li>
             <li>
-                <?php echo $data['last_name'] . " " . $data['first_name'] . " " . $data['middle_name']; ?>
+                <?php echo $data['last_name'.$lg] . " " . $data['first_name'.$lg] . " " . $data['middle_name'.$lg]; ?>
             </li>
             <li>
                 <?php echo $data['email']; ?>

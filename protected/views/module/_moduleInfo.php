@@ -5,7 +5,7 @@
 ?>
 <div class="moduleTitle">
     <h1>
-        <?php echo $post->getTitle(); ?>
+        <?php echo CHtml::encode($post->getTitle()); ?>
     </h1>
 </div>
 <table>
@@ -18,8 +18,8 @@
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                 <?php
-                $level = CommonHelper::getLevelTitle($post->level);
-                $rate = CommonHelper::getRate($post->level);
+                $level = $post->level();
+                $rate = $post->rate();
                 if (isset($level)) echo $level;
                 ?>
                 <div class="ratico">

@@ -1,23 +1,138 @@
+[ng\:cloak],[ng-cloak],.ng-cloak{display:none!important;}
 #lang a{border-left:1px solid #999999;padding-left:6px;padding-right:6px;}
 #lang a:first-child{border-left:none;}
 #lang a{background:none!important;cursor:pointer;color:#4b70a3;font-size:18px;font-family:"MyriadPro";text-decoration:underline;}
 #lang a:hover{color:#666666;}
 #lang a.selectedLang{text-decoration:none;color:#999999;}
-.navbar-header a:first-child{padding:5px 0 0 20px;}
 .navbar-top-links li.dropdown li.lang a{float: none;padding: 0 5px;display: inline-block;}
 .navbar-top-links li.dropdown li.lang a.selectedLang{color: #cccccc;}
 .navbar-top-links li.dropdown li.lang{float: none;text-align: center;margin: 0 0 5px 0;}
 #dashboard{
     display: block;
 }
+.tt-menu{
+    margin-top: 2px;
+    padding: 5px 5px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
 
+#typeahead .empty-message {
+    text-align: center;
+}
 
 .errorMessage
 {
     color: #ff0000;
+
 }
 
 .form-group error
 {
     color: #ff0000;
+}
+
+.imageClass img
+{
+    max-width: 100px;
+    max-height: 100px;
+
+}
+.navbar-header .navbar-brand {
+    height: auto;
+}
+.navbar li a.dropdown-toggle{
+    padding-top: 15px;
+    padding-bottom: 0;
+    min-height: inherit;
+}
+.navbar-header a.navbar-brand{
+    float: none;
+    padding-top: 15px;
+    padding-bottom: 0;
+    min-height: inherit;
+}
+.navbar-header a.navbar-brand.logo{
+     display: inline-block;
+     padding:5px 0 0 20px;
+}
+.navbar-header a.navbar-brand.logoname{
+    display: inline-block;
+    padding:15px 0 0 5px;
+    vertical-align: top;
+}
+.navbar.navbar-default.navbar-static-top{
+    height: 50px;
+}
+#emailVerification-form {
+    margin: 50px auto;
+    width: 540px;
+}
+#emailVerification-form p{
+    text-align: justify;
+}
+#emailVerification-form .errorMessage{
+    margin-bottom: 0;
+    margin-left: 45px;
+}
+input#identityButton:hover {
+    background: #454545;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    cursor: pointer;
+}
+input#identityButton {
+    width: 195px;
+    height: 52px;
+    border-radius: 10px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    color: #ffffff;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 25px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px black;
+    text-shadow: 1px 2px 1px rgba(0,0,0,.5);
+}
+#identityButton {
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 27px;
+}
+#emailVerification-form .clientValidationError {
+    margin-left: 45px;
+}
+input[type="submit"][disabled]#identityButton{
+    background: #666666;
+}
+.emailVerButt{
+    margin-top: 15px;
+}
+.nameNAN{
+    color: #cccccc;
+}
+.pager .next>a{
+    float: none;
+}
+.statusColor {
+    color:#33cc00;
+}
+body.ie8 #hambMenu {
+    zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.DropShadow(OffX=2, OffY=2, Color=#999999);
+}
+.authorizePage{
+    padding-top: 20px;
+}
+.authorizePage .signInForm{
+    box-shadow:0px 0px 2px rgba(24, 37, 51, .5);
+}
+.authorizePage div{
+    text-align: center;
 }

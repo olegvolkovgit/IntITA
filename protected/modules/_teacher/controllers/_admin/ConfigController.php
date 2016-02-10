@@ -46,7 +46,7 @@ class ConfigController extends TeacherCabinetController {
             $model->attributes=$_POST['Config'];
             if($model->save()) {
                 Yii::app()->cache->flush();
-                $this->redirectToIndex(__CLASS__);
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
             }
         }
 
@@ -95,5 +95,9 @@ class ConfigController extends TeacherCabinetController {
         }
     }
 
-
+    public function actionRefresh()
+    {
+        Yii::app()->cache->flush();
+        echo 'success';
+    }
 }

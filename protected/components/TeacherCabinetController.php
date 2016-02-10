@@ -17,7 +17,6 @@ class TeacherCabinetController extends CController
 
     public $breadcrumbs = array();
 
-
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
@@ -38,18 +37,24 @@ class TeacherCabinetController extends CController
 
     public function init()
     {
+        date_default_timezone_set("UTC");
         $app = Yii::app();
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
         }
+
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
-            die();
+            Yii::app()->end();
+        }
+
+        if (Yii::app()->user->isGuest) {
+            $this->render('authorize');
+            Yii::app()->end();
         }
 
         $this->pageTitle = Yii::app()->name;
-        date_default_timezone_set("UTC");
     }
 
     public function pathToCabinet()
@@ -58,34 +63,20 @@ class TeacherCabinetController extends CController
         return $this->pathToCabinet;
     }
 
-    public function accessRules()
+    public function behaviors()
     {
         return array(
-            array('allow',
-                'expression' => array($this, 'hasCabinet'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту.",
-                'users' => array('*'),
+            'InlineWidgetsBehavior'=>array(
+                'class'=>'DInlineWidgetsBehavior',
+                'location'=>'application.components.widgets',
+                'startBlock'=> '{{w:',
+                'endBlock'=> '}}',
+                'widgets'=>array(
+                    'Share',
+                    'Comments',
+                    'AuthorizationFormWidget',
+                ),
             ),
         );
-    }
-
-    public function hasCabinet()
-    {
-        if (Yii::app()->user->isGuest){
-            return false;
-        } else {
-            $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-            return $user->hasCabinetAccess();
-        }
-    }
-
-    protected function redirectToIndex($child)
-    {
-        $callerName = array_shift(explode('Controller',$child));
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/'.$callerName.'/index'));
     }
 }

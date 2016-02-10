@@ -13,7 +13,7 @@
     <h4>Модуль #<?php echo $id . " " . Module::getModuleName($id); ?></h4>
 </div>
 <br>
-<form onsubmit="addMandatory('<?php echo Yii::app()->createUrl('/_admin/module/addMandatoryModule'); ?>');return false;"
+<form onsubmit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addMandatoryModule'); ?>');return false;"
       name="add-accessModule">
     <fieldset>
         <div class="col-md-4">
@@ -52,6 +52,7 @@
                     <?php $this->renderPartial('_ajaxModule', array('modules' => '')); ?>
                 </div>
             </div>
+            <br>
             <br>
             <br>
             <input class="btn btn-default" type="submit" value="Задати попередній модуль">

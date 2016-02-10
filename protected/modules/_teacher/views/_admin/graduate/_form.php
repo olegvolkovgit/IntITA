@@ -19,18 +19,14 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
-        'clientOptions' => array(
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-            for (var prop in data)
-                {
-                    var err = document.getElementById(prop);
-                    err.focus();
-                    break;
-            }return true;}',
-            'validateOnSubmit' => true,
-            'validateOnChange' => false),
+                sendError(form,data,hasError);return true;
+                }',
+        )
     )); ?>
 
     <div class="form-group">
@@ -47,13 +43,13 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'avatar'); ?>
-        <?php echo $form->fileField($model, 'avatar'); ?>
-        <?php echo $form->error($model, 'avatar'); ?>
+        <?php echo CHtml::activeFileField($model, 'avatar', array('onchange'=>"CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'graduate_date'); ?>
-        <?php echo $form->textField($model, 'graduate_date', array('class' => "form-control")); ?>
+        <?php echo $form->dateField($model, 'graduate_date', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'graduate_date'); ?>
     </div>
 
@@ -113,7 +109,19 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary')); ?>
+        <?php echo $form->labelEx($model, 'first_name_ru'); ?>
+        <?php echo $form->textField($model, 'first_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'first_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'last_name_ru'); ?>
+        <?php echo $form->textField($model, 'last_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'last_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

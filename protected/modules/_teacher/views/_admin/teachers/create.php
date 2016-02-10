@@ -1,6 +1,7 @@
 <?php
 /* @var $model Teacher */
 ?>
+<div class="col-md-8">
     <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
@@ -8,3 +9,4 @@
     </li>
     </ul>
 <?php $this->renderPartial('_form', array('model' => $model, 'scenario' => 'create')); ?>
+</div>

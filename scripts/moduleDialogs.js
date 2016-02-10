@@ -6,7 +6,7 @@ bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' 
 bootbox.addLocale('en', { OK: 'OK', CANCEL: 'Cancel', CONFIRM: 'Yes' });
 bootbox.setLocale(lang);
 
-function deleteLecture(idLecture){
+function deleteLecture(idLecture, idModule){
     var msg;
     switch (lang) {
         case 'uk':
@@ -28,7 +28,7 @@ function deleteLecture(idLecture){
             $.ajax({
                 type: "GET",
                 url: "/module/unableLesson",
-                data: {'idLecture':idLecture},
+                data: {'idLecture':idLecture, 'idModule':idModule},
                 success: function(){
                     $.fn.yiiGridView.update("lectures-grid");
                 }

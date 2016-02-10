@@ -22,9 +22,9 @@ div.subLinks{
     overflow: hidden;
 }
 .lessonBlock p{
-    font-size: 16px;
     word-wrap: break-word;
     width: 100%;
+    color:#333333;
 }
 .lessonBlock h3{
     margin-top: 20px;
@@ -131,10 +131,10 @@ div.code {
     float: right;
 }
 .ui-widget input.answer{
-    margin: 0 3px 0 4px;
+    margin: 3px 3px 0 3px;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
 }
 .contentTest label{
     font-size: 16px;
@@ -197,20 +197,14 @@ span.colorGreen {
 }
 .instrTaskText {
     display: inline-block;
-    /*float:right;*/
     width: 92%;
-    font-size: 20px;
     margin: 20px 0 0 30px;
 }
 .instructionText {
     display: inline-block;
     width: 92%;
-    font-size: 16px;
     margin: 20px 0 0 30px;
 }
-/*.instructionText img{*/
-    /*max-width: 9%;*/
-/*}*/
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
     counter-reset: num; /* Задаём имя счетчика */
@@ -432,8 +426,6 @@ div.lessonTest {
     margin: 10px 0 0 10px;
 }
 .instrTestText {
-    /*display: inline-block;*/
-    font-size: 20px;
     margin: 20px 0 0 0;
 }
 .ui-widget button.testSubmit {
@@ -495,13 +487,14 @@ div.lessonTest {
 }
 .element{
     font-family: "MyriadPro";
-    word-break: break-all;
+    word-wrap: break-word;
 }
 .element table{
     /*border-collapse: collapse;*/
 }
 .element table {
     border-collapse: inherit;
+    width: 100%;
 }
 .element table td, .element table th {
     padding: 3px;

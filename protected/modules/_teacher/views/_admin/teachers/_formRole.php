@@ -23,12 +23,8 @@
         'enableAjaxValidation' => true,
         'clientOptions' => array(
             'afterValidate' => 'js:function(form,data,hasError){
-            for (var prop in data)
-                {
-                    var err = document.getElementById(prop);
-                    err.focus();
-                    break;
-            }return true;}',
+                sendError(form,data,hasError);return true;
+                }',
             'validateOnSubmit' => true,
             'validateOnChange' => false),
     )); ?>

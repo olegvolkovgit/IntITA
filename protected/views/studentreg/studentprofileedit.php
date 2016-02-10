@@ -6,6 +6,9 @@
 /* @var $model Studentreg */
 /* @var $form CActiveForm */
 $post = StudentReg::model()->findByPk(Yii::app()->user->id);
+foreach ($post as $key => $value) {
+    $post[$key] = addslashes($value);
+}
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>

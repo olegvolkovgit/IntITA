@@ -3,6 +3,9 @@ angular
     .controller('CKEditorCtrl', CKEditorCtrl)
 
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+    $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
+    $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -17,6 +20,24 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     })
                     .error(function () {
                         alert('error unableSkipTask');
+                    })
+            }, function() {
+            });
+    };
+    $scope.unablePlainTask = function(pageId){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
+            .then(function() {
+                $http({
+                    url: basePath + "/plainTask/unablePlainTask",
+                    method: "POST",
+                    data: $.param({pageId: pageId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                })
+                    .success(function (response) {
+                        location.reload();
+                    })
+                    .error(function () {
+                        alert('error unablePlainTask');
                     })
             }, function() {
             });
@@ -42,19 +63,23 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         $scope.isReady = true;
     });
 
-    $scope.getBlockHtml = function (blockOrder, idLecture) {
+    $scope.getBlockHtml = function (blockOrder, idLecture, element) {
         $http({
             url: basePath + '/lesson/editBlock',
             method: "POST",
             data: $.param({order: blockOrder, lecture: idLecture}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function (response) {
-                $scope.editRedactor = response;
-            })
-            .error(function () {
-                alert($scope.errorMsg);
-            })
+        }).then(function successCallback(response) {
+            $scope.editRedactor = response.data;
+            var template = '<textarea data-ng-cloak class="openCKE" ' +
+                'id="openCKE' + blockOrder + '"' +
+                'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
+                '</textarea>';
+            ($compile(template)($scope)).insertAfter(element);
+            return true;
+        }, function errorCallback() {
+            alert($scope.errorMsg);
+        });
     };
 
     $scope.answers = [{id: 1}];
@@ -108,7 +133,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value":  result[4]
+                "value":  result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')
             });
         }
 
@@ -126,4 +151,28 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
+    $scope.editTaskCKE = function (blockId) {
+        $http({
+            url: basePath + '/task/editTaskCKE',
+            method: "POST",
+            data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:selectedLang}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.reload();
+            return true;
+        }, function errorCallback() {
+            alert('error editTaskCKE');
+        });
+    }
+
+    $scope.addTextBlock = function(type){
+        if(type==7){
+            $scope.instructionStyle=true;
+        }else{
+            $scope.instructionStyle=false;
+        }
+        document.getElementById('addBlock').style.display = 'block';
+        document.getElementById('blockForm').style.display = 'block';
+        document.getElementById('blockType').value = type;
+    }
 }

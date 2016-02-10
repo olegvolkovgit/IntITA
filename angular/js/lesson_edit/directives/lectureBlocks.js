@@ -14,11 +14,7 @@ angular
                         return;
                     }
                     var orderBlock = element.attr('id').substring(1);
-                    var template = '<textarea data-ng-cloak class="openCKE" ' +
-                        'id="openCKE' + orderBlock + '" ng-init="editRedactor = getBlockHtml(' + orderBlock + ',' + idLecture + ');"  ' +
-                        'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
-                        '</textarea>';
-                    ($compile(template)(scope)).insertAfter(element);
+                    scope.getBlockHtml(orderBlock, idLecture, element);
                     element.hide();
                 });
             }
@@ -84,34 +80,36 @@ angular
             }
         };
     })
-    .directive('deleteBlock', function ($compile, $http) {
+    .directive('deleteBlock', function ($compile, $http, $ngBootbox) {
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    if (confirm(scope.deleteMsg)) {
-                        var order = element.parent().attr('id').substring(1);
-                        $http({
-                            url: basePath + '/lesson/deleteElement',
-                            method: "POST",
-                            data: $.param({idLecture: idLecture, order: order}),
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        })
-                            .success(function () {
-                                $.fn.yiiListView.update('blocks_list', {
-                                    complete: function () {
-                                        var template = angular.element('#blockList').html();
-                                        angular.element('#blockList').empty();
-                                        angular.element('#blockList').append(($compile(template)(scope)));
-                                        setTimeout(function () {
-                                            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                        });
-                                    }
-                                });
+                    $ngBootbox.confirm(scope.deleteMsg)
+                        .then(function() {
+                            var order = element.parent().attr('id').substring(1);
+                            $http({
+                                url: basePath + '/lesson/deleteElement',
+                                method: "POST",
+                                data: $.param({idLecture: idLecture, order: order}),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             })
-                            .error(function () {
-                                alert(scope.errorMsg);
-                            });
-                    }
+                                .success(function () {
+                                    $.fn.yiiListView.update('blocks_list', {
+                                        complete: function () {
+                                            var template = angular.element('#blockList').html();
+                                            angular.element('#blockList').empty();
+                                            angular.element('#blockList').append(($compile(template)(scope)));
+                                            setTimeout(function () {
+                                                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                                            });
+                                        }
+                                    });
+                                })
+                                .error(function () {
+                                    alert(scope.errorMsg);
+                                });
+                        }, function() {
+                        });
                 });
             }
         };

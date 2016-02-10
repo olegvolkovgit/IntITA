@@ -1,31 +1,38 @@
 <?php
 /**
  * @var $teacher Teacher
+ * @var $roles array
  */
 ?>
-<br>
-<br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/index');?>">Викладачі - Головна</a>
-    <br>
-<a href="<?php echo Yii::app()->createUrl('/_admin/tmanage/roles');?>">Список ролей</a>
+<div class="col-md-8">
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Викладачі')">
+            Викладачі</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
+            Ролі викладачів</button>
+    </li>
+</ul>
 
 <div id="addTeacherRole">
     <br>
     <a name="form"></a>
-    <form action="<?php echo Yii::app()->createUrl('/_admin/permissions/cancelTeacherRole');?>" method="POST"
-          name="cancel-access">
+    <form name="cancel-access">
         <fieldset>
             <legend id="label">Скасувати роль викладача <?php echo $teacher->first_name." ".$teacher->last_name;?>:</legend>
-            <input type="text" name="teacher" value="<?php echo $teacher->teacher_id?>" style="display:none">
+            <input type="text" id="teacher" value="<?php echo $teacher->teacher_id?>" style="display:none">
             Роль:<br>
             <div class="form-group">
             <select name="role" class="form-control" placeholder="(Виберіть роль)">
                 <optgroup label="Виберіть роль">
-                    <?php $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
-                    $count = count($roles);
-                    for($i = 0; $i < $count; $i++){
+                    <?php
+                    foreach($roles as $role){
                         ?>
-                        <option value="<?php echo $roles[$i]['id'];?>"><?php echo $roles[$i]['alias'];?></option>
+                        <option value="<?php echo $role['id'];?>"><?php echo $role['alias'];?></option>
                     <?php
                     }
                     ?>
@@ -33,7 +40,12 @@
                 </div>
             <br>
             <br>
-            <input type="submit" class="btn btn-default" value="Скасувати роль">
+            <input type="submit" class="btn btn-default"
+                   onsubmit="cancelTeacherRole('<?= Yii::app()->createUrl('/_teachers/_admin/permissions/cancelTeacherRole');?>');
+                       return false;"
+                   value="Скасувати роль">
     </form>
 </div>
 
+</div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>

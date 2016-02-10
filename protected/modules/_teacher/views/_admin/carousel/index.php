@@ -8,7 +8,7 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/create');?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/create');?>','Додати фото')">
             Додати фото</button>
     </li>
 </ul>
@@ -31,13 +31,22 @@
         ),
         array(
             'template'=>'{view}{delete}{up}{down}',
-            'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
             'class'=>'CButtonColumn',
             'headerHtmlOptions'=>array('style'=>'width:120px'),
             'buttons'=>array(
+                'delete' => array
+                (
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей файл?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/carousel/delete", array("id"=>$data->id))',
+                ),
                 'up' => array
                 (
-                    'label'=>'Відновити модуль',
+                    'label'=>'Відображення на головній',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/carousel/up", array("order"=>$data->order))',
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'up.png'),
                     'options'=>array(
@@ -53,7 +62,7 @@
                 ),
                 'down' => array
                 (
-                    'label'=>'Відновити модуль',
+                    'label'=>'Відображення на головній',
                     'url' => 'Yii::app()->createUrl("/_teacher/_admin/carousel/down", array("order"=>$data->order))',
                     'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                     'options'=>array(

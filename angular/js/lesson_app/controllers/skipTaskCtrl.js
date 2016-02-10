@@ -7,7 +7,8 @@ angular
 
 function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
     $scope.sendSkipTaskAnswer=function(id){
-
+        var button=angular.element(document.querySelector(".taskSubmit"));
+        button.attr('disabled', true);
         var text = skipTaskQuestion.getElementsByTagName('input');
         var answers = [];
         var check = true;
@@ -22,8 +23,10 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
                 angular.element(document.querySelector("#skipTask"+parseInt(i+1))).removeClass('emptyField');
             }
         }
-        if(!check)
+        if(!check){
+            button.removeAttr('disabled');
             return check;
+        }
         for(var i = 1; i<text.length + 1 ;i++)
         {
             var name = 'skipTask' + i;
@@ -51,6 +54,7 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
             if (response.data == 'done') {
                 pagesUpdateService.pagesDataUpdate();
                 openDialogsService.openTrueDialog();
+                button.removeAttr('disabled');
                 return false;
             }
             else if(response.data == 'lastPage')
@@ -59,11 +63,13 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
                 openDialogsService.openLastTrueDialog();
                 accessLectureService.getAccessLectures();
                 $rootScope.finishedLecture=1;
+                button.removeAttr('disabled');
                 return false;
             }
             else if(response.data == 'not done')
             {
                 openDialogsService.openFalseDialog();
+                button.removeAttr('disabled');
                 return false;
             }
         });

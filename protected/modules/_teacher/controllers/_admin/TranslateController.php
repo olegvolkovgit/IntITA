@@ -42,7 +42,7 @@ class TranslateController extends TeacherCabinetController{
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-            $this->redirect($this->pathToCabinet());
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/translate/index'));
         } else {
 
             $this->renderPartial('create', array(
@@ -50,7 +50,6 @@ class TranslateController extends TeacherCabinetController{
             ),false,true);
         }
     }
-
 
     protected function performAjaxValidation($model)
     {
@@ -79,6 +78,7 @@ class TranslateController extends TeacherCabinetController{
             $model->attributes=$_POST['Translate'];
             if($model->save()) {
                 MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
+                Yii::app()->cache->flush();
                 $this->redirect($this->pathToCabinet());
             }
         }

@@ -25,7 +25,6 @@ class ForumUser extends CActiveRecord{
 
     public static function login($userModel)
     {
-
         $current_lang = Yii::app()->session['lg'];
         if ($current_lang == "ua") $current_lang = "uk";
 
@@ -42,8 +41,6 @@ class ForumUser extends CActiveRecord{
         ForumUser::logout();
 
         $forumUser = ForumUser::model()->findByPk($userModel->id);
-
-
         if (!$forumUser) {
             $firstName = ($userModel->firstName) ? $userModel->firstName : '';
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
@@ -53,7 +50,6 @@ class ForumUser extends CActiveRecord{
             if ($reg_time == 0) $reg_time = time();
 
             $forumUser = new ForumUser();
-
             $forumUser->user_id = $userModel->id;
             $forumUser->username = $name;
             $forumUser->user_email = $userModel->email;
@@ -80,16 +76,12 @@ class ForumUser extends CActiveRecord{
             $forumUser->user_email = $userModel->email;
             $forumUser->user_avatar = $avatar;
             $forumUser->user_avatar_type = "avatar.driver.upload";
-
-
         }
 
         if($forumUser->save())
             return true;
         else
             return false;
-
-
     }
 
     public static function logout()

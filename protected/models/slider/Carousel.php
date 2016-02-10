@@ -26,9 +26,10 @@ class Carousel extends Slider
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('pictureURL', 'file', 'types' => 'jpg, gif, png','message' => 'Виберіть файл','except'=>'swapImage'),
-			array('pictureURL, slider_text', 'required','message' => 'Поле має бути заповнено'),
+            array('pictureURL', 'file', 'types' => 'jpg, gif, png, jpeg,','message' => 'Виберіть файл','except' => 'swapImage,setOrder'),
+			array('pictureURL, slider_text', 'required','message' => 'Поле має бути заповнено','except' => 'setOrder'),
 			array('order', 'numerical', 'integerOnly'=>true),
+            array('order','numerical', 'on'=>'setOrder'),
 			array('pictureURL', 'length', 'max'=>50),
             array('slider_text', 'length', 'max'=>6),
 			// The following rule is used by search().

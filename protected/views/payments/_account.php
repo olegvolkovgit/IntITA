@@ -6,17 +6,17 @@
     summa = "<?php echo CommonHelper::getPriceUah($model->summa);?>";
     user = "<?php echo $model->user_created;?>";
 </script>
-
 <div id="account">
-    <div>
+    <div id="accountTable">
         <br>
-        Отримувач коштів: ТОВ «Вінницька ІТ-Академія»
+        <b>Отримувач коштів:</b> ТОВ «Вінницька ІТ-Академія»
         <br>
-        Банк: <span id="bankTitle">АТ «ОТП Банк»</span>
+        <b>Банк: </b>АТ «ОТП Банк»
         <br>
-        МФО 300528 р/р 26005001352431 код ЄДРПОУ 33263663
+        <b>МФО </b> 300528<br>
+        <b>р/р </b> 26005001352431<br>
+        <b>код ЄДРПОУ </b> 33263663
         <br>
-        Адреса 21007, м. Вінниця, вул. Фрунзе, 4, тел. 555-220.
         <br>
         <br>
         “<?php echo date("d");?>” <span id="month"><?php
@@ -53,3 +53,5 @@
         </tr>
     </table>
 </div>
+
+

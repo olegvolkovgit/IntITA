@@ -27,7 +27,7 @@ class AboutusSlider extends Slider
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('pictureUrl', 'file', 'types' => 'jpg, gif, png','message' => 'Виберіть файл','except'=>'swapImage'),
+            array('pictureUrl', 'file', 'types' => 'jpg,jpeg, gif, png','message' => 'Виберіть файл','except'=>'swapImage,setOrder'),
             array('text', 'required','message' => 'Поле має бути заповнено'),
             array('image_order , text , order', 'numerical', 'integerOnly'=>true),
 //			array('pictureUrl', 'length', 'max'=>255),

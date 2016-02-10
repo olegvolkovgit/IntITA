@@ -39,10 +39,10 @@ div.image{margin:0 auto;width:444px;}
 .authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;}
 .authLinks a{text-decoration:underline;}
 #signInButtonM{margin:0 auto;margin-top:5px;margin-bottom:27px;}
-a#authLinks{color:#4b75a4;float:left;font-size:16px;}
+a#authLinks{color:#4b75a4;float:left;font-size:16px;cursor:pointer}
 label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
 a#authLinks:hover, label.registration:hover{color:#666666;}
-input[type="submit"]#signInButtonM{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;letter-spacing:1px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
+input[type="submit"]#signInButtonM{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
 input#signInButtonM:hover{background:#454545;box-shadow:0px 2px 0px #7f7f7f;cursor:pointer;}
 div.error input,
 div.error textarea,
@@ -75,3 +75,8 @@ input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,inpu
 #studentreg-form .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}
 .signIn .clientValidationError{text-align:left;margin-left:30px;margin-top:10px;margin-bottom:5px;}
 .signUp .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}
+label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
+a#authLinks:hover, label.registration:hover{color:#666666;}
+.registrationWhenForgot{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin:10px 24px 0 0}
+.registrationWhenForgot:hover{color:#666666;}
+.rowemail.error .registrationWhenForgot{display: block;}.rowemail .registrationWhenForgot{display: none;}

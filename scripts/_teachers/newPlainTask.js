@@ -4,7 +4,7 @@
 
 function showPlainTaskWithoutTrainer(url)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         success: function(data) {
             fillContainer(data);
@@ -14,7 +14,7 @@ function showPlainTaskWithoutTrainer(url)
 
 function chooseTrainer(id,url)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         data : {id: id},
             success: function (data) {
@@ -25,10 +25,10 @@ function chooseTrainer(id,url)
 
 function sendForm(url)
 {
-    var consult = $('#consult').val();
-    var idPlainTask = $('#idPlainTask').val();
+    var consult = $jq('#consult').val();
+    var idPlainTask = $jq('#idPlainTask').val();
 
-    $.ajax({
+    $jq.ajax({
         url: url,
         type: "POST",
         data : { 'consult': consult,'idPlainTask' : idPlainTask},
@@ -41,19 +41,20 @@ function sendForm(url)
 
 function showPlainTaskAnswer(url,idTeacher)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         type: "POST",
         data : { 'idTeacher': idTeacher},
         success: function (data) {
             fillContainer(data);
+            $jq("#pageTitle").html("Задачі до перевірки");
         }
     })
 }
 
 function showPlainTask(url,plainTaskId)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         type: "POST",
         data : { 'idPlainTask': plainTaskId},
@@ -65,22 +66,24 @@ function showPlainTask(url,plainTaskId)
 
 function markPlainTask(url)
 {
-    var id = $('#plainTaskId').val();
-    var mark = $('#mark').val();
-    var comment = $('[name = comment]').val();
-    var userId = $('#userId').val();
-    $.ajax({
+    var id = $jq('#plainTaskId').val();
+    var mark = $jq('#mark').val();
+    var comment = $jq('[name = comment]').val();
+    var userId = $jq('#userId').val();
+    $jq.ajax({
         url: url,
         type: "POST",
         data : { 'idPlainTask': id,'mark' : mark,'comment' : comment,'userId' : userId},
-        success : function (data) {
-            alert('Ваша оцінка записана в базу');
-            location.reload();
+        success : function () {
+            showDialog('Ваша оцінка записана в базу');
         },
         error : function()
         {
-            alert('Щось пышло не так!' +
-            'Зв\'яжіться будь-ласка з адміністратором сайту');
+            showDialog();
+        },
+        complete: function()
+        {
+            location.reload();
         }
     });
 
@@ -89,8 +92,8 @@ function markPlainTask(url)
 function addTrainer(url)
 {
     var id = document.getElementById('user').value;
-    var trainerId = $("select option:selected").val();
-    $.ajax({
+    var trainerId = $jq("select option:selected").val();
+    $jq.ajax({
         url: url,
         type: "POST",
         data : { 'userId': id, 'trainerId' : trainerId},
@@ -104,7 +107,7 @@ function removeTrainer(url)
 {
     if(confirm('Ви впевнені що хочете видалити тренера?'))
     {
-        $.ajax({
+        $jq.ajax({
             url: url,
             success: function (data) {
                 location.reload();
@@ -115,14 +118,14 @@ function removeTrainer(url)
 
 function fillContainer(data)
 {
-    container = $('#pageContainer');
+    container = $jq('#pageContainer');
     container.html('');
     container.html(data);
 }
 
 function loadUserWithoutTrainer(url)
 {
-    $.ajax({
+    $jq.ajax({
         url: url,
         type: "POST",
         success: function (data) {
