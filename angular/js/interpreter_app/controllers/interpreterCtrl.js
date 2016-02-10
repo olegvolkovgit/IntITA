@@ -57,7 +57,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             pattern:/^\d+$/,
             value: [],
             is_array: 0,
-            etalon_value: [''],
+            etalon_value: [],
             compare_mark: [0]
         }];
     $scope.units=
