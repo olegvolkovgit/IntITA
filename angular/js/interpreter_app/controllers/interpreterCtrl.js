@@ -130,6 +130,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
 
     $scope.addDellFormResult = function (index) {
         if(index==0){
+            for (var i=0;i<$scope.function.args.length;i++){
+                $scope.function.args[i].etalon_value.push('');
+            }
             $scope.units.push({
                 result: ''
             });
