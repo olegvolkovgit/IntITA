@@ -493,6 +493,10 @@ class Teacher extends CActiveRecord
                 if ($this->last_name_en != '') $last = $this->last_name_en;
                 if ($this->first_name_en != '') $first = $this->first_name_en;
             }
+            if (Yii::app()->session['lg'] == 'ru'){
+                if ($this->last_name_ru != '' && $this->last_name_ru != 'не указано') $last = $this->last_name_ru;
+                if ($this->first_name_ru != '' && $this->first_name_ru != 'не указано') $first = $this->first_name_ru;
+            }
         }
         return $last . " " . $first;
     }
