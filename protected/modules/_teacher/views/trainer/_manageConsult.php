@@ -12,7 +12,6 @@
             <li><a href="#appointed" data-toggle="tab">Призначено консультантів (<?=count($tasks);?>)</a>
             </li>
         </ul>
-        <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade in active" id="new">
                 <?php $this->renderPartial('/trainer/_newPlainTask', array('plainTasksAnswers' => $plainTaskAnswers)); ?>
@@ -23,13 +22,4 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#newTasksTable, #consultTasksTable').DataTable({
-                language: {
-                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
-</script>
+

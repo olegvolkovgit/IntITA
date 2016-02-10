@@ -35,7 +35,8 @@ if (!empty($plainTasksAnswers)) {
                                 <td><?php echo $module->title_ua; ?></td>
                                 <td>
                                     <a href="javascript:chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
-                    '<?php echo Yii::app()->createUrl('_teacher/teacher/addConsultant') ?>')" target="_blank">
+                                        '<?php echo Yii::app()->createUrl('_teacher/teacher/addConsultant') ?>')"
+                                       target="_blank">
                                         <img style="padding-left: 50px"
                                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add.png') ?>"
                                     </a>
@@ -49,6 +50,16 @@ if (!empty($plainTasksAnswers)) {
         </div>
     </div>
     <?php
-} else echo 'Наразі всі задачі з консультантами'; ?>
+} else echo '<br>Наразі для всіх задач призначені консультанти.'; ?>
+<script>
+    $jq(document).ready(function () {
+        $jq('#newTasksTable').DataTable({
+                language: {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                }
+            }
+        );
+    });
+</script>
 
 
