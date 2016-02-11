@@ -17,7 +17,21 @@ function selectModule(url){
         });
     }
 }
-
+function selectAccessModules(url){
+    var course = $jq('select[name="course"]').val();
+    if(!course){
+        $jq('div[name="selectModule"]').html('');
+        $jq('div[name="selectLecture"]').html('');
+    }else{
+        $jq.ajax({
+            type: "POST",
+            url: basePath+url,
+            data: {course: course},
+            cache: false,
+            success: function(response){ $jq('div[name="selectModule"]').html(response); }
+        });
+    }
+}
 function findUserByEmail(url) {
     var find = $jq('#find');
     var email = find.val();

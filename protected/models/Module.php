@@ -429,6 +429,38 @@ class Module extends CActiveRecord implements IBillableObject
         $last = '</select>';
         return $result . $last;
     }
+    public static function showAvailableModule($course)
+    {
+        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
+
+        $modulelist = [];
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('id_course=' . $course);
+        $temp = CourseModules::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+        $titleParam = Module::getModuleTitleParam();
+
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addNotInCondition('module_ID', $modulelist);
+
+        $rows = Module::model()->findAll($criteriaData);
+        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
+        foreach ($rows as $numRow => $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
+        };
+        $last = '</select>';
+        return $result . $last;
+    }
 
     public static function moduleAccessStyle($data)
     {
