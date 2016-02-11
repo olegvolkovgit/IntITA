@@ -79,13 +79,10 @@ class ExternalSourcesController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $model=new ExternalSources('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ExternalSources']))
-            $model->attributes=$_GET['ExternalSources'];
+       $sources = ExternalSources::model()->findAll();
 
         $this->render('index',array(
-            'model'=>$model,
+            'sources'=>$sources,
         ));
     }
 

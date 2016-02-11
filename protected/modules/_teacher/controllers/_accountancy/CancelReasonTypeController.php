@@ -79,13 +79,10 @@ class CancelReasonTypeController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $model=new CancelReasonType('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['CancelReasonType']))
-            $model->attributes=$_GET['CancelReasonType'];
+        $types = CancelReasonType::model()->findAll();
 
         $this->render('index',array(
-            'model'=>$model,
+            'types'=>$types,
         ));
     }
 

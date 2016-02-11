@@ -79,13 +79,10 @@ class OperationTypeController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $model=new OperationType('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['OperationType']))
-            $model->attributes=$_GET['OperationType'];
+        $types = OperationType::model()->findAll();
 
         $this->render('index',array(
-            'model'=>$model,
+            'types'=>$types,
         ));
     }
 
