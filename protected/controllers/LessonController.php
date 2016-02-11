@@ -24,12 +24,20 @@ class LessonController extends Controller
         }else return true;
     }
 
-    public function initialize($id, $editMode)
+    public function initialize($id, $editMode,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (StudentReg::isAdmin() || $editMode) {
             return true;
+        }
+        if($idCourse!=0){
+            $course = Course::model()->findByPk($idCourse);
+            if(!$course->status)
+                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
@@ -48,7 +56,7 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
-        $this->initialize($id, $editMode);
+        $this->initialize($id, $editMode, $idCourse);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;

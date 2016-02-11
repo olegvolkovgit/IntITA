@@ -41,8 +41,7 @@
                 </form>
             </div>
 
-            <select name="user" id="user" class="form-control"
-                    placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
+            <select name="user" id="user" class="form-control" placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
                     autofocus required style="max-width: 496px;">
                 <?php
                 foreach ($users as $user) {
@@ -133,4 +132,3 @@
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>

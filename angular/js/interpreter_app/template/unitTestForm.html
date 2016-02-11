@@ -17,11 +17,11 @@
     <!-- list of compare blocks-->
     <div class="row col compare">
         <div class="button col-lg-1">
-            <button ng-click="addDellCompare(0,$index)"  type="button" class="btn btn-default pull-right btnInterp">
+            <button ng-click="addDellCompare(0,$index)"  type="button" class="btn btn-default pull-right btnInterp" title="Додати порівняння змінних">
                 <span ng-class="'glyphicon-plus'" class="glyphicon glyphicon"
                       aria-hidden="true"></span>
             </button>
-            <button ng-class="{'nonDelete': compareFull[$index].length==1}" ng-click="addDellCompare(1,$index)"  type="button" class="btn btn-default pull-right btnInterp">
+            <button ng-class="{'nonDelete': compareFull[$index].length==1}" ng-click="addDellCompare(1,$index)"  title="Видалити порівняння змінних" type="button" class="btn btn-default pull-right btnInterp">
                 <span ng-class="'glyphicon-minus'" class="glyphicon glyphicon"
                       aria-hidden="true"></span>
             </button>
@@ -32,14 +32,22 @@
     </div>
     <!-- result block-->
     <div class="row col result">
+        <div ng-hide='finalResult.etalon' class="resultBlock">
+            <div class="col-lg-2">
+                <input type="text" class="form-control" placeholder="Result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
+            </div>
+            <div>
+                <label class="ng-binding">Вихідне значення</label>
+            </div>
+        </div>
         <div class="resultBlock">
             <div class="col-lg-2">
-                <input type="text" class="form-control" placeholder="Вихідне значення" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
-            </div>
-            <div class="col-lg-2">
-                <select class="selectpicker"
-                        ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare | filter:cArg.bool=(function.type==2)">
+                <select class="col-lg-2 selectpicker"
+                        ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare | filter:c.bool=(function.type==2)">
                 </select>
+            </div>
+            <div>
+                <label class="ng-binding">Порівняння відповіді кода студента з відповідю викладача</label>
             </div>
         </div>
 
@@ -47,10 +55,10 @@
             <textarea class="form-control" placeholder="tests_code" rows="2"
                       ng-init=tests_code_arr[$index]='' ng-model="tests_code_arr[$index]" disabled></textarea>
         </div>
-        <button ng-class="{'nonDelete':!($first)  && !($last)}" ng-click="addDellFormResult($index)" id="btn" type="button"
+        <button ng-if=!$first ng-click="addDellFormResult($index)" id="btn" type="button"
                 class="btn btn-default pull-right btnInterp">
-            <span ng-class="{'glyphicon-minus': !($first) && $last, 'glyphicon-plus': $first}" class="glyphicon glyphicon"
-                  aria-hidden="true"></span>
+            <span class="glyphicon-minus glyphicon glyphicon"
+                  aria-hidden="true" title="Видалити юніттест"></span>
         </button>
     </div>
 </div>

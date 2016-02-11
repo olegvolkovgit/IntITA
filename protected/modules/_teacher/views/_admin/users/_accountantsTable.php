@@ -45,28 +45,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function cancelAccountant(url, id, name) {
-        var posting = $jq.post(url, {user: id});
-
-        posting.done(function (response) {
-                if (response == 1)
-                    bootbox.alert("Права бухгалтера для користувача " + name + " відмінені.", function () {
-                        location.href = window.location.pathname;
-                    });
-                else {
-                    bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                        location.href = window.location.pathname;
-                    });
-                }
-            })
-            .fail(function () {
-                bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                    location.href = window.location.pathname;
-                });
-            });
-    }
-</script>

@@ -5,28 +5,26 @@
  */
 ?>
 <div id="messageForm<?=$message;?>">
-    <form role="form" method="post" action="<?php echo Yii::app()->createUrl('/_teacher/messages/reply'); ?>"
-          id="message">
+    <form role="form" id="messageForm<?=$message;?>">
         <input class="form-control" name="id" id="hidden" value="<?=$user;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
-        <input class="form-control" name="subject" placeholder="Тема">
+        <input class="form-control" name="subject" placeholder="Тема" autofocus>
         <br>
         <div class="form-group">
-            <textarea class="form-control" rows="6" name="text" placeholder="Лист" required></textarea>
+            <textarea class="form-control" rows="6" id="text" name="text" placeholder="Лист" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary"
+                onclick="reply('<?php echo Yii::app()->createUrl('/_teacher/messages/reply'); ?>'); return false;">
             Написати
         </button>
     </form>
 
-    <button type="button" class="btn btn-default" onclick="reset(<?=$message;?>);" style="margin-top: -56px; margin-left: 100px">
+    <button type="button" class="btn btn-default" onclick="reset(<?=$message;?>); return false;" style="margin-top: -56px; margin-left: 100px">
         Скасувати
     </button>
-
 </div>
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -44,11 +42,6 @@
         display: 'value',
         source: users
     });
-
-    function reset(message) {
-        id = "#messageForm" + message;
-        $jq(id).remove();
-    }
 </script>
 
 

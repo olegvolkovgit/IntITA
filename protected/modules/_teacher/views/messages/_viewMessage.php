@@ -1,7 +1,6 @@
 <?php
 /* @var $message UserMessages*/
 ?>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">

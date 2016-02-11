@@ -26,7 +26,6 @@
         </form>
     </div>
 </div>
-<script src="<?= StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 
 <script>
     var users = new Bloodhound({
@@ -45,34 +44,4 @@
         display: 'value',
         source: users
     });
-    $jq('div.tt-menu.tt-open').css('background-color', '#fff');
-
-    function sendNewAdminData(url) {
-        user = $jq("#typeahead").val();
-        if (user === "") {
-            bootbox.alert('Виберіть користувача, якого потрібно призначити адміністратором.');
-        } else {
-            var posting = $jq.post(url, {user: user});
-
-            posting.done(function (response) {
-                    if (response == 1) {
-                        bootbox.alert("Користувач " + user + " призначений адміністратором.", function () {
-                            location.href = window.location.pathname;
-                        });
-                    }
-                    else {
-                        bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                            location.href = window.location.pathname;
-                        });
-                    }
-                })
-                .fail(function () {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                        location.href = window.location.pathname;
-                    });
-                });
-        }
-    }
 </script>

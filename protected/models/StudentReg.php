@@ -758,13 +758,7 @@ class StudentReg extends CActiveRecord
             $result = Yii::t('profile', '0715');
         else
             $result = Yii::t('profile', '0129');
-
         return $result;
-    }
-
-    public function getCabinetLink()
-    {
-        return Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => $this->id));
     }
 
     public function getTrainer()
@@ -1206,8 +1200,9 @@ class StudentReg extends CActiveRecord
         $result = array();
         foreach ($data as $key=>$model) {
             if($model->id != $id) {
+                $name = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["id"] = $model->id;
-                $result["results"][$key]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+                $result["results"][$key]["value"] =  ($name != "")?$name.", ".$model->email:$model->email;
             }
         }
         return json_encode($result);

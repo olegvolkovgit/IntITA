@@ -98,6 +98,7 @@ return array(
                 'aboutus/<id:\d+>' => 'aboutus/index',
                 'account/<courseId:\d+>' => 'payments/index',
                 'cabinet' => '_teacher/cabinet/index',
+                'profile/edit' => 'studentreg/edit',
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
@@ -106,7 +107,6 @@ return array(
 
                 'profile/<idUser:\d+>' => 'studentreg/profile', /*TEMP Url for profile tabs */
                 'teacher/<idTeacher:\d+>' => 'profile/index', /* Url for teacher page */
-                '_teacher/cabinet/login/<id:\d+>' => '_teacher/cabinet/login', /* Url for cabinet teacher page */
                 'consultation/course_<idCourse:\d+>&lecture_<lectureId:\d+>' => 'consultationscalendar/index',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',

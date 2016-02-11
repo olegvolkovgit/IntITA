@@ -2,17 +2,12 @@
 
 class CabinetController extends TeacherCabinetController
 {
+
     public function actionIndex()
     {
-        if (Yii::app()->user->isGuest) {
-            throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
-                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
-        } else {
-            $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
-            if (!$model->hasCabinetAccess()) {
-                throw new CHttpException(403, 'У вас недостатньо прав для перегляду кабінету.
-                Зайдіть з логіном викладача, адміністратора або бухгалтера.');
-            }
+        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        if(!$model){
+            throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
 
@@ -29,8 +24,8 @@ class CabinetController extends TeacherCabinetController
         $role = Roles::model()->findByAttributes(array('title_en' => $page));
         $model = StudentReg::model()->findByPk($user);
 
-        if($role && $model)
-        $this->rolesDashboard($model, array($role));
+        if ($role && $model)
+            $this->rolesDashboard($model, array($role));
 
     }
 
@@ -116,19 +111,6 @@ class CabinetController extends TeacherCabinetController
         ));
     }
 
-    public function actionGetUserInfo($user, $role)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-
-        $jsonObj = array(
-            "name" => StudentReg::getUserName($user),
-        );
-
-        echo json_encode($jsonObj);
-    }
-
-
     public function actionLoadDashboard($user)
     {
         $model = StudentReg::model()->findByPk($user);
@@ -148,7 +130,7 @@ class CabinetController extends TeacherCabinetController
 
     public function rolesDashboard(StudentReg $user, $inRole = null)
     {
-        if ($user->isTeacher()){
+        if ($user->isTeacher()) {
             $teacher = Teacher::model()->findByPk($user->getTeacherId());
             if ($inRole == null) {
                 $roles = $teacher->roles();
@@ -188,19 +170,17 @@ class CabinetController extends TeacherCabinetController
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
         $user = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if($role)
-        {
-            switch(strtolower($role->title_en))
-            {
+        if ($role) {
+            switch (strtolower($role->title_en)) {
                 case 'trainer' :
-                $this->renderPartial('/trainer/sidebar',array(
-                    'teacher' => $teacher,
-                    'user' => $user,
-                    'role' => $role
-                ));
-                break;
+                    $this->renderPartial('/trainer/sidebar', array(
+                        'teacher' => $teacher,
+                        'user' => $user,
+                        'role' => $role
+                    ));
+                    break;
                 case 'consultant' :
-                    $this->renderPartial('/consultant/sidebar',array(
+                    $this->renderPartial('/consultant/sidebar', array(
                         'teacher' => $teacher,
                         'user' => $user,
                         'role' => $role
@@ -211,7 +191,7 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    private function renderTrainerDashboard(Teacher $teacher,StudentReg $user,$role)
+    private function renderTrainerDashboard(Teacher $teacher, StudentReg $user, $role)
     {
         return $this->renderPartial('/trainer/_trainerDashboard', array(
             'teacher' => $teacher,

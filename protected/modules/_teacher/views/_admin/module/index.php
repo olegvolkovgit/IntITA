@@ -11,8 +11,6 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'module-grid',
     'dataProvider' => $model->search(),
-//    'filter' => $model,
-//    'htmlOptions' => array('class' => 'grid-view custom'),
     'pager' => array(
         'firstPageLabel' => '&#171;&#171;',
         'lastPageLabel' => '&#187;&#187;',

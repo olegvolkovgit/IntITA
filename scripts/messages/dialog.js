@@ -46,3 +46,8 @@ function deleteMessage(url, receiver) {
             "json"
         );
 }
+
+function reset(message) {
+    id = "#messageForm" + message;
+    $jq(id).remove();
+}

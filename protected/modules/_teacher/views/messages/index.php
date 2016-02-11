@@ -54,14 +54,6 @@
         </div>
     </div>
 </div>
-
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
-
-<!-- DataTables JavaScript -->
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script>
     $jq(document).ready(function () {
         $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({

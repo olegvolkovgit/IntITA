@@ -223,7 +223,7 @@ function addTranslate(url)
     }
 
 }
-function send(form,data,hasError)
+function sendError(form,data,hasError)
 {
     if(hasError){
         for(var prop in data)
