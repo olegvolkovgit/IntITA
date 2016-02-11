@@ -10,11 +10,11 @@ $module = Module::model()->findByPk($data['id_module']);
         "idCourse" =>$module->getCourseOfModule())); ?>">
     <?php
     $titleParam = Module::getModuleTitleParam();
-    echo $module->$titleParam; ?>
+    echo CHtml::encode($module->$titleParam); ?>
 </a>
 <?php } else {
     $titleParam = Module::getModuleTitleParam();
-    echo $module->$titleParam.' (Модуль недоступний)';
+    echo CHtml::encode($module->$titleParam).' (Модуль недоступний)';
 }?>
 
 <p class="price">

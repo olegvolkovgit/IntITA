@@ -1,6 +1,7 @@
 <?php
+if($owner=='false') $visible='display:none';
+else $visible='';
 $alert = Yii::t('profile', '0546');
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'consultation-grid',
     'dataProvider'=>$dataProvider,
@@ -34,29 +35,30 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'header'=>StudentReg::getUserTitle($userId),
-            'value'=>'StudentReg::getUserNameConsultation(' . $userId . ',$data)',
+            'value'=>'StudentReg::getProfileLinkByRole('.$userId.',$data)',
             'type' => 'raw',
             'htmlOptions'=>array('class'=>'nameColumn'),
         ),
         array(
             'header'=>Yii::t('profile', '0130'),
-            'value'=>'Lecture::getTheme($data)',
+            'value'=>'Lecture::getThemeLink($data)',
             'type' => 'raw',
             'htmlOptions'=>array('class'=>'themeColumn'),
         ),
         array(
             'class'=>'CButtonColumn',
             'template'=>'{customDelete}',
-            'headerHtmlOptions'=>array('style'=>'width:20px;'),
-            'htmlOptions' => array('style'=>'width:20px'),
+            'headerHtmlOptions'=>array('style'=>'width:20px;'.$visible.''),
+            'htmlOptions' => array('style'=>'width:20px;'.$visible.''),
             'buttons'=>array
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'customDelete' => array(
-                    'url' => '$data->id',
+                    'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->idё))',
                     'click'=>'js: function(){ deleteConsultation($(this).attr("href")); return false; }',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'label' => Yii::t('profile', '0547'),
+                    'visible'=> $owner,
                 ),
             ),
         ),
