@@ -7,13 +7,10 @@ class AgreementsController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $model=new UserAgreements('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['UserAgreements']))
-            $model->attributes=$_GET['UserAgreements'];
+        $agreements = UserAgreements::model()->findAll();
 
-        $this->renderPartial('index',array(
-            'model'=>$model,
+        $this->renderPartial('index', array(
+            'agreements' => $agreements
         ));
     }
 
@@ -23,20 +20,19 @@ class AgreementsController extends TeacherCabinetController
      */
     public function actionCreate()
     {
-        $model=new UserAgreements;
+        $model = new UserAgreements;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['UserAgreements']))
-        {
-            $model->attributes=$_POST['UserAgreements'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+        if (isset($_POST['UserAgreements'])) {
+            $model->attributes = $_POST['UserAgreements'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->id));
         }
 
-        $this->renderPartial('create',array(
-            'model'=>$model,
+        $this->renderPartial('create', array(
+            'model' => $model,
         ));
     }
 
@@ -47,20 +43,19 @@ class AgreementsController extends TeacherCabinetController
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
+        $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['UserAgreements']))
-        {
-            $model->attributes=$_POST['UserAgreements'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+        if (isset($_POST['UserAgreements'])) {
+            $model->attributes = $_POST['UserAgreements'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->id));
         }
 
-        $this->renderPartial('update',array(
-            'model'=>$model,
+        $this->renderPartial('update', array(
+            'model' => $model,
         ));
     }
 
@@ -74,7 +69,7 @@ class AgreementsController extends TeacherCabinetController
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
+        if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
 
@@ -87,9 +82,9 @@ class AgreementsController extends TeacherCabinetController
      */
     public function loadModel($id)
     {
-        $model=UserAgreements::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,'The requested page does not exist.');
+        $model = UserAgreements::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
 
@@ -99,44 +94,57 @@ class AgreementsController extends TeacherCabinetController
      */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='user-agreements-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-agreements-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
-    public function actionConfirm($id){
+    public function actionConfirm()
+    {
+        $id = Yii::app()->request->getPost('id', '0');
+        if($id == 0){
+            echo "fail";
+            Yii::app()->end();
+        }
         if (UserAgreements::model()->findByPk($id)->approval_date == null) {
             UserAgreements::model()->updateByPk($id, array(
                 'approval_user' => Yii::app()->user->getId(),
                 'approval_date' => date("Y-m-d H:i:s"),
             ));
+            echo "success";
+        } else {
+            echo "fail";
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionCancel($id){
+    public function actionCancel()
+    {
+        $id = Yii::app()->request->getPost('id', '0');
+        if($id == 0){
+            return "fail";
+        }
         if (UserAgreements::model()->findByPk($id)->approval_date != null) {
-            UserAgreements::model()->updateByPk($id, array(
+            if(UserAgreements::model()->updateByPk($id, array(
                 'cancel_user' => Yii::app()->user->getId(),
                 'cancel_date' => date("Y-m-d H:i:s"),
-            ));
-            $this->redirect(Yii::app()->request->urlReferrer);
+            )))
+                return "success";
+            else return "fail";
         } else {
             throw new CHttpException(403, "Договір ще не підтверджений. Ви не можете його закрити.");
         }
     }
 
-    public function actionAgreement($id){
+    public function actionAgreement($id)
+    {
         $model = UserAgreements::model()->findByPk($id);
 
-        if(is_null($model)){
+        if (is_null($model)) {
             throw new CHttpException(400, "Такого договора немає.");
         }
-        $this->renderPartial('agreement',array(
-            'model'=>$model,
+        $this->renderPartial('agreement', array(
+            'model' => $model,
         ));
     }
-
 }

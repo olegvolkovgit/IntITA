@@ -3,12 +3,13 @@
  * @var $model UserAgreements
  */
 ?>
-<br>
-<h1>Договір № <?php echo $model->number;?></h1>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/invoices/invoicesList', array('id'=> $model->id));?>">
-    Рахунки по договору
-</a>
-<br>
+    <br>
+    <button class="btn btn-primary"
+            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/invoices/invoicesList', array('id'=> $model->id));?>',
+                'Список рахунків по договору №<?=$model->number;?>')">Рахунки по договору
+    </button>
+    <br>
+    <br>
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data'=>$model,
     'attributes'=>array(

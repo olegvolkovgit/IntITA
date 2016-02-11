@@ -19,6 +19,9 @@
  * @property integer $cancel_reason_type
  *
  * @property Service $service
+ * @property StudentReg $user
+ * @property StudentReg $approvalUser
+ * @property StudentReg $cancelUser
  */
 class UserAgreements extends CActiveRecord
 {
@@ -60,6 +63,8 @@ class UserAgreements extends CActiveRecord
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id'),
             'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
+            'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
+            'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
         );
     }
 

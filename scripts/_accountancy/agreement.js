@@ -1,11 +1,9 @@
 /**
  * Created by Quicks on 21.11.2015.
  */
-    function getInvoicesList(url)
-    {
+    function getInvoicesList(url){
         var user = document.getElementById('findUser');
         var divClass = user.classList;
-        //alert(user.innerHTML);
         var agreement = document.getElementsByName('agreement');
         var agreementId = '';
         for(var j = 0 ;j < agreement.length; j++)
@@ -16,7 +14,7 @@
                 break;
             }
         }
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {
@@ -24,36 +22,25 @@
             },
             cache: false,
             success: function(response) {
-                //alert(divClass);
-                //if (user.style.display == 'none') {
-                //    document.getElementById('selectInvoices').style.display = 'block';
-                //    document.getElementById('selectUserInvoices').style.display = 'none';
-                //
-                //    $('div[name="selectInvoices"]').html(response);
-                //}
                 if(divClass == 'findOperation tab-pane fade'){
                     document.getElementById('selectInvoices').style.display = 'block';
                     document.getElementById('selectUserInvoices').style.display = 'none';
-                    $('div[name="selectInvoices"]').html(response);
+                    $jq('div[name="selectInvoices"]').html(response);
                 }
                 else {
                     document.getElementById('selectUserInvoices').style.display = 'block';
-                    //user.style.display = 'none';
-                    //user.removeClass('in active');
-
-                    $('div[name="selectUserInvoices"]').html(response);
+                    $jq('div[name="selectUserInvoices"]').html(response);
                 }
             }
         });
     }
 
 function getAgreementsList(url){
-
     var agreement = document.getElementById('agreementNumber').value;
     document.getElementById('selectInvoices').style.display = 'none';
     if(agreement[2] != undefined)
     {
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {
@@ -63,56 +50,29 @@ function getAgreementsList(url){
             success: function(response)
             {
                 if(response)
-                $('div[name="selectAgreement"]').html(response);
-
-                else
-                    alert('По Вашому запиту нічого не знайдено');
+                $jq('div[name="selectAgreement"]').html(response);
+                else showDialog('По Вашому запиту нічого не знайдено');
             }
         });
     }
 }
 
-//function showOperation(id)
-//{
-//    var offer = document.getElementById('findOffer');
-//    var operation = document.getElementById('findOperation');
-//    var user = document.getElementById('findUser');
-//
-//    var arr = [];
-//    arr.push(offer);
-//    arr.push(operation);
-//    arr.push(user);
-//
-//    for(var i = 0;i < arr.length; i++)
-//    {
-//        if(i == id)
-//            arr[i].style.display = 'block';
-//
-//        else
-//            arr[i].style.display = 'none';
-//
-//    }
-//
-//}
-
-function checkInvoices()
-{
+function checkInvoices(){
     var list = document.getElementsByName('invoices[]');
         for(var i = 0; i < list.length; i++)
         {
             if(list[i].checked)
                 return true;
         }
-    alert("Виберіть хоча б один рахунок");
+    showDialog("Виберіть хоча б один рахунок");
     return false;
 }
 
-function getInvoicesListByNumber(url)
-{
+function getInvoicesListByNumber(url){
     var number = document.getElementById('invoiceNumber').value;
     if(number[2] != undefined)
     {
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {
@@ -122,17 +82,14 @@ function getInvoicesListByNumber(url)
             success: function(response)
             {
                 if(response)
-                $('div[name="selectInvoicesByNumber"]').html(response);
-
-                else
-                    alert('По Вашому запиту нічого не знайдено');
+                $jq('div[name="selectInvoicesByNumber"]').html(response);
+                else showDialog('По Вашому запиту нічого не знайдено');
             }
         });
     }
 }
 
-function getAgreementsListByUser(url)
-{
+function getAgreementsListByUser(url){
     document.getElementById('selectUserInvoices').style.display = 'none';
     document.getElementById('userAgreement').style.display = 'none';
 
@@ -147,7 +104,7 @@ function getAgreementsListByUser(url)
         }
     }
 
-    $.ajax({
+    $jq.ajax({
         type: "POST",
         url: url,
         data: {
@@ -156,17 +113,15 @@ function getAgreementsListByUser(url)
         cache: false,
         success: function(response){
             document.getElementById('userAgreement').style.display = 'block';
-            $('div[name="userAgreement"]').html(response); }
+            $jq('div[name="userAgreement"]').html(response); }
     });
 }
 
-function getUserList(url)
-{
-
+function getUserList(url){
     var number = document.getElementById('userEmail').value;
     if(number[2] != undefined)
     {
-        $.ajax({
+        $jq.ajax({
             type: "POST",
             url: url,
             data: {
@@ -176,10 +131,9 @@ function getUserList(url)
             success: function(response)
             {
                 if(response)
-                    $('div[name="userList"]').html(response);
-
+                    $jq('div[name="userList"]').html(response);
                 else
-                    alert('По Вашому запиту нічого не знайдено');
+                    showDialog('По Вашому запиту нічого не знайдено');
             }
         });
     }

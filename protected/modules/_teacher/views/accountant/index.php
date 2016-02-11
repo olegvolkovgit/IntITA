@@ -1,7 +1,6 @@
 <?php
 /* @var $this DefaultController */
 ?>
-
 <div class="row">
     <div class="col-lg-4">
         <div class="panel panel-green">
@@ -20,7 +19,7 @@
                             Список рахунків</a>
                     </li>
                     <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/cancelReasonType/index'); ?>',
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/index'); ?>',
                                'Проплати')">
                             Проплати</a>
                     </li>

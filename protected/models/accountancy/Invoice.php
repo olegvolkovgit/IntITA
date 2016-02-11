@@ -57,7 +57,7 @@ class Invoice extends CActiveRecord
 		return array(
 			'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
 			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
-			'userCancelled' => array(self::BELONGS_TO, 'User', 'user_cancelled'),
+			'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
 		);
 	}
 

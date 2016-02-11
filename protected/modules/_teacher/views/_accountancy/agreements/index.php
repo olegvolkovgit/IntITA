@@ -1,83 +1,95 @@
 <?php
-
-/* @var $this UserAgreementsController */
-/* @var $dataProvider CActiveDataProvider */
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#user-agreements-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
+/* @var $agreements array
+ * @var $agreement UserAgreements
+ */
 ?>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="dataTable_wrapper">
+                <table class="table table-striped table-bordered table-hover" cellspacing="0" id="agreements">
+                    <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th>Користувач</th>
+                        <th>Дата створення</th>
+                        <th>Дата підтвердження</th>
+                        <th>Підтверджено користувачем</th>
+                        <th>Схема оплати</th>
+                        <th>Управління</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($agreements as $agreement) {
+                        ?>
+                        <tr class="odd gradeX" onclick="load('<?=Yii::app()->createUrl("/_teacher/_accountancy/agreements/agreement", array("id" => $agreement->id));?>','Договір'); return false;" style="cursor:pointer">
+                            <td><?= $agreement->number; ?></td>
+                            <td><?= $agreement->user->userName();?></td>
+                            <td><?=($agreement->create_date)? date("d.m.y", strtotime($agreement->create_date)):""; ?></td>
+                            <td><?=($agreement->approval_date)? date("d.m.y", strtotime($agreement->approval_date)):""; ?></td>
+                            <td><?= ($agreement->approval_user)? $agreement->approvalUser->userName():""; ?></td>
+                            <td><?= PaymentScheme::getName($agreement->payment_schema)?></td>
+                            <td><a href="#" onclick="confirm('<?= Yii::app()->createUrl("/_teacher/_accountancy/agreements/confirm"); ?>',
+                                    '<?=$agreement->id;?>');">
+                                    <img src="<?=StaticFilesHelper::createPath('image', 'common', 'confirm.png')?>"></a>
+                                <a href="#" onclick="cancel('<?= Yii::app()->createUrl("/_teacher/_accountancy/agreements/cancel"); ?>',
+                                    '<?=$agreement->id;?>');">
+                                    <img src="<?=StaticFilesHelper::createPath('image', 'common', 'cancel.png')?>"></a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'user-agreements-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'summaryText'=>'',
-    'emptyText'=>'Договорів не знайдено',
-    'columns'=>array(
-        array(
-            'header' => 'Номер',
-            'value'=>'CHtml::link("$data->number",array("_accountancy/agreements/agreement/?id=".$data->id))',
-            'type'=>'raw',
-            'htmlOptions'=>array('style'=>'cursor: pointer;'),
-        ),
-        array(
-            'name' => 'user_id',
-            'value' => 'StudentReg::getUserNamePayment($data->user_id)',
-        ),
-        array(
-            'name' => 'create_date',
-            'value' => '($data->create_date)? date("d.m.y", strtotime($data->create_date)):""',
-        ),
-        array(
-            'name' => 'approval_user',
-            'value' => 'StudentReg::getUserNamePayment($data->approval_user)',
-        ),
-        array(
-            'name' => 'approval_date',
-            'value' => '($data->approval_date)? date("d.m.y", strtotime($data->approval_date)):""',
-        ),
-        array(
-            'name' => 'cancel_user',
-            'value' => 'StudentReg::getUserNamePayment($data->cancel_user)',
-        ),
-        array(
-            'name' => 'cancel_date',
-            'value' => '($data->cancel_date)? date("d.m.y", strtotime($data->cancel_date)):""',
-        ),
-        array(
-            'name' => 'close_date',
-            'value' => '($data->close_date)? date("d.m.y", strtotime($data->close_date)):""',
-        ),
-        array(
-            'name' => 'payment_schema',
-            'value' => 'PaymentScheme::getName($data->payment_schema)',
-        ),
-        array(
-            'class'=>'CButtonColumn',
-            'template'=>'{confirm}{cancel}',
-            'buttons' => array
-            (
-                'confirm'=>array(
-                    'label' => 'Підтвердити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_accountancy/agreements/confirm", array("id"=>$data->id));',
-                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'confirm.png'),
-                ),
-                'cancel'=>array(
-                    'label' => 'Відмінити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_accountancy/agreements/cancel", array("id"=>$data->id));',
-                    'imageUrl' => StaticFilesHelper::createPath('image', 'common', 'cancel.png'),
-                ),
-            ),
-        ),
-    ),
-)); ?>
+<script>
+    $jq(document).ready(function () {
+        $jq('#agreements').DataTable({
+                language: {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                }
+            }
+        );
+    });
+
+    function confirm(url, id) {
+        var posting = $jq.post(url, {id: id});
+        posting.done(function (response) {
+                if (response == "success") {
+                    bootbox.alert("Договір " + id + " підтверджений.", refresh);
+                }
+                else {
+                    bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+                }
+            })
+            .fail(function () {
+                bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+            });
+    }
+    function cancel(url, id) {
+        var posting = $jq.post(url, {id: id});
+        posting.done(function (response) {
+                if (response == "success") {
+                    bootbox.alert("Договір " + id + " скасований.",  refresh);
+                }
+                else {
+                    bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.",  refresh;
+                }
+            })
+            .fail(function () {
+                bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+            });
+    }
+
+    function refresh(){
+        load(basePath + "/_teacher/_accountancy/agreements/index", 'Список договорів');
+    }
+</script>

@@ -31,7 +31,7 @@ class OperationTypeController extends AccountancyController
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
-		$this->render('create',array(
+		$this->renderPartial('create',array(
 			'model'=>$model,
 		));
 	}
