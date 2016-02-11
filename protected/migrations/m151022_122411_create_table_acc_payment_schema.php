@@ -12,7 +12,7 @@ class m151022_122411_create_table_acc_payment_schema extends CDbMigration
             'name' => 'VARCHAR(512) NOT NULL COMMENT "опис" COLLATE `utf8_bin`',
             'monthpay' => 'TINYINT(1) NOT NULL DEFAULT "0"',
         ));
-		$this->insertMultiple('acc_operation_type', array(
+		$this->insertMultiple('acc_payment_schema', array(
 			array(
                 'id' => '1',
                 'discount' => '30',
