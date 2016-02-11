@@ -151,11 +151,9 @@ class CoursemanageController extends TeacherCabinetController
     public function actionAddExistModule(){
 
         $courses = Course::generateCoursesList();
-        $modules = Module::generateModulesList();
 
         $this->renderPartial('addExistModule',array(
             'courses' => $courses,
-            'modules' => $modules
         ),false,true);
     }
 
@@ -244,5 +242,13 @@ class CoursemanageController extends TeacherCabinetController
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
+    public function actionGenerationAvailableModule(){
 
+        if(isset($_POST['course']))
+            $course = $_POST['course'];
+
+        $result = Module::showAvailableModule($course);
+
+        echo $result;
+    }
 }
