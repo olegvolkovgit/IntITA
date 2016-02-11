@@ -23,8 +23,9 @@
                     <?php
                     foreach ($agreements as $agreement) {
                         ?>
-                        <tr class="odd gradeX" onclick="load('<?=Yii::app()->createUrl("/_teacher/_accountancy/agreements/agreement", array("id" => $agreement->id));?>','Договір'); return false;" style="cursor:pointer">
-                            <td><?= $agreement->number; ?></td>
+                        <tr class="odd gradeX">
+                            <td onclick="load('<?=Yii::app()->createUrl("/_teacher/_accountancy/agreements/agreement", array("id" => $agreement->id));?>','Договір'); return false;" style="cursor:pointer">
+                                <?= $agreement->number; ?></td>
                             <td><?= $agreement->user->userName();?></td>
                             <td><?=($agreement->create_date)? date("d.m.y", strtotime($agreement->create_date)):""; ?></td>
                             <td><?=($agreement->approval_date)? date("d.m.y", strtotime($agreement->approval_date)):""; ?></td>
@@ -55,41 +56,4 @@
             }
         );
     });
-
-    function confirm(url, id) {
-        var posting = $jq.post(url, {id: id});
-        posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Договір " + id + " підтверджений.", refresh);
-                }
-                else {
-                    bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
-                }
-            })
-            .fail(function () {
-                bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
-            });
-    }
-    function cancel(url, id) {
-        var posting = $jq.post(url, {id: id});
-        posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Договір " + id + " скасований.",  refresh);
-                }
-                else {
-                    bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.",  refresh;
-                }
-            })
-            .fail(function () {
-                bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
-            });
-    }
-
-    function refresh(){
-        load(basePath + "/_teacher/_accountancy/agreements/index", 'Список договорів');
-    }
 </script>

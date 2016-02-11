@@ -3,10 +3,7 @@
 /* @var $model OperationType */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/formattedForm.css"/>
-
 <div class="form">
-
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'operation-type-form',
     'htmlOptions' => array(

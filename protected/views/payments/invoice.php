@@ -11,6 +11,9 @@
 <link rel="stylesheet"
     href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
+<head>
+    <meta charset="UTF-8">
+</head>
 <div class="container">
     <div class="row">
         <?php $this->renderPartial('_account', array('model' => $invoice), false, true); ?>

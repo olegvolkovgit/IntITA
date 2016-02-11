@@ -1,6 +1,7 @@
 <?php
 /* @var $this DefaultController */
 ?>
+<link rel="stylesheet" type="text/css" href="<?=StaticFilesHelper::fullPathTo('css', 'operation.css');?>"/>
 <div class="row">
     <div class="col-lg-4">
         <div class="panel panel-green">
@@ -59,3 +60,4 @@
         </div>
     </div>
 </div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_accountancy/agreement.js'); ?>"></script>

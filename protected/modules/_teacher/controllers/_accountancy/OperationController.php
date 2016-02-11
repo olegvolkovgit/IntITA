@@ -23,7 +23,6 @@ class OperationController extends TeacherCabinetController
         $invoices = Invoice::getAllInvoices();
 
         $this->renderPartial('create', array(
-            //'model'=>$model,
             'agreementsList' => $agreements,
             'invoicesList' => $invoices,
         ), false, true);
@@ -73,7 +72,7 @@ class OperationController extends TeacherCabinetController
     {
         $operations = Operation::model()->findAll();
 
-        $this->render('index', array(
+        $this->renderPartial('index', array(
             'operations' => $operations,
         ));
     }
@@ -107,7 +106,6 @@ class OperationController extends TeacherCabinetController
 
     public function actionGetSearchAgreements()
     {
-
         $agreement = Yii::app()->request->getPost('agreement', 0);
 
         $result = UserAgreements::findLikeAgreement($agreement);
@@ -119,17 +117,13 @@ class OperationController extends TeacherCabinetController
     public function actionGetInvoicesList()
     {
         $id = Yii::app()->request->getPost('id');
-
-        //var_dump($id);die;
         $result = UserAgreements::model()->findByPk($id)->getInvoices();
-
         return $this->renderPartial('_ajaxInvoices', array('invoices' => $result));
     }
 
     public function actionCreateByInvoice()
     {
         $request = Yii::app()->request;
-
         $invoice = $request->getPost('invoices', "");
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
@@ -137,7 +131,6 @@ class OperationController extends TeacherCabinetController
         $source = $request->getPost('source', 0);
 
         $type = OperationType::model()->findByPk($typeId);
-
         if (Operation::performOperation($summa, $user, $type, $invoice, $source))
         {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
@@ -151,9 +144,7 @@ class OperationController extends TeacherCabinetController
     public function actionGetInvoicesByNumber()
     {
         $invoiceNumber = Yii::app()->request->getPost('invoiceNumber', 0);
-
         $result = Invoice::findLikeInvoices($invoiceNumber);
-
         return $this->renderPartial('_ajaxInvoices', array('invoices' => $result));
     }
 
