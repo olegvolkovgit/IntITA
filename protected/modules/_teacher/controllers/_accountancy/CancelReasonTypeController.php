@@ -28,7 +28,7 @@ class CancelReasonTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['CancelReasonType'];
             if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+                $this->redirect($this->pathToCabinet());
         }
 
         $this->render('create',array(
@@ -52,7 +52,7 @@ class CancelReasonTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['CancelReasonType'];
             if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+                $this->redirect($this->pathToCabinet());
         }
 
         $this->render('update',array(

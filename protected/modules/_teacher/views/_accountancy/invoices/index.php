@@ -30,11 +30,11 @@
                                     'Договір'); return false;">Договір <?=$invoice->agreement->number; ?></a></td>
                             <td><?= ($invoice->date_created)? date("d.m.y", strtotime($invoice->date_created)):"" ?></td>
                             <td><?= $invoice->summa; ?></td>
-                            <td><?= $invoice->userCreated->userName();?></td>
+                            <td><?= $invoice->userCreated->userNameWithEmail();?></td>
                             <td><?= ($invoice->payment_date)? date("d.m.y", strtotime($invoice->payment_date)):""; ?></td>
                             <td><?= ($invoice->pay_date)? date("d.m.y", strtotime($invoice->pay_date)):""; ?></td>
                             <td><?= ($invoice->expiration_date)? date("d.m.y", strtotime($invoice->expiration_date)):"" ?></td>
-                            <td><?= ($invoice->user_cancelled)?$invoice->userCancelled->userName():"";?></td>
+                            <td><?= ($invoice->user_cancelled)?$invoice->userCancelled->userNameWithEmail():"";?></td>
                         </tr>
                     <?php } ?>
                     </tbody>

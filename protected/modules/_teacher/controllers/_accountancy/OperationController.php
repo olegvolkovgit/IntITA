@@ -133,11 +133,11 @@ class OperationController extends TeacherCabinetController
         $type = OperationType::model()->findByPk($typeId);
         if (Operation::performOperation($summa, $user, $type, $invoice, $source))
         {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect($this->pathToCabinet());
         }
         else
         {
-            throw new CException('Operation is not saved!');
+            throw new \application\components\Exceptions\IntItaException(500, 'Помилка сервера. Проплата не проведена.');
         }
     }
 
@@ -152,17 +152,17 @@ class OperationController extends TeacherCabinetController
     {
         $userEmail = Yii::app()->request->getPost('userEmail', 0);
         $userList = StudentReg::findLikeEmail($userEmail);
-        $user = [];
+        $agreements = [];
         if ($userList) {
             foreach ($userList as $users) {
                 $userAgr = UserAgreements::model()->findByAttributes(array('user_id' => $users->id));
                 if ($userAgr) {
-                    array_push($user, $userAgr);
+                    array_push($agreements, $userAgr);
                 }
             }
         }
 
-        return $this->renderPartial('_ajaxUser', array('users' => $user));
+        return $this->renderPartial('_ajaxUser', array('agreements' => $agreements));
     }
 
     public function actionGetAgreementsByUser()

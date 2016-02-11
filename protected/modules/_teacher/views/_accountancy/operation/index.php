@@ -7,8 +7,7 @@
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/create'); ?>',
-                'Додати проплату')">
-        Нова проплата
+                'Додати проплату')">Нова проплата
     </button>
     <br>
     <br>

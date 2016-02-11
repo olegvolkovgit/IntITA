@@ -26,10 +26,10 @@
                         <tr class="odd gradeX">
                             <td onclick="load('<?=Yii::app()->createUrl("/_teacher/_accountancy/agreements/agreement", array("id" => $agreement->id));?>','Договір'); return false;" style="cursor:pointer">
                                 <strong><?= $agreement->number; ?></strong></td>
-                            <td><?= $agreement->user->userNameOrEmail();?></td>
+                            <td><?= $agreement->user->userNameWithEmail();?></td>
                             <td><?=($agreement->create_date)? date("d.m.y", strtotime($agreement->create_date)):""; ?></td>
                             <td><?=($agreement->approval_date)? date("d.m.y", strtotime($agreement->approval_date)):""; ?></td>
-                            <td><?= ($agreement->approval_user)? $agreement->approvalUser->userNameOrEmail():""; ?></td>
+                            <td><?= ($agreement->approval_user)? $agreement->approvalUser->userNameWithEmail():""; ?></td>
                             <td><?= $agreement->paymentSchema->name;?></td>
                             <td><a href="#" onclick="confirm('<?= Yii::app()->createUrl("/_teacher/_accountancy/agreements/confirm"); ?>',
                                     '<?=$agreement->id;?>');">

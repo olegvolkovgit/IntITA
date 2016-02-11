@@ -8,7 +8,7 @@ class ExternalSourcesController extends TeacherCabinetController
      */
     public function actionView($id)
     {
-        $this->render('view',array(
+        $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
         ));
     }
@@ -28,10 +28,10 @@ class ExternalSourcesController extends TeacherCabinetController
         {
             $model->attributes=$_POST['ExternalSources'];
             if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+                $this->redirect($this->pathToCabinet());
         }
 
-        $this->render('create',array(
+        $this->renderPartial('create',array(
             'model'=>$model,
         ));
     }
@@ -52,10 +52,10 @@ class ExternalSourcesController extends TeacherCabinetController
         {
             $model->attributes=$_POST['ExternalSources'];
             if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+                $this->redirect($this->pathToCabinet());
         }
 
-        $this->render('update',array(
+        $this->renderPartial('update',array(
             'model'=>$model,
         ));
     }
@@ -71,7 +71,7 @@ class ExternalSourcesController extends TeacherCabinetController
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect($this->pathToCabinet());
     }
 
     /**

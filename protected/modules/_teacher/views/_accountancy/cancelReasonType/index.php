@@ -29,8 +29,5 @@ $('.search-form form').submit(function(){
     'columns'=>array(
         'id',
         'description',
-        array(
-            'class'=>'CButtonColumn',
-        ),
     ),
 )); ?>

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 08.12.2015
- * Time: 15:46
- */
 if($operations)
 {?>
     <br>
@@ -12,7 +6,7 @@ if($operations)
     <div class="col-md-8">
     <table class="table table-striped">
     <tr>
-        <td>Хто створив</td><td>Сумма</td><td>Тип операції</td><td>Відмінити</td>
+        <td>Хто створив</td><td>Сума</td><td>Тип операції</td><td>Відмінити</td>
     </tr>
         <?php foreach($operations as $operation)
         {?>

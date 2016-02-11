@@ -677,13 +677,13 @@ class StudentReg extends CActiveRecord
         return trim($name);
     }
 
-    public function userNameOrEmail()
+    public function userNameWithEmail()
     {
         $name = $this->firstName . " " . $this->secondName;
-        if ($name) {
+        if ($name == "") {
             return $this->email;
         } else {
-            return trim($name . ", " . $this->email);
+            return trim($name. ", ".$this->email);
         }
     }
 

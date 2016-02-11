@@ -4,7 +4,7 @@
  */
 ?>
 <div id="operationForm1">
-    <form method="POST" name="newOperation" class="formatted-form" action="#"
+    <form method="POST" name="newOperation" action="#"
         <?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/getSearchAgreements');?>>
         <fieldset form="newOperation" title="Пошук договора">
             <br>
@@ -22,8 +22,8 @@
         <?php $this->renderPartial('_ajaxAgreement', array('agreements' => '')); ?>
     </div>
     <form action="<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/createByInvoice'); ?>"
-          method="POST" name="newOperation" class="formatted-form"
-          onsubmit="return checkInvoices('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/createByInvoice'); ?>')">
+          class="operationMargin"
+          method="POST" onsubmit="return checkInvoices();">
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">
         <input type="number" name="source" value="1" hidden="hidden">
@@ -34,9 +34,9 @@
             </div>
             <div class="col-sm-8">
                 <div class="form-inline">
-                    <div class="input-group  col-sm-6">
+                    <div class="input-group col-sm-6">
                         <div class="input-group-addon" id="icon">uah</div>
-                        <input type="number" class="form-control" name="summa" value="" required
+                        <input type="number" class="form-control" name="summa" id="summa" value="" required
                                placeholder="Введіть суму операції"/>
                         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>"
                                hidden="hidden">
@@ -45,11 +45,42 @@
                     </div>
                 </div>
                 <br/>
-                <button type="submit" class="btn btn-primary">Додати</button>
+                <button class="btn btn-primary"
+                        onclick="newOperation('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/operation/createByInvoice"); ?>'); return false;">Додати</button>
             </div>
         </fieldset>
     </form>
 </div>
+<script>
+    function newOperation(url){
+        summa = $jq("#summa").val();
+        alert(summa);
+        if (summa ) {
+            bootbox.alert('Введіть суму операції.');
+        } else {
+            var posting = $jq.post(url, {user: user});
+            posting.done(function (response) {
+                    if (response == 1) {
+                        bootbox.alert("Користувач " + user + " призначений адміністратором.", function () {
+                            location.href = window.location.pathname;
+                        });
+                    }
+                    else {
+                        bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                            location.href = window.location.pathname;
+                        });
+                    }
+                })
+                .fail(function () {
+                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                        location.href = window.location.pathname;
+                    });
+                });
+        }
+    }
+</script>
 
 
 
