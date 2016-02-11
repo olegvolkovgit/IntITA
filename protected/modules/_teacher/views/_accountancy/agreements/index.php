@@ -25,12 +25,12 @@
                         ?>
                         <tr class="odd gradeX">
                             <td onclick="load('<?=Yii::app()->createUrl("/_teacher/_accountancy/agreements/agreement", array("id" => $agreement->id));?>','Договір'); return false;" style="cursor:pointer">
-                                <?= $agreement->number; ?></td>
-                            <td><?= $agreement->user->userName();?></td>
+                                <strong><?= $agreement->number; ?></strong></td>
+                            <td><?= $agreement->user->userNameOrEmail();?></td>
                             <td><?=($agreement->create_date)? date("d.m.y", strtotime($agreement->create_date)):""; ?></td>
                             <td><?=($agreement->approval_date)? date("d.m.y", strtotime($agreement->approval_date)):""; ?></td>
-                            <td><?= ($agreement->approval_user)? $agreement->approvalUser->userName():""; ?></td>
-                            <td><?= PaymentScheme::getName($agreement->payment_schema)?></td>
+                            <td><?= ($agreement->approval_user)? $agreement->approvalUser->userNameOrEmail():""; ?></td>
+                            <td><?= $agreement->paymentSchema->name;?></td>
                             <td><a href="#" onclick="confirm('<?= Yii::app()->createUrl("/_teacher/_accountancy/agreements/confirm"); ?>',
                                     '<?=$agreement->id;?>');">
                                     <img src="<?=StaticFilesHelper::createPath('image', 'common', 'confirm.png')?>"></a>

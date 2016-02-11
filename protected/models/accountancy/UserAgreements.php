@@ -20,6 +20,7 @@
  *
  * @property Service $service
  * @property StudentReg $user
+ * @property PaymentScheme $paymentSchema
  * @property StudentReg $approvalUser
  * @property StudentReg $cancelUser
  */
@@ -65,6 +66,7 @@ class UserAgreements extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
+            'paymentSchema' => array(self::BELONGS_TO, 'PaymentScheme', 'payment_schema'),
         );
     }
 

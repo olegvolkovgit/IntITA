@@ -620,13 +620,13 @@ class StudentReg extends CActiveRecord
     {
         if ($id) {
             $model = StudentReg::model()->findByPk($id);
-            if($model){
-            if ($model->secondName == '' && $model->firstName == '') {
-                return $model->email;
-            } else {
-                return $model->secondName . " " . $model->firstName . ", " . $model->email;
+            if ($model) {
+                if ($model->secondName == '' && $model->firstName == '') {
+                    return $model->email;
+                } else {
+                    return $model->secondName . " " . $model->firstName . ", " . $model->email;
+                }
             }
-        }
         }
     }
 
@@ -635,7 +635,6 @@ class StudentReg extends CActiveRecord
         $teacherId = $this->teacher;
         if($teacherId)
         return $teacherId->teacher_id;
-
     }
 
     public static function findLikeEmail($userEmail)
@@ -676,6 +675,16 @@ class StudentReg extends CActiveRecord
     {
         $name = $this->firstName . " " . $this->secondName;
         return trim($name);
+    }
+
+    public function userNameOrEmail()
+    {
+        $name = $this->firstName . " " . $this->secondName;
+        if ($name) {
+            return $this->email;
+        } else {
+            return trim($name . ", " . $this->email);
+        }
     }
 
     public static function getRoleString($id)
