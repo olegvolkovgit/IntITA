@@ -70,7 +70,18 @@
         source: users,
         templates: {
             suggestion: function(item) {
-                return "<p><em>" + item.value + "</em></p>"; }
+                var item = item.value;
+                var arr=item.split(", ");
+                var name, email=[];
+                for(var i=0; i< arr.length; i++)
+                {
+                    if (i % 2 == 0)
+                        name = arr[i];
+                    else
+                        email = arr[i];
+                }
+
+                return "<p>" + "<span class='col-md-4 name'>"+name +"</span>"+'&nbsp;' + "<span class='col-md-4'>"+email +"</span>"+ "</p>"; }
         }
     });
 

@@ -22,6 +22,10 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box;
 }
+.tt-menu .name{
+    color:#4b70a3;
+    font-size:18px;
+}
 
 #typeahead .empty-message {
     text-align: center;
