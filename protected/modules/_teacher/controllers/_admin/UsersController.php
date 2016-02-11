@@ -70,4 +70,10 @@ class UsersController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
+
+    public function actionGetStudentsList() {
+        $startDate = Yii::app()->request->getParam('startDate');
+        $endDate = Yii::app()->request->getParam('endDate');
+        echo StudentReg::getStudentsList($startDate, $endDate);
+    }
 }
