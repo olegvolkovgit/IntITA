@@ -180,18 +180,21 @@ p.tabHeader{
 .profileCourse td{
     vertical-align: bottom;
 }
+.profileCourse td img{
+    vertical-align: baseline;
+}
+.currentCourseTitle{
+    border-bottom: 2px solid #d8d8d8;
+}
 /*My Course*/
 #myCourse div{
-     border-bottom:1px solid #d8d8d8;
-     margin: 0 10px 0 0;
+     margin: 0 0 10px 0;
  }
-
+.courseData{
+    border-bottom:1px solid #d8d8d8;
+}
 #myCourse a{
     text-decoration: none;
-}
-
-.profileCourse div{
-    padding-bottom: 20px;
 }
 .profileCourse table{
     margin-top: 20px;

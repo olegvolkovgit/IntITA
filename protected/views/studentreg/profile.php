@@ -16,12 +16,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <td>
                     <h2><?php $post::getProfileRole($post->id); ?></h2>
                 </td>
-                <td>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
-                </td>
-                <td>
-                    <a href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
-                </td>
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
@@ -29,7 +23,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
                     <h1><?php echo $post->nickname; ?></h1>
                     <h1><?php echo $post->firstName; ?></h1>
                     <h1><?php echo $post->secondName; ?></h1>
@@ -86,25 +79,16 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <div class="tabs">
             <ul>
                 <li>
-                    <?php echo Yii::t('profile', '0108'); ?>
+                    <?php echo 'Курси'; ?>
                 </li>
                 <li>
                     <?php echo Yii::t('profile', '0109'); ?>
                 </li>
                 <li>
-                    <?php echo Yii::t('profile', '0113'); ?>
-                </li>
-            </ul>
-            <hr class="lineUnderTab">
-            <ul>
-                <li>
-                    <?php echo Yii::t('profile', '0115'); ?>
+                    <?php echo 'Рейтинг'; ?>
                 </li>
                 <li>
-                    <?php echo Yii::t('profile', '0116'); ?>
-                </li>
-                <li>
-                    <?php echo Yii::t('profile', '0117'); ?>
+                    <?php echo 'Оцінювання'; ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -117,9 +101,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('id' => $post->id)); ?>
-                </div>
-                <div id="mylettersSend">
-                    <?php $this->renderPartial('_mylettersSend', array('letter' => $letter, 'sentLettersProvider' => $sentLettersProvider, 'receivedLettersProvider' => $receivedLettersProvider)); ?>
                 </div>
                 <div id="myMark">
                     <p class="tabHeader"><?php echo Yii::t('profile', '0116'); ?></p>
@@ -138,14 +119,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         ),
                     ));
                     ?>
-                </div>
-                <div id="finances">
-                    <?php $this->renderPartial('_finances', array('paymentsCourses' => $paymentsCourses,
-                        'paymentsModules' => $paymentsModules,
-                        'course' => $course,
-                        'module' => $module,
-                        'schema' => $schema,
-                    )); ?>
                 </div>
             </div>
         </div>

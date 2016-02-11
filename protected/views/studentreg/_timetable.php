@@ -8,7 +8,7 @@
             <?php
             echo CHtml::ajaxLink(
                 "<span >" .Yii::t('profile', '0608'). "</span>",
-                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 1)),
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 1, 'owner' => $owner)),
                 array(
                     'update' => '#timetablecontent'
                 ),
@@ -23,7 +23,7 @@
             <?php
             echo CHtml::ajaxLink(
                 "<span >" . Yii::t('profile', '0111') . "</span>",
-                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 2)),
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 2, 'owner' => $owner)),
                 array(
                     'update' => '#timetablecontent'
                 ),
@@ -38,7 +38,7 @@
             <?php
             echo CHtml::ajaxLink(
                 "<span>" . Yii::t('profile', '0110') . "</span>",
-                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 3)),
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 3, 'owner' => $owner)),
                 array(
                     'update' => '#timetablecontent'
                 ),
@@ -53,7 +53,7 @@
             <?php
             echo CHtml::ajaxLink(
                 "<span>" . Yii::t('profile', '0124') . "</span>",
-                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 4)),
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 4, 'owner' => $owner)),
                 array(
                     'update' => '#timetablecontent'
                 ),
@@ -68,7 +68,7 @@
             <?php
             echo CHtml::ajaxLink(
                 "<span>" . Yii::t('profile', '0125') . "</span>",
-                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 5)),
+                Yii::app()->createUrl('studentreg/timetableprovider', array('user' => $user->id, 'tab' => 5, 'owner' => $owner)),
                 array(
                     'update' => '#timetablecontent'
                 ),
@@ -80,7 +80,7 @@
 </table>
 <div class="consult" id="timetablecontent">
     <div>
-        <?php $this->renderPartial('_timetableprovider', array('dataProvider' => $dataProvider, 'userId' => $user->id)); ?>
+        <?php $this->renderPartial('_timetableprovider', array('dataProvider' => $dataProvider, 'userId' => $user->id, 'owner' => $owner)); ?>
     </div>
 </div>
 <script>
