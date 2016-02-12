@@ -369,7 +369,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     init();
     function init(){
-        getTaskJson.getJson($scope.lang,$scope.task,$scope.interpreterServer).then(function(response){
+        getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
             $scope.editedJson=response;
             //load json for edit if it is
             if ($scope.editedJson != undefined){

@@ -2,7 +2,7 @@
  * Created by Wizlight on 21.01.2016.
  */
 angular
-    .module('interpreterApp')
+    .module('lessonEdit')
     .service('getTaskJson', [
         '$http',
         function($http) {
