@@ -54,7 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
                 'htmlOptions'=>array('display' => 'none'),
                 'customDelete' => array(
-                    'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->idё))',
+                    'url' => 'Yii::app()->createUrl("consultationscalendar/deleteconsultation", array("id"=>$data->id))',
                     'click'=>'js: function(){ deleteConsultation($(this).attr("href")); return false; }',
                     'imageUrl'=>  StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'label' => Yii::t('profile', '0547'),
