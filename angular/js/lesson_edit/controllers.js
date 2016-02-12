@@ -165,15 +165,15 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJs
     //    });
     //}
     $scope.editTaskCKE = function (blockId) {
-        alert($scope.interpreterServer);
         editTaskCondition(blockId)
             .then(function(editResponse) {
                 if(editResponse){
                     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
                         if (response != undefined){
                             $scope.editedJson=response;
+                            $scope.editedJson=JSON.parse($scope.editedJson);
                             $scope.editedJson.lang=selectedLang;
-                            sendTaskJsonService.sendJson(url,$scope.editedJson);
+                            sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson);
                         }
                     });
                 }else{

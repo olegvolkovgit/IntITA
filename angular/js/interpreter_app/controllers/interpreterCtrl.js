@@ -181,11 +181,17 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         for (var i = 0; i < _data.function.args.length; i++) {
             if (_data.function.args[i].is_array) {
                 for (var j = 0; j < _data.function.args[i].value.length; j++) {
-                    if($scope.res_finalResult.function.args[i].value[j]!=null && (typeof _data.function.args[i].value[j])=='string'){
+                    if ($scope.res_finalResult.function.args[i].value[j] != null && (typeof _data.function.args[i].value[j]) == 'string') {
                         $scope.res_finalResult.function.args[i].value[j] = _data.function.args[i].value[j].split(',');
                     }
+                }
+                for (var j = 0; j < _data.function.args[i].etalon_value.length; j++) {
                     if($scope.res_finalResult.function.args[i].etalon_value[j]!=null && (typeof _data.function.args[i].etalon_value[j])=='string'){
                         $scope.res_finalResult.function.args[i].etalon_value[j] = _data.function.args[i].etalon_value[j].split(',');
+                        for (var n = 0; n < _data.function.args[i].size; n++) {
+                            if($scope.res_finalResult.function.args[i].etalon_value[j][n]==undefined)
+                                $scope.res_finalResult.function.args[i].etalon_value[j].push('');
+                        }
                     }
                 }
             }
