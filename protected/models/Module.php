@@ -27,7 +27,12 @@
  *
  * The followings are the available model relations:
  * @property Course $course0
+ * @property Level $level0
  */
+
+const EDITOR_ENABLED = 1;
+const EDITOR_DISABLED = 0;
+ 
 class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
@@ -54,8 +59,7 @@ class Module extends CActiveRecord implements IBillableObject
             array('language, title_ua, level', 'required'),
             array('alias,module_number','unique'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
-            module_number, cancelled', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
-            array('level', 'length', 'max' => 45),
+            module_number, cancelled, level', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
             array('module_price', 'length', 'max' => 10),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30),
@@ -64,7 +68,7 @@ class Module extends CActiveRecord implements IBillableObject
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
                 'message' => 'Тільки українські символи!','on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('module_img', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
@@ -87,8 +91,11 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
-            'lectures' => array(self::HAS_MANY, 'Lecture','idModule'),
-            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)'),
+            'lectures' => array(self::HAS_MANY, 'Lecture','idModule',
+                                                'order' => 'lectures.order ASC'),
+            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
+                                                'on' => 'teacher.isPrint=1'),
+            'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
 
@@ -246,39 +253,52 @@ class Module extends CActiveRecord implements IBillableObject
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
     }
 
-    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
-    {
-        $module = new Module();
-        $coursemodule = new CourseModules();
-
-        $module->level = Course::model()->findByPk($idCourse)->level;
-        $module->language = $lang;
-        $module->title_ua = $titleUa;
-        $module->title_ru = $titleRu;
-        $module->title_en = $titleEn;
-        if ($module->validate()) {
-            $module->save();
-        }
-
-        $order = CourseModules::model()->count("id_course=$idCourse");
-
-        $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
-        $module->alias = $idModule;
-        if($module->save()){
-            Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
-            if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
-                mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
-            }
-            $coursemodule->id_course = $idCourse;
-            $coursemodule->id_module = $idModule;
-            $coursemodule->order = $order + 1;
-            if ($coursemodule->validate()) {
-                $coursemodule->save();
-            }
-        }
-
-        return $order;
+    public function level(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        return $this->level0->$title;
     }
+
+    public function rate(){
+        return $this->level0->id;
+    }
+
+
+    /**
+     * Creating module processes in initNewModule function.
+     * Deprecated.
+     */
+//    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
+//    {
+//        $module = new Module();
+//        $courseModule = new CourseModules();
+//        $module->level = Course::model()->findByPk($idCourse)->level;
+//        $module->language = $lang;
+//        $module->title_ua = $titleUa;
+//        $module->title_ru = $titleRu;
+//        $module->title_en = $titleEn;
+//        if ($module->validate()) {
+//            if($module->save()){
+//                $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
+//                $module->alias = $idModule;
+//                $module->save();
+//                $order = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
+//                )->queryAll());
+//                Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
+//                if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
+//                    mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
+//                }
+//                $courseModule->id_course = $idCourse;
+//                $courseModule->id_module = $idModule;
+//                $courseModule->order = $order + 1;
+//                if ($courseModule->validate()) {
+//                    $courseModule->save();
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     public static function getModules($id)
     {
@@ -368,6 +388,14 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
+    public function getNumber(){
+        return $this->module_number;
+    }
+
+    public function getType(){
+        return 'M';
+    }
+
     public static function showModule($course)
     {
         $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
@@ -389,6 +417,38 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData = new CDbCriteria;
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $rows = Module::model()->findAll($criteriaData);
+        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
+        foreach ($rows as $numRow => $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
+        };
+        $last = '</select>';
+        return $result . $last;
+    }
+    public static function showAvailableModule($course)
+    {
+        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
+
+        $modulelist = [];
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('id_course=' . $course);
+        $temp = CourseModules::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+        $titleParam = Module::getModuleTitleParam();
+
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addNotInCondition('module_ID', $modulelist);
 
         $rows = Module::model()->findAll($criteriaData);
         $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
@@ -842,5 +902,250 @@ class Module extends CActiveRecord implements IBillableObject
         $module = Module::model()->findByPk($idModule);
         return $module->teacher;
     }
+    
+    /**
+     * Checks if model can be editable by current user
+     * @return int "1" if model editable by current user, "0" if does not editable
+     */
+    public function isEditableByCurrentUser() {
+        if (!Yii::app()->user->isGuest) { // if user not guest
+            if ($this->teacher == null) {
+                $this->getRelated('teacher');
+            }
+            $authId = Yii::app()->user->getId();
+            foreach ($this->teacher as $teacher){
+                if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
+                    return EDITOR_ENABLED;
+                    break;
+                }
+            }
+        }
+        return EDITOR_DISABLED;
+    }
+
+    /**
+     * Returns CArrayDataProvider of lectures.
+     * @return CArrayDataProvider
+     */
+    public function getLecturesDataProvider($reloadLectures = false) {
+        if ($this->lectures == null || $reloadLectures) {
+            $this->getRelated('lectures');
+        }
+        return new CArrayDataProvider($this->lectures, array(
+            'pagination' => false
+        ));
+    }
+
+    /**
+     * Creates new lecture.
+     * @param array $params must include fields 'titleUa', 'titleRu', 'titleEn', 'order';
+     * @return Lecture - created lecture instance.
+     */
+
+    public function addLecture($params) {
+
+        $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
+
+        //todo: rafactor static method
+        $lecture = Lecture::model()->addNewLesson(
+            $this->module_ID,
+            $params['titleUa'],
+            $params['titleRu'],
+            $params['titleEn'],
+            $teacher->teacher_id
+        );
+
+        $this->lesson_count = $this->getLecturesCount(true);
+        $this->update(array('lesson_count'));
+
+        LecturePage::addNewPage($lecture->id, 1);
+
+        return $lecture;
+    }
+
+    /**
+     * Returns count of lectures in the module
+     * @return int
+     * @throws CDbException
+     */
+
+    public function getLecturesCount($reloadLectures = false) {
+        if (!isset($this->lectures) || $reloadLectures){
+            $this->getRelated('lectures');
+        }
+        return count($this->lectures);
+    }
+
+
+    /**
+     * Disables lecture from the module and shifting order of lessons;
+     * @param $idLecture
+     * @throws CDbException
+     */
+    public function disableLesson($idLecture) {
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $oldLecturePosition = $lecture->order;
+
+        $count =  $this->getLecturesCount();
+
+        $lecture->idModule = 0;
+        $lecture->order = 0;
+        $lecture->update(array('idModule', 'order'));
+
+        for ($i = $oldLecturePosition; $i < $count; $i++) {
+            $this->lectures[$i]->decreaseOrderByOne();
+        }
+
+        $this->lesson_count = $count-1;
+        $this->update(array('lesson_count'));
+    }
+
+    /**
+     * Initialises a new module and returns its instance.
+     * @param $course
+     * @param $titleUa
+     * @param $titleRu
+     * @param $titleEn
+     * @param $lang
+     * @return $this|null
+     * @throws CDbException
+     * @throws \application\components\Exceptions\ModuleValidationException
+     */
+    public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang) {
+
+        $this->level = $course->level;
+        $this->language = $lang;
+        $this->title_ua = $titleUa;
+        $this->title_ru = $titleRu;
+        $this->title_en = $titleEn;
+
+        if ($this->save()) {
+            $this->alias = $this->module_ID;
+            $this->module_img = "module.png";
+            $this->update(array('alias', 'module_img'));
+
+            if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
+                mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);
+            }
+
+            $courseModule = new CourseModules();
+            $courseModule->id_course = $course->course_ID;
+            $courseModule->id_module = $this->module_ID;
+            $courseModule->order = $course->getModuleCount() + 1;
+            if ($courseModule->save()) {
+                return $this;
+            }
+        }
+        else {
+            $errors = "";
+            foreach ($this->getErrors() as $field => $errorMessages) {
+                $errors .= $field ;
+                if (is_array($errorMessages)){
+                    $errors .= ':';
+                    foreach ($errorMessages as $message) {
+                        $errors .= ' ' . $message;
+                    }
+                }
+                $errors .= ', ';
+            }
+
+            throw new \application\components\Exceptions\ModuleValidationException($errors);
+        }
+    }
+
+    /**
+     * Level ups the lecture.
+     * @param $idLecture
+     */
+    public function upLecture($idLecture) {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        foreach ($this->lectures as $index => $lecture) {
+            // if the first lecture do nothing
+            if ($lecture->order === 1) {
+                return;
+            }
+
+            if ($lecture->id == $idLecture) {
+                $this->swapLecturesOrder($lecture, $this->lectures[$index-1]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Level downs the lecture.
+     * @param $idLecture
+     * @throws CDbException
+     */
+    public function downLecture($idLecture) {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        $count = $this->getLecturesCount();
+
+        foreach ($this->lectures as $index => $lecture) {
+            // if the last lecture do nothing
+            if ($lecture->order === $count) {
+                return;
+            }
+
+            if ($lecture->id == $idLecture) {
+                $this->swapLecturesOrder($lecture, $this->lectures[$index+1]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Swaps lectures order.
+     * @param $lectureA
+     * @param $lectureB
+     */
+    private function swapLecturesOrder($lectureA, $lectureB) {
+        $orderA = $lectureA->order;
+        $lectureA->order = $lectureB->order;
+        $lectureB->order = $orderA;
+
+        $lectureA->update(array('order'));
+        $lectureB->update(array('order'));
+    }
+
+
+    public static function canAccess($idModule,$userId)
+    {
+        $services_user = Module::findService($userId);
+
+        if($services_user)
+        {
+            foreach ($services_user as $service_user) {
+                $service = AbstractIntITAService::getServiceById($service_user['service_id']);
+                if($service)
+                {
+                    return $service->checkAccess($idModule);
+                }
+            }
+
+        }
+
+        else return false;
+    }
+
+    private static function findService($userId)
+    {
+        $service_user = Yii::app()->db->createCommand()
+            ->select('service_id, user_id')
+            ->from('service_user')
+            ->where('user_id = :user_id',array(':user_id' => $userId))
+            ->queryAll();
+
+        return $service_user;
+    }
+
 
 }

@@ -28,22 +28,11 @@ class PermissionsController extends TeacherCabinetController
     public function actionIndex()
     {
         $model = new PayModules('search');
-        if (isset($_GET['Permissions']))
-            $model->attributes = $_GET['Permissions'];
+        $model->unsetAttributes();
+        if (isset($_GET['PayModules']))
+            $model->attributes = $_GET['PayModules'];
 
-        $dataProvider = new CActiveDataProvider('PayModules');
-
-        $dataProvider->setPagination(array(
-                'pageSize' => '50',
-            )
-        );
-
-        if (!isset($_GET['ajax'])) $this->render('index', array(
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ), false, true);
-        else  $this->renderPartial('index', array(
-            'dataProvider' => $dataProvider,
+        $this->renderPartial('index', array(
             'model' => $model,
         ), false, true);
     }
@@ -109,7 +98,9 @@ class PermissionsController extends TeacherCabinetController
     public function actionDelete($id, $resource)
     {
         Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+//        $this->redirect($this->pathToCabinet());
     }
 
     public function actionShowLectures()
@@ -328,7 +319,7 @@ class PermissionsController extends TeacherCabinetController
         $role = Yii::app()->request->getPost('role');
 
         TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
-        $this->redirect('/_teacher/_admin/teachers/showRoles', array('id' => $teacher));
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher)));
     }
 
     public function actionShowUsers()

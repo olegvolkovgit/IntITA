@@ -16,9 +16,9 @@ class TaskController extends Controller
     public function actionAddTask()
     {
         $arr['condition'] = Yii::app()->request->getPost('condition', '');
-        $arr['lecture'] = Yii::app()->request->getPost('lecture', 0);
+        $arr['lecture'] = Yii::app()->request->getPost('lectureId', 0);
         $arr['author'] = Yii::app()->request->getPost('author', null);
-        $arr['language'] = Yii::app()->request->getPost('language', 'C++');
+        $arr['language'] = Yii::app()->request->getPost('lang', 'c++');
         $arr['assignment'] = Yii::app()->request->getPost('assignment', 0);
         $arr['table'] = Yii::app()->request->getPost('table', '');
         $arr['taskType'] = Yii::app()->request->getPost('taskType', 'plain');
@@ -27,10 +27,9 @@ class TaskController extends Controller
 
         if ($arr['condition']) {
             if (QuizFactory::factory($arr))
-                return true;
-            else return false;
+                $this->redirect(Yii::app()->request->urlReferrer);
+            else echo 'Task was not saved';
         }
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionSetMark()
@@ -42,7 +41,9 @@ class TaskController extends Controller
         $date = Yii::app()->request->getPost('date', 0);
         $warning = Yii::app()->request->getPost('warning', '');
 
-        TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
+        if(TaskMarks::addMark($user, $task, $status, $result, $date, $warning)){
+            return true;
+        };
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -64,7 +65,15 @@ class TaskController extends Controller
         }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+    public function actionEditTaskCKE()
+    {
+        $idBlock = Yii::app()->request->getPost('idTaskBlock', 0);
+        $condition = Yii::app()->request->getPost('condition', '');
+        $lang = Yii::app()->request->getPost('lang', 'c++');
 
+        if(LectureElement::editTaskBlock($idBlock,$condition) && Task::editTaskLang($idBlock,$lang))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionUnableTask()
     {
@@ -74,5 +83,4 @@ class TaskController extends Controller
             LecturePage::unableQuiz($pageId);
         }
     }
-
 }

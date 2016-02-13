@@ -41,8 +41,7 @@
                 </form>
             </div>
 
-            <select name="user" id="user" class="form-control"
-                    placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
+            <select name="user" id="user" class="form-control" placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
                     autofocus required style="max-width: 496px;">
                 <?php
                 foreach ($users as $user) {
@@ -61,7 +60,7 @@
         <form method="POST" name="add-accessModule"
               onsubmit="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/' . $moduleAction); ?>');return false;">
             <fieldset>
-                <label id="label"><?php echo $fieldsetModule ?>:</label>
+                <label id="label"><?php echo $fieldsetModule; ?>:</label>
 
                 <div class="form-group">
                     <label><?php echo Yii::t('payments', '0605'); ?>:</label>
@@ -123,7 +122,7 @@
                     </div>
                     <br>
 
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName;?>">
                 </fieldset>
             </form>
         </div>
@@ -133,4 +132,3 @@
 <script
     src="<?php echo StaticFilesHelper::bootstrapPath('bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>

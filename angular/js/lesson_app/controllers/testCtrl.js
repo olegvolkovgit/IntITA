@@ -7,10 +7,13 @@ angular
 
 function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
     $scope.sendTestAnswer = function (block_order, typeButton, test, testType, editMode) {
+        var button=angular.element(document.querySelector(".testSubmit"));
+        button.attr('disabled', true);
         user = idUser;
         var checkAnswers = $("#answers" + block_order + "  input:" + typeButton + ":checked");
         if (checkAnswers.length == 0) {
             openDialogsService.openFalseDialog();
+            button.removeAttr('disabled');
             return false;
         }
         answers = $scope.getUserAnswers(testType);
@@ -31,8 +34,10 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
                 if (user != 0) {
                     $scope.isTrueTestAnswer(user, test);
                 }
+                button.removeAttr('disabled');
             })
             .error(function () {
+                button.removeAttr('disabled');
                 alert('error sendTestAnswer');
             })
     };

@@ -35,8 +35,6 @@ class TaskMarks extends CActiveRecord
 		return array(
 			array('id_user, id_task, mark, date', 'required'),
 			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
-			array('result, warning', 'length', 'max'=>255),
-			array('date', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, id_user, id_task, mark, result, warning, date', 'safe', 'on'=>'search'),
@@ -122,8 +120,9 @@ class TaskMarks extends CActiveRecord
         $model->result = $result;
         $model->warning = $warning;
         $model->date = $date;
-
-        $model->save();
+        if($model->save()){
+			return true;
+		};
     }
 
     public static function isTaskDone($user, $idTask){

@@ -37,48 +37,30 @@ class TeacherCabinetController extends CController
 
     public function init()
     {
+        date_default_timezone_set("UTC");
         $app = Yii::app();
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
         }
+
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
             Yii::app()->cache->flush();
-            die();
+            Yii::app()->end();
+        }
+
+        if (Yii::app()->user->isGuest) {
+            $this->render('authorize');
+            Yii::app()->end();
         }
 
         $this->pageTitle = Yii::app()->name;
-        date_default_timezone_set("UTC");
     }
 
     public function pathToCabinet()
     {
         $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
         return $this->pathToCabinet;
-    }
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'expression' => array($this, 'hasCabinet'),
-            ),
-            array('deny',
-                'message' => "У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном адміністратора сайту, викладача або бухгалтера.",
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    public function hasCabinet()
-    {
-        if (Yii::app()->user->isGuest){
-            return false;
-        } else {
-            $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-            return $user->hasCabinetAccess();
-        }
     }
 
     public function behaviors()

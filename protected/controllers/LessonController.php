@@ -24,22 +24,20 @@ class LessonController extends Controller
         }else return true;
     }
 
-
-    public function accessRules()
-    {
-        return array(
-//            array('deny',
-//                'users' => array('?'),
-//            ),
-        );
-    }
-
-    public function initialize($id, $editMode)
+    public function initialize($id, $editMode,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (StudentReg::isAdmin() || $editMode) {
             return true;
+        }
+        if($idCourse!=0){
+            $course = Course::model()->findByPk($idCourse);
+            if(!$course->status)
+                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
@@ -53,12 +51,12 @@ class LessonController extends Controller
         }
     }
 
-    public function actionIndex($id, $idCourse = 0, $page = 1, $template = 0)
+    public function actionIndex($id, $idCourse = 0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
 
-        $this->initialize($id, $editMode);
+        $this->initialize($id, $editMode, $idCourse);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;
@@ -79,12 +77,17 @@ class LessonController extends Controller
             $page = $_GET['page'];
         }
 
+
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+        if(!$pageModel){
+            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+        }
         $textList = $pageModel->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);
 
         $teacher = $lecture->lectureTeacher();
+        $isLastLecture=$lecture->isLastLecture();
 
         if($lecture->verified && !$editMode) {
             $view='indexTemplate';
@@ -100,6 +103,7 @@ class LessonController extends Controller
             'user' => $user,
             'page' => $pageModel,
             'lastAccessPage' => $lastAccessPage,
+            'isLastLecture' => $isLastLecture,
         ));
     }
 
@@ -289,7 +293,7 @@ class LessonController extends Controller
             || $_FILES['file']['type'] == 'image/pjpeg'
         ) {
             // setting file's mysterious name
-            $filename = md5(date('YmdHis')) . '.jpg';
+            $filename = uniqid() . '.jpg';
             $file = $dir . $filename;
 
             // copying
@@ -315,7 +319,7 @@ class LessonController extends Controller
 
         $path = StaticFilesHelper::createLectureImagePath();
         $dir = Yii::getpathOfAlias('webroot') . $path;
-        $filename = md5(date('YmdHis')) . '.' . $imgType;
+        $filename = uniqid() . '.' . $imgType;
         $file = $dir . $filename;
         $link = StaticFilesHelper::createPath('image', 'lecture', $filename);
 
@@ -358,7 +362,7 @@ class LessonController extends Controller
             'maxheight' => 5000,    // maximum allowed height, in pixels
             'minwidth' => 1,      // minimum allowed width, in pixels
             'minheight' => 1,     // minimum allowed height, in pixels
-            'type' => array('bmp', 'gif', 'jpg', 'jpe', 'png'),  // allowed extensions
+            'type' => array('bmp', 'gif', 'jpg', 'jpeg', 'png'),  // allowed extensions
         );
 
 // HERE PERMISSIONS FOR AUDIO
@@ -373,7 +377,7 @@ class LessonController extends Controller
 
         $re = '';
         if (isset($_FILES['upload']) && strlen($_FILES['upload']['name']) > 1) {
-            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])) . date('YmdHis'));  //get filename without extension
+            define('F_NAME', preg_replace('/\.(.+?)$/i', '', basename($_FILES['upload']['name'])) . uniqid());  //get filename without extension
 
             // get protocol and host name to send the absolute image path to CKEditor
             $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
@@ -438,20 +442,9 @@ class LessonController extends Controller
     public function actionNextLecture($lectureId, $idCourse = 0)
     {
         $lecture = Lecture::model()->findByPk($lectureId);
-        if ($lecture->order < Module::getLessonsCount($idCourse)) {
+        if ($lecture->order < Module::getLessonsCount($lecture->idModule)) {
             $nextId = Lecture::getNextId($lecture['id']);
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));
-        } else {
-            $this->redirect($_SERVER["HTTP_REFERER"]);
-        }
-    }
-
-    public function actionNextLectureNG($lectureId, $idCourse = 0)
-    {
-        $lecture = Lecture::model()->findByPk($lectureId);
-        if ($lecture->order < Module::getLessonsCount($idCourse)) {
-            $nextId = Lecture::getNextId($lecture['id']);
-            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse, 'template' => 1)));
         } else {
             $this->redirect($_SERVER["HTTP_REFERER"]);
         }
@@ -641,7 +634,7 @@ class LessonController extends Controller
     {
         $model = Lecture::model()->findByPk($idLecture);
         $model->saveLectureContent();
-        $this->redirect(Config::getBaseUrl() . '/_admin/verifyContent/index');
+        $this->redirect(Config::getBaseUrl() . '/_teacher/cabinet/index');
     }
 
     public function actionGetPageData()
@@ -682,7 +675,7 @@ class LessonController extends Controller
 
         $path =  StaticFilesHelper::pathToLectureImages($module, $lecture);
         $dir = Yii::getpathOfAlias('webroot') .'/'. $path;
-        $filename = date('YmdHis') . '.gif';
+        $filename = uniqid() . '.gif';
         $file = $dir . $filename;
         $link = Config::getBaseUrl().'/'.StaticFilesHelper::pathToLectureImages($module, $lecture).$filename;
 
@@ -741,6 +734,7 @@ class LessonController extends Controller
         echo $this->renderPartial('/lesson/_quiz',
             array('page' => $page, 'editMode' => $editMode, 'user' => $user), true);
     }
+
     public function actionConfirm($id){
         $model = Lecture::model()->findByPk($id);
 

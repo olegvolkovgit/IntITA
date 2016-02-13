@@ -50,9 +50,9 @@ class Lecture extends CActiveRecord
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
-            array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+            array('image', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
@@ -221,7 +221,9 @@ class Lecture extends CActiveRecord
         $lecture->title_ru = $title_ru;
         $lecture->title_en = $title_en;
         $lecture->idModule = $module;
+
         $order = Lecture::model()->count("idModule=$module and `order`>0");
+
         $lecture->order = ++$order;
         $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture' . $order;
@@ -237,7 +239,7 @@ class Lecture extends CActiveRecord
             mkdir(Yii::app()->basePath . "/../content/module_".$module."/lecture_".$lecture->id."/audio");
         }
 
-        return $order;
+        return $lecture;
     }
 
     public function getLecturesTitles($id)
@@ -334,7 +336,7 @@ class Lecture extends CActiveRecord
     /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
 Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
 Якщо $order>$enabledOrder то недоступна*/
-    public static function accessLecture($id, $order, $enabledOrder)
+    public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
@@ -344,6 +346,14 @@ class Lecture extends CActiveRecord
         }
         if (Yii::app()->user->isGuest) {
             return false;
+        }
+        if($idCourse!=0){
+            $course = Course::model()->findByPk($idCourse);
+            if(!$course->status)
+                return false;
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                return false;
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
@@ -365,6 +375,14 @@ class Lecture extends CActiveRecord
         else $result = Yii::t('profile', '0717');
 
         return $result;
+    }
+    public static function getThemeLink($dp)
+    {
+        $model = Lecture::model()->findByPk($dp->lecture_id);
+        if ($model && $model->idModule!=0){
+            return CHtml::link(CHtml::encode($model->title()),array("/lesson/index", "id" => $model->id, "idCourse" => 0),array("target"=>"_blank"));
+        }
+        else return Yii::t('profile', '0717');
     }
 
     public function isFinished($idUser)
@@ -450,9 +468,9 @@ class Lecture extends CActiveRecord
         $titleParam = Lecture::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
         if ($title == '') {
-            return Lecture::model()->findByPk($id)->title_ua;
+            return htmlspecialchars(Lecture::model()->findByPk($id)->title_ua);
         } else {
-            return $title;
+            return htmlspecialchars($title);
         }
     }
 
@@ -576,5 +594,23 @@ class Lecture extends CActiveRecord
             $lecture->verified=0;
             $lecture->save();
         }
+    }
+    public function isLastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->idModule . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id) && Lecture::model()->find($criteria)->id==$this->id)
+            return true;
+        else return false;
+    }
+
+    /**
+     * @throws CDbException
+     */
+    public function decreaseOrderByOne() {
+        $this->order--;
+        $this->update(array('order'));
     }
 }

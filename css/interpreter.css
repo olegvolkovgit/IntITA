@@ -38,6 +38,9 @@ hr {
 .col.result textarea{
     max-width: 860px;
 }
+.col.header textarea{
+    max-width: 100%;
+}
 .col.compare{
     border: 2px solid #4b75a4;
     border-top: none;
@@ -56,13 +59,16 @@ hr {
 }
 
 .selectpicker, label {
-    padding: 6px 12px;
-    font-size: 14px;
+    padding: 6px 2px;
     height: 34px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
     margin: 0;
+}
+label {
+    word-wrap: break-word;
 }
 .resLabel{
     font-size: 14px;
@@ -72,7 +78,12 @@ hr {
     display: inline-block;
 }
 .resultBlock{
-    display: block;overflow: auto
+    display: block;overflow: auto;
+    margin-bottom: 5px;
+}
+.resultBlock label, .resultBlock select{
+    width: auto;
+    height: 34px;
 }
 .button button.nonDelete,.argButton button.nonDelete,.result button.nonDelete{
     display: none;
@@ -97,11 +108,13 @@ hr {
 .row {
     margin-right: 0;
 }
-
-input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus {
+textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-invalid:focus {
     box-shadow: 0 0 4px #c72929;
     border: 1px solid #c72929;
 }
 .btn-default[disabled]{
     background-color: #999999;
+}
+.params{
+    margin: 5px auto;
 }

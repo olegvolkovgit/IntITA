@@ -54,7 +54,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'customDelete' => array(
                     'imageUrl'=> StaticFilesHelper::createPath('image', 'editor', 'delete.png'),
                     'url' => '$data->primaryKey',
-                    'click'=>'js: function(){ deleteLecture($(this).attr("href")); return false; }',
+                    'click'=>'js: function(){ deleteLecture($(this).attr("href"), '.$module->module_ID.'); return false; }',
                     'label' => Yii::t('module', '0378'),
                     'visible'=> $editMode,
                 ),
@@ -72,7 +72,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                             }'
                         )
                     ), //HTML options for the button tag.
-                    'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("module/upLesson", array("idLecture"=>$data->primaryKey, "idModule"=>$data->idModule))',
                     'visible'=>$editMode,   //A PHP expression for determining whether the button is visible.
             ),
 
@@ -80,7 +80,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             (
 
                 'label'=>Yii::t('module', '0380'),    //Text label of the button.
-                'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey))',
+                'url' => 'Yii::app()->createUrl("module/downLesson", array("idLecture"=>$data->primaryKey, "idModule"=>$data->idModule))',
                 'imageUrl'=>StaticFilesHelper::createPath('image', 'editor', 'down.png'),
                 'options'=>array(
                     'class'=>'controlButtons;',
@@ -100,8 +100,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>function($data) use ($enabledLessonOrder) {
-                if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder))
+            'value' =>function($data) use ($enabledLessonOrder,$idCourse) {
+                if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder,$idCourse))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
@@ -122,12 +122,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-            if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder)) {
+            if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder,$idCourse)) {
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
                     array("id" => $data->id, "idCourse" => $idCourse)));
             }
             else
-                return $data->$titleParam;
+                return CHtml::encode($data->$titleParam);
             }
         ),
     ),

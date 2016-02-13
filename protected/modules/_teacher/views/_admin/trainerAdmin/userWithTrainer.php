@@ -37,8 +37,8 @@ if (!empty($users)) { ?>
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restore.png')?>"
                              align="bottom">
                     </a>
-                    <a href="#" onclick="removeTrainer('<?php echo Yii::app()->createUrl("/_admin/trainer/removeUserTrainer",
-                           array("id" => $user->id))?>')">
+                    <a href="#" onclick="showConfirm('Ви впевнені що хочете видалити тренера?',
+                        '<?php echo Yii::app()->createUrl("/_teacher/_admin/trainerAdmin/removeUserTrainer",array("id" => $user->id))?>')">
                         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png')?>"
                              align="bottom">
                     </a>
@@ -49,6 +49,6 @@ if (!empty($users)) { ?>
     </div>
 <?php
 } else {
-    echo "Користувачів з тренерами на данний час немає";
+    echo "Користувачів з тренерами на даний час немає.";
 }
 ?>

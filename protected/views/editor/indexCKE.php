@@ -32,6 +32,8 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 
 
@@ -61,6 +63,7 @@ if ($idCourse != 0) {
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit" class="lessonEdit">
     <div ng-controller="CKEditorCtrl">
+        <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
         <div data-ng-init="
         deleteMsg='<?php echo addslashes(Yii::t('lecture', '0767')); ?>';
         errorMsg='<?php echo addslashes(Yii::t('lecture', '0768')); ?>';
@@ -141,6 +144,7 @@ if ($idCourse != 0) {
                 <?php
             } else {
                 $lectureElement = LectureElement::model()->findByPk($page->video);
+                $lectureElement->setScenario('videoLink');
                 $this->widget('editable.EditableField', array(
                     'type' => 'textarea',
                     'model' => $lectureElement,
@@ -161,7 +165,7 @@ if ($idCourse != 0) {
             <fieldset>
                 <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
                 <div id="blockList">
-                    <?php $this->renderPartial('/lesson/_blocks_list_CKE', array('dataProvider' => $dataProvider,
+                    <?php $this->renderPartial('/editor/_blocks_list_CKE', array('dataProvider' => $dataProvider,
                         'countBlocks' => count($dataProvider), 'editMode' => 1, 'user' => $user)); ?>
                 </div>
                 <div id="addBlock">
@@ -194,8 +198,8 @@ if ($idCourse != 0) {
 
                 switch (LectureElement::getQuizType($data['id_block'])) {
                     case '5':
-                        $this->renderPartial('/editor/_editTask', array('idBlock' => $data['id_block'],
-                            'pageId' => $page->id));
+                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
+                            'pageId' => $page->id, 'lecture' => $lecture->id));
                         break;
                     case '6':
                         $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
@@ -218,7 +222,7 @@ if ($idCourse != 0) {
             <div id="buttonsPanel">
                 <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-<!--                <button onclick="showAddTaskFormCKE('plain')">--><?php //echo Yii::t('lecture', '0699'); ?><!--</button>-->
+                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php

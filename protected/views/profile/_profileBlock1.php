@@ -2,6 +2,7 @@
 /* @var $model Teacher*/
 if ($editMode){
     ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'fileValidation.js');?>"></script>
     <script type="text/javascript">
         idTeacher = <?php echo $model->teacher_id;?>;
         block = 't1';
@@ -41,7 +42,7 @@ if ($editMode){
                     )); ?>
                     <div class="fileform">
                         <div class="hideInput">
-                            <?php echo $form->fileField($model, 'foto_url',array('tabindex' => '-1','id'=>'teacherAvatar', 'onChange'=>'js:getImgName(this.value)')); ?>
+                            <?php echo $form->fileField($model, 'foto_url',array('tabindex' => '-1','id'=>'teacherAvatar', 'onChange'=>'js:getImgName(this.value);CheckFile(this)')); ?>
                             <?php echo $form->error($model,'foto_url'); ?>
                         </div>
                         <div>
@@ -50,9 +51,10 @@ if ($editMode){
                             </label>
                         </div>
                     </div>
+                    <div id="errorMessage"></div>
                     <div id="avatarInfo"><?php echo Yii::t('regexp', '0159');?></div>
                     <div class="row buttons">
-                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399')); ?>
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'), array('id'=>'imgButton')); ?>
                     </div>
                     <?php $this->endWidget(); ?>
                 </div><!-- form -->

@@ -191,18 +191,18 @@ function editTaskToLecture(condition, idTeacher, idLecture, lang, id, table, tas
 
 
 function unableTask(pageId){
-    if (confirm('Ви впевнені, що хочете видалити задачу?')) {
-        $.ajax({
-            type: "POST",
-            url: "/task/unableTask",
-            data: {'pageId':pageId},
-            success: function(){
-                $('div[name="lecturePage"]').html(response);
-                return false;
-            }
-        });
-    }
-    location.reload();
+    bootbox.confirm('Ви впевнені, що хочете видалити задачу?', function(result){
+        if(result){
+            $.ajax({
+                type: "POST",
+                url: "/task/unableTask",
+                data: {'pageId':pageId},
+                success: function(){
+                    location.reload();
+                }
+            });
+        }
+    });
 }
 function cancelTask() {
     location.reload();

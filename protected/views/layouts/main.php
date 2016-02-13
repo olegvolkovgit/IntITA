@@ -82,7 +82,7 @@ $header = new Header();
                         <div id="button_border" class="down">
                         </div>
                         <?php if (Yii::app()->user->isGuest) {
-                            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
+                            echo CHtml::link($header->getEnterButton(), '', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
                         } else {
                             ?>
                             <a id="enter_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout"

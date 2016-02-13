@@ -54,6 +54,7 @@ class SiteController extends Controller
     {
         $error = Yii::app()->errorHandler->error;
 
+        $breadcrumbs = Yii::t('breadcrumbs', '0784');
         if (isset(Yii::app()->errorHandler->error["errorCode"])) {
             switch (Yii::app()->errorHandler->error["errorCode"]) {
                 case '400':
@@ -74,16 +75,16 @@ class SiteController extends Controller
                 default:
                     $breadcrumbs = Yii::t('breadcrumbs', '0784');
             }
+        }
 
-            if (Yii::app()->request->isAjaxRequest)
-                echo $error['message'];
-            else {
-                $breadcrumbsArr = array(
-                    'breadMsg' => $breadcrumbs
-                );
-                $error = array_merge($error, $breadcrumbsArr);
-                $this->render('error', $error);
-            }
+        if (Yii::app()->request->isAjaxRequest)
+            echo $error['message'];
+        else {
+            $breadcrumbsArr = array(
+                'breadMsg' => $breadcrumbs
+            );
+            $error = array_merge($error, $breadcrumbsArr);
+            $this->render('error', $error);
         }
     }
 
@@ -319,6 +320,7 @@ class SiteController extends Controller
                 $model->password = $post['new_password'];
                 $model->token = null;
                 $model->activkey_lifetime = null;
+                $model->status = 1;
                 if ($model->validate()) {
                     $model->save();
                     $modellogin = new StudentReg('loginuser');
@@ -415,6 +417,12 @@ class SiteController extends Controller
     public function actionActivationinfo($email)
     {
         $this->render('activationinfo', array(
+            'email' => $email,
+        ));
+    }
+    public function actionReactivationInfo($email)
+    {
+        $this->render('reactivationInfo', array(
             'email' => $email,
         ));
     }
@@ -637,8 +645,20 @@ class SiteController extends Controller
                             $this->redirect($_SERVER["HTTP_REFERER"]);
                         } else $this->redirect(Yii::app()->request->homeUrl);
                     }
-                } else $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
+                } else  $this->redirect(Yii::app()->createUrl('/site/notactivated', array('email' => $model->email)));
             }
         }
+    }
+    public function actionReactivation()
+    {
+        $email=Yii::app()->request->getPost('email');
+        $getToken = rand(0, 99999);
+        $getTime = date("Y-m-d H:i:s");
+        $model = StudentReg::model()->findByAttributes(array('email' => $email));
+        StudentReg::model()->updateByPk($model->id, array('token' => sha1($getToken . $getTime)));
+        $model = StudentReg::model()->findByPk($model->id);
+        if (!Mail::sendRapidReg($model))
+            throw new MailException('The letter was not sent');
+        $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
     }
 }

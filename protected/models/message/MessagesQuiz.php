@@ -27,7 +27,6 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 			array('id_messages', 'required'),
 			array('id_messages', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id_messages', 'safe', 'on'=>'search'),
 		);
 	}
@@ -67,8 +66,6 @@ class MessagesQuiz extends CActiveRecord implements IMessage
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_messages',$this->id_messages);

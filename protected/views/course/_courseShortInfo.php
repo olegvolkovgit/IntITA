@@ -1,8 +1,10 @@
-<?php $lessonsCount = Course::getLessonsCount($model->course_ID);?>
+<?php
+/* @var $model Course*/
+$lessonsCount = Course::getLessonsCount($model->course_ID);?>
 <script>
     course = "<?php echo $model->course_ID;?>";
 </script>
-<img class="courseImg" style="display: inline-block"
+<img class="courseImg" style="display: inline-block;margin-bottom:30px; "
      src="<?php echo StaticFilesHelper::createPath('image', 'course', $model->course_img); ?>"/>
 <div class="courseShortInfoTable">
     <table class="courseLevelInfo">
@@ -10,7 +12,7 @@
             <td>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
-                    <?php echo $model->getTranslatedLevel(); ?>
+                    <?php echo $model->level(); ?>
                 </span>
             </td>
             <td class="courseLevel">

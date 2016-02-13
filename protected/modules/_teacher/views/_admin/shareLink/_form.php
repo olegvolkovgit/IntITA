@@ -3,9 +3,7 @@
 /* @var $model ShareLink */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
 <div class="form">
-
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'share-link-form',
         'htmlOptions' => array(
@@ -18,10 +16,10 @@
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
         'enableClientValidation'=>true,
-        'enableAjaxValidation' => true,
+        'enableAjaxValidation' => false,
         'clientOptions' => array(
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);
+                sendError(form,data,hasError);return true;
                 }',
             'validateOnSubmit' => true,
             'validateOnChange' => false),
@@ -42,7 +40,5 @@
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
     </div>
-
     <?php $this->endWidget(); ?>
-
-</div><!-- form -->
+</div>

@@ -6,8 +6,6 @@
  * Time: 12:12
  */
 ?>
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
-
 <div class="col-md-6">
 
     <form role="form" method="post" id="assignedConsult"
@@ -47,6 +45,4 @@
         </div>
         <button type="submit" class="btn btn-default">Редагувати консультанта</button>
     </form>
-
-
 </div>

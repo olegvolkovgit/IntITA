@@ -17,15 +17,20 @@ function hoverSpot() {
                 }
             });
             element.on("mouseenter", function () {
-                var tooltipHtml = '<p>' + $(this).attr("title") + '</p>';
+                var title = $(this).attr("title");
                 if ($(this).is('.pageNoAccess')) {
-                    tooltipHtml = '<p class="titleNoAccess">' + $(this).attr("title") + '<span class="noAccess"> (' + partNotAvailable + ')</span></p>';
+                    var container = $('<p class="titleNoAccess"></p>');
+                    container.text(title);
+                    $('#tooltip').html(container.append('<span class="noAccess"> (' + partNotAvailable + ')</span>'));
+                }else{
+                    var container = $('<p></p>');
+                    container.text(title);
+                    $('#tooltip').html(container);
                 }
                 $('#pointer').hide();
                 $('#arrowCursor').show();
                 $('#arrowCursor').css('margin-top', -12);
                 $('#arrowCursor').css('margin-left', attrs.hoverSpot * 35 + 6);
-                $('#tooltip').html(tooltipHtml);
                 $('#labelBlock').hide();
                 $('#tooltip').css('display', 'inline-block');
             });

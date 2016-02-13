@@ -131,29 +131,38 @@ class Task extends Quiz
     public function addTask($arr)
     {
         $model = new Task();
-        $model->condition = $arr['condition'];
+        $model->condition = $arr['lectureElementId'];
         $model->author = $arr['author'];
         $model->language = $arr['language'];
         $model->assignment = $arr['assignment'] ;
         $model->table = $arr['table'];
-
         if($model->save()){
-            LecturePage::addQuiz($arr['pageId'], $arr['condition']);
+            LecturePage::addQuiz($arr['pageId'], $arr['lectureElementId']);
+			return true;
         }
+		else return false;
     }
 
-    public static function getTaskId($idBlock)
-    {
-        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
-        return ($assignment) ? $assignment : false;
-    }
+//    public static function getTaskId($idBlock)
+//    {
+//        $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->assignment;
+//        return ($assignment) ? $assignment : false;
+//    }
+	public static function getTaskId($idBlock)
+	{
+		return Task::model()->findByAttributes(array('condition' => $idBlock))->id;
+	}
 
     public static function getTaskLang($idBlock)
     {
         $assignment = Task::model()->findByAttributes(array('condition' => $idBlock))->language;
         return ($assignment) ? $assignment : false;
     }
-
+	public static function getTaskLangById($id)
+	{
+		$assignment = Task::model()->findByPk(array('id' => $id))->language;
+		return ($assignment) ? $assignment : false;
+	}
     public static function getTaskIcon($user, $idBlock, $editMode)
     {
 
@@ -171,6 +180,22 @@ class Task extends Quiz
     }
 
     public static function getTaskCondition($block){
-        return strip_tags(LectureElement::model()->findByPk($block)->html_block);
+        return LectureElement::model()->findByPk($block)->html_block;
     }
+	public static function editTaskLang($block,$lang){
+		$model = new Task();
+		if($modelId = Task::model()->findByAttributes(array('condition' =>$block))->id){
+			$model->updateByPk($modelId, array('language' => $lang));
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+	public static function getTaskLecture($id)
+	{
+		$idBlock= Task::model()->findByPk(array('id' => $id))->condition;
+		$idLecture=LectureElement::model()->findByPk($idBlock)->id_lecture;
+		return $idLecture;
+	}
 }

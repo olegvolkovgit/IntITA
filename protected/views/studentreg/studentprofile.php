@@ -6,6 +6,9 @@
 /* @var $form CActiveForm */
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
+<script>
+    basePath = '<?=Config::getBaseUrl();?>';
+</script>
 <div class="formStudProf">
     <div class="studProfInf">
         <table class="titleProfile">
@@ -17,7 +20,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
                 </td>
                 <td>
-                    <a href="<?php echo Config::getBaseUrl(); ?>/studentreg/edit"><?php echo Yii::t('profile', '0096'); ?></a>
+                    <a href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
                 </td>
             </tr>
         </table>
@@ -26,13 +29,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <?php if ($post->role != 0) { ?>
-                        <a href="<?php echo $post->getCabinetLink(); ?>">Мій кабінет</a>
-                    <?php } ?>
+                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
                     <h1><?php echo $post->nickname; ?></h1>
-
                     <h1><?php echo $post->firstName; ?></h1>
-
                     <h1><?php echo $post->secondName; ?></h1>
 
                     <div class="aboutInfo">
@@ -111,13 +110,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="myCourse">
-                    <?php $this->renderPartial('_mycourse'); ?>
+                    <?php $this->renderPartial('_mycourse', array('paymentsCourses' => $paymentsCourses)); ?>
                 </div>
                 <div id="timetable">
-                    <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider, 'user' => $post)); ?>
+                    <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider, 'user' => $post, 'owner' => $owner)); ?>
                 </div>
                 <div id="myRatting">
-                    <?php $this->renderPartial('_myRatting'); ?>
+                    <?php $this->renderPartial('_myRatting', array('id' => $post->id)); ?>
                 </div>
                 <div id="mylettersSend">
                     <?php $this->renderPartial('_mylettersSend', array('letter' => $letter, 'sentLettersProvider' => $sentLettersProvider, 'receivedLettersProvider' => $receivedLettersProvider)); ?>
@@ -157,10 +156,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
 <script type="text/javascript">
-    lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
+    lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
 </script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'profileDialogs.js'); ?>"></script>
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
+<link type='text/css' rel='stylesheet'
+      href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <!-- Scripts for open tabs -->

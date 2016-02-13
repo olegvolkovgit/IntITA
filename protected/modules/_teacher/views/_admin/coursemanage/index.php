@@ -57,8 +57,8 @@
             'header' => 'Псевдонім',
         ),
         array(
-            'name' => 'level',
             'header' => Yii::t("coursemanage", "0520"),
+            'value' => '$data->level()'
         ),
 
     ),

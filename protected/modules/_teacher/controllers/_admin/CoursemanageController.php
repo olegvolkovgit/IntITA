@@ -42,7 +42,7 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->actionView($model->course_ID);
+                $this->redirect($this->pathToCabinet());
             }
         }
         $this->renderPartial('create',array(
@@ -94,6 +94,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         Course::model()->updateByPk($id, array('cancelled' => 1));
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+
         if(!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
@@ -150,11 +151,9 @@ class CoursemanageController extends TeacherCabinetController
     public function actionAddExistModule(){
 
         $courses = Course::generateCoursesList();
-        $modules = Module::generateModulesList();
 
         $this->renderPartial('addExistModule',array(
             'courses' => $courses,
-            'modules' => $modules
         ),false,true);
     }
 
@@ -243,5 +242,13 @@ class CoursemanageController extends TeacherCabinetController
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
+    public function actionGenerationAvailableModule(){
 
+        if(isset($_POST['course']))
+            $course = $_POST['course'];
+
+        $result = Module::showAvailableModule($course);
+
+        echo $result;
+    }
 }

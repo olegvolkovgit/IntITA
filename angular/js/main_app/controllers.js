@@ -22,7 +22,7 @@ angular.module('mainApp.directives', [])
         }
     }])
     .directive('fileCheck', function() {
-        var validFormats = ['jpg', 'png', 'gif'];
+        var validFormats = ['jpg', 'png', 'gif','jpeg'];
         return {
             require: 'ngModel',
             link: function(scope, element, attributes, ngModelController) {

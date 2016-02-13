@@ -78,7 +78,8 @@ class TranslateController extends TeacherCabinetController{
             $model->attributes=$_POST['Translate'];
             if($model->save()) {
                 MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/translate/index'));
+                Yii::app()->cache->flush();
+                $this->redirect($this->pathToCabinet());
             }
         }
 

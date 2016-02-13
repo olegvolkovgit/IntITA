@@ -153,11 +153,11 @@ class TempPay extends CActiveRecord
         if ($account->id_module != null){
             $module = Module::model()->findByPk($account->id_module);
             return "Модуль №".$module->module_number.". ".$module->title_ua . ', '.
-            CommonHelper::translateLevelUa($module->level);
+            $module->level();
         } else {
             $course = Course::model()->findByPk($account->id_course);
             return "Курс №".$course->course_number.". ".$course->title_ua . ', '.
-            CommonHelper::translateLevelUa($course->level);
+            $course->level();
         }
     }
 }

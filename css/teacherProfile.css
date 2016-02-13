@@ -174,7 +174,6 @@ img.lessonBut  {
     margin: 10px 0px 20px 0px;
     float:right;
     border:none;
-    line-height: 100%;
     font-size: 14px;
 }
 .BBCode input[type="submit"]:hover {
@@ -208,6 +207,14 @@ img.lessonBut  {
     cursor: pointer;
     color: #4B75A4;
     text-decoration: underline;
+}
+#errorMessage{
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
+#imgButton[disabled]{
+    background: #666666;
 }
 .avatarUpdateForm a:hover{
     color: #264b73;

@@ -10,7 +10,7 @@
  * @property string $translation
  *
  * The followings are the available model relations:
- * @property Sourcemessages $id0
+ * @property Sourcemessages $source
  */
 class Translate extends CActiveRecord
 {

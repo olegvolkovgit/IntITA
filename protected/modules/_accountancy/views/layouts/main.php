@@ -10,6 +10,11 @@ $header = new Header();
     <meta property="og:type" content="website" />
     <meta property="og:image:width" content="200"/>
 
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+
     <!-- for tabs -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- for tabs -->
@@ -101,15 +106,15 @@ $header = new Header();
 
     <div class="main">
         <div style="height: 5px; width: auto"></div>
-        <?php if (isset($this->breadcrumbs)): ?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                'links' => $this->breadcrumbs,
-                'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
-                'htmlOptions' => array(
-                    'class' => 'my-cool-breadcrumbs'
-                )
-            )); ?><!-- breadcrumbs -->
-        <?php endif ?>
+<!--        --><?php //if (isset($this->breadcrumbs)): ?>
+<!--            --><?php //$this->widget('zii.widgets.CBreadcrumbs', array(
+//                'links' => $this->breadcrumbs,
+//                'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
+//                'htmlOptions' => array(
+//                    'class' => 'my-cool-breadcrumbs'
+//                )
+//            )); ?><!--<!-- breadcrumbs -->
+<!--        --><?php //endif ?>
 
         <a href="<?php echo Yii::app()->createUrl('/_accountancy');?>">Бухгалтерія IntITA - Головна</a>
 

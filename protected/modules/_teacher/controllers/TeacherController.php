@@ -14,7 +14,7 @@ class TeacherController extends TeacherCabinetController {
 
         $this->renderPartial('/trainer/_newPlainTask',array(
             'plainTasksAnswers' => $plainTaskAnswers,
-        ));
+        ), false, true);
     }
 
     public function actionAddConsultant($id)
@@ -25,8 +25,7 @@ class TeacherController extends TeacherCabinetController {
             throw new CHttpException(404,'Page not found');
 
         return $this->renderPartial('/trainer/_addConsult',
-            array(
-                'plainTaskAnswer' => $plainTaskAnswer));
+            array('plainTaskAnswer' => $plainTaskAnswer));
     }
 
     public function actionAssignedConsultant()
@@ -42,30 +41,33 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionShowTeacherPlainTaskList()
     {
-        $idTeacher = Yii::app()->request->getPost('idTeacher');
+        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
+        if($idTeacher == 0){
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
+        }
 
-        $teacherPlainTaskId = PlainTaskAnswer::TeacherPlainTask($idTeacher);
-
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'id = :id';
-        $criteria->params = array(':id' => array_shift($teacherPlainTaskId)['id']);
-
-        $teacherPlainTasks = PlainTaskAnswer::model()->find($criteria);
+        $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 
         return $this->renderPartial('/trainer/teacherPlainTaskList',array(
-            'teacherPlainTasks' => array($teacherPlainTasks),
+            'teacherPlainTasks' => $tasksList,
         ));
     }
 
     public function actionShowPlainTask()
     {
-        $idPlainTask = Yii::app()->request->getPost('idPlainTask');
+        $idPlainTask = Yii::app()->request->getPost('idPlainTask', '0');
+        if($idPlainTask == 0){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
         $plainTask = PlainTaskAnswer::model()->findByPk($idPlainTask);
+        if(!$plainTask){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
         return $this->renderPartial('/trainer/showPlainTask',array(
            'plainTask' => $plainTask
-        ));
+        ), false, true);
     }
 
     public function actionMarkPlainTask()
@@ -81,8 +83,13 @@ class TeacherController extends TeacherCabinetController {
 
     public function actionManageConsult()
     {
-        $this->actionShowPlainTaskList();
-        $this->actionPlainTaskWithTrainers();
+        $tasks = PlainTaskAnswer::getTaskWithTrainer();
+        $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
+
+        $this->renderPartial('/trainer/_manageConsult',array(
+            'plainTaskAnswers' => $plainTaskAnswers,
+            'tasks' => $tasks
+        ));
     }
 
     public function actionPlainTaskWithTrainers()
@@ -90,8 +97,7 @@ class TeacherController extends TeacherCabinetController {
        $tasks = PlainTaskAnswer::getTaskWithTrainer();
 
        $this->renderPartial('/trainer/_plainWithTrainer',array(
-            'tasks' => $tasks,
-             ));
+            'tasks' => $tasks));
     }
 
     public function actionChangeConsultant()

@@ -301,7 +301,6 @@ td.button-column{
     display: inline-block;
     position: relative;
     width: 160px;
-    height: 30px;
     border-radius: 7px;
     border: none;
     border-top: 1px solid #9fb5ce;
@@ -373,6 +372,15 @@ td.button-column{
 }
 .imageUpdateForm input[type="submit"]:hover {
     background: #454545;
+}
+#errorMessage{
+    width: 90px;
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
+#imgButton[disabled]{
+    background: #666666;
 }
 #avatarInfo{
     width: 90px;

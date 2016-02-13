@@ -1,0 +1,12 @@
+.grid-view table.items td:first-child
+{
+    width: 150px;
+}
+.grid-view table.items td
+{
+    text-align: center;
+}
+.grid-view table.items td.date
+{
+    width:100px;
+}

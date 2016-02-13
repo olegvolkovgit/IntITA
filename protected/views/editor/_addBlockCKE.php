@@ -15,7 +15,7 @@
         <input type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit"
                onclick="saveNewBlock();" ng-disabled=addCKEBlock.editorAdd.$error.required >
     </form>
-    <button id="cancelButton" onclick="hideFormCKE('blockForm')" >
+    <button id="cancelButton" onclick="hideFormCKE('addBlock')" >
         <?php echo Yii::t('course', '0368') ?>
     </button>
 </div>

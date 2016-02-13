@@ -6,7 +6,7 @@ bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' 
 bootbox.addLocale('en', { OK: 'OK', CANCEL: 'Cancel', CONFIRM: 'Yes' });
 bootbox.setLocale(lang);
 
-function deleteConsultation(id){
+function deleteConsultation(url){
     var msg;
     switch (lang) {
         case 'uk':
@@ -27,8 +27,7 @@ function deleteConsultation(id){
         if(result){
             $.ajax({
                 type: "GET",
-                url: "/consultationscalendar/deleteconsultation",
-                data: {'id':id},
+                url: url,
                 success: function(){
                     $.fn.yiiGridView.update("consultation-grid");
                 }

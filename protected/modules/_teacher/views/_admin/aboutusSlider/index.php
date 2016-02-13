@@ -31,10 +31,19 @@
         ),
             array(
                 'template'=>'{view}{delete}{up}{down}',
-                'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
                 'class'=>'CButtonColumn',
                 'headerHtmlOptions'=>array('style'=>'width:120px'),
                 'buttons'=>array(
+                    'delete' => array
+                    (
+                        'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей курс?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                        'label' => 'Видалити',
+                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/delete", array("id"=>$data->image_order))',
+                    ),
                     'view' => array
                     (
                         'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$data->order))',

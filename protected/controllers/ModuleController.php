@@ -13,66 +13,20 @@ class ModuleController extends Controller
      */
     public function actionIndex($idModule, $idCourse=0)
     {
-        $model = Module::model()->findByPk($idModule);
+        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+
+        $this->checkModelInstance($model);
+
         if($model->cancelled && !StudentReg::isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
-        $owners = [];
-
-        $criteria1 = new CDbCriteria();
-        $criteria1->select = 'idTeacher';
-        $criteria1->addCondition('idModule=' . $idModule);
-        $criteria1->toArray();
-        $temp = TeacherModule::model()->findAll($criteria1); //info about owners
-        for($i = 0; $i < count($temp);$i++){
-            if(Teacher::model()->findByPk($temp[$i]->idTeacher)->isPrint) {
-                array_push($owners, $temp[$i]->idTeacher);
-            }
-        }
-        $teachers = Teacher::model()->findAllByPk($owners);
-
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule>0');
-        $criteria->addCondition('idModule=' . $idModule);
-
-        $dataProvider = new CActiveDataProvider('Lecture', array(
-            'criteria' => $criteria,
-            'pagination' => false,
-            'sort' => array(
-                'defaultOrder' => array(
-                    'order' => CSort::SORT_ASC,
-                )
-            )
-        ));
-        $editMode = 0; //init editMode flag
-        //find id teacher related to current user id
-        if (Yii::app()->user->isGuest) { //if user guest
-            $editMode = 0;
-        } else {
-            if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->getId()))) {
-                if ($teacherId = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->getId()))->teacher_id) {
-                    //check edit mode
-                    if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(':teacher' => $teacherId, ':module' => $idModule))) {
-                        $editMode = 1;
-                    } else {
-                        $editMode = 0;
-                    }
-                } else {
-                    $editMode = 0;
-                }
-            } else {
-                    $editMode = 0;
-            }
-        }
-
-        $lecturesTitles = Lecture::model()->getLecturesTitles($idModule);
 
         $this->render('index', array(
             'post' => $model,
-            'teachers' => $teachers,
-            'editMode' => $editMode,
-            'lecturesTitles' => $lecturesTitles,
-            'dataProvider' => $dataProvider,
+            'teachers' => $model->teacher,
+            'editMode' => $model->isEditableByCurrentUser(),
+            'lecturesTitles' => $model->lectures,
+            'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
         ));
     }
@@ -87,8 +41,9 @@ class ModuleController extends Controller
     public function loadModel($id)
     {
         $model = Module::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+
+        $this->checkModelInstance($model);
+
         return $model;
     }
 
@@ -106,24 +61,23 @@ class ModuleController extends Controller
 
     public function actionSaveLesson()
     {
-        $teacher = Yii::app()->user->getId();
-
-        $newOrder = Lecture::model()->addNewLesson(
-            $_POST['idModule'],
-            $_POST['titleUa'],
-            $_POST['titleRu'],
-            $_POST['titleEn'],
-            Teacher::model()->find('user_id=:user', array(':user' => $teacher))->teacher_id
+        $newLectureParams = array (
+            'titleUa' => Yii::app()->request->getParam('titleUa', ''),
+            'titleRu' => Yii::app()->request->getParam('titleRu', ''),
+            'titleEn' => Yii::app()->request->getParam('titleEn', ''),
+            'order' => Yii::app()->request->getParam('order', 1)
         );
 
-        Module::model()->updateByPk($_POST['idModule'], array('lesson_count' => $_POST['order']));
-        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $newOrder . $_POST['titleUa'] . 'додана до цього модуля');
-        $idLecture = Lecture::model()->findByAttributes(array('idModule' => $_POST['idModule'], 'order' => $newOrder))->id;
+        //throw error if idModule is '0' or unset?
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        LecturePage::addNewPage($idLecture, 1);
+        $model = Module::model()->findByPk($idModule);
 
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
+        $this->checkModelInstance($model);
+
+        $lecture = $model->addLecture($newLectureParams);
+
+        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $lecture->order . $lecture->title_ua . 'додана до цього модуля');
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -133,70 +87,63 @@ class ModuleController extends Controller
         $titleUa = Yii::app()->request->getPost('titleUA', '');
         $titleRu = Yii::app()->request->getPost('titleRU', '');
         $titleEn = Yii::app()->request->getPost('titleEN', '');
+        $idCourse = Yii::app()->request->getPost('idCourse');
+        $lang = Yii::app()->request->getPost('lang');
 
-        Module::model()->addNewModule($_POST['idCourse'], $titleUa, $titleRu, $titleEn, $_POST['lang']);
-        Course::model()->updateByPk($_POST['idCourse'], array('modules_count' => CourseModules::model()->count("id_course=".$_POST['idCourse'])));
+        $course = Course::model()->with("module")->findByPk($idCourse);
+
+        $module = new Module();
+        $module->initNewModule($course, $titleUa, $titleRu, $titleEn, $lang);
+
+        if ($module !== null) {
+            $course->updateCount();
+        }
 
         // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(Yii::app()->request->urlReferrer);
+        }
 
-        $this->actionIndex($_POST['idModule'], $_POST['idCourse']);
+        $this->actionIndex($module->module_ID, $course->course_ID);
     }
 
-    public function actionUnableLesson($idLecture)
+    public function actionUnableLesson()
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $idLecture = Yii::app()->request->getParam('idLecture');
+        $idCourse = Yii::app()->request->getParam('idModule');
 
-        $count =  Lecture::model()->count("idModule=$idModule and `order`>0");
-        Lecture::model()->updateByPk($idLecture, array('order' => 0));
-        Lecture::model()->updateByPk($idLecture, array('idModule' => 0));
+        $model = Module::model()->with('lectures')->findByPk($idCourse);
 
-        for ($i = $order + 1; $i <= $count; $i++) {
-            $id = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $i))->id;
-            Lecture::model()->updateByPk($id, array('order' => $i - 1));
-        }
-        Module::model()->updateByPk($idModule, array('lesson_count' => ($count - 1)));
+        $this->checkModelInstance($model);
 
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionUpLesson($idLecture)
-    {
-
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $order = Lecture::model()->findByPk($idLecture)->order;
-
-        if ($order > 1) {
-            $orderPrev = $order - 1;
-            $idPrev = Lecture::model()->findByAttributes(array(
-                'idModule' => $idModule,
-                'order' => $orderPrev))->id;
-
-            Lecture::model()->updateByPk($idLecture, array('order' => $orderPrev));
-            Lecture::model()->updateByPk($idPrev, array('order' => $order));
-        }
+        $model->disableLesson($idLecture);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionDownLesson($idLecture)
+    public function actionUpLesson($idLecture, $idModule)
     {
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-        $count = Module::model()->findByPk($idModule)->lesson_count;
-        $order = Lecture::model()->findByPk($idLecture)->order;
+        $module = Module::model()->with('lectures')->findByPk($idModule);
 
-        if ($order < $count) {
-            $idNext = Lecture::model()->findByAttributes(array('idModule' => $idModule, 'order' => $order + 1))->id;
+        $this->checkModelInstance($module);
 
-            Lecture::model()->updateByPk($idLecture, array('order' => $order + 1));
-            Lecture::model()->updateByPk($idNext, array('order' => $order));
-        }
+        $module->upLecture($idLecture);
+
+        // if AJAX request, we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDownLesson($idLecture, $idModule)
+    {
+        $module = Module::model()->with('lectures')->findByPk($idModule);
+
+        $this->checkModelInstance($module);
+
+        $module->downLecture($idLecture);
+
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -234,5 +181,10 @@ class ModuleController extends Controller
             }
         }
 
+    }
+
+    private function checkModelInstance($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\ModuleNotFoundException();
     }
 }

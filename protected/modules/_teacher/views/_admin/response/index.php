@@ -115,7 +115,13 @@ $('.search-form form').submit(function(){
                 ),
                 'delete' => array
                 (
-                    'label'=>'Видалити',
+                    'click' => "function(){
+                                    showConfirm('Ви дійсно хочете видалити цей відгук?',$(this).attr('href'))
+                                    return false;
+                              }
+                     ",
+                    'label' => 'Видалити',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/response/delete", array("id"=>$data->id))',
                 ),
             ),
         ),

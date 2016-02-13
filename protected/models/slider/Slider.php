@@ -19,6 +19,7 @@ abstract class Slider extends CActiveRecord {
 
     public static function sortOrder($model)
     {
+        $all = [];
         if($model instanceof  Carousel)
             $all = Carousel::model()->findAll();
 
@@ -30,9 +31,7 @@ abstract class Slider extends CActiveRecord {
             $all[$i]->order = $i + 1;
             $all[$i]->setScenario('setOrder');
             $all[$i]->save();
-//                throw new \application\components\Exceptions\IntItaException(405,'fskjdffhdsf',444);
         }
-
     }
 
     public static function swapImage($model,$prevModel)

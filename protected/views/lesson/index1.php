@@ -1,5 +1,7 @@
 <? $css_version = 1; ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
@@ -9,6 +11,7 @@
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/openDialogsService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/userAnswerTaskService.js'); ?>"></script>
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/testCtrl.js'); ?>"></script>
@@ -18,6 +21,7 @@
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/plainTaskCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/directives/hoverSpot.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/directives/startVideo.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/configDynamic.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
 <script
@@ -35,11 +39,12 @@ if (!isset($idCourse)) $idCourse = 0;
 <!-- lesson style -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask.css'); ?>"/>
 <?php
 $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
-<script type="text/javascript">
+<script>
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
     finishedLecture = <?php echo ($finishedLecture) ? 1 : 0;?>;
@@ -64,6 +69,12 @@ $finishedLecture = $lecture->isFinished($user);
             <?php echo Lecture::getLectureTitle($lecture->id); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
+                    <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $lecture->id,
+                        'idCourse' => $idCourse)); ?>">
+                        <img style="margin-left: 5px"
+                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
+                             class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
+                    </a>
                     <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
@@ -91,7 +102,7 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_modalTask2');
+        $this->renderPartial('/lesson/_errorDialog');
         $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
 
@@ -108,29 +119,12 @@ $finishedLecture = $lecture->isFinished($user);
                 'resizable' => false
             ),
         ));
-        $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        if($isLastLecture){
+            $this->renderPartial('/lesson/_moduleCompleteDialog', array('lecture' => $lecture));
+        }else{
+            $this->renderPartial('/lesson/_passLectureModal', array('lecture' => $lecture, 'idCourse' => $idCourse));
+        }
         $this->endWidget('zii.widgets.jui.CJuiDialog');
-        ?>
-
-        <?php
-        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-            'id' => 'informDialog',
-            'themeUrl' => Config::getBaseUrl() . '/css',
-            'cssFile' => 'jquery-ui.css',
-            'theme' => 'my',
-            'options' => array(
-                'width' => 540,
-                'autoOpen' => false,
-                'modal' => true,
-                'resizable' => false
-            ),
-        )); ?>
-        <div>
-            <p style="text-align: center"><?= Yii::t('lesson', '0793'); ?></p>
-            <input id="signInButtonM22" type="submit" value="<?php echo Yii::t('lecture', '0680'); ?>"
-                   ng-click="hideInformDialog()">
-        </div>
-        <?php $this->endWidget('zii.widgets.jui.CJuiDialog');
         ?>
     </div>
 </div>

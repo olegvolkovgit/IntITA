@@ -33,6 +33,7 @@ class LectureElement extends CActiveRecord
 		return array(
 			array('id_lecture, block_order, id_type, html_block', 'required'),
 			array('id_lecture, block_order, id_type', 'numerical', 'integerOnly'=>true),
+            array('html_block', 'match', 'pattern' => '/^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/', 'on'=>'videoLink'),
 			// The following rule is used by search().
 			array('id_block, id_lecture, block_order, id_type, html_block', 'safe', 'on'=>'search'),
 		);

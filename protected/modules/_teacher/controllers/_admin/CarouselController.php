@@ -87,12 +87,12 @@ class CarouselController extends TeacherCabinetController
 	{
         $model = $this->loadModel($id);
         $model->delete();
-
         Slider::sortOrder($model);
 
+        $this->actionIndex();
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+//		if(!isset($_GET['ajax']))
+//			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
