@@ -116,6 +116,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             });
             for (var j=1;j<$scope.units.length;j++){
                 $scope.args[$scope.args.length-1].compare_mark.push(0);
+                $scope.args[$scope.args.length-1].etalon_value.push('');
             }
             for (var i=0;i<3;i++)
                 $scope.indexes.push({
@@ -181,11 +182,17 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         for (var i = 0; i < _data.function.args.length; i++) {
             if (_data.function.args[i].is_array) {
                 for (var j = 0; j < _data.function.args[i].value.length; j++) {
-                    if($scope.res_finalResult.function.args[i].value[j]!=null && (typeof _data.function.args[i].value[j])=='string'){
+                    if ($scope.res_finalResult.function.args[i].value[j] != null && (typeof _data.function.args[i].value[j]) == 'string') {
                         $scope.res_finalResult.function.args[i].value[j] = _data.function.args[i].value[j].split(',');
                     }
+                }
+                for (var j = 0; j < _data.function.args[i].etalon_value.length; j++) {
                     if($scope.res_finalResult.function.args[i].etalon_value[j]!=null && (typeof _data.function.args[i].etalon_value[j])=='string'){
                         $scope.res_finalResult.function.args[i].etalon_value[j] = _data.function.args[i].etalon_value[j].split(',');
+                        for (var n = 0; n < _data.function.args[i].size; n++) {
+                            if($scope.res_finalResult.function.args[i].etalon_value[j][n]==undefined)
+                                $scope.res_finalResult.function.args[i].etalon_value[j].push('');
+                        }
                     }
                 }
             }
@@ -369,7 +376,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     init();
     function init(){
-        getTaskJson.getJson($scope.lang,$scope.task,$scope.interpreterServer).then(function(response){
+        getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
             $scope.editedJson=response;
             //load json for edit if it is
             if ($scope.editedJson != undefined){
@@ -383,6 +390,13 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 }
                 $scope.loadResultPattern($scope.editedJson.function.type,$scope.editedJson.function.size);
                 $scope.args = $scope.editedJson.function.args;
+                for (var i = 0; i < $scope.args.length; i++) {
+                    for (var j = 0; j < $scope.args[i].etalon_value.length; j++) {
+                        if($scope.args[i].etalon_value[j][0]==''){
+                            $scope.args[i].etalon_value[j] = $scope.args[i].etalon_value[j].join('');
+                        }
+                    }
+                }
                 for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
                     if(i>=0){
                         for (var j=0;j<3;j++)

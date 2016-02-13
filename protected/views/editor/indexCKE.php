@@ -32,6 +32,8 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 
 
@@ -61,6 +63,7 @@ if ($idCourse != 0) {
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
 <div ng-app="lessonEdit" class="lessonEdit">
     <div ng-controller="CKEditorCtrl">
+        <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
         <div data-ng-init="
         deleteMsg='<?php echo addslashes(Yii::t('lecture', '0767')); ?>';
         errorMsg='<?php echo addslashes(Yii::t('lecture', '0768')); ?>';

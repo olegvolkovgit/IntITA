@@ -203,7 +203,6 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
-            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
@@ -218,7 +217,6 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === SocialUserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
-            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
