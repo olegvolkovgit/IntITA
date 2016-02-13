@@ -125,7 +125,7 @@ $header = new Header();
         <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'index')
             && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
         ) {
-            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
+            $post = Yii::app()->user->model;
             ?>
             <div class="profileStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">

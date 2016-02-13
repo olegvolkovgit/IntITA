@@ -34,7 +34,7 @@
                 <?php echo $header->getLogoutButton(); ?>
             </a>
             <?php
-            $humuser = StudentReg::model()->findByPk(Yii::app()->user->id);
+            $humuser = Yii::app()->user->model;
             ?>
             <div class="humStatus">
                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">

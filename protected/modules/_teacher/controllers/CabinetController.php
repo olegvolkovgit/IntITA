@@ -5,7 +5,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionIndex()
     {
-        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $model = Yii::app()->user->model;
         if(!$model){
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
@@ -169,7 +169,7 @@ class CabinetController extends TeacherCabinetController
     public function renderSidebarByRole($role)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
-        $user = StudentReg::model()->findByPk(Yii::app()->user->id);
+        $user = Yii::app()->user->model;
         if ($role) {
             switch (strtolower($role->title_en)) {
                 case 'trainer' :
