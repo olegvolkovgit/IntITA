@@ -126,19 +126,8 @@ $header = new Header();
             && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
         ) {
             $post = Yii::app()->user->model;
-            ?>
-            <div class="profileStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div>
-                        <?php echo StudentReg::getStatusInfo($post); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                    <div class="minavatar">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
-                    </div>
-                </a>
-            </div>
-        <?php
+            $statusInfo = $this->beginWidget('UserStatusWidget', ['bigView' => true ,'registeredUser'=>$post]);
+            $this->endWidget();
         }
         ?>
     </div>

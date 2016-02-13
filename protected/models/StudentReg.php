@@ -312,23 +312,9 @@ class StudentReg extends CActiveRecord
         return $brthAdr;
     }
 
-    public static function getAboutMy($aboutMy)
-    {
-        if ($aboutMy)
-            return '<span class="colorP">' . Yii::t('profile', '0100') . '</span>' . $aboutMy;
-    }
 
-    public static function getPhone($phone)
-    {
-        if ($phone)
-            return '<span class="colorP">' . Yii::t('profile', '0102') . '</span>' . $phone;
-    }
 
-    public static function getEducation($education)
-    {
-        if ($education)
-            echo '<span class="colorP">' . Yii::t('profile', '0103') . '</span>' . $education;
-    }
+
 
     public static function getInterests($interests)
     {
@@ -916,14 +902,6 @@ class StudentReg extends CActiveRecord
         else return $post->firstName;
     }
 
-    public static function getStatusInfo($post)
-    {
-        if ($post->firstName == '' && $post->secondName == '' && $post->nickname == '') {
-            return '<span class="nameNAN">[' . Yii::t('regexp', '0163') . ']<br>[' . Yii::t('regexp', '0160') . ']<br>[' . Yii::t('regexp', '0162') . ']</span>';
-        } else {
-            return  '<span class="statusColor">'.$post->nickname.'</span><br>'.$post->firstName.'<br>'.$post->secondName;
-        }
-    }
 
     public function getPaymentsModules()
     {

@@ -128,7 +128,7 @@ class CabinetController extends TeacherCabinetController
 
     }
 
-    public function rolesDashboard(StudentReg $user, $inRole = null)
+    public function rolesDashboard(RegisteredUser $user, $inRole = null)
     {
         if ($user->isTeacher()) {
             $teacher = Teacher::model()->findByPk($user->getTeacherId());
