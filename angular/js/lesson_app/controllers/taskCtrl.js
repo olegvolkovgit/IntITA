@@ -46,7 +46,7 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                                 });
                             break;
                         case 'failed':
-                            $scope.setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
+                            $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
                             openDialogsService.openFalseDialog();
                             break;
                         case 'error':
