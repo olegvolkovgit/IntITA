@@ -152,16 +152,18 @@ class PlainTask extends Quiz
                     'where' => 'plain_task_answer_teacher.id_plain_task_answer IS NULL
                     and id_student = '.$user->id,
                 ))->queryAll();
-            if(!empty($tasks))
-            array_push($plainTasksArr,$tasks);
+                foreach($tasks as $oneTask) {
+                    if (isset($oneTask['id'])) {
+                        array_push($plainTasksArr, $oneTask['id']);
+                    }
+                }
             }
         }
-        $plainTasksArr = array_shift($plainTasksArr);
         if($plainTasksArr)
         {
             foreach($plainTasksArr as $plainTask)
             {
-                $plainAnswer = PlainTaskAnswer::model()->findByPk($plainTask['id']);
+                $plainAnswer = PlainTaskAnswer::model()->findByPk($plainTask);
 
                 array_push($plainTasksAnswers,$plainAnswer);
             }
