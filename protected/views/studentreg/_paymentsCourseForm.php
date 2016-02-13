@@ -16,8 +16,9 @@ $price = Course::getPrice($course);
 
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'action' => '#',
+        'action' => Yii::app()->createUrl('payments/index'),
         'id' => 'payments-form',
+        'method' => 'post',
         'enableAjaxValidation' => false,
     )); ?>
     <?php
@@ -96,14 +97,33 @@ $price = Course::getPrice($course);
                         'year' => 5)); ?>
                 </div>
             </div>
+            <input name="module" type="hidden" value="0">
+            <input name="course" type="hidden" value="<?php echo $model->course_ID; ?>">
+            <input name="user" type="hidden" value="<?php echo Yii::app()->user->getId(); ?>">
+            <input name="type" type="hidden" value="Course">
         </div>
     <?php } ?>
-    <?php $this->endWidget(); ?>
+    <?php if ($model->course_price > 0) { ?>
+        <button class="ButtonFinances" style=" float:right; cursor:pointer"
+                onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
+                    '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+    <?php }
+    $this->endWidget(); ?>
 </div>
 <br>
-<?php if ($price > 0) { ?>
-    <button class="ButtonFinances" style=" float:right; cursor:pointer"
-            onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
-                '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php } ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sendAccount.js') ?>"></script>
+
+<div id="kalebas"></div>
+
+<script>
+    $(function () {
+        schema = $.cookie('courseSchema');
+        if (schema > 0) {
+            $('input:radio[name="payment"]').filter('[value="' + schema + '"]').attr('checked', true);
+        } else {
+            $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+        }
+    });
+    function printAccount(){
+        return $("input[name='payment']:checked").val();
+    }
+</script>

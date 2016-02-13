@@ -37,10 +37,10 @@ class SkipTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, condition, question,source', 'required'),
+			array('author, condition, question, source', 'required'),
 			array('author, condition, question', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, author, condition, question', 'safe', 'on'=>'search'),
+			array('id, author, condition, question, source', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +93,7 @@ class SkipTask extends Quiz
 		$criteria->compare('author',$this->author);
 		$criteria->compare('condition',$this->condition);
 		$criteria->compare('question',$this->question);
+        $criteria->compare('source', $this->source);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,8 +113,8 @@ class SkipTask extends Quiz
 
     public function addTask($arr){
 
-        $this->question = $arr['questionId'];
         $this->condition = $arr['condition'];
+        $this->question = $arr['questionId'];
         $this->author = $arr['author'];
         $this->answers = $arr['answers'];
         $this->source = $arr['question'];
@@ -126,44 +127,9 @@ class SkipTask extends Quiz
         else return false;
     }
 
-    public function getQuestionAnswers($question){
-        $answers = [];
-        $pattern = '/\/\*<span style=\"background:yellowgreen\">(.+?)<\/span>\*\//';
-
-        preg_match_all($pattern, $question, $answers);
-
-        $this->answers = $answers[1];
-    }
-
     public function afterSave()
     {
         parent::afterSave();
         $this->id = Yii::app()->db->getLastInsertID();
     }
-
-    public function getQuestion()
-    {
-        $regExp = "\/\/*(.+?)\*\//";
-        $question = LectureElement::model()->findByPk($this->question)->html_block;
-
-        preg_match_all($regExp,$question,$mathches);
-
-        return $mathches[0];
-    }
-
-    public static function getSkipTaskIcon($user, $id_block, $editMode)
-{
-    if ($editMode || $user == 0) {
-        return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-    } else {
-
-        $idTask = self::model()->findByAttributes(array('condition' => $id_block))->id;
-        if (SkipTaskMarks::isTaskDone($user, $idTask)) {
-            return StaticFilesHelper::createPath('image', 'lecture', 'taskDone.png');
-        } else {
-            return StaticFilesHelper::createPath('image', 'lecture', 'task.png');
-        }
-    }
-}
-
 }

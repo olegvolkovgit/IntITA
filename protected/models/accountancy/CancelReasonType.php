@@ -1,20 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "acc_pays_plans".
+ * This is the model class for table "acc_cancel_reason_type".
  *
- * The followings are the available columns in table 'acc_pays_plans':
- * @property string $internal_pay_id
- * @property string $payment_plan_id
+ * The followings are the available columns in table 'acc_cancel_reason_type':
+ * @property integer $id
+ * @property string $description
+ *
+ * The followings are the available model relations:
+ * @property UserAgreements[] $userAgreements
  */
-class PaysPlans extends CActiveRecord
+class CancelReasonType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_pays_plans';
+		return 'acc_cancel_reason_type';
 	}
 
 	/**
@@ -25,11 +28,11 @@ class PaysPlans extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('internal_pay_id, payment_plan_id', 'required'),
-			array('internal_pay_id, payment_plan_id', 'length', 'max'=>10),
+			array('description', 'required'),
+			array('description', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('internal_pay_id, payment_plan_id', 'safe', 'on'=>'search'),
+			array('id, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -41,6 +44,7 @@ class PaysPlans extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'userAgreements' => array(self::HAS_MANY, 'UserAgreements', 'cancel_reason_type'),
 		);
 	}
 
@@ -50,8 +54,8 @@ class PaysPlans extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'internal_pay_id' => 'Internal Pay',
-			'payment_plan_id' => 'Payment Plan',
+			'id' => 'ID',
+			'description' => 'Пояснення',
 		);
 	}
 
@@ -73,8 +77,8 @@ class PaysPlans extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('internal_pay_id',$this->internal_pay_id,true);
-		$criteria->compare('payment_plan_id',$this->payment_plan_id,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -85,7 +89,7 @@ class PaysPlans extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaysPlans the static model class
+	 * @return CancelReasonType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

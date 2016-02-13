@@ -1,23 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "acc_payment_plan".
+ * This is the model class for table "acc_operation_type".
  *
- * The followings are the available columns in table 'acc_payment_plan':
- * @property string $agreement_id
- * @property string $pay_date
- * @property string $summa
- * @property string $paid_date
- * @property string $cancelled_date
+ * The followings are the available columns in table 'acc_operation_type':
+ * @property integer $id
+ * @property string $description
+ * @property integer $negative_summa
+ *
+ * The followings are the available model relations:
+ * @property Operation[] $accOperations
  */
-class PaymentPlan extends CActiveRecord
+class OperationType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_payment_plan';
+		return 'acc_operation_type';
 	}
 
 	/**
@@ -28,12 +29,11 @@ class PaymentPlan extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('agreement_id, pay_date, summa', 'required'),
-			array('agreement_id, summa', 'length', 'max'=>10),
-			array('paid_date, cancelled_date', 'safe'),
+			array('negative_summa', 'numerical', 'integerOnly'=>true),
+			array('description', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('agreement_id, pay_date, summa, paid_date, cancelled_date', 'safe', 'on'=>'search'),
+			array('id, description, negative_summa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,6 +45,7 @@ class PaymentPlan extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'operations' => array(self::HAS_MANY, 'Operation', 'type_id'),
 		);
 	}
 
@@ -54,11 +55,9 @@ class PaymentPlan extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'agreement_id' => 'Agreement',
-			'pay_date' => 'Pay Date',
-			'summa' => 'Summa',
-			'paid_date' => 'Paid Date',
-			'cancelled_date' => 'Cancelled Date',
+			'id' => 'Код типу',
+			'description' => 'Опис',
+			'negative_summa' => 'Negative Summa',
 		);
 	}
 
@@ -80,11 +79,9 @@ class PaymentPlan extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('agreement_id',$this->agreement_id,true);
-		$criteria->compare('pay_date',$this->pay_date,true);
-		$criteria->compare('summa',$this->summa,true);
-		$criteria->compare('paid_date',$this->paid_date,true);
-		$criteria->compare('cancelled_date',$this->cancelled_date,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('negative_summa',$this->negative_summa);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -95,10 +92,20 @@ class PaymentPlan extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaymentPlan the static model class
+	 * @return OperationType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+
+    public static function getTypesList(){
+        $types = OperationType::model()->findAll();
+        return $types;
+    }
+
+    public static function getDescription($id){
+        return OperationType::model()->findByPk($id)->description;
+    }
 }

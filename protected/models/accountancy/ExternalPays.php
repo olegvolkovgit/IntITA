@@ -12,6 +12,11 @@
  * @property string $pay_date
  * @property string $summa
  * @property string $description
+ *
+ * The followings are the available model relations:
+ * @property StudentReg $createUser
+ * @property ExternalSources $source
+ * @property StudentReg $user
  */
 class ExternalPays extends CActiveRecord
 {
@@ -31,12 +36,11 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_date, create_user, source_id, user_id, pay_date, summa, description', 'required'),
+			array('create_user, source_id, user_id, pay_date, summa', 'required'),
 			array('create_user, user_id', 'numerical', 'integerOnly'=>true),
 			array('source_id, summa', 'length', 'max'=>10),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, create_date, create_user, source_id, user_id, pay_date, summa, description', 'safe', 'on'=>'search'),
 		);
 	}
@@ -49,6 +53,7 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'source' => array(self::BELONGS_TO, 'ExternalSources', 'source_id'),
 		);
 	}
 
@@ -59,13 +64,13 @@ class ExternalPays extends CActiveRecord
 	{
 		return array(
             'id' => 'Pay code',
-            'create_date' => 'Date of creation ',
-            'create_user' => 'User who created record',
-            'source_id' => 'External source',
-            'user_id' => 'User who payed',
-            'pay_date' => 'Date when pay was made',
-            'summa' => 'Summa of payment',
-            'description' => 'Description of payment',
+            'create_date' => 'Дата створення ',
+            'create_user' => 'Хто створив',
+            'source_id' => 'Зовнішні джерела',
+            'user_id' => 'Хто платить',
+            'pay_date' => 'Дата створення платежу',
+            'summa' => 'Сумма до сплати',
+            'description' => 'Пояснення платежу',
 		);
 	}
 
@@ -111,4 +116,28 @@ class ExternalPays extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addNewExternalPay(Operation $operation){
+        $invoicesDescription = '';
+        foreach($operation->invoicesList as $invoice){
+            $invoicesDescription .= $invoice->description();
+        }
+
+        $model = new ExternalPays();
+        $model->create_user = $operation->user_create;
+        $model->source_id = $operation->externalSource;
+        $model->user_id = $operation->user_create;
+        $model->pay_date = $operation->date_create;
+        $model->summa = $operation->summa;
+
+         $model->description = $operation->type->description.". ".
+            $invoicesDescription.". Сплачено ".date("d.m.y", strtotime($model->pay_date));
+
+        if ($model->validate()){
+            $model->save();
+            return true;
+        }
+
+        return false;
+    }
 }

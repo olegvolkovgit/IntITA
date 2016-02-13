@@ -203,7 +203,6 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
-            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
@@ -218,7 +217,6 @@ class StudentReg extends CActiveRecord
         if ($this->_identity->errorCode === SocialUserIdentity::ERROR_NONE) {
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
-            Yii::app()->session->add("jobID", Yii::app()->user->getId().uniqid());
             return true;
         } else
             return false;
@@ -543,9 +541,6 @@ class StudentReg extends CActiveRecord
 
     public function getDataProfile()
     {
-        if ($this->id !== Yii::app()->user->getId())
-            return false;
-
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $this->id));
         $criteria = new CDbCriteria;
         $criteria->alias = 'consultationscalendar';
@@ -616,9 +611,35 @@ class StudentReg extends CActiveRecord
         return $markProvider;
     }
 
+    public static function getUserNamePayment($id)
+    {
+        if ($id) {
+            $model = StudentReg::model()->findByPk($id);
+            if ($model) {
+                if ($model->secondName == '' && $model->firstName == '') {
+                    return $model->email;
+                } else {
+                    return $model->secondName . " " . $model->firstName . ", " . $model->email;
+                }
+            }
+        }
+    }
+
     public function getTeacherId()
     {
-        return $this->teacher->teacher_id;
+        $teacherId = $this->teacher;
+        if($teacherId)
+        return $teacherId->teacher_id;
+    }
+
+    public static function findLikeEmail($userEmail)
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->addSearchCondition('email', $userEmail);
+        $result = StudentReg::model()->findAll($criteria);
+
+        return $result;
     }
 
     public function getTeacherModel()
@@ -649,6 +670,16 @@ class StudentReg extends CActiveRecord
     {
         $name = $this->firstName . " " . $this->secondName;
         return trim($name);
+    }
+
+    public function userNameWithEmail()
+    {
+        $name = $this->firstName . " " . $this->secondName;
+        if ($name == "") {
+            return $this->email;
+        } else {
+            return trim($name. ", ".$this->email);
+        }
     }
 
     public static function getRoleString($id)
@@ -823,7 +854,7 @@ class StudentReg extends CActiveRecord
         }
     }
 
-    public static function getUserNameConsultation($id, $dp)
+    public static function getProfileLinkByRole($id, $dp)
     {
         if (!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))) {
             $result = Yii::t('profile', '0716');
@@ -839,11 +870,12 @@ class StudentReg extends CActiveRecord
                 $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
                     Teacher::getTeacherLastName($dp->teacher_id);
             }
-        } else
+            return CHtml::link($result,array("/studentreg/profile", "idUser" => $dp->user_id),array("target"=>"_blank"));
+        } else {
             $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
                 Teacher::getTeacherLastName($dp->teacher_id);
-
-        return $result;
+            return CHtml::link($result,array("/profile/index", "idTeacher" => $dp->teacher_id),array("target"=>"_blank"));
+        }
     }
 
     public static function getNameEmail()

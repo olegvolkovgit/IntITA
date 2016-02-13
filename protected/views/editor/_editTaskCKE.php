@@ -28,6 +28,8 @@
             <br>
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" ng-init="editTask='<?php echo htmlentities(Task::getTaskCondition($idBlock));?>'" required ng-model="editTask"></textarea>
             <input name="idTaskBlock" type="hidden" value="<?php echo $idBlock;?>"/>
+            <input name="idTaskBlock" type="hidden" value="<?php echo $idBlock;?>"/>
+            <input type="hidden" ng-init="task=<?php echo Task::getTaskId($idBlock); ?>" ng-model="task" />
             <input type="submit" ng-disabled="addTask.$invalid" value="Створення та редагування юніттестів" />
         </fieldset>
     </form>

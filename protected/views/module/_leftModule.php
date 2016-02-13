@@ -14,17 +14,19 @@ if (StudentReg::isAdmin()) $post->setScenario('canedit');
                 <td>
                     <div class="startModule">
                         <?php
-                        if(Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
-                            echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                        } elseif($post->status == 1 && $post->cancelled == 0){
-                            ?>
-                            <a id="paymentButtonModule" onclick="redirectToProfile()"
-                               href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                                   'idUser' => Yii::app()->user->getId(),
-                                   'course' => (isset($_GET['idCourse']))?$_GET['idCourse']:0,
-                                   'module' => $post->module_ID
-                               ));?>"><?php echo Yii::t('module', '0279');?></a>
-                        <?php
+                        if($post->getBasePrice() > 0) {
+                            if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
+                                echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
+                            } elseif ($post->status == 1 && $post->cancelled == 0) {
+                                ?>
+                                <a id="paymentButtonModule" onclick="redirectToProfile()"
+                                   href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
+                                       'idUser' => Yii::app()->user->getId(),
+                                       'course' => (isset($_GET['idCourse'])) ? $_GET['idCourse'] : 0,
+                                       'module' => $post->module_ID
+                                   )); ?>"><?php echo Yii::t('module', '0279'); ?></a>
+                                <?php
+                            }
                         }
                         ?>
                     </div>

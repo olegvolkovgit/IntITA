@@ -6,7 +6,8 @@ angular
     .controller('taskCtrl',taskCtrl);
 
 function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie) {
-    $scope.sendTaskAnswer=function(jobid, idTask, taskLang, url,e,user){
+    $scope.sendTaskAnswer=function(idTask, taskLang, url,e,user){
+        var jobid=JsUniqid(user+'_', false);
         $scope.userId=user;
         $scope.taskId=idTask;
         var button=angular.element(document.querySelector(".taskSubmit"));
@@ -44,16 +45,35 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                                     openDialogsService.openTrueDialog();
                                 });
                             break;
+                        case 'failed':
+                            $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
+                            openDialogsService.openFalseDialog();
+                            break;
                         case 'error':
                             bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                             break;
                         default:
-                            $scope.setMark(task, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning);
-                            openDialogsService.openFalseDialog();
+                            bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                     }
                 })
         }
     };
+    function JsUniqid(pr, en) {
+        var pr = pr || '', en = en || false, result, us;
+
+        this.seed = function (s, w) {
+            s = parseInt(s, 10).toString(16);
+            return w < s.length ? s.slice(s.length - w) :
+                (w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
+        };
+
+        result = pr + this.seed(parseInt(new Date().getTime() / 1000, 10), 8)
+            + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5);
+
+        if (en) result += (Math.random() * 10).toFixed(8).toString();
+
+        return result;
+    }
 
 //sent post to intita server to write result
     $scope.setMark=function(task, status, date, result, warning,user){

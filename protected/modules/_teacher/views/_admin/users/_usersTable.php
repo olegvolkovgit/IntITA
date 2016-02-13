@@ -12,6 +12,7 @@
                         <th>ФІО</th>
                         <th>Email</th>
                         <th>Зареєстровано</th>
+                        <th>Профіль</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,11 @@
                             <td class="center"><?php if($user["reg_time"] > 0) echo date("d-m-Y", $user["reg_time"]);
                                 else echo '<em>невідомо</em>';
                                 ?></td>
+                            <td>
+                                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => $user->id)); ?>" target="_blank">
+                                    Профіль користувача
+                                </a>
+                            </td>
                         </tr>
                     <?php }?>
                     </tbody>

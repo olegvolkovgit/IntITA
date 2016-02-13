@@ -335,8 +335,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $modules;
     }
 
-    public
-    static function getTableCells($modules, $idCourse)
+    public static function getTableCells($modules, $idCourse)
     {
         $cells = [];
         for ($i = 0, $count = count($modules); $i < $count; $i++) {
@@ -359,8 +358,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $cells;
     }
 
-    public
-    static function getCourseDuration($tableCells)
+    public static function getCourseDuration($tableCells)
     {
         $count = count($tableCells);
         $arr = [];
@@ -372,14 +370,22 @@ class Course extends CActiveRecord implements IBillableObject
         else return 0;
     }
 
-    public
-    static function getStatus($id)
+    public function getNumber()
+    {
+        return $this->course_number;
+    }
+
+    public function getType()
+    {
+        return 'K';
+    }
+
+    public static function getStatus($id)
     {
         return Course::model()->findByPk($id)->status;
     }
 
-    public
-    static function generateCoursesList()
+    public static function generateCoursesList()
     {
         $courses = Course::model()->findAll();
 
@@ -394,14 +400,12 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public
-    static function getCourseLang($id)
+    public static function getCourseLang($id)
     {
         return Course::model()->findByPk($id)->language;
     }
 
-    public
-    static function getCourseTitlesList()
+    public static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
         $criteria->select = 'course_ID, title_ua, language';
@@ -416,14 +420,12 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public
-    static function getCourseNumber($id)
+    public static function getCourseNumber($id)
     {
         return Course::model()->findByPk($id)->course_number;
     }
 
-    public
-    static function getCreditCoursePrice($idCourse, $years)
+    public static function getCreditCoursePrice($idCourse, $years)
     {
         $modules = Yii::app()->db->createCommand("SELECT id_module FROM course_modules WHERE id_course =" . $idCourse
         )->queryAll();
@@ -446,8 +448,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->level0->$title;
     }
 
-    public
-    static function getCourseLevel($idCourse)
+    public static function getCourseLevel($idCourse)
     {
         $course = Course::model()->findByPk($idCourse);
         return $course->level();
@@ -590,13 +591,13 @@ class Course extends CActiveRecord implements IBillableObject
         return $summa;
     }
 
-//discount 30 percent - first pay schema
+    //discount 30 percent - first pay schema
     public static function getSummaWholeCourse($idCourse)
     {
         return round(Course::getPrice($idCourse) * 0.7);
     }
 
-//discount 10 percent - second pay schema
+    //discount 10 percent - second pay schema
     public static function getSummaCourseTwoPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.9;
@@ -607,7 +608,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//discount 8 percent - third pay schema
+    //discount 8 percent - third pay schema
     public static function getSummaCourseFourPays($idCourse, $isWhole)
     {
         $discountedSumma = Course::getPrice($idCourse) * 0.92;
@@ -618,7 +619,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//monthly - forth pay schema
+    //monthly - forth pay schema
     public static function getSummaCourseMonthly($idCourse, $isWhole)
     {
         $wholePrice = Course::getPrice($idCourse);
@@ -629,7 +630,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//credit two years - fifth pay schema
+    //credit two years - fifth pay schema
     public static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 2);
@@ -640,7 +641,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//credit three years - sixth pay schema
+    //credit three years - sixth pay schema
     public static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 3);
@@ -651,7 +652,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//credit four years - seventh pay schema
+    //credit four years - seventh pay schema
     public static function getSummaCourseCreditFourYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 4);
@@ -662,7 +663,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $toPay;
     }
 
-//credit five years - eight pay schema
+    //credit five years - eight pay schema
     public static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
     {
         $wholePrice = Course::getCreditCoursePrice($idCourse, 5);
@@ -702,9 +703,12 @@ class Course extends CActiveRecord implements IBillableObject
         )->queryAll());
     }
 
-    public
-    function mandatoryModule($id)
-    {
+    public static function getAgreementLink($course, $user){
+        return "<a href=".Yii::app()->createUrl('payments/agreement', array('user' => $user, 'course' => $course)).
+        ">договір</a>";
+    }
+
+    public function mandatoryModule($id){
         return CourseModules::model()->findByAttributes(array(
                 'id_course' => $this->course_ID,
                 'id_module' => $id

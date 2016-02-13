@@ -1,45 +1,57 @@
-<? $css_version = 1; ?>
 <?php
-/**
- * @var $account TempPay
- */
+/* @var $agreement UserAgreements */
 ?>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
-<!-- Bootstrap Core CSS -->
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
 
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'account.css'); ?>"/>
-<head>
-    <meta charset="UTF-8">
-</head>
-<div class="container">
-    <div class="row">
-    <?php $this->renderPartial('_account', array('account' => $account), false, true); ?>
-        <br>
-        <br>
-        <?php if (!isset($_GET['nolayout'])) { ?>
-
-                <div class="col-sm-2 col-sm-offset-3">
-                    <button onclick="sendData('<?php echo $account->id_account; ?>')" id="printAccount">
-                        <?php echo Yii::t('payment', '0658'); ?>
-                    </button>
-                </div>
-        <?php } ?>
-        <br>
-        <br>
-        <br>
-        <?php if (isset($_GET['nolayout']) && $_GET['nolayout'] == 'true') { ?>
-            <script>
-                $(window).load(
-                    function () {
-                        window.print();
-                    }
-                )
-            </script>
-        <?php } ?>
+    <link type="text/css" rel="stylesheet" href="<?=StaticFilesHelper::fullPathTo('css', 'paymentsInvoicesList.css'); ?>"/>
+    <div class="breadcrumbs">
+        <?php
+        $this->breadcrumbs = array('Договір');?>
     </div>
-</div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'account.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>
+    <div class="titleAgreement">
+        <h1>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від
+            <?php echo $agreement->create_date; ?></h1>
+    </div>
+
+<?php
+//Save $this to use in closures
+$controller = $this;
+$this->widget('zii.widgets.grid.CGridView', ['id' => 'invoices-grid',
+    'dataProvider' => $agreement->invoicesDataProvider(),
+    'emptyText' => 'Рахунків немає.',
+    'summaryText' => '',
+    'template' => '{items}{pager}',
+    'pager' => array(
+        'firstPageLabel' => '&#171;&#171;',
+        'lastPageLabel' => '&#187;&#187;',
+        'prevPageLabel' => '&#171;',
+        'nextPageLabel' => '&#187;',
+        'header' => '',
+        'cssFile' => Config::getBaseUrl() . '/css/pager.css'
+    ),
+    'columns' => array(
+        array(
+            'header' => false,
+            'class' => 'CLinkColumn',
+            'urlExpression' => 'Yii::app()->createUrl("payments/invoice", array("id"=>$data->id))',
+            'htmlOptions' => array('style' => 'cursor: pointer;'),
+            'headerHtmlOptions' => array('style' => 'display:none'),
+            'labelExpression' => function (Invoice $data, $row) use ($controller) {
+                $class = 'waiting';
+                if ($data->isPayed()) {
+                    $class = 'payed';
+                } else if ($data->isWaitPaymentDate()) {
+                    $class = 'waitPaymentDate';
+                } else if ($data->isOverdue()) {
+                    $class = 'overdue';
+                }
+
+                return $this->renderPartial('_payLink',
+                    array(
+                        'data' => $data,
+                        'cssClass' => $class
+                    ), true);
+            }
+        ),
+    ),
+]);
+?>

@@ -11,7 +11,7 @@
  * @property string $name
  * @property integer $monthpay
  */
-class PaymentSchema extends CActiveRecord
+class PaymentScheme extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -61,7 +61,7 @@ class PaymentSchema extends CActiveRecord
             'pay_count' => 'кількість проплат',
             'loan' => 'відсоток',
             'name' => 'опис',
-            'monthpay' => 'Monthpay',
+            'monthpay' => 'кількість платежів по-місячно',
 		);
 	}
 
@@ -99,10 +99,30 @@ class PaymentSchema extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaymentSchema the static model class
+	 * @return PaymentScheme the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+    public static function getSchema($id){
+        $schema = null;
+        $model = PaymentScheme::model()->findByPk($id);
+        if ($model->loan > 0){
+            $schema = new LoanPaymentSchema($model->loan, $model->pay_count);
+        }else{
+            if ($model->monthpay > 0){
+                $schema = new BasePaymentSchema($model->pay_count);
+            } else {
+                $schema = new AdvancePaymentSchema($model->discount, $model->pay_count);
+            }
+        }
+
+        return $schema;
+    }
+
+    public static function getName($id){
+        return PaymentScheme::model()->findByPk($id)->name;
+    }
 }
