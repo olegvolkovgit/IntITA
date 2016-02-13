@@ -77,6 +77,7 @@ return array(
         ),
 
         'user' => array(
+            'class' => 'WebUser',
             'loginUrl' => array('/site/index'),
             'allowAutoLogin' => true,
         ),

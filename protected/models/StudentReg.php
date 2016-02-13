@@ -1236,4 +1236,25 @@ class StudentReg extends CActiveRecord
 
         return StudentReg::model()->findAll($criteria);
     }
+
+    public function roles(){
+        $sql = '(select "admin",id_user from user_admin a where a.id_user = '.$this->id.' and end_date IS NULL)
+                    union
+                (select "accountant", id_user from user_accountant ac where ac.id_user = '.$this->id.' and end_date IS NULL)
+                    union
+                (select "student", id_user from user_student st where st.id_user = '.$this->id.' and end_date IS NULL)
+                     union
+                (select "trainer", id_user from user_trainer at where at.id_user = '.$this->id.' and end_date IS NULL)
+                     union
+                (select "consultant", id_user from user_consultant acs where acs.id_user = '.$this->id.' and end_date IS NULL)';
+        $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
+
+        function parseRoleArray($row) {
+            return $row['admin'];
+        }
+
+        $result = array_map("parseRoleArray", $rolesArray);
+        return $result;
+    }
+
 }
