@@ -108,7 +108,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 type: 0,
                 size: null,
                 arg_name: '',
-                pattern:/^\d+$/,
+                pattern:/^[-]?\d+$/,
                 value: [],
                 is_array: 0,
                 etalon_value: [''],
@@ -216,10 +216,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         if(size==null){
             switch (type) {
                 case 0:
-                    $scope.args[index].pattern=/^\d+$/;
+                    $scope.args[index].pattern=/^[-]?\d+$/;
                     break;
                 case 1:
-                    $scope.args[index].pattern=/^[0-9]+(\.[0-9]+)?$/;
+                    $scope.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.args[index].pattern=/^(true|false|[01])$/;
@@ -236,10 +236,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }else{
             switch (type) {
                 case 0:
-                    $scope.args[index].pattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    $scope.args[index].pattern=new RegExp("^([-]?\\d+,){" + (size-1) + "}[-]?\\d+$");
                     break;
                 case 1:
-                    $scope.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    $scope.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
@@ -259,10 +259,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         if(size==null){
             switch (type) {
                 case 0:
-                    $scope.resultPattern=/^\d+$/;
+                    $scope.resultPattern=/^[-]?\d+$/;
                     break;
                 case 1:
-                    $scope.resultPattern=/^[0-9]+(\.[0-9]+)?$/;
+                    $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.resultPattern=/^(true|false|[01])$/;
@@ -279,10 +279,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }else{
             switch (type) {
                 case 0:
-                    $scope.resultPattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    $scope.resultPattern=new RegExp("^([-]?\\d+,){" + (size-1) + "}[-]?\\d+$");
                     break;
                 case 1:
-                    $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
@@ -303,10 +303,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         if(size==null){
             switch (type) {
                 case 0:
-                    $scope.editedJson.function.args[index].pattern=/^\d+$/;
+                    $scope.editedJson.function.args[index].pattern=/^[-]?\d+$/;
                     break;
                 case 1:
-                    $scope.editedJson.function.args[index].pattern=/^[0-9]+(\.[0-9]+)?$/;
+                    $scope.editedJson.function.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.editedJson.function.args[index].pattern=/^(true|false|[01])$/;
@@ -320,10 +320,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }else{
             switch (type) {
                 case 0:
-                    $scope.editedJson.function.args[index].pattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^([-]?\\d+,){" + (size-1) + "}[-]?\\d+$");
                     break;
                 case 1:
-                    $scope.editedJson.function.args[index].pattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
@@ -340,10 +340,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         if(size==null){
             switch (type) {
                 case 0:
-                    $scope.resultPattern=/^\d+$/;
+                    $scope.resultPattern=/^[-]?\d+$/;
                     break;
                 case 1:
-                    $scope.resultPattern=/^[0-9]+(\.[0-9]+)?$/;
+                    $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
                     $scope.resultPattern=/^(true|false|[01])$/;
@@ -357,10 +357,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }else{
             switch (type) {
                 case 0:
-                    $scope.resultPattern=new RegExp("^(\\d+,){" + (size-1) + "}\\d+$");
+                    $scope.resultPattern=new RegExp("^([-]?\\d+,){" + (size-1) + "}[-]?\\d+$");
                     break;
                 case 1:
-                    $scope.resultPattern=new RegExp("^([0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([0-9]+(\\.[0-9]+)?)$");
+                    $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
                     $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
