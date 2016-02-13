@@ -907,17 +907,14 @@ class Module extends CActiveRecord implements IBillableObject
      * Checks if model can be editable by current user
      * @return int "1" if model editable by current user, "0" if does not editable
      */
-    public function isEditableByCurrentUser() {
-        if (!Yii::app()->user->isGuest) { // if user not guest
-            if ($this->teacher == null) {
-                $this->getRelated('teacher');
-            }
-            $authId = Yii::app()->user->getId();
-            foreach ($this->teacher as $teacher){
-                if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
-                    return EDITOR_ENABLED;
-                    break;
-                }
+    public function isEditableByUser($authId) {
+        if ($this->teacher == null) {
+            $this->getRelated('teacher');
+        }
+        foreach ($this->teacher as $teacher){
+            if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
+                return EDITOR_ENABLED;
+                break;
             }
         }
         return EDITOR_DISABLED;

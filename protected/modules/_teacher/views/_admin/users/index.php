@@ -17,6 +17,8 @@
             </li>
             <li><a href="#register" data-toggle="tab">Зареєстровані користувачі (<?=count($users);?>)</a>
             </li>
+            <li><a href="#students" data-toggle="tab">Студенти</a>
+            </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -32,10 +34,21 @@
             <div class="tab-pane fade" id="register">
                 <?php $this->renderPartial('_usersTable', array('users' => $users));?>
             </div>
+            <div class="tab-pane fade" id="students">
+                <?php $this->renderPartial('_studentsTable');?>
+            </div>
         </div>
     </div>
 </div>
+<!-- DataTables JavaScript -->
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'jquery-ui.min.css') ?>"/>
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/studentsList.js'); ?>"></script>
+
 <script>
+
     $jq(document).ready(function () {
         $jq('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
                 language: {
@@ -43,9 +56,17 @@
                 }
             }
         );
+
+        studentTable = initStudentsList();
+
     });
+
+    $jq("#startDate").datepicker(lang);
+    $jq("#startDate").datepicker("option", "dateFormat", "yy-mm-dd");
+    $jq("#endDate").datepicker(lang);
+    $jq("#endDate").datepicker("option", "dateFormat", "yy-mm-dd");
+
 </script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/usersManage.js'); ?>"></script>
 
 
 

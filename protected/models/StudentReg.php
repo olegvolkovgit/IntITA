@@ -1081,6 +1081,35 @@ class StudentReg extends CActiveRecord
         else return [];
     }
 
+    public static function studentsList() {
+        $sql = 'select * from user inner join user_student on user.id = user_student.id_user';
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        if ($result)
+            return $result;
+        else return [];
+    }
+
+    public static function getStudentsList($startDate, $endDate) {
+
+        $sql = 'select concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")), user.email, user_student.start_date from user inner join user_student on user.id = user_student.id_user ';
+
+        if (isset($startDate) && isset($endDate)){
+            $sql .= " WHERE DATE(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
+        }
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+            foreach($record as $field) {
+                array_push($row, $field);
+            }
+            array_push($return['data'], $row);
+        }
+
+        echo json_encode($return);
+    }
+
     public static function teachersList()
     {
         $criteria = new CDbCriteria();
