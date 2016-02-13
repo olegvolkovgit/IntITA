@@ -79,6 +79,7 @@ return array(
         'user' => array(
             'loginUrl' => array('/site/index'),
             'allowAutoLogin' => true,
+            'class' => 'IntITAUser',
         ),
 
         'authManager' => array(
