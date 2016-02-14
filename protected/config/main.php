@@ -29,6 +29,7 @@ return array(
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.components.*',
+        'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
         //'ext.yii2-debug.*',
         'application.helpers.*',

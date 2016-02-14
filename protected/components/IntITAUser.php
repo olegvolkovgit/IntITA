@@ -22,7 +22,9 @@ class IntITAUser extends CWebUser {
         if($this->_model===null)
         {
             if($id!==null)
-            $this->_model=StudentReg::model()->findByPk($id);
+            {
+                $this->_model=  RegisteredUser::userById($id);                
+            }
         }
         return $this->_model;
     }

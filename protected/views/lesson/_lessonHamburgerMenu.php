@@ -58,15 +58,8 @@
             </a>
             <?php
             $humuser = Yii::app()->user->model;
-            ?>
-            <div class="humStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div class="humavatar"><img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $humuser->avatar); ?>"/></div><div class="humName">
-                        <?php echo StudentReg::getStatusInfo($humuser); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                </a>
-            </div>
-        <?php } ?>
+            $statusInfo = $this->beginWidget('UserStatusWidget',['bigView'=>false, 'registeredUser'=>$humuser]);
+            $this->endWidget();
+           } ?>
     </div>
 </div>
