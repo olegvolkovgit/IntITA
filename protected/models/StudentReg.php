@@ -1250,7 +1250,7 @@ class StudentReg extends CActiveRecord
         $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
 
         function parseRoleArray($row) {
-            return $row['admin'];
+            return new UserRoles($row['admin']);
         }
 
         $result = array_map("parseRoleArray", $rolesArray);
