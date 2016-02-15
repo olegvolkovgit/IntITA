@@ -164,6 +164,18 @@ class Mail {
 
         else return false;
     }
+    public static function sendLinkingEmailMail($model)
+    {
+        $mail = new Mail();
+        $lang = Mail::setLang();
+        $subject = 'Приєднання соціальної мережі до електронної адреси';
+        $text = 'Щоб приєднати дану електрону адресу до соціальної мережі ('.$model->identity.'), будь ласка перейди за посиланням: ' .
+            " " . Config::getBaseUrl() . "/index.php?r=site/linkingEmailToNetwork/view&network=".$model->identity."&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
+        if( mail($model->email, $subject, $text, $mail->headers))
+            return true;
+
+        else return false;
+    }
 
     public static function getErrorText()
     {
