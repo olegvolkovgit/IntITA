@@ -11,6 +11,7 @@
  *
  * The followings are the available model relations:
  * @property Sourcemessages $source
+ * @property MessageComment $comment
  */
 class Translate extends CActiveRecord
 {
@@ -50,6 +51,7 @@ class Translate extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'source' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
+            'comment' => array(self::BELONGS_TO, 'MessageComment', 'id'),
         );
     }
 
@@ -157,5 +159,32 @@ class Translate extends CActiveRecord
             $arr[$messagesArray[$i]] = $messages[0]->translation;
         }
         return $arr;
+    }
+
+    public static function getTranslatesList() {
+        $sql = 'select tr.id, tr.language, s.category, tr.translation, c.comment, tr.id_record from translate tr left join sourcemessages s on s.id = tr.id
+            left join message_comment c on c.message_code = tr.id
+        ';
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            foreach($record as $key=>$field) {
+                if($key != 5){
+                    array_push($row, $field);
+                }
+            }
+            $url1 = Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$row[5]));
+            $url2 = Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$row[5]));
+            $row[5] = "<a href='#' onclick='load(\"".$url1."\")'><i class=\"fa fa-eye\"></i></a>
+                               <a href='#' onclick='load(\"".$url2."\")'><i class=\"fa fa-pencil\"></i></a>";
+
+            array_push($return['data'], $row);
+        }
+
+        echo json_encode($return);
     }
 }
