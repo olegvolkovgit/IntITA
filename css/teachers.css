@@ -217,19 +217,15 @@ td.profileTeacher a{
 .teachersList a:hover{
     color: #666666;
 }
-#btnChat{
+.btnChat{
     height:20px;
     width: 40px;
     border-radius:10px;
     border:none;
     border-top:1px solid #9fb5ce;
-    color:#ffffff;
     background:#4b75a4;
     box-shadow:0px 2px 0px #7f7f7f;
-    font-size: medium;
-    letter-spacing:1px;
     margin-top:10px;
-    font-weight: 400;
     text-decoration: none;
-    padding-top: 5px;
+    padding: 3px 0 6px 0;
 }

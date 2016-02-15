@@ -13,11 +13,11 @@ if ($editMode){
     <table>
         <tr>
             <td valign="top">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
-                <br>
-                <div style="margin-left:20px;">
-                <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="left" title="Розпочати бесіду"><span class="glyphicon glyphicon-comment"></span></a>
-                <a id="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення"><span class="glyphicon glyphicon-envelope"></span></a>
+                <img id="teacherImg" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
+        <br>
+                <div align="center" style="width:85%">
+                    <a class="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="left" title="Розпочати бесіду"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a class="btnChat" href="<?=Yii::app()->createUrl('chat/index');?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
                 </div>
                     <?php if ($editMode) {?>
                 <div class="avatarUpdateForm">
