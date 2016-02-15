@@ -1,31 +1,34 @@
 <?php
 /* @var $user StudentReg */
 /* @var $users array */
+
+$currentTime = date('Y-m-d H:i:s');
+$last_24h = date('Y-m-d H:i:s', time()-60*60*24);
+$startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
+
+//2016-02-13 11:37:17
+
 ?>
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"
-            onclick="updateStudentList()"
-                'Додати викладача')">
+            onclick="updateStudentList()">
         Всі студенти
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=date('Y-m-d')?>', '<?=date('Y-m-d')?>')"
-                'Додати викладача')">
-        Зареєстровані сьогодні
+            onclick="updateStudentList('<?=$startOfDay?>', '<?=$currentTime?>')">
+        За сьогодні
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=date('Y-m-d', time() - 60 * 60 * 24)?>', '<?=date('Y-m-d', time() - 60 * 60 * 24)?>')"
-                'Додати викладача')">
-        Зареєстровані вчора
+            onclick="updateStudentList('<?=$last_24h?>', '<?=$currentTime?>')">
+        За добу
     </button>
-    <br>
-    <br>
+
     <button class="btn btn-primary"
             onclick="updateStudentList($jq('#startDate').val(), $jq('#endDate').val())">
-        Зареєстровані за період:
+        За період:
     </button>
 
     <span> з </span><input type="text" class="form-inline" id="startDate"\>

@@ -1072,7 +1072,7 @@ class StudentReg extends CActiveRecord
         $sql = 'select concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")), user.email, user_student.start_date from user inner join user_student on user.id = user_student.id_user ';
 
         if (isset($startDate) && isset($endDate)){
-            $sql .= " WHERE DATE(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
+            $sql .= " WHERE TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
         }
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
