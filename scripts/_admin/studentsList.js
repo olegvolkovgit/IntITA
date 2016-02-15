@@ -41,7 +41,6 @@ function updateStudentList(startDate, endDate) {
             request += '&endDate=' + endDate;
         }
     }
-    console.log(request);
     $jq('#studentsTable').DataTable().ajax.url(request).load();
 }
 
