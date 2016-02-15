@@ -14,9 +14,9 @@
 class IntITAUser extends CWebUser {
     // Store model to not repeat query.
     private $_model;
-    
-    
-    
+
+
+
     // Load user model.
     protected function loadUser($id=null) {
         if($this->_model===null)
