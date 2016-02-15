@@ -21,7 +21,8 @@
                 'Додати викладача')">
         Зареєстровані вчора
     </button>
-
+    <br>
+    <br>
     <button class="btn btn-primary"
             onclick="updateStudentList($jq('#startDate').val(), $jq('#endDate').val())">
         Зареєстровані за період:
