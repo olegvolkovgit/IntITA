@@ -187,6 +187,7 @@ function forward(url) {
 }
 
 function loadMessagesIndex() {
+   window.history.pushState(null, null, basePath + "/cabinet/#");
    load(basePath + "/_teacher/messages/index", 'Листування');
 }
 

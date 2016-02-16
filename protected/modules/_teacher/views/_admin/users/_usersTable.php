@@ -30,6 +30,11 @@
                                 <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => $user->id)); ?>" target="_blank">
                                     Профіль користувача
                                 </a>
+                                <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                    'scenario' => 'message',
+                                    'receiver' => $user->id
+                                ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>">
+                                    <i class="fa fa-envelope fa-fw"></i></a>
                             </td>
                         </tr>
                     <?php }?>

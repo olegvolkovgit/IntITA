@@ -5,20 +5,17 @@
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"
-            onclick="updateStudentList()"
-                'Додати викладача')">
+            onclick="updateStudentList()">
         Всі студенти
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=date('Y-m-d')?>', '<?=date('Y-m-d')?>')"
-                'Додати викладача')">
+            onclick="updateStudentList('<?=date('Y-m-d')?>', '<?=date('Y-m-d')?>')">
         Зареєстровані сьогодні
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=date('Y-m-d', time() - 60 * 60 * 24)?>', '<?=date('Y-m-d', time() - 60 * 60 * 24)?>')"
-                'Додати викладача')">
+            onclick="updateStudentList('<?=date('Y-m-d', time() - 60 * 60 * 24)?>', '<?=date('Y-m-d', time() - 60 * 60 * 24)?>')">
         Зареєстровані вчора
     </button>
 
@@ -27,8 +24,8 @@
         Зареєстровані за період:
     </button>
 
-    <span> з </span><input type="text" class="form-inline" id="startDate"\>
-    <span> по </span><input type="text" class="form-inline" id="endDate"\>
+    <span> з </span><input type="text" class="form-inline" id="startDate"/>
+    <span> по </span><input type="text" class="form-inline" id="endDate"/>
 
     <br>
     <br>

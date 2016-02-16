@@ -3,7 +3,7 @@
 class CabinetController extends TeacherCabinetController
 {
 
-    public function actionIndex()
+    public function actionIndex($scenario="dashboard", $receiver=0)
     {
         $model = Yii::app()->user->model;
         if(!$model){
@@ -13,7 +13,9 @@ class CabinetController extends TeacherCabinetController
 
         $this->render('index', array(
             'model' => $model,
-            'newMessages' => $newReceivedMessages
+            'newMessages' => $newReceivedMessages,
+            'scenario' => $scenario,
+            'receiver' => $receiver
         ));
     }
 
