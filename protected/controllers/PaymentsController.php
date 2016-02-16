@@ -4,10 +4,9 @@ class PaymentsController extends Controller
 {
     public function hasAccountAccess($owner)
     {
-        $id = Yii::app()->user->getId();
-        if ($id) {
-            $user = StudentReg::model()->findByPk($id);
-            if ($id == $owner) {
+        if (!Yii::app()->user->isGuest) {
+            $user = Yii::app()->user->model;
+            if ($user->id == $owner) {
                 return true;
             }
             return $user->isAdmin() || $user->isAccountant();

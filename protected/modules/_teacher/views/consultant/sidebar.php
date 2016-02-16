@@ -10,7 +10,7 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                array('page' => $role->title_en, 'user' => $user->id));?>','<?php echo $role->title_en ?>')">Дошка</a>
+                array('page' => $role->title_en));?>','<?php echo $role->title_en ?>')">Дошка</a>
         </li>
         <li>
             <a href="#" onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList'); ?>',

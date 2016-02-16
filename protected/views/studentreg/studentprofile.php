@@ -1,5 +1,6 @@
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css'); ?>"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/profileCtrl.js'); ?>"></script>
 <?php
 /* @var $this StudentregController */
 /* @var $post StudentReg */
@@ -8,8 +9,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <script>
     basePath = '<?=Config::getBaseUrl();?>';
+    userId = '<?=$post->id;?>';
 </script>
-<div class="formStudProf">
+<div class="formStudProf" ng-cloak ng-controller="profileCtrl">
     <div class="studProfInf">
         <table class="titleProfile">
             <tr>
@@ -30,9 +32,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <tr>
                 <td>
                     <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
-                    <h1><?php echo $post->nickname; ?></h1>
-                    <h1><?php echo $post->firstName; ?></h1>
-                    <h1><?php echo $post->secondName; ?></h1>
+                    <h1>{{profileData.nickname}}</h1>
+                    <h1>{{profileData.firstName}}</h1>
+                    <h1>{{profileData.secondName}}</h1>
 
                     <div class="aboutInfo">
                         <p>
@@ -40,43 +42,36 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo StudentReg::getUserData($post->aboutMy, '0100'); ?></p>
+                        <p ng-if="profileData.aboutMy"><span class="colorP"><?php echo Yii::t('profile', '0100') ?></span>{{profileData.aboutMy}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo StudentReg::getUserData($post->email, '0101'); ?></p>
+                        <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo StudentReg::getUserData($post->phone, '0102'); ?></p>
+                        <p ng-if="profileData.phone"><span class="colorP"><?php echo Yii::t('profile', '0102') ?></span>{{profileData.phone}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo StudentReg::getUserData($post->education, '0103'); ?></p>
+                        <p ng-if="profileData.education"><span class="colorP"><?php echo Yii::t('profile', '0103') ?></span>{{profileData.education}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php $post::getInterests($post->interests); ?></p>
+                        <p ng-if="profileData.interests">
+                            <span class="colorP"><?php echo Yii::t('profile', '0104') ?></span>
+                            <span class="interestBG" ng-repeat="interest in interests track by $index">
+                                {{interest}}
+                            </span>
+                        </p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo StudentReg::getUserData($post->aboutUs, '0105'); ?></p>
+                        <p ng-if="profileData.aboutUs"><span class="colorP"><?php echo Yii::t('profile', '0105') ?></span>{{profileData.aboutUs}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p><?php echo $post::getEducform($post->educform); ?></p>
+                        <p ng-if="profileData.educform && !profileData.teacher"><span class="colorP"><?php echo Yii::t('profile', '0106') ?></span>{{profileData.educform}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <?php echo StudentReg::getNetwork($post); ?>
+                        <span ng-if="networks.length" class="colorP"><?php echo Yii::t('user', '0779') ?>:</span>
                     </div>
-                    <div class="aboutInfo">
-                        <?php echo $post->getLink('Facebook'); ?>
-                    </div>
-                    <div class="aboutInfo">
-                        <?php echo $post->getLink('Googleplus'); ?>
-                    </div>
-                    <div class="aboutInfo">
-                        <?php echo $post->getLink('Linkedin'); ?>
-                    </div>
-                    <div class="aboutInfo">
-                        <?php echo $post->getLink('Vkontakte'); ?>
-                    </div>
-                    <div class="aboutInfo">
-                        <?php echo $post->getLink('Twitter'); ?>
+                    <div class="aboutInfo"  ng-repeat="network in networks track by $index">
+                        <span class='networkLink'><a href="{{networks[$index][0]}}" target='_blank'>{{networks[$index][1]}}</a></span>
                     </div>
                 </td>
             </tr>

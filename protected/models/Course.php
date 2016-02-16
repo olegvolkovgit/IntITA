@@ -539,7 +539,7 @@ class Course extends CActiveRecord implements IBillableObject
     {
         $course = Course::model()->findByPk($idCourse);
         $chartSchema = Course::getMessage($messages, 'chart');
-        return $chartSchema . ' ' . $course->getTitle() . ", " . CommonHelper::translateLevel($course->level);
+        return $chartSchema . ' ' . $course->getTitle() . ", " . $course->level();
     }
 
     public static function generateModuleCoursesList($idModule, $messages = null)

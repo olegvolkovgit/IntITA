@@ -118,10 +118,12 @@ class Mail {
         $model->theme = $theme;
         if($model->validate()) {
             $model->save();
+            $mail = new Mail();
+            $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
             $addresse = StudentReg::model()->findByPk($user)->email;
             $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".Config::getBaseUrl().$moduleLink.".
             ​З повагою, INTITA​";
-            mail($addresse,$theme,$text);
+            mail($addresse,$theme,$text, $mail->headers);
             return true;
         }
 
