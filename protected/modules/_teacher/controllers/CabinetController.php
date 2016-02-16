@@ -219,11 +219,11 @@ class CabinetController extends TeacherCabinetController
         ));
     }
 
-    private function renderLeaderDashboard(Teacher $teacher, StudentReg $user, $role)
+    private function renderLeaderDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
         return $this->renderPartial('/leader/_leaderDashboard', array(
             'teacher' => $teacher,
-            'user' => $user,
+            'user' => $user->registrationData,
             'role' => $role,
         ));
     }
