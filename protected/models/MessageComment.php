@@ -70,7 +70,7 @@ class MessageComment extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('message_code',$this->message_code);
-		$criteria->compare('comment',$this->comment,true);
+		$criteria->compare('t.comment',$this->comment,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
