@@ -341,4 +341,16 @@ class StudentRegController extends Controller
 
         $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user, 'owner' => $owner));
     }
+    public function actionGetProfileData()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $model = StudentReg::model()->findByPk($id);
+        if(Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->id))){
+            $role = array ('teacher'=>true);
+        }else{
+            $role = array ('teacher'=>false);
+        }
+        $data = array_merge($model->attributes, $role);
+        echo json_encode($data);
+    }
 }
