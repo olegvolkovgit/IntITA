@@ -48,7 +48,7 @@ $mark = $plainTask->mark();
 
             <div class="form-group col-md-10">
                 <label for="comment">Коментар до задачі</label>
-                <textarea class="form-control" name="comment" id="textareaSettingsbyId"><?=$mark['comment'];?></textarea>
+                <textarea maxlength="100" class="form-control" name="comment" id="textareaSettingsbyId"><?=$mark['comment'];?></textarea>
             </div>
                 <div class="col-md-3">
             <button onclick="markPlainTask('<?php echo Yii::app()->createUrl('/_teacher/teacher/markPlainTask') ?>')"
