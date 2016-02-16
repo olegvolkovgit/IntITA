@@ -28,9 +28,9 @@ $mark = $plainTask->mark();
             </div>
             <div class="form-group col-md-10">
                 <label for="condition">Задача</label>
-                <textarea class="form-control" name="condition" id="textareaSettingsbyId"
+                <div class="form-control" name="condition" id="textareaSettingsbyId"
                           readonly><?php echo $plainTask->getCondition() ?>
-                </textarea>
+                </div>
             </div>
             <div class="form-group col-md-10">
                 <label for="answer">Відповідь</label>
