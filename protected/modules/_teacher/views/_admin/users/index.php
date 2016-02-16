@@ -42,9 +42,6 @@
 </div>
 <!-- DataTables JavaScript -->
 
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'jquery-ui.min.css') ?>"/>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/studentsList.js'); ?>"></script>
 
 <script>
     $jq(document).ready(function () {
@@ -55,12 +52,12 @@
             }
         );
         studentTable = initStudentsList();
+
+        $jq("#startDatePeriod").datepicker(lang);
+        $jq("#endDatePeriod").datepicker(lang);
+
     });
 
-    $jq("#startDate").datepicker(lang);
-    $jq("#startDate").datepicker("option", "dateFormat", "yy-mm-dd");
-    $jq("#endDate").datepicker(lang);
-    $jq("#endDate").datepicker("option", "dateFormat", "yy-mm-dd");
 </script>
 
 

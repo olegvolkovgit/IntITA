@@ -183,3 +183,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tmanage.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/studentsList.js'); ?>"></script>
+

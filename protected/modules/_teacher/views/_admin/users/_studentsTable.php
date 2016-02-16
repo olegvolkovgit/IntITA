@@ -27,12 +27,12 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList($jq('#startDate').val(), $jq('#endDate').val())">
+            onclick="updateStudentList($jq('#startDatePeriod').val(), $jq('#endDatePeriod').val())">
         За період:
     </button>
 
-    <span> з </span><input type="text" class="form-inline" id="startDate"/>
-    <span> по </span><input type="text" class="form-inline" id="endDate"/>
+    <span> з </span><input type="text" class="form-inline" id="startDatePeriod"/>
+    <span> по </span><input type="text" class="form-inline" id="endDatePeriod"/>
 
     <br>
     <br>
