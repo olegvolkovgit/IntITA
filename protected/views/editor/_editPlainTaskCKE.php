@@ -14,7 +14,7 @@
             <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
             <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
             <br>
-            <input type="submit" value=<?php echo Yii::t('lecture','0720'); ?> id='addtests'
+            <input type="submit" value="<?php echo Yii::t('lecture','0720'); ?>" id="addtests"
                    ng-disabled=plainTaskEdit.block_element.$error.required>
         </fieldset>
     </form>
