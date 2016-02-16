@@ -124,11 +124,13 @@ class ResponseController extends AdminController
 
 
     public function actionUpdateResponseText($id){
+		$response= new Response();
         Response::model()->updateByPk($id, array(
             'text' => $_POST['Response']['text'],
             'is_checked' => $_POST['Response']['is_checked']
         ));
-
-        $this->actionView($id);
+		$this->performAjaxValidation($response);
+		if(!isset($_POST['ajax']))
+			$this->redirect(Yii::app()->request->urlReferrer);
     }
 }

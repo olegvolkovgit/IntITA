@@ -36,7 +36,13 @@
             // See class documentation of CActiveForm for details on this.
             'enableClientValidation'=>true,
             'enableAjaxValidation' => true,
-            'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+            'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
+                'afterValidate'=>'js:function(form,data,hasError){
+                if(!hasError) bootbox.alert("Зміни до відгуку успішно оновлено");
+                else bootbox.alert("Оновити відгук не вдалося");
+                return false;
+                }',
+            ),
         )); ?>
         <div class="form-group">
             <?php echo $form->labelEx($model,'text'); ?>
