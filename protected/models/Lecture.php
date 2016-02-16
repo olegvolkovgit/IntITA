@@ -468,9 +468,9 @@ class Lecture extends CActiveRecord
         $titleParam = Lecture::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
         if ($title == '') {
-            return htmlspecialchars(Lecture::model()->findByPk($id)->title_ua);
+            return CHtml::encode(Lecture::model()->findByPk($id)->title_ua);
         } else {
-            return htmlspecialchars($title);
+            return CHtml::encode($title);
         }
     }
 
@@ -516,9 +516,9 @@ class Lecture extends CActiveRecord
     {
         $titleParam = "title_" . CommonHelper::getLanguage();
         if ($this->$titleParam == '') {
-            return $this->title_ua;
+            return CHtml::encode($this->title_ua);
         } else {
-            return $this->$titleParam;
+            return CHtml::encode($this->$titleParam);
         }
     }
 
