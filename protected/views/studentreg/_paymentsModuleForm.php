@@ -30,27 +30,18 @@
     <?php $this->endWidget();?>
 </div>
 <div id="kalebas"></div>
-<?php if ($price > 0){?>
-<button class="ButtonFinances" style=" float:right; cursor:pointer" onclick="printAccount('<?php echo Yii::app()->user->getId();?>',
-    '<?php echo ($module != null)?$module->module_ID:null;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
-<?php }?>
+    <?php echo CHtml::button(Yii::t('profile', '0261'), array('class' => "ButtonFinances",
+        'submit' => array('payments/index'),
+        'params' => array(
+            'type' => 'Module',
+            'user' => Yii::app()->user->getId(),
+            'course' => '0',
+            'module' => $module->module_ID)
+        )
+    );?>
+
 <script>
     $(function() {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
-    function printAccount(user, module){
-        $.ajax({
-            type: "POST",
-            url: basePath + "/payments/newAccount",
-            data: {
-                'user': user,
-                'module': module,
-                'course': '0'
-            },
-            cache: false,
-            success: function(data){
-                location.href = basePath + '/payments/index?account=' + data;
-            }
-        });
-    }
 </script>

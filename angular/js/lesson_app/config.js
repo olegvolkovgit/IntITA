@@ -58,17 +58,17 @@ angular
                 views: {
                     "viewVideo": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_video_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_video_ua.html'
                         }
                     },
                     "viewText": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_text_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_text_ua.html'
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ stateParams.page+'_quiz_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_quiz_ua.html'
                         }
                     }
                 },
@@ -92,17 +92,17 @@ angular
                 views: {
                     "viewVideo": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_ua.html'
                         }
                     },
                     "viewText": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_ua.html'
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (){
-                            return basePath + '/content/module_1/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_ua.html'
                         }
                     }
                 },

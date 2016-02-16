@@ -29,6 +29,7 @@ return array(
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.components.*',
+        'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
         //'ext.yii2-debug.*',
         'application.helpers.*',
@@ -79,6 +80,7 @@ return array(
         'user' => array(
             'loginUrl' => array('/site/index'),
             'allowAutoLogin' => true,
+            'class' => 'IntITAUser',
         ),
 
         'authManager' => array(
@@ -96,9 +98,10 @@ return array(
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',
                 'courses/<selector:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>' => 'aboutus/index',
-                'account/<courseId:\d+>' => 'payments/index',
+                'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
                 'profile/edit' => 'studentreg/edit',
+
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
@@ -159,9 +162,6 @@ return array(
                 'emptytext' => 'Натисніть для редагування'
             )
         ),
-
-        //'debug' => $local_config['debug'],
-
     ),
 
     // application-level parameters that can be accessed

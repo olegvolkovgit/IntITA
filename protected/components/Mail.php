@@ -118,10 +118,12 @@ class Mail {
         $model->theme = $theme;
         if($model->validate()) {
             $model->save();
+            $mail = new Mail();
+            $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
             $addresse = StudentReg::model()->findByPk($user)->email;
             $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".Config::getBaseUrl().$moduleLink.".
             ​З повагою, INTITA​";
-            mail($addresse,$theme,$text);
+            mail($addresse,$theme,$text, $mail->headers);
             return true;
         }
 
@@ -159,6 +161,18 @@ class Mail {
         $subject = Yii::t('activeemail', '0298');
         $text = Yii::t('activeemail', '0299') .
             " " . Config::getBaseUrl() . "/index.php?r=site/successVerification/view&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
+        if( mail($model->email, $subject, $text, $mail->headers))
+            return true;
+
+        else return false;
+    }
+    public static function sendLinkingEmailMail($model)
+    {
+        $mail = new Mail();
+        $lang = Mail::setLang();
+        $subject = 'Приєднання соціальної мережі до електронної адреси';
+        $text = 'Щоб приєднати дану електрону адресу до соціальної мережі ('.$model->identity.'), будь ласка перейди за посиланням: ' .
+            " " . Config::getBaseUrl() . "/index.php?r=site/linkingEmailToNetwork/view&network=".$model->identity."&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
         if( mail($model->email, $subject, $text, $mail->headers))
             return true;
 

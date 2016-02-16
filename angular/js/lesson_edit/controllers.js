@@ -2,7 +2,7 @@ angular
     .module('lessonEdit')
     .controller('CKEditorCtrl', CKEditorCtrl)
 
-function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJsonService) {
     $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
     $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
 
@@ -152,17 +152,35 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             });
     };
     $scope.editTaskCKE = function (blockId) {
-        $http({
+        editTaskCondition(blockId)
+            .then(function(editResponse) {
+                if(editResponse){
+                    getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
+                        if (response != undefined){
+                            $scope.editedJson=response;
+                            $scope.editedJson=JSON.parse($scope.editedJson);
+                            $scope.editedJson.lang=selectedLang;
+                            sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson);
+                        }
+                    });
+                }else{
+                    $ngBootbox.alert("Зберегти зміни не вдалося. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
+                }
+            });
+    };
+
+    function editTaskCondition(blockId) {
+        var promise = $http({
             url: basePath + '/task/editTaskCKE',
             method: "POST",
             data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:selectedLang}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            location.reload();
             return true;
         }, function errorCallback() {
-            alert('error editTaskCKE');
+            return false;
         });
+        return promise;
     }
 
     $scope.addTextBlock = function(type){

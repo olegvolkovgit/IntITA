@@ -7,9 +7,7 @@
 .navbar-top-links li.dropdown li.lang a{float: none;padding: 0 5px;display: inline-block;}
 .navbar-top-links li.dropdown li.lang a.selectedLang{color: #cccccc;}
 .navbar-top-links li.dropdown li.lang{float: none;text-align: center;margin: 0 0 5px 0;}
-#dashboard{
-    display: block;
-}
+#dashboard{display: block;}
 .tt-menu{
     width: 100%;
     margin-top: 2px;

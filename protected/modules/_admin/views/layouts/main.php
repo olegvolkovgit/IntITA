@@ -99,21 +99,9 @@ $header = new Header();
         <?php endif ?>
 
         <?php if (!Yii::app()->user->isGuest) {
-            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
-            ?>
-            <a href="<?php echo Yii::app()->createUrl('/_admin');?>">Система управління контентом IntITA - Головна</a>
-            <div class="profileStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div>
-                        <?php echo StudentReg::getStatusInfo($post); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                    <div class="minavatar">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
-                    </div>
-                </a>
-            </div>
-        <?php
+            $post = Yii::app()->user->model;
+            $statusInfo = $this->beginWidget('UserStatusWidget', ['registeredUser'=>post]);
+            $statusInfo->endWidget();
         }
         ?>
     </div>

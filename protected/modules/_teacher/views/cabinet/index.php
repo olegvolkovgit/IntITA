@@ -1,6 +1,8 @@
 <?php
 /* @var $this CabinetController
  * @var $model StudentReg
+ * @var $scenario
+ * @var $receiver
  */
 ?>
 <!DOCTYPE html>
@@ -55,6 +57,7 @@
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
     user = '<?=Yii::app()->user->getId()?>';
+    scenario = '<?=$scenario?>';
 </script>
 <body ng-app="teacherApp">
 
@@ -109,6 +112,10 @@
 <script>
     window.onload = function()
     {
+        if(scenario == 'message'){
+            load('<?=Yii::app()->createUrl("/_teacher/messages/write",
+                array('id' => $model->id, 'receiver' => $receiver));?>');
+        }
         history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                     array('user' => $model->id)); ?>'},"")
     };

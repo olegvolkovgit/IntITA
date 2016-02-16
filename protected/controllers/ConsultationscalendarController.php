@@ -2,16 +2,11 @@
 
 class ConsultationscalendarController extends Controller
 {
-    //LOGIN student  plane consult in http://localhost/IntIta/consultationscalendar/
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-
-	/**
-	 * @return array action filters
-	 */
 
 	/**
 	 * Specifies the access control rules.
@@ -226,7 +221,7 @@ class ConsultationscalendarController extends Controller
 
     public function actionDeleteconsultation($id)
     {
-        Consultationscalendar::model()->deleteByPk($id);
+		Consultationscalendar::deleteConsultation($id);
 
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);

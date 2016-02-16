@@ -125,20 +125,9 @@ $header = new Header();
         <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'index')
             && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
         ) {
-            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
-            ?>
-            <div class="profileStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div>
-                        <?php echo StudentReg::getStatusInfo($post); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                    <div class="minavatar">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
-                    </div>
-                </a>
-            </div>
-        <?php
+            $post = Yii::app()->user->model;
+            $statusInfo = $this->beginWidget('UserStatusWidget', ['bigView' => true ,'registeredUser'=>$post]);
+            $this->endWidget();
         }
         ?>
     </div>

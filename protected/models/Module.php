@@ -388,6 +388,14 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
+    public function getNumber(){
+        return $this->module_number;
+    }
+
+    public function getType(){
+        return 'M';
+    }
+
     public static function showModule($course)
     {
         $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
@@ -409,6 +417,38 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData = new CDbCriteria;
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+
+        $rows = Module::model()->findAll($criteriaData);
+        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
+        foreach ($rows as $numRow => $row) {
+            if ($row[$titleParam] == '')
+                $title = 'title_ua';
+            else $title = $titleParam;
+            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
+        };
+        $last = '</select>';
+        return $result . $last;
+    }
+    public static function showAvailableModule($course)
+    {
+        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
+
+        $modulelist = [];
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('id_course=' . $course);
+        $temp = CourseModules::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+        $titleParam = Module::getModuleTitleParam();
+
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addNotInCondition('module_ID', $modulelist);
 
         $rows = Module::model()->findAll($criteriaData);
         $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
@@ -867,17 +907,14 @@ class Module extends CActiveRecord implements IBillableObject
      * Checks if model can be editable by current user
      * @return int "1" if model editable by current user, "0" if does not editable
      */
-    public function isEditableByCurrentUser() {
-        if (!Yii::app()->user->isGuest) { // if user not guest
-            if ($this->teacher == null) {
-                $this->getRelated('teacher');
-            }
-            $authId = Yii::app()->user->getId();
-            foreach ($this->teacher as $teacher){
-                if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
-                    return EDITOR_ENABLED;
-                    break;
-                }
+    public function isEditableByUser($authId) {
+        if ($this->teacher == null) {
+            $this->getRelated('teacher');
+        }
+        foreach ($this->teacher as $teacher){
+            if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
+                return EDITOR_ENABLED;
+                break;
             }
         }
         return EDITOR_DISABLED;
@@ -1075,5 +1112,37 @@ class Module extends CActiveRecord implements IBillableObject
         $lectureA->update(array('order'));
         $lectureB->update(array('order'));
     }
+
+
+    public static function canAccess($idModule,$userId)
+    {
+        $services_user = Module::findService($userId);
+
+        if($services_user)
+        {
+            foreach ($services_user as $service_user) {
+                $service = AbstractIntITAService::getServiceById($service_user['service_id']);
+                if($service)
+                {
+                    return $service->checkAccess($idModule);
+                }
+            }
+
+        }
+
+        else return false;
+    }
+
+    private static function findService($userId)
+    {
+        $service_user = Yii::app()->db->createCommand()
+            ->select('service_id, user_id')
+            ->from('service_user')
+            ->where('user_id = :user_id',array(':user_id' => $userId))
+            ->queryAll();
+
+        return $service_user;
+    }
+
 
 }

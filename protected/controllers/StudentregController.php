@@ -23,20 +23,7 @@ class StudentRegController extends Controller
             'accessControl',
         );
     }
-    public function accessRules()
-    {
-        return array(
-//            array('deny',
-//                'actions'=>array('profile', 'edit'),
-//                'users'=>array('?'),
-//            ),
-//            array('deny',
-//                'actions'=>array('index', 'registration'),
-//                'users'=>array('@'),
-//                'deniedCallback'=>function() { Yii::app()->controller->redirect(array ('/site/index')); },
-//            ),
-        );
-    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -204,43 +191,47 @@ class StudentRegController extends Controller
 
     public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
     {
-        if (Yii::app()->user->isGuest) {
-            $this->render('/site/authorize');
-            die();
-        }
-        $model = StudentReg::model()->findByPk($idUser);
-        if ($idUser > 0 && $idUser !== Yii::app()->user->getId())
-            throw new CHttpException(403,Yii::t('error', '0612'));
-//            throw new IntItaException(403,'That not your user');
-        $letter = new Letters();
+        if (Yii::app()->user->isGuest || $idUser==0)
+            throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
 
-        if(!$dataProvider = $model->getDataProfile())
-            throw new CHttpException(403, Yii::t('error', '0612'));
-
-        $sentLettersProvider = $model->getSentLettersData();
-
-        $receivedLettersProvider = $model->getReceivedLettersData();
-
-        $paymentsCourses = $model->getPaymentsCourses();
-
-        $paymentsModules = $model->getPaymentsModules();
-
+        if(!$model = StudentReg::model()->findByPk($idUser))
+            throw new \application\components\Exceptions\IntItaException('403', 'Користувача з таким ідентифікатором не існує');
+        $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
+        $paymentsCourses = $model->getPaymentsCourses();
+        if($course != 0 && !Course::model()->exists('course_ID='.$course)){
+            throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
+        }
+        if ($idUser == Yii::app()->user->getId()){
+            $letter = new Letters();
+            $sentLettersProvider = $model->getSentLettersData();
+            $receivedLettersProvider = $model->getReceivedLettersData();
+            $paymentsModules = $model->getPaymentsModules();
 
+            $this->render("studentprofile", array(
+                'dataProvider' => $dataProvider,
+                'post' => $model,
+                'letter' => $letter,
+                'sentLettersProvider' => $sentLettersProvider,
+                'receivedLettersProvider' => $receivedLettersProvider,
+                'paymentsCourses' => $paymentsCourses,
+                'paymentsModules' => $paymentsModules,
+                'markProvider' => $markProvider,
+                'course' => $course,
+                'schema' => $schema,
+                'module' => $module,
+                'owner'=>'true'
+            ));
+        }else{
+            $this->render("profile", array(
+                'dataProvider' => $dataProvider,
+                'post' => $model,
+                'markProvider' => $markProvider,
+                'paymentsCourses' => $paymentsCourses,
+                'owner'=>'false'
+            ));
+        }
 
-        $this->render("studentprofile", array(
-            'dataProvider' => $dataProvider,
-            'post' => $model,
-            'letter' => $letter,
-            'sentLettersProvider' => $sentLettersProvider,
-            'receivedLettersProvider' => $receivedLettersProvider,
-            'paymentsCourses' => $paymentsCourses,
-            'paymentsModules' => $paymentsModules,
-            'markProvider' => $markProvider,
-            'course' => $course,
-            'schema' => $schema,
-            'module' => $module,
-        ));
 
     }
 
@@ -332,12 +323,12 @@ class StudentRegController extends Controller
         $this->redirect(Yii::app()->createUrl('studentreg/edit'));
     }
 
-    public function actionTimetableProvider($user, $tab)
+    public function actionTimetableProvider($user, $tab, $owner)
     {
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $user));
 
         $data = Teacher::getTeacherSchedule($teacher,$user,$tab);
 
-        $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user));
+        $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user, 'owner' => $owner));
     }
 }

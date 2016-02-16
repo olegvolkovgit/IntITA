@@ -13,27 +13,11 @@
         return false;"
                 name="add-module">
         <fieldset>
-            <legend id="label">Виберіть модуль:</legend>
-            Модуль:<br>
-            <div class="form-group">
-                <select name="module" placeholder="(Виберіть модуль)" autofocus class="form-control"
-                        >
-                    <?php
-                    foreach($modules as $module) {
-                        ?>
-                        <option value="<?php echo $module['id']; ?>"><?php echo $module['alias']." (".$module['language'].")"; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-            <br>
-            <br>
+            <legend id="label">Виберіть курс:</legend>
             Курс:<br>
-
             <div class="form-group">
-                <select name="course" placeholder="(Виберіть курс)" onchange="selectModule();" class="form-control">
-                    <optgroup label="Виберіть курс">
+                <select name="course" placeholder="(Виберіть курс)" onchange="selectAccessModules('/_teacher/_admin/coursemanage/generationAvailableModule');" class="form-control">
+                        <option disabled selected>Виберіть курс</option>
                         <?php
                         foreach($courses as $course)  {
                             ?>
@@ -45,6 +29,8 @@
                         ?>
                 </select>
             </div>
+            Модуль:<br>
+            <div name="selectModule" class="form-group" style="float:left;"></div>
             <br>
             <br>
             <input class="btn btn-default" type="submit" value="Додати модуль до курса">

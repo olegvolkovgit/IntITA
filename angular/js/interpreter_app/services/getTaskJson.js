@@ -6,10 +6,9 @@ angular
     .service('getTaskJson', [
         '$http',
         function($http) {
-            this.getJson = function (lng,id,url) {
+            this.getJson = function (id,url) {
                 var json={
                     "operation": "getJson",
-                    "lang": lng,
                     "task": id
                 };
                 var promise = $http({

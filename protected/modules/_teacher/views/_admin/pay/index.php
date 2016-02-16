@@ -122,7 +122,7 @@
                     </div>
                     <br>
 
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName;?>">
                 </fieldset>
             </form>
         </div>

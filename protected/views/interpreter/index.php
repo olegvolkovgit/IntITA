@@ -52,7 +52,7 @@
             <h2 id="title">Еталонний код</h2>
             <div class="row col header">
                 Еталон
-                <textarea class="form-control" name="etalon" id="etalon" ng-pattern=/^[^а-яА-ЯёЁіІЇїєЄ\s]+$/ placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
+                <textarea class="form-control" name="etalon" id="etalon" placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
             </div>
         </div>
         <h2 id="title">Результат</h2>

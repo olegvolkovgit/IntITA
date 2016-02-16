@@ -10,6 +10,8 @@ class ModuleController extends Controller
 
     /**
      * Lists all models.
+     * @throws CHttpException
+     * @throws \application\components\Exceptions\ModuleNotFoundException
      */
     public function actionIndex($idModule, $idCourse=0)
     {
@@ -21,10 +23,15 @@ class ModuleController extends Controller
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
 
+        $editMode = 0;
+        if (!Yii::app()->user->isGuest) {
+            $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+        }
+
         $this->render('index', array(
             'post' => $model,
             'teachers' => $model->teacher,
-            'editMode' => $model->isEditableByCurrentUser(),
+            'editMode' => $editMode,
             'lecturesTitles' => $model->lectures,
             'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
@@ -35,7 +42,7 @@ class ModuleController extends Controller
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return Modules the loaded model
+     * @return Module the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
@@ -49,7 +56,7 @@ class ModuleController extends Controller
 
     /**
      * Performs the AJAX validation.
-     * @param Modules $model the model to be validated
+     * @param Module $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
@@ -59,6 +66,9 @@ class ModuleController extends Controller
         }
     }
 
+    /**
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     public function actionSaveLesson()
     {
         $newLectureParams = array (
@@ -82,6 +92,10 @@ class ModuleController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * @throws CHttpException
+     * @throws \application\components\Exceptions\ModuleValidationException
+     */
     public function actionSaveModule()
     {
         $titleUa = Yii::app()->request->getPost('titleUA', '');
@@ -107,6 +121,9 @@ class ModuleController extends Controller
         $this->actionIndex($module->module_ID, $course->course_ID);
     }
 
+    /**
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     public function actionUnableLesson()
     {
         $idLecture = Yii::app()->request->getParam('idLecture');
@@ -123,6 +140,11 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * @param $idLecture
+     * @param $idModule
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     public function actionUpLesson($idLecture, $idModule)
     {
         $module = Module::model()->with('lectures')->findByPk($idModule);
@@ -136,6 +158,11 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * @param $idLecture
+     * @param $idModule
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     public function actionDownLesson($idLecture, $idModule)
     {
         $module = Module::model()->with('lectures')->findByPk($idModule);
@@ -183,6 +210,10 @@ class ModuleController extends Controller
 
     }
 
+    /**
+     * @param $model
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     private function checkModelInstance($model) {
         if ($model === null)
             throw new \application\components\Exceptions\ModuleNotFoundException();
