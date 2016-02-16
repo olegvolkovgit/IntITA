@@ -10,7 +10,7 @@
 #dashboard{display: block;}
 .tt-menu{
     width: 100%;
-    margin-top: 2px;
+    margin-top: 10px;
     padding: 5px 5px;
     background-color: #ffffff;
     border: 1px solid #cccccc;
@@ -22,13 +22,12 @@
 }
 
 #typeahead .empty-message {
+    padding: 5px 10px;
     text-align: center;
 }
-
 .errorMessage
 {
     color: #ff0000;
-
 }
 
 .form-group error
