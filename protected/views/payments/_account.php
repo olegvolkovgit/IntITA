@@ -52,7 +52,7 @@
                     комп'ютерна грамотність (<?php echo Invoice::getProductTitle($model); ?>)
                 </td>
                 <td><span
-                        id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", " "); ?></span>
+                        id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",","&nbsp;"); ?></span>
                 </td>
             </tr>
             <tr style="border: none;">
@@ -61,7 +61,7 @@
                     <br>
                     <b><span id="summaLetters"></span></b>
                 </td>
-                <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", " "); ?></td>
+                <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", "&nbsp;"); ?></td>
             </tr>
         </table>
     </div>
