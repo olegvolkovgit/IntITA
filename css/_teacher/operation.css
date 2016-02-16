@@ -6,6 +6,13 @@
 .operationPanel{
     display: inline;
 }
+
+.findOffer{
+    display: block;
+}
+.findOperation{
+    display: none;
+}
 .list{
     display : none;
     margin-left: 75px;
@@ -19,6 +26,9 @@
 {
    min-width: 600px;
 }
+.ajax-formatted-form{
+    /*width: 568px;*/
+}
 .mainOperation
 {
     width: 700px;
@@ -31,10 +41,6 @@
 #operationForm3{
     margin-left: 50px;
     min-width: 600px;
-}
-
-.operationMargin{
-    margin-left: 50px;
 }
 div.col-sm-8{
   padding: 0;

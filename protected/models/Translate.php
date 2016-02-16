@@ -36,9 +36,8 @@ class Translate extends CActiveRecord
             array('id, language, translation', 'required'),
             array('id', 'numerical', 'integerOnly' => true),
             array('language', 'length', 'max' => 16),
-            array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
-            array('id_record, id, language, translation, comment', 'safe', 'on' => 'search'),
+            array('id_record, id, language, translation', 'safe', 'on' => 'search'),
         );
     }
 
@@ -51,7 +50,7 @@ class Translate extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'source' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
-            'comment' => array(self::BELONGS_TO, 'MessageComment', 'id'),
+            'comment' => array(self::HAS_ONE, 'MessageComment', 'id'),
         );
     }
 
@@ -65,7 +64,6 @@ class Translate extends CActiveRecord
             'id' => 'ID повідомлення',
             'language' => 'Мова',
             'translation' => 'Переклад',
-            'comment' => 'Коментар',
         );
     }
 
@@ -89,7 +87,6 @@ class Translate extends CActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('language', $this->language, true);
         $criteria->compare('translation', $this->translation, true);
-        $criteria->compare('comment', $this->comment, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -132,7 +129,6 @@ class Translate extends CActiveRecord
         for ($i = $startMessages; $i <= $endMessages; $i++)
         {
             $messages = Translate::model()->findAllByAttributes(array('id'=>$i,'language' => $lang));
-            //var_dump($messages[0]->translation);die;
             array_push($arr,$messages[0]->translation);
         }
         $exam = Translate::model()->findAllByAttributes(array('id'=>'0673','language' => $lang));
