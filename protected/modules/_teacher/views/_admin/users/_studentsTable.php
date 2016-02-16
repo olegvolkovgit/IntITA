@@ -31,8 +31,8 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
         За період:
     </button>
 
-    <span> з </span><input type="text" class="form-inline" id="startDate"\>
-    <span> по </span><input type="text" class="form-inline" id="endDate"\>
+    <span> з </span><input type="text" class="form-inline" id="startDate"/>
+    <span> по </span><input type="text" class="form-inline" id="endDate"/>
 
     <br>
     <br>

@@ -13,7 +13,15 @@ if ($editMode){
     <table>
         <tr>
             <td valign="top">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
+                <img id="teacherImg" src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $model->foto_url);?>"/>
+                <br>
+                <div align="center" style="width:85%">
+                    <a class="btnChat" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a class="btnChat" href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                        'scenario' => 'message',
+                        'receiver' => $model->user_id
+                    ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
+                </div>
                 <?php if ($editMode) {?>
                 <div class="avatarUpdateForm">
                     <?php if($model->foto_url!=='noname2.png') {
