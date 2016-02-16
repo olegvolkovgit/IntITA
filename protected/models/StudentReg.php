@@ -1141,7 +1141,7 @@ class StudentReg extends CActiveRecord
             if($model->id != $id) {
                 $name = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["id"] = $model->id;
-                $result["results"][$key]["value"] =  ($name != "")?$name.", ".$model->email:$model->email;
+                $result["results"][$key]["value"] =  ($name != "  ")?$name." (".$model->email.")":$model->email;
             }
         }
         return json_encode($result);
