@@ -106,7 +106,7 @@ $price = $model->getBasePrice();
             <input name="type" type="hidden" value="Course">
         </div>
     <?php } ?>
-    <?php if ($model->course_price > 0) { ?>
+    <?php if ($price > 0) { ?>
         <button class="ButtonFinances" style=" float:right; cursor:pointer"
                 onclick="printAccount('<?php echo Yii::app()->user->getId(); ?>',
                     '<?php echo ($model != null) ? $model->course_ID : null; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
