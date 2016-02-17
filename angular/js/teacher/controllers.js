@@ -12,19 +12,6 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox) {
         $compile(container.html(data))($scope);
     }
 
-    $scope.changeConsult = function(id,url)
-    {
-        $http({
-            method: "POST",
-            url:  url,
-            data: $jq.param({id:id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function(data){
-            $scope.fillContainer(data.data);
-        });
-    }
-
     $scope.ediConsult = function(url)
     {
         var elemId = document.getElementsByName('id');
@@ -42,25 +29,6 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox) {
             location.reload();
         });
     }
-
-    $scope.removeConsult = function(id,url)
-    {
-        $ngBootbox.confirm('Ви впевнені що хочете видалити консультанта?')
-            .then(function() {
-                $http({
-                    method: "POST",
-                    url:  url,
-                    data: $jq.param({id:id}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                    cache: false
-                }).then(function(data){
-                    $scope.fillContainer(data.data);
-                    location.reload();
-                });
-            }, function() {
-
-            });
-    };
 
     $scope.ngLoad = function(url)
     {
