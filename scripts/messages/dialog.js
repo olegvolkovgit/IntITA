@@ -17,7 +17,7 @@ function deleteDialog(url, partner1, partner2) {
         })
         .fail(function () {
             bootbox.alert("На сайті виникла помилка.\n" +
-                "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+                "Спробуйте перезавантажити сторінку або напишіть нам на адресу " + adminEmail);
         })
         .always(function () {
             },

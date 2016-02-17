@@ -66,14 +66,14 @@
                     }
                     else {
                         bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                            "операцію пізніше або напишіть на адресу " + adminEmail, function () {
                             location.href = window.location.pathname;
                         });
                     }
                 })
                 .fail(function () {
                     bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
+                        "операцію пізніше або напишіть на адресу " + adminEmail, function () {
                         location.href = window.location.pathname;
                     });
                 });

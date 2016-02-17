@@ -120,12 +120,12 @@ function sendMessage(url) {
                     bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
                 } else {
                     bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                        "напишіть на адресу " + adminEmail, loadMessagesIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
     }
 }
@@ -145,12 +145,12 @@ function reply(url) {
                 bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
             } else {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
             }
         })
         .fail(function () {
             bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                "напишіть на адресу " + adminEmail, loadMessagesIndex);
         });
 
 }
@@ -176,12 +176,12 @@ function forward(url) {
                     bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
                 } else {
                     bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                        "напишіть на адресу " + adminEmail, loadMessagesIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу antongriadchenko@gmail.com.", loadMessagesIndex);
+                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
     }
 }

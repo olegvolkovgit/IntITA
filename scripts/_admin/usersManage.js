@@ -10,12 +10,12 @@ function sendNewAdminData(url) {
                 }
                 else {
                     bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
 }
@@ -27,12 +27,12 @@ function cancelAdmin(url, id, name) {
                 bootbox.alert("Права адміністратора для користувача " + name + " відмінені.", loadUsersIndex);
             else {
                 bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             }
         })
         .fail(function () {
             bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
         });
 }
 
@@ -44,12 +44,12 @@ function cancelAccountant(url, id, name) {
                 bootbox.alert("Права бухгалтера для користувача " + name + " відмінені.", loadUsersIndex);
             else {
                 bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             }
         })
         .fail(function () {
             bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
         });
 }
 
@@ -65,12 +65,12 @@ function sendNewAccountantData(url) {
                     bootbox.alert("Користувач " + user + " призначений бухгалтером.", loadUsersIndex);
                 else {
                     bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
 }
