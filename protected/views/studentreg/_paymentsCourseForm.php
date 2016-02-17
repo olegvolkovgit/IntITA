@@ -114,9 +114,6 @@ $price = $model->getBasePrice();
     $this->endWidget(); ?>
 </div>
 <br>
-
-<div id="kalebas"></div>
-
 <script>
     $(function () {
         schema = $.cookie('courseSchema');

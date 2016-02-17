@@ -28,7 +28,7 @@ function removeConsult(id,url)
             });
         }
     });
-};
+}
 
 function showPlainTaskWithoutTrainer(url)
 {
