@@ -37,8 +37,8 @@
                                 <a href="#" title="Редагувати"
                                    onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/operationType/update", array("id" => $model->id)); ?>',
                                        'Редагувати тип проплат №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
-                                <a href="#" title="Видалити" onclick="deleteOperationType('<?= $model->id; ?>');"><i
-                                        class="fa fa-trash-o fa-fw"></i></a>
+                                <a href="#" title="Видалити" onclick="deleteOperationType('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/operationType/delete", array("id" => $model->id)); ?>', ' <?=$model->id;?>');">
+                                    <i class="fa fa-trash-o fa-fw"></i></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -57,9 +57,5 @@
             }
         );
     });
-
-    function deleteOperationType(id){
-        alert(id);
-    }
 </script>
 
