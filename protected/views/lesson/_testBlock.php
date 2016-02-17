@@ -64,7 +64,7 @@ $testType = Tests::getTestType($data['id_block']);
                     );' <?php if (0) {
                     echo "disabled";
                 } ?> >
-                    <?php echo Yii::t('lecture', '0089'); ?>
+                    <?php echo $buttonName; ?>
                 </button>
             </div>
         </div>

@@ -560,15 +560,15 @@ class Lecture extends CActiveRecord
                     switch ($type) {
                         case 'video':
                             $html = Yii::app()->controller->renderPartial('/lesson/_videoTab',
-                                array('page' => $page, 'message' => $messages['613']), true);
+                                array('page' => $page, 'message' => $messages['639']), true);
                             break;
                         case 'text';
                             $html = Yii::app()->controller->renderPartial('/lesson/_textListTab',
-                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
+                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49, 'message' => $messages['422']), true);
                             break;
                         case 'quiz':
                             $html = Yii::app()->controller->renderPartial('/lesson/_quiz',
-                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
+                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'message' => $messages['89']), true);
                             break;
                         default:
                             $html = '';

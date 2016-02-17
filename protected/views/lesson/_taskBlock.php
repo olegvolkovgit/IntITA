@@ -24,7 +24,7 @@
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendTaskAnswer('<?php echo Task::getTaskId($data['id_block']);?>',
                             '<?php echo Task::getTaskLang($data['id_block']);?>',interpreterServer,$event,'<?php echo $user ?>')" >
-                            <?php echo Yii::t('lecture','0089'); ?>
+                            <?php echo $buttonName; ?>
                     </button>
                 </div>
             </div>

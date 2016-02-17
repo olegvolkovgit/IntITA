@@ -24,7 +24,7 @@
             <?php echo $form->emailField($model, 'email', array('class' => 'signInEmail', 'placeholder' => $placeHolderEmail, 'size' => 60, 'maxlength' => 40, 'onKeyUp' => "hideSignServerValidationMes(this)", 'ng-model' => "formEmail", "ng-required" => "true")); ?>
             <?php echo $form->error($model, 'email'); ?>
             <div class="clientValidationError"
-                 ng-show="authForm['StudentReg[email]'].$dirty && authForm['StudentReg[email]'].$invalid">
+                 ng-show="authForm['StudentReg[email]'].$dirty && authForm['StudentReg[email]'].$invalid  && !regChecked">
                     <span ng-cloak
                           ng-show="authForm['StudentReg[email]'].$error.required"><?php echo Yii::t('error', '0268') ?></span>
                     <span ng-cloak
@@ -41,7 +41,7 @@
                 </span>
             <?php echo $form->error($model, 'password'); ?>
             <div class="clientValidationError"
-                 ng-show="authForm['StudentReg[password]'].$dirty && authForm['StudentReg[password]'].$invalid">
+                 ng-show="authForm['StudentReg[password]'].$dirty && authForm['StudentReg[password]'].$invalid  && !regChecked">
                     <span ng-cloak
                           ng-show="authForm['StudentReg[password]'].$error.required"><?php echo Yii::t('error', '0268') ?></span>
             </div>

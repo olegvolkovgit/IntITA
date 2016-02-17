@@ -30,12 +30,12 @@
                             <td><?= $model->description; ?></td>
                             <td class="center">
                                 <a href="#" title="Переглянути"
-                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonTypes/view", array("id" => $model->id)); ?>',
-                                       ' №<?= $model->id; ?>');"><i class="fa  fa-eye fa-fw"></i></a>
+                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/view", array("id" => $model->id)); ?>',
+                                       'Переглянути причину відміни проплат №<?= $model->id; ?>');"><i class="fa  fa-eye fa-fw"></i></a>
                                 <a href="#" title="Редагувати"
-                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonTypes/update", array("id" => $model->id)); ?>',
-                                       ' №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
-                                <a href="#" title="Видалити" onclick="deleteCancelReasonTypes('<?= $model->id; ?>');"><i
+                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/update", array("id" => $model->id)); ?>',
+                                       'Редагувати причину відміни проплат №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
+                                <a href="#" title="Видалити" onclick="deleteCancelReasonTypes('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/delete", array("id" => $model->id)); ?>', ' <?=$model->id;?>');"><i
                                         class="fa fa-trash-o fa-fw"></i></a>
                             </td>
                         </tr>
@@ -56,8 +56,23 @@
         );
     });
 
-    function deleteCancelReasonTypes(id){
-        alert(id);
+    function deleteCancelReasonTypes(url, id){
+        bootbox.confirm('Ви впевнені що хочете видалити причину відміни проплат?', function(result) {
+            if (result != null) {
+                $jq.ajax({
+                    url: url,
+                    type: "POST",
+                    data : {id: id},
+                    success: function () {
+                        bootbox.confirm("Причина відміни проплат видалена.", function () {
+                            load(basePath + "/_teacher/_accountancy/cancelReasonType/index");
+                        });
+                    }
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
     }
 </script>
 

@@ -20,7 +20,7 @@
                 'name' => 'ModuleTitle',
                 'header' => 'Модуль',
                 'type' => 'raw',
-                'value' => '($data->idModule)? $data->ModuleTitle->title_ua : ""',
+                'value' => 'CHtml::encode(($data->idModule)? $data->ModuleTitle->title_ua : "")',
                 'sortable' => true,
                 'htmlOptions' => array('class' => 'titleModule'),
             ),
@@ -33,7 +33,7 @@
             array(
                 'name' => 'title_ua',
                 'type' => 'raw',
-                'value' => '$data->title_ua',
+                'value' => 'CHtml::encode($data->title_ua)',
                 'htmlOptions' => array('class' => 'titleLecture'),
             ),
             array(

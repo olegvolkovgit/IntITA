@@ -32,9 +32,9 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_GET['Teacher']))
             $model->attributes = $_GET['Teacher'];
 
-        $this->render('index', array(
+        $this->renderPartial('index', array(
             'model' => $model,
-        ),false);
+        ),false,true);
     }
 
     public function actionShowTeacher($id)

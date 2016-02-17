@@ -20,9 +20,9 @@ class AdminController extends TeacherCabinetController {
         if (isset($_GET['Lecture']))
             $model->attributes = $_GET['Lecture'];
 
-        $this->render('_freeLectures', array(
+        $this->renderPartial('_freeLectures', array(
             'model' => $model,
-        ));
+        ),false,true);
     }
 
     public function actionVerifyContent(){
