@@ -13,9 +13,10 @@
     <title><?php echo Yii::app()->name; ?></title>
 </head>
 
-<body>
-<div id="contentBoxMain">
-    <?php echo $content; ?>
-</div>
-</body>
+    <body>
+        <div id="contentBoxMain">
+            <?php echo $content; ?>
+        </div>
+    </body>
+
 </html>

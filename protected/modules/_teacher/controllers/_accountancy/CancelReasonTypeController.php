@@ -8,9 +8,9 @@ class CancelReasonTypeController extends TeacherCabinetController
      */
     public function actionView($id)
     {
-        $this->render('view',array(
+        $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
-        ));
+        ), false, true);
     }
 
     /**
@@ -31,9 +31,9 @@ class CancelReasonTypeController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
         }
 
-        $this->render('create',array(
+        $this->renderPartial('create',array(
             'model'=>$model,
-        ));
+        ), false, true);
     }
 
     /**
@@ -55,9 +55,9 @@ class CancelReasonTypeController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
         }
 
-        $this->render('update',array(
+        $this->renderPartial('update',array(
             'model'=>$model,
-        ));
+        ), false, true);
     }
 
     /**
@@ -67,11 +67,7 @@ class CancelReasonTypeController extends TeacherCabinetController
      */
     public function actionDelete($id)
     {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        return $this->loadModel($id)->delete();
     }
 
     /**
@@ -81,9 +77,9 @@ class CancelReasonTypeController extends TeacherCabinetController
     {
         $types = CancelReasonType::model()->findAll();
 
-        $this->render('index',array(
+        $this->renderPartial('index',array(
             'types'=>$types,
-        ));
+        ), false, true);
     }
 
     /**

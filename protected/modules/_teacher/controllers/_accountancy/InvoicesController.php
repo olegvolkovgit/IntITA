@@ -9,9 +9,9 @@ class InvoicesController extends TeacherCabinetController
     {
         $invoices = Invoice::model()->findAll();
 
-        $this->render('index',array(
+        $this->renderPartial('index',array(
             'invoices'=>$invoices,
-        ));
+        ), false, true);
     }
 
     public function actionAgreementList(){
@@ -20,9 +20,9 @@ class InvoicesController extends TeacherCabinetController
         if(isset($_GET['Invoice']))
             $model->attributes=$_GET['Invoice'];
 
-        $this->render('index',array(
+        $this->renderPartial('index',array(
             'model'=>$model,
-        ));
+        ), false, true);
     }
 
     public function actionInvoicesList($id)
@@ -31,8 +31,8 @@ class InvoicesController extends TeacherCabinetController
         $criteria->condition = 'agreement_id = ' . $id;
 
         $invoices = Invoice::model()->findAll($criteria);
-        $this->render('invoicesList',array(
+        $this->renderPartial('invoicesList',array(
             'invoices'=>$invoices,
-        ));
+        ), false, true);
     }
 }

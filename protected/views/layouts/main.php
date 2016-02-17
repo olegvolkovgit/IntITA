@@ -51,7 +51,6 @@ $header = new Header();
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -250,6 +249,7 @@ $header = new Header();
     </div>
 </div>
 <!-- footer -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>

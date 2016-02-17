@@ -41,7 +41,11 @@ class Avatar {
     {
         $fileName = FileUploadHelper::getFileName($model->avatar);
         $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-        $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
+        if(isset(Yii::app()->user->id)){
+            $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
+        }else{
+            $model->avatar=$fileName;
+        }
     }
 
     public static function deleteStudentAvatar()

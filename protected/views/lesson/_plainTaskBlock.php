@@ -26,7 +26,7 @@ if ($data['id_type'] == 6) {
                     <div>
                         <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled"; ?>
                                 ng-click="sendPlainTaskAnswer(<?php echo $data->id_block ?>)">
-                            <?php echo Yii::t('lecture', '0089'); ?>
+                            <?php echo $buttonName; ?>
                         </button>
                     </div>
                 </div>

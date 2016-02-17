@@ -78,8 +78,8 @@
                                 <input type="hidden" class='consInfText'
                                        id="<?php echo 'consInfText' . $data['teacher_id'] ?>"
                                        value="<?php echo ' ' . Yii::t('consultation', '0493') . ' ' . $lecture->$titleParam . ', ' .
-                                           Yii::t('consultation', '0494') . ' ' . $data['last_name'] . ' ' . $data['first_name']
-                                           . ' ' . $data['middle_name'] . '. ' . Yii::t('consultation', '0495') ?>"/>
+                                           Yii::t('consultation', '0494') . ' ' . $data['last_name'.$lg] . ' ' . $data['first_name'.$lg]
+                                           . ' ' . $data['middle_name'.$lg] . '. ' . Yii::t('consultation', '0495') ?>"/>
 
                                 <p class='consInfText' id="<?php echo 'constext' . $data['teacher_id'] ?>"></p>
                                 <input type="hidden" id="<?php echo 'datecons' . $data['teacher_id'] ?>"

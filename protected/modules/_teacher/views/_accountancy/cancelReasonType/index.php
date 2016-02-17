@@ -30,13 +30,13 @@
                             <td><?= $model->description; ?></td>
                             <td class="center">
                                 <a href="#" title="Переглянути"
-                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonTypes/view", array("id" => $model->id)); ?>',
-                                       ' №<?= $model->id; ?>');"><i class="fa  fa-eye fa-fw"></i></a>
+                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/view", array("id" => $model->id)); ?>',
+                                       'Переглянути причину відміни проплат №<?= $model->id; ?>');"><i class="fa  fa-eye fa-fw"></i></a>
                                 <a href="#" title="Редагувати"
-                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonTypes/update", array("id" => $model->id)); ?>',
-                                       ' №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
-                                <a href="#" title="Видалити" onclick="deleteCancelReasonTypes('<?= $model->id; ?>');"><i
-                                        class="fa fa-trash-o fa-fw"></i></a>
+                                   onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/update", array("id" => $model->id)); ?>',
+                                       'Редагувати причину відміни проплат №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
+                                <a href="#" title="Видалити" onclick="deleteCancelReasonTypes('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/cancelReasonType/delete", array("id" => $model->id)); ?>', ' <?=$model->id;?>');">
+                                    <i class="fa fa-trash-o fa-fw"></i></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -55,10 +55,6 @@
             }
         );
     });
-
-    function deleteCancelReasonTypes(id){
-        alert(id);
-    }
 </script>
 
 

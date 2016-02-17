@@ -10,7 +10,7 @@ class ExternalSourcesController extends TeacherCabinetController
     {
         $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
-        ));
+        ), false, true);
     }
 
     /**
@@ -57,7 +57,7 @@ class ExternalSourcesController extends TeacherCabinetController
 
         $this->renderPartial('update',array(
             'model'=>$model,
-        ));
+        ), false, true);
     }
 
     /**
@@ -81,9 +81,9 @@ class ExternalSourcesController extends TeacherCabinetController
     {
        $sources = ExternalSources::model()->findAll();
 
-        $this->render('index',array(
+        $this->renderPartial('index',array(
             'sources'=>$sources,
-        ));
+        ), false, true);
     }
 
     /**

@@ -468,9 +468,9 @@ class Lecture extends CActiveRecord
         $titleParam = Lecture::getTypeTitleParam();
         $title = Lecture::model()->findByPk($id)->$titleParam;
         if ($title == '') {
-            return htmlspecialchars(Lecture::model()->findByPk($id)->title_ua);
+            return CHtml::encode(Lecture::model()->findByPk($id)->title_ua);
         } else {
-            return htmlspecialchars($title);
+            return CHtml::encode($title);
         }
     }
 
@@ -516,9 +516,9 @@ class Lecture extends CActiveRecord
     {
         $titleParam = "title_" . CommonHelper::getLanguage();
         if ($this->$titleParam == '') {
-            return $this->title_ua;
+            return CHtml::encode($this->title_ua);
         } else {
-            return $this->$titleParam;
+            return CHtml::encode($this->$titleParam);
         }
     }
 
@@ -560,15 +560,15 @@ class Lecture extends CActiveRecord
                     switch ($type) {
                         case 'video':
                             $html = Yii::app()->controller->renderPartial('/lesson/_videoTab',
-                                array('page' => $page, 'message' => $messages['613']), true);
+                                array('page' => $page, 'message' => $messages['639']), true);
                             break;
                         case 'text';
                             $html = Yii::app()->controller->renderPartial('/lesson/_textListTab',
-                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49), true);
+                                array('dataProvider' => $dataProvider, 'editMode' => 0, 'user' => 49, 'message' => $messages['422']), true);
                             break;
                         case 'quiz':
                             $html = Yii::app()->controller->renderPartial('/lesson/_quiz',
-                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'messages' => $messages), true);
+                                array('page' => $page, 'editMode' => 0, 'user' => 49, 'message' => $messages['89']), true);
                             break;
                         default:
                             $html = '';

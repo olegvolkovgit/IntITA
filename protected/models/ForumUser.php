@@ -44,7 +44,7 @@ class ForumUser extends CActiveRecord{
         if (!$forumUser) {
             $firstName = ($userModel->firstName) ? $userModel->firstName : '';
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
-            $name = $firstName . ' ' . $secondName;
+            $name = $firstName . ' ' . $secondName . $userModel->email;
             if ($name == ' ') $name = $userModel->email;
             $reg_time = $userModel->reg_time;
             if ($reg_time == 0) $reg_time = time();

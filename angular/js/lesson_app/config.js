@@ -24,7 +24,7 @@ angular
                             $rootScope.pageCount = response.data.length;
                             if(toParams.page>$rootScope.pageCount || $rootScope.pageData[toParams.page-1].isDone==false){
                                 event.preventDefault();
-                                $state.go('error');
+                                $state.go('defaultPage');
                             }
                         }, function errorCallback(response) {
                             alert('Error .run stateChangeStart ');
@@ -58,51 +58,40 @@ angular
                 views: {
                     "viewVideo": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_video_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_video_'+lang+'.html'
                         }
                     },
                     "viewText": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_text_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_text_'+lang+'.html'
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (stateParams){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_quiz_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ stateParams.page+'_quiz_'+lang+'.html'
                         }
                     }
                 },
             })
-            .state('error', {
-                url: "/error",
-                views: {
-                    "viewVideo": {
-                        template: 'Сторінка недоступна'
-                    },
-                    "viewText": {
-                        template: 'Сторінка недоступна'
-                    },
-                    "viewQuiz": {
-                        template: 'Сторінка недоступна'
-                    }
-                }
+            .state('defaultPage', {
+                url: "/page1",
             })
             .state('default', {
                 url: "",
                 views: {
                     "viewVideo": {
                         templateUrl: function (){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_video_'+lang+'.html'
                         }
                     },
                     "viewText": {
                         templateUrl: function (){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_text_'+lang+'.html'
                         }
                     },
                     "viewQuiz": {
                         templateUrl: function (){
-                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_ua.html'
+                            return basePath + '/content/module_'+idModule+'/lecture_'+idLecture+'/page_'+ lastAccessPage+'_quiz_'+lang+'.html'
                         }
                     }
                 },

@@ -50,7 +50,7 @@
                                                     <li>
                                                         <a href="<?php echo Yii::app()->createUrl('module/index',
                                                             array('idModule' => $module->module_ID)); ?>">
-                                                            <?php echo CHtml::encode($module->getTitle()) . ', ' . $module->language; ?>
+                                                            <?php echo $module->getTitle() . ', ' . $module->language; ?>
                                                         </a>
                                                     </li>
                                                     <?php

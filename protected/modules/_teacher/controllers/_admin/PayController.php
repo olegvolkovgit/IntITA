@@ -84,11 +84,11 @@ class PayController extends TeacherCabinetController
         $users = StudentReg::generateUsersList();
         $courses = Course::generateCoursesList();
 
-        $this->render('index',
+        $this->renderPartial('index',
             array('cancelMode' => true,
                 'users' => $users,
                 'courses' => $courses
-                ));
+                ),false,true);
     }
 
     public function actionCancelModule()

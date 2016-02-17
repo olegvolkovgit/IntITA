@@ -147,7 +147,7 @@ class Translate extends CActiveRecord
 
     public static function getLectureContentMessagesByLang($lang){
         $arr = [];
-        $messagesArray = ['613', '614', '659', '639', '89'];
+        $messagesArray = ['639', '422', '89'];
 
         for($i = 0, $count = count($messagesArray); $i < $count; $i++)
         {

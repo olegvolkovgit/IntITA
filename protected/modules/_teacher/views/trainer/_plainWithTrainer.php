@@ -30,12 +30,12 @@
                             <td><?php echo $module->title_ua ?></td>
                             <td><?php echo $task->getConsultant()->getName() ?></td>
                             <td>
-                                <a href="#" ng-click='changeConsult("<?php echo $task->id ?>",
+                                <a href="#" onclick='changeConsult("<?php echo $task->id ?>",
                     "<?php echo Yii::app()->createUrl('_teacher/teacher/changeConsultant') ?>")'>
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restore.png') ?>"
                                 </a>
-                                <a href="#" ng-click='removeConsult("<?php echo $task->id ?>",
+                                <a href="#" onclick='removeConsult("<?php echo $task->id ?>",
                     "<?php echo Yii::app()->createUrl('_teacher/teacher/deleteConsultant') ?>")'>
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png') ?>"

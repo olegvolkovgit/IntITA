@@ -33,7 +33,7 @@ if ($idCourse != 0) {
 
 
 <div name="lecturePage" class="pagesList">
-    <div class="lessonTheme"><?php echo CHtml::encode($lecture->title()); ?></div>
+    <div class="lessonTheme"><?php echo $lecture->title(); ?></div>
     <h3 class="lessonPartEdit">
         <?php
         foreach ($pagesList as $page) {
