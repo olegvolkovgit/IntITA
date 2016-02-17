@@ -10,11 +10,11 @@ if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        $post->getTitle(),
+        $post->getTitleForBreadcrumbs(),
     );
 } else {
     $this->breadcrumbs = array(
-        $post->getTitle(),
+        $post->getTitleForBreadcrumbs(),
     );
 }
 ?>

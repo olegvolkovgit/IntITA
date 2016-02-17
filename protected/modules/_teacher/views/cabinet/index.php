@@ -1,6 +1,8 @@
 <?php
 /* @var $this CabinetController
  * @var $model StudentReg
+ * @var $scenario
+ * @var $receiver
  */
 ?>
 <!DOCTYPE html>
@@ -37,7 +39,7 @@
     <!-- Custom Fonts -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
-
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'jquery-ui.min.css') ?>"/>
     <!--Angular-->
 <!--    <script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?><!--"></script>-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
@@ -55,6 +57,7 @@
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
     user = '<?=Yii::app()->user->getId()?>';
+    scenario = '<?=$scenario?>';
 </script>
 <body ng-app="teacherApp">
 
@@ -91,6 +94,7 @@
     </div>
     <!-- /.modal -->
 </div>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <!-- Metis Menu Plugin JavaScript -->
@@ -105,10 +109,16 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
+<!--Typeahead  scripts -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'handlebars.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <script>
     window.onload = function()
     {
+        if(scenario == 'message'){
+            load('<?=Yii::app()->createUrl("/_teacher/messages/write",
+                array('id' => $model->id, 'receiver' => $receiver));?>');
+        }
         history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                     array('user' => $model->id)); ?>'},"")
     };

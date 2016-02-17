@@ -53,7 +53,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
                         $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
                         <a ng-attr-href="{{'<?php echo (($i+1) != $lecture->order); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>' || undefined }}"
-                           tooltip-html-unsafe="<?php echo Lecture::getLectureTitle($lectureId); ?>">
+                           tooltip-html-unsafe="<?php echo CHtml::encode(Lecture::getLectureTitle($lectureId)); ?>">
                             <div class="lectureAccess"
                                  id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
                         </a>

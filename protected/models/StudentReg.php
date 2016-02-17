@@ -80,7 +80,7 @@ class StudentReg extends CActiveRecord
             array('email', 'required', 'message' => '{attribute} ' . Yii::t('error', '0270'), 'on' => 'edit'),
             array('email, password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'repidreg,loginuser'),
             array('email', 'email', 'message' => Yii::t('error', '0271')),
-            array('email', 'unique', 'caseSensitive' => true, 'allowEmpty' => true, 'message' => Yii::t('error', '0272'), 'on' => 'resetemail, repidreg,reguser,edit,fromraptoext, network_identity'),
+            array('email', 'unique', 'caseSensitive' => true, 'allowEmpty' => true, 'message' => Yii::t('error', '0272'), 'on' => 'resetemail, repidreg,reguser,edit,fromraptoext'),
             array('password', 'authenticate', 'on' => 'loginuser'),
             array('password_repeat', 'passdiff', 'on' => 'edit'),
             array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
@@ -312,40 +312,11 @@ class StudentReg extends CActiveRecord
         return $brthAdr;
     }
 
-
-
-
-
-    public static function getInterests($interests)
-    {
-        if ($interests) {
-            echo '<span class="colorP">' . Yii::t('profile', '0104') . '</span>';
-            $interestArray = explode(",", $interests);
-            if (!empty($interestArray[0])) {
-                for ($i = 0; $i < count($interestArray); $i++) {
-                    echo '<span class="interestBG">' . $interestArray[$i] . ' ' . '</span>';
-                }
-            }
-        }
-    }
-
-    public static function getAboutUs($aboutUs)
-    {
-        if ($aboutUs)
-            echo '<span class="colorP">' . Yii::t('profile', '0105') . '</span>' . $aboutUs;
-    }
-
     public static function getEducform($educform)
     {
         $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => Yii::app()->user->id));
         if ($educform && !$user)
             return StudentReg::getUserData($educform, '0106');
-    }
-
-    public static function getCourses($courses)
-    {
-        if ($courses)
-            echo '<span class="colorP">' . Yii::t('profile', '0107') . '</span>' . $courses;
     }
 
     public static function getEdForm($edForm)
@@ -826,20 +797,6 @@ class StudentReg extends CActiveRecord
         else return null;
     }
 
-    public function getLink($name)
-    {
-        $title = strtolower($name);
-        if ($this->$title)
-            return "<span class='networkLink'>" . "<a href=" . $this->$title . " target='_blank'>" . $name . "</a>" . "</span>";
-    }
-
-    public static function getUserData($data, $tProfile)
-    {
-        if ($data) {
-            return '<span class="colorP">' . Yii::t('profile', $tProfile) . '</span>' . $data;
-        }
-    }
-
     public static function getProfileLinkByRole($id, $dp)
     {
         if (!StudentReg::model()->exists('id=:user', array(':user' => $dp->user_id))) {
@@ -874,34 +831,6 @@ class StudentReg extends CActiveRecord
         }
         return $nameEmail;
     }
-
-    public static function getNetwork($post)
-    {
-        if ($post->facebook || $post->googleplus || $post->linkedin || $post->vkontakte || $post->twitter)
-            return '<span class="colorP">' . Yii::t('user', '0779') . '</span>';
-    }
-
-    public static function getNickname($post)
-    {
-        if ($post->nickname == '')
-            return '<span class="nameNAN">[' . Yii::t('regexp', '0163') . ']</span>';
-        else return $post->nickname;
-    }
-
-    public static function getLastName($post)
-    {
-        if ($post->secondName == '')
-            return '<span class="nameNAN">[' . Yii::t('regexp', '0162') . ']</span>';
-        else return $post->secondName;
-    }
-
-    public static function getName($post)
-    {
-        if ($post->firstName == '')
-            return '<span class="nameNAN">[' . Yii::t('regexp', '0160') . ']</span>';
-        else return $post->firstName;
-    }
-
 
     public function getPaymentsModules()
     {
@@ -1111,13 +1040,16 @@ class StudentReg extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL');
+        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model) {
-            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
     }
@@ -1129,20 +1061,23 @@ class StudentReg extends CActiveRecord
     public static function usersWithoutAccountants($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->select = "secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL');
+        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model) {
-            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
     }
@@ -1198,7 +1133,7 @@ class StudentReg extends CActiveRecord
     public static function allUsers($query, $id)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email";
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -1210,9 +1145,10 @@ class StudentReg extends CActiveRecord
         $result = array();
         foreach ($data as $key=>$model) {
             if($model->id != $id) {
-                $name = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["id"] = $model->id;
-                $result["results"][$key]["value"] =  ($name != "")?$name.", ".$model->email:$model->email;
+                $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+                $result["results"][$key]["email"] = $model->email;
+                $result["results"][$key]["url"] = $model->avatarPath();
             }
         }
         return json_encode($result);

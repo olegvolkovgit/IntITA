@@ -1,11 +1,11 @@
 <?php
 /** @var $record UserMessages
- *  @var $model StudentReg
+ *  @var $model RegisteredUser
  *  @var $newMessages array
  */
 foreach ($newMessages as $key=>$record) {
     $message = $record->message();
-    if(!$record->isRead($model))
+    if(!$record->isRead($model->registrationData))
     ?>
     <li>
         <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(

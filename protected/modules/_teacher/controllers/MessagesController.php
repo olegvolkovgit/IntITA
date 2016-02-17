@@ -21,10 +21,20 @@ class MessagesController extends TeacherCabinetController
         ));
     }
 
-    public function actionWrite($id)
+    public function actionWrite($id, $receiver = 0)
     {
+        if($receiver != 0) {
+            $scenario = 'mailTo';
+            $receiverModel = StudentReg::model()->findByPk($receiver);
+        } else {
+            $scenario = '';
+            $receiverModel = null;
+        }
+
         $this->renderPartial('_newMessage', array(
-            'user' => $id
+            'user' => $id,
+            'receiver' => $receiverModel,
+            'scenario' => $scenario,
         ), false, true);
     }
 

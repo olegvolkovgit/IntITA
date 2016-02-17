@@ -7,11 +7,10 @@
 .navbar-top-links li.dropdown li.lang a{float: none;padding: 0 5px;display: inline-block;}
 .navbar-top-links li.dropdown li.lang a.selectedLang{color: #cccccc;}
 .navbar-top-links li.dropdown li.lang{float: none;text-align: center;margin: 0 0 5px 0;}
-#dashboard{
-    display: block;
-}
+#dashboard{display: block;}
 .tt-menu{
-    margin-top: 2px;
+    width: 100%;
+    margin-top: 10px;
     padding: 5px 5px;
     background-color: #ffffff;
     border: 1px solid #cccccc;
@@ -23,13 +22,12 @@
 }
 
 #typeahead .empty-message {
+    padding: 5px 10px;
     text-align: center;
 }
-
 .errorMessage
 {
     color: #ff0000;
-
 }
 
 .form-group error

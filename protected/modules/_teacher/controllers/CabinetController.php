@@ -3,7 +3,7 @@
 class CabinetController extends TeacherCabinetController
 {
 
-    public function actionIndex()
+    public function actionIndex($scenario="dashboard", $receiver=0)
     {
         $model = Yii::app()->user->model;
         if(!$model){
@@ -13,20 +13,21 @@ class CabinetController extends TeacherCabinetController
 
         $this->render('index', array(
             'model' => $model,
-            'newMessages' => $newReceivedMessages
+            'newMessages' => $newReceivedMessages,
+            'scenario' => $scenario,
+            'receiver' => $receiver
         ));
     }
 
-    public function actionLoadPage($page, $user)
+    public function actionLoadPage($page)
     {
         $page = strtolower($page);
 
         $role = Roles::model()->findByAttributes(array('title_en' => $page));
-        $model = StudentReg::model()->findByPk($user);
+        $model = Yii::app()->user->model;
 
         if ($role && $model)
             $this->rolesDashboard($model, array($role));
-
     }
 
     public function actionView($id)
@@ -191,38 +192,38 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    private function renderTrainerDashboard(Teacher $teacher, StudentReg $user, $role)
+    private function renderTrainerDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
         return $this->renderPartial('/trainer/_trainerDashboard', array(
             'teacher' => $teacher,
-            'user' => $user,
+            'user' => $user->registrationData,
             'role' => $role,
         ));
     }
 
-    private function renderAuthorDashboard(Teacher $teacher, StudentReg $user, $role)
+    private function renderAuthorDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
         return $this->renderPartial('/author/_authorDashboard', array(
             'teacher' => $teacher,
-            'user' => $user,
+            'user' => $user->registrationData,
             'role' => $role,
         ));
     }
 
-    private function renderConsultantDashboard(Teacher $teacher, StudentReg $user, $role)
+    private function renderConsultantDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
         return $this->renderPartial('/consultant/_consultantDashboard', array(
             'teacher' => $teacher,
-            'user' => $user,
+            'user' => $user->registrationData,
             'role' => $role,
         ));
     }
 
-    private function renderLeaderDashboard(Teacher $teacher, StudentReg $user, $role)
+    private function renderLeaderDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
         return $this->renderPartial('/leader/_leaderDashboard', array(
             'teacher' => $teacher,
-            'user' => $user,
+            'user' => $user->registrationData,
             'role' => $role,
         ));
     }

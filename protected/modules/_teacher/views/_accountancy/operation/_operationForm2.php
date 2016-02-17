@@ -18,9 +18,8 @@
         </fieldset>
     </form>
     <form action="<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/createByInvoice'); ?>"
-          class="operationMargin"
           method="POST" onsubmit="return checkInvoices();">
-        <fieldset form="newOperation" title="Результат пошуку рахунка">
+        <fieldset title="Результат пошуку рахунка">
             <div name="selectInvoicesByNumber">
                 <?php $this->renderPartial('_ajaxInvoices', array('invoices' => '')); ?>
             </div>

@@ -78,7 +78,8 @@ class TeacherController extends TeacherCabinetController {
         $userId = Yii::app()->request->getPost('userId');
 
         if(!PlainTaskMarks::saveMark($plainTaskId,$mark,$comment,$userId))
-            throw new IntItaExeption(503);
+            throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
+            Спробуйте пізніше або повідомте адміністратора.');
     }
 
     public function actionManageConsult()
@@ -89,7 +90,7 @@ class TeacherController extends TeacherCabinetController {
         $this->renderPartial('/trainer/_manageConsult',array(
             'plainTaskAnswers' => $plainTaskAnswers,
             'tasks' => $tasks
-        ));
+        ), false, true);
     }
 
     public function actionPlainTaskWithTrainers()

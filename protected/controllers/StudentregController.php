@@ -23,20 +23,7 @@ class StudentRegController extends Controller
             'accessControl',
         );
     }
-    public function accessRules()
-    {
-        return array(
-//            array('deny',
-//                'actions'=>array('profile', 'edit'),
-//                'users'=>array('?'),
-//            ),
-//            array('deny',
-//                'actions'=>array('index', 'registration'),
-//                'users'=>array('@'),
-//                'deniedCallback'=>function() { Yii::app()->controller->redirect(array ('/site/index')); },
-//            ),
-        );
-    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -212,6 +199,9 @@ class StudentRegController extends Controller
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
         $paymentsCourses = $model->getPaymentsCourses();
+        if($course != 0 && !Course::model()->exists('course_ID='.$course)){
+            throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
+        }
         if ($idUser == Yii::app()->user->getId()){
             $letter = new Letters();
             $sentLettersProvider = $model->getSentLettersData();
@@ -340,5 +330,17 @@ class StudentRegController extends Controller
         $data = Teacher::getTeacherSchedule($teacher,$user,$tab);
 
         $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user, 'owner' => $owner));
+    }
+    public function actionGetProfileData()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $model = StudentReg::model()->findByPk($id);
+        if(Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->id))){
+            $role = array ('teacher'=>true);
+        }else{
+            $role = array ('teacher'=>false);
+        }
+        $data = array_merge($model->attributes, $role);
+        echo json_encode($data);
     }
 }

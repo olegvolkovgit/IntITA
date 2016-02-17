@@ -63,7 +63,7 @@
                 <label for="signInMode" class=registration><?php echo 'Увійти' ?></label>
                 <input ng-hide=true ng-init="signMode='<?php echo $mode; ?>'" type="radio" ng-model="signMode" name="signMode" id="signInMode" value="signIn" />
             </div>
-            <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>
+            <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid && !regChecked', 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>
         </div>
 
         <div class="linesignInForm"><?php echo Yii::t('regform', '0091'); ?></div>

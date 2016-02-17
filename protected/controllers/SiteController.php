@@ -420,6 +420,13 @@ class SiteController extends Controller
             'email' => $email,
         ));
     }
+    public function actionLinkingEmailInfo($email,$network)
+    {
+        $this->render('linkinginfo', array(
+            'email' => $email,'network' => $network,
+        ));
+    }
+
     public function actionReactivationInfo($email)
     {
         $this->render('reactivationInfo', array(
@@ -467,6 +474,12 @@ class SiteController extends Controller
     {
         $this->render('networkActivation');
     }
+    public function actionNetworkLinking($email,$network)
+    {
+        $this->render('networkLinking', array(
+            'email' => $email,'network' => $network,
+        ));
+    }
 
     public function forumAuthentication($model)
     {
@@ -508,15 +521,46 @@ class SiteController extends Controller
             $model->token = sha1($getToken . $getTime);
 
             if ($model->validate()) {
-                $model->save();
-                if (Mail::sendVerificationEmailMail($model))
-                    throw new MailException('The letter was not sent');
-
-                $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
+                if(StudentReg::model()->exists('email=:email', array(':email' => $model->email))){
+                    //linking exist email to network
+                    $existModel=StudentReg::model()->findByAttributes(array('email' => $model->email));
+                    if (!Mail::sendLinkingEmailMail($model))
+                        throw new MailException('The letter was not sent');
+                    $model->updateByPk($existModel->id, array('token' => $model->token));
+                    $model->updateByPk($existModel->id, array('network' => $model->identity));
+                    $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email,'network' => $model->identity)));
+                }else{
+                    //linking new email to network
+                    $model->save();
+                    if (!Mail::sendVerificationEmailMail($model))
+                        throw new MailException('The letter was not sent');
+                    $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
+                }
             } else {
                 Yii::app()->user->setFlash('forminfo', Yii::t('error', '0300'));
                 $this->redirect(Yii::app()->request->baseUrl . '/site#form');
             }
+        }
+    }
+    public function actionLinkingEmailToNetwork($network, $token, $email, $lang)
+    {
+        $model = $this->getTokenAcc($token);
+
+        $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
+        if ($model->token == $modelEmail->token && $model->network == $network) {
+            $model->updateByPk($model->id, array('token' => null));
+            $model->updateByPk($model->id, array('status' => 1));
+            $model->updateByPk($model->id, array('identity' => $network));
+            $model->updateByPk($model->id, array('network' => null));
+
+            $app = Yii::app();
+            $app->session['lg'] = $lang;
+
+            $this->redirect(Yii::app()->createUrl('/site/networkLinking', array(
+                'email' => $email,'network' => $network,
+            )));
+        } else {
+            throw new CHttpException(404, Yii::t('exception', '0237'));
         }
     }
 

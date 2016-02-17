@@ -15,10 +15,10 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                array('page' => $role->title_en, 'user' => $user->id));?>','<?php echo $role->title_en ?>')">Дошка</a>
+                array('page' => $role->title_en));?>','<?php echo $role->title_en ?>')">Дошка</a>
         </li>
         <li>
-            <a href="#" ng-click="manageConsult('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>',
+            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>',
             'Управління задачами')">
                 Консультанти для задач
             </a>

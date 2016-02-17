@@ -7,9 +7,9 @@
     <div id='coursesPart2'>
         <?php
         $j = 0;
+        $this->renderPartial('_conceptBlock');
         foreach ($courseList as $val) {
             $j++;
-            if ($j == 2) $this->renderPartial('_conceptBlock');
             if ($j % 2 == 0) {
                 ?>
                 <div class='courseBox'>

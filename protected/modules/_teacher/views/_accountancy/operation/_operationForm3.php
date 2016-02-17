@@ -19,8 +19,7 @@
         <?php $this->renderPartial('_ajaxAgreement', array('agreements' => '')); ?>
     </div>
     <form action="<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/createByInvoice'); ?>"
-          method="POST" name="newOperation"
-          onsubmit="return checkInvoices('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/getInvoicesByNumber'); ?>')">
+          method="POST" onsubmit="return checkInvoices('<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/getInvoicesByNumber'); ?>')">
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">
         <input type="number" name="source" value="1" hidden="hidden">

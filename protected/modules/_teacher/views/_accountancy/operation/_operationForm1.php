@@ -22,7 +22,6 @@
         <?php $this->renderPartial('_ajaxAgreement', array('agreements' => '')); ?>
     </div>
     <form action="<?php echo Yii::app()->createUrl('/_teacher/_accountancy/operation/createByInvoice'); ?>"
-          class="operationMargin"
           method="POST" onsubmit="return checkInvoices();">
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">

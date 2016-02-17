@@ -30,7 +30,7 @@ if (!empty($teacherPlainTasks)) { ?>
                                 <td><i class="fa <?php echo ($mark) ? ' fa-check' : ' fa-exclamation'; ?> fa-fw"></i>
                                 </td>
                                 <td class="center"></td>
-                                <td class="center"><?= substr($plainTaskAnswer->plainTask->getDescription(), 0, 20) . '....'; ?></td>
+                                <td class="center"><?php echo substr(strip_tags($plainTaskAnswer->plainTask->getDescription()), 0, 20) . '....'; ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>
                                 <td class="center">
                                     <?php echo $plainTaskAnswer->getShortDescription(); ?></td>

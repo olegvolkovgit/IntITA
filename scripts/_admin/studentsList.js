@@ -8,7 +8,7 @@
 function initStudentsList() {
     return $jq('#studentsTable').DataTable( {
         "ajax": {
-            "url": "/_teacher/_admin/users/getStudentsList",
+            "url": basePath + "/_teacher/_admin/users/getStudentsList",
             "dataSrc": "data"
         },
         "columns": [
@@ -34,7 +34,7 @@ function initStudentsList() {
  * @param endDate
  */
 function updateStudentList(startDate, endDate) {
-    var request = "/_teacher/_admin/users/getStudentsList";
+    var request = basePath + "/_teacher/_admin/users/getStudentsList";
     if (startDate != null && startDate !== "") {
         request += '?startDate=' + startDate;
         if (endDate != null && endDate !== "") {

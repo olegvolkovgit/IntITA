@@ -96,4 +96,7 @@ class TranslateController extends TeacherCabinetController{
         return $model;
     }
 
+    public function actionGetTranslatesList() {
+        echo Translate::getTranslatesList();
+    }
 }
