@@ -29,7 +29,7 @@
                     <div>
                         <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                                 ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
-                            <?php echo Yii::t('lecture','0089'); ?>
+                            <?php echo $buttonName; ?>
                         </button>
                     </div>
                 </div>
