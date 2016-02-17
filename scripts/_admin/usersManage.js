@@ -6,22 +6,16 @@ function sendNewAdminData(url) {
         var posting = $jq.post(url, {user: user});
         posting.done(function (response) {
                 if (response == 1) {
-                    bootbox.alert("Користувач " + user + " призначений адміністратором.", function () {
-                        location.href = window.location.pathname;
-                    });
+                    bootbox.alert("Користувач " + user + " призначений адміністратором.", loadUsersIndex);
                 }
                 else {
                     bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                        location.href = window.location.pathname;
-                    });
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                    location.href = window.location.pathname;
-                });
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
             });
     }
 }
@@ -68,21 +62,15 @@ function sendNewAccountantData(url) {
 
         posting.done(function (response) {
                 if (response == 1)
-                    bootbox.alert("Користувач " + user + " призначений бухгалтером.", function () {
-                        location.href = window.location.pathname;
-                    });
+                    bootbox.alert("Користувач " + user + " призначений бухгалтером.", loadUsersIndex);
                 else {
                     bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                        location.href = window.location.pathname;
-                    });
+                        "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
                 }
             })
             .fail(function () {
                 bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", function () {
-                    location.href = window.location.pathname;
-                });
+                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", loadUsersIndex);
             });
     }
 }
