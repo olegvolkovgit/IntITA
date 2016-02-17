@@ -1,6 +1,10 @@
 <?php
-    $module = Module::model()->findByPk($module);
-    $price = Module::getModuleSumma($module->module_ID, $course);
+/*
+ * @var $module int
+ * @var $model Module
+ * */
+    $model = Module::model()->findByPk($module);
+    $price = Module::getModuleSumma($model->module_ID, $course);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
 
@@ -15,14 +19,14 @@
     <?php
 
     if ($price == 0) echo Yii::t('courses', '0147').' '.
-        Module::getModulePricePayment($module->module_ID, 0, $course);
+        Module::getModulePricePayment($model->module_ID, 0, $course);
     else {
 
         ?>
         <div id="rowRadio">
             <div class="paymentsListOdd">
                 <input type="radio" class="paymentPlan_value" name="payment" value="1">
-                <span><?php echo Module::getModulePricePayment($module->module_ID, 0, $course); ?>
+                <span><?php echo Module::getModulePricePayment($model->module_ID, 0, $course); ?>
                 </span>
             </div>
         </div>
@@ -36,7 +40,7 @@
             'type' => 'Module',
             'user' => Yii::app()->user->getId(),
             'course' => '0',
-            'module' => $module->module_ID)
+            'module' => $model->module_ID)
         )
     );?>
 

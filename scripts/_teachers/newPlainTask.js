@@ -2,6 +2,34 @@
  * Created by Quicks on 10.12.2015.
  */
 
+function changeConsult(id,url)
+{
+    $jq.ajax({
+        url: url,
+        type: "POST",
+        data : {id: id},
+        success: function (data) {
+            fillContainer(data);
+        }
+    });
+}
+
+function removeConsult(id,url)
+{
+    bootbox.confirm('Ви впевнені що хочете видалити консультанта?', function(result) {
+        if (result != null) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                data : {id: id},
+                success: function (data) {
+                    load(basePath + "/_teacher/teacher/manageConsult");
+                }
+            });
+        }
+    });
+}
+
 function showPlainTaskWithoutTrainer(url)
 {
     $jq.ajax({
