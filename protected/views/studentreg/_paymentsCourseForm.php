@@ -1,7 +1,10 @@
 <?php
+/* @var $schema int
+ *
+ */
 $model = Course::model()->findByPk($course);
 $module = null;
-$price = Course::getPrice($course);
+$price = $model->getBasePrice();
 ?>
 <script>
     $(document).ready(function () {
