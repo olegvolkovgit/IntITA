@@ -59,7 +59,9 @@
                 return $jq.map(users.results, function (user) {
                     return {
                         id: user.id,
-                        value: user.value
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
                     };
                 });
             }
@@ -70,11 +72,15 @@
 
     $jq('#typeahead').typeahead(null, {
         name: 'users',
-        display: 'value',
+        display: 'email',
         source: users,
         templates: {
-            suggestion: function(item) {
-                return "<p>" + item.value + "</p>"; }
+            empty: [
+                '<div class="empty-message">',
+                'немає користувачів з таким іменем або email\`ом',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
         }
     });
 

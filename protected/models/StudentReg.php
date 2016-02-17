@@ -1040,13 +1040,16 @@ class StudentReg extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL');
+        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model) {
-            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
     }
@@ -1058,20 +1061,23 @@ class StudentReg extends CActiveRecord
     public static function usersWithoutAccountants($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->select = "secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL');
+        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $model) {
-            $result[]["value"] = $model->secondName . " " . $model->firstName . " " . $model->middleName . ", " . $model->email;
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
     }
@@ -1127,7 +1133,7 @@ class StudentReg extends CActiveRecord
     public static function allUsers($query, $id)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email";
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -1139,9 +1145,10 @@ class StudentReg extends CActiveRecord
         $result = array();
         foreach ($data as $key=>$model) {
             if($model->id != $id) {
-                $name = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["id"] = $model->id;
-                $result["results"][$key]["value"] =  ($name != "  ")?$name." (".$model->email.")":$model->email;
+                $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+                $result["results"][$key]["email"] = $model->email;
+                $result["results"][$key]["url"] = $model->avatarPath();
             }
         }
         return json_encode($result);
