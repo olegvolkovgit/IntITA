@@ -167,5 +167,43 @@ function refresh() {
     load(basePath + '/_teacher/_accountancy/agreements/index', 'Список договорів');
 }
 
+function deleteCancelReasonTypes(url, id){
+    bootbox.confirm('Ви впевнені що хочете видалити причину відміни проплат?', function(result) {
+        if (result != null) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                data : {id: id},
+                success: function () {
+                    bootbox.confirm("Причина відміни проплат видалена.", function () {
+                        load(basePath + "/_teacher/_accountancy/cancelReasonType/index");
+                    });
+                }
+            });
+        } else {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
+
+function deleteOperationType(url, id){
+    bootbox.confirm('Ви впевнені що хочете видалити тип проплати ' + id + '?', function(result) {
+        if (result != null) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                data : {id: id},
+                success: function () {
+                    bootbox.confirm("Тип проплат видалений.", function () {
+                        load(basePath + "/_teacher/_accountancy/operationType/index");
+                    });
+                }
+            });
+        } else {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
+
 
 
