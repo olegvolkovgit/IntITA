@@ -36,6 +36,7 @@ $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
 <script type="text/javascript">
+    lang = '<?php echo CommonHelper::getLanguage();?>';
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
     finishedLecture = <?php echo ($finishedLecture)?1:0;?>;
