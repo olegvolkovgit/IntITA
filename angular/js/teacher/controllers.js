@@ -5,21 +5,6 @@ angular
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox) {
 
-
-    $scope.manageConsult = function(url)
-    {
-            $http({
-                method: "POST",
-                url:  url,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function(data){
-                $scope.fillContainer(data.data);
-            });
-
-    };
-
-
     $scope.fillContainer = function(data)
     {
         container = angular.element(document.querySelector("#pageContainer"));
