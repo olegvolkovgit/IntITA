@@ -242,7 +242,7 @@ class Response extends CActiveRecord
 
     public function shortDescription()
     {
-        return substr($this->text,0,25).'...';
+        return mb_substr($this->text,0,25).'...';
     }
 
     public function timeDesc()
