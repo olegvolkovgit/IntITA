@@ -37,7 +37,7 @@
                                 <a href="#" title="Редагувати"
                                    onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/externalSources/update", array("id" => $model->id)); ?>',
                                        'Редагувати джерело зовнішніх коштів №<?= $model->id; ?>');"><i class="fa fa-pencil fa-fw"></i></a>
-                                <a href="#" title="Видалити" onclick="deleteExternalSources('<?= $model->id; ?>');"><i
+                                <a href="#" title="Видалити" onclick="deleteExternalSources('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/externalSources/delete", array("id" => $model->id)); ?>', ' <?=$model->id;?>');"><i
                                         class="fa fa-trash-o fa-fw"></i></a>
                             </td>
                         </tr>
@@ -58,8 +58,23 @@
         );
     });
 
-    function deleteExternalSources(id){
-        alert(id);
+    function deleteExternalSources(url, id){
+        bootbox.confirm('Ви впевнені що хочете видалити зовнішнє джерело коштів ' + id + '?', function(result) {
+            if (result != null) {
+                $jq.ajax({
+                    url: url,
+                    type: "POST",
+                    data : {id: id},
+                    success: function () {
+                        bootbox.confirm("Джерело зовнішніх коштів видалено.", function () {
+                            load(basePath + "/_teacher/_accountancy/externalSources/index");
+                        });
+                    }
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
     }
 </script>
 

@@ -3,10 +3,7 @@
 /* @var $model CancelReasonType */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/formattedForm.css"/>
-
 <div class="form">
-
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'cancel-reason-type-form',
     'htmlOptions' => array(
@@ -21,7 +18,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля з <span class="required">*</span> обов'язкові.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -32,7 +29,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

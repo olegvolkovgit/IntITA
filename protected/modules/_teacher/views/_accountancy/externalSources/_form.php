@@ -3,8 +3,6 @@
 /* @var $model ExternalSources */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/formattedForm.css"/>
-
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(

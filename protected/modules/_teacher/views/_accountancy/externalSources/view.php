@@ -2,17 +2,14 @@
 /* @var $this ExternalSourcesController */
 /* @var $model ExternalSources */
 ?>
-<br>
-<br>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/externalSources/create');?>">Додати</a>
-<br>
-<br>
-<a href="<?php echo Yii::app()->createUrl('/_accountancy/externalSources/');?>">Список зовнішніх джерел</a>
-<br>
-
-<h1>Перегляд зовнішніх джерел <?php echo $model->id; ?></h1>
-
-
+<div class="col-lg-12">
+	<br>
+	<button class="btn btn-primary"
+			onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountancy/externalSources/index"); ?>',
+				'Джерела зовнішніх коштів')">Всі джерела зовнішніх коштів
+	</button>
+	<br>
+	<br>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
@@ -21,3 +18,4 @@
 		'cash',
 	),
 )); ?>
+</div>
