@@ -14,10 +14,10 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="new">
-                <?php $this->renderPartial('/trainer/_newPlainTask', array('plainTasksAnswers' => $plainTaskAnswers)); ?>
+                <?php $this->renderPartial('/trainer/_newPlainTask', array('plainTasksAnswers' => $plainTaskAnswers), false, true); ?>
             </div>
             <div class="tab-pane fade" id="appointed">
-                <?php $this->renderPartial('/trainer/_plainWithTrainer', array('tasks' => $tasks)); ?>
+                <?php $this->renderPartial('/trainer/_plainWithTrainer', array('tasks' => $tasks), false, true); ?>
             </div>
         </div>
     </div>
