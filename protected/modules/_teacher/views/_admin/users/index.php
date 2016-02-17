@@ -7,7 +7,6 @@
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
@@ -52,9 +51,7 @@
     });
 
     $jq("#startDate").datepicker(lang);
-    $jq("#startDate").datepicker("option", "dateFormat", "yy-mm-dd");
     $jq("#endDate").datepicker(lang);
-    $jq("#endDate").datepicker("option", "dateFormat", "yy-mm-dd");
 </script>
 
 
