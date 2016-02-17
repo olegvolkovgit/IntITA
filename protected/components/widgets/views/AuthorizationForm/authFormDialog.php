@@ -35,7 +35,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             <?php echo $form->emailField($model, 'email', array('class' => 'signInEmailM', 'placeholder' => $placeHolderEmail, 'size' => 60, 'maxlength' => 40, 'onKeyUp' => "hideSignServerValidationMes(this)", 'ng-model' => "dialogEmail", "ng-required" => "true")); ?>
             <?php echo $form->error($model, 'email'); ?>
             <div class="clientValidationError"
-                 ng-show="authFormDialog['StudentReg[email]'].$dirty && authFormDialog['StudentReg[email]'].$invalid">
+                 ng-show="authFormDialog['StudentReg[email]'].$dirty && authFormDialog['StudentReg[email]'].$invalid && !regChecked">
                 <span ng-cloak
                       ng-show="authFormDialog['StudentReg[email]'].$error.required"><?php echo Yii::t('error', '0268') ?></span>
                 <span ng-cloak
@@ -52,7 +52,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             </span>
             <?php echo $form->error($model, 'password'); ?>
             <div class="clientValidationError"
-                 ng-show="authFormDialog['StudentReg[password]'].$dirty && authFormDialog['StudentReg[password]'].$invalid">
+                 ng-show="authFormDialog['StudentReg[password]'].$dirty && authFormDialog['StudentReg[password]'].$invalid && !regChecked">
                 <span ng-cloak
                       ng-show="authFormDialog['StudentReg[password]'].$error.required"><?php echo Yii::t('error', '0268') ?></span>
             </div>
