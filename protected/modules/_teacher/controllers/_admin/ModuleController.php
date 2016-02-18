@@ -27,6 +27,7 @@ class ModuleController extends TeacherCabinetController
 
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if ($model->save())
             {
                 if(!empty($_FILES['Module']['name']['module_img']))
@@ -99,7 +100,7 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
-
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if (!empty($_FILES['Module']['name']['module_img'])) {
                 $imageName = array_shift($_FILES['Module']['name']);
                 $tmpName = array_shift($_FILES['Module']['tmp_name']);
