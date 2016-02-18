@@ -41,7 +41,6 @@ function updateStudentList(startDate, endDate) {
             request += '&endDate=' + endDate;
         }
     }
-
     $jq('#studentsTable').DataTable().ajax.url(request).load();
 }
 
@@ -59,7 +58,7 @@ var lang = {
     dayNamesShort: ['нед','пон','вів','сер','чет','п\'ят','сбт'],
     dayNamesMin: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
     weekHeader: 'Тиждень',
-    dateFormat: 'dd.mm.yy',
+    dateFormat: 'yy-mm-dd',
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,

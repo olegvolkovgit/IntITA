@@ -144,20 +144,15 @@ class CourseController extends Controller
 
     public function actionUnableModule()
     {
-        $idModule = $_GET['idModule'];
-        $idCourse = $_GET['idCourse'];
-        $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
-        $count = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
-        )->queryAll());
-        if(CourseModules::model()->deleteByPk(array('id_course' => $idCourse, 'id_module' => $idModule))){
-            Course::model()->updateByPk($idCourse, array('modules_count' => ($count - 1)));
-            $issetCourseModule = CourseModules::model()->findByAttributes(array('id_module' => $idModule));
-            if ($issetCourseModule) TeacherModule::model()->deleteAllByAttributes(array('idModule' => $idModule));
-            for ($i = $order + 1; $i <= $count; $i++) {
-                $nextModule = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'order' => $i))->id_module;
-                CourseModules::model()->updateByPk(array('id_course' => $idCourse, 'id_module' => $nextModule), array('order' => $i - 1));
-            }
-        }
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
+
+        $course = Course::model()->with('module')->findByPk($idCourse);
+
+        $this->checkInstance($course);
+
+        $course->disableModule($idModule);
+
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -269,5 +264,10 @@ class CourseController extends Controller
         } catch (Exception $e) {
             throw new \application\components\Exceptions\IntItaException(404, Yii::t('course_schema', '0780'));
         }
+    }
+
+    public function checkInstance($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\CourseNotFoundException();
     }
 }
