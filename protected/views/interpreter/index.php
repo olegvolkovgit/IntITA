@@ -51,7 +51,7 @@
         <div class="container-fluid">
             <h2 id="title">Еталонний код</h2>
             <div class="row col header">
-                Еталон
+                Еталон(не обов'язкове поле, якщо вказані result value в кожному юніт-тесті)
                 <textarea class="form-control" name="etalon" id="etalon" placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
             </div>
         </div>
