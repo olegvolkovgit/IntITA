@@ -743,4 +743,17 @@ class Course extends CActiveRecord implements IBillableObject
         $this->modules_count = $this->getModuleCount(true);
         $this->update(array('modules_count'));
     }
+
+    /**
+     * Deletes specified module from course and update modules count in course.
+     * @param $idModule
+     * @throws Exception
+     */
+    public function disableModule($idModule) {
+
+        if (CourseModules::deleteModuleFromCourse($this->course_ID, $idModule)) {
+            $this->updateCount();
+        }
+
+    }
 }
