@@ -1033,14 +1033,14 @@ class StudentReg extends CActiveRecord
     public static function usersWithoutAdmins($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email";
+        $criteria->select = "secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
+        $criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 
@@ -1068,7 +1068,7 @@ class StudentReg extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL and u.end_date IS NULL');
+        $criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
 
         $data = StudentReg::model()->findAll($criteria);
 

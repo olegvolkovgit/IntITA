@@ -26,6 +26,10 @@
 class Lecture extends CActiveRecord
 {
     const MAX_RAIT = 6;
+    const FREE = 1;
+    const PAID = 0;
+    const NOVERIFIED = 0;
+    const VERIFIED = 1;
     public $logo = array();
     public $oldLogo;
 
@@ -676,5 +680,23 @@ class Lecture extends CActiveRecord
         return json_encode($return);
     }
 
+    public function setFree(){
+        $this->isFree = self::FREE;
+        return $this->save();
+    }
 
+    public function setPaid(){
+        $this->isFree = self::PAID;
+        return $this->save();
+    }
+
+    public function setVerified(){
+        $this->verified = self::VERIFIED;
+        return $this->save();
+    }
+
+    public function setNoVerified(){
+        $this->verified = self::NOVERIFIED;
+        return $this->save();
+    }
 }

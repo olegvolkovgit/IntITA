@@ -51,7 +51,7 @@ class VerifyContentController extends TeacherCabinetController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            $model->updateByPk($id, array('verified' => '1'));
+            $model->setVerified();
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
@@ -65,8 +65,7 @@ class VerifyContentController extends TeacherCabinetController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            $model->verified = 0;
-            $model->save();
+            $model->setNoVerified();
         } else {
             throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
         }
@@ -79,10 +78,10 @@ class VerifyContentController extends TeacherCabinetController
     }
 
     public function actionWaitLecturesList(){
-        echo Lecture::getLecturesListByStatus(0); // 0 - not verified lectures
+        echo Lecture::getLecturesListByStatus(Lecture::NOVERIFIED);
     }
 
     public function actionVerifiedLecturesList(){
-        echo Lecture::getLecturesListByStatus(1); // 1 - verified lectures
+        echo Lecture::getLecturesListByStatus(Lecture::VERIFIED);
     }
 }

@@ -267,3 +267,6 @@ img.lessonBut  {
     text-decoration: none;
     padding: 3px 7px 1px 7px;
 }
+.btnChatHidden{
+    visibility: hidden;
+}

@@ -229,3 +229,6 @@ td.profileTeacher a{
     text-decoration: none;
     padding: 3px 0 6px 0;
 }
+.btnChatHidden{
+    visibility: hidden;
+}

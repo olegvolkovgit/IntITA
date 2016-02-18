@@ -12,11 +12,13 @@ class FreeLecturesController extends TeacherCabinetController
 
     public function actionSetFreeLessons($id)
     {
-        return Lecture::model()->updateByPk($id, array('isFree' => 1));
+        $model = Lecture::model()->findByPk($id);
+        return $model->setFree();
     }
 
     public function actionSetPaidLessons($id)
     {
-        return Lecture::model()->updateByPk($id, array('isFree' => 0));
+        $model = Lecture::model()->findByPk($id);
+        return $model->setPaid();
     }
 }

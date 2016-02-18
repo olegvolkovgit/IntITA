@@ -16,7 +16,7 @@
             <div class="teacherBlock">
                 <table>
                     <tr>
-                        <td class="profileTeacher" >
+                        <td class="profileTeacher">
                             <div class="avatarsize">
                                 <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacherValue->foto_url);?>"/>
                             </div>
@@ -25,7 +25,7 @@
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
                             <br>
-                            <a class="btnChat" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                            <a class="btnChatHidden" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                             <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                                 'scenario' => 'message',
                                 'receiver' => $teacherValue->user_id
