@@ -1,4 +1,4 @@
-function initDirectory(url){
+function initDirectory(url) {
     $jq.ajax({
         url: url,
         type: "POST",
@@ -7,27 +7,32 @@ function initDirectory(url){
                 load(basePath + "/_teacher/_admin/verifyContent/index");
             });
         },
-        error: function (){
+        error: function () {
             showDialog();
         }
     });
 }
 
-function initWaitLectures(){
+function initWaitLectures() {
     $jq('#waitLecturesTable').DataTable({
         "ajax": {
             "url": basePath + "/_teacher/_admin/verifyContent/waitLecturesList",
             "dataSrc": "data"
         },
         "columns": [
-            null,
-            {className: "center"},
-            {className: "center"},
-            null,
-            null],
+            { "data": "module" },
+            { "data": "order" },
+            { "data": "title" },
+            { "data": "type" },
+            {
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="setVerifyStatus(' + url + ')">Затвердити</a>';
+                }
+            }],
+
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
-            console.log($jq(row).attr('class'));
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
@@ -35,21 +40,25 @@ function initWaitLectures(){
     });
 }
 
-function initVerifiedLectures(){
+function initVerifiedLectures() {
     $jq('#verifiedLecturesTable').DataTable({
         "ajax": {
             "url": basePath + "/_teacher/_admin/verifyContent/verifiedLecturesList",
             "dataSrc": "data"
         },
         "columns": [
-            null,
-            {className: "center"},
-            {className: "center"},
-            null,
-            null],
+            { "data": "module" },
+            { "data": "order" },
+            { "data": "title" },
+            { "data": "type" },
+            {
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="setVerifyStatus(' + url + ')">Скасувати</a>';
+                }
+            }],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
-            console.log($jq(row).attr('class'));
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
@@ -57,8 +66,8 @@ function initVerifiedLectures(){
     });
 }
 
-function setVerifyStatus(url, question){
-    bootbox.confirm(question, function(result) {
+function setVerifyStatus(url) {
+    bootbox.confirm('Змінити статус лекції?', function (result) {
         if (result != null) {
             $jq.ajax({
                 url: url,
@@ -67,6 +76,9 @@ function setVerifyStatus(url, question){
                     bootbox.confirm("Операцію успішно виконано.", function () {
                         load(basePath + "/_teacher/_admin/verifyContent/index");
                     });
+                },
+                error:function () {
+                    showDialog("Операцію не вдалося виконати.");
                 }
             });
         } else {

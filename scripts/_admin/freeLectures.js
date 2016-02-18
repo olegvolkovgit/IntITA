@@ -5,15 +5,19 @@ function initFreeLectures(){
             "dataSrc": "data"
         },
         "columns": [
-            null,
-            {className: "center"},
-            {className: "center"},
-            null,
-            null,
-            {className: "center"}],
+            { "data": "module" },
+            { "data": "order" },
+            { "data": "title" },
+            { "data": "type" },
+            { "data": "status" },
+            {
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="setLectureStatus('  + url + ')">Змінити</a>';
+                }
+            }],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
-            console.log($jq(row).attr('class'));
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
@@ -21,8 +25,8 @@ function initFreeLectures(){
     });
 }
 
-function setLectureStatus(url, question){
-    bootbox.confirm(question, function(result) {
+function setLectureStatus(url){
+    bootbox.confirm("Змінити статус лекції?", function(result) {
         if (result != null) {
             $jq.ajax({
                 url: url,
@@ -31,6 +35,9 @@ function setLectureStatus(url, question){
                     bootbox.confirm("Операцію успішно виконано.", function () {
                         load(basePath + "/_teacher/_admin/freeLectures/index");
                     });
+                },
+                error:function () {
+                    showDialog("Операцію не вдалося виконати.");
                 }
             });
         } else {
