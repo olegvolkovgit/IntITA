@@ -38,7 +38,7 @@ function plainTaskCtrl($rootScope,$http, $scope, accessLectureService,openDialog
                     button.removeAttr('disabled');
                     return false;
                 } else {
-                    alert('На сайті виникли проблеми і Твоя відповідь не була збережена. Спробуй ще раз або звернися до адміністратора сайту.')
+                    bootbox.alert('На сайті виникли проблеми і Твоя відповідь не була збережена. Спробуй ще раз або звернися до адміністратора сайту.')
                     button.removeAttr('disabled');
                     return false;
                 }

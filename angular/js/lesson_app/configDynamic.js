@@ -27,7 +27,7 @@ angular
                                 $state.go('defaultPage');
                             }
                         }, function errorCallback(response) {
-                            alert('Error .run stateChangeStart ');
+                            console.log('Error .run stateChangeStart ');
                         });
                     }
                     //перевіряємо чи доступна частина

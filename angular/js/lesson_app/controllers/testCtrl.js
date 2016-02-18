@@ -38,7 +38,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
             })
             .error(function () {
                 button.removeAttr('disabled');
-                alert('error sendTestAnswer');
+                console.log('error sendTestAnswer');
             })
     };
     $scope.getUserAnswers = function (testType) {
@@ -82,8 +82,8 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
                 }
             })
             .fail(function () {
-                alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
-                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу Wizlightdragon@gmail.com.");
+                bootbox.alert("Вибачте, на сайті виникла помилка і ми не можемо перевірити Вашу відповідь.\n" +
+                    "Спробуйте перезавантажити сторінку або напишіть адміністратору");
             })
             .always(function () {
             }, "json");
